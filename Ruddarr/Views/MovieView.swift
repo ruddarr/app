@@ -1,7 +1,5 @@
 import SwiftUI
 
-// TODO: how to add preview for movie binding?
-
 struct MovieView: View {
     var movie: Movie
     
@@ -9,6 +7,8 @@ struct MovieView: View {
         Text(movie.title)
     }
 }
+
+// TODO: The preview should load a ramdom a fixed movie, so the preview isn't failing
 
 //#Preview {
 //    MovieView(movie: )

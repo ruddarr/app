@@ -1,11 +1,3 @@
-// TODO:
-//   click on "add instance"
-//   open form
-//   save "URL" + "Label"
-//   verify connection
-//   show in list
-//   store in iCloud data?
-
 import SwiftUI
 
 struct SettingsView: View {
@@ -79,7 +71,7 @@ struct SettingsView: View {
     }
 }
 
-// TODO: only save instance when user clicks on "Save" and the validation passes
+// TODO: only save instance when user clicks on "Done" and the validation passes
 struct InstanceForm: View {
     @Binding var instance: Instance
     
@@ -115,10 +107,10 @@ struct InstanceForm: View {
                 
             }
 
-            // TODO: only show when created instanced
+            // TODO: only show when viewing an instance that was already saved (not a new one)
             Section {
                 Button("Delete Instance") {
-                    // TODO: delete instance code
+                    // TODO: delete instance from `@AppStorage`
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .foregroundColor(.red)
@@ -126,8 +118,8 @@ struct InstanceForm: View {
         }.toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Done") {
-                    // TODO: validate that the instance is reachable using `URL`
-                    // TODO: save instance
+                    // TODO: validate that `URL` field can be reached via HTTP (status code 200?)
+                    // TODO: save instance to `@AppStorage` (or update edited instance)
                 }
             }
         }

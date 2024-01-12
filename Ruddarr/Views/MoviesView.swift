@@ -1,12 +1,5 @@
 import SwiftUI
 
-// TODO: switch between instances (top left)
-// TODO: open "detail view" for each movie (and edit for each movie)
-// TODO: cache the results and display them when the app was closed? (write json file to disk or use SwiftData)
-
-//    URLCache.shared.memoryCapacity = 50_000_000 // ~50 MB memory space
-//    URLCache.shared.diskCapacity = 1_000_000_000 // ~1GB disk cache space
-
 struct MoviesView: View {
     @State private var searchQuery = ""
     @State private var fetchedMovies = false
@@ -65,6 +58,10 @@ struct MoviesView: View {
                 }
             }
         }
+        
+        // TODO: switch between instances (top left button)
+        //       this requires the "instances" under settings to work
+        //       only show movies for the selected instance
         ToolbarItem(placement: .topBarLeading) {
             Image(systemName: "server.rack")
         }
@@ -120,6 +117,8 @@ struct MovieRow: View {
     
     var body: some View {
         HStack {
+            // TODO: these appear to be fetched via HTTP over and over
+            //       improve the native caching, or cache images locally
             AsyncImage(
                 url: URL(string: movie.images[0].remoteURL),
                 content: { image in
