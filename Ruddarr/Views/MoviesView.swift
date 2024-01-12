@@ -11,7 +11,7 @@ struct MoviesView: View {
         let gridItemLayout = [
             GridItem(.adaptive(minimum: 250))
         ]
-        
+
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: gridItemLayout, spacing: 15) {
@@ -59,9 +59,21 @@ struct MoviesView: View {
             }
         }
         
+        @State var shouldPresentSheet = true
+        
+        ToolbarItem(placement: .topBarTrailing) {
+            NavigationLink {
+                // TODO: this isn't working, why?!
+                MovieSearchView()
+            } label: {
+                Image(systemName: "plus.circle")
+            }
+        }
+        
         // TODO: switch between instances (top left button)
         //       this requires the "instances" under settings to work
         //       only show movies for the selected instance
+        //       This should only happen if more than one radarr/sonarr instance is set
         ToolbarItem(placement: .topBarLeading) {
             Image(systemName: "server.rack")
         }
@@ -143,8 +155,7 @@ struct MovieRow: View {
         }
         .frame(maxWidth: .infinity)
         .background(Color(UIColor.secondarySystemBackground))
-        .cornerRadius(4)
-        
+        .cornerRadius(4)   
     }
 }
 

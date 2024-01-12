@@ -69,6 +69,8 @@ struct SettingsView: View {
         .listRowSeparatorTint(.blue)
         .listRowSeparator(.hidden)
     }
+    
+    // TODO: Add button to delete all `@AppStorage` and reset the app
 }
 
 // TODO: only save instance when user clicks on "Done" and the validation passes

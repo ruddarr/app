@@ -6,7 +6,8 @@ class MovieModel: ObservableObject {
     @MainActor
     func fetch() async {
         do {
-            let urlString = "http://10.0.1.5:8310/api/v3/movie"
+            // let urlString = "http://10.0.1.5:8310/api/v3/movie"
+            let urlString = "https://pub-5e0e3f7fd2d0441b82048eafc31ac436.r2.dev/movies.json"
             let url = URL(string: urlString)!
             
             var request = URLRequest(url: url)

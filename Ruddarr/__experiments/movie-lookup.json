@@ -1,0 +1,2300 @@
+[
+  {
+    "title": "Alien",
+    "originalTitle": "Alien",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien - O Oitavo Passageiro"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien: The Director's Cut"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien, el 8º pasajero"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien - den åttonde passageraren"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien, o Oitavo Passageiro"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien, le 8ème passager"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien 1"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien 1"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien: Das unheimliche Wesen aus einer fremden Welt"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "異形"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Obcy"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Obcy: 8 Pasażer Nostromo"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien: O 8º Passageiro"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien - O 8º Passageiro"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "异形1"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien : Le 8e Passager"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Tulnukas"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien - kahdeksas matkustaja"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "بیگانه ۱"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Nyolcadik utas: a Halál"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "エイリアン：1979"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Quái Vật Không Gian"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien - den 8. passasjer"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Star Beast"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Yadplanetli"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "エイリアン"
+      }
+    ],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "During its return to the earth, commercial spaceship Nostromo intercepts a distress signal from a distant planet. When a three-member team of the crew discovers a chamber containing thousands of eggs on the planet, a creature inside one of the eggs attacks an explorer. The entire crew is unaware of the impending nightmare set to descend upon them when the alien parasite planted inside its unfortunate host is birthed.",
+    "inCinemas": "1979-05-28T00:00:00Z",
+    "physicalRelease": "2004-02-04T00:00:00Z",
+    "digitalRelease": "1995-10-27T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/e088dbe27b073162b2b282719ff1dee10596e6052e8db4c6ee11cb6edd6dd4dd/vfrQk5IPloGg1v9Rzbh2Eg3VGyM.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/vfrQk5IPloGg1v9Rzbh2Eg3VGyM.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/f7b90d01ea46866d392a7d8cc1cd56d4e8d75f4e40f55603cb5e6adc63d91996/AmR3JG1VQVxU8TfAvljUhfSFUOx.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/AmR3JG1VQVxU8TfAvljUhfSFUOx.jpg"
+      }
+    ],
+    "website": "https://www.20thcenturystudios.com/movies/alien",
+    "remotePoster": "https://image.tmdb.org/t/p/original/vfrQk5IPloGg1v9Rzbh2Eg3VGyM.jpg",
+    "year": 1979,
+    "hasFile": false,
+    "youTubeTrailerId": "sVwH0hIvV5k",
+    "studio": "20th Century Fox",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 117,
+    "cleanTitle": "alien",
+    "imdbId": "tt0078748",
+    "tmdbId": 348,
+    "titleSlug": "348",
+    "folder": "Alien (1979)",
+    "certification": "R",
+    "genres": [
+      "Horror",
+      "Science Fiction"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "imdb": {
+        "votes": 934124,
+        "value": 8.5,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 13530,
+        "value": 8.2,
+        "type": "user"
+      },
+      "metacritic": {
+        "votes": 0,
+        "value": 89,
+        "type": "user"
+      },
+      "rottenTomatoes": {
+        "votes": 0,
+        "value": 93,
+        "type": "user"
+      }
+    },
+    "collection": {
+      "title": "Alien Collection",
+      "tmdbId": 8091,
+      "monitored": false,
+      "qualityProfileId": 0,
+      "searchOnAdd": false,
+      "minimumAvailability": "tba",
+      "images": [],
+      "added": "0001-01-01T07:53:00Z",
+      "tags": [],
+      "id": 0
+    },
+    "popularity": 79.218
+  },
+  {
+    "title": "Alien",
+    "originalTitle": "Alien",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "",
+    "digitalRelease": "2017-05-16T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/d9936a0bd1050386b6b7b37f11340968fe7dfc875ad95c4cd2494aac43aef583/sI5eeqdoiZ62zv11WSMEev6Ynim.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/sI5eeqdoiZ62zv11WSMEev6Ynim.jpg"
+      }
+    ],
+    "website": "",
+    "remotePoster": "https://image.tmdb.org/t/p/original/sI5eeqdoiZ62zv11WSMEev6Ynim.jpg",
+    "year": 2017,
+    "hasFile": false,
+    "youTubeTrailerId": "",
+    "studio": "Seventy Eight",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 1,
+    "cleanTitle": "alien",
+    "tmdbId": 817189,
+    "titleSlug": "817189",
+    "folder": "Alien (2017)",
+    "genres": [
+      "Science Fiction"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "tmdb": {
+        "votes": 7,
+        "value": 6.143,
+        "type": "user"
+      }
+    },
+    "popularity": 5.132
+  },
+  {
+    "title": "Alien",
+    "originalTitle": "Alien",
+    "originalLanguage": {
+      "id": 3,
+      "name": "Spanish"
+    },
+    "alternateTitles": [],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "",
+    "inCinemas": "2018-01-01T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/78163ed01b727d04bd92b19166a56d2f68d646c23e0f143bb2d036ca78dac4d2/kCnz4ZS2OHJ36908E3H8BqgQCzI.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/kCnz4ZS2OHJ36908E3H8BqgQCzI.jpg"
+      }
+    ],
+    "website": "",
+    "remotePoster": "https://image.tmdb.org/t/p/original/kCnz4ZS2OHJ36908E3H8BqgQCzI.jpg",
+    "year": 2018,
+    "hasFile": false,
+    "youTubeTrailerId": "",
+    "studio": "",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 0,
+    "cleanTitle": "alien",
+    "imdbId": "tt9413556",
+    "tmdbId": 538467,
+    "titleSlug": "538467",
+    "folder": "Alien (2018)",
+    "genres": [],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "tmdb": {
+        "votes": 4,
+        "value": 7.25,
+        "type": "user"
+      }
+    },
+    "popularity": 1.121
+  },
+  {
+    "title": "Alien",
+    "originalTitle": "Alien",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "And from silence and darkness awakes - an all-moving, all-turning being. White, yellow and golden spindles in vigorous synchronised rotation. Twirling in shiny pirouettes in an old workshop full of nooks and crannies, they spin the big thread, sacrificing themselves. In the midst of the heat and noise of the historic machine souls a hunched old man is working, sometimes a cog, sometimes the conductor.",
+    "inCinemas": "2017-10-06T00:00:00Z",
+    "images": [],
+    "website": "",
+    "year": 2017,
+    "hasFile": false,
+    "youTubeTrailerId": "",
+    "studio": "",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 13,
+    "cleanTitle": "alien",
+    "imdbId": "tt6461844",
+    "tmdbId": 881423,
+    "titleSlug": "881423",
+    "folder": "Alien (2017)",
+    "genres": [],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "tmdb": {
+        "votes": 3,
+        "value": 5.333,
+        "type": "user"
+      }
+    },
+    "popularity": 0.7
+  },
+  {
+    "title": "Alienoid: Return to the Future",
+    "originalTitle": "외계+인 2부",
+    "originalLanguage": {
+      "id": 21,
+      "name": "Korean"
+    },
+    "alternateTitles": [
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "외계인 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien + Human: Part 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien + People: Part 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien: Part 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alienoid: Part 2"
+      }
+    ],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alienoid return to future",
+    "sizeOnDisk": 0,
+    "status": "inCinemas",
+    "overview": "A group of escaped aliens at her tail, Lee Ahn searches for the divine sword that could open a time-travelling portal which would bring the in the past trapped Guard and the cyborg Thunder back to the year 2022. There is also the bounty hunter Mureuk, who has rescued Lee Ahn from many difficult situations, who begins to suspect that an alien presence has entered his body. When the group finally manages to cross over to the present, they find brutal devastation: The powerful alien Controller has released the extraterrestrial substance Haava and thousands have died. Lee Ahn, Thunder and Mureuk don’t have much time to hunt down the enormous number of hostile aliens and save humanity.",
+    "inCinemas": "2024-01-10T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/83b74ff0ca0445f33e062982197e1d3f60e501e94fa3e20f39eb1fc98238eadf/zemtKBbUGUAfWShg3881Hv9UEjw.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/zemtKBbUGUAfWShg3881Hv9UEjw.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/61f28e206a6a2b7533173e36b8a07326c50c9e907ef5ed569f3133f22b198f36/cxmF7pf1mXmxpMnqA9qXbxg2OIr.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/cxmF7pf1mXmxpMnqA9qXbxg2OIr.jpg"
+      }
+    ],
+    "website": "",
+    "remotePoster": "https://image.tmdb.org/t/p/original/zemtKBbUGUAfWShg3881Hv9UEjw.jpg",
+    "year": 2024,
+    "hasFile": false,
+    "youTubeTrailerId": "",
+    "studio": "Caper Film",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 122,
+    "cleanTitle": "alienoidreturntofuture",
+    "imdbId": "tt20201212",
+    "tmdbId": 626412,
+    "titleSlug": "626412",
+    "folder": "Alienoid Return to the Future (2024)",
+    "genres": [
+      "Science Fiction",
+      "Action",
+      "Fantasy"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "tmdb": {
+        "votes": 1,
+        "value": 8,
+        "type": "user"
+      }
+    },
+    "collection": {
+      "title": "Alienoid Movie Collection",
+      "tmdbId": 1000386,
+      "monitored": false,
+      "qualityProfileId": 0,
+      "searchOnAdd": false,
+      "minimumAvailability": "tba",
+      "images": [],
+      "added": "0001-01-01T07:53:00Z",
+      "tags": [],
+      "id": 0
+    },
+    "popularity": 56.056
+  },
+  {
+    "title": "Luis and the Aliens",
+    "originalTitle": "Luis und die Aliens",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Luis and His Friends from Outer Space"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Louis en de aliens"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Louis & De Aliens"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Louis & De Aliens 3D"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Léo et les Extra-Terrestres"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Sig det' løgn Luis!"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Sig det loegn Luis"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Louis i obcy"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Luis and the Aliens"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Luis và Nhóm Bạn Ngoài Hành Tinh"
+      }
+    ],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "luis aliens",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "The story 11-year-old Luis who makes friends with three loveable little aliens, who crash their UFO into his house. In return for Luis' help in finding the home-shopping channel stuff they came for, they save Luis from boarding school - and an exciting adventure follows.",
+    "inCinemas": "2018-05-09T00:00:00Z",
+    "physicalRelease": "2018-12-26T00:00:00Z",
+    "digitalRelease": "2018-08-17T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/71106873e0da88d6b18ec8da405bbbd9cc7d77147ccddcc88303f34ca76f8c75/5oq7s5ru4hjp83mi4fWSJ0L7yUA.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/5oq7s5ru4hjp83mi4fWSJ0L7yUA.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/fcd075ba24a0cd84fdd916dde66d87ffafab748b9ef8f743fd8d4ee4740d9537/p3ZII4uLzv2y2FV4XUqBYNfmLN6.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/p3ZII4uLzv2y2FV4XUqBYNfmLN6.jpg"
+      }
+    ],
+    "website": "http://vivafilmco.com/2018/06/11/luis-and-the-aliens/",
+    "remotePoster": "https://image.tmdb.org/t/p/original/5oq7s5ru4hjp83mi4fWSJ0L7yUA.jpg",
+    "year": 2018,
+    "hasFile": false,
+    "youTubeTrailerId": "UzAN2STEQuE",
+    "studio": "Ulysses Filmproduktion",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 86,
+    "cleanTitle": "luisaliens",
+    "imdbId": "tt4410000",
+    "tmdbId": 432383,
+    "titleSlug": "432383",
+    "folder": "Luis and the Aliens (2018)",
+    "certification": "G",
+    "genres": [
+      "Animation",
+      "Family"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "imdb": {
+        "votes": 2854,
+        "value": 6,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 164,
+        "value": 6.448,
+        "type": "user"
+      },
+      "metacritic": {
+        "votes": 0,
+        "value": 46,
+        "type": "user"
+      },
+      "rottenTomatoes": {
+        "votes": 0,
+        "value": 24,
+        "type": "user"
+      }
+    },
+    "popularity": 14.228
+  },
+  {
+    "title": "Alien",
+    "originalTitle": "Alien",
+    "originalLanguage": {
+      "id": 43,
+      "name": "Tamil"
+    },
+    "alternateTitles": [],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien",
+    "sizeOnDisk": 0,
+    "status": "announced",
+    "overview": "how aliens might be in a country like India",
+    "images": [],
+    "website": "",
+    "year": 0,
+    "hasFile": false,
+    "youTubeTrailerId": "",
+    "studio": "",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 130,
+    "cleanTitle": "alien",
+    "tmdbId": 1187412,
+    "titleSlug": "1187412",
+    "folder": "Alien ()",
+    "genres": [],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "tmdb": {
+        "votes": 0,
+        "value": 0,
+        "type": "user"
+      }
+    },
+    "popularity": 0.6
+  },
+  {
+    "title": "Alienoid",
+    "originalTitle": "외계+인 1부",
+    "originalLanguage": {
+      "id": 21,
+      "name": "Korean"
+    },
+    "alternateTitles": [
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "외계인"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien + People: Part 1"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien: Part 1"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Oegyein"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien + Man"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "외계+인"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Oegye+In"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alienoid"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Evrenler Savaşı"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "外星+人"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "祖宗膠戰外星人"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "موجود فضایی"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "موجود غیرزمینی"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien + Human: Part 1"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "วายร้ายเอเลี่ยน"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alienoid"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "外星+人"
+      }
+    ],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alienoid",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "The year is 2022, and Guard and Thunder are living on earth while managing alien criminals imprisoned in human bodies. One day, a mysterious spaceship appears above Seoul, and detective Moon Do-seok witnesses the strange occurrence. Meanwhile, in Goryeo 630 years ago, the hack of a guru Mureuk and the lightning-shooting woman Lee Ahn compete with each other while tracking a legendary sword for a bounty. The two spirits Heukseol and Chungwoon discover the secrets of the sword, and the masked Jajang also joins the race. Here, another spaceship rises from a river deep in the mountains.",
+    "inCinemas": "2022-07-20T00:00:00Z",
+    "physicalRelease": "2022-12-06T00:00:00Z",
+    "digitalRelease": "2023-01-05T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/17bcc4e0c644fa9daa34487952a3f18e6f1d48a0caac1924baf1bdbaebab2454/8QVDXDiOGHRcAD4oM6MXjE0osSj.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/8QVDXDiOGHRcAD4oM6MXjE0osSj.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/764b5742d4d9ed45a8ccc6cd715d4c3041d7de2e39c803ca656d5f049e979945/7ZP8HtgOIDaBs12krXgUIygqEsy.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/7ZP8HtgOIDaBs12krXgUIygqEsy.jpg"
+      }
+    ],
+    "website": "",
+    "remotePoster": "https://image.tmdb.org/t/p/original/8QVDXDiOGHRcAD4oM6MXjE0osSj.jpg",
+    "year": 2022,
+    "hasFile": false,
+    "youTubeTrailerId": "o-EkDnotuMc",
+    "studio": "Caper Film",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 143,
+    "cleanTitle": "alienoid",
+    "imdbId": "tt20168564",
+    "tmdbId": 601796,
+    "titleSlug": "601796",
+    "folder": "Alienoid (2022)",
+    "certification": "NR",
+    "genres": [
+      "Science Fiction",
+      "Action",
+      "Fantasy"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "imdb": {
+        "votes": 4586,
+        "value": 6.2,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 186,
+        "value": 7.1,
+        "type": "user"
+      },
+      "metacritic": {
+        "votes": 0,
+        "value": 54,
+        "type": "user"
+      },
+      "rottenTomatoes": {
+        "votes": 0,
+        "value": 83,
+        "type": "user"
+      }
+    },
+    "collection": {
+      "title": "Alienoid Movie Collection",
+      "tmdbId": 1000386,
+      "monitored": false,
+      "qualityProfileId": 0,
+      "searchOnAdd": false,
+      "minimumAvailability": "tba",
+      "images": [],
+      "added": "0001-01-01T07:53:00Z",
+      "tags": [],
+      "id": 0
+    },
+    "popularity": 45.227
+  },
+  {
+    "title": "Alien Warfare",
+    "originalTitle": "Alien Warfare",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien warfare",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "A team of Navy Seals investigates a mysterious science outpost only to have to combat a squad of powerful alien soldiers.",
+    "digitalRelease": "2019-04-05T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/f2d13419c2ebe0483a1f8b13bfdb41698545558b7488f6ed8590a000f08486fb/rJOj0T5DyChfECevDg0xpEGznsl.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/rJOj0T5DyChfECevDg0xpEGznsl.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/982bcee8f21e676fc69e7376911bbe8d4f01bccf2dca9ae9801c052497637276/sumajFyOoIKubI15POZ0p8Ekpzu.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/sumajFyOoIKubI15POZ0p8Ekpzu.jpg"
+      }
+    ],
+    "website": "",
+    "remotePoster": "https://image.tmdb.org/t/p/original/rJOj0T5DyChfECevDg0xpEGznsl.jpg",
+    "year": 2019,
+    "hasFile": false,
+    "youTubeTrailerId": "",
+    "studio": "Actionhouse Pictures",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 88,
+    "cleanTitle": "alienwarfare",
+    "imdbId": "tt9562694",
+    "tmdbId": 593035,
+    "titleSlug": "593035",
+    "folder": "Alien Warfare (2019)",
+    "genres": [
+      "Action",
+      "Science Fiction",
+      "Thriller"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "imdb": {
+        "votes": 3670,
+        "value": 2.6,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 138,
+        "value": 4.1,
+        "type": "user"
+      }
+    },
+    "popularity": 13.203
+  },
+  {
+    "title": "Alien Invasion",
+    "originalTitle": "Alien Invasion",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien Awakening"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "هجوم بیگانه"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "تهاجم بیگانه"
+      }
+    ],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien invasion",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "A group of friends find a large egg, but little do they know it contains an unwelcome predator. Now they must stop it from reaching civilization.",
+    "inCinemas": "2023-05-11T00:00:00Z",
+    "digitalRelease": "2023-04-11T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/6bb8910f23656095e7f0c4841ea7523720047a7bc98c14537bab7bdeeee00d3f/kaSvEH3RJvQa6NfAuEVqDMBEk5E.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/kaSvEH3RJvQa6NfAuEVqDMBEk5E.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/c195263fc94e3058440eb9876e8433d3237b4348adf8294bfe4867d131b9f731/zKuZynhk4bXRCl9mFjfXEjWuxPw.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/zKuZynhk4bXRCl9mFjfXEjWuxPw.jpg"
+      }
+    ],
+    "website": "",
+    "remotePoster": "https://image.tmdb.org/t/p/original/kaSvEH3RJvQa6NfAuEVqDMBEk5E.jpg",
+    "year": 2023,
+    "hasFile": false,
+    "youTubeTrailerId": "wpMHBRmT0MA",
+    "studio": "Proportion Productions",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 73,
+    "cleanTitle": "alieninvasion",
+    "imdbId": "tt20601506",
+    "tmdbId": 981314,
+    "titleSlug": "981314",
+    "folder": "Alien Invasion (2023)",
+    "genres": [
+      "Science Fiction",
+      "Horror"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "imdb": {
+        "votes": 415,
+        "value": 1.8,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 60,
+        "value": 5.4,
+        "type": "user"
+      }
+    },
+    "popularity": 42.634
+  },
+  {
+    "title": "Alien: Covenant - Prologue: Meet Walter",
+    "originalTitle": "Alien: Covenant - Prologue: Meet Walter",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien: Covenant - Meet Walter"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien: Covenant Prologue - Meet Walter"
+      }
+    ],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien covenant prologue meet walter",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "Introducing Walter, the latest synthetic by Weyland-Yutani. Created to serve. Intelligence powered by AMD, Ryzen and Radeon.",
+    "digitalRelease": "2017-03-10T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/b3d2b8b0e28b41db470a6a9b81da45100acdbbf7678424a0b2f43db9ae2d86da/1KczZUGvZWzzC0r0sKDUH0ZPYHl.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/1KczZUGvZWzzC0r0sKDUH0ZPYHl.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/218fd57d23f83448e6d1b1108ae0e77acf500dcca901eb919d65d082dc6cc7e9/yGOuRR54BMmyIBxHYncMbFOSX14.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/yGOuRR54BMmyIBxHYncMbFOSX14.jpg"
+      }
+    ],
+    "website": "",
+    "remotePoster": "https://image.tmdb.org/t/p/original/1KczZUGvZWzzC0r0sKDUH0ZPYHl.jpg",
+    "year": 2017,
+    "hasFile": false,
+    "youTubeTrailerId": "",
+    "studio": "RSA Films",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 3,
+    "cleanTitle": "aliencovenantprologuemeetwalter",
+    "imdbId": "tt6971180",
+    "tmdbId": 473958,
+    "titleSlug": "473958",
+    "folder": "Alien Covenant - Prologue Meet Walter (2017)",
+    "genres": [
+      "Science Fiction"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "imdb": {
+        "votes": 1603,
+        "value": 6.5,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 51,
+        "value": 6.4,
+        "type": "user"
+      }
+    },
+    "collection": {
+      "title": "Alien: Covenant Short Film Collection",
+      "tmdbId": 697022,
+      "monitored": false,
+      "qualityProfileId": 0,
+      "searchOnAdd": false,
+      "minimumAvailability": "tba",
+      "images": [],
+      "added": "0001-01-01T07:53:00Z",
+      "tags": [],
+      "id": 0
+    },
+    "popularity": 5.219
+  },
+  {
+    "title": "Alien: Covenant - Prologue: The Secrets of David’s Lab",
+    "originalTitle": "Alien: Covenant - Prologue: The Secrets of David’s Lab",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien covenant prologue secrets davids lab",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": " ",
+    "digitalRelease": "2017-08-02T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/50ead3b33078ff7209cb93c8d09833e07b26f733481dbdc5c88ad2e7ed84ef4f/eiK5d2cnASpYQD01tmklA8QBfhi.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/eiK5d2cnASpYQD01tmklA8QBfhi.jpg"
+      }
+    ],
+    "website": "",
+    "remotePoster": "https://image.tmdb.org/t/p/original/eiK5d2cnASpYQD01tmklA8QBfhi.jpg",
+    "year": 2017,
+    "hasFile": false,
+    "youTubeTrailerId": "",
+    "studio": "",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 0,
+    "cleanTitle": "aliencovenantprologuesecretsdavidslab",
+    "tmdbId": 736308,
+    "titleSlug": "736308",
+    "folder": "Alien Covenant - Prologue The Secrets of David’s Lab (2017)",
+    "genres": [
+      "Science Fiction",
+      "Horror"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "tmdb": {
+        "votes": 8,
+        "value": 6.875,
+        "type": "user"
+      }
+    },
+    "popularity": 3.473
+  },
+  {
+    "title": "Alien 2: On Earth",
+    "originalTitle": "Alien 2 - Sulla terra",
+    "originalLanguage": {
+      "id": 5,
+      "name": "Italian"
+    },
+    "alternateTitles": [
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien Terror"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien 2: Llega a la Tierra"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Strangers"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien 2: Sobre la tierra"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien terror"
+      }
+    ],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien 2 on earth",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "A group of cave explorers are confronted in an underground cavern by a mysterious living rock. Little do they know that it bears home to deadly, flesh-eating creatures, intent on wiping out the entire human population. An ultra low-budget, unofficial and unauthorized sequel to the 1979 film Alien, although the plot has little connection to the original film.",
+    "inCinemas": "1980-04-11T00:00:00Z",
+    "physicalRelease": "2016-06-20T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/191bcb957f8e8f9c708e8f47e4406c44d14f36353e6ed299b0843fd86db83e85/3LLfieDmGmfQ0PTJfNIaLR2y69C.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/3LLfieDmGmfQ0PTJfNIaLR2y69C.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/c9f38abcbfa22b48694d818c2a4e551bd40c3f4f438231d45dfe4e09bfaea013/qB9ByLtpl0soAgntH9sIOUxReVx.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/qB9ByLtpl0soAgntH9sIOUxReVx.jpg"
+      }
+    ],
+    "website": "",
+    "remotePoster": "https://image.tmdb.org/t/p/original/3LLfieDmGmfQ0PTJfNIaLR2y69C.jpg",
+    "year": 1980,
+    "hasFile": false,
+    "youTubeTrailerId": "Zd68r8Fo3sY",
+    "studio": "G.P.S.",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 85,
+    "cleanTitle": "alien2onearth",
+    "imdbId": "tt0078749",
+    "tmdbId": 42872,
+    "titleSlug": "42872",
+    "folder": "Alien 2 On Earth (1980)",
+    "genres": [
+      "Horror",
+      "Science Fiction"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "imdb": {
+        "votes": 1647,
+        "value": 3.7,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 57,
+        "value": 3.3,
+        "type": "user"
+      }
+    },
+    "popularity": 7.261
+  },
+  {
+    "title": "Alien: Covenant",
+    "originalTitle": "Alien: Covenant",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien: Paradise Lost"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Prometheus 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Прометей 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Prometej 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Prometej 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Προμηθέας 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "פרומתיאוס 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "에일리언: 커버넌트"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Prometheus 2 - Alien Covenant"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "普罗米修斯2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Vetřelec: Covenant"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Чужой: Завет"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien: A Halál édenkertje"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien: Covenant - A Halál édenkertje"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Quái Vật Không Gian: Khế Ước"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "異形：聖約"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "異形：聖約"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien: Covenant"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Prometheus 2: Alien Covenant"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien - Covenant (2017)"
+      }
+    ],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien covenant",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "Bound for a remote planet on the far side of the galaxy, the crew of the colony ship 'Covenant' discovers what is thought to be an uncharted paradise, but is actually a dark, dangerous world—which has a sole inhabitant: the 'synthetic', David, survivor of the doomed Prometheus expedition.",
+    "inCinemas": "2017-05-09T00:00:00Z",
+    "physicalRelease": "2017-07-13T00:00:00Z",
+    "digitalRelease": "2017-09-18T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/ee1986ef44126cc4e311b3b13ead113d3cea0b7c85b901be82491ace27bfd241/zecMELPbU5YMQpC81Z8ImaaXuf9.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/zecMELPbU5YMQpC81Z8ImaaXuf9.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/6e6fdf3e63715124bc8ee432eea0049ccdf8f008162a46079d114951b0b27fcf/la2xlHuHqdOn10g6Prux4d5278B.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/la2xlHuHqdOn10g6Prux4d5278B.jpg"
+      }
+    ],
+    "website": "https://www.20thcenturystudios.com/movies/alien-covenant",
+    "remotePoster": "https://image.tmdb.org/t/p/original/zecMELPbU5YMQpC81Z8ImaaXuf9.jpg",
+    "year": 2017,
+    "hasFile": false,
+    "youTubeTrailerId": "svnAD0TApb8",
+    "studio": "Scott Free Productions",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 122,
+    "cleanTitle": "aliencovenant",
+    "imdbId": "tt2316204",
+    "tmdbId": 126889,
+    "titleSlug": "126889",
+    "folder": "Alien Covenant (2017)",
+    "certification": "R",
+    "genres": [
+      "Science Fiction",
+      "Horror",
+      "Mystery"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "imdb": {
+        "votes": 298893,
+        "value": 6.4,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 7977,
+        "value": 6.095,
+        "type": "user"
+      },
+      "metacritic": {
+        "votes": 0,
+        "value": 65,
+        "type": "user"
+      },
+      "rottenTomatoes": {
+        "votes": 0,
+        "value": 65,
+        "type": "user"
+      }
+    },
+    "collection": {
+      "title": "Prometheus Collection",
+      "tmdbId": 135416,
+      "monitored": false,
+      "qualityProfileId": 0,
+      "searchOnAdd": false,
+      "minimumAvailability": "tba",
+      "images": [],
+      "added": "0001-01-01T07:53:00Z",
+      "tags": [],
+      "id": 0
+    },
+    "popularity": 74.541
+  },
+  {
+    "title": "Alien³",
+    "originalTitle": "Alien³",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien³: Special 'Assembly Cut' Edition"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "에일리언 3"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien 3  Special Assembly Cut Edition"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Чужой 3"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Чужий 3"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "एलीयन ३"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "एलियन ३"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien³: Es ist wieder da"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "A végső megoldás: halál"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Άλιεν 3: Η Τελική Αναμέτρηση"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "異形第三集"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Quái Vật Không Gian 3"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "異形3"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "異形3"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien³"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien 3"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien 3"
+      }
+    ],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "After escaping with Newt and Hicks from the alien planet, Ripley crash lands on Fiorina 161, a prison planet and host to a correctional facility. Unfortunately, although Newt and Hicks do not survive the crash, a more unwelcome visitor does. The prison does not allow weapons of any kind, and with aid being a long time away, the prisoners must simply survive in any way they can.",
+    "inCinemas": "1992-05-22T00:00:00Z",
+    "physicalRelease": "2001-11-28T00:00:00Z",
+    "digitalRelease": "2005-11-18T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/92bd0bb6b91cbcc143c9b4c6b269e7f9d20a0f8670a9267405bebd913c3f4740/xh5wI0UoW7DfS1IyLy3d2CgrCEP.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/xh5wI0UoW7DfS1IyLy3d2CgrCEP.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/e965e0ec33cdeb636a607499da7c7ee2f72fd4f34a5df53c1f2444f5d504b8ff/nEmOmbCWBXS3tHU2N49z693KDK.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/nEmOmbCWBXS3tHU2N49z693KDK.jpg"
+      }
+    ],
+    "website": "https://www.20thcenturystudios.com/movies/alien-3",
+    "remotePoster": "https://image.tmdb.org/t/p/original/xh5wI0UoW7DfS1IyLy3d2CgrCEP.jpg",
+    "year": 1992,
+    "hasFile": false,
+    "youTubeTrailerId": "e45rAwndek8",
+    "studio": "20th Century Fox",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 114,
+    "cleanTitle": "alien",
+    "imdbId": "tt0103644",
+    "tmdbId": 8077,
+    "titleSlug": "8077",
+    "folder": "Alien³ (1992)",
+    "certification": "R",
+    "genres": [
+      "Science Fiction",
+      "Action",
+      "Horror"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "imdb": {
+        "votes": 315565,
+        "value": 6.4,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 5190,
+        "value": 6.4,
+        "type": "user"
+      },
+      "metacritic": {
+        "votes": 0,
+        "value": 59,
+        "type": "user"
+      },
+      "rottenTomatoes": {
+        "votes": 0,
+        "value": 48,
+        "type": "user"
+      }
+    },
+    "collection": {
+      "title": "Alien Collection",
+      "tmdbId": 8091,
+      "monitored": false,
+      "qualityProfileId": 0,
+      "searchOnAdd": false,
+      "minimumAvailability": "tba",
+      "images": [],
+      "added": "0001-01-01T07:53:00Z",
+      "tags": [],
+      "id": 0
+    },
+    "popularity": 42.243
+  },
+  {
+    "title": "The Thing About Aliens and their Skin Care",
+    "originalTitle": "Kung nga-a Conscious ang mga Alien sang ila Skincare",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "thing about aliens their skin care",
+    "sizeOnDisk": 0,
+    "status": "inCinemas",
+    "overview": "In the eyes of a child, aliens are mystical. Their secrets are something which amazes even the depths of one's imagination. We have seen them, we have evidence of their existence. We raise questions like do they have feelings? Are they walking among us? Do they wear make up, apply toner, and put face masks just like us? As we seek for answers to these questions, we are again confronted by another: are aliens made to conceal their realities through their skin care, or their skin care reveals a deeper identity to who they really are?",
+    "inCinemas": "2023-11-18T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/41ba7df5dbdb0b774d37994d7aedf00c0cd9b521e0e660be65de24838e157d93/sjoe58cQLeFYrhEwjkhQPUn75V3.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/sjoe58cQLeFYrhEwjkhQPUn75V3.jpg"
+      }
+    ],
+    "website": "",
+    "remotePoster": "https://image.tmdb.org/t/p/original/sjoe58cQLeFYrhEwjkhQPUn75V3.jpg",
+    "year": 2023,
+    "hasFile": false,
+    "youTubeTrailerId": "",
+    "studio": "Pelikula Agila",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 12,
+    "cleanTitle": "thethingaboutalienstheirskincare",
+    "tmdbId": 1185170,
+    "titleSlug": "1185170",
+    "folder": "The Thing About Aliens and their Skin Care (2023)",
+    "genres": [
+      "Comedy"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "tmdb": {
+        "votes": 2,
+        "value": 7.25,
+        "type": "user"
+      }
+    },
+    "popularity": 1.538
+  },
+  {
+    "title": "Alien: Covenant - Prologue: Crew Messages",
+    "originalTitle": "Alien: Covenant - Prologue: Crew Messages",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "alien covenant prologue crew messages",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "Crew Messages are a series of five transmissions recorded by members (Daniels, Oram, Rosenthal, Lopé and Tennessee) of the Covenant's crew for broadcast home to their families.",
+    "digitalRelease": "2017-04-17T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/f25de256338df8bcccbd56c3003879145908dca1fe334e176e40b624131c2437/r5znpORXHLA4JIvxvFMAjUsM8fg.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/r5znpORXHLA4JIvxvFMAjUsM8fg.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/1a42840d17a23d101b4609c5f16eda499b4d2e11468299dc2fa97146f42e3eb3/129Vdw6Zt2uD2e2QsP9uQ55PrVv.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/129Vdw6Zt2uD2e2QsP9uQ55PrVv.jpg"
+      }
+    ],
+    "website": "",
+    "remotePoster": "https://image.tmdb.org/t/p/original/r5znpORXHLA4JIvxvFMAjUsM8fg.jpg",
+    "year": 2017,
+    "hasFile": false,
+    "youTubeTrailerId": "",
+    "studio": "20th Century Fox",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 4,
+    "cleanTitle": "aliencovenantprologuecrewmessages",
+    "tmdbId": 568635,
+    "titleSlug": "568635",
+    "folder": "Alien Covenant - Prologue Crew Messages (2017)",
+    "genres": [
+      "Science Fiction"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "tmdb": {
+        "votes": 14,
+        "value": 6,
+        "type": "user"
+      }
+    },
+    "collection": {
+      "title": "Alien: Covenant Short Film Collection",
+      "tmdbId": 697022,
+      "monitored": false,
+      "qualityProfileId": 0,
+      "searchOnAdd": false,
+      "minimumAvailability": "tba",
+      "images": [],
+      "added": "0001-01-01T07:53:00Z",
+      "tags": [],
+      "id": 0
+    },
+    "popularity": 3.995
+  },
+  {
+    "title": "Crayon Shin-chan: Invasion!! Alien Shiriri",
+    "originalTitle": "クレヨンしんちゃん 襲来！！宇宙人シリリ",
+    "originalLanguage": {
+      "id": 8,
+      "name": "Japanese"
+    },
+    "alternateTitles": [
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "クレヨンしんちゃん: 襲来！！宇宙人シリリ"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Crayon Shin-chan Movie 25: Shin-chan Shuurai! Uchuujin Shiriri"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "蜡笔小新：宇宙人来袭"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "극장판 짱구는 못말려 습격!! 외계인 덩덩이"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "クレヨンしんちゃん 襲来!!宇宙人シリリ"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Shin – Cậu bé bút chì: Cuộc xâm lăng của người ngoài hành tinh Shiriri"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "ชินจัง เดอะมูฟวี่ ตอน รุกมาเยือน! มนุษย์ต่างดาวชิริริ"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Shin-chan y kulETE el extraterrestre"
+      }
+    ],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "crayon shin chan invasion alien shiriri",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "When the mysterious Shiriri turns his parents into children, Shin-chan must trek across Japan to help return them to adult form.",
+    "inCinemas": "2017-04-15T00:00:00Z",
+    "digitalRelease": "2017-04-30T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/570145ca24489a6c1ca8638ae4bcf14913b9b5c4cd461726189b872586990ee4/aa7X8NXBoeQfhqzJ079SN8WAJMm.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/aa7X8NXBoeQfhqzJ079SN8WAJMm.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/afdd6504a9cd405ec04ecc86953053de0a886ce7548dcad3c68c28f882af6b5f/rPfjyws2DDm5lPPj5OQ5HjPDC8Q.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/rPfjyws2DDm5lPPj5OQ5HjPDC8Q.jpg"
+      }
+    ],
+    "website": "",
+    "remotePoster": "https://image.tmdb.org/t/p/original/aa7X8NXBoeQfhqzJ079SN8WAJMm.jpg",
+    "year": 2017,
+    "hasFile": false,
+    "youTubeTrailerId": "",
+    "studio": "Shin-Ei Animation",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 120,
+    "cleanTitle": "crayonshinchaninvasionalienshiriri",
+    "imdbId": "tt6809936",
+    "tmdbId": 453575,
+    "titleSlug": "453575",
+    "folder": "Crayon Shin-chan Invasion!! Alien Shiriri (2017)",
+    "certification": "G",
+    "genres": [
+      "Family",
+      "Animation",
+      "Comedy"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "imdb": {
+        "votes": 306,
+        "value": 6.2,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 32,
+        "value": 7.203,
+        "type": "user"
+      }
+    },
+    "collection": {
+      "title": "Crayon Shin-chan Collection",
+      "tmdbId": 117354,
+      "monitored": false,
+      "qualityProfileId": 0,
+      "searchOnAdd": false,
+      "minimumAvailability": "tba",
+      "images": [],
+      "added": "0001-01-01T07:53:00Z",
+      "tags": [],
+      "id": 0
+    },
+    "popularity": 15.25
+  },
+  {
+    "title": "Aliens vs Predator: Requiem",
+    "originalTitle": "Aliens vs Predator: Requiem",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "AVPR"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Aliens vs Predator 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Aliens vs Predator - Requiem"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "AVP: Aliens vs. Predator - Requiem"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "AVPR: Aliens vs. Predator - Requiem"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Aliens vs. Predator 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "AVP 2: Aliens vs Predator - Requiem"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien vs Predator 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Aliens vs. Predator 2 Requiem"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Άλιεν Εναντίον Κυνηγού 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Чужі Проти Хижака 2: Реквієм"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Чужі Проти Хижака 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "异形大战铁血战士：安魂曲"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien vs Predator 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Aliens vs. Predator 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien vs. Predator 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien vs Predator-Requiem"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "הטורף נגד הנוסע השמיני 2: רקוויאם"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Alien vs. Predator 2."
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "AVP 2. - Aliens vs. Predator"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "Cuộc Chiến Dưới Tháp Cổ 2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "異獸戰2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "異獸戰2"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "异形大战铁血战士2：安魂曲"
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 0,
+        "title": "הנוסע השמיני נגד הטורף 2: תפילה למת"
+      }
+    ],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "aliens vs predator requiem",
+    "sizeOnDisk": 0,
+    "status": "released",
+    "overview": "The iconic creatures from two of the scariest film franchises in movie history wage their most brutal battle ever—in our own backyard. The small town of Gunnison, Colorado becomes a war zone between two of the deadliest extra-terrestrial life forms—the Alien and the Predator. When a Predator scout ship crash-lands in the hills outside the town, Alien Facehuggers and a hybrid Alien/Predator are released and begin to terrorize the town.",
+    "inCinemas": "2007-12-25T00:00:00Z",
+    "physicalRelease": "2008-05-28T00:00:00Z",
+    "digitalRelease": "2011-10-31T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCoverProxy/5e29133bc011677663cf4db0c5b4e36f14345fd384e56e5c87a3b8c004e3c2cc/jCyJN1vj8jqJJ0vNw4hDH2KlySO.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/jCyJN1vj8jqJJ0vNw4hDH2KlySO.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCoverProxy/abdd9073e41e1a6b97a41bc529b9390c1cd124b8bec51e596cfb5e7656e64bcf/y8yvIrmoM2PLuJcSto7OmOfsXQj.jpg",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/y8yvIrmoM2PLuJcSto7OmOfsXQj.jpg"
+      }
+    ],
+    "website": "http://www.avp-r.com/",
+    "remotePoster": "https://image.tmdb.org/t/p/original/jCyJN1vj8jqJJ0vNw4hDH2KlySO.jpg",
+    "year": 2007,
+    "hasFile": false,
+    "youTubeTrailerId": "XbTWLrZLYmU",
+    "studio": "Dune Entertainment",
+    "qualityProfileId": 0,
+    "monitored": false,
+    "minimumAvailability": "tba",
+    "isAvailable": true,
+    "folderName": "",
+    "runtime": 94,
+    "cleanTitle": "aliensvspredatorrequiem",
+    "imdbId": "tt0758730",
+    "tmdbId": 440,
+    "titleSlug": "440",
+    "folder": "Aliens vs Predator Requiem (2007)",
+    "certification": "R",
+    "genres": [
+      "Fantasy",
+      "Action",
+      "Science Fiction"
+    ],
+    "tags": [],
+    "added": "0001-01-01T07:53:00Z",
+    "ratings": {
+      "imdb": {
+        "votes": 131656,
+        "value": 4.6,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 2659,
+        "value": 5.2,
+        "type": "user"
+      },
+      "metacritic": {
+        "votes": 0,
+        "value": 29,
+        "type": "user"
+      },
+      "rottenTomatoes": {
+        "votes": 0,
+        "value": 12,
+        "type": "user"
+      }
+    },
+    "collection": {
+      "title": "AVP Collection",
+      "tmdbId": 115762,
+      "monitored": false,
+      "qualityProfileId": 0,
+      "searchOnAdd": false,
+      "minimumAvailability": "tba",
+      "images": [],
+      "added": "0001-01-01T07:53:00Z",
+      "tags": [],
+      "id": 0
+    },
+    "popularity": 54.731
+  },
+  {
+    "title": "Aliens",
+    "originalTitle": "Aliens",
+    "originalLanguage": {
+      "id": 1,
+      "name": "English"
+    },
+    "alternateTitles": [
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "異形2",
+        "id": 1708
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Alien 2",
+        "id": 1709
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Alien 2: Aliens",
+        "id": 1710
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Alien II",
+        "id": 1711
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Aliens: Special Edition",
+        "id": 1712
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Aliens: Director's Cut",
+        "id": 1713
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Alien 2 Aliens le retour",
+        "id": 1714
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Aliens: El regreso",
+        "id": 1715
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "에일리언 2",
+        "id": 1716
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Aliens : Le retour",
+        "id": 1717
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Alien 2 el regreso",
+        "id": 1718
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Obcy 2",
+        "id": 1719
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Aliens - Scontro Finale - Edizione Speciale",
+        "id": 1720
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Alien 2 Le retour",
+        "id": 1721
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Alien 2 - Aliens - O Resgate",
+        "id": 1722
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Чужие",
+        "id": 1723
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Obcy: Decydujące Starcie",
+        "id": 1724
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "1986 - Alien 2",
+        "id": 1725
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Aliens: Die Rückkehr",
+        "id": 1726
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Alien 2 - Die Rückkehr",
+        "id": 1727
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "A bolygó neve: Halál",
+        "id": 1728
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Alien 2. - Halál bolygó",
+        "id": 1729
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Чужі",
+        "id": 1730
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "エイリアン2：1986",
+        "id": 1731
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Quái Vật Không Gian 2",
+        "id": 1732
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "Yaratık 2: Yaratığın Dönüşü",
+        "id": 1733
+      },
+      {
+        "sourceType": "tmdb",
+        "movieMetadataId": 224,
+        "title": "異形續集",
+        "id": 1734
+      }
+    ],
+    "secondaryYearSourceId": 0,
+    "sortTitle": "aliens",
+    "sizeOnDisk": 18124725551,
+    "status": "released",
+    "overview": "When Ripley's lifepod is found by a salvage crew over 50 years later, she finds that terra-formers are on the very planet they found the alien species. When the company sends a family of colonists out to investigate her story—all contact is lost with the planet and colonists. They enlist Ripley and the colonial marines to return and search for answers.",
+    "inCinemas": "1986-07-18T00:00:00Z",
+    "physicalRelease": "1992-01-01T00:00:00Z",
+    "digitalRelease": "2002-04-03T00:00:00Z",
+    "images": [
+      {
+        "coverType": "poster",
+        "url": "/MediaCover/197/poster.jpg?lastWrite=638325100376205550",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/r1x5JGpyqZU8PYhbs4UcrO1Xb6x.jpg"
+      },
+      {
+        "coverType": "fanart",
+        "url": "/MediaCover/197/fanart.jpg?lastWrite=638395931196989607",
+        "remoteUrl": "https://image.tmdb.org/t/p/original/jMBpJFRtrtIXymer93XLavPwI3P.jpg"
+      }
+    ],
+    "website": "https://www.20thcenturystudios.com/movies/aliens",
+    "remotePoster": "https://image.tmdb.org/t/p/original/r1x5JGpyqZU8PYhbs4UcrO1Xb6x.jpg",
+    "year": 1986,
+    "hasFile": true,
+    "youTubeTrailerId": "8OxirbuHsBA",
+    "studio": "SLM Production Group",
+    "path": "/volume2/Media/Movies/Aliens (1986)",
+    "qualityProfileId": 5,
+    "monitored": true,
+    "minimumAvailability": "announced",
+    "isAvailable": true,
+    "folderName": "/volume2/Media/Movies/Aliens (1986)",
+    "runtime": 137,
+    "cleanTitle": "aliens",
+    "imdbId": "tt0090605",
+    "tmdbId": 679,
+    "titleSlug": "679",
+    "folder": "Aliens (1986)",
+    "certification": "R",
+    "genres": [
+      "Action",
+      "Thriller",
+      "Science Fiction"
+    ],
+    "tags": [],
+    "added": "2023-10-10T04:47:16Z",
+    "ratings": {
+      "imdb": {
+        "votes": 752353,
+        "value": 8.4,
+        "type": "user"
+      },
+      "tmdb": {
+        "votes": 8948,
+        "value": 7.9,
+        "type": "user"
+      },
+      "metacritic": {
+        "votes": 0,
+        "value": 84,
+        "type": "user"
+      },
+      "rottenTomatoes": {
+        "votes": 0,
+        "value": 98,
+        "type": "user"
+      }
+    },
+    "movieFile": {
+      "movieId": 197,
+      "relativePath": "Aliens.1986.Special.Edition.2160p.WEB-DL.DDP5.1.HDR.H.265-CanadianSupervillainJamesCameron.mkv",
+      "path": "/volume2/Media/Movies/Aliens (1986)/Aliens.1986.Special.Edition.2160p.WEB-DL.DDP5.1.HDR.H.265-CanadianSupervillainJamesCameron.mkv",
+      "size": 18124725551,
+      "dateAdded": "2023-12-15T19:07:07Z",
+      "sceneName": "Aliens.1986.Special.Edition.2160p.WEB-DL.DDP5.1.HDR.H.265-CanadianSupervillainJamesCameron",
+      "indexerFlags": 1,
+      "quality": {
+        "quality": {
+          "id": 18,
+          "name": "WEBDL-2160p",
+          "source": "webdl",
+          "resolution": 2160,
+          "modifier": "none"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormatScore": 0,
+      "mediaInfo": {
+        "audioBitrate": 640000,
+        "audioChannels": 5.1,
+        "audioCodec": "EAC3",
+        "audioLanguages": "eng",
+        "audioStreamCount": 1,
+        "videoBitDepth": 10,
+        "videoBitrate": 0,
+        "videoCodec": "h265",
+        "videoFps": 23.976,
+        "videoDynamicRange": "HDR",
+        "videoDynamicRangeType": "HDR10Plus",
+        "resolution": "3840x2080",
+        "runTime": "2:34:26",
+        "scanType": "Progressive",
+        "subtitles": "eng/eng"
+      },
+      "originalFilePath": "Aliens.1986.Special.Edition.2160p.WEB-DL.DDP5.1.HDR.H.265-CanadianSupervillainJamesCameron.mkv",
+      "qualityCutoffNotMet": false,
+      "languages": [
+        {
+          "id": 1,
+          "name": "English"
+        }
+      ],
+      "releaseGroup": "CanadianSupervillainJamesCameron",
+      "edition": "Special Edition",
+      "id": 144
+    },
+    "collection": {
+      "title": "Alien Collection",
+      "tmdbId": 8091,
+      "monitored": false,
+      "qualityProfileId": 0,
+      "searchOnAdd": false,
+      "minimumAvailability": "tba",
+      "images": [],
+      "added": "0001-01-01T07:53:00Z",
+      "tags": [],
+      "id": 0
+    },
+    "popularity": 57.781,
+    "id": 197
+  }
+]
