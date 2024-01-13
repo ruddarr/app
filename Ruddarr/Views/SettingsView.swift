@@ -1,5 +1,21 @@
 import SwiftUI
 
+enum ValidationError: Error {
+    case urlNotValid
+    case fieldsEmpty
+}
+
+extension ValidationError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .urlNotValid:
+            return "URL is not valid"
+        case .fieldsEmpty:
+            return "All fields are mandatory"
+        }
+    }
+}
+
 struct SettingsView: View {
     @AppStorage("darkMode") private var darkMode = false
     
@@ -10,38 +26,56 @@ struct SettingsView: View {
                 settingsSection
                 aboutSection
             }
+            .animation(.easeInOut, value: instances)
             .navigationTitle("Settings")
         }
     }
 
     // TODO: convert to `@AppStorage` (default empty list)
-    @State private var instances: [Instance] = (0..<3).map {
-        Instance(label: "Instance #\($0)", url: URL(string: "https://example.com")!)
-    }
+    @AppStorage("instances") private var instances: [Instance] = []
     
     // TODO: don't default to `example.com` the fields should all be empty
-    @State private var draftInstance = Instance(
-        label: "", url: URL(string: "https://example.com")!
-    )
+    private var draftInstance: Instance {
+        Instance(label: "", urlString: "")
+    }
     
     var instanceSection: some View {
-        Section(header: Text("Instances")) {
-            ForEach(instances) { instance in
-                NavigationLink {
-                    InstanceForm(
-                        instance: $instances[instances.firstIndex(of: instance)!]
-                    )
-                } label: {
-                    VStack(alignment: .leading) {
-                        Text(instance.label)
-                        Text(instance.url.absoluteString)
-                            .font(.footnote)
-                            .foregroundStyle(.gray)
+        Group {
+            Section(header: Text("Instances")) {
+                ForEach(instances) { instance in
+                    NavigationLink {
+                        InstanceForm(
+                            state: .update,
+                            instance: instance,
+                            saveInstance: { ins in
+                                updateInstance(ins)
+                            },
+                            deleteInstance: { ins in
+                                deleteInstance(ins)
+                            }
+                        )
+                    } label: {
+                        VStack(alignment: .leading) {
+                            Text(instance.label)
+                            Text(instance.urlString)
+                                .font(.footnote)
+                                .foregroundStyle(.gray)
+                        }
                     }
                 }
+                NavigationLink("Add instance") {
+                    InstanceForm(
+                        state: .add,
+                        instance: draftInstance,
+                        saveInstance: { ins in
+                            saveInstance(ins)
+                        }
+                    )
+                }
             }
-            NavigationLink("Add instance") {
-                InstanceForm(instance: $draftInstance)
+            
+            if !instances.isEmpty {
+                deleteAllInstanceView
             }
         }
     }
@@ -71,11 +105,57 @@ struct SettingsView: View {
     }
     
     // TODO: Add button to delete all `@AppStorage` and reset the app
+    
+    var deleteAllInstanceView: some View {
+        Section {
+            Button("Delete All Instances") {
+                deleteAllInstances()
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+            .foregroundColor(.red)
+        }
+    }
+}
+
+extension SettingsView {
+    func saveInstance(_ instance: Instance) {
+        instances.append(instance)
+    }
+    
+    func updateInstance(_ instance: Instance) {
+        guard let instanceForUpdation = instances.enumerated().first(where: { $0.element.id == instance.id }) else { return }
+        instances.remove(at: instanceForUpdation.offset)
+        instances.insert(instance, at: instanceForUpdation.offset)
+    }
+    
+    func deleteInstance(_ instance: Instance) {
+        instances.removeAll(where: { $0.id == instance.id })
+    }
+    
+    func deleteAllInstances() {
+        withAnimation {
+            instances.removeAll()
+        }
+    }
 }
 
 // TODO: only save instance when user clicks on "Done" and the validation passes
 struct InstanceForm: View {
-    @Binding var instance: Instance
+    
+    enum InstanceState {
+        case add
+        case update
+    }
+    
+    @Environment (\.dismiss) var dismiss
+    
+    var state: InstanceState
+    @State var instance: Instance = .init(label: "", urlString: "")
+    var saveInstance: ((Instance) -> ())
+    var deleteInstance: ((Instance) -> ())? = nil
+    
+    @State var isLoading = false
+    @State var errorMessage: String?
     
     var body: some View {
         Form {
@@ -84,7 +164,6 @@ struct InstanceForm: View {
                     HStack {
                         Text("Label")
                             .padding(.trailing)
-                            .padding(.trailing)
                         Spacer()
                         TextField("Synology", text: $instance.label)
                             .multilineTextAlignment(.trailing)
@@ -92,38 +171,85 @@ struct InstanceForm: View {
                     HStack {
                         Text("Host")
                             .padding(.trailing)
-                            .padding(.trailing)
                         Spacer()
-                        TextField("https://10.0.1.5:7878", value: $instance.url, format: .url)
+                        TextField("", text: $instance.urlString)
                             .multilineTextAlignment(.trailing)
                     }
                     HStack {
                         Text("API Key")
-                            .padding(.trailing)
                             .padding(.trailing)
                         Spacer()
                         TextField("", text: $instance.label)
                             .multilineTextAlignment(.trailing)
                     }
                 }
-                
             }
-
+            
             // TODO: only show when viewing an instance that was already saved (not a new one)
-            Section {
-                Button("Delete Instance") {
-                    // TODO: delete instance from `@AppStorage`
+            if state != .add {
+                Section {
+                    Button("Delete Instance") {
+                        // TODO: delete instance from `@AppStorage`
+                        deleteInstance?(instance)
+                        dismiss()
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .foregroundColor(.red)
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
-                .foregroundColor(.red)
             }
-        }.toolbar {
+        }
+        .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Done") {
                     // TODO: validate that `URL` field can be reached via HTTP (status code 200?)
                     // TODO: save instance to `@AppStorage` (or update edited instance)
+                    Task {
+                        isLoading = true
+                        do {
+                            try await checkForValidations()
+                            isLoading = false
+                            saveInstance(instance)
+                            dismiss()
+                        } catch let error {
+                            isLoading = false
+                            errorMessage = error.localizedDescription
+                        }
+                    }
                 }
             }
+        }
+        .errorToast(with: $errorMessage)
+        .overlay {
+            if isLoading {
+                ProgressView()
+                    .padding(16)
+                    .background(Color(uiColor: .secondarySystemBackground))
+                    .clipShape(Circle())
+                    .shadow(radius: 4)
+            }
+        }
+    }
+    
+    // MARK: - Helper Functions
+    
+    func checkForValidations() async throws {
+        if instance.label.isEmpty || instance.urlString.isEmpty {
+            throw ValidationError.fieldsEmpty
+        } else {
+            try await checkValidationForUrlString(instance.urlString)
+        }
+    }
+    
+    func checkValidationForUrlString(_ string: String) async throws {
+        if let url = URL(string: string) {
+            let request = URLRequest(url: url)
+            
+            let (_, response) = try await URLSession.shared.data(for: request)
+            if (response as? HTTPURLResponse)?.statusCode != 200 {
+                throw ValidationError.urlNotValid
+            }
+        } else {
+            throw ValidationError.urlNotValid
         }
     }
 }
