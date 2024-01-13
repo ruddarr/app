@@ -1,8 +1,6 @@
 
 import SwiftUI
 
-// TODO: on macOS and ipadOS use a sidebar (instead of tabs at the bottom)
-
 struct ContentView: View {
     @State var selectedTab: Tab = .movies
     

@@ -14,12 +14,10 @@ struct SettingsView: View {
         }
     }
 
-    // TODO: convert to `@AppStorage` (default empty list)
     @State private var instances: [Instance] = (0..<3).map {
         Instance(label: "Instance #\($0)", url: URL(string: "https://example.com")!)
     }
     
-    // TODO: don't default to `example.com` the fields should all be empty
     @State private var draftInstance = Instance(
         label: "", url: URL(string: "https://example.com")!
     )
@@ -69,11 +67,9 @@ struct SettingsView: View {
         .listRowSeparatorTint(.blue)
         .listRowSeparator(.hidden)
     }
-    
-    // TODO: Add button to delete all `@AppStorage` and reset the app
+
 }
 
-// TODO: only save instance when user clicks on "Done" and the validation passes
 struct InstanceForm: View {
     @Binding var instance: Instance
     
@@ -109,10 +105,9 @@ struct InstanceForm: View {
                 
             }
 
-            // TODO: only show when viewing an instance that was already saved (not a new one)
             Section {
                 Button("Delete Instance") {
-                    // TODO: delete instance from `@AppStorage`
+                    //
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .foregroundColor(.red)
@@ -120,8 +115,7 @@ struct InstanceForm: View {
         }.toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Done") {
-                    // TODO: validate that `URL` field can be reached via HTTP (status code 200?)
-                    // TODO: save instance to `@AppStorage` (or update edited instance)
+                    //
                 }
             }
         }

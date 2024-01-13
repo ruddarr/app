@@ -1,7 +1,5 @@
 import SwiftUI
 
-// https://www.hackingwithswift.com/quick-start/swiftui/how-to-add-a-search-bar-to-filter-your-data
-
 struct MovieSearchView: View {
     @State private var searchQuery = ""
     @State private var isAddingMovie = false
@@ -17,18 +15,18 @@ struct MovieSearchView: View {
             ScrollView {
                 LazyVGrid(columns: gridItemLayout, spacing: 15) {
                     ForEach(movies.movies) { movie in
-                        
+
                         Button(action: {
                             isAddingMovie.toggle()
                         }) {
-                            Text(movie.title)
+                            MovieLookupRow(movie: movie)
                         }
                         .sheet(isPresented: $isAddingMovie) {
                             NavigationView {
                                 VStack {
                                     Text("Add movie")
                                 }
-                                .navigationTitle("Add movie")
+                                .navigationTitle(movie.title)
                                 .toolbar {
                                     ToolbarItem(placement: .topBarLeading) {
                                         Button("Cancel", action: {
@@ -43,8 +41,6 @@ struct MovieSearchView: View {
                 }.padding(.horizontal)
             }
         }
-        // TODO: When the view appears we should always focus on `searchable()`
-        //       and show the keyboard. Can we use `isPresented`?
         .searchable(
             text: $searchQuery,
             placement: .navigationBarDrawer(displayMode: .always)
@@ -57,8 +53,40 @@ struct MovieSearchView: View {
     }
 }
 
+struct MovieLookupRow: View {
+    var movie: MovieLookup
+    
+    var body: some View {
+        HStack {
+//            AsyncImage(
+//                url: URL(string: movie.images[0].remoteURL),
+//                content: { image in
+//                    image.resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(maxWidth: 80, maxHeight: .infinity)
+//                },
+//                placeholder: {
+//                    ProgressView()
+//                }
+//            )
+            VStack(alignment: .leading) {
+                Text(movie.title)
+                    .font(.footnote)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .multilineTextAlignment(.leading)
+                Text(String(movie.year))
+                    .font(.caption)
+                Spacer()
+            }
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+        .background(Color(UIColor.secondarySystemBackground))
+        .cornerRadius(4)
+    }
+}
+
 #Preview {
-    // TODO: show in the context of "MoviesView" so return button is displayed
     MovieSearchView()
         .withSelectedColorScheme()
 }
