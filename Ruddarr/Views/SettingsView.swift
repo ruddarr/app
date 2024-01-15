@@ -150,12 +150,13 @@ struct InstanceForm: View {
     @Environment (\.dismiss) var dismiss
     
     var state: InstanceState
-    @State var instance: Instance = .init(label: "", urlString: "")
+    @State var instance: Instance = .init()
     var saveInstance: ((Instance) -> ())
     var deleteInstance: ((Instance) -> ())? = nil
     
     @State var isLoading = false
-    @State var errorMessage: String?
+    @State var showAlert = false
+    @State var errorMessage: String = ""
     
     var body: some View {
         Form {
@@ -173,23 +174,23 @@ struct InstanceForm: View {
                             .padding(.trailing)
                         Spacer()
                         TextField("", text: $instance.urlString)
+                            .textInputAutocapitalization(.never)
                             .multilineTextAlignment(.trailing)
                     }
                     HStack {
                         Text("API Key")
                             .padding(.trailing)
                         Spacer()
-                        TextField("", text: $instance.label)
+                        TextField("", text: $instance.apiKey)
+                            .textInputAutocapitalization(.never)
                             .multilineTextAlignment(.trailing)
                     }
                 }
             }
             
-            // TODO: only show when viewing an instance that was already saved (not a new one)
             if state != .add {
                 Section {
                     Button("Delete Instance") {
-                        // TODO: delete instance from `@AppStorage`
                         deleteInstance?(instance)
                         dismiss()
                     }
@@ -201,8 +202,6 @@ struct InstanceForm: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Done") {
-                    // TODO: validate that `URL` field can be reached via HTTP (status code 200?)
-                    // TODO: save instance to `@AppStorage` (or update edited instance)
                     Task {
                         isLoading = true
                         do {
@@ -213,12 +212,17 @@ struct InstanceForm: View {
                         } catch let error {
                             isLoading = false
                             errorMessage = error.localizedDescription
+                            showAlert = true
                         }
                     }
                 }
+                .disabled(!instance.isValid)
             }
         }
-        .errorToast(with: $errorMessage)
+//        .errorToast(with: $errorMessage)
+        .alert(errorMessage, isPresented: $showAlert, actions: {
+            Button("Ok", role: .cancel, action: {})
+        })
         .overlay {
             if isLoading {
                 ProgressView()
@@ -233,11 +237,7 @@ struct InstanceForm: View {
     // MARK: - Helper Functions
     
     func checkForValidations() async throws {
-        if instance.label.isEmpty || instance.urlString.isEmpty {
-            throw ValidationError.fieldsEmpty
-        } else {
-            try await checkValidationForUrlString(instance.urlString)
-        }
+        try await checkValidationForUrlString(instance.urlString)
     }
     
     func checkValidationForUrlString(_ string: String) async throws {

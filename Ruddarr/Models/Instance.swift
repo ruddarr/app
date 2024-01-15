@@ -1,9 +1,21 @@
 import Foundation
 
 struct Instance: Identifiable, Equatable, Codable {
+    
     var id = UUID()
     var label: String
     var urlString: String
+    var apiKey: String
+    
+    init(label: String = "", urlString: String = "", apiKey: String = "") {
+        self.label = label
+        self.urlString = urlString
+        self.apiKey = apiKey
+    }
+    
+    var isValid: Bool {
+        !label.isEmpty && !urlString.isEmpty && !apiKey.isEmpty
+    }
 }
 
 typealias SavedInstances = [Instance]
