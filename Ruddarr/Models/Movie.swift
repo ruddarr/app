@@ -5,7 +5,8 @@ class MovieModel: ObservableObject {
     
     @MainActor
     func fetch(_ instance: Instance) async {
-        
+        movies = []
+
         do {
             let urlString = "\(instance.url)/api/v3/movie"
             // let urlString = "https://pub-5e0e3f7fd2d0441b82048eafc31ac436.r2.dev/movies.json"
@@ -28,8 +29,15 @@ struct Movie: Identifiable, Codable {
     let id: Int
     let title: String
     let year: Int
-    let remotePoster: String?
     let images: [MovieImage]
+
+    var remotePoster: String? {
+        if let remote = self.images.first(where: { $0.coverType == "poster" }) {
+            return remote.remoteURL
+        }
+        
+        return nil
+    }
 }
 
 struct MovieImage: Codable {

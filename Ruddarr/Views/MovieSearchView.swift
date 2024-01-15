@@ -39,12 +39,13 @@ struct MovieSearchView: View {
             )
             .onChange(of: searchQuery) {
                 Task {
-                    waitingforResults = true
+//                    waitingforResults = true
                     await lookup.search(instance, query: searchQuery)
-                    waitingforResults = false
+//                    waitingforResults = false
                 }
             }
             .overlay {
+                // TODO: don't show this while search is waiting for results
                 if lookup.movies.isEmpty && !searchQuery.isEmpty {
                     ContentUnavailableView.search(text: searchQuery)
                 }
@@ -52,8 +53,6 @@ struct MovieSearchView: View {
         }
     }
 }
-
-// url: URL(string: movie.images[0].remoteURL),
 
 struct MovieLookupRow: View {
     var movie: MovieLookup
@@ -64,14 +63,14 @@ struct MovieLookupRow: View {
             AsyncImage(
                 url: URL(string: movie.remotePoster ?? ""),
                 content: { image in
-                    image.resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: 80, maxHeight: .infinity)
+                    image.resizable().aspectRatio(contentMode: .fit)
                 },
                 placeholder: {
                     ProgressView()
                 }
             )
+            .frame(width: 85, height: 125)
+            
             VStack(alignment: .leading) {
                 Text(movie.title)
                     .font(.footnote)
@@ -81,6 +80,8 @@ struct MovieLookupRow: View {
                     .font(.caption)
                 Spacer()
             }
+            .padding(.top, 4)
+
             Spacer()
         }
         .frame(maxWidth: .infinity)
