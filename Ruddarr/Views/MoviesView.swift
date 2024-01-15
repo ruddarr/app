@@ -62,15 +62,18 @@ struct MoviesView: View {
         @State var shouldPresentSheet = true
         
         ToolbarItem(placement: .topBarTrailing) {
-            HStack {
-                NavigationLink {
-                    MovieSearchView()
-                } label: {
-                    Image(systemName: "plus.circle")
-                }
+            NavigationLink {
+                // TODO: this isn't working, why?!
+                MovieSearchView()
+            } label: {
+                Image(systemName: "plus.circle")
             }
         }
         
+        // TODO: switch between instances (top left button)
+        //       this requires the "instances" under settings to work
+        //       only show movies for the selected instance
+        //       This should only happen if more than one radarr/sonarr instance is set
         ToolbarItem(placement: .topBarLeading) {
             Image(systemName: "server.rack")
         }
@@ -126,6 +129,8 @@ struct MovieRow: View {
     
     var body: some View {
         HStack {
+            // TODO: these appear to be fetched via HTTP over and over
+            //       improve the native caching, or cache images locally
             AsyncImage(
                 url: URL(string: movie.images[0].remoteURL),
                 content: { image in

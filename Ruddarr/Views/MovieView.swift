@@ -8,6 +8,8 @@ struct MovieView: View {
     }
 }
 
+// TODO: The preview should load a ramdom a fixed movie, so the preview isn't failing
+
 //#Preview {
 //    MovieView(movie: )
 //}

@@ -1,5 +1,7 @@
 import SwiftUI
 
+// TODO: the `search()` func needs some kind of "debounce" functionality
+
 class MovieLookupModel: ObservableObject {
     @Published var movies: [MovieLookup] = []
     
