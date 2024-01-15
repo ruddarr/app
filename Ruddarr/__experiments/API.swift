@@ -14,3 +14,20 @@ class API {
         return try JSONDecoder().decode([Movie].self, from: data)
     }
 }
+
+
+
+
+
+//        { error in
+//
+//        } message: { error in
+////            print(error.errorDescription ?? "")
+//            Text(error.errorDescription ?? "Try again later.")
+////        }
+//
+////            Button("OK", role: .cancel) { print(error.errorMessage) }
+
+
+
+            

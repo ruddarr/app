@@ -7,11 +7,20 @@ struct MoviesView: View {
     
     @ObservedObject var movies = MovieModel()
     
+    @AppStorage("movieInstance") private var instanceId: UUID?
+    @AppStorage("instances") private var instances: [Instance] = []
+
+    init() {
+        if instanceId == nil {
+            instanceId = radarrInstances.first?.id
+        }
+    }
+    
     var body: some View {
         let gridItemLayout = [
             GridItem(.adaptive(minimum: 250))
         ]
-
+        
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: gridItemLayout, spacing: 15) {
@@ -23,7 +32,8 @@ struct MoviesView: View {
                             MovieRow(movie: movie)
                         }
                     }
-                }.padding(.horizontal)
+                }
+                .padding(.horizontal)
             }
             .navigationTitle("Movies")
             .toolbar(content: toolbar)
@@ -31,17 +41,44 @@ struct MoviesView: View {
                 guard !fetchedMovies else { return }
                 fetchedMovies = true
                 
-                await movies.fetch()
+                await movies.fetch(radarrInstance)
             }
             .refreshable {
-                await movies.fetch()
+                await movies.fetch(radarrInstance)
             }
         }
         .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always))
+        .overlay {
+            if displayedMovies.isEmpty && !searchQuery.isEmpty {
+                ContentUnavailableView.search(text: searchQuery)
+            }
+        }
     }
     
     @ToolbarContentBuilder
     func toolbar() -> some ToolbarContent {
+        if (radarrInstances.count > 1) {
+            ToolbarItem(placement: .topBarLeading) {
+                Menu("Instance", systemImage: "server.rack") {
+                    ForEach(radarrInstances) { instance in
+                        Button {
+                            self.instanceId = instance.id
+                            Task {
+                                await movies.fetch(radarrInstance)
+                            }
+                        } label: {
+                            HStack {
+                                Text(instance.label).frame(maxWidth: .infinity, alignment: .leading)
+                                if instance.id == instanceId {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         ToolbarItem(placement: .topBarTrailing) {
             Menu("Sort by", systemImage: "arrow.up.arrow.down") {
                 ForEach(MovieSort.Option.allCases) { sortOption in
@@ -59,21 +96,23 @@ struct MoviesView: View {
             }
         }
         
-        @State var shouldPresentSheet = true
-        
         ToolbarItem(placement: .topBarTrailing) {
-            HStack {
-                NavigationLink {
-                    MovieSearchView()
-                } label: {
-                    Image(systemName: "plus.circle")
-                }
+            NavigationLink {
+                MovieSearchView(instance: radarrInstance)
+            } label: {
+                Image(systemName: "plus.circle")
             }
         }
-        
-        ToolbarItem(placement: .topBarLeading) {
-            Image(systemName: "server.rack")
+    }
+    
+    var radarrInstances: [Instance] {
+        return instances.filter { instance in
+            return instance.type == .radarr
         }
+    }
+    
+    var radarrInstance: Instance {
+        return radarrInstances.first(where: { $0.id == instanceId })!
     }
     
     var displayedMovies: [Movie] {
@@ -127,7 +166,7 @@ struct MovieRow: View {
     var body: some View {
         HStack {
             AsyncImage(
-                url: URL(string: movie.images[0].remoteURL),
+                url: URL(string: movie.remotePoster ?? ""),
                 content: { image in
                     image.resizable()
                         .aspectRatio(contentMode: .fit)
@@ -150,7 +189,7 @@ struct MovieRow: View {
         }
         .frame(maxWidth: .infinity)
         .background(Color(UIColor.secondarySystemBackground))
-        .cornerRadius(4)   
+        .cornerRadius(4)
     }
 }
 

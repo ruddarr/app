@@ -1,74 +1,77 @@
 import SwiftUI
 
 struct MovieSearchView: View {
-    @State private var searchQuery = ""
-    @State private var isAddingMovie = false
+    let instance: Instance
     
-    @ObservedObject var movies = MovieLookupModel()
+    @State private var searchQuery = ""
+    @State private var isSearching = true
+    @State private var waitingforResults = false
+    @State private var isAddingMovie: MovieLookup? = nil
+    
+    @ObservedObject var lookup = MovieLookupModel()
     
     let gridItemLayout = [
         GridItem(.adaptive(minimum: 250))
     ]
-
+    
     var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: gridItemLayout, spacing: 15) {
-                    ForEach(movies.movies) { movie in
-
+                    ForEach(lookup.movies) { movie in
                         Button(action: {
-                            isAddingMovie.toggle()
+                            isAddingMovie = movie
                         }) {
-                            MovieLookupRow(movie: movie)
+                            MovieLookupRow(movie: movie, instance: instance)
                         }
-                        .sheet(isPresented: $isAddingMovie) {
-                            NavigationView {
-                                VStack {
-                                    Text("Add movie")
-                                }
-                                .navigationTitle(movie.title)
-                                .toolbar {
-                                    ToolbarItem(placement: .topBarLeading) {
-                                        Button("Cancel", action: {
-                                            isAddingMovie.toggle()
-                                        })
-                                    }
-                                }
-                            }
-                        }
-                        
                     }
-                }.padding(.horizontal)
+                    .sheet(item: $isAddingMovie) { movie in
+                        MovieLookupSheet(movie: movie)
+                    }
+                }
+                .padding(.horizontal)
             }
-        }
-        .searchable(
-            text: $searchQuery,
-            placement: .navigationBarDrawer(displayMode: .always)
-        )
-        .onChange(of: searchQuery) {
-            Task {
-                await movies.search(query: searchQuery)
+            .navigationTitle("Add Movie")
+            .searchable(
+                text: $searchQuery,
+                isPresented: $isSearching,
+                placement: .navigationBarDrawer(displayMode: .always)
+            )
+            .onChange(of: searchQuery) {
+                Task {
+                    waitingforResults = true
+                    await lookup.search(instance, query: searchQuery)
+                    waitingforResults = false
+                }
+            }
+            .overlay {
+                if lookup.movies.isEmpty && !searchQuery.isEmpty {
+                    ContentUnavailableView.search(text: searchQuery)
+                }
             }
         }
     }
 }
 
+// url: URL(string: movie.images[0].remoteURL),
+
 struct MovieLookupRow: View {
     var movie: MovieLookup
+    var instance: Instance
     
     var body: some View {
         HStack {
-//            AsyncImage(
-//                url: URL(string: movie.images[0].remoteURL),
-//                content: { image in
-//                    image.resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(maxWidth: 80, maxHeight: .infinity)
-//                },
-//                placeholder: {
-//                    ProgressView()
-//                }
-//            )
+            AsyncImage(
+                url: URL(string: movie.remotePoster ?? ""),
+                content: { image in
+                    image.resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: 80, maxHeight: .infinity)
+                },
+                placeholder: {
+                    ProgressView()
+                }
+            )
             VStack(alignment: .leading) {
                 Text(movie.title)
                     .font(.footnote)
@@ -86,7 +89,35 @@ struct MovieLookupRow: View {
     }
 }
 
+struct MovieLookupSheet: View {
+    var movie: MovieLookup
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    var body: some View {
+        NavigationView {
+            VStack {
+                Text("Add movie")
+            }
+            .navigationTitle(movie.title)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Cancel", action: {
+                        dismiss()
+                        //                        isAddingMovie.toggle()
+                    })
+                }
+            }
+        }
+    }
+}
+
 #Preview {
-    MovieSearchView()
-        .withSelectedColorScheme()
+    MovieSearchView(
+        instance: Instance(
+            url: "http://10.0.1.5:8310",
+            apiKey: "8f45bce99e254f888b7a2ba122468dbe"
+        )
+    )
+    .withSelectedColorScheme()
 }

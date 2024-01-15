@@ -1,32 +1,47 @@
 import Foundation
 
-struct Instance: Identifiable, Equatable {
-    let id = UUID()
-    var label: String
-    var url: URL
+struct Instance: Identifiable, Equatable, Codable {
+    var id = UUID()
+    var type: InstanceType = .radarr
+    var label: String = ""
+    var url: String = ""
+    var apiKey: String = ""
 }
 
-//typealias Instance = URL
-//@AppStorage("instances") var instances: [Instance] = []
+enum InstanceType: String, Identifiable, CaseIterable, Codable {
+    case radarr = "Radarr"
+    case sonarr = "Sonarr"
+    var id: Self { self }
+}
 
-//extension Array<Instance>: RawRepresentable {
-//    public init?(rawValue: String) {
-//        guard let data = rawValue.data(using: .utf8),
-//            let result = try? JSONDecoder().decode([URL].self, from: data)
-//        else {
-//            return nil
-//        }
-//        self = result
-//    }
-//
-//    public var rawValue: String {
-//        guard let data = try? JSONEncoder().encode(self),
-//            let result = String(data: data, encoding: .utf8)
-//        else {
-//            return "[]"
-//        }
-//        return result
-//    }
-//}
+extension Array<Instance>: RawRepresentable {
+    public init?(rawValue: String) {
+        guard let data = rawValue.data(using: .utf8),
+            let result = try? JSONDecoder().decode([Instance].self, from: data)
+        else {
+            return nil
+        }
+        self = result
+    }
 
-// https://stackoverflow.com/questions/49651571/is-sharing-userdefaults-between-ios-and-tvos-still-possible
+    public var rawValue: String {
+        guard let data = try? JSONEncoder().encode(self),
+            let result = String(data: data, encoding: .utf8)
+        else {
+            return "[]"
+        }
+        return result
+    }
+}
+
+extension UUID: RawRepresentable {
+    public var rawValue: String {
+        self.uuidString
+    }
+
+    public typealias RawValue = String
+
+    public init?(rawValue: RawValue) {
+        self.init(uuidString: rawValue)
+    }
+}
