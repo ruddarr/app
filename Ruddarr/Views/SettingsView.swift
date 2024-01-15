@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @AppStorage("darkMode") private var darkMode = false
+    @AppStorage("instances") private var instances: [Instance] = []
     
     var body: some View {
         NavigationStack {
@@ -13,8 +14,6 @@ struct SettingsView: View {
             .navigationTitle("Settings")
         }
     }
-
-    @AppStorage("instances") private var instances: [Instance] = []
 
     var instanceSection: some View {
         Section(header: Text("Instances")) {
