@@ -22,30 +22,38 @@ struct MoviesView: View {
         ]
         
         NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: gridItemLayout, spacing: 15) {
-                    ForEach(displayedMovies) { movie in
-                        NavigationLink {
-                            MovieView(movie: movie)
-                                .navigationTitle(movie.title)
-                        } label: {
-                            MovieRow(movie: movie)
+            Group {
+                if let radarrInstance {
+                    ScrollView {
+                        LazyVGrid(columns: gridItemLayout, spacing: 15) {
+                            ForEach(displayedMovies) { movie in
+                                NavigationLink {
+                                    MovieView(movie: movie)
+                                        .navigationTitle(movie.title)
+                                } label: {
+                                    MovieRow(movie: movie)
+                                }
+                            }
                         }
+                        .padding(.horizontal)
                     }
+                    
+                    .task {
+                        guard !fetchedMovies else { return }
+                        fetchedMovies = true
+                        
+                        await movies.fetch(radarrInstance)
+                    }
+                    .refreshable {
+                        await movies.fetch(radarrInstance)
+                    }
+                } else {
+                    // TODO: send people to settings...
+                    ContentUnavailableView.search(text: "hello")
                 }
-                .padding(.horizontal)
             }
             .navigationTitle("Movies")
-            .toolbar(content: toolbar)
-            .task {
-                guard !fetchedMovies else { return }
-                fetchedMovies = true
-                
-                await movies.fetch(radarrInstance)
-            }
-            .refreshable {
-                await movies.fetch(radarrInstance)
-            }
+                            .toolbar(content: toolbar)
         }
         .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always))
         .overlay {
@@ -64,7 +72,7 @@ struct MoviesView: View {
                         Button {
                             self.instanceId = instance.id
                             Task {
-                                await movies.fetch(radarrInstance)
+                                await movies.fetch(instance)
                             }
                         } label: {
                             HStack {
@@ -96,11 +104,13 @@ struct MoviesView: View {
             }
         }
         
-        ToolbarItem(placement: .topBarTrailing) {
-            NavigationLink {
-                MovieSearchView(instance: radarrInstance)
-            } label: {
-                Image(systemName: "plus.circle")
+        if let radarrInstance {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    MovieSearchView(instance: radarrInstance)
+                } label: {
+                    Image(systemName: "plus.circle")
+                }
             }
         }
     }
@@ -111,8 +121,8 @@ struct MoviesView: View {
         }
     }
     
-    var radarrInstance: Instance {
-        return radarrInstances.first(where: { $0.id == instanceId })!
+    var radarrInstance: Instance? {
+        return radarrInstances.first(where: { $0.id == instanceId })
     }
     
     var displayedMovies: [Movie] {
@@ -127,6 +137,41 @@ struct MoviesView: View {
         }
         
         return unsortedMovies.sorted(by: sort.option.isOrderedBefore)
+    }
+}
+
+struct MovieRow: View {
+    var movie: Movie
+    
+    var body: some View {
+        HStack {
+            AsyncImage(
+                url: URL(string: movie.remotePoster ?? ""),
+                content: { image in
+                    image.resizable().aspectRatio(contentMode: .fit)
+                },
+                placeholder: {
+                    ProgressView()
+                }
+            )
+            .frame(width: 85, height: 125)
+
+            VStack(alignment: .leading) {
+                Text(movie.title)
+                    .font(.footnote)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .multilineTextAlignment(.leading)
+                Text(String(movie.year))
+                    .font(.caption)
+                Spacer()
+            }
+            .padding(.top, 4)
+
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+        .background(Color(UIColor.secondarySystemBackground))
+        .cornerRadius(4)
     }
 }
 
@@ -157,39 +202,6 @@ struct MovieSort {
             }
         }
         
-    }
-}
-
-struct MovieRow: View {
-    var movie: Movie
-    
-    var body: some View {
-        HStack {
-            AsyncImage(
-                url: URL(string: movie.remotePoster ?? ""),
-                content: { image in
-                    image.resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: 80, maxHeight: .infinity)
-                },
-                placeholder: {
-                    ProgressView()
-                }
-            )
-            VStack(alignment: .leading) {
-                Text(movie.title)
-                    .font(.footnote)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    .multilineTextAlignment(.leading)
-                Text(String(movie.year))
-                    .font(.caption)
-                Spacer()
-            }
-            Spacer()
-        }
-        .frame(maxWidth: .infinity)
-        .background(Color(UIColor.secondarySystemBackground))
-        .cornerRadius(4)
     }
 }
 
