@@ -9,5 +9,7 @@ struct MovieView: View {
 }
 
 #Preview {
-    MovieView(movie: Movie(id: 1, title: "Test", year: 2023, images: []))
+    MovieView(
+        movie: PreviewData.load(name: "movies")[0]
+    )
 }
