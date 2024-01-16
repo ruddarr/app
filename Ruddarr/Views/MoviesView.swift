@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MoviesView: View {
     @State private var searchQuery = ""
+    @State private var searchPresented = false
     @State private var fetchedMovies = false
     @State private var sort: MovieSort = .init()
     
@@ -18,7 +19,7 @@ struct MoviesView: View {
     
     var body: some View {
         let gridItemLayout = [
-            GridItem(.adaptive(minimum: 250))
+            GridItem(.adaptive(minimum: 250), spacing: 15)
         ]
         
         NavigationStack {
@@ -33,11 +34,12 @@ struct MoviesView: View {
                                 } label: {
                                     MovieRow(movie: movie)
                                 }
+                                .buttonStyle(PlainButtonStyle())
                             }
                         }
+                        .padding(.top, searchPresented ? 10 : 0)
                         .padding(.horizontal)
                     }
-                    
                     .task {
                         guard !fetchedMovies else { return }
                         fetchedMovies = true
@@ -48,26 +50,34 @@ struct MoviesView: View {
                         await movies.fetch(radarrInstance)
                     }
                 } else {
-                    // TODO: send people to settings...
-                    ContentUnavailableView.search(text: "hello")
+                    ContentUnavailableView(
+                        "No Radarr instance",
+                        systemImage: "tv.slash",
+                        description: Text("Connect a Radarr instance under Settings.")
+                    )
                 }
             }
             .navigationTitle("Movies")
-                            .toolbar(content: toolbar)
-        }
-        .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always))
-        .overlay {
-            if displayedMovies.isEmpty && !searchQuery.isEmpty {
-                ContentUnavailableView.search(text: searchQuery)
+            .toolbar(content: toolbar)
+            .searchable(
+                text: $searchQuery,
+                isPresented: $searchPresented,
+                placement: .navigationBarDrawer(displayMode: .always)
+            )
+            .overlay {
+                if displayedMovies.isEmpty && !searchQuery.isEmpty {
+                    ContentUnavailableView.search(text: searchQuery)
+                }
             }
         }
+        
     }
     
     @ToolbarContentBuilder
     func toolbar() -> some ToolbarContent {
         if (radarrInstances.count > 1) {
             ToolbarItem(placement: .topBarLeading) {
-                Menu("Instance", systemImage: "server.rack") {
+                Menu("Instance", systemImage: "xserve.raid") {
                     ForEach(radarrInstances) { instance in
                         Button {
                             self.instanceId = instance.id
@@ -158,7 +168,7 @@ struct MovieRow: View {
 
             VStack(alignment: .leading) {
                 Text(movie.title)
-                    .font(.footnote)
+                    .font(.subheadline)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .multilineTextAlignment(.leading)
                 Text(String(movie.year))
@@ -201,7 +211,6 @@ struct MovieSort {
                 lhs.year < rhs.year
             }
         }
-        
     }
 }
 

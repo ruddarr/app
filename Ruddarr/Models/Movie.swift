@@ -32,6 +32,10 @@ struct Movie: Identifiable, Codable {
     let images: [MovieImage]
 
     var remotePoster: String? {
+//        if let local = self.images.first(where: { $0.coverType == "poster" }) {
+//            return "http://10.0.1.5:8310\(local.url)"
+//        }
+        
         if let remote = self.images.first(where: { $0.coverType == "poster" }) {
             return remote.remoteURL
         }

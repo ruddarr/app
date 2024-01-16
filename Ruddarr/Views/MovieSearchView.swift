@@ -11,7 +11,7 @@ struct MovieSearchView: View {
     @ObservedObject var lookup = MovieLookupModel()
     
     let gridItemLayout = [
-        GridItem(.adaptive(minimum: 250))
+        GridItem(.adaptive(minimum: 250), spacing: 15)
     ]
     
     var body: some View {
@@ -24,14 +24,16 @@ struct MovieSearchView: View {
                         }) {
                             MovieLookupRow(movie: movie, instance: instance)
                         }
+                        .buttonStyle(PlainButtonStyle())
                     }
                     .sheet(item: $isAddingMovie) { movie in
                         MovieLookupSheet(movie: movie)
                     }
                 }
+                .padding(.top, 10)
                 .padding(.horizontal)
             }
-            .navigationTitle("Add Movie")
+            .navigationTitle("Search")
             .searchable(
                 text: $searchQuery,
                 isPresented: $isSearching,
@@ -39,14 +41,13 @@ struct MovieSearchView: View {
             )
             .onChange(of: searchQuery) {
                 Task {
-//                    waitingforResults = true
+                    waitingforResults = true
                     await lookup.search(instance, query: searchQuery)
-//                    waitingforResults = false
+                    waitingforResults = false
                 }
             }
             .overlay {
-                // TODO: don't show this while search is waiting for results
-                if lookup.movies.isEmpty && !searchQuery.isEmpty {
+                if lookup.movies.isEmpty && !searchQuery.isEmpty && !waitingforResults {
                     ContentUnavailableView.search(text: searchQuery)
                 }
             }
@@ -73,7 +74,7 @@ struct MovieLookupRow: View {
             
             VStack(alignment: .leading) {
                 Text(movie.title)
-                    .font(.footnote)
+                    .font(.subheadline)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .multilineTextAlignment(.leading)
                 Text(String(movie.year))
@@ -81,7 +82,7 @@ struct MovieLookupRow: View {
                 Spacer()
             }
             .padding(.top, 4)
-
+            
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -105,7 +106,6 @@ struct MovieLookupSheet: View {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel", action: {
                         dismiss()
-                        //                        isAddingMovie.toggle()
                     })
                 }
             }

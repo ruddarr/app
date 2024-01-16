@@ -21,22 +21,4 @@ class Helpers {
 }
 
 
-extension Optional where Wrapped == String {
-    var _bindNil: String? {
-        get {
-            return self
-        }
-        set {
-            self = newValue
-        }
-    }
-    
-    public var bindNil: String {
-        get {
-            return _bindNil ?? ""
-        }
-        set {
-            _bindNil = newValue.isEmpty ? nil : newValue
-        }
-    }
-}
+

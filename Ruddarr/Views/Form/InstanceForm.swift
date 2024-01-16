@@ -107,7 +107,7 @@ struct InstanceForm: View {
                 
                 guard let index = instances.firstIndex(where: { $0.id == instance.id }) else { return }
                 instances.remove(at: index)
-
+                
                 dismiss()
             }
             Button("Cancel", role: .cancel) { }
@@ -115,7 +115,6 @@ struct InstanceForm: View {
             Text("Are you sure you want to delete the instance?")
         }
         .frame(maxWidth: .infinity, alignment: .center)
-        .foregroundColor(.red)
     }
 }
 
@@ -169,21 +168,31 @@ extension InstanceForm {
         var request = URLRequest(url: URL(string: "\(url)/api/v3/system/status")!)
         request.setValue(instance.apiKey, forHTTPHeaderField: "X-Api-Key")
         
+        var data: Data
+        var response: URLResponse
+        
         do {
-            let (_, response) = try await URLSession.shared.data(for: request)
-            let status = (response as? HTTPURLResponse)?.statusCode
-            
-            if status != 200 {
-                throw ValidationError.badStatusCode(status!)
-            }
-
-            // let jsonString = String(data: _, encoding: .utf8)
-            // print(jsonString)
-            // print(response)
+            (data, response) = try await URLSession.shared.data(for: request)
         } catch {
             throw ValidationError.urlNotReachable(error)
         }
+        
+        let statusCode = (response as? HTTPURLResponse)?.statusCode
+
+        if statusCode != 200 {
+            throw ValidationError.badStatusCode(statusCode!)
+        }
+
+        let status = try JSONDecoder().decode(InstanceStatus.self, from: data)
+
+        if status.appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
+            throw ValidationError.badAppName(status.appName)
+        }
     }
+}
+
+struct InstanceStatus: Decodable {
+  let appName: String
 }
 
 enum FormState {
@@ -195,28 +204,33 @@ enum ValidationError: Error {
     case urlNotValid
     case urlNotReachable(_ error: Error)
     case badStatusCode(_ code: Int)
+    case badAppName(_ name: String)
 }
 
 extension ValidationError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .urlNotValid:
-            return "URL is not valid"
+            return "Invalid URL"
         case .urlNotReachable:
-            return "URL is not reachable"
-        case .badStatusCode(let code):
-            return "URL returned status \(code)"
+            return "Server Not Reachable"
+        case .badStatusCode:
+            return "Invalid Status Code"
+        case .badAppName:
+            return "Wrong Instance Type"
         }
     }
     
     var recoverySuggestion: String? {
         switch self {
         case .urlNotValid:
-            return "foo"
+            return "Enter a valid URL."
         case .urlNotReachable(let error):
             return error.localizedDescription
-        case .badStatusCode:
-            return "Is the API Key valid?"
+        case .badStatusCode(let code):
+            return "URL returned status \(code)."
+        case .badAppName(let name):
+            return "URL returned a \(name) instance."
         }
     }
 }
@@ -225,7 +239,7 @@ extension ValidationError: LocalizedError {
     InstanceForm(
         state: .create,
         // instance: Instance()
-         instance: Instance(url: "HTTP://10.0.1.5:8310/api", apiKey: "8f45bce99e254f888b7a2ba122468dbe")
-        //instance: Instance(url: "http://10.0.1.5:8989/api", apiKey: "f8e3682b3b984cddbaa00047a09d0fbd")
+        instance: Instance(url: "HTTP://10.0.1.5:8310/api", apiKey: "8f45bce99e254f888b7a2ba122468dbe")
+        // instance: Instance(url: "http://10.0.1.5:8989/api", apiKey: "f8e3682b3b984cddbaa00047a09d0fbd")
     ).withSelectedColorScheme()
 }

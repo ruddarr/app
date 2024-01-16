@@ -3,20 +3,48 @@ import SwiftUI
 
 struct ContentView: View {
     @State var selectedTab: Tab = .movies
-    
+
     var body: some View {
-        TabView(selection: $selectedTab) {
-            ForEach(Tab.allCases) { tab in
-                Group {
-                    switch tab {
-                    case .movies: MoviesView()
-                    case .shows: ShowsView()
-                    case .settings: SettingsView()
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            NavigationSplitView() {
+                List(selection: $selectedTab.optional) {
+                    Text("Ruddarr")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.bottom)
+                    
+                    ForEach(Tab.allCases) { tab in
+                        if tab.id == .settings {
+                            Spacer()
+                        }
+
+                        Button {
+                            selectedTab = tab
+                        } label: {
+                            tab.label
+                        }
                     }
                 }
-                .tabItem { tab.label }
-                .tag(tab)
+            } detail: {
+                screen(for: selectedTab)
             }
+        } else {
+            TabView(selection: $selectedTab) {
+                ForEach(Tab.allCases) { tab in
+                    screen(for: tab)
+                        .tabItem { tab.label }
+                        .tag(tab)
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func screen(for tab: Tab) -> some View {
+        switch selectedTab {
+        case .movies: MoviesView()
+        case .shows: ShowsView()
+        case .settings: SettingsView()
         }
     }
 }
