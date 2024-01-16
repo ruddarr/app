@@ -8,16 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BB9255CE2B54657900967F84 /* InstanceForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9255CD2B54657900967F84 /* InstanceForm.swift */; };
-<<<<<<< Updated upstream
-=======
-		BBA54BDE2B561FB200CA0F3E /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */; };
-		BBA54BE32B563E2000CA0F3E /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = BBA54BE22B563E2000CA0F3E /* Nuke */; };
-		BBA54BE52B563E2000CA0F3E /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBA54BE42B563E2000CA0F3E /* NukeUI */; };
-		BBC45B8F2B56426700AB258F /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B8E2B56426700AB258F /* Nuke */; };
-		BBC45B912B56426700AB258F /* NukeExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B902B56426700AB258F /* NukeExtensions */; };
-		BBC45B932B56426700AB258F /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B922B56426700AB258F /* NukeUI */; };
 		BBC45B962B572A8600AB258F /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC45B952B572A8600AB258F /* PreviewData.swift */; };
->>>>>>> Stashed changes
 		BBE0DE5F2B51A86B00E7B5C9 /* MovieSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE0DE5E2B51A86B00E7B5C9 /* MovieSearchView.swift */; };
 		BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1E43E2B51F61700946222 /* MovieLookup.swift */; };
 		BBE1E4412B51F9DC00946222 /* movies.json in Resources */ = {isa = PBXBuildFile; fileRef = BBE1E4402B51F9DC00946222 /* movies.json */; };
@@ -36,11 +27,7 @@
 
 /* Begin PBXFileReference section */
 		BB9255CD2B54657900967F84 /* InstanceForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceForm.swift; sourceTree = "<group>"; };
-<<<<<<< Updated upstream
-=======
-		BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
 		BBC45B952B572A8600AB258F /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
->>>>>>> Stashed changes
 		BBE0DE5E2B51A86B00E7B5C9 /* MovieSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchView.swift; sourceTree = "<group>"; };
 		BBE1E43E2B51F61700946222 /* MovieLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieLookup.swift; sourceTree = "<group>"; };
 		BBE1E4402B51F9DC00946222 /* movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = movies.json; sourceTree = "<group>"; };
