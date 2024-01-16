@@ -15,16 +15,22 @@ struct ContentView: View {
                         .padding(.bottom)
                     
                     ForEach(Tab.allCases) { tab in
-                        if tab.id == .settings {
-                            Spacer()
-                        }
-
-                        Button {
+                        let button = Button {
                             selectedTab = tab
                             columnVisibility = .detailOnly
                         } label: {
                             tab.label
                         }
+                        
+                        if case .settings = tab {
+                            Section {
+                                button
+                            }
+                        } else {
+                            button
+                        }
+
+                        
                     }
                 }
             } detail: {
