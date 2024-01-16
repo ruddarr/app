@@ -28,13 +28,17 @@ class MovieModel: ObservableObject {
 struct Movie: Identifiable, Codable {
     let id: Int
     let title: String
+    let sortTitle: String
+    let studio: String?
     let year: Int
+    let sizeOnDisk: Int?
+    let monitored: Bool
     let images: [MovieImage]
 
     var remotePoster: String? {
-//        if let local = self.images.first(where: { $0.coverType == "poster" }) {
-//            return "http://10.0.1.5:8310\(local.url)"
-//        }
+        // if let local = self.images.first(where: { $0.coverType == "poster" }) {
+        //     return "http://10.0.1.5:8310\(local.url)"
+        // }
         
         if let remote = self.images.first(where: { $0.coverType == "poster" }) {
             return remote.remoteURL
@@ -42,6 +46,18 @@ struct Movie: Identifiable, Codable {
         
         return nil
     }
+
+    var remoteFanart: String? {
+            // if let local = self.images.first(where: { $0.coverType == "poster" }) {
+            //     return "http://10.0.1.5:8310\(local.url)"
+            // }
+            
+            if let remote = self.images.first(where: { $0.coverType == "fanart" }) {
+                return remote.remoteURL
+            }
+            
+            return nil
+        }
 }
 
 struct MovieImage: Codable {
