@@ -3,10 +3,11 @@ import SwiftUI
 
 struct ContentView: View {
     @State var selectedTab: Tab = .movies
+    @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
 
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .pad {
-            NavigationSplitView() {
+            NavigationSplitView(columnVisibility: $columnVisibility) {
                 List(selection: $selectedTab.optional) {
                     Text("Ruddarr")
                         .font(.title)
@@ -14,14 +15,19 @@ struct ContentView: View {
                         .padding(.bottom)
                     
                     ForEach(Tab.allCases) { tab in
-                        if tab.id == .settings {
-                            Spacer()
-                        }
-
-                        Button {
+                        let button = Button {
                             selectedTab = tab
+                            columnVisibility = .detailOnly
                         } label: {
                             tab.label
+                        }
+                        
+                        if case .settings = tab {
+                            Section {
+                                button
+                            }
+                        } else {
+                            button
                         }
                     }
                 }
