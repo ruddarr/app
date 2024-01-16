@@ -155,18 +155,12 @@ struct MovieRow: View {
     
     var body: some View {
         HStack {
-            AsyncImage(
-                url: URL(string: movie.remotePoster ?? ""),
-                content: { image in
-                    image.resizable().aspectRatio(contentMode: .fit)
-                },
-                placeholder: {
-                    ProgressView()
-                }
-            )
-            .frame(width: 85, height: 125)
-
-            VStack(alignment: .leading) {
+            CachedAsyncImage(url: movie.remotePoster) 
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 80, height: 120)
+                .clipped()
+            
+            VStack(alignment: .leading, spacing: 4) {
                 Text(movie.title)
                     .font(.subheadline)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
