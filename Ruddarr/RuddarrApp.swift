@@ -2,6 +2,8 @@ import SwiftUI
 
 @main
 struct RuddarrApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     @AppStorage("darkMode") private var darkMode = false
     
     var body: some Scene {
@@ -9,6 +11,14 @@ struct RuddarrApp: App {
             ContentView()
                 .preferredColorScheme(darkMode ? .dark : .light)
         }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication) -> Bool {
+        URLSession.shared.configuration.waitsForConnectivity = true
+        
+        return true
     }
 }
 
@@ -23,23 +33,3 @@ extension Binding {
         }
     }
 }
-
-//extension Optional where Wrapped == String {
-//    var _bindNil: String? {
-//        get {
-//            return self
-//        }
-//        set {
-//            self = newValue
-//        }
-//    }
-//    
-//    public var bindNil: String {
-//        get {
-//            return _bindNil ?? ""
-//        }
-//        set {
-//            _bindNil = newValue.isEmpty ? nil : newValue
-//        }
-//    }
-//}

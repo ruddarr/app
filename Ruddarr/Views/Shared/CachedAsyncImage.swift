@@ -34,8 +34,6 @@ struct CachedAsyncImage: View {
     }
 
     func imageRequest(_ urlString: String?) -> ImageRequest {
-        URLSession.shared.configuration.waitsForConnectivity = true
-
         let url = URL(string: urlString!)
         let request = URLRequest(url: url!, timeoutInterval: 5)
         // request.addValue("test", forHTTPHeaderField: "X-Api-Key")
