@@ -15,7 +15,6 @@ struct MovieSearchView: View {
     ]
     
     var body: some View {
-        NavigationStack {
             ScrollView {
                 LazyVGrid(columns: gridItemLayout, spacing: 15) {
                     ForEach(lookup.movies) { movie in
@@ -51,7 +50,6 @@ struct MovieSearchView: View {
                     ContentUnavailableView.search(text: searchQuery)
                 }
             }
-        }
     }
 }
 
@@ -114,11 +112,6 @@ struct MovieLookupSheet: View {
 }
 
 #Preview {
-    MovieSearchView(
-        instance: Instance(
-            url: "http://10.0.1.5:8310",
-            apiKey: "8f45bce99e254f888b7a2ba122468dbe"
-        )
-    )
+    MoviesView(path: .init([MoviesView.Path.search]))
     .withSelectedColorScheme()
 }

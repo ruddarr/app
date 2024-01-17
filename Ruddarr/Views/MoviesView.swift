@@ -9,23 +9,23 @@ struct MoviesView: View {
     @ObservedObject var movies = MovieModel()
     
     @AppStorage("movieInstance") private var instanceId: UUID?
-    @AppStorage("instances") private var instances: [Instance] = []
+    @AppStorage("instances") private var instances: [Instance] = [.sample] //TODO: remove the hardcoded sample instance from here once we have a way to inject it when needed
 
-    init() {
-        if instanceId == nil {
-            instanceId = radarrInstances.first?.id
-        }
+    enum Path: Hashable {
+        case search
     }
+    @State var path: NavigationPath = .init()
     
     var body: some View {
         let gridItemLayout = [
             GridItem(.adaptive(minimum: 250), spacing: 15)
         ]
         
-        NavigationStack {
+        NavigationStack(path: $path) {
             Group {
                 if let radarrInstance {
                     ScrollView {
+                        Text(String(describing: path))
                         LazyVGrid(columns: gridItemLayout, spacing: 15) {
                             ForEach(displayedMovies) { movie in
                                 NavigationLink {
@@ -49,6 +49,12 @@ struct MoviesView: View {
                     .refreshable {
                         await movies.fetch(radarrInstance)
                     }
+                    .navigationDestination(for: Path.self) {
+                        switch $0 {
+                        case .search:
+                            MovieSearchView(instance: radarrInstance)
+                        }
+                    }
                 } else {
                     ContentUnavailableView(
                         "No Radarr instance",
@@ -67,6 +73,13 @@ struct MoviesView: View {
             .overlay {
                 if displayedMovies.isEmpty && !searchQuery.isEmpty {
                     ContentUnavailableView.search(text: searchQuery)
+                }
+            }
+            //TODO: maybe we only want this to happen onFirst appear, but I think it shouldn't matter. Personally, I'd try to model thing such that this kind of state synchronization isn't needed (e.g. allow instanceId to be nil, assume first instance is selected in that case)
+            // this used to be done in a custom init but didn't seem to work for me (maybe AppStorage wasn't ready by then?)
+            .onAppear {
+                if instanceId == nil {
+                    instanceId = radarrInstances.first?.id
                 }
             }
         }
@@ -116,9 +129,7 @@ struct MoviesView: View {
         
         if let radarrInstance {
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    MovieSearchView(instance: radarrInstance)
-                } label: {
+                NavigationLink(value: Path.search)  {
                     Image(systemName: "plus.circle")
                 }
             }
@@ -126,13 +137,13 @@ struct MoviesView: View {
     }
     
     var radarrInstances: [Instance] {
-        return instances.filter { instance in
-            return instance.type == .radarr
+        instances.filter { instance in
+            instance.type == .radarr
         }
     }
     
     var radarrInstance: Instance? {
-        return radarrInstances.first(where: { $0.id == instanceId })
+        radarrInstances.first(where: { $0.id == instanceId })
     }
     
     var displayedMovies: [Movie] {

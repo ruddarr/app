@@ -1,7 +1,7 @@
 import Foundation
 
 struct Instance: Identifiable, Equatable, Codable {
-    var id = UUID()
+    var id = UUID() // TODO: not a fan of generating random ids implicitly like this. It has already cost me some time (arguably just because I didn't realize we're doing this, but still). Why do we need this again? Isn't an instance uniquely identified by its url, or maybe its url + type + maybe some other metadata?
     var type: InstanceType = .radarr
     var label: String = ""
     var url: String = ""
@@ -43,5 +43,15 @@ extension UUID: RawRepresentable {
 
     public init?(rawValue: RawValue) {
         self.init(uuidString: rawValue)
+    }
+}
+
+extension Instance {
+    static var sample: Self {
+        .init(
+            id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
+            url: "http://10.0.1.5:8310",
+            apiKey: "8f45bce99e254f888b7a2ba122468dbe"
+        )
     }
 }
