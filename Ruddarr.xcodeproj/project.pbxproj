@@ -14,6 +14,7 @@
 		BBC45B8F2B56426700AB258F /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B8E2B56426700AB258F /* Nuke */; };
 		BBC45B912B56426700AB258F /* NukeExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B902B56426700AB258F /* NukeExtensions */; };
 		BBC45B932B56426700AB258F /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B922B56426700AB258F /* NukeUI */; };
+		BBC45B962B572A8600AB258F /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC45B952B572A8600AB258F /* PreviewData.swift */; };
 		BBE0DE5F2B51A86B00E7B5C9 /* MovieSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE0DE5E2B51A86B00E7B5C9 /* MovieSearchView.swift */; };
 		BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1E43E2B51F61700946222 /* MovieLookup.swift */; };
 		BBE1E4412B51F9DC00946222 /* movies.json in Resources */ = {isa = PBXBuildFile; fileRef = BBE1E4402B51F9DC00946222 /* movies.json */; };
@@ -33,6 +34,7 @@
 /* Begin PBXFileReference section */
 		BB9255CD2B54657900967F84 /* InstanceForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceForm.swift; sourceTree = "<group>"; };
 		BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
+		BBC45B952B572A8600AB258F /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
 		BBE0DE5E2B51A86B00E7B5C9 /* MovieSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchView.swift; sourceTree = "<group>"; };
 		BBE1E43E2B51F61700946222 /* MovieLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieLookup.swift; sourceTree = "<group>"; };
 		BBE1E4402B51F9DC00946222 /* movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = movies.json; sourceTree = "<group>"; };
@@ -107,7 +109,6 @@
 				BBF477AA2B505C5D00C2DED3 /* Views */,
 				BBE8285A2B4F2C7100C1E1D9 /* Assets.xcassets */,
 				BBE8285C2B4F2C7100C1E1D9 /* Ruddarr.entitlements */,
-				BBF477A72B4F8AAF00C2DED3 /* Data */,
 				BBE8285D2B4F2C7100C1E1D9 /* Preview Content */,
 			);
 			path = Ruddarr;
@@ -117,6 +118,9 @@
 			isa = PBXGroup;
 			children = (
 				BBE8285E2B4F2C7100C1E1D9 /* Preview Assets.xcassets */,
+				BBE1E4402B51F9DC00946222 /* movies.json */,
+				BBE1E4422B51FA0200946222 /* movie-lookup.json */,
+				BBC45B952B572A8600AB258F /* PreviewData.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -129,15 +133,6 @@
 				BBE1E43E2B51F61700946222 /* MovieLookup.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		BBF477A72B4F8AAF00C2DED3 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				BBE1E4402B51F9DC00946222 /* movies.json */,
-				BBE1E4422B51FA0200946222 /* movie-lookup.json */,
-			);
-			path = Data;
 			sourceTree = "<group>";
 		};
 		BBF477AA2B505C5D00C2DED3 /* Views */ = {
@@ -241,6 +236,7 @@
 				BBE828592B4F2C7000C1E1D9 /* ContentView.swift in Sources */,
 				BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */,
 				BBE828572B4F2C7000C1E1D9 /* RuddarrApp.swift in Sources */,
+				BBC45B962B572A8600AB258F /* PreviewData.swift in Sources */,
 				BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */,
 				BBF94F652B50C88300300EBA /* Instance.swift in Sources */,
 				BBE8286A2B4F325400C1E1D9 /* ShowsView.swift in Sources */,
@@ -307,6 +303,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -362,6 +359,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;

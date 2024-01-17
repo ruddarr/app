@@ -10,6 +10,8 @@ class MovieLookupModel: ObservableObject {
             return
         }
         
+        // TODO: what if the network is offline...
+        
         do {
             let urlString = "\(instance.url)/api/v3/movie/lookup?term=\(query)"
             // let urlString = "https://pub-5e0e3f7fd2d0441b82048eafc31ac436.r2.dev/movie-lookup.json?term=\(query)"

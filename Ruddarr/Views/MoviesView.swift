@@ -165,8 +165,32 @@ struct MovieRow: View {
                     .font(.subheadline)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     .multilineTextAlignment(.leading)
-                Text(String(movie.year))
-                    .font(.caption)
+
+                HStack(spacing: 4) {
+                    Text(String(movie.year))
+                    Text("•")
+                    Text(String(movie.studio ?? ""))
+                }.font(.caption)
+
+                HStack(spacing: 8) {
+                    Image(systemName: movie.monitored ? "bookmark.fill" : "bookmark")
+                    Text(movie.monitored ? "Monitored" : "Unmonitored")
+                }.font(.caption)
+                
+                Group {
+                    if movie.sizeOnDisk != nil && movie.sizeOnDisk! > 0 {
+                        HStack(spacing: 8) {
+                            Image(systemName: "doc")
+                            Text(ByteCountFormatter().string(fromByteCount: Int64(movie.sizeOnDisk!)))
+                        }.font(.caption)
+                    } else {
+                        HStack(spacing: 8) {
+                            Image(systemName: "doc")
+                            Text("Missing")
+                        }.font(.caption)
+                    }
+                }
+                
                 Spacer()
             }
             .padding(.top, 4)
@@ -200,7 +224,7 @@ struct MovieSort {
         func isOrderedBefore(_ lhs: Movie, _ rhs: Movie) -> Bool {
             switch self {
             case .byTitle:
-                lhs.title < rhs.title
+                lhs.sortTitle < rhs.sortTitle
             case .byYear:
                 lhs.year < rhs.year
             }
