@@ -96,7 +96,7 @@ struct InstanceForm: View {
     }
 
     var deleteInstance: some View {
-        Button("Delete Instance") {
+        Button("Delete Instance", role: .destructive) {
             showingConfirmation = true
         }
         .confirmationDialog("Are you sure?", isPresented: $showingConfirmation) {

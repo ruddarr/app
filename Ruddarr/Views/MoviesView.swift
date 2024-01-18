@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct MoviesView: View {
+    @State var path: NavigationPath = .init()
+
     @State private var searchQuery = ""
     @State private var searchPresented = false
     @State private var fetchedMovies = false
@@ -8,25 +10,22 @@ struct MoviesView: View {
 
     @ObservedObject var movies = MovieModel()
 
-    @AppStorage("movieInstance") private var instanceId: UUID?
-    @AppStorage("instances") private var instances: [Instance] = [.sample] //TODO: remove the hardcoded sample instance from here once we have a way to inject it when needed
+    @AppStorage("movieInstance") private var selectedInstanceId: UUID?
+    @AppStorage("instances") private var instances: [Instance] = []
 
     enum Path: Hashable {
         case search
     }
 
-    @State var path: NavigationPath = .init()
-
     var body: some View {
         let gridItemLayout = [
             GridItem(.adaptive(minimum: 250), spacing: 15)
         ]
-        
+
         NavigationStack(path: $path) {
             Group {
                 if let radarrInstance {
                     ScrollView {
-                        Text(String(describing: path))
                         LazyVGrid(columns: gridItemLayout, spacing: 15) {
                             ForEach(displayedMovies) { movie in
                                 NavigationLink {
@@ -78,15 +77,14 @@ struct MoviesView: View {
                     ContentUnavailableView.search(text: searchQuery)
                 }
             }
-            //TODO: maybe we only want this to happen onFirst appear, but I think it shouldn't matter. Personally, I'd try to model thing such that this kind of state synchronization isn't needed (e.g. allow instanceId to be nil, assume first instance is selected in that case)
-            // this used to be done in a custom init but didn't seem to work for me (maybe AppStorage wasn't ready by then?)
             .onAppear {
-                if instanceId == nil {
-                    instanceId = radarrInstances.first?.id
+                // if no instance is selected, try to select one
+                // if the selected instance was deleted, try to select one
+                if radarrInstance == nil {
+                    selectedInstanceId = radarrInstances.first?.id
                 }
             }
         }
-
     }
 
     @ToolbarContentBuilder
@@ -96,14 +94,14 @@ struct MoviesView: View {
                 Menu("Instance", systemImage: "xserve.raid") {
                     ForEach(radarrInstances) { instance in
                         Button {
-                            self.instanceId = instance.id
+                            self.selectedInstanceId = instance.id
                             Task {
                                 await movies.fetch(instance)
                             }
                         } label: {
                             HStack {
                                 Text(instance.label).frame(maxWidth: .infinity, alignment: .leading)
-                                if instance.id == instanceId {
+                                if instance.id == selectedInstanceId {
                                     Image(systemName: "checkmark")
                                 }
                             }
@@ -130,9 +128,9 @@ struct MoviesView: View {
             }
         }
 
-        if let radarrInstance {
+        if radarrInstance != nil {
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink(value: Path.search)  {
+                NavigationLink(value: Path.search) {
                     Image(systemName: "plus.circle")
                 }
             }
@@ -146,7 +144,7 @@ struct MoviesView: View {
     }
 
     var radarrInstance: Instance? {
-        radarrInstances.first(where: { $0.id == instanceId })
+        radarrInstances.first(where: { $0.id == selectedInstanceId })
     }
 
     var displayedMovies: [Movie] {
