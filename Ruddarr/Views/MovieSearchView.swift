@@ -15,43 +15,42 @@ struct MovieSearchView: View {
     ]
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: gridItemLayout, spacing: 15) {
-                    ForEach(lookup.movies) { movie in
-                        Button {
-                            isAddingMovie = movie
-                        } label: {
-                            MovieLookupRow(movie: movie, instance: instance)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+        ScrollView {
+            LazyVGrid(columns: gridItemLayout, spacing: 15) {
+                ForEach(lookup.movies) { movie in
+                    Button {
+                        isAddingMovie = movie
+                    } label: {
+                        MovieLookupRow(movie: movie, instance: instance)
                     }
-                    .sheet(item: $isAddingMovie) { movie in
-                        MovieLookupSheet(movie: movie)
-                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
-                .padding(.top, 10)
-                .padding(.horizontal)
-            }
-            .navigationTitle("Search")
-            .searchable(
-                text: $searchQuery,
-                isPresented: $isSearching,
-                placement: .navigationBarDrawer(displayMode: .always)
-            )
-            .onChange(of: searchQuery) {
-                Task {
-                    waitingforResults = true
-                    await lookup.search(instance, query: searchQuery)
-                    waitingforResults = false
+                .sheet(item: $isAddingMovie) { movie in
+                    MovieLookupSheet(movie: movie)
                 }
             }
-            .overlay {
-                if case .noInternet? = lookup.error {
-                    NoInternet()
-                } else if lookup.movies.isEmpty && !searchQuery.isEmpty && !waitingforResults {
-                    ContentUnavailableView.search(text: searchQuery)
-                }
+            .padding(.top, 10)
+            .padding(.horizontal)
+        }
+        .navigationTitle("Search")
+        .searchable(
+            text: $searchQuery,
+            isPresented: $isSearching,
+            placement: .navigationBarDrawer(displayMode: .always)
+        )
+        .onChange(of: searchQuery) {
+            Task {
+                waitingforResults = true
+                print(instance.label)
+                await lookup.search(instance, query: searchQuery)
+                waitingforResults = false
+            }
+        }
+        .overlay {
+            if case .noInternet? = lookup.error {
+                NoInternet()
+            } else if lookup.movies.isEmpty && !searchQuery.isEmpty && !waitingforResults {
+                ContentUnavailableView.search(text: searchQuery)
             }
         }
     }
@@ -110,11 +109,7 @@ struct MovieLookupSheet: View {
 }
 
 #Preview {
-    MovieSearchView(
-        instance: Instance(
-            url: "http://10.0.1.5:8310",
-            apiKey: "8f45bce99e254f888b7a2ba122468dbe"
-        )
-    )
-    .withSelectedColorScheme()
+    // This preview only works when at least one instance was added in settings
+
+    MoviesView(path: .init([MoviesView.Path.search]))
 }

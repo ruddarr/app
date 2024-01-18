@@ -13,7 +13,7 @@ class MovieModel: ObservableObject {
             self.error = error
             print("MovieModel.fetch(): \(error)")
         } catch {
-            //TODO: this is what we get for fitting my untyped error from `throws` to your strongly typed model.
+            // TODO: this is what we get for fitting my untyped error from `throws` to your strongly typed model.
             assertionFailure("Unknown error type \(error)")
         }
     }

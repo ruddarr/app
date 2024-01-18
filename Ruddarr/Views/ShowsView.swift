@@ -8,5 +8,4 @@ struct ShowsView: View {
 
 #Preview {
     ContentView(selectedTab: .shows)
-        .withSelectedColorScheme()
 }

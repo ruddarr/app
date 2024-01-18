@@ -4,8 +4,6 @@ import SwiftUI
 struct RuddarrApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
-    @AppStorage("darkMode") private var darkMode = false
-
     init() {
         NetworkMonitor.shared.start()
         
@@ -18,7 +16,6 @@ struct RuddarrApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .preferredColorScheme(darkMode ? .dark : .light)
         }
     }
 }

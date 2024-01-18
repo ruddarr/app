@@ -62,7 +62,7 @@ struct PlaceholderImage: View {
             .foregroundColor(.secondary)
             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
             .background(
-                Color(UIColor.tertiarySystemBackground)
+                Color(UIColor.systemFill)
             )
     }
 }
@@ -75,7 +75,8 @@ struct PlaceholderImage: View {
                     .frame(width: 100, height: 150)
                     .border(.green)
             }.frame(width: 250, height: 250)
-        }.border(.yellow).padding()
+        }
+        .border(.yellow).padding()
 
         Section {
             HStack {
@@ -83,7 +84,9 @@ struct PlaceholderImage: View {
                     .frame(width: 100, height: 150)
                     .border(.green)
             }.frame(width: 250, height: 250)
-        }.border(.yellow)
+        }
+        .border(.yellow)
+        .background(Color(UIColor.secondarySystemBackground))
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .border(.yellow)

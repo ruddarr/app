@@ -99,12 +99,12 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		BB456D212B58BDF300C29B00 /* Utilities  */ = {
+		BB456D212B58BDF300C29B00 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				BB456D1F2B58B7E700C29B00 /* Network.swift */,
 			);
-			path = "Utilities ";
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		BB9255CC2B54655300967F84 /* Form */ = {
@@ -145,7 +145,7 @@
 			children = (
 				79159D6A2B5953CD00F7F997 /* Dependencies */,
 				BBE828562B4F2C7000C1E1D9 /* RuddarrApp.swift */,
-				BB456D212B58BDF300C29B00 /* Utilities  */,
+				BB456D212B58BDF300C29B00 /* Utilities */,
 				BBF477A62B4F8AA300C2DED3 /* Models */,
 				BBF477AA2B505C5D00C2DED3 /* Views */,
 				BBE8285A2B4F2C7100C1E1D9 /* Assets.xcassets */,

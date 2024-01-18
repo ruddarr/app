@@ -74,21 +74,6 @@ enum Tab: Hashable, CaseIterable, Identifiable {
     }
 }
 
-struct ColorSchemeViewModifier: ViewModifier {
-    @AppStorage("darkMode") private var darkMode = false
-
-    func body(content: Content) -> some View {
-        content.preferredColorScheme(darkMode ? .dark : .light)
-    }
-}
-
-extension View {
-    func withSelectedColorScheme() -> some View {
-        modifier(ColorSchemeViewModifier())
-    }
-}
-
 #Preview {
     ContentView()
-        .withSelectedColorScheme()
 }
