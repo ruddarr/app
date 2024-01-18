@@ -38,10 +38,9 @@ struct MovieSearchView: View {
             isPresented: $isSearching,
             placement: .navigationBarDrawer(displayMode: .always)
         )
-        .onChange(of: searchQuery) {
+        .onSubmit(of: .search) {
             Task {
                 waitingforResults = true
-                print(instance.label)
                 await lookup.search(instance, query: searchQuery)
                 waitingforResults = false
             }
