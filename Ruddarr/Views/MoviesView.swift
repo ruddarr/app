@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct MoviesView: View {
+    @State var path: NavigationPath = .init()
+
     @State private var searchQuery = ""
     @State private var searchPresented = false
     @State private var fetchedMovies = false
@@ -8,13 +10,11 @@ struct MoviesView: View {
 
     @ObservedObject var movies = MovieModel()
 
-    @AppStorage("movieInstance") private var instanceId: UUID?
+    @AppStorage("movieInstance") private var selectedInstanceId: UUID?
     @AppStorage("instances") private var instances: [Instance] = []
 
-    init() {
-        if instanceId == nil {
-            instanceId = radarrInstances.first?.id
-        }
+    enum Path: Hashable {
+        case search
     }
 
     var body: some View {
@@ -22,7 +22,7 @@ struct MoviesView: View {
             GridItem(.adaptive(minimum: 250), spacing: 15)
         ]
 
-        NavigationStack {
+        NavigationStack(path: $path) {
             Group {
                 if let radarrInstance {
                     ScrollView {
@@ -49,6 +49,12 @@ struct MoviesView: View {
                     .refreshable {
                         await movies.fetch(radarrInstance)
                     }
+                    .navigationDestination(for: Path.self) {
+                        switch $0 {
+                        case .search:
+                            MovieSearchView(instance: radarrInstance)
+                        }
+                    }
                 } else {
                     ContentUnavailableView(
                         "No Radarr Instance",
@@ -71,8 +77,14 @@ struct MoviesView: View {
                     ContentUnavailableView.search(text: searchQuery)
                 }
             }
+            .onAppear {
+                // if no instance is selected, try to select one
+                // if the selected instance was deleted, try to select one
+                if radarrInstance == nil {
+                    selectedInstanceId = radarrInstances.first?.id
+                }
+            }
         }
-
     }
 
     @ToolbarContentBuilder
@@ -82,14 +94,14 @@ struct MoviesView: View {
                 Menu("Instance", systemImage: "xserve.raid") {
                     ForEach(radarrInstances) { instance in
                         Button {
-                            self.instanceId = instance.id
+                            self.selectedInstanceId = instance.id
                             Task {
                                 await movies.fetch(instance)
                             }
                         } label: {
                             HStack {
                                 Text(instance.label).frame(maxWidth: .infinity, alignment: .leading)
-                                if instance.id == instanceId {
+                                if instance.id == selectedInstanceId {
                                     Image(systemName: "checkmark")
                                 }
                             }
@@ -116,11 +128,9 @@ struct MoviesView: View {
             }
         }
 
-        if let radarrInstance {
+        if radarrInstance != nil {
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    MovieSearchView(instance: radarrInstance)
-                } label: {
+                NavigationLink(value: Path.search) {
                     Image(systemName: "plus.circle")
                 }
             }
@@ -128,13 +138,13 @@ struct MoviesView: View {
     }
 
     var radarrInstances: [Instance] {
-        return instances.filter { instance in
-            return instance.type == .radarr
+        instances.filter { instance in
+            instance.type == .radarr
         }
     }
 
     var radarrInstance: Instance? {
-        return radarrInstances.first(where: { $0.id == instanceId })
+        radarrInstances.first(where: { $0.id == selectedInstanceId })
     }
 
     var displayedMovies: [Movie] {
