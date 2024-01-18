@@ -162,37 +162,33 @@ extension InstanceForm {
             throw ValidationError.urlNotValid
         }
 
-        // For testing use:
-        // https://pub-5e0e3f7fd2d0441b82048eafc31ac436.r2.dev/status.json
+        let statusUrl = URL(string: "\(url)/api/v3/system/status")!
 
-        var request = URLRequest(url: URL(string: "\(url)/api/v3/system/status")!)
-        request.setValue(instance.apiKey, forHTTPHeaderField: "X-Api-Key")
+        var status: InstanceStatus?
+        var error: ApiError?
 
-        var data: Data
-        var response: URLResponse
+        await Api<InstanceStatus>.call(
+            url: statusUrl,
+            authorization: instance.apiKey
+        ) { data in
+            status = data
+        } failure: { err in
+            error = err
+        }
 
-        do {
-            (data, response) = try await URLSession.shared.data(for: request)
-        } catch {
+        if status?.appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
+            throw ValidationError.badAppName(status!.appName)
+        }
+
+        switch error {
+        case .badStatusCode(let code):
+            throw ValidationError.badStatusCode(code)
+        case .requestFailure(let error):
             throw ValidationError.urlNotReachable(error)
-        }
-
-        let statusCode = (response as? HTTPURLResponse)?.statusCode
-
-        if statusCode != 200 {
-            throw ValidationError.badStatusCode(statusCode!)
-        }
-
-        let status = try JSONDecoder().decode(InstanceStatus.self, from: data)
-
-        if status.appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
-            throw ValidationError.badAppName(status.appName)
+        default:
+            assertionFailure("Unhandled error")
         }
     }
-}
-
-struct InstanceStatus: Decodable {
-  let appName: String
 }
 
 enum FormState {

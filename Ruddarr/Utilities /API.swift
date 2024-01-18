@@ -7,10 +7,11 @@ enum HttpMethod: String {
     case post
 }
 
-enum ApiError: String, Error {
+enum ApiError: Error {
     case noInternet
     case jsonFailure
-    case requestFailure
+    case requestFailure(_ error: Error)
+    case badStatusCode(_ code: Int)
 }
 
 class Api<Model: Codable> {
@@ -41,7 +42,12 @@ class Api<Model: Codable> {
         }
 
         do {
-            let (json, _) = try await URLSession.shared.data(for: request)
+            let (json, response) = try await URLSession.shared.data(for: request)
+            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 599
+
+            if statusCode >= 300 {
+                failure(.badStatusCode(statusCode))
+            }
 
             do {
                 let data = try JSONDecoder().decode(Model.self, from: json)
@@ -49,8 +55,8 @@ class Api<Model: Codable> {
             } catch {
                 failure(.jsonFailure)
             }
-        } catch {
-            failure(.requestFailure)
+        } catch let error {
+            failure(.requestFailure(error))
         }
     }
 }
