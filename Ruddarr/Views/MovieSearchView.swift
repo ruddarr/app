@@ -19,9 +19,9 @@ struct MovieSearchView: View {
             ScrollView {
                 LazyVGrid(columns: gridItemLayout, spacing: 15) {
                     ForEach(lookup.movies) { movie in
-                        Button(action: {
+                        Button {
                             isAddingMovie = movie
-                        }) {
+                        } label: {
                             MovieLookupRow(movie: movie, instance: instance)
                         }
                         .buttonStyle(PlainButtonStyle())

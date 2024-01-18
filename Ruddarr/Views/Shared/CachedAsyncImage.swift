@@ -14,7 +14,8 @@ struct CachedAsyncImage: View {
                 if let image = state.image {
                     image.resizable()
                 } else if state.error != nil {
-                    let _ = print("CachedAsyncImage: \(state.error!)")
+                    let _: Void = print(state.error.debugDescription)
+
                     PlaceholderImage(icon: "network.slash")
                 } else {
                     PlaceholderImage(icon: "text.below.photo")
