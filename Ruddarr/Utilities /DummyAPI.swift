@@ -11,14 +11,20 @@ class DummyApi<Model: Codable> {
     ) async {
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
 
+        var name: String
+
         switch components.path {
         case "/api/v3/movie":
-            completion(self.loadPreviewData(model: Model.self, name: "movies"))
+            name = "movies"
         case "/api/v3/movie/lookup":
-            completion(self.loadPreviewData(model: Model.self, name: "movie-lookup"))
+            name = "movie-lookup"
+        case "/api/v3/system-status":
+            name = "system-status"
         default:
             fatalError("No matching DummyAPI endpoint for `\(components.path)`")
         }
+
+        completion(self.loadPreviewData(model: Model.self, name: name))
     }
 
     static func loadPreviewData(model: Model.Type, name: String) -> Model {
