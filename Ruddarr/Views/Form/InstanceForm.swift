@@ -176,17 +176,24 @@ extension InstanceForm {
             error = err
         }
 
-        if status?.appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
-            throw ValidationError.badAppName(status!.appName)
-        }
-
         switch error {
+        case .noInternet:
+            throw ValidationError.urlNotValid
         case .badStatusCode(let code):
             throw ValidationError.badStatusCode(code)
         case .requestFailure(let error):
             throw ValidationError.urlNotReachable(error)
-        default:
-            assertionFailure("Unhandled error")
+        case .jsonFailure(let error):
+            throw ValidationError.badResponse(error)
+        case nil: break
+        }
+
+        guard let appName = status?.appName else {
+            return
+        }
+
+        if appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
+            throw ValidationError.badAppName(appName)
         }
     }
 }
@@ -200,6 +207,7 @@ enum ValidationError: Error {
     case urlNotValid
     case urlNotReachable(_ error: Error)
     case badStatusCode(_ code: Int)
+    case badResponse(_ error: Error)
     case badAppName(_ name: String)
 }
 
@@ -212,6 +220,8 @@ extension ValidationError: LocalizedError {
             return "Server Not Reachable"
         case .badStatusCode:
             return "Invalid Status Code"
+        case .badResponse:
+            return "Invalid Server Response"
         case .badAppName:
             return "Wrong Instance Type"
         }
@@ -225,6 +235,8 @@ extension ValidationError: LocalizedError {
             return error.localizedDescription
         case .badStatusCode(let code):
             return "URL returned status \(code)."
+        case .badResponse(let error):
+            return error.localizedDescription
         case .badAppName(let name):
             return "URL returned a \(name) instance."
         }

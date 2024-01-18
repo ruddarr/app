@@ -9,7 +9,7 @@ enum HttpMethod: String {
 
 enum ApiError: Error {
     case noInternet
-    case jsonFailure
+    case jsonFailure(_ error: Error)
     case requestFailure(_ error: Error)
     case badStatusCode(_ code: Int)
 }
@@ -46,14 +46,13 @@ class Api<Model: Codable> {
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 599
 
             if statusCode >= 300 {
-                failure(.badStatusCode(statusCode))
+                return failure(.badStatusCode(statusCode))
             }
 
             do {
-                let data = try JSONDecoder().decode(Model.self, from: json)
-                completion(data)
-            } catch {
-                failure(.jsonFailure)
+                completion(try JSONDecoder().decode(Model.self, from: json))
+            } catch let error {
+                failure(.jsonFailure(error))
             }
         } catch let error {
             failure(.requestFailure(error))
