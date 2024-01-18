@@ -10,7 +10,6 @@ struct RuddarrApp: App {
         #if DEBUG
         dependencies = .mock
         #endif
-
     }
 
     var body: some Scene {

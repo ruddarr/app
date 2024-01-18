@@ -11,7 +11,7 @@ enum ApiError: Error {
 struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [MovieLookup]
-    var fetchInstanceStatus: (inout Instance) async throws -> InstanceStatus
+    var systemStatus: (Instance) async throws -> InstanceStatus
 }
 
 extension API {
@@ -27,7 +27,7 @@ extension API {
                 .appending(queryItems: [.init(name: "term", value: query)])
 
             return try await request(url: url, authorization: instance.apiKey)
-        }, fetchInstanceStatus: { instance in
+        }, systemStatus: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/system/status")
 

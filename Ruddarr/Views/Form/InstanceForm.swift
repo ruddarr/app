@@ -170,7 +170,7 @@ extension InstanceForm {
         var apiError: ApiError?
 
         do {
-            status = try await dependencies.api.fetchInstanceStatus(&instance)
+            status = try await dependencies.api.systemStatus(instance)
         } catch let error as ApiError {
             apiError = error
         } catch {

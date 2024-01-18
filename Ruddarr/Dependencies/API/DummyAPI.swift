@@ -10,7 +10,7 @@ extension API {
             return allMovieLookups.filter {
                 $0.title.localizedCaseInsensitiveContains(query)
             }
-        }, fetchInstanceStatus: { _ in
+        }, systemStatus: { _ in
             loadPreviewData(filename: "system-status")
         })
     }
