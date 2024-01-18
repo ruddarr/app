@@ -165,10 +165,10 @@ extension InstanceForm {
         let statusUrl = URL(string: "\(url)/api/v3/system/status")!
 
         var status: InstanceStatus?
-        var apiError: ApiError?
+        var apiError: APIError?
         do {
             status = try await dependencies.api.fetchInstanceStatus(&instance)
-        } catch let error as ApiError {
+        } catch let error as APIError {
             apiError = error
         } catch {
             assertionFailure(error.localizedDescription)

@@ -1,12 +1,20 @@
 import Foundation
 import SwiftUI
 
+enum APIError: Error {
+    case noInternet
+    case jsonFailure(_ error: Error)
+    case requestFailure(_ error: Error)
+    case badStatusCode(_ code: Int)
+}
+
 struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [MovieLookup]
     //TODO: validation actualy modifies the instance, this doesn't feel right but I kept the same semantics as we've had previously.
     var fetchInstanceStatus: (inout Instance) async throws -> InstanceStatus
 }
+
 extension API {
     static var live: Self {
         .init(fetchMovies: { instance in
@@ -37,7 +45,7 @@ extension API {
     
     fileprivate static func request<Body: Encodable, Response: Decodable>(method: HTTPMethod = .get, url: URL, authorization: String?, body: Body? = nil, decoder: JSONDecoder = .init(), encoder : JSONEncoder = .init(), session: URLSession = .shared) async throws -> Response {
         if !NetworkMonitor.shared.isReachable {
-            throw ApiError.noInternet
+            throw APIError.noInternet
         }
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue.uppercased()
@@ -57,20 +65,20 @@ extension API {
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 599
 
             if statusCode >= 300 {
-                throw ApiError.badStatusCode(statusCode)
+                throw APIError.badStatusCode(statusCode)
             }
 
             do {
                 return try decoder.decode(Response.self, from: json)
             } catch let error {
-                throw ApiError.jsonFailure(error)
+                throw APIError.jsonFailure(error)
             }
-        } catch let apiError as ApiError {
+        } catch let apiError as APIError {
             //TODO: personally I'd just stick to idiomatic Swift's untyped errors as they have better ergonomics built in to the language. But if this is important to you, we can keep using strongly typed errors. In that case, we might consider replacing the `throws` keyword with Swift's Result type as the return value. I went with idiomatic Swift for my function api until told otherwise.
             throw apiError //don't rewrap in `.requestFailure`
         }
         catch let error {
-            throw ApiError.requestFailure(error)
+            throw APIError.requestFailure(error)
         }
     }
     

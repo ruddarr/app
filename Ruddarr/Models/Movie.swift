@@ -2,14 +2,14 @@ import SwiftUI
 
 class MovieModel: ObservableObject {
     @Published var movies: [Movie] = []
-    @Published var error: ApiError?
+    @Published var error: APIError?
 
     func fetch(_ instance: Instance) async {
         let url = URL(string: "\(instance.url)/api/v3/movie")!
 
         do {
             movies = try await dependencies.api.fetchMovies(instance)
-        } catch let error as ApiError {
+        } catch let error as APIError {
             self.error = error
             print("MovieModel.fetch(): \(error)")
         } catch {
