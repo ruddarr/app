@@ -28,6 +28,7 @@ fileprivate extension API {
                 fatalError("Preview data `\(filename)` could not be decoded")
             }
         }
+
         fatalError("Preview data `\(filename)` not found")
     }
 }

@@ -250,6 +250,9 @@ struct MovieSort {
 }
 
 #Preview("Failing Fetch") {
-    dependencies.api.fetchMovies = { _ in throw ApiError.noInternet }
+    dependencies.api.fetchMovies = { _ in
+        throw ApiError.noInternet
+    }
+
     return ContentView(selectedTab: .movies)
 }

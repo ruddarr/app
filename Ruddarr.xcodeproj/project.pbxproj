@@ -143,11 +143,11 @@
 		BBE828552B4F2C7000C1E1D9 /* Ruddarr */ = {
 			isa = PBXGroup;
 			children = (
-				79159D6A2B5953CD00F7F997 /* Dependencies */,
 				BBE828562B4F2C7000C1E1D9 /* RuddarrApp.swift */,
-				BB456D212B58BDF300C29B00 /* Utilities */,
+				79159D6A2B5953CD00F7F997 /* Dependencies */,
 				BBF477A62B4F8AA300C2DED3 /* Models */,
 				BBF477AA2B505C5D00C2DED3 /* Views */,
+				BB456D212B58BDF300C29B00 /* Utilities */,
 				BBE8285A2B4F2C7100C1E1D9 /* Assets.xcassets */,
 				BBE8285C2B4F2C7100C1E1D9 /* Ruddarr.entitlements */,
 				BBE8285D2B4F2C7100C1E1D9 /* Preview Content */,
