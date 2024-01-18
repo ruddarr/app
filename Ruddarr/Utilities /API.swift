@@ -13,7 +13,7 @@ enum ApiError: String, Error {
     case requestFailure
 }
 
-class Api<Model: Decodable> {
+class Api<Model: Codable> {
     static func call(
         method: HttpMethod = .get,
         url: URL,

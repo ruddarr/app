@@ -151,7 +151,7 @@ extension InstanceForm {
     func validateInstance() async throws {
         let rawUrl = URL(string: instance.url)!
 
-        // stip path from URL
+        // strip path from URL
         var components = URLComponents(url: rawUrl, resolvingAgainstBaseURL: false)!
         components.path = ""
 
