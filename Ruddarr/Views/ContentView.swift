@@ -47,7 +47,7 @@ struct ContentView: View {
     @ViewBuilder
     func screen(for tab: Tab) -> some View {
         switch selectedTab {
-        case .movies: MoviesView()
+        case .movies: MoviesView(onSettingsLinkTapped: { selectedTab = .settings })
         case .shows: ShowsView()
         case .settings: SettingsView()
         }
