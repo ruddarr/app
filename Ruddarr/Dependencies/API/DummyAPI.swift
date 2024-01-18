@@ -9,6 +9,8 @@ extension API {
             return allMovieLookups.filter {
                 $0.title.localizedCaseInsensitiveContains(query)
             }
+        }, fetchInstanceStatus: { instance in
+            loadPreviewData(filename: "system-status")
         })
     }
 }

@@ -165,18 +165,15 @@ extension InstanceForm {
         let statusUrl = URL(string: "\(url)/api/v3/system/status")!
 
         var status: InstanceStatus?
-        var error: ApiError?
-
-        await Api<InstanceStatus>.call(
-            url: statusUrl,
-            authorization: instance.apiKey
-        ) { data in
-            status = data
-        } failure: { err in
-            error = err
+        var apiError: ApiError?
+        do {
+            status = try await dependencies.api.fetchInstanceStatus(&instance)
+        } catch let error as ApiError {
+            apiError = error
+        } catch {
+            assertionFailure(error.localizedDescription)
         }
-
-        switch error {
+        switch apiError {
         case .noInternet:
             throw ValidationError.urlNotValid
         case .badStatusCode(let code):

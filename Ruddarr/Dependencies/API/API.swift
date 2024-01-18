@@ -1,8 +1,11 @@
 import Foundation
+import SwiftUI
 
 struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [MovieLookup]
+    //TODO: validation actualy modifies the instance, this doesn't feel right but I kept the same semantics as we've had previously.
+    var fetchInstanceStatus: (inout Instance) async throws -> InstanceStatus
 }
 extension API {
     static var live: Self {
@@ -12,6 +15,23 @@ extension API {
         }, lookupMovies: { instance, query in
             let url = URL(string: instance.url)!.appending(path: "/api/v3/movie/lookup").appending(queryItems: [.init(name: "term", value: query)])
             return try await request(url: url, authorization: instance.apiKey)
+        }, fetchInstanceStatus: { instance in
+            let rawUrl = URL(string: instance.url)!
+
+            // strip path from URL
+            var components = URLComponents(url: rawUrl, resolvingAgainstBaseURL: false)!
+            components.path = ""
+
+            let url = components.url!
+            instance.url = url.absoluteString
+
+            if await !UIApplication.shared.canOpenURL(url) {
+                throw ValidationError.urlNotValid
+            }
+
+            let statusUrl = URL(string: "\(url)/api/v3/system/status")!
+            return try await request(url: statusUrl, authorization: instance.apiKey)
+            
         })
     }
     

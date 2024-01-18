@@ -15,7 +15,7 @@ class MovieLookupModel: ObservableObject {
         do {
             movies = try await dependencies.api.lookupMovies(instance, query)
             
-        } catch is ApiError {
+        } catch let error as ApiError {
             self.error = error
             print("MovieLookupModel.search(): \(error)")
         } catch {
