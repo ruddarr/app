@@ -7,7 +7,7 @@ extension API {
     static var live: Self {
         .init(fetchMovies: { instance in
             let url = URL(string: instance.url)!.appending(path: "/api/v3/movie")
-            return try await request(url: url, authorization: "")
+            return try await request(url: url, authorization: instance.apiKey)
         })
     }
     

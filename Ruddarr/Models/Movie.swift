@@ -7,15 +7,14 @@ class MovieModel: ObservableObject {
     func fetch(_ instance: Instance) async {
         let url = URL(string: "\(instance.url)/api/v3/movie")!
 
-        await Api<[Movie]>.call(
-            url: url,
-            authorization: instance.apiKey
-        ) { data in
-            self.movies = data
-        } failure: { error in
+        do {
+            movies = try await dependencies.api.fetchMovies(instance)
+        } catch let error as ApiError {
             self.error = error
-
             print("MovieModel.fetch(): \(error)")
+        } catch {
+            //TODO: this is what we get for fitting my untyped error from `throws` to your strongly typed model.
+            assertionFailure("Unknown error type \(error)")
         }
     }
 }
