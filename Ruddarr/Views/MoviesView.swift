@@ -26,15 +26,6 @@ struct MoviesView: View {
 
         NavigationStack(path: $path) {
             Group {
-                ContentUnavailableView(
-                    "No Radarr Instance",
-                    systemImage: "tv.slash",
-                    description: Text("Connect a Radarr instance under [Settings](settings).")
-                )
-                .environment(\.openURL, .init { _ in
-                    onSettingsLinkTapped()
-                    return .handled
-                })
                 if let radarrInstance {
                     ScrollView {
                         LazyVGrid(columns: gridItemLayout, spacing: 15) {
@@ -70,8 +61,12 @@ struct MoviesView: View {
                     ContentUnavailableView(
                         "No Radarr Instance",
                         systemImage: "tv.slash",
-                        description: Text("Connect a Radarr instance under Settings.")
+                        description: Text("Connect a Radarr instance under [Settings](settings).")
                     )
+                    .environment(\.openURL, .init { _ in
+                        onSettingsLinkTapped()
+                        return .handled
+                    })
                 }
             }
             .navigationTitle("Movies")
