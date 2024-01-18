@@ -2,24 +2,22 @@ import SwiftUI
 
 class MovieModel: ObservableObject {
     @Published var movies: [Movie] = []
+    @Published var error: ApiError?
 
-    @MainActor
     func fetch(_ instance: Instance) async {
-        movies = []
+        let urlString = "\(instance.url)/api/v3/movie"
+        // let urlString = "https://pub-5e0e3f7fd2d0441b82048eafc31ac436.r2.dev/movies.json"
 
-        do {
-            let urlString = "\(instance.url)/api/v3/movie"
-            // let urlString = "https://pub-5e0e3f7fd2d0441b82048eafc31ac436.r2.dev/movies.json"
-            let url = URL(string: urlString)!
+        let url = URL(string: urlString)!
 
-            var request = URLRequest(url: url)
-            request.setValue("8f45bce99e254f888b7a2ba122468dbe", forHTTPHeaderField: "X-Api-Key")
+        await Api<[Movie]>.call(
+            url: url,
+            authorization: instance.apiKey
+        ) { data in
+            self.movies = data
+        } failure: { error in
+            self.error = error
 
-            print("fetching... " + urlString)
-
-            let (data, _) = try await URLSession.shared.data(for: request)
-            movies = try JSONDecoder().decode([Movie].self, from: data)
-        } catch {
             print("MovieModel.fetch(): \(error)")
         }
     }
@@ -48,16 +46,16 @@ struct Movie: Identifiable, Codable {
     }
 
     var remoteFanart: String? {
-            // if let local = self.images.first(where: { $0.coverType == "poster" }) {
-            //     return "http://10.0.1.5:8310\(local.url)"
-            // }
+        // if let local = self.images.first(where: { $0.coverType == "poster" }) {
+        //     return "http://10.0.1.5:8310\(local.url)"
+        // }
 
-            if let remote = self.images.first(where: { $0.coverType == "fanart" }) {
-                return remote.remoteURL
-            }
-
-            return nil
+        if let remote = self.images.first(where: { $0.coverType == "fanart" }) {
+            return remote.remoteURL
         }
+
+        return nil
+    }
 }
 
 struct MovieImage: Codable {

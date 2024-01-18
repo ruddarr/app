@@ -51,7 +51,7 @@ struct MoviesView: View {
                     }
                 } else {
                     ContentUnavailableView(
-                        "No Radarr instance",
+                        "No Radarr Instance",
                         systemImage: "tv.slash",
                         description: Text("Connect a Radarr instance under Settings.")
                     )
@@ -65,7 +65,9 @@ struct MoviesView: View {
                 placement: .navigationBarDrawer(displayMode: .always)
             )
             .overlay {
-                if displayedMovies.isEmpty && !searchQuery.isEmpty {
+                if movies.error == .noInternet {
+                    NoInternet()
+                } else if displayedMovies.isEmpty && !searchQuery.isEmpty {
                     ContentUnavailableView.search(text: searchQuery)
                 }
             }

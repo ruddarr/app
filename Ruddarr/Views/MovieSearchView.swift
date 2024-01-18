@@ -47,7 +47,9 @@ struct MovieSearchView: View {
                 }
             }
             .overlay {
-                if lookup.movies.isEmpty && !searchQuery.isEmpty && !waitingforResults {
+                if lookup.error == .noInternet {
+                    NoInternet()
+                } else if lookup.movies.isEmpty && !searchQuery.isEmpty && !waitingforResults {
                     ContentUnavailableView.search(text: searchQuery)
                 }
             }

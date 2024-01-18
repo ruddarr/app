@@ -6,6 +6,10 @@ struct RuddarrApp: App {
 
     @AppStorage("darkMode") private var darkMode = false
 
+    init() {
+        NetworkMonitor.shared.start()
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()

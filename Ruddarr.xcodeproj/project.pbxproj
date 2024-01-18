@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB456D202B58B7E700C29B00 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D1F2B58B7E700C29B00 /* Network.swift */; };
+		BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D222B58C71300C29B00 /* NoInternet.swift */; };
 		BB9255CE2B54657900967F84 /* InstanceForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9255CD2B54657900967F84 /* InstanceForm.swift */; };
 		BBA54BDE2B561FB200CA0F3E /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */; };
 		BBA54BE32B563E2000CA0F3E /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = BBA54BE22B563E2000CA0F3E /* Nuke */; };
@@ -33,6 +35,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BB456D1F2B58B7E700C29B00 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		BB456D222B58C71300C29B00 /* NoInternet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternet.swift; sourceTree = "<group>"; };
 		BB9255CD2B54657900967F84 /* InstanceForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceForm.swift; sourceTree = "<group>"; };
 		BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
 		BBB936212B58A24800457E66 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -71,6 +75,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BB456D212B58BDF300C29B00 /* Utilities  */ = {
+			isa = PBXGroup;
+			children = (
+				BBB936212B58A24800457E66 /* API.swift */,
+				BB456D1F2B58B7E700C29B00 /* Network.swift */,
+			);
+			path = "Utilities ";
+			sourceTree = "<group>";
+		};
 		BB9255CC2B54655300967F84 /* Form */ = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */,
+				BB456D222B58C71300C29B00 /* NoInternet.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -107,7 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				BBE828562B4F2C7000C1E1D9 /* RuddarrApp.swift */,
-				BBB936212B58A24800457E66 /* API.swift */,
+				BB456D212B58BDF300C29B00 /* Utilities  */,
 				BBF477A62B4F8AA300C2DED3 /* Models */,
 				BBF477AA2B505C5D00C2DED3 /* Views */,
 				BBE8285A2B4F2C7100C1E1D9 /* Assets.xcassets */,
@@ -248,7 +262,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\n  # swiftlint --fix && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  # swiftlint --fix && swiftlint\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -258,10 +272,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBF477A92B4FA20B00C2DED3 /* SettingsView.swift in Sources */,
+				BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */,
 				BBE828592B4F2C7000C1E1D9 /* ContentView.swift in Sources */,
 				BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */,
 				BBE828572B4F2C7000C1E1D9 /* RuddarrApp.swift in Sources */,
 				BBC45B962B572A8600AB258F /* PreviewData.swift in Sources */,
+				BB456D202B58B7E700C29B00 /* Network.swift in Sources */,
 				BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */,
 				BBB936222B58A24800457E66 /* API.swift in Sources */,
 				BBF94F652B50C88300300EBA /* Instance.swift in Sources */,
