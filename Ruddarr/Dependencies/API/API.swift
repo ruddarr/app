@@ -2,11 +2,15 @@ import Foundation
 
 struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
+    var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [MovieLookup]
 }
 extension API {
     static var live: Self {
         .init(fetchMovies: { instance in
             let url = URL(string: instance.url)!.appending(path: "/api/v3/movie")
+            return try await request(url: url, authorization: instance.apiKey)
+        }, lookupMovies: { instance, query in
+            let url = URL(string: instance.url)!.appending(path: "/api/v3/movie/lookup").appending(queryItems: [.init(name: "term", value: query)])
             return try await request(url: url, authorization: instance.apiKey)
         })
     }

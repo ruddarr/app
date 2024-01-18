@@ -9,18 +9,17 @@ class MovieLookupModel: ObservableObject {
             movies = []
             return
         }
-
+        
         let url = URL(string: "\(instance.url)/api/v3/movie/lookup?term=\(query)")!
-
-        await Api<[MovieLookup]>.call(
-            url: url,
-            authorization: instance.apiKey
-        ) { data in
-            self.movies = data
-        } failure: { error in
+        
+        do {
+            movies = try await dependencies.api.lookupMovies(instance, query)
+            
+        } catch is ApiError {
             self.error = error
-
             print("MovieLookupModel.search(): \(error)")
+        } catch {
+            assertionFailure(error.localizedDescription)
         }
     }
 }

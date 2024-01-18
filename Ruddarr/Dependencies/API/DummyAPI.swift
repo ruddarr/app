@@ -4,6 +4,11 @@ extension API {
     static var mock: Self {
         .init(fetchMovies: { instance in
            loadPreviewData(filename: "movies")
+        }, lookupMovies: { instance, query in
+            let allMovieLookups: [MovieLookup] = loadPreviewData(filename: "movie-lookup")
+            return allMovieLookups.filter {
+                $0.title.localizedCaseInsensitiveContains(query)
+            }
         })
     }
 }
