@@ -65,7 +65,7 @@ struct MoviesView: View {
                 placement: .navigationBarDrawer(displayMode: .always)
             )
             .overlay {
-                if movies.error == .noInternet {
+                if case .noInternet? = movies.error {
                     NoInternet()
                 } else if displayedMovies.isEmpty && !searchQuery.isEmpty {
                     ContentUnavailableView.search(text: searchQuery)

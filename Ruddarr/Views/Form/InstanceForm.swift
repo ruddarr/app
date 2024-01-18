@@ -162,37 +162,40 @@ extension InstanceForm {
             throw ValidationError.urlNotValid
         }
 
-        // For testing use:
-        // https://pub-5e0e3f7fd2d0441b82048eafc31ac436.r2.dev/status.json
+        let statusUrl = URL(string: "\(url)/api/v3/system/status")!
 
-        var request = URLRequest(url: URL(string: "\(url)/api/v3/system/status")!)
-        request.setValue(instance.apiKey, forHTTPHeaderField: "X-Api-Key")
+        var status: InstanceStatus?
+        var error: ApiError?
 
-        var data: Data
-        var response: URLResponse
+        await Api<InstanceStatus>.call(
+            url: statusUrl,
+            authorization: instance.apiKey
+        ) { data in
+            status = data
+        } failure: { err in
+            error = err
+        }
 
-        do {
-            (data, response) = try await URLSession.shared.data(for: request)
-        } catch {
+        switch error {
+        case .noInternet:
+            throw ValidationError.urlNotValid
+        case .badStatusCode(let code):
+            throw ValidationError.badStatusCode(code)
+        case .requestFailure(let error):
             throw ValidationError.urlNotReachable(error)
+        case .jsonFailure(let error):
+            throw ValidationError.badResponse(error)
+        case nil: break
         }
 
-        let statusCode = (response as? HTTPURLResponse)?.statusCode
-
-        if statusCode != 200 {
-            throw ValidationError.badStatusCode(statusCode!)
+        guard let appName = status?.appName else {
+            return
         }
 
-        let status = try JSONDecoder().decode(InstanceStatus.self, from: data)
-
-        if status.appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
-            throw ValidationError.badAppName(status.appName)
+        if appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
+            throw ValidationError.badAppName(appName)
         }
     }
-}
-
-struct InstanceStatus: Decodable {
-  let appName: String
 }
 
 enum FormState {
@@ -204,6 +207,7 @@ enum ValidationError: Error {
     case urlNotValid
     case urlNotReachable(_ error: Error)
     case badStatusCode(_ code: Int)
+    case badResponse(_ error: Error)
     case badAppName(_ name: String)
 }
 
@@ -216,6 +220,8 @@ extension ValidationError: LocalizedError {
             return "Server Not Reachable"
         case .badStatusCode:
             return "Invalid Status Code"
+        case .badResponse:
+            return "Invalid Server Response"
         case .badAppName:
             return "Wrong Instance Type"
         }
@@ -229,6 +235,8 @@ extension ValidationError: LocalizedError {
             return error.localizedDescription
         case .badStatusCode(let code):
             return "URL returned status \(code)."
+        case .badResponse(let error):
+            return error.localizedDescription
         case .badAppName(let name):
             return "URL returned a \(name) instance."
         }

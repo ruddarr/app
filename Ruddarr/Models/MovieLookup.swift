@@ -10,10 +10,7 @@ class MovieLookupModel: ObservableObject {
             return
         }
 
-        let urlString = "\(instance.url)/api/v3/movie/lookup?term=\(query)"
-        // let urlString = "https://pub-5e0e3f7fd2d0441b82048eafc31ac436.r2.dev/movie-lookup.json"
-
-        let url = URL(string: urlString)!
+        let url = URL(string: "\(instance.url)/api/v3/movie/lookup?term=\(query)")!
 
         await Api<[MovieLookup]>.call(
             url: url,

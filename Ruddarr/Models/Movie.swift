@@ -5,10 +5,7 @@ class MovieModel: ObservableObject {
     @Published var error: ApiError?
 
     func fetch(_ instance: Instance) async {
-        let urlString = "\(instance.url)/api/v3/movie"
-        // let urlString = "https://pub-5e0e3f7fd2d0441b82048eafc31ac436.r2.dev/movies.json"
-
-        let url = URL(string: urlString)!
+        let url = URL(string: "\(instance.url)/api/v3/movie")!
 
         await Api<[Movie]>.call(
             url: url,
