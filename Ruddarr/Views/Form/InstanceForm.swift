@@ -124,6 +124,7 @@ extension InstanceForm {
         do {
             isLoading = true
 
+            sanitizeInstanceUrl()
             try await validateInstance()
 
             switch state {
@@ -148,15 +149,18 @@ extension InstanceForm {
         return instance.label.isEmpty || instance.url.isEmpty || instance.apiKey.isEmpty
     }
 
-    func validateInstance() async throws {
-        let rawUrl = URL(string: instance.url)!
+    // strip path from URL
+    func sanitizeInstanceUrl() {
+        let url = URL(string: instance.url)!
 
-        // strip path from URL
-        var components = URLComponents(url: rawUrl, resolvingAgainstBaseURL: false)!
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         components.path = ""
 
-        let url = components.url!
-        instance.url = url.absoluteString
+        instance.url = components.url!.absoluteString.lowercased()
+    }
+
+    func validateInstance() async throws {
+        let url = URL(string: instance.url)!
 
         if await !UIApplication.shared.canOpenURL(url) {
             throw ValidationError.urlNotValid
