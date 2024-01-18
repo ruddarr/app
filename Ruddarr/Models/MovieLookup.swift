@@ -2,29 +2,24 @@ import SwiftUI
 
 class MovieLookupModel: ObservableObject {
     @Published var movies: [MovieLookup] = []
-    
-    @MainActor
+    @Published var error: ApiError?
+
     func search(_ instance: Instance, query: String) async {
         guard !query.isEmpty else {
             movies = []
             return
         }
-        
-        // TODO: what if the network is offline...
-        
-        do {
-            let urlString = "\(instance.url)/api/v3/movie/lookup?term=\(query)"
-            // let urlString = "https://pub-5e0e3f7fd2d0441b82048eafc31ac436.r2.dev/movie-lookup.json?term=\(query)"
-            let url = URL(string: urlString)!
-            
-            var request = URLRequest(url: url)
-            request.setValue("8f45bce99e254f888b7a2ba122468dbe", forHTTPHeaderField: "X-Api-Key")
-            
-            print("fetching... " + urlString)
-            
-            let (data, _) = try await URLSession.shared.data(for: request)
-            movies = try JSONDecoder().decode([MovieLookup].self, from: data)
-        } catch {
+
+        let url = URL(string: "\(instance.url)/api/v3/movie/lookup?term=\(query)")!
+
+        await Api<[MovieLookup]>.call(
+            url: url,
+            authorization: instance.apiKey
+        ) { data in
+            self.movies = data
+        } failure: { error in
+            self.error = error
+
             print("MovieLookupModel.search(): \(error)")
         }
     }

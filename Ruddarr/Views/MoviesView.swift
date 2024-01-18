@@ -5,17 +5,18 @@ struct MoviesView: View {
     @State private var searchPresented = false
     @State private var fetchedMovies = false
     @State private var sort: MovieSort = .init()
-    
+
     @ObservedObject var movies = MovieModel()
-    
+
     @AppStorage("movieInstance") private var instanceId: UUID?
     @AppStorage("instances") private var instances: [Instance] = [.sample] //TODO: remove the hardcoded sample instance from here once we have a way to inject it when needed
 
     enum Path: Hashable {
         case search
     }
+
     @State var path: NavigationPath = .init()
-    
+
     var body: some View {
         let gridItemLayout = [
             GridItem(.adaptive(minimum: 250), spacing: 15)
@@ -43,7 +44,7 @@ struct MoviesView: View {
                     .task {
                         guard !fetchedMovies else { return }
                         fetchedMovies = true
-                        
+
                         await movies.fetch(radarrInstance)
                     }
                     .refreshable {
@@ -57,7 +58,7 @@ struct MoviesView: View {
                     }
                 } else {
                     ContentUnavailableView(
-                        "No Radarr instance",
+                        "No Radarr Instance",
                         systemImage: "tv.slash",
                         description: Text("Connect a Radarr instance under Settings.")
                     )
@@ -71,7 +72,9 @@ struct MoviesView: View {
                 placement: .navigationBarDrawer(displayMode: .always)
             )
             .overlay {
-                if displayedMovies.isEmpty && !searchQuery.isEmpty {
+                if case .noInternet? = movies.error {
+                    NoInternet()
+                } else if displayedMovies.isEmpty && !searchQuery.isEmpty {
                     ContentUnavailableView.search(text: searchQuery)
                 }
             }
@@ -83,12 +86,12 @@ struct MoviesView: View {
                 }
             }
         }
-        
+
     }
-    
+
     @ToolbarContentBuilder
     func toolbar() -> some ToolbarContent {
-        if (radarrInstances.count > 1) {
+        if radarrInstances.count > 1 {
             ToolbarItem(placement: .topBarLeading) {
                 Menu("Instance", systemImage: "xserve.raid") {
                     ForEach(radarrInstances) { instance in
@@ -109,7 +112,7 @@ struct MoviesView: View {
                 }
             }
         }
-        
+
         ToolbarItem(placement: .topBarTrailing) {
             Menu("Sort by", systemImage: "arrow.up.arrow.down") {
                 ForEach(MovieSort.Option.allCases) { sortOption in
@@ -126,7 +129,7 @@ struct MoviesView: View {
                 }
             }
         }
-        
+
         if let radarrInstance {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(value: Path.search)  {
@@ -135,20 +138,20 @@ struct MoviesView: View {
             }
         }
     }
-    
+
     var radarrInstances: [Instance] {
         instances.filter { instance in
             instance.type == .radarr
         }
     }
-    
+
     var radarrInstance: Instance? {
         radarrInstances.first(where: { $0.id == instanceId })
     }
-    
+
     var displayedMovies: [Movie] {
         let unsortedMovies: [Movie]
-        
+
         if searchQuery.isEmpty {
             unsortedMovies = movies.movies
         } else {
@@ -156,28 +159,22 @@ struct MoviesView: View {
                 movie.title.localizedCaseInsensitiveContains(searchQuery)
             }
         }
-        
+
         return unsortedMovies.sorted(by: sort.option.isOrderedBefore)
     }
 }
 
 struct MovieRow: View {
     var movie: Movie
-    
+
     var body: some View {
         HStack {
-            AsyncImage(
-                url: URL(string: movie.remotePoster ?? ""),
-                content: { image in
-                    image.resizable().aspectRatio(contentMode: .fit)
-                },
-                placeholder: {
-                    ProgressView()
-                }
-            )
-            .frame(width: 85, height: 125)
+            CachedAsyncImage(url: movie.remotePoster)
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 80, height: 120)
+                .clipped()
 
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(movie.title)
                     .font(.subheadline)
                     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -193,7 +190,7 @@ struct MovieRow: View {
                     Image(systemName: movie.monitored ? "bookmark.fill" : "bookmark")
                     Text(movie.monitored ? "Monitored" : "Unmonitored")
                 }.font(.caption)
-                
+
                 Group {
                     if movie.sizeOnDisk != nil && movie.sizeOnDisk! > 0 {
                         HStack(spacing: 8) {
@@ -207,7 +204,7 @@ struct MovieRow: View {
                         }.font(.caption)
                     }
                 }
-                
+
                 Spacer()
             }
             .padding(.top, 4)
@@ -223,12 +220,12 @@ struct MovieRow: View {
 struct MovieSort {
     var isAscending: Bool = true
     var option: Option = .byTitle
-    
+
     enum Option: CaseIterable, Hashable, Identifiable {
         var id: Self { self }
         case byTitle
         case byYear
-        
+
         var title: String {
             switch self {
             case .byTitle:
@@ -237,7 +234,7 @@ struct MovieSort {
                 "Year"
             }
         }
-        
+
         func isOrderedBefore(_ lhs: Movie, _ rhs: Movie) -> Bool {
             switch self {
             case .byTitle:

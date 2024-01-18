@@ -1,4 +1,3 @@
-
 import SwiftUI
 
 struct ContentView: View {
@@ -13,7 +12,7 @@ struct ContentView: View {
                         .font(.title)
                         .fontWeight(.bold)
                         .padding(.bottom)
-                    
+
                     ForEach(Tab.allCases) { tab in
                         let button = Button {
                             selectedTab = tab
@@ -21,7 +20,7 @@ struct ContentView: View {
                         } label: {
                             tab.label
                         }
-                        
+
                         if case .settings = tab {
                             Section {
                                 button
@@ -44,7 +43,7 @@ struct ContentView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     func screen(for tab: Tab) -> some View {
         switch selectedTab {
@@ -61,7 +60,7 @@ enum Tab: Hashable, CaseIterable, Identifiable {
     case movies
     case shows
     case settings
-    
+
     @ViewBuilder
     var label: some View {
         switch self {
@@ -77,7 +76,7 @@ enum Tab: Hashable, CaseIterable, Identifiable {
 
 struct ColorSchemeViewModifier: ViewModifier {
     @AppStorage("darkMode") private var darkMode = false
-    
+
     func body(content: Content) -> some View {
         content.preferredColorScheme(darkMode ? .dark : .light)
     }

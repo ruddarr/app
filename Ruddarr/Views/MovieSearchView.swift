@@ -2,25 +2,25 @@ import SwiftUI
 
 struct MovieSearchView: View {
     let instance: Instance
-    
+
     @State private var searchQuery = ""
     @State private var isSearching = true
     @State private var waitingforResults = false
-    @State private var isAddingMovie: MovieLookup? = nil
-    
+    @State private var isAddingMovie: MovieLookup?
+
     @ObservedObject var lookup = MovieLookupModel()
-    
+
     let gridItemLayout = [
         GridItem(.adaptive(minimum: 250), spacing: 15)
     ]
-    
+
     var body: some View {
             ScrollView {
                 LazyVGrid(columns: gridItemLayout, spacing: 15) {
                     ForEach(lookup.movies) { movie in
-                        Button(action: {
+                        Button {
                             isAddingMovie = movie
-                        }) {
+                        } label: {
                             MovieLookupRow(movie: movie, instance: instance)
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -46,7 +46,9 @@ struct MovieSearchView: View {
                 }
             }
             .overlay {
-                if lookup.movies.isEmpty && !searchQuery.isEmpty && !waitingforResults {
+                if case .noInternet? = lookup.error {
+                    NoInternet()
+                } else if lookup.movies.isEmpty && !searchQuery.isEmpty && !waitingforResults {
                     ContentUnavailableView.search(text: searchQuery)
                 }
             }
@@ -56,20 +58,14 @@ struct MovieSearchView: View {
 struct MovieLookupRow: View {
     var movie: MovieLookup
     var instance: Instance
-    
+
     var body: some View {
         HStack {
-            AsyncImage(
-                url: URL(string: movie.remotePoster ?? ""),
-                content: { image in
-                    image.resizable().aspectRatio(contentMode: .fit)
-                },
-                placeholder: {
-                    ProgressView()
-                }
-            )
-            .frame(width: 85, height: 125)
-            
+            CachedAsyncImage(url: movie.remotePoster)
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 80, height: 120)
+                .clipped()
+
             VStack(alignment: .leading) {
                 Text(movie.title)
                     .font(.subheadline)
@@ -80,7 +76,7 @@ struct MovieLookupRow: View {
                 Spacer()
             }
             .padding(.top, 4)
-            
+
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -91,9 +87,9 @@ struct MovieLookupRow: View {
 
 struct MovieLookupSheet: View {
     var movie: MovieLookup
-    
+
     @Environment(\.dismiss) private var dismiss
-    
+
     var body: some View {
         NavigationView {
             VStack {

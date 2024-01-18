@@ -14,6 +14,10 @@ enum InstanceType: String, Identifiable, CaseIterable, Codable {
     var id: Self { self }
 }
 
+struct InstanceStatus: Codable {
+  let appName: String
+}
+
 extension Array<Instance>: RawRepresentable {
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
