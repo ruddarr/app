@@ -2,19 +2,17 @@ import SwiftUI
 
 class MovieLookupModel: ObservableObject {
     @Published var movies: [MovieLookup] = []
-    @Published var error: APIError?
+    @Published var error: ApiError?
 
     func search(_ instance: Instance, query: String) async {
         guard !query.isEmpty else {
             movies = []
             return
         }
-        
-        let url = URL(string: "\(instance.url)/api/v3/movie/lookup?term=\(query)")!
-        
+
         do {
             movies = try await dependencies.api.lookupMovies(instance, query)
-        } catch let error as APIError {
+        } catch let error as ApiError {
             self.error = error
             print("MovieLookupModel.search(): \(error)")
         } catch {

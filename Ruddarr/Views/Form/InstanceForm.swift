@@ -162,13 +162,12 @@ extension InstanceForm {
             throw ValidationError.urlNotValid
         }
 
-        let statusUrl = URL(string: "\(url)/api/v3/system/status")!
-
         var status: InstanceStatus?
-        var apiError: APIError?
+        var apiError: ApiError?
+
         do {
             status = try await dependencies.api.fetchInstanceStatus(&instance)
-        } catch let error as APIError {
+        } catch let error as ApiError {
             apiError = error
         } catch {
             assertionFailure(error.localizedDescription)

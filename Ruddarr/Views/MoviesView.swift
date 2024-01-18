@@ -8,7 +8,7 @@ struct MoviesView: View {
     @State private var fetchedMovies = false
     @State private var sort: MovieSort = .init()
 
-    //TODO: this should be StateObject if we're creating it here. Maybe we can switch to @Observable and not worry about this?
+    // TODO: this should be StateObject if we're creating it here. Maybe we can switch to @Observable and not worry about this?
     @ObservedObject var movies = MovieModel()
 
     @AppStorage("movieInstance") private var selectedInstanceId: UUID?
@@ -250,6 +250,6 @@ struct MovieSort {
 }
 
 #Preview("Failing Fetch") {
-    dependencies.api.fetchMovies = { _ in throw APIError.noInternet }
+    dependencies.api.fetchMovies = { _ in throw ApiError.noInternet }
     return ContentView(selectedTab: .movies)
 }
