@@ -1,14 +1,12 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("darkMode") private var darkMode = false
     @AppStorage("instances") private var instances: [Instance] = []
 
     var body: some View {
         NavigationStack {
             List {
                 instanceSection
-                settingsSection
                 aboutSection
             }
             .navigationTitle("Settings")
@@ -33,19 +31,6 @@ struct SettingsView: View {
         }
     }
 
-    var settingsSection: some View {
-        Section(header: Text("Preferences")) {
-            HStack {
-                Toggle(isOn: $darkMode) {
-                    Label("Dark Mode", systemImage: "moon")
-                }
-            }
-        }
-        .accentColor(.primary)
-        .listRowSeparatorTint(.blue)
-        .listRowSeparator(.hidden)
-    }
-
     var aboutSection: some View {
         Section {
             NavigationLink { ContentView() } label: {
@@ -60,5 +45,4 @@ struct SettingsView: View {
 
 #Preview {
     ContentView(selectedTab: .settings)
-        .withSelectedColorScheme()
 }

@@ -246,5 +246,4 @@ struct MovieSort {
 
 #Preview {
     ContentView(selectedTab: .movies)
-        .withSelectedColorScheme()
 }

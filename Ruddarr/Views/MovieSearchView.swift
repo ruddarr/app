@@ -112,5 +112,4 @@ struct MovieLookupSheet: View {
     // This preview only works when at least one instance was added in settings
 
     MoviesView(path: .init([MoviesView.Path.search]))
-        .withSelectedColorScheme()
 }
