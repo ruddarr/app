@@ -3,7 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @AppStorage("darkMode") private var darkMode = false
     @AppStorage("instances") private var instances: [Instance] = []
-    
+
     var body: some View {
         NavigationStack {
             List {
@@ -32,7 +32,7 @@ struct SettingsView: View {
             }
         }
     }
-    
+
     var settingsSection: some View {
         Section(header: Text("Preferences")) {
             HStack {
@@ -45,7 +45,7 @@ struct SettingsView: View {
         .listRowSeparatorTint(.blue)
         .listRowSeparator(.hidden)
     }
-    
+
     var aboutSection: some View {
         Section {
             NavigationLink { ContentView() } label: {

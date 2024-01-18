@@ -2,18 +2,18 @@ import SwiftUI
 
 struct MovieSearchView: View {
     let instance: Instance
-    
+
     @State private var searchQuery = ""
     @State private var isSearching = true
     @State private var waitingforResults = false
-    @State private var isAddingMovie: MovieLookup? = nil
-    
+    @State private var isAddingMovie: MovieLookup?
+
     @ObservedObject var lookup = MovieLookupModel()
-    
+
     let gridItemLayout = [
         GridItem(.adaptive(minimum: 250), spacing: 15)
     ]
-    
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -58,7 +58,7 @@ struct MovieSearchView: View {
 struct MovieLookupRow: View {
     var movie: MovieLookup
     var instance: Instance
-    
+
     var body: some View {
         HStack {
             CachedAsyncImage(url: movie.remotePoster)
@@ -76,7 +76,7 @@ struct MovieLookupRow: View {
                 Spacer()
             }
             .padding(.top, 4)
-            
+
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -87,9 +87,9 @@ struct MovieLookupRow: View {
 
 struct MovieLookupSheet: View {
     var movie: MovieLookup
-    
+
     @Environment(\.dismiss) private var dismiss
-    
+
     var body: some View {
         NavigationView {
             VStack {

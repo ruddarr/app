@@ -5,7 +5,7 @@ struct RuddarrApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     @AppStorage("darkMode") private var darkMode = false
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -17,7 +17,7 @@ struct RuddarrApp: App {
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication) -> Bool {
         URLSession.shared.configuration.waitsForConnectivity = true
-        
+
         return true
     }
 }

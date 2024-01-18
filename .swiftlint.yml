@@ -1,0 +1,9 @@
+reporter: "xcode"
+
+line_length: 180
+function_body_length: 60
+type_body_length: 400
+
+analyzer_rules:
+  - unused_declaration
+  - unused_import

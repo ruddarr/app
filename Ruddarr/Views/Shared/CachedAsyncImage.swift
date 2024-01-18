@@ -22,14 +22,14 @@ struct CachedAsyncImage: View {
             }.pipeline(imagePipeline())
         }
     }
-    
+
     func imagePipeline() -> ImagePipeline {
         var config = ImagePipeline.Configuration.withDataCache(
             name: "com.github.radarr.DataCache"
         )
 
         config.dataCachePolicy = .automatic
-            
+
         return ImagePipeline(configuration: config)
     }
 
@@ -75,7 +75,7 @@ struct PlaceholderImage: View {
                     .border(.green)
             }.frame(width: 250, height: 250)
         }.border(.yellow).padding()
-        
+
         Section {
             HStack {
                 CachedAsyncImage(url: "https://picsum.photos-broken/id/23/500/500")

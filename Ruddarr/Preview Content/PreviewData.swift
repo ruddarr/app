@@ -2,7 +2,7 @@ import Foundation
 
 class PreviewData {
     static func load<T: Codable> (name: String) -> [T] {
-        
+
         if let path = Bundle.main.path(forResource: name, ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
@@ -12,7 +12,7 @@ class PreviewData {
                 return []
             }
         }
-        
+
         return []
     }
 }

@@ -2,19 +2,19 @@ import SwiftUI
 
 struct InstanceForm: View {
     let state: FormState
-    
+
     @State var instance: Instance
-    
+
     @State private var isLoading = false
     @State private var showingAlert = false
     @State private var showingConfirmation = false
-    @State private var error: ValidationError? = nil
-    
+    @State private var error: ValidationError?
+
     @AppStorage("movieInstance") private var movieInstance: UUID?
     @AppStorage("instances") private var instances: [Instance] = []
-    
+
     @Environment(\.dismiss) private var dismiss
-    
+
     var body: some View {
         Form {
             Section {
@@ -24,14 +24,14 @@ struct InstanceForm: View {
                             Text(type.rawValue).tag(type)
                         }
                     }
-                    
+
                     LabeledContent {
                         TextField("Synology", text: $instance.label)
                             .multilineTextAlignment(.trailing)
                     } label: {
                         Text("Label")
                     }
-                    
+
                     LabeledContent {
                         TextField("", text: $instance.url, prompt: Text(verbatim: urlPlaceholder))
                             .multilineTextAlignment(.trailing)
@@ -42,7 +42,7 @@ struct InstanceForm: View {
                     } label: {
                         Text("URL")
                     }
-                    
+
                     LabeledContent {
                         TextField("0a1b2c3d...", text: $instance.apiKey)
                             .multilineTextAlignment(.trailing)
@@ -56,7 +56,7 @@ struct InstanceForm: View {
             } footer: {
                 Text("The API Key can be found under \"Settings > General > Security\".")
             }
-            
+
             if state == .update {
                 Section {
                     deleteInstance
@@ -64,7 +64,7 @@ struct InstanceForm: View {
             }
         }.onSubmit {
             guard !hasEmptyFields() else { return }
-            
+
             Task {
                 await saveInstance()
             }
@@ -87,14 +87,14 @@ struct InstanceForm: View {
             Text(error.recoverySuggestion ?? "Try again later.")
         }
     }
-    
+
     var urlPlaceholder: String {
         switch instance.type {
         case .radarr: "https://10.0.1.1:7878"
         case .sonarr: "https://10.0.1.1:8989"
         }
     }
-    
+
     var deleteInstance: some View {
         Button("Delete Instance") {
             showingConfirmation = true
@@ -104,10 +104,10 @@ struct InstanceForm: View {
                 if movieInstance == instance.id {
                     movieInstance = nil
                 }
-                
+
                 guard let index = instances.firstIndex(where: { $0.id == instance.id }) else { return }
                 instances.remove(at: index)
-                
+
                 dismiss()
             }
             Button("Cancel", role: .cancel) { }
@@ -123,9 +123,9 @@ extension InstanceForm {
     func saveInstance() async {
         do {
             isLoading = true
-            
+
             try await validateInstance()
-            
+
             switch state {
             case .create:
                 instances.append(instance)
@@ -133,7 +133,7 @@ extension InstanceForm {
                 guard let index = instances.firstIndex(where: { $0.id == instance.id }) else { return }
                 instances[index] = instance
             }
-            
+
             dismiss()
         } catch let error as ValidationError {
             isLoading = false
@@ -143,40 +143,40 @@ extension InstanceForm {
             fatalError()
         }
     }
-    
+
     func hasEmptyFields() -> Bool {
         return instance.label.isEmpty || instance.url.isEmpty || instance.apiKey.isEmpty
     }
-    
+
     func validateInstance() async throws {
         let rawUrl = URL(string: instance.url)!
-        
+
         // stip path from URL
         var components = URLComponents(url: rawUrl, resolvingAgainstBaseURL: false)!
         components.path = ""
-        
+
         let url = components.url!
         instance.url = url.absoluteString
-        
-        if (await !UIApplication.shared.canOpenURL(url)) {
+
+        if await !UIApplication.shared.canOpenURL(url) {
             throw ValidationError.urlNotValid
         }
-        
+
         // For testing use:
         // https://pub-5e0e3f7fd2d0441b82048eafc31ac436.r2.dev/status.json
-        
+
         var request = URLRequest(url: URL(string: "\(url)/api/v3/system/status")!)
         request.setValue(instance.apiKey, forHTTPHeaderField: "X-Api-Key")
-        
+
         var data: Data
         var response: URLResponse
-        
+
         do {
             (data, response) = try await URLSession.shared.data(for: request)
         } catch {
             throw ValidationError.urlNotReachable(error)
         }
-        
+
         let statusCode = (response as? HTTPURLResponse)?.statusCode
 
         if statusCode != 200 {
@@ -220,7 +220,7 @@ extension ValidationError: LocalizedError {
             return "Wrong Instance Type"
         }
     }
-    
+
     var recoverySuggestion: String? {
         switch self {
         case .urlNotValid:
