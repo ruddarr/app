@@ -5,7 +5,7 @@ struct MovieSearchView: View {
 
     @State private var searchQuery = ""
     @State private var isSearching = true
-    @State private var waitingforResults = false
+    @State private var displayingResults = false
     @State private var isAddingMovie: MovieLookup?
 
     @ObservedObject var lookup = MovieLookupModel()
@@ -32,23 +32,26 @@ struct MovieSearchView: View {
             .padding(.top, 10)
             .padding(.horizontal)
         }
-        .navigationTitle("Search")
+        .navigationTitle("Add Movie")
         .searchable(
             text: $searchQuery,
             isPresented: $isSearching,
             placement: .navigationBarDrawer(displayMode: .always)
         )
+        .onChange(of: searchQuery) {
+            displayingResults = false
+        }
         .onSubmit(of: .search) {
             Task {
-                waitingforResults = true
+                displayingResults = false
                 await lookup.search(instance, query: searchQuery)
-                waitingforResults = false
+                displayingResults = true
             }
         }
         .overlay {
             if case .noInternet? = lookup.error {
                 NoInternet()
-            } else if lookup.movies.isEmpty && !searchQuery.isEmpty && !waitingforResults {
+            } else if displayingResults && lookup.movies.isEmpty {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
