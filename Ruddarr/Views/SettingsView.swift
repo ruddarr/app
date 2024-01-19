@@ -1,4 +1,5 @@
 import SwiftUI
+import Nuke
 
 struct SettingsView: View {
     @AppStorage("instances") private var instances: [Instance] = []
@@ -8,6 +9,7 @@ struct SettingsView: View {
             List {
                 instanceSection
                 aboutSection
+                systemSection
             }
             .navigationTitle("Settings")
         }
@@ -40,6 +42,42 @@ struct SettingsView: View {
         .accentColor(.primary)
         .listRowSeparatorTint(.blue)
         .listRowSeparator(.hidden)
+    }
+
+    var systemSection: some View {
+        Section(header: Text("System")) {
+            Button(role: .destructive, action: {
+                clearImageCache()
+            }, label: {
+                LabeledContent("Clear Image Cache", value: imageCacheSize())
+            })
+
+            Button(role: .destructive, action: {
+                if let bundleID = Bundle.main.bundleIdentifier {
+                    UserDefaults.standard.removePersistentDomain(forName: bundleID)
+                }
+            }, label: {
+                Text("Erase All Settings")
+            })
+        }
+        .accentColor(.primary)
+        .listRowSeparatorTint(.blue)
+        .listRowSeparator(.hidden)
+    }
+
+    func imageCacheSize() -> String {
+        let name = "com.github.radarr.DataCache"
+        let dataCache = try? DataCache(name: name)
+        let size = dataCache?.totalSize
+
+        return ByteCountFormatter().string(fromByteCount: Int64(size!))
+    }
+
+    func clearImageCache() {
+        let name = "com.github.radarr.DataCache"
+        let dataCache = try? DataCache(name: name)
+
+        dataCache?.removeAll()
     }
 }
 
