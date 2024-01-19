@@ -124,6 +124,7 @@ extension InstanceForm {
         do {
             isLoading = true
 
+            sanitizeInstanceUrl()
             try await validateInstance()
 
             switch state {
@@ -148,44 +149,35 @@ extension InstanceForm {
         return instance.label.isEmpty || instance.url.isEmpty || instance.apiKey.isEmpty
     }
 
-    func validateInstance() async throws {
-        let rawUrl = URL(string: instance.url)!
+    // strip path from URL
+    func sanitizeInstanceUrl() {
+        let url = URL(string: instance.url)!
 
-        // strip path from URL
-        var components = URLComponents(url: rawUrl, resolvingAgainstBaseURL: false)!
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         components.path = ""
 
-        let url = components.url!
-        instance.url = url.absoluteString
+        instance.url = components.url!.absoluteString.lowercased()
+    }
+
+    func validateInstance() async throws {
+        let url = URL(string: instance.url)!
 
         if await !UIApplication.shared.canOpenURL(url) {
             throw ValidationError.urlNotValid
         }
 
-        let statusUrl = URL(string: "\(url)/api/v3/system/status")!
-
         var status: InstanceStatus?
-        var error: ApiError?
-
-        await Api<InstanceStatus>.call(
-            url: statusUrl,
-            authorization: instance.apiKey
-        ) { data in
-            status = data
-        } failure: { err in
-            error = err
-        }
-
-        switch error {
-        case .noInternet:
+        do {
+            status = try await dependencies.api.systemStatus(instance)
+        } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
+            //TODO: unreachable means invalid URL? weird.
             throw ValidationError.urlNotValid
-        case .badStatusCode(let code):
+        } catch API.Error.failingResponse(statusCode: let code) {
             throw ValidationError.badStatusCode(code)
-        case .requestFailure(let error):
-            throw ValidationError.urlNotReachable(error)
-        case .jsonFailure(let error):
+        } catch let error as DecodingError {
             throw ValidationError.badResponse(error)
-        case nil: break
+        } catch {
+            throw ValidationError.urlNotReachable(error)
         }
 
         guard let appName = status?.appName else {

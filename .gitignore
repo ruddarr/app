@@ -1,6 +1,5 @@
-# Xcode
-#
-# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+# macOS
+.DS_Store
 
 ## User settings
 xcuserdata/
@@ -65,10 +64,6 @@ playground.xcworkspace
 # Carthage/Checkouts
 
 Carthage/Build/
-
-# Accio dependency management
-Dependencies/
-.accio/
 
 # fastlane
 #

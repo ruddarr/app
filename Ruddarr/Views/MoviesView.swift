@@ -8,7 +8,7 @@ struct MoviesView: View {
     @State private var fetchedMovies = false
     @State private var sort: MovieSort = .init()
 
-    @ObservedObject var movies = MovieModel()
+    @State var movies = MovieModel()
 
     @AppStorage("movieInstance") private var selectedInstanceId: UUID?
     @AppStorage("instances") private var instances: [Instance] = []
@@ -77,7 +77,7 @@ struct MoviesView: View {
                 placement: .navigationBarDrawer(displayMode: .always)
             ).disabled(radarrInstance == nil)
             .overlay {
-                if case .noInternet? = movies.error {
+                if case .notConnectedToInternet? = (movies.error as? URLError)?.code {
                     NoInternet()
                 } else if displayedMovies.isEmpty && !searchQuery.isEmpty {
                     ContentUnavailableView(
@@ -261,4 +261,12 @@ struct MovieSort {
 
 #Preview {
     ContentView(selectedTab: .movies)
+}
+
+#Preview("Failing Fetch") {
+    dependencies.api.fetchMovies = { _ in
+        throw URLError(.notConnectedToInternet)
+    }
+
+    return ContentView(selectedTab: .movies)
 }

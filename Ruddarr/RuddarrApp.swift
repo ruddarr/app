@@ -6,6 +6,10 @@ struct RuddarrApp: App {
 
     init() {
         NetworkMonitor.shared.start()
+
+        #if DEBUG
+        dependencies = .mock
+        #endif
     }
 
     var body: some Scene {
