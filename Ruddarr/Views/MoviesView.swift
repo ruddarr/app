@@ -19,6 +19,8 @@ struct MoviesView: View {
         case search
     }
 
+    var onSettingsLinkTapped: () -> Void = { }
+
     var body: some View {
         let gridItemLayout = [
             GridItem(.adaptive(minimum: 250), spacing: 15)
@@ -61,8 +63,12 @@ struct MoviesView: View {
                     ContentUnavailableView(
                         "No Radarr Instance",
                         systemImage: "tv.slash",
-                        description: Text("Connect a Radarr instance under Settings.")
+                        description: Text("Connect a Radarr instance under [Settings](#view).")
                     )
+                    .environment(\.openURL, .init { _ in
+                        onSettingsLinkTapped()
+                        return .handled
+                    })
                 }
             }
             .navigationTitle("Movies")
@@ -71,12 +77,21 @@ struct MoviesView: View {
                 text: $searchQuery,
                 isPresented: $searchPresented,
                 placement: .navigationBarDrawer(displayMode: .always)
-            )
+            ).disabled(radarrInstance == nil)
             .overlay {
                 if case .noInternet? = movies.error {
                     NoInternet()
                 } else if displayedMovies.isEmpty && !searchQuery.isEmpty {
-                    ContentUnavailableView.search(text: searchQuery)
+                    ContentUnavailableView(
+                        "No Results for \"\(searchQuery)\"",
+                        systemImage: "magnifyingglass",
+                        description: Text("Check the spelling or try [adding the movie](#view).")
+                    ).environment(\.openURL, .init { _ in
+                        searchPresented = false
+                        searchQuery = ""
+                        path = .init([MoviesView.Path.search])
+                        return .handled
+                    })
                 }
             }
             .onAppear {
