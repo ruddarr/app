@@ -60,7 +60,7 @@ struct MoviesView: View {
                 } else {
                     ContentUnavailableView(
                         "No Radarr Instance",
-                        systemImage: "tv.slash",
+                        systemImage: "icloud.slash",
                         description: Text("Connect a Radarr instance under [Settings](#view).")
                     )
                     .environment(\.openURL, .init { _ in
