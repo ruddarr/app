@@ -80,7 +80,16 @@ struct MoviesView: View {
                 if case .noInternet? = movies.error {
                     NoInternet()
                 } else if displayedMovies.isEmpty && !searchQuery.isEmpty {
-                    ContentUnavailableView.search(text: searchQuery)
+                    ContentUnavailableView(
+                        "No Results for \"\(searchQuery)\"",
+                        systemImage: "magnifyingglass",
+                        description: Text("Check the spelling or try [adding the movie](#view).")
+                    ).environment(\.openURL, .init { _ in
+                        searchPresented = false
+                        searchQuery = ""
+                        path = .init([MoviesView.Path.search])
+                        return .handled
+                    })
                 }
             }
             .onAppear {
