@@ -1,8 +1,9 @@
 import SwiftUI
 
-class MovieLookupModel: ObservableObject {
-    @Published var movies: [MovieLookup] = []
-    @Published var error: ApiError?
+@Observable
+class MovieLookupModel {
+    var movies: [MovieLookup] = []
+    var error: ApiError?
 
     func search(_ instance: Instance, query: String) async {
         guard !query.isEmpty else {

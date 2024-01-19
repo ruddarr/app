@@ -10,7 +10,7 @@ struct MoviesView: View {
 
     // TODO: this should be StateObject if we're creating it here.
     // Maybe we can switch to @Observable and not worry about this?
-    @ObservedObject var movies = MovieModel()
+    @State var movies = MovieModel()
 
     @AppStorage("movieInstance") private var selectedInstanceId: UUID?
     @AppStorage("instances") private var instances: [Instance] = []

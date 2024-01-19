@@ -8,7 +8,7 @@ struct MovieSearchView: View {
     @State private var displayingResults = false
     @State private var isAddingMovie: MovieLookup?
 
-    @ObservedObject var lookup = MovieLookupModel()
+    @State var lookup = MovieLookupModel()
 
     let gridItemLayout = [
         GridItem(.adaptive(minimum: 250), spacing: 15)

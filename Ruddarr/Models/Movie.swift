@@ -1,8 +1,9 @@
 import SwiftUI
 
-class MovieModel: ObservableObject {
-    @Published var movies: [Movie] = []
-    @Published var error: ApiError?
+@Observable
+class MovieModel {
+    var movies: [Movie] = []
+    var error: ApiError?
 
     func fetch(_ instance: Instance) async {
         do {
