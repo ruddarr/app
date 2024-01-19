@@ -167,26 +167,17 @@ extension InstanceForm {
         }
 
         var status: InstanceStatus?
-        var apiError: ApiError?
-
         do {
             status = try await dependencies.api.systemStatus(instance)
-        } catch let error as ApiError {
-            apiError = error
-        } catch {
-            assertionFailure(error.localizedDescription)
-        }
-
-        switch apiError {
-        case .noInternet:
+        } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
+            //TODO: unreachable means invalid URL? weird.
             throw ValidationError.urlNotValid
-        case .badStatusCode(let code):
+        } catch API.Error.failingResponse(statusCode: let code) {
             throw ValidationError.badStatusCode(code)
-        case .requestFailure(let error):
-            throw ValidationError.urlNotReachable(error)
-        case .jsonFailure(let error):
+        } catch let error as DecodingError {
             throw ValidationError.badResponse(error)
-        case nil: break
+        } catch {
+            throw ValidationError.urlNotReachable(error)
         }
 
         guard let appName = status?.appName else {

@@ -3,21 +3,18 @@ import SwiftUI
 @Observable
 class MovieLookupModel {
     var movies: [MovieLookup] = []
-    var error: ApiError?
+    var error: Error?
 
     func search(_ instance: Instance, query: String) async {
         guard !query.isEmpty else {
             movies = []
             return
         }
-
+        
         do {
             movies = try await dependencies.api.lookupMovies(instance, query)
-        } catch let error as ApiError {
-            self.error = error
-            print("MovieLookupModel.search(): \(error)")
         } catch {
-            assertionFailure(error.localizedDescription)
+            self.error = error
         }
     }
 }

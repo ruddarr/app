@@ -3,17 +3,13 @@ import SwiftUI
 @Observable
 class MovieModel {
     var movies: [Movie] = []
-    var error: ApiError?
+    var error: Error?
 
     func fetch(_ instance: Instance) async {
         do {
             movies = try await dependencies.api.fetchMovies(instance)
-        } catch let error as ApiError {
-            self.error = error
-            print("MovieModel.fetch(): \(error)")
         } catch {
-            // TODO: this is what we get for fitting my untyped error from `throws` to your strongly typed model.
-            assertionFailure("Unknown error type \(error)")
+            self.error = error
         }
     }
 }

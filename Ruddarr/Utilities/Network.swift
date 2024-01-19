@@ -21,3 +21,9 @@ class NetworkMonitor {
         monitor.cancel()
     }
 }
+
+extension NetworkMonitor {
+    func checkReachability() throws {
+        guard isReachable else { throw URLError(.notConnectedToInternet) }
+    }
+}

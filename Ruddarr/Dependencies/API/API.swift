@@ -1,13 +1,6 @@
 import Foundation
 import SwiftUI
 
-enum ApiError: Error {
-    case noInternet
-    case jsonFailure(_ error: Error)
-    case requestFailure(_ error: Error)
-    case badStatusCode(_ code: Int)
-}
-
 struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [MovieLookup]
@@ -43,9 +36,7 @@ extension API {
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared
     ) async throws -> Response {
-        if !NetworkMonitor.shared.isReachable {
-            throw ApiError.noInternet
-        }
+        try NetworkMonitor.shared.checkReachability()
 
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue.uppercased()
@@ -61,27 +52,15 @@ extension API {
         if let authorization {
             request.addValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
         }
-
-        do {
-            let (json, response) = try await URLSession.shared.data(for: request)
-            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 599
-
-            if statusCode >= 300 {
-                throw ApiError.badStatusCode(statusCode)
-            }
-
-            do {
-                return try decoder.decode(Response.self, from: json)
-            } catch let error {
-                throw ApiError.jsonFailure(error)
-            }
-        } catch let apiError as ApiError {
-            // TODO: personally I'd just stick to idiomatic Swift's untyped errors as they have better ergonomics built in to the language.
-            // But if this is important to you, we can keep using strongly typed errors. In that case, we might consider replacing the
-            // `throws` keyword with Swift's Result type as the return value. I went with idiomatic Swift for my function api until told otherwise.
-            throw apiError // don't rewrap in `.requestFailure`
-        } catch let error {
-            throw ApiError.requestFailure(error)
+        
+        let (json, response) = try await URLSession.shared.data(for: request)
+        let statusCode = (response as? HTTPURLResponse)?.statusCode
+        
+        switch statusCode {
+        case (200..<400)?:
+            return try decoder.decode(Response.self, from: json)
+        default:
+            throw statusCode.map(Error.failingResponse) ?? SimpleError.assertionFailure
         }
     }
 
@@ -96,6 +75,12 @@ extension API {
         session: URLSession = .shared
     ) async throws -> Response {
         try await request(method: method, url: url, authorization: authorization, body: Empty?.none, decoder: decoder, encoder: encoder, session: session)
+    }
+}
+
+extension API {
+    enum Error: LocalizedError {
+        case failingResponse(statusCode: Int)
     }
 }
 

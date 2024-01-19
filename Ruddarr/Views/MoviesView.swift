@@ -79,7 +79,7 @@ struct MoviesView: View {
                 placement: .navigationBarDrawer(displayMode: .always)
             ).disabled(radarrInstance == nil)
             .overlay {
-                if case .noInternet? = movies.error {
+                if case .notConnectedToInternet? = (movies.error as? URLError)?.code {
                     NoInternet()
                 } else if displayedMovies.isEmpty && !searchQuery.isEmpty {
                     ContentUnavailableView(
@@ -267,7 +267,7 @@ struct MovieSort {
 
 #Preview("Failing Fetch") {
     dependencies.api.fetchMovies = { _ in
-        throw ApiError.noInternet
+        throw URLError(.notConnectedToInternet)
     }
 
     return ContentView(selectedTab: .movies)
