@@ -149,18 +149,23 @@ extension InstanceForm {
         return instance.label.isEmpty || instance.url.isEmpty || instance.apiKey.isEmpty
     }
 
-    // strip path from URL
     func sanitizeInstanceUrl() {
-        let url = URL(string: instance.url)!
+        if let url = URL(string: instance.url) {
+            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+            components.path = ""
 
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-        components.path = ""
+            if let urlWithoutPath = components.url {
+                instance.url = urlWithoutPath.absoluteString
+            }
+        }
 
-        instance.url = components.url!.absoluteString.lowercased()
+        instance.url = instance.url.lowercased()
     }
 
     func validateInstance() async throws {
-        let url = URL(string: instance.url)!
+        guard let url = URL(string: instance.url) else {
+            throw ValidationError.urlNotValid
+        }
 
         if await !UIApplication.shared.canOpenURL(url) {
             throw ValidationError.urlNotValid
@@ -170,9 +175,6 @@ extension InstanceForm {
 
         do {
             status = try await dependencies.api.systemStatus(instance)
-        } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
-            //TODO: unreachable means invalid URL? weird.
-            throw ValidationError.urlNotValid
         } catch API.Error.failingResponse(statusCode: let code) {
             throw ValidationError.badStatusCode(code)
         } catch let error as DecodingError {
@@ -210,7 +212,7 @@ extension ValidationError: LocalizedError {
         case .urlNotValid:
             return "Invalid URL"
         case .urlNotReachable:
-            return "Server Not Reachable"
+            return "URL Not Reachable"
         case .badStatusCode:
             return "Invalid Status Code"
         case .badResponse:
