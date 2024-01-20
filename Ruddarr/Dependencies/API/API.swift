@@ -60,7 +60,7 @@ extension API {
         case (200..<400)?:
             return try decoder.decode(Response.self, from: json)
         default:
-            throw statusCode.map(Error.failingResponse) ?? SimpleError.assertionFailure
+            throw statusCode.map(Error.failingResponse) ?? AppError.assertionFailure
         }
     }
 
