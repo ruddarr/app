@@ -238,6 +238,7 @@ struct MovieSort {
         var id: Self { self }
         case byTitle
         case byYear
+        case byAdded
 
         var title: String {
             switch self {
@@ -245,6 +246,8 @@ struct MovieSort {
                 "Title"
             case .byYear:
                 "Year"
+            case .byAdded:
+                "Added"
             }
         }
 
@@ -254,6 +257,8 @@ struct MovieSort {
                 lhs.sortTitle < rhs.sortTitle
             case .byYear:
                 lhs.year < rhs.year
+            case .byAdded:
+                lhs.dateAdded > rhs.dateAdded
             }
         }
     }

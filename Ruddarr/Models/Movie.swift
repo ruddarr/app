@@ -16,13 +16,22 @@ class MovieModel {
 
 struct Movie: Identifiable, Codable {
     let id: Int
+
     let title: String
     let sortTitle: String
     let studio: String?
     let year: Int
+
     let sizeOnDisk: Int?
     let monitored: Bool
+    var added: String
+
     let images: [MovieImage]
+
+    var dateAdded: Date {
+        ISO8601DateFormatter().date(from: self.added)
+            ?? DateFormatter().date(from: "01/01/1984")!
+    }
 
     var remotePoster: String? {
         // if let local = self.images.first(where: { $0.coverType == "poster" }) {
