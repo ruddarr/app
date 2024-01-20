@@ -43,13 +43,15 @@ struct MoviesView: View {
                         .padding(.top, searchPresented ? 10 : 0)
                         .padding(.horizontal)
                     }
-                    .task(id: scenePhase) {
-                        if scenePhase == .active {
-                            await movies.fetch(radarrInstance)
-                        }
+                    .task {
+                        await movies.fetch(radarrInstance)
                     }
                     .refreshable {
                         await movies.fetch(radarrInstance)
+                    }
+                    .onChange(of: scenePhase) { newPhase, oldPhase in
+                        guard newPhase == .background && oldPhase == .inactive else { return }
+                        Task { await movies.fetch(radarrInstance) }
                     }
                     .navigationDestination(for: Path.self) {
                         switch $0 {
