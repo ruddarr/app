@@ -5,13 +5,14 @@ struct MoviesView: View {
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
-    @State private var fetchedMovies = false
     @State private var sort: MovieSort = .init()
 
     @State var movies = MovieModel()
 
     @AppStorage("movieInstance") private var selectedInstanceId: UUID?
     @AppStorage("instances") private var instances: [Instance] = []
+
+    @Environment(\.scenePhase) private var scenePhase
 
     enum Path: Hashable {
         case search
@@ -42,11 +43,10 @@ struct MoviesView: View {
                         .padding(.top, searchPresented ? 10 : 0)
                         .padding(.horizontal)
                     }
-                    .task {
-                        guard !fetchedMovies else { return }
-                        fetchedMovies = true
-
-                        await movies.fetch(radarrInstance)
+                    .task(id: scenePhase) {
+                        if scenePhase == .active {
+                            await movies.fetch(radarrInstance)
+                        }
                     }
                     .refreshable {
                         await movies.fetch(radarrInstance)
