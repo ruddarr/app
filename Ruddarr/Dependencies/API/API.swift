@@ -52,10 +52,10 @@ extension API {
         if let authorization {
             request.addValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
         }
-        
+
         let (json, response) = try await URLSession.shared.data(for: request)
         let statusCode = (response as? HTTPURLResponse)?.statusCode
-        
+
         switch statusCode {
         case (200..<400)?:
             return try decoder.decode(Response.self, from: json)

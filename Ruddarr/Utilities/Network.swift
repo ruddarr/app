@@ -1,5 +1,5 @@
-import Foundation
 import Network
+import Foundation
 
 class NetworkMonitor {
     static let shared: NetworkMonitor = NetworkMonitor()
@@ -20,10 +20,10 @@ class NetworkMonitor {
     func stop() {
         monitor.cancel()
     }
-}
 
-extension NetworkMonitor {
     func checkReachability() throws {
-        guard isReachable else { throw URLError(.notConnectedToInternet) }
+        guard isReachable else {
+            throw URLError(.notConnectedToInternet)
+        }
     }
 }

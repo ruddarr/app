@@ -167,6 +167,7 @@ extension InstanceForm {
         }
 
         var status: InstanceStatus?
+
         do {
             status = try await dependencies.api.systemStatus(instance)
         } catch let urlError as URLError where urlError.code == .notConnectedToInternet {

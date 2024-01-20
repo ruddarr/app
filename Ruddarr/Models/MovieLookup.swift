@@ -10,7 +10,7 @@ class MovieLookupModel {
             movies = []
             return
         }
-        
+
         do {
             movies = try await dependencies.api.lookupMovies(instance, query)
         } catch {

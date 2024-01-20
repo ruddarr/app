@@ -190,7 +190,7 @@ struct MovieRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(movie.title)
                     .font(.subheadline)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .fontWeight(.bold)
                     .multilineTextAlignment(.leading)
 
                 HStack(spacing: 4) {
