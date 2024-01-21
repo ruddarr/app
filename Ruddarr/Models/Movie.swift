@@ -5,12 +5,22 @@ class MovieModel {
     var movies: [Movie] = []
     var error: Error?
 
+    var hasError: Bool = false
+    var isFetching: Bool = false
+
     func fetch(_ instance: Instance) async {
+        error = nil
+        hasError = false
+
         do {
+            isFetching = true
             movies = try await dependencies.api.fetchMovies(instance)
         } catch {
             self.error = error
+            self.hasError = true
         }
+
+        isFetching = false
     }
 }
 
