@@ -4,8 +4,7 @@ struct MovieSearchView: View {
     let instance: Instance
 
     @State private var searchQuery = ""
-    @State private var isSearching = true
-    @State private var displayingResults = false
+    @State private var presentingSearch = true
     @State private var isAddingMovie: MovieLookup?
 
     @State var lookup = MovieLookupModel()
@@ -17,7 +16,7 @@ struct MovieSearchView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: 15) {
-                ForEach(lookup.movies) { movie in
+                ForEach(lookup.movies ?? []) { movie in
                     Button {
                         isAddingMovie = movie
                     } label: {
@@ -35,23 +34,29 @@ struct MovieSearchView: View {
         .navigationTitle("Add Movie")
         .searchable(
             text: $searchQuery,
-            isPresented: $isSearching,
+            isPresented: $presentingSearch,
             placement: .navigationBarDrawer(displayMode: .always)
         )
         .onChange(of: searchQuery) {
-            displayingResults = false
+            lookup.movies = nil
         }
         .onSubmit(of: .search) {
             Task {
-                displayingResults = false
                 await lookup.search(instance, query: searchQuery)
-                displayingResults = true
             }
         }
+        .alert(isPresented: $lookup.hasError) {
+            Alert(
+                title: Text("An Error Occurred"),
+                message: Text(lookup.error?.localizedDescription ?? "An unknown error occurred")
+            )
+        }
         .overlay {
-            if case .notConnectedToInternet? = (lookup.error as? URLError)?.code {
-                NoInternet()
-            } else if displayingResults && lookup.movies.isEmpty {
+            if lookup.isSearching {
+                ProgressView {
+                    Text("Loading")
+                }
+            } else if lookup.movies?.count == 0 {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
