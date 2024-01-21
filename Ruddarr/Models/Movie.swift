@@ -24,20 +24,11 @@ struct Movie: Identifiable, Codable {
 
     let sizeOnDisk: Int?
     let monitored: Bool
-    var added: String
+    var added: Date
 
     let images: [MovieImage]
 
-    var dateAdded: Date {
-        ISO8601DateFormatter().date(from: self.added)
-            ?? DateFormatter().date(from: "01/01/1984")!
-    }
-
     var remotePoster: String? {
-        // if let local = self.images.first(where: { $0.coverType == "poster" }) {
-        //     return "http://10.0.1.5:8310\(local.url)"
-        // }
-
         if let remote = self.images.first(where: { $0.coverType == "poster" }) {
             return remote.remoteURL
         }
@@ -46,10 +37,6 @@ struct Movie: Identifiable, Codable {
     }
 
     var remoteFanart: String? {
-        // if let local = self.images.first(where: { $0.coverType == "poster" }) {
-        //     return "http://10.0.1.5:8310\(local.url)"
-        // }
-
         if let remote = self.images.first(where: { $0.coverType == "fanart" }) {
             return remote.remoteURL
         }

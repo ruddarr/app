@@ -20,10 +20,12 @@ fileprivate extension API {
     static func loadPreviewData<Model: Decodable>(filename: String) -> Model {
         if let path = Bundle.main.path(forResource: filename, ofType: "json") {
             do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path))
-                let results = try JSONDecoder().decode(Model.self, from: data)
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
 
-                return results
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+
+                return try decoder.decode(Model.self, from: data)
             } catch {
                 fatalError("Preview data `\(filename)` could not be decoded")
             }

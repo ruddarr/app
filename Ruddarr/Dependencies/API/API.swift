@@ -58,6 +58,7 @@ extension API {
 
         switch statusCode {
         case (200..<400)?:
+            decoder.dateDecodingStrategy = .iso8601
             return try decoder.decode(Response.self, from: json)
         default:
             throw statusCode.map(Error.failingResponse) ?? AppError.assertionFailure
