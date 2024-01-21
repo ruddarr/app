@@ -5,6 +5,9 @@ struct MoviesView: View {
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
+
+    @State private var error: Error?
+    @State private var alertPresented = false
     @State private var sort: MovieSort = .init()
 
     @State var movies = MovieModel()
@@ -37,21 +40,24 @@ struct MoviesView: View {
                                 } label: {
                                     MovieRow(movie: movie)
                                 }
-                                .buttonStyle(PlainButtonStyle())
+                                .buttonStyle(.plain)
                             }
                         }
                         .padding(.top, searchPresented ? 10 : 0)
                         .padding(.horizontal)
                     }
                     .task {
-                        await movies.fetch(radarrInstance)
+                        await fetchMoviesWithAlert(radarrInstance, ignoreOffline: true)
                     }
                     .refreshable {
-                        await movies.fetch(radarrInstance)
+                        await fetchMoviesWithAlert(radarrInstance)
                     }
                     .onChange(of: scenePhase) { newPhase, oldPhase in
                         guard newPhase == .background && oldPhase == .inactive else { return }
-                        Task { await movies.fetch(radarrInstance) }
+
+                        Task {
+                            await movies.fetch(radarrInstance)
+                        }
                     }
                     .navigationDestination(for: Path.self) {
                         switch $0 {
@@ -60,40 +66,10 @@ struct MoviesView: View {
                         }
                     }
                 } else {
-                    ContentUnavailableView(
-                        "No Radarr Instance",
-                        systemImage: "icloud.slash",
-                        description: Text("Connect a Radarr instance under [Settings](#view).")
-                    )
-                    .environment(\.openURL, .init { _ in
-                        onSettingsLinkTapped()
-                        return .handled
-                    })
+                    noRadarrInstance
                 }
             }
             .navigationTitle("Movies")
-            .toolbar(content: toolbar)
-            .searchable(
-                text: $searchQuery,
-                isPresented: $searchPresented,
-                placement: .navigationBarDrawer(displayMode: .always)
-            ).disabled(radarrInstance == nil)
-            .overlay {
-                if case .notConnectedToInternet? = (movies.error as? URLError)?.code {
-                    NoInternet()
-                } else if displayedMovies.isEmpty && !searchQuery.isEmpty {
-                    ContentUnavailableView(
-                        "No Results for \"\(searchQuery)\"",
-                        systemImage: "magnifyingglass",
-                        description: Text("Check the spelling or try [adding the movie](#view).")
-                    ).environment(\.openURL, .init { _ in
-                        searchPresented = false
-                        searchQuery = ""
-                        path = .init([MoviesView.Path.search])
-                        return .handled
-                    })
-                }
-            }
             .onAppear {
                 // if no instance is selected, try to select one
                 // if the selected instance was deleted, try to select one
@@ -101,44 +77,104 @@ struct MoviesView: View {
                     selectedInstanceId = radarrInstances.first?.id
                 }
             }
+            .toolbar {
+                toolbarActionButtons
+                toolbarSearchButton
+            }
+            .searchable(
+                text: $searchQuery,
+                isPresented: $searchPresented,
+                placement: .navigationBarDrawer(displayMode: .always)
+            )
+            .alert("Something Went Wrong", isPresented: $alertPresented) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(error?.localizedDescription ?? "An unknown error occurred.")
+            }
+            .overlay {
+                if case .notConnectedToInternet? = (error as? URLError)?.code {
+                    NoInternet()
+                } else if displayedMovies.isEmpty && !searchQuery.isEmpty {
+                    noSearchResults
+                }
+            }
+        }
+    }
+
+    var noRadarrInstance: some View {
+        ContentUnavailableView(
+            "No Radarr Instance",
+            systemImage: "icloud.slash",
+            description: Text("Connect a Radarr instance under [Settings](#view).")
+        )
+        .environment(\.openURL, .init { _ in
+            onSettingsLinkTapped()
+            return .handled
+        })
+    }
+
+    var noSearchResults: some View {
+        ContentUnavailableView(
+            "No Results for \"\(searchQuery)\"",
+            systemImage: "magnifyingglass",
+            description: Text("Check the spelling or try [adding the movie](#view).")
+        ).environment(\.openURL, .init { _ in
+            searchQuery = ""
+            searchPresented = false
+            path = .init([MoviesView.Path.search])
+            return .handled
+        })
+    }
+
+    @ToolbarContentBuilder
+    var toolbarSearchButton: some ToolbarContent {
+        if radarrInstance != nil {
+            ToolbarItem(placement: .primaryAction) {
+                NavigationLink(value: Path.search) {
+                    Image(systemName: "plus.circle")
+                }
+            }
         }
     }
 
     @ToolbarContentBuilder
-    func toolbar() -> some ToolbarContent {
+    var toolbarActionButtons: some ToolbarContent {
         ToolbarItemGroup(placement: .topBarLeading) {
             if radarrInstances.count > 1 {
-                Menu("Instances", systemImage: "xserve.raid") {
-                    Picker(selection: $selectedInstanceId, label: Text("Instance")) {
-                        ForEach(radarrInstances) { instance in
-                            Text(instance.label).tag(instance.id)
-                        }
-                    }.task(id: selectedInstanceId) {
-                        await movies.fetch(radarrInstance!)
-                    }
+                toolbarInstancesButton
+            }
+
+            toolbarSortingButton
+        }
+    }
+
+    var toolbarSortingButton: some View {
+        Menu("Sorting", systemImage: "arrow.up.arrow.down") {
+            Picker(selection: $sort.option, label: Text("Sorting options")) {
+                ForEach(MovieSort.Option.allCases) { sortOption in
+                    Text(sortOption.title).tag(sortOption)
                 }
             }
 
-            Menu("Sorting", systemImage: "arrow.up.arrow.down") {
-                Picker(selection: $sort.option, label: Text("Sorting options")) {
-                    ForEach(MovieSort.Option.allCases) { sortOption in
-                        Text(sortOption.title).tag(sortOption)
-                    }
-                }
-
-                Section {
-                    Picker(selection: $sort.isAscending, label: Text("Sorting direction")) {
-                        Text("Ascending").tag(true)
-                        Text("Descending").tag(false)
-                    }
+            Section {
+                Picker(selection: $sort.isAscending, label: Text("Sorting direction")) {
+                    Text("Ascending").tag(true)
+                    Text("Descending").tag(false)
                 }
             }
         }
+    }
 
-        ToolbarItemGroup(placement: .primaryAction) {
-            if radarrInstance != nil {
-                NavigationLink(value: Path.search) {
-                    Image(systemName: "plus.circle")
+    var toolbarInstancesButton: some View {
+        Menu("Instances", systemImage: "xserve.raid") {
+            Picker(selection: $selectedInstanceId, label: Text("Instance")) {
+                ForEach(radarrInstances) { instance in
+                    Text(instance.label).tag(instance.id)
+                }
+            }
+            .onChange(of: selectedInstanceId) {
+                Task {
+                    await fetchMoviesWithAlert(radarrInstance!)
                 }
             }
         }
@@ -165,9 +201,26 @@ struct MoviesView: View {
             }
         }
 
-        return sort.isAscending
-            ? unsortedMovies.sorted(by: sort.option.isOrderedBefore)
-            : unsortedMovies.sorted(by: sort.option.isOrderedBefore).reversed()
+        let sortedMovies = unsortedMovies.sorted(by: sort.option.isOrderedBefore)
+
+        return sort.isAscending ? sortedMovies : sortedMovies.reversed()
+    }
+
+    func fetchMoviesWithAlert(_ instance: Instance, ignoreOffline: Bool = false) async {
+        alertPresented = false
+        error = nil
+
+        await movies.fetch(instance)
+
+        if movies.hasError {
+            error = movies.error
+
+            if ignoreOffline && (movies.error as? URLError)?.code == .notConnectedToInternet {
+                return
+            }
+
+            alertPresented = movies.hasError
+        }
     }
 }
 
@@ -189,8 +242,9 @@ struct MovieRow: View {
 
                 HStack(spacing: 4) {
                     Text(String(movie.year))
-                    Text("•")
-                    Text(String(movie.studio ?? ""))
+                    // runtime
+                    //                    Text("•")
+                    //                    Text(String(movie.studio ?? ""))
                 }.font(.caption)
 
                 HStack(spacing: 8) {
@@ -262,9 +316,17 @@ struct MovieSort {
     ContentView(selectedTab: .movies)
 }
 
-#Preview("Failing Fetch") {
+#Preview("Offline") {
     dependencies.api.fetchMovies = { _ in
         throw URLError(.notConnectedToInternet)
+    }
+
+    return ContentView(selectedTab: .movies)
+}
+
+#Preview("Failure") {
+    dependencies.api.fetchMovies = { _ in
+        throw URLError(.badServerResponse)
     }
 
     return ContentView(selectedTab: .movies)

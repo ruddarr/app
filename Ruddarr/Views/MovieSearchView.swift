@@ -22,7 +22,7 @@ struct MovieSearchView: View {
                     } label: {
                         MovieLookupRow(movie: movie, instance: instance)
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(.plain)
                 }
                 .sheet(item: $isAddingMovie) { movie in
                     MovieLookupSheet(movie: movie)
