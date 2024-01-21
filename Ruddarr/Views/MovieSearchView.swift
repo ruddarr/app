@@ -45,11 +45,10 @@ struct MovieSearchView: View {
                 await lookup.search(instance, query: searchQuery)
             }
         }
-        .alert(isPresented: $lookup.hasError) {
-            Alert(
-                title: Text("An Error Occurred"),
-                message: Text(lookup.error?.localizedDescription ?? "An unknown error occurred")
-            )
+        .alert("Something Went Wrong", isPresented: $lookup.hasError, presenting: lookup.error) { _ in
+            Button("OK", role: .cancel) { }
+        } message: { error in
+            Text(error.localizedDescription)
         }
         .overlay {
             if lookup.isSearching {
