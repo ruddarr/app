@@ -5,8 +5,12 @@ class NetworkMonitor {
     static let shared: NetworkMonitor = NetworkMonitor()
 
     let monitor = NWPathMonitor()
+
     private var status: NWPath.Status = .requiresConnection
-    var isReachable: Bool { status == .satisfied }
+
+    var isReachable: Bool {
+        status == .satisfied
+    }
 
     func start() {
         monitor.pathUpdateHandler = { path in
