@@ -106,47 +106,37 @@ struct MoviesView: View {
 
     @ToolbarContentBuilder
     func toolbar() -> some ToolbarContent {
-        if radarrInstances.count > 1 {
-            ToolbarItem(placement: .topBarLeading) {
-                Menu("Instance", systemImage: "xserve.raid") {
-                    ForEach(radarrInstances) { instance in
-                        Button {
-                            self.selectedInstanceId = instance.id
-                            Task {
-                                await movies.fetch(instance)
-                            }
-                        } label: {
-                            HStack {
-                                Text(instance.label).frame(maxWidth: .infinity, alignment: .leading)
-                                if instance.id == selectedInstanceId {
-                                    Image(systemName: "checkmark")
-                                }
-                            }
+        ToolbarItemGroup(placement: .topBarLeading) {
+            if radarrInstances.count > 1 {
+                Menu("Instances", systemImage: "xserve.raid") {
+                    Picker(selection: $selectedInstanceId, label: Text("Instance")) {
+                        ForEach(radarrInstances) { instance in
+                            Text(instance.label).tag(instance.id)
                         }
+                    }.task(id: selectedInstanceId) {
+                        await movies.fetch(radarrInstance!)
+                    }
+                }
+            }
+
+            Menu("Sorting", systemImage: "arrow.up.arrow.down") {
+                Picker(selection: $sort.option, label: Text("Sorting options")) {
+                    ForEach(MovieSort.Option.allCases) { sortOption in
+                        Text(sortOption.title).tag(sortOption)
+                    }
+                }
+
+                Section {
+                    Picker(selection: $sort.isAscending, label: Text("Sorting direction")) {
+                        Text("Ascending").tag(true)
+                        Text("Descending").tag(false)
                     }
                 }
             }
         }
 
-        ToolbarItem(placement: .topBarTrailing) {
-            Menu("Sort by", systemImage: "arrow.up.arrow.down") {
-                ForEach(MovieSort.Option.allCases) { sortOption in
-                    Button {
-                        sort.option = sortOption
-                    } label: {
-                        HStack {
-                            Text(sortOption.title).frame(maxWidth: .infinity, alignment: .leading)
-                            if sortOption == sort.option {
-                                Image(systemName: "checkmark")
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if radarrInstance != nil {
-            ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItemGroup(placement: .primaryAction) {
+            if radarrInstance != nil {
                 NavigationLink(value: Path.search) {
                     Image(systemName: "plus.circle")
                 }
@@ -175,7 +165,9 @@ struct MoviesView: View {
             }
         }
 
-        return unsortedMovies.sorted(by: sort.option.isOrderedBefore)
+        return sort.isAscending
+            ? unsortedMovies.sorted(by: sort.option.isOrderedBefore)
+            : unsortedMovies.sorted(by: sort.option.isOrderedBefore).reversed()
     }
 }
 
@@ -228,7 +220,7 @@ struct MovieRow: View {
         }
         .frame(maxWidth: .infinity)
         .background(Color(UIColor.secondarySystemBackground))
-        .cornerRadius(4)
+        .cornerRadius(8)
     }
 }
 
@@ -260,7 +252,7 @@ struct MovieSort {
             case .byYear:
                 lhs.year < rhs.year
             case .byAdded:
-                lhs.dateAdded > rhs.dateAdded
+                lhs.added < rhs.added
             }
         }
     }

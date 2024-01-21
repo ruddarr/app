@@ -84,7 +84,7 @@ struct MovieLookupRow: View {
         }
         .frame(maxWidth: .infinity)
         .background(Color(UIColor.secondarySystemBackground))
-        .cornerRadius(4)
+        .cornerRadius(8)
     }
 }
 
