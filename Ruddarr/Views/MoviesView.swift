@@ -131,7 +131,7 @@ struct MoviesView: View {
         if radarrInstance != nil {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(value: Path.search) {
-                    Image(systemName: "plus.circle")
+                    Image(systemName: "plus")
                 }
             }
         }
