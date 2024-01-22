@@ -5,10 +5,14 @@ class PreviewData {
         if let path = Bundle.main.path(forResource: name, ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
-                let results = try JSONDecoder().decode([T].self, from: data)
 
-                return results
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
+
+                return try decoder.decode([T].self, from: data)
             } catch {
+                print(error)
+
                 return []
             }
         }
