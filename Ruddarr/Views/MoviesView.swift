@@ -169,7 +169,7 @@ struct MoviesView: View {
         Menu("Instances", systemImage: "xserve.raid") {
             Picker(selection: $selectedInstanceId, label: Text("Instance")) {
                 ForEach(radarrInstances) { instance in
-                    Text(instance.label).tag(instance.id)
+                    Text(instance.label).tag(Optional.some(instance.id))
                 }
             }
             .onChange(of: selectedInstanceId) {
