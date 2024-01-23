@@ -119,7 +119,7 @@ extension CloudStorageSync {
         ubiquitousKvs.array(forKey: key)
     }
 
-    public func dictionary(for key: String) -> [String : Any]? {
+    public func dictionary(for key: String) -> [String: Any]? {
         ubiquitousKvs.dictionary(forKey: key)
     }
 
@@ -147,7 +147,6 @@ extension CloudStorageSync {
         return ubiquitousKvs.bool(forKey: key)
     }
 
-
     public func set(_ value: String?, for key: String) {
         ubiquitousKvs.set(value, forKey: key)
         status = Status(date: Date(), source: .localChange, keys: [key])
@@ -168,7 +167,7 @@ extension CloudStorageSync {
         status = Status(date: Date(), source: .localChange, keys: [key])
     }
 
-    public func set(_ value: [String : Any]?, for key: String) {
+    public func set(_ value: [String: Any]?, for key: String) {
         ubiquitousKvs.set(value, forKey: key)
         status = Status(date: Date(), source: .localChange, keys: [key])
     }
