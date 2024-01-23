@@ -19,16 +19,13 @@ struct SettingsView: View {
         Section(header: Text("Instances")) {
             ForEach(instances) { instance in
                 NavigationLink {
-                    InstanceForm(state: .update, instance: instance)
+                    InstanceForm(instance: instance, state: .update)
                 } label: {
-                    VStack(alignment: .leading) {
-                        Text(instance.label)
-                        Text(instance.type.rawValue).font(.footnote).foregroundStyle(.gray)
-                    }
+                    InstanceRow(instance: instance)
                 }
             }
             NavigationLink("Add instance") {
-                InstanceForm(state: .create, instance: Instance())
+                InstanceForm(instance: Instance(), state: .create)
             }
         }
     }
@@ -135,6 +132,41 @@ struct SettingsView: View {
         }
 
         return URL(string: "https://github.com/tillkruss/ruddarr/issues/")!
+    }
+}
+
+struct InstanceRow: View {
+    var instance: Instance
+
+    @State private var status: Status = .pending
+
+    enum Status {
+        case pending
+        case reachable
+        case unreachable
+    }
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(instance.label)
+
+            HStack {
+                switch status {
+                case .pending: Text("Connecting...")
+                case .reachable: Text("Connected")
+                case .unreachable: Text("Connection failed").foregroundStyle(.red)
+                }
+            }
+            .font(.footnote)
+            .foregroundStyle(.gray)
+        }.task {
+            do {
+                _ = try await dependencies.api.systemStatus(instance)
+                status = .reachable
+            } catch {
+                status = .unreachable
+            }
+        }
     }
 }
 

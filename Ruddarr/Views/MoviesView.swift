@@ -290,12 +290,9 @@ struct MovieSort {
 
         var title: String {
             switch self {
-            case .byTitle:
-                "Title"
-            case .byYear:
-                "Year"
-            case .byAdded:
-                "Added"
+            case .byTitle: "Title"
+            case .byYear: "Year"
+            case .byAdded: "Added"
             }
         }
 
