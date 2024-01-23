@@ -10,7 +10,7 @@ struct InstanceForm: View {
     @State private var error: ValidationError?
 
     @AppStorage("movieInstance") private var movieInstance: UUID?
-    @AppStorage("instances") private var instances: [Instance] = []
+    @CloudStorage("instances") private var instances: [Instance] = []
 
     @Environment(\.dismiss) private var dismiss
 

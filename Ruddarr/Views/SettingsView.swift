@@ -2,7 +2,7 @@ import SwiftUI
 import Nuke
 
 struct SettingsView: View {
-    @AppStorage("instances") private var instances: [Instance] = []
+    @CloudStorage("instances") private var instances: [Instance] = []
 
     var body: some View {
         NavigationStack {
@@ -178,9 +178,13 @@ struct ThridPartyLibraries: View {
                     Text("Nuke")
                     Text("12.3.0").foregroundColor(.secondary)
                     Spacer()
-                    Image(systemName: "chevron.right")
-                        .imageScale(.small)
-                        .foregroundColor(.secondary)
+                }
+            })
+            Link(destination: URL(string: "https://github.com/nonstrict-hq/CloudStorage")!, label: {
+                HStack {
+                    Text("CloudStorage")
+                    Text("0.4.0").foregroundColor(.secondary)
+                    Spacer()
                 }
             })
         }
