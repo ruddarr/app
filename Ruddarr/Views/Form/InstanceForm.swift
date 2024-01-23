@@ -9,7 +9,6 @@ struct InstanceForm: View {
     @State private var showingConfirmation = false
     @State private var error: ValidationError?
 
-    @AppStorage("movieInstance") private var movieInstance: UUID?
     @CloudStorage("instances") private var instances: [Instance] = []
 
     @Environment(\.dismiss) private var dismiss
@@ -100,10 +99,6 @@ struct InstanceForm: View {
         }
         .confirmationDialog("Are you sure?", isPresented: $showingConfirmation) {
             Button("Delete instance", role: .destructive) {
-                if movieInstance == instance.id {
-                    movieInstance = nil
-                }
-
                 guard let index = instances.firstIndex(where: { $0.id == instance.id }) else { return }
                 instances.remove(at: index)
 
