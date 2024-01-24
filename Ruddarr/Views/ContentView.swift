@@ -1,13 +1,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var selectedTab: Tab = .movies
     @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
 
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .pad {
             NavigationSplitView(columnVisibility: $columnVisibility) {
-                List(selection: $selectedTab.optional) {
+                List(selection: dependencies.$router.selectedTab.optional) {
                     Text("Ruddarr")
                         .font(.title)
                         .fontWeight(.bold)
@@ -15,7 +14,7 @@ struct ContentView: View {
 
                     ForEach(Tab.allCases) { tab in
                         let button = Button {
-                            selectedTab = tab
+                            dependencies.router.selectedTab = tab
                             columnVisibility = .detailOnly
                         } label: {
                             tab.label
@@ -31,10 +30,14 @@ struct ContentView: View {
                     }
                 }
             } detail: {
-                screen(for: selectedTab)
+                screen(for: dependencies.router.selectedTab)
             }
         } else {
-            TabView(selection: $selectedTab) {
+            TabView(selection: dependencies.$router.selectedTab.onSet {
+                if $0 == dependencies.router.selectedTab {
+                    pop(tab: $0)
+                }
+            }) {
                 ForEach(Tab.allCases) { tab in
                     screen(for: tab)
                         .tabItem { tab.label }
@@ -44,32 +47,30 @@ struct ContentView: View {
         }
     }
 
-    @ViewBuilder
-    func screen(for tab: Tab) -> some View {
-        switch selectedTab {
-        case .movies: MoviesView(onSettingsLinkTapped: { selectedTab = .settings })
-        case .shows: ShowsView()
-        case .settings: SettingsView()
+    func pop(tab: Tab) {
+        switch tab {
+        case .movies:
+            dependencies.router.moviesPath = .init()
+        case .settings:
+            dependencies.router.settingsPath = .init()
+        default:
+            break
         }
     }
-}
-
-enum Tab: Hashable, CaseIterable, Identifiable {
-    var id: Self { self }
-
-    case movies
-    case shows
-    case settings
-
+    
     @ViewBuilder
-    var label: some View {
-        switch self {
+    func screen(for tab: Tab) -> some View {
+        switch tab {
         case .movies:
-            Label("Movies", systemImage: "popcorn.fill")
+            MoviesView(
+                onSettingsLinkTapped: {
+                    dependencies.router.selectedTab = .settings
+                }
+            )
         case .shows:
-            Label("Shows", systemImage: "tv.inset.filled")
+            ShowsView()
         case .settings:
-            Label("Settings", systemImage: "gear")
+            SettingsView()
         }
     }
 }

@@ -41,15 +41,3 @@ func logger(_ category: String = "default") -> Logger {
         category: category
     )
 }
-
-extension Binding {
-    var optional: Binding<Value?> {
-        .init {
-            wrappedValue
-        } set: {
-            if let value = $0 {
-                wrappedValue = value
-            }
-        }
-    }
-}

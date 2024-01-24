@@ -233,10 +233,11 @@ extension ValidationError: LocalizedError {
 }
 
 #Preview {
-    InstanceForm(
-        // instance: Instance()
-        instance: Instance(url: "HTTP://10.0.1.5:8310/api", apiKey: "8f45bce99e254f888b7a2ba122468dbe"),
-        // instance: Instance(url: "http://10.0.1.5:8989/api", apiKey: "f8e3682b3b984cddbaa00047a09d0fbd")
-        state: .create
+    dependencies.router.selectedTab = .settings
+
+    dependencies.router.settingsPath.append(
+        SettingsView.Path.createInstance
     )
+
+    return ContentView()
 }

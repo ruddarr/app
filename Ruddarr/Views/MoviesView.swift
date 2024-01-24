@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct MoviesView: View {
-    @State var path: NavigationPath = .init()
-
     @State private var searchQuery = ""
     @State private var searchPresented = false
 
@@ -19,6 +17,7 @@ struct MoviesView: View {
 
     enum Path: Hashable {
         case search
+        case movie(Movie.ID)
     }
 
     var onSettingsLinkTapped: () -> Void = { }
@@ -28,16 +27,13 @@ struct MoviesView: View {
             GridItem(.adaptive(minimum: 250), spacing: 15)
         ]
 
-        NavigationStack(path: $path) {
+        NavigationStack(path: dependencies.$router.moviesPath) {
             Group {
                 if let radarrInstance {
                     ScrollView {
                         LazyVGrid(columns: gridItemLayout, spacing: 15) {
                             ForEach(displayedMovies) { movie in
-                                NavigationLink {
-                                    MovieView(movie: movie)
-                                        .navigationTitle(movie.title)
-                                } label: {
+                                NavigationLink(value: Path.movie(movie.id)) {
                                     MovieRow(movie: movie)
                                 }
                                 .buttonStyle(.plain)
@@ -59,17 +55,23 @@ struct MoviesView: View {
                             await movies.fetch(radarrInstance)
                         }
                     }
-                    .navigationDestination(for: Path.self) {
-                        switch $0 {
-                        case .search:
-                            MovieSearchView(instance: radarrInstance)
-                        }
-                    }
                 } else {
                     noRadarrInstance
                 }
             }
             .navigationTitle("Movies")
+            .navigationDestination(for: Path.self) {
+                switch $0 {
+                case .search:
+                    if let radarrInstance {
+                        MovieSearchView(instance: radarrInstance)
+                    }
+                case .movie(let movieId):
+                    if let movie = movies.byId(movieId) {
+                        MovieView(movie: movie)
+                    }
+                }
+            }
             .onAppear {
                 // if no instance is selected, try to select one
                 // if the selected instance was deleted, try to select one
@@ -121,7 +123,7 @@ struct MoviesView: View {
         ).environment(\.openURL, .init { _ in
             searchQuery = ""
             searchPresented = false
-            path = .init([MoviesView.Path.search])
+            dependencies.router.moviesPath.append(MoviesView.Path.search)
             return .handled
         })
     }
@@ -310,7 +312,7 @@ struct MovieSort {
 }
 
 #Preview {
-    ContentView(selectedTab: .movies)
+    ContentView()
 }
 
 #Preview("Offline") {
@@ -318,7 +320,7 @@ struct MovieSort {
         throw URLError(.notConnectedToInternet)
     }
 
-    return ContentView(selectedTab: .movies)
+    return ContentView()
 }
 
 #Preview("Failure") {
@@ -326,5 +328,5 @@ struct MovieSort {
         throw URLError(.badServerResponse)
     }
 
-    return ContentView(selectedTab: .movies)
+    return ContentView()
 }

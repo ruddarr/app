@@ -7,28 +7,45 @@ struct SettingsView: View {
 
     @CloudStorage("instances") private var instances: [Instance] = []
 
+    enum Path: Hashable {
+        case libraries
+        case createInstance
+        case editInstance(Instance.ID)
+    }
+
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: dependencies.$router.settingsPath) {
             List {
                 instanceSection
                 aboutSection
                 systemSection
             }
             .navigationTitle("Settings")
+            .navigationDestination(for: Path.self) {
+                switch $0 {
+                case .libraries:
+                    ThridPartyLibraries()
+                case .createInstance:
+                    InstanceForm(state: .create, instance: Instance())
+                    // InstanceForm(state: .create, instance: Instance(url: "HTTP://10.0.1.5:8310/api", apiKey: "8f45bce99e254f888b7a2ba122468dbe"))
+                case .editInstance(let instanceId):
+                    let instance = instances.first(where: { $0.id == instanceId })
+                    InstanceForm(state: .update, instance: instance!)
+                }
+            }
         }
     }
 
     var instanceSection: some View {
         Section(header: Text("Instances")) {
             ForEach(instances) { instance in
-                NavigationLink {
-                    InstanceForm(instance: instance, state: .update)
-                } label: {
+                NavigationLink(value: Path.editInstance(instance.id)) {
                     InstanceRow(instance: instance)
                 }
             }
-            NavigationLink("Add instance") {
-                InstanceForm(instance: Instance(), state: .create)
+
+            NavigationLink(value: Path.createInstance) {
+                Text("Add instance")
             }
         }
     }
@@ -215,5 +232,17 @@ struct ThridPartyLibraries: View {
 }
 
 #Preview {
-    ContentView(selectedTab: .settings)
+    dependencies.router.selectedTab = .settings
+
+    return ContentView()
+}
+
+#Preview("Libraries") {
+    dependencies.router.selectedTab = .settings
+
+    dependencies.router.settingsPath.append(
+        SettingsView.Path.libraries
+    )
+
+    return ContentView()
 }
