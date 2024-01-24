@@ -1,8 +1,11 @@
+import os
 import SwiftUI
 import Nuke
 
 struct SettingsView: View {
-    @AppStorage("instances") private var instances: [Instance] = []
+    private let log: Logger = logger("settings")
+
+    @CloudStorage("instances") private var instances: [Instance] = []
 
     enum Path: Hashable {
         case libraries
@@ -37,12 +40,10 @@ struct SettingsView: View {
         Section(header: Text("Instances")) {
             ForEach(instances) { instance in
                 NavigationLink(value: Path.editInstance(instance.id)) {
-                    VStack(alignment: .leading) {
-                        Text(instance.label)
-                        Text(instance.type.rawValue).font(.footnote).foregroundStyle(.gray)
-                    }
+                    InstanceRow(instance: instance)
                 }
             }
+
             NavigationLink(value: Path.createInstance) {
                 Text("Add instance")
             }
@@ -63,12 +64,14 @@ struct SettingsView: View {
                 Label("Leave a Review", systemImage: "star")
             })
 
-            Link(destination: supportEmailUrl(), label: {
+            Button {
+                Task { await openSupportEmail() }
+            } label: {
                 Label("Email Support", systemImage: "square.and.pencil")
-            })
+            }
 
             Link(destination: githubUrl, label: {
-                Label("Contribute on GitHub", systemImage: "chevron.left.slash.chevron.right")
+                Label("Contribute on GitHub", systemImage: "curlybraces.square")
             })
 
             NavigationLink { ThridPartyLibraries() } label: {
@@ -124,16 +127,21 @@ struct SettingsView: View {
         imageCacheSize = 0
     }
 
-    func supportEmailUrl() -> URL {
+    // If desired add `mailto` to `LSApplicationQueriesSchemes` in `Info.plist`
+    func openSupportEmail() async {
+        let meta = await Telemetry.shared.metadata()
+
         let address = "support@ruddarr.com"
         let subject = "Support Request"
 
         let body = """
         ---
-        The following information may help with debugging:
+        The following information will help with debugging:
 
-        App Version:
-        iOS Version:
+        Version: \(meta[.appVersion] ?? "nil") (\(meta[.appBuild] ?? "nil"))
+        Platform: \(meta[.systemName] ?? "nil") (\(meta[.systemVersion] ?? "nil"))
+        Device: \(meta[.deviceId] ?? "nil")
+        User: \(meta[.cloudkitStatus]!) (\(meta[.cloudkitUserId] ?? "nil"))
         """
 
         var components = URLComponents()
@@ -144,13 +152,58 @@ struct SettingsView: View {
             URLQueryItem(name: "body", value: body)
         ]
 
-        if let url = components.url {
-            if UIApplication.shared.canOpenURL(url) {
-                return url
+        if let mailtoUrl = components.url {
+            if UIApplication.shared.canOpenURL(mailtoUrl) {
+                if await UIApplication.shared.open(mailtoUrl) {
+                    return
+                }
             }
+
+            log.warning("Unable to open mailto URL: \(mailtoUrl)")
         }
 
-        return URL(string: "https://github.com/tillkruss/ruddarr/issues/")!
+        let gitHubUrl = URL(string: "https://github.com/tillkruss/ruddarr/issues/")!
+
+        if await UIApplication.shared.open(gitHubUrl) {
+            return
+        }
+
+        log.critical("Unable to open URL: \(gitHubUrl, privacy: .public)")
+    }
+}
+
+struct InstanceRow: View {
+    var instance: Instance
+
+    @State private var status: Status = .pending
+
+    enum Status {
+        case pending
+        case reachable
+        case unreachable
+    }
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(instance.label)
+
+            HStack {
+                switch status {
+                case .pending: Text("Connecting...")
+                case .reachable: Text("Connected")
+                case .unreachable: Text("Connection failed").foregroundStyle(.red)
+                }
+            }
+            .font(.footnote)
+            .foregroundStyle(.gray)
+        }.task {
+            do {
+                _ = try await dependencies.api.systemStatus(instance)
+                status = .reachable
+            } catch {
+                status = .unreachable
+            }
+        }
     }
 }
 
@@ -162,9 +215,13 @@ struct ThridPartyLibraries: View {
                     Text("Nuke")
                     Text("12.3.0").foregroundColor(.secondary)
                     Spacer()
-                    Image(systemName: "chevron.right")
-                        .imageScale(.small)
-                        .foregroundColor(.secondary)
+                }
+            })
+            Link(destination: URL(string: "https://github.com/nonstrict-hq/CloudStorage")!, label: {
+                HStack {
+                    Text("CloudStorage")
+                    Text("0.4.0").foregroundColor(.secondary)
+                    Spacer()
                 }
             })
         }

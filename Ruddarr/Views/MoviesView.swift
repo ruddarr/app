@@ -11,7 +11,7 @@ struct MoviesView: View {
     @State var movies = MovieModel()
 
     @AppStorage("movieInstance") private var selectedInstanceId: UUID?
-    @AppStorage("instances") private var instances: [Instance] = []
+    @CloudStorage("instances") private var instances: [Instance] = []
 
     @Environment(\.scenePhase) private var scenePhase
 
@@ -292,12 +292,9 @@ struct MovieSort {
 
         var title: String {
             switch self {
-            case .byTitle:
-                "Title"
-            case .byYear:
-                "Year"
-            case .byAdded:
-                "Added"
+            case .byTitle: "Title"
+            case .byYear: "Year"
+            case .byAdded: "Added"
             }
         }
 

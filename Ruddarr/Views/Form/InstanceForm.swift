@@ -1,17 +1,15 @@
 import SwiftUI
 
 struct InstanceForm: View {
-    let state: FormState
-
     @State var instance: Instance
+    let state: FormState
 
     @State private var isLoading = false
     @State private var showingAlert = false
     @State private var showingConfirmation = false
     @State private var error: ValidationError?
 
-    @AppStorage("movieInstance") private var movieInstance: UUID?
-    @AppStorage("instances") private var instances: [Instance] = []
+    @CloudStorage("instances") private var instances: [Instance] = []
 
     @Environment(\.dismiss) private var dismiss
 
@@ -101,10 +99,6 @@ struct InstanceForm: View {
         }
         .confirmationDialog("Are you sure?", isPresented: $showingConfirmation) {
             Button("Delete instance", role: .destructive) {
-                if movieInstance == instance.id {
-                    movieInstance = nil
-                }
-
                 guard let index = instances.firstIndex(where: { $0.id == instance.id }) else { return }
                 instances.remove(at: index)
 
@@ -167,7 +161,7 @@ extension InstanceForm {
             throw ValidationError.urlNotValid
         }
 
-        if await !UIApplication.shared.canOpenURL(url) {
+        if !UIApplication.shared.canOpenURL(url) {
             throw ValidationError.urlNotValid
         }
 
