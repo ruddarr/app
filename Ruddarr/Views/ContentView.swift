@@ -67,26 +67,6 @@ struct ContentView: View {
     }
 }
 
-enum Tab: Hashable, CaseIterable, Identifiable {
-    var id: Self { self }
-
-    case movies
-    case shows
-    case settings
-
-    @ViewBuilder
-    var label: some View {
-        switch self {
-        case .movies:
-            Label("Movies", systemImage: "popcorn.fill")
-        case .shows:
-            Label("Shows", systemImage: "tv.inset.filled")
-        case .settings:
-            Label("Settings", systemImage: "gear")
-        }
-    }
-}
-
 #Preview {
     ContentView()
 }
