@@ -51,6 +51,8 @@ struct ContentView: View {
         switch tab {
         case .movies:
             dependencies.router.moviesPath = .init()
+        case .settings:
+            dependencies.router.settingsPath = .init()
         default:
             break
         }

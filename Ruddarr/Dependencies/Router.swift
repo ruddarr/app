@@ -8,6 +8,7 @@ final class Router {
     var selectedTab: Tab = .movies
 
     var moviesPath: NavigationPath = .init()
+    var settingsPath: NavigationPath = .init()
 }
 
 enum Tab: Hashable, CaseIterable, Identifiable {
