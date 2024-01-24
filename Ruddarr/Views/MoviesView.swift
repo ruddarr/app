@@ -66,10 +66,9 @@ struct MoviesView: View {
                     if let radarrInstance {
                         MovieSearchView(instance: radarrInstance)
                     }
-                case .movie(let id):
-                    if let movie = displayedMovies.first(where: { $0.id == id }) {
-                           MovieView(movie: movie)
-                               .navigationTitle(movie.title)
+                case .movie(let movieId):
+                    if let movie = movies.byId(movieId) {
+                        MovieView(movie: movie)
                     }
                 }
             }

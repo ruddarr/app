@@ -115,8 +115,8 @@ struct MovieLookupSheet: View {
 }
 
 #Preview {
-    // This preview only works when at least one instance was added in settings
-Text("TODO")
-    //TODO:
-//    MoviesView(path: .init(path: .consta[MoviesView.Path.search]))
+    dependencies.router.selectedTab = .movies
+    dependencies.router.moviesPath.append(MoviesView.Path.search)
+
+    return ContentView()
 }

@@ -8,6 +8,14 @@ class MovieModel {
     var hasError: Bool = false
     var isFetching: Bool = false
 
+    func byId(_ id: Int) -> Movie? {
+        if let movie = movies.first(where: { $0.id == id }) {
+            return movie
+        }
+
+        return nil
+    }
+
     func fetch(_ instance: Instance) async {
         error = nil
         hasError = false

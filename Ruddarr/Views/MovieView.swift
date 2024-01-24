@@ -9,7 +9,13 @@ struct MovieView: View {
 }
 
 #Preview {
-    MovieView(
-        movie: PreviewData.load(name: "movies")[0]
+    let movies: [Movie] = PreviewData.load(name: "movies")
+
+    dependencies.router.selectedTab = .movies
+
+    dependencies.router.moviesPath.append(
+        MoviesView.Path.movie(movies[2].id)
     )
+
+    return ContentView()
 }
