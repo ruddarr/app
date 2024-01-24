@@ -1,3 +1,4 @@
+import os
 import SwiftUI
 
 @main
@@ -7,14 +8,21 @@ struct RuddarrApp: App {
     init() {
         NetworkMonitor.shared.start()
 
-        #if DEBUG
         dependencies = .mock
-        #endif
+#if DEBUG
+#endif
     }
 
     var body: some Scene {
+        let appBecameActivePublisher = NotificationCenter.default.publisher(
+            for: UIApplication.didBecomeActiveNotification
+        )
+
         WindowGroup {
             ContentView()
+                .onReceive(appBecameActivePublisher) { _ in
+                    Telemetry.shared.maybeUploadTelemetry()
+                }
         }
     }
 }
@@ -25,6 +33,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
         return true
     }
+}
+
+func logger(_ category: String = "default") -> Logger {
+    return Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: category
+    )
 }
 
 extension Binding {

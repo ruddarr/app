@@ -161,7 +161,7 @@ extension InstanceForm {
             throw ValidationError.urlNotValid
         }
 
-        if await !UIApplication.shared.canOpenURL(url) {
+        if !UIApplication.shared.canOpenURL(url) {
             throw ValidationError.urlNotValid
         }
 
