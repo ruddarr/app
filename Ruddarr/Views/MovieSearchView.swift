@@ -3,7 +3,7 @@ import SwiftUI
 struct MovieSearchView: View {
     let instance: Instance
 
-    @State private var searchQuery = ""
+    @State var searchQuery = ""
     @State private var presentingSearch = true
     @State private var isAddingMovie: MovieLookup?
 
@@ -98,7 +98,7 @@ struct MovieLookupSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Text("Add movie")
             }
@@ -116,7 +116,7 @@ struct MovieLookupSheet: View {
 
 #Preview {
     dependencies.router.selectedTab = .movies
-    dependencies.router.moviesPath.append(MoviesView.Path.search)
+    dependencies.router.moviesPath.append(MoviesView.Path.search())
 
     return ContentView()
 }

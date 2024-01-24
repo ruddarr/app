@@ -16,8 +16,9 @@ struct MoviesView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     enum Path: Hashable {
-        case search
+        case search(String = "")
         case movie(Movie.ID)
+        case edit(Movie.ID)
     }
 
     var onSettingsLinkTapped: () -> Void = { }
@@ -62,9 +63,9 @@ struct MoviesView: View {
             .navigationTitle("Movies")
             .navigationDestination(for: Path.self) {
                 switch $0 {
-                case .search:
+                case .search(let query):
                     if let radarrInstance {
-                        MovieSearchView(instance: radarrInstance)
+                        MovieSearchView(instance: radarrInstance, searchQuery: query)
                     }
                 case .movie(let movieId):
                     if let movie = movies.byId(movieId) {
@@ -121,9 +122,9 @@ struct MoviesView: View {
             systemImage: "magnifyingglass",
             description: Text("Check the spelling or try [adding the movie](#view).")
         ).environment(\.openURL, .init { _ in
-            searchQuery = ""
             searchPresented = false
-            dependencies.router.moviesPath.append(MoviesView.Path.search)
+            dependencies.router.moviesPath.append(MoviesView.Path.search(searchQuery))
+            searchQuery = ""
             return .handled
         })
     }
@@ -132,7 +133,7 @@ struct MoviesView: View {
     var toolbarSearchButton: some ToolbarContent {
         if radarrInstance != nil {
             ToolbarItem(placement: .primaryAction) {
-                NavigationLink(value: Path.search) {
+                NavigationLink(value: Path.search()) {
                     Image(systemName: "plus")
                 }
             }
