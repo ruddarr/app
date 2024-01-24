@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
-    
+
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .pad {
             NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -59,9 +59,16 @@ struct ContentView: View {
     @ViewBuilder
     func screen(for tab: Tab) -> some View {
         switch tab {
-        case .movies: MoviesView(onSettingsLinkTapped: { dependencies.router.selectedTab = .settings })
-        case .shows: ShowsView()
-        case .settings: SettingsView()
+        case .movies:
+            MoviesView(
+                onSettingsLinkTapped: {
+                    dependencies.router.selectedTab = .settings
+                }
+            )
+        case .shows:
+            ShowsView()
+        case .settings:
+            SettingsView()
         }
     }
 }

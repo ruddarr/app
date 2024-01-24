@@ -323,6 +323,7 @@ struct MovieSort {
     dependencies.api.fetchMovies = { _ in
         throw URLError(.notConnectedToInternet)
     }
+
     return ContentView()
 }
 
@@ -330,5 +331,6 @@ struct MovieSort {
     dependencies.api.fetchMovies = { _ in
         throw URLError(.badServerResponse)
     }
+
     return ContentView()
 }

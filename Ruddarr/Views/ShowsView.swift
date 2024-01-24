@@ -8,5 +8,6 @@ struct ShowsView: View {
 
 #Preview {
     dependencies.router.selectedTab = .shows
+
     return ContentView()
 }

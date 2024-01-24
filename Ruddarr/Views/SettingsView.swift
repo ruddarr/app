@@ -160,5 +160,6 @@ struct ThridPartyLibraries: View {
 
 #Preview {
     dependencies.router.selectedTab = .settings
+
     return ContentView()
 }
