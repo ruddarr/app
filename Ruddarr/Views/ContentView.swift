@@ -57,7 +57,7 @@ struct ContentView: View {
             break
         }
     }
-    
+
     @ViewBuilder
     func screen(for tab: Tab) -> some View {
         switch tab {

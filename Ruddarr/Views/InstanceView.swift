@@ -1,8 +1,8 @@
 import SwiftUI
 
-struct InstanceForm: View {
+struct InstanceView: View {
+    let mode: Mode
     @State var instance: Instance
-    let state: FormState
 
     @State private var isLoading = false
     @State private var showingAlert = false
@@ -12,6 +12,11 @@ struct InstanceForm: View {
     @CloudStorage("instances") private var instances: [Instance] = []
 
     @Environment(\.dismiss) private var dismiss
+
+    enum Mode {
+        case create
+        case update
+    }
 
     var body: some View {
         Form {
@@ -55,7 +60,7 @@ struct InstanceForm: View {
                 Text("The API Key can be found under \"Settings > General > Security\".")
             }
 
-            if state == .update {
+            if mode == .update {
                 Section {
                     deleteInstance
                 }
@@ -112,7 +117,7 @@ struct InstanceForm: View {
     }
 }
 
-extension InstanceForm {
+extension InstanceView {
     @MainActor
     func saveInstance() async {
         do {
@@ -121,7 +126,7 @@ extension InstanceForm {
             sanitizeInstanceUrl()
             try await validateInstance()
 
-            switch state {
+            switch mode {
             case .create:
                 instances.append(instance)
             case .update:
@@ -185,11 +190,6 @@ extension InstanceForm {
             throw ValidationError.badAppName(appName)
         }
     }
-}
-
-enum FormState {
-    case create
-    case update
 }
 
 enum ValidationError: Error {

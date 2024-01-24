@@ -26,11 +26,13 @@ struct SettingsView: View {
                 case .libraries:
                     ThridPartyLibraries()
                 case .createInstance:
-                    InstanceForm(state: .create, instance: Instance())
-                    // InstanceForm(state: .create, instance: Instance(url: "HTTP://10.0.1.5:8310/api", apiKey: "8f45bce99e254f888b7a2ba122468dbe"))
+                    let instance = Instance()
+                    // let instance = Instance(url: "HTTP://10.0.1.5:8310/api", apiKey: "8f45bce99e254f888b7a2ba122468dbe")
+                    InstanceView(mode: .create, instance: instance)
                 case .editInstance(let instanceId):
-                    let instance = instances.first(where: { $0.id == instanceId })
-                    InstanceForm(state: .update, instance: instance!)
+                    if let instance = instances.first(where: { $0.id == instanceId }) {
+                        InstanceView(mode: .update, instance: instance)
+                    }
                 }
             }
         }
