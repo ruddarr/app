@@ -26,15 +26,3 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
 }
-
-extension Binding {
-    var optional: Binding<Value?> {
-        .init {
-            wrappedValue
-        } set: {
-            if let value = $0 {
-                wrappedValue = value
-            }
-        }
-    }
-}
