@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct MoviesView: View {
-    @State var path: NavigationPath = .init()
-
     @State private var searchQuery = ""
     @State private var searchPresented = false
 
@@ -19,25 +17,25 @@ struct MoviesView: View {
 
     enum Path: Hashable {
         case search
+        case movie(Movie.ID)
     }
 
     var onSettingsLinkTapped: () -> Void = { }
 
     var body: some View {
+        @Bindable var router = Router.shared
+        
         let gridItemLayout = [
             GridItem(.adaptive(minimum: 250), spacing: 15)
         ]
 
-        NavigationStack(path: $path) {
+        NavigationStack(path: $router.moviesPath) {
             Group {
                 if let radarrInstance {
                     ScrollView {
                         LazyVGrid(columns: gridItemLayout, spacing: 15) {
                             ForEach(displayedMovies) { movie in
-                                NavigationLink {
-                                    MovieView(movie: movie)
-                                        .navigationTitle(movie.title)
-                                } label: {
+                                NavigationLink(value: Path.movie(movie.id)) {
                                     MovieRow(movie: movie)
                                 }
                                 .buttonStyle(.plain)
@@ -59,17 +57,24 @@ struct MoviesView: View {
                             await movies.fetch(radarrInstance)
                         }
                     }
-                    .navigationDestination(for: Path.self) {
-                        switch $0 {
-                        case .search:
-                            MovieSearchView(instance: radarrInstance)
-                        }
-                    }
                 } else {
                     noRadarrInstance
                 }
             }
             .navigationTitle("Movies")
+            .navigationDestination(for: Path.self) {
+                switch $0 {
+                case .search:
+                    if let radarrInstance {
+                        MovieSearchView(instance: radarrInstance)
+                    }
+                case .movie(let id):
+                    if let movie = displayedMovies.first(where: { $0.id == id }) {
+                           MovieView(movie: movie)
+                               .navigationTitle(movie.title)
+                    }
+                }
+            }
             .onAppear {
                 // if no instance is selected, try to select one
                 // if the selected instance was deleted, try to select one
@@ -121,7 +126,7 @@ struct MoviesView: View {
         ).environment(\.openURL, .init { _ in
             searchQuery = ""
             searchPresented = false
-            path = .init([MoviesView.Path.search])
+            Router.shared.moviesPath = .init([MoviesView.Path.search])
             return .handled
         })
     }

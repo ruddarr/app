@@ -116,6 +116,7 @@ struct MovieLookupSheet: View {
 
 #Preview {
     // This preview only works when at least one instance was added in settings
-
-    MoviesView(path: .init([MoviesView.Path.search]))
+Text("TODO")
+    //TODO:
+//    MoviesView(path: .init(path: .consta[MoviesView.Path.search]))
 }

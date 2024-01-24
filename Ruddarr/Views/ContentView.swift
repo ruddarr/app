@@ -3,7 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @State var selectedTab: Tab = .movies
     @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
-
+    
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .pad {
             NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -34,7 +34,11 @@ struct ContentView: View {
                 screen(for: selectedTab)
             }
         } else {
-            TabView(selection: $selectedTab) {
+            TabView(selection: $selectedTab.onSet {
+                if $0 == selectedTab {
+                    pop(tab: $0)
+                }
+            }) {
                 ForEach(Tab.allCases) { tab in
                     screen(for: tab)
                         .tabItem { tab.label }
@@ -44,6 +48,16 @@ struct ContentView: View {
         }
     }
 
+    func pop(tab: Tab) {
+        switch tab {
+        case .movies:
+            Router.shared.moviesPath = .init()
+        default:
+            //TODO:
+            break
+        }
+    }
+    
     @ViewBuilder
     func screen(for tab: Tab) -> some View {
         switch selectedTab {
@@ -52,6 +66,12 @@ struct ContentView: View {
         case .settings: SettingsView()
         }
     }
+}
+
+@Observable
+final class Router {
+    static let shared = Router()
+    var moviesPath: NavigationPath = .init()
 }
 
 enum Tab: Hashable, CaseIterable, Identifiable {
