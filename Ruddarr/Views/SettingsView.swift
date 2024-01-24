@@ -176,6 +176,7 @@ struct SettingsView: View {
 
 struct InstanceRow: View {
     var instance: Instance
+    private let log: Logger = logger("settings")
 
     @State private var status: Status = .pending
 
@@ -203,6 +204,7 @@ struct InstanceRow: View {
                 _ = try await dependencies.api.systemStatus(instance)
                 status = .reachable
             } catch {
+                log.error("Instance check failed: \(error)")
                 status = .unreachable
             }
         }
