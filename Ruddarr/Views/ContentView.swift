@@ -52,7 +52,6 @@ struct ContentView: View {
         case .movies:
             dependencies.router.moviesPath = .init()
         default:
-            //TODO:
             break
         }
     }
