@@ -1,13 +1,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var selectedTab: Tab = .movies
     @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
     
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .pad {
             NavigationSplitView(columnVisibility: $columnVisibility) {
-                List(selection: $selectedTab.optional) {
+                List(selection: dependencies.$router.selectedTab.optional) {
                     Text("Ruddarr")
                         .font(.title)
                         .fontWeight(.bold)
@@ -15,7 +14,7 @@ struct ContentView: View {
 
                     ForEach(Tab.allCases) { tab in
                         let button = Button {
-                            selectedTab = tab
+                            dependencies.router.selectedTab = tab
                             columnVisibility = .detailOnly
                         } label: {
                             tab.label
@@ -31,11 +30,11 @@ struct ContentView: View {
                     }
                 }
             } detail: {
-                screen(for: selectedTab)
+                screen(for: dependencies.router.selectedTab)
             }
         } else {
-            TabView(selection: $selectedTab.onSet {
-                if $0 == selectedTab {
+            TabView(selection: dependencies.$router.selectedTab.onSet {
+                if $0 == dependencies.router.selectedTab {
                     pop(tab: $0)
                 }
             }) {
@@ -51,7 +50,7 @@ struct ContentView: View {
     func pop(tab: Tab) {
         switch tab {
         case .movies:
-            Router.shared.moviesPath = .init()
+            dependencies.router.moviesPath = .init()
         default:
             //TODO:
             break
@@ -60,18 +59,12 @@ struct ContentView: View {
     
     @ViewBuilder
     func screen(for tab: Tab) -> some View {
-        switch selectedTab {
-        case .movies: MoviesView(onSettingsLinkTapped: { selectedTab = .settings })
+        switch tab {
+        case .movies: MoviesView(onSettingsLinkTapped: { dependencies.router.selectedTab = .settings })
         case .shows: ShowsView()
         case .settings: SettingsView()
         }
     }
-}
-
-@Observable
-final class Router {
-    static let shared = Router()
-    var moviesPath: NavigationPath = .init()
 }
 
 enum Tab: Hashable, CaseIterable, Identifiable {

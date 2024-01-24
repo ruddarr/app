@@ -23,13 +23,11 @@ struct MoviesView: View {
     var onSettingsLinkTapped: () -> Void = { }
 
     var body: some View {
-        @Bindable var router = Router.shared
-        
         let gridItemLayout = [
             GridItem(.adaptive(minimum: 250), spacing: 15)
         ]
 
-        NavigationStack(path: $router.moviesPath) {
+        NavigationStack(path: dependencies.$router.moviesPath) {
             Group {
                 if let radarrInstance {
                     ScrollView {
@@ -126,7 +124,7 @@ struct MoviesView: View {
         ).environment(\.openURL, .init { _ in
             searchQuery = ""
             searchPresented = false
-            Router.shared.moviesPath = .init([MoviesView.Path.search])
+            dependencies.router.moviesPath.append(MoviesView.Path.search)
             return .handled
         })
     }
@@ -318,21 +316,19 @@ struct MovieSort {
 }
 
 #Preview {
-    ContentView(selectedTab: .movies)
+    ContentView()
 }
 
 #Preview("Offline") {
     dependencies.api.fetchMovies = { _ in
         throw URLError(.notConnectedToInternet)
     }
-
-    return ContentView(selectedTab: .movies)
+    return ContentView()
 }
 
 #Preview("Failure") {
     dependencies.api.fetchMovies = { _ in
         throw URLError(.badServerResponse)
     }
-
-    return ContentView(selectedTab: .movies)
+    return ContentView()
 }
