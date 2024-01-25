@@ -1,5 +1,6 @@
 import SwiftUI
 
+
 struct MoviesView: View {
     @State private var searchQuery = ""
     @State private var searchPresented = false
@@ -10,7 +11,7 @@ struct MoviesView: View {
 
     @State var movies = MovieModel()
 
-    @AppStorage("movieInstance") private var selectedInstanceId: UUID?
+    @AppStorage("movieInstance", store: dependencies.userDefaults) private var selectedInstanceId: UUID?
     @CloudStorage("instances") private var instances: [Instance] = []
 
     @Environment(\.scenePhase) private var scenePhase
