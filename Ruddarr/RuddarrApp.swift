@@ -23,6 +23,7 @@ struct RuddarrApp: App {
                 .onReceive(appBecameActivePublisher) { _ in
                     Telemetry.shared.maybeUploadTelemetry()
                 }
+                .environmentObject(AppSettings())
         }
     }
 }

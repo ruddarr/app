@@ -11,7 +11,7 @@ struct MoviesView: View {
     @State var movies = MovieModel()
 
     @AppStorage("movieInstance") private var selectedInstanceId: UUID?
-    @CloudStorage("instances") private var instances: [Instance] = []
+    @EnvironmentObject var settings: AppSettings
 
     @Environment(\.scenePhase) private var scenePhase
 
@@ -184,7 +184,7 @@ struct MoviesView: View {
     }
 
     var radarrInstances: [Instance] {
-        instances.filter { instance in
+        settings.instances.filter { instance in
             instance.type == .radarr
         }
     }
@@ -314,6 +314,7 @@ struct MovieSort {
 
 #Preview {
     ContentView()
+        .withSettings()
 }
 
 #Preview("Offline") {
@@ -322,6 +323,7 @@ struct MovieSort {
     }
 
     return ContentView()
+        .withSettings()
 }
 
 #Preview("Failure") {
@@ -330,4 +332,5 @@ struct MovieSort {
     }
 
     return ContentView()
+        .withSettings()
 }

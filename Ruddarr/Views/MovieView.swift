@@ -18,4 +18,5 @@ struct MovieView: View {
     )
 
     return ContentView()
+        .withSettings()
 }

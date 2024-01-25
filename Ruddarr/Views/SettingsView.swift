@@ -5,7 +5,7 @@ import Nuke
 struct SettingsView: View {
     private let log: Logger = logger("settings")
 
-    @CloudStorage("instances") private var instances: [Instance] = []
+    @EnvironmentObject var settings: AppSettings
 
     enum Path: Hashable {
         case libraries
@@ -30,7 +30,7 @@ struct SettingsView: View {
                     // let instance = Instance(url: "HTTP://10.0.1.5:8310/api", apiKey: "8f45bce99e254f888b7a2ba122468dbe")
                     InstanceView(mode: .create, instance: instance)
                 case .editInstance(let instanceId):
-                    if let instance = instances.first(where: { $0.id == instanceId }) {
+                    if let instance = settings.instanceById(instanceId) {
                         InstanceView(mode: .update, instance: instance)
                     }
                 }
@@ -40,7 +40,7 @@ struct SettingsView: View {
 
     var instanceSection: some View {
         Section(header: Text("Instances")) {
-            ForEach(instances) { instance in
+            ForEach(settings.instances) { instance in
                 NavigationLink(value: Path.editInstance(instance.id)) {
                     InstanceRow(instance: instance)
                 }
@@ -105,7 +105,7 @@ struct SettingsView: View {
             .confirmationDialog("Are you sure?", isPresented: $showingEraseConfirmation) {
                 Button("Erase All Settings", role: .destructive) {
                     if let bundleID = Bundle.main.bundleIdentifier {
-                        instances.removeAll()
+                        settings.resetAll()
                         UserDefaults.standard.removePersistentDomain(forName: bundleID)
                         showingEraseConfirmation = false
                     }
@@ -239,6 +239,7 @@ struct ThridPartyLibraries: View {
     dependencies.router.selectedTab = .settings
 
     return ContentView()
+        .withSettings()
 }
 
 #Preview("Libraries") {
@@ -249,4 +250,5 @@ struct ThridPartyLibraries: View {
     )
 
     return ContentView()
+        .withSettings()
 }

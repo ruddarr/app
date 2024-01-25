@@ -119,4 +119,5 @@ struct MovieLookupSheet: View {
     dependencies.router.moviesPath.append(MoviesView.Path.search())
 
     return ContentView()
+        .withSettings()
 }

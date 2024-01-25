@@ -10,4 +10,5 @@ struct ShowsView: View {
     dependencies.router.selectedTab = .shows
 
     return ContentView()
+        .withSettings()
 }

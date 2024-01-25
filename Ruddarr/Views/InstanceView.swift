@@ -4,12 +4,12 @@ struct InstanceView: View {
     let mode: Mode
     @State var instance: Instance
 
+    @EnvironmentObject var settings: AppSettings
+
     @State private var isLoading = false
     @State private var showingAlert = false
     @State private var showingConfirmation = false
     @State private var error: ValidationError?
-
-    @CloudStorage("instances") private var instances: [Instance] = []
 
     @Environment(\.dismiss) private var dismiss
 
@@ -104,9 +104,7 @@ struct InstanceView: View {
         }
         .confirmationDialog("Are you sure?", isPresented: $showingConfirmation) {
             Button("Delete instance", role: .destructive) {
-                guard let index = instances.firstIndex(where: { $0.id == instance.id }) else { return }
-                instances.remove(at: index)
-
+                settings.deleteInstance(instance)
                 dismiss()
             }
             Button("Cancel", role: .cancel) { }
@@ -126,13 +124,7 @@ extension InstanceView {
             sanitizeInstanceUrl()
             try await validateInstance()
 
-            switch mode {
-            case .create:
-                instances.append(instance)
-            case .update:
-                guard let index = instances.firstIndex(where: { $0.id == instance.id }) else { return }
-                instances[index] = instance
-            }
+            settings.saveInstance(instance)
 
             dismiss()
         } catch let error as ValidationError {
@@ -240,4 +232,5 @@ extension ValidationError: LocalizedError {
     )
 
     return ContentView()
+        .withSettings()
 }
