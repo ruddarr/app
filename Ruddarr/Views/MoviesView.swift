@@ -7,12 +7,12 @@ struct MoviesView: View {
 
     @State private var error: Error?
     @State private var alertPresented = false
-    @AppStorage("movieSort") private var sort: MovieSort = .init()
+    @AppStorage("movieSort", store: dependencies.userDefaults) private var sort: MovieSort = .init()
 
     @State var movies = MovieModel()
 
     @AppStorage("movieInstance", store: dependencies.userDefaults) private var selectedInstanceId: UUID?
-    @State private var instances: [Instance] = []
+    @CloudStorage("instances") private var instances: [Instance] = [.sample]
 
     @Environment(\.scenePhase) private var scenePhase
 
@@ -301,7 +301,7 @@ struct MovieRow: View {
         ]
     }
     dependencies.userDefaults = .mock
-//    dependencies.userDefaults.setValue(MovieSort(option: .byYear).rawValue, forKey: "movieSort")
+    dependencies.userDefaults.setValue(MovieSort(option: .byYear).rawValue, forKey: "movieSort")
     return ContentView()
 }
 
