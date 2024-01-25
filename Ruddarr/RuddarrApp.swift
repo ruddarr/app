@@ -11,18 +11,18 @@ struct RuddarrApp: App {
         dependencies = .mock
 #if DEBUG
 #endif
+        NotificationCenter.default.addObserver(
+            forName: UIApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: nil
+        ) { _ in
+            Telemetry.shared.maybeUploadTelemetry()
+        }
     }
 
     var body: some Scene {
-        let appBecameActivePublisher = NotificationCenter.default.publisher(
-            for: UIApplication.didBecomeActiveNotification
-        )
-
         WindowGroup {
             ContentView()
-                .onReceive(appBecameActivePublisher) { _ in
-                    Telemetry.shared.maybeUploadTelemetry()
-                }
                 .environmentObject(AppSettings())
         }
     }
