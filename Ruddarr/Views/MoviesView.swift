@@ -21,8 +21,6 @@ struct MoviesView: View {
         case edit(Movie.ID)
     }
 
-    var onSettingsLinkTapped: () -> Void = { }
-
     var body: some View {
         let gridItemLayout = [
             GridItem(.adaptive(minimum: 250), spacing: 15)
@@ -112,7 +110,7 @@ struct MoviesView: View {
             description: Text("Connect a Radarr instance under [Settings](#view).")
         )
         .environment(\.openURL, .init { _ in
-            onSettingsLinkTapped()
+            dependencies.router.selectedTab = .settings
             return .handled
         })
     }

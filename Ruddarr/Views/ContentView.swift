@@ -62,11 +62,7 @@ struct ContentView: View {
     func screen(for tab: Tab) -> some View {
         switch tab {
         case .movies:
-            MoviesView(
-                onSettingsLinkTapped: {
-                    dependencies.router.selectedTab = .settings
-                }
-            )
+            MoviesView()
         case .shows:
             ShowsView()
         case .settings:
