@@ -7,3 +7,6 @@ type_body_length: 400
 analyzer_rules:
   - unused_declaration
   - unused_import
+
+excluded:
+  - Ruddarr/Dependencies/CloudStorage
