@@ -19,7 +19,7 @@ struct RuddarrApp: App {
         )
 
         WindowGroup {
-            let _ = dependencies.userDefaults.setValue(MovieSort(option: .byYear).rawValue, forKey: "movieSort")
+            let _ = dependencies.userDefaults.setValue((MovieSort(option: .byYear) as (any RawRepresentable)).rawValue, forKey: "movieSort")
             ContentView()
                 .onReceive(appBecameActivePublisher) { _ in
                     Telemetry.shared.maybeUploadTelemetry()

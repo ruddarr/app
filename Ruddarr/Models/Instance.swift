@@ -27,5 +27,3 @@ extension Instance {
         )
     }
 }
-
-extension Array<Instance>: CodableAndRawRepresentable, RawRepresentable {}
