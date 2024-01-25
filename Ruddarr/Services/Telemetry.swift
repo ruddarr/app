@@ -70,9 +70,9 @@ class Telemetry {
             lastTelemetryDate = Calendar.current.date(byAdding: .hour, value: -24, to: Date())!
         }
 
-#if DEBUG
+        #if DEBUG
         lastTelemetryDate = Calendar.current.date(byAdding: .hour, value: -24, to: Date())!
-#endif
+        #endif
 
         let hoursSincePing = Calendar.current.dateComponents([.hour], from: lastTelemetryDate, to: Date()).hour
 

@@ -178,83 +178,8 @@ struct SettingsView: View {
     }
 }
 
-struct InstanceRow: View {
-    var instance: Instance
-    private let log: Logger = logger("settings")
-
-    @EnvironmentObject var settings: AppSettings
-
-    @State private var status: Status = .pending
-
-    enum Status {
-        case pending
-        case reachable
-        case unreachable
-    }
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(instance.label)
-
-            HStack {
-                switch status {
-                case .pending: Text("Connecting...")
-                case .reachable: Text("Connected")
-                case .unreachable: Text("Connection failed").foregroundStyle(.red)
-                }
-            }
-            .font(.footnote)
-            .foregroundStyle(.gray)
-        }.task {
-            do {
-                _ = try await dependencies.api.systemStatus(instance)
-                try await settings.fetchInstanceMetadata(instance.id)
-                status = .reachable
-            } catch {
-                log.error("Instance check failed: \(error)")
-                status = .unreachable
-            }
-        }
-    }
-}
-
-struct ThridPartyLibraries: View {
-    var body: some View {
-        List {
-            Link(destination: URL(string: "https://github.com/kean/Nuke")!, label: {
-                HStack {
-                    Text("Nuke")
-                    Text("12.3.0").foregroundColor(.secondary)
-                    Spacer()
-                }
-            })
-            Link(destination: URL(string: "https://github.com/nonstrict-hq/CloudStorage")!, label: {
-                HStack {
-                    Text("CloudStorage")
-                    Text("0.4.0").foregroundColor(.secondary)
-                    Spacer()
-                }
-            })
-        }
-        .accentColor(.primary)
-        .navigationTitle("Third Party Libraries")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
 #Preview {
     dependencies.router.selectedTab = .settings
-
-    return ContentView()
-        .withSettings()
-}
-
-#Preview("Libraries") {
-    dependencies.router.selectedTab = .settings
-
-    dependencies.router.settingsPath.append(
-        SettingsView.Path.libraries
-    )
 
     return ContentView()
         .withSettings()

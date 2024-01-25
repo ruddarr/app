@@ -1,4 +1,3 @@
-import os
 import SwiftUI
 
 @main

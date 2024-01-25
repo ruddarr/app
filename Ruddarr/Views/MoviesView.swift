@@ -227,65 +227,6 @@ struct MoviesView: View {
     }
 }
 
-struct MovieRow: View {
-    var movie: Movie
-
-    var body: some View {
-        HStack {
-            CachedAsyncImage(url: movie.remotePoster)
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 80, height: 120)
-                .clipped()
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(movie.title)
-                    .font(.subheadline)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.leading)
-
-                HStack(spacing: 4) {
-                    Text(String(movie.year))
-                    // runtime
-                    //                    Text("•")
-                    //                    Text(String(movie.studio ?? ""))
-                }.font(.caption)
-
-                HStack(spacing: 8) {
-                    Image(systemName: movie.monitored ? "bookmark.fill" : "bookmark")
-                    Text(movie.monitored ? "Monitored" : "Unmonitored")
-                }.font(.caption)
-
-                Group {
-                    if movie.sizeOnDisk != nil && movie.sizeOnDisk! > 0 {
-                        HStack(spacing: 8) {
-                            Image(systemName: "doc")
-                            Text(ByteCountFormatter().string(fromByteCount: Int64(movie.sizeOnDisk!)))
-                        }.font(.caption)
-                    } else {
-                        HStack(spacing: 8) {
-                            Image(systemName: "doc")
-                            Text("Missing")
-                        }.font(.caption)
-                    }
-                }
-
-                Spacer()
-            }
-            .padding(.top, 4)
-
-            Spacer()
-        }
-        .frame(maxWidth: .infinity)
-        .background(Color(UIColor.secondarySystemBackground))
-        .cornerRadius(8)
-    }
-}
-
-#Preview {
-    ContentView()
-        .withSettings()
-}
-
 #Preview("Offline") {
     dependencies.api.fetchMovies = { _ in
         throw URLError(.notConnectedToInternet)
@@ -301,5 +242,10 @@ struct MovieRow: View {
     }
 
     return ContentView()
+        .withSettings()
+}
+
+#Preview {
+    ContentView()
         .withSettings()
 }
