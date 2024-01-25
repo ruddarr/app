@@ -37,12 +37,15 @@ extension Array<Instance>: RawRepresentable {
 
 extension MovieSort: RawRepresentable {
     public init?(rawValue: String) {
-        guard let data = rawValue.data(using: .utf8),
-            let result = try? JSONDecoder().decode(Self.self, from: data)
-        else {
+        do {
+            guard let data = rawValue.data(using: .utf8)
+            else { return nil }
+            let result = try JSONDecoder().decode(MovieSort.self, from: data)
+            self = result
+        } catch {
+            print(error)
             return nil
         }
-        self = result
     }
 
     public var rawValue: String {
@@ -61,7 +64,15 @@ extension MovieSort: Codable {
         case isAscending
     }
     
-    // !!! this is needed. If we don't implement encode ourselves, JSONEncoder will try to optimize by calling RawRepresentable.rawValue and end up in a loop
+    // !!! this is needed. If we don't implement decode/encode ourselves, the default implementations will try to optimize by using the RawRepresentable conformance instead and end up in a loop
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        try self.init(
+            isAscending: container.decode(Bool.self, forKey: .isAscending),
+            option: container.decode(Option.self, forKey: .option)
+        )
+    }
+    
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(option, forKey: .option)
