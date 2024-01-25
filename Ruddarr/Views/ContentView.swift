@@ -31,15 +31,7 @@ extension DefaultKey where Value == Self {
 }
 
 @Observable final class TabRouter: DefaultKey {
-    static var singletonCache: TabRouter?
     var selectedTab: Tab = .movies
-    
-    init() {
-        print("init")
-    }
-    deinit {
-        print("deinit")
-    }
 }
 
 enum Tab: Hashable, CaseIterable, Identifiable {
