@@ -17,15 +17,49 @@ protocol EmptyInitilizable {
 }
 protocol DefaultKey: EnvironmentKey, EmptyInitilizable {
 }
+fileprivate var singletonCache: [ObjectIdentifier: Any] = [:]
 
 extension DefaultKey where Value == Self {
-    static var defaultValue: Value { .init() }
+    // unfortunately this generic context doesn't support stored static properties, so we need our own external cache (to make sure defaultValue is always same instance). Not a big deal.
+    static var defaultValue: Self {
+        singletonCache[ObjectIdentifier(Self.self)] as? Self ?? {
+            let instance = Self()
+            singletonCache[ObjectIdentifier(Self.self)] = instance
+            return instance
+        }()
+    }
 }
 
-@Observable final class TabRouter: EnvironmentKey {
-    static var defaultValue: TabRouter = .init()
-    
+@Observable final class TabRouter: DefaultKey {
+    static var singletonCache: TabRouter?
     var selectedTab: Tab = .movies
+    
+    init() {
+        print("init")
+    }
+    deinit {
+        print("deinit")
+    }
+}
+
+enum Tab: Hashable, CaseIterable, Identifiable {
+    var id: Self { self }
+
+    case movies
+    case shows
+    case settings
+
+    @ViewBuilder
+    var label: some View {
+        switch self {
+        case .movies:
+            Label("Movies", systemImage: "popcorn.fill")
+        case .shows:
+            Label("Shows", systemImage: "tv.inset.filled")
+        case .settings:
+            Label("Settings", systemImage: "gear")
+        }
+    }
 }
 
 

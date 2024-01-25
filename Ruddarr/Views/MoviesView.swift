@@ -3,12 +3,12 @@ import SwiftUI
 struct MoviesView: View {
     
     @Observable final class Router: DefaultKey {
+        static var singletonCache: MoviesView.Router?
+        
         var path: NavigationPath = .init()
     }
     @Environment() var router: Router
-    @Environment() var tabRouter: TabRouter
-    @Environment() var settingsRouter: SettingsView.Router
-    
+    @Environment(\.switchToNewInstance) var switchToNewInstance    
     @State private var searchQuery = ""
     @State private var searchPresented = false
 
@@ -117,8 +117,7 @@ struct MoviesView: View {
             description: Text("Connect a Radarr instance under [Settings](#view).")
         )
         .environment(\.openURL, .init { _ in
-            tabRouter.selectedTab = .settings
-            settingsRouter.path = .init([SettingsView.Path.createInstance])
+            switchToNewInstance()
             return .handled
         })
     }
