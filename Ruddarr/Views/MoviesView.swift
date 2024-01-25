@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct MoviesView: View {
+    @AppStorage("movieInstance") private var selectedInstanceId: UUID?
+    @EnvironmentObject var settings: AppSettings
+
     @State private var searchQuery = ""
     @State private var searchPresented = false
 
@@ -9,9 +12,6 @@ struct MoviesView: View {
     @State private var sort: MovieSort = .init()
 
     @State var movies = MovieModel()
-
-    @AppStorage("movieInstance") private var selectedInstanceId: UUID?
-    @EnvironmentObject var settings: AppSettings
 
     @Environment(\.scenePhase) private var scenePhase
 
@@ -54,6 +54,7 @@ struct MoviesView: View {
 
                         Task {
                             await movies.fetch(radarrInstance)
+                            try? await settings.fetchInstanceMetadata(radarrInstance.id)
                         }
                     }
                 } else {
@@ -178,6 +179,7 @@ struct MoviesView: View {
             .onChange(of: selectedInstanceId) {
                 Task {
                     await fetchMoviesWithAlert(radarrInstance!)
+                    try? await settings.fetchInstanceMetadata(selectedInstanceId!)
                 }
             }
         }

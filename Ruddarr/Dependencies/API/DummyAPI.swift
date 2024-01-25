@@ -12,6 +12,10 @@ extension API {
             }
         }, systemStatus: { _ in
             loadPreviewData(filename: "system-status")
+        }, rootFolders: { _ in
+            loadPreviewData(filename: "root-folders")
+        }, qualityProfiles: { _ in
+            loadPreviewData(filename: "quality-profiles")
         })
     }
 }

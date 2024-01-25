@@ -1,0 +1,32 @@
+[
+    {
+        "path": "/volume2/Media/Documentaries",
+        "accessible": true,
+        "freeSpace": 13751310237696,
+        "unmappedFolders": [
+            {
+                "name": "Iboga Africa's Miracle Cure For Addiction",
+                "path": "/volume2/Media/Documentaries/Iboga Africa's Miracle Cure For Addiction"
+            },
+            {
+                "name": "Teen vampires of San Antonio (2011)",
+                "path": "/volume2/Media/Documentaries/Teen vampires of San Antonio (2011)"
+            }
+        ],
+        "id": 7
+    },
+    {
+        "path": "/volume2/Media/Movies",
+        "accessible": true,
+        "freeSpace": 13751310237696,
+        "unmappedFolders": [],
+        "id": 8
+    },
+    {
+        "path": "/volume2/Media/UFC",
+        "accessible": true,
+        "freeSpace": 13751310237696,
+        "unmappedFolders": [],
+        "id": 9
+    }
+]
