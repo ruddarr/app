@@ -1,5 +1,5 @@
 import Foundation
-// we need this boilerplate to store Codable stuff in AppStorage. Swift currently makes it had to make this fully generic.
+// we need this boilerplate to store Codable stuff in AppStorage. Swift currently makes it hard to make this fully generic.
 extension Array<Instance>: RawRepresentable {
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
