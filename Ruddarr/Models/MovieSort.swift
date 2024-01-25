@@ -30,3 +30,5 @@ struct MovieSort: Codable {
         }
     }
 }
+
+extension MovieSort: RawRepresentable { }

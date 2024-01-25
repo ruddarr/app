@@ -27,3 +27,5 @@ extension Instance {
         )
     }
 }
+
+extension Array<Instance>: RawRepresentable {}
