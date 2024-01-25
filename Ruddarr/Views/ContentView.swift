@@ -1,12 +1,72 @@
 import SwiftUI
 
+extension EnvironmentValues {
+  subscript<Key: EnvironmentKey>(key _: KeyPath<Key,Key> = \Key.self) -> Key.Value {
+    get { self[Key.self] }
+    set { self[Key.self] = newValue }
+  }
+}
+extension Environment where Value: EnvironmentKey, Value.Value == Value {
+    init() {
+        self.init(\.[key: \Value.self])
+    }
+}
+
+protocol EmptyInitilizable {
+    init()
+}
+protocol DefaultKey: EnvironmentKey, EmptyInitilizable {
+}
+fileprivate var singletonCache: [ObjectIdentifier: Any] = [:]
+
+extension DefaultKey where Value == Self {
+    // unfortunately this generic context doesn't support stored static properties, so we need our own external cache (to make sure defaultValue is always same instance). Not a big deal.
+    static var defaultValue: Self {
+        singletonCache[ObjectIdentifier(Self.self)] as? Self ?? {
+            let instance = Self()
+            singletonCache[ObjectIdentifier(Self.self)] = instance
+            return instance
+        }()
+    }
+}
+
+@Observable final class TabRouter: DefaultKey {
+    var selectedTab: Tab = .movies
+}
+
+enum Tab: Hashable, CaseIterable, Identifiable {
+    var id: Self { self }
+
+    case movies
+    case shows
+    case settings
+
+    @ViewBuilder
+    var label: some View {
+        switch self {
+        case .movies:
+            Label("Movies", systemImage: "popcorn.fill")
+        case .shows:
+            Label("Shows", systemImage: "tv.inset.filled")
+        case .settings:
+            Label("Settings", systemImage: "gear")
+        }
+    }
+}
+
+
 struct ContentView: View {
+    
+    @Environment() var tabRouter: TabRouter
+    @Environment() var moviesRouter: MoviesView.Router
+    
     @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
 
     var body: some View {
+        @Bindable var tabRouter = tabRouter
         if UIDevice.current.userInterfaceIdiom == .pad {
             NavigationSplitView(columnVisibility: $columnVisibility) {
-                List(selection: dependencies.$router.selectedTab.optional) {
+                List(selection: $tabRouter.selectedTab.optional) {
                     Text("Ruddarr")
                         .font(.title)
                         .fontWeight(.bold)
@@ -14,7 +74,7 @@ struct ContentView: View {
 
                     ForEach(Tab.allCases) { tab in
                         let button = Button {
-                            dependencies.router.selectedTab = tab
+                            tabRouter.selectedTab = tab
                             columnVisibility = .detailOnly
                         } label: {
                             tab.label
@@ -30,11 +90,11 @@ struct ContentView: View {
                     }
                 }
             } detail: {
-                screen(for: dependencies.router.selectedTab)
+                screen(for: tabRouter.selectedTab)
             }
         } else {
-            TabView(selection: dependencies.$router.selectedTab.onSet {
-                if $0 == dependencies.router.selectedTab {
+            TabView(selection: $tabRouter.selectedTab.onSet {
+                if $0 == tabRouter.selectedTab {
                     pop(tab: $0)
                 }
             }) {
@@ -50,9 +110,10 @@ struct ContentView: View {
     func pop(tab: Tab) {
         switch tab {
         case .movies:
-            dependencies.router.moviesPath = .init()
+            moviesRouter.path = .init()
         case .settings:
-            dependencies.router.settingsPath = .init()
+            break
+//            router.settingsPath = .init()
         default:
             break
         }
@@ -63,9 +124,9 @@ struct ContentView: View {
         switch tab {
         case .movies:
             MoviesView(
-                onSettingsLinkTapped: {
-                    dependencies.router.selectedTab = .settings
-                }
+//                onSettingsLinkTapped: {
+//                    router.selectedTab = .settings
+//                }
             )
         case .shows:
             ShowsView()

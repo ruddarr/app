@@ -1,6 +1,14 @@
 import SwiftUI
 
 struct MoviesView: View {
+    
+    @Observable final class Router: DefaultKey {
+        static var singletonCache: MoviesView.Router?
+        
+        var path: NavigationPath = .init()
+    }
+    @Environment() var router: Router
+    @Environment(\.switchToNewInstance) var switchToNewInstance    
     @State private var searchQuery = ""
     @State private var searchPresented = false
 
@@ -20,14 +28,13 @@ struct MoviesView: View {
         case movie(Movie.ID)
     }
 
-    var onSettingsLinkTapped: () -> Void = { }
-
     var body: some View {
+        @Bindable var router = router
         let gridItemLayout = [
             GridItem(.adaptive(minimum: 250), spacing: 15)
         ]
 
-        NavigationStack(path: dependencies.$router.moviesPath) {
+        NavigationStack(path: $router.path) {
             Group {
                 if let radarrInstance {
                     ScrollView {
@@ -110,7 +117,7 @@ struct MoviesView: View {
             description: Text("Connect a Radarr instance under [Settings](#view).")
         )
         .environment(\.openURL, .init { _ in
-            onSettingsLinkTapped()
+            switchToNewInstance()
             return .handled
         })
     }
@@ -123,7 +130,7 @@ struct MoviesView: View {
         ).environment(\.openURL, .init { _ in
             searchQuery = ""
             searchPresented = false
-            dependencies.router.moviesPath.append(MoviesView.Path.search)
+            router.path.append(MoviesView.Path.search)
             return .handled
         })
     }

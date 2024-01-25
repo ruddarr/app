@@ -233,11 +233,11 @@ extension ValidationError: LocalizedError {
 }
 
 #Preview {
-    dependencies.router.selectedTab = .settings
+//    dependencies.router.selectedTab = .settings
 
-    dependencies.router.settingsPath.append(
-        SettingsView.Path.createInstance
-    )
+//    dependencies.router.settingsPath.append(
+//        SettingsView.Path.createInstance
+//    )
 
     return ContentView()
 }
