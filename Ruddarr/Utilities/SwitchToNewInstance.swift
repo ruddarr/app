@@ -17,6 +17,7 @@ extension EnvironmentValues {
             return {
                 tabRouter.selectedTab = .settings
                 Task { @MainActor in
+                    // delay is just for UX reasons (so user realizes where they went)
                     try await Task.sleep(until: .now + .seconds(0.1))
                     assert(settingsRouter.path.isEmpty) // FUTURE: make a decision on whether its safe to switch to newInstance regardless of the fact that settings tab already had active navigation
                     settingsRouter.path = .init([SettingsView.Path.createInstance])
