@@ -6,12 +6,12 @@ struct MoviesView: View {
 
     @State private var error: Error?
     @State private var alertPresented = false
-    @State private var sort: MovieSort = .init()
+    @AppStorage("movieSort", store: dependencies.userDefaults) private var sort: MovieSort = .init()
 
     @State var movies = MovieModel()
 
-    @AppStorage("movieInstance") private var selectedInstanceId: UUID?
-    @CloudStorage("instances") private var instances: [Instance] = []
+    @AppStorage("movieInstance", store: dependencies.userDefaults) private var selectedInstanceId: UUID?
+    @CloudStorage("instances") private var instances: [Instance] = [.sample]
 
     @Environment(\.scenePhase) private var scenePhase
 
@@ -277,37 +277,6 @@ struct MovieRow: View {
         .frame(maxWidth: .infinity)
         .background(Color(UIColor.secondarySystemBackground))
         .cornerRadius(8)
-    }
-}
-
-struct MovieSort {
-    var isAscending: Bool = true
-    var option: Option = .byTitle
-
-    enum Option: CaseIterable, Hashable, Identifiable {
-        var id: Self { self }
-        case byTitle
-        case byYear
-        case byAdded
-
-        var title: String {
-            switch self {
-            case .byTitle: "Title"
-            case .byYear: "Year"
-            case .byAdded: "Added"
-            }
-        }
-
-        func isOrderedBefore(_ lhs: Movie, _ rhs: Movie) -> Bool {
-            switch self {
-            case .byTitle:
-                lhs.sortTitle < rhs.sortTitle
-            case .byYear:
-                lhs.year < rhs.year
-            case .byAdded:
-                lhs.added < rhs.added
-            }
-        }
     }
 }
 
