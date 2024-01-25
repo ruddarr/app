@@ -6,7 +6,7 @@ struct MoviesView: View {
 
     @State private var error: Error?
     @State private var alertPresented = false
-    @State private var sort: MovieSort = .init()
+    @AppStorage("movieSort") private var sort: MovieSort = .init()
 
     @State var movies = MovieModel()
 
@@ -280,11 +280,11 @@ struct MovieRow: View {
     }
 }
 
-struct MovieSort {
+struct MovieSort: Codable {
     var isAscending: Bool = true
     var option: Option = .byTitle
 
-    enum Option: CaseIterable, Hashable, Identifiable {
+    enum Option: CaseIterable, Hashable, Identifiable, Codable {
         var id: Self { self }
         case byTitle
         case byYear
@@ -310,6 +310,27 @@ struct MovieSort {
         }
     }
 }
+
+extension MovieSort: RawRepresentable {
+    public init?(rawValue: String) {
+        guard let data = rawValue.data(using: .utf8),
+            let result = try? JSONDecoder().decode(MovieSort.self, from: data)
+        else {
+            return nil
+        }
+        self = result
+    }
+
+    public var rawValue: String {
+        guard let data = try? JSONEncoder().encode(self),
+            let result = String(data: data, encoding: .utf8)
+        else {
+            return "[]"
+        }
+        return result
+    }
+}
+
 
 #Preview {
     ContentView()
