@@ -36,10 +36,3 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
 }
-
-func logger(_ category: String = "default") -> Logger {
-    return Logger(
-        subsystem: Bundle.main.bundleIdentifier!,
-        category: category
-    )
-}
