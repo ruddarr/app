@@ -11,11 +11,11 @@ struct MovieView: View {
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
 
-    dependencies.router.selectedTab = .movies
+//    dependencies.router.selectedTab = .movies
 
-    dependencies.router.moviesPath.append(
-        MoviesView.Path.movie(movies[2].id)
-    )
+//    dependencies.router.moviesPath.append(
+//        MoviesView.Path.movie(movies[2].id)
+//    )
 
     return ContentView()
 }

@@ -3,7 +3,7 @@ import SwiftUI
 
 struct Dependencies {
     var api: API
-    @Bindable var router = Router.shared
+//    @Bindable var router = Router.shared
 }
 
 extension Dependencies {

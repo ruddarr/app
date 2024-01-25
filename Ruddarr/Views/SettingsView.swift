@@ -3,6 +3,10 @@ import SwiftUI
 import Nuke
 
 struct SettingsView: View {
+    @Observable final class Router: DefaultKey {
+        var path: NavigationPath = .init()
+    }
+    @Environment() var router: Router
     private let log: Logger = logger("settings")
 
     @CloudStorage("instances") private var instances: [Instance] = []
@@ -14,7 +18,8 @@ struct SettingsView: View {
     }
 
     var body: some View {
-        NavigationStack(path: dependencies.$router.settingsPath) {
+        @Bindable var router = router
+        NavigationStack(path: $router.path) {
             List {
                 instanceSection
                 aboutSection
@@ -234,17 +239,17 @@ struct ThridPartyLibraries: View {
 }
 
 #Preview {
-    dependencies.router.selectedTab = .settings
+//    dependencies.router.selectedTab = .settings
 
     return ContentView()
 }
 
 #Preview("Libraries") {
-    dependencies.router.selectedTab = .settings
+//    dependencies.router.selectedTab = .settings
 
-    dependencies.router.settingsPath.append(
-        SettingsView.Path.libraries
-    )
+//    dependencies.router.settingsPath.append(
+//        SettingsView.Path.libraries
+//    )
 
     return ContentView()
 }

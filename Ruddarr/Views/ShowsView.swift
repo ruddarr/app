@@ -7,7 +7,6 @@ struct ShowsView: View {
 }
 
 #Preview {
-    dependencies.router.selectedTab = .shows
-
-    return ContentView()
+//    dependencies.router.selectedTab = .shows
+    ContentView().environment(\.[key: \TabRouter], .init())
 }

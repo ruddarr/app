@@ -115,8 +115,8 @@ struct MovieLookupSheet: View {
 }
 
 #Preview {
-    dependencies.router.selectedTab = .movies
-    dependencies.router.moviesPath.append(MoviesView.Path.search)
+//    dependencies.router.selectedTab = .movies
+//    dependencies.router.moviesPath.append(MoviesView.Path.search)
 
     return ContentView()
 }
