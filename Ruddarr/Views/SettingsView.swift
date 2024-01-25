@@ -5,7 +5,7 @@ import Nuke
 struct SettingsView: View {
     private let log: Logger = logger("settings")
 
-    @CloudStorage("instances") private var instances: [Instance] = []
+    @EnvironmentObject var settings: AppSettings
 
     enum Path: Hashable {
         case libraries
@@ -30,7 +30,7 @@ struct SettingsView: View {
                     // let instance = Instance(url: "HTTP://10.0.1.5:8310/api", apiKey: "8f45bce99e254f888b7a2ba122468dbe")
                     InstanceView(mode: .create, instance: instance)
                 case .editInstance(let instanceId):
-                    if let instance = instances.first(where: { $0.id == instanceId }) {
+                    if let instance = settings.instanceById(instanceId) {
                         InstanceView(mode: .update, instance: instance)
                     }
                 }
@@ -40,7 +40,7 @@ struct SettingsView: View {
 
     var instanceSection: some View {
         Section(header: Text("Instances")) {
-            ForEach(instances) { instance in
+            ForEach(settings.instances) { instance in
                 NavigationLink(value: Path.editInstance(instance.id)) {
                     InstanceRow(instance: instance)
                 }
@@ -99,16 +99,12 @@ struct SettingsView: View {
                 calculateImageCacheSize()
             }
 
-            Button("Erase All Settings", role: .destructive) {
+            Button("Reset All Settings", role: .destructive) {
                 showingEraseConfirmation = true
             }
             .confirmationDialog("Are you sure?", isPresented: $showingEraseConfirmation) {
-                Button("Erase All Settings", role: .destructive) {
-                    if let bundleID = Bundle.main.bundleIdentifier {
-                        instances.removeAll()
-                        UserDefaults.standard.removePersistentDomain(forName: bundleID)
-                        showingEraseConfirmation = false
-                    }
+                Button("Reset All Settings", role: .destructive) {
+                    resetAllSettings()
                 }
                 Button("Cancel", role: .cancel) { }
             } message: {
@@ -127,6 +123,14 @@ struct SettingsView: View {
         let dataCache = try? DataCache(name: "com.github.radarr.DataCache")
         dataCache?.removeAll()
         imageCacheSize = 0
+    }
+
+    func resetAllSettings() {
+        settings.resetAll()
+
+        if let bundleID = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleID)
+        }
     }
 
     // If desired add `mailto` to `LSApplicationQueriesSchemes` in `Info.plist`
@@ -176,6 +180,9 @@ struct SettingsView: View {
 
 struct InstanceRow: View {
     var instance: Instance
+    private let log: Logger = logger("settings")
+
+    @EnvironmentObject var settings: AppSettings
 
     @State private var status: Status = .pending
 
@@ -201,8 +208,10 @@ struct InstanceRow: View {
         }.task {
             do {
                 _ = try await dependencies.api.systemStatus(instance)
+                try await settings.fetchInstanceMetadata(instance.id)
                 status = .reachable
             } catch {
+                log.error("Instance check failed: \(error)")
                 status = .unreachable
             }
         }
@@ -237,6 +246,7 @@ struct ThridPartyLibraries: View {
     dependencies.router.selectedTab = .settings
 
     return ContentView()
+        .withSettings()
 }
 
 #Preview("Libraries") {
@@ -247,4 +257,5 @@ struct ThridPartyLibraries: View {
     )
 
     return ContentView()
+        .withSettings()
 }

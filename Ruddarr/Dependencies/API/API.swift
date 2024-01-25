@@ -5,6 +5,8 @@ struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [MovieLookup]
     var systemStatus: (Instance) async throws -> InstanceStatus
+    var rootFolders: (Instance) async throws -> [InstanceRootFolders]
+    var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
 }
 
 extension API {
@@ -23,6 +25,16 @@ extension API {
         }, systemStatus: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/system/status")
+
+            return try await request(url: url, authorization: instance.apiKey)
+        }, rootFolders: { instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/rootfolder")
+
+            return try await request(url: url, authorization: instance.apiKey)
+        }, qualityProfiles: { instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/qualityprofile")
 
             return try await request(url: url, authorization: instance.apiKey)
         })

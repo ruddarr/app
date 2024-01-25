@@ -10,3 +10,6 @@ analyzer_rules:
 
 disabled_rules: 
    - trailing_comma
+
+excluded:
+  - Ruddarr/Dependencies/CloudStorage

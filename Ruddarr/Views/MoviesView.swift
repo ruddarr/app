@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct MoviesView: View {
+    @AppStorage("movieInstance", store: dependencies.userDefaults) private var selectedInstanceId: UUID?
+    @EnvironmentObject var settings: AppSettings
+
     @State private var searchQuery = ""
     @State private var searchPresented = false
 
@@ -10,17 +13,13 @@ struct MoviesView: View {
 
     @State var movies = MovieModel()
 
-    @AppStorage("movieInstance", store: dependencies.userDefaults) private var selectedInstanceId: UUID?
-    @CloudStorage("instances") private var instances: [Instance] = [.sample]
-
     @Environment(\.scenePhase) private var scenePhase
 
     enum Path: Hashable {
-        case search
+        case search(String = "")
         case movie(Movie.ID)
+        case edit(Movie.ID)
     }
-
-    var onSettingsLinkTapped: () -> Void = { }
 
     var body: some View {
         let gridItemLayout = [
@@ -53,6 +52,7 @@ struct MoviesView: View {
 
                         Task {
                             await movies.fetch(radarrInstance)
+                            try? await settings.fetchInstanceMetadata(radarrInstance.id)
                         }
                     }
                 } else {
@@ -62,9 +62,9 @@ struct MoviesView: View {
             .navigationTitle("Movies")
             .navigationDestination(for: Path.self) {
                 switch $0 {
-                case .search:
+                case .search(let query):
                     if let radarrInstance {
-                        MovieSearchView(instance: radarrInstance)
+                        MovieSearchView(instance: radarrInstance, searchQuery: query)
                     }
                 case .movie(let movieId):
                     if let movie = movies.byId(movieId) {
@@ -110,7 +110,7 @@ struct MoviesView: View {
             description: Text("Connect a Radarr instance under [Settings](#view).")
         )
         .environment(\.openURL, .init { _ in
-            onSettingsLinkTapped()
+            dependencies.router.selectedTab = .settings
             return .handled
         })
     }
@@ -121,9 +121,9 @@ struct MoviesView: View {
             systemImage: "magnifyingglass",
             description: Text("Check the spelling or try [adding the movie](#view).")
         ).environment(\.openURL, .init { _ in
-            searchQuery = ""
             searchPresented = false
-            dependencies.router.moviesPath.append(MoviesView.Path.search)
+            dependencies.router.moviesPath.append(MoviesView.Path.search(searchQuery))
+            searchQuery = ""
             return .handled
         })
     }
@@ -132,7 +132,7 @@ struct MoviesView: View {
     var toolbarSearchButton: some ToolbarContent {
         if radarrInstance != nil {
             ToolbarItem(placement: .primaryAction) {
-                NavigationLink(value: Path.search) {
+                NavigationLink(value: Path.search()) {
                     Image(systemName: "plus")
                 }
             }
@@ -177,13 +177,14 @@ struct MoviesView: View {
             .onChange(of: selectedInstanceId) {
                 Task {
                     await fetchMoviesWithAlert(radarrInstance!)
+                    try? await settings.fetchInstanceMetadata(selectedInstanceId!)
                 }
             }
         }
     }
 
     var radarrInstances: [Instance] {
-        instances.filter { instance in
+        settings.instances.filter { instance in
             instance.type == .radarr
         }
     }
@@ -282,6 +283,7 @@ struct MovieRow: View {
 
 #Preview {
     ContentView()
+        .withSettings()
 }
 
 #Preview("Offline") {
@@ -290,6 +292,7 @@ struct MovieRow: View {
     }
 
     return ContentView()
+        .withSettings()
 }
 
 #Preview("Failure") {
@@ -298,4 +301,5 @@ struct MovieRow: View {
     }
 
     return ContentView()
+        .withSettings()
 }
