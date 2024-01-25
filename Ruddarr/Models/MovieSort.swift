@@ -31,4 +31,4 @@ struct MovieSort: Codable {
     }
 }
 
-extension MovieSort: RawRepresentable { }
+extension MovieSort: CodableAndRawRepresentable { }

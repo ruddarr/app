@@ -7,12 +7,12 @@ struct MoviesView: View {
 
     @State private var error: Error?
     @State private var alertPresented = false
-    @AppStorage("movieSort") private var sort: MovieSort = .init()
+    /*@AppStorage("movieSort")*/ @State private var sort: MovieSort = .init()
 
     @State var movies = MovieModel()
 
-    @AppStorage("movieInstance", store: dependencies.userDefaults) private var selectedInstanceId: UUID?
-    @CloudStorage("instances") private var instances: [Instance] = []
+    /*@AppStorage("movieInstance", store: dependencies.userDefaults)*/ @State private var selectedInstanceId: UUID?
+    @State private var instances: [Instance] = [.sample]
 
     @Environment(\.scenePhase) private var scenePhase
 
@@ -290,6 +290,18 @@ struct MovieRow: View {
         throw URLError(.notConnectedToInternet)
     }
 
+    return ContentView()
+}
+
+#Preview("Samples Sorted by Year") {
+    dependencies.api.fetchMovies = { _ in
+        [
+            .init(id: 1, title: "a", sortTitle: "a", studio: nil, year: 1999, sizeOnDisk: nil, monitored: false, added: .distantPast, images: []),
+            .init(id: 2, title: "b", sortTitle: "b", studio: nil, year: 2024, sizeOnDisk: nil, monitored: false, added: .distantPast, images: []),
+        ]
+    }
+//    dependencies.userDefaults = .mock
+    dependencies.userDefaults.setValue(MovieSort(option: .byYear).rawValue, forKey: "movieSort")
     return ContentView()
 }
 

@@ -1,6 +1,9 @@
 import Foundation
 
-public extension RawRepresentable where Self: Codable {
+
+public protocol CodableAndRawRepresentable: Codable, RawRepresentable {}
+
+public extension CodableAndRawRepresentable {
     init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
             let result = try? JSONDecoder().decode(Self.self, from: data)
@@ -20,4 +23,4 @@ public extension RawRepresentable where Self: Codable {
     }
 }
 
-extension UUID: RawRepresentable {}
+extension UUID: CodableAndRawRepresentable {}
