@@ -99,16 +99,12 @@ struct SettingsView: View {
                 calculateImageCacheSize()
             }
 
-            Button("Erase All Settings", role: .destructive) {
+            Button("Reset All Settings", role: .destructive) {
                 showingEraseConfirmation = true
             }
             .confirmationDialog("Are you sure?", isPresented: $showingEraseConfirmation) {
-                Button("Erase All Settings", role: .destructive) {
-                    if let bundleID = Bundle.main.bundleIdentifier {
-                        settings.resetAll()
-                        UserDefaults.standard.removePersistentDomain(forName: bundleID)
-                        showingEraseConfirmation = false
-                    }
+                Button("Reset All Settings", role: .destructive) {
+                    resetAllSettings()
                 }
                 Button("Cancel", role: .cancel) { }
             } message: {
@@ -127,6 +123,14 @@ struct SettingsView: View {
         let dataCache = try? DataCache(name: "com.github.radarr.DataCache")
         dataCache?.removeAll()
         imageCacheSize = 0
+    }
+
+    func resetAllSettings() {
+        settings.resetAll()
+
+        if let bundleID = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleID)
+        }
     }
 
     // If desired add `mailto` to `LSApplicationQueriesSchemes` in `Info.plist`
