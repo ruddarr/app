@@ -6,11 +6,12 @@ struct RuddarrApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     init() {
+        #if DEBUG
+        dependencies = .live
+        #endif
+
         NetworkMonitor.shared.start()
 
-        dependencies = .mock
-#if DEBUG
-#endif
         NotificationCenter.default.addObserver(
             forName: UIApplication.didBecomeActiveNotification,
             object: nil,
@@ -23,7 +24,7 @@ struct RuddarrApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(AppSettings())
+                .withSettings()
         }
     }
 }
