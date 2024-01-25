@@ -3,7 +3,7 @@ import SwiftUI
 
 struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
-    var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [MovieLookup]
+    var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolders]
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
@@ -79,7 +79,6 @@ extension API {
 
     struct Empty: Encodable { }
 
-    // convenience version with no Body
     fileprivate static func request<Response: Decodable>(
         method: HTTPMethod = .get,
         url: URL, authorization: String?,

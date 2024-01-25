@@ -4,10 +4,10 @@ struct MovieSearchView: View {
     let instance: Instance
 
     @State var searchQuery = ""
-    @State private var presentingSearch = true
-    @State private var isAddingMovie: MovieLookup?
 
-    @State var lookup = MovieLookupModel()
+    @State private var isAddingMovie: Movie?
+    @State private var presentingSearch = true
+    @State private var lookup = MovieLookupModel()
 
     let gridItemLayout = [
         GridItem(.adaptive(minimum: 250), spacing: 15)
@@ -17,15 +17,14 @@ struct MovieSearchView: View {
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: 15) {
                 ForEach(lookup.movies ?? []) { movie in
-                    Button {
-                        isAddingMovie = movie
-                    } label: {
-                        MovieLookupRow(movie: movie, instance: instance)
-                    }
-                    .buttonStyle(.plain)
+                    MovieRow(movie: movie)
+                        .opacity(movie.exists ? 0.35 : 1)
+                        .onTapGesture {
+                            isAddingMovie = movie
+                        }
                 }
                 .sheet(item: $isAddingMovie) { movie in
-                    MovieLookupSheet(movie: movie)
+                    MovieLookupSheet(instance: instance, movie: movie)
                 }
             }
             .padding(.top, 10)
@@ -62,47 +61,31 @@ struct MovieSearchView: View {
     }
 }
 
-struct MovieLookupRow: View {
-    var movie: MovieLookup
-    var instance: Instance
-
-    var body: some View {
-        HStack {
-            CachedAsyncImage(url: movie.remotePoster)
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 80, height: 120)
-                .clipped()
-
-            VStack(alignment: .leading) {
-                Text(movie.title)
-                    .font(.subheadline)
-                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                    .multilineTextAlignment(.leading)
-                Text(String(movie.year))
-                    .font(.caption)
-                Spacer()
-            }
-            .padding(.top, 4)
-
-            Spacer()
-        }
-        .frame(maxWidth: .infinity)
-        .background(Color(UIColor.secondarySystemBackground))
-        .cornerRadius(8)
-    }
-}
-
 struct MovieLookupSheet: View {
-    var movie: MovieLookup
+    var instance: Instance
+    var movie: Movie
 
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationStack {
-            VStack {
-                Text("Add movie")
+            Group {
+                if movie.exists {
+                    ScrollView {
+                        MovieDetails(instance: instance, movie: movie)
+                    }
+                    .padding(.horizontal)
+                } else {
+                    MovieForm(instance: instance, movie: movie)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button("Add") {
+                                    //
+                                }
+                            }
+                        }
+                }
             }
-            .navigationTitle(movie.title)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel", action: {

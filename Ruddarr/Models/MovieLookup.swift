@@ -1,12 +1,15 @@
+import os
 import SwiftUI
 
 @Observable
 class MovieLookupModel {
-    var movies: [MovieLookup]?
+    var movies: [Movie]?
     var error: Error?
 
     var hasError: Bool = false
     var isSearching: Bool = false
+
+    private let log: Logger = logger("movie.lookup")
 
     func search(_ instance: Instance, query: String) async {
         movies = nil
@@ -24,19 +27,10 @@ class MovieLookupModel {
         } catch {
             self.error = error
             self.hasError = true
+
+            log.error("Movie lookup failed: \(error)")
         }
 
         isSearching = false
     }
-}
-
-struct MovieLookup: Identifiable, Codable {
-    var id: Int {
-        tmdbId
-    }
-    let tmdbId: Int
-    let title: String
-    let year: Int
-    let remotePoster: String?
-    let images: [MovieImage]
 }

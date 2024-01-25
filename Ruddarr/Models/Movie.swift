@@ -33,7 +33,10 @@ class MovieModel {
 }
 
 struct Movie: Identifiable, Codable {
-    let id: Int
+    var id: Int { movieId ?? tmdbId }
+
+    var movieId: Int?
+    let tmdbId: Int
 
     let title: String
     let sortTitle: String
@@ -61,6 +64,36 @@ struct Movie: Identifiable, Codable {
 
     let images: [MovieImage]
     let movieFile: MovieFile?
+
+    enum CodingKeys: String, CodingKey {
+        case movieId = "id"
+        case tmdbId
+        case title
+        case sortTitle
+        case studio
+        case year
+        case runtime
+        case overview
+        case certification
+        case genres
+        case status
+        case minimumAvailability
+        case monitored
+        case qualityProfileId
+        case sizeOnDisk
+        case hasFile
+        case rootFolderPath
+        case added
+        case inCinemas
+        case physicalRelease
+        case digitalRelease
+        case images
+        case movieFile
+    }
+
+    var exists: Bool {
+        movieId != nil
+    }
 
     var humanRuntime: String {
         let hours = runtime / 60

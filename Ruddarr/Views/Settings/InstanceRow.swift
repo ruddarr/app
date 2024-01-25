@@ -3,11 +3,12 @@ import SwiftUI
 
 struct InstanceRow: View {
     var instance: Instance
-    private let log: Logger = logger("settings")
 
     @EnvironmentObject var settings: AppSettings
 
     @State private var status: Status = .pending
+
+    private let log: Logger = logger("settings")
 
     enum Status {
         case pending

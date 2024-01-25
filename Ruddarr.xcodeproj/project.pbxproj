@@ -19,6 +19,8 @@
 		BB25DC612B62ECF700FE55A0 /* InstanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC602B62ECF700FE55A0 /* InstanceRow.swift */; };
 		BB25DC642B62ED9100FE55A0 /* ThridPartyLibraries.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC632B62ED9100FE55A0 /* ThridPartyLibraries.swift */; };
 		BB25DC662B62EDC700FE55A0 /* MovieRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC652B62EDC700FE55A0 /* MovieRow.swift */; };
+		BB25DC682B630B9000FE55A0 /* MovieDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC672B630B9000FE55A0 /* MovieDetails.swift */; };
+		BB25DC6A2B63161E00FE55A0 /* MovieForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC692B63161E00FE55A0 /* MovieForm.swift */; };
 		BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D222B58C71300C29B00 /* NoInternet.swift */; };
 		BB456D272B58E4B900C29B00 /* system-status.json in Resources */ = {isa = PBXBuildFile; fileRef = BB456D262B58E4B900C29B00 /* system-status.json */; };
 		BB6D96952B61E61D0017BFB3 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6D96942B61E61D0017BFB3 /* AppSettings.swift */; };
@@ -67,6 +69,8 @@
 		BB25DC602B62ECF700FE55A0 /* InstanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceRow.swift; sourceTree = "<group>"; };
 		BB25DC632B62ED9100FE55A0 /* ThridPartyLibraries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThridPartyLibraries.swift; sourceTree = "<group>"; };
 		BB25DC652B62EDC700FE55A0 /* MovieRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRow.swift; sourceTree = "<group>"; };
+		BB25DC672B630B9000FE55A0 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
+		BB25DC692B63161E00FE55A0 /* MovieForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieForm.swift; sourceTree = "<group>"; };
 		BB456D222B58C71300C29B00 /* NoInternet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternet.swift; sourceTree = "<group>"; };
 		BB456D262B58E4B900C29B00 /* system-status.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "system-status.json"; sourceTree = "<group>"; };
 		BB6D96942B61E61D0017BFB3 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
@@ -153,6 +157,8 @@
 				BB8B3DF12B61713500B80E2D /* MovieEditView.swift */,
 				BBE0DE5E2B51A86B00E7B5C9 /* MovieSearchView.swift */,
 				BB25DC652B62EDC700FE55A0 /* MovieRow.swift */,
+				BB25DC672B630B9000FE55A0 /* MovieDetails.swift */,
+				BB25DC692B63161E00FE55A0 /* MovieForm.swift */,
 			);
 			path = Movies;
 			sourceTree = "<group>";
@@ -376,6 +382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBF477A92B4FA20B00C2DED3 /* SettingsView.swift in Sources */,
+				BB25DC682B630B9000FE55A0 /* MovieDetails.swift in Sources */,
 				79159D6E2B5953E800F7F997 /* API.swift in Sources */,
 				BBC94DE52B5F3E0B00504568 /* CloudStorageSync.swift in Sources */,
 				BBC136A42B62DD780074C7AA /* Network.swift in Sources */,
@@ -405,6 +412,7 @@
 				BBE0DE5F2B51A86B00E7B5C9 /* MovieSearchView.swift in Sources */,
 				BB9255CE2B54657900967F84 /* InstanceView.swift in Sources */,
 				BB25DC642B62ED9100FE55A0 /* ThridPartyLibraries.swift in Sources */,
+				BB25DC6A2B63161E00FE55A0 /* MovieForm.swift in Sources */,
 				BBA54BDE2B561FB200CA0F3E /* CachedAsyncImage.swift in Sources */,
 				BB6D96952B61E61D0017BFB3 /* AppSettings.swift in Sources */,
 				BBE8286C2B4F360700C1E1D9 /* Movie.swift in Sources */,

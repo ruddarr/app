@@ -8,7 +8,7 @@ struct ContentView: View {
             NavigationSplitView(columnVisibility: $columnVisibility) {
                 List(selection: dependencies.$router.selectedTab.optional) {
                     Text("Ruddarr")
-                        .font(.title)
+                        .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding(.bottom)
 

@@ -67,8 +67,12 @@ struct MoviesView: View {
                         MovieSearchView(instance: radarrInstance, searchQuery: query)
                     }
                 case .movie(let movieId):
-                    if let movie = movies.byId(movieId) {
-                        MovieView(movie: movie)
+                    if let movie = movies.byId(movieId), let radarrInstance {
+                        MovieView(instance: radarrInstance, movie: movie)
+                    }
+                case .edit(let movieId):
+                    if let movie = movies.byId(movieId), let radarrInstance {
+                        MovieEditView(instance: radarrInstance, movie: movie)
                     }
                 }
             }

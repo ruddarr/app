@@ -5,9 +5,9 @@ extension API {
         .init(fetchMovies: { _ in
            loadPreviewData(filename: "movies")
         }, lookupMovies: { _, query in
-            let allMovieLookups: [MovieLookup] = loadPreviewData(filename: "movie-lookup")
+            let movies: [Movie] = loadPreviewData(filename: "movie-lookup")
 
-            return allMovieLookups.filter {
+            return movies.filter {
                 $0.title.localizedCaseInsensitiveContains(query)
             }
         }, systemStatus: { _ in

@@ -59,7 +59,7 @@ struct PlaceholderImage: View {
     var body: some View {
         Image(systemName: icon)
             .imageScale(.large)
-            .foregroundColor(.secondary)
+            .foregroundStyle(.secondary)
             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
             .background(
                 Color(UIColor.systemFill)
