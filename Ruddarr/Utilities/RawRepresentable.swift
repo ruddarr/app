@@ -1,6 +1,6 @@
 import Foundation
 import SwiftUI
-// we need this boilerplate to store Codable stuff in AppStorage. Swift currently makes it hard to make this fully generic.
+
 extension UUID: RawRepresentable {
     public var rawValue: String {
         self.uuidString
@@ -13,7 +13,6 @@ extension UUID: RawRepresentable {
     }
 }
 
-// I think we can only conform Array once, if we need more, we'll need to start wrapping it in another type.
 extension Array<Instance>: RawRepresentable {
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
@@ -34,7 +33,6 @@ extension Array<Instance>: RawRepresentable {
     }
 }
 
-
 extension MovieSort: RawRepresentable {
     public init?(rawValue: String) {
         do {
@@ -44,6 +42,7 @@ extension MovieSort: RawRepresentable {
             self = result
         } catch {
             print(error)
+
             return nil
         }
     }
@@ -54,6 +53,7 @@ extension MovieSort: RawRepresentable {
         else {
             return "{}"
         }
+
         return result
     }
 }
@@ -63,8 +63,7 @@ extension MovieSort: Codable {
         case option
         case isAscending
     }
-    
-    // !!! this is needed. If we don't implement decode/encode ourselves, the default implementations will try to optimize by using the RawRepresentable conformance instead and end up in a loop
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         try self.init(
@@ -72,7 +71,7 @@ extension MovieSort: Codable {
             option: container.decode(Option.self, forKey: .option)
         )
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(option, forKey: .option)

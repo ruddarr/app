@@ -17,6 +17,7 @@ enum InstanceType: String, Identifiable, CaseIterable, Codable {
 struct InstanceStatus: Codable {
   let appName: String
 }
+
 extension Instance {
     static var sample: Self {
         .init(

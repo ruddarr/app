@@ -1,6 +1,5 @@
 import SwiftUI
 
-
 struct MoviesView: View {
     @State private var searchQuery = ""
     @State private var searchPresented = false
@@ -290,19 +289,6 @@ struct MovieRow: View {
         throw URLError(.notConnectedToInternet)
     }
 
-    return ContentView()
-}
-
-#Preview("Samples Sorted by Year") {
-    dependencies.api.fetchMovies = { _ in
-        [
-            .init(id: 2, title: "b", sortTitle: "b", studio: nil, year: 2024, sizeOnDisk: nil, monitored: false, added: .distantPast, images: []),
-            .init(id: 1, title: "a", sortTitle: "a", studio: nil, year: 1999, sizeOnDisk: nil, monitored: false, added: .distantPast, images: []),
-        ]
-    }
-    dependencies.userDefaults = .mock
-    dependencies.userDefaults.setValue(MovieSort(isAscending: false, option: .byYear).rawValue, forKey: "movieSort")
-    print(dependencies.userDefaults.string(forKey: "movieSort"))
     return ContentView()
 }
 
