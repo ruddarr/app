@@ -1,9 +1,11 @@
+import os
 import Foundation
 import SwiftUI
 
 struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
+    var addMovie: (Movie, Instance) async throws -> Movie
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolders]
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
@@ -22,6 +24,11 @@ extension API {
                 .appending(queryItems: [.init(name: "term", value: query)])
 
             return try await request(url: url, authorization: instance.apiKey)
+        }, addMovie: { movie, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/movie")
+            throw AppError("test")
+            return try await request(method: .post, url: url, authorization: instance.apiKey, body: movie)
         }, systemStatus: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/system/status")
@@ -42,12 +49,18 @@ extension API {
 
     fileprivate static func request<Body: Encodable, Response: Decodable>(
         method: HTTPMethod = .get,
-        url: URL, authorization: String?,
+        url: URL,
+        authorization: String?,
         body: Body? = nil,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared
     ) async throws -> Response {
+        let log: Logger = logger("api")
+
+        encoder.dateEncodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = .iso8601
+
         try NetworkMonitor.shared.checkReachability()
 
         var request = URLRequest(url: url)
@@ -55,7 +68,9 @@ extension API {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        print(url)
+        let httpString = "\(method.rawValue.uppercased()) \(url)"
+        log.debug("\(httpString, privacy: .public)")
+        print(httpString)
 
         if let body {
             request.httpBody = try encoder.encode(body)
@@ -70,9 +85,13 @@ extension API {
 
         switch statusCode {
         case (200..<400)?:
-            decoder.dateDecodingStrategy = .iso8601
             return try decoder.decode(Response.self, from: json)
         default:
+            if let rawJson = String(data: json, encoding: .utf8) {
+                log.error("Request failed (\(statusCode ?? 0)) \(rawJson)")
+                print("Request failed (\(statusCode ?? 0)) \(rawJson)")
+            }
+
             throw statusCode.map(Error.failingResponse) ?? AppError.assertionFailure
         }
     }
@@ -81,7 +100,8 @@ extension API {
 
     fileprivate static func request<Response: Decodable>(
         method: HTTPMethod = .get,
-        url: URL, authorization: String?,
+        url: URL,
+        authorization: String?,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared

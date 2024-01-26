@@ -2,7 +2,8 @@ import SwiftUI
 
 struct MovieForm: View {
     var instance: Instance
-    @State var movie: Movie
+
+    @Binding var movie: Movie
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -12,7 +13,6 @@ struct MovieForm: View {
                 .padding(.horizontal)
 
             Form {
-
                 Section {
                     Toggle("Monitored", isOn: $movie.monitored)
 
@@ -51,9 +51,6 @@ struct MovieForm: View {
                     }
                     .labelsHidden()
                     .pickerStyle(.navigationLink)
-                }.onAppear {
-                    print($movie.rootFolderPath)
-                    print(instance.rootFolders)
                 }
 
                 if movie.exists {
@@ -66,6 +63,23 @@ struct MovieForm: View {
                 }
             }
             .scrollDisabled(true)
+        }
+        .onAppear {
+            selectDefaultValues()
+        }
+    }
+
+    func selectDefaultValues() {
+        if !instance.qualityProfiles.contains(
+            where: { $0.id == movie.qualityProfileId }
+        ) {
+            movie.qualityProfileId = instance.qualityProfiles.first?.id ?? 0
+        }
+
+        if !instance.rootFolders.contains(
+            where: { $0.path == movie.rootFolderPath }
+        ) {
+            movie.rootFolderPath = instance.rootFolders.first?.path ?? ""
         }
     }
 }

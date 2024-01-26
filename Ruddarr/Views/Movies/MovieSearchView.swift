@@ -24,7 +24,10 @@ struct MovieSearchView: View {
                         }
                 }
                 .sheet(item: $isAddingMovie) { movie in
-                    MovieLookupSheet(instance: instance, movie: movie)
+                    MovieSearchSheet(instance: instance, movie: movie)
+                        .presentationDetents(
+                            movie.exists ? [.large] : [.medium]
+                        )
                 }
             }
             .padding(.top, 10)
@@ -56,42 +59,6 @@ struct MovieSearchView: View {
                 }
             } else if lookup.movies?.count == 0 {
                 ContentUnavailableView.search(text: searchQuery)
-            }
-        }
-    }
-}
-
-struct MovieLookupSheet: View {
-    var instance: Instance
-    var movie: Movie
-
-    @Environment(\.dismiss) private var dismiss
-
-    var body: some View {
-        NavigationStack {
-            Group {
-                if movie.exists {
-                    ScrollView {
-                        MovieDetails(instance: instance, movie: movie)
-                    }
-                    .padding(.horizontal)
-                } else {
-                    MovieForm(instance: instance, movie: movie)
-                        .toolbar {
-                            ToolbarItem(placement: .topBarTrailing) {
-                                Button("Add") {
-                                    //
-                                }
-                            }
-                        }
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel", action: {
-                        dismiss()
-                    })
-                }
             }
         }
     }

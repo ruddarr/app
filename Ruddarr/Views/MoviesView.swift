@@ -2,16 +2,17 @@ import SwiftUI
 
 struct MoviesView: View {
     @AppStorage("movieInstance", store: dependencies.userDefaults) private var selectedInstanceId: UUID?
+    @AppStorage("movieSort", store: dependencies.userDefaults) private var sort: MovieSort = .init()
+
     @EnvironmentObject var settings: AppSettings
+
+    @State private var movies = MovieModel()
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
 
     @State private var error: Error?
     @State private var alertPresented = false
-    @AppStorage("movieSort", store: dependencies.userDefaults) private var sort: MovieSort = .init()
-
-    @State var movies = MovieModel()
 
     @Environment(\.scenePhase) private var scenePhase
 
@@ -102,6 +103,8 @@ struct MoviesView: View {
                     NoInternet()
                 } else if displayedMovies.isEmpty && !searchQuery.isEmpty {
                     noSearchResults
+                } else if movies.isWorking && movies.movies.isEmpty {
+                    ProgressView()
                 }
             }
         }

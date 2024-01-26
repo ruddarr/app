@@ -6,7 +6,7 @@ class MovieModel {
     var error: Error?
 
     var hasError: Bool = false
-    var isFetching: Bool = false
+    var isWorking: Bool = false
 
     func byId(_ id: Int) -> Movie? {
         if let movie = movies.first(where: { $0.id == id }) {
@@ -21,14 +21,31 @@ class MovieModel {
         hasError = false
 
         do {
-            isFetching = true
+            isWorking = true
             movies = try await dependencies.api.fetchMovies(instance)
         } catch {
             self.error = error
             self.hasError = true
         }
 
-        isFetching = false
+        isWorking = false
+    }
+
+    func add(_ movie: Movie, _ instance: Instance) async -> Movie? {
+        error = nil
+        hasError = false
+
+        do {
+            isWorking = true
+            return try await dependencies.api.addMovie(movie, instance)
+        } catch {
+            self.error = error
+            self.hasError = true
+        }
+
+        isWorking = false
+
+        return nil
     }
 }
 
@@ -55,6 +72,9 @@ struct Movie: Identifiable, Codable {
     var qualityProfileId: Int
     let sizeOnDisk: Int?
     let hasFile: Bool
+
+    var path: String?
+    var folderName: String?
     var rootFolderPath: String?
 
     let added: Date

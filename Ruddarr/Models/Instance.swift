@@ -54,7 +54,14 @@ extension Instance {
             id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
             label: ".sample",
             url: "http://10.0.1.5:8310",
-            apiKey: "8f45bce99e254f888b7a2ba122468dbe"
+            apiKey: "8f45bce99e254f888b7a2ba122468dbe",
+            rootFolders: [
+                InstanceRootFolders(id: 1, accessible: true, path: "/volume1/Media/Movies", freeSpace: 1_000_000_000),
+            ],
+            qualityProfiles: [
+                InstanceQualityProfile(id: 1, name: "Any"),
+                InstanceQualityProfile(id: 2, name: "4K"),
+            ]
         )
     }
 }

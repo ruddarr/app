@@ -10,6 +10,10 @@ extension API {
             return movies.filter {
                 $0.title.localizedCaseInsensitiveContains(query)
             }
+        }, addMovie: { _, _ in
+            let movies: [Movie] = loadPreviewData(filename: "movies")
+
+            return movies[0]
         }, systemStatus: { _ in
             loadPreviewData(filename: "system-status")
         }, rootFolders: { _ in

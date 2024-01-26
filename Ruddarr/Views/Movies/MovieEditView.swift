@@ -2,10 +2,11 @@ import SwiftUI
 
 struct MovieEditView: View {
     var instance: Instance
+
     @State var movie: Movie
 
     var body: some View {
-        MovieForm(instance: instance, movie: movie)
+        MovieForm(instance: instance, movie: $movie)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
