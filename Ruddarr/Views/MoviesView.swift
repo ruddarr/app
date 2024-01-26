@@ -1,12 +1,10 @@
 import SwiftUI
 
 struct MoviesView: View {
-    @AppStorage("movieInstance", store: dependencies.userDefaults) private var selectedInstanceId: UUID?
-    @AppStorage("movieSort", store: dependencies.userDefaults) private var sort: MovieSort = .init()
+    @AppStorage("movieSort", store: dependencies.store) private var sort: MovieSort = .init()
 
     @EnvironmentObject var settings: AppSettings
-
-    @State private var movies = MovieModel()
+    @Environment(RadarrInstance.self) private var instance
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
@@ -29,7 +27,9 @@ struct MoviesView: View {
 
         NavigationStack(path: dependencies.$router.moviesPath) {
             Group {
-                if let radarrInstance {
+                if instance.void {
+                    noRadarrInstance
+                } else {
                     ScrollView {
                         LazyVGrid(columns: gridItemLayout, spacing: 15) {
                             ForEach(displayedMovies) { movie in
@@ -43,45 +43,43 @@ struct MoviesView: View {
                         .padding(.horizontal)
                     }
                     .task {
-                        await fetchMoviesWithAlert(radarrInstance, ignoreOffline: true)
+                        await fetchMoviesWithAlert(ignoreOffline: true)
                     }
                     .refreshable {
-                        await fetchMoviesWithAlert(radarrInstance)
+                        await fetchMoviesWithAlert()
                     }
                     .onChange(of: scenePhase) { newPhase, oldPhase in
                         guard newPhase == .background && oldPhase == .inactive else { return }
 
                         Task {
-                            await movies.fetch(radarrInstance)
-                            try? await settings.fetchInstanceMetadata(radarrInstance.id)
-                        }
+                            await instance.movies.fetch()
+
+                            if let model = try await instance.fetchMetadata() {
+                                settings.saveInstance(model)
+                            }
+                       }
                     }
-                } else {
-                    noRadarrInstance
                 }
             }
             .navigationTitle("Movies")
             .navigationDestination(for: Path.self) {
                 switch $0 {
                 case .search(let query):
-                    if let radarrInstance {
-                        MovieSearchView(instance: radarrInstance, searchQuery: query)
-                    }
+                    MovieSearchView(searchQuery: query)
                 case .movie(let movieId):
-                    if let movie = movies.byId(movieId), let radarrInstance {
-                        MovieView(instance: radarrInstance, movie: movie)
-                    }
+                    MovieView(movie: instance.movies.byId(movieId)!)
                 case .edit(let movieId):
-                    if let movie = movies.byId(movieId), let radarrInstance {
-                        MovieEditView(instance: radarrInstance, movie: movie)
-                    }
+                    MovieEditView(movie: instance.movies.byId(movieId)!)
                 }
             }
             .onAppear {
                 // if no instance is selected, try to select one
                 // if the selected instance was deleted, try to select one
-                if radarrInstance == nil {
-                    selectedInstanceId = radarrInstances.first?.id
+                if instance.void, !settings.radarrInstances.isEmpty {
+                    let first = settings.radarrInstances.first!
+
+                    instance.switchTo(first)
+                    settings.radarrInstanceId = first.id
                 }
             }
             .toolbar {
@@ -103,7 +101,7 @@ struct MoviesView: View {
                     NoInternet()
                 } else if displayedMovies.isEmpty && !searchQuery.isEmpty {
                     noSearchResults
-                } else if movies.isWorking && movies.movies.isEmpty {
+                } else if instance.movies.isWorking && instance.movies.items.isEmpty {
                     ProgressView()
                 }
             }
@@ -137,7 +135,7 @@ struct MoviesView: View {
 
     @ToolbarContentBuilder
     var toolbarSearchButton: some ToolbarContent {
-        if radarrInstance != nil {
+        if !instance.void {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(value: Path.search()) {
                     Image(systemName: "plus")
@@ -149,7 +147,7 @@ struct MoviesView: View {
     @ToolbarContentBuilder
     var toolbarActionButtons: some ToolbarContent {
         ToolbarItemGroup(placement: .topBarLeading) {
-            if radarrInstances.count > 1 {
+            if settings.radarrInstances.count > 1 {
                 toolbarInstancesButton
             }
 
@@ -176,37 +174,34 @@ struct MoviesView: View {
 
     var toolbarInstancesButton: some View {
         Menu("Instances", systemImage: "xserve.raid") {
-            Picker(selection: $selectedInstanceId, label: Text("Instance")) {
-                ForEach(radarrInstances) { instance in
+            Picker(selection: $settings.radarrInstanceId, label: Text("Instance")) {
+                ForEach(settings.radarrInstances) { instance in
                     Text(instance.label).tag(Optional.some(instance.id))
                 }
             }
-            .onChange(of: selectedInstanceId) {
+            .onChange(of: settings.radarrInstanceId) {
                 Task {
-                    await fetchMoviesWithAlert(radarrInstance!)
-                    try? await settings.fetchInstanceMetadata(selectedInstanceId!)
+                    instance.switchTo(
+                        settings.instanceById(settings.radarrInstanceId!)!
+                    )
+
+                    await fetchMoviesWithAlert()
+
+                    if let model = try await instance.fetchMetadata() {
+                        settings.saveInstance(model)
+                    }
                 }
             }
         }
-    }
-
-    var radarrInstances: [Instance] {
-        settings.instances.filter { instance in
-            instance.type == .radarr
-        }
-    }
-
-    var radarrInstance: Instance? {
-        radarrInstances.first(where: { $0.id == selectedInstanceId })
     }
 
     var displayedMovies: [Movie] {
         let unsortedMovies: [Movie]
 
         if searchQuery.isEmpty {
-            unsortedMovies = movies.movies
+            unsortedMovies = instance.movies.items
         } else {
-            unsortedMovies = movies.movies.filter { movie in
+            unsortedMovies = instance.movies.items.filter { movie in
                 movie.title.localizedCaseInsensitiveContains(searchQuery)
             }
         }
@@ -216,20 +211,20 @@ struct MoviesView: View {
         return sort.isAscending ? sortedMovies : sortedMovies.reversed()
     }
 
-    func fetchMoviesWithAlert(_ instance: Instance, ignoreOffline: Bool = false) async {
+    func fetchMoviesWithAlert(ignoreOffline: Bool = false) async {
         alertPresented = false
         error = nil
 
-        await movies.fetch(instance)
+        await instance.movies.fetch()
 
-        if movies.hasError {
-            error = movies.error
+        if instance.movies.hasError {
+            error = instance.movies.error
 
-            if ignoreOffline && (movies.error as? URLError)?.code == .notConnectedToInternet {
+            if ignoreOffline && (instance.movies.error as? URLError)?.code == .notConnectedToInternet {
                 return
             }
 
-            alertPresented = movies.hasError
+            alertPresented = instance.movies.hasError
         }
     }
 }
@@ -240,7 +235,7 @@ struct MoviesView: View {
     }
 
     return ContentView()
-        .withSettings()
+        .withAppState()
 }
 
 #Preview("Failure") {
@@ -249,10 +244,10 @@ struct MoviesView: View {
     }
 
     return ContentView()
-        .withSettings()
+        .withAppState()
 }
 
 #Preview {
     ContentView()
-        .withSettings()
+        .withAppState()
 }

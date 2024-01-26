@@ -2,11 +2,11 @@ import os
 import SwiftUI
 
 struct InstanceRow: View {
-    var instance: Instance
-
-    @EnvironmentObject var settings: AppSettings
+    @State var instance: Instance
 
     @State private var status: Status = .pending
+
+    @EnvironmentObject var settings: AppSettings
 
     private let log: Logger = logger("settings")
 
@@ -32,7 +32,12 @@ struct InstanceRow: View {
         }.task {
             do {
                 _ = try await dependencies.api.systemStatus(instance)
-                try await settings.fetchInstanceMetadata(instance.id)
+
+                instance.rootFolders = try await dependencies.api.rootFolders(instance)
+                instance.qualityProfiles = try await dependencies.api.qualityProfiles(instance)
+
+                settings.saveInstance(instance)
+
                 status = .reachable
             } catch {
                 log.error("Instance check failed: \(error)")

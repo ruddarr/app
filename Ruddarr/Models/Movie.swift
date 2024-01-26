@@ -1,54 +1,5 @@
 import SwiftUI
 
-@Observable
-class MovieModel {
-    var movies: [Movie] = []
-    var error: Error?
-
-    var hasError: Bool = false
-    var isWorking: Bool = false
-
-    func byId(_ id: Int) -> Movie? {
-        if let movie = movies.first(where: { $0.id == id }) {
-            return movie
-        }
-
-        return nil
-    }
-
-    func fetch(_ instance: Instance) async {
-        error = nil
-        hasError = false
-
-        do {
-            isWorking = true
-            movies = try await dependencies.api.fetchMovies(instance)
-        } catch {
-            self.error = error
-            self.hasError = true
-        }
-
-        isWorking = false
-    }
-
-    func add(_ movie: Movie, _ instance: Instance) async -> Movie? {
-        error = nil
-        hasError = false
-
-        do {
-            isWorking = true
-            return try await dependencies.api.addMovie(movie, instance)
-        } catch {
-            self.error = error
-            self.hasError = true
-        }
-
-        isWorking = false
-
-        return nil
-    }
-}
-
 struct Movie: Identifiable, Codable {
     var id: Int { movieId ?? tmdbId }
 

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ThridPartyLibraries: View {
+struct LibrariesView: View {
     var body: some View {
         List {
             Link(destination: URL(string: "https://github.com/kean/Nuke")!, label: {
@@ -32,5 +32,5 @@ struct ThridPartyLibraries: View {
     )
 
     return ContentView()
-        .withSettings()
+        .withAppState()
 }

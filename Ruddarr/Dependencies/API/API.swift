@@ -27,7 +27,7 @@ extension API {
         }, addMovie: { movie, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
-            throw AppError("test")
+
             return try await request(method: .post, url: url, authorization: instance.apiKey, body: movie)
         }, systemStatus: { instance in
             let url = URL(string: instance.url)!

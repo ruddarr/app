@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct MovieDetails: View {
-    var instance: Instance
     var movie: Movie
 
     var body: some View {

@@ -6,6 +6,7 @@ struct SettingsView: View {
     private let log: Logger = logger("settings")
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(RadarrInstance.self) private var radarrInstance
 
     enum Path: Hashable {
         case libraries
@@ -24,7 +25,7 @@ struct SettingsView: View {
             .navigationDestination(for: Path.self) {
                 switch $0 {
                 case .libraries:
-                    ThridPartyLibraries()
+                    LibrariesView()
                 case .createInstance:
                     let instance = Instance()
                     // let instance = Instance(url: "HTTP://10.0.1.5:8310/api", apiKey: "8f45bce99e254f888b7a2ba122468dbe")
@@ -76,7 +77,7 @@ struct SettingsView: View {
                 Label("Contribute on GitHub", systemImage: "curlybraces.square")
             })
 
-            NavigationLink { ThridPartyLibraries() } label: {
+            NavigationLink { LibrariesView() } label: {
                 Label("Third Party Libraries", systemImage: "building.columns")
             }
         }
@@ -126,6 +127,7 @@ struct SettingsView: View {
     }
 
     func resetAllSettings() {
+        radarrInstance.switchTo(.void)
         settings.resetAll()
 
         if let bundleID = Bundle.main.bundleIdentifier {
@@ -182,5 +184,5 @@ struct SettingsView: View {
     dependencies.router.selectedTab = .settings
 
     return ContentView()
-        .withSettings()
+        .withAppState()
 }

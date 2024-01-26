@@ -49,9 +49,17 @@ struct InstanceQualityProfile: Identifiable, Equatable, Codable {
 }
 
 extension Instance {
+    static var void: Self {
+        .init(
+            id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
+            type: .radarr
+        )
+    }
+
     static var sample: Self {
         .init(
             id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
+            type: .radarr,
             label: ".sample",
             url: "http://10.0.1.5:8310",
             apiKey: "8f45bce99e254f888b7a2ba122468dbe",

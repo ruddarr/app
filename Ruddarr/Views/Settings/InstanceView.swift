@@ -2,9 +2,11 @@ import SwiftUI
 
 struct InstanceView: View {
     let mode: Mode
+
     @State var instance: Instance
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(RadarrInstance.self) private var radarrInstance
 
     @State private var isLoading = false
     @State private var showingAlert = false
@@ -104,7 +106,12 @@ struct InstanceView: View {
         }
         .confirmationDialog("Are you sure?", isPresented: $showingConfirmation) {
             Button("Delete instance", role: .destructive) {
+                if instance.id == settings.radarrInstanceId {
+                    radarrInstance.switchTo(.void)
+                }
+
                 settings.deleteInstance(instance)
+
                 dismiss()
             }
             Button("Cancel", role: .cancel) { }
@@ -232,5 +239,5 @@ extension ValidationError: LocalizedError {
     )
 
     return ContentView()
-        .withSettings()
+        .withAppState()
 }

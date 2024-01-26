@@ -1,14 +1,14 @@
 import SwiftUI
 
 struct MovieView: View {
-    var instance: Instance
     var movie: Movie
 
     var body: some View {
         // movie.remoteFanart ???
 
         ScrollView {
-            MovieDetails(instance: instance, movie: movie)
+            Text(movie.title)
+            MovieDetails(movie: movie)
                 .padding(.top)
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -29,9 +29,10 @@ struct MovieView: View {
     dependencies.router.selectedTab = .movies
 
     dependencies.router.moviesPath.append(
-        MoviesView.Path.movie(movies[2].id)
+        MoviesView.Path.movie(movies[1].id)
     )
 
     return ContentView()
         .withSettings()
+        .withRadarrInstance(movies: movies)
 }

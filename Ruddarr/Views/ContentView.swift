@@ -73,5 +73,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .withSettings()
+        .withAppState()
 }

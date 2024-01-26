@@ -3,12 +3,24 @@ import SwiftUI
 class AppSettings: ObservableObject {
     @CloudStorage("instances") var instances: [Instance] = []
 
+    @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
+
     func resetAll() {
         instances.removeAll()
     }
 }
 
 extension AppSettings {
+    var radarrInstance: Instance? {
+        radarrInstances.first(where: { $0.id == radarrInstanceId })
+    }
+
+    var radarrInstances: [Instance] {
+        instances.filter { instance in
+            instance.type == .radarr
+        }
+    }
+
     func instanceById(_ id: UUID) -> Instance? {
         instances.first(where: { $0.id == id })
     }
@@ -25,22 +37,5 @@ extension AppSettings {
         if let index = instances.firstIndex(where: { $0.id == instance.id }) {
             instances.remove(at: index)
         }
-    }
-
-    func fetchInstanceMetadata(_ instanceId: UUID) async throws {
-        guard var instance = instanceById(instanceId) else {
-            throw AppError("Instance not found: \(instanceId)")
-        }
-
-        instance.rootFolders = try await dependencies.api.rootFolders(instance)
-        instance.qualityProfiles = try await dependencies.api.qualityProfiles(instance)
-
-        saveInstance(instance)
-    }
-}
-
-extension View {
-    func withSettings() -> some View {
-        self.environmentObject(AppSettings())
     }
 }

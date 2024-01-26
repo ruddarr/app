@@ -1,10 +1,9 @@
 import SwiftUI
 
 struct MovieSearchSheet: View {
-    var instance: Instance
     @State var movie: Movie
 
-    @State private var movies = MovieModel()
+    @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
 
@@ -13,18 +12,22 @@ struct MovieSearchSheet: View {
             Group {
                 if movie.exists {
                     ScrollView {
-                        MovieDetails(instance: instance, movie: movie)
+                        MovieDetails(movie: movie)
                     }
                     .padding(.horizontal)
                 } else {
-                    MovieForm(instance: instance, movie: $movie)
-                    // .background(.secondary)
-                    .toolbar {
-                        toolbarSaveButton
-                    }
+                    MovieForm(movie: $movie)
+                        .background(.secondary)
+                        .toolbar {
+                            toolbarSaveButton
+                        }
                 }
             }
-            .alert("Something Went Wrong", isPresented: $movies.hasError, presenting: movies.error) { _ in
+            .alert(
+                "Something Went Wrong",
+                isPresented: Binding(get: { instance.movies.hasError }, set: { _ in }),
+                presenting: instance.movies.error
+            ) { _ in
                 Button("OK", role: .cancel) { }
             } message: { error in
                 Text(error.localizedDescription)
@@ -42,7 +45,7 @@ struct MovieSearchSheet: View {
     @ToolbarContentBuilder
     var toolbarSaveButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            if movies.isWorking {
+            if instance.movies.isWorking {
                 ProgressView()
             } else {
                 Button("Add") {
@@ -55,7 +58,7 @@ struct MovieSearchSheet: View {
     }
 
     func addMovie() async {
-        guard let movie = await movies.add(movie, instance) else {
+        guard let movie = await instance.movies.add(movie) else {
             return
         }
 
@@ -74,17 +77,13 @@ struct MovieSearchSheet: View {
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movie-lookup")
 
-    return MovieSearchSheet(
-        instance: .sample,
-        movie: movies[5]
-    )
+    return MovieSearchSheet(movie: movies[5])
+        .withAppState()
 }
 
 #Preview("Existing") {
     let movies: [Movie] = PreviewData.load(name: "movies")
 
-    return MovieSearchSheet(
-        instance: .sample,
-        movie: movies[2]
-    )
+    return MovieSearchSheet(movie: movies[2])
+        .withAppState()
 }

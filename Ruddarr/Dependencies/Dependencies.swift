@@ -3,19 +3,19 @@ import SwiftUI
 
 struct Dependencies {
     var api: API
-    var userDefaults: UserDefaults
+    var store: UserDefaults
     @Bindable var router = Router.shared
 }
 
 extension Dependencies {
     static var live: Self {
-        .init(api: .live, userDefaults: .standard)
+        .init(api: .live, store: .standard)
     }
 }
 
 extension Dependencies {
     static var mock: Self {
-        .init(api: .mock, userDefaults: .live)
+        .init(api: .mock, store: .live)
     }
 }
 

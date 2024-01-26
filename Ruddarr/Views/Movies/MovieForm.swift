@@ -1,9 +1,15 @@
 import SwiftUI
 
 struct MovieForm: View {
-    var instance: Instance
-
     @Binding var movie: Movie
+
+    @Environment(RadarrInstance.self) private var instance
+
+    var availabilities: [MovieStatus] = [
+        .announced,
+        .inCinemas,
+        .released,
+    ]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -17,9 +23,9 @@ struct MovieForm: View {
                     Toggle("Monitored", isOn: $movie.monitored)
 
                     Picker(selection: $movie.minimumAvailability) {
-                        Text(MovieStatus.announced.label).tag(MovieStatus.announced)
-                        Text(MovieStatus.inCinemas.label).tag(MovieStatus.inCinemas)
-                        Text(MovieStatus.released.label).tag(MovieStatus.released)
+                        ForEach(availabilities, id: \.self) { availability in
+                            Text(availability.label).tag(availability)
+                        }
                     } label: {
                         ViewThatFits(in: .horizontal) {
                             Text("Minimum Availability")
@@ -70,6 +76,10 @@ struct MovieForm: View {
     }
 
     func selectDefaultValues() {
+        if !availabilities.contains(movie.minimumAvailability) {
+            movie.minimumAvailability = .announced
+        }
+
         if !instance.qualityProfiles.contains(
             where: { $0.id == movie.qualityProfileId }
         ) {
