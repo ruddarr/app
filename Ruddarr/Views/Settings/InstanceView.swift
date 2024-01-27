@@ -105,14 +105,12 @@ struct InstanceView: View {
             showingConfirmation = true
         }
         .confirmationDialog("Are you sure?", isPresented: $showingConfirmation) {
-            Button("Delete instance", role: .destructive) {
+            Button("Delete Instance", role: .destructive) {
                 if instance.id == settings.radarrInstanceId {
                     radarrInstance.switchTo(.void)
                 }
 
                 settings.deleteInstance(instance)
-
-                dismiss()
             }
             Button("Cancel", role: .cancel) { }
         } message: {

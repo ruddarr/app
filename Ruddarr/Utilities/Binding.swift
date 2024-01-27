@@ -22,3 +22,15 @@ extension Binding {
         }
     }
 }
+
+extension String {
+    var untrailingSlashIt: String? {
+        var string = self
+
+        while string.hasSuffix("/") {
+            string = String(string.dropLast())
+        }
+
+        return string
+    }
+}

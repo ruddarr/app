@@ -67,9 +67,13 @@ struct MoviesView: View {
                 case .search(let query):
                     MovieSearchView(searchQuery: query)
                 case .movie(let movieId):
-                    MovieView(movie: instance.movies.byId(movieId)!)
+                    if let movie = instance.movies.byId(movieId) {
+                        MovieView(movie: movie)
+                    }
                 case .edit(let movieId):
-                    MovieEditView(movie: instance.movies.byId(movieId)!)
+                    if let movie = instance.movies.byId(movieId) {
+                        MovieEditView(movie: movie)
+                    }
                 }
             }
             .onAppear {

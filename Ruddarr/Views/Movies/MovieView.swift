@@ -4,10 +4,7 @@ struct MovieView: View {
     var movie: Movie
 
     var body: some View {
-        // movie.remoteFanart ???
-
         ScrollView {
-            Text(movie.title)
             MovieDetails(movie: movie)
                 .padding(.top)
         }

@@ -61,4 +61,27 @@ class Movies {
 
         return nil
     }
+
+    func delete(_ movie: Movie) async -> Bool {
+        error = nil
+        hasError = false
+
+        do {
+            isWorking = true
+
+            _ = try await dependencies.api.deleteMovie(movie, instance)
+            items.removeAll(where: { $0.movieId == movie.movieId })
+
+            return true
+        } catch {
+            self.error = error
+            self.hasError = true
+
+            log.error("Failed to delete movie: \(error, privacy: .public)")
+        }
+
+        isWorking = false
+
+        return false
+    }
 }

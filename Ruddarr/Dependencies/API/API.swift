@@ -6,6 +6,7 @@ struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
     var addMovie: (Movie, Instance) async throws -> Movie
+    var deleteMovie: (Movie, Instance) async throws -> Empty
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolders]
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
@@ -29,6 +30,13 @@ extension API {
                 .appending(path: "/api/v3/movie")
 
             return try await request(method: .post, url: url, authorization: instance.apiKey, body: movie)
+        }, deleteMovie: { movie, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/movie")
+                .appending(path: String(movie.movieId!))
+                .appending(queryItems: [.init(name: "deleteFiles", value: "true")])
+
+            return try await request(method: .delete, url: url, authorization: instance.apiKey)
         }, systemStatus: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/system/status")
@@ -46,6 +54,8 @@ extension API {
             return try await request(url: url, authorization: instance.apiKey)
         })
     }
+
+    struct Empty: Encodable, Decodable { }
 
     fileprivate static func request<Body: Encodable, Response: Decodable>(
         method: HTTPMethod = .get,
@@ -85,7 +95,11 @@ extension API {
 
         switch statusCode {
         case (200..<400)?:
-            return try decoder.decode(Response.self, from: json)
+            if Response.self == Empty.self {
+                return try decoder.decode(Response.self, from: "{}".data(using: .utf8)!)
+            } else {
+                return try decoder.decode(Response.self, from: json)
+            }
         default:
             if let rawJson = String(data: json, encoding: .utf8) {
                 log.error("Request failed (\(statusCode ?? 0)) \(rawJson)")
@@ -95,8 +109,6 @@ extension API {
             throw statusCode.map(Error.failingResponse) ?? AppError.assertionFailure
         }
     }
-
-    struct Empty: Encodable { }
 
     fileprivate static func request<Response: Decodable>(
         method: HTTPMethod = .get,

@@ -17,7 +17,6 @@ struct MovieSearchSheet: View {
                     .padding(.horizontal)
                 } else {
                     MovieForm(movie: $movie)
-                        .background(.secondary)
                         .toolbar {
                             toolbarSaveButton
                         }

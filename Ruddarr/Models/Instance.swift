@@ -27,19 +27,8 @@ struct InstanceRootFolders: Identifiable, Equatable, Codable {
     let path: String?
     let freeSpace: Int?
 
-    var humanLabel: String {
-        guard let path else {
-            return String("Folder: \(id)")
-        }
-
-        var label = path
-
-        if let freeSpace {
-            let humanFreeSpace = ByteCountFormatter().string(fromByteCount: Int64(freeSpace))
-            label.append(" (\(humanFreeSpace))")
-        }
-
-        return label
+    var label: String {
+        path?.untrailingSlashIt ?? "Folder (\(id))"
     }
 }
 

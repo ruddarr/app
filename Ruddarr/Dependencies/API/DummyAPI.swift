@@ -14,6 +14,8 @@ extension API {
             let movies: [Movie] = loadPreviewData(filename: "movies")
 
             return movies[0]
+        }, deleteMovie: { _, _ in
+            return Empty()
         }, systemStatus: { _ in
             loadPreviewData(filename: "system-status")
         }, rootFolders: { _ in
