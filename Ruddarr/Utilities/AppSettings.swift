@@ -7,6 +7,10 @@ class AppSettings: ObservableObject {
 
     func resetAll() {
         instances.removeAll()
+
+        if let bundleId = Bundle.main.bundleIdentifier {
+            dependencies.store.removePersistentDomain(forName: bundleId)
+        }
     }
 }
 
