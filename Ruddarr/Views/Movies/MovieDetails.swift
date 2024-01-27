@@ -3,6 +3,10 @@ import SwiftUI
 struct MovieDetails: View {
     var movie: Movie
 
+    @State private var isTruncated = true
+
+    @Environment(RadarrInstance.self) private var instance
+
     var body: some View {
         VStack {
             // MARK: overview
@@ -16,7 +20,11 @@ struct MovieDetails: View {
 
                 Group {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(movie.title).font(.title).fontWeight(.bold)
+                        Text(movie.title)
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .kerning(-0.5)
+                            .lineLimit(2)
 
                         HStack(spacing: 12) {
                             Text(movie.certification ?? "test")
@@ -50,26 +58,60 @@ struct MovieDetails: View {
 
             // MARK: description
             HStack(alignment: .top) {
-                Text(movie.overview!).font(.callout)
+                Text(movie.overview!)
+                    .font(.callout)
+                    .lineLimit(isTruncated ? 4 : nil)
+                    .onTapGesture { isTruncated = false }
+
                 Spacer()
             }
             .padding(.bottom)
 
             // MARK: details
             Grid(alignment: .leading) {
+                detailsRow("Status", value: movie.status.label)
+
                 detailsRow("Studio", value: movie.studio!)
-                detailsRow("Status", value: movie.status.rawValue)
 
                 if !movie.genres.isEmpty {
                     detailsRow("Genre", value: movie.humanGenres)
                 }
+
+                detailsRow("Video", value: videoQuality)
+                detailsRow("Audio", value: audioQuality)
+            }.padding(.bottom)
+
+            // MARK: actions
+            HStack(spacing: 24) {
+                Button(action: { }) {
+                    Label("Automatic", systemImage: "magnifyingglass")
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                        .padding(.vertical, 6)
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+                .frame(maxWidth: .infinity)
+
+                Button(action: { }) {
+                    Label("Interactive", systemImage: "magnifyingglass")
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                        .padding(.vertical, 6)
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+                .frame(maxWidth: .infinity)
             }
+            .fixedSize(horizontal: false, vertical: true)
             .padding(.bottom)
 
-            // MARK: more details
+            // MARK: ...
             Grid(alignment: .leading) {
-                detailsRow("Path", value: "")
-                detailsRow("Quality", value: String(movie.qualityProfileId))
+                detailsRow("Path?", value: "")
+                detailsRow("Root Folder", value: "")
+                detailsRow("minimum Availability", value: "")
+                detailsRow("Quality Profile", value: qualityProfile)
 
                 if movie.sizeOnDisk != nil {
                     detailsRow("Size", value: movie.humanSize)
@@ -78,7 +120,7 @@ struct MovieDetails: View {
             .border(.gray)
             .padding(.bottom)
 
-            // MARK: dates
+            // MARK: ...
             Grid(alignment: .leading) {
                 if let inCinemas = movie.inCinemas {
                     detailsRow("In Cinemas", value: inCinemas.formatted(.dateTime.day().month().year()))
@@ -89,22 +131,6 @@ struct MovieDetails: View {
             }
             .border(.gray)
 
-            // Path
-            // Status: Downloaded
-
-            // Size
-            // Resolution?
-
-            // tba, announced, inCinemas, released, deleted
-
-            //            Path
-            //            /volume2/Media/Movies/Barbie (2023)
-            //            Status
-            //            Downloaded
-            //            Quality Profile
-            //            Ultra-HD (4K)
-            //            Size
-            //            19.8 GiB
 
             Section("test") {
                 LabeledContent("Physical Release") {
@@ -123,6 +149,54 @@ struct MovieDetails: View {
         }
     }
 
+    var videoQuality: String {
+        var label = ""
+        var codec = ""
+
+        if let resolution = movie.movieFile?.quality.quality.resolution {
+            label = "\(resolution)p"
+        }
+
+        if let videoCodec = movie.movieFile?.mediaInfo.videoCodec {
+            codec = videoCodec
+        }
+
+        if label.isEmpty {
+            label = "Unknown"
+        }
+
+        return "\(label) (\(codec))"
+    }
+
+    var audioQuality: String {
+        var languages: [String] = []
+        var codec = ""
+
+        if let langs = movie.movieFile?.languages {
+            languages = langs.filter{ $0.name != nil }.map{ $0.name ?? "Unknown" }
+        }
+
+        if let audioCodec = movie.movieFile?.mediaInfo.audioCodec {
+            codec = audioCodec
+        }
+
+        if languages.isEmpty {
+            languages.append("Unknown")
+        }
+
+        let languageList = languages.joined(separator: ", ")
+
+        return "\(languageList) (\(codec))"
+    }
+
+
+
+    var qualityProfile: String {
+        return instance.qualityProfiles.first(
+            where: { $0.id == movie.qualityProfileId }
+        )?.name ?? "Unknown"
+    }
+
     func detailsRow(_ label: String, value: String) -> some View {
         GridRow {
             Text(label)
@@ -135,4 +209,11 @@ struct MovieDetails: View {
         }
         .font(.callout)
     }
+}
+
+#Preview {
+    let movies: [Movie] = PreviewData.load(name: "movies")
+
+    return MovieSearchSheet(movie: movies[1])
+        .withAppState()
 }

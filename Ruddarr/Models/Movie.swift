@@ -74,7 +74,7 @@ struct Movie: Identifiable, Codable {
     }
 
     var humanSize: String {
-        return ByteCountFormatter().string(
+        ByteCountFormatter().string(
             fromByteCount: Int64(sizeOnDisk ?? 0)
         )
     }
@@ -131,5 +131,26 @@ struct MovieImage: Codable {
 }
 
 struct MovieFile: Codable {
-    let movieId: Int
+    let mediaInfo: MovieMediaInfo
+    let quality: MovieQualityInfo
+    let languages: [MovieLanguages]
+}
+
+struct MovieMediaInfo: Codable {
+    let audioCodec: String?
+    let videoCodec: String?
+    let resolution: String?
+}
+
+struct MovieQualityInfo: Codable {
+    let quality: MovieQuality
+}
+
+struct MovieQuality: Codable {
+    let name: String?
+    let resolution: Int
+}
+
+struct MovieLanguages: Codable {
+    let name: String?
 }
