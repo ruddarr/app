@@ -13,8 +13,6 @@ struct MoviesView: View {
     @State private var error: Error?
     @State private var alertPresented = false
 
-    @State private var noInstance = true
-
     @Environment(\.scenePhase) private var scenePhase
 
     enum Path: Hashable {
@@ -30,7 +28,7 @@ struct MoviesView: View {
 
         NavigationStack(path: dependencies.$router.moviesPath) {
             Group {
-                if noInstance {
+                if instance.isVoid {
                     noRadarrInstance
                 } else {
                     ScrollView {
@@ -46,6 +44,7 @@ struct MoviesView: View {
                         .scenePadding(.horizontal)
                     }
                     .task(priority: .low) {
+                        guard !instance.isVoid else { return }
                         await fetchMoviesWithAlert(ignoreOffline: true)
                     }
                     .refreshable {
@@ -86,8 +85,6 @@ struct MoviesView: View {
                     instance.switchTo(first)
                     settings.radarrInstanceId = first.id
                 }
-
-                noInstance = instance.isVoid
             }
             .toolbar {
                 toolbarActionButtons
@@ -186,7 +183,7 @@ struct MoviesView: View {
     }
 
     var toolbarInstancesButton: some View {
-        Menu("Instances", systemImage: "xserve.raid") {
+        Menu("Instances", systemImage: "server.rack") {
             Picker(selection: $settings.radarrInstanceId, label: Text("Instance")) {
                 ForEach(settings.radarrInstances) { instance in
                     Text(instance.label).tag(Optional.some(instance.id))
