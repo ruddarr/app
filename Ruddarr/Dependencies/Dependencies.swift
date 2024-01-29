@@ -15,7 +15,8 @@ extension Dependencies {
 
 extension Dependencies {
     static var mock: Self {
-        .init(api: .mock, store: .mock)
+        .init(api: .mock, store: .live)
+        // TODO: Our UserDefaults.mock is broken
     }
 }
 
