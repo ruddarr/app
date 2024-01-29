@@ -107,6 +107,7 @@ struct InstanceView: View {
         .confirmationDialog("Are you sure?", isPresented: $showingConfirmation) {
             Button("Delete Instance", role: .destructive) {
                 if instance.id == settings.radarrInstanceId {
+                    dependencies.router.reset()
                     radarrInstance.switchTo(.void)
                 }
 

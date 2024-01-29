@@ -138,6 +138,7 @@ struct SettingsView: View {
     }
 
     func resetAllSettings() {
+        dependencies.router.reset()
         radarrInstance.switchTo(.void)
         settings.resetAll()
     }

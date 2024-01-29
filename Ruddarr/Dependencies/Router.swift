@@ -9,6 +9,10 @@ final class Router {
 
     var moviesPath: NavigationPath = .init()
     var settingsPath: NavigationPath = .init()
+
+    func reset() {
+        moviesPath = .init()
+    }
 }
 
 enum Tab: Hashable, CaseIterable, Identifiable {

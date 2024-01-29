@@ -18,8 +18,6 @@ struct API {
 extension API {
     static var live: Self {
         .init(fetchMovies: { instance in
-            // TODO: this crashes, but should NEVER be called if we're using
-            //       a .void instance after deleting one or resettung settings
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
 

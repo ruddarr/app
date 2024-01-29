@@ -72,13 +72,10 @@ struct MoviesView: View {
                 case .movie(let movieId):
                     if let movie = instance.movies.byId(movieId) {
                         MovieView(movie: movie)
-                    } else {
-                        var _ = assertionFailure("Invalid Movie.ID for MovieView") }
+                    }
                 case .edit(let movieId):
                     if let movie = instance.movies.byId(movieId) {
                         MovieEditView(movie: movie)
-                    } else {
-                        var _ = assertionFailure("Invalid Movie.ID for MovieEditView")
                     }
                 }
             }
