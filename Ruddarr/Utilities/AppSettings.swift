@@ -6,8 +6,21 @@ enum Theme: String, Identifiable, CaseIterable {
     case red
     case purple
     case yellow
-
+    
     var id: Self { self }
+    
+    var color: Color {
+        switch self {
+        case .blue:
+                .blue
+        case .red:
+                .red
+        case .purple:
+                .purple
+        case .yellow:
+                .yellow
+        }
+    }
 }
 
 class AppSettings: ObservableObject {

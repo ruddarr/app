@@ -21,10 +21,13 @@ struct RuddarrApp: App {
         }
     }
 
+    @AppStorage("theme", store: dependencies.store) var theme: Theme = .purple
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .withAppState()
+                .tint(theme.color)
         }
     }
 }
