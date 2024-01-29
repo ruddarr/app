@@ -24,9 +24,11 @@ struct StatusMessage: View {
             .transition(
                 .opacity.combined(with: .scale)
             )
-            .sensoryFeedback(.success, trigger: isPresenting)
             .onTapGesture(perform: hide)
             .onAppear {
+                UINotificationFeedbackGenerator()
+                    .notificationOccurred(.success)
+
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     hide()
                 }
