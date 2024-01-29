@@ -35,7 +35,7 @@ struct MovieEditView: View {
 
     @MainActor
     func updateMovie() async {
-        await instance.movies.update(movie)
+        _ = await instance.movies.update(movie)
 
         dismiss()
     }

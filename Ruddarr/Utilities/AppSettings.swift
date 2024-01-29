@@ -1,15 +1,6 @@
 import SwiftUI
 import Foundation
 
-enum Theme: String, Identifiable, CaseIterable {
-    case blue
-    case red
-    case purple
-    case yellow
-
-    var id: Self { self }
-}
-
 class AppSettings: ObservableObject {
     @CloudStorage("instances") var instances: [Instance] = []
 

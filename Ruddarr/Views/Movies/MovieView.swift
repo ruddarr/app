@@ -20,7 +20,7 @@ struct MovieView: View {
             toolbarMenu
         }
         .refreshable {
-            // TODO: refresh movie (maybe scan too?)
+            // TODO: refresh movie
         }
         .overlay {
             StatusMessage(text: "Monitored", isPresenting: $showMessage)
