@@ -17,9 +17,9 @@ struct MovieSearchSheet: View {
                     .padding(.horizontal)
                 } else {
                     MovieForm(movie: $movie)
-                        .toolbar {
-                            toolbarSaveButton
-                        }
+                    .toolbar {
+                        toolbarSaveButton
+                    }
                 }
             }
             .alert(

@@ -51,17 +51,21 @@ struct MovieForm: View {
                     }
                 }
 
-                Section("Root Folder") {
-                    Picker("", selection: $movie.rootFolderPath) {
-                        ForEach(instance.rootFolders) { folder in
-                            HStack {
-                                Text(folder.label)
-                                Spacer()
-                            }.tag(folder.path)
+                if movie.movieId == nil {
+                    Section("Root Folder") {
+                        Picker("", selection: $movie.rootFolderPath) {
+                            ForEach(instance.rootFolders) { folder in
+                                HStack {
+                                    Text(folder.label)
+                                    Spacer()
+                                }.tag(folder.path)
+                                    .accentColor(.orange)
+                            }
                         }
+                        .labelsHidden()
+                        .pickerStyle(.navigationLink)
+                        .foregroundStyle(.tint)
                     }
-                    .labelsHidden()
-                    .pickerStyle(.navigationLink)
                 }
             }
             .scrollDisabled(true)

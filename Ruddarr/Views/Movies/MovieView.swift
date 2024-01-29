@@ -6,6 +6,7 @@ struct MovieView: View {
     @Environment(RadarrInstance.self) private var instance
 
     @State private var showMessage: Bool = false
+    @State private var showingConfirmation = false
 
     var body: some View {
         ScrollView {
@@ -53,17 +54,7 @@ struct MovieView: View {
         ToolbarItem(placement: .primaryAction) {
             Menu {
                 Section {
-                    Button {
-                        //
-                    } label: {
-                        Label("Refresh", systemImage: "arrow.triangle.2.circlepath")
-                    }
-
-                    Button {
-                        //
-                    } label: {
-                        Label("Monitor", systemImage: "bookmark")
-                    }
+                    monitorButton
 
                     NavigationLink(
                         value: MoviesView.Path.edit(movie.id)
@@ -109,7 +100,23 @@ struct MovieView: View {
         }
     }
 
-    @State private var showingConfirmation = false
+    var monitorButton: some View {
+        Button {
+            Task {
+                movie.monitored.toggle()
+                _ = await instance.movies.update(movie)
+
+                withAnimation { showMessage = true }
+            }
+        } label: {
+            if movie.monitored {
+                Label("Unmonitor", systemImage: "bookmark")
+            } else {
+                Label("Monitor", systemImage: "bookmark.fill")
+            }
+
+        }
+    }
 
     var deleteMovieButton: some View {
         Button("Delete", systemImage: "trash", role: .destructive) {
