@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 struct MoviesView: View {
     @AppStorage("movieSort", store: dependencies.store) private var sort: MovieSort = .init()
@@ -12,6 +13,8 @@ struct MoviesView: View {
     @State private var error: Error?
     @State private var alertPresented = false
 
+    @State private var noInstance = true
+
     @Environment(\.scenePhase) private var scenePhase
 
     enum Path: Hashable {
@@ -22,12 +25,12 @@ struct MoviesView: View {
 
     var body: some View {
         let gridItemLayout = [
-            GridItem(.adaptive(minimum: 250), spacing: 15)
+            GridItem(.adaptive(minimum: 300), spacing: 15)
         ]
 
         NavigationStack(path: dependencies.$router.moviesPath) {
             Group {
-                if instance.void {
+                if noInstance {
                     noRadarrInstance
                 } else {
                     ScrollView {
@@ -40,9 +43,9 @@ struct MoviesView: View {
                             }
                         }
                         .padding(.top, searchPresented ? 10 : 0)
-                        .padding(.horizontal)
+                        .scenePadding(.horizontal)
                     }
-                    .task {
+                    .task(priority: .low) {
                         await fetchMoviesWithAlert(ignoreOffline: true)
                     }
                     .refreshable {
@@ -52,7 +55,7 @@ struct MoviesView: View {
                         guard newPhase == .background && oldPhase == .inactive else { return }
 
                         Task {
-                            await instance.movies.fetch()
+                            _ = await instance.movies.fetch()
 
                             if let model = try await instance.fetchMetadata() {
                                 settings.saveInstance(model)
@@ -69,22 +72,25 @@ struct MoviesView: View {
                 case .movie(let movieId):
                     if let movie = instance.movies.byId(movieId) {
                         MovieView(movie: movie)
-                    }
+                    } else {
+                        var _ = assertionFailure("Invalid Movie.ID for MovieView") }
                 case .edit(let movieId):
                     if let movie = instance.movies.byId(movieId) {
                         MovieEditView(movie: movie)
+                    } else {
+                        var _ = assertionFailure("Invalid Movie.ID for MovieEditView")
                     }
                 }
             }
             .onAppear {
                 // if no instance is selected, try to select one
                 // if the selected instance was deleted, try to select one
-                if instance.void, !settings.radarrInstances.isEmpty {
-                    let first = settings.radarrInstances.first!
-
+                if instance.isVoid, let first = settings.radarrInstances.first {
                     instance.switchTo(first)
                     settings.radarrInstanceId = first.id
                 }
+
+                noInstance = instance.isVoid
             }
             .toolbar {
                 toolbarActionButtons
@@ -103,7 +109,7 @@ struct MoviesView: View {
             .overlay {
                 if case .notConnectedToInternet? = (error as? URLError)?.code {
                     NoInternet()
-                } else if displayedMovies.isEmpty && !searchQuery.isEmpty {
+                } else if displayedMovies.isEmpty && !searchQuery.isEmpty && !instance.isVoid {
                     noSearchResults
                 } else if instance.movies.isWorking && instance.movies.items.isEmpty {
                     ProgressView()
@@ -115,7 +121,7 @@ struct MoviesView: View {
     var noRadarrInstance: some View {
         ContentUnavailableView(
             "No Radarr Instance",
-            systemImage: "icloud.slash",
+            systemImage: "externaldrive.badge.xmark",
             description: Text("Connect a Radarr instance under [Settings](#view).")
         )
         .environment(\.openURL, .init { _ in
@@ -139,7 +145,7 @@ struct MoviesView: View {
 
     @ToolbarContentBuilder
     var toolbarSearchButton: some ToolbarContent {
-        if !instance.void {
+        if !instance.isVoid {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(value: Path.search()) {
                     Image(systemName: "plus")
@@ -164,6 +170,12 @@ struct MoviesView: View {
             Picker(selection: $sort.option, label: Text("Sorting options")) {
                 ForEach(MovieSort.Option.allCases) { sortOption in
                     Text(sortOption.title).tag(sortOption)
+                }
+            }.onChange(of: sort.option) {
+                switch sort.option {
+                case .byTitle: sort.isAscending = true
+                case .byYear: sort.isAscending = false
+                case .byAdded: sort.isAscending = false
                 }
             }
 
@@ -206,7 +218,9 @@ struct MoviesView: View {
             unsortedMovies = instance.movies.items
         } else {
             unsortedMovies = instance.movies.items.filter { movie in
-                movie.title.localizedCaseInsensitiveContains(searchQuery)
+                movie.title.localizedCaseInsensitiveContains(
+                    searchQuery.trimmingCharacters(in: .whitespaces)
+                )
             }
         }
 
@@ -219,16 +233,16 @@ struct MoviesView: View {
         alertPresented = false
         error = nil
 
-        await instance.movies.fetch()
+        _ = await instance.movies.fetch()
 
-        if instance.movies.hasError {
+        if instance.movies.error != nil {
             error = instance.movies.error
 
             if ignoreOffline && (instance.movies.error as? URLError)?.code == .notConnectedToInternet {
                 return
             }
 
-            alertPresented = instance.movies.hasError
+            alertPresented = instance.movies.error != nil
         }
     }
 }

@@ -12,32 +12,31 @@ struct MovieRow: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(movie.title)
-                    .font(.subheadline)
+                    .font(.title3)
                     .fontWeight(.bold)
-                    .multilineTextAlignment(.leading)
 
                 HStack(spacing: 4) {
                     Text(String(movie.year))
                     Text("•")
                     Text(movie.humanRuntime)
-                }.font(.caption)
+                }.font(.body)
 
                 HStack(spacing: 8) {
                     Image(systemName: movie.monitored ? "bookmark.fill" : "bookmark")
                     Text(movie.monitored ? "Monitored" : "Unmonitored")
-                }.font(.caption)
+                }.font(.body)
 
                 Group {
                     if movie.sizeOnDisk != nil && movie.sizeOnDisk! > 0 {
                         HStack(spacing: 8) {
                             Image(systemName: "doc")
                             Text(ByteCountFormatter().string(fromByteCount: Int64(movie.sizeOnDisk!)))
-                        }.font(.caption)
+                        }.font(.body)
                     } else {
                         HStack(spacing: 8) {
                             Image(systemName: "doc")
                             Text("Missing")
-                        }.font(.caption)
+                        }.font(.body)
                     }
                 }
 
@@ -48,7 +47,29 @@ struct MovieRow: View {
             Spacer()
         }
         .frame(maxWidth: .infinity)
-        .background(Color(UIColor.secondarySystemBackground))
+        .background(.secondarySystemBackground)
         .cornerRadius(8)
     }
+}
+
+#Preview {
+    let movies: [Movie] = PreviewData.load(name: "movies")
+
+    let gridItemLayout = [
+        GridItem(.adaptive(minimum: 250), spacing: 15)
+    ]
+
+    return ScrollView {
+        LazyVGrid(columns: gridItemLayout, spacing: 15) {
+            ForEach(movies) { movie in
+                NavigationLink(value: "") {
+                    MovieRow(movie: movie)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.top, 0)
+        .scenePadding(.horizontal)
+    }
+    .withAppState()
 }

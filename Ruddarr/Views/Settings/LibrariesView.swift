@@ -18,7 +18,6 @@ struct LibrariesView: View {
                 }
             })
         }
-        .accentColor(.primary)
         .navigationTitle("Third Party Libraries")
         .navigationBarTitleDisplayMode(.inline)
     }

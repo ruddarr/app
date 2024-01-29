@@ -1,87 +1,85 @@
 import os
-import Foundation
+import SwiftUI
 
 @Observable
 class Movies {
     var instance: Instance
-
     var items: [Movie] = []
-
     var error: Error?
-    var hasError: Bool = false
-
-    var isWorking: Bool = false
+    var isWorking: Bool = false // enum Status { case idle, case working, case failed(Error) }
 
     private let log: Logger = logger("model.movies")
+
+    enum Operation {
+        case fetch
+        case add(Movie)
+        case update(Movie)
+        case delete(Movie)
+    }
 
     init(_ instance: Instance) {
         self.instance = instance
     }
 
-    func byId(_ id: Int) -> Movie? {
-        items.first(where: { $0.id == id })
-    }
-
-    func fetch() async {
-        error = nil
-        hasError = false
-
-        do {
-            isWorking = true
-            items = try await dependencies.api.fetchMovies(instance)
-        } catch {
-            self.error = error
-            self.hasError = true
-
-            log.error("Failed to fetch movies: \(error, privacy: .public)")
+    func byId(_ id: Movie.ID) -> Binding<Movie>? {
+        guard let index = items.firstIndex(where: { $0.movieId == id }) else {
+            return nil
         }
 
-        isWorking = false
+        return Binding(
+            get: { self.items[index] },
+            set: { self.items[index] = $0 }
+        )
     }
 
-    func add(_ movie: Movie) async -> Movie? {
-        error = nil
-        hasError = false
+    func byTmdbId(_ tmdbId: Int) -> Movie? {
+        items.first(where: { $0.tmdbId == tmdbId })
+    }
 
-        do {
-            isWorking = true
+    func fetch() async -> Bool {
+        return await request(.fetch)
+    }
 
-            let addedMovie = try await dependencies.api.addMovie(movie, instance)
-            items.append(addedMovie)
+    func add(_ movie: Movie) async -> Bool {
+        return await request(.add(movie))
+    }
 
-            return addedMovie
-        } catch {
-            self.error = error
-            self.hasError = true
-
-            log.error("Failed to add movie: \(error, privacy: .public)")
-        }
-
-        isWorking = false
-
-        return nil
+    func update(_ movie: Movie) async -> Bool {
+        return await request(.update(movie))
     }
 
     func delete(_ movie: Movie) async -> Bool {
+        return await request(.delete(movie))
+    }
+
+    func request(_ operation: Operation) async -> Bool {
         error = nil
-        hasError = false
+        isWorking = true
 
         do {
-            isWorking = true
+            switch operation {
+            case .fetch:
+                items = try await dependencies.api.fetchMovies(instance)
 
-            _ = try await dependencies.api.deleteMovie(movie, instance)
-            items.removeAll(where: { $0.movieId == movie.movieId })
+            case .add(let movie):
+                items.append(try await dependencies.api.addMovie(movie, instance))
 
-            return true
+            case .update(let movie):
+                throw AppError("WTF")
+                _ = try await dependencies.api.updateMovie(movie, instance)
+
+            case .delete(let movie):
+                _ = try await dependencies.api.deleteMovie(movie, instance)
+                items.removeAll(where: { $0.movieId == movie.movieId })
+            }
         } catch {
             self.error = error
-            self.hasError = true
 
-            log.error("Failed to delete movie: \(error, privacy: .public)")
+            log.error("Movies.request() failed: \(error, privacy: .public)")
         }
 
         isWorking = false
 
-        return false
+        return error == nil
     }
 }

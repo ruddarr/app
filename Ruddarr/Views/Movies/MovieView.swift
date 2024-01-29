@@ -1,7 +1,11 @@
 import SwiftUI
 
 struct MovieView: View {
-    var movie: Movie
+    @Binding var movie: Movie
+
+    @Environment(RadarrInstance.self) private var instance
+
+    @State private var showMessage: Bool = false
 
     var body: some View {
         ScrollView {
@@ -11,12 +15,112 @@ struct MovieView: View {
         .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal)
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                NavigationLink(value: MoviesView.Path.edit(movie.id)) {
-                    Text("Edit")
+            toolbarMonitorButton
+            toolbarMenu
+        }
+        .refreshable {
+            // TODO: refresh movie (maybe scan too?)
+        }
+        .overlay {
+            StatusMessage(text: "Monitored", isPresenting: $showMessage)
+        }
+    }
+
+    @ToolbarContentBuilder
+    var toolbarMonitorButton: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            HStack {
+                Button {
+                    Task {
+                        movie.monitored.toggle()
+                        _ = await instance.movies.update(movie)
+
+                        withAnimation { showMessage = true }
+                    }
+                } label: {
+                    Image(systemName: "bookmark")
+                        .symbolVariant(.circle.fill)
+                        .foregroundStyle(.tint, .secondarySystemBackground)
+                        .font(.title3)
                 }
+                .buttonStyle(.plain)
             }
         }
+    }
+
+    @ToolbarContentBuilder
+    var toolbarMenu: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Menu {
+                Section {
+                    Button {
+                        //
+                    } label: {
+                        Label("Refresh", systemImage: "arrow.triangle.2.circlepath")
+                    }
+
+                    Button {
+                        //
+                    } label: {
+                        Label("Monitor", systemImage: "bookmark")
+                    }
+
+                    NavigationLink(
+                        value: MoviesView.Path.edit(movie.id)
+                    ) {
+                        Label("Edit", systemImage: "pencil")
+                    }
+                }
+
+                Section {
+                    Button("Automatic Search", systemImage: "magnifyingglass") {
+
+                    }
+
+                    Button("Interactive Search", systemImage: "person.fill") {
+
+                    }
+                }
+
+                Section {
+                    deleteMovieButton
+                }
+            } label: {
+                Image(systemName: "ellipsis")
+                    .symbolVariant(.circle/*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+                    .foregroundStyle(.tint, .secondarySystemBackground)
+                    .font(.title3)
+
+            }
+            .confirmationDialog(
+                "Are you sure you want to delete the movie and permanently erase the movie folder and its contents?",
+                isPresented: $showingConfirmation,
+                titleVisibility: .visible
+            ) {
+                Button("Delete Movie", role: .destructive) {
+                    Task {
+                         await deleteMovie(movie)
+                    }
+                }
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                Text("You can’t undo this action.")
+            }
+        }
+    }
+
+    @State private var showingConfirmation = false
+
+    var deleteMovieButton: some View {
+        Button("Delete", systemImage: "trash", role: .destructive) {
+            showingConfirmation = true
+        }
+    }
+
+    func deleteMovie(_ movie: Movie) async {
+        _ = await instance.movies.delete(movie)
+
+        dependencies.router.moviesPath.removeLast()
     }
 }
 
@@ -26,7 +130,7 @@ struct MovieView: View {
     dependencies.router.selectedTab = .movies
 
     dependencies.router.moviesPath.append(
-        MoviesView.Path.movie(movies[1].id)
+        MoviesView.Path.movie(movies[232].id)
     )
 
     return ContentView()

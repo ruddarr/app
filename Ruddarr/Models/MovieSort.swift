@@ -1,11 +1,12 @@
 import Foundation
 
 struct MovieSort {
-    var isAscending: Bool = true
-    var option: Option = .byTitle
+    var isAscending: Bool = false
+    var option: Option = .byAdded
 
     enum Option: CaseIterable, Hashable, Identifiable, Codable {
         var id: Self { self }
+
         case byTitle
         case byYear
         case byAdded

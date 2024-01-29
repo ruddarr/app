@@ -1,9 +1,29 @@
 import SwiftUI
+import Foundation
+
+enum Theme: String, Identifiable, CaseIterable {
+    case blue
+    case red
+    case purple
+    case yellow
+
+    var id: Self { self }
+}
 
 class AppSettings: ObservableObject {
     @CloudStorage("instances") var instances: [Instance] = []
 
+    @AppStorage("theme", store: dependencies.store) var theme: Theme = .purple
     @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
+
+    func accentColor() -> Color {
+        switch theme {
+        case .blue: Color.blue
+        case .red: Color.red
+        case .purple: Color.purple
+        case .yellow: Color.yellow
+        }
+    }
 
     func resetAll() {
         instances.removeAll()

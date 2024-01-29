@@ -1,17 +1,43 @@
 import SwiftUI
 
 struct MovieEditView: View {
-    @State var movie: Movie
+    @Binding var movie: Movie
+
+    @Environment(RadarrInstance.self) private var instance
+
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         MovieForm(movie: $movie)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                if instance.movies.isWorking {
+                    ProgressView()
+                } else {
                     Button("Save") {
-                        //
+                        Task {
+                            await updateMovie()
+                        }
                     }
                 }
             }
+        }
+        .alert(
+            "Something Went Wrong",
+            isPresented: Binding(get: { instance.movies.error != nil }, set: { _ in }),
+            presenting: instance.movies.error
+        ) { _ in
+            Button("OK", role: .cancel) { }
+        } message: { error in
+            Text(error.localizedDescription)
+        }
+    }
+
+    @MainActor
+    func updateMovie() async {
+        await instance.movies.update(movie)
+
+        dismiss()
     }
 }
 

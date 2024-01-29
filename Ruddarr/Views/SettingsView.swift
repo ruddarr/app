@@ -18,6 +18,7 @@ struct SettingsView: View {
         NavigationStack(path: dependencies.$router.settingsPath) {
             List {
                 instanceSection
+                preferencesSection
                 aboutSection
                 systemSection
             }
@@ -53,6 +54,16 @@ struct SettingsView: View {
         }
     }
 
+    var preferencesSection: some View {
+        Section(header: Text("Preferences")) {
+            Picker("Theme", selection: $settings.theme) {
+                ForEach(Theme.allCases) { theme in
+                    Text(theme.rawValue.uppercased())
+                }
+            }
+        }
+    }
+
     let shareUrl = URL(string: "https://ruddarr.com")!
     let githubUrl = URL(string: "https://github.com/tillkruss/ruddarr/")!
     let reviewUrl = URL(string: "itms-apps://itunes.apple.com/app/id663592361")!
@@ -81,7 +92,6 @@ struct SettingsView: View {
                 Label("Third Party Libraries", systemImage: "building.columns")
             }
         }
-        .accentColor(.primary)
     }
 
     @State private var imageCacheSize: Int = 0
@@ -90,7 +100,7 @@ struct SettingsView: View {
     var systemSection: some View {
         Section(header: Text("System")) {
             Button(role: .destructive, action: {
-                clearImageCache()
+                withAnimation { clearImageCache() }
             }, label: {
                 LabeledContent(
                     "Clear Image Cache",
@@ -112,7 +122,6 @@ struct SettingsView: View {
                 Text("Are you sure you want to erase all settings?")
             }
         }
-        .accentColor(.primary)
     }
 
     func calculateImageCacheSize() {
@@ -129,10 +138,6 @@ struct SettingsView: View {
     func resetAllSettings() {
         radarrInstance.switchTo(.void)
         settings.resetAll()
-
-        if let bundleID = Bundle.main.bundleIdentifier {
-            UserDefaults.standard.removePersistentDomain(forName: bundleID)
-        }
     }
 
     // If desired add `mailto` to `LSApplicationQueriesSchemes` in `Info.plist`

@@ -6,15 +6,27 @@ extension API {
            loadPreviewData(filename: "movies")
         }, lookupMovies: { _, query in
             let movies: [Movie] = loadPreviewData(filename: "movie-lookup")
+            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
 
             return movies.filter {
                 $0.title.localizedCaseInsensitiveContains(query)
             }
-        }, addMovie: { _, _ in
+        }, getMovie: { movieId, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
 
+            return movies.first(where: { $0.movieId == movieId })!
+        }, addMovie: { _, _ in
+            let movies: [Movie] = loadPreviewData(filename: "movies")
+            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
+
             return movies[0]
+        }, updateMovie: { _, _ in
+            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
+
+            return Empty()
         }, deleteMovie: { _, _ in
+            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
+
             return Empty()
         }, systemStatus: { _ in
             loadPreviewData(filename: "system-status")

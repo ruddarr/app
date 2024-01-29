@@ -30,7 +30,7 @@ struct MovieSearchView: View {
                 }
             }
             .padding(.top, 10)
-            .padding(.horizontal)
+            .scenePadding(.horizontal)
         }
         .navigationTitle("Add Movie")
         .searchable(
@@ -48,7 +48,7 @@ struct MovieSearchView: View {
         }
         .alert(
             "Something Went Wrong",
-            isPresented: Binding(get: { instance.lookup.hasError }, set: { _ in }),
+            isPresented: Binding(get: { instance.lookup.error != nil }, set: { _ in }),
             presenting: instance.lookup.error
         ) { _ in
             Button("OK", role: .cancel) { }

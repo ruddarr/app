@@ -111,6 +111,8 @@ struct InstanceView: View {
                 }
 
                 settings.deleteInstance(instance)
+
+                dismiss()
             }
             Button("Cancel", role: .cancel) { }
         } message: {
@@ -137,7 +139,7 @@ extension InstanceView {
             showingAlert = true
             self.error = error
         } catch {
-            fatalError()
+            fatalError("Failed to save instance")
         }
     }
 

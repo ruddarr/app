@@ -4,6 +4,7 @@ struct MovieForm: View {
     @Binding var movie: Movie
 
     @Environment(RadarrInstance.self) private var instance
+    @Environment(\.colorScheme) var colorScheme
 
     @State private var showingConfirmation = false
 
@@ -62,39 +63,18 @@ struct MovieForm: View {
                     .labelsHidden()
                     .pickerStyle(.navigationLink)
                 }
-
-                if movie.exists {
-                    deleteMovieButton
-                }
             }
             .scrollDisabled(true)
         }
         .padding(.top, 4)
-        .background(Color(UIColor.secondarySystemBackground))
+        .background(
+            colorScheme ==  .dark
+                ? .systemBackground
+                : .secondarySystemBackground
+        )
         .onAppear {
             selectDefaultValues()
         }
-    }
-
-    var deleteMovieButton: some View {
-        Button("Delete Movie", role: .destructive) {
-            showingConfirmation = true
-        }
-        .confirmationDialog(
-            "Are you sure you want to delete the movie and permanently erase the movie folder and its contents?",
-            isPresented: $showingConfirmation,
-            titleVisibility: .visible
-        ) {
-            Button("Delete Movie", role: .destructive) {
-                Task {
-                    await deleteMovie(movie)
-                }
-            }
-            Button("Cancel", role: .cancel) { }
-        } message: {
-            Text("You can’t undo this action.")
-        }
-        .frame(maxWidth: .infinity, alignment: .center)
     }
 
     func selectDefaultValues() {
@@ -116,14 +96,6 @@ struct MovieForm: View {
         }) {
             movie.rootFolderPath = instance.rootFolders.first?.path ?? ""
         }
-    }
-
-    func deleteMovie(_ movie: Movie) async {
-        guard await instance.movies.delete(movie) else {
-            return
-        }
-
-        dependencies.router.moviesPath = .init()
     }
 }
 

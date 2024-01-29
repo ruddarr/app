@@ -86,7 +86,7 @@ struct PlaceholderImage: View {
             }.frame(width: 250, height: 250)
         }
         .border(.yellow)
-        .background(Color(UIColor.secondarySystemBackground))
+        .background(.secondarySystemBackground)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .border(.yellow)

@@ -53,6 +53,8 @@ struct Movie: Identifiable, Codable {
         case qualityProfileId
         case sizeOnDisk
         case hasFile
+        case path
+        case folderName
         case rootFolderPath
         case added
         case inCinemas
@@ -70,7 +72,7 @@ struct Movie: Identifiable, Codable {
         let hours = runtime / 60
         let minutes = runtime % 60
 
-        return "\(hours)h \(minutes)m"
+        return hours == 0 ? "\(minutes)m" : "\(hours)h \(minutes)m"
     }
 
     var humanSize: String {
@@ -153,4 +155,14 @@ struct MovieQuality: Codable {
 
 struct MovieLanguages: Codable {
     let name: String?
+}
+
+struct MovieEditorResource: Codable {
+    let movieIds: [Int]
+    let monitored: Bool?
+    let qualityProfileId: Int?
+    let minimumAvailability: MovieStatus?
+//    let rootFolderPath: String?
+//    let moveFiles: Bool?
+//    let deleteFiles: Bool?
 }

@@ -1,11 +1,14 @@
 import os
-import Foundation
 import SwiftUI
+
+import MetricKit
 
 struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
+    var getMovie: (Movie.ID, Instance) async throws -> Movie
     var addMovie: (Movie, Instance) async throws -> Movie
+    var updateMovie: (Movie, Instance) async throws -> Empty
     var deleteMovie: (Movie, Instance) async throws -> Empty
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolders]
@@ -15,6 +18,8 @@ struct API {
 extension API {
     static var live: Self {
         .init(fetchMovies: { instance in
+            // TODO: this crashes, but should NEVER be called if we're using
+            //       a .void instance after deleting one or resettung settings
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
 
@@ -25,11 +30,29 @@ extension API {
                 .appending(queryItems: [.init(name: "term", value: query)])
 
             return try await request(url: url, authorization: instance.apiKey)
+        }, getMovie: { movieId, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/movie")
+                .appending(path: String(movieId))
+
+            return try await request(url: url, authorization: instance.apiKey)
         }, addMovie: { movie, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
 
             return try await request(method: .post, url: url, authorization: instance.apiKey, body: movie)
+        }, updateMovie: { movie, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/movie/editor")
+
+            let body = MovieEditorResource(
+                movieIds: [movie.movieId!],
+                monitored: movie.monitored,
+                qualityProfileId: movie.qualityProfileId,
+                minimumAvailability: movie.minimumAvailability
+            )
+
+            return try await request(method: .put, url: url, authorization: instance.apiKey, body: body)
         }, deleteMovie: { movie, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
@@ -67,6 +90,9 @@ extension API {
         session: URLSession = .shared
     ) async throws -> Response {
         let log: Logger = logger("api")
+        let metrics = MXMetricManager.makeLogHandle(category: "request")
+
+        mxSignpost(.begin, log: metrics, name: "HTTP Request")
 
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601
@@ -93,13 +119,15 @@ extension API {
         let (json, response) = try await URLSession.shared.data(for: request)
         let statusCode = (response as? HTTPURLResponse)?.statusCode
 
+        mxSignpost(.end, log: metrics, name: "HTTP Request")
+
         switch statusCode {
         case (200..<400)?:
-            if Response.self == Empty.self {
-                return try decoder.decode(Response.self, from: "{}".data(using: .utf8)!)
-            } else {
-                return try decoder.decode(Response.self, from: json)
-            }
+            let data = Response.self != Empty.self
+                ? json
+                : "{}".data(using: .utf8)!
+
+            return try decoder.decode(Response.self, from: data)
         default:
             if let rawJson = String(data: json, encoding: .utf8) {
                 log.error("Request failed (\(statusCode ?? 0)) \(rawJson)")

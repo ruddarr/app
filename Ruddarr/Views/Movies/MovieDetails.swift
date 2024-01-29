@@ -1,5 +1,7 @@
 import SwiftUI
 
+// movie.remoteFanart ???
+
 struct MovieDetails: View {
     var movie: Movie
 
@@ -8,7 +10,7 @@ struct MovieDetails: View {
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             // MARK: overview
             HStack(alignment: .top) {
                 CachedAsyncImage(url: movie.remotePoster)
@@ -20,11 +22,17 @@ struct MovieDetails: View {
 
                 Group {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(movie.title)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .kerning(-0.5)
-                            .lineLimit(2)
+
+                        HStack(alignment: .top) {
+                            Image(systemName: movie.monitored ? "bookmark.fill" : "bookmark")
+                                .font(.title)
+
+                            Text(movie.title)
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .kerning(-0.5)
+                                .lineLimit(2)
+                        }
 
                         HStack(spacing: 12) {
                             Text(movie.certification ?? "test")
@@ -37,18 +45,25 @@ struct MovieDetails: View {
                         }
                         .foregroundStyle(.secondary)
 
-                        HStack(spacing: 8) {
-                            Image(systemName: movie.monitored ? "bookmark.fill" : "bookmark")
-                            Text(movie.monitored ? "Monitored" : "Unmonitored")
+//                        HStack(spacing: 8) {
+//
+//                            Text(movie.monitored ? "Monitored" : "Unmonitored")
+//                        }
+
+                        if movie.hasFile {
+                            Label("Downloaded", systemImage: "checkmark")
+                        } else {
+                            Label("Missing", systemImage: "questionmark.folder")
                         }
 
-                        // tvdb, imdb, rotten 2x
+                        // Downloaded
+                        // Missing
 
-                        //                        HStack(spacing: 12) {
-                        //                            Text(String(movie.year))
-                        //                            Text(movie.humanRuntime)
-                        //                        }
-                        //                        .foregroundColor(.secondary)
+                        // Announced (Joker)
+                        // In Cinemas (Mean Girls)
+                        // (Released)
+
+                        // tvdb, imdb, rotten 2x
                     }
                 }
 
@@ -60,8 +75,11 @@ struct MovieDetails: View {
             HStack(alignment: .top) {
                 Text(movie.overview!)
                     .font(.callout)
+                    .transition(.slide)
                     .lineLimit(isTruncated ? 4 : nil)
-                    .onTapGesture { isTruncated = false }
+                    .onTapGesture {
+                        withAnimation { isTruncated.toggle() }
+                    }
 
                 Spacer()
             }
@@ -77,13 +95,17 @@ struct MovieDetails: View {
                     detailsRow("Genre", value: movie.humanGenres)
                 }
 
-                detailsRow("Video", value: videoQuality)
-                detailsRow("Audio", value: audioQuality)
+                if movie.hasFile {
+                    detailsRow("Video", value: videoQuality)
+                    detailsRow("Audio", value: audioQuality)
+                }
             }.padding(.bottom)
 
             // MARK: actions
             HStack(spacing: 24) {
-                Button(action: { }) {
+                Button {
+                    //
+                } label: {
                     Label("Automatic", systemImage: "magnifyingglass")
                         .font(.callout)
                         .fontWeight(.semibold)
@@ -93,8 +115,10 @@ struct MovieDetails: View {
                 .buttonStyle(.bordered)
                 .frame(maxWidth: .infinity)
 
-                Button(action: { }) {
-                    Label("Interactive", systemImage: "magnifyingglass")
+                Button {
+                    //
+                } label: {
+                    Label("Interactive", systemImage: "person.fill")
                         .font(.callout)
                         .fontWeight(.semibold)
                         .padding(.vertical, 6)
@@ -106,46 +130,40 @@ struct MovieDetails: View {
             .fixedSize(horizontal: false, vertical: true)
             .padding(.bottom)
 
-            // MARK: ...
-            Grid(alignment: .leading) {
-                detailsRow("Path?", value: "")
-                detailsRow("Root Folder", value: "")
-                detailsRow("minimum Availability", value: "")
-                detailsRow("Quality Profile", value: qualityProfile)
+            // MARK: information
+            Section(
+                header: Text("Information")
+                    .font(.title2)
+                    .fontWeight(.bold)
+            ) {
+                VStack(spacing: 12) {
+                    informationRow("Quality Profile", value: qualityProfile)
+                    Divider()
+                    informationRow("Minimum Availability", value: movie.minimumAvailability.label)
+                    Divider()
+                    informationRow("Root Folder", value: movie.rootFolderPath ?? "")
 
-                if movie.sizeOnDisk != nil {
-                    detailsRow("Size", value: movie.humanSize)
+                    if movie.hasFile {
+                        Divider()
+                        informationRow("Size", value: movie.sizeOnDisk == nil ? "" : movie.humanSize)
+                    }
                 }
             }
-            .border(.gray)
+            .font(.callout)
             .padding(.bottom)
 
             // MARK: ...
-            Grid(alignment: .leading) {
-                if let inCinemas = movie.inCinemas {
-                    detailsRow("In Cinemas", value: inCinemas.formatted(.dateTime.day().month().year()))
-                }
+//            Grid(alignment: .leading) {
+//                if let inCinemas = movie.inCinemas {
+//                    detailsRow("In Cinemas", value: inCinemas.formatted(.dateTime.day().month().year()))
+//                }
+//
+//                detailsRow("Physical Release", value: "")
+//                detailsRow("Digital Release", value: "")
+//            }
+//            .border(.gray)
 
-                detailsRow("Physical Release", value: "")
-                detailsRow("Digital Release", value: "")
-            }
-            .border(.gray)
-
-
-            Section("test") {
-                LabeledContent("Physical Release") {
-                    Text("test")
-                }
-                //                Text("Physical Release")
-                //                    .textCase(.uppercase)
-                //                    .foregroundStyle(.secondary)
-                //                    .fontWeight(.medium)
-                //                    .padding(.trailing)
-                //                Text("test")
-                //                Spacer()
-            }.border(.red)
-                .frame(minHeight: 100)
-            //            SidebarListStyle
+            // TODO: files section...
         }
     }
 
@@ -173,7 +191,9 @@ struct MovieDetails: View {
         var codec = ""
 
         if let langs = movie.movieFile?.languages {
-            languages = langs.filter{ $0.name != nil }.map{ $0.name ?? "Unknown" }
+            languages = langs
+                .filter { $0.name != nil }
+                .map { $0.name ?? "Unknown" }
         }
 
         if let audioCodec = movie.movieFile?.mediaInfo.audioCodec {
@@ -188,8 +208,6 @@ struct MovieDetails: View {
 
         return "\(languageList) (\(codec))"
     }
-
-
 
     var qualityProfile: String {
         return instance.qualityProfiles.first(
@@ -209,11 +227,19 @@ struct MovieDetails: View {
         }
         .font(.callout)
     }
+
+    func informationRow(_ label: String, value: String) -> some View {
+        LabeledContent {
+            Text(value).foregroundStyle(.primary)
+        } label: {
+            Text(label).foregroundStyle(.secondary)
+        }
+    }
 }
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
 
-    return MovieSearchSheet(movie: movies[1])
+    return MovieSearchSheet(movie: movies[232])
         .withAppState()
 }

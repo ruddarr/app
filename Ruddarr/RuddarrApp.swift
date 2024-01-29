@@ -1,4 +1,5 @@
 import SwiftUI
+import MetricKit
 
 @main
 struct RuddarrApp: App {
@@ -6,7 +7,7 @@ struct RuddarrApp: App {
 
     init() {
         #if DEBUG
-        dependencies = .live
+        dependencies = .mock
         #endif
 
         NetworkMonitor.shared.start()
@@ -28,10 +29,28 @@ struct RuddarrApp: App {
     }
 }
 
-class AppDelegate: NSObject, UIApplicationDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate, MXMetricManagerSubscriber {
     func application(_ application: UIApplication) -> Bool {
+        let metricManager = MXMetricManager.shared
+        metricManager.add(self)
+
         URLSession.shared.configuration.waitsForConnectivity = true
 
         return true
     }
+
+    func didReceive(_ payloads: [MXMetricPayload]) {
+        guard let firstPayload = payloads.first else { return }
+        print(firstPayload.dictionaryRepresentation())
+    }
+
+    func didReceive(_ payloads: [MXDiagnosticPayload]) {
+        guard let firstPayload = payloads.first else { return }
+        print(firstPayload.dictionaryRepresentation())
+    }
+}
+
+extension ShapeStyle where Self == Color {
+    static var systemBackground: Color { Color(UIColor.systemBackground) }
+    static var secondarySystemBackground: Color { Color(UIColor.secondarySystemBackground) }
 }

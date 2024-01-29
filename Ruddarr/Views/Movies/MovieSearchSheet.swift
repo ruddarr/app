@@ -24,7 +24,7 @@ struct MovieSearchSheet: View {
             }
             .alert(
                 "Something Went Wrong",
-                isPresented: Binding(get: { instance.movies.hasError }, set: { _ in }),
+                isPresented: Binding(get: { instance.movies.error != nil }, set: { _ in }),
                 presenting: instance.movies.error
             ) { _ in
                 Button("OK", role: .cancel) { }
@@ -57,8 +57,14 @@ struct MovieSearchSheet: View {
     }
 
     func addMovie() async {
-        guard let movie = await instance.movies.add(movie) else {
+        guard await instance.movies.add(movie) else {
+            // TODO: log...
+
             return
+        }
+
+        guard let addedMovie = instance.movies.byTmdbId(movie.tmdbId) else {
+            fatalError("Failed to locate added movie by tmdbId")
         }
 
         dismiss()
@@ -68,7 +74,7 @@ struct MovieSearchSheet: View {
         )
 
         dependencies.router.moviesPath.append(
-            MoviesView.Path.movie(movie.id)
+            MoviesView.Path.movie(addedMovie.id)
         )
     }
 }

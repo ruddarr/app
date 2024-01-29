@@ -9,13 +9,13 @@ struct Dependencies {
 
 extension Dependencies {
     static var live: Self {
-        .init(api: .live, store: .standard)
+        .init(api: .live, store: .live)
     }
 }
 
 extension Dependencies {
     static var mock: Self {
-        .init(api: .mock, store: .live)
+        .init(api: .mock, store: .mock)
     }
 }
 
