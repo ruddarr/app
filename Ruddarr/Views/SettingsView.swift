@@ -125,12 +125,12 @@ struct SettingsView: View {
     }
 
     func calculateImageCacheSize() {
-        let dataCache = try? DataCache(name: "com.github.radarr.DataCache")
+        let dataCache = try? DataCache(name: "com.ruddarr.images")
         imageCacheSize = dataCache?.totalSize ?? 0
     }
 
     func clearImageCache() {
-        let dataCache = try? DataCache(name: "com.github.radarr.DataCache")
+        let dataCache = try? DataCache(name: "com.ruddarr.images")
         dataCache?.removeAll()
         imageCacheSize = 0
     }

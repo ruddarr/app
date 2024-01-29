@@ -26,7 +26,7 @@ struct CachedAsyncImage: View {
 
     func imagePipeline() -> ImagePipeline {
         var config = ImagePipeline.Configuration.withDataCache(
-            name: "com.github.radarr.DataCache"
+            name: "com.ruddarr.images"
         )
 
         config.dataCachePolicy = .automatic
