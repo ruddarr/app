@@ -65,7 +65,6 @@ class Movies {
                 items.append(try await dependencies.api.addMovie(movie, instance))
 
             case .update(let movie):
-                throw AppError("WTF")
                 _ = try await dependencies.api.updateMovie(movie, instance)
 
             case .delete(let movie):
