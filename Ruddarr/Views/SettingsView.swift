@@ -8,6 +8,8 @@ struct SettingsView: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var radarrInstance
 
+    @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
+
     enum Path: Hashable {
         case libraries
         case createInstance
@@ -56,11 +58,11 @@ struct SettingsView: View {
 
     var preferencesSection: some View {
         Section(header: Text("Preferences")) {
-            Picker("Theme", selection: $settings.theme) {
+            Picker("Theme", selection: $theme) {
                 ForEach(Theme.allCases) { theme in
-                    Text(theme.rawValue.uppercased())
+                    Text(theme.rawValue)
                 }
-            }
+            }.tint(.secondary)
         }
     }
 

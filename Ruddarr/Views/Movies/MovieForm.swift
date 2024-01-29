@@ -59,7 +59,6 @@ struct MovieForm: View {
                                     Text(folder.label)
                                     Spacer()
                                 }.tag(folder.path)
-                                    .accentColor(.orange)
                             }
                         }
                         .labelsHidden()
