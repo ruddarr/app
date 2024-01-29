@@ -6,16 +6,12 @@ extension View {
         let radarrInstance = settings.radarrInstance ?? Instance.void
 
         return self
-            .tint(settings.accentColor())
             .environmentObject(settings)
             .environment(RadarrInstance(radarrInstance))
     }
 
     func withSettings() -> some View {
-        let settings = AppSettings()
-
         return self
-            .tint(settings.accentColor())
             .environmentObject(AppSettings())
     }
 

@@ -5,6 +5,7 @@ import Nuke
 struct SettingsView: View {
     private let log: Logger = logger("settings")
 
+    @AppStorage("theme", store: dependencies.store) var theme: Theme = .purple
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var radarrInstance
 
@@ -56,11 +57,12 @@ struct SettingsView: View {
 
     var preferencesSection: some View {
         Section(header: Text("Preferences")) {
-            Picker("Theme", selection: $settings.theme) {
+            Picker("Theme", selection: $theme) {
                 ForEach(Theme.allCases) { theme in
                     Text(theme.rawValue.uppercased())
                 }
             }
+            .id(theme) // for some reason the picker wouldn't update its color, so we replace it when theme changes
         }
     }
 

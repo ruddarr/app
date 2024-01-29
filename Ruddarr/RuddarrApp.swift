@@ -26,8 +26,8 @@ struct RuddarrApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .withAppState()
                 .tint(theme.color)
+                .withAppState()
         }
     }
 }
