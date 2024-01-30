@@ -23,7 +23,7 @@ struct MoviesView: View {
 
     var body: some View {
         let gridItemLayout = [
-            GridItem(.adaptive(minimum: 300), spacing: 15)
+            GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)
         ]
 
         NavigationStack(path: dependencies.$router.moviesPath) {
@@ -35,7 +35,7 @@ struct MoviesView: View {
                         LazyVGrid(columns: gridItemLayout, spacing: 15) {
                             ForEach(displayedMovies) { movie in
                                 NavigationLink(value: Path.movie(movie.id)) {
-                                    MovieRow(movie: movie)
+                                    MovieGridItem(movie: movie)
                                 }
                                 .buttonStyle(.plain)
                             }

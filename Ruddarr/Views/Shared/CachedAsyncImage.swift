@@ -43,7 +43,7 @@ struct CachedAsyncImage: View {
             urlRequest: request,
             processors: [
                 .resize(
-                    size: CGSize(width: 50, height: 75),
+                    size: CGSize(width: 120, height: 180),
                     contentMode: .aspectFill,
                     crop: true,
                     upscale: true

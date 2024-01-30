@@ -9,14 +9,14 @@ struct MovieSearchView: View {
     @Environment(RadarrInstance.self) private var instance
 
     let gridItemLayout = [
-        GridItem(.adaptive(minimum: 250), spacing: 15)
+        GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)
     ]
 
     var body: some View {
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: 15) {
                 ForEach(instance.lookup.items ?? []) { movie in
-                    MovieRow(movie: movie)
+                    MovieGridItem(movie: movie)
                         .opacity(movie.exists ? 0.35 : 1)
                         .onTapGesture {
                             isAddingMovie = movie

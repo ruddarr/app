@@ -1,7 +1,5 @@
 import SwiftUI
 
-// movie.remoteFanart ???
-
 struct MovieDetails: View {
     var movie: Movie
 
@@ -10,66 +8,15 @@ struct MovieDetails: View {
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
+
+        CachedAsyncImage(url: movie.remoteFanart)
+//            .aspectRatio(geometry.size, contentMode: .fill)
+            .edgesIgnoringSafeArea(.all)
+
         VStack(alignment: .leading) {
             // MARK: overview
-            HStack(alignment: .top) {
-                CachedAsyncImage(url: movie.remotePoster)
-                    .scaledToFit()
-                    .frame(height: 195)
-                    .clipped()
-                    .cornerRadius(8)
-                    .padding(.trailing, 8)
-
-                Group {
-                    VStack(alignment: .leading, spacing: 8) {
-
-                        HStack(alignment: .top) {
-                            Image(systemName: movie.monitored ? "bookmark.fill" : "bookmark")
-                                .font(.title)
-
-                            Text(movie.title)
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .kerning(-0.5)
-                                .lineLimit(2)
-                        }
-
-                        HStack(spacing: 12) {
-                            Text(movie.certification ?? "test")
-                                .padding(.horizontal, 4)
-                                .border(.secondary)
-
-                            Text(String(movie.year))
-
-                            Text(movie.humanRuntime)
-                        }
-                        .foregroundStyle(.secondary)
-
-//                        HStack(spacing: 8) {
-//
-//                            Text(movie.monitored ? "Monitored" : "Unmonitored")
-//                        }
-
-                        if movie.hasFile {
-                            Label("Downloaded", systemImage: "checkmark")
-                        } else {
-                            Label("Missing", systemImage: "questionmark.folder")
-                        }
-
-                        // Downloaded
-                        // Missing
-
-                        // Announced (Joker)
-                        // In Cinemas (Mean Girls)
-                        // (Released)
-
-                        // tvdb, imdb, rotten 2x
-                    }
-                }
-
-                Spacer()
-            }
-            .padding(.bottom)
+            overview
+                .padding(.bottom)
 
             // MARK: description
             HStack(alignment: .top) {
@@ -102,69 +49,141 @@ struct MovieDetails: View {
             }.padding(.bottom)
 
             // MARK: actions
-            HStack(spacing: 24) {
-                Button {
-                    //
-                } label: {
-                    Label("Automatic", systemImage: "magnifyingglass")
-                        .font(.callout)
-                        .fontWeight(.semibold)
-                        .padding(.vertical, 6)
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered)
-                .frame(maxWidth: .infinity)
-
-                Button {
-                    //
-                } label: {
-                    Label("Interactive", systemImage: "person.fill")
-                        .font(.callout)
-                        .fontWeight(.semibold)
-                        .padding(.vertical, 6)
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered)
-                .frame(maxWidth: .infinity)
-            }
-            .fixedSize(horizontal: false, vertical: true)
-            .padding(.bottom)
+            actions
+                .padding(.bottom)
 
             // MARK: information
-            Section(
-                header: Text("Information")
-                    .font(.title2)
-                    .fontWeight(.bold)
-            ) {
-                VStack(spacing: 12) {
-                    informationRow("Quality Profile", value: qualityProfile)
-                    Divider()
-                    informationRow("Minimum Availability", value: movie.minimumAvailability.label)
-                    Divider()
-                    informationRow("Root Folder", value: movie.rootFolderPath ?? "")
+            information
+                .padding(.bottom)
+
+            // Files? Cast? History?
+        }
+    }
+
+    var overview: some View {
+        HStack(alignment: .top) {
+            CachedAsyncImage(url: movie.remotePoster)
+                .scaledToFit()
+                .frame(height: 195)
+                .clipped()
+                .cornerRadius(8)
+                .padding(.trailing, 8)
+
+            Group {
+                VStack(alignment: .leading, spacing: 8) {
+
+                    HStack(alignment: .top) {
+                        Image(systemName: movie.monitored ? "bookmark.fill" : "bookmark")
+                            .font(.title)
+
+                        Text(movie.title)
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .kerning(-0.5)
+                            .lineLimit(2)
+                    }
+
+                    HStack(spacing: 12) {
+                        Text(movie.certification ?? "test")
+                            .padding(.horizontal, 4)
+                            .border(.secondary)
+
+                        Text(String(movie.year))
+
+                        Text(movie.humanRuntime)
+                    }
+                    .foregroundStyle(.secondary)
+
+                    //                        HStack(spacing: 8) {
+                    //
+                    //                            Text(movie.monitored ? "Monitored" : "Unmonitored")
+                    //                        }
 
                     if movie.hasFile {
-                        Divider()
-                        informationRow("Size", value: movie.sizeOnDisk == nil ? "" : movie.humanSize)
+                        Label("Downloaded", systemImage: "checkmark")
+                    } else {
+                        Label("Missing", systemImage: "questionmark.folder")
                     }
+
+                    // Downloaded
+                    // Missing
+
+                    // Announced (Joker)
+                    // In Cinemas (Mean Girls)
+                    // (Released)
+
+                    // tvdb, imdb, rotten 2x
                 }
             }
-            .font(.callout)
-            .padding(.bottom)
 
-            // MARK: ...
-//            Grid(alignment: .leading) {
-//                if let inCinemas = movie.inCinemas {
-//                    detailsRow("In Cinemas", value: inCinemas.formatted(.dateTime.day().month().year()))
-//                }
-//
-//                detailsRow("Physical Release", value: "")
-//                detailsRow("Digital Release", value: "")
-//            }
-//            .border(.gray)
-
-            // TODO: files section...
+            Spacer()
         }
+    }
+
+    var actions: some View {
+        HStack(spacing: 24) {
+            Button {
+                //
+            } label: {
+                Label("Automatic", systemImage: "magnifyingglass")
+                    .font(.callout)
+                    .fontWeight(.semibold)
+                    .padding(.vertical, 6)
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .frame(maxWidth: .infinity)
+
+            Button {
+                //
+            } label: {
+                Label("Interactive", systemImage: "person.fill")
+                    .font(.callout)
+                    .fontWeight(.semibold)
+                    .padding(.vertical, 6)
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .frame(maxWidth: .infinity)
+        }
+        .fixedSize(horizontal: false, vertical: true)
+    }
+
+    var information: some View {
+        Section(
+            header: Text("Information")
+                .font(.title2)
+                .fontWeight(.bold)
+        ) {
+            VStack(spacing: 12) {
+                informationRow("Quality Profile", value: qualityProfile)
+                Divider()
+                informationRow("Minimum Availability", value: movie.minimumAvailability.label)
+                Divider()
+                informationRow("Root Folder", value: movie.rootFolderPath ?? "")
+
+                if movie.hasFile {
+                    Divider()
+                    informationRow("Size", value: movie.sizeOnDisk == nil ? "" : movie.humanSize)
+                }
+
+                if let inCinemas = movie.inCinemas {
+                    Divider()
+                    informationRow("In Cinemas", value: inCinemas.formatted(.dateTime.day().month().year()))
+                }
+
+                if let physicalRelease = movie.physicalRelease {
+                    Divider()
+                    informationRow("Physical Release", value: physicalRelease.formatted(.dateTime.day().month().year()))
+                }
+
+                if let digitalRelease = movie.digitalRelease {
+                    Divider()
+                    informationRow("Digital Release", value: digitalRelease.formatted(.dateTime.day().month().year()))
+                }
+            }
+        }
+        .font(.callout)
     }
 
     var videoQuality: String {
