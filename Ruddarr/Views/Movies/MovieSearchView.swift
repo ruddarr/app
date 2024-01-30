@@ -17,7 +17,6 @@ struct MovieSearchView: View {
             LazyVGrid(columns: gridItemLayout, spacing: 15) {
                 ForEach(instance.lookup.items ?? []) { movie in
                     MovieGridItem(movie: movie)
-                        .opacity(movie.exists ? 0.35 : 1)
                         .onTapGesture {
                             isAddingMovie = movie
                         }

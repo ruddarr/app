@@ -15,6 +15,7 @@ struct Movie: Identifiable, Codable {
     let certification: String?
 
     let genres: [String]
+    let ratings: MovieRatings?
 
     let status: MovieStatus
     var minimumAvailability: MovieStatus
@@ -47,6 +48,7 @@ struct Movie: Identifiable, Codable {
         case overview
         case certification
         case genres
+        case ratings
         case status
         case minimumAvailability
         case monitored
@@ -138,6 +140,17 @@ struct MovieImage: Codable {
         case remoteURL = "remoteUrl"
         case url
     }
+}
+
+struct MovieRatings: Codable {
+    let imdb: MovieRating?
+    let metacritic: MovieRating?
+    let rottenTomatoes: MovieRating?
+}
+
+struct MovieRating: Codable {
+    let votes: Int
+    let value: Double
 }
 
 struct MovieFile: Codable {

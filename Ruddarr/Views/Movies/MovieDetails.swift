@@ -8,14 +8,9 @@ struct MovieDetails: View {
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
-
-        CachedAsyncImage(url: movie.remoteFanart)
-//            .aspectRatio(geometry.size, contentMode: .fill)
-            .edgesIgnoringSafeArea(.all)
-
         VStack(alignment: .leading) {
             // MARK: overview
-            overview
+            MovieDetailsOverview(movie: movie)
                 .padding(.bottom)
 
             // MARK: description
@@ -57,67 +52,6 @@ struct MovieDetails: View {
                 .padding(.bottom)
 
             // Files? Cast? History?
-        }
-    }
-
-    var overview: some View {
-        HStack(alignment: .top) {
-            CachedAsyncImage(url: movie.remotePoster)
-                .scaledToFit()
-                .frame(height: 195)
-                .clipped()
-                .cornerRadius(8)
-                .padding(.trailing, 8)
-
-            Group {
-                VStack(alignment: .leading, spacing: 8) {
-
-                    HStack(alignment: .top) {
-                        Image(systemName: "bookmark")
-                            .symbolVariant(movie.monitored ? .fill : .none)
-                            .font(.title)
-
-                        Text(movie.title)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .kerning(-0.5)
-                            .lineLimit(2)
-                    }
-
-                    HStack(spacing: 12) {
-                        Text(movie.certification ?? "test")
-                            .padding(.horizontal, 4)
-                            .border(.secondary)
-
-                        Text(String(movie.year))
-
-                        Text(movie.humanRuntime)
-                    }
-                    .foregroundStyle(.secondary)
-
-                    //                        HStack(spacing: 8) {
-                    //
-                    //                            Text(movie.monitored ? "Monitored" : "Unmonitored")
-                    //                        }
-
-                    if movie.hasFile {
-                        Label("Downloaded", systemImage: "checkmark")
-                    } else {
-                        Label("Missing", systemImage: "questionmark.folder")
-                    }
-
-                    // Downloaded
-                    // Missing
-
-                    // Announced (Joker)
-                    // In Cinemas (Mean Girls)
-                    // (Released)
-
-                    // tvdb, imdb, rotten 2x
-                }
-            }
-
-            Spacer()
         }
     }
 
@@ -257,9 +191,82 @@ struct MovieDetails: View {
     }
 }
 
+struct MovieDetailsOverview: View {
+    var movie: Movie
+
+    var body: some View {
+        HStack(alignment: .top) {
+            CachedAsyncImage(url: movie.remotePoster, type: .poster)
+                .scaledToFit()
+                .containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 1)
+                .clipped()
+                .cornerRadius(8)
+                .padding(.trailing, 8)
+
+            Group {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(movie.title)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .kerning(-0.5)
+                        .lineLimit(3)
+
+                    HStack(spacing: 6) {
+                        Text(String(movie.year))
+                        Text("•")
+                        Text(movie.humanRuntime)
+
+                        if movie.certification != nil {
+                            Text("•")
+                            Text(movie.certification ?? "")
+                        }
+                    }
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+
+                    HStack(spacing: 12) {
+                        if let rating = movie.ratings?.rottenTomatoes?.value {
+                            HStack(spacing: 6) {
+                                Image("rotten").resizable()
+                                    .scaledToFit()
+                                    .frame(height: 14)
+
+                                Text(String(format: "%.0f%%", rating))
+                            }
+                        }
+
+                        if let rating = movie.ratings?.imdb?.value {
+                            HStack(spacing: 6) {
+                                Image("imdb").resizable()
+                                    .scaledToFit()
+                                    .frame(height: 12)
+
+                                Text(String(format: "%.1f", rating))
+                            }
+                        }
+                    }
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+
+                    //                    if movie.hasFile {
+                    //                        Label("Downloaded", systemImage: "checkmark")
+                    //                    } else {
+                    //                        Label("Missing", systemImage: "questionmark.folder")
+                    //                    }
+
+                    // Downloaded
+                    // Missing
+                }
+            }
+
+            Spacer()
+        }
+    }
+}
+
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
 
-    return MovieSearchSheet(movie: movies[232])
+    return MovieSearchSheet(movie: movies[30])
         .withAppState()
 }

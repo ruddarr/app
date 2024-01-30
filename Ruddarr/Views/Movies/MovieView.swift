@@ -13,8 +13,8 @@ struct MovieView: View {
             MovieDetails(movie: movie)
                 .padding(.top)
         }
-        .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
             toolbarMenu

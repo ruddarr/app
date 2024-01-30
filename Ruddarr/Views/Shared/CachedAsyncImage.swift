@@ -3,12 +3,27 @@ import NukeUI
 
 import SwiftUI
 
+enum ImageType {
+    case poster
+    case header
+
+    var size: CGSize {
+        switch self {
+        case .poster: CGSize(width: 120, height: 180)
+        case .header: CGSize(width: 320, height: 180)
+        }
+    }
+}
+
 struct CachedAsyncImage: View {
     let url: String?
+    let type: ImageType
 
     var body: some View {
         if url == nil {
-            PlaceholderImage(icon: "text.below.photo")
+            Rectangle()
+                .fill(Color(UIColor.systemFill))
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             LazyImage(request: imageRequest(url)) { state in
                 if let image = state.image {
@@ -43,7 +58,7 @@ struct CachedAsyncImage: View {
             urlRequest: request,
             processors: [
                 .resize(
-                    size: CGSize(width: 120, height: 180),
+                    size: type.size,
                     contentMode: .aspectFill,
                     crop: true,
                     upscale: true
@@ -71,7 +86,7 @@ struct PlaceholderImage: View {
     VStack {
         Section {
             HStack {
-                CachedAsyncImage(url: "https://picsum.photos/id/23/500/500")
+                CachedAsyncImage(url: "https://picsum.photos/id/23/500/500", type: .poster)
                     .frame(width: 100, height: 150)
                     .border(.green)
             }.frame(width: 250, height: 250)
@@ -80,7 +95,7 @@ struct PlaceholderImage: View {
 
         Section {
             HStack {
-                CachedAsyncImage(url: "https://picsum.photos-broken/id/23/500/500")
+                CachedAsyncImage(url: "https://picsum.photos-broken/id/23/500/500", type: .poster)
                     .frame(width: 100, height: 150)
                     .border(.green)
             }.frame(width: 250, height: 250)

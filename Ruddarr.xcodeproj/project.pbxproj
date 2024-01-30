@@ -181,12 +181,12 @@
 			children = (
 				795B7AD62B5AFA8C00A13DB3 /* AppError.swift */,
 				BB6D96942B61E61D0017BFB3 /* AppSettings.swift */,
+				BBBE93152B68638400353216 /* Theme.swift */,
 				794BD7812B5ED48E003819AB /* Binding.swift */,
 				BBF706BB2B6220BF00B2B504 /* Logger.swift */,
 				BB01B1F32B6465730025FAF4 /* View.swift */,
 				BBC45B952B572A8600AB258F /* PreviewData.swift */,
 				798010BC2B6268D200BBC056 /* RawRepresentable.swift */,
-				BBBE93152B68638400353216 /* Theme.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";

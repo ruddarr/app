@@ -8,8 +8,6 @@ struct SettingsView: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var radarrInstance
 
-    @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
-
     enum Path: Hashable {
         case libraries
         case createInstance

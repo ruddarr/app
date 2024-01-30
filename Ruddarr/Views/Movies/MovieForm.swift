@@ -23,6 +23,23 @@ struct MovieForm: View {
                 .lineLimit(2)
                 .padding(.horizontal)
 
+            if !movie.exists {
+                HStack(spacing: 6) {
+                    Text(String(movie.year))
+                    Text("•")
+                    Text(movie.humanRuntime)
+
+                    if movie.certification != nil {
+                        Text("•")
+                        Text(movie.certification ?? "")
+                    }
+                }
+                .font(.callout)
+                .foregroundStyle(.secondary)
+                .scenePadding(.horizontal)
+                .padding(.top, 4)
+            }
+
             Form {
                 Section {
                     Toggle("Monitored", isOn: $movie.monitored)

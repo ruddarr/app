@@ -6,7 +6,7 @@ struct MovieGridItem: View {
     var body: some View {
 
         HStack {
-            CachedAsyncImage(url: movie.remotePoster)
+            CachedAsyncImage(url: movie.remotePoster, type: .poster)
                 .aspectRatio(
                     CGSize(width: 50, height: 75),
                     contentMode: .fill
@@ -23,27 +23,29 @@ struct MovieGridItem: View {
         .background(.secondarySystemBackground)
         .cornerRadius(8)
         .overlay(alignment: .bottom) {
-            HStack {
-                Group {
-                    if movie.hasFile {
-                        Image(systemName: "checkmark.circle.fill")
-                    } else if movie.isWaiting {
-                        Image(systemName: "clock")
-                    } else if movie.monitored {
-                        Image(systemName: "xmark.circle")
-                    }
-                }.foregroundStyle(.white)
+            if movie.exists {
+                HStack {
+                    Group {
+                        if movie.hasFile {
+                            Image(systemName: "checkmark.circle.fill")
+                        } else if movie.isWaiting {
+                            Image(systemName: "clock")
+                        } else if movie.monitored {
+                            Image(systemName: "xmark.circle")
+                        }
+                    }.foregroundStyle(.white)
 
-                Spacer()
+                    Spacer()
 
-                Image(systemName: "bookmark")
-                    .symbolVariant(movie.monitored ? .fill : .none)
-                    .foregroundStyle(.white)
+                    Image(systemName: "bookmark")
+                        .symbolVariant(movie.monitored ? .fill : .none)
+                        .foregroundStyle(.white)
+                }
+                .font(.body)
+                .padding(.bottom, 8)
+                .padding(.horizontal, 8)
+                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
             }
-            .font(.body)
-            .padding(.bottom, 8)
-            .padding(.horizontal, 8)
-            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
         }
     }
 }
