@@ -100,6 +100,14 @@ struct Movie: Identifiable, Codable {
 
         return nil
     }
+
+    var isWaiting: Bool {
+        return switch status {
+        case .tba, .announced: true
+        case .inCinemas: minimumAvailability != .released
+        case .released, .deleted: false
+        }
+    }
 }
 
 enum MovieStatus: String, Codable {

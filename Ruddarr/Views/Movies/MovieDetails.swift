@@ -73,7 +73,8 @@ struct MovieDetails: View {
                 VStack(alignment: .leading, spacing: 8) {
 
                     HStack(alignment: .top) {
-                        Image(systemName: movie.monitored ? "bookmark.fill" : "bookmark")
+                        Image(systemName: "bookmark")
+                            .symbolVariant(movie.monitored ? .fill : .none)
                             .font(.title)
 
                         Text(movie.title)

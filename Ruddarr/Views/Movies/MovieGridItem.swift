@@ -1,8 +1,5 @@
 import SwiftUI
 
-// TODO: clock
-// Status: Released, In Cinemas, Announced
-
 struct MovieGridItem: View {
     var movie: Movie
 
@@ -27,10 +24,20 @@ struct MovieGridItem: View {
         .cornerRadius(8)
         .overlay(alignment: .bottom) {
             HStack {
-                Image(systemName: movie.hasFile ? "checkmark.circle.fill" : "xmark.circle")
-                    .foregroundStyle(.white)
+                Group {
+                    if movie.hasFile {
+                        Image(systemName: "checkmark.circle.fill")
+                    } else if movie.isWaiting {
+                        Image(systemName: "clock")
+                    } else if movie.monitored {
+                        Image(systemName: "xmark.circle")
+                    }
+                }.foregroundStyle(.white)
+
                 Spacer()
-                Image(systemName: movie.monitored ? "bookmark.fill" : "bookmark")
+
+                Image(systemName: "bookmark")
+                    .symbolVariant(movie.monitored ? .fill : .none)
                     .foregroundStyle(.white)
             }
             .font(.body)
@@ -41,60 +48,9 @@ struct MovieGridItem: View {
     }
 }
 
-//struct MovieRow: View {
-//    var movie: Movie
-//
-//    var body: some View {
-//        HStack {
-//            CachedAsyncImage(url: movie.remotePoster)
-//                .scaledToFit()
-//                .frame(width: 100)
-//                .clipped()
-//
-//            VStack(alignment: .leading, spacing: 4) {
-//                Text(movie.title)
-//                    .font(.title3)
-//                    .fontWeight(.bold)
-//
-//                HStack(spacing: 4) {
-//                    Text(String(movie.year))
-//                    Text("•")
-//                    Text(movie.humanRuntime)
-//                }.font(.body)
-//
-//                HStack(spacing: 8) {
-//                    Image(systemName: movie.monitored ? "bookmark.fill" : "bookmark")
-//                    Text(movie.monitored ? "Monitored" : "Unmonitored")
-//                }.font(.body)
-//
-//                Group {
-//                    if movie.sizeOnDisk != nil && movie.sizeOnDisk! > 0 {
-//                        HStack(spacing: 8) {
-//                            Image(systemName: "doc")
-//                            Text(ByteCountFormatter().string(fromByteCount: Int64(movie.sizeOnDisk!)))
-//                        }.font(.body)
-//                    } else {
-//                        HStack(spacing: 8) {
-//                            Image(systemName: "doc")
-//                            Text("Missing")
-//                        }.font(.body)
-//                    }
-//                }
-//
-//                Spacer()
-//            }
-//            .padding(.top, 4)
-//
-//            Spacer()
-//        }
-//        .frame(maxWidth: .infinity)
-//        .background(.secondarySystemBackground)
-//        .cornerRadius(8)
-//    }
-//}
-
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
+        .sorted { $0.year > $1.year }
 
     let gridItemLayout = [
         GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)
