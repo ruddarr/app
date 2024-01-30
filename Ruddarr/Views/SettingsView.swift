@@ -58,7 +58,7 @@ struct SettingsView: View {
 
     var preferencesSection: some View {
         Section(header: Text("Preferences")) {
-            Picker("Theme", selection: $theme) {
+            Picker("Theme", selection: $settings.theme) {
                 ForEach(Theme.allCases) { theme in
                     Text(theme.rawValue)
                 }
@@ -93,7 +93,7 @@ struct SettingsView: View {
             NavigationLink { LibrariesView() } label: {
                 Label("Third Party Libraries", systemImage: "building.columns")
             }
-        }
+        }.tint(.primary)
     }
 
     @State private var imageCacheSize: Int = 0

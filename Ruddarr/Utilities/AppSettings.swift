@@ -1,9 +1,12 @@
 import SwiftUI
 import Foundation
 
+// We can't migrate this to `@Observable` because `@AppStorage` isn't supported
+// We could use https://github.com/sindresorhus/Defaults instead maybe
 class AppSettings: ObservableObject {
     @CloudStorage("instances") var instances: [Instance] = []
 
+    @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
     @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
 
     func resetAll() {
