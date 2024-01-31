@@ -16,8 +16,8 @@ struct MovieSearchSheet: View {
                 if movie.exists {
                     ScrollView {
                         MovieDetails(movie: movie)
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
                 } else {
                     MovieForm(movie: $movie)
                     .toolbar {

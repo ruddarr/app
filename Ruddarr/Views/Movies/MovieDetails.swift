@@ -226,7 +226,6 @@ struct MovieDetailsOverview: View {
                             Text(movie.certification ?? "")
                         }
                     }
-                    .font(.callout)
                     .foregroundStyle(.secondary)
 
                     HStack(spacing: 12) {

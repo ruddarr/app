@@ -7,15 +7,15 @@ struct MovieView: View {
 
     @State private var showMonitored: Bool = false
     @State private var showUnmonitored: Bool = false
-
-    @State private var showingConfirmation = false
+    @State private var showSearchStarted: Bool = false
+    @State private var showDeleteConfirmation = false
 
     var body: some View {
         ScrollView {
             MovieDetails(movie: movie)
                 .padding(.top)
+                .padding(.horizontal)
         }
-        .padding(.horizontal)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
@@ -24,9 +24,11 @@ struct MovieView: View {
         .refreshable {
             // TODO: refresh movie
         }
-        .overlay {
+        .overlay(alignment: .bottom) {
             StatusMessage(text: "Monitored", icon: "bookmark.fill", isPresenting: $showMonitored)
             StatusMessage(text: "Unmonitored", icon: "bookmark", isPresenting: $showUnmonitored)
+
+            StatusMessage(text: "Search Started", icon: "checkmark", isPresenting: $showSearchStarted)
         }
     }
 
@@ -79,7 +81,15 @@ struct MovieView: View {
 
                 Section {
                     Button("Automatic Search", systemImage: "magnifyingglass") {
+                        Task {
+                            guard await instance.movies.command(movie, command: .automaticSearch) else {
+                                return
+                            }
 
+                            withAnimation {
+                                showSearchStarted = true
+                            }
+                        }
                     }
 
                     Button("Interactive Search", systemImage: "person.fill") {
@@ -104,7 +114,7 @@ struct MovieView: View {
             }
             .confirmationDialog(
                 "Are you sure you want to delete the movie and permanently erase the movie folder and its contents?",
-                isPresented: $showingConfirmation,
+                isPresented: $showDeleteConfirmation,
                 titleVisibility: .visible
             ) {
                 Button("Delete Movie", role: .destructive) {
@@ -143,7 +153,7 @@ struct MovieView: View {
 
     var deleteMovieButton: some View {
         Button("Delete", systemImage: "trash", role: .destructive) {
-            showingConfirmation = true
+            showDeleteConfirmation = true
         }
     }
 

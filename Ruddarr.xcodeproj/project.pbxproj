@@ -166,10 +166,10 @@
 		BB25DC622B62ED2E00FE55A0 /* Movies */ = {
 			isa = PBXGroup;
 			children = (
-				BBF94F622B508F8B00300EBA /* MovieView.swift */,
-				BB8B3DF12B61713500B80E2D /* MovieEditView.swift */,
 				BBE0DE5E2B51A86B00E7B5C9 /* MovieSearchView.swift */,
 				BB93FDD52B6337920047A9FF /* MovieSearchSheet.swift */,
+				BBF94F622B508F8B00300EBA /* MovieView.swift */,
+				BB8B3DF12B61713500B80E2D /* MovieEditView.swift */,
 				BB25DC652B62EDC700FE55A0 /* MovieGridItem.swift */,
 				BB25DC672B630B9000FE55A0 /* MovieDetails.swift */,
 				BB25DC692B63161E00FE55A0 /* MovieForm.swift */,

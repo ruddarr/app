@@ -28,12 +28,13 @@ struct StatusMessage: View {
             }
             .background(.ultraThinMaterial)
             .cornerRadius(12)
+            .padding(.bottom)
             .transition(
                 .opacity.combined(with: .scale)
             )
             .onTapGesture(perform: hide)
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                     hide()
                 }
 
