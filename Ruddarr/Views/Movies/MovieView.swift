@@ -58,6 +58,7 @@ struct MovieView: View {
                         }
                 }
                 .buttonStyle(.plain)
+                .allowsHitTesting(!instance.movies.isWorking)
             }
         }
     }
