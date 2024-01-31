@@ -122,10 +122,15 @@ struct MovieView: View {
     var monitorButton: some View {
         Button {
             Task {
-                movie.monitored.toggle()
-                _ = await instance.movies.update(movie)
+                guard await instance.movies.update(movie) else {
+                    return
+                }
 
-                withAnimation { showMessage = true }
+                movie.monitored.toggle()
+
+                withAnimation {
+                    movie.monitored ? (showMonitored = true) : (showUnmonitored = true)
+                }
             }
         } label: {
             if movie.monitored {
@@ -133,7 +138,6 @@ struct MovieView: View {
             } else {
                 Label("Monitor", systemImage: "bookmark.fill")
             }
-
         }
     }
 
