@@ -65,7 +65,7 @@ struct SettingsView: View {
     }
 
     let shareUrl = URL(string: "https://ruddarr.com")!
-    let githubUrl = URL(string: "https://github.com/tillkruss/ruddarr/")!
+    let githubUrl = URL(string: "https://github.com/ruddarr/app/")!
     let reviewUrl = URL(string: "itms-apps://itunes.apple.com/app/id663592361")!
 
     var aboutSection: some View {
@@ -176,13 +176,13 @@ struct SettingsView: View {
             log.warning("Unable to open mailto URL: \(mailtoUrl)")
         }
 
-        let gitHubUrl = URL(string: "https://github.com/tillkruss/ruddarr/issues/")!
+        let gitHubUrl = URL(string: "https://github.com/ruddarr/app/discussions")!
 
         if await UIApplication.shared.open(gitHubUrl) {
             return
         }
 
-        log.critical("Unable to open URL: \(gitHubUrl, privacy: .public)")
+        log.critical("Unable to open URL: \(gitHubUrl)")
     }
 }
 
