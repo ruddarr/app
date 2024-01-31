@@ -5,23 +5,15 @@ struct MovieGridItem: View {
 
     var body: some View {
 
-        HStack {
+        ZStack {
             CachedAsyncImage(url: movie.remotePoster, type: .poster)
                 .aspectRatio(
                     CGSize(width: 50, height: 75),
                     contentMode: .fill
                 )
-                .mask(
-                    LinearGradient(
-                        gradient: Gradient(colors: [.black, .black, .black, .black, .clear]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.secondarySystemBackground)
-        .cornerRadius(8)
         .overlay(alignment: .bottom) {
             if movie.exists {
                 HStack {
@@ -42,11 +34,22 @@ struct MovieGridItem: View {
                         .foregroundStyle(.white)
                 }
                 .font(.body)
+                .padding(.top, 36)
                 .padding(.bottom, 8)
                 .padding(.horizontal, 8)
-                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                .background {
+                    LinearGradient(
+                        colors: [
+                            Color.black.opacity(0.0),
+                            Color.black.opacity(0.8)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                }
             }
         }
+        .cornerRadius(8)
     }
 }
 
