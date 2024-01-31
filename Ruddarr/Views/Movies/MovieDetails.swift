@@ -5,6 +5,7 @@ struct MovieDetails: View {
 
     @State private var isTruncated = true
 
+    @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
@@ -63,10 +64,12 @@ struct MovieDetails: View {
                 Label("Automatic", systemImage: "magnifyingglass")
                     .font(.callout)
                     .fontWeight(.semibold)
+                    .foregroundStyle(settings.theme.tint)
                     .padding(.vertical, 6)
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
+            .tint(.secondary)
             .frame(maxWidth: .infinity)
 
             Button {
@@ -75,10 +78,12 @@ struct MovieDetails: View {
                 Label("Interactive", systemImage: "person.fill")
                     .font(.callout)
                     .fontWeight(.semibold)
+                    .foregroundStyle(settings.theme.tint)
                     .padding(.vertical, 6)
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
+            .tint(.secondary)
             .frame(maxWidth: .infinity)
         }
         .fixedSize(horizontal: false, vertical: true)
@@ -267,6 +272,6 @@ struct MovieDetailsOverview: View {
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
 
-    return MovieSearchSheet(movie: movies[30])
+    return MovieSearchSheet(movie: movies[232])
         .withAppState()
 }
