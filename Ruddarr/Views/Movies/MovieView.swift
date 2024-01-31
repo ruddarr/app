@@ -5,7 +5,9 @@ struct MovieView: View {
 
     @Environment(RadarrInstance.self) private var instance
 
-    @State private var showMessage: Bool = false
+    @State private var showMonitored: Bool = false
+    @State private var showUnmonitored: Bool = false
+
     @State private var showingConfirmation = false
 
     var body: some View {
@@ -23,7 +25,8 @@ struct MovieView: View {
             // TODO: refresh movie
         }
         .overlay {
-            StatusMessage(text: "Monitored", isPresenting: $showMessage)
+            StatusMessage(text: "Monitored", icon: "bookmark.fill", isPresenting: $showMonitored)
+            StatusMessage(text: "Unmonitored", icon: "bookmark", isPresenting: $showUnmonitored)
         }
     }
 
@@ -33,10 +36,15 @@ struct MovieView: View {
             HStack {
                 Button {
                     Task {
-                        movie.monitored.toggle()
-                        _ = await instance.movies.update(movie)
+                        guard await instance.movies.update(movie) else {
+                            return
+                        }
 
-                        withAnimation { showMessage = true }
+                        movie.monitored.toggle()
+
+                        withAnimation {
+                            movie.monitored ? (showMonitored = true) : (showUnmonitored = true)
+                        }
                     }
                 } label: {
                     Circle()
