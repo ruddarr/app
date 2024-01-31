@@ -145,7 +145,7 @@ struct SettingsView: View {
     func openSupportEmail() async {
         let meta = await Telemetry.shared.metadata()
 
-        let address = "support@ruddarr.com"
+        let address = "ruddarr@icloud.com"
         let subject = "Support Request"
 
         let body = """
