@@ -79,6 +79,7 @@
 		BB25DC652B62EDC700FE55A0 /* MovieGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGridItem.swift; sourceTree = "<group>"; };
 		BB25DC672B630B9000FE55A0 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
 		BB25DC692B63161E00FE55A0 /* MovieForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieForm.swift; sourceTree = "<group>"; };
+		BB42618C2B6980760078B94E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BB456D222B58C71300C29B00 /* NoInternet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternet.swift; sourceTree = "<group>"; };
 		BB456D262B58E4B900C29B00 /* system-status.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "system-status.json"; sourceTree = "<group>"; };
 		BB6D96942B61E61D0017BFB3 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
@@ -183,7 +184,6 @@
 				BB6D96942B61E61D0017BFB3 /* AppSettings.swift */,
 				BBBE93152B68638400353216 /* Theme.swift */,
 				794BD7812B5ED48E003819AB /* Binding.swift */,
-				BBF706BB2B6220BF00B2B504 /* Logger.swift */,
 				BB01B1F32B6465730025FAF4 /* View.swift */,
 				BBC45B952B572A8600AB258F /* PreviewData.swift */,
 				798010BC2B6268D200BBC056 /* RawRepresentable.swift */,
@@ -220,14 +220,15 @@
 		BBE828552B4F2C7000C1E1D9 /* Ruddarr */ = {
 			isa = PBXGroup;
 			children = (
-				BBE828562B4F2C7000C1E1D9 /* RuddarrApp.swift */,
-				79159D6A2B5953CD00F7F997 /* Dependencies */,
-				BBF477A62B4F8AA300C2DED3 /* Models */,
 				BBF477AA2B505C5D00C2DED3 /* Views */,
+				BBF477A62B4F8AA300C2DED3 /* Models */,
 				BBF706BA2B62209700B2B504 /* Services */,
+				79159D6A2B5953CD00F7F997 /* Dependencies */,
 				BB456D212B58BDF300C29B00 /* Utilities */,
+				BBE828562B4F2C7000C1E1D9 /* RuddarrApp.swift */,
 				BBE8285A2B4F2C7100C1E1D9 /* Assets.xcassets */,
 				BBE8285C2B4F2C7100C1E1D9 /* Ruddarr.entitlements */,
+				BB42618C2B6980760078B94E /* Info.plist */,
 				BBE8285D2B4F2C7100C1E1D9 /* Preview Content */,
 			);
 			path = Ruddarr;
@@ -285,8 +286,9 @@
 		BBF706BA2B62209700B2B504 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				BBC94DE82B5F63A000504568 /* Telemetry.swift */,
+				BBF706BB2B6220BF00B2B504 /* Logger.swift */,
 				BBC136A32B62DD780074C7AA /* Network.swift */,
+				BBC94DE82B5F63A000504568 /* Telemetry.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -390,7 +392,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  #swiftlint --fix && swiftlint\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  #swiftlint --fix && swiftlint\n  swiftlint\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -567,6 +569,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Ruddarr/Ruddarr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -577,6 +580,9 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Ruddarr/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Ruddarr;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -591,7 +597,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -610,6 +616,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Ruddarr/Ruddarr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -620,6 +627,9 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Ruddarr/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Ruddarr;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -634,7 +644,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
