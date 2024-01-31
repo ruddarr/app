@@ -39,10 +39,15 @@ struct MovieView: View {
                         withAnimation { showMessage = true }
                     }
                 } label: {
-                    Image(systemName: "bookmark")
-                        .symbolVariant(.circle.fill)
-                        .foregroundStyle(.tint, .secondarySystemBackground)
-                        .font(.title3)
+                    Circle()
+                        .fill(.secondarySystemBackground)
+                        .frame(width: 28, height: 28)
+                        .overlay {
+                            Image(systemName: "bookmark")
+                                .font(.system(size: 11, weight: .bold))
+                                .symbolVariant(movie.monitored ? .fill : .none)
+                                .foregroundStyle(.tint)
+                        }
                 }
                 .buttonStyle(.plain)
             }
@@ -77,11 +82,16 @@ struct MovieView: View {
                     deleteMovieButton
                 }
             } label: {
-                Image(systemName: "ellipsis")
-                    .symbolVariant(.circle/*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-                    .foregroundStyle(.tint, .secondarySystemBackground)
-                    .font(.title3)
-
+                Circle()
+                    .fill(.secondarySystemBackground)
+                    .frame(width: 28, height: 28)
+                    .overlay {
+                        Image(systemName: "ellipsis")
+                            .symbolVariant(.fill)
+                            .font(.system(size: 12, weight: .bold))
+                            .symbolVariant(movie.monitored ? .fill : .none)
+                            .foregroundStyle(.tint)
+                    }
             }
             .confirmationDialog(
                 "Are you sure you want to delete the movie and permanently erase the movie folder and its contents?",
