@@ -2,8 +2,15 @@ import SwiftUI
 
 struct StatusMessage: View {
     var text: String
+    var icon: String
 
     @Binding var isPresenting: Bool
+
+    init(text: String, icon: String, isPresenting: Binding<Bool>) {
+        self.text = text
+        self.icon = icon
+        self._isPresenting = isPresenting
+    }
 
     func hide() {
         withAnimation {
@@ -14,10 +21,10 @@ struct StatusMessage: View {
     var body: some View {
         if isPresenting {
             HStack {
-                Text(text)
+                Label(text, systemImage: icon)
+                    .font(.callout)
                     .fontWeight(.semibold)
                     .padding()
-                    .padding(.horizontal)
             }
             .background(.ultraThinMaterial)
             .cornerRadius(12)
@@ -26,12 +33,12 @@ struct StatusMessage: View {
             )
             .onTapGesture(perform: hide)
             .onAppear {
-                UINotificationFeedbackGenerator()
-                    .notificationOccurred(.success)
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     hide()
                 }
+
+                UINotificationFeedbackGenerator()
+                    .notificationOccurred(.success)
             }
         }
     }
@@ -44,6 +51,10 @@ struct StatusMessage: View {
         .fill(.background)
         .frame(width: .infinity, height: .infinity)
         .overlay {
-            StatusMessage(text: "Testing", isPresenting: $show)
+            StatusMessage(
+                text: "Unmonitored",
+                icon: "bookmark",
+                isPresenting: $show
+            )
         }
 }
