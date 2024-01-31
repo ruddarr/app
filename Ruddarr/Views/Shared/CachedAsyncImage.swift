@@ -21,9 +21,7 @@ struct CachedAsyncImage: View {
 
     var body: some View {
         if url == nil {
-            Rectangle()
-                .fill(Color(UIColor.systemFill))
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            PlaceholderImage(icon: "text.below.photo")
         } else {
             LazyImage(request: imageRequest(url)) { state in
                 if let image = state.image {
@@ -35,7 +33,9 @@ struct CachedAsyncImage: View {
                 } else {
                     PlaceholderImage(icon: "text.below.photo")
                 }
-            }.pipeline(imagePipeline())
+            }.pipeline(
+                imagePipeline()
+            )
         }
     }
 
