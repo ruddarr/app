@@ -76,7 +76,6 @@ class Movies {
                 _ = try await dependencies.api.deleteMovie(movie, instance)
                 items.removeAll(where: { $0.movieId == movie.movieId })
 
-
             case .command(let movie, let commandName):
                 let command = switch commandName {
                 case .automaticSearch: RadarrCommand(name: commandName, movieIds: [movie.movieId!])
@@ -87,7 +86,7 @@ class Movies {
         } catch {
             self.error = error
 
-            log.error("Movies.request() failed: \(error, privacy: .public)")
+            log.error("Movies.request() failed: \(error)")
         }
 
         isWorking = false

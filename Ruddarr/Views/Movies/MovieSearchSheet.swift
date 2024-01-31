@@ -1,3 +1,4 @@
+import os
 import SwiftUI
 
 struct MovieSearchSheet: View {
@@ -6,6 +7,8 @@ struct MovieSearchSheet: View {
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
+
+    private let log: Logger = logger("view")
 
     var body: some View {
         NavigationStack {
@@ -58,7 +61,7 @@ struct MovieSearchSheet: View {
 
     func addMovie() async {
         guard await instance.movies.add(movie) else {
-            // TODO: log...
+            log.error("Failed to add movie: \(instance.movies.error)")
 
             return
         }

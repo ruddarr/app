@@ -31,7 +31,7 @@ class MovieLookup {
         } catch {
             self.error = error
 
-            log.error("Failed to look up movies (\(query)): \(error, privacy: .public)")
+            log.error("Failed to look up movies (\(query)): \(error)")
         }
 
         isSearching = false

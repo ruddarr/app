@@ -109,7 +109,7 @@ extension API {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let httpString = "\(method.rawValue.uppercased()) \(url)"
-        log.debug("\(httpString, privacy: .public)")
+        log.debug("\(httpString)")
         print(httpString)
 
         if let body {

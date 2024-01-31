@@ -85,7 +85,7 @@ class Telemetry {
                 try await uploadTelemetryData()
                 UserDefaults.standard.set(Date(), forKey: key)
             } catch {
-                self.log.error("Telemetry upload failed: \(error, privacy: .public)")
+                self.log.error("Telemetry upload failed: \(error)")
             }
         }
     }
@@ -98,7 +98,7 @@ class Telemetry {
         }
 
         guard accountStatus == .available else {
-            return self.log.notice("iCloud account not available: \(self.accountStatusString(), privacy: .public)")
+            return self.log.notice("iCloud account not available: \(self.accountStatusString())")
         }
 
         guard let record = await fetchOrCreateRecord(CKRecord.ID(recordName: deviceId)) else {
@@ -123,7 +123,7 @@ class Telemetry {
         } catch CKError.unknownItem {
             return CKRecord(recordType: "Telemetry", recordID: recordId)
         } catch {
-            self.log.warning("Failed to retrieve Telemetry record: \(error, privacy: .public)")
+            self.log.warning("Failed to retrieve Telemetry record: \(error)")
         }
 
         return nil
