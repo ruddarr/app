@@ -81,9 +81,9 @@ public class CloudStorageSync: ObservableObject {
 
     // Note:
     // As per the documentation of NSUbiquitousKeyValueStore.synchronize,
-    // it is not nessesary to call .synchronize all the time.
+    // it is not necessary to call .synchronize all the time.
     //
-    // However, during developement, I very often quit or relaunch an app via Xcode debugger.
+    // However, during development, I very often quit or relaunch an app via Xcode debugger.
     // This causes the app to be killed before in-memory changes are persisted to disk.
     //
     // By excessively calling .synchronize() all the time, changes are persisted to disk.
