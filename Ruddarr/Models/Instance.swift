@@ -37,6 +37,15 @@ struct InstanceQualityProfile: Identifiable, Equatable, Codable {
     let name: String
 }
 
+struct RadarrCommand: Codable {
+    let name: Command
+    let movieIds: [Int]
+
+    enum Command: String, Codable {
+        case automaticSearch = "MoviesSearch"
+    }
+}
+
 extension Instance {
     static var void: Self {
         .init(

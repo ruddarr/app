@@ -10,6 +10,7 @@ struct API {
     var addMovie: (Movie, Instance) async throws -> Movie
     var updateMovie: (Movie, Instance) async throws -> Empty
     var deleteMovie: (Movie, Instance) async throws -> Empty
+    var command: (RadarrCommand, Instance) async throws -> Empty
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolders]
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
@@ -58,6 +59,11 @@ extension API {
                 .appending(queryItems: [.init(name: "deleteFiles", value: "true")])
 
             return try await request(method: .delete, url: url, authorization: instance.apiKey)
+        }, command: { command, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/command")
+
+            return try await request(method: .post, url: url, authorization: instance.apiKey, body: command)
         }, systemStatus: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/system/status")

@@ -28,6 +28,8 @@ extension API {
             try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
 
             return Empty()
+        }, command: { _, _ in
+            return Empty()
         }, systemStatus: { _ in
             loadPreviewData(filename: "system-status")
         }, rootFolders: { _ in

@@ -15,6 +15,7 @@ class Movies {
         case add(Movie)
         case update(Movie)
         case delete(Movie)
+        case command(Movie, RadarrCommand.Command)
     }
 
     init(_ instance: Instance) {
@@ -52,6 +53,10 @@ class Movies {
         return await request(.delete(movie))
     }
 
+    func command(_ movie: Movie, command: RadarrCommand.Command) async -> Bool {
+        return await request(.command(movie, command))
+    }
+
     func request(_ operation: Operation) async -> Bool {
         error = nil
         isWorking = true
@@ -70,6 +75,14 @@ class Movies {
             case .delete(let movie):
                 _ = try await dependencies.api.deleteMovie(movie, instance)
                 items.removeAll(where: { $0.movieId == movie.movieId })
+
+
+            case .command(let movie, let commandName):
+                let command = switch commandName {
+                case .automaticSearch: RadarrCommand(name: commandName, movieIds: [movie.movieId!])
+                }
+
+                _ = try await dependencies.api.command(command, instance)
             }
         } catch {
             self.error = error
