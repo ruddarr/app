@@ -1,5 +1,7 @@
 # Ruddarr
 
+A companion app for Radarr and Sonarr instances. Browse libraries, manage content and search for new content.
+
 ## Reset Xcode 
 
 ```bash
