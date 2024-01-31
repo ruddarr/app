@@ -40,7 +40,9 @@ struct StatusMessage: View {
 #Preview {
     @State var show = true
 
-    return Text("")
+    return Rectangle()
+        .fill(.background)
+        .frame(width: .infinity, height: .infinity)
         .overlay {
             StatusMessage(text: "Testing", isPresenting: $show)
         }
