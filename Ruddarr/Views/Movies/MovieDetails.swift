@@ -52,14 +52,14 @@ struct MovieDetails: View {
             information
                 .padding(.bottom)
 
-            // Files? Cast? History?
+            // TODO: Files? Cast? History?
         }
     }
 
     var actions: some View {
         HStack(spacing: 24) {
             Button {
-                //
+                // TODO: needs action
             } label: {
                 Label("Automatic", systemImage: "magnifyingglass")
                     .font(.callout)
@@ -73,7 +73,7 @@ struct MovieDetails: View {
             .frame(maxWidth: .infinity)
 
             Button {
-                //
+                // TODO: needs action
             } label: {
                 Label("Interactive", systemImage: "person.fill")
                     .font(.callout)
@@ -248,15 +248,15 @@ struct MovieDetailsOverview: View {
                                 Text(String(format: "%.1f", rating))
                             }
                         }
+
+                        // TODO: more ratings
+                        // tvdb (only 2-3 at a time)
+                        // metric critic (only last?)
                     }
                     .font(.callout)
                     .foregroundStyle(.secondary)
 
-                    //                    if movie.hasFile {
-                    //                        Label("Downloaded", systemImage: "checkmark")
-                    //                    } else {
-                    //                        Label("Missing", systemImage: "questionmark.folder")
-                    //                    }
+                    // TODO: Show status on poster?
 
                     // Downloaded
                     // Missing
