@@ -24,7 +24,7 @@ struct MovieView: View {
         .refreshable {
             // TODO: refresh movie
         }
-        .overlay(alignment: .bottom) {
+        .overlay(alignment: .top) {
             StatusMessage(text: "Monitored", icon: "bookmark.fill", isPresenting: $showMonitored)
             StatusMessage(text: "Unmonitored", icon: "bookmark", isPresenting: $showUnmonitored)
 
@@ -93,7 +93,7 @@ struct MovieView: View {
                     }
 
                     Button("Interactive Search", systemImage: "person.fill") {
-
+                        //
                     }
                 }
 
