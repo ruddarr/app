@@ -14,6 +14,6 @@ extension AppError {
     static var assertionFailure: Self {
         Swift.assertionFailure()
 
-        return .init("An unexpected error occured")
+        return .init("An unexpected error occurred")
     }
 }
