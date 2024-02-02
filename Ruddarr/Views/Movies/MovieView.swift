@@ -92,9 +92,9 @@ struct MovieView: View {
                         }
                     }
 
-                    Button("Interactive Search", systemImage: "person.fill") {
-                        //
-                    }
+                    NavigationLink(value: MoviesView.Path.sources(movie.id), label: {
+                        Label("Interactive Search", systemImage: "person.fill")
+                    })
                 }
 
                 Section {

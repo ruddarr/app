@@ -19,6 +19,7 @@ struct MoviesView: View {
         case search(String = "")
         case movie(Movie.ID)
         case edit(Movie.ID)
+        case sources(Movie.ID)
     }
 
     var body: some View {
@@ -75,6 +76,10 @@ struct MoviesView: View {
                 case .edit(let movieId):
                     if let movie = instance.movies.byId(movieId) {
                         MovieEditView(movie: movie)
+                    }
+                case .sources(let movieId):
+                    if let movie = instance.movies.byId(movieId) {
+                        MovieSourcesView(movie: movie)
                     }
                 }
             }
