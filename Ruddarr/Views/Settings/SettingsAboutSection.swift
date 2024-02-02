@@ -40,8 +40,10 @@ struct SettingsAboutSection: View {
     func openSupportEmail() async {
         let meta = await Telemetry.shared.metadata()
 
+        let uuid = UUID().uuidString.prefix(8)
+
         let address = "ruddarr@icloud.com"
-        let subject = "Support Request"
+        let subject = "Support Request (\(uuid))"
 
         let body = """
         ---
