@@ -28,7 +28,7 @@ struct StatusMessage: View {
             }
             .background(.ultraThinMaterial)
             .cornerRadius(12)
-            .padding(.bottom)
+            .padding(.top)
             .transition(
                 .opacity.combined(with: .scale)
             )

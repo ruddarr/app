@@ -1,12 +1,7 @@
-import os
 import SwiftUI
-import Nuke
 
 struct SettingsView: View {
-    private let log: Logger = logger("settings")
-
     @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) private var radarrInstance
 
     enum Path: Hashable {
         case libraries
@@ -19,8 +14,8 @@ struct SettingsView: View {
             List {
                 instanceSection
                 preferencesSection
-                aboutSection
-                systemSection
+                SettingsAboutSection()
+                SettingsSystemSection()
             }
             .navigationTitle("Settings")
             .navigationDestination(for: Path.self) {
@@ -60,129 +55,12 @@ struct SettingsView: View {
                 ForEach(Theme.allCases) { theme in
                     Text(theme.rawValue)
                 }
-            }.tint(.secondary)
+            }
+            .tint(.secondary)
+
+            // TODO: we need to reset the routers when changing theme
+            // https://github.com/ruddarr/ruddarr/issues/57
         }
-    }
-
-    let shareUrl = URL(string: "https://ruddarr.com")!
-    let githubUrl = URL(string: "https://github.com/ruddarr/app/")!
-    let reviewUrl = URL(string: "itms-apps://itunes.apple.com/app/id663592361")!
-
-    var aboutSection: some View {
-        Section(header: Text("About")) {
-            ShareLink(item: shareUrl) {
-                Label("Share App", systemImage: "square.and.arrow.up")
-            }
-
-            Link(destination: reviewUrl, label: {
-                Label("Leave a Review", systemImage: "star")
-            })
-
-            Button {
-                Task { await openSupportEmail() }
-            } label: {
-                Label("Email Support", systemImage: "square.and.pencil")
-            }
-
-            Link(destination: githubUrl, label: {
-                Label("Contribute on GitHub", systemImage: "curlybraces.square")
-            })
-
-            NavigationLink { LibrariesView() } label: {
-                Label("Third Party Libraries", systemImage: "building.columns")
-            }
-        }.tint(.primary)
-    }
-
-    @State private var imageCacheSize: Int = 0
-    @State private var showingEraseConfirmation: Bool = false
-
-    var systemSection: some View {
-        Section(header: Text("System")) {
-            Button(role: .destructive, action: {
-                withAnimation { clearImageCache() }
-            }, label: {
-                LabeledContent(
-                    "Clear Image Cache",
-                    value: ByteCountFormatter().string(fromByteCount: Int64(imageCacheSize))
-                )
-            }).onAppear {
-                calculateImageCacheSize()
-            }
-
-            Button("Reset All Settings", role: .destructive) {
-                showingEraseConfirmation = true
-            }
-            .confirmationDialog("Are you sure?", isPresented: $showingEraseConfirmation) {
-                Button("Reset All Settings", role: .destructive) {
-                    resetAllSettings()
-                }
-                Button("Cancel", role: .cancel) { }
-            } message: {
-                Text("Are you sure you want to erase all settings?")
-            }
-        }
-    }
-
-    func calculateImageCacheSize() {
-        let dataCache = try? DataCache(name: "com.ruddarr.images")
-        imageCacheSize = dataCache?.totalSize ?? 0
-    }
-
-    func clearImageCache() {
-        let dataCache = try? DataCache(name: "com.ruddarr.images")
-        dataCache?.removeAll()
-        imageCacheSize = 0
-    }
-
-    func resetAllSettings() {
-        dependencies.router.reset()
-        radarrInstance.switchTo(.void)
-        settings.resetAll()
-    }
-
-    // If desired add `mailto` to `LSApplicationQueriesSchemes` in `Info.plist`
-    func openSupportEmail() async {
-        let meta = await Telemetry.shared.metadata()
-
-        let address = "ruddarr@icloud.com"
-        let subject = "Support Request"
-
-        let body = """
-        ---
-        The following information will help with debugging:
-
-        Version: \(meta[.appVersion] ?? "nil") (\(meta[.appBuild] ?? "nil"))
-        Platform: \(meta[.systemName] ?? "nil") (\(meta[.systemVersion] ?? "nil"))
-        Device: \(meta[.deviceId] ?? "nil")
-        User: \(meta[.cloudkitStatus]!) (\(meta[.cloudkitUserId] ?? "nil"))
-        """
-
-        var components = URLComponents()
-        components.scheme = "mailto"
-        components.path = address
-        components.queryItems = [
-            URLQueryItem(name: "subject", value: subject),
-            URLQueryItem(name: "body", value: body)
-        ]
-
-        if let mailtoUrl = components.url {
-            if UIApplication.shared.canOpenURL(mailtoUrl) {
-                if await UIApplication.shared.open(mailtoUrl) {
-                    return
-                }
-            }
-
-            log.warning("Unable to open mailto URL: \(mailtoUrl)")
-        }
-
-        let gitHubUrl = URL(string: "https://github.com/ruddarr/app/discussions")!
-
-        if await UIApplication.shared.open(gitHubUrl) {
-            return
-        }
-
-        log.critical("Unable to open URL: \(gitHubUrl)")
     }
 }
 
