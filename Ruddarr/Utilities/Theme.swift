@@ -1,9 +1,9 @@
 import SwiftUI
 
 enum Theme: String, Identifiable, CaseIterable {
-    case blue
-    case red
-    case purple
+    case blue = "Blue"
+    case red = "Red"
+    case purple = "Purple"
     case factory
 
     var id: Self { self }

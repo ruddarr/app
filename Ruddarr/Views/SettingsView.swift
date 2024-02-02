@@ -52,14 +52,14 @@ struct SettingsView: View {
     var preferencesSection: some View {
         Section(header: Text("Preferences")) {
             Picker("Theme", selection: $settings.theme) {
-                ForEach(Theme.allCases) { theme in
+                ForEach(Theme.allCases.filter { $0 != .factory }) { theme in
                     Text(theme.rawValue)
                 }
             }
             .tint(.secondary)
-
-            // TODO: we need to reset the routers when changing theme
-            // https://github.com/ruddarr/ruddarr/issues/57
+            .onChange(of: settings.theme) {
+                dependencies.router.reset()
+            }            
         }
     }
 }
