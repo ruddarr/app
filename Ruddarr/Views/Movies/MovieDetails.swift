@@ -32,7 +32,9 @@ struct MovieDetails: View {
             Grid(alignment: .leading) {
                 detailsRow("Status", value: movie.status.label)
 
-                detailsRow("Studio", value: movie.studio!)
+                if (movie.studio?.isEmpty) != nil {
+                    detailsRow("Studio", value: movie.studio!)
+                }
 
                 if !movie.genres.isEmpty {
                     detailsRow("Genre", value: movie.humanGenres)
@@ -72,16 +74,14 @@ struct MovieDetails: View {
             .tint(.secondary)
             .frame(maxWidth: .infinity)
 
-            Button {
-                // TODO: needs action
-            } label: {
+            NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
                 Label("Interactive", systemImage: "person.fill")
                     .font(.callout)
                     .fontWeight(.semibold)
                     .foregroundStyle(settings.theme.tint)
                     .padding(.vertical, 6)
                     .frame(maxWidth: .infinity)
-            }
+            })
             .buttonStyle(.bordered)
             .tint(.secondary)
             .frame(maxWidth: .infinity)

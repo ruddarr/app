@@ -8,6 +8,7 @@ import Foundation
     var isVoid = true
     var movies: Movies
     var lookup: MovieLookup
+    var releases: MovieReleases
 
     init(_ instance: Instance = .void) {
         if instance.type != .radarr {
@@ -19,6 +20,7 @@ import Foundation
         self.instance = instance
         self.movies = Movies(instance)
         self.lookup = MovieLookup(instance)
+        self.releases = MovieReleases(instance)
     }
 
     var rootFolders: [InstanceRootFolders] {
@@ -35,6 +37,7 @@ import Foundation
         movies.items.removeAll()
         movies = Movies(target)
         lookup = MovieLookup(target)
+        releases = MovieReleases(target)
     }
 
     func fetchMetadata() async throws -> Instance? {

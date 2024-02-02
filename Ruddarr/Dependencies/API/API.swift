@@ -6,6 +6,7 @@ import MetricKit
 struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
+    var lookupReleases: (Movie.ID, Instance) async throws -> [MovieRelease]
     var getMovie: (Movie.ID, Instance) async throws -> Movie
     var addMovie: (Movie, Instance) async throws -> Movie
     var updateMovie: (Movie, Instance) async throws -> Empty
@@ -27,6 +28,12 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
+
+            return try await request(url: url, authorization: instance.apiKey)
+        }, lookupReleases: { movieId, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/release")
+                .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
             return try await request(url: url, authorization: instance.apiKey)
         }, getMovie: { movieId, instance in

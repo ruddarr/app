@@ -62,7 +62,7 @@ struct MovieContextMenu: View {
         let traktUrl = "https://trakt.tv/search/tmdb/\(movie.tmdbId)?id_type=movie"
 
         Link(destination: URL(string: traktUrl)!, label: {
-            Label("Open in Trakt", systemImage: "link")
+            Label("Open in Trakt", systemImage: "arrow.up.right.square")
         })
     }
 }

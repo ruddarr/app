@@ -19,7 +19,7 @@ struct MoviesView: View {
         case search(String = "")
         case movie(Movie.ID)
         case edit(Movie.ID)
-        case sources(Movie.ID)
+        case releases(Movie.ID)
     }
 
     var body: some View {
@@ -77,9 +77,9 @@ struct MoviesView: View {
                     if let movie = instance.movies.byId(movieId) {
                         MovieEditView(movie: movie)
                     }
-                case .sources(let movieId):
+                case .releases(let movieId):
                     if let movie = instance.movies.byId(movieId) {
-                        MovieSourcesView(movie: movie)
+                        MovieReleasesView(movie: movie)
                     }
                 }
             }
@@ -165,7 +165,7 @@ struct MoviesView: View {
     }
 
     var toolbarSortingButton: some View {
-        Menu("Sorting", systemImage: "arrow.up.arrow.down") {
+        Menu("Sorting", systemImage: "line.3.horizontal.decrease") { // arrow.up.arrow.down
             Picker(selection: $sort.option, label: Text("Sorting options")) {
                 ForEach(MovieSort.Option.allCases) { sortOption in
                     Text(sortOption.title).tag(sortOption)

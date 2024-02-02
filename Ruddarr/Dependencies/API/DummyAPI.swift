@@ -11,8 +11,13 @@ extension API {
             return movies.filter {
                 $0.title.localizedCaseInsensitiveContains(query)
             }
+        }, lookupReleases: { _, _ in
+            try await Task.sleep(nanoseconds: UInt64(0.5 * Double(NSEC_PER_SEC)))
+
+            return loadPreviewData(filename: "releases")
         }, getMovie: { movieId, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
+            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
 
             return movies.first(where: { $0.movieId == movieId })!
         }, addMovie: { _, _ in
@@ -29,13 +34,21 @@ extension API {
 
             return Empty()
         }, command: { _, _ in
+            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
+            
             return Empty()
         }, systemStatus: { _ in
-            loadPreviewData(filename: "system-status")
+            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
+
+            return loadPreviewData(filename: "system-status")
         }, rootFolders: { _ in
-            loadPreviewData(filename: "root-folders")
+            try await Task.sleep(nanoseconds: UInt64(1 * Double(NSEC_PER_SEC)))
+
+            return loadPreviewData(filename: "root-folders")
         }, qualityProfiles: { _ in
-            loadPreviewData(filename: "quality-profiles")
+            try await Task.sleep(nanoseconds: UInt64(1 * Double(NSEC_PER_SEC)))
+
+            return loadPreviewData(filename: "quality-profiles")
         })
     }
 }
