@@ -76,7 +76,7 @@ struct InstanceView: View {
         }.toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 if isLoading {
-                    ProgressView()
+                    ProgressView().tint(.secondary)
                 } else {
                     Button("Done") {
                         Task {

@@ -58,7 +58,7 @@ struct MovieSearchView: View {
             if instance.lookup.isSearching {
                 ProgressView {
                     Text("Loading")
-                }
+                }.tint(.secondary)
             } else if instance.lookup.items?.count == 0 {
                 ContentUnavailableView.search(text: searchQuery)
             }

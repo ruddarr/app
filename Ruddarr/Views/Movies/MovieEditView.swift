@@ -12,7 +12,7 @@ struct MovieEditView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 if instance.movies.isWorking {
-                    ProgressView()
+                    ProgressView().tint(.secondary)
                 } else {
                     Button("Save") {
                         Task {

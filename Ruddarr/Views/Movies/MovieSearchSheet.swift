@@ -48,7 +48,7 @@ struct MovieSearchSheet: View {
     var toolbarSaveButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             if instance.movies.isWorking {
-                ProgressView()
+                ProgressView().tint(.secondary)
             } else {
                 Button("Add") {
                     Task {
