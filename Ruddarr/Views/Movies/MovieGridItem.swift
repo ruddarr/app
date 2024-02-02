@@ -4,7 +4,6 @@ struct MovieGridItem: View {
     var movie: Movie
 
     var body: some View {
-
         ZStack {
             CachedAsyncImage(url: movie.remotePoster, type: .poster)
                 .aspectRatio(
@@ -13,6 +12,9 @@ struct MovieGridItem: View {
                 )
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .contextMenu {
+            MovieContextMenu(movie: movie)
+        }
         .background(.secondarySystemBackground)
         .overlay(alignment: .bottom) {
             if movie.exists {
@@ -50,6 +52,18 @@ struct MovieGridItem: View {
             }
         }
         .cornerRadius(8)
+    }
+}
+
+struct MovieContextMenu: View {
+    var movie: Movie
+
+    var body: some View {
+        let traktUrl = "https://trakt.tv/search/tmdb/\(movie.tmdbId)?id_type=movie"
+
+        Link(destination: URL(string: traktUrl)!, label: {
+            Label("Open in Trakt", systemImage: "link")
+        })
     }
 }
 

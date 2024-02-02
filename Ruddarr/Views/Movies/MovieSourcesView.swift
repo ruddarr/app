@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MovieSourcesView: View {
     @Binding var movie: Movie
-    
+
     // TODO: sort by ...
 
     var body: some View {
@@ -11,7 +11,7 @@ struct MovieSourcesView: View {
             Text("Search Results")
         }
     }
-    
+
     // 
 }
 

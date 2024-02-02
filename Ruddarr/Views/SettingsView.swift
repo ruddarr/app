@@ -59,7 +59,7 @@ struct SettingsView: View {
             .tint(.secondary)
             .onChange(of: settings.theme) {
                 dependencies.router.reset()
-            }            
+            }
         }
     }
 }
