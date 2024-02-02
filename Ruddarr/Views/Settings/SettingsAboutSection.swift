@@ -6,34 +6,53 @@ struct SettingsAboutSection: View {
     private let log: Logger = logger("settings")
 
     private let shareUrl = URL(string: "https://ruddarr.com")!
-    private let githubUrl = URL(string: "https://github.com/ruddarr/app/")!
-    private let reviewUrl = URL(string: "itms-apps://itunes.apple.com/app/id663592361")!
+    private let githubUrl = URL(string: "https://github.com/ruddarr/app")!
+    private let reviewUrl = URL(string: "itms-apps://itunes.apple.com/app/????????")!
 
     var body: some View {
         Section(header: Text("About")) {
             ShareLink(item: shareUrl) {
-                Label("Share App", systemImage: "square.and.arrow.up")
+                Label {
+                    Text("Share App").tint(.primary)
+                } icon: {
+                    Image(systemName: "square.and.arrow.up").foregroundColor(.blue)
+                }
             }
 
-            Link(destination: reviewUrl, label: {
-                Label("Leave a Review", systemImage: "star")
-            })
+            Link(destination: reviewUrl) {
+                Label {
+                    Text("Leave a Review").tint(.primary)
+                } icon: {
+                    Image(systemName: "star.fill").foregroundColor(.yellow)
+                }
+            }
 
             Button {
                 Task { await openSupportEmail() }
             } label: {
-                Label("Email Support", systemImage: "square.and.pencil")
+                Label {
+                    Text("Email Support").tint(.primary)
+                } icon: {
+                    Image(systemName: "square.and.pencil").foregroundColor(.blue)
+                }
             }
 
             Link(destination: githubUrl, label: {
-                Label("Contribute on GitHub", systemImage: "curlybraces.square")
+                Label {
+                    Text("Contribute on GitHub").tint(.primary)
+                } icon: {
+                    Image(systemName: "curlybraces.square").foregroundColor(.purple)
+                }
             })
 
             NavigationLink { LibrariesView() } label: {
-                Label("Third Party Libraries", systemImage: "building.columns")
+                Label {
+                    Text("Third Party Libraries").tint(.primary)
+                } icon: {
+                    Image(systemName: "building.columns").foregroundColor(.secondary)
+                }
             }
         }
-        .tint(.primary)
     }
 
     // If desired add `mailto` to `LSApplicationQueriesSchemes` in `Info.plist`
