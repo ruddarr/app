@@ -36,7 +36,7 @@ struct MovieView: View {
                             return
                         }
 
-                        dependencies.messageCenter.show(
+                        dependencies.toast.show(
                             text: movie.monitored ? "Monitored" : "Unmonitored",
                             icon: movie.monitored ? "bookmark.fill" : "bookmark"
                         )
@@ -79,7 +79,7 @@ struct MovieView: View {
                                 return
                             }
 
-                            dependencies.messageCenter.show(text: "Search Started", icon: "checkmark")
+                            dependencies.toast.show(text: "Search Started", icon: "checkmark")
                         }
                     }
 
@@ -129,7 +129,7 @@ struct MovieView: View {
                     return
                 }
 
-                dependencies.messageCenter.show(
+                dependencies.toast.show(
                     text: movie.monitored ? "Monitored" : "Unmonitored",
                     icon: movie.monitored ? "bookmark.fill" : "bookmark"
                 )

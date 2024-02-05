@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 @Observable
-final class Message {
+final class Toast {
     struct Message: Identifiable {
         var id: UUID = .init()
         var view: AnyView
@@ -39,7 +39,7 @@ final class Message {
     }
 }
 
-extension Message {
+extension Toast {
     func show(text: String, icon: String? = nil) {
         show(
             AnyView(
@@ -56,9 +56,9 @@ extension Message {
 }
 
 extension View {
-    func displayMessages(from messageCenter: Message = dependencies.messageCenter) -> some View {
+    func displayMessages(from toast: Toast = dependencies.toast) -> some View {
         overlay(alignment: .bottom) {
-            if let currentMessage = messageCenter.currentMessage {
+            if let currentMessage = toast.currentMessage {
                 currentMessage.view
                     .padding()
                     .background(.thinMaterial)
