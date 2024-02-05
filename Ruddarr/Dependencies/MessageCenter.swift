@@ -57,6 +57,7 @@ extension View {
                 currentMessage.view
                     .padding()
                     .background(.thinMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
                     .padding()
                     .transition(.move(edge: .bottom))
                     .id(currentMessage.id)
