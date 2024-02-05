@@ -308,6 +308,23 @@ extension MoviesView {
             }
         }
     }
+
+    func fetchMoviesWithAlert(ignoreOffline: Bool = false) async {
+        alertPresented = false
+        error = nil
+
+        await instance.movies.fetch()
+
+        if instance.movies.error != nil {
+            error = instance.movies.error
+
+            if ignoreOffline && (instance.movies.error as? URLError)?.code == .notConnectedToInternet {
+                return
+            }
+
+            alertPresented = instance.movies.error != nil
+        }
+    }
 }
 
 #Preview("Offline") {

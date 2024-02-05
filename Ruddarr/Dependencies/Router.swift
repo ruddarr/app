@@ -13,6 +13,12 @@ final class Router {
     func reset() {
         moviesPath = .init()
     }
+    
+    func goToSearch() {
+        selectedTab = .movies
+        // if they were already navigated somewhere within movies tab, they lose that.
+        dependencies.router.moviesPath = .init([MoviesView.Path.search()])
+    }
 }
 
 enum Tab: Hashable, CaseIterable, Identifiable {

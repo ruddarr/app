@@ -91,4 +91,27 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
         TelemetryManager.initialize(with: configuration)
     }
+    
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        if let shortcutItem = options.shortcutItem {
+            handleShortcutItem(shortcutItem)
+        }
+        
+        let sceneConfiguration = UISceneConfiguration(name: "Scene Configuration", sessionRole: connectingSceneSession.role)
+        sceneConfiguration.delegateClass = SceneDelegate.self
+        
+        return sceneConfiguration
+    }
+}
+
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        handleShortcutItem(shortcutItem)
+    }
+}
+
+fileprivate func handleShortcutItem(_ item: UIApplicationShortcutItem) {
+    if let quickAction = QuickActions.Action(shortcutItem: item) {
+        dependencies.quickActions.handle(quickAction)
+    }
 }

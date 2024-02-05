@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		790D1EC52B864EC700FCDB64 /* QuickActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D1EC42B864EC700FCDB64 /* QuickActions.swift */; };
 		79159D6C2B5953D700F7F997 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D6B2B5953D700F7F997 /* Dependencies.swift */; };
 		79159D6E2B5953E800F7F997 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D6D2B5953E800F7F997 /* API.swift */; };
 		79159D712B5955A800F7F997 /* DummyAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D702B5955A800F7F997 /* DummyAPI.swift */; };
@@ -90,6 +91,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		790D1EC42B864EC700FCDB64 /* QuickActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActions.swift; sourceTree = "<group>"; };
 		79159D6B2B5953D700F7F997 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		79159D6D2B5953E800F7F997 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		79159D702B5955A800F7F997 /* DummyAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyAPI.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				796C766C2B62A3B700EF3DB8 /* Store.swift */,
 				79B761CA2B7115EC001DD30E /* Toast.swift */,
 				79159D6B2B5953D700F7F997 /* Dependencies.swift */,
+				790D1EC42B864EC700FCDB64 /* QuickActions.swift */,
 			);
 			path = Dependencies;
 			sourceTree = "<group>";
@@ -591,6 +594,7 @@
 				BB25DC6A2B63161E00FE55A0 /* MovieForm.swift in Sources */,
 				BB05C9072B86E247009B6444 /* MovieDetailsRatings.swift in Sources */,
 				BBA54BDE2B561FB200CA0F3E /* CachedAsyncImage.swift in Sources */,
+				790D1EC52B864EC700FCDB64 /* QuickActions.swift in Sources */,
 				BB6D96952B61E61D0017BFB3 /* AppSettings.swift in Sources */,
 				BBE8286C2B4F360700C1E1D9 /* Movie.swift in Sources */,
 				BBB8691F2B6CAE26009C1A54 /* MovieReleases.swift in Sources */,
