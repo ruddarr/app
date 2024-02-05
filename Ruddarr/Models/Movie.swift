@@ -144,6 +144,7 @@ struct MovieImage: Codable {
 
 struct MovieRatings: Codable {
     let imdb: MovieRating?
+    let tmdb: MovieRating?
     let metacritic: MovieRating?
     let rottenTomatoes: MovieRating?
 }

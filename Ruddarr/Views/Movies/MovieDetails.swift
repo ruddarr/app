@@ -32,8 +32,8 @@ struct MovieDetails: View {
             Grid(alignment: .leading) {
                 detailsRow("Status", value: movie.status.label)
 
-                if (movie.studio?.isEmpty) != nil {
-                    detailsRow("Studio", value: movie.studio!)
+                if let studio = movie.studio, !studio.isEmpty {
+                    detailsRow("Studio", value: studio)
                 }
 
                 if !movie.genres.isEmpty {
@@ -208,14 +208,14 @@ struct MovieDetailsOverview: View {
                 .cornerRadius(8)
                 .padding(.trailing, 8)
 
-            Group {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(movie.title)
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .kerning(-0.5)
-                        .lineLimit(3)
+            VStack(alignment: .leading, spacing: 8) {
+                Text(movie.title)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .kerning(-0.5)
+                    .lineLimit(3)
 
+                ViewThatFits(in: .horizontal) {
                     HStack(spacing: 6) {
                         Text(String(movie.year))
                         Text("•")
@@ -226,44 +226,104 @@ struct MovieDetailsOverview: View {
                             Text(movie.certification ?? "")
                         }
                     }
-                    .foregroundStyle(.secondary)
 
-                    HStack(spacing: 12) {
-                        if let rating = movie.ratings?.rottenTomatoes?.value {
-                            HStack(spacing: 6) {
-                                Image("rotten").resizable()
-                                    .scaledToFit()
-                                    .frame(height: 14)
-
-                                Text(String(format: "%.0f%%", rating))
-                            }
-                        }
-
-                        if let rating = movie.ratings?.imdb?.value {
-                            HStack(spacing: 6) {
-                                Image("imdb").resizable()
-                                    .scaledToFit()
-                                    .frame(height: 12)
-
-                                Text(String(format: "%.1f", rating))
-                            }
-                        }
-
-                        // TODO: more ratings
-                        // tvdb (only 2-3 at a time)
-                        // metric critic (only last?)
+                    HStack(spacing: 6) {
+                        Text(String(movie.year))
+                        Text("•")
+                        Text(movie.humanRuntime)
                     }
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
-
-                    // TODO: Show status on poster?
-
-                    // Downloaded
-                    // Missing
                 }
-            }
+                .foregroundStyle(.secondary)
 
-            Spacer()
+                MovieDetailsRatings(movie: movie)
+            }
+        }
+    }
+}
+
+struct MovieDetailsRatings: View {
+    var movie: Movie
+
+    var body: some View {
+
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 12) {
+                rotten
+                imdb
+                tmdb
+                metacritic
+            }.font(.callout)
+
+            HStack(spacing: 12) {
+                rotten
+                imdb
+                metacritic
+            }.font(.callout)
+
+            HStack(spacing: 12) {
+                rotten
+                imdb
+            }.font(.callout)
+        }
+        .foregroundStyle(.secondary)
+    }
+
+    @ViewBuilder
+    var rotten: some View {
+        if let rating = movie.ratings?.rottenTomatoes?.value {
+            HStack(spacing: 6) {
+                Image("rotten").resizable()
+                    .scaledToFit()
+                    .font(.callout)
+                    .frame(height: 14)
+
+                Text(String(format: "%.0f%%", rating))
+                    .lineLimit(1)
+            }
+        }
+    }
+
+    @ViewBuilder
+    var imdb: some View {
+        if let rating = movie.ratings?.imdb?.value {
+            HStack(spacing: 6) {
+                Image("imdb").resizable()
+                    .scaledToFit()
+                    .frame(height: 12)
+
+                Text(String(format: "%.1f", rating))
+                    .font(.callout)
+                    .lineLimit(1)
+            }
+        }
+    }
+
+    @ViewBuilder
+    var tmdb: some View {
+        if let rating = movie.ratings?.tmdb?.value, rating > 0 {
+            HStack(spacing: 6) {
+                Image("tmdb").resizable()
+                    .scaledToFit()
+                    .font(.callout)
+                    .frame(height: 8)
+
+                Text(String(format: "%.0f%%", rating * 10))
+                    .lineLimit(1)
+            }
+        }
+    }
+
+    @ViewBuilder
+    var metacritic: some View {
+        if let rating = movie.ratings?.metacritic?.value {
+            HStack(spacing: 6) {
+                Image("metacritic").resizable()
+                    .scaledToFit()
+                    .font(.callout)
+                    .frame(height: 12)
+
+                Text(String(format: "%.0f", rating))
+            }
         }
     }
 }
