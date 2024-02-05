@@ -45,6 +45,7 @@ struct MovieRelease: Identifiable, Codable {
 
     // let indexerId: Int
     let indexer: String
+    let indexerFlags: [String]
     let seeders: Int
     let leechers: Int
 
@@ -58,6 +59,7 @@ struct MovieRelease: Identifiable, Codable {
         case ageMinutes
         case rejected
         case indexer
+        case indexerFlags
         case seeders
         case leechers
         case quality

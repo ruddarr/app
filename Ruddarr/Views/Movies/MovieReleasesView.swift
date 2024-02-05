@@ -44,18 +44,27 @@ struct MovieReleasesView: View {
 struct MovieReleaseRow: View {
     var release: MovieRelease
 
+    @State private var isShowingPopover = false
+
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                // Title
-                Text(release.title)
-                    .font(.callout)
-                    .fontWeight(.semibold)
-                    .lineLimit(1)
+                HStack(spacing: 4) {
+                    if !release.indexerFlags.isEmpty {
+                        Image(systemName: "flag")
+                            .symbolVariant(.fill)
+                            .imageScale(.small)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Text(release.title)
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                        .lineLimit(1)
+
+                }
 
                 // TODO: Tap to expand!
-                // TODO: freeleech
-                // TODO: weight
 
                 HStack(spacing: 6) {
                     Text(release.quality.quality.name)
@@ -96,6 +105,18 @@ struct MovieReleaseRow: View {
             }
 
         }
+        .onTapGesture {
+            isShowingPopover = true
+        }
+        .sheet(isPresented: $isShowingPopover) {
+            Group {
+                Text("Popover Content").padding()
+            }
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.hidden)
+
+        }
+
     }
 
     var peerColor: any ShapeStyle {
