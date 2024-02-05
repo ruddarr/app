@@ -52,7 +52,7 @@ struct SettingsView: View {
     var preferencesSection: some View {
         Section(header: Text("Preferences")) {
             Picker("Theme", selection: $settings.theme) {
-                ForEach(Theme.allCases.filter { $0 != .factory }) { theme in
+                ForEach(Theme.allCases) { theme in
                     Text(theme.rawValue)
                 }
             }

@@ -4,7 +4,8 @@ enum Theme: String, Identifiable, CaseIterable {
     case blue = "Blue"
     case red = "Red"
     case purple = "Purple"
-    case factory
+
+    static let factory = Theme.purple
 
     var id: Self { self }
 
@@ -12,7 +13,7 @@ enum Theme: String, Identifiable, CaseIterable {
         switch self {
         case .blue: Color.blue
         case .red: Color.red
-        case .purple, .factory: Color.purple
+        case .purple: Color.purple
         }
     }
 }
