@@ -84,14 +84,16 @@ struct MovieSearchSheet: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movie-lookup")
+    let movie = movies.first(where: { $0.id == 5 }) ?? movies[0]
 
-    return MovieSearchSheet(movie: movies[5])
+    return MovieSearchSheet(movie: movie)
         .withAppState()
 }
 
 #Preview("Existing") {
     let movies: [Movie] = PreviewData.load(name: "movies")
+    let movie = movies.first(where: { $0.id == 236 }) ?? movies[0]
 
-    return MovieSearchSheet(movie: movies[2])
+    return MovieSearchSheet(movie: movie)
         .withAppState()
 }

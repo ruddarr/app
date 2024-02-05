@@ -121,7 +121,7 @@ struct MovieForm: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
-    let movie = movies[232]
+    let movie = movies.first(where: { $0.id == 236 }) ?? movies[0]
 
     return MovieForm(movie: Binding(get: { movie }, set: { _ in }))
         .withSettings()

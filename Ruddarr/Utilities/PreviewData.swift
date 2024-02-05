@@ -11,12 +11,10 @@ class PreviewData {
 
                 return try decoder.decode([T].self, from: data)
             } catch {
-                print(error)
-
-                return []
+                fatalError("Could not load preview data: \(error)")
             }
         }
 
-        return []
+        fatalError("Invalid preview data path: \(name)")
     }
 }

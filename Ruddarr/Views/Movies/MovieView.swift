@@ -151,11 +151,12 @@ struct MovieView: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
+    let movie = movies.first(where: { $0.id == 236 }) ?? movies[0]
 
     dependencies.router.selectedTab = .movies
 
     dependencies.router.moviesPath.append(
-        MoviesView.Path.movie(movies[232].id)
+        MoviesView.Path.movie(movie.id)
     )
 
     return ContentView()

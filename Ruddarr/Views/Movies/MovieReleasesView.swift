@@ -110,7 +110,7 @@ struct MovieReleaseRow: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
-    let movie = movies[66]
+    let movie = movies.first(where: { $0.id == 66 }) ?? movies[0]
 
     dependencies.router.selectedTab = .movies
     dependencies.router.moviesPath.append(MoviesView.Path.movie(movie.id))

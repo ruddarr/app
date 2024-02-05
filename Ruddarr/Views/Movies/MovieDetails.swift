@@ -270,7 +270,9 @@ struct MovieDetailsOverview: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
+    let movie = movies.first(where: { $0.id == 236 }) ?? movies[0]
 
-    return MovieSearchSheet(movie: movies[232])
-        .withAppState()
+    return MovieSearchSheet(movie: movie)
+        .withSettings()
+        .withRadarrInstance(movies: movies)
 }
