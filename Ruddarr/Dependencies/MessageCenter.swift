@@ -3,31 +3,50 @@ import SwiftUI
 
 @Observable
 final class MessageCenter {
-    struct Message: Equatable {
+    struct Message: Identifiable {
         var id: UUID = .init()
-        var text: String
+        var view: AnyView
     }
     var currentMessage: Message?
     
     @ObservationIgnored
-    lazy var show: (String) -> Void = { [weak self] in
+    lazy var show: (AnyView) -> Void = { [weak self] in
         guard let self else { return }
-        let message = Message(text: $0)
-        self.currentMessage = message
+        let message = Message(view: $0)
+        withAnimation(self.animation) {
+            self.currentMessage = message
+        }
         Task {
-            try await self.dismissAfterTimeout(message)
+            try await self.dismissAfterTimeout(message.id)
         }
     }
     
     @ObservationIgnored
     var timeout: Duration = .seconds(3)
+    var animation: Animation? = .spring
     @ObservationIgnored
-    lazy var dismissAfterTimeout: (Message) async throws -> Void = { [weak self] in
+    lazy var dismissAfterTimeout: (Message.ID) async throws -> Void = { [weak self] in
         guard let self else { return }
         try await Task.sleep(until: .now + self.timeout)
-        if self.currentMessage == $0 {
+        if self.currentMessage?.id == $0 {
             self.currentMessage = nil
         }
+    }
+}
+
+extension MessageCenter {
+    func show(text: String, icon: String? = nil) {
+        show(
+            AnyView(
+                Label {
+                    Text(text)
+                } icon: {
+                    if let icon {
+                        Image(systemName: icon)
+                    }
+                }
+            )
+        )
     }
 }
 
@@ -35,9 +54,11 @@ extension View {
     func displayMessages(from messageCenter: MessageCenter = dependencies.messageCenter) -> some View {
         overlay(alignment: .bottom) {
             if let currentMessage = messageCenter.currentMessage {
-                Text(currentMessage.text)
+                currentMessage.view
                     .padding()
                     .background(.thinMaterial)
+                    .padding()
+                    .transition(.move(edge: .bottom))
                     .id(currentMessage.id)
             }
         }

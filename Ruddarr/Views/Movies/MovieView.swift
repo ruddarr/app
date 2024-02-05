@@ -5,13 +5,9 @@ struct MovieView: View {
 
     @Environment(RadarrInstance.self) private var instance
 
-    @State private var showMonitored: Bool = false
-    @State private var showUnmonitored: Bool = false
-    @State private var showSearchStarted: Bool = false
     @State private var showDeleteConfirmation = false
 
     var body: some View {
-        print("body")
         return ScrollView {
             MovieDetails(movie: movie)
                 .padding(.top)
@@ -24,12 +20,6 @@ struct MovieView: View {
         }
         .refreshable {
             // TODO: refresh movie
-        }
-        .overlay(alignment: .top) {
-            StatusMessage(text: "Monitored", icon: "bookmark.fill", isPresenting: $showMonitored)
-            StatusMessage(text: "Unmonitored", icon: "bookmark", isPresenting: $showUnmonitored)
-
-            StatusMessage(text: "Search Started", icon: "checkmark", isPresenting: $showSearchStarted)
         }
     }
 
@@ -44,10 +34,8 @@ struct MovieView: View {
                         }
 
                         movie.monitored.toggle()
-
-                        withAnimation {
-                            movie.monitored ? (showMonitored = true) : (showUnmonitored = true)
-                        }
+                        
+                        dependencies.messageCenter.show(text: movie.monitored ? "Monitored" : "Unmonitored", icon: movie.monitored ? "bookmark.fill" : "bookmark")
                     }
                 } label: {
                     Circle()
@@ -61,7 +49,7 @@ struct MovieView: View {
                         }
                 }
                 .buttonStyle(.plain)
-//                .allowsHitTesting(!instance.movies.isWorking)
+                .allowsHitTesting(!instance.movies.isWorking)
             }
         }
     }
@@ -87,9 +75,7 @@ struct MovieView: View {
                                 return
                             }
 
-                            withAnimation {
-                                showSearchStarted = true
-                            }
+                            dependencies.messageCenter.show(text: "Search Started", icon: "checkmark")
                         }
                     }
 
@@ -131,6 +117,7 @@ struct MovieView: View {
     }
 
     var monitorButton: some View {
+        // some code duplication here, there's a similar one above
         Button {
             Task {
                 guard await instance.movies.update(movie) else {
@@ -138,10 +125,7 @@ struct MovieView: View {
                 }
 
                 movie.monitored.toggle()
-
-                withAnimation {
-                    movie.monitored ? (showMonitored = true) : (showUnmonitored = true)
-                }
+                dependencies.messageCenter.show(text: movie.monitored ? "Monitored" : "Unmonitored", icon: movie.monitored ? "bookmark.fill" : "bookmark")
             }
         } label: {
             if movie.monitored {
