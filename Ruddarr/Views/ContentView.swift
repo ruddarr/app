@@ -41,6 +41,7 @@ struct ContentView: View {
                 ForEach(Tab.allCases) { tab in
                     screen(for: tab)
                         .tabItem { tab.label }
+                        .displayMessages()
                         .tag(tab)
                 }
             }
