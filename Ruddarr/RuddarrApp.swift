@@ -25,6 +25,7 @@ struct RuddarrApp: App {
         WindowGroup {
             ContentView()
                 .withAppState()
+                .displayMessages() // remember to add this to any modal sheet that might cover up the previous `displayMessages` view.
         }
     }
 }
