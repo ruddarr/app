@@ -64,8 +64,6 @@ struct MovieReleaseRow: View {
 
                 }
 
-                // TODO: Tap to expand!
-
                 HStack(spacing: 6) {
                     Text(release.quality.quality.name)
                     Text("•")
@@ -84,8 +82,6 @@ struct MovieReleaseRow: View {
                 }
                 .font(.subheadline)
                 .lineLimit(1)
-
-                // Expanding: Language(s), [Link]
             }
             .padding(.trailing, 10)
 
@@ -109,12 +105,9 @@ struct MovieReleaseRow: View {
             isShowingPopover = true
         }
         .sheet(isPresented: $isShowingPopover) {
-            Group {
-                Text("Popover Content").padding()
-            }
-            .presentationDetents([.medium])
-            .presentationDragIndicator(.hidden)
-
+            MovieReleaseSheet(release: release)
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.hidden)
         }
 
     }
