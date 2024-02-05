@@ -70,15 +70,19 @@ struct MoviesView: View {
                 case .search(let query):
                     MovieSearchView(searchQuery: query)
                 case .movie(let movieId):
-                    if let movie = Binding(instance.movies.byId(movieId)) {
-                        MovieView(movie: movie)
+                    if let movie = instance.movies.byId(movieId).wrappedValue {
+                        MovieView(movie: Binding {
+                            movie
+                        } set: {
+                            instance.movies.byId(movieId).wrappedValue = $0
+                        })
                     }
                 case .edit(let movieId):
-                    if let movie = Binding(instance.movies.byId(movieId)) {
+                    if let movie = instance.movies.byId(movieId).unwrapped {
                         MovieEditView(movie: movie)
                     }
                 case .releases(let movieId):
-                    if let movie = Binding(instance.movies.byId(movieId)) {
+                    if let movie = instance.movies.byId(movieId).unwrapped {
                         MovieReleasesView(movie: movie)
                     }
                 }

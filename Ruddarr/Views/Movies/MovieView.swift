@@ -11,7 +11,8 @@ struct MovieView: View {
     @State private var showDeleteConfirmation = false
 
     var body: some View {
-        ScrollView {
+        print("body")
+        return ScrollView {
             MovieDetails(movie: movie)
                 .padding(.top)
                 .padding(.horizontal)
@@ -60,7 +61,7 @@ struct MovieView: View {
                         }
                 }
                 .buttonStyle(.plain)
-                .allowsHitTesting(!instance.movies.isWorking)
+//                .allowsHitTesting(!instance.movies.isWorking)
             }
         }
     }
@@ -159,7 +160,6 @@ struct MovieView: View {
 
     func deleteMovie(_ movie: Movie) async {
         _ = await instance.movies.delete(movie)
-
         dependencies.router.moviesPath.removeLast()
     }
 }

@@ -23,6 +23,21 @@ extension Binding {
     }
 }
 
+extension Binding where Value: OptionalProtocol {
+    var unwrapped: Binding<Value.Wrapped>? {
+        guard let wrappedValue = self.wrappedValue.wrappedValue
+        else{
+            return nil
+        }
+        return .init {
+            wrappedValue
+        } set: {
+            self.wrappedValue.wrappedValue = $0
+        }
+    }
+}
+
+// we should move this somewhere appropriate
 extension String {
     var untrailingSlashIt: String? {
         var string = self

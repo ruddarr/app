@@ -71,6 +71,7 @@ class Movies {
         return await request(.command(movie, command))
     }
 
+    @MainActor
     func request(_ operation: Operation) async -> Bool {
         error = nil
         isWorking = true
@@ -79,17 +80,14 @@ class Movies {
             switch operation {
             case .fetch:
                 items = try await dependencies.api.fetchMovies(instance)
-
             case .add(let movie):
                 items.append(try await dependencies.api.addMovie(movie, instance))
-
+                
             case .update(let movie):
                 _ = try await dependencies.api.updateMovie(movie, instance)
-
             case .delete(let movie):
                 _ = try await dependencies.api.deleteMovie(movie, instance)
                 items.removeAll(where: { $0.movieId == movie.movieId })
-
             case .command(let movie, let commandName):
                 let command = switch commandName {
                 case .automaticSearch: RadarrCommand(name: commandName, movieIds: [movie.movieId!])
