@@ -28,19 +28,7 @@ struct MovieView: View {
         ToolbarItem(placement: .topBarTrailing) {
             HStack {
                 Button {
-                    Task {
-                        movie.monitored.toggle()
-
-                        guard await instance.movies.update(movie) else {
-                            movie.monitored.toggle()
-                            return
-                        }
-
-                        dependencies.toast.show(
-                            text: movie.monitored ? "Monitored" : "Unmonitored",
-                            icon: movie.monitored ? "bookmark.fill" : "bookmark"
-                        )
-                    }
+                    Task { await toggleMonitor() }
                 } label: {
                     Circle()
                         .fill(.secondarySystemBackground)
@@ -74,13 +62,7 @@ struct MovieView: View {
 
                 Section {
                     Button("Automatic Search", systemImage: "magnifyingglass") {
-                        Task {
-                            guard await instance.movies.command(movie, command: .automaticSearch) else {
-                                return
-                            }
-
-                            dependencies.toast.show(text: "Search Started", icon: "checkmark")
-                        }
+                        Task { await dispatchSearch() }
                     }
 
                     NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
@@ -122,18 +104,7 @@ struct MovieView: View {
 
     var monitorButton: some View {
         Button {
-            Task {
-                movie.monitored.toggle()
-
-                guard await instance.movies.update(movie) else {
-                    return
-                }
-
-                dependencies.toast.show(
-                    text: movie.monitored ? "Monitored" : "Unmonitored",
-                    icon: movie.monitored ? "bookmark.fill" : "bookmark"
-                )
-            }
+            Task { await toggleMonitor() }
         } label: {
             if movie.monitored {
                 Label("Unmonitor", systemImage: "bookmark")
@@ -147,6 +118,29 @@ struct MovieView: View {
         Button("Delete", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
         }
+    }
+
+    func toggleMonitor() async {
+        print("before toggle", movie.monitored)
+        movie.monitored.toggle()
+        print("after toogle", movie.monitored)
+
+        guard await instance.movies.update(movie) else {
+            return
+        }
+
+        dependencies.toast.show(
+            text: movie.monitored ? "Monitored" : "Unmonitored",
+            icon: movie.monitored ? "bookmark.fill" : "bookmark"
+        )
+    }
+
+    func dispatchSearch() async {
+        guard await instance.movies.command(movie, command: .automaticSearch) else {
+            return
+        }
+
+        dependencies.toast.show(text: "Search Started", icon: "checkmark")
     }
 
     func deleteMovie(_ movie: Movie) async {
