@@ -28,16 +28,18 @@ class Movies {
                 guard let index = self?.items.firstIndex(where: { $0.movieId == id }) else {
                     return nil
                 }
+
                 return self?.items[index]
             },
             set: { [weak self] in
-                guard let index = self?.items.firstIndex(where: { $0.movieId == id })
-                else {
+                guard let index = self?.items.firstIndex(where: { $0.movieId == id }) else {
                     if let newValue = $0 {
                         self?.items.append(newValue)
                     }
+
                     return
                 }
+
                 if let newValue = $0 {
                     self?.items[index] = newValue
                 } else {

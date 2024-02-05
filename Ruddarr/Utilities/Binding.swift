@@ -1,5 +1,17 @@
 import SwiftUI
 
+protocol OptionalProtocol {
+    associatedtype Wrapped
+    var wrappedValue: Wrapped? { get set }
+}
+
+extension Optional: OptionalProtocol {
+    var wrappedValue: Wrapped? {
+        get { self }
+        set { self = newValue }
+    }
+}
+
 extension Binding {
     func onSet(_ action: @escaping (Value) -> Void = { _ in }) -> Self {
         .init {
