@@ -29,13 +29,17 @@ struct MovieView: View {
             HStack {
                 Button {
                     Task {
+                        movie.monitored.toggle()
+
                         guard await instance.movies.update(movie) else {
+                            movie.monitored.toggle()
                             return
                         }
 
-                        movie.monitored.toggle()
-                        
-                        dependencies.messageCenter.show(text: movie.monitored ? "Monitored" : "Unmonitored", icon: movie.monitored ? "bookmark.fill" : "bookmark")
+                        dependencies.messageCenter.show(
+                            text: movie.monitored ? "Monitored" : "Unmonitored",
+                            icon: movie.monitored ? "bookmark.fill" : "bookmark"
+                        )
                     }
                 } label: {
                     Circle()
@@ -117,15 +121,18 @@ struct MovieView: View {
     }
 
     var monitorButton: some View {
-        // some code duplication here, there's a similar one above
         Button {
             Task {
+                movie.monitored.toggle()
+
                 guard await instance.movies.update(movie) else {
                     return
                 }
 
-                movie.monitored.toggle()
-                dependencies.messageCenter.show(text: movie.monitored ? "Monitored" : "Unmonitored", icon: movie.monitored ? "bookmark.fill" : "bookmark")
+                dependencies.messageCenter.show(
+                    text: movie.monitored ? "Monitored" : "Unmonitored",
+                    icon: movie.monitored ? "bookmark.fill" : "bookmark"
+                )
             }
         } label: {
             if movie.monitored {
