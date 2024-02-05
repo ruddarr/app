@@ -117,7 +117,7 @@ extension API {
 
         let httpString = "\(method.rawValue.uppercased()) \(url)"
         log.debug("\(httpString)")
-        print(httpString)
+        print("Request: \(httpString)")
 
         if let body {
             request.httpBody = try encoder.encode(body)

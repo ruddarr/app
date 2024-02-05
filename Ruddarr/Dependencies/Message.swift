@@ -2,39 +2,44 @@ import Foundation
 import SwiftUI
 
 @Observable
-final class MessageCenter {
+final class Message {
     struct Message: Identifiable {
         var id: UUID = .init()
         var view: AnyView
     }
+
     var currentMessage: Message?
-    
+
     @ObservationIgnored
     lazy var show: (AnyView) -> Void = { [weak self] in
         guard let self else { return }
         let message = Message(view: $0)
+
         withAnimation(self.animation) {
             self.currentMessage = message
         }
+
         Task {
             try await self.dismissAfterTimeout(message.id)
         }
     }
-    
+
     @ObservationIgnored
     var timeout: Duration = .seconds(3)
     var animation: Animation? = .spring
+
     @ObservationIgnored
     lazy var dismissAfterTimeout: (Message.ID) async throws -> Void = { [weak self] in
         guard let self else { return }
         try await Task.sleep(until: .now + self.timeout)
+
         if self.currentMessage?.id == $0 {
             self.currentMessage = nil
         }
     }
 }
 
-extension MessageCenter {
+extension Message {
     func show(text: String, icon: String? = nil) {
         show(
             AnyView(
@@ -51,7 +56,7 @@ extension MessageCenter {
 }
 
 extension View {
-    func displayMessages(from messageCenter: MessageCenter = dependencies.messageCenter) -> some View {
+    func displayMessages(from messageCenter: Message = dependencies.messageCenter) -> some View {
         overlay(alignment: .bottom) {
             if let currentMessage = messageCenter.currentMessage {
                 currentMessage.view
@@ -65,5 +70,3 @@ extension View {
         }
     }
 }
-
-

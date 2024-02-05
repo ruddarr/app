@@ -35,7 +35,7 @@ extension API {
             return Empty()
         }, command: { _, _ in
             try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
-            
+
             return Empty()
         }, systemStatus: { _ in
             try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))

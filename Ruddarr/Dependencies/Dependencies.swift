@@ -5,7 +5,7 @@ struct Dependencies {
     var api: API
     var store: UserDefaults
     @Bindable var router = Router.shared
-    @Bindable var messageCenter = MessageCenter()
+    @Bindable var messageCenter = Message()
 }
 
 extension Dependencies {

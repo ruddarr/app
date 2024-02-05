@@ -84,7 +84,7 @@ class Movies {
                 items = try await dependencies.api.fetchMovies(instance)
             case .add(let movie):
                 items.append(try await dependencies.api.addMovie(movie, instance))
-                
+
             case .update(let movie):
                 _ = try await dependencies.api.updateMovie(movie, instance)
             case .delete(let movie):
