@@ -29,12 +29,14 @@ final class Toast {
     var animation: Animation? = .spring
 
     @ObservationIgnored
-    lazy var dismissAfterTimeout: (Message.ID) async throws -> Void = { [weak self] in
+    lazy var dismissAfterTimeout: (Message.ID) async throws -> Void = { @MainActor [weak self] in
         guard let self else { return }
         try await Task.sleep(until: .now + self.timeout)
 
         if self.currentMessage?.id == $0 {
-            self.currentMessage = nil
+            withAnimation {
+                self.currentMessage = nil
+            }
         }
     }
 }
