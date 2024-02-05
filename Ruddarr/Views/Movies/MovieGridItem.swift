@@ -7,7 +7,7 @@ struct MovieGridItem: View {
         ZStack {
             CachedAsyncImage(url: movie.remotePoster, type: .poster)
                 .aspectRatio(
-                    CGSize(width: 50, height: 75),
+                    CGSize(width: 150, height: 225),
                     contentMode: .fill
                 )
         }

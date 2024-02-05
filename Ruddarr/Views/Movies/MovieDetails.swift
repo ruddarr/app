@@ -203,7 +203,7 @@ struct MovieDetailsOverview: View {
         HStack(alignment: .top) {
             CachedAsyncImage(url: movie.remotePoster, type: .poster)
                 .scaledToFit()
-                .containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 1)
+                .containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 0)
                 .clipped()
                 .cornerRadius(8)
                 .padding(.trailing, 8)
