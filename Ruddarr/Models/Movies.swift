@@ -22,14 +22,28 @@ class Movies {
         self.instance = instance
     }
 
-    func byId(_ id: Movie.ID) -> Binding<Movie>? {
-        guard let index = items.firstIndex(where: { $0.movieId == id }) else {
-            return nil
-        }
-
-        return Binding(
-            get: { self.items[index] },
-            set: { self.items[index] = $0 }
+    func byId(_ id: Movie.ID) -> Binding<Movie?> {
+        Binding(
+            get: { [weak self] in
+                guard let index = self?.items.firstIndex(where: { $0.movieId == id }) else {
+                    return nil
+                }
+                return self?.items[index]
+            },
+            set: { [weak self] in
+                guard let index = self?.items.firstIndex(where: { $0.movieId == id })
+                else {
+                    if let newValue = $0 {
+                        self?.items.append(newValue)
+                    }
+                    return
+                }
+                if let newValue = $0 {
+                    self?.items[index] = newValue
+                } else {
+                    self?.items.remove(at: index)
+                }
+            }
         )
     }
 
