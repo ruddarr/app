@@ -57,6 +57,8 @@ class Telemetry {
             data[.cloudkitUserId] = userRecordId.recordName
         }
 
+        // TODO: status.version from radarr? instance URLs?
+
         return data
     }
 
@@ -141,6 +143,3 @@ class Telemetry {
         }
     }
 }
-
-// TODO: status.version (radarr)
-// TODO: need all instances and their data, except api key...

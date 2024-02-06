@@ -24,8 +24,8 @@ struct SettingsView: View {
                     LibrariesView()
                 case .createInstance:
                     #if DEBUG
-                    // let instance = Instance.till
-                    let instance = Instance.digitalOcean
+                    let instance = Instance.till
+                    // let instance = Instance.digitalOcean
                     #else
                     let instance = Instance()
                     #endif

@@ -1,17 +1,5 @@
 import SwiftUI
 
-protocol OptionalProtocol {
-    associatedtype Wrapped
-    var wrappedValue: Wrapped? { get set }
-}
-
-extension Optional: OptionalProtocol {
-    var wrappedValue: Wrapped? {
-        get { self }
-        set { self = newValue }
-    }
-}
-
 extension Binding {
     func onSet(_ action: @escaping (Value) -> Void = { _ in }) -> Self {
         .init {
@@ -46,18 +34,5 @@ extension Binding where Value: OptionalProtocol {
         } set: {
             self.wrappedValue.wrappedValue = $0
         }
-    }
-}
-
-// TODO: we should move this somewhere appropriate
-extension String {
-    var untrailingSlashIt: String? {
-        var string = self
-
-        while string.hasSuffix("/") {
-            string = String(string.dropLast())
-        }
-
-        return string
     }
 }

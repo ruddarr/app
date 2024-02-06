@@ -1,7 +1,6 @@
 import SwiftUI
 
 extension View {
-
     func withAppState() -> some View {
         modifier(WithAppStateModifier())
     }
