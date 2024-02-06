@@ -34,9 +34,15 @@ class MovieReleases {
 }
 
 struct MovieRelease: Identifiable, Codable {
-    var id: String { guid }
+    var id: String {
+        guard guid != nil else {
+            fatalError("Missing release guid")
+        }
 
-    let guid: String
+        return guid!
+    }
+
+    let guid: String?
     let mappedMovieId: Int?
     let type: String
     let title: String
@@ -44,16 +50,20 @@ struct MovieRelease: Identifiable, Codable {
     let ageMinutes: Double
     let rejected: Bool
 
-    // let indexerId: Int
-    let indexer: String
+    let indexerId: Int
+    let indexer: String?
     let indexerFlags: [String]
-    let seeders: Int
-    let leechers: Int
+    let seeders: Int?
+    let leechers: Int?
 
     let quality: MovieReleaseQuality
 
+    let languages: [MovieReleaseLanguage]
+
     let qualityWeight: Int
     let releaseWeight: Int
+
+    let infoUrl: String?
 
     enum CodingKeys: String, CodingKey {
         case guid
@@ -63,26 +73,45 @@ struct MovieRelease: Identifiable, Codable {
         case size
         case ageMinutes
         case rejected
+        case indexerId
         case indexer
         case indexerFlags
         case seeders
         case leechers
         case quality
+        case languages
         case qualityWeight
         case releaseWeight
+        case infoUrl
     }
 
     var indexerLabel: String {
-        guard indexer.hasSuffix(" (Prowlarr)") else {
-            return indexer
+        guard let indexer = indexer, indexer.hasSuffix(" (Prowlarr)") else {
+            return indexer ?? String(indexerId)
         }
 
         return String(indexer.dropLast(11))
     }
 
+    var flagsLabel: String? {
+        indexerFlags.isEmpty ? nil : indexerFlags.joined(separator: ", ")
+    }
+
+    var languageLabel: String? {
+        guard !languages.isEmpty else {
+            return nil
+        }
+
+        return languages.map { $0.name ?? String($0.id) }.joined(separator: ", ")
+    }
+
     var typeLabel: String {
         if type == "torrent" {
-            return "Torrent (\(seeders)/\(leechers))"
+            return "Torrent (\(seeders ?? 0)/\(leechers ?? 0))"
+        }
+
+        if type == "usenet" {
+            return "Usenet"
         }
 
         return type
@@ -106,6 +135,11 @@ struct MovieRelease: Identifiable, Codable {
         default: String(format: "%.1f years", days / 30 / 12)
         }
     }
+}
+
+struct MovieReleaseLanguage: Codable {
+    let id: Int
+    let name: String?
 }
 
 struct MovieReleaseQuality: Codable {

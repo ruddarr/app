@@ -30,6 +30,15 @@ struct MovieReleasesView: View {
 
             fetched = true
         }
+        .alert(
+            "Something Went Wrong",
+            isPresented: Binding(get: { instance.releases.error != nil }, set: { _ in }),
+            presenting: instance.releases.error
+        ) { _ in
+            Button("OK", role: .cancel) { }
+        } message: { error in
+            Text(error.localizedDescription)
+        }
         .overlay {
             if instance.releases.isSearching {
                 ProgressView {
@@ -73,9 +82,9 @@ struct MovieReleasesView: View {
                         ForEach(indexers, id: \.self) { indexer in
                             Text(indexer).tag(Optional.some(indexer))
                         }
-                    }
 
-                    Text("All Indexers").tag("")
+                        Text("All Indexers").tag("")
+                    }
                 }
 
                 Picker("Sorting options", selection: $sort.option) {
@@ -167,7 +176,7 @@ struct MovieReleaseRow: View {
     }
 
     var peerColor: any ShapeStyle {
-        return switch release.seeders {
+        return switch release.seeders ?? 0 {
         case 50...: .green
         case 10..<50: .blue
         case 1..<10: .orange
