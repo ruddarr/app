@@ -37,7 +37,7 @@ struct MovieRelease: Identifiable, Codable {
     var id: String { guid }
 
     let guid: String
-    let mappedMovieId: Int
+    let mappedMovieId: Int?
     let type: String
     let title: String
     let size: Int
@@ -51,6 +51,7 @@ struct MovieRelease: Identifiable, Codable {
     let leechers: Int
 
     let quality: MovieReleaseQuality
+
     let qualityWeight: Int
     let releaseWeight: Int
 

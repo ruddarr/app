@@ -24,13 +24,13 @@ struct MovieReleaseSort {
         func isOrderedBefore(_ lhs: MovieRelease, _ rhs: MovieRelease) -> Bool {
             switch self {
             case .byWeight:
-                lhs.releaseWeight < rhs.releaseWeight
+                lhs.releaseWeight > rhs.releaseWeight
             case .byQuality:
-                lhs.qualityWeight < rhs.qualityWeight
+                lhs.qualityWeight > rhs.qualityWeight
             case .byAge:
-                lhs.ageMinutes < rhs.ageMinutes
+                lhs.ageMinutes > rhs.ageMinutes
             case .bySize:
-                lhs.size < rhs.size
+                lhs.size > rhs.size
             }
         }
     }

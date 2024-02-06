@@ -82,13 +82,6 @@ struct MovieReleasesView: View {
                     ForEach(MovieReleaseSort.Option.allCases) { sortOption in
                         Text(sortOption.title).tag(sortOption)
                     }
-                }.onChange(of: sort.option) {
-                    switch sort.option {
-                    case .byWeight: sort.isAscending = false
-                    case .byQuality: sort.isAscending = false
-                    case .byAge: sort.isAscending = true
-                    case .bySize: sort.isAscending = true
-                    }
                 }
 
                 Section {
