@@ -3,17 +3,16 @@ import SwiftUI
 struct MovieReleasesView: View {
     @Binding var movie: Movie
 
+    @State private var sort: MovieReleaseSort = .init()
+    @State private var indexer: String = ""
     @State private var fetched = false
 
     @Environment(RadarrInstance.self) private var instance
 
-    // TODO: sort by ...
-    //    Menu("Sorting", systemImage: "line.3.horizontal.decrease") {
-
     var body: some View {
         Group {
             List {
-                ForEach(instance.releases.items) { release in
+                ForEach(displayedReleases) { release in
                     MovieReleaseRow(release: release)
                 }
             }
@@ -21,6 +20,9 @@ struct MovieReleasesView: View {
         }
         .navigationTitle("Releases")
         .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            toolbarSortingButton
+        }
         .task {
             guard !fetched else { return }
 
@@ -36,6 +38,65 @@ struct MovieReleasesView: View {
                         Text("(This may take a moment)").font(.callout)
                     }
                 }.tint(.secondary)
+            }
+        }
+    }
+
+    var displayedReleases: [MovieRelease] {
+        var sortedReleases = instance.releases.items.sorted(
+            by: sort.option.isOrderedBefore
+        )
+
+        if !indexer.isEmpty {
+            sortedReleases = sortedReleases.filter { $0.indexerLabel == indexer }
+        }
+
+        return sort.isAscending ? sortedReleases : sortedReleases.reversed()
+    }
+
+    var indexers: [String] {
+        var seen: Set<String> = []
+
+        return instance.releases.items
+            .map { $0.indexerLabel }
+            .filter { seen.insert($0).inserted }
+            .sorted()
+    }
+
+    @ToolbarContentBuilder
+    var toolbarSortingButton: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+
+            Menu("Sorting & Filters", systemImage: "line.3.horizontal.decrease") {
+                Menu("Indexer") {
+                    Picker("Indexer", selection: $indexer) {
+                        ForEach(indexers, id: \.self) { indexer in
+                            Text(indexer).tag(Optional.some(indexer))
+                        }
+                    }
+
+                    Text("All Indexers").tag("")
+                }
+
+                Picker("Sorting options", selection: $sort.option) {
+                    ForEach(MovieReleaseSort.Option.allCases) { sortOption in
+                        Text(sortOption.title).tag(sortOption)
+                    }
+                }.onChange(of: sort.option) {
+                    switch sort.option {
+                    case .byWeight: sort.isAscending = false
+                    case .byQuality: sort.isAscending = false
+                    case .byAge: sort.isAscending = true
+                    case .bySize: sort.isAscending = true
+                    }
+                }
+
+                Section {
+                    Picker("Sorting direction", selection: $sort.isAscending) {
+                        Text("Ascending").tag(true)
+                        Text("Descending").tag(false)
+                    }
+                }
             }
         }
     }

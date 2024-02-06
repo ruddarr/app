@@ -51,6 +51,8 @@ struct MovieRelease: Identifiable, Codable {
     let leechers: Int
 
     let quality: MovieReleaseQuality
+    let qualityWeight: Int
+    let releaseWeight: Int
 
     enum CodingKeys: String, CodingKey {
         case guid
@@ -65,6 +67,8 @@ struct MovieRelease: Identifiable, Codable {
         case seeders
         case leechers
         case quality
+        case qualityWeight
+        case releaseWeight
     }
 
     var indexerLabel: String {
