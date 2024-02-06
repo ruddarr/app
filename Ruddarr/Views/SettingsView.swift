@@ -23,8 +23,13 @@ struct SettingsView: View {
                 case .libraries:
                     LibrariesView()
                 case .createInstance:
+                    #if DEBUG
+                    // let instance = Instance.till
+                    let instance = Instance.digitalOcean
+                    #else
                     let instance = Instance()
-                    // let instance = Instance(url: "HTTP://10.0.1.5:8310/api", apiKey: "8f45bce99e254f888b7a2ba122468dbe")
+                    #endif
+
                     InstanceView(mode: .create, instance: instance)
                 case .editInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
