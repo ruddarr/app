@@ -8,79 +8,120 @@ struct MovieReleaseSheet: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                Text(release.title)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .kerning(-0.5)
+                header
                     .padding(.bottom)
 
-                HStack(spacing: 24) {
-                    if let url = release.infoUrl {
-                        Link(destination: URL(string: url)!, label: {
-                            Label("Visit Link", systemImage: "arrow.up.right.square")
-                                .font(.callout)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(settings.theme.tint)
-                                .padding(.vertical, 6)
-                                .frame(maxWidth: .infinity)
-                        })
-                        .buttonStyle(.bordered)
-                        .tint(.secondary)
-                        .frame(maxWidth: .infinity)
-                    }
-
-                    Button {
-                        // TODO: needs action
-                    } label: {
-                        Label("Download", systemImage: "arrow.down.circle")
-                            .font(.callout)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(settings.theme.tint)
-                            .padding(.vertical, 6)
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.bordered)
-                    .tint(.secondary)
-                    .frame(maxWidth: .infinity)
+                if !release.rejections.isEmpty {
+                    rejections
+                        .padding(.bottom)
                 }
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.bottom)
 
-                VStack(spacing: 12) {
-                    row("Quality", value: release.quality.quality.name)
-                    // TODO: resolution as well
-                    Divider()
-                    row("Size", value: release.sizeLabel)
-                    Divider()
-                    row("Age", value: release.ageLabel)
-                    Divider()
-                    row("Type", value: release.typeLabel)
-                    // TODO: Seeders / Leechers
+                actions
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.bottom)
 
-                    if let language = release.languageLabel {
-                        Divider()
-                        row("Language", value: language)
-                    }
-
-                    Divider()
-                    row("Indexer", value: release.indexerLabel)
-
-                    if let flags = release.flagsLabel {
-                        Divider()
-                        row("Flags", value: flags)
-                    }
-
-                    // Rejection reasons
-                    // Download (two actions?)
-
-                    // TODO: Link to URL
-                }
-                .font(.callout)
+                details
+                    .padding(.bottom)
             }
-            .frame(maxWidth: .infinity)
-            .frame(maxHeight: .infinity, alignment: .top)
             .padding(.horizontal)
             .padding(.top)
+        }
+    }
+
+    var header: some View {
+        VStack(alignment: .leading) {
+            if !release.indexerFlags.isEmpty {
+                HStack {
+                    ForEach(release.cleanIndexerFlags, id: \.self) { flag in
+                        Text(flag).textCase(.uppercase)
+                    }
+                }
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(settings.theme.tint)
+            }
+
+            Text(release.title)
+                .font(.title2)
+                .fontWeight(.bold)
+                .kerning(-0.5)
+
+            HStack(spacing: 6) {
+                Text(release.qualityLabel)
+                Text("•")
+                Text(release.sizeLabel)
+                Text("•")
+                Text(release.ageLabel)
+            }
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+        }
+    }
+
+    var rejections: some View {
+        GroupBox(label:
+            Text("Release Rejected")
+                .padding(.bottom, 4)
+        ) {
+            VStack(alignment: .leading) {
+                ForEach(release.rejections, id: \.self) { rejection in
+                    Text(rejection)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+
+        }
+    }
+
+    var actions: some View {
+        HStack(spacing: 24) {
+            if let url = release.infoUrl {
+                Link(destination: URL(string: url)!, label: {
+
+
+                    ButtonLabel(text: "Open Link", icon: "arrow.up.right.square")
+                        .frame(maxWidth: .infinity)
+                })
+                .buttonStyle(.bordered)
+                .tint(.secondary)
+            }
+
+            Button {
+                // let body = DownloadMovieRelease(guid: String, indexerId: <#T##Int#>)
+                // TODO: needs action
+            } label: {
+                ButtonLabel(text: "Download", icon: "arrow.down.circle")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .tint(.secondary)
+        }
+    }
+
+    var details: some View {
+        Section(
+            header: Text("Information")
+                .font(.title2)
+                .fontWeight(.bold)
+        ) {
+            VStack(spacing: 12) {
+                row("Indexer", value: release.indexerLabel)
+
+                if release.isTorrent {
+                    Divider()
+                    row("Seeders", value: String(release.seeders ?? 0))
+                    Divider()
+                    row("Leechers", value: String(release.leechers ?? 0))
+                }
+
+                if let language = release.languageLabel {
+                    Divider()
+                    row("Language", value: language)
+                }
+            }
+            .font(.callout)
         }
     }
 
@@ -95,7 +136,7 @@ struct MovieReleaseSheet: View {
 
 #Preview {
     let releases: [MovieRelease] = PreviewData.load(name: "releases")
-    let release = releases[1]
+    let release = releases[50]
 
     return MovieReleaseSheet(release: release)
         .withAppState()

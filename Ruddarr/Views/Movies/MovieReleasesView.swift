@@ -43,8 +43,8 @@ struct MovieReleasesView: View {
             if instance.releases.isSearching {
                 ProgressView {
                     VStack {
-                        Text("Loading")
-                        Text("(This may take a moment)").font(.callout)
+                        Text("Searching...")
+                        Text("This may take a moment.").font(.footnote)
                     }
                 }.tint(.secondary)
             }
@@ -75,7 +75,6 @@ struct MovieReleasesView: View {
     @ToolbarContentBuilder
     var toolbarSortingButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-
             Menu("Sorting & Filters", systemImage: "line.3.horizontal.decrease") {
                 Menu("Indexer") {
                     Picker("Indexer", selection: $indexer) {
@@ -127,24 +126,27 @@ struct MovieReleaseRow: View {
 
                 }
 
-                HStack(spacing: 6) {
-                    Text(release.quality.quality.name)
-                    Text("•")
-                    Text(release.sizeLabel)
-                    Text("•")
-                    Text(release.ageLabel)
-                }
-                .font(.subheadline)
-                .lineLimit(1)
+                Group {
+                    HStack(spacing: 6) {
+                        Text(release.qualityLabel)
+                        Text("•")
+                        Text(release.sizeLabel)
+                        Text("•")
+                        Text(release.ageLabel)
+                    }
+                    .lineLimit(1)
 
-                HStack(spacing: 6) {
-                    Text(release.typeLabel)
-                        .foregroundStyle(peerColor)
-                    Text("•")
-                    Text(release.indexerLabel)
+                    HStack(spacing: 6) {
+                        Text(release.typeLabel)
+                            .foregroundStyle(peerColor)
+                            .opacity(0.75)
+                        Text("•")
+                        Text(release.indexerLabel)
+                    }
+                    .lineLimit(1)
                 }
                 .font(.subheadline)
-                .lineLimit(1)
+                .foregroundStyle(.secondary)
             }
             .padding(.trailing, 10)
 
@@ -158,7 +160,7 @@ struct MovieReleaseRow: View {
                         .foregroundColor(.orange)
                 } else {
                     Image(systemName: "arrow.down")
-                        .symbolVariant(.circle.fill)
+                        .symbolVariant(.circle)
                         .imageScale(.large)
                 }
             }

@@ -63,28 +63,18 @@ struct MovieDetails: View {
             Button {
                 // TODO: needs action
             } label: {
-                Label("Automatic", systemImage: "magnifyingglass")
-                    .font(.callout)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(settings.theme.tint)
-                    .padding(.vertical, 6)
+                ButtonLabel(text: "Automatic", icon: "magnifyingglass")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
-            .frame(maxWidth: .infinity)
 
             NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
-                Label("Interactive", systemImage: "person.fill")
-                    .font(.callout)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(settings.theme.tint)
-                    .padding(.vertical, 6)
+                ButtonLabel(text: "Interactive", icon: "person.fill")
                     .frame(maxWidth: .infinity)
             })
             .buttonStyle(.bordered)
             .tint(.secondary)
-            .frame(maxWidth: .infinity)
         }
         .fixedSize(horizontal: false, vertical: true)
     }
@@ -236,6 +226,25 @@ struct MovieDetailsOverview: View {
                 .foregroundStyle(.secondary)
 
                 MovieDetailsRatings(movie: movie)
+
+                HStack {
+                    Image(systemName: "bookmark")
+                        .symbolVariant(movie.monitored ? .fill : .none)
+
+                    Group {
+                        if movie.hasFile {
+                            Image(systemName: "checkmark.circle.fill")
+                        } else if movie.isWaiting {
+                            Image(systemName: "clock")
+                        } else if movie.monitored {
+                            Image(systemName: "xmark.circle")
+                        }
+                    }
+                }
+                .foregroundStyle(.white)
+                .font(.title2)
+
+                // TODO: Do we need "Downloaded" and "Missing" text?
             }
         }
     }

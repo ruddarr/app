@@ -34,19 +34,14 @@ class MovieReleases {
 }
 
 struct MovieRelease: Identifiable, Codable {
-    var id: String {
-        guard guid != nil else {
-            fatalError("Missing release guid")
-        }
+    var id: String { guid }
 
-        return guid!
-    }
-
-    let guid: String?
+    let guid: String
     let mappedMovieId: Int?
     let type: String
     let title: String
     let size: Int
+    let age: Int
     let ageMinutes: Double
     let rejected: Bool
 
@@ -57,8 +52,8 @@ struct MovieRelease: Identifiable, Codable {
     let leechers: Int?
 
     let quality: MovieReleaseQuality
-
     let languages: [MovieReleaseLanguage]
+    let rejections: [String]
 
     let qualityWeight: Int
     let releaseWeight: Int
@@ -71,6 +66,7 @@ struct MovieRelease: Identifiable, Codable {
         case type = "protocol"
         case title
         case size
+        case age
         case ageMinutes
         case rejected
         case indexerId
@@ -80,9 +76,24 @@ struct MovieRelease: Identifiable, Codable {
         case leechers
         case quality
         case languages
+        case rejections
         case qualityWeight
         case releaseWeight
         case infoUrl
+    }
+
+    var isTorrent: Bool {
+        type == "torrent"
+    }
+
+    var isUsenet: Bool {
+        type == "usenet"
+    }
+
+    var cleanIndexerFlags: [String] {
+        indexerFlags.map {
+            $0.hasPrefix("G_") ? String($0.dropFirst(2)) : $0
+        }
     }
 
     var indexerLabel: String {
@@ -93,8 +104,8 @@ struct MovieRelease: Identifiable, Codable {
         return String(indexer.dropLast(11))
     }
 
-    var flagsLabel: String? {
-        indexerFlags.isEmpty ? nil : indexerFlags.joined(separator: ", ")
+    var indexerFlagsLabel: String? {
+        indexerFlags.isEmpty ? nil : cleanIndexerFlags.joined(separator: ", ")
     }
 
     var languageLabel: String? {
@@ -106,11 +117,11 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var typeLabel: String {
-        if type == "torrent" {
+        if isTorrent {
             return "Torrent (\(seeders ?? 0)/\(leechers ?? 0))"
         }
 
-        if type == "usenet" {
+        if isUsenet {
             return "Usenet"
         }
 
@@ -123,14 +134,35 @@ struct MovieRelease: Identifiable, Codable {
         )
     }
 
+    var qualityLabel: String {
+        let name = quality.quality.name
+        let resolution = String(quality.quality.resolution)
+
+        if let label = name {
+            if label.contains(resolution) {
+                return label
+            } else if quality.quality.resolution > 0 {
+                return "\(label) (\(resolution)p)"
+            } else {
+                return label
+            }
+        }
+
+        if quality.quality.resolution > 0 {
+            return "\(resolution)p"
+        }
+
+        return "Unknown"
+    }
+
     var ageLabel: String {
         let days = ageMinutes / 60 / 24
 
         return switch ageMinutes {
-        case 0..<1: "Just now" // less than 1 minute
+        case -10_000..<1: "Just now" // less than 1 minute
         case 1..<119: String(format: "%.0f minutes", ageMinutes) // less than 120 minutes
-        case 120..<2880: String(format: "%.0f hours", ageMinutes / 60) // less than 48 hours
-        case 2880..<129_600: String(format: "%.0f days", days) // less than 90 days
+        case 120..<2_880: String(format: "%.0f hours", ageMinutes / 60) // less than 48 hours
+        case 2_880..<129_600: String(format: "%.0f days", days) // less than 90 days
         case 129_600..<525_600: String(format: "%.0f months", days / 30) // less than 365 days
         default: String(format: "%.1f years", days / 30 / 12)
         }
@@ -147,5 +179,11 @@ struct MovieReleaseQuality: Codable {
 }
 
 struct MovieReleaseQualityDetails: Codable {
-    let name: String
+    let name: String?
+    let resolution: Int
+}
+
+struct DownloadMovieRelease: Codable {
+    let guid: String
+    let indexerId: Int
 }
