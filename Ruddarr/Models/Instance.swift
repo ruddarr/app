@@ -6,6 +6,7 @@ struct Instance: Identifiable, Equatable, Codable {
     var label: String = ""
     var url: String = ""
     var apiKey: String = ""
+    var version: String = ""
 
     var rootFolders: [InstanceRootFolders] = []
     var qualityProfiles: [InstanceQualityProfile] = []
@@ -18,7 +19,9 @@ enum InstanceType: String, Identifiable, CaseIterable, Codable {
 }
 
 struct InstanceStatus: Codable {
-  let appName: String
+    let appName: String
+    let version: String
+    let authentication: String
 }
 
 struct InstanceRootFolders: Identifiable, Equatable, Codable {

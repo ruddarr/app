@@ -6,7 +6,9 @@ class Movies {
     var instance: Instance
     var items: [Movie] = []
     var error: Error?
-    var isWorking: Bool = false // enum Status { case idle, case working, case failed(Error) }
+
+    // enum Status { case idle, case working, case failed(Error) }
+    var isWorking: Bool = false
 
     private let log: Logger = logger("model.movies")
 

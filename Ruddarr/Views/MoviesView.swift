@@ -165,7 +165,8 @@ struct MoviesView: View {
     }
 
     var toolbarSortingButton: some View {
-        Menu("Sorting", systemImage: "line.3.horizontal.decrease") { // arrow.up.arrow.down
+        // arrow.up.arrow.down
+        Menu("Sorting", systemImage: "line.3.horizontal.decrease") {
             Picker(selection: $sort.option, label: Text("Sorting options")) {
                 ForEach(MovieSort.Option.allCases) { sortOption in
                     Text(sortOption.title).tag(sortOption)

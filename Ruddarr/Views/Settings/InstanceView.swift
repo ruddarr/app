@@ -189,6 +189,8 @@ extension InstanceView {
         if appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
             throw ValidationError.badAppName(appName)
         }
+
+        instance.version = status!.version
     }
 }
 

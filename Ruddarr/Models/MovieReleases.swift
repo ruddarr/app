@@ -159,7 +159,7 @@ struct MovieRelease: Identifiable, Codable {
         let days = ageMinutes / 60 / 24
 
         return switch ageMinutes {
-        case -10_000..<1: "Just now" // less than 1 minute
+        case -10_000..<1: "Just now" // less than 1 minute (or bad data from radarr)
         case 1..<119: String(format: "%.0f minutes", ageMinutes) // less than 120 minutes
         case 120..<2_880: String(format: "%.0f hours", ageMinutes / 60) // less than 48 hours
         case 2_880..<129_600: String(format: "%.0f days", days) // less than 90 days

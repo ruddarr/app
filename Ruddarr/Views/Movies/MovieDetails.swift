@@ -53,8 +53,6 @@ struct MovieDetails: View {
             // MARK: information
             information
                 .padding(.bottom)
-
-            // TODO: Files? Cast? History?
         }
     }
 

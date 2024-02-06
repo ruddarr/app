@@ -18,7 +18,6 @@ struct MovieView: View {
             toolbarMonitorButton
             toolbarMenu
         }
-        // TODO: `.refreshable` movie?
     }
 
     @ToolbarContentBuilder

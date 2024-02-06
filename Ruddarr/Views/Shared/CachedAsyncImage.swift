@@ -5,12 +5,10 @@ import SwiftUI
 
 enum ImageType {
     case poster
-    // case header
 
     var size: CGSize {
         switch self {
         case .poster: CGSize(width: 150, height: 225)
-        // case .header: CGSize(width: 320, height: 180)
         }
     }
 }
