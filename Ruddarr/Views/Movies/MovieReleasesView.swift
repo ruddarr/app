@@ -48,6 +48,12 @@ struct MovieReleasesView: View {
                         Text("This may take a moment.").font(.footnote)
                     }
                 }.tint(.secondary)
+            } else if instance.releases.items.count == 0 {
+                ContentUnavailableView(
+                    "No Releases Found",
+                    systemImage: "slash.circle",
+                    description: Text("Radarr found no releases for \"\(movie.title)\".")
+                )
             }
         }
     }
