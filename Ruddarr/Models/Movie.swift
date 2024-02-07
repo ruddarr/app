@@ -24,6 +24,7 @@ struct Movie: Identifiable, Codable {
     var qualityProfileId: Int
     let sizeOnDisk: Int?
     let hasFile: Bool
+    let isAvailable: Bool
 
     var path: String?
     var folderName: String?
@@ -55,6 +56,7 @@ struct Movie: Identifiable, Codable {
         case qualityProfileId
         case sizeOnDisk
         case hasFile
+        case isAvailable
         case path
         case folderName
         case rootFolderPath

@@ -3,7 +3,9 @@ import Foundation
 extension API {
     static var mock: Self {
         .init(fetchMovies: { _ in
-           loadPreviewData(filename: "movies")
+            try await Task.sleep(nanoseconds: UInt64(1 * Double(NSEC_PER_SEC)))
+
+            return loadPreviewData(filename: "movies")
         }, lookupMovies: { _, query in
             let movies: [Movie] = loadPreviewData(filename: "movie-lookup")
             try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))

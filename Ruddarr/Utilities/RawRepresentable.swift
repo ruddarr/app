@@ -60,21 +60,24 @@ extension MovieSort: RawRepresentable {
 
 extension MovieSort: Codable {
     enum CodingKeys: String, CodingKey {
-        case option
         case isAscending
+        case option
+        case filter
     }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         try self.init(
             isAscending: container.decode(Bool.self, forKey: .isAscending),
-            option: container.decode(Option.self, forKey: .option)
+            option: container.decode(Option.self, forKey: .option),
+            filter: container.decode(Filter.self, forKey: .filter)
         )
     }
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(option, forKey: .option)
         try container.encode(isAscending, forKey: .isAscending)
+        try container.encode(option, forKey: .option)
+        try container.encode(filter, forKey: .filter)
     }
 }

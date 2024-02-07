@@ -2,7 +2,9 @@ import Foundation
 
 struct MovieSort {
     var isAscending: Bool = false
+
     var option: Option = .byAdded
+    var filter: Filter = .all
 
     enum Option: CaseIterable, Hashable, Identifiable, Codable {
         var id: Self { self }
@@ -27,6 +29,42 @@ struct MovieSort {
                 lhs.year < rhs.year
             case .byAdded:
                 lhs.added < rhs.added
+            }
+        }
+    }
+
+    enum Filter: CaseIterable, Hashable, Identifiable, Codable {
+        var id: Self { self }
+
+        case all
+        case monitored
+        case unmonitored
+        case missing
+        case wanted
+
+        var title: String {
+            switch self {
+            case .all: "All"
+            case .monitored: "Monitored"
+            case .unmonitored: "Unmonitored"
+            case .missing: "Missing"
+            case .wanted: "Wanted"
+            }
+        }
+
+        func filtered(_ movies: [Movie]) -> [Movie] {
+            print(self)
+            return switch self {
+            case .all:
+                movies
+            case .monitored:
+                movies.filter { $0.monitored }
+            case .unmonitored:
+                movies.filter { !$0.monitored }
+            case .missing:
+                movies.filter { $0.monitored && !$0.hasFile }
+            case .wanted:
+                movies.filter { $0.monitored && !$0.hasFile && $0.isAvailable }
             }
         }
     }

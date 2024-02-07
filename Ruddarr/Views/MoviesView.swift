@@ -111,7 +111,7 @@ struct MoviesView: View {
                 } else if displayedMovies.isEmpty && !searchQuery.isEmpty && !instance.isVoid {
                     noSearchResults
                 } else if instance.movies.isWorking && instance.movies.items.isEmpty {
-                    ProgressView()
+                    ProgressView("Loading...").tint(.secondary)
                 }
             }
         }
@@ -165,11 +165,18 @@ struct MoviesView: View {
     }
 
     var toolbarSortingButton: some View {
-        // arrow.up.arrow.down
         Menu("Sorting", systemImage: "line.3.horizontal.decrease") {
+            Menu("Filters") {
+                Picker(selection: $sort.filter, label: Text("Filter options")) {
+                    ForEach(MovieSort.Filter.allCases) { filter in
+                        Text(filter.title)
+                    }
+                }
+            }
+
             Picker(selection: $sort.option, label: Text("Sorting options")) {
-                ForEach(MovieSort.Option.allCases) { sortOption in
-                    Text(sortOption.title).tag(sortOption)
+                ForEach(MovieSort.Option.allCases) { option in
+                    Text(option.title)
                 }
             }.onChange(of: sort.option) {
                 switch sort.option {
@@ -212,21 +219,20 @@ struct MoviesView: View {
     }
 
     var displayedMovies: [Movie] {
-        let unsortedMovies: [Movie]
+        var movies: [Movie] = instance.movies.items
 
-        if searchQuery.isEmpty {
-            unsortedMovies = instance.movies.items
-        } else {
-            unsortedMovies = instance.movies.items.filter { movie in
+        if !searchQuery.isEmpty {
+            movies = movies.filter { movie in
                 movie.title.localizedCaseInsensitiveContains(
                     searchQuery.trimmingCharacters(in: .whitespaces)
                 )
             }
         }
 
-        let sortedMovies = unsortedMovies.sorted(by: sort.option.isOrderedBefore)
+        movies = sort.filter.filtered(movies)
+        movies = movies.sorted(by: sort.option.isOrderedBefore)
 
-        return sort.isAscending ? sortedMovies : sortedMovies.reversed()
+        return sort.isAscending ? movies : movies.reversed()
     }
 
     func fetchMoviesWithAlert(ignoreOffline: Bool = false) async {

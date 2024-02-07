@@ -117,8 +117,8 @@ struct MovieReleasesView: View {
                 }
 
                 Picker("Sorting options", selection: $sort.option) {
-                    ForEach(MovieReleaseSort.Option.allCases) { sortOption in
-                        Text(sortOption.title).tag(sortOption)
+                    ForEach(MovieReleaseSort.Option.allCases) { option in
+                        Text(option.title).tag(option)
                     }
                 }
 
