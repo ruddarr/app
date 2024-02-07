@@ -37,7 +37,7 @@ struct MovieDetails: View {
                 }
 
                 if !movie.genres.isEmpty {
-                    detailsRow("Genre", value: movie.humanGenres)
+                    detailsRow("Genre", value: movie.genreLabel)
                 }
 
                 if movie.hasFile {
@@ -99,7 +99,7 @@ struct MovieDetails: View {
 
                 if movie.hasFile {
                     Divider()
-                    informationRow("Size", value: movie.sizeOnDisk == nil ? "" : movie.humanSize)
+                    informationRow("Size", value: movie.sizeOnDisk == nil ? "" : movie.sizeLabel)
                 }
 
                 if let inCinemas = movie.inCinemas {
@@ -194,6 +194,8 @@ struct MovieDetails: View {
 struct MovieDetailsOverview: View {
     var movie: Movie
 
+    @EnvironmentObject var settings: AppSettings
+
     var body: some View {
         HStack(alignment: .top) {
             CachedAsyncImage(url: movie.remotePoster, type: .poster)
@@ -203,18 +205,27 @@ struct MovieDetailsOverview: View {
                 .cornerRadius(8)
                 .padding(.trailing, 8)
 
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 0) {
+                if let state = movie.stateLabel {
+                    Text(state)
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .textCase(.uppercase)
+                        .foregroundStyle(settings.theme.tint)
+                }
+
                 Text(movie.title)
                     .font(.title)
                     .fontWeight(.bold)
                     .kerning(-0.5)
                     .lineLimit(3)
+                    .padding(.bottom, 8)
 
                 ViewThatFits(in: .horizontal) {
                     HStack(spacing: 6) {
                         Text(String(movie.year))
                         Text("•")
-                        Text(movie.humanRuntime)
+                        Text(movie.runtimeLabel)
 
                         if movie.certification != nil {
                             Text("•")
@@ -225,31 +236,13 @@ struct MovieDetailsOverview: View {
                     HStack(spacing: 6) {
                         Text(String(movie.year))
                         Text("•")
-                        Text(movie.humanRuntime)
+                        Text(movie.runtimeLabel)
                     }
                 }
+                .padding(.bottom, 4)
                 .foregroundStyle(.secondary)
 
                 MovieDetailsRatings(movie: movie)
-
-                HStack {
-                    Image(systemName: "bookmark")
-                        .symbolVariant(movie.monitored ? .fill : .none)
-
-                    Group {
-                        if movie.hasFile {
-                            Image(systemName: "checkmark.circle.fill")
-                        } else if movie.isWaiting {
-                            Image(systemName: "clock")
-                        } else if movie.monitored {
-                            Image(systemName: "xmark.circle")
-                        }
-                    }
-                }
-                .foregroundStyle(.white)
-                .font(.title2)
-
-                // TODO: Do we need "Downloaded" and "Missing" text?
             }
         }
     }

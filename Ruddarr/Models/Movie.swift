@@ -72,20 +72,36 @@ struct Movie: Identifiable, Codable {
         movieId != nil
     }
 
-    var humanRuntime: String {
+    var stateLabel: String? {
+        if hasFile {
+            return "Downloaded"
+        }
+
+        if isWaiting {
+            return "Waiting";
+        }
+
+        if monitored && isAvailable {
+            return "Missing"
+        }
+
+        return nil
+    }
+
+    var runtimeLabel: String {
         let hours = runtime / 60
         let minutes = runtime % 60
 
         return hours == 0 ? "\(minutes)m" : "\(hours)h \(minutes)m"
     }
 
-    var humanSize: String {
+    var sizeLabel: String {
         ByteCountFormatter().string(
             fromByteCount: Int64(sizeOnDisk ?? 0)
         )
     }
 
-    var humanGenres: String {
+    var genreLabel: String {
         genres.joined(separator: ", ")
     }
 

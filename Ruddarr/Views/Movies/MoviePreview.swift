@@ -24,7 +24,7 @@ struct MoviePreview: View {
                 HStack(spacing: 6) {
                     Text(String(movie.year))
                     Text("•")
-                    Text(movie.humanRuntime)
+                    Text(movie.runtimeLabel)
 
                     if movie.certification != nil {
                         Text("•")
@@ -54,7 +54,7 @@ struct MoviePreview: View {
                     }
 
                     if !movie.genres.isEmpty {
-                        detailsRow("Genre", value: movie.humanGenres)
+                        detailsRow("Genre", value: movie.genreLabel)
                     }
                 }
                 .padding(.bottom)

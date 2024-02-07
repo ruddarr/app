@@ -53,8 +53,7 @@ struct MovieSort {
         }
 
         func filtered(_ movies: [Movie]) -> [Movie] {
-            print(self)
-            return switch self {
+            switch self {
             case .all:
                 movies
             case .monitored:
