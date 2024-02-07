@@ -5,6 +5,7 @@ struct MovieReleasesView: View {
 
     @State private var sort: MovieReleaseSort = .init()
     @State private var indexer: String = ""
+    @State private var quality: String = ""
     @State private var fetched = false
 
     @Environment(RadarrInstance.self) private var instance
@@ -60,6 +61,10 @@ struct MovieReleasesView: View {
             sortedReleases = sortedReleases.filter { $0.indexerLabel == indexer }
         }
 
+        if !quality.isEmpty {
+            sortedReleases = sortedReleases.filter { $0.quality.quality.name == quality }
+        }
+
         return sort.isAscending ? sortedReleases : sortedReleases.reversed()
     }
 
@@ -72,17 +77,36 @@ struct MovieReleasesView: View {
             .sorted()
     }
 
+    var qualities: [String] {
+        var seen: Set<String> = []
+
+        return instance.releases.items
+            .map { $0.quality.quality.name ?? "Unknown" }
+            .filter { seen.insert($0).inserted }
+            .sorted()
+    }
+
     @ToolbarContentBuilder
     var toolbarSortingButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Menu("Sorting & Filters", systemImage: "line.3.horizontal.decrease") {
-                Menu("Indexer") {
-                    Picker("Indexer", selection: $indexer) {
+                Menu("Indexers") {
+                    Picker("Indexers", selection: $indexer) {
                         ForEach(indexers, id: \.self) { indexer in
                             Text(indexer).tag(Optional.some(indexer))
                         }
 
                         Text("All Indexers").tag("")
+                    }
+                }
+
+                Menu("Quality Profiles") {
+                    Picker("Quality Profiles", selection: $quality) {
+                        ForEach(qualities, id: \.self) { quality in
+                            Text(quality).tag(Optional.some(quality))
+                        }
+
+                        Text("All Quality Profiles").tag("")
                     }
                 }
 
@@ -139,7 +163,6 @@ struct MovieReleaseRow: View {
                     HStack(spacing: 6) {
                         Text(release.typeLabel)
                             .foregroundStyle(peerColor)
-                            .opacity(0.75)
                         Text("•")
                         Text(release.indexerLabel)
                     }
