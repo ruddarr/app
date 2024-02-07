@@ -10,7 +10,7 @@ class MovieLookup {
 
     var isSearching: Bool = false
 
-    private let log: Logger = logger("models.movielookup")
+    private let log: Logger = logger("models.movie.lookup")
 
     init(_ instance: Instance) {
         self.instance = instance

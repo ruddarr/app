@@ -4,7 +4,6 @@ struct MovieForm: View {
     @Binding var movie: Movie
 
     @Environment(RadarrInstance.self) private var instance
-    @Environment(\.colorScheme) var colorScheme
 
     @State private var showingConfirmation = false
 
@@ -15,83 +14,50 @@ struct MovieForm: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text(movie.title)
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .kerning(-0.5)
-                .lineLimit(2)
-                .padding(.horizontal)
+        Form {
+            Section {
+                Toggle("Monitored", isOn: $movie.monitored)
 
-            if !movie.exists {
-                HStack(spacing: 6) {
-                    Text(String(movie.year))
-                    Text("•")
-                    Text(movie.humanRuntime)
-
-                    if movie.certification != nil {
-                        Text("•")
-                        Text(movie.certification ?? "")
+                Picker(selection: $movie.minimumAvailability) {
+                    ForEach(availabilities, id: \.self) { availability in
+                        Text(availability.label).tag(availability)
                     }
-                }
-                .font(.callout)
-                .foregroundStyle(.secondary)
-                .scenePadding(.horizontal)
-                .padding(.top, 4)
-            }
-
-            Form {
-                Section {
-                    Toggle("Monitored", isOn: $movie.monitored)
-
-                    Picker(selection: $movie.minimumAvailability) {
-                        ForEach(availabilities, id: \.self) { availability in
-                            Text(availability.label).tag(availability)
-                        }
-                    } label: {
-                        ViewThatFits(in: .horizontal) {
-                            Text("Minimum Availability")
-                            Text("Min. Availability")
-                            Text("Availability")
-                        }
-                    }
-
-                    Picker(selection: $movie.qualityProfileId) {
-                        ForEach(instance.qualityProfiles) { profile in
-                            Text(profile.name)
-                        }
-                    } label: {
-                        ViewThatFits(in: .horizontal) {
-                            Text("Quality Profile")
-                            Text("Quality")
-                        }
+                } label: {
+                    ViewThatFits(in: .horizontal) {
+                        Text("Minimum Availability")
+                        Text("Min. Availability")
+                        Text("Availability")
                     }
                 }
 
-                if movie.movieId == nil {
-                    Section("Root Folder") {
-                        Picker("", selection: $movie.rootFolderPath) {
-                            ForEach(instance.rootFolders) { folder in
-                                HStack {
-                                    Text(folder.label)
-                                    Spacer()
-                                }.tag(folder.path)
-                            }
-                        }
-                        .labelsHidden()
-                        .pickerStyle(.navigationLink)
-                        .foregroundStyle(.tint)
+                Picker(selection: $movie.qualityProfileId) {
+                    ForEach(instance.qualityProfiles) { profile in
+                        Text(profile.name)
+                    }
+                } label: {
+                    ViewThatFits(in: .horizontal) {
+                        Text("Quality Profile")
+                        Text("Quality")
                     }
                 }
             }
-            .scrollDisabled(true)
+
+            if movie.movieId == nil {
+                Section("Root Folder") {
+                    Picker("", selection: $movie.rootFolderPath) {
+                        ForEach(instance.rootFolders) { folder in
+                            HStack {
+                                Text(folder.label)
+                                Spacer()
+                            }.tag(folder.path)
+                        }
+                    }
+                    .labelsHidden()
+                    .pickerStyle(.navigationLink)
+                    .foregroundStyle(.tint)
+                }
+            }
         }
-        .padding(.top, 4)
-        .background(
-            colorScheme ==  .dark
-                ? .systemBackground
-                : .secondarySystemBackground
-        )
         .onAppear {
             selectDefaultValues()
         }
@@ -120,6 +86,15 @@ struct MovieForm: View {
 }
 
 #Preview {
+    let movies: [Movie] = PreviewData.load(name: "movie-lookup")
+    let movie = movies.first(where: { $0.id == 236 }) ?? movies[0]
+
+    return MovieForm(movie: Binding(get: { movie }, set: { _ in }))
+        .withSettings()
+        .withRadarrInstance(movies: movies)
+}
+
+#Preview("Existing") {
     let movies: [Movie] = PreviewData.load(name: "movies")
     let movie = movies.first(where: { $0.id == 236 }) ?? movies[0]
 

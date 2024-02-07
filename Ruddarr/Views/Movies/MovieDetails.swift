@@ -3,7 +3,7 @@ import SwiftUI
 struct MovieDetails: View {
     var movie: Movie
 
-    @State private var isTruncated = true
+    @State private var descriptionTruncated = true
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
@@ -19,9 +19,9 @@ struct MovieDetails: View {
                 Text(movie.overview!)
                     .font(.callout)
                     .transition(.slide)
-                    .lineLimit(isTruncated ? 4 : nil)
+                    .lineLimit(descriptionTruncated ? 4 : nil)
                     .onTapGesture {
-                        withAnimation { isTruncated.toggle() }
+                        withAnimation { descriptionTruncated.toggle() }
                     }
 
                 Spacer()

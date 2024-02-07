@@ -8,10 +8,10 @@ struct MovieView: View {
     @State private var showDeleteConfirmation = false
 
     var body: some View {
-        return ScrollView {
+        ScrollView {
             MovieDetails(movie: movie)
                 .padding(.top)
-                .padding(.horizontal)
+                .scenePadding(.horizontal)
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -142,6 +142,8 @@ struct MovieView: View {
 
     func deleteMovie(_ movie: Movie) async {
         _ = await instance.movies.delete(movie)
+
+        // TODO: make sure this is animated...
         dependencies.router.moviesPath.removeLast()
     }
 }
