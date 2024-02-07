@@ -134,10 +134,7 @@ struct MovieView: View {
             return
         }
 
-        dependencies.toast.show(
-            text: movie.monitored ? "Monitored" : "Unmonitored",
-            icon: movie.monitored ? "bookmark.fill" : "bookmark"
-        )
+        dependencies.toast.show(movie.monitored ? .monitored : .unmonitored)
     }
 
     func dispatchSearch() async {
@@ -145,13 +142,15 @@ struct MovieView: View {
             return
         }
 
-        dependencies.toast.show(text: "Search Started", icon: "checkmark")
+        dependencies.toast.show(.searchStarted)
     }
 
     @MainActor
     func deleteMovie(_ movie: Movie) async {
         _ = await instance.movies.delete(movie)
+
         dependencies.router.moviesPath.removeLast()
+        dependencies.toast.show(.movieDeleted)
     }
 }
 

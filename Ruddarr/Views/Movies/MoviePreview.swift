@@ -133,8 +133,6 @@ struct MoviePreview: View {
 
         dismiss()
 
-        // TODO: animate this...
-
         dependencies.router.moviesPath.removeLast(
             dependencies.router.moviesPath.count
         )

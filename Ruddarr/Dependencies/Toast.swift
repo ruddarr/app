@@ -42,7 +42,27 @@ final class Toast {
 }
 
 extension Toast {
-    func show(text: String, icon: String? = nil) {
+    enum PresetMessage {
+        case monitored
+        case unmonitored
+        case searchStarted
+        case movieDeleted
+    }
+
+    func show(_ preset: PresetMessage) {
+        switch preset {
+        case .monitored:
+            custom(text: "Monitored", icon: "bookmark.fill")
+        case .unmonitored:
+            custom(text: "Unmonitored", icon: "bookmark")
+        case .searchStarted:
+            custom(text: "Search Started", icon: "checkmark")
+        case .movieDeleted:
+            custom(text: "Movie Deleted", icon: "trash.fill")
+        }
+    }
+
+    func custom(text: String, icon: String? = nil) {
         show(
             AnyView(
                 Label {

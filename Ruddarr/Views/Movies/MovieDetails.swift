@@ -59,13 +59,20 @@ struct MovieDetails: View {
     var actions: some View {
         HStack(spacing: 24) {
             Button {
-                // TODO: needs action
+                Task {
+                    guard await instance.movies.command(movie, command: .automaticSearch) else {
+                        return
+                    }
+
+                    dependencies.toast.show(.searchStarted)
+                }
             } label: {
                 ButtonLabel(text: "Automatic", icon: "magnifyingglass")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
+            .allowsHitTesting(!instance.movies.isWorking)
 
             NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
                 ButtonLabel(text: "Interactive", icon: "person.fill")
