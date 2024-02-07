@@ -141,10 +141,9 @@ struct MovieView: View {
         dependencies.toast.show(text: "Search Started", icon: "checkmark")
     }
 
+    @MainActor
     func deleteMovie(_ movie: Movie) async {
         _ = await instance.movies.delete(movie)
-
-        // TODO: make sure this is animated...
         dependencies.router.moviesPath.removeLast()
     }
 }

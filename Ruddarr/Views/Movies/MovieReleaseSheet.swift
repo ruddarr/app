@@ -79,8 +79,6 @@ struct MovieReleaseSheet: View {
         HStack(spacing: 24) {
             if let url = release.infoUrl {
                 Link(destination: URL(string: url)!, label: {
-
-
                     ButtonLabel(text: "Open Link", icon: "arrow.up.right.square")
                         .frame(maxWidth: .infinity)
                 })

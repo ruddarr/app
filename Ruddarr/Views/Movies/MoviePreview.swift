@@ -102,7 +102,6 @@ struct MoviePreview: View {
         .font(.callout)
     }
 
-
     @ToolbarContentBuilder
     var toolbarSaveButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
@@ -118,6 +117,7 @@ struct MoviePreview: View {
         }
     }
 
+    @MainActor
     func addMovie() async {
         guard await instance.movies.add(movie) else {
             log.error(
