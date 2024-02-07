@@ -17,6 +17,7 @@ class Movies {
         case add(Movie)
         case update(Movie)
         case delete(Movie)
+        case download(String, Int)
         case command(Movie, RadarrCommand.Command)
     }
 
@@ -71,6 +72,10 @@ class Movies {
         return await request(.delete(movie))
     }
 
+    func download(guid: String, indexerId: Int) async -> Bool {
+        return await request(.download(guid, indexerId))
+    }
+
     func command(_ movie: Movie, command: RadarrCommand.Command) async -> Bool {
         return await request(.command(movie, command))
     }
@@ -84,14 +89,20 @@ class Movies {
             switch operation {
             case .fetch:
                 items = try await dependencies.api.fetchMovies(instance)
+
             case .add(let movie):
                 items.append(try await dependencies.api.addMovie(movie, instance))
 
             case .update(let movie):
                 _ = try await dependencies.api.updateMovie(movie, instance)
+
             case .delete(let movie):
                 _ = try await dependencies.api.deleteMovie(movie, instance)
                 items.removeAll(where: { $0.movieId == movie.movieId })
+
+            case .download(let guid, let indexerId):
+                _ = try await dependencies.api.downloadRelease(guid, indexerId, instance)
+
             case .command(let movie, let commandName):
                 let command = switch commandName {
                 case .automaticSearch: RadarrCommand(name: commandName, movieIds: [movie.movieId!])

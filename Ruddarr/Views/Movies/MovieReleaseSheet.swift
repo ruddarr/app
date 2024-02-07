@@ -4,6 +4,7 @@ struct MovieReleaseSheet: View {
     @State var release: MovieRelease
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
         ScrollView {
@@ -87,14 +88,23 @@ struct MovieReleaseSheet: View {
             }
 
             Button {
-                // let body = DownloadMovieRelease(guid: String, indexerId: <#T##Int#>)
-                // TODO: needs action
+                Task {
+                    await instance.movies.download(
+                        guid: release.guid,
+                        indexerId: release.indexerId
+                    )
+                }
             } label: {
-                ButtonLabel(text: "Download", icon: "arrow.down.circle")
-                    .frame(maxWidth: .infinity)
+                ButtonLabel(
+                    text: "Download",
+                    icon: "arrow.down.circle",
+                    isLoading: instance.movies.isWorking
+                )
+                .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
+            .allowsHitTesting(!instance.movies.isWorking)
         }
     }
 
@@ -105,6 +115,11 @@ struct MovieReleaseSheet: View {
                 .fontWeight(.bold)
         ) {
             VStack(spacing: 12) {
+                if let language = release.languageLabel {
+                    row("Language", value: language)
+                    Divider()
+                }
+
                 row("Indexer", value: release.indexerLabel)
 
                 if release.isTorrent {
@@ -112,11 +127,6 @@ struct MovieReleaseSheet: View {
                     row("Seeders", value: String(release.seeders ?? 0))
                     Divider()
                     row("Leechers", value: String(release.leechers ?? 0))
-                }
-
-                if let language = release.languageLabel {
-                    Divider()
-                    row("Language", value: language)
                 }
             }
             .font(.callout)

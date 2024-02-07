@@ -7,6 +7,7 @@ struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
     var lookupReleases: (Movie.ID, Instance) async throws -> [MovieRelease]
+    var downloadRelease: (String, Int, Instance) async throws -> Empty
     var getMovie: (Movie.ID, Instance) async throws -> Movie
     var addMovie: (Movie, Instance) async throws -> Movie
     var updateMovie: (Movie, Instance) async throws -> Empty
@@ -36,6 +37,13 @@ extension API {
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
             return try await request(url: url, authorization: instance.apiKey)
+        }, downloadRelease: { guid, indexerId, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/release")
+
+            let body = DownloadMovieRelease(guid: guid, indexerId: indexerId)
+
+            return try await request(method: .post, url: url, authorization: instance.apiKey)
         }, getMovie: { movieId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")

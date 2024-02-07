@@ -15,6 +15,10 @@ extension API {
             try await Task.sleep(nanoseconds: UInt64(0.5 * Double(NSEC_PER_SEC)))
 
             return loadPreviewData(filename: "releases")
+        }, downloadRelease: { _, _, _ in
+            try await Task.sleep(nanoseconds: UInt64(0.5 * Double(NSEC_PER_SEC)))
+
+            return Empty()
         }, getMovie: { movieId, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
             try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
