@@ -117,6 +117,7 @@ struct MovieView: View {
         }
     }
 
+    @MainActor
     func toggleMonitor() async {
         print("before toggle", movie.monitored)
         movie.monitored.toggle()
