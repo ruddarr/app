@@ -57,8 +57,6 @@ struct MovieView: View {
         ToolbarItem(placement: .primaryAction) {
             Menu {
                 Section {
-                    monitorButton
-
                     NavigationLink(
                         value: MoviesView.Path.edit(movie.id)
                     ) {
@@ -104,18 +102,6 @@ struct MovieView: View {
                 Button("Cancel", role: .cancel) { }
             } message: {
                 Text("You can’t undo this action.")
-            }
-        }
-    }
-
-    var monitorButton: some View {
-        Button {
-            Task { await toggleMonitor() }
-        } label: {
-            if movie.monitored {
-                Label("Unmonitor", systemImage: "bookmark")
-            } else {
-                Label("Monitor", systemImage: "bookmark.fill")
             }
         }
     }
