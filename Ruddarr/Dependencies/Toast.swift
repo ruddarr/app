@@ -56,7 +56,7 @@ extension Toast {
         case .unmonitored:
             custom(text: "Unmonitored", icon: "bookmark")
         case .searchStarted:
-            custom(text: "Search Started", icon: "checkmark")
+            custom(text: "Search Started", icon: "checkmark.circle.fill")
         case .movieDeleted:
             custom(text: "Movie Deleted", icon: "trash.fill")
         }
@@ -72,6 +72,8 @@ extension Toast {
                         Image(systemName: icon)
                     }
                 }
+                .font(.callout)
+                .fontWeight(.semibold)
             )
         )
     }
