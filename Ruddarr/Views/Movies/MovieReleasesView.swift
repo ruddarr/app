@@ -143,6 +143,7 @@ struct MovieReleaseRow: View {
             VStack(alignment: .leading) {
                 HStack(spacing: 4) {
                     if !release.indexerFlags.isEmpty {
+                        // TODO: better flag!
                         Image(systemName: "flag")
                             .symbolVariant(.fill)
                             .imageScale(.small)
@@ -153,7 +154,6 @@ struct MovieReleaseRow: View {
                         .font(.callout)
                         .fontWeight(.semibold)
                         .lineLimit(1)
-
                 }
 
                 Group {
@@ -174,7 +174,7 @@ struct MovieReleaseRow: View {
                     }
                     .lineLimit(1)
                 }
-                .font(.subheadline)
+                .font(.footnote)
                 .foregroundStyle(.secondary)
             }
             .padding(.trailing, 10)
