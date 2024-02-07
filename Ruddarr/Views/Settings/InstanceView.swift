@@ -67,6 +67,17 @@ struct InstanceView: View {
                     deleteInstance
                 }
             }
+
+            #if DEBUG
+                Button("Use Synology") {
+                    self.instance = Instance.till
+                    self.instance.label = "Till"
+                }
+                Button("Use Digital Ocean") {
+                    self.instance = Instance.digitalOcean
+                    self.instance.label = "Digital Ocean"
+                }
+            #endif
         }.onSubmit {
             guard !hasEmptyFields() else { return }
 

@@ -23,13 +23,7 @@ struct SettingsView: View {
                 case .libraries:
                     LibrariesView()
                 case .createInstance:
-                    #if DEBUG
-                    let instance = Instance.till
-                    // let instance = Instance.digitalOcean
-                    #else
                     let instance = Instance()
-                    #endif
-
                     InstanceView(mode: .create, instance: instance)
                 case .editInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
