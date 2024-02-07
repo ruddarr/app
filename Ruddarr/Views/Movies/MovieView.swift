@@ -13,6 +13,15 @@ struct MovieView: View {
                 .padding(.top)
                 .scenePadding(.horizontal)
         }
+        .alert(
+            "Something Went Wrong",
+            isPresented: Binding(get: { instance.movies.error != nil }, set: { _ in }),
+            presenting: instance.movies.error
+        ) { _ in
+            Button("OK", role: .cancel) { }
+        } message: { error in
+            Text(error.localizedDescription)
+        }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
@@ -119,9 +128,7 @@ struct MovieView: View {
 
     @MainActor
     func toggleMonitor() async {
-        print("before toggle", movie.monitored)
         movie.monitored.toggle()
-        print("after toogle", movie.monitored)
 
         guard await instance.movies.update(movie) else {
             return
