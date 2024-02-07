@@ -27,17 +27,18 @@ class Movies {
     func byId(_ id: Movie.ID) -> Binding<Movie?> {
         Binding(
             get: { [weak self] in
-                guard let index = self?.items.firstIndex(where: { $0.id == id }) else {
+                guard let index = self?.items.firstIndex(where: { $0.movieId == id }) else {
                     return nil
                 }
 
                 return self?.items[index]
             },
             set: { [weak self] in
-                guard let index = self?.items.firstIndex(where: { $0.id == id }) else {
+                guard let index = self?.items.firstIndex(where: { $0.movieId == id }) else {
                     if let newValue = $0 {
                         self?.items.append(newValue)
                     }
+
                     return
                 }
 
