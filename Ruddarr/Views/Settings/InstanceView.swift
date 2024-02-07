@@ -23,43 +23,48 @@ struct InstanceView: View {
     var body: some View {
         Form {
             Section {
-                List {
-                    Picker("Type", selection: $instance.type) {
-                        ForEach(InstanceType.allCases) { type in
-                            Text(type.rawValue).tag(type)
-                        }
-                    }
-
-                    LabeledContent {
-                        TextField("Synology", text: $instance.label)
-                            .multilineTextAlignment(.trailing)
-                    } label: {
-                        Text("Label")
-                    }
-
-                    LabeledContent {
-                        TextField("", text: $instance.url, prompt: Text(verbatim: urlPlaceholder))
-                            .multilineTextAlignment(.trailing)
-                            .textInputAutocapitalization(.never)
-                            .disableAutocorrection(true)
-                            .textCase(.lowercase)
-                            .keyboardType(.URL)
-                    } label: {
-                        Text("URL")
-                    }
-
-                    LabeledContent {
-                        TextField("0a1b2c3d...", text: $instance.apiKey)
-                            .multilineTextAlignment(.trailing)
-                            .textInputAutocapitalization(.never)
-                            .disableAutocorrection(true)
-                            .textCase(.lowercase)
-                    } label: {
-                        Text("API Key")
+                Picker("Type", selection: $instance.type) {
+                    ForEach(InstanceType.allCases) { type in
+                        Text(type.rawValue).tag(type)
                     }
                 }
+
+                LabeledContent {
+                    TextField("Synology", text: $instance.label)
+                        .multilineTextAlignment(.trailing)
+                } label: {
+                    Text("Label")
+                }
+            }
+
+            Section {
+                LabeledContent {
+                    TextField("", text: $instance.url, prompt: Text(verbatim: urlPlaceholder))
+                        .multilineTextAlignment(.trailing)
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .textCase(.lowercase)
+                        .keyboardType(.URL)
+                } label: {
+                    Text("URL")
+                }
+
             } footer: {
-                Text("The API Key can be found under \"Settings > General > Security\".")
+                Text("The URL used to access the web interface. Do not use `localhost` or `127.0.0.1`. Must be prefixed with `http://` or `https://`.")
+            }
+
+            Section {
+                LabeledContent {
+                    TextField("0a1b2c3d...", text: $instance.apiKey)
+                        .multilineTextAlignment(.trailing)
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                        .textCase(.lowercase)
+                } label: {
+                    Text("API Key")
+                }
+            } footer: {
+                Text("The API Key can be found in the web interface under \"Settings > General > Security\".")
             }
 
             if mode == .update {
