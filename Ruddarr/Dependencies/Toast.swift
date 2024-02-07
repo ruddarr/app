@@ -26,7 +26,7 @@ final class Toast {
 
     @ObservationIgnored
     var timeout: Duration = .seconds(3)
-    var animation: Animation? = .spring
+    var animation: Animation? = .snappy
 
     @ObservationIgnored
     lazy var dismissAfterTimeout: (Message.ID) async throws -> Void = { @MainActor [weak self] in
@@ -58,7 +58,7 @@ extension Toast {
 }
 
 extension View {
-    func displayMessages(from toast: Toast = dependencies.toast) -> some View {
+    func displayToasts(from toast: Toast = dependencies.toast) -> some View {
         overlay(alignment: .bottom) {
             if let currentMessage = toast.currentMessage {
                 currentMessage.view
@@ -66,7 +66,7 @@ extension View {
                     .background(.thinMaterial)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .padding()
-                    .transition(.move(edge: .bottom))
+                    .transition(.opacity)
                     .id(currentMessage.id)
             }
         }
