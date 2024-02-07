@@ -26,7 +26,6 @@ struct ButtonLabel: View {
         .fontWeight(.semibold)
         .foregroundStyle(settings.theme.tint)
         .padding(.vertical, 6)
-        .padding(.horizontal)
     }
 }
 
