@@ -174,8 +174,10 @@ extension InstanceView {
 
         do {
             status = try await dependencies.api.systemStatus(instance)
-        } catch API.Error.failingResponse(statusCode: let code) {
+        } catch API.Error.badStatusCode(code: let code) {
             throw ValidationError.badStatusCode(code)
+        } catch API.Error.errorResponse(code: let code, message: let message) {
+            throw ValidationError.errorResponse(code, message)
         } catch let error as DecodingError {
             throw ValidationError.badResponse(error)
         } catch {
@@ -197,9 +199,10 @@ extension InstanceView {
 enum ValidationError: Error {
     case urlNotValid
     case urlNotReachable(_ error: Error)
+    case badAppName(_ name: String)
     case badStatusCode(_ code: Int)
     case badResponse(_ error: Error)
-    case badAppName(_ name: String)
+    case errorResponse(_ code: Int, _ message: String)
 }
 
 extension ValidationError: LocalizedError {
@@ -209,12 +212,14 @@ extension ValidationError: LocalizedError {
             return "Invalid URL"
         case .urlNotReachable:
             return "URL Not Reachable"
+        case .badAppName:
+            return "Wrong Instance Type"
         case .badStatusCode:
             return "Invalid Status Code"
         case .badResponse:
             return "Invalid Server Response"
-        case .badAppName:
-            return "Wrong Instance Type"
+        case .errorResponse:
+            return "Server Error Response"
         }
     }
 
@@ -224,12 +229,14 @@ extension ValidationError: LocalizedError {
             return "Enter a valid URL."
         case .urlNotReachable(let error):
             return error.localizedDescription
+        case .badAppName(let name):
+            return "URL returned a \(name) instance."
         case .badStatusCode(let code):
             return "URL returned status \(code)."
         case .badResponse(let error):
             return error.localizedDescription
-        case .badAppName(let name):
-            return "URL returned a \(name) instance."
+        case .errorResponse(let code, let message):
+            return "[\(code)] \(message)"
         }
     }
 }

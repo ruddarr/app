@@ -43,7 +43,7 @@ extension API {
 
             let body = DownloadMovieRelease(guid: guid, indexerId: indexerId)
 
-            return try await request(method: .post, url: url, authorization: instance.apiKey)
+            return try await request(method: .post, url: url, authorization: instance.apiKey, body: body)
         }, getMovie: { movieId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
@@ -136,24 +136,42 @@ extension API {
         }
 
         let (json, response) = try await URLSession.shared.data(for: request)
-        let statusCode = (response as? HTTPURLResponse)?.statusCode
+        let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
 
         mxSignpost(.end, log: metrics, name: "HTTP Request")
 
         switch statusCode {
-        case (200..<400)?:
+        case (200..<400):
             let data = Response.self != Empty.self
                 ? json
                 : "{}".data(using: .utf8)!
 
             return try decoder.decode(Response.self, from: data)
         default:
-            if let rawJson = String(data: json, encoding: .utf8) {
-                log.error("Request failed (\(statusCode ?? 0)) \(rawJson)")
-                print("Request failed (\(statusCode ?? 0)) \(rawJson)")
+            var message: String?
+
+            do {
+                if let data = try JSONSerialization.jsonObject(with: json, options: []) as? [String: Any] {
+                    if let error = data["message"] as? String {
+                        message = error
+                    }
+                }
+            } catch {
+                print("Failed to decode response: \(error)")
+
+                if let data = String(data: json, encoding: .utf8) {
+                    print("Request failed (\(statusCode)) \(data)")
+                    log.error("Request failed (\(statusCode)) \(data)")
+                }
+
+                throw Error.badStatusCode(code: statusCode)
             }
 
-            throw statusCode.map(Error.failingResponse) ?? AppError.assertionFailure
+            if let error = message {
+                throw Error.errorResponse(code: statusCode, message: error)
+            }
+
+            throw Error.badStatusCode(code: statusCode)
         }
     }
 
@@ -171,7 +189,19 @@ extension API {
 
 extension API {
     enum Error: LocalizedError {
-        case failingResponse(statusCode: Int)
+        case badStatusCode(code: Int)
+        case errorResponse(code: Int, message: String)
+    }
+}
+
+extension API.Error {
+    var errorDescription: String? {
+        switch self {
+        case .badStatusCode(let code):
+            return "Server returned \(code) status code."
+        case .errorResponse(let code, let message):
+            return "[\(code)] \(message)"
+        }
     }
 }
 
