@@ -19,7 +19,6 @@ struct MovieForm: View {
                 Toggle("Monitored", isOn: $movie.monitored)
 
                 minimumAvailabilityField
-
                 qualityProfileField
             }
 
@@ -44,6 +43,7 @@ struct MovieForm: View {
                 Text("Availability")
             }
         }
+        .tint(.secondary)
     }
 
     var qualityProfileField: some View {
@@ -57,6 +57,7 @@ struct MovieForm: View {
                 Text("Quality")
             }
         }
+        .tint(.secondary)
     }
 
     var rootFolderField: some View {

@@ -79,6 +79,7 @@ struct InstanceView: View {
                 Text(type.rawValue).tag(type)
             }
         }
+        .tint(.secondary)
     }
 
     var labelField: some View {
