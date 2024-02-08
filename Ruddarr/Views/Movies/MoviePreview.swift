@@ -141,13 +141,17 @@ struct MoviePreview: View {
 
         dismiss()
 
-        dependencies.router.moviesPath.removeLast(
-            dependencies.router.moviesPath.count
-        )
+        let path = MoviesView.Path.movie(addedMovie.id)
 
-        dependencies.router.moviesPath.append(
-            MoviesView.Path.movie(addedMovie.id)
-        )
+        withAnimation {
+            dependencies.router.moviesPath.removeLast(
+                dependencies.router.moviesPath.count
+            )
+        } completion: {
+            withAnimation {
+                dependencies.router.moviesPath.append(path)
+            }
+        }
     }
 }
 
