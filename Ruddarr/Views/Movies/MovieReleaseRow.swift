@@ -26,6 +26,8 @@ struct MovieReleaseRow: View {
                     .lineLimit(1)
             }
 
+            let secondaryOpacity = 0.65
+
             Group {
                 HStack(spacing: 6) {
                     Text(release.qualityLabel)
@@ -34,21 +36,22 @@ struct MovieReleaseRow: View {
                     Text("•")
                     Text(release.ageLabel)
                 }
+                .opacity(secondaryOpacity)
                 .lineLimit(1)
-                .opacity(0.75)
 
                 HStack(spacing: 6) {
                     Text(release.typeLabel)
                         .foregroundStyle(peerColor)
-                        // .opacity(0.75)
 
-                    Text("•").opacity(0.75)
-                    Text(release.indexerLabel).opacity(0.75)
+                    Group {
+                        Text("•")
+                        Text(release.indexerLabel)
+                    }.opacity(secondaryOpacity)
 
                     Spacer()
 
                     releaseIcon
-                }.colorMultiply(.white)
+                }
                 .lineLimit(1)
             }
             .font(.subheadline)
