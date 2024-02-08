@@ -123,9 +123,12 @@ struct Movie: Identifiable, Codable {
 
     var isWaiting: Bool {
         return switch status {
-        case .tba, .announced: true
-        case .inCinemas: minimumAvailability != .released
-        case .released, .deleted: false
+        case .tba, .announced:
+            true // status == .announced && digitalRelease <= today
+        case .inCinemas:
+            minimumAvailability != .released
+        case .released, .deleted:
+            false
         }
     }
 }

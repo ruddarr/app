@@ -13,6 +13,9 @@ struct MovieView: View {
                 .padding(.top)
                 .scenePadding(.horizontal)
         }
+        .refreshable {
+            await refresh()
+        }
         .alert(
             "Something Went Wrong",
             isPresented: Binding(get: { instance.movies.error != nil }, set: { _ in }),
@@ -57,6 +60,10 @@ struct MovieView: View {
         ToolbarItem(placement: .primaryAction) {
             Menu {
                 Section {
+                    Button("Refresh", systemImage: "arrow.triangle.2.circlepath") {
+                        Task { await refresh() }
+                    }
+
                     NavigationLink(
                         value: MoviesView.Path.edit(movie.id)
                     ) {
@@ -123,12 +130,20 @@ struct MovieView: View {
         dependencies.toast.show(movie.monitored ? .monitored : .unmonitored)
     }
 
+    func refresh() async {
+        guard await instance.movies.command(movie, command: .refresh) else {
+            return
+        }
+
+        dependencies.toast.show(.refreshQueued)
+    }
+
     func dispatchSearch() async {
         guard await instance.movies.command(movie, command: .automaticSearch) else {
             return
         }
 
-        dependencies.toast.show(.searchStarted)
+        dependencies.toast.show(.searchQueued)
     }
 
     @MainActor

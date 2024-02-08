@@ -45,7 +45,8 @@ extension Toast {
     enum PresetMessage {
         case monitored
         case unmonitored
-        case searchStarted
+        case refreshQueued
+        case searchQueued
         case movieDeleted
     }
 
@@ -55,10 +56,12 @@ extension Toast {
             custom(text: "Monitored", icon: "bookmark.fill")
         case .unmonitored:
             custom(text: "Unmonitored", icon: "bookmark")
-        case .searchStarted:
-            custom(text: "Search Started", icon: "checkmark.circle.fill")
+        case .refreshQueued:
+            custom(text: "Refresh Queued", icon: "checkmark.circle.fill")
+        case .searchQueued:
+            custom(text: "Search Queued", icon: "checkmark.circle.fill")
         case .movieDeleted:
-            custom(text: "Movie Deleted", icon: "trash.fill")
+            custom(text: "Movie Deleted", icon: "checkmark.circle.fill")
         }
     }
 

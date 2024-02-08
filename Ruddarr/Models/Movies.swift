@@ -105,6 +105,7 @@ class Movies {
 
             case .command(let movie, let commandName):
                 let command = switch commandName {
+                case .refresh: RadarrCommand(name: commandName, movieIds: [movie.movieId!])
                 case .automaticSearch: RadarrCommand(name: commandName, movieIds: [movie.movieId!])
                 }
 

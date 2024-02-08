@@ -45,6 +45,7 @@ struct RadarrCommand: Codable {
     let movieIds: [Int]
 
     enum Command: String, Codable {
+        case refresh = "RefreshMovie"
         case automaticSearch = "MoviesSearch"
     }
 }

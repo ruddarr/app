@@ -64,7 +64,7 @@ struct MovieDetails: View {
                         return
                     }
 
-                    dependencies.toast.show(.searchStarted)
+                    dependencies.toast.show(.searchQueued)
                 }
             } label: {
                 ButtonLabel(text: "Automatic", icon: "magnifyingglass")
