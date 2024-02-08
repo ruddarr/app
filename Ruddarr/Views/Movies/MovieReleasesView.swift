@@ -82,31 +82,15 @@ struct MovieReleasesView: View {
 
         if sort.freeleechOnly {
             sortedReleases = sortedReleases.filter {
-                $0.cleanIndexerFlags.contains(where: {$0.localizedStandardContains("freeleech") })
+                $0.cleanIndexerFlags.contains(where: { $0.localizedStandardContains("freeleech") })
             }
         }
 
         return sort.isAscending ? sortedReleases : sortedReleases.reversed()
     }
+}
 
-    var indexers: [String] {
-        var seen: Set<String> = []
-
-        return instance.releases.items
-            .map { $0.indexerLabel }
-            .filter { seen.insert($0).inserted }
-            .sorted()
-    }
-
-    var qualities: [String] {
-        var seen: Set<String> = []
-
-        return instance.releases.items
-            .map { $0.quality.quality.name ?? "Unknown" }
-            .filter { seen.insert($0).inserted }
-            .sorted()
-    }
-
+extension MovieReleasesView {
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
@@ -133,7 +117,6 @@ struct MovieReleasesView: View {
     var toolbarSortingButton: some View {
         Menu {
             Section {
-
                 Picker("Sorting options", selection: $sort.option) {
                     ForEach(MovieReleaseSort.Option.allCases) { option in
                         Text(option.title).tag(option)
@@ -146,7 +129,6 @@ struct MovieReleasesView: View {
                     case .bySeeders: sort.isAscending = false
                     }
                 }
-
             }
 
             Section {
@@ -184,83 +166,23 @@ struct MovieReleasesView: View {
             }
         }
     }
-}
 
-struct MovieReleaseRow: View {
-    var release: MovieRelease
+    var indexers: [String] {
+        var seen: Set<String> = []
 
-    @State private var isShowingPopover = false
-
-    var body: some View {
-        linesStack
-            .onTapGesture {
-                isShowingPopover = true
-            }
-            .sheet(isPresented: $isShowingPopover) {
-                MovieReleaseSheet(release: release)
-                    .presentationDetents([.medium])
-                    .presentationDragIndicator(.hidden)
-            }
+        return instance.releases.items
+            .map { $0.indexerLabel }
+            .filter { seen.insert($0).inserted }
+            .sorted()
     }
 
-    var linesStack: some View {
-        VStack(alignment: .leading) {
-            HStack(spacing: 4) {
-                Text(release.title)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .lineLimit(1)
-            }
+    var qualities: [String] {
+        var seen: Set<String> = []
 
-            Group {
-                HStack(spacing: 6) {
-                    Text(release.qualityLabel)
-                    Text("•")
-                    Text(release.sizeLabel)
-                    Text("•")
-                    Text(release.ageLabel)
-                }
-                .lineLimit(1)
-
-                HStack(spacing: 6) {
-                    Text(release.typeLabel)
-                        .foregroundStyle(peerColor)
-                        .opacity(0.75)
-
-                    Text("•")
-                    Text(release.indexerLabel)
-
-                    Spacer()
-
-                    releaseIcon
-                }
-                .lineLimit(1)
-            }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-        }
-    }
-
-    var releaseIcon: some View {
-        Group {
-            if release.rejected {
-                Image(systemName: "exclamationmark.triangle")
-            } else if !release.indexerFlags.isEmpty {
-                Image(systemName: "flag")
-            }
-        }
-        .symbolVariant(.fill)
-        .imageScale(.medium)
-        .foregroundColor(.secondary)
-    }
-
-    var peerColor: any ShapeStyle {
-        switch release.seeders ?? 0 {
-        case 50...: .green
-        case 10..<50: .blue
-        case 1..<10: .orange
-        default: .red
-        }
+        return instance.releases.items
+            .map { $0.quality.quality.name ?? "Unknown" }
+            .filter { seen.insert($0).inserted }
+            .sorted()
     }
 }
 
