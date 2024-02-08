@@ -4,8 +4,7 @@ struct MovieReleasesView: View {
     @Binding var movie: Movie
 
     @State private var sort: MovieReleaseSort = .init()
-    @State private var indexer: String = ""
-    @State private var quality: String = ""
+
     @State private var fetched: Bool = false
     @State private var waitingTextOpacity: Double = 0
 
@@ -21,7 +20,7 @@ struct MovieReleasesView: View {
             .listStyle(.inset)
         }
         .toolbar {
-            toolbarSortingButton
+            toolbarButtons
         }
         .task {
             guard !fetched else { return }
@@ -69,12 +68,22 @@ struct MovieReleasesView: View {
             by: sort.option.isOrderedBefore
         )
 
-        if !indexer.isEmpty {
-            sortedReleases = sortedReleases.filter { $0.indexerLabel == indexer }
+        if sort.indexer != ".all" {
+            sortedReleases = sortedReleases.filter { $0.indexerLabel == sort.indexer }
         }
 
-        if !quality.isEmpty {
-            sortedReleases = sortedReleases.filter { $0.quality.quality.name == quality }
+        if sort.quality != ".all" {
+            sortedReleases = sortedReleases.filter { $0.quality.quality.name == sort.quality }
+        }
+
+        if sort.approvedOnly {
+            sortedReleases = sortedReleases.filter { !$0.rejected }
+        }
+
+        if sort.freeleechOnly {
+            sortedReleases = sortedReleases.filter {
+                $0.cleanIndexerFlags.contains(where: {$0.localizedStandardContains("freeleech") })
+            }
         }
 
         return sort.isAscending ? sortedReleases : sortedReleases.reversed()
@@ -99,12 +108,31 @@ struct MovieReleasesView: View {
     }
 
     @ToolbarContentBuilder
-    var toolbarSortingButton: some ToolbarContent {
+    var toolbarButtons: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Menu("Sorting & Filters", systemImage: "line.3.horizontal.decrease") {
-                indexersPicker
+            HStack {
+                toolbarSortingButton
+                toolbarFilterButton
+            }
+        }
+    }
 
-                qualityPicker
+    var toolbarFilterButton: some View {
+        Menu("Filter options", systemImage: "line.3.horizontal.decrease") {
+            indexersPicker
+
+            qualityPicker
+
+            Section {
+                Toggle("Only Approved", isOn: $sort.approvedOnly)
+                Toggle("Only FreeLeech", isOn: $sort.freeleechOnly)
+            }
+        }
+    }
+
+    var toolbarSortingButton: some View {
+        Menu {
+            Section {
 
                 Picker("Sorting options", selection: $sort.option) {
                     ForEach(MovieReleaseSort.Option.allCases) { option in
@@ -119,36 +147,40 @@ struct MovieReleasesView: View {
                     }
                 }
 
-                Section {
-                    Picker("Sorting direction", selection: $sort.isAscending) {
-                        Text("Ascending").tag(true)
-                        Text("Descending").tag(false)
-                    }
+            }
+
+            Section {
+                Picker("Sorting direction", selection: $sort.isAscending) {
+                    Text("Ascending").tag(true)
+                    Text("Descending").tag(false)
                 }
             }
+        } label: {
+            Image(systemName: "arrow.up.arrow.down")
+                .imageScale(.medium)
         }
     }
 
     var indexersPicker: some View {
         Menu("Indexer") {
-            Picker("Indexer", selection: $indexer) {
+            Picker("Indexer", selection: $sort.indexer) {
                 ForEach(indexers, id: \.self) { indexer in
                     Text(indexer).tag(Optional.some(indexer))
                 }
 
-                Text("All Indexers").tag("")
+                Text("All Indexers").tag(".all")
             }
         }
     }
 
     var qualityPicker: some View {
         Menu("Quality Profile") {
-            Picker("Quality Profile", selection: $quality) {
+            Picker("Quality Profile", selection: $sort.quality) {
                 ForEach(qualities, id: \.self) { quality in
                     Text(quality).tag(Optional.some(quality))
                 }
 
-                Text("All Quality Profiles").tag("")
+                Text("All Quality Profiles").tag(".all")
             }
         }
     }
@@ -197,24 +229,29 @@ struct MovieReleaseRow: View {
 
                     Text("•")
                     Text(release.indexerLabel)
+
                     Spacer()
 
-                    Group {
-                        if release.rejected {
-                            Image(systemName: "exclamationmark.triangle")
-                        } else if !release.indexerFlags.isEmpty {
-                            Image(systemName: "flag")
-                        }
-                    }
-                    .symbolVariant(.fill)
-                    .imageScale(.medium)
-                    .foregroundColor(.secondary)
+                    releaseIcon
                 }
                 .lineLimit(1)
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
         }
+    }
+
+    var releaseIcon: some View {
+        Group {
+            if release.rejected {
+                Image(systemName: "exclamationmark.triangle")
+            } else if !release.indexerFlags.isEmpty {
+                Image(systemName: "flag")
+            }
+        }
+        .symbolVariant(.fill)
+        .imageScale(.medium)
+        .foregroundColor(.secondary)
     }
 
     var peerColor: any ShapeStyle {

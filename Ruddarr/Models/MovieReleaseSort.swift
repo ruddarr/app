@@ -4,6 +4,12 @@ struct MovieReleaseSort {
     var isAscending: Bool = false
     var option: Option = .byWeight
 
+    var indexer: String = ".all"
+    var quality: String = ".all"
+
+    var approvedOnly: Bool = false
+    var freeleechOnly: Bool = false
+
     enum Option: CaseIterable, Hashable, Identifiable, Codable {
         var id: Self { self }
 
