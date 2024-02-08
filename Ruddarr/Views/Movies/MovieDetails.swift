@@ -59,7 +59,7 @@ struct MovieDetails: View {
     var actions: some View {
         HStack(spacing: 24) {
             Button {
-                Task {
+                Task { @MainActor in
                     guard await instance.movies.command(movie, command: .automaticSearch) else {
                         return
                     }
@@ -219,7 +219,7 @@ struct MovieDetailsOverview: View {
                     .fontWeight(.bold)
                     .kerning(-0.5)
                     .lineLimit(3)
-                    .padding(.bottom, 8)
+                    .padding(.bottom, 6)
 
                 ViewThatFits(in: .horizontal) {
                     HStack(spacing: 6) {
@@ -239,7 +239,8 @@ struct MovieDetailsOverview: View {
                         Text(movie.runtimeLabel)
                     }
                 }
-                .padding(.bottom, 4)
+                .font(.callout)
+                .padding(.bottom, 6)
                 .foregroundStyle(.secondary)
 
                 MovieDetailsRatings(movie: movie)
@@ -252,26 +253,26 @@ struct MovieDetailsRatings: View {
     var movie: Movie
 
     var body: some View {
-
         ViewThatFits(in: .horizontal) {
             HStack(spacing: 12) {
                 rotten
                 imdb
                 tmdb
                 metacritic
-            }.font(.callout)
+            }
 
             HStack(spacing: 12) {
                 rotten
                 imdb
                 metacritic
-            }.font(.callout)
+            }
 
             HStack(spacing: 12) {
                 rotten
                 imdb
-            }.font(.callout)
+            }
         }
+        .font(.callout)
         .foregroundStyle(.secondary)
     }
 
@@ -337,7 +338,7 @@ struct MovieDetailsRatings: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
-    let movie = movies.first(where: { $0.id == 236 }) ?? movies[0]
+    let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     return MovieSearchSheet(movie: movie)
         .withSettings()

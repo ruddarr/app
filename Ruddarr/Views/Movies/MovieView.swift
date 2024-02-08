@@ -130,14 +130,20 @@ struct MovieView: View {
         dependencies.toast.show(movie.monitored ? .monitored : .unmonitored)
     }
 
+    @MainActor
     func refresh() async {
         guard await instance.movies.command(movie, command: .refresh) else {
             return
         }
 
         dependencies.toast.show(.refreshQueued)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            Task { await instance.movies.fetch() }
+        }
     }
 
+    @MainActor
     func dispatchSearch() async {
         guard await instance.movies.command(movie, command: .automaticSearch) else {
             return
@@ -157,7 +163,7 @@ struct MovieView: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
-    let movie = movies.first(where: { $0.id == 236 }) ?? movies[0]
+    let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     dependencies.router.selectedTab = .movies
 

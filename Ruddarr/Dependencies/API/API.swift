@@ -163,8 +163,6 @@ extension API {
                     print("Request failed (\(statusCode)) \(data)")
                     log.error("Request failed (\(statusCode)) \(data)")
                 }
-
-                throw Error.badStatusCode(code: statusCode)
             }
 
             if let error = message {
