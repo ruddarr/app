@@ -23,26 +23,15 @@ struct MoviesView: View {
     }
 
     var body: some View {
-        let gridItemLayout = [
-            GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)
-        ]
-
         NavigationStack(path: dependencies.$router.moviesPath) {
             Group {
                 if instance.isVoid {
                     noRadarrInstance
                 } else {
                     ScrollView {
-                        LazyVGrid(columns: gridItemLayout, spacing: 15) {
-                            ForEach(displayedMovies) { movie in
-                                NavigationLink(value: Path.movie(movie.id)) {
-                                    MovieGridItem(movie: movie)
-                                }
-                                .buttonStyle(.plain)
-                            }
-                        }
-                        .padding(.top, searchPresented ? 10 : 0)
-                        .scenePadding(.horizontal)
+                        movieItemGrid
+                            .padding(.top, searchPresented ? 10 : 0)
+                            .scenePadding(.horizontal)
                     }
                     .task(priority: .low) {
                         guard !instance.isVoid else { return }
@@ -113,6 +102,21 @@ struct MoviesView: View {
                 } else if instance.movies.isWorking && instance.movies.items.isEmpty {
                     ProgressView("Loading...").tint(.secondary)
                 }
+            }
+        }
+    }
+
+    var movieItemGrid: some View {
+        let gridItemLayout = [
+            GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)
+        ]
+
+        return LazyVGrid(columns: gridItemLayout, spacing: 15) {
+            ForEach(displayedMovies) { movie in
+                NavigationLink(value: Path.movie(movie.id)) {
+                    MovieGridItem(movie: movie)
+                }
+                .buttonStyle(.plain)
             }
         }
     }

@@ -37,27 +37,9 @@ struct MoviePreview: View {
                 MovieDetailsRatings(movie: movie)
                     .padding(.bottom)
 
-                Text(movie.overview!)
-                    .font(.callout)
-                    .transition(.slide)
-                    .lineLimit(descriptionTruncated ? 4 : nil)
-                    .padding(.bottom)
-                    .onTapGesture {
-                        withAnimation { descriptionTruncated.toggle() }
-                    }
+                description
 
-                Grid(alignment: .leading) {
-                    detailsRow("Status", value: movie.status.label)
-
-                    if let studio = movie.studio, !studio.isEmpty {
-                        detailsRow("Studio", value: studio)
-                    }
-
-                    if !movie.genres.isEmpty {
-                        detailsRow("Genre", value: movie.genreLabel)
-                    }
-                }
-                .padding(.bottom)
+                detailsGrid
             }
         }
         .scenePadding(.horizontal)
@@ -89,17 +71,30 @@ struct MoviePreview: View {
         }
     }
 
-    func detailsRow(_ label: String, value: String) -> some View {
-        GridRow {
-            Text(label)
-                .textCase(.uppercase)
-                .foregroundStyle(.secondary)
-                .fontWeight(.medium)
-                .padding(.trailing)
-            Text(value)
-            Spacer()
+    var description: some View {
+        Text(movie.overview!)
+            .font(.callout)
+            .transition(.slide)
+            .lineLimit(descriptionTruncated ? 4 : nil)
+            .padding(.bottom)
+            .onTapGesture {
+                withAnimation { descriptionTruncated.toggle() }
+            }
+    }
+
+    var detailsGrid: some View {
+        Grid(alignment: .leading) {
+            detailsRow("Status", value: movie.status.label)
+
+            if let studio = movie.studio, !studio.isEmpty {
+                detailsRow("Studio", value: studio)
+            }
+
+            if !movie.genres.isEmpty {
+                detailsRow("Genre", value: movie.genreLabel)
+            }
         }
-        .font(.callout)
+        .padding(.bottom)
     }
 
     @ToolbarContentBuilder
@@ -115,6 +110,19 @@ struct MoviePreview: View {
                 }
             }
         }
+    }
+
+    func detailsRow(_ label: String, value: String) -> some View {
+        GridRow {
+            Text(label)
+                .textCase(.uppercase)
+                .foregroundStyle(.secondary)
+                .fontWeight(.medium)
+                .padding(.trailing)
+            Text(value)
+            Spacer()
+        }
+        .font(.callout)
     }
 
     @MainActor

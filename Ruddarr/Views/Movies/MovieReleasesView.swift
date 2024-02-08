@@ -96,25 +96,9 @@ struct MovieReleasesView: View {
     var toolbarSortingButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Menu("Sorting & Filters", systemImage: "line.3.horizontal.decrease") {
-                Menu("Indexers") {
-                    Picker("Indexers", selection: $indexer) {
-                        ForEach(indexers, id: \.self) { indexer in
-                            Text(indexer).tag(Optional.some(indexer))
-                        }
+                indexersPicker
 
-                        Text("All Indexers").tag("")
-                    }
-                }
-
-                Menu("Quality Profiles") {
-                    Picker("Quality Profiles", selection: $quality) {
-                        ForEach(qualities, id: \.self) { quality in
-                            Text(quality).tag(Optional.some(quality))
-                        }
-
-                        Text("All Quality Profiles").tag("")
-                    }
-                }
+                qualityPicker
 
                 Picker("Sorting options", selection: $sort.option) {
                     ForEach(MovieReleaseSort.Option.allCases) { option in
@@ -131,6 +115,30 @@ struct MovieReleasesView: View {
             }
         }
     }
+
+    var indexersPicker: some View {
+        Menu("Indexers") {
+            Picker("Indexers", selection: $indexer) {
+                ForEach(indexers, id: \.self) { indexer in
+                    Text(indexer).tag(Optional.some(indexer))
+                }
+
+                Text("All Indexers").tag("")
+            }
+        }
+    }
+
+    var qualityPicker: some View {
+        Menu("Quality Profiles") {
+            Picker("Quality Profiles", selection: $quality) {
+                ForEach(qualities, id: \.self) { quality in
+                    Text(quality).tag(Optional.some(quality))
+                }
+
+                Text("All Quality Profiles").tag("")
+            }
+        }
+    }
 }
 
 struct MovieReleaseRow: View {
@@ -140,37 +148,8 @@ struct MovieReleaseRow: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                HStack(spacing: 4) {
-                    Text(release.title)
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .lineLimit(1)
-                }
-
-                Group {
-                    HStack(spacing: 6) {
-                        Text(release.qualityLabel)
-                        Text("•")
-                        Text(release.sizeLabel)
-                        Text("•")
-                        Text(release.ageLabel)
-                    }
-                    .lineLimit(1)
-
-                    HStack(spacing: 6) {
-                        Text(release.typeLabel)
-                            .foregroundStyle(peerColor)
-                            .opacity(0.75)
-                        Text("•")
-                        Text(release.indexerLabel)
-                    }
-                    .lineLimit(1)
-                }
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-            }
-            .padding(.trailing, 10)
+            linesStack
+                .padding(.trailing, 10)
 
             Spacer()
 
@@ -193,6 +172,39 @@ struct MovieReleaseRow: View {
             MovieReleaseSheet(release: release)
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.hidden)
+        }
+    }
+
+    var linesStack: some View {
+        VStack(alignment: .leading) {
+            HStack(spacing: 4) {
+                Text(release.title)
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .lineLimit(1)
+            }
+
+            Group {
+                HStack(spacing: 6) {
+                    Text(release.qualityLabel)
+                    Text("•")
+                    Text(release.sizeLabel)
+                    Text("•")
+                    Text(release.ageLabel)
+                }
+                .lineLimit(1)
+
+                HStack(spacing: 6) {
+                    Text(release.typeLabel)
+                        .foregroundStyle(peerColor)
+                        .opacity(0.75)
+                    Text("•")
+                    Text(release.indexerLabel)
+                }
+                .lineLimit(1)
+            }
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
         }
     }
 

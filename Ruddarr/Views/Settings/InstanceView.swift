@@ -23,46 +23,18 @@ struct InstanceView: View {
     var body: some View {
         Form {
             Section {
-                Picker("Type", selection: $instance.type) {
-                    ForEach(InstanceType.allCases) { type in
-                        Text(type.rawValue).tag(type)
-                    }
-                }
-
-                LabeledContent {
-                    TextField("Synology", text: $instance.label)
-                        .multilineTextAlignment(.trailing)
-                } label: {
-                    Text("Label")
-                }
+                typeField
+                labelField
             }
 
             Section {
-                LabeledContent {
-                    TextField("", text: $instance.url, prompt: Text(verbatim: urlPlaceholder))
-                        .multilineTextAlignment(.trailing)
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .textCase(.lowercase)
-                        .keyboardType(.URL)
-                } label: {
-                    Text("URL")
-                }
-
+                urlField
             } footer: {
                 Text("The URL used to access the web interface. Do not use `localhost` or `127.0.0.1`. Must be prefixed with `http://` or `https://`.")
             }
 
             Section {
-                LabeledContent {
-                    TextField("0a1b2c3d...", text: $instance.apiKey)
-                        .multilineTextAlignment(.trailing)
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .textCase(.lowercase)
-                } label: {
-                    Text("API Key")
-                }
+                apiKeyField
             } footer: {
                 Text("The API Key can be found in the web interface under \"Settings > General > Security\".")
             }
@@ -83,29 +55,63 @@ struct InstanceView: View {
                     self.instance.label = "Digital Ocean"
                 }
             #endif
-        }.onSubmit {
+        }
+        .onSubmit {
             guard !hasEmptyFields() else { return }
 
             Task {
                 await saveInstance()
             }
-        }.toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                if isLoading {
-                    ProgressView().tint(.secondary)
-                } else {
-                    Button("Done") {
-                        Task {
-                            await saveInstance()
-                        }
-                    }
-                    .disabled(hasEmptyFields())
-                }
-            }
-        }.alert(isPresented: $showingAlert, error: error) { _ in
+        }
+        .toolbar {
+            toolbarButton
+        }
+        .alert(isPresented: $showingAlert, error: error) { _ in
             Button("OK") { }
         } message: { error in
             Text(error.recoverySuggestion ?? "Try again later.")
+        }
+    }
+
+    var typeField: some View {
+        Picker("Type", selection: $instance.type) {
+            ForEach(InstanceType.allCases) { type in
+                Text(type.rawValue).tag(type)
+            }
+        }
+    }
+
+    var labelField: some View {
+        LabeledContent {
+            TextField("Synology", text: $instance.label)
+                .multilineTextAlignment(.trailing)
+        } label: {
+            Text("Label")
+        }
+    }
+
+    var urlField: some View {
+        LabeledContent {
+            TextField("", text: $instance.url, prompt: Text(verbatim: urlPlaceholder))
+                .multilineTextAlignment(.trailing)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
+                .textCase(.lowercase)
+                .keyboardType(.URL)
+        } label: {
+            Text("URL")
+        }
+    }
+
+    var apiKeyField: some View {
+        LabeledContent {
+            TextField("0a1b2c3d...", text: $instance.apiKey)
+                .multilineTextAlignment(.trailing)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
+                .textCase(.lowercase)
+        } label: {
+            Text("API Key")
         }
     }
 
@@ -136,6 +142,22 @@ struct InstanceView: View {
             Text("Are you sure you want to delete the instance?")
         }
         .frame(maxWidth: .infinity, alignment: .center)
+    }
+
+    @ToolbarContentBuilder
+    var toolbarButton: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            if isLoading {
+                ProgressView().tint(.secondary)
+            } else {
+                Button("Done") {
+                    Task {
+                        await saveInstance()
+                    }
+                }
+                .disabled(hasEmptyFields())
+            }
+        }
     }
 }
 

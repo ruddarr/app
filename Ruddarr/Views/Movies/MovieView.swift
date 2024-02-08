@@ -60,41 +60,20 @@ struct MovieView: View {
         ToolbarItem(placement: .primaryAction) {
             Menu {
                 Section {
-                    Button("Refresh", systemImage: "arrow.triangle.2.circlepath") {
-                        Task { await refresh() }
-                    }
-
-                    NavigationLink(
-                        value: MoviesView.Path.edit(movie.id)
-                    ) {
-                        Label("Edit", systemImage: "pencil")
-                    }
+                    refreshAction
+                    editAction
                 }
 
                 Section {
-                    Button("Automatic Search", systemImage: "magnifyingglass") {
-                        Task { await dispatchSearch() }
-                    }
-
-                    NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
-                        Label("Interactive Search", systemImage: "person.fill")
-                    })
+                    automaticSearch
+                    interactiveSearch
                 }
 
                 Section {
                     deleteMovieButton
                 }
             } label: {
-                Circle()
-                    .fill(.secondarySystemBackground)
-                    .frame(width: 28, height: 28)
-                    .overlay {
-                        Image(systemName: "ellipsis")
-                            .symbolVariant(.fill)
-                            .font(.system(size: 12, weight: .bold))
-                            .symbolVariant(movie.monitored ? .fill : .none)
-                            .foregroundStyle(.tint)
-                    }
+                actionMenuIcon
             }
             .confirmationDialog(
                 "Are you sure you want to delete the movie and permanently erase the movie folder and its contents?",
@@ -103,7 +82,7 @@ struct MovieView: View {
             ) {
                 Button("Delete Movie", role: .destructive) {
                     Task {
-                         await deleteMovie(movie)
+                        await deleteMovie(movie)
                     }
                 }
                 Button("Cancel", role: .cancel) { }
@@ -113,12 +92,54 @@ struct MovieView: View {
         }
     }
 
+    var actionMenuIcon: some View {
+        Circle()
+            .fill(.secondarySystemBackground)
+            .frame(width: 28, height: 28)
+            .overlay {
+                Image(systemName: "ellipsis")
+                    .symbolVariant(.fill)
+                    .font(.system(size: 12, weight: .bold))
+                    .symbolVariant(movie.monitored ? .fill : .none)
+                    .foregroundStyle(.tint)
+            }
+    }
+
+    var refreshAction: some View {
+        Button("Refresh", systemImage: "arrow.triangle.2.circlepath") {
+            Task { await refresh() }
+        }
+    }
+
+    var editAction: some View {
+        NavigationLink(
+            value: MoviesView.Path.edit(movie.id)
+        ) {
+            Label("Edit", systemImage: "pencil")
+        }
+    }
+
+    var automaticSearch: some View {
+        Button("Automatic Search", systemImage: "magnifyingglass") {
+            Task { await dispatchSearch() }
+        }
+    }
+
+    var interactiveSearch: some View {
+        NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
+            Label("Interactive Search", systemImage: "person.fill")
+        })
+
+    }
+
     var deleteMovieButton: some View {
         Button("Delete", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
         }
     }
+}
 
+extension MovieView {
     @MainActor
     func toggleMonitor() async {
         movie.monitored.toggle()

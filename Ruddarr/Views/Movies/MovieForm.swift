@@ -18,48 +18,60 @@ struct MovieForm: View {
             Section {
                 Toggle("Monitored", isOn: $movie.monitored)
 
-                Picker(selection: $movie.minimumAvailability) {
-                    ForEach(availabilities, id: \.self) { availability in
-                        Text(availability.label).tag(availability)
-                    }
-                } label: {
-                    ViewThatFits(in: .horizontal) {
-                        Text("Minimum Availability")
-                        Text("Min. Availability")
-                        Text("Availability")
-                    }
-                }
+                minimumAvailabilityField
 
-                Picker(selection: $movie.qualityProfileId) {
-                    ForEach(instance.qualityProfiles) { profile in
-                        Text(profile.name)
-                    }
-                } label: {
-                    ViewThatFits(in: .horizontal) {
-                        Text("Quality Profile")
-                        Text("Quality")
-                    }
-                }
+                qualityProfileField
             }
 
             if movie.movieId == nil {
-                Section("Root Folder") {
-                    Picker("", selection: $movie.rootFolderPath) {
-                        ForEach(instance.rootFolders) { folder in
-                            HStack {
-                                Text(folder.label)
-                                Spacer()
-                            }.tag(folder.path)
-                        }
-                    }
-                    .labelsHidden()
-                    .pickerStyle(.navigationLink)
-                    .foregroundStyle(.tint)
-                }
+                rootFolderField
             }
         }
         .onAppear {
             selectDefaultValues()
+        }
+    }
+
+    var minimumAvailabilityField: some View {
+        Picker(selection: $movie.minimumAvailability) {
+            ForEach(availabilities, id: \.self) { availability in
+                Text(availability.label).tag(availability)
+            }
+        } label: {
+            ViewThatFits(in: .horizontal) {
+                Text("Minimum Availability")
+                Text("Min. Availability")
+                Text("Availability")
+            }
+        }
+    }
+
+    var qualityProfileField: some View {
+        Picker(selection: $movie.qualityProfileId) {
+            ForEach(instance.qualityProfiles) { profile in
+                Text(profile.name)
+            }
+        } label: {
+            ViewThatFits(in: .horizontal) {
+                Text("Quality Profile")
+                Text("Quality")
+            }
+        }
+    }
+
+    var rootFolderField: some View {
+        Section("Root Folder") {
+            Picker("", selection: $movie.rootFolderPath) {
+                ForEach(instance.rootFolders) { folder in
+                    HStack {
+                        Text(folder.label)
+                        Spacer()
+                    }.tag(folder.path)
+                }
+            }
+            .labelsHidden()
+            .pickerStyle(.navigationLink)
+            .foregroundStyle(.tint)
         }
     }
 

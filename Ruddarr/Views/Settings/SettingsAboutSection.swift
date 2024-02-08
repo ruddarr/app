@@ -11,46 +11,62 @@ struct SettingsAboutSection: View {
 
     var body: some View {
         Section(header: Text("About")) {
-            ShareLink(item: shareUrl) {
-                Label {
-                    Text("Share App").tint(.primary)
-                } icon: {
-                    Image(systemName: "square.and.arrow.up").foregroundColor(.blue)
-                }
+            shareLink
+            reviewLink
+            supportEmail
+            github
+            libraries
+        }
+    }
+
+    var shareLink: some View {
+        ShareLink(item: shareUrl) {
+            Label {
+                Text("Share App").tint(.primary)
+            } icon: {
+                Image(systemName: "square.and.arrow.up").foregroundColor(.blue)
             }
+        }
+    }
 
-            Link(destination: reviewUrl) {
-                Label {
-                    Text("Leave a Review").tint(.primary)
-                } icon: {
-                    Image(systemName: "star.fill").foregroundColor(.yellow)
-                }
+    var reviewLink: some View {
+        Link(destination: reviewUrl) {
+            Label {
+                Text("Leave a Review").tint(.primary)
+            } icon: {
+                Image(systemName: "star.fill").foregroundColor(.yellow)
             }
+        }
+    }
 
-            Button {
-                Task { await openSupportEmail() }
-            } label: {
-                Label {
-                    Text("Email Support").tint(.primary)
-                } icon: {
-                    Image(systemName: "square.and.pencil").foregroundColor(.blue)
-                }
+    var supportEmail: some View {
+        Button {
+            Task { await openSupportEmail() }
+        } label: {
+            Label {
+                Text("Email Support").tint(.primary)
+            } icon: {
+                Image(systemName: "square.and.pencil").foregroundColor(.blue)
             }
+        }
+    }
 
-            Link(destination: githubUrl, label: {
-                Label {
-                    Text("Contribute on GitHub").tint(.primary)
-                } icon: {
-                    Image(systemName: "curlybraces.square").foregroundColor(.purple)
-                }
-            })
+    var github: some View {
+        Link(destination: githubUrl, label: {
+            Label {
+                Text("Contribute on GitHub").tint(.primary)
+            } icon: {
+                Image(systemName: "curlybraces.square").foregroundColor(.purple)
+            }
+        })
+    }
 
-            NavigationLink { LibrariesView() } label: {
-                Label {
-                    Text("Third Party Libraries").tint(.primary)
-                } icon: {
-                    Image(systemName: "building.columns").foregroundColor(.secondary)
-                }
+    var libraries: some View {
+        NavigationLink { LibrariesView() } label: {
+            Label {
+                Text("Third Party Libraries").tint(.primary)
+            } icon: {
+                Image(systemName: "building.columns").foregroundColor(.secondary)
             }
         }
     }

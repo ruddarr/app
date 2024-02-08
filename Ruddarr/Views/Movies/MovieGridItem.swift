@@ -18,40 +18,44 @@ struct MovieGridItem: View {
         .background(.secondarySystemBackground)
         .overlay(alignment: .bottom) {
             if movie.exists {
-                HStack {
-                    Group {
-                        if movie.hasFile {
-                            Image(systemName: "checkmark.circle.fill")
-                        } else if movie.isWaiting {
-                            Image(systemName: "clock")
-                        } else if movie.monitored {
-                            Image(systemName: "xmark.circle")
-                        }
-                    }.foregroundStyle(.white)
-
-                    Spacer()
-
-                    Image(systemName: "bookmark")
-                        .symbolVariant(movie.monitored ? .fill : .none)
-                        .foregroundStyle(.white)
-                }
-                .font(.body)
-                .padding(.top, 36)
-                .padding(.bottom, 8)
-                .padding(.horizontal, 8)
-                .background {
-                    LinearGradient(
-                        colors: [
-                            Color.black.opacity(0.0),
-                            Color.black.opacity(0.8)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                }
+                posterOverlay
             }
         }
         .cornerRadius(8)
+    }
+
+    var posterOverlay: some View {
+        HStack {
+            Group {
+                if movie.hasFile {
+                    Image(systemName: "checkmark.circle.fill")
+                } else if movie.isWaiting {
+                    Image(systemName: "clock")
+                } else if movie.monitored {
+                    Image(systemName: "xmark.circle")
+                }
+            }.foregroundStyle(.white)
+
+            Spacer()
+
+            Image(systemName: "bookmark")
+                .symbolVariant(movie.monitored ? .fill : .none)
+                .foregroundStyle(.white)
+        }
+        .font(.body)
+        .padding(.top, 36)
+        .padding(.bottom, 8)
+        .padding(.horizontal, 8)
+        .background {
+            LinearGradient(
+                colors: [
+                    Color.black.opacity(0.0),
+                    Color.black.opacity(0.8)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        }
     }
 }
 
