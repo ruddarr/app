@@ -160,32 +160,15 @@ struct MovieReleaseRow: View {
     @State private var isShowingPopover = false
 
     var body: some View {
-        HStack {
-            linesStack
-                .padding(.trailing, 10)
-
-            Spacer()
-
-            if release.rejected {
-                Image(systemName: "exclamationmark.triangle")
-                    .symbolVariant(.fill)
-                    .imageScale(.medium)
-                    .foregroundColor(.orange)
-            } else if !release.indexerFlags.isEmpty {
-                Image(systemName: "flag")
-                    .symbolVariant(.fill)
-                    .imageScale(.medium)
-                    .foregroundStyle(.secondary)
+        linesStack
+            .onTapGesture {
+                isShowingPopover = true
             }
-        }
-        .onTapGesture {
-            isShowingPopover = true
-        }
-        .sheet(isPresented: $isShowingPopover) {
-            MovieReleaseSheet(release: release)
-                .presentationDetents([.medium])
-                .presentationDragIndicator(.hidden)
-        }
+            .sheet(isPresented: $isShowingPopover) {
+                MovieReleaseSheet(release: release)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.hidden)
+            }
     }
 
     var linesStack: some View {
@@ -211,8 +194,21 @@ struct MovieReleaseRow: View {
                     Text(release.typeLabel)
                         .foregroundStyle(peerColor)
                         .opacity(0.75)
+
                     Text("•")
                     Text(release.indexerLabel)
+                    Spacer()
+
+                    Group {
+                        if release.rejected {
+                            Image(systemName: "exclamationmark.triangle")
+                        } else if !release.indexerFlags.isEmpty {
+                            Image(systemName: "flag")
+                        }
+                    }
+                    .symbolVariant(.fill)
+                    .imageScale(.medium)
+                    .foregroundColor(.secondary)
                 }
                 .lineLimit(1)
             }
