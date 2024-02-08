@@ -164,7 +164,7 @@ struct MovieDetails: View {
     }
 
     var qualityProfile: String {
-        return instance.qualityProfiles.first(
+        instance.qualityProfiles.first(
             where: { $0.id == movie.qualityProfileId }
         )?.name ?? "Unknown"
     }

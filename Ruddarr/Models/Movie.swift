@@ -122,7 +122,7 @@ struct Movie: Identifiable, Codable {
     }
 
     var isWaiting: Bool {
-        return switch status {
+        switch status {
         case .tba, .announced:
             true // status == .announced && digitalRelease <= today
         case .inCinemas:
@@ -141,7 +141,7 @@ enum MovieStatus: String, Codable {
     case deleted
 
     var label: String {
-        return switch self {
+        switch self {
         case .tba: "TBA"
         case .announced: "Announced"
         case .inCinemas: "In Cinemas"

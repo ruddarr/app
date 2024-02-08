@@ -161,7 +161,7 @@ extension InstanceView {
     }
 
     func hasEmptyFields() -> Bool {
-        return instance.label.isEmpty || instance.url.isEmpty || instance.apiKey.isEmpty
+        instance.label.isEmpty || instance.url.isEmpty || instance.apiKey.isEmpty
     }
 
     func sanitizeInstanceUrl() {

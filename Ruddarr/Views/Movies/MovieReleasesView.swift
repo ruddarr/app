@@ -48,7 +48,7 @@ struct MovieReleasesView: View {
                         Text("This may take a moment.").font(.footnote)
                     }
                 }.tint(.secondary)
-            } else if instance.releases.items.count == 0 {
+            } else if instance.releases.items.isEmpty {
                 ContentUnavailableView(
                     "No Releases Found",
                     systemImage: "slash.circle",
@@ -197,7 +197,7 @@ struct MovieReleaseRow: View {
     }
 
     var peerColor: any ShapeStyle {
-        return switch release.seeders ?? 0 {
+        switch release.seeders ?? 0 {
         case 50...: .green
         case 10..<50: .blue
         case 1..<10: .orange

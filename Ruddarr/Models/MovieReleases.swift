@@ -141,11 +141,13 @@ struct MovieRelease: Identifiable, Codable {
         if let label = name {
             if label.contains(resolution) {
                 return label
-            } else if quality.quality.resolution > 0 {
-                return "\(label) (\(resolution)p)"
-            } else {
-                return label
             }
+
+            if quality.quality.resolution > 0 {
+                return "\(label) (\(resolution)p)"
+            }
+
+            return label
         }
 
         if quality.quality.resolution > 0 {

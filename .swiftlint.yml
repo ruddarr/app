@@ -8,8 +8,24 @@ analyzer_rules:
   - unused_declaration
   - unused_import
 
+opt_in_rules:
+  # - all
+  # - trailing_closure
+  - implicit_return
+  - closure_body_length
+  - superfluous_else
+  - number_separator
+  - empty_string
+  - closure_spacing
+
 disabled_rules: 
-   - trailing_comma
+  - sorted_imports
+  - trailing_comma
+  - explicit_acl
+  - explicit_top_level_acl
+  - no_magic_numbers
+  - sorted_enum_cases
+  - switch_case_on_newline
 
 excluded:
   - Ruddarr/Dependencies/CloudStorage

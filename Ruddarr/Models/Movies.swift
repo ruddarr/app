@@ -57,27 +57,27 @@ class Movies {
     }
 
     func fetch() async -> Bool {
-        return await request(.fetch)
+        await request(.fetch)
     }
 
     func add(_ movie: Movie) async -> Bool {
-        return await request(.add(movie))
+        await request(.add(movie))
     }
 
     func update(_ movie: Movie) async -> Bool {
-        return await request(.update(movie))
+        await request(.update(movie))
     }
 
     func delete(_ movie: Movie) async -> Bool {
-        return await request(.delete(movie))
+        await request(.delete(movie))
     }
 
     func download(guid: String, indexerId: Int) async -> Bool {
-        return await request(.download(guid, indexerId))
+        await request(.download(guid, indexerId))
     }
 
     func command(_ movie: Movie, command: RadarrCommand.Command) async -> Bool {
-        return await request(.command(movie, command))
+        await request(.command(movie, command))
     }
 
     @MainActor

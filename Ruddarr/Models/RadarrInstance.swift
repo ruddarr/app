@@ -28,7 +28,7 @@ import Foundation
     }
 
     var qualityProfiles: [InstanceQualityProfile] {
-        return instance.qualityProfiles
+        instance.qualityProfiles
     }
 
     func switchTo(_ target: Instance) {

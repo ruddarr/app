@@ -22,9 +22,11 @@ struct SettingsView: View {
                 switch $0 {
                 case .libraries:
                     LibrariesView()
+
                 case .createInstance:
                     let instance = Instance()
                     InstanceView(mode: .create, instance: instance)
+
                 case .editInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
                         InstanceView(mode: .update, instance: instance)
