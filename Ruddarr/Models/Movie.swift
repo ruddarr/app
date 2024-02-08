@@ -78,7 +78,7 @@ struct Movie: Identifiable, Codable {
         }
 
         if isWaiting {
-            return "Waiting";
+            return "Waiting"
         }
 
         if monitored && isAvailable {

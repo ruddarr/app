@@ -142,16 +142,8 @@ struct MovieReleaseRow: View {
         HStack {
             VStack(alignment: .leading) {
                 HStack(spacing: 4) {
-                    if !release.indexerFlags.isEmpty {
-                        // TODO: better flag!
-                        Image(systemName: "flag")
-                            .symbolVariant(.fill)
-                            .imageScale(.small)
-                            .foregroundStyle(.secondary)
-                    }
-
                     Text(release.title)
-                        .font(.callout)
+                        .font(.headline)
                         .fontWeight(.semibold)
                         .lineLimit(1)
                 }
@@ -169,31 +161,30 @@ struct MovieReleaseRow: View {
                     HStack(spacing: 6) {
                         Text(release.typeLabel)
                             .foregroundStyle(peerColor)
+                            .opacity(0.75)
                         Text("•")
                         Text(release.indexerLabel)
                     }
                     .lineLimit(1)
                 }
-                .font(.footnote)
+                .font(.subheadline)
                 .foregroundStyle(.secondary)
             }
             .padding(.trailing, 10)
 
             Spacer()
 
-            Group {
-                if release.rejected {
-                    Image(systemName: "exclamationmark")
-                        .symbolVariant(.circle.fill)
-                        .imageScale(.large)
-                        .foregroundColor(.orange)
-                } else {
-                    Image(systemName: "arrow.down")
-                        .symbolVariant(.circle)
-                        .imageScale(.large)
-                }
+            if release.rejected {
+                Image(systemName: "exclamationmark.triangle")
+                    .symbolVariant(.fill)
+                    .imageScale(.medium)
+                    .foregroundColor(.orange)
+            } else if !release.indexerFlags.isEmpty {
+                Image(systemName: "flag")
+                    .symbolVariant(.fill)
+                    .imageScale(.medium)
+                    .foregroundStyle(.secondary)
             }
-
         }
         .onTapGesture {
             isShowingPopover = true
