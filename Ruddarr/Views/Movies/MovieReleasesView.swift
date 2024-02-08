@@ -20,8 +20,6 @@ struct MovieReleasesView: View {
             }
             .listStyle(.inset)
         }
-        .navigationTitle("Releases")
-        .navigationBarTitleDisplayMode(.large)
         .toolbar {
             toolbarSortingButton
         }
