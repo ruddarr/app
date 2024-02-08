@@ -84,7 +84,12 @@ struct MoviesView: View {
                 }
             }
             .toolbar {
-                toolbarActionButtons
+                toolbarSortingButton
+
+                if settings.radarrInstances.count > 1 {
+                    toolbarInstancePicker
+                }
+
                 toolbarSearchButton
             }
             .searchable(
@@ -162,66 +167,71 @@ struct MoviesView: View {
     }
 
     @ToolbarContentBuilder
-    var toolbarActionButtons: some ToolbarContent {
-        ToolbarItemGroup(placement: .topBarLeading) {
-            if settings.radarrInstances.count > 1 {
-                toolbarInstancesButton
-            }
-
-            toolbarSortingButton
-        }
-    }
-
-    var toolbarSortingButton: some View {
-        Menu("Sorting", systemImage: "line.3.horizontal.decrease") {
-            Menu("Filters") {
-                Picker(selection: $sort.filter, label: Text("Filter options")) {
-                    ForEach(MovieSort.Filter.allCases) { filter in
-                        Text(filter.title)
+    var toolbarSortingButton: some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) {
+            Menu("Sorting", systemImage: "line.3.horizontal.decrease") {
+                Menu("Filters") {
+                    Picker(selection: $sort.filter, label: Text("Filter options")) {
+                        ForEach(MovieSort.Filter.allCases) { filter in
+                            Text(filter.title)
+                        }
                     }
                 }
-            }
 
-            Picker(selection: $sort.option, label: Text("Sorting options")) {
-                ForEach(MovieSort.Option.allCases) { option in
-                    Text(option.title)
+                Picker(selection: $sort.option, label: Text("Sorting options")) {
+                    ForEach(MovieSort.Option.allCases) { option in
+                        Text(option.title)
+                    }
+                }.onChange(of: sort.option) {
+                    switch sort.option {
+                    case .byTitle: sort.isAscending = true
+                    case .byYear: sort.isAscending = false
+                    case .byAdded: sort.isAscending = false
+                    }
                 }
-            }.onChange(of: sort.option) {
-                switch sort.option {
-                case .byTitle: sort.isAscending = true
-                case .byYear: sort.isAscending = false
-                case .byAdded: sort.isAscending = false
-                }
-            }
 
-            Section {
-                Picker(selection: $sort.isAscending, label: Text("Sorting direction")) {
-                    Text("Ascending").tag(true)
-                    Text("Descending").tag(false)
+                Section {
+                    Picker(selection: $sort.isAscending, label: Text("Sorting direction")) {
+                        Text("Ascending").tag(true)
+                        Text("Descending").tag(false)
+                    }
                 }
             }
         }
     }
 
-    var toolbarInstancesButton: some View {
-        Menu("Instances", systemImage: "server.rack") {
-            Picker(selection: $settings.radarrInstanceId, label: Text("Instance")) {
-                ForEach(settings.radarrInstances) { instance in
-                    Text(instance.label).tag(Optional.some(instance.id))
-                }
-            }
-            .onChange(of: settings.radarrInstanceId) {
-                Task {
-                    instance.switchTo(
-                        settings.instanceById(settings.radarrInstanceId!)!
-                    )
-
-                    await fetchMoviesWithAlert()
-
-                    if let model = try await instance.fetchMetadata() {
-                        settings.saveInstance(model)
+    @ToolbarContentBuilder
+    var toolbarInstancePicker: some ToolbarContent {
+        ToolbarItem(placement: .principal) {
+            Menu {
+                Picker(selection: $settings.radarrInstanceId, label: Text("Instances")) {
+                    ForEach(settings.radarrInstances) { instance in
+                        Text(instance.label).tag(Optional.some(instance.id))
                     }
                 }
+                .onChange(of: settings.radarrInstanceId) {
+                    Task {
+                        instance.switchTo(
+                            settings.instanceById(settings.radarrInstanceId!)!
+                        )
+
+                        await fetchMoviesWithAlert()
+
+                        if let model = try await instance.fetchMetadata() {
+                            settings.saveInstance(model)
+                        }
+                    }
+                }
+            } label: {
+                HStack(alignment: .center, spacing: 6) {
+                    Text(settings.radarrInstance?.label ?? "Instance")
+                        .fontWeight(.semibold)
+                        .tint(.primary)
+
+                    Image(systemName: "chevron.down.circle.fill")
+                        .foregroundStyle(.secondary, .tertiarySystemBackground)
+                        .font(.system(size: 12))
+                }.tint(.primary)
             }
         }
     }
