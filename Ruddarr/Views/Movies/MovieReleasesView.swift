@@ -6,7 +6,8 @@ struct MovieReleasesView: View {
     @State private var sort: MovieReleaseSort = .init()
     @State private var indexer: String = ""
     @State private var quality: String = ""
-    @State private var fetched = false
+    @State private var fetched: Bool = false
+    @State private var waitingTextOpacity: Double = 0
 
     @Environment(RadarrInstance.self) private var instance
 
@@ -45,7 +46,14 @@ struct MovieReleasesView: View {
                 ProgressView {
                     VStack {
                         Text("Searching...")
-                        Text("This may take a moment.").font(.footnote)
+                        Text("Hold on, this may take a moment.")
+                            .font(.footnote)
+                            .opacity(waitingTextOpacity)
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    withAnimation { waitingTextOpacity = 1 }
+                                }
+                            }
                     }
                 }.tint(.secondary)
             } else if instance.releases.items.isEmpty {
