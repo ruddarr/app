@@ -8,14 +8,14 @@ struct MovieReleaseSort {
         var id: Self { self }
 
         case byWeight
-        case byQuality
         case byAge
         case bySize
+        case bySeeders
 
         var title: String {
             switch self {
             case .byWeight: "Weight"
-            case .byQuality: "Quality"
+            case .bySeeders: "Seeders"
             case .byAge: "Age"
             case .bySize: "Size"
             }
@@ -25,12 +25,12 @@ struct MovieReleaseSort {
             switch self {
             case .byWeight:
                 lhs.releaseWeight > rhs.releaseWeight
-            case .byQuality:
-                lhs.qualityWeight > rhs.qualityWeight
+            case .bySeeders:
+                lhs.seeders ?? 0 < rhs.seeders ?? 0
             case .byAge:
-                lhs.ageMinutes > rhs.ageMinutes
+                lhs.ageMinutes < rhs.ageMinutes
             case .bySize:
-                lhs.size > rhs.size
+                lhs.size < rhs.size
             }
         }
     }

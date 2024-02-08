@@ -112,6 +112,13 @@ struct MovieReleasesView: View {
                     ForEach(MovieReleaseSort.Option.allCases) { option in
                         Text(option.title).tag(option)
                     }
+                }.onChange(of: sort.option) {
+                    switch sort.option {
+                    case .byWeight: sort.isAscending = false
+                    case .byAge: sort.isAscending = true
+                    case .bySize: sort.isAscending = true
+                    case .bySeeders: sort.isAscending = false
+                    }
                 }
 
                 Section {
@@ -125,8 +132,8 @@ struct MovieReleasesView: View {
     }
 
     var indexersPicker: some View {
-        Menu("Indexers") {
-            Picker("Indexers", selection: $indexer) {
+        Menu("Indexer") {
+            Picker("Indexer", selection: $indexer) {
                 ForEach(indexers, id: \.self) { indexer in
                     Text(indexer).tag(Optional.some(indexer))
                 }
@@ -137,8 +144,8 @@ struct MovieReleasesView: View {
     }
 
     var qualityPicker: some View {
-        Menu("Quality Profiles") {
-            Picker("Quality Profiles", selection: $quality) {
+        Menu("Quality Profile") {
+            Picker("Quality Profile", selection: $quality) {
                 ForEach(qualities, id: \.self) { quality in
                     Text(quality).tag(Optional.some(quality))
                 }
