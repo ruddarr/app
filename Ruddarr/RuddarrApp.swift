@@ -7,7 +7,7 @@ struct RuddarrApp: App {
 
     init() {
         #if DEBUG
-        dependencies = .live
+        dependencies = .mock
         #endif
 
         NetworkMonitor.shared.start()
