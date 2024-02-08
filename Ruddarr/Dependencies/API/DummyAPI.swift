@@ -3,56 +3,56 @@ import Foundation
 extension API {
     static var mock: Self {
         .init(fetchMovies: { _ in
-            try await Task.sleep(nanoseconds: UInt64(1 * Double(NSEC_PER_SEC)))
+            try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return loadPreviewData(filename: "movies")
         }, lookupMovies: { _, query in
             let movies: [Movie] = loadPreviewData(filename: "movie-lookup")
-            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
+            try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return movies.filter {
                 $0.title.localizedCaseInsensitiveContains(query)
             }
         }, lookupReleases: { _, _ in
-            try await Task.sleep(nanoseconds: UInt64(0.5 * Double(NSEC_PER_SEC)))
+            try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return loadPreviewData(filename: "releases")
         }, downloadRelease: { _, _, _ in
-            try await Task.sleep(nanoseconds: UInt64(0.5 * Double(NSEC_PER_SEC)))
+            try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return Empty()
         }, getMovie: { movieId, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
-            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
+            try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return movies.first(where: { $0.movieId == movieId })!
         }, addMovie: { _, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
-            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
+            try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return movies[0]
         }, updateMovie: { _, _ in
-            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
+            try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
         }, deleteMovie: { _, _ in
-            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
+            try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
         }, command: { _, _ in
-            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
+            try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
         }, systemStatus: { _ in
-            try await Task.sleep(nanoseconds: UInt64(1.5 * Double(NSEC_PER_SEC)))
+            try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return loadPreviewData(filename: "system-status")
         }, rootFolders: { _ in
-            try await Task.sleep(nanoseconds: UInt64(1 * Double(NSEC_PER_SEC)))
+            try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return loadPreviewData(filename: "root-folders")
         }, qualityProfiles: { _ in
-            try await Task.sleep(nanoseconds: UInt64(1 * Double(NSEC_PER_SEC)))
+            try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return loadPreviewData(filename: "quality-profiles")
         })

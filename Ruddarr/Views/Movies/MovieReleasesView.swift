@@ -194,7 +194,6 @@ struct MovieReleaseRow: View {
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.hidden)
         }
-
     }
 
     var peerColor: any ShapeStyle {
