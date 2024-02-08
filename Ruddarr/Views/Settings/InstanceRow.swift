@@ -31,6 +31,8 @@ struct InstanceRow: View {
             .foregroundStyle(.gray)
         }.task {
             do {
+                status = .pending
+
                 let data = try await dependencies.api.systemStatus(instance)
 
                 instance.version = data.version
