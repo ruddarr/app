@@ -30,7 +30,7 @@ struct InstanceView: View {
             Section {
                 urlField
             } footer: {
-                Text("The URL used to access the web interface. Do not use `localhost` or `127.0.0.1`. Must be prefixed with `http://` or `https://`.")
+                Text("The URL used to access the web interface. Must be prefixed with \"http://\" or \"https://\". Do not use \"localhost\" or \"127.0.0.1\".")
             }
 
             Section {
