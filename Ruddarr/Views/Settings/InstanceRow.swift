@@ -40,6 +40,8 @@ struct InstanceRow: View {
                 settings.saveInstance(instance)
 
                 status = .reachable
+            } catch is CancellationError {
+                // do nothing when task is cancelled
             } catch {
                 log.error("Instance check failed: \(error)")
                 status = .unreachable

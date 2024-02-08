@@ -38,7 +38,7 @@ struct MoviesView: View {
                     }
                     .task(priority: .low) {
                         guard !instance.isVoid else { return }
-                        await fetchMoviesWithAlert(ignoreOffline: true)
+                        await fetchMoviesWithAlert(ignoreOffline: true, ignoreCancellation: true)
                     }
                     .refreshable {
                         await fetchMoviesWithAlert()
@@ -52,7 +52,7 @@ struct MoviesView: View {
                             if let model = try await instance.fetchMetadata() {
                                 settings.saveInstance(model)
                             }
-                       }
+                        }
                     }
                 }
             }
@@ -253,11 +253,18 @@ struct MoviesView: View {
         return sort.isAscending ? movies : movies.reversed()
     }
 
-    func fetchMoviesWithAlert(ignoreOffline: Bool = false) async {
+    func fetchMoviesWithAlert(
+        ignoreOffline: Bool = false,
+        ignoreCancellation: Bool = false
+    ) async {
         alertPresented = false
         error = nil
 
         _ = await instance.movies.fetch()
+
+        if ignoreCancellation && instance.movies.error is CancellationError {
+            return
+        }
 
         if instance.movies.error != nil {
             error = instance.movies.error
