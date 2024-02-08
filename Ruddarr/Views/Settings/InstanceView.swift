@@ -60,7 +60,7 @@ struct InstanceView: View {
             guard !hasEmptyFields() else { return }
 
             Task {
-                await saveInstance()
+                await createOrUpdateInstance()
             }
         }
         .toolbar {
@@ -153,7 +153,7 @@ struct InstanceView: View {
             } else {
                 Button("Done") {
                     Task {
-                        await saveInstance()
+                        await createOrUpdateInstance()
                     }
                 }
                 .disabled(hasEmptyFields())
@@ -164,7 +164,7 @@ struct InstanceView: View {
 
 extension InstanceView {
     @MainActor
-    func saveInstance() async {
+    func createOrUpdateInstance() async {
         do {
             isLoading = true
 
