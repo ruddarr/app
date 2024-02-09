@@ -70,19 +70,19 @@ struct MovieReleaseSheet: View {
 
     var rejections: some View {
         GroupBox(label:
-            Text("Release Rejected")
-                .padding(.bottom, 4)
+            Label("Release Rejected", systemImage: "exclamationmark.triangle.fill")
+            .padding(.bottom, 4)
         ) {
             VStack(alignment: .leading) {
                 ForEach(release.rejections, id: \.self) { rejection in
                     Text(rejection)
                         .font(.footnote)
-                        .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
-
         }
+        .foregroundStyle(.black)
+        .backgroundStyle(.yellow)
     }
 
     var actions: some View {
