@@ -72,7 +72,7 @@ struct MovieForm: View {
             }
             .labelsHidden()
             .pickerStyle(.navigationLink)
-            .foregroundStyle(.tint)
+            .foregroundStyle(.secondary)
         }
     }
 
