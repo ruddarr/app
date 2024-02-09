@@ -196,11 +196,13 @@ struct MovieDetailsOverview: View {
 
     @EnvironmentObject var settings: AppSettings
 
+    let imageSpan = UIDevice.current.userInterfaceIdiom == .phone ? 2 : 1
+
     var body: some View {
         HStack(alignment: .top) {
             CachedAsyncImage(url: movie.remotePoster, type: .poster)
                 .scaledToFit()
-                .containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 0)
+                .containerRelativeFrame(.horizontal, count: 5, span: imageSpan, spacing: 0)
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.trailing, 8)
@@ -215,7 +217,7 @@ struct MovieDetailsOverview: View {
                 }
 
                 Text(movie.title)
-                    .font(movie.title.count < 20 ? .largeTitle : .title)
+                    .font(shrinkTitle ? .title : .largeTitle)
                     .fontWeight(.bold)
                     .lineLimit(3)
                     .kerning(-0.5)
@@ -226,6 +228,14 @@ struct MovieDetailsOverview: View {
                 MovieDetailsRatings(movie: movie)
             }
         }
+    }
+
+    var shrinkTitle: Bool {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return movie.title.count < 20
+        }
+
+        return false
     }
 }
 

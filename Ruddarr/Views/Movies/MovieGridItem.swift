@@ -57,6 +57,14 @@ struct MovieGridItem: View {
             )
         }
     }
+
+    static func gridItemLayout() -> [GridItem] {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return [GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)]
+        }
+
+        return [GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 12)]
+    }
 }
 
 struct MovieContextMenu: View {

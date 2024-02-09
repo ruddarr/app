@@ -8,9 +8,7 @@ struct MovieSearchView: View {
 
     @Environment(RadarrInstance.self) private var instance
 
-    let gridItemLayout = [
-        GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)
-    ]
+    let gridItemLayout = MovieGridItem.gridItemLayout()
 
     var body: some View {
         ScrollView {

@@ -118,9 +118,7 @@ struct MoviesView: View {
     }
 
     var movieItemGrid: some View {
-        let gridItemLayout = [
-            GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)
-        ]
+        let gridItemLayout = MovieGridItem.gridItemLayout()
 
         return LazyVGrid(columns: gridItemLayout, spacing: 15) {
             ForEach(displayedMovies) { movie in
