@@ -40,25 +40,11 @@ struct MovieReleasesView: View {
         }
         .overlay {
             if instance.releases.isSearching {
-                ProgressView {
-                    VStack {
-                        Text("Searching...")
-                        Text("Hold on, this may take a moment.")
-                            .font(.footnote)
-                            .opacity(waitingTextOpacity)
-                            .onAppear {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                    withAnimation { waitingTextOpacity = 1 }
-                                }
-                            }
-                    }
-                }.tint(.secondary)
+                searchingIndicator
             } else if instance.releases.items.isEmpty {
-                ContentUnavailableView(
-                    "No Releases Found",
-                    systemImage: "slash.circle",
-                    description: Text("Radarr found no releases for \"\(movie.title)\".")
-                )
+                noReleasesFound
+            } else if displayedReleases.isEmpty {
+                noMatchingReleases
             }
         }
     }
@@ -87,6 +73,38 @@ struct MovieReleasesView: View {
         }
 
         return sort.isAscending ? sortedReleases : sortedReleases.reversed()
+    }
+
+    var noReleasesFound: some View {
+        ContentUnavailableView(
+            "No Releases Found",
+            systemImage: "slash.circle",
+            description: Text("Radarr found no releases for \"\(movie.title)\".")
+        )
+    }
+
+    var noMatchingReleases: some View {
+        ContentUnavailableView(
+            "No Releases Match",
+            systemImage: "slash.circle",
+            description: Text("No releases match the selected filters.")
+        )
+    }
+
+    var searchingIndicator: some View {
+        ProgressView {
+            VStack {
+                Text("Searching...")
+                Text("Hold on, this may take a moment.")
+                    .font(.footnote)
+                    .opacity(waitingTextOpacity)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            withAnimation { waitingTextOpacity = 1 }
+                        }
+                    }
+            }
+        }.tint(.secondary)
     }
 }
 

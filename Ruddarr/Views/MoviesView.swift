@@ -109,6 +109,8 @@ struct MoviesView: View {
                     noSearchResults
                 } else if instance.movies.isWorking && instance.movies.items.isEmpty {
                     ProgressView("Loading...").tint(.secondary)
+                } else if displayedMovies.isEmpty && !instance.movies.items.isEmpty {
+                    noMatchingMovies
                 }
             }
         }
@@ -170,6 +172,14 @@ struct MoviesView: View {
             searchQuery = ""
             return .handled
         })
+    }
+
+    var noMatchingMovies: some View {
+        ContentUnavailableView(
+            "No Movies Match",
+            systemImage: "slash.circle",
+            description: Text("No movies match the selected filters.")
+        )
     }
 
     func fetchMoviesWithAlert(
