@@ -63,6 +63,10 @@ struct MovieGridItem: View {
             return [GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)]
         }
 
+        if ProcessInfo.processInfo.isiOSAppOnMac {
+            return [GridItem(.adaptive(minimum: 180, maximum: 200), spacing: 12)]
+        }
+
         return [GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 12)]
     }
 }
