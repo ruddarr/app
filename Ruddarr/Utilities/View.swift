@@ -15,6 +15,14 @@ extension View {
 
         return self.environment(instance)
     }
+
+    func macosWindowFrame() -> some View {
+        if ProcessInfo.processInfo.isiOSAppOnMac {
+            self.frame(minWidth: 1_024, maxWidth: 12_032, minHeight: 768, maxHeight: 6_768)
+        } else {
+            self.frame(minWidth: 1)
+        }
+    }
 }
 
 private struct WithAppStateModifier: ViewModifier {
