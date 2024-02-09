@@ -202,7 +202,7 @@ struct MovieDetailsOverview: View {
                 .scaledToFit()
                 .containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 0)
                 .clipped()
-                .cornerRadius(8)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.trailing, 8)
 
             VStack(alignment: .leading, spacing: 0) {

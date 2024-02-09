@@ -13,7 +13,7 @@ struct MovieReleaseSheet: View {
                     .padding(.bottom)
 
                 if !release.rejections.isEmpty {
-                    rejections
+                    rejectionReasons
                         .padding(.bottom)
                 }
 
@@ -68,21 +68,36 @@ struct MovieReleaseSheet: View {
         }
     }
 
-    var rejections: some View {
-        GroupBox(label:
-            Label("Release Rejected", systemImage: "exclamationmark.triangle.fill")
-            .padding(.bottom, 4)
-        ) {
+    var rejectionReasons: some View {
+        VStack(alignment: .leading) {
+            HStack(spacing: 4) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                Text("Release Rejected")
+            }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+                .padding(.vertical, 7)
+                .font(.footnote)
+                .fontWeight(.bold)
+                .textCase(.uppercase)
+                .kerning(0.2)
+                .background(.yellow)
+                .foregroundStyle(.black)
+
             VStack(alignment: .leading) {
                 ForEach(release.rejections, id: \.self) { rejection in
                     Text(rejection)
-                        .font(.footnote)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
+            .font(.subheadline)
+            .fontWeight(.medium)
+            .padding(.horizontal)
+            .padding(.top, 4)
+            .padding(.bottom, 12)
         }
-        .foregroundStyle(.black)
-        .backgroundStyle(.yellow)
+        .background(.secondarySystemBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     var actions: some View {

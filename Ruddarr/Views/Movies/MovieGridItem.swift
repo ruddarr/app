@@ -21,7 +21,7 @@ struct MovieGridItem: View {
                 posterOverlay
             }
         }
-        .cornerRadius(8)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     var posterOverlay: some View {
