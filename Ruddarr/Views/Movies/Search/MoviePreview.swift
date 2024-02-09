@@ -44,7 +44,7 @@ struct MoviePreview: View {
         }
         .scenePadding(.horizontal)
         .background(
-            colorScheme ==  .dark
+            colorScheme == .dark
             ? .systemBackground
             : .secondarySystemBackground
         )
