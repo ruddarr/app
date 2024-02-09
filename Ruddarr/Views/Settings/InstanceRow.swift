@@ -2,7 +2,7 @@ import os
 import SwiftUI
 
 struct InstanceRow: View {
-    @State var instance: Instance
+    @Binding var instance: Instance
 
     @State private var status: Status = .pending
 
@@ -30,6 +30,7 @@ struct InstanceRow: View {
             .font(.footnote)
             .foregroundStyle(.gray)
         }.task {
+            // I still kinda hate that this is happening, especially happening here on a list row that could run the task repeatedly as the user scrolls.
             do {
                 status = .pending
 
