@@ -1,36 +1,57 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
+    @State private var isPortrait = false
+    @State private var columnVisibility: NavigationSplitViewVisibility = .doubleColumn
+
+    private let orientationChangePublisher = NotificationCenter.default.publisher(
+        for: UIDevice.orientationDidChangeNotification
+    )
 
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .pad {
-            NavigationSplitView(columnVisibility: $columnVisibility) {
-                List(selection: dependencies.$router.selectedTab.optional) {
-                    Text("Ruddarr")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .padding(.bottom)
 
-                    ForEach(Tab.allCases) { tab in
-                        let button = Button {
-                            dependencies.router.selectedTab = tab
-                            columnVisibility = .detailOnly
-                        } label: {
-                            tab.label
-                        }
+            NavigationSplitView(
+                columnVisibility: $columnVisibility,
+                sidebar: {
+                    List(selection: dependencies.$router.selectedTab.optional) {
+                        Text("Ruddarr")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .padding(.bottom)
 
-                        if case .settings = tab {
-                            Section {
+                        ForEach(Tab.allCases) { tab in
+                            let button = Button {
+                                dependencies.router.selectedTab = tab
+
+                                if isPortrait {
+                                    columnVisibility = .detailOnly
+                                }
+                            } label: {
+                                tab.label
+                            }
+
+                            if case .settings = tab {
+                                Section {
+                                    button
+                                }
+                            } else {
                                 button
                             }
-                        } else {
-                            button
                         }
                     }
+                    .hideSidebarToggle(!isPortrait)
+                },
+                detail: {
+                    screen(for: dependencies.router.selectedTab)
                 }
-            } detail: {
-                screen(for: dependencies.router.selectedTab)
+            )
+            .onAppear {
+                isPortrait = UIDevice.current.orientation.isPortrait
+                columnVisibility = isPortrait ? .automatic : .doubleColumn
+            }
+            .onReceive(orientationChangePublisher) { _ in
+                handleOrientationChange()
             }
         } else {
             TabView(selection: dependencies.$router.selectedTab.onSet {
@@ -68,6 +89,15 @@ struct ContentView: View {
             ShowsView()
         case .settings:
             SettingsView()
+        }
+    }
+
+    func handleOrientationChange() {
+        if let windowScene = UIApplication.shared.connectedScenes.first(
+            where: { $0.activationState == .foregroundActive }
+        ) as? UIWindowScene {
+            isPortrait = windowScene.interfaceOrientation.isPortrait
+            columnVisibility = isPortrait ? .detailOnly : .doubleColumn
         }
     }
 }
