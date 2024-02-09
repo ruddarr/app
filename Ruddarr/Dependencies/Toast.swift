@@ -15,6 +15,9 @@ final class Toast {
         guard let self else { return }
         let message = Message(view: $0)
 
+        UINotificationFeedbackGenerator()
+            .notificationOccurred(.success)
+
         withAnimation(self.animation) {
             self.currentMessage = message
         }
