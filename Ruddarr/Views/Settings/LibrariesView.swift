@@ -10,6 +10,7 @@ struct LibrariesView: View {
                     Spacer()
                 }
             })
+
             Link(destination: URL(string: "https://github.com/nonstrict-hq/CloudStorage")!, label: {
                 HStack {
                     Text("CloudStorage")
@@ -20,6 +21,7 @@ struct LibrariesView: View {
         }
         .navigationTitle("Third Party Libraries")
         .navigationBarTitleDisplayMode(.inline)
+        .tint(.primary)
     }
 }
 
