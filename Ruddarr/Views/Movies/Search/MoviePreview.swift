@@ -139,19 +139,12 @@ struct MoviePreview: View {
             fatalError("Failed to locate added movie by tmdbId")
         }
 
+        let moviePath = MoviesView.Path.movie(addedMovie.id)
+
         dismiss()
 
-        let path = MoviesView.Path.movie(addedMovie.id)
-
-        withAnimation {
-            dependencies.router.moviesPath.removeLast(
-                dependencies.router.moviesPath.count
-            )
-        } completion: {
-            withAnimation {
-                dependencies.router.moviesPath.append(path)
-            }
-        }
+        dependencies.router.moviesPath.removeLast(dependencies.router.moviesPath.count)
+        dependencies.router.moviesPath.append(moviePath)
     }
 }
 
