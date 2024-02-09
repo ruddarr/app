@@ -38,9 +38,9 @@ struct SettingsView: View {
 
     var instanceSection: some View {
         Section(header: Text("Instances")) {
-            ForEach(settings.instances) { instance in
+            ForEach($settings.instances) { $instance in
                 NavigationLink(value: Path.editInstance(instance.id)) {
-                    InstanceRow(instance: instance)
+                    InstanceRow(instance: $instance)
                 }
             }
 
