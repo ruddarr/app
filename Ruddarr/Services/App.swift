@@ -35,9 +35,7 @@ extension AppSettings {
 
     func saveInstance(_ instance: Instance) {
         if let index = instances.firstIndex(where: { $0.id == instance.id }) {
-            print(instances[index].label, "newlabel", instance.label)
-            instances[index].label = instance.label
-            print(instances[index].label)//= instance
+            instances[index] = instance
         } else {
             instances.append(instance)
         }
