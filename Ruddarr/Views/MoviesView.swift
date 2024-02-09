@@ -84,7 +84,7 @@ struct MoviesView: View {
                 }
             }
             .toolbar {
-                toolbarSortingButton
+                toolbarViewOptions
 
                 if settings.radarrInstances.count > 1 {
                     toolbarInstancePicker
@@ -130,6 +130,23 @@ struct MoviesView: View {
         }
     }
 
+    var displayedMovies: [Movie] {
+        var movies: [Movie] = instance.movies.items
+
+        if !searchQuery.isEmpty {
+            movies = movies.filter { movie in
+                movie.title.localizedCaseInsensitiveContains(
+                    searchQuery.trimmingCharacters(in: .whitespaces)
+                )
+            }
+        }
+
+        movies = sort.filter.filtered(movies)
+        movies = movies.sorted(by: sort.option.isOrderedBefore)
+
+        return sort.isAscending ? movies : movies.reversed()
+    }
+
     var noRadarrInstance: some View {
         ContentUnavailableView(
             "No Radarr Instance",
@@ -155,6 +172,32 @@ struct MoviesView: View {
         })
     }
 
+    func fetchMoviesWithAlert(
+        ignoreOffline: Bool = false,
+        ignoreCancellation: Bool = false
+    ) async {
+        alertPresented = false
+        error = nil
+
+        _ = await instance.movies.fetch()
+
+        if ignoreCancellation && instance.movies.error is CancellationError {
+            return
+        }
+
+        if instance.movies.error != nil {
+            error = instance.movies.error
+
+            if ignoreOffline && (instance.movies.error as? URLError)?.code == .notConnectedToInternet {
+                return
+            }
+
+            alertPresented = instance.movies.error != nil
+        }
+    }
+}
+
+extension MoviesView {
     @ToolbarContentBuilder
     var toolbarSearchButton: some ToolbarContent {
         if !instance.isVoid {
@@ -167,36 +210,48 @@ struct MoviesView: View {
     }
 
     @ToolbarContentBuilder
-    var toolbarSortingButton: some ToolbarContent {
+    var toolbarViewOptions: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
-            Menu("Sorting", systemImage: "line.3.horizontal.decrease") {
-                Menu("Filters") {
-                    Picker(selection: $sort.filter, label: Text("Filter options")) {
-                        ForEach(MovieSort.Filter.allCases) { filter in
-                            Text(filter.title)
-                        }
-                    }
-                }
+            HStack {
+                toolbarFilterButton
+                toolbarSortingButton
+            }
+        }
+    }
 
-                Picker(selection: $sort.option, label: Text("Sorting options")) {
-                    ForEach(MovieSort.Option.allCases) { option in
-                        Text(option.title)
-                    }
-                }.onChange(of: sort.option) {
-                    switch sort.option {
-                    case .byTitle: sort.isAscending = true
-                    case .byYear: sort.isAscending = false
-                    case .byAdded: sort.isAscending = false
-                    }
-                }
-
-                Section {
-                    Picker(selection: $sort.isAscending, label: Text("Sorting direction")) {
-                        Text("Ascending").tag(true)
-                        Text("Descending").tag(false)
-                    }
+    var toolbarFilterButton: some View {
+        Menu("Filters", systemImage: "line.3.horizontal.decrease") {
+            Picker(selection: $sort.filter, label: Text("Filter options")) {
+                ForEach(MovieSort.Filter.allCases) { filter in
+                    Text(filter.title)
                 }
             }
+        }
+    }
+
+    var toolbarSortingButton: some View {
+        Menu {
+            Picker(selection: $sort.option, label: Text("Sorting options")) {
+                ForEach(MovieSort.Option.allCases) { option in
+                    Text(option.title)
+                }
+            }.onChange(of: sort.option) {
+                switch sort.option {
+                case .byTitle: sort.isAscending = true
+                case .byYear: sort.isAscending = false
+                case .byAdded: sort.isAscending = false
+                }
+            }
+
+            Section {
+                Picker(selection: $sort.isAscending, label: Text("Sorting direction")) {
+                    Text("Ascending").tag(true)
+                    Text("Descending").tag(false)
+                }
+            }
+        } label: {
+            Image(systemName: "arrow.up.arrow.down")
+                .imageScale(.medium)
         }
     }
 
@@ -233,47 +288,6 @@ struct MoviesView: View {
                         .font(.system(size: 13))
                 }.tint(.primary)
             }
-        }
-    }
-
-    var displayedMovies: [Movie] {
-        var movies: [Movie] = instance.movies.items
-
-        if !searchQuery.isEmpty {
-            movies = movies.filter { movie in
-                movie.title.localizedCaseInsensitiveContains(
-                    searchQuery.trimmingCharacters(in: .whitespaces)
-                )
-            }
-        }
-
-        movies = sort.filter.filtered(movies)
-        movies = movies.sorted(by: sort.option.isOrderedBefore)
-
-        return sort.isAscending ? movies : movies.reversed()
-    }
-
-    func fetchMoviesWithAlert(
-        ignoreOffline: Bool = false,
-        ignoreCancellation: Bool = false
-    ) async {
-        alertPresented = false
-        error = nil
-
-        _ = await instance.movies.fetch()
-
-        if ignoreCancellation && instance.movies.error is CancellationError {
-            return
-        }
-
-        if instance.movies.error != nil {
-            error = instance.movies.error
-
-            if ignoreOffline && (instance.movies.error as? URLError)?.code == .notConnectedToInternet {
-                return
-            }
-
-            alertPresented = instance.movies.error != nil
         }
     }
 }

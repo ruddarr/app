@@ -102,7 +102,7 @@ extension MovieReleasesView {
     }
 
     var toolbarFilterButton: some View {
-        Menu("Filter options", systemImage: "line.3.horizontal.decrease") {
+        Menu("Filters", systemImage: "line.3.horizontal.decrease") {
             indexersPicker
 
             qualityPicker
