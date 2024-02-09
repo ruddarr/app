@@ -215,10 +215,10 @@ struct MovieDetailsOverview: View {
                 }
 
                 Text(movie.title)
-                    .font(.title)
+                    .font(movie.title.count < 20 ? .largeTitle : .title)
                     .fontWeight(.bold)
-                    .kerning(-0.5)
                     .lineLimit(3)
+                    .kerning(-0.5)
                     .padding(.bottom, 6)
 
                 MovieDetailsSubtitle(movie: movie)
