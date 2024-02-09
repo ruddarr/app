@@ -52,7 +52,7 @@ struct SettingsView: View {
 
     var preferencesSection: some View {
         Section {
-            Picker("Theme", selection: $settings.theme) {
+            Picker("Accent Color", selection: $settings.theme) {
                 ForEach(Theme.allCases) { theme in
                     Text(theme.rawValue)
                 }
@@ -61,10 +61,16 @@ struct SettingsView: View {
             .onChange(of: settings.theme) {
                 dependencies.router.reset()
             }
+
+            Picker("Color Scheme", selection: $settings.illumination) {
+                ForEach(Illumination.allCases) { colorScheme in
+                    Text(colorScheme.rawValue)
+                }
+            }
         } header: {
             Text("Preferences")
         } footer: {
-            Text("Styling options might be a paid feature in the final version, available as an in-app purchase.")
+            Text("Styling options will be a paid feature in the App Store version.")
         }
     }
 }

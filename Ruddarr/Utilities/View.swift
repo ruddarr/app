@@ -20,7 +20,7 @@ extension View {
         self.toolbar(removing: shouldHide ? .sidebarToggle : nil)
     }
 
-    func macosWindowFrame() -> some View {
+    func appWindowFrame() -> some View {
         if ProcessInfo.processInfo.isiOSAppOnMac {
             self.frame(minWidth: 1_024, maxWidth: 12_032, minHeight: 768, maxHeight: 6_768)
         } else {
@@ -31,6 +31,7 @@ extension View {
 
 private struct WithAppStateModifier: ViewModifier {
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
+    @AppStorage("illumination", store: dependencies.store) var illumination: Illumination = .system
 
     func body(content: Content) -> some View {
         let settings = AppSettings()
@@ -38,6 +39,7 @@ private struct WithAppStateModifier: ViewModifier {
 
         content
             .tint(theme.tint)
+            .preferredColorScheme(illumination.preferredColorScheme)
             .environmentObject(settings)
             .environment(RadarrInstance(radarrInstance))
     }
@@ -45,12 +47,14 @@ private struct WithAppStateModifier: ViewModifier {
 
 private struct WithSettingsModifier: ViewModifier {
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
+    @AppStorage("illumination", store: dependencies.store) var illumination: Illumination = .system
 
     func body(content: Content) -> some View {
         let settings = AppSettings()
 
         content
             .tint(theme.tint)
+            .preferredColorScheme(illumination.preferredColorScheme)
             .environmentObject(settings)
     }
 }

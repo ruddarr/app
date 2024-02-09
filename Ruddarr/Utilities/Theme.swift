@@ -28,3 +28,19 @@ enum Theme: String, Identifiable, CaseIterable {
         }
     }
 }
+
+enum Illumination: String, Identifiable, CaseIterable {
+    case system = "System"
+    case light = "Light"
+    case dark = "Dark"
+
+    var id: Self { self }
+
+    var preferredColorScheme: ColorScheme? {
+        switch self {
+        case .system: nil
+        case .light: .light
+        case .dark: .dark
+        }
+    }
+}

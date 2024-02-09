@@ -24,7 +24,7 @@ struct RuddarrApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .macosWindowFrame()
+                .appWindowFrame()
                 .withAppState()
         }
         .windowResizability(.contentSize)

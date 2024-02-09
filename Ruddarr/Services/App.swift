@@ -7,6 +7,7 @@ class AppSettings: ObservableObject {
     @CloudStorage("instances") var instances: [Instance] = []
 
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
+    @AppStorage("illumination", store: dependencies.store) var illumination: Illumination = .system
     @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
 
     func resetAll() {
