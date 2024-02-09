@@ -78,7 +78,7 @@ struct MovieReleaseSheet: View {
                 .padding(.horizontal)
                 .padding(.vertical, 7)
                 .font(.footnote)
-                .fontWeight(.bold)
+                .fontWeight(.semibold)
                 .textCase(.uppercase)
                 .kerning(0.2)
                 .background(.yellow)
