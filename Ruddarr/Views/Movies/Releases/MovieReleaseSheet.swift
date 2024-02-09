@@ -133,9 +133,11 @@ struct MovieReleaseSheet: View {
 
                 if release.isTorrent {
                     Divider()
-                    row("Seeders", value: String(release.seeders ?? 0))
-                    Divider()
-                    row("Leechers", value: String(release.leechers ?? 0))
+                    row("Peers", value: String(
+                        format: "S: %i  L: %i",
+                        release.seeders ?? 0,
+                        release.leechers ?? 0
+                    ))
                 }
             }
             .font(.callout)
