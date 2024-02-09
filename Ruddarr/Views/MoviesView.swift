@@ -223,14 +223,14 @@ struct MoviesView: View {
                     }
                 }
             } label: {
-                HStack(alignment: .center, spacing: 6) {
+                HStack(alignment: .bottom, spacing: 6) {
                     Text(settings.radarrInstance?.label ?? "Instance")
                         .fontWeight(.semibold)
                         .tint(.primary)
 
                     Image(systemName: "chevron.down.circle.fill")
                         .foregroundStyle(.secondary, .tertiarySystemBackground)
-                        .font(.system(size: 12))
+                        .font(.system(size: 13))
                 }.tint(.primary)
             }
         }
