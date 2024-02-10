@@ -10,7 +10,6 @@ struct ContentView: View {
 
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .pad {
-
             NavigationSplitView(
                 columnVisibility: $columnVisibility,
                 sidebar: {
@@ -46,6 +45,7 @@ struct ContentView: View {
                     screen(for: dependencies.router.selectedTab)
                 }
             )
+            .displayToasts()
             .onAppear {
                 isPortrait = UIDevice.current.orientation.isPortrait
                 columnVisibility = isPortrait ? .automatic : .doubleColumn
