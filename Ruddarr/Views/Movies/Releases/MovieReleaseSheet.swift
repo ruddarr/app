@@ -5,6 +5,7 @@ struct MovieReleaseSheet: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         ScrollView {
@@ -171,6 +172,8 @@ struct MovieReleaseSheet: View {
             return
         }
 
+        dismiss()
+        dependencies.router.moviesPath.removeLast()
         dependencies.toast.show(.downloadQueued)
     }
 }
