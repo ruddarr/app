@@ -29,8 +29,8 @@ enum Theme: String, Identifiable, CaseIterable {
     }
 }
 
-enum Illumination: String, Identifiable, CaseIterable {
-    case system = "System"
+enum Appearance: String, Identifiable, CaseIterable {
+    case automatic = "Automatic"
     case light = "Light"
     case dark = "Dark"
 
@@ -38,7 +38,7 @@ enum Illumination: String, Identifiable, CaseIterable {
 
     var preferredColorScheme: ColorScheme? {
         switch self {
-        case .system: nil
+        case .automatic: nil
         case .light: .light
         case .dark: .dark
         }

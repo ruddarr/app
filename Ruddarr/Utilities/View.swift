@@ -31,7 +31,7 @@ extension View {
 
 private struct WithAppStateModifier: ViewModifier {
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
-    @AppStorage("illumination", store: dependencies.store) var illumination: Illumination = .system
+    @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
 
     func body(content: Content) -> some View {
         let settings = AppSettings()
@@ -39,7 +39,7 @@ private struct WithAppStateModifier: ViewModifier {
 
         content
             .tint(theme.tint)
-            .preferredColorScheme(illumination.preferredColorScheme)
+            .preferredColorScheme(appearance.preferredColorScheme)
             .environmentObject(settings)
             .environment(RadarrInstance(radarrInstance))
     }
@@ -47,14 +47,14 @@ private struct WithAppStateModifier: ViewModifier {
 
 private struct WithSettingsModifier: ViewModifier {
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
-    @AppStorage("illumination", store: dependencies.store) var illumination: Illumination = .system
+    @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
 
     func body(content: Content) -> some View {
         let settings = AppSettings()
 
         content
             .tint(theme.tint)
-            .preferredColorScheme(illumination.preferredColorScheme)
+            .preferredColorScheme(appearance.preferredColorScheme)
             .environmentObject(settings)
     }
 }

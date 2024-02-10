@@ -67,18 +67,18 @@ struct SettingsView: View {
                 dependencies.router.reset()
             }
 
-            Picker(selection: $settings.illumination) {
-                ForEach(Illumination.allCases) { colorScheme in
+            Picker(selection: $settings.appearance) {
+                ForEach(Appearance.allCases) { colorScheme in
                     Text(colorScheme.rawValue)
                 }
             } label: {
                 Label {
-                    Text("Color Scheme")
+                    Text("Appearance")
                 } icon: {
-                    if settings.illumination.preferredColorScheme == .dark {
-                        Image(systemName: "moon").foregroundStyle(.yellow)
+                    if settings.appearance.preferredColorScheme == .dark {
+                        Image(systemName: "moon").foregroundStyle(.white)
                     } else {
-                        Image(systemName: "sun.max.fill").foregroundStyle(.yellow)
+                        Image(systemName: "sun.max").foregroundStyle(.black)
                     }
                 }
             }
