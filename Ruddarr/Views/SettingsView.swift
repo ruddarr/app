@@ -52,19 +52,34 @@ struct SettingsView: View {
 
     var preferencesSection: some View {
         Section {
-            Picker("Accent Color", selection: $settings.theme) {
+            Picker(selection: $settings.theme) {
                 ForEach(Theme.allCases) { theme in
                     Text(theme.rawValue)
                 }
+            } label: {
+                Label {
+                    Text("Accent Color")
+                } icon: {
+                    Image(systemName: "paintpalette").foregroundStyle(settings.theme.tint)
+                }
             }
-            .tint(.secondary)
             .onChange(of: settings.theme) {
                 dependencies.router.reset()
             }
 
-            Picker("Color Scheme", selection: $settings.illumination) {
+            Picker(selection: $settings.illumination) {
                 ForEach(Illumination.allCases) { colorScheme in
                     Text(colorScheme.rawValue)
+                }
+            } label: {
+                Label {
+                    Text("Color Scheme")
+                } icon: {
+                    if settings.illumination.preferredColorScheme == .dark {
+                        Image(systemName: "moon").foregroundStyle(.yellow)
+                    } else {
+                        Image(systemName: "sun.max.fill").foregroundStyle(.yellow)
+                    }
                 }
             }
         } header: {
@@ -72,6 +87,7 @@ struct SettingsView: View {
         } footer: {
             Text("Styling options will be a paid feature in the App Store version.")
         }
+        .tint(.secondary)
     }
 }
 
