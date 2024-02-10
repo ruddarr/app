@@ -129,7 +129,6 @@ struct MovieView: View {
         NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
             Label("Interactive Search", systemImage: "person.fill")
         })
-
     }
 
     var deleteMovieButton: some View {

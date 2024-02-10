@@ -112,12 +112,7 @@ struct MovieReleaseSheet: View {
             }
 
             Button {
-                Task {
-                    await instance.movies.download(
-                        guid: release.guid,
-                        indexerId: release.indexerId
-                    )
-                }
+                Task { await downloadRelease() }
             } label: {
                 ButtonLabel(
                     text: "Download",
@@ -165,6 +160,18 @@ struct MovieReleaseSheet: View {
         } label: {
             Text(label).foregroundStyle(.secondary)
         }
+    }
+
+    @MainActor
+    func downloadRelease() async {
+        guard await instance.movies.download(
+            guid: release.guid,
+            indexerId: release.indexerId
+        ) else {
+            return
+        }
+
+        dependencies.toast.show(.downloadQueued)
     }
 }
 

@@ -50,6 +50,7 @@ extension Toast {
         case unmonitored
         case refreshQueued
         case searchQueued
+        case downloadQueued
         case movieDeleted
     }
 
@@ -63,6 +64,8 @@ extension Toast {
             custom(text: "Refresh Queued", icon: "checkmark.circle.fill")
         case .searchQueued:
             custom(text: "Search Queued", icon: "checkmark.circle.fill")
+        case .downloadQueued:
+            custom(text: "Download Started", icon: "checkmark.circle.fill")
         case .movieDeleted:
             custom(text: "Movie Deleted", icon: "checkmark.circle.fill")
         }
