@@ -41,6 +41,7 @@ struct MovieSort {
         case unmonitored
         case missing
         case wanted
+        case dangling
 
         var title: String {
             switch self {
@@ -49,6 +50,7 @@ struct MovieSort {
             case .unmonitored: "Unmonitored"
             case .missing: "Missing"
             case .wanted: "Wanted"
+            case .dangling: "Dangling"
             }
         }
 
@@ -64,6 +66,8 @@ struct MovieSort {
                 movies.filter { $0.monitored && !$0.hasFile }
             case .wanted:
                 movies.filter { $0.monitored && !$0.hasFile && $0.isAvailable }
+            case .dangling:
+                movies.filter { !$0.monitored && !$0.hasFile }
             }
         }
     }
