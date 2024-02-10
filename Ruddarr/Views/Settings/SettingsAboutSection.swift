@@ -87,7 +87,8 @@ struct SettingsAboutSection: View {
         Version: \(meta[.appVersion] ?? "nil") (\(meta[.appBuild] ?? "nil"))
         Platform: \(meta[.systemName] ?? "nil") (\(meta[.systemVersion] ?? "nil"))
         Device: \(meta[.deviceId] ?? "nil")
-        User: \(meta[.cloudkitStatus]!) (\(meta[.cloudkitUserId] ?? "nil"))
+        iCloud: \(meta[.cloudkitStatus]!)
+        User: \(meta[.cloudkitUserId] ?? "nil")
         """
 
         var components = URLComponents()
@@ -95,7 +96,7 @@ struct SettingsAboutSection: View {
         components.path = address
         components.queryItems = [
             URLQueryItem(name: "subject", value: subject),
-            URLQueryItem(name: "body", value: body)
+            URLQueryItem(name: "body", value: "\n\n\(body)")
         ]
 
         if let mailtoUrl = components.url {
