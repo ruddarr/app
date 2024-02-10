@@ -232,7 +232,7 @@ struct MovieDetailsOverview: View {
 
     var shrinkTitle: Bool {
         if UIDevice.current.userInterfaceIdiom == .phone {
-            return movie.title.count < 20
+            return movie.title.count > 25
         }
 
         return false
