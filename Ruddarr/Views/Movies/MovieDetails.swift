@@ -331,7 +331,7 @@ struct MovieDetailsRatings: View {
                 Image("tmdb").resizable()
                     .scaledToFit()
                     .font(.callout)
-                    .frame(height: 8)
+                    .frame(height: 9)
 
                 Text(String(format: "%.0f%%", rating * 10))
                     .lineLimit(1)
@@ -346,7 +346,7 @@ struct MovieDetailsRatings: View {
                 Image("metacritic").resizable()
                     .scaledToFit()
                     .font(.callout)
-                    .frame(height: 12)
+                    .frame(height: 14)
 
                 Text(String(format: "%.0f", rating))
             }
