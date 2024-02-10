@@ -26,9 +26,9 @@ enum Tab: Hashable, CaseIterable, Identifiable {
     var label: some View {
         switch self {
         case .movies:
-            Label("Movies", systemImage: "popcorn.fill")
+            Label("Movies", systemImage: "film")
         case .shows:
-            Label("Shows", systemImage: "tv.inset.filled")
+            Label("TV Shows", systemImage: "tv.inset.filled")
         case .settings:
             Label("Settings", systemImage: "gear")
         }
