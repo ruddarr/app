@@ -13,6 +13,8 @@ struct MovieForm: View {
         .released,
     ]
 
+    let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
+
     var body: some View {
         Form {
             Section {
@@ -22,8 +24,13 @@ struct MovieForm: View {
                 qualityProfileField
             }
 
-            if movie.movieId == nil {
+            if smallScreen {
                 rootFolderField
+                    .labelsHidden()
+                    .foregroundStyle(.secondary)
+            } else {
+                rootFolderField
+                    .tint(.secondary)
             }
         }
         .onAppear {
@@ -61,18 +68,19 @@ struct MovieForm: View {
     }
 
     var rootFolderField: some View {
-        Section("Root Folder") {
-            Picker("", selection: $movie.rootFolderPath) {
+        Section(smallScreen ? "Root Folder" : "Paths") {
+            Picker(smallScreen ? "" : "Root Folder", selection: $movie.rootFolderPath) {
                 ForEach(instance.rootFolders) { folder in
                     HStack {
                         Text(folder.label)
-                        Spacer()
+
+                        if smallScreen {
+                            Spacer()
+                        }
                     }.tag(folder.path)
                 }
             }
-            .labelsHidden()
             .pickerStyle(.navigationLink)
-            .foregroundStyle(.secondary)
         }
     }
 
