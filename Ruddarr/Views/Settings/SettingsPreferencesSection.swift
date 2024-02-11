@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsPreferencesSection: View {
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         Section {
@@ -43,11 +44,10 @@ struct SettingsPreferencesSection: View {
             Label {
                 Text("Appearance")
             } icon: {
-                if settings.appearance.preferredColorScheme == .dark {
-                    Image(systemName: "moon").foregroundStyle(.white)
-                } else {
-                    Image(systemName: "sun.max").foregroundStyle(.black)
-                }
+                let icon = settings.appearance.preferredColorScheme == .dark ? "moon" : "sun.max"
+                let color: Color = colorScheme == .dark ? .white : .black
+
+                Image(systemName: icon).foregroundStyle(color)
             }
         }
     }
