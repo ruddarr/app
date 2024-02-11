@@ -9,25 +9,28 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>CFBundleAlternateIcons</key>
+	<key>CFBundleIcons</key>
 	<dict>
-		<key>AppIcon-Blue</key>
+		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>AppIcon Blue</string>
-			</array>
-			<key>UIPrerenderedIcon</key>
-			<false/>
-		</dict>
-		<key>AppIcon-Red</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>AppIcon Red</string>
-			</array>
-			<key>UIPrerenderedIcon</key>
-			<false/>
+			<key>Red</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>1AppIconRed</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>Monochrome</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>2AppIconMono</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
 		</dict>
 	</dict>
 </dict>

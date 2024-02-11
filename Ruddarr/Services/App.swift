@@ -6,6 +6,7 @@ import Foundation
 class AppSettings: ObservableObject {
     @CloudStorage("instances") var instances: [Instance] = []
 
+    @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
     @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
     @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?

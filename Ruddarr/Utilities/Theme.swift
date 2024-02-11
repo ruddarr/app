@@ -44,3 +44,50 @@ enum Appearance: String, Identifiable, CaseIterable {
         }
     }
 }
+
+enum AppIcon: String, Identifiable, CaseIterable {
+    case factory
+    case red
+    case mono
+
+    var id: Self { self }
+
+    var data: AppIconData {
+        switch self {
+        case .factory: AppIconData.factory
+        case .red: AppIconData.red
+        case .mono: AppIconData.mono
+        }
+    }
+}
+
+struct AppIconData {
+    var label: String
+    var asset: String
+
+    var value: String? {
+        asset == "AppIcon" ? nil : asset
+    }
+
+    var uiImage: UIImage {
+        guard let image = UIImage(named: asset) else {
+            assertionFailure("Missing asset: \(asset)")
+
+            return UIImage()
+        }
+
+        return image
+    }
+
+    static var factory: Self {
+        .init(label: "Default", asset: "AppIcon")
+    }
+
+    static var red: Self {
+        .init(label: "Red", asset: "AppIconRed")
+    }
+
+    static var mono: Self {
+        .init(label: "Monochrome", asset: "AppIconMono")
+    }
+}

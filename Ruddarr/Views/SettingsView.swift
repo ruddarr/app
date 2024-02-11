@@ -4,6 +4,7 @@ struct SettingsView: View {
     @EnvironmentObject var settings: AppSettings
 
     enum Path: Hashable {
+        case icons
         case libraries
         case createInstance
         case editInstance(Instance.ID)
@@ -13,13 +14,17 @@ struct SettingsView: View {
         NavigationStack(path: dependencies.$router.settingsPath) {
             List {
                 instanceSection
-                preferencesSection
+
+                SettingsPreferencesSection()
                 SettingsAboutSection()
                 SettingsSystemSection()
             }
             .navigationTitle("Settings")
             .navigationDestination(for: Path.self) {
                 switch $0 {
+                case .icons:
+                    IconsView()
+
                 case .libraries:
                     LibrariesView()
 
@@ -48,46 +53,6 @@ struct SettingsView: View {
                 Text("Add instance")
             }
         }
-    }
-
-    var preferencesSection: some View {
-        Section {
-            Picker(selection: $settings.theme) {
-                ForEach(Theme.allCases) { theme in
-                    Text(theme.rawValue)
-                }
-            } label: {
-                Label {
-                    Text("Accent Color")
-                } icon: {
-                    Image(systemName: "paintpalette").foregroundStyle(settings.theme.tint)
-                }
-            }
-            .onChange(of: settings.theme) {
-                dependencies.router.reset()
-            }
-
-            Picker(selection: $settings.appearance) {
-                ForEach(Appearance.allCases) { colorScheme in
-                    Text(colorScheme.rawValue)
-                }
-            } label: {
-                Label {
-                    Text("Appearance")
-                } icon: {
-                    if settings.appearance.preferredColorScheme == .dark {
-                        Image(systemName: "moon").foregroundStyle(.white)
-                    } else {
-                        Image(systemName: "sun.max").foregroundStyle(.black)
-                    }
-                }
-            }
-        } header: {
-            Text("Preferences")
-        } footer: {
-            Text("Styling options will be a paid feature in the App Store version.")
-        }
-        .tint(.secondary)
     }
 }
 

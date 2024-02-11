@@ -44,6 +44,7 @@
 		BBAED12D2B72D444006C6CF2 /* ButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */; };
 		BBB8691F2B6CAE26009C1A54 /* MovieReleases.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB8691E2B6CAE26009C1A54 /* MovieReleases.swift */; };
 		BBB869212B6CB0AC009C1A54 /* releases.json in Resources */ = {isa = PBXBuildFile; fileRef = BBB869202B6CB0AC009C1A54 /* releases.json */; };
+		BBBB08D42B77FBC700BADBA1 /* IconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBB08D32B77FBC700BADBA1 /* IconsView.swift */; };
 		BBBE93162B68638400353216 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBE93152B68638400353216 /* Theme.swift */; };
 		BBC136A42B62DD780074C7AA /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC136A32B62DD780074C7AA /* Network.swift */; };
 		BBC45B8F2B56426700AB258F /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B8E2B56426700AB258F /* Nuke */; };
@@ -69,6 +70,7 @@
 		BBF706BC2B6220BF00B2B504 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF706BB2B6220BF00B2B504 /* Logger.swift */; };
 		BBF94F632B508F8B00300EBA /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F622B508F8B00300EBA /* MovieView.swift */; };
 		BBF94F652B50C88300300EBA /* Instance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F642B50C88300300EBA /* Instance.swift */; };
+		BBFB1F8B2B782D1000181233 /* SettingsPreferencesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,6 +110,7 @@
 		BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLabel.swift; sourceTree = "<group>"; };
 		BBB8691E2B6CAE26009C1A54 /* MovieReleases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleases.swift; sourceTree = "<group>"; };
 		BBB869202B6CB0AC009C1A54 /* releases.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = releases.json; sourceTree = "<group>"; };
+		BBBB08D32B77FBC700BADBA1 /* IconsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsView.swift; sourceTree = "<group>"; };
 		BBBE93152B68638400353216 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		BBC136A32B62DD780074C7AA /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		BBC94DE22B5F3DE600504568 /* CloudStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudStorage.swift; sourceTree = "<group>"; };
@@ -132,6 +135,7 @@
 		BBF706BB2B6220BF00B2B504 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		BBF94F622B508F8B00300EBA /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
 		BBF94F642B50C88300300EBA /* Instance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instance.swift; sourceTree = "<group>"; };
+		BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPreferencesSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,10 +180,12 @@
 			isa = PBXGroup;
 			children = (
 				BB9255CD2B54657900967F84 /* InstanceView.swift */,
+				BBBB08D32B77FBC700BADBA1 /* IconsView.swift */,
 				BB25DC632B62ED9100FE55A0 /* LibrariesView.swift */,
 				BB25DC602B62ECF700FE55A0 /* InstanceRow.swift */,
 				BB6F23AA2B6ABB8700A4347A /* SettingsAboutSection.swift */,
 				BB6F23AC2B6ABBBD00A4347A /* SettingsSystemSection.swift */,
+				BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -459,6 +465,7 @@
 				BBE828592B4F2C7000C1E1D9 /* ContentView.swift in Sources */,
 				BB25DC612B62ECF700FE55A0 /* InstanceRow.swift in Sources */,
 				796C766D2B62A3B700EF3DB8 /* Store.swift in Sources */,
+				BBFB1F8B2B782D1000181233 /* SettingsPreferencesSection.swift in Sources */,
 				BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */,
 				794BD7822B5ED48E003819AB /* Binding.swift in Sources */,
 				BBC94DE32B5F3DE600504568 /* CloudStorage.swift in Sources */,
@@ -482,6 +489,7 @@
 				BB93FDD62B6337920047A9FF /* MovieSearchSheet.swift in Sources */,
 				BBF94F652B50C88300300EBA /* Instance.swift in Sources */,
 				BBE8286A2B4F325400C1E1D9 /* ShowsView.swift in Sources */,
+				BBBB08D42B77FBC700BADBA1 /* IconsView.swift in Sources */,
 				79159D6C2B5953D700F7F997 /* Dependencies.swift in Sources */,
 				BBF94F632B508F8B00300EBA /* MovieView.swift in Sources */,
 				BBE0DE5F2B51A86B00E7B5C9 /* MovieSearchView.swift in Sources */,
@@ -621,7 +629,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Ruddarr/Ruddarr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -668,7 +676,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Ruddarr/Ruddarr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
