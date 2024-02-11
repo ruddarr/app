@@ -64,21 +64,24 @@ class Telemetry {
 
     func maybeUploadTelemetry() {
         let key = "lastTelemetryDate"
+        let oneDayAgo = Calendar.current.date(byAdding: .hour, value: -24, to: Date())!
+
         var lastTelemetryDate: Date
 
         if let storedDate = UserDefaults.standard.object(forKey: key) as? Date {
             lastTelemetryDate = storedDate
         } else {
-            lastTelemetryDate = Calendar.current.date(byAdding: .hour, value: -24, to: Date())!
+            lastTelemetryDate = oneDayAgo
         }
 
         #if DEBUG
-        lastTelemetryDate = Calendar.current.date(byAdding: .hour, value: -24, to: Date())!
+        lastTelemetryDate = oneDayAgo
         #endif
 
-        let hoursSincePing = Calendar.current.dateComponents([.hour], from: lastTelemetryDate, to: Date()).hour
+        let hoursSincePing = Calendar.current.dateComponents([.hour], from: lastTelemetryDate, to: Date()).hour!
 
-        guard hoursSincePing! > 12 else {
+        guard hoursSincePing > 12 else {
+            self.log.notice("\(hoursSincePing) house since last ping")
             return
         }
 
@@ -115,6 +118,8 @@ class Telemetry {
             guard [.deviceId, .cloudkitStatus, .cloudkitUserId].contains(key) else { return }
             record.setValue(value, forKey: key.rawValue)
         }
+
+        self.log.notice("Uploading telemetry")
 
         try await database.save(record)
     }
