@@ -205,7 +205,6 @@ struct MovieEditorResource: Codable {
     let monitored: Bool?
     let qualityProfileId: Int?
     let minimumAvailability: MovieStatus?
-    // let rootFolderPath: String?
-    // let moveFiles: Bool?
-    // let deleteFiles: Bool?
+    let rootFolderPath: String?
+    let moveFiles: Bool?
 }

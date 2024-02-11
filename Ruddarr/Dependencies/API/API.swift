@@ -10,7 +10,7 @@ struct API {
     var downloadRelease: (String, Int, Instance) async throws -> Empty
     var getMovie: (Movie.ID, Instance) async throws -> Movie
     var addMovie: (Movie, Instance) async throws -> Movie
-    var updateMovie: (Movie, Instance) async throws -> Empty
+    var updateMovie: (Movie, Bool, Instance) async throws -> Empty
     var deleteMovie: (Movie, Instance) async throws -> Empty
     var command: (RadarrCommand, Instance) async throws -> Empty
     var systemStatus: (Instance) async throws -> InstanceStatus
@@ -55,7 +55,7 @@ extension API {
                 .appending(path: "/api/v3/movie")
 
             return try await request(method: .post, url: url, authorization: instance.apiKey, body: movie)
-        }, updateMovie: { movie, instance in
+        }, updateMovie: { movie, moveFiles, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie/editor")
 
@@ -63,7 +63,9 @@ extension API {
                 movieIds: [movie.movieId!],
                 monitored: movie.monitored,
                 qualityProfileId: movie.qualityProfileId,
-                minimumAvailability: movie.minimumAvailability
+                minimumAvailability: movie.minimumAvailability,
+                rootFolderPath: movie.rootFolderPath,
+                moveFiles: moveFiles ? true : nil
             )
 
             return try await request(method: .put, url: url, authorization: instance.apiKey, body: body)

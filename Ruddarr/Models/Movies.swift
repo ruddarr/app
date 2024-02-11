@@ -15,7 +15,7 @@ class Movies {
     enum Operation {
         case fetch
         case add(Movie)
-        case update(Movie)
+        case update(Movie, Bool)
         case delete(Movie)
         case download(String, Int)
         case command(Movie, RadarrCommand.Command)
@@ -64,8 +64,8 @@ class Movies {
         await request(.add(movie))
     }
 
-    func update(_ movie: Movie) async -> Bool {
-        await request(.update(movie))
+    func update(_ movie: Movie, moveFiles: Bool = false) async -> Bool {
+        await request(.update(movie, moveFiles))
     }
 
     func delete(_ movie: Movie) async -> Bool {
@@ -93,8 +93,8 @@ class Movies {
             case .add(let movie):
                 items.append(try await dependencies.api.addMovie(movie, instance))
 
-            case .update(let movie):
-                _ = try await dependencies.api.updateMovie(movie, instance)
+            case .update(let movie, let moveFiles):
+                _ = try await dependencies.api.updateMovie(movie, moveFiles, instance)
 
             case .delete(let movie):
                 _ = try await dependencies.api.deleteMovie(movie, instance)

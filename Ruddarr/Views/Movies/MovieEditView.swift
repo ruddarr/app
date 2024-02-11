@@ -7,35 +7,67 @@ struct MovieEditView: View {
 
     @Environment(\.dismiss) private var dismiss
 
+    @State private var currentRootFolder: String?
+    @State private var showConfirmation: Bool = false
+
+    init(movie: Binding<Movie>) {
+        self._movie = movie
+        _currentRootFolder = State(initialValue: movie.wrappedValue.rootFolderPath?.untrailingSlashIt)
+    }
+
     var body: some View {
         MovieForm(movie: $movie)
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                if instance.movies.isWorking {
-                    ProgressView().tint(.secondary)
-                } else {
-                    Button("Save") {
-                        Task {
-                            await updateMovie()
-                        }
+            .toolbar {
+                toolbarSaveButton
+            }
+            .alert(
+                "Something Went Wrong",
+                isPresented: Binding(get: { instance.movies.error != nil }, set: { _ in }),
+                presenting: instance.movies.error
+            ) { _ in
+                Button("OK", role: .cancel) { }
+            } message: { error in
+                Text(error.localizedDescription)
+            }
+    }
+
+    @ToolbarContentBuilder
+    var toolbarSaveButton: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            if instance.movies.isWorking {
+                ProgressView().tint(.secondary)
+            } else {
+                Button("Save") {
+                    if movie.exists && currentRootFolder != movie.rootFolderPath?.untrailingSlashIt {
+                        showConfirmation = true
+                    } else {
+                        Task { await updateMovie() }
                     }
                 }
+                .confirmationDialog(
+                    "Move Files",
+                    isPresented: $showConfirmation,
+                    titleVisibility: .hidden
+                ) {
+                    Button("Move Files", role: .destructive) {
+                        Task { await updateMovie(moveFiles: true) }
+                    }
+                    Button("No") {
+                        Task { await updateMovie() }
+                    }
+                    Button("Cancel", role: .cancel) {
+                        showConfirmation = false
+                    }
+                } message: {
+                    Text("Would you like to move the movie folder to \"\(movie.rootFolderPath!)\"?")
+                }
             }
-        }
-        .alert(
-            "Something Went Wrong",
-            isPresented: Binding(get: { instance.movies.error != nil }, set: { _ in }),
-            presenting: instance.movies.error
-        ) { _ in
-            Button("OK", role: .cancel) { }
-        } message: { error in
-            Text(error.localizedDescription)
         }
     }
 
     @MainActor
-    func updateMovie() async {
-        _ = await instance.movies.update(movie)
+    func updateMovie(moveFiles: Bool = false) async {
+        _ = await instance.movies.update(movie, moveFiles: moveFiles)
 
         dismiss()
     }
