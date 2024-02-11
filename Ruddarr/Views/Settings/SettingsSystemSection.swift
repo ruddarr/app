@@ -10,7 +10,7 @@ struct SettingsSystemSection: View {
     @State private var showingEraseConfirmation: Bool = false
 
     var body: some View {
-        Section(header: Text("System")) {
+        Section {
             Button(role: .destructive, action: {
                 withAnimation { clearImageCache() }
             }, label: {
@@ -33,7 +33,34 @@ struct SettingsSystemSection: View {
             } message: {
                 Text("Are you sure you want to erase all settings?")
             }
+        } header: {
+            Text("System")
+        } footer: {
+            if let version = buildVersion {
+                HStack {
+                    Spacer()
+                    Text(version).font(.subheadline)
+                    Spacer()
+                }
+                .padding(.top)
+            }
         }
+    }
+
+    var buildVersion: String? {
+        guard let appVersion = Bundle.main.object(
+            forInfoDictionaryKey: "CFBundleShortVersionString"
+        ) as? String else {
+            return nil
+        }
+
+        guard let buildNumber = Bundle.main.object(
+            forInfoDictionaryKey: "CFBundleVersion"
+        ) as? String else {
+            return nil
+        }
+
+        return "\(appVersion) (\(buildNumber))"
     }
 
     func calculateImageCacheSize() {
@@ -52,4 +79,11 @@ struct SettingsSystemSection: View {
         radarrInstance.switchTo(.void)
         settings.resetAll()
     }
+}
+
+#Preview {
+    List {
+        SettingsSystemSection()
+    }
+    .withAppState()
 }
