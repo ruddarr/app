@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 struct MovieSearchView: View {
     @State var searchQuery = ""
@@ -8,6 +9,7 @@ struct MovieSearchView: View {
 
     @Environment(RadarrInstance.self) private var instance
 
+    let searchTextPublisher = PassthroughSubject<String, Never>()
     let gridItemLayout = MovieGridItem.gridItemLayout()
 
     var body: some View {
@@ -36,9 +38,11 @@ struct MovieSearchView: View {
             placement: .navigationBarDrawer(displayMode: .always)
         )
         .onChange(of: searchQuery) {
-            instance.lookup.items = nil
+            searchTextPublisher.send(searchQuery)
         }
-        .onSubmit(of: .search) {
+        .onReceive(
+            searchTextPublisher.throttle(for: .milliseconds(750), scheduler: DispatchQueue.main, latest: true)
+        ) { _ in
             Task {
                 await instance.lookup.search(query: searchQuery)
             }
@@ -53,11 +57,13 @@ struct MovieSearchView: View {
             Text(error.localizedDescription)
         }
         .overlay {
-            if instance.lookup.isSearching {
+            let noSearchResults = instance.lookup.items?.isEmpty ?? true
+
+            if instance.lookup.isSearching && noSearchResults {
                 ProgressView {
                     Text("Loading")
                 }.tint(.secondary)
-            } else if instance.lookup.items?.count == 0 {
+            } else if noSearchResults {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
