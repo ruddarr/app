@@ -15,6 +15,13 @@ enum Theme: String, Identifiable, CaseIterable {
 
     var id: Self { self }
 
+    var label: String {
+        switch self {
+        case .mono: "Monochrome"
+        default: self.rawValue.capitalized
+        }
+    }
+
     var tint: Color {
         switch self {
         case .blue: Color.blue
@@ -37,11 +44,7 @@ enum Appearance: String, Identifiable, CaseIterable {
     var id: Self { self }
 
     var label: String {
-        switch self {
-        case .automatic: "Automatic"
-        case .light: "Light"
-        case .dark: "Dark"
-        }
+        self.rawValue.capitalized
     }
 
     var preferredColorScheme: ColorScheme? {

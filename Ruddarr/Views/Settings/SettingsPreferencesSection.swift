@@ -21,7 +21,7 @@ struct SettingsPreferencesSection: View {
     var themePicker: some View {
         Picker(selection: $settings.theme) {
             ForEach(Theme.allCases) { theme in
-                Text(theme.rawValue)
+                Text(theme.label)
             }
         } label: {
             Label {
