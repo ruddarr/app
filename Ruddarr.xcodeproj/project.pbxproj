@@ -209,7 +209,6 @@
 		BB456D212B58BDF300C29B00 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				BBBE93152B68638400353216 /* Theme.swift */,
 				794BD7812B5ED48E003819AB /* Binding.swift */,
 				BB01B1F32B6465730025FAF4 /* View.swift */,
 				BBAED12A2B7205A9006C6CF2 /* Helpers.swift */,
@@ -337,6 +336,7 @@
 			isa = PBXGroup;
 			children = (
 				BB6D96942B61E61D0017BFB3 /* App.swift */,
+				BBBE93152B68638400353216 /* Theme.swift */,
 				BBF706BB2B6220BF00B2B504 /* Logger.swift */,
 				BBC136A32B62DD780074C7AA /* Network.swift */,
 				BBC94DE82B5F63A000504568 /* Telemetry.swift */,
