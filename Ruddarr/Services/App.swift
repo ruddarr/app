@@ -26,9 +26,11 @@ extension AppSettings {
     }
 
     var radarrInstances: [Instance] {
-        instances.filter { instance in
-            instance.type == .radarr
-        }
+        instances.filter { $0.type == .radarr }
+    }
+
+    var sonarrInstances: [Instance] {
+        instances.filter { $0.type == .sonarr }
     }
 
     func instanceById(_ id: UUID) -> Instance? {
