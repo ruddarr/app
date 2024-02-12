@@ -1,5 +1,6 @@
 import SwiftUI
 import MetricKit
+import TelemetryManager
 
 @main
 struct RuddarrApp: App {
