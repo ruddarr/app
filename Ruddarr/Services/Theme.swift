@@ -66,6 +66,7 @@ enum Appearance: String, Identifiable, CaseIterable {
 enum AppIcon: String, Identifiable, CaseIterable {
     case factory
     case red
+    case purple
     case mono
 
     var id: Self { self }
@@ -74,6 +75,7 @@ enum AppIcon: String, Identifiable, CaseIterable {
         switch self {
         case .factory: AppIconData.factory
         case .red: AppIconData.red
+        case .purple: AppIconData.purple
         case .mono: AppIconData.mono
         }
     }
@@ -101,8 +103,12 @@ struct AppIconData {
         .init(label: "Default", asset: "AppIcon")
     }
 
+    static var purple: Self {
+        .init(label: "Podcasts", asset: "AppIconPurple")
+    }
+
     static var red: Self {
-        .init(label: "Red", asset: "AppIconRed")
+        .init(label: "Music", asset: "AppIconRed")
     }
 
     static var mono: Self {

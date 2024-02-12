@@ -13,23 +13,26 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>Red</key>
+			<key>AppIconRed</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>AppIconRed</string>
 				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
 			</dict>
-			<key>Monochrome</key>
+			<key>AppIconPurple</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIconPurple</string>
+				</array>
+			</dict>
+			<key>AppIconMono</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>AppIconMono</string>
 				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
 			</dict>
 		</dict>
 	</dict>
