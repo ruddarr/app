@@ -33,12 +33,12 @@ enum Theme: String, Identifiable, CaseIterable {
         switch self {
         case .blue: Color.blue
         case .purple: Color.purple
-        case .green: Color("Green")
+        case .green: Color("Fitness")
         case .pink: Color.pink
         case .red: Color.red
         case .orange: Color.orange
         case .yellow: Color.yellow
-        case .mono: Color("Mono")
+        case .mono: Color("Monochrome")
         }
     }
 }
