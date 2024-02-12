@@ -208,13 +208,11 @@ struct MovieDetailsOverview: View {
                 .padding(.trailing, 8)
 
             VStack(alignment: .leading, spacing: 0) {
-                if let state = movie.stateLabel {
-                    Text(state)
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .textCase(.uppercase)
-                        .foregroundStyle(settings.theme.tint)
-                }
+                Text(movie.stateLabel)
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .textCase(.uppercase)
+                    .foregroundStyle(settings.theme.tint)
 
                 Text(movie.title)
                     .font(shrinkTitle ? .title : .largeTitle)

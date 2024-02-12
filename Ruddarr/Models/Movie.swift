@@ -72,7 +72,7 @@ struct Movie: Identifiable, Codable {
         movieId != nil
     }
 
-    var stateLabel: String? {
+    var stateLabel: String {
         if hasFile {
             return "Downloaded"
         }
@@ -85,7 +85,7 @@ struct Movie: Identifiable, Codable {
             return "Missing"
         }
 
-        return nil
+        return "Unwanted"
     }
 
     var runtimeLabel: String {
