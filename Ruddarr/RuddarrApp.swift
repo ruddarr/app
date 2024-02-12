@@ -24,13 +24,17 @@ struct RuddarrApp: App {
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate, MXMetricManagerSubscriber {
-    func application(_ application: UIApplication) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
         let metricManager = MXMetricManager.shared
         metricManager.add(self)
 
         let configuration = TelemetryManagerConfiguration(
             appID: "5B1D07EE-E296-4DCF-B3DD-150EDE9D56B5"
         )
+
         TelemetryManager.initialize(with: configuration)
 
         URLSession.shared.configuration.waitsForConnectivity = true

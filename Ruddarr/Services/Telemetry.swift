@@ -54,7 +54,5 @@ class Telemetry {
             "radarrInstances": String(settings.radarrInstances.count),
             "sonarrInstances": String(settings.sonarrInstances.count),
         ])
-
-        self.log.notice("Telemetry uploaded")
     }
 }
