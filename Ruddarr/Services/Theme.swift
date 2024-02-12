@@ -2,23 +2,30 @@ import SwiftUI
 
 // https://developer.apple.com/design/human-interface-guidelines/color
 enum Theme: String, Identifiable, CaseIterable {
-    case blue = "Blue"
-    case purple = "Purple"
-    case green = "Green" // get closer to neon-green like Fitness?
-    case pink = "Pink" // get closer to news color?
-    case red = "Red"
-    case orange = "Orange"
-    case yellow = "Yellow"
-    case mono = "Monochrome"
-
     static let factory = Theme.purple
+
+    case blue
+    case purple
+    case green
+    case pink
+    case red
+    case orange
+    case yellow
+    case mono
+    // cyan (Translate)
 
     var id: Self { self }
 
     var label: String {
         switch self {
-        case .mono: "Monochrome"
-        default: self.rawValue.capitalized
+        case .blue: "Mail"
+        case .purple: "Podcasts"
+        case .green: "Fitness"
+        case .pink: "Music"
+        case .red: "Music"
+        case .orange: "Watch"
+        case .yellow: "Notes"
+        case .mono: "Books"
         }
     }
 
@@ -26,7 +33,7 @@ enum Theme: String, Identifiable, CaseIterable {
         switch self {
         case .blue: Color.blue
         case .purple: Color.purple
-        case .green: Color.green
+        case .green: Color("Green")
         case .pink: Color.pink
         case .red: Color.red
         case .orange: Color.orange
