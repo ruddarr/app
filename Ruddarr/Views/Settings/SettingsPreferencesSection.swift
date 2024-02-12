@@ -12,8 +12,6 @@ struct SettingsPreferencesSection: View {
 
         } header: {
             Text("Preferences")
-        } footer: {
-            Text("Styling options will be a paid feature in the App Store version.")
         }
         .tint(.secondary)
     }
