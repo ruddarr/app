@@ -11,14 +11,6 @@ struct RuddarrApp: App {
         #endif
 
         NetworkMonitor.shared.start()
-
-        NotificationCenter.default.addObserver(
-            forName: UIApplication.didBecomeActiveNotification,
-            object: nil,
-            queue: nil
-        ) { _ in
-            Telemetry.shared.maybeUploadTelemetry()
-        }
     }
 
     var body: some Scene {
@@ -35,6 +27,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, MXMetricManagerSubscriber {
     func application(_ application: UIApplication) -> Bool {
         let metricManager = MXMetricManager.shared
         metricManager.add(self)
+
+        let configuration = TelemetryManagerConfiguration(
+            appID: "5B1D07EE-E296-4DCF-B3DD-150EDE9D56B5"
+        )
+        TelemetryManager.initialize(with: configuration)
 
         URLSession.shared.configuration.waitsForConnectivity = true
 

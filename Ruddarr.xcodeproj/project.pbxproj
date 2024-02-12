@@ -71,6 +71,7 @@
 		BBF94F632B508F8B00300EBA /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F622B508F8B00300EBA /* MovieView.swift */; };
 		BBF94F652B50C88300300EBA /* Instance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F642B50C88300300EBA /* Instance.swift */; };
 		BBFB1F8B2B782D1000181233 /* SettingsPreferencesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */; };
+		BBFB1F8E2B792BCB00181233 /* TelemetryClient in Frameworks */ = {isa = PBXBuildFile; productRef = BBFB1F8D2B792BCB00181233 /* TelemetryClient */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -144,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBA54BE52B563E2000CA0F3E /* NukeUI in Frameworks */,
+				BBFB1F8E2B792BCB00181233 /* TelemetryClient in Frameworks */,
 				BBA54BE32B563E2000CA0F3E /* Nuke in Frameworks */,
 				BBC45B932B56426700AB258F /* NukeUI in Frameworks */,
 				BBC45B8F2B56426700AB258F /* Nuke in Frameworks */,
@@ -365,6 +367,7 @@
 				BBC45B8E2B56426700AB258F /* Nuke */,
 				BBC45B902B56426700AB258F /* NukeExtensions */,
 				BBC45B922B56426700AB258F /* NukeUI */,
+				BBFB1F8D2B792BCB00181233 /* TelemetryClient */,
 			);
 			productName = Ruddarr;
 			productReference = BBE828532B4F2C7000C1E1D9 /* Ruddarr.app */;
@@ -396,6 +399,7 @@
 			mainGroup = BBE8284A2B4F2C7000C1E1D9;
 			packageReferences = (
 				BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */,
+				BBFB1F8C2B792BCB00181233 /* XCRemoteSwiftPackageReference "SwiftClient" */,
 			);
 			productRefGroup = BBE828542B4F2C7000C1E1D9 /* Products */;
 			projectDirPath = "";
@@ -750,6 +754,14 @@
 				minimumVersion = 12.0.0;
 			};
 		};
+		BBFB1F8C2B792BCB00181233 /* XCRemoteSwiftPackageReference "SwiftClient" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TelemetryDeck/SwiftClient";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -777,6 +789,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = NukeUI;
+		};
+		BBFB1F8D2B792BCB00181233 /* TelemetryClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBFB1F8C2B792BCB00181233 /* XCRemoteSwiftPackageReference "SwiftClient" */;
+			productName = TelemetryClient;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

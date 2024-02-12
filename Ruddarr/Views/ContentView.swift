@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var settings: AppSettings
+    @Environment(\.scenePhase) private var scenePhase
+
     @State private var isPortrait = false
     @State private var columnVisibility: NavigationSplitViewVisibility = .doubleColumn
 
@@ -53,6 +56,9 @@ struct ContentView: View {
             .onReceive(orientationChangePublisher) { _ in
                 handleOrientationChange()
             }
+            .onChange(of: scenePhase) { new, old in
+                handleScenePhaseChange(new, old)
+            }
         } else {
             TabView(selection: dependencies.$router.selectedTab.onSet {
                 if $0 == dependencies.router.selectedTab {
@@ -65,6 +71,9 @@ struct ContentView: View {
                         .displayToasts()
                         .tag(tab)
                 }
+            }
+            .onChange(of: scenePhase) { new, old in
+                handleScenePhaseChange(new, old)
             }
         }
     }
@@ -89,6 +98,12 @@ struct ContentView: View {
             ShowsView()
         case .settings:
             SettingsView()
+        }
+    }
+
+    func handleScenePhaseChange(_ new: ScenePhase, _ old: ScenePhase) {
+        if new == .inactive && old == .active {
+            Telemetry.shared.maybeUploadTelemetry(settings: settings)
         }
     }
 

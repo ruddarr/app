@@ -1,6 +1,7 @@
 import os
 import SwiftUI
 import Foundation
+import CryptoKit
 
 struct SettingsAboutSection: View {
     private let log: Logger = logger("settings")
@@ -73,8 +74,6 @@ struct SettingsAboutSection: View {
 
     // If desired add `mailto` to `LSApplicationQueriesSchemes` in `Info.plist`
     func openSupportEmail() async {
-        let meta = await Telemetry.shared.metadata()
-
         let uuid = UUID().uuidString.prefix(8)
 
         let address = "ruddarr@icloud.com"
@@ -84,11 +83,9 @@ struct SettingsAboutSection: View {
         ---
         The following information will help with debugging:
 
-        Version: \(meta[.appVersion] ?? "nil") (\(meta[.appBuild] ?? "nil"))
-        Platform: \(meta[.systemName] ?? "nil") (\(meta[.systemVersion] ?? "nil"))
-        Device: \(meta[.deviceId] ?? "nil")
-        iCloud: \(meta[.cloudkitStatus]!)
-        User: \(meta[.cloudkitUserId] ?? "nil")
+        Version: \(appVersion) (\(appBuild))
+        Platform: \(systemName) (\(systemVersion))
+        Device: \(deviceId)
         """
 
         var components = URLComponents()
@@ -116,5 +113,44 @@ struct SettingsAboutSection: View {
         }
 
         log.critical("Unable to open URL: \(gitHubUrl)")
+    }
+
+    var systemName: String {
+        UIDevice.current.systemName
+    }
+
+    var systemVersion: String {
+        UIDevice.current.systemVersion
+    }
+
+    var appVersion: String {
+        if let appVersion = Bundle.main.object(
+            forInfoDictionaryKey: "CFBundleShortVersionString"
+        ) as? String {
+            return appVersion
+        }
+
+        return "Unknown"
+    }
+
+    var appBuild: String {
+        if let buildNumber = Bundle.main.object(
+            forInfoDictionaryKey: "CFBundleVersion"
+        ) as? String {
+            return buildNumber
+        }
+
+        return "Unknown"
+    }
+
+    var deviceId: String {
+        guard let deviceId = UIDevice.current.identifierForVendor?.uuidString else {
+            return "Unknown"
+        }
+
+        return SHA256
+            .hash(data: deviceId.data(using: .utf8)!)
+            .compactMap { String(format: "%02x", $0) }
+            .joined()
     }
 }
