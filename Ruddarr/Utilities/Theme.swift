@@ -30,11 +30,19 @@ enum Theme: String, Identifiable, CaseIterable {
 }
 
 enum Appearance: String, Identifiable, CaseIterable {
-    case automatic = "Automatic"
-    case light = "Light"
-    case dark = "Dark"
+    case automatic
+    case light
+    case dark
 
     var id: Self { self }
+
+    var label: String {
+        switch self {
+        case .automatic: "Automatic"
+        case .light: "Light"
+        case .dark: "Dark"
+        }
+    }
 
     var preferredColorScheme: ColorScheme? {
         switch self {

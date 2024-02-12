@@ -38,7 +38,7 @@ struct SettingsPreferencesSection: View {
     var appearancePicker: some View {
         Picker(selection: $settings.appearance) {
             ForEach(Appearance.allCases) { colorScheme in
-                Text(colorScheme.rawValue)
+                Text(colorScheme.label)
             }
         } label: {
             Label {
