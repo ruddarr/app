@@ -68,7 +68,7 @@ struct MovieReleaseRow: View {
         }
         .symbolVariant(.fill)
         .imageScale(.medium)
-        .foregroundColor(.secondary)
+        .foregroundStyle(.secondary)
     }
 
     var peerColor: any ShapeStyle {

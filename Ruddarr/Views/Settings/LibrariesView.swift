@@ -8,6 +8,7 @@ struct LibrariesView: View {
                     Text("Nuke")
                     Text("12.3.0").foregroundStyle(.secondary)
                     Spacer()
+                    Image(systemName: "arrow.up.right.square")
                 }
             })
 
@@ -16,6 +17,7 @@ struct LibrariesView: View {
                     Text("CloudStorage")
                     Text("0.4.0").foregroundStyle(.secondary)
                     Spacer()
+                    Image(systemName: "arrow.up.right.square")
                 }
             })
         }

@@ -12,52 +12,52 @@ struct SettingsAboutSection: View {
 
     var body: some View {
         Section(header: Text("About")) {
-            shareLink
-            reviewLink
-            supportEmail
-            github
+            share
+            review
+            support
+            contribute
             libraries
         }
     }
 
-    var shareLink: some View {
+    var share: some View {
         ShareLink(item: shareUrl) {
             Label {
                 Text("Share App").tint(.primary)
             } icon: {
-                Image(systemName: "square.and.arrow.up").foregroundColor(.blue)
+                Image(systemName: "square.and.arrow.up").foregroundStyle(.blue)
             }
         }
     }
 
-    var reviewLink: some View {
+    var review: some View {
         Link(destination: reviewUrl) {
             Label {
                 Text("Leave a Review").tint(.primary)
             } icon: {
-                Image(systemName: "star.fill").foregroundColor(.yellow)
+                Image(systemName: "star.fill").foregroundStyle(.yellow)
             }
         }
     }
 
-    var supportEmail: some View {
+    var support: some View {
         Button {
             Task { await openSupportEmail() }
         } label: {
             Label {
                 Text("Email Support").tint(.primary)
             } icon: {
-                Image(systemName: "square.and.pencil").foregroundColor(.blue)
+                Image(systemName: "square.and.pencil").foregroundStyle(.blue)
             }
         }
     }
 
-    var github: some View {
+    var contribute: some View {
         Link(destination: githubUrl, label: {
             Label {
                 Text("Contribute on GitHub").tint(.primary)
             } icon: {
-                Image(systemName: "curlybraces.square").foregroundColor(.purple)
+                Image(systemName: "curlybraces.square").foregroundStyle(.purple)
             }
         })
     }
@@ -67,7 +67,7 @@ struct SettingsAboutSection: View {
             Label {
                 Text("Third Party Libraries").tint(.primary)
             } icon: {
-                Image(systemName: "building.columns").foregroundColor(.secondary)
+                Image(systemName: "text.book.closed").foregroundStyle(.blue)
             }
         }
     }
