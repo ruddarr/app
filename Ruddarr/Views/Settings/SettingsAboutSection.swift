@@ -16,6 +16,7 @@ struct SettingsAboutSection: View {
             review
             support
             contribute
+            invite
             libraries
         }
     }
@@ -60,6 +61,18 @@ struct SettingsAboutSection: View {
                 Image(systemName: "curlybraces.square").foregroundStyle(.purple)
             }
         })
+    }
+
+    var invite: some View {
+        Button {
+            Task { await openInviteEmail() }
+        } label: {
+            Label {
+                Text("Invite me to BTN / PTP").tint(.primary)
+            } icon: {
+                Image(systemName: "figure.2").foregroundStyle(.orange).scaleEffect(0.9)
+            }
+        }
     }
 
     var libraries: some View {
@@ -113,6 +126,29 @@ struct SettingsAboutSection: View {
         }
 
         log.critical("Unable to open URL: \(gitHubUrl)")
+    }
+
+    func openInviteEmail() async {
+        let address = "ruddarr@icloud.com"
+        let subject = "Invite"
+
+        let body = "I have an invite for you, let's talk."
+
+        var components = URLComponents()
+        components.scheme = "mailto"
+        components.path = address
+        components.queryItems = [
+            URLQueryItem(name: "subject", value: subject),
+            URLQueryItem(name: "body", value: "\n\n\(body)")
+        ]
+
+        if let mailtoUrl = components.url {
+            if await UIApplication.shared.canOpenURL(mailtoUrl) {
+                if await UIApplication.shared.open(mailtoUrl) {
+                    return
+                }
+            }
+        }
     }
 
     var systemName: String {
