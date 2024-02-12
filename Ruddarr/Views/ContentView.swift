@@ -16,33 +16,7 @@ struct ContentView: View {
             NavigationSplitView(
                 columnVisibility: $columnVisibility,
                 sidebar: {
-                    List(selection: dependencies.$router.selectedTab.optional) {
-                        Text("Ruddarr")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .padding(.bottom)
-
-                        ForEach(Tab.allCases) { tab in
-                            let button = Button {
-                                dependencies.router.selectedTab = tab
-
-                                if isPortrait {
-                                    columnVisibility = .detailOnly
-                                }
-                            } label: {
-                                tab.label
-                            }
-
-                            if case .settings = tab {
-                                Section {
-                                    button
-                                }
-                            } else {
-                                button
-                            }
-                        }
-                    }
-                    .hideSidebarToggle(!isPortrait)
+                    sidebar
                 },
                 detail: {
                     screen(for: dependencies.router.selectedTab)
@@ -87,6 +61,36 @@ struct ContentView: View {
         default:
             break
         }
+    }
+
+    var sidebar: some View {
+        List(selection: dependencies.$router.selectedTab.optional) {
+            Text("Ruddarr")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .padding(.bottom)
+
+            ForEach(Tab.allCases) { tab in
+                let button = Button {
+                    dependencies.router.selectedTab = tab
+
+                    if isPortrait {
+                        columnVisibility = .detailOnly
+                    }
+                } label: {
+                    tab.label
+                }
+
+                if case .settings = tab {
+                    Section {
+                        button
+                    }
+                } else {
+                    button
+                }
+            }
+        }
+        .hideSidebarToggle(!isPortrait)
     }
 
     @ViewBuilder
