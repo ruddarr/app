@@ -152,8 +152,7 @@ struct MoviesView: View {
             "No Radarr Instance",
             systemImage: "externaldrive.badge.xmark",
             description: Text("Connect a Radarr instance under [Settings](#view).")
-        )
-        .environment(\.openURL, .init { _ in
+        ).environment(\.openURL, .init { _ in
             dependencies.router.selectedTab = .settings
             return .handled
         })

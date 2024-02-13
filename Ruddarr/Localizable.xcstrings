@@ -1,0 +1,347 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "•" : {
+
+    },
+    "0.4.0" : {
+
+    },
+    "0a1b2c3d..." : {
+
+    },
+    "12.3.0" : {
+
+    },
+    "About" : {
+
+    },
+    "Accent Color" : {
+
+    },
+    "Add" : {
+
+    },
+    "Add instance" : {
+
+    },
+    "Add Movie" : {
+
+    },
+    "All Indexers" : {
+
+    },
+    "All Quality Profiles" : {
+
+    },
+    "Allow Notifications" : {
+
+    },
+    "API Key" : {
+
+    },
+    "App Icon" : {
+
+    },
+    "Appearance" : {
+
+    },
+    "Are you sure you want to delete the instance?" : {
+
+    },
+    "Are you sure you want to delete the movie and permanently erase the movie folder and its contents?" : {
+
+    },
+    "Are you sure you want to erase all settings?" : {
+
+    },
+    "Are you sure?" : {
+
+    },
+    "Ascending" : {
+
+    },
+    "Automatic Search" : {
+
+    },
+    "Availability" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Check the spelling or try [adding the movie](#view)." : {
+
+    },
+    "Clear Image Cache" : {
+
+    },
+    "CloudStorage" : {
+
+    },
+    "Coming Soon" : {
+
+    },
+    "Connect a Radarr instance under [Settings](#view)." : {
+
+    },
+    "Connected" : {
+
+    },
+    "Connecting..." : {
+
+    },
+    "Connection failed" : {
+
+    },
+    "Contribute on GitHub" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Delete Instance" : {
+
+    },
+    "Delete Movie" : {
+
+    },
+    "Descending" : {
+
+    },
+    "Done" : {
+
+    },
+    "Edit" : {
+
+    },
+    "Email Support" : {
+
+    },
+    "Filter options" : {
+
+    },
+    "Filters" : {
+
+    },
+    "GAME_PLAY_REQUEST_FORMAT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ and %@ have invited you to play Monopoly"
+          }
+        }
+      }
+    },
+    "Hold on, this may take a moment." : {
+
+    },
+    "Icons" : {
+
+    },
+    "Indexer" : {
+
+    },
+    "Information" : {
+
+    },
+    "Instances" : {
+
+    },
+    "Interactive Search" : {
+
+    },
+    "Invite me to BTN / PTP" : {
+
+    },
+    "Label" : {
+
+    },
+    "Leave a Review" : {
+
+    },
+    "Loading" : {
+
+    },
+    "Loading..." : {
+
+    },
+    "Min. Availability" : {
+
+    },
+    "Minimum Availability" : {
+
+    },
+    "Monitored" : {
+
+    },
+    "Move Files" : {
+
+    },
+    "Movies" : {
+
+    },
+    "Next" : {
+
+    },
+    "No" : {
+
+    },
+    "No Internet Connection" : {
+
+    },
+    "No Movies Match" : {
+
+    },
+    "No movies match the selected filters." : {
+
+    },
+    "No Radarr Instance" : {
+
+    },
+    "No Releases Found" : {
+
+    },
+    "No Releases Match" : {
+
+    },
+    "No releases match the selected filters." : {
+
+    },
+    "No Results for \"%@\"" : {
+
+    },
+    "Notification are disabled, please enable them in [Settings > Notification > Ruddarr](#link)." : {
+
+    },
+    "Notifications" : {
+
+    },
+    "Nuke" : {
+
+    },
+    "OK" : {
+
+    },
+    "On Grab" : {
+
+    },
+    "On Import" : {
+
+    },
+    "On Movie Added" : {
+
+    },
+    "On Upgrade" : {
+
+    },
+    "Only Approved" : {
+
+    },
+    "Only FreeLeech" : {
+
+    },
+    "Open in Trakt" : {
+
+    },
+    "Paths" : {
+
+    },
+    "Please check your connection and try again." : {
+
+    },
+    "Preferences" : {
+
+    },
+    "Quality" : {
+
+    },
+    "Quality Profile" : {
+
+    },
+    "Radarr found no releases for \"%@\"." : {
+
+    },
+    "Refresh" : {
+
+    },
+    "Release Rejected" : {
+
+    },
+    "Reset All Settings" : {
+
+    },
+    "Root Folder" : {
+
+    },
+    "Ruddarr" : {
+
+    },
+    "Save" : {
+
+    },
+    "Searching..." : {
+
+    },
+    "Settings" : {
+
+    },
+    "Share App" : {
+
+    },
+    "Something Went Wrong" : {
+
+    },
+    "Sorting direction" : {
+
+    },
+    "Sorting options" : {
+
+    },
+    "Synology" : {
+
+    },
+    "System" : {
+
+    },
+    "The API Key can be found in the web interface under \"Settings > General > Security\"." : {
+
+    },
+    "The URL used to access the web interface. Must be prefixed with \"http://\" or \"https://\". Do not use \"localhost\" or \"127.0.0.1\"." : {
+
+    },
+    "Third Party Libraries" : {
+
+    },
+    "TV Shows" : {
+
+    },
+    "TV Shows will be added in a few weeks, once the Movies module has been polished and thoroughly tested in TestFlight." : {
+
+    },
+    "Type" : {
+
+    },
+    "URL" : {
+
+    },
+    "Use Digital Ocean" : {
+
+    },
+    "Use Synology" : {
+
+    },
+    "Would you like to move the movie folder to \"%@\"?" : {
+
+    },
+    "You can’t undo this action." : {
+
+    }
+  },
+  "version" : "1.0"
+}
