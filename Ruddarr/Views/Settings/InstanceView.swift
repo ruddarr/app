@@ -92,20 +92,20 @@ struct InstanceView: View {
                 .disabled(!notificationsAllowed || !cloudKitEnabled || webhook.isSynchronizing)
 
             if instanceNotifications {
-                Toggle("Movie Grab", isOn: $webhook.model.onGrab)
-                    .onChange(of: webhook.model.onGrab) { Task { await webhook.update(cloudKitUserId) } }
-                    .disabled(webhook.isSynchronizing)
-
-                Toggle("Movie Download", isOn: $webhook.model.onDownload)
-                    .onChange(of: webhook.model.onDownload) { Task { await webhook.update(cloudKitUserId) } }
+                Toggle("Movie Added", isOn: $webhook.model.onMovieAdded)
+                    .onChange(of: webhook.model.onMovieAdded) { Task { await webhook.update(cloudKitUserId) } }
                     .disabled(webhook.isSynchronizing)
 
                 Toggle("Movie Upgraded", isOn: $webhook.model.onUpgrade)
                     .onChange(of: webhook.model.onUpgrade) { Task { await webhook.update(cloudKitUserId) } }
                     .disabled(webhook.isSynchronizing)
 
-                Toggle("Movie Added", isOn: $webhook.model.onMovieAdded)
-                    .onChange(of: webhook.model.onMovieAdded) { Task { await webhook.update(cloudKitUserId) } }
+                Toggle("Movie Download", isOn: $webhook.model.onGrab)
+                    .onChange(of: webhook.model.onGrab) { Task { await webhook.update(cloudKitUserId) } }
+                    .disabled(webhook.isSynchronizing)
+
+                Toggle("Movie Imported", isOn: $webhook.model.onDownload)
+                    .onChange(of: webhook.model.onDownload) { Task { await webhook.update(cloudKitUserId) } }
                     .disabled(webhook.isSynchronizing)
 
                 Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
