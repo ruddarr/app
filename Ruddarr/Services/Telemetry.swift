@@ -1,5 +1,6 @@
 import os
 import SwiftUI
+import CloudKit
 import TelemetryClient
 
 class Telemetry {
@@ -47,12 +48,27 @@ class Telemetry {
     private func uploadTelemetryData(settings: AppSettings) async {
         self.log.notice("Telemetry uploading...")
 
+        let accountStatus = try? await CKContainer.default().accountStatus()
+
         await TelemetryManager.send("ping", with: [
             "icon": settings.icon.rawValue,
             "theme": settings.theme.rawValue,
             "appearance": settings.appearance.rawValue,
             "radarrInstances": String(settings.radarrInstances.count),
             "sonarrInstances": String(settings.sonarrInstances.count),
+            "cloudkit": cloudKitStatus(accountStatus),
         ])
+    }
+
+    func cloudKitStatus(_ status: CKAccountStatus?) -> String {
+        switch status {
+        case .couldNotDetermine: "could-not-determine"
+        case .available: "available"
+        case .restricted: "restricted"
+        case .noAccount: "no-account"
+        case .temporarilyUnavailable: "temporarily-unavailable"
+        case .none: "nil"
+        @unknown default: "unknown"
+        }
     }
 }

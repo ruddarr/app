@@ -55,6 +55,20 @@ extension API {
             try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return loadPreviewData(filename: "quality-profiles")
+        }, fetchNotifications: { _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return loadPreviewData(filename: "notifications")
+        }, createNotification: { _, _ in
+            let notifications: [InstanceNotification] = loadPreviewData(filename: "notifications")
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return notifications[0]
+        }, updateNotification: { _, _ in
+            let notifications: [InstanceNotification] = loadPreviewData(filename: "notifications")
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return notifications[0]
         })
     }
 }

@@ -30,10 +30,10 @@ struct InstanceRow: View {
             .font(.footnote)
             .foregroundStyle(.gray)
         }.task {
-            // I still kinda hate that this is happening, especially happening here on a list row that could run the task repeatedly as the user scrolls.
             do {
                 status = .pending
 
+                // TODO: Let's only synchonize every 60 seconds
                 let data = try await dependencies.api.systemStatus(instance)
 
                 instance.version = data.version

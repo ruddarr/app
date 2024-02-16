@@ -1,0 +1,297 @@
+[
+    {
+        "onGrab": false,
+        "onDownload": true,
+        "onUpgrade": true,
+        "onRename": true,
+        "onMovieAdded": false,
+        "onMovieDelete": true,
+        "onMovieFileDelete": true,
+        "onMovieFileDeleteForUpgrade": true,
+        "onHealthIssue": false,
+        "onHealthRestored": false,
+        "onApplicationUpdate": false,
+        "onManualInteractionRequired": false,
+        "supportsOnGrab": false,
+        "supportsOnDownload": true,
+        "supportsOnUpgrade": true,
+        "supportsOnRename": true,
+        "supportsOnMovieAdded": false,
+        "supportsOnMovieDelete": true,
+        "supportsOnMovieFileDelete": true,
+        "supportsOnMovieFileDeleteForUpgrade": true,
+        "supportsOnHealthIssue": false,
+        "supportsOnHealthRestored": false,
+        "supportsOnApplicationUpdate": false,
+        "supportsOnManualInteractionRequired": false,
+        "includeHealthWarnings": false,
+        "name": "Plex",
+        "fields": [
+            {
+                "order": 0,
+                "name": "host",
+                "label": "Host",
+                "value": "10.0.1.5",
+                "type": "textbox",
+                "advanced": false,
+                "privacy": "normal",
+                "isFloat": false
+            },
+            {
+                "order": 1,
+                "name": "port",
+                "label": "Port",
+                "value": 32400,
+                "type": "textbox",
+                "advanced": false,
+                "privacy": "normal",
+                "isFloat": false
+            },
+            {
+                "order": 2,
+                "name": "useSsl",
+                "label": "Use SSL",
+                "helpText": "Connect to Plex over HTTPS instead of HTTP",
+                "value": false,
+                "type": "checkbox",
+                "advanced": false,
+                "privacy": "normal",
+                "isFloat": false
+            },
+            {
+                "order": 3,
+                "name": "authToken",
+                "label": "Auth Token",
+                "value": "********",
+                "type": "textbox",
+                "advanced": true,
+                "privacy": "apiKey",
+                "isFloat": false
+            },
+            {
+                "order": 4,
+                "name": "signIn",
+                "label": "Authenticate with Plex.tv",
+                "value": "startOAuth",
+                "type": "oAuth",
+                "advanced": false,
+                "privacy": "normal",
+                "isFloat": false
+            },
+            {
+                "order": 5,
+                "name": "updateLibrary",
+                "label": "Update Library",
+                "value": true,
+                "type": "checkbox",
+                "advanced": false,
+                "privacy": "normal",
+                "isFloat": false
+            },
+            {
+                "order": 6,
+                "name": "mapFrom",
+                "label": "Map Paths From",
+                "helpText": "Radarr path, used to modify movie paths when Plex sees library path location differently from Radarr",
+                "type": "textbox",
+                "advanced": true,
+                "privacy": "normal",
+                "isFloat": false
+            },
+            {
+                "order": 7,
+                "name": "mapTo",
+                "label": "Map Paths To",
+                "helpText": "Plex path, used to modify movie paths when Plex sees library path location differently from Radarr",
+                "type": "textbox",
+                "advanced": true,
+                "privacy": "normal",
+                "isFloat": false
+            }
+        ],
+        "implementationName": "Plex Media Server",
+        "implementation": "PlexServer",
+        "configContract": "PlexServerSettings",
+        "infoLink": "https://wiki.servarr.com/radarr/supported#plexserver",
+        "tags": [],
+        "id": 1
+    },
+    {
+        "onGrab": true,
+        "onDownload": true,
+        "onUpgrade": true,
+        "onRename": true,
+        "onMovieAdded": true,
+        "onMovieDelete": true,
+        "onMovieFileDelete": true,
+        "onMovieFileDeleteForUpgrade": true,
+        "onHealthIssue": true,
+        "onHealthRestored": true,
+        "onApplicationUpdate": true,
+        "onManualInteractionRequired": true,
+        "supportsOnGrab": true,
+        "supportsOnDownload": true,
+        "supportsOnUpgrade": true,
+        "supportsOnRename": true,
+        "supportsOnMovieAdded": true,
+        "supportsOnMovieDelete": true,
+        "supportsOnMovieFileDelete": true,
+        "supportsOnMovieFileDeleteForUpgrade": true,
+        "supportsOnHealthIssue": true,
+        "supportsOnHealthRestored": true,
+        "supportsOnApplicationUpdate": true,
+        "supportsOnManualInteractionRequired": true,
+        "includeHealthWarnings": true,
+        "name": "Testing",
+        "fields": [
+            {
+                "order": 0,
+                "name": "url",
+                "label": "URL",
+                "value": "https://en0phob3kve71o.x.pipedream.net/",
+                "type": "url",
+                "advanced": false,
+                "privacy": "normal",
+                "isFloat": false
+            },
+            {
+                "order": 1,
+                "name": "method",
+                "label": "Method",
+                "helpText": "Which HTTP method to use submit to the Webservice",
+                "value": 1,
+                "type": "select",
+                "advanced": false,
+                "selectOptions": [
+                    {
+                        "value": 1,
+                        "name": "POST",
+                        "order": 1,
+                        "dividerAfter": false
+                    },
+                    {
+                        "value": 2,
+                        "name": "PUT",
+                        "order": 2,
+                        "dividerAfter": false
+                    }
+                ],
+                "privacy": "normal",
+                "isFloat": false
+            },
+            {
+                "order": 2,
+                "name": "username",
+                "label": "Username",
+                "type": "textbox",
+                "advanced": false,
+                "privacy": "userName",
+                "isFloat": false
+            },
+            {
+                "order": 3,
+                "name": "password",
+                "label": "Password",
+                "type": "password",
+                "advanced": false,
+                "privacy": "password",
+                "isFloat": false
+            }
+        ],
+        "implementationName": "Webhook",
+        "implementation": "Webhook",
+        "configContract": "WebhookSettings",
+        "infoLink": "https://wiki.servarr.com/radarr/supported#webhook",
+        "tags": [],
+        "id": 2
+    },
+    {
+        "onGrab": false,
+        "onDownload": false,
+        "onUpgrade": false,
+        "onRename": false,
+        "onMovieAdded": false,
+        "onMovieDelete": false,
+        "onMovieFileDelete": false,
+        "onMovieFileDeleteForUpgrade": false,
+        "onHealthIssue": false,
+        "onHealthRestored": false,
+        "onApplicationUpdate": false,
+        "onManualInteractionRequired": false,
+        "supportsOnGrab": true,
+        "supportsOnDownload": true,
+        "supportsOnUpgrade": true,
+        "supportsOnRename": true,
+        "supportsOnMovieAdded": true,
+        "supportsOnMovieDelete": true,
+        "supportsOnMovieFileDelete": true,
+        "supportsOnMovieFileDeleteForUpgrade": true,
+        "supportsOnHealthIssue": true,
+        "supportsOnHealthRestored": true,
+        "supportsOnApplicationUpdate": true,
+        "supportsOnManualInteractionRequired": true,
+        "includeHealthWarnings": false,
+        "name": "Webhook",
+        "fields": [
+            {
+                "order": 0,
+                "name": "url",
+                "label": "URL",
+                "value": "https://en0phob3kve71o.x.pipedream.net/",
+                "type": "url",
+                "advanced": false,
+                "privacy": "normal",
+                "isFloat": false
+            },
+            {
+                "order": 1,
+                "name": "method",
+                "label": "Method",
+                "helpText": "Which HTTP method to use submit to the Webservice",
+                "value": 1,
+                "type": "select",
+                "advanced": false,
+                "selectOptions": [
+                    {
+                        "value": 1,
+                        "name": "POST",
+                        "order": 1,
+                        "dividerAfter": false
+                    },
+                    {
+                        "value": 2,
+                        "name": "PUT",
+                        "order": 2,
+                        "dividerAfter": false
+                    }
+                ],
+                "privacy": "normal",
+                "isFloat": false
+            },
+            {
+                "order": 2,
+                "name": "username",
+                "label": "Username",
+                "type": "textbox",
+                "advanced": false,
+                "privacy": "userName",
+                "isFloat": false
+            },
+            {
+                "order": 3,
+                "name": "password",
+                "label": "Password",
+                "type": "password",
+                "advanced": false,
+                "privacy": "password",
+                "isFloat": false
+            }
+        ],
+        "implementationName": "Webhook",
+        "implementation": "Webhook",
+        "configContract": "WebhookSettings",
+        "infoLink": "https://wiki.servarr.com/radarr/supported#webhook",
+        "tags": [],
+        "id": 3
+    }
+]

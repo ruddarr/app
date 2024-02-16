@@ -3,17 +3,17 @@ import SwiftUI
 struct MovieEditView: View {
     @Binding var movie: Movie
 
+    init(movie: Binding<Movie>) {
+        self._movie = movie
+        _currentRootFolder = State(initialValue: movie.wrappedValue.rootFolderPath?.untrailingSlashIt)
+    }
+
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
 
     @State private var currentRootFolder: String?
     @State private var showConfirmation: Bool = false
-
-    init(movie: Binding<Movie>) {
-        self._movie = movie
-        _currentRootFolder = State(initialValue: movie.wrappedValue.rootFolderPath?.untrailingSlashIt)
-    }
 
     var body: some View {
         MovieForm(movie: $movie)

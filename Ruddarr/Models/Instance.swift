@@ -1,21 +1,43 @@
+import SwiftUI
 import Foundation
 
 struct Instance: Identifiable, Equatable, Codable {
     var id = UUID()
+
     var type: InstanceType = .radarr
     var label: String = ""
     var url: String = ""
     var apiKey: String = ""
+    var headers: [InstanceHeader] = []
+
     var version: String = ""
 
     var rootFolders: [InstanceRootFolders] = []
     var qualityProfiles: [InstanceQualityProfile] = []
+
+    var auth: [String: String] {
+        var map: [String: String] = [:]
+
+        map["Authorization"] = "Bearer \(apiKey)"
+
+        for header in headers {
+            map[header.name] = header.value
+        }
+
+        return map
+    }
 }
 
 enum InstanceType: String, Identifiable, CaseIterable, Codable {
     case radarr = "Radarr"
     case sonarr = "Sonarr"
     var id: Self { self }
+}
+
+struct InstanceHeader: Equatable, Identifiable, Codable {
+    var id = UUID()
+    var name: String = ""
+    var value: String = ""
 }
 
 struct InstanceStatus: Codable {
@@ -63,7 +85,7 @@ extension Instance {
             id: UUID(uuidString: "f8a124e4-e7d8-405a-b38e-cab1005fc2dd")!,
             type: .radarr,
             url: "HTTP://10.0.1.5:8310/api",
-            apiKey: "8f45bce99e254f888b7a2ba122468dbe"
+            apiKey: "3b0600c1b3aa42bfb0222f4e13a81f39"
         )
     }
 

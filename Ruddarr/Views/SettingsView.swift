@@ -7,6 +7,7 @@ struct SettingsView: View {
         case icons
         case libraries
         case createInstance
+        case viewInstance(Instance.ID)
         case editInstance(Instance.ID)
     }
 
@@ -29,12 +30,16 @@ struct SettingsView: View {
                     LibrariesView()
 
                 case .createInstance:
-                    let instance = Instance()
-                    InstanceView(mode: .create, instance: instance)
+                    InstanceEditView(mode: .create, instance: Instance())
+
+                case .viewInstance(let instanceId):
+                    if let instance = settings.instanceById(instanceId) {
+                        InstanceView(instance: instance)
+                    }
 
                 case .editInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
-                        InstanceView(mode: .update, instance: instance)
+                        InstanceEditView(mode: .update, instance: instance)
                     }
                 }
             }
@@ -44,7 +49,7 @@ struct SettingsView: View {
     var instanceSection: some View {
         Section(header: Text("Instances")) {
             ForEach($settings.instances) { $instance in
-                NavigationLink(value: Path.editInstance(instance.id)) {
+                NavigationLink(value: Path.viewInstance(instance.id)) {
                     InstanceRow(instance: $instance)
                 }
             }

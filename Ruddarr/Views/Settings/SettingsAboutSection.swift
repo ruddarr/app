@@ -1,7 +1,8 @@
 import os
 import SwiftUI
-import Foundation
+import CloudKit
 import CryptoKit
+import Foundation
 
 struct SettingsAboutSection: View {
     private let log: Logger = logger("settings")
@@ -89,6 +90,10 @@ struct SettingsAboutSection: View {
     func openSupportEmail() async {
         let uuid = UUID().uuidString.prefix(8)
 
+        let cloudKitStatus = try? await CKContainer.default().accountStatus()
+        let cloudKitUserId = try? await CKContainer.default().userRecordID().recordName
+        let ckStatus = Telemetry.shared.cloudKitStatus(cloudKitStatus)
+
         let address = "ruddarr@icloud.com"
         let subject = "Support Request (\(uuid))"
 
@@ -98,6 +103,7 @@ struct SettingsAboutSection: View {
 
         Version: \(appVersion) (\(appBuild))
         Platform: \(systemName) (\(systemVersion))
+        User: \(ckStatus) (\(cloudKitUserId ?? "unknown"))
         Device: \(deviceId)
         """
 

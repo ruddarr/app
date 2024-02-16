@@ -8,14 +8,20 @@ struct API {
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
     var lookupReleases: (Movie.ID, Instance) async throws -> [MovieRelease]
     var downloadRelease: (String, Int, Instance) async throws -> Empty
+
     var getMovie: (Movie.ID, Instance) async throws -> Movie
     var addMovie: (Movie, Instance) async throws -> Movie
     var updateMovie: (Movie, Bool, Instance) async throws -> Empty
     var deleteMovie: (Movie, Instance) async throws -> Empty
+
     var command: (RadarrCommand, Instance) async throws -> Empty
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolders]
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
+
+    var fetchNotifications: (Instance) async throws -> [InstanceNotification]
+    var createNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
+    var updateNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
 }
 
 extension API {
@@ -24,37 +30,37 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
 
-            return try await request(url: url, authorization: instance.apiKey)
+            return try await request(url: url, headers: instance.auth)
         }, lookupMovies: { instance, query in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
 
-            return try await request(url: url, authorization: instance.apiKey)
+            return try await request(url: url, headers: instance.auth)
         }, lookupReleases: { movieId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/release")
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
-            return try await request(url: url, authorization: instance.apiKey)
+            return try await request(url: url, headers: instance.auth)
         }, downloadRelease: { guid, indexerId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/release")
 
             let body = DownloadMovieRelease(guid: guid, indexerId: indexerId)
 
-            return try await request(method: .post, url: url, authorization: instance.apiKey, body: body)
+            return try await request(method: .post, url: url, headers: instance.auth, body: body)
         }, getMovie: { movieId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
                 .appending(path: String(movieId))
 
-            return try await request(url: url, authorization: instance.apiKey)
+            return try await request(url: url, headers: instance.auth)
         }, addMovie: { movie, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
 
-            return try await request(method: .post, url: url, authorization: instance.apiKey, body: movie)
+            return try await request(method: .post, url: url, headers: instance.auth, body: movie)
         }, updateMovie: { movie, moveFiles, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie/editor")
@@ -68,34 +74,50 @@ extension API {
                 moveFiles: moveFiles ? true : nil
             )
 
-            return try await request(method: .put, url: url, authorization: instance.apiKey, body: body)
+            return try await request(method: .put, url: url, headers: instance.auth, body: body)
         }, deleteMovie: { movie, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
                 .appending(path: String(movie.movieId!))
                 .appending(queryItems: [.init(name: "deleteFiles", value: "true")])
 
-            return try await request(method: .delete, url: url, authorization: instance.apiKey)
+            return try await request(method: .delete, url: url, headers: instance.auth)
         }, command: { command, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/command")
 
-            return try await request(method: .post, url: url, authorization: instance.apiKey, body: command)
+            return try await request(method: .post, url: url, headers: instance.auth, body: command)
         }, systemStatus: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/system/status")
 
-            return try await request(url: url, authorization: instance.apiKey)
+            return try await request(url: url, headers: instance.auth)
         }, rootFolders: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/rootfolder")
 
-            return try await request(url: url, authorization: instance.apiKey)
+            return try await request(url: url, headers: instance.auth)
         }, qualityProfiles: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/qualityprofile")
 
-            return try await request(url: url, authorization: instance.apiKey)
+            return try await request(url: url, headers: instance.auth)
+        }, fetchNotifications: { instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/notification")
+
+            return try await request(url: url, headers: instance.auth)
+        }, createNotification: { model, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/notification")
+
+            return try await request(method: .post, url: url, headers: instance.auth, body: model)
+        }, updateNotification: { model, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/notification")
+                .appending(path: String(model.id))
+
+            return try await request(method: .put, url: url, headers: instance.auth, body: model)
         })
     }
 
@@ -104,7 +126,7 @@ extension API {
     fileprivate static func request<Body: Encodable, Response: Decodable>(
         method: HTTPMethod = .get,
         url: URL,
-        authorization: String?,
+        headers: [String: String] = [:],
         body: Body? = nil,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
@@ -133,8 +155,10 @@ extension API {
             request.httpBody = try encoder.encode(body)
         }
 
-        if let authorization {
-            request.addValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
+        if !headers.isEmpty {
+            for (key, value) in headers.sorted(by: { $0.key < $1.key }) {
+                request.addValue(value, forHTTPHeaderField: key)
+            }
         }
 
         let (json, response) = try await URLSession.shared.data(for: request)
@@ -178,12 +202,12 @@ extension API {
     fileprivate static func request<Response: Decodable>(
         method: HTTPMethod = .get,
         url: URL,
-        authorization: String?,
+        headers: [String: String] = [:],
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared
     ) async throws -> Response {
-        try await request(method: method, url: url, authorization: authorization, body: Empty?.none, decoder: decoder, encoder: encoder, session: session)
+        try await request(method: method, url: url, headers: headers, body: Empty?.none, decoder: decoder, encoder: encoder, session: session)
     }
 }
 
