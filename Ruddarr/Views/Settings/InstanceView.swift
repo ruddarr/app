@@ -1,282 +1,235 @@
+import os
 import SwiftUI
+import CloudKit
 
 struct InstanceView: View {
-    let mode: Mode
+    var instance: Instance
 
-    @State var instance: Instance
-
-    @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) private var radarrInstance
-
-    @State private var isLoading = false
-    @State private var showingAlert = false
-    @State private var showingConfirmation = false
-    @State private var error: ValidationError?
-
-    @Environment(\.dismiss) private var dismiss
-
-    enum Mode {
-        case create
-        case update
+    init(instance: Instance) {
+        self.instance = instance
+        self._webhook = State(wrappedValue: InstanceWebhook(instance))
     }
+
+    @State private var webhook: InstanceWebhook
+    @State private var notificationsAllowed: Bool = false
+    @State private var instanceNotifications: Bool = false
+    @State private var cloudKitStatus: CKAccountStatus = .couldNotDetermine
+    @State private var cloudKitUserId: CKRecord.ID?
+
+    @Environment(\.scenePhase) private var scenePhase
+
+    private let log: Logger = logger("settings.instance")
 
     var body: some View {
-        Form {
-            Section {
-                typeField
-                labelField
+        List {
+            instanceDetails
+
+            if !instance.headers.isEmpty {
+                instanceHeaders
             }
 
-            Section {
-                urlField
-            } footer: {
-                Text("The URL used to access the web interface. Must be prefixed with \"http://\" or \"https://\". Do not use \"localhost\" or \"127.0.0.1\".")
-            }
-
-            Section {
-                apiKeyField
-            } footer: {
-                Text("The API Key can be found in the web interface under \"Settings > General > Security\".")
-            }
-
-            if mode == .update {
-                Section {
-                    deleteInstance
-                }
-            }
-
-            #if DEBUG
-                Button("Use Synology") {
-                    self.instance = Instance.till
-                    self.instance.label = "Till"
-                }
-                Button("Use Digital Ocean") {
-                    self.instance = Instance.digitalOcean
-                    self.instance.label = "Digital Ocean"
-                }
-            #endif
-        }
-        .onSubmit {
-            guard !hasEmptyFields() else { return }
-
-            Task {
-                await createOrUpdateInstance()
-            }
+            notifications
         }
         .toolbar {
-            toolbarButton
+            toolbarEditButton
         }
-        .alert(isPresented: $showingAlert, error: error) { _ in
-            Button("OK") { }
+        .navigationBarTitleDisplayMode(.inline)
+        .task {
+            await setup()
+        }
+        .onChange(of: instanceNotifications) {
+            Task { await notificationsToggled() }
+        }
+        .onChange(of: scenePhase) { new, old in
+            if new == .inactive && old == .active {
+                Task { await setup() }
+            }
+        }
+        .alert(
+            "Something Went Wrong",
+            isPresented: Binding(get: { webhook.error != nil }, set: { _ in }),
+            presenting: webhook.error
+        ) { _ in
+            Button("OK", role: .cancel) { }
         } message: { error in
-            Text(error.recoverySuggestion ?? "Try again later.")
+            Text(error.localizedDescription)
         }
-    }
-
-    var typeField: some View {
-        Picker("Type", selection: $instance.type) {
-            ForEach(InstanceType.allCases) { type in
-                Text(type.rawValue).tag(type)
-            }
-        }
-        .tint(.secondary)
-    }
-
-    var labelField: some View {
-        LabeledContent {
-            TextField("Synology", text: $instance.label)
-                .multilineTextAlignment(.trailing)
-        } label: {
-            Text("Label")
-        }
-    }
-
-    var urlField: some View {
-        LabeledContent {
-            TextField("", text: $instance.url, prompt: Text(verbatim: urlPlaceholder))
-                .multilineTextAlignment(.trailing)
-                .textInputAutocapitalization(.never)
-                .disableAutocorrection(true)
-                .textCase(.lowercase)
-                .keyboardType(.URL)
-        } label: {
-            Text("URL")
-        }
-    }
-
-    var apiKeyField: some View {
-        LabeledContent {
-            TextField("0a1b2c3d...", text: $instance.apiKey)
-                .multilineTextAlignment(.trailing)
-                .textInputAutocapitalization(.never)
-                .disableAutocorrection(true)
-                .textCase(.lowercase)
-        } label: {
-            Text("API Key")
-        }
-    }
-
-    var urlPlaceholder: String {
-        switch instance.type {
-        case .radarr: "https://10.0.1.1:7878"
-        case .sonarr: "https://10.0.1.1:8989"
-        }
-    }
-
-    var deleteInstance: some View {
-        Button("Delete Instance", role: .destructive) {
-            showingConfirmation = true
-        }
-        .confirmationDialog("Are you sure?", isPresented: $showingConfirmation) {
-            Button("Delete Instance", role: .destructive) {
-                if instance.id == settings.radarrInstanceId {
-                    dependencies.router.reset()
-                    radarrInstance.switchTo(.void)
-                }
-
-                settings.deleteInstance(instance)
-
-                dismiss()
-            }
-            Button("Cancel", role: .cancel) { }
-        } message: {
-            Text("Are you sure you want to delete the instance?")
-        }
-        .frame(maxWidth: .infinity, alignment: .center)
     }
 
     @ToolbarContentBuilder
-    var toolbarButton: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
-            if isLoading {
-                ProgressView().tint(.secondary)
-            } else {
-                Button("Done") {
-                    Task {
-                        await createOrUpdateInstance()
-                    }
+    var toolbarEditButton: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            NavigationLink("Edit", value: SettingsView.Path.editInstance(instance.id))
+        }
+    }
+
+    var instanceDetails: some View {
+        Section {
+            LabeledContent("Label", value: instance.label)
+            LabeledContent("Type", value: instance.type.rawValue)
+            LabeledContent("URL", value: instance.url)
+        }
+    }
+
+    var instanceHeaders: some View {
+        Section(header: Text("Headers")) {
+            ForEach(instance.headers) { header in
+                LabeledContent(header.name) {
+                    Text(header.value)
+                        .lineLimit(1)
+                        .truncationMode(.head)
+                        .frame(maxWidth: 92)
                 }
-                .disabled(hasEmptyFields())
+                .lineLimit(1)
+                .truncationMode(.middle)
             }
         }
+    }
+
+    var notifications: some View {
+        Section {
+            Toggle("Enable Notifications", isOn: $instanceNotifications)
+                .disabled(!notificationsAllowed || !cloudKitEnabled || webhook.isSynchronizing)
+
+            if instanceNotifications {
+                Toggle("Movie Grab", isOn: $webhook.model.onGrab)
+                    .onChange(of: webhook.model.onGrab) { Task { await webhook.update(cloudKitUserId) } }
+                    .disabled(webhook.isSynchronizing)
+
+                Toggle("Movie Download", isOn: $webhook.model.onDownload)
+                    .onChange(of: webhook.model.onDownload) { Task { await webhook.update(cloudKitUserId) } }
+                    .disabled(webhook.isSynchronizing)
+
+                Toggle("Movie Upgraded", isOn: $webhook.model.onUpgrade)
+                    .onChange(of: webhook.model.onUpgrade) { Task { await webhook.update(cloudKitUserId) } }
+                    .disabled(webhook.isSynchronizing)
+
+                Toggle("Movie Added", isOn: $webhook.model.onMovieAdded)
+                    .onChange(of: webhook.model.onMovieAdded) { Task { await webhook.update(cloudKitUserId) } }
+                    .disabled(webhook.isSynchronizing)
+
+                Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
+                    .onChange(of: webhook.model.onHealthIssue) { Task { await webhook.update(cloudKitUserId) } }
+                    .disabled(webhook.isSynchronizing)
+
+                Toggle("Health Restored", isOn: $webhook.model.onHealthRestored)
+                    .onChange(of: webhook.model.onHealthRestored) { Task { await webhook.update(cloudKitUserId) } }
+                    .disabled(webhook.isSynchronizing)
+
+                Toggle("Application Update", isOn: $webhook.model.onApplicationUpdate)
+                    .onChange(of: webhook.model.onApplicationUpdate) { Task { await webhook.update(cloudKitUserId) } }
+                    .disabled(webhook.isSynchronizing)
+            }
+        } header: {
+            HStack(spacing: 4) {
+                Text("Notifications")
+
+                if webhook.isSynchronizing {
+                    ProgressView()
+                        .controlSize(.small)
+                        .tint(.secondary)
+                }
+            }
+        } footer: {
+            if !notificationsAllowed {
+                enableNotifications
+            } else if !cloudKitEnabled {
+                enableCloudKit
+            } else {
+                disableNotifications
+            }
+        }
+    }
+
+    var enableNotifications: some View {
+        Text("Notification are disabled, please enable them in [Settings > Notifications > Ruddarr](#link).")
+            .environment(\.openURL, .init { _ in
+                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+
+                return .handled
+            })
+    }
+
+    var disableNotifications: some View {
+        Text("Notification settings for each instance are shared between devices. To disable notifications for a specific device go to [Settings > Notifications](#link).")
+            .environment(\.openURL, .init { _ in
+                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+
+                return .handled
+            })
+    }
+
+    var enableCloudKit: some View {
+        let status = Telemetry.shared.cloudKitStatus(cloudKitStatus)
+
+        return Text("Notification require an iCloud account. Please sign into iCloud, or enable iCloud Drive in the iCloud settings (\(status)).")
+    }
+
+    var cloudKitEnabled: Bool {
+        cloudKitStatus == .available
     }
 }
 
 extension InstanceView {
-    @MainActor
-    func createOrUpdateInstance() async {
+    func setup() async {
+        await setAppNotificationsStatus()
+        await setCloudKitAccountStatus()
+        await initialWebhookSync()
+    }
+
+    func setAppNotificationsStatus() async {
+        let status = await Notifications.shared.authorizationStatus()
+
+        switch status {
+        case .denied:
+            notificationsAllowed = false
+            instanceNotifications = false
+        case .notDetermined, .authorized:
+            notificationsAllowed = true
+        case .provisional, .ephemeral: break
+        @unknown default: break
+        }
+    }
+
+    func setCloudKitAccountStatus() async {
         do {
-            isLoading = true
-
-            sanitizeInstanceUrl()
-            try await validateInstance()
-
-            settings.saveInstance(instance)
-
-            dismiss()
-        } catch let error as ValidationError {
-            isLoading = false
-            showingAlert = true
-            self.error = error
+            let container = CKContainer.default()
+            cloudKitStatus = try await container.accountStatus()
+            cloudKitUserId = try? await container.userRecordID()
         } catch {
-            fatalError("Failed to save instance")
+            log.warning("Failed to determine CloudKit account status: \(error.localizedDescription)")
         }
     }
 
-    func hasEmptyFields() -> Bool {
-        instance.label.isEmpty || instance.url.isEmpty || instance.apiKey.isEmpty
+    func initialWebhookSync() async {
+        if notificationsAllowed && cloudKitEnabled {
+            await webhook.synchronize(cloudKitUserId)
+
+            instanceNotifications = webhook.isEnabled
+        }
     }
 
-    func sanitizeInstanceUrl() {
-        if let url = URL(string: instance.url) {
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-            components.path = ""
+    func notificationsToggled() async {
+        await maybeRequestNotificationAuthorization()
 
-            if let urlWithoutPath = components.url {
-                instance.url = urlWithoutPath.absoluteString
-            }
+        if !instanceNotifications {
+            webhook.model.disable()
+            await webhook.update(cloudKitUserId)
         }
-
-        instance.url = instance.url.lowercased()
     }
 
-    func validateInstance() async throws {
-        guard let url = URL(string: instance.url) else {
-            throw ValidationError.urlNotValid
-        }
-
-        if !UIApplication.shared.canOpenURL(url) {
-            throw ValidationError.urlNotValid
-        }
-
-        var status: InstanceStatus?
-
-        do {
-            status = try await dependencies.api.systemStatus(instance)
-        } catch API.Error.badStatusCode(code: let code) {
-            throw ValidationError.badStatusCode(code)
-        } catch API.Error.errorResponse(code: let code, message: let message) {
-            throw ValidationError.errorResponse(code, message)
-        } catch let error as DecodingError {
-            throw ValidationError.badResponse(error)
-        } catch {
-            throw ValidationError.urlNotReachable(error)
-        }
-
-        guard let appName = status?.appName else {
+    func maybeRequestNotificationAuthorization() async {
+        guard instanceNotifications else {
             return
         }
 
-        if appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
-            throw ValidationError.badAppName(appName)
-        }
-
-        instance.version = status!.version
-    }
-}
-
-enum ValidationError: Error {
-    case urlNotValid
-    case urlNotReachable(_ error: Error)
-    case badAppName(_ name: String)
-    case badStatusCode(_ code: Int)
-    case badResponse(_ error: Error)
-    case errorResponse(_ code: Int, _ message: String)
-}
-
-extension ValidationError: LocalizedError {
-    var errorDescription: String? {
-        switch self {
-        case .urlNotValid:
-            return "Invalid URL"
-        case .urlNotReachable:
-            return "URL Not Reachable"
-        case .badAppName:
-            return "Wrong Instance Type"
-        case .badStatusCode:
-            return "Invalid Status Code"
-        case .badResponse:
-            return "Invalid Server Response"
-        case .errorResponse:
-            return "Server Error Response"
-        }
-    }
-
-    var recoverySuggestion: String? {
-        switch self {
-        case .urlNotValid:
-            return "Enter a valid URL."
-        case .urlNotReachable(let error):
-            return error.localizedDescription
-        case .badAppName(let name):
-            return "URL returned a \(name) instance."
-        case .badStatusCode(let code):
-            return "URL returned status \(code)."
-        case .badResponse(let error):
-            return error.localizedDescription
-        case .errorResponse(let code, let message):
-            return "[\(code)] \(message)"
-        }
+        await Notifications.shared.requestAuthorization()
+        await UIApplication.shared.registerForRemoteNotifications()
+        await setAppNotificationsStatus()
     }
 }
 
@@ -284,7 +237,7 @@ extension ValidationError: LocalizedError {
     dependencies.router.selectedTab = .settings
 
     dependencies.router.settingsPath.append(
-        SettingsView.Path.createInstance
+        SettingsView.Path.viewInstance(Instance.till.id)
     )
 
     return ContentView()

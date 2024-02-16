@@ -11,7 +11,7 @@ struct InstanceEditView: View {
     @State private var isLoading = false
     @State private var showingAlert = false
     @State private var showingConfirmation = false
-    @State private var error: ValidationError?
+    @State private var error: InstanceError?
 
     @Environment(\.dismiss) private var dismiss
 
@@ -210,7 +210,7 @@ extension InstanceEditView {
             settings.saveInstance(instance)
 
             dismiss()
-        } catch let error as ValidationError {
+        } catch let error as InstanceError {
             isLoading = false
             showingAlert = true
             self.error = error
@@ -238,11 +238,11 @@ extension InstanceEditView {
 
     func validateInstance() async throws {
         guard let url = URL(string: instance.url) else {
-            throw ValidationError.urlNotValid
+            throw InstanceError.urlNotValid
         }
 
         if !UIApplication.shared.canOpenURL(url) {
-            throw ValidationError.urlNotValid
+            throw InstanceError.urlNotValid
         }
 
         var status: InstanceStatus?
@@ -250,13 +250,13 @@ extension InstanceEditView {
         do {
             status = try await dependencies.api.systemStatus(instance)
         } catch API.Error.badStatusCode(code: let code) {
-            throw ValidationError.badStatusCode(code)
+            throw InstanceError.badStatusCode(code)
         } catch API.Error.errorResponse(code: let code, message: let message) {
-            throw ValidationError.errorResponse(code, message)
+            throw InstanceError.errorResponse(code, message)
         } catch let error as DecodingError {
-            throw ValidationError.badResponse(error)
+            throw InstanceError.badResponse(error)
         } catch {
-            throw ValidationError.urlNotReachable(error)
+            throw InstanceError.urlNotReachable(error)
         }
 
         guard let appName = status?.appName else {
@@ -264,7 +264,7 @@ extension InstanceEditView {
         }
 
         if appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
-            throw ValidationError.badAppName(appName)
+            throw InstanceError.badAppName(appName)
         }
 
         instance.version = status!.version

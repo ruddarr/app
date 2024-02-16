@@ -1,6 +1,6 @@
 import Foundation
 
-enum ValidationError: Error {
+enum InstanceError: Error {
     case urlNotValid
     case urlNotReachable(_ error: Error)
     case badAppName(_ name: String)
@@ -9,7 +9,7 @@ enum ValidationError: Error {
     case errorResponse(_ code: Int, _ message: String)
 }
 
-extension ValidationError: LocalizedError {
+extension InstanceError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .urlNotValid:

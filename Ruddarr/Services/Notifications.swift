@@ -1,9 +1,10 @@
 import os
 import SwiftUI
+import CloudKit
 
 class Notifications {
     static let shared: Notifications = Notifications()
-    static let url = "https://notify.ruddarr.com"
+    static let url: String = "https://notify.ruddarr.com"
 
     private let center: UNUserNotificationCenter
     private let log: Logger
@@ -25,6 +26,32 @@ class Notifications {
         let settings = await center.notificationSettings()
 
         return settings.authorizationStatus
+    }
+
+    func registerDevice(_ token: String) async {
+        do {
+            let account = try? await CKContainer.default().userRecordID()
+
+            let payload: [String: String] = [
+                "account": account?.recordName ?? "",
+                "token": token,
+            ]
+
+            let body = try JSONSerialization.data(withJSONObject: payload)
+
+            var request = URLRequest(
+                url: URL(string: Notifications.url)!.appending(path: "/register")
+            )
+            request.httpMethod = "POST"
+            request.httpBody = body
+            request.addValue("application/json", forHTTPHeaderField: "Accept")
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+            let (json, response) = try await URLSession.shared.data(for: request)
+            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+        } catch {
+            print(error)
+        }
     }
 }
 

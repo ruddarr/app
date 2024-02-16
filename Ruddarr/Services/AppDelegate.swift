@@ -16,9 +16,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             appID: "5B1D07EE-E296-4DCF-B3DD-150EDE9D56B5"
         )
 
+        // TODO: use cloudkit user id?
         TelemetryManager.initialize(with: configuration)
 
         URLSession.shared.configuration.waitsForConnectivity = true
+        // URLSession.shared.configuration.timeoutIntervalForRequest = 5
 
         return true
     }
@@ -39,7 +41,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     ) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
 
-        print("didRegisterForRemoteNotificationsWithDeviceToken: \(token)")
+        Task {
+            await Notifications.shared.registerDevice(token)
+        }
     }
 
     func application(
