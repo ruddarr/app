@@ -92,33 +92,36 @@ struct InstanceView: View {
                 .disabled(!notificationsAllowed || !cloudKitEnabled || webhook.isSynchronizing)
 
             if instanceNotifications {
-                Toggle("Movie Added", isOn: $webhook.model.onMovieAdded)
-                    .onChange(of: webhook.model.onMovieAdded) { Task { await webhook.update(cloudKitUserId) } }
-                    .disabled(webhook.isSynchronizing)
+                Group {
+                    Toggle("Movie Added", isOn: $webhook.model.onMovieAdded)
+                        .onChange(of: webhook.model.onMovieAdded) { Task { await webhook.update(cloudKitUserId) } }
+                        .disabled(webhook.isSynchronizing)
 
-                Toggle("Movie Upgraded", isOn: $webhook.model.onUpgrade)
-                    .onChange(of: webhook.model.onUpgrade) { Task { await webhook.update(cloudKitUserId) } }
-                    .disabled(webhook.isSynchronizing)
+                    Toggle("Movie Upgraded", isOn: $webhook.model.onUpgrade)
+                        .onChange(of: webhook.model.onUpgrade) { Task { await webhook.update(cloudKitUserId) } }
+                        .disabled(webhook.isSynchronizing)
 
-                Toggle("Movie Download", isOn: $webhook.model.onGrab)
-                    .onChange(of: webhook.model.onGrab) { Task { await webhook.update(cloudKitUserId) } }
-                    .disabled(webhook.isSynchronizing)
+                    Toggle("Movie Download", isOn: $webhook.model.onGrab)
+                        .onChange(of: webhook.model.onGrab) { Task { await webhook.update(cloudKitUserId) } }
+                        .disabled(webhook.isSynchronizing)
 
-                Toggle("Movie Imported", isOn: $webhook.model.onDownload)
-                    .onChange(of: webhook.model.onDownload) { Task { await webhook.update(cloudKitUserId) } }
-                    .disabled(webhook.isSynchronizing)
+                    Toggle("Movie Imported", isOn: $webhook.model.onDownload)
+                        .onChange(of: webhook.model.onDownload) { Task { await webhook.update(cloudKitUserId) } }
+                        .disabled(webhook.isSynchronizing)
 
-                Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
-                    .onChange(of: webhook.model.onHealthIssue) { Task { await webhook.update(cloudKitUserId) } }
-                    .disabled(webhook.isSynchronizing)
+                    Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
+                        .onChange(of: webhook.model.onHealthIssue) { Task { await webhook.update(cloudKitUserId) } }
+                        .disabled(webhook.isSynchronizing)
 
-                Toggle("Health Restored", isOn: $webhook.model.onHealthRestored)
-                    .onChange(of: webhook.model.onHealthRestored) { Task { await webhook.update(cloudKitUserId) } }
-                    .disabled(webhook.isSynchronizing)
+                    Toggle("Health Restored", isOn: $webhook.model.onHealthRestored)
+                        .onChange(of: webhook.model.onHealthRestored) { Task { await webhook.update(cloudKitUserId) } }
+                        .disabled(webhook.isSynchronizing)
 
-                Toggle("Application Update", isOn: $webhook.model.onApplicationUpdate)
-                    .onChange(of: webhook.model.onApplicationUpdate) { Task { await webhook.update(cloudKitUserId) } }
-                    .disabled(webhook.isSynchronizing)
+                    Toggle("Application Update", isOn: $webhook.model.onApplicationUpdate)
+                        .onChange(of: webhook.model.onApplicationUpdate) { Task { await webhook.update(cloudKitUserId) } }
+                        .disabled(webhook.isSynchronizing)
+                }
+                .padding(.leading)
             }
         } header: {
             HStack(spacing: 4) {

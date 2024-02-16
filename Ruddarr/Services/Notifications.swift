@@ -42,6 +42,7 @@ class Notifications {
             var request = URLRequest(
                 url: URL(string: Notifications.url)!.appending(path: "/register")
             )
+
             request.httpMethod = "POST"
             request.httpBody = body
             request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -49,8 +50,13 @@ class Notifications {
 
             let (json, response) = try await URLSession.shared.data(for: request)
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+
+            if let data = String(data: json, encoding: .utf8) {
+                log.debug("Registered device (\(statusCode)) \(data)")
+            }
+
         } catch {
-            print(error)
+            log.error("Device registration failed: \(error.localizedDescription)")
         }
     }
 }

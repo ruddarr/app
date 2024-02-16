@@ -87,6 +87,7 @@ struct SettingsAboutSection: View {
     }
 
     // If desired add `mailto` to `LSApplicationQueriesSchemes` in `Info.plist`
+    @MainActor
     func openSupportEmail() async {
         let uuid = UUID().uuidString.prefix(8)
 
@@ -134,6 +135,7 @@ struct SettingsAboutSection: View {
         log.critical("Unable to open URL: \(gitHubUrl)")
     }
 
+    @MainActor
     func openInviteEmail() async {
         let address = "ruddarr@icloud.com"
         let subject = "Invite"
@@ -145,7 +147,7 @@ struct SettingsAboutSection: View {
         components.path = address
         components.queryItems = [
             URLQueryItem(name: "subject", value: subject),
-            URLQueryItem(name: "body", value: "\n\n\(body)")
+            URLQueryItem(name: "body", value: body)
         ]
 
         if let mailtoUrl = components.url {
