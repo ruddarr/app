@@ -32,17 +32,14 @@ export default {
 }
 
 function statusResponse(code) {
-  var text
-
-  switch(code) {
-    case 201: text = 'Created'; break;
-    case 202: text = 'Accepted'; break;
-    case 400: text = 'Bad Request'; break;
-    case 405: text = 'Method Not Allowed'; break;
-    case 415: text = 'Unsupported Media Type'; break;
-  }
-
-  return Response.json({ statusText: text, status: code }, { status: code });
+  return Response.json({
+    status: code,
+  }, {
+    status: code,
+    headers: {
+      'X-Robots-Tag': 'noindex, nofollow',
+    },
+  });
 }
 
 function isWebhookRequest(request, payload) {
