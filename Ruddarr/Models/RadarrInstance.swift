@@ -40,13 +40,19 @@ import Foundation
         releases = MovieReleases(target)
     }
 
-    func fetchMetadata() async throws -> Instance? {
+    func fetchMetadata() async -> Instance? {
         if isVoid {
             return nil
         }
 
-        instance.rootFolders = try await dependencies.api.rootFolders(instance)
-        instance.qualityProfiles = try await dependencies.api.qualityProfiles(instance)
+        do {
+            instance.rootFolders = try await dependencies.api.rootFolders(instance)
+            instance.qualityProfiles = try await dependencies.api.qualityProfiles(instance)
+        } catch is CancellationError {
+            return nil
+        } catch {
+            return nil
+        }
 
         return instance
     }

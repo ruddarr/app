@@ -109,6 +109,8 @@ class Movies {
 
                 _ = try await dependencies.api.command(command, instance)
             }
+        } catch is CancellationError {
+            //
         } catch {
             self.error = error
 

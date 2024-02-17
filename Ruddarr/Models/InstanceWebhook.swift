@@ -40,6 +40,8 @@ class InstanceWebhook {
                     }
                 }
             }
+        } catch is CancellationError {
+            //
         } catch {
             self.error = error
 

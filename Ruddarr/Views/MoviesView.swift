@@ -49,7 +49,7 @@ struct MoviesView: View {
                         Task {
                             _ = await instance.movies.fetch()
 
-                            if let model = try await instance.fetchMetadata() {
+                            if let model = await instance.fetchMetadata() {
                                 settings.saveInstance(model)
                             }
                         }
@@ -279,7 +279,7 @@ extension MoviesView {
 
                         await fetchMoviesWithAlert()
 
-                        if let model = try await instance.fetchMetadata() {
+                        if let model = await instance.fetchMetadata() {
                             settings.saveInstance(model)
                         }
                     }

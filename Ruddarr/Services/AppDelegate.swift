@@ -80,7 +80,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         }
     }
 
-    // TODO: use cloudkit user id?
     func configureTelemetryDeck() {
         let configuration = TelemetryManagerConfiguration(
             appID: "5B1D07EE-E296-4DCF-B3DD-150EDE9D56B5"
