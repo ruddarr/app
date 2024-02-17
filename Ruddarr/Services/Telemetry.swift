@@ -5,7 +5,6 @@ import TelemetryClient
 
 class Telemetry {
     static let shared: Telemetry = Telemetry()
-    private let log: Logger = logger("telemetry")
 
     func maybeUploadTelemetry(settings: AppSettings) {
         let key = "lastTelemetryDate"
@@ -33,7 +32,7 @@ class Telemetry {
         ).hour!
 
         guard hoursSincePing > 12 else {
-            self.log.notice("\(hoursSincePing) house since last ping")
+            leaveBreadcrumb(.info, category: "telemetry", message: "Too early", data: ["hours": hoursSincePing])
 
             return
         }
@@ -46,18 +45,20 @@ class Telemetry {
     }
 
     private func uploadTelemetryData(settings: AppSettings) async {
-        self.log.notice("Telemetry uploading...")
-
         let accountStatus = try? await CKContainer.default().accountStatus()
 
-        await TelemetryManager.send("ping", with: [
+        let payload: [String: String] = await [
             "icon": settings.icon.rawValue,
             "theme": settings.theme.rawValue,
             "appearance": settings.appearance.rawValue,
             "radarrInstances": String(settings.radarrInstances.count),
             "sonarrInstances": String(settings.sonarrInstances.count),
             "cloudkit": cloudKitStatus(accountStatus),
-        ])
+        ]
+
+        TelemetryManager.send("ping", with: payload)
+
+        leaveBreadcrumb(.info, category: "telemetry", message: "Sent ping", data: payload)
     }
 
     func cloudKitStatus(_ status: CKAccountStatus?) -> String {

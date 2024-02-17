@@ -1,8 +1,6 @@
 import os
 import SwiftUI
 
-import MetricKit
-
 struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
@@ -132,11 +130,6 @@ extension API {
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared
     ) async throws -> Response {
-        let log: Logger = logger("api")
-        let metrics = MXMetricManager.makeLogHandle(category: "request")
-
-        mxSignpost(.begin, log: metrics, name: "HTTP Request")
-
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601
 
@@ -146,10 +139,6 @@ extension API {
         request.httpMethod = method.rawValue.uppercased()
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let httpString = "\(method.rawValue.uppercased()) \(url)"
-        log.debug("\(httpString)")
-        print("Request: \(httpString)")
 
         if let body {
             request.httpBody = try encoder.encode(body)
@@ -161,10 +150,14 @@ extension API {
             }
         }
 
+        leaveBreadcrumb(.debug, category: "api", message: "Sending request", data: [
+            "url": url,
+            "method": method.rawValue,
+            "body": body ?? "",
+        ])
+
         let (json, response) = try await URLSession.shared.data(for: request)
         let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
-
-        mxSignpost(.end, log: metrics, name: "HTTP Request")
 
         switch statusCode {
         case (200..<400):
@@ -183,15 +176,16 @@ extension API {
                     }
                 }
             } catch {
-                print("Failed to decode response: \(error)")
+                leaveBreadcrumb(.error, category: "api", message: "Failed to decode error response", data: ["status": statusCode, "error": error])
 
                 if let data = String(data: json, encoding: .utf8) {
-                    print("Request failed (\(statusCode)) \(data)")
-                    log.error("Request failed (\(statusCode)) \(data)")
+                    leaveBreadcrumb(.debug, category: "api", message: "Request failed", data: ["status": statusCode, "response": data])
                 }
             }
 
             if let error = message {
+                leaveBreadcrumb(.warning, category: "api", message: error, data: ["status": statusCode])
+
                 throw Error.errorResponse(code: statusCode, message: error)
             }
 

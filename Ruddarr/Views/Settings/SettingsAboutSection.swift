@@ -5,8 +5,6 @@ import CryptoKit
 import Foundation
 
 struct SettingsAboutSection: View {
-    private let log: Logger = logger("settings")
-
     private let shareUrl = URL(string: "https://ruddarr.com")!
     private let githubUrl = URL(string: "https://github.com/ruddarr/app")!
     private let reviewUrl = URL(string: "itms-apps://itunes.apple.com/app/????????")!
@@ -117,13 +115,13 @@ struct SettingsAboutSection: View {
         ]
 
         if let mailtoUrl = components.url {
-            if await UIApplication.shared.canOpenURL(mailtoUrl) {
+            if UIApplication.shared.canOpenURL(mailtoUrl) {
                 if await UIApplication.shared.open(mailtoUrl) {
                     return
                 }
             }
 
-            log.warning("Unable to open mailto URL: \(mailtoUrl)")
+            leaveBreadcrumb(.warning, category: "settings.about", message: "Unable to open mailto", data: ["url": mailtoUrl])
         }
 
         let gitHubUrl = URL(string: "https://github.com/ruddarr/app/discussions")!
@@ -132,7 +130,7 @@ struct SettingsAboutSection: View {
             return
         }
 
-        log.critical("Unable to open URL: \(gitHubUrl)")
+        leaveBreadcrumb(.warning, category: "settings.about", message: "Unable to open URL", data: ["url": gitHubUrl])
     }
 
     @MainActor
@@ -151,7 +149,7 @@ struct SettingsAboutSection: View {
         ]
 
         if let mailtoUrl = components.url {
-            if await UIApplication.shared.canOpenURL(mailtoUrl) {
+            if UIApplication.shared.canOpenURL(mailtoUrl) {
                 if await UIApplication.shared.open(mailtoUrl) {
                     return
                 }

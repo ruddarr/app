@@ -10,8 +10,6 @@ class Movies {
     // enum Status { case idle, case working, case failed(Error) }
     var isWorking: Bool = false
 
-    private let log: Logger = logger("model.movies")
-
     enum Operation {
         case fetch
         case add(Movie)
@@ -114,7 +112,7 @@ class Movies {
         } catch {
             self.error = error
 
-            log.error("Movies.request() failed: \(error)")
+            leaveBreadcrumb(.error, category: "movies", message: "Request failed", data: ["operation": operation, "error": error])
         }
 
         isWorking = false

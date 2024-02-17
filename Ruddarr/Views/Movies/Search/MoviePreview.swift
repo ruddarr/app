@@ -11,8 +11,6 @@ struct MoviePreview: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) var colorScheme
 
-    private let log: Logger = logger("view")
-
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 6) {
@@ -128,9 +126,7 @@ struct MoviePreview: View {
     @MainActor
     func addMovie() async {
         guard await instance.movies.add(movie) else {
-            log.error(
-                "Failed to add movie: \(instance.movies.error)"
-            )
+            leaveBreadcrumb(.error, category: "view.movie.preview", message: "Failed to add movie", data: ["error": instance.movies.error ?? ""])
 
             return
         }

@@ -8,8 +8,6 @@ struct InstanceRow: View {
 
     @EnvironmentObject var settings: AppSettings
 
-    private let log: Logger = logger("settings")
-
     enum Status {
         case pending
         case reachable
@@ -46,8 +44,9 @@ struct InstanceRow: View {
             } catch is CancellationError {
                 // do nothing when task is cancelled
             } catch {
-                log.error("Instance check failed: \(error)")
                 status = .unreachable
+
+                leaveBreadcrumb(.error, category: "movies", message: "Instance check failed", data: ["error": error])
             }
         }
     }

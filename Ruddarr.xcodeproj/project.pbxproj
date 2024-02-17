@@ -73,8 +73,11 @@
 		BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE828672B4F320F00C1E1D9 /* MoviesView.swift */; };
 		BBE8286A2B4F325400C1E1D9 /* ShowsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE828692B4F325400C1E1D9 /* ShowsView.swift */; };
 		BBE8286C2B4F360700C1E1D9 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8286B2B4F360700C1E1D9 /* Movie.swift */; };
+		BBEF2E422B802D6A00478E03 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = BBEF2E412B802D6A00478E03 /* Sentry */; };
+		BBEF2E442B802D6A00478E03 /* Sentry-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = BBEF2E432B802D6A00478E03 /* Sentry-Dynamic */; };
+		BBEF2E462B802D6A00478E03 /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBEF2E452B802D6A00478E03 /* SentrySwiftUI */; };
 		BBF477A92B4FA20B00C2DED3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF477A82B4FA20B00C2DED3 /* SettingsView.swift */; };
-		BBF706BC2B6220BF00B2B504 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF706BB2B6220BF00B2B504 /* Logger.swift */; };
+		BBF706BC2B6220BF00B2B504 /* Sentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF706BB2B6220BF00B2B504 /* Sentry.swift */; };
 		BBF94F632B508F8B00300EBA /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F622B508F8B00300EBA /* MovieView.swift */; };
 		BBF94F652B50C88300300EBA /* Instance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F642B50C88300300EBA /* Instance.swift */; };
 		BBFB1F8B2B782D1000181233 /* SettingsPreferencesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */; };
@@ -147,7 +150,7 @@
 		BBE828692B4F325400C1E1D9 /* ShowsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsView.swift; sourceTree = "<group>"; };
 		BBE8286B2B4F360700C1E1D9 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		BBF477A82B4FA20B00C2DED3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		BBF706BB2B6220BF00B2B504 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		BBF706BB2B6220BF00B2B504 /* Sentry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentry.swift; sourceTree = "<group>"; };
 		BBF94F622B508F8B00300EBA /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
 		BBF94F642B50C88300300EBA /* Instance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instance.swift; sourceTree = "<group>"; };
 		BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPreferencesSection.swift; sourceTree = "<group>"; };
@@ -159,10 +162,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBA54BE52B563E2000CA0F3E /* NukeUI in Frameworks */,
+				BBEF2E462B802D6A00478E03 /* SentrySwiftUI in Frameworks */,
 				BBFB1F8E2B792BCB00181233 /* TelemetryClient in Frameworks */,
 				BBA54BE32B563E2000CA0F3E /* Nuke in Frameworks */,
 				BBC45B932B56426700AB258F /* NukeUI in Frameworks */,
 				BBC45B8F2B56426700AB258F /* Nuke in Frameworks */,
+				BBEF2E442B802D6A00478E03 /* Sentry-Dynamic in Frameworks */,
+				BBEF2E422B802D6A00478E03 /* Sentry in Frameworks */,
 				BBC45B912B56426700AB258F /* NukeExtensions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -357,7 +363,7 @@
 				BB6D96942B61E61D0017BFB3 /* App.swift */,
 				BB4B34F22B7BFE640063F2D3 /* AppDelegate.swift */,
 				BBBE93152B68638400353216 /* Theme.swift */,
-				BBF706BB2B6220BF00B2B504 /* Logger.swift */,
+				BBF706BB2B6220BF00B2B504 /* Sentry.swift */,
 				BBC136A32B62DD780074C7AA /* Network.swift */,
 				BBC94DE82B5F63A000504568 /* Telemetry.swift */,
 				BBC77E252B7AB79100573EBD /* Notifications.swift */,
@@ -375,7 +381,8 @@
 				BBE8284F2B4F2C7000C1E1D9 /* Sources */,
 				BBE828502B4F2C7000C1E1D9 /* Frameworks */,
 				BBE828512B4F2C7000C1E1D9 /* Resources */,
-				BB9D7AFA2B58A675001C5E3C /* SwiftLint */,
+				BB9D7AFA2B58A675001C5E3C /* Run SwiftLint */,
+				BB5187AA2B804C5F0015F036 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -389,6 +396,9 @@
 				BBC45B902B56426700AB258F /* NukeExtensions */,
 				BBC45B922B56426700AB258F /* NukeUI */,
 				BBFB1F8D2B792BCB00181233 /* TelemetryClient */,
+				BBEF2E412B802D6A00478E03 /* Sentry */,
+				BBEF2E432B802D6A00478E03 /* Sentry-Dynamic */,
+				BBEF2E452B802D6A00478E03 /* SentrySwiftUI */,
 			);
 			productName = Ruddarr;
 			productReference = BBE828532B4F2C7000C1E1D9 /* Ruddarr.app */;
@@ -421,6 +431,7 @@
 			packageReferences = (
 				BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */,
 				BBFB1F8C2B792BCB00181233 /* XCRemoteSwiftPackageReference "SwiftClient" */,
+				BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = BBE828542B4F2C7000C1E1D9 /* Products */;
 			projectDirPath = "";
@@ -452,7 +463,27 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		BB9D7AFA2B58A675001C5E3C /* SwiftLint */ = {
+		BB5187AA2B804C5F0015F036 /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which sentry-cli >/dev/null; then\n  export SENTRY_ORG=ruddarr\n  export SENTRY_PROJECT=app\n\n  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\nelse\n  echo \"warning: sentry-cli not installed\"\nfi\n";
+		};
+		BB9D7AFA2B58A675001C5E3C /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -462,7 +493,7 @@
 			);
 			inputPaths = (
 			);
-			name = SwiftLint;
+			name = "Run SwiftLint";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -487,7 +518,7 @@
 				BB7DDF652B718DFB0001CDFC /* MovieReleaseSheet.swift in Sources */,
 				79B761CB2B7115EC001DD30E /* Toast.swift in Sources */,
 				BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */,
-				BBF706BC2B6220BF00B2B504 /* Logger.swift in Sources */,
+				BBF706BC2B6220BF00B2B504 /* Sentry.swift in Sources */,
 				BBC94DE92B5F63A000504568 /* Telemetry.swift in Sources */,
 				BBE828592B4F2C7000C1E1D9 /* ContentView.swift in Sources */,
 				BB4B34F32B7BFE640063F2D3 /* AppDelegate.swift in Sources */,
@@ -784,6 +815,14 @@
 				minimumVersion = 12.0.0;
 			};
 		};
+		BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.20.0;
+			};
+		};
 		BBFB1F8C2B792BCB00181233 /* XCRemoteSwiftPackageReference "SwiftClient" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/TelemetryDeck/SwiftClient";
@@ -819,6 +858,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = NukeUI;
+		};
+		BBEF2E412B802D6A00478E03 /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
+		BBEF2E432B802D6A00478E03 /* Sentry-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = "Sentry-Dynamic";
+		};
+		BBEF2E452B802D6A00478E03 /* SentrySwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = SentrySwiftUI;
 		};
 		BBFB1F8D2B792BCB00181233 /* TelemetryClient */ = {
 			isa = XCSwiftPackageProductDependency;

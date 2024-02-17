@@ -7,18 +7,16 @@ class Notifications {
     static let url: String = "https://notify.ruddarr.com"
 
     private let center: UNUserNotificationCenter
-    private let log: Logger
 
     init() {
         center = UNUserNotificationCenter.current()
-        log = logger("notifications")
     }
 
     func requestAuthorization() async {
         do {
             try await center.requestAuthorization(options: [.alert, .sound])
         } catch {
-            log.warning("Failed to obtain user notifications authorization: \(error.localizedDescription)")
+            leaveBreadcrumb(.warning, category: "notifications", message: "Authorization request failed", data: ["status": error])
         }
     }
 
@@ -52,11 +50,10 @@ class Notifications {
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
 
             if let data = String(data: json, encoding: .utf8) {
-                log.debug("Registered device (\(statusCode)) \(data)")
+                leaveBreadcrumb(.info, category: "notifications", message: "Device registered", data: ["status": statusCode, "response": data])
             }
-
         } catch {
-            log.error("Device registration failed: \(error.localizedDescription)")
+            leaveBreadcrumb(.error, category: "notifications", message: "Device registration failed", data: ["error": error])
         }
     }
 }

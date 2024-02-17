@@ -1,6 +1,9 @@
 # macOS
 .DS_Store
 
+# Sentry
+.sentryclirc
+
 ## User settings
 xcuserdata/
 

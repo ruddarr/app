@@ -2,6 +2,15 @@
 
 A companion app for Radarr and Sonarr instances. Browse libraries, manage content and search for new content.
 
+## Sentry Symbols
+
+Create a `.sentryclirc` file:
+
+```yml
+[auth]
+token=sntrys_eyJp...
+```
+
 ## Reset Xcode 
 
 ```bash

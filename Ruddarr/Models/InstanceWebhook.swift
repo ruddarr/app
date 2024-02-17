@@ -11,7 +11,6 @@ class InstanceWebhook {
     var isSynchronizing: Bool = false
 
     private var notifications: [InstanceNotification] = []
-    private let log: Logger = logger("models.instance.webhook")
 
     init(_ instance: Instance) {
         self.instance = instance
@@ -44,7 +43,7 @@ class InstanceWebhook {
         } catch {
             self.error = error
 
-            log.error("Failed to synchronize webhook (\(error)")
+            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook synchronization failed", data: ["error": error])
         }
 
         isEnabled = model.isEnabled

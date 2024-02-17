@@ -18,8 +18,6 @@ struct InstanceView: View {
 
     @Environment(\.scenePhase) private var scenePhase
 
-    private let log: Logger = logger("settings.instance")
-
     var body: some View {
         List {
             instanceDetails
@@ -204,7 +202,7 @@ extension InstanceView {
             cloudKitStatus = try await container.accountStatus()
             cloudKitUserId = try? await container.userRecordID()
         } catch {
-            log.warning("Failed to determine CloudKit account status: \(error.localizedDescription)")
+            leaveBreadcrumb(.warning, category: "view.instance", message: "Failed to determine CloudKit account status", data: ["error": error])
         }
     }
 

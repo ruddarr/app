@@ -10,8 +10,6 @@ class MovieReleases {
 
     var isSearching: Bool = false
 
-    private let log: Logger = logger("models.movie.releases")
-
     init(_ instance: Instance) {
         self.instance = instance
     }
@@ -26,7 +24,7 @@ class MovieReleases {
         } catch {
             self.error = error
 
-            log.error("Failed to look up movie releases: \(error)")
+            leaveBreadcrumb(.error, category: "movie.releases", message: "Movie releases lookup failed", data: ["error": error])
         }
 
         isSearching = false
