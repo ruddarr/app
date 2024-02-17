@@ -45,18 +45,21 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
     func configureSentry() {
         SentrySDK.start { options in
+            options.enabled = true
+            options.debug = false
+
             options.dsn = "https://74d9cb1a161b33e8374c7339bbe0ce93@o4506759093354496.ingest.sentry.io/4506759109017600"
+            options.sendDefaultPii = false
+
             options.attachViewHierarchy = true
-            options.enablePreWarmedAppStartTracing = true
-            options.enableMetricKit = true
-            options.enableTimeToFullDisplayTracing = true
             options.swiftAsyncStacktraces = true
-            options.tracesSampleRate = 1.0
 
+            options.enableMetricKit = true
+            options.enablePreWarmedAppStartTracing = true
+            options.enableTimeToFullDisplayTracing = true
 
-            options.debug = true
-            options.enableTracing = true
-            options.attachScreenshot = true
+            options.tracesSampleRate = 1
+            options.profilesSampleRate = 1
         }
 
         Task.detached {
@@ -66,7 +69,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
             SentrySDK.configureScope { scope in
                 scope.setContext(value: [
-                    "user": cloudKitUserId ?? "",
+                    "user": cloudKitUserId?.recordName ?? "",
                     "status": Telemetry.shared.cloudKitStatus(accountStatus),
                 ], key: "cloudkit")
             }
