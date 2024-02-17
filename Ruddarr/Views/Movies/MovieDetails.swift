@@ -15,19 +15,8 @@ struct MovieDetails: View {
                 .padding(.bottom)
 
             // MARK: description
-            HStack(alignment: .top) {
-                Text(movie.overview!)
-                    .font(.callout)
-                    .transition(.slide)
-                    .lineLimit(descriptionTruncated ? 4 : nil)
-                    .textSelection(.enabled)
-                    .onTapGesture {
-                        withAnimation { descriptionTruncated.toggle() }
-                    }
-
-                Spacer()
-            }
-            .padding(.bottom)
+            description
+                .padding(.bottom)
 
             // MARK: details
             Grid(alignment: .leading) {
@@ -54,6 +43,21 @@ struct MovieDetails: View {
             // MARK: information
             information
                 .padding(.bottom)
+        }
+    }
+
+    var description: some View {
+        HStack(alignment: .top) {
+            Text(movie.overview!)
+                .font(.callout)
+                .transition(.slide)
+                .lineLimit(descriptionTruncated ? 4 : nil)
+                .textSelection(.enabled)
+                .onTapGesture {
+                    withAnimation { descriptionTruncated.toggle() }
+                }
+
+            Spacer()
         }
     }
 
