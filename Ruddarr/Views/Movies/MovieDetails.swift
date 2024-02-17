@@ -202,7 +202,10 @@ struct MovieDetailsOverview: View {
     var body: some View {
         HStack(alignment: .top) {
             CachedAsyncImage(url: movie.remotePoster, type: .poster)
-                .scaledToFit()
+                .aspectRatio(
+                    CGSize(width: 150, height: 225),
+                    contentMode: .fill
+                )
                 .containerRelativeFrame(.horizontal, count: 5, span: imageSpan, spacing: 0)
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 8))
