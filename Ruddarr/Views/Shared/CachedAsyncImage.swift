@@ -8,7 +8,7 @@ enum ImageType {
 
     var size: CGSize {
         switch self {
-        case .poster: CGSize(width: 150, height: 225)
+        case .poster: CGSize(width: 250, height: 375)
         }
     }
 }
@@ -50,7 +50,6 @@ struct CachedAsyncImage: View {
     func imageRequest(_ urlString: String?) -> ImageRequest {
         let url = URL(string: urlString!)
         let request = URLRequest(url: url!, timeoutInterval: 5)
-        // request.addValue("test", forHTTPHeaderField: "X-Api-Key")
 
         return ImageRequest(
             urlRequest: request,
