@@ -136,6 +136,7 @@ extension API {
         try NetworkMonitor.shared.checkReachability()
 
         var request = URLRequest(url: url)
+        request.timeoutInterval = 5
         request.httpMethod = method.rawValue.uppercased()
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

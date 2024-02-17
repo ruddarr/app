@@ -13,7 +13,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         UNUserNotificationCenter.current().delegate = self
 
         URLSession.shared.configuration.waitsForConnectivity = true
-        URLSession.shared.configuration.timeoutIntervalForRequest = 8
 
         configureSentry()
         configureTelemetryDeck()
