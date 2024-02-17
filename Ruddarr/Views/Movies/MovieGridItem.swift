@@ -5,15 +5,13 @@ struct MovieGridItem: View {
 
     var body: some View {
         ZStack {
-            CachedAsyncImage(url: movie.remotePoster, type: .poster)
-                .aspectRatio(
-                    CGSize(width: 150, height: 225),
-                    contentMode: .fill
-                )
+            poster
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .contextMenu {
             MovieContextMenu(movie: movie)
+        } preview: {
+            poster.frame(width: 300, height: 450)
         }
         .background(.secondarySystemBackground)
         .overlay(alignment: .bottom) {
@@ -22,6 +20,15 @@ struct MovieGridItem: View {
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    var poster: some View {
+        CachedAsyncImage(url: movie.remotePoster, type: .poster)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .aspectRatio(
+                CGSize(width: 150, height: 225),
+                contentMode: .fill
+            )
     }
 
     var posterOverlay: some View {
