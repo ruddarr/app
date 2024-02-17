@@ -61,6 +61,12 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             options.profilesSampleRate = 1
         }
 
+        SentrySDK.configureScope { scope in
+            scope.setContext(value: [
+                "identifier": UIDevice.current.identifierForVendor?.uuidString ?? "unknown",
+            ], key: "device")
+        }
+
         Task.detached {
             let container = CKContainer.default()
             let accountStatus = try? await container.accountStatus()
@@ -81,6 +87,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             appID: "5B1D07EE-E296-4DCF-B3DD-150EDE9D56B5"
         )
 
+        configuration.defaultUser = UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
         configuration.logHandler = LogHandler.stdout(.error)
 
         TelemetryManager.initialize(with: configuration)

@@ -1,7 +1,6 @@
 import os
 import SwiftUI
 import CloudKit
-import CryptoKit
 import Foundation
 
 struct SettingsAboutSection: View {
@@ -88,6 +87,7 @@ struct SettingsAboutSection: View {
     @MainActor
     func openSupportEmail() async {
         let uuid = UUID().uuidString.prefix(8)
+        let deviceId = UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
 
         let cloudKitStatus = try? await CKContainer.default().accountStatus()
         let cloudKitUserId = try? await CKContainer.default().userRecordID().recordName
@@ -183,16 +183,5 @@ struct SettingsAboutSection: View {
         }
 
         return "Unknown"
-    }
-
-    var deviceId: String {
-        guard let deviceId = UIDevice.current.identifierForVendor?.uuidString else {
-            return "Unknown"
-        }
-
-        return SHA256
-            .hash(data: deviceId.data(using: .utf8)!)
-            .compactMap { String(format: "%02x", $0) }
-            .joined()
     }
 }
