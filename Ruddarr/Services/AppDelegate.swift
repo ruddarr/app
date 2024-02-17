@@ -12,9 +12,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         MXMetricManager.shared.add(self)
         UNUserNotificationCenter.current().delegate = self
 
-        // TODO: use cloudkit user id?
         URLSession.shared.configuration.waitsForConnectivity = true
-        // URLSession.shared.configuration.timeoutIntervalForRequest = 5
+        URLSession.shared.configuration.timeoutIntervalForRequest = 8
 
         configureSentry()
         configureTelemetryDeck()

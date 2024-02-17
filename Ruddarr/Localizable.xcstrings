@@ -7,13 +7,7 @@
     "•" : {
 
     },
-    "0.4.0" : {
-
-    },
     "0a1b2c3d..." : {
-
-    },
-    "12.3.0" : {
 
     },
     "About" : {
@@ -80,9 +74,6 @@
 
     },
     "Clear Image Cache" : {
-
-    },
-    "CloudStorage" : {
 
     },
     "Coming Soon" : {
@@ -351,16 +342,24 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "[%@] Test Notification"
+            "state" : "needs_review",
+            "value" : "Test Notification"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_TEST_BODY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "NOTIFICATION_TEST_BODY"
           }
         }
       }
     },
     "Notifications" : {
-
-    },
-    "Nuke" : {
 
     },
     "OK" : {
