@@ -20,6 +20,7 @@ struct MovieDetails: View {
                     .font(.callout)
                     .transition(.slide)
                     .lineLimit(descriptionTruncated ? 4 : nil)
+                    .textSelection(.enabled)
                     .onTapGesture {
                         withAnimation { descriptionTruncated.toggle() }
                     }
@@ -220,6 +221,7 @@ struct MovieDetailsOverview: View {
                     .lineLimit(3)
                     .kerning(-0.5)
                     .padding(.bottom, 6)
+                    .textSelection(.enabled)
 
                 MovieDetailsSubtitle(movie: movie)
 
