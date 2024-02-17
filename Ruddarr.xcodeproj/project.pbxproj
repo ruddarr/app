@@ -66,7 +66,7 @@
 		BBE1E4432B51FA0200946222 /* movie-lookup.json in Resources */ = {isa = PBXBuildFile; fileRef = BBE1E4422B51FA0200946222 /* movie-lookup.json */; };
 		BBE7F8A72B6423A60014DD57 /* Movies.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE7F8A62B6423A60014DD57 /* Movies.swift */; };
 		BBE7F8A92B6424350014DD57 /* RadarrInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE7F8A82B6424350014DD57 /* RadarrInstance.swift */; };
-		BBE828572B4F2C7000C1E1D9 /* RuddarrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE828562B4F2C7000C1E1D9 /* RuddarrApp.swift */; };
+		BBE828572B4F2C7000C1E1D9 /* Ruddarr.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE828562B4F2C7000C1E1D9 /* Ruddarr.swift */; };
 		BBE828592B4F2C7000C1E1D9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE828582B4F2C7000C1E1D9 /* ContentView.swift */; };
 		BBE8285B2B4F2C7100C1E1D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBE8285A2B4F2C7100C1E1D9 /* Assets.xcassets */; };
 		BBE8285F2B4F2C7100C1E1D9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBE8285E2B4F2C7100C1E1D9 /* Preview Assets.xcassets */; };
@@ -141,7 +141,7 @@
 		BBE7F8A62B6423A60014DD57 /* Movies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movies.swift; sourceTree = "<group>"; };
 		BBE7F8A82B6424350014DD57 /* RadarrInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarrInstance.swift; sourceTree = "<group>"; };
 		BBE828532B4F2C7000C1E1D9 /* Ruddarr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ruddarr.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BBE828562B4F2C7000C1E1D9 /* RuddarrApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuddarrApp.swift; sourceTree = "<group>"; };
+		BBE828562B4F2C7000C1E1D9 /* Ruddarr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ruddarr.swift; sourceTree = "<group>"; };
 		BBE828582B4F2C7000C1E1D9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BBE8285A2B4F2C7100C1E1D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BBE8285C2B4F2C7100C1E1D9 /* Ruddarr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Ruddarr.entitlements; sourceTree = "<group>"; };
@@ -293,7 +293,7 @@
 				BBF706BA2B62209700B2B504 /* Services */,
 				79159D6A2B5953CD00F7F997 /* Dependencies */,
 				BB456D212B58BDF300C29B00 /* Utilities */,
-				BBE828562B4F2C7000C1E1D9 /* RuddarrApp.swift */,
+				BBE828562B4F2C7000C1E1D9 /* Ruddarr.swift */,
 				BBE8285C2B4F2C7100C1E1D9 /* Ruddarr.entitlements */,
 				BB42618C2B6980760078B94E /* Info.plist */,
 				BBE8285A2B4F2C7100C1E1D9 /* Assets.xcassets */,
@@ -528,7 +528,7 @@
 				BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */,
 				794BD7822B5ED48E003819AB /* Binding.swift in Sources */,
 				BBC94DE32B5F3DE600504568 /* CloudStorage.swift in Sources */,
-				BBE828572B4F2C7000C1E1D9 /* RuddarrApp.swift in Sources */,
+				BBE828572B4F2C7000C1E1D9 /* Ruddarr.swift in Sources */,
 				798010BD2B6268D200BBC056 /* RawRepresentable.swift in Sources */,
 				BB25DC662B62EDC700FE55A0 /* MovieGridItem.swift in Sources */,
 				798010BA2B61719C00BBC056 /* Router.swift in Sources */,

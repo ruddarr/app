@@ -4,7 +4,7 @@ import SwiftUI
 // https://stackoverflow.com/questions/49663728/how-to-hide-the-top-bar-with-buttons-usin-swift-and-macos?rq=4
 
 @main
-struct RuddarrApp: App {
+struct Ruddarr: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     init() {
