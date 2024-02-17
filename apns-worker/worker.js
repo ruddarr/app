@@ -221,18 +221,18 @@ function alertForPayload(payload) {
       }
     case 'Grab':
       return {
-        'title-loc-key': 'NOTIFICATION_MOVIE_GRABBED',
+        'title-loc-key': 'NOTIFICATION_MOVIE_GRAB',
         'title-loc-args': [instanceName],
-        'subtitle-loc-key': 'NOTIFICATION_MOVIE_GRABBED_SUBTITLE',
+        'subtitle-loc-key': 'NOTIFICATION_MOVIE_GRAB_SUBTITLE',
         'subtitle-loc-args': [payload.movie.title, payload.movie.year],
-        'loc-key': 'NOTIFICATION_MOVIE_GRABBED_BODY',
+        'loc-key': 'NOTIFICATION_MOVIE_GRAB_BODY',
         'loc-args': [payload.release.releaseTitle, payload.release.indexer],
       }
     case 'Download':
       return {
-        'title-loc-key': 'NOTIFICATION_MOVIE_IMPORTED',
+        'title-loc-key': 'NOTIFICATION_MOVIE_DOWNLOAD',
         'title-loc-args': [instanceName],
-        'loc-key': 'NOTIFICATION_MOVIE_IMPORTED_BODY',
+        'loc-key': 'NOTIFICATION_MOVIE_DOWNLOAD_BODY',
         'loc-args': [payload.movie.title, payload.movie.year],
       }
   }

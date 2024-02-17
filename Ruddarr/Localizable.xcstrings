@@ -282,29 +282,18 @@
         }
       }
     },
-    "NOTIFICATION_MOVIE_GRABBED" : {
+    "NOTIFICATION_MOVIE_DOWNLOAD" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloading Movie on %@"
+            "value" : "Downloaded Movie on %@"
           }
         }
       }
     },
-    "NOTIFICATION_MOVIE_GRABBED_BODY" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Downloading %@ from %@"
-          }
-        }
-      }
-    },
-    "NOTIFICATION_MOVIE_GRABBED_SUBTITLE" : {
+    "NOTIFICATION_MOVIE_DOWNLOAD_BODY" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -315,18 +304,29 @@
         }
       }
     },
-    "NOTIFICATION_MOVIE_IMPORTED" : {
+    "NOTIFICATION_MOVIE_GRAB" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imported Movie on %@"
+            "value" : "Downloading Movie on %@"
           }
         }
       }
     },
-    "NOTIFICATION_MOVIE_IMPORTED_BODY" : {
+    "NOTIFICATION_MOVIE_GRAB_BODY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloading %@ from %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_MOVIE_GRAB_SUBTITLE" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
