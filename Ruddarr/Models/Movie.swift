@@ -5,6 +5,7 @@ struct Movie: Identifiable, Codable {
 
     var movieId: Int?
     let tmdbId: Int
+    let imdbId: String?
 
     let title: String
     let sortTitle: String
@@ -41,6 +42,7 @@ struct Movie: Identifiable, Codable {
     enum CodingKeys: String, CodingKey {
         case movieId = "id"
         case tmdbId
+        case imdbId
         case title
         case sortTitle
         case studio

@@ -87,6 +87,20 @@ struct MovieContextMenu: View {
         Link(destination: URL(string: traktUrl)!, label: {
             Label("Open in Trakt", systemImage: "arrow.up.right.square")
         })
+
+        let letterboxdUrl = "https://letterboxd/tmdb/\(movie.tmdbId)"
+
+        Link(destination: URL(string: letterboxdUrl)!, label: {
+            Label("Open in Letterboxd", systemImage: "arrow.up.right.square")
+        })
+
+        if let imdbId = movie.imdbId {
+            let imdbUrl = "https://www.imdb.com/title/\(imdbId)"
+
+            Link(destination: URL(string: imdbUrl)!, label: {
+                Label("Open in IMDb", systemImage: "arrow.up.right.square")
+            })
+        }
     }
 }
 
