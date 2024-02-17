@@ -102,7 +102,7 @@ struct SettingsAboutSection: View {
 
         Version: \(appVersion) (\(appBuild))
         Platform: \(systemName) (\(systemVersion))
-        User: \(ckStatus) (\(cloudKitUserId ?? "unknown"))
+        Account: \(ckStatus) (\(cloudKitUserId ?? "unknown"))
         Device: \(deviceId)
         """
 
