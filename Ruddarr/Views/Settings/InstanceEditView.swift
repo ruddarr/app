@@ -30,7 +30,7 @@ struct InstanceEditView: View {
             Section {
                 urlField
             } footer: {
-                Text("The URL used to access the web interface. Must be prefixed with \"http://\" or \"https://\". Do not use \"localhost\" or \"127.0.0.1\".")
+                Text("The URL used to access the web interface. Must be prefixed with \"http://\" or \"https://\".")
             }
 
             Section {
@@ -243,6 +243,10 @@ extension InstanceEditView {
 
         if !UIApplication.shared.canOpenURL(url) {
             throw InstanceError.urlNotValid
+        }
+
+        if ["localhost", "127.0.0.1"].contains(url.host) {
+            throw InstanceError.urlIsLocal
         }
 
         var status: InstanceStatus?

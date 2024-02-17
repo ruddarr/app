@@ -1,6 +1,7 @@
 import Foundation
 
 enum InstanceError: Error {
+    case urlIsLocal
     case urlNotValid
     case urlNotReachable(_ error: Error)
     case badAppName(_ name: String)
@@ -12,7 +13,7 @@ enum InstanceError: Error {
 extension InstanceError: LocalizedError {
     var errorDescription: String? {
         switch self {
-        case .urlNotValid:
+        case .urlIsLocal, .urlNotValid:
             return "Invalid URL"
         case .urlNotReachable:
             return "URL Not Reachable"
@@ -29,6 +30,8 @@ extension InstanceError: LocalizedError {
 
     var recoverySuggestion: String? {
         switch self {
+        case .urlIsLocal:
+            return "URLs must be non-local, \"localhost\" and \"127.0.0.1\" are not reachable."
         case .urlNotValid:
             return "Enter a valid URL."
         case .urlNotReachable(let error):

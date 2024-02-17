@@ -229,7 +229,9 @@ extension InstanceView {
         }
 
         await Notifications.shared.requestAuthorization()
-        await UIApplication.shared.registerForRemoteNotifications()
+
+        UIApplication.shared.registerForRemoteNotifications()
+
         await setAppNotificationsStatus()
     }
 }
