@@ -3,27 +3,50 @@ import SwiftUI
 struct LibrariesView: View {
     var body: some View {
         List {
-            Link(destination: URL(string: "https://github.com/kean/Nuke")!, label: {
-                HStack {
-                    Text("Nuke")
-                    Text("12.3.0").foregroundStyle(.secondary)
-                    Spacer()
-                    Image(systemName: "arrow.up.right.square")
-                }
-            })
+            LibrariesViewItem(
+                url: "https://github.com/kean/Nuke",
+                name: "Nuke",
+                version: "12.4.0"
+            )
 
-            Link(destination: URL(string: "https://github.com/nonstrict-hq/CloudStorage")!, label: {
-                HStack {
-                    Text("CloudStorage")
-                    Text("0.4.0").foregroundStyle(.secondary)
-                    Spacer()
-                    Image(systemName: "arrow.up.right.square")
-                }
-            })
+            LibrariesViewItem(
+                url: "https://github.com/nonstrict-hq/CloudStorage",
+                name: "CloudStorage",
+                version: "0.4.0"
+            )
+
+            LibrariesViewItem(
+                url: "https://github.com/getsentry/sentry-cocoa",
+                name: "Sentry",
+                version: "8.20.0"
+            )
+
+            LibrariesViewItem(
+                url: "https://github.com/TelemetryDeck/SwiftClient",
+                name: "TelemetryDeck",
+                version: "1.5.1"
+            )
         }
         .navigationTitle("Third Party Libraries")
         .navigationBarTitleDisplayMode(.inline)
         .tint(.primary)
+    }
+}
+
+struct LibrariesViewItem: View {
+    var url: String
+    var name: String
+    var version: String
+
+    var body: some View {
+        Link(destination: URL(string: url)!, label: {
+            HStack {
+                Text(name)
+                Text(version).foregroundStyle(.secondary)
+                Spacer()
+                Image(systemName: "arrow.up.right.square")
+            }
+        })
     }
 }
 
