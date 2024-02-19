@@ -94,7 +94,9 @@ struct Movie: Identifiable, Codable {
         let hours = runtime / 60
         let minutes = runtime % 60
 
-        return hours == 0 ? "\(minutes)m" : "\(hours)h \(minutes)m"
+        return hours == 0
+            ? String(localized: "\(minutes)m")
+            : String(localized: "\(hours)h \(minutes)m")
     }
 
     var sizeLabel: String {

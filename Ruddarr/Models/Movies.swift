@@ -84,31 +84,7 @@ class Movies {
         isWorking = true
 
         do {
-            switch operation {
-            case .fetch:
-                items = try await dependencies.api.fetchMovies(instance)
-
-            case .add(let movie):
-                items.append(try await dependencies.api.addMovie(movie, instance))
-
-            case .update(let movie, let moveFiles):
-                _ = try await dependencies.api.updateMovie(movie, moveFiles, instance)
-
-            case .delete(let movie):
-                _ = try await dependencies.api.deleteMovie(movie, instance)
-                items.removeAll(where: { $0.movieId == movie.movieId })
-
-            case .download(let guid, let indexerId):
-                _ = try await dependencies.api.downloadRelease(guid, indexerId, instance)
-
-            case .command(let movie, let commandName):
-                let command = switch commandName {
-                case .refresh: RadarrCommand(name: commandName, movieIds: [movie.movieId!])
-                case .automaticSearch: RadarrCommand(name: commandName, movieIds: [movie.movieId!])
-                }
-
-                _ = try await dependencies.api.command(command, instance)
-            }
+            try await performOperation(operation)
         } catch is CancellationError {
             //
         } catch let urlError as URLError where urlError.code == .timedOut {
@@ -122,5 +98,33 @@ class Movies {
         isWorking = false
 
         return error == nil
+    }
+
+    private func performOperation(_ operation: Operation) async throws {
+        switch operation {
+        case .fetch:
+            items = try await dependencies.api.fetchMovies(instance)
+
+        case .add(let movie):
+            items.append(try await dependencies.api.addMovie(movie, instance))
+
+        case .update(let movie, let moveFiles):
+            _ = try await dependencies.api.updateMovie(movie, moveFiles, instance)
+
+        case .delete(let movie):
+            _ = try await dependencies.api.deleteMovie(movie, instance)
+            items.removeAll(where: { $0.movieId == movie.movieId })
+
+        case .download(let guid, let indexerId):
+            _ = try await dependencies.api.downloadRelease(guid, indexerId, instance)
+
+        case .command(let movie, let commandName):
+            let command = switch commandName {
+            case .refresh: RadarrCommand(name: commandName, movieIds: [movie.movieId!])
+            case .automaticSearch: RadarrCommand(name: commandName, movieIds: [movie.movieId!])
+            }
+
+            _ = try await dependencies.api.command(command, instance)
+        }
     }
 }
