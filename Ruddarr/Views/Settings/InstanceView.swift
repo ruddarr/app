@@ -16,6 +16,8 @@ struct InstanceView: View {
     @State private var cloudKitStatus: CKAccountStatus = .couldNotDetermine
     @State private var cloudKitUserId: CKRecord.ID?
 
+    @EnvironmentObject var settings: AppSettings
+
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
@@ -231,9 +233,7 @@ extension InstanceView {
         }
 
         await Notifications.shared.requestAuthorization()
-
-        UIApplication.shared.registerForRemoteNotifications()
-
+        await UIApplication.shared.registerForRemoteNotifications()
         await setAppNotificationsStatus()
     }
 }
