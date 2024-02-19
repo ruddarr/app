@@ -100,7 +100,7 @@ struct MoviesView: View {
             .alert("Something Went Wrong", isPresented: $alertPresented) {
                 Button("OK", role: .cancel) { }
             } message: {
-                Text(error?.localizedDescription ?? "An unknown error occurred.")
+                Text(alertErrorMessage)
             }
             .overlay {
                 if case .notConnectedToInternet? = (error as? URLError)?.code {
@@ -177,6 +177,17 @@ struct MoviesView: View {
             systemImage: "slash.circle",
             description: Text("No movies match the selected filters.")
         )
+    }
+
+    var alertErrorMessage: String {
+        let errorText = error?.localizedDescription ?? "An unknown error occurred."
+
+        if let nsError = error as? NSError,
+           let suggestion = nsError.localizedRecoverySuggestion {
+            return "\(errorText)\n\n\(suggestion)"
+        }
+
+        return errorText
     }
 
     func fetchMoviesWithAlert(
@@ -311,6 +322,15 @@ extension MoviesView {
 #Preview("Failure") {
     dependencies.api.fetchMovies = { _ in
         throw URLError(.badServerResponse)
+    }
+
+    return ContentView()
+        .withAppState()
+}
+
+#Preview("Timeout") {
+    dependencies.api.fetchMovies = { _ in
+        throw URLError(.timedOut)
     }
 
     return ContentView()

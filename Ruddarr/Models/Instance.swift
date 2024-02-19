@@ -26,6 +26,10 @@ struct Instance: Identifiable, Equatable, Codable {
 
         return map
     }
+
+    func isPrivateIp() -> Bool {
+        isPrivateIpAddress(URL(string: url)?.host() ?? "")
+    }
 }
 
 enum InstanceType: String, Identifiable, CaseIterable, Codable {

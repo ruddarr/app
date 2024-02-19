@@ -111,6 +111,8 @@ class Movies {
             }
         } catch is CancellationError {
             //
+        } catch let urlError as URLError where urlError.code == .timedOut {
+            self.error = instance.isPrivateIp() ? URLError.timedOutOnPrivateIp : urlError
         } catch {
             self.error = error
 
