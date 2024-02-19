@@ -33,7 +33,7 @@ class NetworkMonitor {
 }
 
 func isPrivateIpAddress(_ ipAddress: String) -> Bool {
-    guard let ipv4 = IPv4Address(ipAddress) else {
+    guard IPv4Address(ipAddress) != nil else {
         return false
     }
 

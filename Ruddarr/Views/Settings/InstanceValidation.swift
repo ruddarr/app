@@ -8,6 +8,7 @@ enum InstanceError: Error {
     case badStatusCode(_ code: Int)
     case badResponse(_ error: Error)
     case errorResponse(_ code: Int, _ message: String)
+    case timedOutOnPrivateIp(_ error: URLError)
 }
 
 extension InstanceError: LocalizedError {
@@ -15,7 +16,7 @@ extension InstanceError: LocalizedError {
         switch self {
         case .urlIsLocal, .urlNotValid:
             return "Invalid URL"
-        case .urlNotReachable:
+        case .urlNotReachable, .timedOutOnPrivateIp:
             return "URL Not Reachable"
         case .badAppName:
             return "Wrong Instance Type"
@@ -36,6 +37,9 @@ extension InstanceError: LocalizedError {
             return "Enter a valid URL."
         case .urlNotReachable(let error):
             return error.localizedDescription
+        case .timedOutOnPrivateIp(let urlError):
+            let nsError = urlError as NSError
+            return "\(urlError.localizedDescription)\n\n\(nsError.localizedRecoverySuggestion ?? "asdasd")"
         case .badAppName(let name):
             return "URL returned a \(name) instance."
         case .badStatusCode(let code):

@@ -245,7 +245,7 @@ extension InstanceEditView {
             throw InstanceError.urlNotValid
         }
 
-        if ["localhost", "127.0.0.1"].contains(url.host) {
+        if ["localhost", "127.0.0.1"].contains(url.host()) {
             throw InstanceError.urlIsLocal
         }
 
@@ -259,6 +259,10 @@ extension InstanceEditView {
             throw InstanceError.errorResponse(code, message)
         } catch let error as DecodingError {
             throw InstanceError.badResponse(error)
+        } catch let urlError as URLError where urlError.code == .timedOut {
+            throw instance.isPrivateIp()
+                ? InstanceError.timedOutOnPrivateIp(URLError.timedOutOnPrivateIp)
+                : InstanceError.urlNotReachable(urlError)
         } catch {
             throw InstanceError.urlNotReachable(error)
         }
