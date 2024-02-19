@@ -87,6 +87,7 @@ struct InstanceView: View {
     var notifications: some View {
         Section {
             Toggle("Enable Notifications", isOn: $instanceNotifications)
+                .tint(settings.theme.toggleTint)
                 .disabled(!notificationsAllowed || !cloudKitEnabled || webhook.isSynchronizing)
 
             if instanceNotifications {
@@ -119,6 +120,7 @@ struct InstanceView: View {
                         .onChange(of: webhook.model.onApplicationUpdate) { Task { await webhook.update(cloudKitUserId) } }
                         .disabled(webhook.isSynchronizing)
                 }
+                .tint(settings.theme.toggleTint)
                 .padding(.leading)
             }
         } header: {
