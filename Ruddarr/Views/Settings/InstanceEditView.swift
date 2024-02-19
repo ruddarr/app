@@ -25,16 +25,15 @@ struct InstanceEditView: View {
             Section {
                 typeField
                 labelField
-            }
-
-            Section {
                 urlField
             } footer: {
-                Text("The URL used to access the web interface. Must be prefixed with \"http://\" or \"https://\".")
+                Text("The URL used to access the \(instance.type.rawValue) web interface. Must be prefixed with \"http://\" or \"https://\".")
             }
 
             Section {
                 apiKeyField
+            } header: {
+                Text("Authentication")
             } footer: {
                 Text("The API Key can be found in the web interface under \"Settings > General > Security\".")
             }
@@ -44,7 +43,7 @@ struct InstanceEditView: View {
             } header: {
                 Text("Headers")
             } footer: {
-                Text("Custom headers are an advanced feature, needed to access instances protected by zero trust services.")
+                Text("Custom headers are an advanced feature, only needed to access instances protected by zero trust services.")
             }
 
             if mode == .update {
