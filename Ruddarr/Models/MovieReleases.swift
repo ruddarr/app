@@ -22,7 +22,7 @@ class MovieReleases {
             isSearching = true
             items = try await dependencies.api.lookupReleases(movie.movieId!, instance)
         } catch is CancellationError {
-            //
+            // do nothing
         } catch {
             self.error = error
 

@@ -26,7 +26,7 @@ class MovieLookup {
             isSearching = true
             items = try await dependencies.api.lookupMovies(instance, query)
         } catch is CancellationError {
-            //
+            // do nothing
         } catch {
             self.error = error
 

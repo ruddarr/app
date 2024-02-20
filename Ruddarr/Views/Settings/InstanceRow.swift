@@ -29,9 +29,17 @@ struct InstanceRow: View {
             .foregroundStyle(.gray)
         }.task {
             do {
+                let lastCheckKey = "lastCheck:\(instance.id)"
+
+                if let lastCheck = UserDefaults.standard.object(forKey: lastCheckKey) as? Date {
+                    if Date.now.timeIntervalSince(lastCheck) < 60 {
+                        status = .reachable
+                        return
+                    }
+                }
+
                 status = .pending
 
-                // TODO: Let's only synchonize every 60 seconds
                 let data = try await dependencies.api.systemStatus(instance)
 
                 instance.version = data.version
@@ -40,9 +48,11 @@ struct InstanceRow: View {
 
                 settings.saveInstance(instance)
 
+                UserDefaults.standard.set(Date(), forKey: lastCheckKey)
+
                 status = .reachable
             } catch is CancellationError {
-                // do nothing when task is cancelled
+                // do nothing
             } catch {
                 status = .unreachable
 
