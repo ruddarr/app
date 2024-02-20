@@ -158,7 +158,7 @@ extension API {
         ])
 
         let (json, response) = try await URLSession.shared.data(for: request)
-        let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+        let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 599
 
         switch statusCode {
         case (200..<400):

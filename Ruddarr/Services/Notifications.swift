@@ -28,12 +28,20 @@ class Notifications {
 
     func registerDevice(_ token: String) async {
         do {
-            let account = try? await CKContainer.default().userRecordID()
+            let account = try? await CKContainer.default().userRecordID().recordName
 
             let payload: [String: String] = [
-                "account": account?.recordName ?? "",
+                "account": account ?? "",
                 "token": token,
             ]
+
+            let hashedToken = tokenHash(token, account)
+            let storedToken = UserDefaults.standard.string(forKey: "apnsToken")
+
+            if storedToken == hashedToken {
+                leaveBreadcrumb(.info, category: "notifications", message: "Device already registered", data: payload)
+                return
+            }
 
             let body = try JSONSerialization.data(withJSONObject: payload)
 
@@ -47,7 +55,13 @@ class Notifications {
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
             let (json, response) = try await URLSession.shared.data(for: request)
-            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 599
+
+            if statusCode >= 400 {
+                throw AppError("Bad status code: \(statusCode)")
+            }
+
+            UserDefaults.standard.set(hashedToken, forKey: "apnsToken")
 
             if let data = String(data: json, encoding: .utf8) {
                 leaveBreadcrumb(.info, category: "notifications", message: "Device registered", data: ["status": statusCode, "response": data])
@@ -55,6 +69,16 @@ class Notifications {
         } catch {
             leaveBreadcrumb(.error, category: "notifications", message: "Device registration failed", data: ["error": error])
         }
+    }
+
+    private func tokenHash(_ token: String, _ account: String?) -> String {
+        [
+            UIDevice.current.identifierForVendor?.uuidString ?? "",
+            Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "",
+            Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "",
+            account ?? "",
+            token,
+        ].joined(separator: ":")
     }
 }
 
