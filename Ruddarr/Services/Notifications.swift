@@ -61,18 +61,25 @@ class Notifications {
 struct InstanceNotification: Identifiable, Codable {
     let id: Int
     let name: String?
-
     var implementation: String = "Webhook"
     var configContract: String = "WebhookSettings"
-
     var fields: [InstanceNotificationField] = []
 
+    // `Grab`: Release sent to download client
     var onGrab: Bool = false
+
+    // `Download`: Completed downloading release
     var onDownload: Bool = false
+
+    // `Download`: Completed downloading upgrade (`isUpgrade`)
     var onUpgrade: Bool = false
+
     var onMovieAdded: Bool = false
-    var onHealthIssue: Bool = false
+
+    var onHealthIssue: Bool = false { didSet { includeHealthWarnings = onHealthIssue } }
     var onHealthRestored: Bool = false
+    private(set) var includeHealthWarnings: Bool = false
+
     var onApplicationUpdate: Bool = false
     // var onManualInteractionRequired: Bool = false
 
@@ -94,6 +101,7 @@ struct InstanceNotification: Identifiable, Codable {
         onHealthIssue = false
         onHealthRestored = false
         onApplicationUpdate = false
+        includeHealthWarnings = false
     }
 }
 

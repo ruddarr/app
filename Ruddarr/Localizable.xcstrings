@@ -4,6 +4,19 @@
     "" : {
 
     },
+    "%lldh %lldm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lldh %2$lldm"
+          }
+        }
+      }
+    },
+    "%lldm" : {
+
+    },
     "•" : {
 
     },
@@ -46,6 +59,9 @@
     "Application Update" : {
 
     },
+    "Are you attempting to connect to a private IP address from outside its network?" : {
+
+    },
     "Are you sure you want to delete the instance?" : {
 
     },
@@ -59,6 +75,9 @@
 
     },
     "Ascending" : {
+
+    },
+    "Authentication" : {
 
     },
     "Automatic Search" : {
@@ -94,7 +113,7 @@
     "Contribute on GitHub" : {
 
     },
-    "Custom headers are an advanced feature, needed to access instances protected by zero trust services." : {
+    "Custom headers are an advanced feature, only needed to access instances protected by zero trust services." : {
 
     },
     "Delete" : {
@@ -184,10 +203,10 @@
     "Movie Added" : {
 
     },
-    "Movie Download" : {
+    "Movie Downloaded" : {
 
     },
-    "Movie Imported" : {
+    "Movie Downloading" : {
 
     },
     "Movie Upgraded" : {
@@ -238,6 +257,17 @@
     "Notification settings for each instance are shared between devices. To disable notifications for a specific device go to [Settings > Notifications](#link)." : {
 
     },
+    "NOTIFICATION_APPLICATION_UPDATE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Updated"
+          }
+        }
+      }
+    },
     "NOTIFICATION_HEALTH" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -249,7 +279,7 @@
         }
       }
     },
-    "NOTIFICATION_HEALTH_RESOLVED" : {
+    "NOTIFICATION_HEALTH_RESTORED" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -337,6 +367,28 @@
         }
       }
     },
+    "NOTIFICATION_MOVIE_UPGRADE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgraded Movie on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_MOVIE_UPGRADE_BODY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
     "NOTIFICATION_TEST" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -349,15 +401,7 @@
       }
     },
     "NOTIFICATION_TEST_BODY" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "NOTIFICATION_TEST_BODY"
-          }
-        }
-      }
+      "extractionState" : "manual"
     },
     "Notifications" : {
 
@@ -371,7 +415,7 @@
     "Only FreeLeech" : {
 
     },
-    "Open in Trakt" : {
+    "Open in %@" : {
 
     },
     "Paths" : {
@@ -437,7 +481,7 @@
     "The API Key can be found in the web interface under \"Settings > General > Security\"." : {
 
     },
-    "The URL used to access the web interface. Must be prefixed with \"http://\" or \"https://\". Do not use \"localhost\" or \"127.0.0.1\"." : {
+    "The URL used to access the %@ web interface. Must be prefixed with \"http://\" or \"https://\"." : {
 
     },
     "Third Party Libraries" : {

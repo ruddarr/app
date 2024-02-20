@@ -224,3 +224,14 @@ http post https://notify.ruddarr.com/_b918aa44b3801da03a12956597e93b05 \
 }
 
 ```
+
+### `ApplicationUpdate`
+
+```json
+{
+    "message": "Radarr updated from 4.2.0.6370 to 4.2.0.6372",
+    "previousVersion": "4.2.0.6370",
+    "newVersion": "4.2.0.6372",
+    "eventType": "ApplicationUpdate"
+}
+```

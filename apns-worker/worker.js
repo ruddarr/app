@@ -1,5 +1,7 @@
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, context) {
+    context.waitUntil(sendRequestEmail(request));
+
     if (request.method != 'POST') {
       return statusResponse(405)
     }
@@ -12,6 +14,8 @@ export default {
 
     const url = new URL(request.url)
     const payload = await request.json()
+
+    context.waitUntil(sendWebhookEmail(request, url, payload));
 
     if (url.pathname == '/register') {
       return registerDevice(request, env, payload)
@@ -200,6 +204,12 @@ function alertForPayload(payload) {
         'title-loc-key': 'NOTIFICATION_TEST',
         'loc-key': 'NOTIFICATION_TEST_BODY',
       }
+    case 'ApplicationUpdate':
+      return {
+        'title-loc-key': 'NOTIFICATION_APPLICATION_UPDATE',
+        'title-loc-args': [instanceName],
+        'body': payload.message,
+      }
     case 'Health':
       return {
         'title-loc-key': 'NOTIFICATION_HEALTH',
@@ -208,7 +218,7 @@ function alertForPayload(payload) {
       }
     case 'HealthRestored':
       return {
-        'title-loc-key': 'NOTIFICATION_HEALTH_RESOLVED',
+        'title-loc-key': 'NOTIFICATION_HEALTH_RESTORED',
         'title-loc-args': [instanceName],
         'body': payload.message,
       }
@@ -230,9 +240,9 @@ function alertForPayload(payload) {
       }
     case 'Download':
       return {
-        'title-loc-key': 'NOTIFICATION_MOVIE_DOWNLOAD',
+        'title-loc-key': payload.isUpgrade ? 'NOTIFICATION_MOVIE_DOWNLOAD' : 'NOTIFICATION_MOVIE_UPGRADE',
         'title-loc-args': [instanceName],
-        'loc-key': 'NOTIFICATION_MOVIE_DOWNLOAD_BODY',
+        'loc-key': payload.isUpgrade ? 'NOTIFICATION_MOVIE_DOWNLOAD_BODY' : 'NOTIFICATION_MOVIE_UPGRADE_BODY',
         'loc-args': [payload.movie.title, payload.movie.year],
       }
   }
@@ -287,4 +297,48 @@ function pemToBinary(pem) {
 
 function base64StringToArrayBuffer(b64str) {
   return byteStringToBytes(atob(b64str)).buffer
+}
+
+
+
+async function sendRequestEmail(request) {
+  await fetch('https://api.postmarkapp.com/email', {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'content-type': 'application/json;charset=UTF-8',
+      'x-postmark-server-token': '8ec6187d-5c62-460e-9293-2a9cbe4f8760',
+    },
+    body: JSON.stringify({
+      'From': 'worker@till.im',
+      'To': 'ruddarr@icloud.com',
+      'Subject': 'request',
+      'TextBody': `URL: ${request.url}
+
+Headers: ${JSON.stringify(Object.fromEntries(request.headers), null, 2)}
+      `
+    }),
+  });
+}
+
+async function sendWebhookEmail(request, url, payload) {
+  await fetch('https://api.postmarkapp.com/email', {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'content-type': 'application/json;charset=UTF-8',
+      'x-postmark-server-token': '8ec6187d-5c62-460e-9293-2a9cbe4f8760',
+    },
+    body: JSON.stringify({
+      'From': 'worker@till.im',
+      'To': 'ruddarr@icloud.com',
+      'Subject': 'POST JSON', 
+      'TextBody': `URL: ${url.toString()}
+
+Payload: ${JSON.stringify(payload, null, 2)}
+
+Headers: ${JSON.stringify(Object.fromEntries(request.headers), null, 2)}
+      `
+    }),
+  });
 }
