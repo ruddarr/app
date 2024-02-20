@@ -76,7 +76,6 @@
 		BBE8286A2B4F325400C1E1D9 /* ShowsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE828692B4F325400C1E1D9 /* ShowsView.swift */; };
 		BBE8286C2B4F360700C1E1D9 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8286B2B4F360700C1E1D9 /* Movie.swift */; };
 		BBEF2E422B802D6A00478E03 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = BBEF2E412B802D6A00478E03 /* Sentry */; };
-		BBEF2E462B802D6A00478E03 /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBEF2E452B802D6A00478E03 /* SentrySwiftUI */; };
 		BBF477A92B4FA20B00C2DED3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF477A82B4FA20B00C2DED3 /* SettingsView.swift */; };
 		BBF706BC2B6220BF00B2B504 /* Sentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF706BB2B6220BF00B2B504 /* Sentry.swift */; };
 		BBF94F632B508F8B00300EBA /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F622B508F8B00300EBA /* MovieView.swift */; };
@@ -178,7 +177,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBA54BE52B563E2000CA0F3E /* NukeUI in Frameworks */,
-				BBEF2E462B802D6A00478E03 /* SentrySwiftUI in Frameworks */,
 				BBFB1F8E2B792BCB00181233 /* TelemetryClient in Frameworks */,
 				BBA54BE32B563E2000CA0F3E /* Nuke in Frameworks */,
 				BBC45B932B56426700AB258F /* NukeUI in Frameworks */,
@@ -415,7 +413,6 @@
 				BBC45B922B56426700AB258F /* NukeUI */,
 				BBFB1F8D2B792BCB00181233 /* TelemetryClient */,
 				BBEF2E412B802D6A00478E03 /* Sentry */,
-				BBEF2E452B802D6A00478E03 /* SentrySwiftUI */,
 			);
 			productName = Ruddarr;
 			productReference = BBE828532B4F2C7000C1E1D9 /* Ruddarr.app */;
@@ -882,11 +879,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
 			productName = Sentry;
-		};
-		BBEF2E452B802D6A00478E03 /* SentrySwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
-			productName = SentrySwiftUI;
 		};
 		BBFB1F8D2B792BCB00181233 /* TelemetryClient */ = {
 			isa = XCSwiftPackageProductDependency;
