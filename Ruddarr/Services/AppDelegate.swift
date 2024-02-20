@@ -46,7 +46,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             options.enabled = true
             options.debug = false
 
-            options.dsn = "https://74d9cb1a161b33e8374c7339bbe0ce93@o4506759093354496.ingest.sentry.io/4506759109017600"
+            options.dsn = Secrets.SentryDsn
             options.sendDefaultPii = false
 
             options.attachViewHierarchy = true
@@ -82,7 +82,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
     func configureTelemetryDeck() {
         let configuration = TelemetryManagerConfiguration(
-            appID: "5B1D07EE-E296-4DCF-B3DD-150EDE9D56B5"
+            appID: Secrets.TelemetryAppId
         )
 
         configuration.defaultUser = UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
@@ -90,28 +90,4 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
         TelemetryManager.initialize(with: configuration)
     }
-
-    //    func userNotificationCenter(
-    //        _ center: UNUserNotificationCenter,
-    //        willPresent notification: UNNotification,
-    //        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
-    //    ) {
-    //        print("11111")
-    //        if let userInfo = notification.request.content.userInfo as? [String : AnyObject] {
-    //            //
-    //        }
-    //        completionHandler(.banner)
-    //    }
-    //
-    //    func userNotificationCenter(
-    //        _ center: UNUserNotificationCenter,
-    //        didReceive response: UNNotificationResponse,
-    //        withCompletionHandler completionHandler: @escaping () -> Void
-    //    ) {
-    //        print("222222222222")
-    //        if let userInfo = response.notification.request.content.userInfo as? [String : AnyObject] {
-    //            ///
-    //        }
-    //        completionHandler()
-    //    }
 }

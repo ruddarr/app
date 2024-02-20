@@ -1,8 +1,5 @@
 import SwiftUI
 
-// https://stackoverflow.com/questions/66043911/swiftui-app-how-to-hide-title-bar-for-macos-app
-// https://stackoverflow.com/questions/49663728/how-to-hide-the-top-bar-with-buttons-usin-swift-and-macos?rq=4
-
 @main
 struct Ruddarr: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -23,4 +20,9 @@ struct Ruddarr: App {
         }
         .windowResizability(.contentSize)
     }
+}
+
+struct Secrets {
+    static var SentryDsn = "https://74d9cb1a161b33e8374c7339bbe0ce93@o4506759093354496.ingest.sentry.io/4506759109017600"
+    static var TelemetryAppId = "5B1D07EE-E296-4DCF-B3DD-150EDE9D56B5"
 }
