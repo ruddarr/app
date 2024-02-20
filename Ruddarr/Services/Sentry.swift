@@ -16,7 +16,17 @@ func leaveBreadcrumb(
 
     SentrySDK.addBreadcrumb(crumb)
 
-    #if DEBUG
+    // report higher level breadcrumbs as events in TestFlight
+    if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
+        if level == .error || level == .error {
+            let event = Event(level: level)
+            event.message = SentryMessage(formatted: message ?? "")
+
+            SentrySDK.capture(event: event)
+        }
+    }
+
+#if DEBUG
     let dataString: String = data.map { key, value in
         "\(key): \(value)"
     }.joined(separator: "; ")
@@ -32,5 +42,5 @@ func leaveBreadcrumb(
     }
 
     print("[\(levelString)] #\(category): \(message ?? "") (\(dataString))")
-    #endif
+#endif
 }
