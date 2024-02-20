@@ -30,7 +30,7 @@ struct MovieDetails: View {
                     detailsRow("Genre", value: movie.genreLabel)
                 }
 
-                if movie.hasFile {
+                if movie.isDownloaded {
                     detailsRow("Video", value: videoQuality)
                     detailsRow("Audio", value: audioQuality)
                 }
@@ -102,7 +102,7 @@ struct MovieDetails: View {
                 Divider()
                 informationRow("Root Folder", value: movie.rootFolderPath ?? "")
 
-                if movie.hasFile {
+                if movie.isDownloaded {
                     Divider()
                     informationRow("Size", value: movie.sizeOnDisk == nil ? "" : movie.sizeLabel)
                 }

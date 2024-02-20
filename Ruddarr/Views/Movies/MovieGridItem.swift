@@ -34,7 +34,7 @@ struct MovieGridItem: View {
     var posterOverlay: some View {
         HStack {
             Group {
-                if movie.hasFile {
+                if movie.isDownloaded {
                     Image(systemName: "checkmark.circle.fill")
                 } else if movie.isWaiting {
                     Image(systemName: "clock")

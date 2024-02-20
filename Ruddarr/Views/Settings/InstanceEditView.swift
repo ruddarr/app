@@ -214,7 +214,7 @@ extension InstanceEditView {
             showingAlert = true
             self.error = error
         } catch {
-            fatalError("Failed to save instance")
+            fatalError("Failed to save instance: Unhandled error")
         }
     }
 

@@ -24,7 +24,7 @@ struct Movie: Identifiable, Codable {
     var monitored: Bool
     var qualityProfileId: Int
     let sizeOnDisk: Int?
-    let hasFile: Bool
+    let hasFile: Bool?
     let isAvailable: Bool
 
     var path: String?
@@ -75,7 +75,7 @@ struct Movie: Identifiable, Codable {
     }
 
     var stateLabel: String {
-        if hasFile {
+        if isDownloaded {
             return "Downloaded"
         }
 
@@ -123,6 +123,10 @@ struct Movie: Identifiable, Codable {
         }
 
         return nil
+    }
+
+    var isDownloaded: Bool {
+        hasFile ?? false
     }
 
     var isWaiting: Bool {

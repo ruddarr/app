@@ -63,11 +63,11 @@ struct MovieSort {
             case .unmonitored:
                 movies.filter { !$0.monitored }
             case .missing:
-                movies.filter { $0.monitored && !$0.hasFile }
+                movies.filter { $0.monitored && !$0.isDownloaded }
             case .wanted:
-                movies.filter { $0.monitored && !$0.hasFile && $0.isAvailable }
+                movies.filter { $0.monitored && !$0.isDownloaded && $0.isAvailable }
             case .dangling:
-                movies.filter { !$0.monitored && !$0.hasFile }
+                movies.filter { !$0.monitored && !$0.isDownloaded }
             }
         }
     }
