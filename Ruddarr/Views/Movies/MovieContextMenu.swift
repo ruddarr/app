@@ -40,7 +40,7 @@ struct MovieContextMenu: View {
     var imdbUrl: String {
         if UIApplication.shared.canOpenURL(URL(string: "imdb://")!) {
             if let imdbId = movie.imdbId {
-                return "imdb:///title/\(movie.imdbId!)"
+                return "imdb:///title/\(imdbId)"
             } else {
                 return "imdb:///find?q=\(encodedTitle)"
             }
