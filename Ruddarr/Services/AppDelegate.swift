@@ -45,6 +45,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         SentrySDK.start { options in
             options.enabled = true
             options.debug = false
+            options.environment = environmentName()
 
             options.dsn = Secrets.SentryDsn
             options.sendDefaultPii = false

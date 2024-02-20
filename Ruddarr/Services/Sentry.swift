@@ -44,3 +44,21 @@ func leaveBreadcrumb(
     print("[\(levelString)] #\(category): \(message ?? "") (\(dataString))")
 #endif
 }
+
+func environmentName() -> String {
+    if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+        return "preview"
+    }
+
+    #if targetEnvironment(simulator)
+        return "simulator"
+    #elseif DEBUG
+        return "debug"
+    #else
+        if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
+            return "testflight"
+        }
+
+        return "appstore"
+    #endif
+}
