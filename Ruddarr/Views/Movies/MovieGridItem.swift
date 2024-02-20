@@ -78,32 +78,6 @@ struct MovieGridItem: View {
     }
 }
 
-struct MovieContextMenu: View {
-    var movie: Movie
-
-    var body: some View {
-        let traktUrl = "https://trakt.tv/search/tmdb/\(movie.tmdbId)?id_type=movie"
-
-        Link(destination: URL(string: traktUrl)!, label: {
-            Label("Open in Trakt", systemImage: "arrow.up.right.square")
-        })
-
-        let letterboxdUrl = "https://letterboxd/tmdb/\(movie.tmdbId)"
-
-        Link(destination: URL(string: letterboxdUrl)!, label: {
-            Label("Open in Letterboxd", systemImage: "arrow.up.right.square")
-        })
-
-        if let imdbId = movie.imdbId {
-            let imdbUrl = "https://www.imdb.com/title/\(imdbId)"
-
-            Link(destination: URL(string: imdbUrl)!, label: {
-                Label("Open in IMDb", systemImage: "arrow.up.right.square")
-            })
-        }
-    }
-}
-
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
         .sorted { $0.year > $1.year }
