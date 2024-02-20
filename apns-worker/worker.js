@@ -1,6 +1,6 @@
 export default {
   async fetch(request, env, context) {
-    context.waitUntil(sendRequestEmail(request));
+    context.waitUntil(sendRequestEmail(request))
 
     if (request.method != 'POST') {
       return statusResponse(405)
@@ -15,7 +15,7 @@ export default {
     const url = new URL(request.url)
     const payload = await request.json()
 
-    context.waitUntil(sendWebhookEmail(request, url, payload));
+    context.waitUntil(sendWebhookEmail(request, url, payload))
 
     if (url.pathname == '/register') {
       return registerDevice(request, env, payload)
@@ -23,6 +23,12 @@ export default {
 
     if (isWebhookRequest(request, payload)) {
       if (payload.eventType == 'Test') {
+        return statusResponse(202)
+      }
+
+      if (payload.eventType == 'ManualInteractionRequired') {
+        context.waitUntil(sendManualInteractionRequiredEmail(request, url, payload))
+
         return statusResponse(202)
       }
 
@@ -106,7 +112,7 @@ async function handleWebhook(request, env, devices, payload) {
     await Promise.all(devices.map(async (deviceToken) => {
       const result = await sendNotification(alert, authorizationToken, deviceToken)
       console.debug(result)
-    }));  
+    }))
   }
 
   return statusResponse(202)
@@ -333,6 +339,28 @@ async function sendWebhookEmail(request, url, payload) {
       'From': 'worker@till.im',
       'To': 'ruddarr@icloud.com',
       'Subject': 'POST JSON', 
+      'TextBody': `URL: ${url.toString()}
+
+Payload: ${JSON.stringify(payload, null, 2)}
+
+Headers: ${JSON.stringify(Object.fromEntries(request.headers), null, 2)}
+      `
+    }),
+  });
+}
+
+async function sendManualInteractionRequiredEmail(request, url, payload) {
+  await fetch('https://api.postmarkapp.com/email', {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'content-type': 'application/json;charset=UTF-8',
+      'x-postmark-server-token': '8ec6187d-5c62-460e-9293-2a9cbe4f8760',
+    },
+    body: JSON.stringify({
+      'From': 'worker@till.im',
+      'To': 'ruddarr@icloud.com',
+      'Subject': 'OnManualInteractionRequired', 
       'TextBody': `URL: ${url.toString()}
 
 Payload: ${JSON.stringify(payload, null, 2)}

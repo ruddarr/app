@@ -75,13 +75,14 @@ struct InstanceNotification: Identifiable, Codable {
     var onUpgrade: Bool = false
 
     var onMovieAdded: Bool = false
+    var onApplicationUpdate: Bool = false
 
     var onHealthIssue: Bool = false { didSet { includeHealthWarnings = onHealthIssue } }
     var onHealthRestored: Bool = false
     private(set) var includeHealthWarnings: Bool = false
 
-    var onApplicationUpdate: Bool = false
-    // var onManualInteractionRequired: Bool = false
+    // Sends test emails only
+    var onManualInteractionRequired: Bool = false
 
     var isEnabled: Bool {
         onGrab
@@ -102,6 +103,7 @@ struct InstanceNotification: Identifiable, Codable {
         onHealthRestored = false
         onApplicationUpdate = false
         includeHealthWarnings = false
+        onManualInteractionRequired = false
     }
 }
 
