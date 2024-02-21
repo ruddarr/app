@@ -182,10 +182,17 @@ struct InstanceEditView: View {
 
     var debugQuickFill: some View {
         Group {
-            Button("Use Synology") {
-                instance.label = "Till"
+            Button("Synology: Radarr") {
+                instance.label = "Syno Radarr"
                 instance.url = Instance.till.url
                 instance.apiKey = Instance.till.apiKey
+            }
+
+            Button("Synology: Sonarr") {
+                instance.type = .sonarr
+                instance.label = "Syno Sonarr"
+                instance.url = Instance.till2.url
+                instance.apiKey = Instance.till2.apiKey
             }
 
             Button("Use Digital Ocean") {

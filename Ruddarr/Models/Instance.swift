@@ -93,6 +93,15 @@ extension Instance {
         )
     }
 
+    static var till2: Self {
+        .init(
+            id: UUID(uuidString: "8d67b5cd-d6db-4453-940c-6b858703dd87")!,
+            type: .sonarr,
+            url: "http://10.0.1.5:8989",
+            apiKey: "f8e3682b3b984cddbaa00047a09d0fbd"
+        )
+    }
+
     static var digitalOcean: Self {
         .init(
             id: UUID(uuidString: "6cd49e6e-fbb2-40c3-9f22-f4025c070ae5")!,

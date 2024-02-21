@@ -89,6 +89,12 @@ struct InstanceNotification: Identifiable, Codable {
     var configContract: String = "WebhookSettings"
     var fields: [InstanceNotificationField] = []
 
+    // Radarr only
+    var onMovieAdded: Bool? = false
+
+    // Sonarr only
+    var onSeriesAdd: Bool? = false
+
     // `Grab`: Release sent to download client
     var onGrab: Bool = false
 
@@ -98,31 +104,33 @@ struct InstanceNotification: Identifiable, Codable {
     // `Download`: Completed downloading upgrade (`isUpgrade`)
     var onUpgrade: Bool = false
 
-    var onMovieAdded: Bool = false
-    var onApplicationUpdate: Bool = false
-
     var onHealthIssue: Bool = false { didSet { includeHealthWarnings = onHealthIssue } }
     var onHealthRestored: Bool = false
     private(set) var includeHealthWarnings: Bool = false
 
+    var onApplicationUpdate: Bool = false
+
     // Sends test emails only
-    var onManualInteractionRequired: Bool = false
+    var onManualInteractionRequired: Bool = true
 
     var isEnabled: Bool {
         onGrab
         || onDownload
         || onUpgrade
-        || onMovieAdded
+        || onMovieAdded ?? false
+        || onSeriesAdd ?? false
         || onHealthIssue
         || onHealthRestored
         || onApplicationUpdate
+        || onManualInteractionRequired
     }
 
     mutating func disable() {
         onGrab = false
         onDownload = false
         onUpgrade = false
-        onMovieAdded = false
+        onMovieAdded = false // Radarr
+        onSeriesAdd = false // Sonarr
         onHealthIssue = false
         onHealthRestored = false
         onApplicationUpdate = false

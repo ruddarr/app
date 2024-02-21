@@ -71,6 +71,7 @@ class InstanceWebhook {
 
     private func updateWebook(_ account: CKRecord.ID) async throws -> InstanceNotification {
         model.fields = webhookFields(account)
+        model.onManualInteractionRequired = model.isEnabled
 
         return try await dependencies.api.updateNotification(model, instance)
     }

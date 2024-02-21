@@ -389,6 +389,28 @@
         }
       }
     },
+    "NOTIFICATION_SERIES_ADDED" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Series on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_SERIES_ADDED_BODY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
     "NOTIFICATION_TEST" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -457,6 +479,18 @@
     "Searching..." : {
 
     },
+    "Series Added" : {
+
+    },
+    "Series Downloaded" : {
+
+    },
+    "Series Downloading" : {
+
+    },
+    "Series Upgraded" : {
+
+    },
     "Settings" : {
 
     },
@@ -473,6 +507,12 @@
 
     },
     "Synology" : {
+
+    },
+    "Synology: Radarr" : {
+
+    },
+    "Synology: Sonarr" : {
 
     },
     "System" : {
@@ -500,9 +540,6 @@
 
     },
     "Use Digital Ocean" : {
-
-    },
-    "Use Synology" : {
 
     },
     "Value" : {

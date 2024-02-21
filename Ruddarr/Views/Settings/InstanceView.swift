@@ -94,34 +94,15 @@ struct InstanceView: View {
 
             if instanceNotifications {
                 Group {
-                    Toggle("Movie Added", isOn: $webhook.model.onMovieAdded)
-                        .onChange(of: webhook.model.onMovieAdded) { Task { await webhook.update(cloudKitUserId) } }
-                        .disabled(webhook.isSynchronizing)
+                    if instance.type == .radarr {
+                        radarrNotifications
+                    }
 
-                    Toggle("Movie Downloading", isOn: $webhook.model.onGrab)
-                        .onChange(of: webhook.model.onGrab) { Task { await webhook.update(cloudKitUserId) } }
-                        .disabled(webhook.isSynchronizing)
-
-                    Toggle("Movie Downloaded", isOn: $webhook.model.onDownload)
-                        .onChange(of: webhook.model.onDownload) { Task { await webhook.update(cloudKitUserId) } }
-                        .disabled(webhook.isSynchronizing)
-
-                    Toggle("Movie Upgraded", isOn: $webhook.model.onUpgrade)
-                        .onChange(of: webhook.model.onUpgrade) { Task { await webhook.update(cloudKitUserId) } }
-                        .disabled(webhook.isSynchronizing)
-
-                    Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
-                        .onChange(of: webhook.model.onHealthIssue) { Task { await webhook.update(cloudKitUserId) } }
-                        .disabled(webhook.isSynchronizing)
-
-                    Toggle("Health Restored", isOn: $webhook.model.onHealthRestored)
-                        .onChange(of: webhook.model.onHealthRestored) { Task { await webhook.update(cloudKitUserId) } }
-                        .disabled(webhook.isSynchronizing)
-
-                    Toggle("Application Update", isOn: $webhook.model.onApplicationUpdate)
-                        .onChange(of: webhook.model.onApplicationUpdate) { Task { await webhook.update(cloudKitUserId) } }
-                        .disabled(webhook.isSynchronizing)
+                    if instance.type == .sonarr {
+                        sonarrNotifications
+                    }
                 }
+                .disabled(webhook.isSynchronizing)
                 .tint(settings.theme.toggleTint)
                 .padding(.leading)
             }
@@ -176,6 +157,62 @@ struct InstanceView: View {
 
     var cloudKitEnabled: Bool {
         cloudKitStatus == .available
+    }
+
+    var radarrNotifications: some View {
+        Group {
+            Toggle("Movie Added", isOn: Binding<Bool>(
+                get: { self.webhook.model.onMovieAdded ?? false },
+                set: { newValue in self.webhook.model.onMovieAdded = newValue }
+            ))
+                .onChange(of: webhook.model.onMovieAdded) { Task { await webhook.update(cloudKitUserId) } }
+
+            Toggle("Movie Downloading", isOn: $webhook.model.onGrab)
+                .onChange(of: webhook.model.onGrab) { Task { await webhook.update(cloudKitUserId) } }
+
+            Toggle("Movie Downloaded", isOn: $webhook.model.onDownload)
+                .onChange(of: webhook.model.onDownload) { Task { await webhook.update(cloudKitUserId) } }
+
+            Toggle("Movie Upgraded", isOn: $webhook.model.onUpgrade)
+                .onChange(of: webhook.model.onUpgrade) { Task { await webhook.update(cloudKitUserId) } }
+
+            Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
+                .onChange(of: webhook.model.onHealthIssue) { Task { await webhook.update(cloudKitUserId) } }
+
+            Toggle("Health Restored", isOn: $webhook.model.onHealthRestored)
+                .onChange(of: webhook.model.onHealthRestored) { Task { await webhook.update(cloudKitUserId) } }
+
+            Toggle("Application Update", isOn: $webhook.model.onApplicationUpdate)
+                .onChange(of: webhook.model.onApplicationUpdate) { Task { await webhook.update(cloudKitUserId) } }
+        }
+    }
+
+    var sonarrNotifications: some View {
+        Group {
+            Toggle("Series Added", isOn: Binding<Bool>(
+                get: { self.webhook.model.onSeriesAdd ?? false },
+                set: { newValue in self.webhook.model.onSeriesAdd = newValue }
+            ))
+                .onChange(of: webhook.model.onSeriesAdd) { Task { await webhook.update(cloudKitUserId) } }
+
+            Toggle("Series Downloading", isOn: $webhook.model.onGrab)
+                .onChange(of: webhook.model.onGrab) { Task { await webhook.update(cloudKitUserId) } }
+
+            Toggle("Series Downloaded", isOn: $webhook.model.onDownload)
+                .onChange(of: webhook.model.onDownload) { Task { await webhook.update(cloudKitUserId) } }
+
+            Toggle("Series Upgraded", isOn: $webhook.model.onUpgrade)
+                .onChange(of: webhook.model.onUpgrade) { Task { await webhook.update(cloudKitUserId) } }
+
+            Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
+                .onChange(of: webhook.model.onHealthIssue) { Task { await webhook.update(cloudKitUserId) } }
+
+            Toggle("Health Restored", isOn: $webhook.model.onHealthRestored)
+                .onChange(of: webhook.model.onHealthRestored) { Task { await webhook.update(cloudKitUserId) } }
+
+            Toggle("Application Update", isOn: $webhook.model.onApplicationUpdate)
+                .onChange(of: webhook.model.onApplicationUpdate) { Task { await webhook.update(cloudKitUserId) } }
+        }
     }
 }
 
