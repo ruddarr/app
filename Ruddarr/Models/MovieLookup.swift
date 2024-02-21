@@ -20,6 +20,7 @@ class MovieLookup {
 
         case byRelevance = "Relevance"
         case byYear = "Year"
+        case byPopularity = "Popularity"
     }
 
     func search(query: String) async {

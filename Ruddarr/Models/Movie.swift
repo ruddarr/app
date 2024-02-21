@@ -17,6 +17,7 @@ struct Movie: Identifiable, Codable {
 
     let genres: [String]
     let ratings: MovieRatings?
+    let popularity: Float?
 
     let status: MovieStatus
     var minimumAvailability: MovieStatus
@@ -52,6 +53,7 @@ struct Movie: Identifiable, Codable {
         case certification
         case genres
         case ratings
+        case popularity
         case status
         case minimumAvailability
         case monitored
