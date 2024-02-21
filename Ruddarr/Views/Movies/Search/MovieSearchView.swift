@@ -12,6 +12,8 @@ struct MovieSearchView: View {
     let searchTextPublisher = PassthroughSubject<String, Never>()
     let gridItemLayout = MovieGridItem.gridItemLayout()
 
+    @State var searchSort: MovieLookup.SortOption = .byRelevance
+
     var body: some View {
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: 15) {
@@ -37,6 +39,11 @@ struct MovieSearchView: View {
             isPresented: $presentingSearch,
             placement: .navigationBarDrawer(displayMode: .always)
         )
+        .searchScopes($searchSort) {
+            ForEach(MovieLookup.SortOption.allCases) { option in
+                Text(option.rawValue)
+            }
+        }
         .onChange(of: searchQuery) {
             searchTextPublisher.send(searchQuery)
         }
