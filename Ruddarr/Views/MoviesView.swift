@@ -241,7 +241,7 @@ extension MoviesView {
         Menu("Filters", systemImage: "line.3.horizontal.decrease") {
             Picker(selection: $sort.filter, label: Text("Filter options")) {
                 ForEach(MovieSort.Filter.allCases) { filter in
-                    Text(filter.title)
+                    filter.label
                 }
             }
         }
@@ -251,7 +251,7 @@ extension MoviesView {
         Menu {
             Picker(selection: $sort.option, label: Text("Sorting options")) {
                 ForEach(MovieSort.Option.allCases) { option in
-                    Text(option.title)
+                    option.label
                 }
             }.onChange(of: sort.option) {
                 switch sort.option {
@@ -263,8 +263,8 @@ extension MoviesView {
 
             Section {
                 Picker(selection: $sort.isAscending, label: Text("Sorting direction")) {
-                    Text("Ascending").tag(true)
-                    Text("Descending").tag(false)
+                    Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
+                    Label("Descending", systemImage: "arrowtriangle.down").tag(false)
                 }
             }
         } label: {

@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 struct MovieReleaseSort {
     var isAscending: Bool = false
@@ -18,12 +18,12 @@ struct MovieReleaseSort {
         case bySize
         case bySeeders
 
-        var title: String {
+        var label: some View {
             switch self {
-            case .byWeight: "Weight"
-            case .bySeeders: "Seeders"
-            case .byAge: "Age"
-            case .bySize: "Size"
+            case .byWeight: Label("Weight", systemImage: "scalemass")
+            case .bySeeders: Label("Seeders", systemImage: "person.2.wave.2")
+            case .bySize: Label("Size", systemImage: "externaldrive")
+            case .byAge: Label("Age", systemImage: "calendar")
             }
         }
 

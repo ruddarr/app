@@ -126,8 +126,8 @@ extension MovieReleasesView {
             qualityPicker
 
             Section {
-                Toggle("Only Approved", isOn: $sort.approvedOnly)
-                Toggle("Only FreeLeech", isOn: $sort.freeleechOnly)
+                Toggle("Only Approved", systemImage: "checkmark.seal", isOn: $sort.approvedOnly)
+                Toggle("Only FreeLeech", systemImage: "flag", isOn: $sort.freeleechOnly)
             }
         }
     }
@@ -137,7 +137,7 @@ extension MovieReleasesView {
             Section {
                 Picker("Sorting options", selection: $sort.option) {
                     ForEach(MovieReleaseSort.Option.allCases) { option in
-                        Text(option.title).tag(option)
+                        option.label
                     }
                 }.onChange(of: sort.option) {
                     switch sort.option {
@@ -151,8 +151,8 @@ extension MovieReleasesView {
 
             Section {
                 Picker("Sorting direction", selection: $sort.isAscending) {
-                    Text("Ascending").tag(true)
-                    Text("Descending").tag(false)
+                    Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
+                    Label("Descending", systemImage: "arrowtriangle.down").tag(false)
                 }
             }
         } label: {
@@ -162,7 +162,7 @@ extension MovieReleasesView {
     }
 
     var indexersPicker: some View {
-        Menu("Indexer") {
+        Menu {
             Picker("Indexer", selection: $sort.indexer) {
                 ForEach(indexers, id: \.self) { indexer in
                     Text(indexer).tag(Optional.some(indexer))
@@ -170,11 +170,13 @@ extension MovieReleasesView {
 
                 Text("All Indexers").tag(".all")
             }
+        } label: {
+            Label("Indexer", systemImage: "building.2")
         }
     }
 
     var qualityPicker: some View {
-        Menu("Quality Profile") {
+        Menu {
             Picker("Quality Profile", selection: $sort.quality) {
                 ForEach(qualities, id: \.self) { quality in
                     Text(quality).tag(Optional.some(quality))
@@ -182,6 +184,8 @@ extension MovieReleasesView {
 
                 Text("All Quality Profiles").tag(".all")
             }
+        } label: {
+            Label("Quality Profile", systemImage: "film.stack")
         }
     }
 

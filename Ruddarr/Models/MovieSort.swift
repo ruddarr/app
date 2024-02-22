@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 struct MovieSort {
     var isAscending: Bool = false
@@ -13,11 +13,11 @@ struct MovieSort {
         case byYear
         case byAdded
 
-        var title: String {
+        var label: some View {
             switch self {
-            case .byTitle: "Title"
-            case .byYear: "Year"
-            case .byAdded: "Added"
+            case .byTitle: Label("Title", systemImage: "textformat.abc")
+            case .byYear: Label("Year", systemImage: "calendar")
+            case .byAdded: Label("Added", systemImage: "calendar.badge.plus")
             }
         }
 
@@ -43,14 +43,14 @@ struct MovieSort {
         case wanted
         case dangling
 
-        var title: String {
+        var label: some View {
             switch self {
-            case .all: "All"
-            case .monitored: "Monitored"
-            case .unmonitored: "Unmonitored"
-            case .missing: "Missing"
-            case .wanted: "Wanted"
-            case .dangling: "Dangling"
+            case .all: Label("All", systemImage: "rectangle.stack")
+            case .monitored: Label("Monitored", systemImage: "bookmark.fill")
+            case .unmonitored: Label("Unmonitored", systemImage: "bookmark")
+            case .missing: Label("Missing", systemImage: "exclamationmark.magnifyingglass")
+            case .wanted: Label("Wanted", systemImage: "sparkle.magnifyingglass")
+            case .dangling: Label("Dangling", systemImage: "questionmark.square")
             }
         }
 
