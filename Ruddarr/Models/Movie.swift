@@ -198,7 +198,7 @@ struct MovieMediaInfo: Codable {
     let subtitles: String?
 
     var subtitleCodes: [String]? {
-        guard let languages = subtitles else { return nil }
+        guard let languages = subtitles, languages.count > 0 else { return nil }
 
         let codes = Array(Set(
             languages.components(separatedBy: "/")

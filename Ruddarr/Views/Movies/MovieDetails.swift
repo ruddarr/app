@@ -191,10 +191,10 @@ struct MovieDetails: View {
             return nil
         }
 
-        if codes.count > 7 {
-            return Array(codes.prefix(5)).map {
+        if codes.count > 6 {
+            return Array(codes.prefix(4)).map {
                 $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
-            }.joined(separator: ", ") + ", +\(codes.count - 5) more..."
+            }.joined(separator: ", ") + ", +\(codes.count - 4) more..."
         }
 
         return codes.map {
