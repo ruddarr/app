@@ -111,7 +111,7 @@ struct MoviePreview: View {
     }
 
     func detailsRow(_ label: String, value: String) -> some View {
-        GridRow {
+        GridRow(alignment: .top) {
             Text(label)
                 .textCase(.uppercase)
                 .foregroundStyle(.secondary)
