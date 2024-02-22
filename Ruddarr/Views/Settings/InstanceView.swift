@@ -258,10 +258,13 @@ extension InstanceView {
     func notificationsToggled() async {
         await maybeRequestNotificationAuthorization()
 
-        if !instanceNotifications {
+        if instanceNotifications {
+            webhook.model.enable()
+        } else {
             webhook.model.disable()
-            await webhook.update(cloudKitUserId)
         }
+
+        await webhook.update(cloudKitUserId)
     }
 
     func maybeRequestNotificationAuthorization() async {

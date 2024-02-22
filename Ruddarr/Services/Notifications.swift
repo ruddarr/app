@@ -113,9 +113,22 @@ struct InstanceNotification: Identifiable, Codable {
         onSeriesAdd = false // Sonarr
         onHealthIssue = false
         onHealthRestored = false
-        onApplicationUpdate = false
         includeHealthWarnings = false
+        onApplicationUpdate = false
         onManualInteractionRequired = false
+    }
+
+    mutating func enable() {
+        onGrab = true
+        onDownload = true
+        onUpgrade = true
+        onMovieAdded = true // Radarr
+        onSeriesAdd = true // Sonarr
+        onHealthIssue = false
+        onHealthRestored = false
+        includeHealthWarnings = false
+        onApplicationUpdate = false
+        onManualInteractionRequired = true
     }
 }
 
