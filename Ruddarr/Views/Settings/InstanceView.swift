@@ -195,13 +195,13 @@ struct InstanceView: View {
             ))
                 .onChange(of: webhook.model.onSeriesAdd) { Task { await webhook.update(cloudKitUserId) } }
 
-            Toggle("Series Downloading", isOn: $webhook.model.onGrab)
+            Toggle("Episode Downloading", isOn: $webhook.model.onGrab)
                 .onChange(of: webhook.model.onGrab) { Task { await webhook.update(cloudKitUserId) } }
 
-            Toggle("Series Downloaded", isOn: $webhook.model.onDownload)
+            Toggle("Episode Downloaded", isOn: $webhook.model.onDownload)
                 .onChange(of: webhook.model.onDownload) { Task { await webhook.update(cloudKitUserId) } }
 
-            Toggle("Series Upgraded", isOn: $webhook.model.onUpgrade)
+            Toggle("Episode Upgraded", isOn: $webhook.model.onUpgrade)
                 .onChange(of: webhook.model.onUpgrade) { Task { await webhook.update(cloudKitUserId) } }
 
             Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
