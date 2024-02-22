@@ -411,6 +411,83 @@
         }
       }
     },
+    "NOTIFICATION_SERIES_DOWNLOAD" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloaded Series on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_SERIES_DOWNLOAD_BODY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_SERIES_GRAB" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloading Series on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_SERIES_GRAB_BODY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloading %@ from %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_SERIES_GRAB_SUBTITLE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_SERIES_UPGRADE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgraded Series on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_SERIES_UPGRADE_BODY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
     "NOTIFICATION_TEST" : {
       "extractionState" : "manual",
       "localizations" : {
