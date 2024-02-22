@@ -111,7 +111,5 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 fileprivate func handleShortcutItem(_ item: UIApplicationShortcutItem) {
-    if let quickAction = QuickActions.Action(shortcutItem: item) {
-        dependencies.quickActions.handle(quickAction)
-    }
+    QuickActions.ShortcutItem(shortcutItem: item)?()
 }

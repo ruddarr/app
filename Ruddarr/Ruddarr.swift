@@ -17,8 +17,17 @@ struct Ruddarr: App {
             ContentView()
                 .appWindowFrame()
                 .withAppState()
+                .onOpenURL { url in
+                    do {
+                        try QuickActions.Deeplink(url: url)()
+                    } catch {
+                        dependencies.toast.show(AnyView(Text(error.localizedDescription))) // is this how we handle errors? I thought we had `handleErrors` convenience method on Toast.
+                    }
+                    
+                }
         }
         .windowResizability(.contentSize)
+        
     }
 }
 

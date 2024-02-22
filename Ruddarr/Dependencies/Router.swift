@@ -14,10 +14,10 @@ final class Router {
         moviesPath = .init()
     }
     
-    func goToSearch() {
+    func goToSearch(initialQuery: String = "") {
         selectedTab = .movies
         // if they were already navigated somewhere within movies tab, they lose that.
-        dependencies.router.moviesPath = .init([MoviesView.Path.search()])
+        dependencies.router.moviesPath = .init([MoviesView.Path.search(initialQuery)])
     }
 }
 

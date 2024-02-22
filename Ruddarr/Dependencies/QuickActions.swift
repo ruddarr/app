@@ -2,20 +2,50 @@ import Foundation
 import UIKit
 
 struct QuickActions {
-    var register: () -> Void = {
-        UIApplication.shared.shortcutItems = Action.allCases.map(\.shortcutItem)
+    var registerShortcutItems: () -> Void = {
+        UIApplication.shared.shortcutItems = ShortcutItem.allCases.map(\.shortcutItem)
     }
     
-    var handle: (Action) -> Void = { action in
-        switch action {
-        case .addMovie:
-            dependencies.router.goToSearch()
+    var addMovie: () -> Void = {
+        dependencies.router.goToSearch()
+    }
+    
+    var searchMovieByTMDBID: (Movie.TMDBID) -> Void = { tmbdID in
+        dependencies.router.goToSearch(initialQuery: tmbdID.formatted()) //TODO: what does it mean to search for tmbdID specifically? Is that even doable through the UI, or should we somehow programmatically force a search request?
+    }
+}
+
+extension QuickActions {
+    enum Deeplink {
+        case searchMovie(tmdbID: Movie.TMDBID)
+        
+        func callAsFunction() {
+            switch self {
+            case .searchMovie(let tmbdID):
+                dependencies.quickActions.searchMovieByTMDBID(tmbdID)
+            }
+        }
+    }
+}
+
+extension QuickActions.Deeplink {
+    init(url: URL) throws {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { throw AppError("Unsupported URL")}
+        guard components.scheme == "ruddarr" else { throw AppError("Unsupported URL scheme") }
+        switch components.host {
+        case "searchMovie":
+            guard let tmdbID = components[queryParameter: "tmdbID"].flatMap(Movie.TMDBID.init) else {
+                throw DecodingError.valueNotFound(Movie.TMDBID.self, .init(codingPath: [], debugDescription: "tmbdID not found in searchMovie URL"))
+            }
+            self = .searchMovie(tmdbID: tmdbID)
+        default:
+            throw AppError("Unknown deeplink URL.")
         }
     }
 }
 
 extension QuickActions {
-    enum Action: String, CaseIterable {
+    enum ShortcutItem: String, CaseIterable {
         case addMovie
         
         var title: String {
@@ -30,14 +60,27 @@ extension QuickActions {
                 UIApplicationShortcutIcon(type: .add)
             }
         }
+        
+        func callAsFunction() {
+            switch self {
+            case .addMovie:
+                dependencies.quickActions.addMovie()
+            }
+        }
     }
 }
-extension QuickActions.Action {
+extension QuickActions.ShortcutItem {
     var shortcutItem: UIApplicationShortcutItem {
         UIApplicationShortcutItem(type: rawValue, localizedTitle: title, localizedSubtitle: "", icon: icon)
     }
     
     init?(shortcutItem: UIApplicationShortcutItem) {
         self.init(rawValue: shortcutItem.type)
+    }
+}
+
+fileprivate extension URLComponents {
+    subscript(queryParameter queryParameter:String) -> String? {
+        return queryItems?.first(where: { $0.name == queryParameter })?.value
     }
 }
