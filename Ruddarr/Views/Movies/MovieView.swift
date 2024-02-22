@@ -69,9 +69,8 @@ struct MovieView: View {
                     interactiveSearch
                 }
 
-                Section {
-                    deleteMovieButton
-                }
+                openInLinks
+                deleteMovieButton
             } label: {
                 actionMenuIcon
             }
@@ -131,9 +130,23 @@ struct MovieView: View {
         })
     }
 
+    var openInLinks: some View {
+        Section {
+            if let trailerUrl = MovieContextMenu.youTubeTrailer(movie.youTubeTrailerId) {
+                Link(destination: URL(string: trailerUrl)!, label: {
+                    Label("Watch Trailer", systemImage: "play.tv")
+                })
+            }
+
+            MovieContextMenu(movie: movie)
+        }
+    }
+
     var deleteMovieButton: some View {
-        Button("Delete", systemImage: "trash", role: .destructive) {
-            showDeleteConfirmation = true
+        Section {
+            Button("Delete", systemImage: "trash", role: .destructive) {
+                showDeleteConfirmation = true
+            }
         }
     }
 }
@@ -183,7 +196,7 @@ extension MovieView {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
-    let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
+    let movie = movies.first(where: { $0.id == 44 }) ?? movies[0]
 
     dependencies.router.selectedTab = .movies
 

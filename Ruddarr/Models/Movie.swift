@@ -14,6 +14,7 @@ struct Movie: Identifiable, Codable {
     let runtime: Int
     let overview: String?
     let certification: String?
+    let youTubeTrailerId: String?
 
     let genres: [String]
     let ratings: MovieRatings?
@@ -50,6 +51,7 @@ struct Movie: Identifiable, Codable {
         case runtime
         case overview
         case certification
+        case youTubeTrailerId
         case genres
         case ratings
         case status
