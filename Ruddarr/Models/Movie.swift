@@ -191,8 +191,21 @@ struct MovieFile: Codable {
 
 struct MovieMediaInfo: Codable {
     let audioCodec: String?
+    let audioChannels: Float?
     let videoCodec: String?
     let resolution: String?
+    let videoDynamicRange: String?
+    let subtitles: String?
+
+    var subtitleCodes: [String]? {
+        guard let languages = subtitles else { return nil }
+
+        let codes = Array(Set(
+            languages.components(separatedBy: "/")
+        ))
+
+        return codes.sorted(by: Languages.codeSort)
+    }
 }
 
 struct MovieQualityInfo: Codable {
