@@ -190,6 +190,7 @@ struct MoviesView: View {
         return errorText
     }
 
+    @MainActor
     func fetchMoviesWithAlert(
         ignoreOffline: Bool = false,
         ignoreCancellation: Bool = false
