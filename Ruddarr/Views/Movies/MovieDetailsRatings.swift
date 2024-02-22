@@ -30,11 +30,11 @@ struct MovieDetailsRatings: View {
     @ViewBuilder
     var rotten: some View {
         if let rating = movie.ratings?.rottenTomatoes?.value {
-            HStack(spacing: 6) {
-                Image("rotten").resizable()
+            HStack(spacing: 4) {
+                Image(rating > 60 ? "rt-fresh" : "rt-rotten").resizable()
                     .scaledToFit()
                     .font(.callout)
-                    .frame(height: 14)
+                    .frame(height: rating > 60 ? 14 : 18)
 
                 Text(String(format: "%.0f%%", rating))
                     .lineLimit(1)
@@ -48,7 +48,7 @@ struct MovieDetailsRatings: View {
             HStack(spacing: 6) {
                 Image("imdb").resizable()
                     .scaledToFit()
-                    .frame(height: 12)
+                    .frame(height: 13)
 
                 Text(String(format: "%.1f", rating))
                     .font(.callout)
@@ -60,11 +60,11 @@ struct MovieDetailsRatings: View {
     @ViewBuilder
     var tmdb: some View {
         if let rating = movie.ratings?.tmdb?.value, rating > 0 {
-            HStack(spacing: 6) {
+            HStack(spacing: 4) {
                 Image("tmdb").resizable()
                     .scaledToFit()
                     .font(.callout)
-                    .frame(height: 9)
+                    .frame(height: 12)
 
                 Text(String(format: "%.0f%%", rating * 10))
                     .lineLimit(1)
