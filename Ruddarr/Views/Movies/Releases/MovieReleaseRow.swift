@@ -20,7 +20,7 @@ struct MovieReleaseRow: View {
     var linesStack: some View {
         VStack(alignment: .leading) {
             HStack(spacing: 4) {
-                Text(release.title)
+                Text(release.title.replacingOccurrences(of: ".", with: " "))
                     .font(.headline)
                     .fontWeight(.semibold)
                     .lineLimit(1)
