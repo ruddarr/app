@@ -7,6 +7,9 @@ struct Dependencies {
     @Bindable var router = Router.shared
     @Bindable var toast = Toast()
     var quickActions: QuickActions = .init()
+    
+    // this is an environmentObject but also made available through dependencies for movie lookup by tmbdID (and possibly more)
+    var radarrInstance: RadarrInstance?
 }
 
 extension Dependencies {

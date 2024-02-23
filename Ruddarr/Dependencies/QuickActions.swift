@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SwiftUI
 
 struct QuickActions {
     var registerShortcutItems: () -> Void = {
@@ -10,8 +11,13 @@ struct QuickActions {
         dependencies.router.goToSearch()
     }
     
-    var searchMovieByTMDBID: (Movie.TMDBID) -> Void = { tmbdID in
-        dependencies.router.goToSearch(initialQuery: tmbdID.formatted()) //TODO: what does it mean to search for tmbdID specifically? Is that even doable through the UI, or should we somehow programmatically force a search request?
+    var searchMovieByTMDBID: (Movie.TMDBID) -> Void = { tmdbID in
+        if let movie = dependencies.radarrInstance?.movies.items.first(where: { $0.tmdbId == tmdbID }) {
+            dependencies.router.selectedTab = .movies
+            dependencies.router.moviesPath = .init([MoviesView.Path.movie(movie.id)])
+        } else {
+            dependencies.toast.show(AnyView(Text("Couldn't find movie with tmbdID \(tmdbID)")))
+        }
     }
 }
 
