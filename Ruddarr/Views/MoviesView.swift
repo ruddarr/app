@@ -38,7 +38,7 @@ struct MoviesView: View {
                     }
                     .task(priority: .low) {
                         guard !instance.isVoid else { return }
-                        await fetchMoviesWithAlert(ignoreOffline: true, ignoreCancellation: true)
+                        await fetchMoviesWithAlert(ignoreOffline: true)
                     }
                     .refreshable {
                         await fetchMoviesWithAlert()
@@ -192,15 +192,14 @@ struct MoviesView: View {
 
     @MainActor
     func fetchMoviesWithAlert(
-        ignoreOffline: Bool = false,
-        ignoreCancellation: Bool = false
+        ignoreOffline: Bool = false
     ) async {
         alertPresented = false
         error = nil
 
         _ = await instance.movies.fetch()
 
-        if ignoreCancellation && instance.movies.error is CancellationError {
+        if instance.movies.error is CancellationError {
             return
         }
 
