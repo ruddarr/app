@@ -650,6 +650,9 @@
     "Seeders" : {
 
     },
+    "Series" : {
+
+    },
     "Series Added" : {
 
     },
@@ -693,9 +696,6 @@
 
     },
     "Title" : {
-
-    },
-    "TV Shows" : {
 
     },
     "TV Shows will be added in a few weeks, once the Movies module has been polished and thoroughly tested in TestFlight." : {
