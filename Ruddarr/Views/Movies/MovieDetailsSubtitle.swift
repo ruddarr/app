@@ -7,8 +7,11 @@ struct MovieDetailsSubtitle: View {
         ViewThatFits(in: .horizontal) {
             HStack(spacing: 6) {
                 Text(String(movie.year))
-                Text("•")
-                Text(movie.runtimeLabel)
+
+                if let runtime = movie.runtimeLabel {
+                    Text("•")
+                    Text(runtime)
+                }
 
                 if movie.certification != nil {
                     Text("•")
@@ -18,8 +21,11 @@ struct MovieDetailsSubtitle: View {
 
             HStack(spacing: 6) {
                 Text(String(movie.year))
-                Text("•")
-                Text(movie.runtimeLabel)
+
+                if let runtime = movie.runtimeLabel {
+                    Text("•")
+                    Text(runtime)
+                }
             }
         }
         .font(.callout)

@@ -92,7 +92,9 @@ struct Movie: Identifiable, Codable {
         return "Unwanted"
     }
 
-    var runtimeLabel: String {
+    var runtimeLabel: String? {
+        guard runtime > 0 else { return nil }
+
         let hours = runtime / 60
         let minutes = runtime % 60
 
