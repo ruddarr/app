@@ -60,10 +60,14 @@ struct MovieReleaseRow: View {
 
     var releaseIcon: some View {
         Group {
-            if release.rejected {
-                Image(systemName: "exclamationmark.triangle")
+            if release.isFreeleech {
+                Image(systemName: "f.square")
             } else if !release.indexerFlags.isEmpty {
                 Image(systemName: "flag")
+            }
+
+            if release.rejected {
+                Image(systemName: "exclamationmark.triangle")
             }
         }
         .symbolVariant(.fill)

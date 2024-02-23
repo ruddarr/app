@@ -117,7 +117,7 @@ extension Instance {
             type: .radarr,
             label: ".sample",
             url: "http://10.0.1.5:8310",
-            apiKey: "8f45bce99e254f888b7a2ba122468dbe",
+            apiKey: "3b0600c1b3aa42bfb0222f4e13a81f39",
             rootFolders: [
                 InstanceRootFolders(id: 1, accessible: true, path: "/volume1/Media/Movies", freeSpace: 1_000_000_000),
             ],

@@ -90,6 +90,11 @@ struct MovieRelease: Identifiable, Codable {
         type == "usenet"
     }
 
+    var isFreeleech: Bool {
+        guard indexerFlags.count == 1 else { return false }
+        return cleanIndexerFlags[0].localizedStandardContains("freeleech")
+    }
+
     var cleanIndexerFlags: [String] {
         indexerFlags.map {
             $0.hasPrefix("G_") ? String($0.dropFirst(2)) : $0
