@@ -59,7 +59,7 @@ struct MovieReleasesView: View {
         }
 
         if sort.quality != ".all" {
-            sortedReleases = sortedReleases.filter { $0.quality.quality.name == sort.quality }
+            sortedReleases = sortedReleases.filter { $0.quality.quality.normalizedName == sort.quality }
         }
 
         if sort.approvedOnly {
@@ -177,15 +177,15 @@ extension MovieReleasesView {
 
     var qualityPicker: some View {
         Menu {
-            Picker("Quality Profile", selection: $sort.quality) {
-                Text("All Quality Profiles").tag(".all")
+            Picker("Quality", selection: $sort.quality) {
+                Text("All Qualities").tag(".all")
 
                 ForEach(qualities, id: \.self) { quality in
                     Text(quality).tag(Optional.some(quality))
                 }
             }
         } label: {
-            Label("Quality Profile", systemImage: "film.stack")
+            Label("Quality", systemImage: "film.stack")
         }
     }
 
@@ -202,9 +202,9 @@ extension MovieReleasesView {
         var seen: Set<String> = []
 
         return instance.releases.items
-            .map { $0.quality.quality.name ?? "Unknown" }
+            .sorted { $0.quality.quality.resolution > $1.quality.quality.resolution }
+            .map { $0.quality.quality.normalizedName }
             .filter { seen.insert($0).inserted }
-            .sorted()
     }
 }
 
