@@ -45,7 +45,7 @@ struct MovieSort {
 
         var label: some View {
             switch self {
-            case .all: Label("All", systemImage: "rectangle.stack")
+            case .all: Label("All Movies", systemImage: "rectangle.stack")
             case .monitored: Label("Monitored", systemImage: "bookmark.fill")
             case .unmonitored: Label("Unmonitored", systemImage: "bookmark")
             case .missing: Label("Missing", systemImage: "exclamationmark.magnifyingglass")

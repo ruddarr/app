@@ -164,11 +164,11 @@ extension MovieReleasesView {
     var indexersPicker: some View {
         Menu {
             Picker("Indexer", selection: $sort.indexer) {
+                Text("All Indexers").tag(".all")
+
                 ForEach(indexers, id: \.self) { indexer in
                     Text(indexer).tag(Optional.some(indexer))
                 }
-
-                Text("All Indexers").tag(".all")
             }
         } label: {
             Label("Indexer", systemImage: "building.2")
@@ -178,11 +178,11 @@ extension MovieReleasesView {
     var qualityPicker: some View {
         Menu {
             Picker("Quality Profile", selection: $sort.quality) {
+                Text("All Quality Profiles").tag(".all")
+
                 ForEach(qualities, id: \.self) { quality in
                     Text(quality).tag(Optional.some(quality))
                 }
-
-                Text("All Quality Profiles").tag(".all")
             }
         } label: {
             Label("Quality Profile", systemImage: "film.stack")
