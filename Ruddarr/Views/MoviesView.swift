@@ -3,25 +3,25 @@ import Combine
 
 struct MoviesView: View {
     @AppStorage("movieSort", store: dependencies.store) private var sort: MovieSort = .init()
-
+    
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
-
+    
     @State private var searchQuery = ""
     @State private var searchPresented = false
-
+    
     @State private var error: Error?
     @State private var alertPresented = false
-
+    
     @Environment(\.scenePhase) private var scenePhase
-
+    
     enum Path: Hashable {
         case search(String = "")
         case movie(Movie.ID)
         case edit(Movie.ID)
         case releases(Movie.ID)
     }
-
+    
     var body: some View {
         // swiftlint:disable closure_body_length
         NavigationStack(
@@ -45,10 +45,9 @@ struct MoviesView: View {
                     }
                     .onChange(of: scenePhase) { previous, phase in
                         guard phase == .inactive && previous == .background else { return }
-
                         Task {
                             _ = await instance.movies.fetch()
-
+                            
                             if let model = await instance.fetchMetadata() {
                                 settings.saveInstance(model)
                             }
@@ -61,17 +60,25 @@ struct MoviesView: View {
                 switch $0 {
                 case .search(let query):
                     MovieSearchView(searchQuery: query)
+                        .environment(instance)
+                        .environmentObject(settings)
                 case .movie(let movieId):
                     if let movie = instance.movies.byId(movieId).unwrapped {
                         MovieView(movie: movie)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .edit(let movieId):
                     if let movie = instance.movies.byId(movieId).unwrapped {
                         MovieEditView(movie: movie)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .releases(let movieId):
                     if let movie = instance.movies.byId(movieId).unwrapped {
                         MovieReleasesView(movie: movie)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 }
             }
@@ -85,11 +92,11 @@ struct MoviesView: View {
             }
             .toolbar {
                 toolbarViewOptions
-
+                
                 if settings.radarrInstances.count > 1 {
                     toolbarInstancePicker
                 }
-
+                
                 toolbarSearchButton
             }
             .searchable(
@@ -116,10 +123,10 @@ struct MoviesView: View {
         }
         // swiftlint:enable closure_body_length
     }
-
+    
     var movieItemGrid: some View {
         let gridItemLayout = MovieGridItem.gridItemLayout()
-
+        
         return LazyVGrid(columns: gridItemLayout, spacing: 15) {
             ForEach(displayedMovies) { movie in
                 NavigationLink(value: Path.movie(movie.id)) {
@@ -129,10 +136,10 @@ struct MoviesView: View {
             }
         }
     }
-
+    
     var displayedMovies: [Movie] {
         var movies: [Movie] = instance.movies.items
-
+        
         if !searchQuery.isEmpty {
             let query = searchQuery.lowercased().trimmingCharacters(in: .whitespaces)
 
@@ -141,13 +148,13 @@ struct MoviesView: View {
                 || (movie.studio?.lowercased() ?? "").contains(query)
             }
         }
-
+        
         movies = sort.filter.filtered(movies)
         movies = movies.sorted(by: sort.option.isOrderedBefore)
-
+        
         return sort.isAscending ? movies : movies.reversed()
     }
-
+    
     var noRadarrInstance: some View {
         ContentUnavailableView(
             "No Radarr Instance",
@@ -158,7 +165,7 @@ struct MoviesView: View {
             return .handled
         })
     }
-
+    
     var noSearchResults: some View {
         ContentUnavailableView(
             "No Results for \"\(searchQuery)\"",
@@ -171,7 +178,7 @@ struct MoviesView: View {
             return .handled
         })
     }
-
+    
     var noMatchingMovies: some View {
         ContentUnavailableView(
             "No Movies Match",
@@ -179,27 +186,26 @@ struct MoviesView: View {
             description: Text("No movies match the selected filters.")
         )
     }
-
+    
     var alertErrorMessage: String {
         let errorText = error?.localizedDescription ?? "An unknown error occurred."
-
+        
         if let nsError = error as? NSError,
            let suggestion = nsError.localizedRecoverySuggestion {
             return "\(errorText)\n\n\(suggestion)"
         }
-
+        
         return errorText
     }
-
+    
     @MainActor
     func fetchMoviesWithAlert(
         ignoreOffline: Bool = false
     ) async {
         alertPresented = false
         error = nil
-
+        
         _ = await instance.movies.fetch()
-
         if instance.movies.error is CancellationError {
             return
         }
@@ -207,14 +213,14 @@ struct MoviesView: View {
         if let urlError = instance.movies.error as? URLError, urlError.code == .cancelled {
             return
         }
-
+        
         if instance.movies.error != nil {
             error = instance.movies.error
-
+            
             if ignoreOffline && (instance.movies.error as? URLError)?.code == .notConnectedToInternet {
                 return
             }
-
+            
             alertPresented = instance.movies.error != nil
         }
     }
@@ -231,7 +237,7 @@ extension MoviesView {
             }
         }
     }
-
+    
     @ToolbarContentBuilder
     var toolbarViewOptions: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
@@ -241,7 +247,7 @@ extension MoviesView {
             }
         }
     }
-
+    
     var toolbarFilterButton: some View {
         Menu("Filters", systemImage: "line.3.horizontal.decrease") {
             Picker(selection: $sort.filter, label: Text("Filter options")) {
@@ -251,7 +257,7 @@ extension MoviesView {
             }
         }
     }
-
+    
     var toolbarSortingButton: some View {
         Menu {
             Picker(selection: $sort.option, label: Text("Sorting options")) {
@@ -265,7 +271,7 @@ extension MoviesView {
                 case .byAdded: sort.isAscending = false
                 }
             }
-
+            
             Section {
                 Picker(selection: $sort.isAscending, label: Text("Sorting direction")) {
                     Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
@@ -277,7 +283,7 @@ extension MoviesView {
                 .imageScale(.medium)
         }
     }
-
+    
     @ToolbarContentBuilder
     var toolbarInstancePicker: some ToolbarContent {
         ToolbarItem(placement: .principal) {
@@ -292,9 +298,9 @@ extension MoviesView {
                         instance.switchTo(
                             settings.instanceById(settings.radarrInstanceId!)!
                         )
-
+                        
                         await fetchMoviesWithAlert()
-
+                        
                         if let model = await instance.fetchMetadata() {
                             settings.saveInstance(model)
                         }
@@ -305,7 +311,7 @@ extension MoviesView {
                     Text(settings.radarrInstance?.label ?? "Instance")
                         .fontWeight(.semibold)
                         .tint(.primary)
-
+                    
                     Image(systemName: "chevron.down.circle.fill")
                         .foregroundStyle(.secondary, .tertiarySystemBackground)
                         .font(.system(size: 13))
@@ -319,7 +325,7 @@ extension MoviesView {
     dependencies.api.fetchMovies = { _ in
         throw URLError(.notConnectedToInternet)
     }
-
+    
     return ContentView()
         .withAppState()
 }
@@ -328,7 +334,7 @@ extension MoviesView {
     dependencies.api.fetchMovies = { _ in
         throw URLError(.badServerResponse)
     }
-
+    
     return ContentView()
         .withAppState()
 }
@@ -337,7 +343,7 @@ extension MoviesView {
     dependencies.api.fetchMovies = { _ in
         throw URLError(.timedOut)
     }
-
+    
     return ContentView()
         .withAppState()
 }
