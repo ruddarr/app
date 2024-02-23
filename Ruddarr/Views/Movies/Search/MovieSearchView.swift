@@ -17,7 +17,7 @@ struct MovieSearchView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: 15) {
-                ForEach(instance.lookup.items ?? []) { movie in
+                ForEach(sortedItems) { movie in
                     MovieGridItem(movie: movie)
                         .onTapGesture {
                             isAddingMovie = movie
@@ -72,6 +72,22 @@ struct MovieSearchView: View {
                 }.tint(.secondary)
             } else if noSearchResults {
                 ContentUnavailableView.search(text: searchQuery)
+            }
+        }
+    }
+
+    var sortedItems: [Movie] {
+        let items = instance.lookup.items ?? []
+
+        guard searchSort != .byRelevance else {
+            return items
+        }
+
+        return items.sorted {
+            switch searchSort {
+            case .byRelevance: $0.id < $1.id
+            case .byYear: $0.year < $1.year
+            case .byPopularity: $0.popularity ?? 0 < $1.popularity ?? 0
             }
         }
     }
