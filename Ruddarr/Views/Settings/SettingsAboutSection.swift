@@ -138,7 +138,7 @@ struct SettingsAboutSection: View {
         let address = "ruddarr@icloud.com"
         let subject = "Invite"
 
-        let body = "I have an invite for you, let's talk."
+        let body = "I have an invite for you, show me your tracker ratios, let's talk."
 
         var components = URLComponents()
         components.scheme = "mailto"
