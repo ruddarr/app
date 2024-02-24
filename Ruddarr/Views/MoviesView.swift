@@ -43,8 +43,8 @@ struct MoviesView: View {
                     .refreshable {
                         await fetchMoviesWithAlert()
                     }
-                    .onChange(of: scenePhase) { newPhase, oldPhase in
-                        guard newPhase == .background && oldPhase == .inactive else { return }
+                    .onChange(of: scenePhase) { previous, phase in
+                        guard phase == .inactive && previous == .background else { return }
 
                         Task {
                             _ = await instance.movies.fetch()
