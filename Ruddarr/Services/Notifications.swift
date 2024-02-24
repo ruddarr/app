@@ -28,12 +28,20 @@ class Notifications {
 
     func registerDevice(_ token: String) async {
         do {
-            let account = try? await CKContainer.default().userRecordID().recordName
+            let account = (try? await CKContainer.default().userRecordID().recordName) ?? ""
 
             let payload: [String: String] = [
-                "account": account ?? "",
+                "account": account,
                 "token": token,
             ]
+
+            let hashedToken = "\(account):\(token)"
+            let storedToken = UserDefaults.standard.string(forKey: "registeredDeviceToken")
+
+            if storedToken == hashedToken {
+                leaveBreadcrumb(.info, category: "notifications", message: "Device already registered", data: payload)
+                return
+            }
 
             let body = try JSONSerialization.data(withJSONObject: payload)
 
@@ -52,6 +60,8 @@ class Notifications {
             if statusCode >= 400 {
                 throw AppError("Bad status code: \(statusCode)")
             }
+
+            UserDefaults.standard.set(hashedToken, forKey: "registeredDeviceToken")
 
             if let data = String(data: json, encoding: .utf8) {
                 leaveBreadcrumb(.info, category: "notifications", message: "Device registered", data: ["status": statusCode, "response": data])
