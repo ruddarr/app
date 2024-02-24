@@ -23,10 +23,16 @@ struct QuickActions {
 
 extension QuickActions {
     enum Deeplink {
+        case openApp
+        case addMovie
         case searchMovie(tmdbID: Movie.TMDBID)
 
         func callAsFunction() {
             switch self {
+            case .openApp:
+                break
+            case .addMovie:
+                dependencies.quickActions.addMovie()
             case .searchMovie(let tmbdID):
                 dependencies.quickActions.searchMovieByTMDBID(tmbdID)
             }
@@ -36,17 +42,25 @@ extension QuickActions {
 
 extension QuickActions.Deeplink {
     init(url: URL) throws {
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { throw AppError("Unsupported URL")}
-        guard components.scheme == "ruddarr" else { throw AppError("Unsupported URL scheme") }
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            throw AppError("Unsupported URL: \(url.absoluteString)")
+        }
 
-        switch components.host {
-        case "searchMovie":
+        let action = (components.host ?? "") + components.path
+
+        switch action.untrailingSlashIt {
+        case "", "open":
+            self = .openApp
+        case "movies/add":
+            self = .addMovie
+        case "movies/search":
             guard let tmdbID = components[queryParameter: "tmdbID"].flatMap(Movie.TMDBID.init) else {
                 throw DecodingError.valueNotFound(Movie.TMDBID.self, .init(codingPath: [], debugDescription: "tmbdID not found in searchMovie URL"))
             }
+
             self = .searchMovie(tmdbID: tmdbID)
         default:
-            throw AppError("Unknown deeplink URL.")
+            throw AppError("Unsupported URL: \(url.absoluteString)")
         }
     }
 }
@@ -57,22 +71,19 @@ extension QuickActions {
 
         var title: String {
             switch self {
-            case .addMovie:
-                "Add Movie"
+            case .addMovie: "Add New Movie"
             }
         }
 
         var icon: UIApplicationShortcutIcon {
             switch self {
-            case .addMovie:
-                UIApplicationShortcutIcon(type: .add)
+            case .addMovie: UIApplicationShortcutIcon(type: .search)
             }
         }
 
         func callAsFunction() {
             switch self {
-            case .addMovie:
-                dependencies.quickActions.addMovie()
+            case .addMovie: dependencies.quickActions.addMovie()
             }
         }
     }
@@ -80,7 +91,7 @@ extension QuickActions {
 
 extension QuickActions.ShortcutItem {
     var shortcutItem: UIApplicationShortcutItem {
-        UIApplicationShortcutItem(type: rawValue, localizedTitle: title, localizedSubtitle: "", icon: icon)
+        UIApplicationShortcutItem(type: rawValue, localizedTitle: title, localizedSubtitle: nil, icon: icon)
     }
 
     init?(shortcutItem: UIApplicationShortcutItem) {
