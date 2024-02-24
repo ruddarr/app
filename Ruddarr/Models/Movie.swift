@@ -4,7 +4,10 @@ struct Movie: Identifiable, Codable {
     var id: Int { movieId ?? tmdbId }
 
     var movieId: Int?
-    // We have many different IDs, so I would personally make them typesafe using https://github.com/pointfreeco/swift-tagged , but for now I just did an unsafe typealias. Feel free to delete the comment.
+
+    // We have many different IDs, so I would personally make them typesafe
+    // using https://github.com/pointfreeco/swift-tagged
+    // but for now I just did an unsafe typealias. Feel free to delete the comment.
     typealias TMDBID = Int
     let tmdbId: TMDBID
     let imdbId: String?

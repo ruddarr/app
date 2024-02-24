@@ -37,8 +37,8 @@ private struct WithAppStateModifier: ViewModifier {
         let settings = AppSettings()
         let instance = settings.radarrInstance ?? Instance.void
         let radarrInstance = RadarrInstance(instance)
-        let _ = dependencies.radarrInstance = radarrInstance //!!! side-effect
-        
+        let _ = dependencies.radarrInstance = radarrInstance // !!! side-effect
+
         content
             .tint(theme.tint)
             .preferredColorScheme(appearance.preferredColorScheme)
@@ -53,7 +53,7 @@ private struct WithSettingsModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         let settings = AppSettings()
-        
+
         content
             .tint(theme.tint)
             .preferredColorScheme(appearance.preferredColorScheme)

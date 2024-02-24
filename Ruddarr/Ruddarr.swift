@@ -21,13 +21,12 @@ struct Ruddarr: App {
                     do {
                         try QuickActions.Deeplink(url: url)()
                     } catch {
-                        dependencies.toast.show(AnyView(Text(error.localizedDescription))) // is this how we handle errors? I thought we had `handleErrors` convenience method on Toast.
+                        // is this how we handle errors? I thought we had `handleErrors` convenience method on Toast.
+                        dependencies.toast.show(AnyView(Text(error.localizedDescription)))
                     }
-                    
                 }
         }
         .windowResizability(.contentSize)
-        
     }
 }
 
