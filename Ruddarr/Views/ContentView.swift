@@ -23,7 +23,7 @@ struct ContentView: View {
             NavigationSplitView(
                 columnVisibility: $columnVisibility,
                 sidebar: {
-                    sidebar.background(.ultraThinMaterial)
+                    sidebar
                 },
                 detail: {
                     screen(for: dependencies.router.selectedTab)
