@@ -17,8 +17,17 @@ struct Ruddarr: App {
             ContentView()
                 .appWindowFrame()
                 .withAppState()
+                .onOpenURL(perform: openDeeplink)
         }
         .windowResizability(.contentSize)
+    }
+
+    func openDeeplink(url: URL) {
+        do {
+            try QuickActions.Deeplink(url: url)()
+        } catch {
+            dependencies.toast.show(.error(error.localizedDescription))
+        }
     }
 }
 

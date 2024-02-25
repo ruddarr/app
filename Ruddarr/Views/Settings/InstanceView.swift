@@ -40,8 +40,8 @@ struct InstanceView: View {
         .onChange(of: instanceNotifications) {
             Task { await notificationsToggled() }
         }
-        .onChange(of: scenePhase) { new, old in
-            if new == .inactive && old == .active {
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
                 Task { await setup() }
             }
         }

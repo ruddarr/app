@@ -37,8 +37,8 @@ struct ContentView: View {
             .onReceive(orientationChangePublisher) { _ in
                 handleOrientationChange()
             }
-            .onChange(of: scenePhase) { new, old in
-                handleScenePhaseChange(new, old)
+            .onChange(of: scenePhase) { previous, phase in
+                handleScenePhaseChange(phase, previous)
             }
         } else {
             TabView(selection: dependencies.$router.selectedTab.onSet {
@@ -69,8 +69,8 @@ struct ContentView: View {
                 }
                 .padding(.horizontal, 4)
             }
-            .onChange(of: scenePhase) { new, old in
-                handleScenePhaseChange(new, old)
+            .onChange(of: scenePhase) { previous, phase in
+                handleScenePhaseChange(phase, previous)
             }
         }
     }
@@ -143,9 +143,13 @@ struct ContentView: View {
         }
     }
 
-    func handleScenePhaseChange(_ new: ScenePhase, _ old: ScenePhase) {
-        if new == .inactive && old == .active {
+    func handleScenePhaseChange(_ phase: ScenePhase, _ previous: ScenePhase) {
+        if phase == .active && previous == .inactive {
             Telemetry.shared.maybeUploadTelemetry(settings: settings)
+        }
+
+        if phase == .background {
+            addQuickActions()
         }
     }
 
@@ -156,6 +160,10 @@ struct ContentView: View {
             isPortrait = windowScene.interfaceOrientation.isPortrait
             columnVisibility = isPortrait ? .detailOnly : .doubleColumn
         }
+    }
+
+    func addQuickActions() {
+        QuickActions().registerShortcutItems()
     }
 }
 
