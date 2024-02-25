@@ -196,8 +196,8 @@
 				798010B92B61719C00BBC056 /* Router.swift */,
 				796C766C2B62A3B700EF3DB8 /* Store.swift */,
 				79B761CA2B7115EC001DD30E /* Toast.swift */,
-				79159D6B2B5953D700F7F997 /* Dependencies.swift */,
 				790D1EC42B864EC700FCDB64 /* QuickActions.swift */,
+				79159D6B2B5953D700F7F997 /* Dependencies.swift */,
 			);
 			path = Dependencies;
 			sourceTree = "<group>";

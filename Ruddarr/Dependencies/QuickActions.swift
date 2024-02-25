@@ -8,7 +8,8 @@ struct QuickActions {
     }
 
     var addMovie: () -> Void = {
-        dependencies.router.goToSearch()
+        dependencies.router.selectedTab = .movies
+        dependencies.router.moviesPath = .init([MoviesView.Path.search()])
     }
 
     var searchMovieByTMDBID: (Movie.TMDBID) -> Void = { tmdbID in
@@ -16,7 +17,7 @@ struct QuickActions {
             dependencies.router.selectedTab = .movies
             dependencies.router.moviesPath = .init([MoviesView.Path.movie(movie.id)])
         } else {
-            dependencies.toast.show(AnyView(Text("Couldn't find movie with tmbdID \(tmdbID)")))
+            dependencies.toast.show(.error("Couldn't find movie with tmbdID \(tmdbID)"))
         }
     }
 }
@@ -77,7 +78,7 @@ extension QuickActions {
 
         var icon: UIApplicationShortcutIcon {
             switch self {
-            case .addMovie: UIApplicationShortcutIcon(type: .search)
+            case .addMovie: UIApplicationShortcutIcon(type: .add)
             }
         }
 

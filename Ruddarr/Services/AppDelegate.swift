@@ -101,7 +101,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             handleShortcutItem(shortcutItem)
         }
 
-        let sceneConfiguration = UISceneConfiguration(name: "Scene Configuration", sessionRole: connectingSceneSession.role)
+        let sceneConfiguration = UISceneConfiguration(
+            name: "Scene Configuration",
+            sessionRole: connectingSceneSession.role
+        )
+
         sceneConfiguration.delegateClass = SceneDelegate.self
 
         return sceneConfiguration
