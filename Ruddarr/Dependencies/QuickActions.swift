@@ -12,20 +12,26 @@ struct QuickActions {
         dependencies.router.moviesPath = .init([MoviesView.Path.search()])
     }
 
-    var openMovieId: Movie.ID?
-
-    var openMovie: (Movie.TMDBID) -> Void = { tmdbId in
-        dependencies.quickActions.openMovieId = tmdbId
-        dependencies.router.selectedTab = .movies
-        dependencies.router.moviesPath = .init()
-    }
+    // var openMovieId: Movie.ID?
+    //
+    // var openMovie: (Movie.TMDBID) -> Void = { tmdbId in
+    //    dependencies.quickActions.openMovieId = tmdbId
+    //    dependencies.router.selectedTab = .movies
+    //    dependencies.router.moviesPath = .init()
+    // }
+    //
+    // We can use `.onChange(of: scenePhase)` in `MoviesView`
+    // 
+    // if let id = dependencies.quickActions.openMovieId {
+    //     dependencies.quickActions.openMovieId = nil
+    // }
 }
 
 extension QuickActions {
     enum Deeplink {
         case openApp
         case searchMovies
-        case openMovie(tmdbId: Movie.TMDBID)
+        // case openMovie(tmdbId: Movie.TMDBID)
 
         func callAsFunction() {
             switch self {
@@ -33,13 +39,15 @@ extension QuickActions {
                 break
             case .searchMovies:
                 dependencies.quickActions.searchMovies()
-            case .openMovie(let tmbdId):
-                dependencies.quickActions.openMovie(tmbdId)
+            // case .openMovie(let tmbdId):
+            //    dependencies.quickActions.openMovie(tmbdId)
             }
         }
     }
 }
 
+// [public] ruddarr://open
+// [public] ruddarr://movies/search
 extension QuickActions.Deeplink {
     init(url: URL) throws {
         let unsupportedURL = AppError("Unsupported URL: \(url.absoluteString)")
@@ -55,12 +63,12 @@ extension QuickActions.Deeplink {
             self = .openApp
         case "movies/search":
             self = .searchMovies
-        case _ where action.hasPrefix("movies/open"):
-            guard let tmdbId = Int(action.components(separatedBy: "/")[2]) else {
-                throw unsupportedURL
-            }
-
-            self = .openMovie(tmdbId: tmdbId)
+        // case _ where action.hasPrefix("movies/open"):
+        //    guard let tmdbId = Int(action.components(separatedBy: "/")[2]) else {
+        //        throw unsupportedURL
+        //    }
+        //
+        //    self = .openMovie(tmdbId: tmdbId)
         default:
             throw unsupportedURL
         }
