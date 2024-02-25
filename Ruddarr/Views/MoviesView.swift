@@ -203,6 +203,10 @@ struct MoviesView: View {
             return
         }
 
+        if let urlError = instance.movies.error as? URLError, urlError.code == .cancelled {
+            return
+        }
+
         if instance.movies.error != nil {
             error = instance.movies.error
 
