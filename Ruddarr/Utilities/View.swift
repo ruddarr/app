@@ -35,15 +35,13 @@ private struct WithAppStateModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         let settings = AppSettings()
-        let instance = settings.radarrInstance ?? Instance.void
-        let radarrInstance = RadarrInstance(instance)
-        let _ = dependencies.radarrInstance = radarrInstance // !!! side-effect
+        let radarrInstance = settings.radarrInstance ?? Instance.void
 
         content
             .tint(theme.tint)
             .preferredColorScheme(appearance.preferredColorScheme)
             .environmentObject(settings)
-            .environment(radarrInstance)
+            .environment(RadarrInstance(radarrInstance))
     }
 }
 

@@ -7,35 +7,34 @@ struct QuickActions {
         UIApplication.shared.shortcutItems = ShortcutItem.allCases.map(\.shortcutItem)
     }
 
-    var addMovie: () -> Void = {
+    var searchMovies: () -> Void = {
         dependencies.router.selectedTab = .movies
         dependencies.router.moviesPath = .init([MoviesView.Path.search()])
     }
 
-    var searchMovieByTMDBID: (Movie.TMDBID) -> Void = { tmdbID in
-        if let movie = dependencies.radarrInstance?.movies.items.first(where: { $0.tmdbId == tmdbID }) {
-            dependencies.router.selectedTab = .movies
-            dependencies.router.moviesPath = .init([MoviesView.Path.movie(movie.id)])
-        } else {
-            dependencies.toast.show(.error("Couldn't find movie with tmbdID \(tmdbID)"))
-        }
+    var openMovieId: Movie.ID?
+
+    var openMovie: (Movie.TMDBID) -> Void = { tmdbId in
+        dependencies.quickActions.openMovieId = tmdbId
+        dependencies.router.selectedTab = .movies
+        dependencies.router.moviesPath = .init()
     }
 }
 
 extension QuickActions {
     enum Deeplink {
         case openApp
-        case addMovie
-        case searchMovie(tmdbID: Movie.TMDBID)
+        case searchMovies
+        case openMovie(tmdbId: Movie.TMDBID)
 
         func callAsFunction() {
             switch self {
             case .openApp:
                 break
-            case .addMovie:
-                dependencies.quickActions.addMovie()
-            case .searchMovie(let tmbdID):
-                dependencies.quickActions.searchMovieByTMDBID(tmbdID)
+            case .searchMovies:
+                dependencies.quickActions.searchMovies()
+            case .openMovie(let tmbdId):
+                dependencies.quickActions.openMovie(tmbdId)
             }
         }
     }
@@ -43,25 +42,27 @@ extension QuickActions {
 
 extension QuickActions.Deeplink {
     init(url: URL) throws {
+        let unsupportedURL = AppError("Unsupported URL: \(url.absoluteString)")
+
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            throw AppError("Unsupported URL: \(url.absoluteString)")
+            throw unsupportedURL
         }
 
-        let action = (components.host ?? "") + components.path
+        let action = (components.host ?? "") + (components.path.untrailingSlashIt ?? "")
 
-        switch action.untrailingSlashIt {
+        switch action {
         case "", "open":
             self = .openApp
-        case "movies/add":
-            self = .addMovie
         case "movies/search":
-            guard let tmdbID = components[queryParameter: "tmdbID"].flatMap(Movie.TMDBID.init) else {
-                throw DecodingError.valueNotFound(Movie.TMDBID.self, .init(codingPath: [], debugDescription: "tmbdID not found in searchMovie URL"))
+            self = .searchMovies
+        case _ where action.hasPrefix("movies/open"):
+            guard let tmdbId = Int(action.components(separatedBy: "/")[2]) else {
+                throw unsupportedURL
             }
 
-            self = .searchMovie(tmdbID: tmdbID)
+            self = .openMovie(tmdbId: tmdbId)
         default:
-            throw AppError("Unsupported URL: \(url.absoluteString)")
+            throw unsupportedURL
         }
     }
 }
@@ -84,7 +85,7 @@ extension QuickActions {
 
         func callAsFunction() {
             switch self {
-            case .addMovie: dependencies.quickActions.addMovie()
+            case .addMovie: dependencies.quickActions.searchMovies()
             }
         }
     }
@@ -97,11 +98,5 @@ extension QuickActions.ShortcutItem {
 
     init?(shortcutItem: UIApplicationShortcutItem) {
         self.init(rawValue: shortcutItem.type)
-    }
-}
-
-fileprivate extension URLComponents {
-    subscript(queryParameter queryParameter: String) -> String? {
-        queryItems?.first(where: { $0.name == queryParameter })?.value
     }
 }
