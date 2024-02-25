@@ -58,7 +58,7 @@ struct MovieSearchView: View {
             Text(error.localizedDescription)
         }
         .overlay {
-            let noSearchResults = instance.lookup.items?.isEmpty ?? true
+            let noSearchResults = instance.lookup.items?.count == 0 && !searchQuery.isEmpty
 
             if instance.lookup.isSearching && noSearchResults {
                 ProgressView {
