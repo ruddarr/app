@@ -155,7 +155,7 @@ struct InstanceEditView: View {
 
                 settings.deleteInstance(instance)
 
-                dismiss()
+                dependencies.router.settingsPath = .init()
             }
             Button("Cancel", role: .cancel) { }
         } message: {
