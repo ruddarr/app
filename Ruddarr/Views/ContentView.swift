@@ -6,6 +6,7 @@ struct ContentView: View {
 
     @State private var isPortrait = false
     @State private var columnVisibility: NavigationSplitViewVisibility = .doubleColumn
+    @State private var showTabViewOverlay: Bool = true
 
     private let orientationChangePublisher = NotificationCenter.default.publisher(
         for: UIDevice.orientationDidChangeNotification
@@ -58,19 +59,26 @@ struct ContentView: View {
             .overlay(alignment: .bottom) { // the default `tabItem`s are hidden, display our own
                 let columns: [GridItem] = Array(repeating: .init(.flexible()), count: Tab.allCases.count)
 
-                LazyVGrid(columns: columns) {
-                    ForEach(Tab.allCases) { tab in
-                        tab.stack
-                            .foregroundStyle(
-                                dependencies.router.selectedTab == tab ? settings.theme.tint : .gray
-                            )
-                            .onTapGesture { dependencies.router.selectedTab = tab }
+                if showTabViewOverlay {
+                    LazyVGrid(columns: columns) {
+                        ForEach(Tab.allCases) { tab in
+                            tab.stack
+                                .foregroundStyle(
+                                    dependencies.router.selectedTab == tab ? settings.theme.tint : .gray
+                                )
+                                .onTapGesture { dependencies.router.selectedTab = tab }
+                        }
                     }
+                    .padding(.horizontal, 4)
                 }
-                .padding(.horizontal, 4)
             }
             .onChange(of: scenePhase) { previous, phase in
                 handleScenePhaseChange(phase, previous)
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
+                showTabViewOverlay = false
+            }.onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+                showTabViewOverlay = true
             }
         }
     }
