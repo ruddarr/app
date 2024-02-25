@@ -37,6 +37,7 @@ struct MovieSearchView: View {
             isPresented: $presentingSearch,
             placement: .navigationBarDrawer(displayMode: .always)
         )
+        .disabled(instance.isVoid)
         .onChange(of: searchQuery) {
             searchTextPublisher.send(searchQuery)
         }
