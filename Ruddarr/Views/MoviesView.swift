@@ -134,10 +134,11 @@ struct MoviesView: View {
         var movies: [Movie] = instance.movies.items
 
         if !searchQuery.isEmpty {
+            let query = searchQuery.lowercased().trimmingCharacters(in: .whitespaces)
+
             movies = movies.filter { movie in
-                movie.title.localizedCaseInsensitiveContains(
-                    searchQuery.trimmingCharacters(in: .whitespaces)
-                )
+                movie.sortTitle.contains(query)
+                || (movie.studio?.lowercased() ?? "").contains(query)
             }
         }
 
