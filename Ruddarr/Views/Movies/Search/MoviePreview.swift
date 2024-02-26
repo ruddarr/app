@@ -79,7 +79,7 @@ struct MoviePreview: View {
             .lineLimit(descriptionTruncated ? 4 : nil)
             .padding(.bottom)
             .onTapGesture {
-                withAnimation { descriptionTruncated.toggle() }
+                withAnimation { descriptionTruncated = false }
             }
     }
 
