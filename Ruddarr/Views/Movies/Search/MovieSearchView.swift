@@ -74,8 +74,6 @@ struct MovieSearchView: View {
             }
         }
     }
-
-    
 }
 
 #Preview {
