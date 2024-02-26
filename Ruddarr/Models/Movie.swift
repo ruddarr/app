@@ -138,7 +138,7 @@ struct Movie: Identifiable, Codable {
         case .tba, .announced:
             true // status == .announced && digitalRelease <= today
         case .inCinemas:
-            minimumAvailability != .released
+            minimumAvailability == .released
         case .released, .deleted:
             false
         }
