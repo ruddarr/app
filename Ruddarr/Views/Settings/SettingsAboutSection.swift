@@ -4,7 +4,7 @@ import CloudKit
 import Foundation
 
 struct SettingsAboutSection: View {
-    private let shareUrl = URL(string: "https://ruddarr.com")!
+    private let shareUrl = URL(string: "https://testflight.apple.com/join/WbWNuoos")!
     private let githubUrl = URL(string: "https://github.com/ruddarr/app")!
     private let reviewUrl = URL(string: "itms-apps://itunes.apple.com/app/????????")!
 
