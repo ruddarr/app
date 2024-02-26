@@ -12,12 +12,11 @@ struct MovieSearchView: View {
     let searchTextPublisher = PassthroughSubject<String, Never>()
     let gridItemLayout = MovieGridItem.gridItemLayout()
 
-    @State var searchSort: MovieLookup.SortOption = .byRelevance
-
     var body: some View {
+        @Bindable var movieLookup = instance.lookup
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: 15) {
-                ForEach(sortedItems) { movie in
+                ForEach(movieLookup.sortedItems) { movie in
                     MovieGridItem(movie: movie)
                         .onTapGesture {
                             isAddingMovie = movie
@@ -39,7 +38,7 @@ struct MovieSearchView: View {
             isPresented: $presentingSearch,
             placement: .navigationBarDrawer(displayMode: .always)
         )
-        .searchScopes($searchSort) {
+        .searchScopes($movieLookup.sort) {
             ForEach(MovieLookup.SortOption.allCases) { option in
                 Text(option.rawValue)
             }
@@ -76,21 +75,7 @@ struct MovieSearchView: View {
         }
     }
 
-    var sortedItems: [Movie] {
-        let items = instance.lookup.items ?? []
-
-        guard searchSort != .byRelevance else {
-            return items
-        }
-
-        return items.sorted {
-            switch searchSort {
-            case .byRelevance: $0.id < $1.id
-            case .byYear: $0.year < $1.year
-            case .byPopularity: $0.popularity ?? 0 < $1.popularity ?? 0
-            }
-        }
-    }
+    
 }
 
 #Preview {

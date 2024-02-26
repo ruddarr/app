@@ -45,3 +45,22 @@ class MovieLookup {
         isSearching = false
     }
 }
+
+// consider caching this for performance
+extension MovieLookup {
+    var sortedItems: [Movie] {
+        let items = items ?? []
+
+        guard sort != .byRelevance else {
+            return items
+        }
+
+        return items.sorted {
+            switch sort {
+            case .byRelevance: $0.id < $1.id
+            case .byYear: $0.year < $1.year
+            case .byPopularity: $0.popularity ?? 0 < $1.popularity ?? 0
+            }
+        }
+    }
+}
