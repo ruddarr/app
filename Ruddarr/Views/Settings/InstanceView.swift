@@ -66,8 +66,11 @@ struct InstanceView: View {
     var instanceDetails: some View {
         Section {
             LabeledContent("Label", value: instance.label)
+
             LabeledContent("Type", value: instance.type.rawValue)
+
             LabeledContent("URL", value: instance.url)
+                .textSelection(.enabled)
         }
     }
 
@@ -82,6 +85,7 @@ struct InstanceView: View {
                 }
                 .lineLimit(1)
                 .truncationMode(.middle)
+                .textSelection(.enabled)
             }
         }
     }
