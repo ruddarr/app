@@ -78,7 +78,7 @@ struct InstanceView: View {
                     Text(header.value)
                         .lineLimit(1)
                         .truncationMode(.head)
-                        .frame(maxWidth: 92)
+                        .frame(maxWidth: 92, alignment: .trailing)
                 }
                 .lineLimit(1)
                 .truncationMode(.middle)
