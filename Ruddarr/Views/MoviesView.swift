@@ -104,6 +104,10 @@ struct MoviesView: View {
             .alert("Something Went Wrong", isPresented: $alertPresented) {
                 Button("OK", role: .cancel) { }
             } message: {
+                if alertErrorMessage == "cancelled" {
+                    let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MoviesView")
+                }
+
                 Text(alertErrorMessage)
             }
             .overlay {

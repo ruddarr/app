@@ -35,6 +35,10 @@ struct MovieReleaseSheet: View {
         ) { _ in
             Button("OK", role: .cancel) { }
         } message: { error in
+            if error.localizedDescription == "cancelled" {
+                let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MovieReleaseSheet")
+            }
+
             Text(error.localizedDescription)
         }
     }

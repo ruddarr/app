@@ -36,6 +36,10 @@ struct MovieReleasesView: View {
         ) { _ in
             Button("OK", role: .cancel) { }
         } message: { error in
+            if error.localizedDescription == "cancelled" {
+                let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MovieReleasesView")
+            }
+
             Text(error.localizedDescription)
         }
         .overlay {
