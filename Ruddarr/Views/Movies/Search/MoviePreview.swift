@@ -138,6 +138,8 @@ struct MoviePreview: View {
             fatalError("Failed to locate added movie by tmdbId")
         }
 
+        instance.lookup.reset()
+
         let moviePath = MoviesView.Path.movie(addedMovie.id)
 
         dismiss()

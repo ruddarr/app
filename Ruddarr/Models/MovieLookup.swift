@@ -23,6 +23,10 @@ class MovieLookup {
         case byPopularity = "Popularity"
     }
 
+    func reset() {
+        items = nil
+    }
+
     func search(query: String) async {
         error = nil
 
@@ -44,10 +48,8 @@ class MovieLookup {
 
         isSearching = false
     }
-}
 
-// consider caching this for performance
-extension MovieLookup {
+    // consider caching this for performance
     var sortedItems: [Movie] {
         let items = items ?? []
 
