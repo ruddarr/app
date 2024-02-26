@@ -4,6 +4,7 @@ import SwiftUI
 struct MovieSearchSheet: View {
     @State var movie: Movie
 
+    @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
@@ -14,10 +15,14 @@ struct MovieSearchSheet: View {
                 if movie.exists {
                     ScrollView {
                         MovieDetails(movie: movie)
+                            .environment(instance)
+                            .environmentObject(settings)
                             .scenePadding(.horizontal)
                     }
                 } else {
                     MoviePreview(movie: $movie)
+                        .environment(instance)
+                        .environmentObject(settings)
                 }
             }
             .toolbar {

@@ -61,17 +61,21 @@ struct MoviesView: View {
                 switch $0 {
                 case .search(let query):
                     MovieSearchView(searchQuery: query)
+                        .environment(instance).environmentObject(settings)
                 case .movie(let movieId):
                     if let movie = instance.movies.byId(movieId).unwrapped {
                         MovieView(movie: movie)
+                            .environment(instance).environmentObject(settings)
                     }
                 case .edit(let movieId):
                     if let movie = instance.movies.byId(movieId).unwrapped {
                         MovieEditView(movie: movie)
+                            .environment(instance).environmentObject(settings)
                     }
                 case .releases(let movieId):
                     if let movie = instance.movies.byId(movieId).unwrapped {
                         MovieReleasesView(movie: movie)
+                            .environment(instance).environmentObject(settings)
                     }
                 }
             }
