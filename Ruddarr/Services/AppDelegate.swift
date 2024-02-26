@@ -20,6 +20,25 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         return true
     }
 
+    func application(
+        _ application: UIApplication,
+        configurationForConnecting connectingSceneSession: UISceneSession,
+        options: UIScene.ConnectionOptions
+    ) -> UISceneConfiguration {
+        if let shortcutItem = options.shortcutItem {
+            handleShortcutItem(shortcutItem)
+        }
+
+        let sceneConfiguration = UISceneConfiguration(
+            name: "Scene Configuration",
+            sessionRole: connectingSceneSession.role
+        )
+
+        sceneConfiguration.delegateClass = SceneDelegate.self
+
+        return sceneConfiguration
+    }
+
     func didReceive(_ payloads: [MXMetricPayload]) {
         guard let firstPayload = payloads.first else { return }
         print(firstPayload.dictionaryRepresentation())
@@ -90,25 +109,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         configuration.logHandler = LogHandler.stdout(.error)
 
         TelemetryManager.initialize(with: configuration)
-    }
-
-    func application(
-        _ application: UIApplication,
-        configurationForConnecting connectingSceneSession: UISceneSession,
-        options: UIScene.ConnectionOptions
-    ) -> UISceneConfiguration {
-        if let shortcutItem = options.shortcutItem {
-            handleShortcutItem(shortcutItem)
-        }
-
-        let sceneConfiguration = UISceneConfiguration(
-            name: "Scene Configuration",
-            sessionRole: connectingSceneSession.role
-        )
-
-        sceneConfiguration.delegateClass = SceneDelegate.self
-
-        return sceneConfiguration
     }
 }
 

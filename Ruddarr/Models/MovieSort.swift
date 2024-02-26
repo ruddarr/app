@@ -2,7 +2,6 @@ import SwiftUI
 
 struct MovieSort {
     var isAscending: Bool = false
-
     var option: Option = .byAdded
     var filter: Filter = .all
 
