@@ -127,7 +127,7 @@ extension MovieReleasesView {
 
             Section {
                 Toggle("Only Approved", systemImage: "checkmark.seal", isOn: $sort.approvedOnly)
-                Toggle("Only FreeLeech", systemImage: "flag", isOn: $sort.freeleechOnly)
+                Toggle("Only FreeLeech", systemImage: "f.square", isOn: $sort.freeleechOnly)
             }
         }
     }
