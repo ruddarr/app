@@ -139,7 +139,7 @@ struct MovieDetails: View {
             label = label.replacingOccurrences(of: "2160p", with: "4K")
             label = label.replacingOccurrences(of: "4320p", with: "8K")
 
-            if let dynamicRange = movie.movieFile?.mediaInfo.videoDynamicRange {
+            if let dynamicRange = movie.movieFile?.mediaInfo.videoDynamicRange, !dynamicRange.isEmpty {
                 label += " \(dynamicRange)"
             }
         }
