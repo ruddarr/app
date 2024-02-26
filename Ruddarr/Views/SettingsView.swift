@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var settings: AppSettings
+    @Environment(RadarrInstance.self) var instance
 
     enum Path: Hashable {
         case icons
@@ -25,21 +26,30 @@ struct SettingsView: View {
                 switch $0 {
                 case .icons:
                     IconsView()
+                        .environmentObject(settings)
+                        .environment(instance)
 
                 case .libraries:
                     LibrariesView()
-
+                        .environmentObject(settings)
+                        .environment(instance)
                 case .createInstance:
                     InstanceEditView(mode: .create, instance: Instance())
+                        .environmentObject(settings)
+                        .environment(instance)
 
                 case .viewInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
                         InstanceView(instance: instance)
+                            .environmentObject(settings)
+                            .environment(self.instance)
                     }
 
                 case .editInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
                         InstanceEditView(mode: .update, instance: instance)
+                            .environmentObject(settings)
+                            .environment(self.instance)
                     }
                 }
             }
