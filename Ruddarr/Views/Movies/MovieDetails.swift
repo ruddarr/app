@@ -116,14 +116,14 @@ struct MovieDetails: View {
                     informationRow("In Cinemas", value: inCinemas.formatted(.dateTime.day().month().year()))
                 }
 
-                if let physicalRelease = movie.physicalRelease {
-                    Divider()
-                    informationRow("Physical Release", value: physicalRelease.formatted(.dateTime.day().month().year()))
-                }
-
                 if let digitalRelease = movie.digitalRelease {
                     Divider()
                     informationRow("Digital Release", value: digitalRelease.formatted(.dateTime.day().month().year()))
+                }
+
+                if let physicalRelease = movie.physicalRelease {
+                    Divider()
+                    informationRow("Physical Release", value: physicalRelease.formatted(.dateTime.day().month().year()))
                 }
             }
         }
