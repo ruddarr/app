@@ -46,6 +46,7 @@
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>youtube</string>
 		<string>imdb</string>
 		<string>letterboxd</string>
 		<string>callsheet</string>
