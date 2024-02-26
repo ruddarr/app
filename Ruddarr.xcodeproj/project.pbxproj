@@ -303,7 +303,9 @@
 				BBE828552B4F2C7000C1E1D9 /* Ruddarr */,
 				BBE828542B4F2C7000C1E1D9 /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		BBE828542B4F2C7000C1E1D9 /* Products */ = {
 			isa = PBXGroup;
