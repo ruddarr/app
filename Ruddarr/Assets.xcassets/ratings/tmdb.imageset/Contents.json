@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "tmdb.png",
+      "filename" : "tmdb-30.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "tmdb-60.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

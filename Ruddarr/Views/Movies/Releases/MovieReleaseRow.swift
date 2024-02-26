@@ -20,7 +20,7 @@ struct MovieReleaseRow: View {
     var linesStack: some View {
         VStack(alignment: .leading) {
             HStack(spacing: 4) {
-                Text(release.title)
+                Text(release.title.replacingOccurrences(of: ".", with: " "))
                     .font(.headline)
                     .fontWeight(.semibold)
                     .lineLimit(1)
@@ -60,10 +60,14 @@ struct MovieReleaseRow: View {
 
     var releaseIcon: some View {
         Group {
-            if release.rejected {
-                Image(systemName: "exclamationmark.triangle")
+            if release.isFreeleech {
+                Image(systemName: "f.square")
             } else if !release.indexerFlags.isEmpty {
                 Image(systemName: "flag")
+            }
+
+            if release.rejected {
+                Image(systemName: "exclamationmark.triangle")
             }
         }
         .symbolVariant(.fill)

@@ -3,17 +3,12 @@ import SwiftUI
 
 @Observable
 final class Toast {
-    struct Message: Identifiable {
-        var id: UUID = .init()
-        var view: AnyView
-    }
-
     var currentMessage: Message?
 
     @ObservationIgnored
-    lazy var show: (AnyView) -> Void = { [weak self] in
+    lazy var show: (AnyView, MessageType) -> Void = { [weak self] view, type in
         guard let self else { return }
-        let message = Message(view: $0)
+        let message = Message(view: view, type: type)
 
         UINotificationFeedbackGenerator()
             .notificationOccurred(.success)
@@ -28,7 +23,7 @@ final class Toast {
     }
 
     @ObservationIgnored
-    var timeout: Duration = .seconds(3)
+    var timeout: Duration = .seconds(4)
     var animation: Animation? = .snappy
 
     @ObservationIgnored
@@ -45,6 +40,24 @@ final class Toast {
 }
 
 extension Toast {
+    struct Message: Identifiable {
+        var id: UUID = .init()
+        var view: AnyView
+        var type: MessageType
+
+        var textColor: Color {
+            switch type {
+            case .notice: .primary
+            case .error: .red
+            }
+        }
+    }
+
+    enum MessageType {
+        case notice
+        case error
+    }
+
     enum PresetMessage {
         case monitored
         case unmonitored
@@ -52,6 +65,7 @@ extension Toast {
         case searchQueued
         case downloadQueued
         case movieDeleted
+        case error(String)
     }
 
     func show(_ preset: PresetMessage) {
@@ -68,37 +82,38 @@ extension Toast {
             custom(text: "Download Queued", icon: "checkmark.circle.fill")
         case .movieDeleted:
             custom(text: "Movie Deleted", icon: "checkmark.circle.fill")
+        case .error(let message):
+            custom(text: message, icon: "exclamationmark.circle.fill", type: .error)
         }
     }
 
-    func custom(text: String, icon: String? = nil) {
-        show(
-            AnyView(
-                Label {
-                    Text(text)
-                } icon: {
-                    if let icon {
-                        Image(systemName: icon)
-                    }
-                }
-                .font(.callout)
-                .fontWeight(.semibold)
-            )
-        )
+    func custom(text: String, icon: String? = nil, type: MessageType = .notice) {
+        let label = Label {
+            Text(text)
+        } icon: {
+            if let icon {
+                Image(systemName: icon)
+            }
+        }
+        .font(.callout)
+        .fontWeight(.semibold)
+
+        show(AnyView(label), type)
     }
 }
 
 extension View {
     func displayToasts(from toast: Toast = dependencies.toast) -> some View {
         overlay(alignment: .bottom) {
-            if let currentMessage = toast.currentMessage {
-                currentMessage.view
+            if let message = toast.currentMessage {
+                message.view
                     .padding()
-                    .background(.thinMaterial)
+                    .background(.ultraThinMaterial)
+                    .foregroundStyle(message.textColor)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .padding()
                     .transition(.opacity)
-                    .id(currentMessage.id)
+                    .id(message.id)
             }
         }
     }

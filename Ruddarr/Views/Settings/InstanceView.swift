@@ -40,8 +40,8 @@ struct InstanceView: View {
         .onChange(of: instanceNotifications) {
             Task { await notificationsToggled() }
         }
-        .onChange(of: scenePhase) { new, old in
-            if new == .inactive && old == .active {
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
                 Task { await setup() }
             }
         }
@@ -195,13 +195,13 @@ struct InstanceView: View {
             ))
                 .onChange(of: webhook.model.onSeriesAdd) { Task { await webhook.update(cloudKitUserId) } }
 
-            Toggle("Series Downloading", isOn: $webhook.model.onGrab)
+            Toggle("Episode Downloading", isOn: $webhook.model.onGrab)
                 .onChange(of: webhook.model.onGrab) { Task { await webhook.update(cloudKitUserId) } }
 
-            Toggle("Series Downloaded", isOn: $webhook.model.onDownload)
+            Toggle("Episode Downloaded", isOn: $webhook.model.onDownload)
                 .onChange(of: webhook.model.onDownload) { Task { await webhook.update(cloudKitUserId) } }
 
-            Toggle("Series Upgraded", isOn: $webhook.model.onUpgrade)
+            Toggle("Episode Upgraded", isOn: $webhook.model.onUpgrade)
                 .onChange(of: webhook.model.onUpgrade) { Task { await webhook.update(cloudKitUserId) } }
 
             Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
@@ -258,10 +258,17 @@ extension InstanceView {
     func notificationsToggled() async {
         await maybeRequestNotificationAuthorization()
 
+        // enable some notifications, if none are enabled
+        if instanceNotifications && !webhook.model.isEnabled {
+            webhook.model.enable()
+        }
+
+        // disable all notifications
         if !instanceNotifications {
             webhook.model.disable()
-            await webhook.update(cloudKitUserId)
         }
+
+        await webhook.update(cloudKitUserId)
     }
 
     func maybeRequestNotificationAuthorization() async {

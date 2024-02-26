@@ -21,8 +21,11 @@ struct MoviePreview: View {
 
                 HStack(spacing: 6) {
                     Text(String(movie.year))
-                    Text("•")
-                    Text(movie.runtimeLabel)
+
+                    if let runtime = movie.runtimeLabel {
+                        Text("•")
+                        Text(runtime)
+                    }
 
                     if movie.certification != nil {
                         Text("•")
@@ -76,7 +79,7 @@ struct MoviePreview: View {
             .lineLimit(descriptionTruncated ? 4 : nil)
             .padding(.bottom)
             .onTapGesture {
-                withAnimation { descriptionTruncated.toggle() }
+                withAnimation { descriptionTruncated = false }
             }
     }
 
@@ -111,7 +114,7 @@ struct MoviePreview: View {
     }
 
     func detailsRow(_ label: String, value: String) -> some View {
-        GridRow {
+        GridRow(alignment: .top) {
             Text(label)
                 .textCase(.uppercase)
                 .foregroundStyle(.secondary)

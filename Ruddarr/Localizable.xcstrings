@@ -41,10 +41,19 @@
     "Add Movie" : {
 
     },
+    "Added" : {
+
+    },
+    "Age" : {
+
+    },
     "All Indexers" : {
 
     },
-    "All Quality Profiles" : {
+    "All Movies" : {
+
+    },
+    "All Qualities" : {
 
     },
     "API Key" : {
@@ -116,6 +125,9 @@
     "Custom headers are an advanced feature, only needed to access instances protected by zero trust services." : {
 
     },
+    "Dangling" : {
+
+    },
     "Delete" : {
 
     },
@@ -138,6 +150,15 @@
 
     },
     "Enable Notifications" : {
+
+    },
+    "Episode Downloaded" : {
+
+    },
+    "Episode Downloading" : {
+
+    },
+    "Episode Upgraded" : {
 
     },
     "Filter options" : {
@@ -176,6 +197,9 @@
     "Invite me to BTN / PTP" : {
 
     },
+    "Key" : {
+      "extractionState" : "manual"
+    },
     "Label" : {
 
     },
@@ -192,6 +216,9 @@
 
     },
     "Minimum Availability" : {
+
+    },
+    "Missing" : {
 
     },
     "Monitored" : {
@@ -264,6 +291,117 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ Updated"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODE_DOWNLOAD" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloaded Episode on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODE_DOWNLOAD_BODY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (S%d E%d)"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODE_UPGRADE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgraded Episode on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODES_DOWNLOAD" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloaded %2$d Episodes on %1$@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODES_DOWNLOAD_BODY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (Season %d)"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODES_GRAB" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Downloading %2$d Episode on %1$@"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Downloading %2$d Episodes on %1$@"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODES_GRAB_BODY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloading %@ from %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODES_GRAB_SUBTITLE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (Season %d)"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODES_UPGRADE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloaded %2$d Episodes on %1$@"
           }
         }
       }
@@ -411,6 +549,28 @@
         }
       }
     },
+    "NOTIFICATION_SERIES_UPGRADE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgraded Series on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_SERIES_UPGRADE_BODY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
     "NOTIFICATION_TEST" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -423,7 +583,15 @@
       }
     },
     "NOTIFICATION_TEST_BODY" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "NOTIFICATION_TEST_BODY"
+          }
+        }
+      }
     },
     "Notifications" : {
 
@@ -479,22 +647,22 @@
     "Searching..." : {
 
     },
+    "Seeders" : {
+
+    },
+    "Series" : {
+
+    },
     "Series Added" : {
-
-    },
-    "Series Downloaded" : {
-
-    },
-    "Series Downloading" : {
-
-    },
-    "Series Upgraded" : {
 
     },
     "Settings" : {
 
     },
     "Share App" : {
+
+    },
+    "Size" : {
 
     },
     "Something Went Wrong" : {
@@ -527,13 +695,16 @@
     "Third Party Libraries" : {
 
     },
-    "TV Shows" : {
+    "Title" : {
 
     },
     "TV Shows will be added in a few weeks, once the Movies module has been polished and thoroughly tested in TestFlight." : {
 
     },
     "Type" : {
+
+    },
+    "Unmonitored" : {
 
     },
     "URL" : {
@@ -545,7 +716,19 @@
     "Value" : {
 
     },
+    "Wanted" : {
+
+    },
+    "Watch Trailer" : {
+
+    },
+    "Weight" : {
+
+    },
     "Would you like to move the movie folder to \"%@\"?" : {
+
+    },
+    "Year" : {
 
     },
     "You can’t undo this action." : {

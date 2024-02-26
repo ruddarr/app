@@ -4,7 +4,7 @@ import CloudKit
 import Foundation
 
 struct SettingsAboutSection: View {
-    private let shareUrl = URL(string: "https://ruddarr.com")!
+    private let shareUrl = URL(string: "https://testflight.apple.com/join/WbWNuoos")!
     private let githubUrl = URL(string: "https://github.com/ruddarr/app")!
     private let reviewUrl = URL(string: "itms-apps://itunes.apple.com/app/????????")!
 
@@ -138,7 +138,7 @@ struct SettingsAboutSection: View {
         let address = "ruddarr@icloud.com"
         let subject = "Invite"
 
-        let body = "I have an invite for you, let's talk."
+        let body = "I have an invite for you, show me your tracker ratios, let's talk."
 
         var components = URLComponents()
         components.scheme = "mailto"

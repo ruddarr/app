@@ -20,6 +20,8 @@ xcrun simctl --set previews delete all
 
 ## Radarr Demo
 
+You can either use `dependencies = .mock` in `Ruddarr.swift` or use this demo server for testing.
+
 Host: `http://167.172.20.216:7878`
 Username: `ruddarr`
 Password: `password`

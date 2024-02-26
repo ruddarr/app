@@ -64,4 +64,18 @@ struct MovieContextMenu: View {
 
         return nil
     }
+
+    static func youTubeTrailer(_ trailerId: String?) -> String? {
+        guard let trailer = trailerId, !trailer.isEmpty else {
+            return nil
+        }
+
+        let url = "youtube://\(trailer)"
+
+        if UIApplication.shared.canOpenURL(URL(string: url)!) {
+            return url
+        }
+
+        return "https://www.youtube.com/watch?v=\(trailer)"
+    }
 }

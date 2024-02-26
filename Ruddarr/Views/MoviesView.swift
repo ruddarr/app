@@ -38,13 +38,13 @@ struct MoviesView: View {
                     }
                     .task(priority: .low) {
                         guard !instance.isVoid else { return }
-                        await fetchMoviesWithAlert(ignoreOffline: true, ignoreCancellation: true)
+                        await fetchMoviesWithAlert(ignoreOffline: true)
                     }
                     .refreshable {
                         await fetchMoviesWithAlert()
                     }
-                    .onChange(of: scenePhase) { newPhase, oldPhase in
-                        guard newPhase == .background && oldPhase == .inactive else { return }
+                    .onChange(of: scenePhase) { previous, phase in
+                        guard phase == .inactive && previous == .background else { return }
 
                         Task {
                             _ = await instance.movies.fetch()
@@ -134,10 +134,11 @@ struct MoviesView: View {
         var movies: [Movie] = instance.movies.items
 
         if !searchQuery.isEmpty {
+            let query = searchQuery.lowercased().trimmingCharacters(in: .whitespaces)
+
             movies = movies.filter { movie in
-                movie.title.localizedCaseInsensitiveContains(
-                    searchQuery.trimmingCharacters(in: .whitespaces)
-                )
+                movie.sortTitle.contains(query)
+                || (movie.studio?.lowercased() ?? "").contains(query)
             }
         }
 
@@ -190,16 +191,20 @@ struct MoviesView: View {
         return errorText
     }
 
+    @MainActor
     func fetchMoviesWithAlert(
-        ignoreOffline: Bool = false,
-        ignoreCancellation: Bool = false
+        ignoreOffline: Bool = false
     ) async {
         alertPresented = false
         error = nil
 
         _ = await instance.movies.fetch()
 
-        if ignoreCancellation && instance.movies.error is CancellationError {
+        if instance.movies.error is CancellationError {
+            return
+        }
+
+        if let urlError = instance.movies.error as? URLError, urlError.code == .cancelled {
             return
         }
 
@@ -241,7 +246,7 @@ extension MoviesView {
         Menu("Filters", systemImage: "line.3.horizontal.decrease") {
             Picker(selection: $sort.filter, label: Text("Filter options")) {
                 ForEach(MovieSort.Filter.allCases) { filter in
-                    Text(filter.title)
+                    filter.label
                 }
             }
         }
@@ -251,7 +256,7 @@ extension MoviesView {
         Menu {
             Picker(selection: $sort.option, label: Text("Sorting options")) {
                 ForEach(MovieSort.Option.allCases) { option in
-                    Text(option.title)
+                    option.label
                 }
             }.onChange(of: sort.option) {
                 switch sort.option {
@@ -263,8 +268,8 @@ extension MoviesView {
 
             Section {
                 Picker(selection: $sort.isAscending, label: Text("Sorting direction")) {
-                    Text("Ascending").tag(true)
-                    Text("Descending").tag(false)
+                    Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
+                    Label("Descending", systemImage: "arrowtriangle.down").tag(false)
                 }
             }
         } label: {

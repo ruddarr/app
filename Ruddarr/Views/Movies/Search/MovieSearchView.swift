@@ -38,6 +38,7 @@ struct MovieSearchView: View {
             isPresented: $presentingSearch,
             placement: .navigationBarDrawer(displayMode: .always)
         )
+        .disabled(instance.isVoid)
         .searchScopes($movieLookup.sort) {
             ForEach(MovieLookup.SortOption.allCases) { option in
                 Text(option.rawValue)
@@ -63,7 +64,7 @@ struct MovieSearchView: View {
             Text(error.localizedDescription)
         }
         .overlay {
-            let noSearchResults = instance.lookup.items?.isEmpty ?? true
+            let noSearchResults = instance.lookup.items?.count == 0 && !searchQuery.isEmpty
 
             if instance.lookup.isSearching && noSearchResults {
                 ProgressView {

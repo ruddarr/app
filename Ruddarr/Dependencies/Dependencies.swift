@@ -4,6 +4,8 @@ import SwiftUI
 struct Dependencies {
     var api: API
     var store: UserDefaults
+    var quickActions: QuickActions = .init()
+
     @Bindable var router = Router.shared
     @Bindable var toast = Toast()
 }

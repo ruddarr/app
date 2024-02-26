@@ -40,7 +40,7 @@ extension API {
                 .appending(path: "/api/v3/release")
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, headers: instance.auth, timeout: 60)
         }, downloadRelease: { guid, indexerId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/release")
@@ -126,6 +126,7 @@ extension API {
         url: URL,
         headers: [String: String] = [:],
         body: Body? = nil,
+        timeout: Double = 10,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared
@@ -136,7 +137,7 @@ extension API {
         try NetworkMonitor.shared.checkReachability()
 
         var request = URLRequest(url: url)
-        request.timeoutInterval = 5
+        request.timeoutInterval = timeout
         request.httpMethod = method.rawValue.uppercased()
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -198,11 +199,12 @@ extension API {
         method: HTTPMethod = .get,
         url: URL,
         headers: [String: String] = [:],
+        timeout: Double = 10,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared
     ) async throws -> Response {
-        try await request(method: method, url: url, headers: headers, body: Empty?.none, decoder: decoder, encoder: encoder, session: session)
+        try await request(method: method, url: url, headers: headers, body: Empty?.none, timeout: timeout, decoder: decoder, encoder: encoder, session: session)
     }
 }
 

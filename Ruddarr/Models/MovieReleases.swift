@@ -90,6 +90,11 @@ struct MovieRelease: Identifiable, Codable {
         type == "usenet"
     }
 
+    var isFreeleech: Bool {
+        guard indexerFlags.count == 1 else { return false }
+        return cleanIndexerFlags[0].localizedStandardContains("freeleech")
+    }
+
     var cleanIndexerFlags: [String] {
         indexerFlags.map {
             $0.hasPrefix("G_") ? String($0.dropFirst(2)) : $0
@@ -183,6 +188,21 @@ struct MovieReleaseQuality: Codable {
 struct MovieReleaseQualityDetails: Codable {
     let name: String?
     let resolution: Int
+
+    var normalizedName: String {
+        guard let label = name else {
+            return "Unknown"
+        }
+
+        if let range = label.range(of: #"-(\d+p)$"#, options: .regularExpression) {
+            return String(name![range].dropFirst())
+        }
+
+        return label
+            .replacingOccurrences(of: "BR-DISK", with: "1080p")
+            .replacingOccurrences(of: "DVD-R", with: "480p")
+            .replacingOccurrences(of: "SDTV", with: "480p")
+    }
 }
 
 struct DownloadMovieRelease: Codable {

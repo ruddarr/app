@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "IMDB_Logo_2016.png",
+      "filename" : "imdb-30.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "imdb-60.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

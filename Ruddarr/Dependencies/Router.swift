@@ -28,9 +28,64 @@ enum Tab: Hashable, CaseIterable, Identifiable {
         case .movies:
             Label("Movies", systemImage: "film")
         case .shows:
-            Label("TV Shows", systemImage: "tv.inset.filled")
+            Label("Series", systemImage: "tv")
         case .settings:
             Label("Settings", systemImage: "gear")
         }
+    }
+
+    @ViewBuilder
+    var row: some View {
+        let text = switch self {
+        case .movies: "Movies"
+        case .shows: "Series"
+        case .settings: "Settings"
+        }
+
+        let icon = switch self {
+        case .movies: "film"
+        case .shows: "tv"
+        case .settings: "gear"
+        }
+
+        Label {
+            Text(text)
+                .tint(.primary)
+                .font(.headline)
+                .fontWeight(.regular)
+        } icon: {
+            Image(systemName: icon).imageScale(.large)
+        }
+        .padding(.vertical, 10)
+        .padding(.horizontal, 10)
+    }
+
+    @ViewBuilder
+    var stack: some View {
+        VStack(spacing: 0) {
+            Spacer()
+            switch self {
+            case .movies:
+                Image(systemName: "film").font(.system(size: 23))
+                    .frame(height: 15)
+
+                Text("Movies").font(.system(size: 10, weight: .semibold))
+                    .frame(height: 15).padding(.top, 8)
+            case .shows:
+                Image(systemName: "tv").font(.system(size: 23))
+                    .frame(height: 15)
+
+                Text("Series").font(.system(size: 10, weight: .semibold))
+                    .frame(height: 15).padding(.top, 8)
+            case .settings:
+                Image(systemName: "gear").font(.system(size: 23))
+                    .frame(height: 15)
+
+                Text("Settings").font(.system(size: 10, weight: .semibold))
+                    .frame(height: 15).padding(.top, 8)
+
+            }
+        }
+        .frame(height: 50)
     }
 }

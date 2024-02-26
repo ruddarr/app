@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "Rotten_Tomatoes.png",
+      "filename" : "rt-fresh-30.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "rt-fresh-60.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

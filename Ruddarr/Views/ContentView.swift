@@ -6,10 +6,18 @@ struct ContentView: View {
 
     @State private var isPortrait = false
     @State private var columnVisibility: NavigationSplitViewVisibility = .doubleColumn
+    @State private var showTabViewOverlay: Bool = true
 
     private let orientationChangePublisher = NotificationCenter.default.publisher(
         for: UIDevice.orientationDidChangeNotification
     )
+
+    init() {
+        UITabBar.appearance().unselectedItemTintColor = .clear
+
+        // this does not work (see `.tint` below)
+        UITabBar.appearance().tintColor = .red
+    }
 
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -30,8 +38,8 @@ struct ContentView: View {
             .onReceive(orientationChangePublisher) { _ in
                 handleOrientationChange()
             }
-            .onChange(of: scenePhase) { new, old in
-                handleScenePhaseChange(new, old)
+            .onChange(of: scenePhase) { previous, phase in
+                handleScenePhaseChange(phase, previous)
             }
         } else {
             TabView(selection: dependencies.$router.selectedTab.onSet {
@@ -41,13 +49,36 @@ struct ContentView: View {
             }) {
                 ForEach(Tab.allCases) { tab in
                     screen(for: tab)
+                        .tint(settings.theme.tint) // restore tint for view
                         .tabItem { tab.label }
                         .displayToasts()
                         .tag(tab)
                 }
             }
-            .onChange(of: scenePhase) { new, old in
-                handleScenePhaseChange(new, old)
+            .tint(.clear) // hide selected `tabItem` tint
+            .overlay(alignment: .bottom) { // the default `tabItem`s are hidden, display our own
+                let columns: [GridItem] = Array(repeating: .init(.flexible()), count: Tab.allCases.count)
+
+                if showTabViewOverlay {
+                    LazyVGrid(columns: columns) {
+                        ForEach(Tab.allCases) { tab in
+                            tab.stack
+                                .foregroundStyle(
+                                    dependencies.router.selectedTab == tab ? settings.theme.tint : .gray
+                                )
+                                .onTapGesture { dependencies.router.selectedTab = tab }
+                        }
+                    }
+                    .padding(.horizontal, 4)
+                }
+            }
+            .onChange(of: scenePhase) { previous, phase in
+                handleScenePhaseChange(phase, previous)
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
+                showTabViewOverlay = false
+            }.onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+                showTabViewOverlay = true
             }
         }
     }
@@ -64,11 +95,13 @@ struct ContentView: View {
     }
 
     var sidebar: some View {
-        List(selection: dependencies.$router.selectedTab.optional) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("Ruddarr")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                .padding(.bottom)
+                .padding(.bottom, 20)
+                .padding(.horizontal, 8)
+                .offset(y: -4)
 
             ForEach(Tab.allCases) { tab in
                 let button = Button {
@@ -78,18 +111,31 @@ struct ContentView: View {
                         columnVisibility = .detailOnly
                     }
                 } label: {
-                    tab.label
+                    HStack {
+                        tab.row
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity)
+                    .background(
+                        Color(
+                            dependencies.router.selectedTab == tab ? .secondarySystemFill : .clear
+                        )
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
 
                 if case .settings = tab {
-                    Section {
-                        button
-                    }
-                } else {
-                    button
+                    Spacer()
                 }
+
+                button
             }
         }
+        .scenePadding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(
+            Color(isPortrait ? .clear : .secondarySystemBackground)
+        )
         .hideSidebarToggle(!isPortrait)
     }
 
@@ -105,9 +151,13 @@ struct ContentView: View {
         }
     }
 
-    func handleScenePhaseChange(_ new: ScenePhase, _ old: ScenePhase) {
-        if new == .inactive && old == .active {
+    func handleScenePhaseChange(_ phase: ScenePhase, _ previous: ScenePhase) {
+        if phase == .active && previous == .inactive {
             Telemetry.shared.maybeUploadTelemetry(settings: settings)
+        }
+
+        if phase == .background {
+            addQuickActions()
         }
     }
 
@@ -118,6 +168,10 @@ struct ContentView: View {
             isPortrait = windowScene.interfaceOrientation.isPortrait
             columnVisibility = isPortrait ? .detailOnly : .doubleColumn
         }
+    }
+
+    func addQuickActions() {
+        QuickActions().registerShortcutItems()
     }
 }
 

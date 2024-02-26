@@ -59,7 +59,7 @@ struct MovieReleasesView: View {
         }
 
         if sort.quality != ".all" {
-            sortedReleases = sortedReleases.filter { $0.quality.quality.name == sort.quality }
+            sortedReleases = sortedReleases.filter { $0.quality.quality.normalizedName == sort.quality }
         }
 
         if sort.approvedOnly {
@@ -126,8 +126,8 @@ extension MovieReleasesView {
             qualityPicker
 
             Section {
-                Toggle("Only Approved", isOn: $sort.approvedOnly)
-                Toggle("Only FreeLeech", isOn: $sort.freeleechOnly)
+                Toggle("Only Approved", systemImage: "checkmark.seal", isOn: $sort.approvedOnly)
+                Toggle("Only FreeLeech", systemImage: "f.square", isOn: $sort.freeleechOnly)
             }
         }
     }
@@ -137,7 +137,7 @@ extension MovieReleasesView {
             Section {
                 Picker("Sorting options", selection: $sort.option) {
                     ForEach(MovieReleaseSort.Option.allCases) { option in
-                        Text(option.title).tag(option)
+                        option.label
                     }
                 }.onChange(of: sort.option) {
                     switch sort.option {
@@ -151,8 +151,8 @@ extension MovieReleasesView {
 
             Section {
                 Picker("Sorting direction", selection: $sort.isAscending) {
-                    Text("Ascending").tag(true)
-                    Text("Descending").tag(false)
+                    Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
+                    Label("Descending", systemImage: "arrowtriangle.down").tag(false)
                 }
             }
         } label: {
@@ -162,26 +162,30 @@ extension MovieReleasesView {
     }
 
     var indexersPicker: some View {
-        Menu("Indexer") {
+        Menu {
             Picker("Indexer", selection: $sort.indexer) {
+                Text("All Indexers").tag(".all")
+
                 ForEach(indexers, id: \.self) { indexer in
                     Text(indexer).tag(Optional.some(indexer))
                 }
-
-                Text("All Indexers").tag(".all")
             }
+        } label: {
+            Label("Indexer", systemImage: "building.2")
         }
     }
 
     var qualityPicker: some View {
-        Menu("Quality Profile") {
-            Picker("Quality Profile", selection: $sort.quality) {
+        Menu {
+            Picker("Quality", selection: $sort.quality) {
+                Text("All Qualities").tag(".all")
+
                 ForEach(qualities, id: \.self) { quality in
                     Text(quality).tag(Optional.some(quality))
                 }
-
-                Text("All Quality Profiles").tag(".all")
             }
+        } label: {
+            Label("Quality", systemImage: "film.stack")
         }
     }
 
@@ -198,9 +202,9 @@ extension MovieReleasesView {
         var seen: Set<String> = []
 
         return instance.releases.items
-            .map { $0.quality.quality.name ?? "Unknown" }
+            .sorted { $0.quality.quality.resolution > $1.quality.quality.resolution }
+            .map { $0.quality.quality.normalizedName }
             .filter { seen.insert($0).inserted }
-            .sorted()
     }
 }
 

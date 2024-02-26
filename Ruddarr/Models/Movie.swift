@@ -14,6 +14,7 @@ struct Movie: Identifiable, Codable {
     let runtime: Int
     let overview: String?
     let certification: String?
+    let youTubeTrailerId: String?
 
     let genres: [String]
     let ratings: MovieRatings?
@@ -51,6 +52,7 @@ struct Movie: Identifiable, Codable {
         case runtime
         case overview
         case certification
+        case youTubeTrailerId
         case genres
         case ratings
         case popularity
@@ -92,7 +94,9 @@ struct Movie: Identifiable, Codable {
         return "Unwanted"
     }
 
-    var runtimeLabel: String {
+    var runtimeLabel: String? {
+        guard runtime > 0 else { return nil }
+
         let hours = runtime / 60
         let minutes = runtime % 60
 
@@ -136,7 +140,7 @@ struct Movie: Identifiable, Codable {
         case .tba, .announced:
             true // status == .announced && digitalRelease <= today
         case .inCinemas:
-            minimumAvailability != .released
+            minimumAvailability == .released
         case .released, .deleted:
             false
         }
@@ -193,8 +197,21 @@ struct MovieFile: Codable {
 
 struct MovieMediaInfo: Codable {
     let audioCodec: String?
+    let audioChannels: Float?
     let videoCodec: String?
     let resolution: String?
+    let videoDynamicRange: String?
+    let subtitles: String?
+
+    var subtitleCodes: [String]? {
+        guard let languages = subtitles, languages.count > 0 else { return nil }
+
+        let codes = Array(Set(
+            languages.components(separatedBy: "/")
+        ))
+
+        return codes.sorted(by: Languages.codeSort)
+    }
 }
 
 struct MovieQualityInfo: Codable {

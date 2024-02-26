@@ -28,15 +28,15 @@ class Notifications {
 
     func registerDevice(_ token: String) async {
         do {
-            let account = try? await CKContainer.default().userRecordID().recordName
+            let account = (try? await CKContainer.default().userRecordID().recordName) ?? ""
 
             let payload: [String: String] = [
-                "account": account ?? "",
+                "account": account,
                 "token": token,
             ]
 
-            let hashedToken = tokenHash(token, account)
-            let storedToken = UserDefaults.standard.string(forKey: "apnsToken")
+            let hashedToken = "\(account):\(token)"
+            let storedToken = UserDefaults.standard.string(forKey: "registeredDeviceToken")
 
             if storedToken == hashedToken {
                 leaveBreadcrumb(.info, category: "notifications", message: "Device already registered", data: payload)
@@ -61,7 +61,7 @@ class Notifications {
                 throw AppError("Bad status code: \(statusCode)")
             }
 
-            UserDefaults.standard.set(hashedToken, forKey: "apnsToken")
+            UserDefaults.standard.set(hashedToken, forKey: "registeredDeviceToken")
 
             if let data = String(data: json, encoding: .utf8) {
                 leaveBreadcrumb(.info, category: "notifications", message: "Device registered", data: ["status": statusCode, "response": data])
@@ -69,16 +69,6 @@ class Notifications {
         } catch {
             leaveBreadcrumb(.error, category: "notifications", message: "Device registration failed", data: ["error": error])
         }
-    }
-
-    private func tokenHash(_ token: String, _ account: String?) -> String {
-        [
-            UIDevice.current.identifierForVendor?.uuidString ?? "",
-            Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "",
-            Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "",
-            account ?? "",
-            token,
-        ].joined(separator: ":")
     }
 }
 
@@ -99,19 +89,17 @@ struct InstanceNotification: Identifiable, Codable {
     var onGrab: Bool = false
 
     // `Download`: Completed downloading release
-    var onDownload: Bool = false
+    var onDownload: Bool = false { didSet { onManualInteractionRequired = onHealthIssue } }
+    private(set) var onManualInteractionRequired: Bool = false // Sends test emails only
 
     // `Download`: Completed downloading upgrade (`isUpgrade`)
     var onUpgrade: Bool = false
 
+    var onApplicationUpdate: Bool = false
+
     var onHealthIssue: Bool = false { didSet { includeHealthWarnings = onHealthIssue } }
     var onHealthRestored: Bool = false
     private(set) var includeHealthWarnings: Bool = false
-
-    var onApplicationUpdate: Bool = false
-
-    // Sends test emails only
-    var onManualInteractionRequired: Bool = true
 
     var isEnabled: Bool {
         onGrab
@@ -122,7 +110,6 @@ struct InstanceNotification: Identifiable, Codable {
         || onHealthIssue
         || onHealthRestored
         || onApplicationUpdate
-        || onManualInteractionRequired
     }
 
     mutating func disable() {
@@ -133,9 +120,22 @@ struct InstanceNotification: Identifiable, Codable {
         onSeriesAdd = false // Sonarr
         onHealthIssue = false
         onHealthRestored = false
-        onApplicationUpdate = false
         includeHealthWarnings = false
+        onApplicationUpdate = false
         onManualInteractionRequired = false
+    }
+
+    mutating func enable() {
+        onGrab = true
+        onDownload = true
+        onUpgrade = true
+        onMovieAdded = true // Radarr
+        onSeriesAdd = true // Sonarr
+        onHealthIssue = false
+        onHealthRestored = false
+        includeHealthWarnings = false
+        onApplicationUpdate = false
+        onManualInteractionRequired = true
     }
 }
 

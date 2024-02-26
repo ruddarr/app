@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "metacritic-30.png",
+      "filename" : "rt-rotten-30.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "metacritic-60.png",
+      "filename" : "rt-rotten-60.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
