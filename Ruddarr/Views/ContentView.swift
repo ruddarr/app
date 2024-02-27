@@ -14,9 +14,7 @@ struct ContentView: View {
 
     init() {
         UITabBar.appearance().unselectedItemTintColor = .clear
-
-        // this does not work (see `.tint` below)
-        UITabBar.appearance().tintColor = .red
+        UITabBar.appearance().tintColor = .clear // this does not work (see `.tint` below)
     }
 
     var body: some View {
@@ -43,9 +41,7 @@ struct ContentView: View {
             }
         } else {
             TabView(selection: dependencies.$router.selectedTab.onSet {
-                if $0 == dependencies.router.selectedTab {
-                    pop(tab: $0)
-                }
+                if dependencies.router.selectedTab == $0 { goToRoot(tab: $0) }
             }) {
                 ForEach(Tab.allCases) { tab in
                     screen(for: tab)
@@ -66,6 +62,7 @@ struct ContentView: View {
                                 .foregroundStyle(
                                     dependencies.router.selectedTab == tab ? settings.theme.tint : .gray
                                 )
+                                .onTapGesture(count: 2) { goToRoot(tab: tab) }
                                 .onTapGesture { dependencies.router.selectedTab = tab }
                         }
                     }
@@ -83,7 +80,7 @@ struct ContentView: View {
         }
     }
 
-    func pop(tab: Tab) {
+    func goToRoot(tab: Tab) {
         switch tab {
         case .movies:
             dependencies.router.moviesPath = .init()
