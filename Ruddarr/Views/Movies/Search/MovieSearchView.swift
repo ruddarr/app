@@ -44,7 +44,10 @@ struct MovieSearchView: View {
                 Text(option.rawValue)
             }
         }
-        .onChange(of: searchQuery) {
+        .onSubmit(of: .search) {
+            searchTextPublisher.send(searchQuery)
+        }
+        .onChange(of: searchQuery, initial: true) {
             searchTextPublisher.send(searchQuery)
         }
         .onReceive(
