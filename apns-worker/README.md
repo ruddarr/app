@@ -8,6 +8,13 @@ http post https://notify.ruddarr.com/_b918aa44b3801da03a12956597e93b05 \
   eventType=RuddarrTest instanceName=void
 ```
 
+```bash
+cat payloads/movie-grab.json | http post https://notify.ruddarr.com/_b918aa44b3801da03a12956597e93b05 User-Agent:Radarr/1.0
+cat payloads/health-restored.json | http post https://notify.ruddarr.com/_b918aa44b3801da03a12956597e93b05 User-Agent:Radarr/1.0
+cat payloads/series-download.json | http post https://notify.ruddarr.com/_b918aa44b3801da03a12956597e93b05 User-Agent:Radarr/1.0
+cat payloads/movie-grab.json | http post https://notify.ruddarr.com/_b918aa44b3801da03a12956597e93b05 User-Agent:Radarr/1.0
+```
+
 ### `Test`
 
 ```json

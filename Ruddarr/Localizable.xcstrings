@@ -312,7 +312,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ (S%d E%d)"
+            "value" : "%@ (S%@ E%@)"
           }
         }
       }
@@ -334,7 +334,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloaded %2$d Episodes on %1$@"
+            "value" : "Downloaded %2$@ Episodes on %1$@"
           }
         }
       }
@@ -345,7 +345,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ (Season %d)"
+            "value" : "%@ (Season %@)"
           }
         }
       }
@@ -354,21 +354,9 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Downloading %2$d Episode on %1$@"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Downloading %2$d Episodes on %1$@"
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloading %2$@ Episodes on %1$@"
           }
         }
       }
@@ -390,7 +378,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ (Season %d)"
+            "value" : "%@ (Season %@)"
           }
         }
       }
@@ -401,7 +389,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloaded %2$d Episodes on %1$@"
+            "value" : "Downloaded %2$@ Episodes on %1$@"
           }
         }
       }
