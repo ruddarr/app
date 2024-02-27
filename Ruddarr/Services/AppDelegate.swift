@@ -39,16 +39,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         return sceneConfiguration
     }
 
-    func didReceive(_ payloads: [MXMetricPayload]) {
-        guard let firstPayload = payloads.first else { return }
-        print(firstPayload.dictionaryRepresentation())
-    }
-
-    func didReceive(_ payloads: [MXDiagnosticPayload]) {
-        guard let firstPayload = payloads.first else { return }
-        print(firstPayload.dictionaryRepresentation())
-    }
-
+    // Called after successful registeration with APNs
     func application(
         _ application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
@@ -58,6 +49,30 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         Task {
             await Notifications.shared.registerDevice(token)
         }
+    }
+
+    // Called when the app receives a notification
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .list, .sound])
+    }
+
+    // Called after a notification was tapped
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        let payload = response.notification.request.content.userInfo
+
+        if let deeplink = payload["deeplink"] as? String, let url = URL(string: deeplink) {
+            UIApplication.shared.open(url)
+        }
+
+        completionHandler()
     }
 
     func configureSentry() {

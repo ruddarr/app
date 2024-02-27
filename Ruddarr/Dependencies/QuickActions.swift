@@ -1,8 +1,15 @@
-import Foundation
-import UIKit
 import SwiftUI
+import Combine
 
+/**
+[public] ruddarr://open
+[public] ruddarr://movies/search
+[public] ruddarr://movies/search/{query?}
+[private] ruddarr://movies/open/{id}
+*/
 struct QuickActions {
+    let moviePublisher = PassthroughSubject<Movie.ID, Never>()
+
     var registerShortcutItems: () -> Void = {
         UIApplication.shared.shortcutItems = ShortcutItem.allCases.map(\.shortcutItem)
     }
@@ -12,26 +19,17 @@ struct QuickActions {
         dependencies.router.moviesPath = .init([MoviesView.Path.search(query)])
     }
 
-    // var openMovieId: Movie.ID?
-    //
-    // var openMovie: (Movie.TMDBID) -> Void = { tmdbId in
-    //    dependencies.quickActions.openMovieId = tmdbId
-    //    dependencies.router.selectedTab = .movies
-    //    dependencies.router.moviesPath = .init()
-    // }
-    //
-    // We can use `.onChange(of: scenePhase)` in `MoviesView`
-    // 
-    // if let id = dependencies.quickActions.openMovieId {
-    //     dependencies.quickActions.openMovieId = nil
-    // }
+    func openMovie(_ id: Movie.ID) {
+        dependencies.router.selectedTab = .movies
+        dependencies.quickActions.moviePublisher.send(id)
+    }
 }
 
 extension QuickActions {
     enum Deeplink {
         case openApp
+        case openMovie(_ id: Movie.ID)
         case searchMovies(_ query: String = "")
-        // case openMovie(tmdbId: Movie.TMDBID)
 
         func callAsFunction() {
             switch self {
@@ -39,16 +37,13 @@ extension QuickActions {
                 break
             case .searchMovies(let query):
                 dependencies.quickActions.searchMovies(query)
-            // case .openMovie(let tmbdId):
-            //    dependencies.quickActions.openMovie(tmbdId)
+            case .openMovie(let id):
+                dependencies.quickActions.openMovie(id)
             }
         }
     }
 }
 
-// [public] ruddarr://open
-// [public] ruddarr://movies/search
-// [public] ruddarr://movies/search/{query?}
 extension QuickActions.Deeplink {
     init(url: URL) throws {
         let unsupportedURL = AppError("Unsupported URL: \(url.absoluteString)")
@@ -58,6 +53,7 @@ extension QuickActions.Deeplink {
         }
 
         let action = (components.host ?? "") + (components.path.untrailingSlashIt ?? "")
+        let value = action.components(separatedBy: "/").last ?? ""
 
         switch action {
         case "", "open":
@@ -65,16 +61,10 @@ extension QuickActions.Deeplink {
         case "movies/search":
             self = .searchMovies()
         case _ where action.hasPrefix("movies/search/"):
-            let components = action.components(separatedBy: "/")
-
-            self = .searchMovies(components[2])
-
-        // case _ where action.hasPrefix("movies/open"):
-        //    guard let tmdbId = Int(action.components(separatedBy: "/")[2]) else {
-        //        throw unsupportedURL
-        //    }
-        //
-        //    self = .openMovie(tmdbId: tmdbId)
+            self = .searchMovies(value)
+        case _ where action.hasPrefix("movies/open/"):
+            guard let tmdbId = Movie.ID(value) else { throw unsupportedURL }
+            self = .openMovie(tmdbId)
         default:
             throw unsupportedURL
         }

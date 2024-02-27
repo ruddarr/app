@@ -81,6 +81,7 @@ struct MoviesView: View {
                     settings.radarrInstanceId = first.id
                 }
             }
+            .onReceive(dependencies.quickActions.moviePublisher, perform: navigateToMovie)
             .toolbar {
                 toolbarViewOptions
 
@@ -227,6 +228,25 @@ struct MoviesView: View {
 
             alertPresented = instance.movies.error != nil
         }
+    }
+
+    func navigateToMovie(_ id: Movie.ID) {
+        let startTime = Date()
+
+        func scheduleNextRun(time: DispatchTime, id: Movie.ID) {
+            DispatchQueue.main.asyncAfter(deadline: time) {
+                if let movie = instance.movies.items.first(where: { $0.id == id }) {
+                    dependencies.router.moviesPath = .init([Path.movie(id)])
+                    return
+                }
+
+                if Date().timeIntervalSince(startTime) < 5 {
+                    scheduleNextRun(time: DispatchTime.now() + 0.1, id: id)
+                }
+            }
+        }
+
+        scheduleNextRun(time: DispatchTime.now(), id: id)
     }
 }
 

@@ -252,8 +252,6 @@ function buildNotificationPayload(payload) {
   const episode = payload.episodes?.[0].episodeNumber
   const season = payload.episodes?.[0].seasonNumber
 
-  // chime.aiff, bingbong.aiff
-
   switch (payload.eventType) {
     case 'RuddarrTest':
       return {
@@ -310,7 +308,6 @@ function buildNotificationPayload(payload) {
 
     case 'MovieAdded':
       return {
-        movieId: payload.movie?.id,
         aps: {
           'alert': {
             'title-loc-key': 'NOTIFICATION_MOVIE_ADDED',
@@ -322,11 +319,11 @@ function buildNotificationPayload(payload) {
           'thread-id': `movie:${threadId}`,
           'relevance-score': 0.6,
         },
+        deeplink: `ruddarr://movies/open/${payload.movie?.id}`,
       }
 
     case 'SeriesAdd':
       return {
-        seriesId: payload.series?.id,
         aps: {
           'alert': {
             'title-loc-key': 'NOTIFICATION_SERIES_ADDED',
@@ -338,6 +335,7 @@ function buildNotificationPayload(payload) {
           'thread-id': `series:${threadId}`,
           'relevance-score': 0.6,
         },
+        // deeplink: `ruddarr://series/open/${payload.series?.id}`,
       }
 
     case 'Grab':
@@ -346,7 +344,6 @@ function buildNotificationPayload(payload) {
 
       if (! isSeries) {
         return {
-          movieId: payload.movie?.id,
           aps: {
             'alert': {
               'title-loc-key': `NOTIFICATION_MOVIE_GRAB`,
@@ -360,11 +357,11 @@ function buildNotificationPayload(payload) {
             'thread-id': `movie:${threadId}`,
             'relevance-score': 0.8,
           },
+          deeplink: `ruddarr://movies/open/${payload.movie?.id}`,
         }
       }
 
       return {
-        seriesId: payload.series?.id,
         aps: {
           'alert': {
             'title-loc-key': `NOTIFICATION_EPISODES_GRAB`,
@@ -377,7 +374,8 @@ function buildNotificationPayload(payload) {
           'sound': 'ping.aiff',
           'thread-id': `series:${threadId}`,
           'relevance-score': 0.8,
-        }
+        },
+        // deeplink: `ruddarr://series/open/${payload.series?.id}`,
       }
 
     case 'Download':
@@ -385,7 +383,6 @@ function buildNotificationPayload(payload) {
 
       if (! isSeries) {
         return {
-          movieId: payload.movie?.id,
           aps: {
             'alert': {
               'title-loc-key': `NOTIFICATION_MOVIE_${subtype}`,
@@ -397,12 +394,12 @@ function buildNotificationPayload(payload) {
             'thread-id': `movie:${threadId}`,
             'relevance-score': 1.0,
           },
+          deeplink: `ruddarr://movies/open/${payload.movie?.id}`,
         }
       }
 
       if (episodes === 1) {
         return {
-          seriesId: payload.series?.id,
           aps: {
             'alert': {
               'title-loc-key': `NOTIFICATION_EPISODE_${subtype}`,
@@ -414,11 +411,11 @@ function buildNotificationPayload(payload) {
             'thread-id': `series:${threadId}`,
             'relevance-score': 1.0,
           },
+          // deeplink: `ruddarr://series/open/${payload.series?.id}`,
         }
       }
 
       return {
-        seriesId: payload.series?.id,
         aps: {
           'alert': {
             'title-loc-key': `NOTIFICATION_EPISODES_${subtype}`,
@@ -430,6 +427,7 @@ function buildNotificationPayload(payload) {
           'thread-id': `series:${threadId}`,
           'relevance-score': 1.0,
         },
+        // deeplink: `ruddarr://series/open/${payload.series?.id}`,
       }
   }
 }
