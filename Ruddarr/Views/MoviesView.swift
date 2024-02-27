@@ -44,14 +44,8 @@ struct MoviesView: View {
                         await fetchMoviesWithAlert()
                     }
                     .onChange(of: scenePhase) { previous, phase in
-                        guard phase == .inactive && previous == .background else { return }
-
-                        Task {
-                            _ = await instance.movies.fetch()
-
-                            if let model = await instance.fetchMetadata() {
-                                settings.saveInstance(model)
-                            }
+                        if phase == .inactive && previous == .background {
+                            fetchMoviesWithMetadata()
                         }
                     }
                 }
@@ -199,10 +193,18 @@ struct MoviesView: View {
         return errorText
     }
 
+    func fetchMoviesWithMetadata() {
+        Task { @MainActor in
+            _ = await instance.movies.fetch()
+
+            if let model = await instance.fetchMetadata() {
+                settings.saveInstance(model)
+            }
+        }
+    }
+
     @MainActor
-    func fetchMoviesWithAlert(
-        ignoreOffline: Bool = false
-    ) async {
+    func fetchMoviesWithAlert(ignoreOffline: Bool = false) async {
         alertPresented = false
         error = nil
 
@@ -295,19 +297,7 @@ extension MoviesView {
                         Text(instance.label).tag(Optional.some(instance.id))
                     }
                 }
-                .onChange(of: settings.radarrInstanceId) {
-                    Task {
-                        instance.switchTo(
-                            settings.instanceById(settings.radarrInstanceId!)!
-                        )
-
-                        await fetchMoviesWithAlert()
-
-                        if let model = await instance.fetchMetadata() {
-                            settings.saveInstance(model)
-                        }
-                    }
-                }
+                .onChange(of: settings.radarrInstanceId, changeInstance)
             } label: {
                 HStack(alignment: .bottom, spacing: 6) {
                     Text(settings.radarrInstance?.label ?? "Instance")
@@ -318,6 +308,20 @@ extension MoviesView {
                         .foregroundStyle(.secondary, .tertiarySystemBackground)
                         .font(.system(size: 13))
                 }.tint(.primary)
+            }
+        }
+    }
+
+    func changeInstance() {
+        Task { @MainActor in
+            instance.switchTo(
+                settings.instanceById(settings.radarrInstanceId!)!
+            )
+
+            await fetchMoviesWithAlert()
+
+            if let model = await instance.fetchMetadata() {
+                settings.saveInstance(model)
             }
         }
     }

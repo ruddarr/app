@@ -7,7 +7,6 @@ import Foundation
 
     var isVoid = true
     var movies: Movies
-
     var lookup: MovieLookup
     var releases: MovieReleases
 
