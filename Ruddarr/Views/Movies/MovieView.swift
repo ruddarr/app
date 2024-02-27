@@ -24,7 +24,7 @@ struct MovieView: View {
             Button("OK", role: .cancel) { }
         } message: { error in
             if error.localizedDescription == "cancelled" {
-                let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MovieView")
+                let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MovieView") // swiftlint:disable:this redundant_discardable_let
             }
 
             Text(error.localizedDescription)

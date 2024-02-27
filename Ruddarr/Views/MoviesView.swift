@@ -105,7 +105,7 @@ struct MoviesView: View {
                 Button("OK", role: .cancel) { }
             } message: {
                 if alertErrorMessage == "cancelled" {
-                    let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MoviesView")
+                    let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MoviesView") // swiftlint:disable:this redundant_discardable_let
                 }
 
                 Text(alertErrorMessage)
