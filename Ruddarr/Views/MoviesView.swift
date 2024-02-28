@@ -235,7 +235,7 @@ struct MoviesView: View {
 
         func scheduleNextRun(time: DispatchTime, id: Movie.ID) {
             DispatchQueue.main.asyncAfter(deadline: time) {
-                if let movie = instance.movies.items.first(where: { $0.id == id }) {
+                if instance.movies.items.first(where: { $0.id == id }) != nil {
                     dependencies.router.moviesPath = .init([Path.movie(id)])
                     return
                 }

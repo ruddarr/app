@@ -32,7 +32,7 @@ struct MovieSearchView: View {
             .padding(.top, 10)
             .scenePadding(.horizontal)
         }
-        .navigationTitle("Add Movie")
+        .navigationTitle("Movie Search")
         .searchable(
             text: $searchQuery,
             isPresented: $presentingSearch,
