@@ -42,8 +42,8 @@ struct MoviePreview: View {
 
                 detailsGrid
             }
+            .scenePadding(.horizontal)
         }
-        .scenePadding(.horizontal)
         .background(
             colorScheme == .dark
             ? .systemBackground

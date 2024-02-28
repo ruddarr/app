@@ -38,9 +38,6 @@
     "Add instance" : {
 
     },
-    "Add Movie" : {
-
-    },
     "Added" : {
 
     },
@@ -234,6 +231,9 @@
 
     },
     "Movie Downloading" : {
+
+    },
+    "Movie Search" : {
 
     },
     "Movie Upgraded" : {
