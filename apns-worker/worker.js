@@ -33,6 +33,7 @@ export default {
       console.info(`Type: ${payload.eventType}`)
 
       if (payload.eventType == 'ManualInteractionRequired') {
+        await sendDebugEmail(payload)
         return statusResponse(202)
       }
 
@@ -346,11 +347,11 @@ function buildNotificationPayload(payload) {
         return {
           aps: {
             'alert': {
-              'title-loc-key': `NOTIFICATION_MOVIE_GRAB`,
+              'title-loc-key': 'NOTIFICATION_MOVIE_GRAB',
               'title-loc-args': [instanceName],
-              'subtitle-loc-key': `NOTIFICATION_MOVIE_GRAB_SUBTITLE`,
+              'subtitle-loc-key': 'NOTIFICATION_MOVIE_GRAB_SUBTITLE',
               'subtitle-loc-args': [title, year],
-              'loc-key': `NOTIFICATION_MOVIE_GRAB_BODY`,
+              'loc-key': 'NOTIFICATION_MOVIE_GRAB_BODY',
               'loc-args': [releaseTitle, indexerName],
             },
             'sound': 'ping.aiff',
@@ -364,11 +365,11 @@ function buildNotificationPayload(payload) {
       return {
         aps: {
           'alert': {
-            'title-loc-key': `NOTIFICATION_EPISODES_GRAB`,
+            'title-loc-key': episodes > 1 ? 'NOTIFICATION_EPISODES_GRAB' : 'NOTIFICATION_EPISODE_GRAB',
             'title-loc-args': [instanceName, episodes],
-            'subtitle-loc-key': `NOTIFICATION_EPISODES_GRAB_SUBTITLE`,
+            'subtitle-loc-key': 'NOTIFICATION_EPISODES_GRAB_SUBTITLE',
             'subtitle-loc-args': [title, season],
-            'loc-key': `NOTIFICATION_EPISODES_GRAB_BODY`,
+            'loc-key': 'NOTIFICATION_EPISODES_GRAB_BODY',
             'loc-args': [releaseTitle, indexerName],
           },
           'sound': 'ping.aiff',
@@ -387,7 +388,7 @@ function buildNotificationPayload(payload) {
             'alert': {
               'title-loc-key': `NOTIFICATION_MOVIE_${subtype}`,
               'title-loc-args': [instanceName],
-              'loc-key': `NOTIFICATION_MOVIE_DOWNLOAD_BODY`,
+              'loc-key': 'NOTIFICATION_MOVIE_DOWNLOAD_BODY',
               'loc-args': [title, year],
             },
             'sound': 'ping.aiff',
@@ -404,7 +405,7 @@ function buildNotificationPayload(payload) {
             'alert': {
               'title-loc-key': `NOTIFICATION_EPISODE_${subtype}`,
               'title-loc-args': [instanceName],
-              'loc-key': `NOTIFICATION_EPISODE_DOWNLOAD_BODY`,
+              'loc-key': 'NOTIFICATION_EPISODE_DOWNLOAD_BODY',
               'loc-args': [title, season, episode],
             },
             'sound': 'ping.aiff',
@@ -420,7 +421,7 @@ function buildNotificationPayload(payload) {
           'alert': {
             'title-loc-key': `NOTIFICATION_EPISODES_${subtype}`,
             'title-loc-args': [instanceName, episodes],
-            'loc-key': `NOTIFICATION_EPISODES_DOWNLOAD_BODY`,
+            'loc-key': 'NOTIFICATION_EPISODES_DOWNLOAD_BODY',
             'loc-args': [title, season.toString()],
           },
           'sound': 'ping.aiff',
@@ -481,4 +482,21 @@ function pemToBinary(pem) {
 
 function base64StringToArrayBuffer(b64str) {
   return byteStringToBytes(atob(b64str)).buffer
+}
+
+async function sendDebugEmail(payload) {
+  await fetch('https://api.postmarkapp.com/email', {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'content-type': 'application/json;charset=UTF-8',
+      'x-postmark-server-token': '8ec6187d-5c62-460e-9293-2a9cbe4f8760',
+    },
+    body: JSON.stringify({
+      'From': 'worker@till.im',
+      'To': 'ruddarr@icloud.com',
+      'Subject': 'ManualInteractionRequired',
+      'TextBody': JSON.stringify(payload, null, 4)
+    }),
+  });
 }

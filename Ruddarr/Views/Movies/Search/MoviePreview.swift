@@ -89,8 +89,6 @@ struct MoviePreview: View {
 
     var detailsGrid: some View {
         Grid(alignment: .leading) {
-            detailsRow("Status", value: movie.status.label)
-
             if let studio = movie.studio, !studio.isEmpty {
                 detailsRow("Studio", value: studio)
             }
@@ -98,6 +96,8 @@ struct MoviePreview: View {
             if !movie.genres.isEmpty {
                 detailsRow("Genre", value: movie.genreLabel)
             }
+
+            detailsRow("Status", value: movie.status.label)
         }
         .padding(.bottom)
     }

@@ -20,8 +20,6 @@ struct MovieDetails: View {
 
             // MARK: details
             Grid(alignment: .leading) {
-                detailsRow("Status", value: movie.status.label)
-
                 if let studio = movie.studio, !studio.isEmpty {
                     detailsRow("Studio", value: studio)
                 }
@@ -29,6 +27,8 @@ struct MovieDetails: View {
                 if !movie.genres.isEmpty {
                     detailsRow("Genre", value: movie.genreLabel)
                 }
+
+                detailsRow("Status", value: movie.status.label)
 
                 if movie.isDownloaded {
                     detailsRow("Video", value: videoQuality)
@@ -58,7 +58,7 @@ struct MovieDetails: View {
                 .lineLimit(descriptionTruncated ? 4 : nil)
                 .textSelection(.enabled)
                 .onTapGesture {
-                    withAnimation { descriptionTruncated.toggle() }
+                    withAnimation { descriptionTruncated = false }
                 }
 
             Spacer()
