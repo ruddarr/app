@@ -317,6 +317,17 @@
         }
       }
     },
+    "NOTIFICATION_EPISODE_GRAB" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloading %2$@ Episode on %1$@"
+          }
+        }
+      }
+    },
     "NOTIFICATION_EPISODE_UPGRADE" : {
       "extractionState" : "manual",
       "localizations" : {
