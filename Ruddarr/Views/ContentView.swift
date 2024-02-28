@@ -62,8 +62,14 @@ struct ContentView: View {
                                 .foregroundStyle(
                                     dependencies.router.selectedTab == tab ? settings.theme.tint : .gray
                                 )
-                                .onTapGesture(count: 2) { goToRoot(tab: tab) }
-                                .onTapGesture { dependencies.router.selectedTab = tab }
+                                .frame(minWidth: 60)
+                                .onTapGesture {
+                                    guard dependencies.router.selectedTab != tab else {
+                                        return goToRoot(tab: tab)
+                                    }
+
+                                    dependencies.router.selectedTab = tab
+                                }
                         }
                     }
                     .padding(.horizontal, 4)
