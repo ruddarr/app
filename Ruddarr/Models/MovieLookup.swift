@@ -18,9 +18,9 @@ class MovieLookup {
     enum SortOption: String, Identifiable, CaseIterable {
         var id: Self { self }
 
-        case byRelevance = "Relevance"
-        case byYear = "Year"
-        case byPopularity = "Popularity"
+        case byRelevance = "Relevant"
+        case byYear = "Latest"
+        case byPopularity = "Popular"
     }
 
     func reset() {
@@ -59,9 +59,9 @@ class MovieLookup {
 
         return items.sorted {
             switch sort {
-            case .byRelevance: $0.id < $1.id
-            case .byYear: $0.year < $1.year
-            case .byPopularity: $0.popularity ?? 0 < $1.popularity ?? 0
+            case .byRelevance: $0.id < $1.id // see guard above
+            case .byYear: $0.year > $1.year
+            case .byPopularity: $0.popularity ?? 0 > $1.popularity ?? 0
             }
         }
     }
