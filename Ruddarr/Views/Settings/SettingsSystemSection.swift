@@ -39,10 +39,10 @@ struct SettingsSystemSection: View {
             if let version = buildVersion {
                 HStack {
                     Spacer()
-                    Text(version).font(.subheadline)
+                    Text(version).font(.footnote)
                     Spacer()
                 }
-                .padding(.top)
+                .padding(.vertical)
             }
         }
     }
