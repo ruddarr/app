@@ -16,6 +16,11 @@ struct MovieView: View {
         .refreshable {
             await refresh()
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+             toolbarMonitorButton
+             toolbarMenu
+        }
         .alert(
             "Something Went Wrong",
             isPresented: Binding(get: { instance.movies.error != nil }, set: { _ in }),
@@ -29,33 +34,26 @@ struct MovieView: View {
 
             Text(error.localizedDescription)
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            toolbarMonitorButton
-            toolbarMenu
-        }
     }
 
     @ToolbarContentBuilder
     var toolbarMonitorButton: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
-            HStack {
-                Button {
-                    Task { await toggleMonitor() }
-                } label: {
-                    Circle()
-                        .fill(.secondarySystemBackground)
-                        .frame(width: 28, height: 28)
-                        .overlay {
-                            Image(systemName: "bookmark")
-                                .font(.system(size: 11, weight: .bold))
-                                .symbolVariant(movie.monitored ? .fill : .none)
-                                .foregroundStyle(.tint)
-                        }
-                }
-                .buttonStyle(.plain)
-                .allowsHitTesting(!instance.movies.isWorking)
+            Button {
+                Task { await toggleMonitor() }
+            } label: {
+                Circle()
+                    .fill(.secondarySystemBackground)
+                    .frame(width: 28, height: 28)
+                    .overlay {
+                        Image(systemName: "bookmark")
+                            .font(.system(size: 11, weight: .bold))
+                            .symbolVariant(movie.monitored ? .fill : .none)
+                            .foregroundStyle(.tint)
+                    }
             }
+            .buttonStyle(.plain)
+            .allowsHitTesting(!instance.movies.isWorking)
         }
     }
 
