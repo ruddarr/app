@@ -132,7 +132,6 @@ struct ContentView: View {
         .background(
             Color(isPortrait ? .clear : .secondarySystemBackground)
         )
-        .hideSidebarToggle(!isPortrait)
     }
 
     @ViewBuilder
