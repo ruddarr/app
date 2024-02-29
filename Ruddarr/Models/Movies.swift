@@ -87,6 +87,8 @@ class Movies {
             try await performOperation(operation)
         } catch is CancellationError {
             // do nothing
+        } catch let urlError as URLError where urlError.code == .cancelled {
+            // do nothing
         } catch let urlError as URLError where urlError.code == .timedOut {
             self.error = instance.isPrivateIp() ? URLError.timedOutOnPrivateIp : urlError
         } catch {

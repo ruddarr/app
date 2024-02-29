@@ -42,6 +42,8 @@ class InstanceWebhook {
             }
         } catch is CancellationError {
             // do nothing
+        } catch let urlError as URLError where urlError.code == .cancelled {
+            // do nothing
         } catch {
             self.error = error
 

@@ -23,6 +23,8 @@ class MovieReleases {
             items = try await dependencies.api.lookupReleases(movie.movieId!, instance)
         } catch is CancellationError {
             // do nothing
+        } catch let urlError as URLError where urlError.code == .cancelled {
+            // do nothing
         } catch {
             self.error = error
 
