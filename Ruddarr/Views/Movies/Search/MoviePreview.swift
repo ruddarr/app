@@ -6,7 +6,7 @@ struct MoviePreview: View {
 
     @Environment(RadarrInstance.self) private var instance
 
-    @State private var descriptionTruncated = true
+    @State private var descriptionTruncated = UIDevice.current.userInterfaceIdiom == .pad ? false : true
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) var colorScheme

@@ -3,7 +3,7 @@ import SwiftUI
 struct MovieDetails: View {
     var movie: Movie
 
-    @State private var descriptionTruncated = true
+    @State private var descriptionTruncated = UIDevice.current.userInterfaceIdiom == .pad ? false : true
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
