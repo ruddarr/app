@@ -206,7 +206,14 @@ struct InstanceView: View {
             Toggle("Episode Downloading", isOn: $webhook.model.onGrab)
                 .onChange(of: webhook.model.onGrab) { Task { await webhook.update(cloudKitUserId) } }
 
-            Toggle("Episode Downloaded", isOn: $webhook.model.onDownload)
+            Toggle(isOn: $webhook.model.onDownload) {
+                HStack(spacing: 6) {
+                    Text("Episode Downloaded")
+                    Image(systemName: "speaker.wave.3")
+                        .foregroundStyle(.secondary)
+                        .font(.subheadline)
+                }
+            }
                 .onChange(of: webhook.model.onDownload) { Task { await webhook.update(cloudKitUserId) } }
 
             Toggle("Episode Upgraded", isOn: $webhook.model.onUpgrade)
