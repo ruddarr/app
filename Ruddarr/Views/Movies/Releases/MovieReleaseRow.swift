@@ -7,6 +7,7 @@ struct MovieReleaseRow: View {
 
     var body: some View {
         linesStack
+            .contentShape(Rectangle())
             .onTapGesture {
                 isShowingPopover = true
             }
