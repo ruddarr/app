@@ -6,7 +6,7 @@ struct MoviePreview: View {
 
     @Environment(RadarrInstance.self) private var instance
 
-    @State private var descriptionTruncated = UIDevice.current.userInterfaceIdiom == .pad ? false : true
+    @State private var descriptionTruncated = UIDevice.current.userInterfaceIdiom == .phone ? true : false
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) var colorScheme
@@ -35,14 +35,14 @@ struct MoviePreview: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
 
-                MovieDetailsRatings(movie: movie)
+                MovieRatings(movie: movie)
                     .padding(.bottom)
 
                 description
 
                 detailsGrid
             }
-            .scenePadding(.horizontal)
+            .viewPadding(.horizontal)
         }
         .background(
             colorScheme == .dark

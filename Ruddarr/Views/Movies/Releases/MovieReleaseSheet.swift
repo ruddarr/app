@@ -26,7 +26,7 @@ struct MovieReleaseSheet: View {
                     .padding(.bottom)
             }
             .padding(.top)
-            .scenePadding(.horizontal)
+            .viewPadding(.horizontal)
         }
         .alert(
             "Something Went Wrong",
@@ -102,7 +102,7 @@ struct MovieReleaseSheet: View {
             .padding(.bottom, 12)
         }
         .background(.secondarySystemBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
     var actions: some View {

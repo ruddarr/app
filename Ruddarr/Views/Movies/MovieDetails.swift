@@ -3,22 +3,19 @@ import SwiftUI
 struct MovieDetails: View {
     var movie: Movie
 
-    @State private var descriptionTruncated = UIDevice.current.userInterfaceIdiom == .pad ? false : true
+    @State private var descriptionTruncated = UIDevice.current.userInterfaceIdiom == .phone ? true : false
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
         VStack(alignment: .leading) {
-            // MARK: overview
-            MovieDetailsOverview(movie: movie)
+            detailsOverview
                 .padding(.bottom)
 
-            // MARK: description
             description
                 .padding(.bottom)
 
-            // MARK: details
             Grid(alignment: .leading) {
                 if let studio = movie.studio, !studio.isEmpty {
                     detailsRow("Studio", value: studio)
@@ -40,11 +37,11 @@ struct MovieDetails: View {
                 }
             }.padding(.bottom)
 
-            // MARK: actions
-            actions
-                .padding(.bottom)
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                actions
+                    .padding(.bottom)
+            }
 
-            // MARK: information
             information
                 .padding(.bottom)
         }
@@ -91,75 +88,7 @@ struct MovieDetails: View {
             .tint(.secondary)
         }
         .fixedSize(horizontal: false, vertical: true)
-    }
-
-    var information: some View {
-        Section(
-            header: Text("Information")
-                .font(.title2)
-                .fontWeight(.bold)
-        ) {
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
-
-                LazyVGrid(columns: columns, alignment: .leading) {
-                    ForEach(informationItems, id: \.self) { item in
-                        VStack(alignment: .leading) {
-                            Text(item.label).foregroundStyle(.secondary)
-                            Text(item.value)
-                        }
-                        .font(.subheadline)
-                        .padding(.bottom)
-                    }
-                }
-            } else {
-                VStack(spacing: 12) {
-                    ForEach(informationItems, id: \.self) { item in
-                        if item != informationItems.first {
-                            Divider()
-                        }
-
-                        LabeledContent {
-                            Text(item.value).foregroundStyle(.primary)
-                        } label: {
-                            Text(item.label).foregroundStyle(.secondary)
-                        }
-                    }
-                }
-            }
-        }
-        .font(.callout)
-    }
-
-    struct InformationItem: Hashable {
-        var label: String
-        var value: String
-    }
-
-    var informationItems: [InformationItem] {
-        var items = [
-            InformationItem(label: "Quality Profile", value: qualityProfile),
-            InformationItem(label: "Minimum Availability", value: movie.minimumAvailability.label),
-            InformationItem(label: "Root Folder", value: movie.rootFolderPath ?? "Unknown"),
-        ]
-
-        if movie.isDownloaded {
-            items.append(InformationItem(label: "Size", value: movie.sizeLabel))
-        }
-
-        if let inCinemas = movie.inCinemas {
-            items.append(InformationItem(label: "In Cinemas", value: inCinemas.formatted(.dateTime.day().month().year())))
-        }
-
-        if let digitalRelease = movie.digitalRelease {
-            items.append(InformationItem(label: "Digital Release", value: digitalRelease.formatted(.dateTime.day().month().year())))
-        }
-
-        if let physicalRelease = movie.physicalRelease {
-            items.append(InformationItem(label: "Physical Release", value: physicalRelease.formatted(.dateTime.day().month().year())))
-        }
-
-        return items
+        .frame(maxWidth: 450)
     }
 
     var videoQuality: String {

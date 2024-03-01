@@ -16,16 +16,16 @@ extension View {
         return self.environment(instance)
     }
 
-    func hideSidebarToggle(_ shouldHide: Bool) -> some View {
-        self.toolbar(removing: shouldHide ? .sidebarToggle : nil)
-    }
-
     func appWindowFrame() -> some View {
         if ProcessInfo.processInfo.isiOSAppOnMac {
             self.frame(minWidth: 1_024, maxWidth: 12_032, minHeight: 768, maxHeight: 6_768)
         } else {
             self.frame(minWidth: 1)
         }
+    }
+
+    func viewPadding(_ edges: Edge.Set = .all) -> some View {
+        self.modifier(ViewPadding(edges))
     }
 }
 
@@ -56,6 +56,22 @@ private struct WithSettingsModifier: ViewModifier {
             .tint(theme.tint)
             .preferredColorScheme(appearance.preferredColorScheme)
             .environmentObject(settings)
+    }
+}
+
+private struct ViewPadding: ViewModifier {
+    var edges: Edge.Set
+
+    init(_ edges: Edge.Set) {
+        self.edges = edges
+    }
+
+    func body(content: Content) -> some View {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            content.scenePadding(edges)
+        } else {
+            content.padding(edges, 22)
+        }
     }
 }
 

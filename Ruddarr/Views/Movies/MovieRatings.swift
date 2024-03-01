@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MovieDetailsRatings: View {
+struct MovieRatings: View {
     var movie: Movie
 
     var body: some View {

@@ -145,6 +145,13 @@ struct Movie: Identifiable, Codable {
             false
         }
     }
+
+    struct MovieRatings: Codable {
+        let imdb: MovieRating?
+        let tmdb: MovieRating?
+        let metacritic: MovieRating?
+        let rottenTomatoes: MovieRating?
+    }
 }
 
 enum MovieStatus: String, Codable {
@@ -175,13 +182,6 @@ struct MovieImage: Codable {
         case remoteURL = "remoteUrl"
         case url
     }
-}
-
-struct MovieRatings: Codable {
-    let imdb: MovieRating?
-    let tmdb: MovieRating?
-    let metacritic: MovieRating?
-    let rottenTomatoes: MovieRating?
 }
 
 struct MovieRating: Codable {

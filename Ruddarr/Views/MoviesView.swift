@@ -34,7 +34,7 @@ struct MoviesView: View {
                     ScrollView {
                         movieItemGrid
                             .padding(.top, searchPresented ? 10 : 0)
-                            .scenePadding(.horizontal)
+                            .viewPadding(.horizontal)
                     }
                     .task(priority: .low) {
                         guard !instance.isVoid else { return }
@@ -122,8 +122,9 @@ struct MoviesView: View {
 
     var movieItemGrid: some View {
         let gridItemLayout = MovieGridItem.gridItemLayout()
+        let gridItemSpacing = MovieGridItem.gridItemSpacing()
 
-        return LazyVGrid(columns: gridItemLayout, spacing: 15) {
+        return LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
             ForEach(displayedMovies) { movie in
                 NavigationLink(value: Path.movie(movie.id)) {
                     MovieGridItem(movie: movie)

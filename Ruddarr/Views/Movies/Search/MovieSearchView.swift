@@ -10,12 +10,15 @@ struct MovieSearchView: View {
     @Environment(RadarrInstance.self) private var instance
 
     let searchTextPublisher = PassthroughSubject<String, Never>()
+
     let gridItemLayout = MovieGridItem.gridItemLayout()
+    let gridItemSpacing = MovieGridItem.gridItemSpacing()
 
     var body: some View {
         @Bindable var movieLookup = instance.lookup
+
         ScrollView {
-            LazyVGrid(columns: gridItemLayout, spacing: 15) {
+            LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
                 ForEach(movieLookup.sortedItems) { movie in
                     MovieGridItem(movie: movie)
                         .onTapGesture {
@@ -29,8 +32,8 @@ struct MovieSearchView: View {
                         )
                 }
             }
-            .padding(.top, 10)
-            .scenePadding(.horizontal)
+            .padding(.top, 12)
+            .viewPadding(.horizontal)
         }
         .navigationTitle("Movie Search")
         .searchable(

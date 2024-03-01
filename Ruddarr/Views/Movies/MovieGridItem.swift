@@ -19,12 +19,12 @@ struct MovieGridItem: View {
                 posterOverlay
             }
         }
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
     var poster: some View {
         CachedAsyncImage(url: movie.remotePoster, type: .poster)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
             .aspectRatio(
                 CGSize(width: 150, height: 225),
                 contentMode: .fill
@@ -65,16 +65,24 @@ struct MovieGridItem: View {
         }
     }
 
+    static func gridItemSpacing() -> CGFloat {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return 12
+        }
+
+        return 20
+    }
+
     static func gridItemLayout() -> [GridItem] {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return [GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)]
         }
 
         if ProcessInfo.processInfo.isiOSAppOnMac {
-            return [GridItem(.adaptive(minimum: 180, maximum: 200), spacing: 12)]
+            return [GridItem(.adaptive(minimum: 160, maximum: 200), spacing: 20)]
         }
 
-        return [GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 12)]
+        return [GridItem(.adaptive(minimum: 145, maximum: 180), spacing: 20)]
     }
 }
 
@@ -93,7 +101,7 @@ struct MovieGridItem: View {
             }
         }
         .padding(.top, 0)
-        .scenePadding(.horizontal)
+        .viewPadding(.horizontal)
     }
     .withAppState()
 }

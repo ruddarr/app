@@ -17,7 +17,7 @@ struct MovieSearchSheet: View {
                         MovieDetails(movie: movie)
                             .environment(instance)
                             .environmentObject(settings)
-                            .scenePadding(.horizontal)
+                            .viewPadding(.horizontal)
                     }
                 } else {
                     MoviePreview(movie: $movie)
