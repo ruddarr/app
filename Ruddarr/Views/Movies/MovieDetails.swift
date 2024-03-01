@@ -99,35 +99,67 @@ struct MovieDetails: View {
                 .font(.title2)
                 .fontWeight(.bold)
         ) {
-            VStack(spacing: 12) {
-                informationRow("Quality Profile", value: qualityProfile)
-                Divider()
-                informationRow("Minimum Availability", value: movie.minimumAvailability.label)
-                Divider()
-                informationRow("Root Folder", value: movie.rootFolderPath ?? "")
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
 
-                if movie.isDownloaded {
-                    Divider()
-                    informationRow("Size", value: movie.sizeOnDisk == nil ? "" : movie.sizeLabel)
+                LazyVGrid(columns: columns, alignment: .leading) {
+                    ForEach(informationItems, id: \.self) { item in
+                        VStack(alignment: .leading) {
+                            Text(item.label).foregroundStyle(.secondary)
+                            Text(item.value)
+                        }
+                        .font(.subheadline)
+                        .padding(.bottom)
+                    }
                 }
+            } else {
+                VStack(spacing: 12) {
+                    ForEach(informationItems, id: \.self) { item in
+                        if item != informationItems.first {
+                            Divider()
+                        }
 
-                if let inCinemas = movie.inCinemas {
-                    Divider()
-                    informationRow("In Cinemas", value: inCinemas.formatted(.dateTime.day().month().year()))
-                }
-
-                if let digitalRelease = movie.digitalRelease {
-                    Divider()
-                    informationRow("Digital Release", value: digitalRelease.formatted(.dateTime.day().month().year()))
-                }
-
-                if let physicalRelease = movie.physicalRelease {
-                    Divider()
-                    informationRow("Physical Release", value: physicalRelease.formatted(.dateTime.day().month().year()))
+                        LabeledContent {
+                            Text(item.value).foregroundStyle(.primary)
+                        } label: {
+                            Text(item.label).foregroundStyle(.secondary)
+                        }
+                    }
                 }
             }
         }
         .font(.callout)
+    }
+
+    struct InformationItem: Hashable {
+        var label: String
+        var value: String
+    }
+
+    var informationItems: [InformationItem] {
+        var items = [
+            InformationItem(label: "Quality Profile", value: qualityProfile),
+            InformationItem(label: "Minimum Availability", value: movie.minimumAvailability.label),
+            InformationItem(label: "Root Folder", value: movie.rootFolderPath ?? "Unknown"),
+        ]
+
+        if movie.isDownloaded {
+            items.append(InformationItem(label: "Size", value: movie.sizeLabel))
+        }
+
+        if let inCinemas = movie.inCinemas {
+            items.append(InformationItem(label: "In Cinemas", value: inCinemas.formatted(.dateTime.day().month().year())))
+        }
+
+        if let digitalRelease = movie.digitalRelease {
+            items.append(InformationItem(label: "Digital Release", value: digitalRelease.formatted(.dateTime.day().month().year())))
+        }
+
+        if let physicalRelease = movie.physicalRelease {
+            items.append(InformationItem(label: "Physical Release", value: physicalRelease.formatted(.dateTime.day().month().year())))
+        }
+
+        return items
     }
 
     var videoQuality: String {
@@ -219,14 +251,6 @@ struct MovieDetails: View {
             Spacer()
         }
         .font(.callout)
-    }
-
-    func informationRow(_ label: String, value: String) -> some View {
-        LabeledContent {
-            Text(value).foregroundStyle(.primary)
-        } label: {
-            Text(label).foregroundStyle(.secondary)
-        }
     }
 }
 
