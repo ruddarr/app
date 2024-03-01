@@ -57,6 +57,15 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
+        if UIApplication.shared.applicationState == .active {
+            let payload = notification.request.content.userInfo
+
+            if let hidden = payload["hideInForeground"] as? Bool, hidden {
+                completionHandler([])
+                return
+            }
+        }
+
         completionHandler([.banner, .list, .sound])
     }
 

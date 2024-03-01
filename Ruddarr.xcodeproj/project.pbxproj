@@ -19,9 +19,8 @@
 		79B761CB2B7115EC001DD30E /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B761CA2B7115EC001DD30E /* Toast.swift */; };
 		BB01B1F42B6465730025FAF4 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01B1F32B6465730025FAF4 /* View.swift */; };
 		BB05C9052B86D0EC009B6444 /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05C9042B86D0EC009B6444 /* Languages.swift */; };
-		BB05C9072B86E247009B6444 /* MovieDetailsRatings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05C9062B86E247009B6444 /* MovieDetailsRatings.swift */; };
-		BB05C9092B86E272009B6444 /* MovieDetailsOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05C9082B86E272009B6444 /* MovieDetailsOverview.swift */; };
-		BB05C90B2B86E291009B6444 /* MovieDetailsSubtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05C90A2B86E291009B6444 /* MovieDetailsSubtitle.swift */; };
+		BB05C9072B86E247009B6444 /* MovieRatings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05C9062B86E247009B6444 /* MovieRatings.swift */; };
+		BB05C9092B86E272009B6444 /* MovieDetails+Overview.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB05C9082B86E272009B6444 /* MovieDetails+Overview.swift */; };
 		BB25DC612B62ECF700FE55A0 /* InstanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC602B62ECF700FE55A0 /* InstanceRow.swift */; };
 		BB25DC642B62ED9100FE55A0 /* LibrariesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC632B62ED9100FE55A0 /* LibrariesView.swift */; };
 		BB25DC662B62EDC700FE55A0 /* MovieGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC652B62EDC700FE55A0 /* MovieGridItem.swift */; };
@@ -72,6 +71,7 @@
 		BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1E43E2B51F61700946222 /* MovieLookup.swift */; };
 		BBE1E4412B51F9DC00946222 /* movies.json in Resources */ = {isa = PBXBuildFile; fileRef = BBE1E4402B51F9DC00946222 /* movies.json */; };
 		BBE1E4432B51FA0200946222 /* movie-lookup.json in Resources */ = {isa = PBXBuildFile; fileRef = BBE1E4422B51FA0200946222 /* movie-lookup.json */; };
+		BBE7CE032B91745100431801 /* MovieDetails+Information.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE7CE022B91745100431801 /* MovieDetails+Information.swift */; };
 		BBE7F8A72B6423A60014DD57 /* Movies.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE7F8A62B6423A60014DD57 /* Movies.swift */; };
 		BBE7F8A92B6424350014DD57 /* RadarrInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE7F8A82B6424350014DD57 /* RadarrInstance.swift */; };
 		BBE828572B4F2C7000C1E1D9 /* Ruddarr.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE828562B4F2C7000C1E1D9 /* Ruddarr.swift */; };
@@ -103,9 +103,8 @@
 		79B761CA2B7115EC001DD30E /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		BB01B1F32B6465730025FAF4 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		BB05C9042B86D0EC009B6444 /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
-		BB05C9062B86E247009B6444 /* MovieDetailsRatings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsRatings.swift; sourceTree = "<group>"; };
-		BB05C9082B86E272009B6444 /* MovieDetailsOverview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsOverview.swift; sourceTree = "<group>"; };
-		BB05C90A2B86E291009B6444 /* MovieDetailsSubtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsSubtitle.swift; sourceTree = "<group>"; };
+		BB05C9062B86E247009B6444 /* MovieRatings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRatings.swift; sourceTree = "<group>"; };
+		BB05C9082B86E272009B6444 /* MovieDetails+Overview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieDetails+Overview.swift"; sourceTree = "<group>"; };
 		BB25DC602B62ECF700FE55A0 /* InstanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceRow.swift; sourceTree = "<group>"; };
 		BB25DC632B62ED9100FE55A0 /* LibrariesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrariesView.swift; sourceTree = "<group>"; };
 		BB25DC652B62EDC700FE55A0 /* MovieGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGridItem.swift; sourceTree = "<group>"; };
@@ -113,6 +112,7 @@
 		BB25DC692B63161E00FE55A0 /* MovieForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieForm.swift; sourceTree = "<group>"; };
 		BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseSort.swift; sourceTree = "<group>"; };
 		BB42618C2B6980760078B94E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		BB4289692B8FC8BD0042B2CF /* Ruddarr.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Ruddarr.storekit; sourceTree = "<group>"; };
 		BB456D222B58C71300C29B00 /* NoInternet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternet.swift; sourceTree = "<group>"; };
 		BB456D262B58E4B900C29B00 /* system-status.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "system-status.json"; sourceTree = "<group>"; };
 		BB4B34F02B7BF4C80063F2D3 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -152,6 +152,7 @@
 		BBE1E43E2B51F61700946222 /* MovieLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieLookup.swift; sourceTree = "<group>"; };
 		BBE1E4402B51F9DC00946222 /* movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = movies.json; sourceTree = "<group>"; };
 		BBE1E4422B51FA0200946222 /* movie-lookup.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "movie-lookup.json"; sourceTree = "<group>"; };
+		BBE7CE022B91745100431801 /* MovieDetails+Information.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieDetails+Information.swift"; sourceTree = "<group>"; };
 		BBE7F8A62B6423A60014DD57 /* Movies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movies.swift; sourceTree = "<group>"; };
 		BBE7F8A82B6424350014DD57 /* RadarrInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarrInstance.swift; sourceTree = "<group>"; };
 		BBE828532B4F2C7000C1E1D9 /* Ruddarr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ruddarr.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -237,10 +238,10 @@
 				BB25DC652B62EDC700FE55A0 /* MovieGridItem.swift */,
 				BB4E441D2B842C0A00E0BC73 /* MovieContextMenu.swift */,
 				BB25DC692B63161E00FE55A0 /* MovieForm.swift */,
+				BB05C9062B86E247009B6444 /* MovieRatings.swift */,
 				BB25DC672B630B9000FE55A0 /* MovieDetails.swift */,
-				BB05C9062B86E247009B6444 /* MovieDetailsRatings.swift */,
-				BB05C9082B86E272009B6444 /* MovieDetailsOverview.swift */,
-				BB05C90A2B86E291009B6444 /* MovieDetailsSubtitle.swift */,
+				BB05C9082B86E272009B6444 /* MovieDetails+Overview.swift */,
+				BBE7CE022B91745100431801 /* MovieDetails+Information.swift */,
 			);
 			path = Movies;
 			sourceTree = "<group>";
@@ -323,6 +324,7 @@
 				BB456D212B58BDF300C29B00 /* Utilities */,
 				BBE828562B4F2C7000C1E1D9 /* Ruddarr.swift */,
 				BBE8285C2B4F2C7100C1E1D9 /* Ruddarr.entitlements */,
+				BB4289692B8FC8BD0042B2CF /* Ruddarr.storekit */,
 				BB42618C2B6980760078B94E /* Info.plist */,
 				BBE8285A2B4F2C7100C1E1D9 /* Assets.xcassets */,
 				BB4B34F02B7BF4C80063F2D3 /* Localizable.xcstrings */,
@@ -538,6 +540,7 @@
 			files = (
 				BBF477A92B4FA20B00C2DED3 /* SettingsView.swift in Sources */,
 				BB25DC682B630B9000FE55A0 /* MovieDetails.swift in Sources */,
+				BBE7CE032B91745100431801 /* MovieDetails+Information.swift in Sources */,
 				79159D6E2B5953E800F7F997 /* API.swift in Sources */,
 				BB05C9052B86D0EC009B6444 /* Languages.swift in Sources */,
 				BBC94DE52B5F3E0B00504568 /* CloudStorageSync.swift in Sources */,
@@ -557,7 +560,6 @@
 				BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */,
 				794BD7822B5ED48E003819AB /* Binding.swift in Sources */,
 				BBC94DE32B5F3DE600504568 /* CloudStorage.swift in Sources */,
-				BB05C90B2B86E291009B6444 /* MovieDetailsSubtitle.swift in Sources */,
 				BBE828572B4F2C7000C1E1D9 /* Ruddarr.swift in Sources */,
 				798010BD2B6268D200BBC056 /* RawRepresentable.swift in Sources */,
 				BB25DC662B62EDC700FE55A0 /* MovieGridItem.swift in Sources */,
@@ -581,7 +583,7 @@
 				BBF94F652B50C88300300EBA /* Instance.swift in Sources */,
 				BBE8286A2B4F325400C1E1D9 /* ShowsView.swift in Sources */,
 				BBBB08D42B77FBC700BADBA1 /* IconsView.swift in Sources */,
-				BB05C9092B86E272009B6444 /* MovieDetailsOverview.swift in Sources */,
+				BB05C9092B86E272009B6444 /* MovieDetails+Overview.swift in Sources */,
 				79159D6C2B5953D700F7F997 /* Dependencies.swift in Sources */,
 				BBF94F632B508F8B00300EBA /* MovieView.swift in Sources */,
 				BB94F1BD2B7EDD3B0050F6A0 /* InstanceValidation.swift in Sources */,
@@ -592,7 +594,7 @@
 				BBBE93162B68638400353216 /* Theme.swift in Sources */,
 				BBC77E242B7AAD3300573EBD /* InstanceView.swift in Sources */,
 				BB25DC6A2B63161E00FE55A0 /* MovieForm.swift in Sources */,
-				BB05C9072B86E247009B6444 /* MovieDetailsRatings.swift in Sources */,
+				BB05C9072B86E247009B6444 /* MovieRatings.swift in Sources */,
 				BBA54BDE2B561FB200CA0F3E /* CachedAsyncImage.swift in Sources */,
 				790D1EC52B864EC700FCDB64 /* QuickActions.swift in Sources */,
 				BB6D96952B61E61D0017BFB3 /* AppSettings.swift in Sources */,
@@ -757,7 +759,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.0.8;
+				MARKETING_VERSION = 0.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -804,7 +806,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.0.8;
+				MARKETING_VERSION = 0.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

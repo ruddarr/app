@@ -1,16 +1,19 @@
 // interruption-level = passive ?
 
+// WAF blocks user-agents other than: `Ruddarr`, `Radarr` and `Sonarr`
 export default {
   async fetch(request, env, context) {
+    const { headers } = request
+
     console.info(`URL: ${request.url}`)
-    console.info(`User-Agent: ${request.headers.get('user-agent')}`)
-    console.info(`CF-Connecting-IP: ${request.headers.get('cf-connecting-ip')}`)
+    console.info(`User-Agent: ${headers.get('user-agent')}`)
+    console.info(`CF-Connecting-IP: ${headers.get('cf-connecting-ip')}`)
 
     if (request.method != 'POST') {
       return statusResponse(405)
     }
 
-    const contentType = request.headers.get('Content-Type') || ''
+    const contentType = headers.get('Content-Type') || ''
 
     if (! contentType.includes('application/json')) {
       return statusResponse(415)
@@ -22,10 +25,10 @@ export default {
     console.info('Payload: ' + JSON.stringify(payload).replace(/\\/g, ''))
 
     if (url.pathname == '/register') {
-      return registerDevice(request, env, payload)
+      return registerDevice(env, payload)
     }
 
-    if (isWebhookRequest(request, payload)) {
+    if (isWebhookRequest(payload)) {
       if (payload.eventType == 'Test') {
         return statusResponse(202)
       }
@@ -59,13 +62,7 @@ function statusResponse(code) {
   })
 }
 
-function isWebhookRequest(request, payload) {
-  const userAgent = request.headers.get('user-agent') || ''
-
-  if (! userAgent.startsWith('Radarr')) {
-    // return false (check Sonarr too)
-  }
-
+function isWebhookRequest(payload) {
   if (! Object.hasOwn(payload, 'eventType') || ! payload.eventType) {
     return false
   }
@@ -73,36 +70,37 @@ function isWebhookRequest(request, payload) {
   return true
 }
 
-async function registerDevice(request, env, payload) {
-  const userAgent = request.headers.get('user-agent') || ''
+async function registerDevice(env, payload) {
+  let data = await env.STORE.get(payload.account, { type: 'json' })
 
-  if (! userAgent.includes('Ruddarr')) {
-    return statusResponse(400)
+  if (data === null) {
+    data = { devices: [] }
   }
 
-  const currentDevices = await env.RUDDARR.get(payload.account, { type: 'json' })
-  const devices = new Set(currentDevices ?? [])
-
-  if (devices.has(payload.token)) {
-    return statusResponse(200)
-  }
+  const devices = new Set(data.devices)
+  const deviceRegistered = devices.has(payload.token)
 
   devices.add(payload.token)
-  await env.RUDDARR.put(payload.account, JSON.stringify(Array.from(devices)))
 
-  return statusResponse(201)
+  data.seenAt = Math.floor(Date.now() / 1000)
+  data.entitled = true // payload.entitled
+  data.devices = Array.from(devices)
+
+  await env.STORE.put(payload.account, JSON.stringify(data))
+
+  return statusResponse(deviceRegistered ? 200 : 201)
 }
 
-async function deregisterDevice(account, token, env) {
-  const currentDevices = await env.RUDDARR.get(account, { type: 'json' })
-  const devices = new Set(currentDevices ?? [])
+// async function deregisterDevice(account, token, env) {
+//   const currentDevices = await env.STORE.get(account, { type: 'json' })
+//   const devices = new Set(currentDevices ?? [])
 
-  if (devices.has(token)) {
-    devices.delete(token)
+//   if (devices.has(token)) {
+//     devices.delete(token)
 
-    await env.RUDDARR.put(account, JSON.stringify(Array.from(devices)))
-  }
-}
+//     await env.STORE.put(account, JSON.stringify(Array.from(devices)))
+//   }
+// }
 
 async function fetchDevices(request, env) {
   const url = new URL(request.url)
@@ -116,24 +114,35 @@ async function fetchDevices(request, env) {
     return false
   }
 
-  return await env.RUDDARR.get(account, { type: 'json' })
+  const data = await env.STORE.get(account, { type: 'json' })
+
+  if (! data.entitled) {
+    return []
+  }
+
+  return data?.devices ?? []
 }
 
 async function handleWebhook(env, devices, payload) {
+  if (! devices.length) {
+    return statusResponse(202)
+  }
+
   const notification = buildNotificationPayload(payload)
+
+  if (! notification) {
+    return statusResponse(202)
+  }
 
   console.info('Notification: ' + JSON.stringify(notification).replace(/\\/g, ''))
   console.info('Devices: ' + JSON.stringify(devices).replace(/\\/g, ''))
 
-  if (notification && devices) {
-    const authorizationToken = await generateAuthorizationToken(env)
-    console.info(`JWT: ${authorizationToken}`)
+  const authorizationToken = await generateAuthorizationToken(env)
 
-    // send notifications in parallel
-    await Promise.all(devices.map(async (deviceToken) => {
-      await sendNotification(notification, authorizationToken, deviceToken)
-    }))
-  }
+  // send notifications in parallel
+  await Promise.all(devices.map(async (deviceToken) => {
+    await sendNotification(notification, authorizationToken, deviceToken)
+  }))
 
   return statusResponse(202)
 }
@@ -162,7 +171,6 @@ async function sendNotification(notification, authorizationToken, deviceToken, s
   }
 
   const response = await fetch(url, init)
-
   const { headers } = response
 
   const apnsId = (
@@ -198,7 +206,7 @@ async function sendNotification(notification, authorizationToken, deviceToken, s
 }
 
 async function generateAuthorizationToken(env) {
-  const storedToken = await env.RUDDARR.get('$token')
+  const storedToken = await env.STORE.get('$token')
 
   if (storedToken !== null) {
     return storedToken
@@ -235,7 +243,7 @@ async function generateAuthorizationToken(env) {
 
   const token = `${jwtHeader}.${jwtPayload}.${arrayBufferToBase64Url(signature)}`
 
-  await env.RUDDARR.put('$token', token, { expirationTtl: 60 * 45 })
+  await env.STORE.put('$token', token, { expirationTtl: 60 * 45 })
 
   return token
 }
@@ -321,6 +329,7 @@ function buildNotificationPayload(payload) {
           'relevance-score': 0.6,
         },
         deeplink: `ruddarr://movies/open/${payload.movie?.id}`,
+        hideInForeground: true,
       }
 
     case 'SeriesAdd':
@@ -337,6 +346,7 @@ function buildNotificationPayload(payload) {
           'relevance-score': 0.6,
         },
         // deeplink: `ruddarr://series/open/${payload.series?.id}`,
+        hideInForeground: true,
       }
 
     case 'Grab':
@@ -359,6 +369,7 @@ function buildNotificationPayload(payload) {
             'relevance-score': 0.8,
           },
           deeplink: `ruddarr://movies/open/${payload.movie?.id}`,
+          hideInForeground: true,
         }
       }
 
@@ -377,6 +388,7 @@ function buildNotificationPayload(payload) {
           'relevance-score': 0.8,
         },
         // deeplink: `ruddarr://series/open/${payload.series?.id}`,
+        hideInForeground: true,
       }
 
     case 'Download':
