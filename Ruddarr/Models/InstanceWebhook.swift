@@ -62,7 +62,7 @@ class InstanceWebhook {
         })
     }
 
-    private func createWebook(_ account: CKRecord.ID?) async throws {
+    private func createWebook(_ accountId: CKRecord.ID?) async throws {
         notifications = try await dependencies.api.fetchNotifications(instance)
 
         if let webhook = webhook() {
@@ -70,12 +70,12 @@ class InstanceWebhook {
             return
         }
 
-        guard let accountID = account else {
+        guard let account = accountId else {
             return
         }
 
         let record = InstanceNotification(
-            id: 0, name: "Ruddarr", fields: webhookFields(accountID)
+            id: 0, name: "Ruddarr", fields: webhookFields(account)
         )
 
         model = try await dependencies.api.createNotification(record, instance)
@@ -83,12 +83,12 @@ class InstanceWebhook {
         notifications.append(model)
     }
 
-    private func updateWebook(_ account: CKRecord.ID?) async throws {
-        guard let accountId = account else {
+    private func updateWebook(_ accountId: CKRecord.ID?) async throws {
+        guard let account = accountId else {
             throw AppError("Missing CKRecord.ID")
         }
 
-        model.fields = webhookFields(accountId)
+        model.fields = webhookFields(account)
 
         model = try await dependencies.api.updateNotification(model, instance)
     }
@@ -101,9 +101,17 @@ class InstanceWebhook {
         }
     }
 
-    private func webhookFields(_ account: CKRecord.ID) -> [InstanceNotificationField] {
+    private func webhookFields(_ accountId: CKRecord.ID) -> [InstanceNotificationField] {
+        let identifier = String(
+            format: "%d:%@",
+            Date().timeIntervalSince1970,
+            accountId.recordName
+        )
+
+        let encodedIdentifier = identifier.data(using: .utf8)?.base64EncodedString() ?? ""
+
         let url = URL(string: Notifications.url)!
-            .appending(path: "/\(account.recordName)")
+            .appending(path: "/push/\(encodedIdentifier)")
             .absoluteString
 
         return [

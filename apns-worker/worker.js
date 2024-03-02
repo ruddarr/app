@@ -1,6 +1,10 @@
 // interruption-level = passive ?
 
-// WAF blocks user-agents other than: `Ruddarr`, `Radarr` and `Sonarr`
+// WAF blocks
+// - `method` other than `POST`
+// - `content-type` other than `application/json`
+// - `path` other than `/register` and `/push/+`
+// - `user-agent` other than: `Ruddarr/*`, `Radarr/*` and `Sonarr/*`
 export default {
   async fetch(request, env, context) {
     const { headers } = request
@@ -8,16 +12,6 @@ export default {
     console.info(`URL: ${request.url}`)
     console.info(`User-Agent: ${headers.get('user-agent')}`)
     console.info(`CF-Connecting-IP: ${headers.get('cf-connecting-ip')}`)
-
-    if (request.method != 'POST') {
-      return statusResponse(405)
-    }
-
-    const contentType = headers.get('Content-Type') || ''
-
-    if (! contentType.includes('application/json')) {
-      return statusResponse(415)
-    }
 
     const url = new URL(request.url)
     const payload = await request.json()
@@ -28,19 +22,20 @@ export default {
       return registerDevice(env, payload)
     }
 
-    if (isWebhookRequest(payload)) {
+    if (isWebhookRequest(url, payload)) {
       if (payload.eventType == 'Test') {
+        return statusResponse(202)
+      }
+
+      if (payload.eventType == 'ManualInteractionRequired') {
+        await sendDebugEmail(payload)
+
         return statusResponse(202)
       }
 
       console.info(`Type: ${payload.eventType}`)
 
-      if (payload.eventType == 'ManualInteractionRequired') {
-        await sendDebugEmail(payload)
-        return statusResponse(202)
-      }
-
-      const devices = await fetchDevices(request, env)
+      const devices = await fetchDevices(url, env)
 
       return handleWebhook(env, devices, payload)
     }
@@ -52,17 +47,17 @@ export default {
 function statusResponse(code) {
   console.info(`Response: ${code}`)
 
-  return Response.json({
-    status: code,
-  }, {
-    status: code,
-    headers: {
-      'X-Robots-Tag': 'noindex, nofollow',
-    },
-  })
+  return Response.json(
+    { status: code },
+    { status: code }
+  )
 }
 
-function isWebhookRequest(payload) {
+function isWebhookRequest(url, payload) {
+  if (! url.path.startsWith('/push/')) {
+    return false
+  }
+
   if (! Object.hasOwn(payload, 'eventType') || ! payload.eventType) {
     return false
   }
@@ -102,15 +97,19 @@ async function registerDevice(env, payload) {
 //   }
 // }
 
-async function fetchDevices(request, env) {
-  const url = new URL(request.url)
-  const account = url.pathname.replace('/', '')
+async function fetchDevices(url, env) {
+  const payload = url.pathname
+    .replace('/push/', '')
+    .replace('/', '')
 
-  if (account.length < 32) {
+  const [timestamp, account] = atob(payload).split(':')
+  const date = Date.parse(timestamp)
+
+  if (isNaN(date)) {
     return false
   }
 
-  if (! /^[0-9a-f_]+$/.test(account)) {
+  if (account.length < 32 || ! /^[0-9a-f_]+$/.test(account)) {
     return false
   }
 
