@@ -91,47 +91,35 @@ struct ContentView: View {
     }
 
     var sidebar: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("Ruddarr")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .padding(.bottom, 20)
-                .padding(.horizontal, 8)
-                .offset(y: -4)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Ruddarr")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .padding(.bottom, 20)
+                    .padding(.horizontal, 8)
+                    .offset(y: -4)
 
-            ForEach(Tab.allCases) { tab in
-                let button = Button {
-                    dependencies.router.selectedTab = tab
-
-                    if isPortrait {
-                        columnVisibility = .detailOnly
+                ForEach(Tab.allCases) { tab in
+                    if tab != .settings {
+                        button(for: tab)
                     }
-                } label: {
-                    HStack {
-                        tab.row
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity)
-                    .background(
-                        Color(
-                            dependencies.router.selectedTab == tab ? .secondarySystemFill : .clear
-                        )
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
-
-                if case .settings = tab {
-                    Spacer()
-                }
-
-                button
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .scenePadding(.horizontal)
+            .background(
+                Color(isPortrait ? .clear : .secondarySystemBackground)
+            )
         }
-        .scenePadding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxHeight: .infinity)
         .background(
             Color(isPortrait ? .clear : .secondarySystemBackground)
         )
+        .safeAreaInset(edge: .bottom) {
+            button(for: .settings)
+                .scenePadding(.horizontal)
+        }
     }
 
     @ViewBuilder
@@ -143,6 +131,29 @@ struct ContentView: View {
             ShowsView()
         case .settings:
             SettingsView()
+        }
+    }
+
+    @ViewBuilder
+    func button(for tab: Tab) -> some View {
+        Button {
+            dependencies.router.selectedTab = tab
+
+            if isPortrait {
+                columnVisibility = .detailOnly
+            }
+        } label: {
+            HStack {
+                tab.row
+                Spacer()
+            }
+            .frame(maxWidth: .infinity)
+            .background(
+                Color(
+                    dependencies.router.selectedTab == tab ? .secondarySystemFill : .clear
+                )
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 10))
         }
     }
 

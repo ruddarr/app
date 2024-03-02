@@ -54,7 +54,8 @@ enum Tab: Hashable, CaseIterable, Identifiable {
                 .font(.headline)
                 .fontWeight(.regular)
         } icon: {
-            Image(systemName: icon).imageScale(.large)
+            Image(systemName: icon)
+                .imageScale(.large)
         }
         .padding(.vertical, 10)
         .padding(.horizontal, 10)
