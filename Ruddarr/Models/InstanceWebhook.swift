@@ -16,29 +16,30 @@ class InstanceWebhook {
         self.instance = instance
     }
 
-    func update(_ accountId: CKRecord.ID?) async {
-        await synchronize(accountId, update: true)
+    enum Mode {
+        case create
+        case update
+        case delete
     }
 
-    func synchronize(_ accountId: CKRecord.ID?, update: Bool = false) async {
+    func update(_ accountId: CKRecord.ID?) async {
+        await synchronize(accountId, mode: .update)
+    }
+
+    func delete() async {
+        await synchronize(nil, mode: .delete)
+    }
+
+    func synchronize(_ accountId: CKRecord.ID?, mode: Mode = .create) async {
         error = nil
 
         do {
             isSynchronizing = true
 
-            if update {
-                model = try await updateWebook(accountId!)
-            } else {
-                notifications = try await dependencies.api.fetchNotifications(instance)
-
-                if let webhook = webhook() {
-                    model = webhook
-                } else {
-                    if let userId = accountId {
-                        model = try await createWebook(userId)
-                        notifications.append(model)
-                    }
-                }
+            switch mode {
+            case .create: try await createWebook(accountId)
+            case .update: try await updateWebook(accountId)
+            case .delete: try await deleteWebook()
             }
         } catch is CancellationError {
             // do nothing
@@ -47,7 +48,7 @@ class InstanceWebhook {
         } catch {
             self.error = error
 
-            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook synchronization failed", data: ["error": error])
+            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook synchronization failed", data: ["mode": mode, "error": error])
         }
 
         isEnabled = model.isEnabled
@@ -61,20 +62,43 @@ class InstanceWebhook {
         })
     }
 
-    private func createWebook(_ account: CKRecord.ID) async throws -> InstanceNotification {
-        let model = InstanceNotification(
-            id: 0,
-            name: "Ruddarr",
-            fields: webhookFields(account)
+    private func createWebook(_ account: CKRecord.ID?) async throws {
+        notifications = try await dependencies.api.fetchNotifications(instance)
+
+        if let webhook = webhook() {
+            model = webhook
+            return
+        }
+
+        guard let accountID = account else {
+            return
+        }
+
+        let record = InstanceNotification(
+            id: 0, name: "Ruddarr", fields: webhookFields(accountID)
         )
 
-        return try await dependencies.api.createNotification(model, instance)
+        model = try await dependencies.api.createNotification(record, instance)
+
+        notifications.append(model)
     }
 
-    private func updateWebook(_ account: CKRecord.ID) async throws -> InstanceNotification {
-        model.fields = webhookFields(account)
+    private func updateWebook(_ account: CKRecord.ID?) async throws {
+        guard let accountId = account else {
+            throw AppError("Missing CKRecord.ID")
+        }
 
-        return try await dependencies.api.updateNotification(model, instance)
+        model.fields = webhookFields(accountId)
+
+        model = try await dependencies.api.updateNotification(model, instance)
+    }
+
+    private func deleteWebook() async throws {
+        notifications = try await dependencies.api.fetchNotifications(instance)
+
+        if let webhook = webhook() {
+            _ = try await dependencies.api.deleteNotification(webhook, instance)
+        }
     }
 
     private func webhookFields(_ account: CKRecord.ID) -> [InstanceNotificationField] {

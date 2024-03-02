@@ -48,7 +48,7 @@ struct InstanceEditView: View {
 
             if mode == .update {
                 Section {
-                    deleteInstance
+                    deleteButton
                 }
             }
 
@@ -142,26 +142,17 @@ struct InstanceEditView: View {
         }
     }
 
-    var deleteInstance: some View {
+    var deleteButton: some View {
         Button("Delete Instance", role: .destructive) {
             showingConfirmation = true
         }
+        .frame(maxWidth: .infinity, alignment: .center)
         .confirmationDialog("Are you sure?", isPresented: $showingConfirmation) {
-            Button("Delete Instance", role: .destructive) {
-                if instance.id == settings.radarrInstanceId {
-                    dependencies.router.reset()
-                    radarrInstance.switchTo(.void)
-                }
-
-                settings.deleteInstance(instance)
-
-                dependencies.router.settingsPath = .init()
-            }
+            Button("Delete Instance", role: .destructive) { deleteInstance() }
             Button("Cancel", role: .cancel) { }
         } message: {
             Text("Are you sure you want to delete the instance?")
         }
-        .frame(maxWidth: .infinity, alignment: .center)
     }
 
     @ToolbarContentBuilder
@@ -222,6 +213,31 @@ extension InstanceEditView {
             self.error = error
         } catch {
             fatalError("Failed to save instance: Unhandled error")
+        }
+    }
+
+    @MainActor
+    func deleteInstance() {
+        deleteInstanceWebhook(instance)
+
+        if instance.id == settings.radarrInstanceId {
+            dependencies.router.reset()
+            radarrInstance.switchTo(.void)
+        }
+
+        settings.deleteInstance(instance)
+
+        dependencies.router.settingsPath = .init()
+    }
+
+    func deleteInstanceWebhook(_ deletedInstance: Instance) {
+        var instance = deletedInstance
+        instance.id = UUID()
+
+        let webhook = InstanceWebhook(instance)
+
+        Task.detached { [webhook] in
+            await webhook.delete()
         }
     }
 

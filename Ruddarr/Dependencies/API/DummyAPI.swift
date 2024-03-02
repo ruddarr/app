@@ -69,6 +69,10 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return notifications[0]
+        }, deleteNotification: { _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
         })
     }
 }

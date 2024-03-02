@@ -20,6 +20,7 @@ struct API {
     var fetchNotifications: (Instance) async throws -> [InstanceNotification]
     var createNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
     var updateNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
+    var deleteNotification: (InstanceNotification, Instance) async throws -> Empty
 }
 
 extension API {
@@ -116,6 +117,12 @@ extension API {
                 .appending(path: String(model.id))
 
             return try await request(method: .put, url: url, headers: instance.auth, body: model)
+        }, deleteNotification: { model, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/notification")
+                .appending(path: String(model.id))
+
+            return try await request(method: .delete, url: url, headers: instance.auth)
         })
     }
 
