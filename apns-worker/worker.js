@@ -260,6 +260,7 @@ function buildNotificationPayload(payload) {
   const episodes = payload.episodes?.length
   const episode = payload.episodes?.[0].episodeNumber
   const season = payload.episodes?.[0].seasonNumber
+  var message = payload.message?.replace(' (Prowlarr)', '')
 
   switch (payload.eventType) {
     case 'RuddarrTest':
@@ -293,7 +294,7 @@ function buildNotificationPayload(payload) {
           'alert': {
             'title-loc-key': 'NOTIFICATION_HEALTH',
             'title-loc-args': [instanceName],
-            'body': payload.message,
+            'body': message,
           },
           'sound': 'ping.aiff',
           'thread-id': `health:${payload.type}`,
@@ -307,7 +308,7 @@ function buildNotificationPayload(payload) {
           'alert': {
             'title-loc-key': 'NOTIFICATION_HEALTH_RESTORED',
             'title-loc-args': [instanceName],
-            'body': payload.message,
+            'body': message,
           },
           'sound': 'ping.aiff',
           'thread-id': `health:${payload.type}`,
