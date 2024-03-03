@@ -22,20 +22,25 @@ export default {
       return registerDevice(env, payload)
     }
 
-    if (isWebhookRequest(url, payload)) {
+    if (url.pathname.startsWith('/push/') && isValidWebhookRequest(url, payload)) {
+      const { timestamp, account } = parsePushUrl(url)
+
+      if (daysSince(timestamp) > 30) {
+        return statusResponse(410, "Webhook URL expired")
+      }
+
       if (payload.eventType == 'Test') {
         return statusResponse(202)
       }
 
       if (payload.eventType == 'ManualInteractionRequired') {
         await sendDebugEmail(payload)
-
         return statusResponse(202)
       }
 
       console.info(`Type: ${payload.eventType}`)
 
-      const devices = await fetchDevices(url, env)
+      const devices = await fetchDevices(account, env)
 
       return handleWebhook(env, devices, payload)
     }
@@ -44,25 +49,50 @@ export default {
   },
 }
 
-function statusResponse(code) {
+function statusResponse(code, message = null) {
   console.info(`Response: ${code}`)
 
   return Response.json(
-    { status: code },
+    { status: code, message },
     { status: code }
   )
 }
 
-function isWebhookRequest(url, payload) {
-  if (! url.pathname.startsWith('/push/')) {
-    return false
-  }
-
+function isValidWebhookRequest(url, payload) {
   if (! Object.hasOwn(payload, 'eventType') || ! payload.eventType) {
     return false
   }
 
+  const { timestamp, account } = parsePushUrl(url)
+  const date = Date.parse(timestamp)
+
+  if (isNaN(date)) {
+    return false
+  }
+
+  if (account.length < 32 || ! /^[0-9a-f_]+$/.test(account)) {
+    return false
+  }
+
   return true
+}
+
+function parsePushUrl(url) {
+  const data = url.pathname
+    .replace('/push/', '')
+    .replace('/', '')
+
+  const [timestamp, account] = atob(data).split(':')
+
+  return { timestamp, account }
+}
+
+function daysSince(timestamp) {
+  const now = new Date().getTime() / 1000
+
+  return Math.round(
+    (now - timestamp) / (60 * 60 * 24)
+  )
 }
 
 async function registerDevice(env, payload) {
@@ -97,22 +127,7 @@ async function registerDevice(env, payload) {
 //   }
 // }
 
-async function fetchDevices(url, env) {
-  const payload = url.pathname
-    .replace('/push/', '')
-    .replace('/', '')
-
-  const [timestamp, account] = atob(payload).split(':')
-  const date = Date.parse(timestamp)
-
-  if (isNaN(date)) {
-    return false
-  }
-
-  if (account.length < 32 || ! /^[0-9a-f_]+$/.test(account)) {
-    return false
-  }
-
+async function fetchDevices(account, env) {
   const data = await env.STORE.get(account, { type: 'json' })
 
   if (! data.entitled) {
@@ -510,5 +525,5 @@ async function sendDebugEmail(payload) {
       'Subject': 'ManualInteractionRequired',
       'TextBody': JSON.stringify(payload, null, 4)
     }),
-  });
+  })
 }
