@@ -26,7 +26,7 @@ export default {
       const { timestamp, account } = parsePushUrl(url)
 
       if (daysSince(timestamp) > 30) {
-        return statusResponse(410, "Webhook URL expired")
+        return statusResponse(410, "webhook URL expired")
       }
 
       if (payload.eventType == 'Test') {
@@ -40,9 +40,7 @@ export default {
 
       console.info(`Type: ${payload.eventType}`)
 
-      const devices = await fetchDevices(account, env)
-
-      return handleWebhook(env, devices, payload)
+      return handleWebhook(env, account, payload)
     }
 
     return statusResponse(400)
@@ -64,9 +62,10 @@ function isValidWebhookRequest(url, payload) {
   }
 
   const { timestamp, account } = parsePushUrl(url)
-  const date = Date.parse(timestamp)
 
-  if (isNaN(date)) {
+  console.info(timestamp, account)
+
+  if (isNaN(timestamp) || timestamp < 1700000000) {
     return false
   }
 
@@ -84,7 +83,7 @@ function parsePushUrl(url) {
 
   const [timestamp, account] = atob(data).split(':')
 
-  return { timestamp, account }
+  return { timestamp: parseInt(timestamp), account }
 }
 
 function daysSince(timestamp) {
@@ -108,7 +107,7 @@ async function registerDevice(env, payload) {
   devices.add(payload.token)
 
   data.seenAt = Math.floor(Date.now() / 1000)
-  data.entitled = true // payload.entitled
+  data.entitledAt = payload.entitledAt
   data.devices = Array.from(devices)
 
   await env.STORE.put(payload.account, JSON.stringify(data))
@@ -127,17 +126,18 @@ async function registerDevice(env, payload) {
 //   }
 // }
 
-async function fetchDevices(account, env) {
+async function handleWebhook(env, account, payload) {
   const data = await env.STORE.get(account, { type: 'json' })
+  const devices = data?.devices ?? []
 
-  if (! data.entitled) {
-    return []
+  const entitledAt = data?.entitledAt ?? 0
+
+  if (daysSince(entitledAt) > 30) {
+    return statusResponse(410, "device entitlement expired")
   }
 
-  return data?.devices ?? []
-}
+  // TODO: check `data?.entitledAt` date is within 30 days else return `[]`
 
-async function handleWebhook(env, devices, payload) {
   if (! devices.length) {
     return statusResponse(202)
   }

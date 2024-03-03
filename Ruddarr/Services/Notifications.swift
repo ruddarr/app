@@ -29,23 +29,24 @@ class Notifications {
 
     func registerDevice(_ token: String) async {
         do {
-            let account = (try? await CKContainer.default().userRecordID().recordName) ?? ""
-            let subscriptions = try await Product.SubscriptionInfo.status(for: Secrets.subscriptionGroup)
+            let account = try await CKContainer.default().userRecordID().recordName
+            let lastEntitledDate = await Subscription.lastEntitledDate()
 
-            let entitledToService = subscriptions.contains {
-                $0.state == .subscribed || $0.state == .inGracePeriod
+            guard let entitledAt = lastEntitledDate?.timeIntervalSince1970 else {
+                leaveBreadcrumb(.info, category: "notifications", message: "Device never been entitled to service")
+
+                return
             }
 
             let payload: [String: AnyHashable] = [
                 "account": account,
                 "token": token,
-                "entitled": entitledToService, // TODO: this doesn't work yet
+                "entitledAt": Int(entitledAt),
             ]
 
-            // TODO: after a user subscribes this doesn't trigger for 24 hours...
-            let lastPing = "lastPing:\(account):\(token)"
+            let lastTokenPing = "lastTokenPing:\(account):\(token)"
 
-            if Occurrence.hoursSince(lastPing) < 24 {
+            if Occurrence.hoursSince(lastTokenPing) < 24 {
                 leaveBreadcrumb(.info, category: "notifications", message: "Device token already registered", data: payload)
 
                 return
@@ -60,6 +61,12 @@ class Notifications {
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = try JSONSerialization.data(withJSONObject: payload)
 
+            guard [.appstore, .testflight].contains(environment()) else {
+                leaveBreadcrumb(.info, category: "notifications", message: "Skip device token registration in \(environmentName())")
+
+                return
+            }
+
             let (json, response) = try await URLSession.shared.data(for: request)
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 599
 
@@ -67,7 +74,7 @@ class Notifications {
                 throw AppError("Bad status code: \(statusCode)")
             }
 
-            Occurrence.occurred(lastPing)
+            Occurrence.occurred(lastTokenPing)
 
             if let data = String(data: json, encoding: .utf8) {
                 leaveBreadcrumb(.info, category: "notifications", message: "Device registered", data: ["status": statusCode, "response": data])

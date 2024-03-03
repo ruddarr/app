@@ -43,6 +43,7 @@
 		BB865E612B83C11E00ADCEFE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB865E602B83C11E00ADCEFE /* Error.swift */; };
 		BB89ABC62B756B91009FB62D /* MovieReleaseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */; };
 		BB8A60262B93DE020039CFF6 /* InstanceNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A60252B93DE020039CFF6 /* InstanceNotification.swift */; };
+		BB8A60282B952D710039CFF6 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A60272B952D710039CFF6 /* Subscription.swift */; };
 		BB8B3DF22B61713500B80E2D /* MovieEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8B3DF12B61713500B80E2D /* MovieEditView.swift */; };
 		BB8B3DF42B617FE800B80E2D /* root-folders.json in Resources */ = {isa = PBXBuildFile; fileRef = BB8B3DF32B617FE800B80E2D /* root-folders.json */; };
 		BB9255CE2B54657900967F84 /* InstanceEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9255CD2B54657900967F84 /* InstanceEditView.swift */; };
@@ -130,6 +131,7 @@
 		BB865E602B83C11E00ADCEFE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseRow.swift; sourceTree = "<group>"; };
 		BB8A60252B93DE020039CFF6 /* InstanceNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceNotification.swift; sourceTree = "<group>"; };
+		BB8A60272B952D710039CFF6 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		BB8B3DF12B61713500B80E2D /* MovieEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieEditView.swift; sourceTree = "<group>"; };
 		BB8B3DF32B617FE800B80E2D /* root-folders.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "root-folders.json"; sourceTree = "<group>"; };
 		BB9255CD2B54657900967F84 /* InstanceEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceEditView.swift; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				BBF706BB2B6220BF00B2B504 /* Sentry.swift */,
 				BBC136A32B62DD780074C7AA /* Network.swift */,
 				BBC94DE82B5F63A000504568 /* Telemetry.swift */,
+				BB8A60272B952D710039CFF6 /* Subscription.swift */,
 				BBC77E252B7AB79100573EBD /* Notifications.swift */,
 			);
 			path = Services;
@@ -600,6 +603,7 @@
 				BB25DC6A2B63161E00FE55A0 /* MovieForm.swift in Sources */,
 				BB05C9072B86E247009B6444 /* MovieRatings.swift in Sources */,
 				BBA54BDE2B561FB200CA0F3E /* CachedAsyncImage.swift in Sources */,
+				BB8A60282B952D710039CFF6 /* Subscription.swift in Sources */,
 				790D1EC52B864EC700FCDB64 /* QuickActions.swift in Sources */,
 				BB6D96952B61E61D0017BFB3 /* AppSettings.swift in Sources */,
 				BBE8286C2B4F360700C1E1D9 /* Movie.swift in Sources */,

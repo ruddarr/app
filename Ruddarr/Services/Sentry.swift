@@ -45,20 +45,32 @@ func leaveBreadcrumb(
 #endif
 }
 
+enum EnvironmentType: String {
+    case preview
+    case simulator
+    case debug
+    case testflight
+    case appstore
+}
+
 func environmentName() -> String {
+    environment().rawValue
+}
+
+func environment() -> EnvironmentType {
     if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
-        return "preview"
+        return EnvironmentType.preview
     }
 
-    #if targetEnvironment(simulator)
-        return "simulator"
-    #elseif DEBUG
-        return "debug"
-    #else
-        if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
-            return "testflight"
-        }
+#if targetEnvironment(simulator)
+    return EnvironmentType.simulator
+#elseif DEBUG
+    return EnvironmentType.debug
+#else
+    if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
+        return EnvironmentType.testflight
+    }
 
-        return "appstore"
-    #endif
+    return EnvironmentType.appstore
+#endif
 }

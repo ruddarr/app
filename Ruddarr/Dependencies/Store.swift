@@ -24,13 +24,10 @@ class Occurrence {
     }
 
     static func since(_ key: String, unit: Unit = .seconds) -> TimeInterval {
-        var seconds: TimeInterval = 0
+        let now = Date().timeIntervalSince1970
+        let secondsSince = dependencies.store.double(forKey: key)
 
-        if let storedTimestamp = dependencies.store.object(forKey: key) as? TimeInterval {
-            seconds = storedTimestamp
-        }
-
-        return (Date().timeIntervalSince1970 - seconds) / unit.rawValue
+        return (now - secondsSince) / unit.rawValue
     }
 
     static func hoursSince(_ key: String) -> TimeInterval {
