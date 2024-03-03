@@ -155,6 +155,8 @@ struct ContentView: View {
 
     func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
         if phase == .active {
+            Notifications.shared.maybeUpdateWebhooks(settings)
+            Telemetry.shared.maybeUploadTelemetry(settings)
         }
 
         if phase == .background {

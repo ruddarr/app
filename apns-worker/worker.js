@@ -54,7 +54,7 @@ function statusResponse(code) {
 }
 
 function isWebhookRequest(url, payload) {
-  if (! url.path.startsWith('/push/')) {
+  if (! url.pathname.startsWith('/push/')) {
     return false
   }
 

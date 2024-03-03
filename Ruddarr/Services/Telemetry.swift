@@ -8,10 +8,10 @@ class Telemetry {
 
     func maybeUploadTelemetry(_ settings: AppSettings) {
         let lastUpload = "telemetryUploaded"
-        var hoursSincePing = Occurrence.since(lastUpload, unit: .hours)
+        var hoursSincePing = Occurrence.hoursSince(lastUpload)
 
         #if DEBUG
-        hoursSincePing = 24
+        // hoursSincePing = 24
         #endif
 
         guard hoursSincePing > 12 else {

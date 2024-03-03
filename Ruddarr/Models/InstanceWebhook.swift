@@ -48,7 +48,7 @@ class InstanceWebhook {
         } catch {
             self.error = error
 
-            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook synchronization failed", data: ["mode": mode, "error": error])
+            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook \(mode) failed", data: ["error": error])
         }
 
         isEnabled = model.isEnabled
@@ -62,8 +62,12 @@ class InstanceWebhook {
         })
     }
 
-    private func createWebook(_ accountId: CKRecord.ID?) async throws {
+    private func fetchWebhooks() async throws {
         notifications = try await dependencies.api.fetchNotifications(instance)
+    }
+
+    private func createWebook(_ accountId: CKRecord.ID?) async throws {
+        try await fetchWebhooks()
 
         if let webhook = webhook() {
             model = webhook
@@ -88,13 +92,21 @@ class InstanceWebhook {
             throw AppError("Missing CKRecord.ID")
         }
 
-        model.fields = webhookFields(account)
+        if notifications.isEmpty {
+            try await fetchWebhooks()
+        }
 
-        model = try await dependencies.api.updateNotification(model, instance)
+        guard var webhook = webhook() else {
+            return
+        }
+
+        webhook.fields = webhookFields(account)
+
+        model = try await dependencies.api.updateNotification(webhook, instance)
     }
 
     private func deleteWebook() async throws {
-        notifications = try await dependencies.api.fetchNotifications(instance)
+        try await fetchWebhooks()
 
         if let webhook = webhook() {
             _ = try await dependencies.api.deleteNotification(webhook, instance)
@@ -102,13 +114,14 @@ class InstanceWebhook {
     }
 
     private func webhookFields(_ accountId: CKRecord.ID) -> [InstanceNotificationField] {
-        let identifier = String(
-            format: "%d:%@",
-            Date().timeIntervalSince1970,
-            accountId.recordName
-        )
+        let time = Int(Date().timeIntervalSince1970)
 
-        let encodedIdentifier = identifier.data(using: .utf8)?.base64EncodedString() ?? ""
+        // change timestamp once a day at most
+        let today = time - (time % 86_400)
+
+        let identifier = "\(today):\(accountId.recordName)"
+
+        let encodedIdentifier = identifier.data(using: .utf8)?.base64EncodedString() ?? "noop"
 
         let url = URL(string: Notifications.url)!
             .appending(path: "/push/\(encodedIdentifier)")
