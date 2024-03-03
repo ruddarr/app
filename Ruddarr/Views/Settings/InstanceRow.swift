@@ -29,13 +29,11 @@ struct InstanceRow: View {
             .foregroundStyle(.gray)
         }.task {
             do {
-                let lastCheckKey = "lastCheck:\(instance.id)"
+                let lastCheck = "instanceCheck:\(instance.id)"
 
-                if let lastCheck = UserDefaults.standard.object(forKey: lastCheckKey) as? Date {
-                    if Date.now.timeIntervalSince(lastCheck) < 60 {
-                        status = .reachable
-                        return
-                    }
+                if Occurrence.since(lastCheck) < 60 {
+                    status = .reachable
+                    return
                 }
 
                 status = .pending
@@ -48,7 +46,7 @@ struct InstanceRow: View {
 
                 settings.saveInstance(instance)
 
-                UserDefaults.standard.set(Date(), forKey: lastCheckKey)
+                Occurrence.occurred(lastCheck)
 
                 status = .reachable
             } catch is CancellationError {

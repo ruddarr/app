@@ -36,9 +36,7 @@ struct ContentView: View {
             .onReceive(orientationChangePublisher) { _ in
                 handleOrientationChange()
             }
-            .onChange(of: scenePhase) { previous, phase in
-                handleScenePhaseChange(phase, previous)
-            }
+            .onChange(of: scenePhase, handleScenePhaseChange)
         } else {
             TabView(selection: dependencies.$router.selectedTab.onSet {
                 if dependencies.router.selectedTab == $0 { goToRoot(tab: $0) }
@@ -68,9 +66,7 @@ struct ContentView: View {
                     .padding(.horizontal, 4)
                 }
             }
-            .onChange(of: scenePhase) { previous, phase in
-                handleScenePhaseChange(phase, previous)
-            }
+            .onChange(of: scenePhase, handleScenePhaseChange)
             .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
                 showTabViewOverlay = false
             }.onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
@@ -157,9 +153,8 @@ struct ContentView: View {
         }
     }
 
-    func handleScenePhaseChange(_ phase: ScenePhase, _ previous: ScenePhase) {
-        if phase == .active && previous == .inactive {
-            Telemetry.shared.maybeUploadTelemetry(settings: settings)
+    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+        if phase == .active {
         }
 
         if phase == .background {

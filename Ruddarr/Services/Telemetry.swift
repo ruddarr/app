@@ -6,30 +6,13 @@ import TelemetryClient
 class Telemetry {
     static let shared: Telemetry = Telemetry()
 
-    func maybeUploadTelemetry(settings: AppSettings) {
-        let key = "lastTelemetryDate"
-
-        let oneDayAgo = Calendar.current.date(
-            byAdding: .hour,
-            value: -24,
-            to: Date()
-        )!
-
-        var lastTelemetryDate: Date = oneDayAgo
-
-        if let storedDate = UserDefaults.standard.object(forKey: key) as? Date {
-            lastTelemetryDate = storedDate
-        }
+    func maybeUploadTelemetry(_ settings: AppSettings) {
+        let lastUpload = "telemetryUploaded"
+        var hoursSincePing = Occurrence.since(lastUpload, unit: .hours)
 
         #if DEBUG
-        lastTelemetryDate = oneDayAgo
+        hoursSincePing = 24
         #endif
-
-        let hoursSincePing = Calendar.current.dateComponents(
-            [.hour],
-            from: lastTelemetryDate,
-            to: Date()
-        ).hour!
 
         guard hoursSincePing > 12 else {
             leaveBreadcrumb(.info, category: "telemetry", message: "Too early", data: ["hours": hoursSincePing])
@@ -40,7 +23,7 @@ class Telemetry {
         Task(priority: .background) {
             await uploadTelemetryData(settings: settings)
 
-            UserDefaults.standard.set(Date(), forKey: key)
+            Occurrence.occurred(lastUpload)
         }
     }
 
