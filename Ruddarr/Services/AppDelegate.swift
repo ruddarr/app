@@ -54,19 +54,22 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     // Called when the app receives a notification
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
-        willPresent notification: UNNotification,
-        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
-    ) {
-        if UIApplication.shared.applicationState == .active {
-            let payload = notification.request.content.userInfo
+        willPresent notification: UNNotification
+    ) async -> UNNotificationPresentationOptions {
+        let entitled = await Subscription.entitledToService()
 
-            if let hidden = payload["hideInForeground"] as? Bool, hidden {
-                completionHandler([])
-                return
-            }
+        if !entitled {
+            return []
         }
 
-        completionHandler([.banner, .list, .sound])
+        let userInfo = notification.request.content.userInfo
+        let hideInForeground = userInfo["hideInForeground"] as? Bool ?? false
+
+        if hideInForeground && UIApplication.shared.applicationState == .active {
+            return []
+        }
+
+        return [.banner, .list, .sound]
     }
 
     // Called after a notification was tapped

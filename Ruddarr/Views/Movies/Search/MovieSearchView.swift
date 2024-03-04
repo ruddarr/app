@@ -54,7 +54,11 @@ struct MovieSearchView: View {
             searchTextPublisher.send(searchQuery)
         }
         .onReceive(
-            searchTextPublisher.throttle(for: .milliseconds(750), scheduler: DispatchQueue.main, latest: true)
+            searchTextPublisher.throttle(
+                for: .milliseconds(750),
+                scheduler: DispatchQueue.main,
+                latest: true
+            )
         ) { _ in
             Task {
                 await instance.lookup.search(query: searchQuery)

@@ -7,11 +7,6 @@ class Subscription {
         do {
             let subscriptions = try await Product.SubscriptionInfo.status(for: group)
 
-            print(subscriptions)
-            // `transaction.payload.expiresDate`
-            // `transaction.payload.purchaseDate`
-            // `renewalInfo.payload.renewalDate`
-
             return subscriptions.contains {
                 $0.state == .subscribed || $0.state == .inGracePeriod
             }
