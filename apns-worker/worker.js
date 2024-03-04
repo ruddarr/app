@@ -115,31 +115,35 @@ async function registerDevice(env, payload) {
   return statusResponse(deviceRegistered ? 200 : 201)
 }
 
-// async function deregisterDevice(account, token, env) {
-//   const currentDevices = await env.STORE.get(account, { type: 'json' })
-//   const devices = new Set(currentDevices ?? [])
+async function deregisterDevice(account, token, env) {
+  let data = await env.STORE.get(account, { type: 'json' })
 
-//   if (devices.has(token)) {
-//     devices.delete(token)
+  if (data === null) {
+    return
+  }
 
-//     await env.STORE.put(account, JSON.stringify(Array.from(devices)))
-//   }
-// }
+  const devices = new Set(data.devices)
+
+  if (devices.has(token)) {
+    devices.delete(token)
+    data.devices = Array.from(devices)
+
+    await env.STORE.put(account, JSON.stringify(data))
+  }
+}
 
 async function handleWebhook(env, account, payload) {
   const data = await env.STORE.get(account, { type: 'json' })
   const devices = data?.devices ?? []
 
+  if (data == null || ! devices.length) {
+    return statusResponse(202)
+  }
+
   const entitledAt = data?.entitledAt ?? 0
 
   if (daysSince(entitledAt) > 30) {
     return statusResponse(410, "device entitlement expired")
-  }
-
-  // TODO: check `data?.entitledAt` date is within 30 days else return `[]`
-
-  if (! devices.length) {
-    return statusResponse(202)
   }
 
   const notification = buildNotificationPayload(payload)
@@ -151,22 +155,22 @@ async function handleWebhook(env, account, payload) {
   console.info('Notification: ' + JSON.stringify(notification).replace(/\\/g, ''))
   console.info('Devices: ' + JSON.stringify(devices).replace(/\\/g, ''))
 
-  const authorizationToken = await generateAuthorizationToken(env)
+  const authorization = await generateAuthorizationToken(env)
 
   // send notifications in parallel
-  await Promise.all(devices.map(async (deviceToken) => {
-    await sendNotification(notification, authorizationToken, deviceToken)
+  await Promise.all(devices.map(async (device) => {
+    await sendNotification(notification, device, account, authorization, env)
   }))
 
   return statusResponse(202)
 }
 
-async function sendNotification(notification, authorizationToken, deviceToken, sandbox = false) {
+async function sendNotification(notification, device, account, authorization, env, sandbox = false) {
   const host = sandbox
     ? 'https://api.sandbox.push.apple.com'
     : 'https://api.push.apple.com'
 
-  const url = `${host}/3/device/${deviceToken}`
+  const url = `${host}/3/device/${device}`
 
   const days = sandbox ? 2 : 14
   const dayInSeconds = 86400
@@ -177,7 +181,7 @@ async function sendNotification(notification, authorizationToken, deviceToken, s
     body: JSON.stringify(notification),
     headers: {
       'content-type': 'application/json;charset=UTF-8',
-      'authorization': `Bearer ${authorizationToken}`,
+      'authorization': `Bearer ${authorization}`,
       'apns-topic': 'com.ruddarr',
       'apns-push-type': 'alert',
       'apns-expiration': `${now + (dayInSeconds * days)}`,
@@ -194,29 +198,29 @@ async function sendNotification(notification, authorizationToken, deviceToken, s
   ).toLowerCase()
 
   if (response.status < 400) {
-    console.info(`APNs returned status ${response.status} (sandbox: ${+sandbox}, apnsId: ${apnsId}, deviceToken: ${deviceToken})`)
+    console.info(`APNs returned status ${response.status} (sandbox: ${+sandbox}, apnsId: ${apnsId}, device: ${device})`)
 
-    return { success: true, apnsId, deviceToken }
+    return { success: true, apnsId, device }
   }
 
   const json = await response.json()
   const message = json?.reason ?? 'Unknown'
 
-  console.error(`APNs returned status ${response.status}: ${message} (sandbox: ${+sandbox}, apnsId: ${apnsId}, deviceToken: ${deviceToken})`)
+  console.error(`APNs returned status ${response.status}: ${message} (sandbox: ${+sandbox}, apnsId: ${apnsId}, device: ${device})`)
 
   if (response.status == 400 && message == 'BadDeviceToken') {
     if (! sandbox) {
-      return sendNotification(notification, authorizationToken, deviceToken, true)
+      return sendNotification(notification, device, account, authorization, env, true)
     }
 
-    // deregisterDevice(deviceToken, env)
+    await deregisterDevice(account, device, env)
   }
 
   if (response.status == 410 && ['ExpiredToken', 'Unregistered'].includes(message)) {
-    // deregisterDevice(deviceToken, env)
+    await deregisterDevice(account, device, env)
   }
 
-  return { success: false, message, apnsId, deviceToken }
+  return { success: false, message, apnsId, device }
 }
 
 async function generateAuthorizationToken(env) {
