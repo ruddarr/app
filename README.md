@@ -11,7 +11,7 @@ Create a `.sentryclirc` file:
 token=sntrys_eyJp...
 ```
 
-## Reset Xcode 
+## Reset Xcode
 
 ```bash
 sudo xcode-select -s /Applications/Xcode.app

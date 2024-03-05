@@ -25,8 +25,14 @@ export default {
     if (url.pathname.startsWith('/push/') && isValidWebhookRequest(url, payload)) {
       const { timestamp, account } = parsePushUrl(url)
 
+      const validSignature = await validateWebhookSignature(headers, `${timestamp}:${account}`)
+
+      if (! validSignature) {
+        // return statusResponse(403, "invalid signature")
+      }
+
       if (daysSince(timestamp) > 30) {
-        return statusResponse(410, "webhook URL expired")
+        return statusResponse(410, 'webhook URL expired')
       }
 
       if (payload.eventType == 'Test') {
@@ -95,6 +101,15 @@ function daysSince(timestamp) {
 }
 
 async function registerDevice(env, payload) {
+  const validSignature = await validateSignature(
+    payload.signature,
+    `${payload.account}:${payload.token}`
+  )
+
+  if (! validSignature) {
+    // return statusResponse(403, "invalid signature")
+  }
+
   let data = await env.STORE.get(payload.account, { type: 'json' })
 
   if (data === null) {
@@ -143,7 +158,7 @@ async function handleWebhook(env, account, payload) {
   const entitledAt = data?.entitledAt ?? 0
 
   if (daysSince(entitledAt) > 30) {
-    return statusResponse(410, "device entitlement expired")
+    return statusResponse(410, 'device entitlement expired')
   }
 
   const notification = buildNotificationPayload(payload)
@@ -191,11 +206,7 @@ async function sendNotification(notification, device, account, authorization, en
   const response = await fetch(url, init)
   const { headers } = response
 
-  const apnsId = (
-    headers.get('apns-unique-id') ||
-    headers.get('apns-id') ||
-    ''
-  ).toLowerCase()
+  const apnsId = (headers.get('apns-unique-id') || '').toLowerCase()
 
   if (response.status < 400) {
     console.info(`APNs returned status ${response.status} (sandbox: ${+sandbox}, apnsId: ${apnsId}, device: ${device})`)
@@ -462,6 +473,33 @@ function buildNotificationPayload(payload) {
         // deeplink: `ruddarr://series/open/${payload.series?.id}`,
       }
   }
+}
+
+async function validateWebhookSignature(headers, message) {
+  const auth = headers.get('Authorization') || ''
+  const bearer = auth.replace(/^Basic /, '').trim()
+  const [username, password] = atob(bearer).split(':')
+
+  return await validateSignature(password, message)
+}
+
+async function validateSignature(signature, message) {
+  const encoder = new TextEncoder()
+
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode('TESTING'),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['verify']
+  )
+
+  return await crypto.subtle.verify(
+    'HMAC',
+    key,
+    base64StringToArrayBuffer(signature),
+    encoder.encode(message)
+  )
 }
 
 /**

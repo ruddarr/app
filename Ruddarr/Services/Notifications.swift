@@ -2,6 +2,7 @@ import os
 import SwiftUI
 import CloudKit
 import StoreKit
+import CryptoKit
 
 class Notifications {
     static let shared: Notifications = Notifications()
@@ -42,6 +43,7 @@ class Notifications {
                 "account": account,
                 "token": token,
                 "entitledAt": Int(entitledAt),
+                "signature": signature("\(account):\(token)")
             ]
 
             let lastTokenPing = "lastTokenPing:\(account):\(token)"
@@ -112,5 +114,14 @@ class Notifications {
                 }
             }
         }
+    }
+
+    func signature(_ message: String) -> String {
+        let secret = Secrets.NotificationKey
+        let key = SymmetricKey(data: Data(secret.utf8))
+        let data = Data(message.utf8)
+        let hmac = HMAC<SHA256>.authenticationCode(for: data, using: key)
+
+        return Data(hmac).base64EncodedString()
     }
 }

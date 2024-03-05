@@ -120,18 +120,19 @@ class InstanceWebhook {
         let today = time - (time % 86_400)
 
         let identifier = "\(today):\(accountId.recordName)"
+        let signature = Notifications.shared.signature(identifier)
 
-        let encodedIdentifier = identifier.data(using: .utf8)?.base64EncodedString() ?? "noop"
+        let encoded = identifier.data(using: .utf8)?.base64EncodedString() ?? "noop"
 
         let url = URL(string: Notifications.url)!
-            .appending(path: "/push/\(encodedIdentifier)")
+            .appending(path: "/push/\(encoded)")
             .absoluteString
 
         return [
             InstanceNotificationField(name: "url", value: url),
             InstanceNotificationField(name: "method", value: "1"),
             InstanceNotificationField(name: "username", value: ""),
-            InstanceNotificationField(name: "password", value: ""),
+            InstanceNotificationField(name: "password", value: signature),
         ]
     }
 }
