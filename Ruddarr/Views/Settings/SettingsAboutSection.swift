@@ -9,12 +9,13 @@ struct SettingsAboutSection: View {
     private let reviewUrl = URL(string: "itms-apps://itunes.apple.com/app/????????")!
 
     var body: some View {
+        // TODO: re-enable some menu items
         Section(header: Text("About")) {
             share
             review
             support
-            contribute
-            invite
+            // contribute
+            // invite
             libraries
         }
     }
