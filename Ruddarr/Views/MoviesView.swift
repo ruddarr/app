@@ -50,7 +50,6 @@ struct MoviesView: View {
                     }
                 }
             }
-            .navigationTitle("Movies")
             .navigationDestination(for: Path.self) {
                 switch $0 {
                 case .search(let query):
