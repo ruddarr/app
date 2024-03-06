@@ -64,9 +64,10 @@ struct RuddarrPlusSheetContent: View {
                 .font(.largeTitle.bold())
                 .padding(.bottom, 4)
 
-            Text("Subscription unlocks instance notifications alternate app icons.")
+            Text("Subscription unlocks instance notifications, alternate app icons and supports the continued indie development of Ruddarr.")
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
+                .padding(.horizontal)
         }
         .padding()
     }

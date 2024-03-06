@@ -1,5 +1,5 @@
 {
-  "identifier" : "AECCAEA8",
+  "identifier" : "5995E11D",
   "nonRenewingSubscriptions" : [
 
   ],
@@ -10,16 +10,12 @@
     "_applicationInternalID" : "6476240130",
     "_developerTeamID" : "B9ZZ8GLWRA",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 730843328.38681996,
+    "_lastSynchronizedDate" : 731446060.55689597,
     "_locale" : "en_US",
-    "_renewalBillingIssuesEnabled" : false,
     "_storefront" : "USA",
     "_storeKitErrors" : [
       {
-        "current" : {
-          "index" : 2,
-          "type" : "generic"
-        },
+        "current" : null,
         "enabled" : false,
         "name" : "Load Products"
       },
@@ -39,10 +35,7 @@
         "name" : "App Store Sync"
       },
       {
-        "current" : {
-          "index" : 2,
-          "type" : "generic"
-        },
+        "current" : null,
         "enabled" : false,
         "name" : "Subscription Status"
       },
@@ -52,10 +45,7 @@
         "name" : "App Transaction"
       },
       {
-        "current" : {
-          "index" : 3,
-          "type" : "generic"
-        },
+        "current" : null,
         "enabled" : false,
         "name" : "Manage Subscriptions Sheet"
       },
@@ -77,7 +67,7 @@
       "localizations" : [
 
       ],
-      "name" : "Ruddarr Pro",
+      "name" : "Ruddarr+",
       "subscriptions" : [
         {
           "adHocOffers" : [
@@ -89,18 +79,18 @@
           "displayPrice" : "14.99",
           "familyShareable" : true,
           "groupNumber" : 1,
-          "internalID" : "6478631800",
+          "internalID" : "6478978286",
           "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "In adipisicing est minim dolor enim deserunt.",
-              "displayName" : "Ruddarr Pro",
+              "description" : "Access to instance push notifications.",
+              "displayName" : "Ruddarr+ (Yearly)",
               "locale" : "en_US"
             }
           ],
-          "productID" : "pro_yearly",
+          "productID" : "plus_yearly",
           "recurringSubscriptionPeriod" : "P1Y",
-          "referenceName" : "Pro (Yearly)",
+          "referenceName" : "Plus (Yearly)",
           "subscriptionGroupID" : "21452440",
           "type" : "RecurringSubscription"
         }

@@ -13,6 +13,8 @@ struct MovieDetailsSheet: View {
         NavigationStack {
             ScrollView {
                 MovieDetails(movie: movie)
+                    .environment(instance)
+                    .environmentObject(settings)
                     .viewPadding(.horizontal)
             }
             .toolbar {

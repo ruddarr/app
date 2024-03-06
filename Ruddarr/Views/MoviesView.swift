@@ -198,6 +198,7 @@ struct MoviesView: View {
         Task { @MainActor in
             _ = await instance.movies.fetch()
 
+            // TODO: consider throttling this
             if let model = await instance.fetchMetadata() {
                 settings.saveInstance(model)
             }

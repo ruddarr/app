@@ -91,6 +91,7 @@ enum AppIcon: String, Identifiable, CaseIterable {
 struct AppIconData {
     var label: String
     var asset: String
+    var locked: Bool
 
     var value: String? {
         asset == "AppIcon" ? nil : asset
@@ -107,18 +108,18 @@ struct AppIconData {
     }
 
     static var factory: Self {
-        .init(label: "Default", asset: "AppIcon")
+        .init(label: "Default", asset: "AppIcon", locked: false)
     }
 
     static var purple: Self {
-        .init(label: "Podcasts", asset: "AppIconPurple")
+        .init(label: "Podcasts", asset: "AppIconPurple", locked: false)
     }
 
     static var red: Self {
-        .init(label: "Music", asset: "AppIconRed")
+        .init(label: "Music", asset: "AppIconRed", locked: false)
     }
 
     static var mono: Self {
-        .init(label: "Monochrome", asset: "AppIconMono")
+        .init(label: "Monochrome", asset: "AppIconMono", locked: true)
     }
 }
