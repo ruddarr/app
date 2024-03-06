@@ -74,11 +74,13 @@ struct SettingsAboutSection: View {
     }
 
     var libraries: some View {
-        NavigationLink { LibrariesView() } label: {
+        NavigationLink {
+            LibrariesView()
+        } label: {
             Label {
                 Text("Third Party Libraries").tint(.primary)
             } icon: {
-                Image(systemName: "text.book.closed").foregroundStyle(.blue)
+                Image(systemName: "text.book.closed").foregroundStyle(.teal)
             }
         }
     }
