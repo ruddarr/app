@@ -1,8 +1,13 @@
 import SwiftUI
+import StoreKit
 
 struct SettingsPreferencesSection: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(\.colorScheme) var colorScheme
+
+    @State private var entitledToService: Bool = false
+    @State private var showSubscriptionSheet: Bool = false
+    @State private var showManageScriptionSheet: Bool = false
 
     var body: some View {
         Section {
@@ -10,10 +15,20 @@ struct SettingsPreferencesSection: View {
             themePicker
             iconPicker
 
+            if entitledToService {
+                manageSubscription
+            }
         } header: {
             Text("Preferences")
         }
-        .tint(.secondary)
+        .subscriptionStatusTask(
+            for: Subscription.group,
+            action: handleSubscriptionStatusChange
+        )
+        .manageSubscriptionsSheet(
+            isPresented: $showManageScriptionSheet,
+            subscriptionGroupID: Subscription.group
+        )
     }
 
     var appearancePicker: some View {
@@ -74,4 +89,42 @@ struct SettingsPreferencesSection: View {
             }
         }
     }
+
+    var manageSubscription: some View {
+        Button {
+            showManageScriptionSheet = true
+        } label: {
+            NavigationLink(destination: EmptyView()) {
+                Label {
+                    Text("Manage Subscription")
+                } icon: {
+                    Image(systemName: "goforward.plus")
+                        .foregroundStyle(.teal)
+                }
+            }
+        }
+        .foregroundColor(Color(uiColor: .label))
+    }
+
+    func handleSubscriptionStatusChange(
+        taskState: EntitlementTaskState<[Product.SubscriptionInfo.Status]>
+    ) async {
+        switch taskState {
+        case .success(let statuses):
+            entitledToService = Subscription.containsEntitledState(statuses)
+            showSubscriptionSheet = false
+        case .failure(let error):
+            print(error)
+            entitledToService = false
+        case .loading: break
+        @unknown default: break
+        }
+    }
+}
+
+#Preview {
+    dependencies.router.selectedTab = .settings
+
+    return ContentView()
+        .withAppState()
 }
