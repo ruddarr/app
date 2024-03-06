@@ -88,21 +88,17 @@ class InstanceWebhook {
     }
 
     private func updateWebook(_ accountId: CKRecord.ID?) async throws {
+        if model.id == 0 {
+            try await createWebook(accountId)
+        }
+
         guard let account = accountId else {
             throw AppError("Missing CKRecord.ID")
         }
 
-        if notifications.isEmpty {
-            try await fetchWebhooks()
-        }
+        model.fields = webhookFields(account)
 
-        guard var webhook = webhook() else {
-            return
-        }
-
-        webhook.fields = webhookFields(account)
-
-        model = try await dependencies.api.updateNotification(webhook, instance)
+        model = try await dependencies.api.updateNotification(model, instance)
     }
 
     private func deleteWebook() async throws {
