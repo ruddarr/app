@@ -82,8 +82,8 @@ struct SettingsSystemSection: View {
 }
 
 #Preview {
-    List {
-        SettingsSystemSection()
-    }
-    .withAppState()
+    dependencies.router.selectedTab = .settings
+
+    return ContentView()
+        .withAppState()
 }

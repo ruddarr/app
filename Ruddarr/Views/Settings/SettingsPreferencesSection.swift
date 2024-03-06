@@ -16,23 +16,6 @@ struct SettingsPreferencesSection: View {
         .tint(.secondary)
     }
 
-    var themePicker: some View {
-        Picker(selection: $settings.theme) {
-            ForEach(Theme.allCases) { theme in
-                Text(theme.label)
-            }
-        } label: {
-            Label {
-                Text("Accent Color")
-            } icon: {
-                Image(systemName: "paintpalette").foregroundStyle(settings.theme.tint)
-            }
-        }
-        .onChange(of: settings.theme) {
-            dependencies.router.reset()
-        }
-    }
-
     var appearancePicker: some View {
         Picker(selection: $settings.appearance) {
             ForEach(Appearance.allCases) { colorScheme in
@@ -42,11 +25,34 @@ struct SettingsPreferencesSection: View {
             Label {
                 Text("Appearance")
             } icon: {
-                let icon = settings.appearance.preferredColorScheme == .dark ? "moon" : "sun.max"
-                let color: Color = colorScheme == .dark ? .white : .black
+                let icon = switch settings.appearance {
+                case .automatic: colorScheme == .dark ? "moon" : "sun.max"
+                case .light: "sun.max"
+                case .dark: "moon"
+                }
 
-                Image(systemName: icon).foregroundStyle(color)
+                Image(systemName: icon)
+                    .foregroundStyle(Color("Monochrome"))
             }
+        }.tint(.secondary)
+    }
+
+    var themePicker: some View {
+        Picker(selection: $settings.theme) {
+            ForEach(Theme.allCases) { theme in
+                Text(theme.label)
+            }
+        } label: {
+            Label {
+                Text("Accent Color")
+            } icon: {
+                Image(systemName: "paintpalette")
+                    .symbolRenderingMode(.multicolor)
+            }
+        }
+        .tint(.secondary)
+        .onChange(of: settings.theme) {
+            dependencies.router.reset()
         }
     }
 

@@ -35,11 +35,11 @@ struct MovieGridItem: View {
         HStack {
             Group {
                 if movie.isDownloaded {
-                    Image(systemName: "checkmark.circle.fill")
+                    Image(systemName: "checkmark").symbolVariant(.circle.fill)
                 } else if movie.isWaiting {
                     Image(systemName: "clock")
                 } else if movie.monitored {
-                    Image(systemName: "xmark.circle")
+                    Image(systemName: "xmark").symbolVariant(.circle)
                 }
             }.foregroundStyle(.white)
 

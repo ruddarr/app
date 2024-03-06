@@ -324,7 +324,8 @@ extension MoviesView {
                         .fontWeight(.semibold)
                         .tint(.primary)
 
-                    Image(systemName: "chevron.down.circle.fill")
+                    Image(systemName: "chevron.down")
+                        .symbolVariant(.circle.fill)
                         .foregroundStyle(.secondary, Color(UIColor.secondarySystemFill))
                         .font(.system(size: 13, weight: .bold))
                 }.tint(.primary)

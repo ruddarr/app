@@ -76,7 +76,7 @@ struct MovieReleaseSheet: View {
     var rejectionReasons: some View {
         VStack(alignment: .leading) {
             HStack(spacing: 4) {
-                Image(systemName: "exclamationmark.triangle.fill")
+                Image(systemName: "exclamationmark.triangle").symbolVariant(.fill)
                 Text("Release Rejected")
             }
                 .frame(maxWidth: .infinity, alignment: .leading)

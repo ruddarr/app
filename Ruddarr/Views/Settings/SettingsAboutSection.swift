@@ -35,7 +35,9 @@ struct SettingsAboutSection: View {
             Label {
                 Text("Leave a Review").tint(.primary)
             } icon: {
-                Image(systemName: "star.fill").foregroundStyle(.yellow)
+                Image(systemName: "star")
+                    .symbolVariant(.fill)
+                    .foregroundStyle(.yellow)
             }
         }
     }
@@ -47,7 +49,8 @@ struct SettingsAboutSection: View {
             Label {
                 Text("Email Support").tint(.primary)
             } icon: {
-                Image(systemName: "square.and.pencil").foregroundStyle(.blue)
+                Image(systemName: "square.and.pencil")
+                    .foregroundStyle(Color(red: 255 / 255, green: 128 / 255, blue: 112 / 255))
             }
         }
     }
@@ -81,7 +84,7 @@ struct SettingsAboutSection: View {
             Label {
                 Text("Third Party Libraries").tint(.primary)
             } icon: {
-                Image(systemName: "text.book.closed").foregroundStyle(.teal)
+                Image(systemName: "text.book.closed").foregroundStyle(.gray)
             }
         }
     }
@@ -187,4 +190,11 @@ struct SettingsAboutSection: View {
 
         return "Unknown"
     }
+}
+
+#Preview {
+    dependencies.router.selectedTab = .settings
+
+    return ContentView()
+        .withAppState()
 }
