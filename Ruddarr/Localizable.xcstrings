@@ -101,6 +101,9 @@
     "Clear Image Cache" : {
 
     },
+    "Close" : {
+
+    },
     "Coming Soon" : {
 
     },
@@ -209,6 +212,9 @@
     "Loading..." : {
 
     },
+    "Manage Subscription" : {
+
+    },
     "Min. Availability" : {
 
     },
@@ -276,6 +282,9 @@
 
     },
     "Notification are disabled, please enable them in [Settings > Notifications > Ruddarr](#link)." : {
+
+    },
+    "Notification require a subscription to [Ruddarr+](#link)." : {
 
     },
     "Notification require an iCloud account. Please sign into iCloud, or enable iCloud Drive in the iCloud settings (%@)." : {
@@ -640,6 +649,9 @@
     "Ruddarr" : {
 
     },
+    "Ruddarr+" : {
+
+    },
     "Save" : {
 
     },
@@ -673,6 +685,9 @@
     "Sorting options" : {
 
     },
+    "Subscription unlocks instance notifications, accent colors, and alternate app icons." : {
+
+    },
     "Synology" : {
 
     },
@@ -704,6 +719,9 @@
 
     },
     "Unmonitored" : {
+
+    },
+    "Upgrade to Ruddarr+" : {
 
     },
     "URL" : {
