@@ -4,7 +4,8 @@ import Combine
 struct MovieSearchView: View {
     @State var searchQuery = ""
 
-    @State private var isAddingMovie: Movie?
+    @State private var addNewMovie: Movie?
+    @State private var showExistingMovie: Movie?
     @State private var presentingSearch = true
 
     @Environment(RadarrInstance.self) private var instance
@@ -20,20 +21,21 @@ struct MovieSearchView: View {
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
                 ForEach(movieLookup.sortedItems) { movie in
-                    MovieGridItem(movie: movie)
-                        .onTapGesture {
-                            isAddingMovie = movie
-                        }
-                }
-                .sheet(item: $isAddingMovie) { movie in
-                    MovieSearchSheet(movie: movie)
-                        .presentationDetents(
-                            movie.exists ? [.large] : [.medium]
-                        )
+                    Button {
+                        movie.exists ? (showExistingMovie = movie) : (addNewMovie = movie)
+                    } label: {
+                        MovieGridItem(movie: movie)
+                    }
                 }
             }
             .padding(.top, 12)
             .viewPadding(.horizontal)
+            .sheet(item: $addNewMovie) { movie in
+                MoviePreviewSheet(movie: movie).presentationDetents([.medium])
+            }
+            .sheet(item: $showExistingMovie) { movie in
+                MovieDetailsSheet(movie: movie).presentationDetents([.fraction(0.99)])
+            }
         }
         .navigationTitle("Movie Search")
         .searchable(

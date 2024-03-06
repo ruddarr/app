@@ -187,7 +187,7 @@ struct MovieDetails: View {
     let movies: [Movie] = PreviewData.load(name: "movies")
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
-    return MovieSearchSheet(movie: movie)
+    return MovieDetailsSheet(movie: movie)
         .withSettings()
         .withRadarrInstance(movies: movies)
 }
