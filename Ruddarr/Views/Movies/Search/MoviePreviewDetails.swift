@@ -31,7 +31,9 @@ struct MoviePreviewDetails: View {
             MovieRatings(movie: movie)
                 .padding(.bottom)
 
-            description
+            if let text = movie.overview, !text.trimmingCharacters(in: .whitespaces).isEmpty {
+                description
+            }
 
             detailsGrid
         }
@@ -80,7 +82,7 @@ struct MoviePreviewDetails: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movie-lookup")
-    let movie = movies.first(where: { $0.id == 5 }) ?? movies[0]
+    let movie = movies.first(where: { $0.tmdbId == 1 }) ?? movies[0]
 
     return MoviePreviewSheet(movie: movie)
         .withAppState()
