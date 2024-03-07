@@ -3,8 +3,7 @@
 set -e
 
 if [[ -n $CI_ARCHIVE_PATH ]]; then
-    # Set Sentry CLI directory
-    export INSTALL_DIR=$PWD
+    export INSTALL_DIR=$PWD # Set Sentry CLI directory
 
     if [[ $(command -v sentry-cli) == "" ]]; then
         curl -sL https://sentry.io/get-cli/ | bash

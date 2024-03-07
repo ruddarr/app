@@ -18,9 +18,10 @@ opt_in_rules:
   - empty_string
   - closure_spacing
 
-disabled_rules: 
+disabled_rules:
   - sorted_imports
   - trailing_comma
+  - opening_brace
   - explicit_acl
   - explicit_top_level_acl
   - no_magic_numbers
