@@ -7,11 +7,12 @@ enum Theme: String, Identifiable, CaseIterable {
     case blue
     case purple
     case green
-    case pink
     case red
     case orange
     case yellow
     case mono
+    case brown
+    case barbie
     // cyan (Translate)
 
     var id: Self { self }
@@ -21,11 +22,12 @@ enum Theme: String, Identifiable, CaseIterable {
         case .blue: "Mail"
         case .purple: "Podcasts"
         case .green: "Fitness"
-        case .pink: "Music"
         case .red: "Music"
         case .orange: "Watch"
         case .yellow: "Notes"
         case .mono: "Books"
+        case .barbie: "Barbie"
+        case .brown: "Prologue"
         }
     }
 
@@ -34,11 +36,12 @@ enum Theme: String, Identifiable, CaseIterable {
         case .blue: Color.blue
         case .purple: Color.purple
         case .green: Color("Fitness")
-        case .pink: Color.pink
+        case .brown: Color.brown
         case .red: Color.red
         case .orange: Color.orange
         case .yellow: Color.yellow
         case .mono: Color("Monochrome")
+        case .barbie: Color(red: 246/255, green: 79/255, blue: 158/255)
         }
     }
 
