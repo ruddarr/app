@@ -4,8 +4,8 @@ import Combine
 struct MovieSearchView: View {
     @State var searchQuery = ""
 
-    @State private var addNewMovie: Movie?
-    @State private var showExistingMovie: Movie?
+    @State private var selectedMovie: Movie?
+    @State private var presentingSheet = false
     @State private var presentingSearch = true
 
     @Environment(RadarrInstance.self) private var instance
@@ -22,7 +22,8 @@ struct MovieSearchView: View {
             LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
                 ForEach(movieLookup.sortedItems) { movie in
                     Button {
-                        movie.exists ? (showExistingMovie = movie) : (addNewMovie = movie)
+                        selectedMovie = movie
+                        presentingSheet = true
                     } label: {
                         MovieGridItem(movie: movie)
                     }
@@ -30,20 +31,16 @@ struct MovieSearchView: View {
             }
             .padding(.top, 12)
             .viewPadding(.horizontal)
-            .sheet(item: $addNewMovie) { movie in
-                MoviePreviewSheet(movie: movie).presentationDetents([.medium])
-            }
-            .sheet(item: $showExistingMovie) { movie in
-                MovieDetailsSheet(movie: movie).presentationDetents([.fraction(0.99)])
-            }
         }
         .navigationTitle("Movie Search")
+        .navigationBarTitleDisplayMode(.large)
+        .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,
             isPresented: $presentingSearch,
             placement: .navigationBarDrawer(displayMode: .always)
         )
-        .disabled(instance.isVoid)
+        .disabled(instance.isVoid || presentingSheet)
         .searchScopes($movieLookup.sort) {
             ForEach(MovieLookup.SortOption.allCases) { option in
                 Text(option.rawValue)
@@ -52,19 +49,15 @@ struct MovieSearchView: View {
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)
         }
-        .onChange(of: searchQuery, initial: true) {
-            searchTextPublisher.send(searchQuery)
+        .onChange(of: searchQuery) {
+            searchQuery.isEmpty
+                ? instance.lookup.reset()
+                : searchTextPublisher.send(searchQuery)
         }
-        .onReceive(
-            searchTextPublisher.throttle(
-                for: .milliseconds(750),
-                scheduler: DispatchQueue.main,
-                latest: true
-            )
-        ) { _ in
-            Task {
-                await instance.lookup.search(query: searchQuery)
-            }
+        .onReceive(searchTextPublisher.throttle(
+            for: .milliseconds(750), scheduler: DispatchQueue.main, latest: true
+        )) { _ in
+            performSearch()
         }
         .alert(
             "Something Went Wrong",
@@ -79,6 +72,15 @@ struct MovieSearchView: View {
 
             Text(error.localizedDescription)
         }
+        .sheet(isPresented: $presentingSheet) {
+            if let movie = selectedMovie {
+                if movie.exists {
+                    MovieDetailsSheet(movie: movie).presentationDetents([.fraction(0.90)])
+                } else {
+                    MoviePreviewSheet(movie: movie).presentationDetents([.medium])
+                }
+            }
+        }
         .overlay {
             let noSearchResults = instance.lookup.items?.count == 0 && !searchQuery.isEmpty
 
@@ -89,6 +91,12 @@ struct MovieSearchView: View {
             } else if noSearchResults {
                 ContentUnavailableView.search(text: searchQuery)
             }
+        }
+    }
+
+    func performSearch() {
+        Task {
+            await instance.lookup.search(query: searchQuery)
         }
     }
 }

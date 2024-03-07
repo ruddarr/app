@@ -91,6 +91,7 @@ struct MoviesView: View {
 
                 toolbarSearchButton
             }
+            .scrollDismissesKeyboard(.immediately)
             .searchable(
                 text: $searchQuery,
                 isPresented: $searchPresented,
