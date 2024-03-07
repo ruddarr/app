@@ -22,7 +22,7 @@ struct ContentView: View {
             NavigationSplitView(
                 columnVisibility: $columnVisibility,
                 sidebar: {
-                    sidebar
+                    sidebar.ignoresSafeArea(.all, edges: .bottom)
                 },
                 detail: {
                     screen(for: dependencies.router.selectedTab)
@@ -115,6 +115,7 @@ struct ContentView: View {
         .safeAreaInset(edge: .bottom) {
             button(for: .settings)
                 .scenePadding(.horizontal)
+                .padding(.bottom, 24)
         }
     }
 
