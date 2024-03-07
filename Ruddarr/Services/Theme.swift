@@ -41,7 +41,7 @@ enum Theme: String, Identifiable, CaseIterable {
         case .orange: Color.orange
         case .yellow: Color.yellow
         case .mono: Color("Monochrome")
-        case .barbie: Color(red: 246/255, green: 79/255, blue: 158/255)
+        case .barbie: Color("Barbie")
         }
     }
 
@@ -75,18 +75,28 @@ enum Appearance: String, Identifiable, CaseIterable {
 
 enum AppIcon: String, Identifiable, CaseIterable {
     case factory
-    case red
-    case purple
+    case books
+    case podcasts
+    case music
     case mono
+    case barbie
+    case plex
+    case telegram
+    case warp
 
     var id: Self { self }
 
     var data: AppIconData {
         switch self {
         case .factory: AppIconData.factory
-        case .red: AppIconData.red
-        case .purple: AppIconData.purple
+        case .music: AppIconData.music
+        case .podcasts: AppIconData.podcasts
+        case .books: AppIconData.books
         case .mono: AppIconData.mono
+        case .barbie: AppIconData.barbie
+        case .plex: AppIconData.plex
+        case .telegram: AppIconData.telegram
+        case .warp: AppIconData.warp
         }
     }
 }
@@ -114,15 +124,35 @@ struct AppIconData {
         .init(label: "Default", asset: "AppIcon", locked: false)
     }
 
-    static var purple: Self {
-        .init(label: "Podcasts", asset: "AppIconPurple", locked: false)
+    static var podcasts: Self {
+        .init(label: "Podcasts", asset: "AppIconPodcasts", locked: false)
     }
 
-    static var red: Self {
-        .init(label: "Music", asset: "AppIconRed", locked: false)
+    static var music: Self {
+        .init(label: "Music", asset: "AppIconMusic", locked: false)
+    }
+
+    static var books: Self {
+        .init(label: "Books", asset: "AppIconBooks", locked: false)
     }
 
     static var mono: Self {
         .init(label: "Monochrome", asset: "AppIconMono", locked: true)
+    }
+
+    static var barbie: Self {
+        .init(label: "Barbie", asset: "AppIconBarbie", locked: true)
+    }
+
+    static var plex: Self {
+        .init(label: "Plex", asset: "AppIconPlex", locked: true)
+    }
+
+    static var telegram: Self {
+        .init(label: "Telegram", asset: "AppIconTelegram", locked: true)
+    }
+
+    static var warp: Self {
+        .init(label: "Warp", asset: "AppIconWarp", locked: true)
     }
 }

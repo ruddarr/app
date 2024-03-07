@@ -101,7 +101,7 @@ struct MoviePreviewSheet: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movie-lookup")
-    let movie = movies.first(where: { $0.tmdbId == 736308 }) ?? movies[0]
+    let movie = movies.first(where: { $0.tmdbId == 736_308 }) ?? movies[0]
 
     return MoviePreviewSheet(movie: movie)
         .withAppState()

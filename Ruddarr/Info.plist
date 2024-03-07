@@ -13,18 +13,53 @@
 					<string>AppIconMono</string>
 				</array>
 			</dict>
-			<key>AppIconPurple</key>
+			<key>AppIconPodcasts</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIconPurple</string>
+					<string>AppIconPodcasts</string>
 				</array>
 			</dict>
-			<key>AppIconRed</key>
+            <key>AppIconBooks</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIconRed</string>
+					<string>AppIconBooks</string>
+				</array>
+			</dict>
+			<key>AppIconMusic</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIconMusic</string>
+				</array>
+			</dict>
+			<key>AppIconPlex</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIconPlex</string>
+				</array>
+			</dict>
+			<key>AppIconTelegram</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIconTelegram</string>
+				</array>
+			</dict>
+			<key>AppIconBarbie</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIconBarbie</string>
+				</array>
+			</dict>
+			<key>AppIconWarp</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIconWarp</string>
 				</array>
 			</dict>
 		</dict>
