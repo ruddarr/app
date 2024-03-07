@@ -50,6 +50,7 @@ struct MoviesView: View {
                     }
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: Path.self) {
                 switch $0 {
                 case .search(let query):
