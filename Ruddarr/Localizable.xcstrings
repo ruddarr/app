@@ -140,6 +140,9 @@
     "Descending" : {
 
     },
+    "Direction" : {
+
+    },
     "Done" : {
 
     },
@@ -655,6 +658,9 @@
     "Save" : {
 
     },
+    "Search" : {
+
+    },
     "Searching..." : {
 
     },
@@ -679,10 +685,7 @@
     "Something Went Wrong" : {
 
     },
-    "Sorting direction" : {
-
-    },
-    "Sorting options" : {
+    "Sort By" : {
 
     },
     "Subscription unlocks instance notifications, alternate app icons and supports the continued indie development of Ruddarr." : {

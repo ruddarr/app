@@ -139,11 +139,13 @@ extension MovieReleasesView {
     var toolbarSortingButton: some View {
         Menu {
             Section {
-                Picker("Sorting options", selection: $sort.option) {
+                Picker("Sort By", selection: $sort.option) {
                     ForEach(MovieReleaseSort.Option.allCases) { option in
                         option.label
                     }
-                }.onChange(of: sort.option) {
+                }
+                .pickerStyle(.inline)
+                .onChange(of: sort.option) {
                     switch sort.option {
                     case .byWeight: sort.isAscending = false
                     case .byAge: sort.isAscending = true
@@ -154,7 +156,7 @@ extension MovieReleasesView {
             }
 
             Section {
-                Picker("Sorting direction", selection: $sort.isAscending) {
+                Picker("Direction", selection: $sort.isAscending) {
                     Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
                     Label("Descending", systemImage: "arrowtriangle.down").tag(false)
                 }
@@ -174,6 +176,7 @@ extension MovieReleasesView {
                     Text(indexer).tag(Optional.some(indexer))
                 }
             }
+            .pickerStyle(.inline)
         } label: {
             Label("Indexer", systemImage: "building.2")
         }
@@ -188,6 +191,7 @@ extension MovieReleasesView {
                     Text(quality).tag(Optional.some(quality))
                 }
             }
+            .pickerStyle(.inline)
         } label: {
             Label("Quality", systemImage: "film.stack")
         }

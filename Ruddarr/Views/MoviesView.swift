@@ -282,16 +282,19 @@ extension MoviesView {
                     filter.label
                 }
             }
+            .pickerStyle(.inline)
         }
     }
 
     var toolbarSortingButton: some View {
         Menu {
-            Picker(selection: $sort.option, label: Text("Sorting options")) {
+            Picker(selection: $sort.option, label: Text("Sort By")) {
                 ForEach(MovieSort.Option.allCases) { option in
                     option.label
                 }
-            }.onChange(of: sort.option) {
+            }
+            .pickerStyle(.inline)
+            .onChange(of: sort.option) {
                 switch sort.option {
                 case .byTitle: sort.isAscending = true
                 case .byYear: sort.isAscending = false
@@ -300,7 +303,7 @@ extension MoviesView {
             }
 
             Section {
-                Picker(selection: $sort.isAscending, label: Text("Sorting direction")) {
+                Picker("Direction", selection: $sort.isAscending) {
                     Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
                     Label("Descending", systemImage: "arrowtriangle.down").tag(false)
                 }
@@ -321,6 +324,7 @@ extension MoviesView {
                     }
                 }
                 .onChange(of: settings.radarrInstanceId, changeInstance)
+                .pickerStyle(.inline)
             } label: {
                 HStack(alignment: .bottom, spacing: 6) {
                     Text(settings.radarrInstance?.label ?? "Instance")
