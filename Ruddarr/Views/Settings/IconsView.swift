@@ -14,7 +14,6 @@ struct IconsView: View {
         }
         .navigationTitle("Icons")
         .navigationBarTitleDisplayMode(.inline)
-        .background(.secondarySystemBackground)
     }
 }
 
@@ -74,7 +73,7 @@ private struct Icons: View {
             .symbolVariant(.circle.fill)
             .foregroundStyle(.white, settings.theme.tint)
             .imageScale(.large)
-            .background(Circle().fill(.secondarySystemBackground))
+            .background(Circle().fill(.systemBackground))
             .offset(x: 3, y: -6)
     }
 
