@@ -2255,6 +2255,16 @@
         }
       }
     },
+    "Unrated" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unrated"
+          }
+        }
+      }
+    },
     "Unsupported URL: %@" : {
       "localizations" : {
         "en" : {

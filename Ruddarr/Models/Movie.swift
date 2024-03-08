@@ -105,6 +105,18 @@ struct Movie: Identifiable, Codable {
             : String(format: String(localized: "%dh %dm", comment: "$1 = hours, $2 = minutes (1h 13m)"), hours, minutes)
     }
 
+    var certificationLabel: String {
+        guard let rating = certification else {
+            return String(localized: "Unrated")
+        }
+
+        if rating.isEmpty || rating == "0" {
+            return String(localized: "Unrated")
+        }
+
+        return rating
+    }
+
     var sizeLabel: String {
         ByteCountFormatter().string(
             fromByteCount: Int64(sizeOnDisk ?? 0)

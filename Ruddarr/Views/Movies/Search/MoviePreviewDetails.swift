@@ -20,10 +20,8 @@ struct MoviePreviewDetails: View {
                     Text(runtime)
                 }
 
-                if movie.certification != nil {
-                    Bullet()
-                    Text(movie.certification ?? "")
-                }
+                Bullet()
+                Text(movie.certificationLabel)
             }
             .font(.callout)
             .foregroundStyle(.secondary)

@@ -59,10 +59,8 @@ extension MovieDetails {
                     Text(runtime)
                 }
 
-                if movie.certification != nil {
-                    Bullet()
-                    Text(movie.certification ?? "")
-                }
+                Bullet()
+                Text(movie.certificationLabel)
             }
 
             HStack(spacing: 6) {
