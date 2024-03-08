@@ -62,6 +62,13 @@
 					<string>AppIconWarp</string>
 				</array>
 			</dict>
+            <key>AppIconATP</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIconATP</string>
+				</array>
+			</dict>
 		</dict>
 	</dict>
 	<key>CFBundleURLTypes</key>

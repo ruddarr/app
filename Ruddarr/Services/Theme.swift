@@ -82,11 +82,12 @@ enum AppIcon: String, Identifiable, CaseIterable {
     case books
     case podcasts
     case music
-    case mono
     case barbie
+    case mono
     case plex
     case telegram
     case warp
+    case atp
 
     var id: Self { self }
 
@@ -101,6 +102,7 @@ enum AppIcon: String, Identifiable, CaseIterable {
         case .plex: AppIconData.plex
         case .telegram: AppIconData.telegram
         case .warp: AppIconData.warp
+        case .atp: AppIconData.atp
         }
     }
 }
@@ -158,5 +160,9 @@ struct AppIconData {
 
     static var warp: Self {
         .init(label: "Warp", asset: "AppIconWarp", locked: true)
+    }
+
+    static var atp: Self {
+        .init(label: "ATP", asset: "AppIconATP", locked: true)
     }
 }
