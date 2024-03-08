@@ -97,6 +97,10 @@ struct MovieRelease: Identifiable, Codable {
         return cleanIndexerFlags[0].localizedStandardContains("freeleech")
     }
 
+    var cleanTitle: String {
+        title.replacingOccurrences(of: ".", with: " ")
+    }
+
     var cleanIndexerFlags: [String] {
         indexerFlags.map {
             $0.hasPrefix("G_") ? String($0.dropFirst(2)) : $0

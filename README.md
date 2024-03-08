@@ -2,6 +2,21 @@
 
 A companion app for Radarr and Sonarr instances. Browse libraries, manage content and search for new content.
 
+## URL Schemes
+
+### Open App
+
+```
+ruddarr://open
+```
+
+### Search Movies
+
+```
+ruddarr://movies/search
+ruddarr://movies/search/{query}
+```
+
 ## Sentry Symbols
 
 Create a `.sentryclirc` file:

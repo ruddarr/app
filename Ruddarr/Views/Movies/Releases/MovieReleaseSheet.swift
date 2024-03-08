@@ -56,7 +56,7 @@ struct MovieReleaseSheet: View {
                 .foregroundStyle(settings.theme.tint)
             }
 
-            Text(release.title)
+            Text(release.cleanTitle)
                 .font(.title2)
                 .fontWeight(.bold)
                 .kerning(-0.5)
