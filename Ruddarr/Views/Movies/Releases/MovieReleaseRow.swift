@@ -32,9 +32,9 @@ struct MovieReleaseRow: View {
             Group {
                 HStack(spacing: 6) {
                     Text(release.qualityLabel)
-                    Text("•")
+                    Bullet()
                     Text(release.sizeLabel)
-                    Text("•")
+                    Bullet()
                     Text(release.ageLabel)
                 }
                 .opacity(secondaryOpacity)
@@ -45,7 +45,7 @@ struct MovieReleaseRow: View {
                         .foregroundStyle(peerColor)
 
                     Group {
-                        Text("•")
+                        Bullet()
                         Text(release.indexerLabel)
                     }.opacity(secondaryOpacity)
 

@@ -178,7 +178,7 @@ struct SettingsAboutSection: View {
             return appVersion
         }
 
-        return "Unknown"
+        return String(localized: "Unknown")
     }
 
     var appBuild: String {
@@ -188,7 +188,7 @@ struct SettingsAboutSection: View {
             return buildNumber
         }
 
-        return "Unknown"
+        return String(localized: "Unknown")
     }
 }
 

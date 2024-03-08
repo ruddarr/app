@@ -226,7 +226,7 @@ extension API.Error {
     var errorDescription: String? {
         switch self {
         case .badStatusCode(let code):
-            return "Server returned \(code) status code."
+            return String(localized: "Server returned \(code) status code.")
         case .errorResponse(let code, let message):
             return "[\(code)] \(message)"
         }

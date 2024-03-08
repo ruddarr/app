@@ -93,7 +93,7 @@ class InstanceWebhook {
         }
 
         guard let account = accountId else {
-            throw AppError("Missing CKRecord.ID")
+            throw AppError(String(localized: "Missing CloudKit user identifier."))
         }
 
         model.fields = webhookFields(account)

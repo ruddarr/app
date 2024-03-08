@@ -80,18 +80,18 @@ struct Movie: Identifiable, Codable {
 
     var stateLabel: String {
         if isDownloaded {
-            return "Downloaded"
+            return String(localized: "Downloaded")
         }
 
         if isWaiting {
-            return "Waiting"
+            return String(localized: "Waiting")
         }
 
         if monitored && isAvailable {
-            return "Missing"
+            return String(localized: "Missing")
         }
 
-        return "Unwanted"
+        return String(localized: "Unwanted")
     }
 
     var runtimeLabel: String? {
@@ -101,8 +101,8 @@ struct Movie: Identifiable, Codable {
         let minutes = runtime % 60
 
         return hours == 0
-            ? String(localized: "\(minutes)m")
-            : String(localized: "\(hours)h \(minutes)m")
+            ? String(format: String(localized: "%dm", comment: "%d = minutes (13m)"), minutes)
+            : String(format: String(localized: "%dh %dm", comment: "$1 = hours, $2 = minutes (1h 13m)"), hours, minutes)
     }
 
     var sizeLabel: String {
@@ -112,7 +112,7 @@ struct Movie: Identifiable, Codable {
     }
 
     var genreLabel: String {
-        genres.joined(separator: ", ")
+        genres.formatted(.list(type: .and, width: .narrow))
     }
 
     var remotePoster: String? {
@@ -163,11 +163,11 @@ enum MovieStatus: String, Codable {
 
     var label: String {
         switch self {
-        case .tba: "TBA"
-        case .announced: "Announced"
-        case .inCinemas: "In Cinemas"
-        case .released: "Released"
-        case .deleted: "Deleted"
+        case .tba: String(localized: "TBA")
+        case .announced: String(localized: "Announced")
+        case .inCinemas: String(localized: "In Cinemas")
+        case .released: String(localized: "Released")
+        case .deleted: String(localized: "Deleted")
         }
     }
 }
@@ -186,7 +186,7 @@ struct MovieImage: Codable {
 
 struct MovieRating: Codable {
     let votes: Int
-    let value: Double
+    let value: Float
 }
 
 struct MovieFile: Codable {

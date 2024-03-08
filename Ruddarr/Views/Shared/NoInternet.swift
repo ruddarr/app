@@ -5,7 +5,7 @@ struct NoInternet: View {
         ContentUnavailableView(
             "No Internet Connection",
             systemImage: "wifi.slash",
-            description: Text("Please check your connection and try again.")
+            description: Text("Please check your internet connection and try again.")
         )
     }
 }

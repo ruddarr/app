@@ -55,12 +55,12 @@ extension MovieDetails {
                 Text(String(movie.year))
 
                 if let runtime = movie.runtimeLabel {
-                    Text("•")
+                    Bullet()
                     Text(runtime)
                 }
 
                 if movie.certification != nil {
-                    Text("•")
+                    Bullet()
                     Text(movie.certification ?? "")
                 }
             }
@@ -69,7 +69,7 @@ extension MovieDetails {
                 Text(String(movie.year))
 
                 if let runtime = movie.runtimeLabel {
-                    Text("•")
+                    Bullet()
                     Text(runtime)
                 }
             }

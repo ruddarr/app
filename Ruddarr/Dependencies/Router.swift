@@ -22,32 +22,29 @@ enum Tab: Hashable, CaseIterable, Identifiable {
     case shows
     case settings
 
-    @ViewBuilder
-    var label: some View {
+    var text: String {
         switch self {
-        case .movies:
-            Label("Movies", systemImage: "film")
-        case .shows:
-            Label("Series", systemImage: "tv")
-        case .settings:
-            Label("Settings", systemImage: "gear")
+        case .movies: String(localized: "Movies")
+        case .shows: String(localized: "Series")
+        case .settings: String(localized: "Settings")
         }
     }
 
-    @ViewBuilder
-    var row: some View {
-        let text = switch self {
-        case .movies: "Movies"
-        case .shows: "Series"
-        case .settings: "Settings"
-        }
-
-        let icon = switch self {
+    var icon: String {
+        switch self {
         case .movies: "film"
         case .shows: "tv"
         case .settings: "gear"
         }
+    }
 
+    @ViewBuilder
+    var label: some View {
+        Label(text, systemImage: icon)
+    }
+
+    @ViewBuilder
+    var row: some View {
         Label {
             Text(text)
                 .tint(.primary)
@@ -67,22 +64,22 @@ enum Tab: Hashable, CaseIterable, Identifiable {
             Spacer()
             switch self {
             case .movies:
-                Image(systemName: "film").font(.system(size: 23))
+                Image(systemName: icon).font(.system(size: 23))
                     .frame(height: 15)
 
-                Text("Movies").font(.system(size: 10, weight: .semibold))
+                Text(text).font(.system(size: 10, weight: .semibold))
                     .frame(height: 15).padding(.top, 8)
             case .shows:
-                Image(systemName: "tv").font(.system(size: 23))
+                Image(systemName: icon).font(.system(size: 23))
                     .frame(height: 15)
 
-                Text("Series").font(.system(size: 10, weight: .semibold))
+                Text(text).font(.system(size: 10, weight: .semibold))
                     .frame(height: 15).padding(.top, 8)
             case .settings:
-                Image(systemName: "gear").font(.system(size: 23))
+                Image(systemName: icon).font(.system(size: 23))
                     .frame(height: 15)
 
-                Text("Settings").font(.system(size: 10, weight: .semibold))
+                Text(text).font(.system(size: 10, weight: .semibold))
                     .frame(height: 15).padding(.top, 8)
 
             }

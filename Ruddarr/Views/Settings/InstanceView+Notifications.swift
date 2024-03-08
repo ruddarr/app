@@ -3,40 +3,55 @@ import CloudKit
 
 extension InstanceView {
     var enableNotifications: some View {
-        Text("Notification are disabled, please enable them in [Settings > Notifications > Ruddarr](#link).")
-            .environment(\.openURL, .init { _ in
-                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
+        let text = String(
+            format: String(localized: "Notification are disabled, please enable them in %@."),
+            String(format: "[%@](#link)", String(localized: "Settings > Notifications > Ruddarr"))
+        )
 
-                return .handled
-            })
+        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
+            if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+
+            return .handled
+        })
     }
 
     var disableNotifications: some View {
-        Text("Notification settings for each instance are shared between devices. To disable notifications for a specific device go to [Settings > Notifications](#link).")
-            .environment(\.openURL, .init { _ in
-                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }
+        let text = String(
+            format: String(localized: "Notification settings for each instance are shared between devices. To disable notifications for a specific device go to %@."),
+            String(format: "[%@](#link)", String(localized: "Settings > Notifications"))
+        )
 
-                return .handled
-            })
+        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
+            if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+
+            return .handled
+        })
     }
 
     var subscribeToService: some View {
-        Text("Notification require a subscription to [Ruddarr+](#link).")
-            .environment(\.openURL, .init { _ in
-                showSubscription = true
+        let text = String(
+            format: String(localized: "Notification require a subscription to %@."),
+            "[\(Subscription.name)](#link)"
+        )
 
-                return .handled
-            })
+        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
+            showSubscription = true
+
+            return .handled
+        })
     }
 
     var enableCloudKit: some View {
         let status = Telemetry.shared.cloudKitStatus(cloudKitStatus)
 
-        return Text("Notification require an iCloud account. Please sign into iCloud, or enable iCloud Drive in the iCloud settings (\(status)).")
+        return Text(
+            "Notification require an iCloud account. Please sign into iCloud, or enable iCloud Drive in the iCloud settings (\(status)).",
+            comment: "Placeholder is CloudKit status"
+        )
     }
 
     var cloudKitEnabled: Bool {
@@ -66,7 +81,7 @@ extension InstanceView {
             Toggle("Health Restored", isOn: $webhook.model.onHealthRestored)
                 .onChange(of: webhook.model.onHealthRestored, updateWebhook)
 
-            Toggle("Application Update", isOn: $webhook.model.onApplicationUpdate)
+            Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
                 .onChange(of: webhook.model.onApplicationUpdate, updateWebhook)
         }
     }
@@ -99,7 +114,7 @@ extension InstanceView {
             Toggle("Health Restored", isOn: $webhook.model.onHealthRestored)
                 .onChange(of: webhook.model.onHealthRestored, updateWebhook)
 
-            Toggle("Application Update", isOn: $webhook.model.onApplicationUpdate)
+            Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
                 .onChange(of: webhook.model.onApplicationUpdate, updateWebhook)
         }
     }

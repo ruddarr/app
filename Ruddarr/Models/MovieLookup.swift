@@ -15,12 +15,20 @@ class MovieLookup {
         self.instance = instance
     }
 
-    enum SortOption: String, Identifiable, CaseIterable {
+    enum SortOption: Identifiable, CaseIterable {
         var id: Self { self }
 
-        case byRelevance = "Relevant"
-        case byYear = "Latest"
-        case byPopularity = "Popular"
+        case byRelevance
+        case byYear
+        case byPopularity
+
+        var label: String {
+            switch self {
+            case .byRelevance: String(localized: "Relevant")
+            case .byYear: String(localized: "Latest")
+            case .byPopularity: String(localized: "Popular")
+            }
+        }
     }
 
     func reset() {

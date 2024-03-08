@@ -151,7 +151,7 @@ struct InstanceView: View {
             entitledToService = Subscription.containsEntitledState(statuses)
             showSubscription = false
         case .failure(let error):
-            leaveBreadcrumb(.error, category: "subscription", message: "SubscriptionStatusTask failed", data: ["error": error])
+            leaveBreadcrumb(.fatal, category: "subscription", message: "SubscriptionStatusTask failed", data: ["error": error])
             entitledToService = false
         case .loading: break
         @unknown default: break

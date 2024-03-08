@@ -18,21 +18,21 @@ struct MovieDetails: View {
 
             Grid(alignment: .leading) {
                 if let studio = movie.studio, !studio.isEmpty {
-                    detailsRow("Studio", value: studio)
+                    detailsRow(String(localized: "Studio"), value: studio)
                 }
 
                 if !movie.genres.isEmpty {
-                    detailsRow("Genre", value: movie.genreLabel)
+                    detailsRow(String(localized: "Genre"), value: movie.genreLabel)
                 }
 
-                detailsRow("Status", value: movie.status.label)
+                detailsRow(String(localized: "Status"), value: movie.status.label)
 
                 if movie.isDownloaded {
-                    detailsRow("Video", value: videoQuality)
-                    detailsRow("Audio", value: audioQuality)
+                    detailsRow(String(localized: "Video"), value: videoQuality)
+                    detailsRow(String(localized: "Audio"), value: audioQuality)
 
                     if let languages = subtitles {
-                        detailsRow("Subtitles", value: languages)
+                        detailsRow(String(localized: "Subtitles"), value: languages)
                     }
                 }
             }.padding(.bottom)
@@ -73,7 +73,7 @@ struct MovieDetails: View {
                     dependencies.toast.show(.searchQueued)
                 }
             } label: {
-                ButtonLabel(text: "Automatic", icon: "magnifyingglass")
+                ButtonLabel(text: String(localized: "Automatic"), icon: "magnifyingglass")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
@@ -81,7 +81,7 @@ struct MovieDetails: View {
             .allowsHitTesting(!instance.movies.isWorking)
 
             NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
-                ButtonLabel(text: "Interactive", icon: "person.fill")
+                ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
                     .frame(maxWidth: .infinity)
             })
             .buttonStyle(.bordered)
@@ -114,7 +114,7 @@ struct MovieDetails: View {
         }
 
         if label.isEmpty {
-            label = "Unknown"
+            label = String(localized: "Unknown")
         }
 
         return "\(label) (\(codec))"
@@ -127,7 +127,7 @@ struct MovieDetails: View {
         if let langs = movie.movieFile?.languages {
             languages = langs
                 .filter { $0.name != nil }
-                .map { $0.name ?? "Unknown" }
+                .map { $0.name ?? String(localized: "Unknown") }
         }
 
         if let audioCodec = movie.movieFile?.mediaInfo.audioCodec {
@@ -139,10 +139,10 @@ struct MovieDetails: View {
         }
 
         if languages.isEmpty {
-            languages.append("Unknown")
+            languages.append(String(localized: "Unknown"))
         }
 
-        let languageList = languages.joined(separator: ", ")
+        let languageList = languages.formatted(.list(type: .and, width: .narrow))
 
         return "\(languageList) (\(codec))"
     }
@@ -153,20 +153,26 @@ struct MovieDetails: View {
         }
 
         if codes.count > 6 {
-            return Array(codes.prefix(4)).map {
+            var someCodes = Array(codes.prefix(4)).map {
                 $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
-            }.joined(separator: ", ") + ", +\(codes.count - 4) more..."
+            }
+
+            someCodes.append(
+                String(format: String(localized: "+%d more..."), codes.count - 4)
+            )
+
+            return someCodes.formatted(.list(type: .and, width: .narrow))
         }
 
         return codes.map {
             $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
-        }.joined(separator: ", ")
+        }.formatted(.list(type: .and, width: .narrow))
     }
 
     var qualityProfile: String {
         instance.qualityProfiles.first(
             where: { $0.id == movie.qualityProfileId }
-        )?.name ?? "Unknown"
+        )?.name ?? String(localized: "Unknown")
     }
 
     func detailsRow(_ label: String, value: String) -> some View {

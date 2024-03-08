@@ -46,7 +46,7 @@ extension QuickActions {
 
 extension QuickActions.Deeplink {
     init(url: URL) throws {
-        let unsupportedURL = AppError("Unsupported URL: \(url.absoluteString)")
+        let unsupportedURL = AppError(String(localized: "Unsupported URL: \(url.absoluteString)"))
 
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             throw unsupportedURL
@@ -77,7 +77,7 @@ extension QuickActions {
 
         var title: String {
             switch self {
-            case .addMovie: "Add New Movie"
+            case .addMovie: String(localized: "Add New Movie")
             }
         }
 

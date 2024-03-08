@@ -59,7 +59,7 @@ struct SettingsView: View {
             }
 
             NavigationLink(value: Path.createInstance) {
-                Text("Add instance")
+                Text("Add Instance")
             }
         }
     }

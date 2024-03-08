@@ -89,7 +89,7 @@ struct ContentView: View {
     var sidebar: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                Text("Ruddarr")
+                Text(verbatim: "Ruddarr")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.bottom, 20)

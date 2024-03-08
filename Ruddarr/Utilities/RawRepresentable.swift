@@ -41,7 +41,7 @@ extension MovieSort: RawRepresentable {
             let result = try JSONDecoder().decode(MovieSort.self, from: data)
             self = result
         } catch {
-            print(error)
+            leaveBreadcrumb(.fatal, category: "movie.sort", message: "init failed", data: ["error": error])
 
             return nil
         }

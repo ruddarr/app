@@ -43,7 +43,7 @@ struct MovieSearchView: View {
         .disabled(instance.isVoid || presentingSheet)
         .searchScopes($movieLookup.sort) {
             ForEach(MovieLookup.SortOption.allCases) { option in
-                Text(option.rawValue)
+                Text(option.label)
             }
         }
         .onSubmit(of: .search) {

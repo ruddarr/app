@@ -46,25 +46,46 @@ extension MovieDetails {
 
     var informationItems: [InformationItem] {
         var items = [
-            InformationItem(label: "Quality Profile", value: qualityProfile),
-            InformationItem(label: "Minimum Availability", value: movie.minimumAvailability.label),
-            InformationItem(label: "Root Folder", value: movie.rootFolderPath ?? "Unknown"),
+            InformationItem(
+                label: String(localized: "Quality Profile"),
+                value: qualityProfile
+            ),
+            InformationItem(
+                label: String(localized: "Minimum Availability"),
+                value: movie.minimumAvailability.label
+            ),
+            InformationItem(
+                label: String(localized: "Root Folder"),
+                value: movie.rootFolderPath ?? "Unknown"
+            ),
         ]
 
         if movie.isDownloaded {
-            items.append(InformationItem(label: "Size", value: movie.sizeLabel))
+            items.append(InformationItem(
+                label: String(localized: "Size"),
+                value: movie.sizeLabel
+            ))
         }
 
         if let inCinemas = movie.inCinemas {
-            items.append(InformationItem(label: "In Cinemas", value: inCinemas.formatted(.dateTime.day().month().year())))
+            items.append(InformationItem(
+                label: String(localized: "In Cinemas"),
+                value: inCinemas.formatted(.dateTime.day().month().year()))
+            )
         }
 
         if let digitalRelease = movie.digitalRelease {
-            items.append(InformationItem(label: "Digital Release", value: digitalRelease.formatted(.dateTime.day().month().year())))
+            items.append(InformationItem(
+                label: String(localized: "Digital Release"),
+                value: digitalRelease.formatted(.dateTime.day().month().year()))
+            )
         }
 
         if let physicalRelease = movie.physicalRelease {
-            items.append(InformationItem(label: "Physical Release", value: physicalRelease.formatted(.dateTime.day().month().year())))
+            items.append(InformationItem(
+                label: String(localized: "Physical Release"),
+                value: physicalRelease.formatted(.dateTime.day().month().year()))
+            )
         }
 
         return items

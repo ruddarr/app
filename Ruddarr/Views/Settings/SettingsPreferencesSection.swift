@@ -114,7 +114,7 @@ struct SettingsPreferencesSection: View {
             entitledToService = Subscription.containsEntitledState(statuses)
             showSubscriptionSheet = false
         case .failure(let error):
-            print(error)
+            leaveBreadcrumb(.fatal, category: "subscription", message: "SubscriptionStatusTask failed", data: ["error": error])
             entitledToService = false
         case .loading: break
         @unknown default: break

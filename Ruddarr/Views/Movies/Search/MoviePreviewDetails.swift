@@ -16,12 +16,12 @@ struct MoviePreviewDetails: View {
                 Text(String(movie.year))
 
                 if let runtime = movie.runtimeLabel {
-                    Text("•")
+                    Bullet()
                     Text(runtime)
                 }
 
                 if movie.certification != nil {
-                    Text("•")
+                    Bullet()
                     Text(movie.certification ?? "")
                 }
             }
@@ -54,14 +54,14 @@ struct MoviePreviewDetails: View {
     var detailsGrid: some View {
         Grid(alignment: .leading) {
             if let studio = movie.studio, !studio.isEmpty {
-                detailsRow("Studio", value: studio)
+                detailsRow(String(localized: "Studio"), value: studio)
             }
 
             if !movie.genres.isEmpty {
-                detailsRow("Genre", value: movie.genreLabel)
+                detailsRow(String(localized: "Genre"), value: movie.genreLabel)
             }
 
-            detailsRow("Status", value: movie.status.label)
+            detailsRow(String(localized: "Status"), value: movie.status.label)
         }
         .padding(.bottom)
     }

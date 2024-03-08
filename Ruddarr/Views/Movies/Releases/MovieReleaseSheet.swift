@@ -63,9 +63,9 @@ struct MovieReleaseSheet: View {
 
             HStack(spacing: 6) {
                 Text(release.qualityLabel)
-                Text("•")
+                Bullet()
                 Text(release.sizeLabel)
-                Text("•")
+                Bullet()
                 Text(release.ageLabel)
             }
             .font(.subheadline)
@@ -109,7 +109,7 @@ struct MovieReleaseSheet: View {
         HStack(spacing: 24) {
             if let url = release.infoUrl {
                 Link(destination: URL(string: url)!, label: {
-                    ButtonLabel(text: "Open Link", icon: "arrow.up.right.square")
+                    ButtonLabel(text: String(localized: "Open Link"), icon: "arrow.up.right.square")
                         .frame(maxWidth: .infinity)
                 })
                 .buttonStyle(.bordered)
@@ -120,7 +120,7 @@ struct MovieReleaseSheet: View {
                 Task { await downloadRelease() }
             } label: {
                 ButtonLabel(
-                    text: "Download",
+                    text: String(localized: "Download"),
                     icon: "arrow.down.circle",
                     isLoading: instance.movies.isWorking
                 )
@@ -140,15 +140,15 @@ struct MovieReleaseSheet: View {
         ) {
             VStack(spacing: 12) {
                 if let language = release.languageLabel {
-                    row("Language", value: language)
+                    row(String(localized: "Language"), value: language)
                     Divider()
                 }
 
-                row("Indexer", value: release.indexerLabel)
+                row(String(localized: "Indexer"), value: release.indexerLabel)
 
                 if release.isTorrent {
                     Divider()
-                    row("Peers", value: String(
+                    row(String(localized: "Peers"), value: String(
                         format: "S: %i  L: %i",
                         release.seeders ?? 0,
                         release.leechers ?? 0

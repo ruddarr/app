@@ -60,7 +60,7 @@ struct SettingsSystemSection: View {
             return nil
         }
 
-        return "Version \(appVersion) (\(buildNumber))"
+        return String(localized: "Version \(appVersion) (\(buildNumber))", comment: "$1 = version, $2 = build")
     }
 
     func calculateImageCacheSize() {

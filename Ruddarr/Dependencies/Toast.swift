@@ -72,17 +72,17 @@ extension Toast {
     func show(_ preset: PresetMessage) {
         switch preset {
         case .monitored:
-            custom(text: "Monitored", icon: "bookmark.fill")
+            custom(text: String(localized: "Monitored"), icon: "bookmark.fill")
         case .unmonitored:
-            custom(text: "Unmonitored", icon: "bookmark")
+            custom(text: String(localized: "Unmonitored"), icon: "bookmark")
         case .refreshQueued:
-            custom(text: "Refresh Queued", icon: "checkmark.circle.fill")
+            custom(text: String(localized: "Refresh Queued"), icon: "checkmark.circle.fill")
         case .searchQueued:
-            custom(text: "Search Queued", icon: "checkmark.circle.fill")
+            custom(text: String(localized: "Search Queued"), icon: "checkmark.circle.fill")
         case .downloadQueued:
-            custom(text: "Download Queued", icon: "checkmark.circle.fill")
+            custom(text: String(localized: "Download Queued"), icon: "checkmark.circle.fill")
         case .movieDeleted:
-            custom(text: "Movie Deleted", icon: "checkmark.circle.fill")
+            custom(text: String(localized: "Movie Deleted"), icon: "checkmark.circle.fill")
         case .error(let message):
             custom(text: message, icon: "exclamationmark.circle.fill", type: .error)
         }

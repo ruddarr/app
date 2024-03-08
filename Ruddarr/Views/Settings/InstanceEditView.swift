@@ -128,8 +128,7 @@ struct InstanceEditView: View {
                     }
             }
 
-            Button("Add header") {
-                print(instance.headers)
+            Button("Add Header") {
                 instance.headers.append(InstanceHeader())
             }
         }
@@ -173,23 +172,29 @@ struct InstanceEditView: View {
 
     var debugQuickFill: some View {
         Group {
-            Button("Synology: Radarr") {
+            Button {
                 instance.label = "Syno Radarr"
                 instance.url = Instance.till.url
                 instance.apiKey = Instance.till.apiKey
+            } label: {
+                Text(verbatim: "Synology: Radarr")
             }
 
-            Button("Synology: Sonarr") {
+            Button {
                 instance.type = .sonarr
                 instance.label = "Syno Sonarr"
                 instance.url = Instance.till2.url
                 instance.apiKey = Instance.till2.apiKey
+            } label: {
+                Text(verbatim: "Synology: Sonarrr")
             }
 
-            Button("Use Digital Ocean") {
+            Button{
                 self.instance.label = "Digital Ocean"
                 self.instance.url = Instance.digitalOcean.url
                 self.instance.apiKey = Instance.digitalOcean.apiKey
+            } label: {
+                Text(verbatim: "Digital Ocean")
             }
         }
     }

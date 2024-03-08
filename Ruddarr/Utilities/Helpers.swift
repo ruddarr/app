@@ -22,6 +22,16 @@ extension String {
 
         return string
     }
+
+    func toMarkdown() -> AttributedString {
+        do {
+            return try AttributedString(markdown: self)
+        } catch {
+            print("Error parsing Markdown for string \(self): \(error)")
+
+            return AttributedString(self)
+        }
+    }
 }
 
 class PreviewData {

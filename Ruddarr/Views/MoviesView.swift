@@ -154,10 +154,15 @@ struct MoviesView: View {
     }
 
     var noRadarrInstance: some View {
-        ContentUnavailableView(
+        let description = String(
+            format: String(localized: "Connect a Radarr instance under %@."),
+            String(format: "[%@](#view)", String(localized: "Settings"))
+        )
+
+        return ContentUnavailableView(
             "No Radarr Instance",
             systemImage: "externaldrive.badge.xmark",
-            description: Text("Connect a Radarr instance under [Settings](#view).")
+            description: Text(description.toMarkdown())
         ).environment(\.openURL, .init { _ in
             dependencies.router.selectedTab = .settings
             return .handled
@@ -165,10 +170,15 @@ struct MoviesView: View {
     }
 
     var noSearchResults: some View {
-        ContentUnavailableView(
+        let description = String(
+            format: String(localized: "Check the spelling or try [adding the movie](%@)."),
+            "#view"
+        )
+
+        return ContentUnavailableView(
             "No Results for \"\(searchQuery)\"",
             systemImage: "magnifyingglass",
-            description: Text("Check the spelling or try [adding the movie](#view).")
+            description: Text(description.toMarkdown())
         ).environment(\.openURL, .init { _ in
             searchPresented = false
             dependencies.router.moviesPath.append(MoviesView.Path.search(searchQuery))
@@ -186,7 +196,8 @@ struct MoviesView: View {
     }
 
     var alertErrorMessage: String {
-        let errorText = error?.localizedDescription ?? "An unknown error occurred."
+        let errorText = error?.localizedDescription
+            ?? String(localized: "An unknown error occurred.")
 
         if let nsError = error as? NSError,
            let suggestion = nsError.localizedRecoverySuggestion {
@@ -276,8 +287,8 @@ extension MoviesView {
     }
 
     var toolbarFilterButton: some View {
-        Menu("Filters", systemImage: "line.3.horizontal.decrease") {
-            Picker(selection: $sort.filter, label: Text("Filter options")) {
+        Menu("Filter", systemImage: "line.3.horizontal.decrease") {
+            Picker(selection: $sort.filter, label: Text("Filter")) {
                 ForEach(MovieSort.Filter.allCases) { filter in
                     filter.label
                 }

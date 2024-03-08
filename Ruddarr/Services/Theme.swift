@@ -19,15 +19,15 @@ enum Theme: String, Identifiable, CaseIterable {
 
     var label: String {
         switch self {
-        case .blue: "Mail"
-        case .purple: "Podcasts"
-        case .green: "Fitness"
-        case .red: "Music"
-        case .orange: "Watch"
-        case .yellow: "Notes"
-        case .mono: "Books"
-        case .barbie: "Barbie"
-        case .brown: "Prologue"
+        case .blue: String(localized: "Mail")
+        case .purple: String(localized: "Podcasts")
+        case .green: String(localized: "Fitness")
+        case .red: String(localized: "Music")
+        case .orange: String(localized: "Watch")
+        case .yellow: String(localized: "Notes")
+        case .mono: String(localized: "Books")
+        case .barbie: String(localized: "Barbie")
+        case .brown: String(localized: "Prologue")
         }
     }
 
@@ -61,7 +61,11 @@ enum Appearance: String, Identifiable, CaseIterable {
     var id: Self { self }
 
     var label: String {
-        self.rawValue.capitalized
+        switch self {
+        case .automatic: String(localized: "Automatic")
+        case .light:  String(localized: "Light")
+        case .dark:  String(localized: "Dark")
+        }
     }
 
     var preferredColorScheme: ColorScheme? {
@@ -121,35 +125,35 @@ struct AppIconData {
     }
 
     static var factory: Self {
-        .init(label: "Default", asset: "AppIcon", locked: false)
+        .init(label: String(localized: "Default"), asset: "AppIcon", locked: false)
     }
 
     static var podcasts: Self {
-        .init(label: "Podcasts", asset: "AppIconPodcasts", locked: false)
+        .init(label: String(localized: "Podcasts"), asset: "AppIconPodcasts", locked: false)
     }
 
     static var music: Self {
-        .init(label: "Music", asset: "AppIconMusic", locked: false)
+        .init(label: String(localized: "Music"), asset: "AppIconMusic", locked: false)
     }
 
     static var books: Self {
-        .init(label: "Books", asset: "AppIconBooks", locked: false)
+        .init(label: String(localized: "Books"), asset: "AppIconBooks", locked: false)
     }
 
     static var mono: Self {
-        .init(label: "Monochrome", asset: "AppIconMono", locked: true)
+        .init(label: String(localized: "Monochrome"), asset: "AppIconMono", locked: true)
     }
 
     static var barbie: Self {
-        .init(label: "Barbie", asset: "AppIconBarbie", locked: true)
+        .init(label: String(localized: "Barbie"), asset: "AppIconBarbie", locked: true)
     }
 
     static var plex: Self {
-        .init(label: "Plex", asset: "AppIconPlex", locked: true)
+        .init(label: String(localized: "Plex"), asset: "AppIconPlex", locked: true)
     }
 
     static var telegram: Self {
-        .init(label: "Telegram", asset: "AppIconTelegram", locked: true)
+        .init(label: String(localized: "Telegram"), asset: "AppIconTelegram", locked: true)
     }
 
     static var warp: Self {

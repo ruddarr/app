@@ -15,35 +15,35 @@ extension InstanceError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .urlIsLocal, .urlNotValid:
-            return "Invalid URL"
+            return String(localized: "Invalid URL")
         case .urlNotReachable, .timedOutOnPrivateIp:
-            return "URL Not Reachable"
+            return String(localized: "URL Not Reachable")
         case .badAppName:
-            return "Wrong Instance Type"
+            return String(localized: "Wrong Instance Type")
         case .badStatusCode:
-            return "Invalid Status Code"
+            return String(localized: "Invalid Status Code")
         case .badResponse:
-            return "Invalid Server Response"
+            return String(localized: "Invalid Server Response")
         case .errorResponse:
-            return "Server Error Response"
+            return String(localized: "Server Error Response")
         }
     }
 
     var recoverySuggestion: String? {
         switch self {
         case .urlIsLocal:
-            return "URLs must be non-local, \"localhost\" and \"127.0.0.1\" are not reachable."
+            return String(localized: "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work.")
         case .urlNotValid:
-            return "Enter a valid URL."
+            return String(localized: "Enter a valid URL.")
         case .urlNotReachable(let error):
             return error.localizedDescription
         case .timedOutOnPrivateIp(let urlError):
             let nsError = urlError as NSError
-            return "\(urlError.localizedDescription)\n\n\(nsError.localizedRecoverySuggestion ?? "asdasd")"
+            return "\(urlError.localizedDescription)\n\n\(nsError.localizedRecoverySuggestion ?? "")"
         case .badAppName(let name):
-            return "URL returned a \(name) instance."
+            return String(localized: "URL returned is a \(name) instance.")
         case .badStatusCode(let code):
-            return "URL returned status \(code)."
+            return String(localized: "URL returned \(code) status code.")
         case .badResponse(let error):
             return error.localizedDescription
         case .errorResponse(let code, let message):

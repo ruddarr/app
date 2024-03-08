@@ -73,7 +73,7 @@ class Notifications {
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 599
 
             if statusCode >= 400 {
-                throw AppError("Bad status code: \(statusCode)")
+                throw AppError(String(localized: "Bad status code: \(statusCode)"))
             }
 
             Occurrence.occurred(lastTokenPing)

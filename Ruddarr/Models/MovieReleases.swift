@@ -44,7 +44,7 @@ struct MovieRelease: Identifiable, Codable {
     let title: String
     let size: Int
     let age: Int
-    let ageMinutes: Double
+    let ageMinutes: Float
     let rejected: Bool
 
     let indexerId: Int
@@ -112,7 +112,11 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var indexerFlagsLabel: String? {
-        indexerFlags.isEmpty ? nil : cleanIndexerFlags.joined(separator: ", ")
+        guard !indexerFlags.isEmpty else {
+            return nil
+        }
+
+        return cleanIndexerFlags.formatted(.list(type: .and, width: .narrow))
     }
 
     var languageLabel: String? {
@@ -120,7 +124,8 @@ struct MovieRelease: Identifiable, Codable {
             return nil
         }
 
-        return languages.map { $0.name ?? String($0.id) }.joined(separator: ", ")
+        return languages.map { $0.name ?? String($0.id) }
+            .formatted(.list(type: .and, width: .narrow))
     }
 
     var typeLabel: String {
@@ -161,19 +166,29 @@ struct MovieRelease: Identifiable, Codable {
             return "\(resolution)p"
         }
 
-        return "Unknown"
+        return String(localized: "Unknown")
     }
 
     var ageLabel: String {
-        let days = ageMinutes / 60 / 24
+        let minutes: Int = Int(ageMinutes)
+        let days: Int = minutes / 60 / 24
+        let years: Float = Float(days) / 30 / 12
 
-        return switch ageMinutes {
-        case -10_000..<1: "Just now" // less than 1 minute (or bad data from radarr)
-        case 1..<119: String(format: "%.0f minutes", ageMinutes) // less than 120 minutes
-        case 120..<2_880: String(format: "%.0f hours", ageMinutes / 60) // less than 48 hours
-        case 2_880..<129_600: String(format: "%.0f days", days) // less than 90 days
-        case 129_600..<525_600: String(format: "%.0f months", days / 30) // less than 365 days
-        default: String(format: "%.1f years", days / 30 / 12)
+        return switch minutes {
+        case -10_000..<1: // less than 1 minute (or bad data from radarr)
+            String(localized: "Just now")
+        case 1..<119: // less than 120 minutes
+            String(format: String(localized: "%d minutes"), minutes)
+        case 120..<2_880: // less than 48 hours
+            String(format: String(localized: "%d hours"), minutes / 60)
+        case 2_880..<129_600: // less than 90 days
+            String(format: String(localized: "%d days"), days)
+        case 129_600..<525_600: // less than 365 days
+            String(format: String(localized: "%d months"), days / 30)
+        case 525_600..<2_628_000: // less than 5 years
+            String(format: String(localized: "%.1f years"), years)
+        default:
+            String(format: String(localized: "%d years"), Int(years))
         }
     }
 }
@@ -193,7 +208,7 @@ struct MovieReleaseQualityDetails: Codable {
 
     var normalizedName: String {
         guard let label = name else {
-            return "Unknown"
+            return String(localized: "Unknown")
         }
 
         if let range = label.range(of: #"-(\d+p)$"#, options: .regularExpression) {

@@ -3,6 +3,7 @@ import StoreKit
 
 class Subscription {
     static var group: String = "21452440"
+    static var name: String = "Ruddarr+"
 
     static func entitledToService() async -> Bool {
         do {
@@ -60,7 +61,7 @@ struct RuddarrPlusSheetContent: View {
                 .clipShape(.rect(cornerRadius: (10 / 57) * 75))
                 .padding(.bottom, 8)
 
-            Text("Ruddarr+")
+            Text(Subscription.name)
                 .font(.largeTitle.bold())
                 .padding(.bottom, 4)
 
