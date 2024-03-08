@@ -33,6 +33,8 @@ struct MoviePreviewDetails: View {
                 description
             }
 
+            actions
+
             detailsGrid
         }
         .viewPadding(.horizontal)
@@ -75,6 +77,46 @@ struct MoviePreviewDetails: View {
             Spacer()
         }
         .font(.callout)
+    }
+
+    var actions: some View {
+        HStack(spacing: 24) {
+            if let trailerUrl = MovieContextMenu.youTubeTrailer(movie.youTubeTrailerId) {
+                Button {
+                    UIApplication.shared.open(URL(string: trailerUrl)!)
+                } label: {
+                    let label = UIDevice.current.userInterfaceIdiom == .phone
+                        ? String(localized: "Trailer")
+                        : String(localized: "Watch Trailer")
+
+                    ButtonLabel(text: label, icon: "play.fill")
+                        .modifier(MoviePreviewActionModifier())
+                }
+                .buttonStyle(.bordered)
+                .tint(.secondary)
+            }
+
+            Menu {
+                MovieContextMenu(movie: movie)
+            } label: {
+                ButtonLabel(text: String(localized: "Open in"), icon: "arrow.up.right.square")
+                    .modifier(MoviePreviewActionModifier())
+            }
+            .buttonStyle(.bordered)
+            .tint(.secondary)
+
+        }
+        .padding(.bottom)
+    }
+}
+
+struct MoviePreviewActionModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            content.frame(maxWidth: .infinity)
+        } else {
+            content.frame(maxWidth: 215)
+        }
     }
 }
 

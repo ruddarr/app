@@ -1737,7 +1737,14 @@
       }
     },
     "Open in" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open in"
+          }
+        }
+      }
     },
     "Open in %@" : {
       "localizations" : {
@@ -2220,7 +2227,14 @@
       }
     },
     "Trailer" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trailer"
+          }
+        }
+      }
     },
     "TV Shows will be added in a few weeks, once the Movies module has been polished and thoroughly tested in TestFlight." : {
 
