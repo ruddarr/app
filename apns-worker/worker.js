@@ -25,10 +25,10 @@ export default {
     if (url.pathname.startsWith('/push/') && isValidWebhookRequest(url, payload)) {
       const { timestamp, account } = parsePushUrl(url)
 
-      const validSignature = await validateWebhookSignature(headers, `${timestamp}:${account}`)
+      const validSignature = await verifyWebhookSignature(env, headers, `${timestamp}:${account}`)
 
       if (! validSignature) {
-        // return statusResponse(403, "invalid signature")
+        return statusResponse(403, 'invalid webhook signature')
       }
 
       if (daysSince(timestamp) > 30) {
@@ -101,13 +101,11 @@ function daysSince(timestamp) {
 }
 
 async function registerDevice(env, payload) {
-  const validSignature = await validateSignature(
-    payload.signature,
-    `${payload.account}:${payload.token}`
-  )
+  const message = `${payload.account}:${payload.token}`
+  const validSignature = await verifySignature(env, payload.signature, message)
 
   if (! validSignature) {
-    // return statusResponse(403, "invalid signature")
+    return statusResponse(403, 'invalid webhook signature')
   }
 
   let data = await env.STORE.get(payload.account, { type: 'json' })
@@ -242,21 +240,16 @@ async function generateAuthorizationToken(env) {
   }
 
   const payload =  {
-    iss: env.TEAMID,
-    iat: Math.floor(Date.now() / 1000)
+    iss: env.APPLE_TEAMID,
+    iat: Math.floor(Date.now() / 1000),
   }
 
-  const header = {
-    kid: env.KEYID,
-    typ: 'JWT'
-  }
+  const header = { kid: env.APPLE_KEYID, typ: 'JWT' }
 
   const algorithm = {
     name: 'ECDSA',
     namedCurve: 'P-256',
-    hash: {
-      name: 'SHA-256',
-    }
+    hash: { name: 'SHA-256' },
   }
 
   const jwtHeader = textToBase64Url(JSON.stringify({ ...header, alg: 'ES256' }))
@@ -475,31 +468,35 @@ function buildNotificationPayload(payload) {
   }
 }
 
-async function validateWebhookSignature(headers, message) {
+async function verifyWebhookSignature(env, headers, message) {
   const auth = headers.get('Authorization') || ''
   const bearer = auth.replace(/^Basic /, '').trim()
   const [username, password] = atob(bearer).split(':')
 
-  return await validateSignature(password, message)
+  return await verifySignature(env, password, message)
 }
 
-async function validateSignature(signature, message) {
+async function verifySignature(env, signature, message) {
   const encoder = new TextEncoder()
 
   const key = await crypto.subtle.importKey(
     'raw',
-    encoder.encode('TESTING'),
+    encoder.encode(env.WEBHOOK_SECRET),
     { name: 'HMAC', hash: 'SHA-256' },
     false,
     ['verify']
   )
 
-  return await crypto.subtle.verify(
+  const verified = await crypto.subtle.verify(
     'HMAC',
     key,
     base64StringToArrayBuffer(signature),
     encoder.encode(message)
   )
+
+  console.info(`Signature: ${verified} (${signature}, ${message})`)
+
+  return verified
 }
 
 /**

@@ -5,7 +5,7 @@ struct ShowsView: View {
         ContentUnavailableView(
             "Coming Soon",
             systemImage: "tv.slash",
-            description: Text("TV Shows will be added in a few weeks, once the Movies module has been polished and thoroughly tested in TestFlight.")
+            description: Text("TV Series will be added once the movies component has been thoroughly tested in TestFlight.")
         )
     }
 }

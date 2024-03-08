@@ -337,8 +337,8 @@
 				BBE8285C2B4F2C7100C1E1D9 /* Ruddarr.entitlements */,
 				BB336F872B98F61B000904FA /* Ruddarr.storekit */,
 				BB42618C2B6980760078B94E /* Info.plist */,
-				BBE8285A2B4F2C7100C1E1D9 /* Assets.xcassets */,
 				BB4B34F02B7BF4C80063F2D3 /* Localizable.xcstrings */,
+				BBE8285A2B4F2C7100C1E1D9 /* Assets.xcassets */,
 				BBE8285D2B4F2C7100C1E1D9 /* Preview Content */,
 			);
 			path = Ruddarr;
@@ -779,7 +779,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -827,7 +827,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -512,7 +512,14 @@
       }
     },
     "Coming Soon" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coming Soon"
+          }
+        }
+      }
     },
     "Connect a Radarr instance under %@." : {
       "localizations" : {
@@ -2233,8 +2240,15 @@
         }
       }
     },
-    "TV Shows will be added in a few weeks, once the Movies module has been polished and thoroughly tested in TestFlight." : {
-
+    "TV Series will be added once the movies component has been thoroughly tested in TestFlight." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TV Series will be added once the movies component has been thoroughly tested in TestFlight."
+          }
+        }
+      }
     },
     "Type" : {
       "localizations" : {
