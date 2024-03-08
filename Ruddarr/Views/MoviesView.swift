@@ -211,9 +211,13 @@ struct MoviesView: View {
         Task { @MainActor in
             _ = await instance.movies.fetch()
 
-            // TODO: consider throttling this
-            if let model = await instance.fetchMetadata() {
-                settings.saveInstance(model)
+            let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
+
+            if Occurrence.since(lastMetadataFetch) > 30 {
+                if let model = await instance.fetchMetadata() {
+                    settings.saveInstance(model)
+                    Occurrence.occurred(lastMetadataFetch)
+                }
             }
         }
     }

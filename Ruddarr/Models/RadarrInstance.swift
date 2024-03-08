@@ -23,6 +23,10 @@ import Foundation
         self.releases = MovieReleases(instance)
     }
 
+    var id: UUID {
+        instance.id
+    }
+
     var rootFolders: [InstanceRootFolders] {
         instance.rootFolders
     }
