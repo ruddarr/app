@@ -5,15 +5,16 @@ struct MovieEditView: View {
 
     init(movie: Binding<Movie>) {
         self._movie = movie
-        _currentRootFolder = State(initialValue: movie.wrappedValue.rootFolderPath?.untrailingSlashIt)
+        self._unmodifiedMovie = State(initialValue: movie.wrappedValue)
     }
 
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
 
-    @State private var currentRootFolder: String?
     @State private var showConfirmation: Bool = false
+    @State private var savedChanges: Bool = false
+    @State private var unmodifiedMovie: Movie
 
     var body: some View {
         MovieForm(movie: $movie)
@@ -33,6 +34,11 @@ struct MovieEditView: View {
 
                 Text(error.localizedDescription)
             }
+            .onDisappear {
+                if !savedChanges {
+                    undoMovieChanges()
+                }
+            }
     }
 
     @ToolbarContentBuilder
@@ -42,7 +48,7 @@ struct MovieEditView: View {
                 ProgressView().tint(.secondary)
             } else {
                 Button("Save") {
-                    if movie.exists && currentRootFolder != movie.rootFolderPath?.untrailingSlashIt {
+                    if movie.exists && hasRootFolderChanged() {
                         showConfirmation = true
                     } else {
                         Task { await updateMovie() }
@@ -69,11 +75,22 @@ struct MovieEditView: View {
         }
     }
 
+    func hasRootFolderChanged() -> Bool {
+        movie.rootFolderPath?.untrailingSlashIt != unmodifiedMovie.rootFolderPath?.untrailingSlashIt
+    }
+
     @MainActor
     func updateMovie(moveFiles: Bool = false) async {
         _ = await instance.movies.update(movie, moveFiles: moveFiles)
+        savedChanges = true
 
         dismiss()
+    }
+
+    func undoMovieChanges() {
+        movie.monitored = unmodifiedMovie.monitored
+        movie.minimumAvailability = unmodifiedMovie.minimumAvailability
+        movie.qualityProfileId = unmodifiedMovie.qualityProfileId
     }
 }
 
