@@ -93,7 +93,9 @@ struct InstanceEditView: View {
 
     var urlField: some View {
         LabeledContent {
-            TextField("", text: $instance.url, prompt: Text(verbatim: urlPlaceholder))
+            TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) {
+                EmptyView()
+            }
                 .multilineTextAlignment(.trailing)
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
