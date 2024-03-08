@@ -128,7 +128,7 @@ struct MovieView: View {
 
     var interactiveSearch: some View {
         NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
-            Label("Interactive Search", systemImage: "person.fill")
+            Label("Interactive Search", systemImage: "person")
         })
     }
 
@@ -136,7 +136,7 @@ struct MovieView: View {
         Section {
             if let trailerUrl = MovieContextMenu.youTubeTrailer(movie.youTubeTrailerId) {
                 Link(destination: URL(string: trailerUrl)!, label: {
-                    Label("Watch Trailer", systemImage: "play.tv")
+                    Label("Watch Trailer", systemImage: "play")
                 })
             }
 
