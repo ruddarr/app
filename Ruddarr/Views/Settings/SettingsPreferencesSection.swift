@@ -71,6 +71,8 @@ struct SettingsPreferencesSection: View {
         }
     }
 
+    @ScaledMetric(relativeTo: .body) var appIconSize = 24
+
     var iconPicker: some View {
         NavigationLink(value: SettingsView.Path.icons) {
             Label {
@@ -84,8 +86,8 @@ struct SettingsPreferencesSection: View {
                     uiImage: UIImage(named: UIApplication.shared.alternateIconName ?? "AppIcon")!
                 )
                 .resizable()
-                .frame(width: 24, height: 24)
-                .clipShape(.rect(cornerRadius: (10 / 57) * 24))
+                .frame(width: appIconSize, height: appIconSize)
+                .clipShape(.rect(cornerRadius: (10 / 57) * appIconSize))
             }
         }
     }

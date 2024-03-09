@@ -52,6 +52,7 @@ private struct Icons: View {
                 Text(icon.data.label)
                     .font(.caption)
                     .fontWeight(.medium)
+                    .lineLimit(1)
             }
             .overlay(alignment: .topTrailing) {
                 if icon.data.locked && !entitledToService {
