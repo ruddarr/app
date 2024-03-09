@@ -71,7 +71,7 @@ private struct Icons: View {
     var lockOverlay: some View {
         Image(systemName: "lock")
             .symbolVariant(.circle.fill)
-            .foregroundStyle(.white, settings.theme.tint)
+            .foregroundStyle(.white, settings.theme.safeTint)
             .imageScale(.large)
             .background(Circle().fill(.systemBackground))
             .offset(x: 3, y: -6)

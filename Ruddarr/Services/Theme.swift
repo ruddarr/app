@@ -45,7 +45,7 @@ enum Theme: String, Identifiable, CaseIterable {
         }
     }
 
-    var toggleTint: Color {
+    var safeTint: Color {
         switch self {
         case .mono: Color.green
         default: tint

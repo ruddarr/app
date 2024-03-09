@@ -103,7 +103,7 @@ struct InstanceView: View {
     var notifications: some View {
         Section {
             Toggle("Enable Notifications", isOn: $instanceNotifications)
-                .tint(settings.theme.toggleTint)
+                .tint(settings.theme.safeTint)
                 .disabled(!notificationsAllowed || !cloudKitEnabled || !entitledToService || webhook.isSynchronizing)
 
             if instanceNotifications {
@@ -117,7 +117,7 @@ struct InstanceView: View {
                     }
                 }
                 .disabled(webhook.isSynchronizing)
-                .tint(settings.theme.toggleTint)
+                .tint(settings.theme.safeTint)
                 .padding(.leading)
             }
         } header: {
