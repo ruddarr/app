@@ -8,6 +8,8 @@ struct Dependencies {
 
     @Bindable var router = Router.shared
     @Bindable var toast = Toast()
+    
+    var notificationCenter: NotificationCenter = .default
 }
 
 extension Dependencies {

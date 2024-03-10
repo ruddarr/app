@@ -118,6 +118,13 @@ struct MoviesView: View {
                 }
             }
         }
+        .onChange(of: [searchQuery, sort] as [AnyHashable]) {
+            updateDisplayedMovies()
+        }
+        .onReceive(dependencies.notificationCenter.publisher(for: .moviesChanged)) { _ in
+            //TODO: maybe it would be worth it to spend O(n) time checking if movies actually changed before running the O(n*log(n)) `updateDisplayedMovies` operation.
+            updateDisplayedMovies()
+        }
         // swiftlint:enable closure_body_length
     }
 
@@ -135,7 +142,8 @@ struct MoviesView: View {
         }
     }
 
-    var displayedMovies: [Movie] {
+    @State var displayedMovies: [Movie] = []
+    private func updateDisplayedMovies() {
         var movies: [Movie] = instance.movies.items
 
         if !searchQuery.isEmpty {
@@ -148,9 +156,11 @@ struct MoviesView: View {
         }
 
         movies = sort.filter.filtered(movies)
-        movies = movies.sorted(by: sort.option.isOrderedBefore)
-
-        return sort.isAscending ? movies : movies.reversed()
+        movies.sort(by: sort.option.isOrderedBefore)
+        if !sort.isAscending {
+            movies.reverse()
+        }
+        displayedMovies = movies
     }
 
     var noRadarrInstance: some View {

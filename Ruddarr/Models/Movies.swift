@@ -1,10 +1,18 @@
 import os
 import SwiftUI
 
+extension Notification.Name {
+    static let moviesChanged: Self = .init(rawValue: "moviesChanged")
+}
+
 @Observable
 class Movies {
     var instance: Instance
-    var items: [Movie] = []
+    var items: [Movie] = [] {
+        didSet {
+            dependencies.notificationCenter.post(name: .moviesChanged, object: self)
+        }
+    }
     var error: Error?
 
     // enum Status { case idle, case working, case failed(Error) }

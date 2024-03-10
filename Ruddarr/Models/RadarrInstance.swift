@@ -2,11 +2,16 @@ import os
 import SwiftUI
 import Foundation
 
+
 @Observable class RadarrInstance {
     private var instance: Instance
 
     var isVoid = true
-    var movies: Movies
+    var movies: Movies {
+        didSet {
+            dependencies.notificationCenter.post(name: .moviesChanged, object: self)
+        }
+    }
     var lookup: MovieLookup
     var releases: MovieReleases
 
