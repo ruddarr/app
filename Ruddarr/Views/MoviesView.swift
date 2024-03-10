@@ -121,7 +121,11 @@ struct MoviesView: View {
         .onChange(of: [searchQuery, sort] as [AnyHashable]) {
             updateDisplayedMovies()
         }
-        .onReceive(dependencies.notificationCenter.publisher(for: .moviesChanged)) { _ in
+        .onReceive(
+            dependencies.notificationCenter.publisher(for: .moviesChanged)
+                .map { _ in }
+                .prepend(()) // also do it once to begin with
+        ) {
             //TODO: maybe it would be worth it to spend O(n) time checking if movies actually changed before running the O(n*log(n)) `updateDisplayedMovies` operation.
             updateDisplayedMovies()
         }
