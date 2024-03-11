@@ -97,10 +97,9 @@ struct MoviesView: View {
                 isPresented: $searchPresented,
                 placement: .navigationBarDrawer(displayMode: .always)
             )
-            .onChange(of: searchQuery, sortedAndFilteredItems)
-            .onChange(of: sort.option, sortedAndFilteredItems)
-            .onChange(of: sort.isAscending, sortedAndFilteredItems)
-            .onChange(of: sort.filter, sortedAndFilteredItems)
+            .onChange(of: [sort, searchQuery] as [AnyHashable]) {
+                updateDisplayedMovies()
+            }
             .alert("Something Went Wrong", isPresented: $alertPresented) {
                 Button("OK", role: .cancel) { }
             } message: {
@@ -143,7 +142,7 @@ struct MoviesView: View {
         instance.movies.cachedItems
     }
 
-    func sortedAndFilteredItems() {
+    func updateDisplayedMovies() {
         instance.movies.sortedAndFilteredItems(sort, searchQuery)
     }
 
