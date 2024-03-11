@@ -3,6 +3,7 @@ import SwiftUI
 struct MovieForm: View {
     @Binding var movie: Movie
 
+    @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
 
     @State private var showingConfirmation = false
@@ -19,6 +20,7 @@ struct MovieForm: View {
         Form {
             Section {
                 Toggle("Monitored", isOn: $movie.monitored)
+                    .tint(settings.theme.safeTint)
 
                 minimumAvailabilityField
                 qualityProfileField
