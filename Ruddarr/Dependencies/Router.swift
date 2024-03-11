@@ -54,8 +54,6 @@ enum Tab: Hashable, CaseIterable, Identifiable {
             Image(systemName: icon)
                 .imageScale(.large)
         }
-        .padding(.vertical, 10)
-        .padding(.horizontal, 10)
     }
 
     @ViewBuilder

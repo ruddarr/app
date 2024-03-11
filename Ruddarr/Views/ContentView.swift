@@ -22,7 +22,8 @@ struct ContentView: View {
             NavigationSplitView(
                 columnVisibility: $columnVisibility,
                 sidebar: {
-                    sidebar.ignoresSafeArea(.all, edges: .bottom)
+                    sidebar
+                        .ignoresSafeArea(.all, edges: .bottom)
                 },
                 detail: {
                     screen(for: dependencies.router.selectedTab)
@@ -86,36 +87,31 @@ struct ContentView: View {
         }
     }
 
-    var sidebar: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                Text(verbatim: "Ruddarr")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding(.bottom, 20)
-                    .padding(.horizontal, 8)
-                    .offset(y: -4)
+    @ScaledMetric(relativeTo: .body) var safeAreaInsetHeight = 48
 
+    var sidebar: some View {
+        List(selection: dependencies.$router.selectedTab.optional) {
+            Text(verbatim: "Ruddarr")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+
+            ForEach(Tab.allCases) { tab in
+                if tab != .settings {
+                    button(for: tab)
+                }
+            }
+        }
+        .safeAreaInset(edge: .bottom) {
+            List(selection: dependencies.$router.selectedTab.optional) {
                 ForEach(Tab.allCases) { tab in
-                    if tab != .settings {
+                    if tab == .settings {
                         button(for: tab)
                     }
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .scenePadding(.horizontal)
-            .background(
-                Color(isPortrait ? .clear : .secondarySystemBackground)
-            )
-        }
-        .frame(maxHeight: .infinity)
-        .background(
-            Color(isPortrait ? .clear : .secondarySystemBackground)
-        )
-        .safeAreaInset(edge: .bottom) {
-            button(for: .settings)
-                .scenePadding(.horizontal)
-                .padding(.bottom, 24)
+            .frame(height: safeAreaInsetHeight)
+            .scrollDisabled(true)
+            .padding(.bottom, 24)
         }
     }
 
@@ -134,23 +130,17 @@ struct ContentView: View {
     @ViewBuilder
     func button(for tab: Tab) -> some View {
         Button {
+            if dependencies.router.selectedTab == tab {
+                goToRoot(tab: tab)
+            }
+
             dependencies.router.selectedTab = tab
 
             if isPortrait {
                 columnVisibility = .detailOnly
             }
         } label: {
-            HStack {
-                tab.row
-                Spacer()
-            }
-            .frame(maxWidth: .infinity)
-            .background(
-                Color(
-                    dependencies.router.selectedTab == tab ? .secondarySystemFill : .clear
-                )
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            tab.row
         }
     }
 
