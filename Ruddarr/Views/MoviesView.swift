@@ -203,6 +203,7 @@ struct MoviesView: View {
     func fetchMoviesWithMetadata() {
         Task { @MainActor in
             _ = await instance.movies.fetch()
+            updateDisplayedMovies()
 
             let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
 
@@ -221,6 +222,7 @@ struct MoviesView: View {
         error = nil
 
         _ = await instance.movies.fetch()
+        updateDisplayedMovies()
 
         if instance.movies.error is CancellationError {
             return

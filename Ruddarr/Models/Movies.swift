@@ -129,7 +129,7 @@ class Movies {
         case .fetch:
             items = try await dependencies.api.fetchMovies(instance)
             cachedItems = items
-            setAlternateTitles()
+            setAlternateTitlesStrings()
 
         case .add(let movie):
             items.append(try await dependencies.api.addMovie(movie, instance))
@@ -154,9 +154,11 @@ class Movies {
         }
     }
 
-    private func setAlternateTitles() {
-        for index in items.indices {
-            items[index].setAlternateTitlesString()
+    private func setAlternateTitlesStrings() {
+        Task(priority: .background) {
+            for index in items.indices {
+                items[index].setAlternateTitlesString()
+            }
         }
     }
 }
