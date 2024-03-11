@@ -23,20 +23,9 @@ class Movies {
         self.instance = instance
     }
 
-    private var cachedItems: [Movie] = []
-    private var cachedItemsHash: [Int] = []
+    var cachedItems: [Movie] = []
 
-    func sortedAndFilteredItems(_ sort: MovieSort, _ searchQuery: String) -> [Movie] {
-        let hash = [
-            items.hashValue,
-            sort.hashValue,
-            searchQuery.hashValue,
-        ]
-
-        if hash.hashValue == cachedItemsHash.hashValue {
-            return cachedItems
-        }
-
+    func sortedAndFilteredItems(_ sort: MovieSort, _ searchQuery: String) {
         cachedItems = sort.filter.filtered(items)
 
         let query = searchQuery.trimmingCharacters(in: .whitespaces)
@@ -54,10 +43,6 @@ class Movies {
         if !sort.isAscending {
             cachedItems = cachedItems.reversed()
         }
-
-        cachedItemsHash = hash
-
-        return cachedItems
     }
 
     func byId(_ id: Movie.ID) -> Binding<Movie?> {
@@ -143,10 +128,8 @@ class Movies {
         switch operation {
         case .fetch:
             items = try await dependencies.api.fetchMovies(instance)
-
-            for index in items.indices {
-                items[index].setAlternateTitlesString()
-            }
+            cachedItems = items
+            setAlternateTitles()
 
         case .add(let movie):
             items.append(try await dependencies.api.addMovie(movie, instance))
@@ -168,6 +151,12 @@ class Movies {
             }
 
             _ = try await dependencies.api.command(command, instance)
+        }
+    }
+
+    private func setAlternateTitles() {
+        for index in items.indices {
+            items[index].setAlternateTitlesString()
         }
     }
 }
