@@ -97,6 +97,9 @@ struct MoviesView: View {
                 isPresented: $searchPresented,
                 placement: .navigationBarDrawer(displayMode: .always)
             )
+            .onChange(of: [sort, searchQuery] as [AnyHashable]) {
+                updateDisplayedMovies()
+            }
             .alert("Something Went Wrong", isPresented: $alertPresented) {
                 Button("OK", role: .cancel) { }
             } message: {
@@ -136,21 +139,11 @@ struct MoviesView: View {
     }
 
     var displayedMovies: [Movie] {
-        var movies: [Movie] = instance.movies.items
+        instance.movies.cachedItems
+    }
 
-        if !searchQuery.isEmpty {
-            let query = searchQuery.lowercased().trimmingCharacters(in: .whitespaces)
-
-            movies = movies.filter { movie in
-                movie.sortTitle.contains(query)
-                || (movie.studio?.lowercased() ?? "").contains(query)
-            }
-        }
-
-        movies = sort.filter.filtered(movies)
-        movies = movies.sorted(by: sort.option.isOrderedBefore)
-
-        return sort.isAscending ? movies : movies.reversed()
+    func updateDisplayedMovies() {
+        instance.movies.sortedAndFilteredItems(sort, searchQuery)
     }
 
     var noRadarrInstance: some View {
@@ -210,6 +203,7 @@ struct MoviesView: View {
     func fetchMoviesWithMetadata() {
         Task { @MainActor in
             _ = await instance.movies.fetch()
+            updateDisplayedMovies()
 
             let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
 
@@ -228,6 +222,7 @@ struct MoviesView: View {
         error = nil
 
         _ = await instance.movies.fetch()
+        updateDisplayedMovies()
 
         if instance.movies.error is CancellationError {
             return

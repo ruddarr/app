@@ -23,6 +23,28 @@ class Movies {
         self.instance = instance
     }
 
+    var cachedItems: [Movie] = []
+
+    func sortedAndFilteredItems(_ sort: MovieSort, _ searchQuery: String) {
+        cachedItems = sort.filter.filtered(items)
+
+        let query = searchQuery.trimmingCharacters(in: .whitespaces)
+
+        if !query.isEmpty {
+            cachedItems = cachedItems.filter { movie in
+                movie.sortTitle.localizedCaseInsensitiveContains(query) ||
+                movie.studio?.localizedCaseInsensitiveContains(query) ?? false ||
+                movie.alternateTitlesString?.localizedCaseInsensitiveContains(query) ?? false
+            }
+        }
+
+        cachedItems = cachedItems.sorted(by: sort.option.isOrderedBefore)
+
+        if !sort.isAscending {
+            cachedItems = cachedItems.reversed()
+        }
+    }
+
     func byId(_ id: Movie.ID) -> Binding<Movie?> {
         Binding(
             get: { [weak self] in
@@ -106,6 +128,8 @@ class Movies {
         switch operation {
         case .fetch:
             items = try await dependencies.api.fetchMovies(instance)
+            cachedItems = items
+            setAlternateTitlesStrings()
 
         case .add(let movie):
             items.append(try await dependencies.api.addMovie(movie, instance))
@@ -127,6 +151,14 @@ class Movies {
             }
 
             _ = try await dependencies.api.command(command, instance)
+        }
+    }
+
+    private func setAlternateTitlesStrings() {
+        Task(priority: .background) {
+            for index in items.indices {
+                items[index].setAlternateTitlesString()
+            }
         }
     }
 }
