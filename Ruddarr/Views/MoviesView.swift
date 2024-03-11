@@ -143,7 +143,7 @@ struct MoviesView: View {
     }
 
     func updateDisplayedMovies() {
-        instance.movies.sortedAndFilteredItems(sort, searchQuery)
+        instance.movies.sortAndFilterItems(sort, searchQuery)
     }
 
     var noRadarrInstance: some View {

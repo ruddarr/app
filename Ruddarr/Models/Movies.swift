@@ -25,7 +25,7 @@ class Movies {
 
     var cachedItems: [Movie] = []
 
-    func sortedAndFilteredItems(_ sort: MovieSort, _ searchQuery: String) {
+    func sortAndFilterItems(_ sort: MovieSort, _ searchQuery: String) {
         cachedItems = sort.filter.filtered(items)
 
         let query = searchQuery.trimmingCharacters(in: .whitespaces)
@@ -128,7 +128,6 @@ class Movies {
         switch operation {
         case .fetch:
             items = try await dependencies.api.fetchMovies(instance)
-            cachedItems = items
             setAlternateTitlesStrings()
 
         case .add(let movie):
@@ -155,7 +154,7 @@ class Movies {
     }
 
     private func setAlternateTitlesStrings() {
-        Task(priority: .background) {
+        Task(priority: .utility) {
             for index in items.indices {
                 items[index].setAlternateTitlesString()
             }

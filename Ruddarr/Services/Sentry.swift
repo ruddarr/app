@@ -16,7 +16,7 @@ func leaveBreadcrumb(
 
     SentrySDK.addBreadcrumb(crumb)
 
-    // report higher level breadcrumbs as events in TestFlight
+    // TestFlight: report higher level breadcrumbs as events 
     if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
         if level == .error || level == .error {
             let event = Event(level: level)
