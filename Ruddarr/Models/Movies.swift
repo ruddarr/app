@@ -23,6 +23,43 @@ class Movies {
         self.instance = instance
     }
 
+    private var cachedItems: [Movie] = []
+    private var cachedItemsHash: [Int] = []
+
+    func sortedAndFilteredItems(_ sort: MovieSort, _ searchQuery: String) -> [Movie] {
+        let hash = [
+            items.hashValue,
+            sort.hashValue,
+            searchQuery.hashValue,
+        ]
+
+        if hash.hashValue == cachedItemsHash.hashValue {
+            return cachedItems
+        }
+
+        cachedItems = sort.filter.filtered(items)
+
+        let query = searchQuery.trimmingCharacters(in: .whitespaces)
+
+        if !query.isEmpty {
+            cachedItems = cachedItems.filter { movie in
+                movie.sortTitle.localizedCaseInsensitiveContains(query) ||
+                movie.studio?.localizedCaseInsensitiveContains(query) ?? false ||
+                movie.alternateTitlesString?.localizedCaseInsensitiveContains(query) ?? false
+            }
+        }
+
+        cachedItems = cachedItems.sorted(by: sort.option.isOrderedBefore)
+
+        if !sort.isAscending {
+            cachedItems = cachedItems.reversed()
+        }
+
+        cachedItemsHash = hash
+
+        return cachedItems
+    }
+
     func byId(_ id: Movie.ID) -> Binding<Movie?> {
         Binding(
             get: { [weak self] in
@@ -106,6 +143,10 @@ class Movies {
         switch operation {
         case .fetch:
             items = try await dependencies.api.fetchMovies(instance)
+
+            for index in items.indices {
+                items[index].setAlternateTitlesString()
+            }
 
         case .add(let movie):
             items.append(try await dependencies.api.addMovie(movie, instance))

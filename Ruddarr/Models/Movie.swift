@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Movie: Identifiable, Codable {
+struct Movie: Identifiable, Codable, Hashable {
     var id: Int { movieId ?? tmdbId }
 
     var movieId: Int?
@@ -15,6 +15,13 @@ struct Movie: Identifiable, Codable {
     let overview: String?
     let certification: String?
     let youTubeTrailerId: String?
+
+    let alternateTitles: [AlternateMovieTitle]
+    var alternateTitlesString: String?
+
+    mutating func setAlternateTitlesString() {
+        alternateTitlesString = alternateTitles.map { $0.title }.joined(separator: " ")
+    }
 
     let genres: [String]
     let ratings: MovieRatings?
@@ -47,6 +54,7 @@ struct Movie: Identifiable, Codable {
         case imdbId
         case title
         case sortTitle
+        case alternateTitles
         case studio
         case year
         case runtime
@@ -158,6 +166,14 @@ struct Movie: Identifiable, Codable {
         }
     }
 
+    static func == (lhs: Movie, rhs: Movie) -> Bool {
+        lhs.tmdbId == rhs.tmdbId
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
     struct MovieRatings: Codable {
         let imdb: MovieRating?
         let tmdb: MovieRating?
@@ -182,6 +198,10 @@ enum MovieStatus: String, Codable {
         case .deleted: String(localized: "Deleted")
         }
     }
+}
+
+struct AlternateMovieTitle: Codable {
+    let title: String
 }
 
 struct MovieImage: Codable {

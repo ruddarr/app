@@ -136,21 +136,7 @@ struct MoviesView: View {
     }
 
     var displayedMovies: [Movie] {
-        var movies: [Movie] = instance.movies.items
-
-        if !searchQuery.isEmpty {
-            let query = searchQuery.lowercased().trimmingCharacters(in: .whitespaces)
-
-            movies = movies.filter { movie in
-                movie.sortTitle.contains(query)
-                || (movie.studio?.lowercased() ?? "").contains(query)
-            }
-        }
-
-        movies = sort.filter.filtered(movies)
-        movies = movies.sorted(by: sort.option.isOrderedBefore)
-
-        return sort.isAscending ? movies : movies.reversed()
+        instance.movies.sortedAndFilteredItems(sort, searchQuery)
     }
 
     var noRadarrInstance: some View {
