@@ -1,62 +1,63 @@
-import os
 import SwiftUI
 
-struct MoviePreviewSheet: View {
+struct MoviePreviewView: View {
     @State var movie: Movie
 
-    @EnvironmentObject var settings: AppSettings
+    @State private var presentingForm: Bool = false
+
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                MoviePreviewDetails(movie: movie)
+        ScrollView {
+            MovieDetails(movie: movie)
+                .padding(.top)
+                .viewPadding(.horizontal)
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            toolbarNextButton
+        }
+        .sheet(isPresented: $presentingForm) {
+            NavigationStack {
+                MovieForm(movie: $movie)
+                    .toolbar {
+                        toolbarCancelButton
+                        toolbarSaveButton
+                    }
             }
-            .background(
-                colorScheme == .dark
-                ? .systemBackground
-                : .secondarySystemBackground
-            )
-            .alert(
-                "Something Went Wrong",
-                isPresented: Binding(get: { instance.movies.error != nil }, set: { _ in }),
-                presenting: instance.movies.error
-            ) { _ in
-                Button("OK", role: .cancel) { }
-            } message: { error in
-                if error.localizedDescription == "cancelled" {
-                    let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MoviePreview") // swiftlint:disable:this redundant_discardable_let
-                }
+            .presentationDetents([.medium])
+        }
+        .alert(
+            "Something Went Wrong",
+            isPresented: instance.movies.errorBinding,
+            presenting: instance.movies.error
+        ) { _ in
+            Button("OK", role: .cancel) { }
+        } message: { error in
+            if error.localizedDescription == "cancelled" {
+                let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MoviePreview") // swiftlint:disable:this redundant_discardable_let
+            }
 
-                Text(error.localizedDescription)
-            }
-            .toolbar {
-                toolbarCancelButton
-                toolbarNextButton
-            }
+            Text(error.localizedDescription)
         }
     }
 
     @ToolbarContentBuilder
     var toolbarCancelButton: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
-            Button("Cancel", action: {
-                dismiss()
-            })
+            Button("Cancel") {
+                presentingForm = false
+            }
         }
     }
 
     @ToolbarContentBuilder
     var toolbarNextButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            NavigationLink("Next") {
-                MovieForm(movie: $movie)
-                    .toolbar {
-                        toolbarSaveButton
-                    }
+            Button("Add to Library") {
+                presentingForm = true
             }
         }
     }
@@ -67,7 +68,7 @@ struct MoviePreviewSheet: View {
             if instance.movies.isWorking {
                 ProgressView().tint(.secondary)
             } else {
-                Button("Add") {
+                Button("Done") {
                     Task {
                         await addMovie()
                     }
@@ -89,10 +90,9 @@ struct MoviePreviewSheet: View {
         }
 
         instance.lookup.reset()
+        presentingForm = false
 
         let moviePath = MoviesView.Path.movie(addedMovie.id)
-
-        dismiss()
 
         dependencies.router.moviesPath.removeLast(dependencies.router.moviesPath.count)
         dependencies.router.moviesPath.append(moviePath)
@@ -103,6 +103,15 @@ struct MoviePreviewSheet: View {
     let movies: [Movie] = PreviewData.load(name: "movie-lookup")
     let movie = movies.first(where: { $0.tmdbId == 736_308 }) ?? movies[0]
 
-    return MoviePreviewSheet(movie: movie)
-        .withAppState()
+    dependencies.router.selectedTab = .movies
+
+    dependencies.router.moviesPath.append(
+        MoviesView.Path.preview(
+            try? JSONEncoder().encode(movie)
+        )
+    )
+
+    return ContentView()
+        .withSettings()
+        .withRadarrInstance(movies: movies)
 }

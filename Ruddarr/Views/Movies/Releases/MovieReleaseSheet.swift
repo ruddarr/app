@@ -19,7 +19,6 @@ struct MovieReleaseSheet: View {
                 }
 
                 actions
-                    .fixedSize(horizontal: false, vertical: true)
                     .padding(.bottom)
 
                 details
@@ -30,7 +29,7 @@ struct MovieReleaseSheet: View {
         }
         .alert(
             "Something Went Wrong",
-            isPresented: Binding(get: { instance.movies.error != nil }, set: { _ in }),
+            isPresented: instance.movies.errorBinding,
             presenting: instance.movies.error
         ) { _ in
             Button("OK", role: .cancel) { }
@@ -130,6 +129,7 @@ struct MovieReleaseSheet: View {
             .tint(.secondary)
             .allowsHitTesting(!instance.movies.isWorking)
         }
+        .fixedSize(horizontal: false, vertical: true)
     }
 
     var details: some View {

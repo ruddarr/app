@@ -4,8 +4,12 @@ import SwiftUI
 @Observable
 class Movies {
     var instance: Instance
+
     var items: [Movie] = []
+    var cachedItems: [Movie] = []
+
     var error: Error?
+    var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
     // enum Status { case idle, case working, case failed(Error) }
     var isWorking: Bool = false
@@ -22,8 +26,6 @@ class Movies {
     init(_ instance: Instance) {
         self.instance = instance
     }
-
-    var cachedItems: [Movie] = []
 
     func sortAndFilterItems(_ sort: MovieSort, _ searchQuery: String) {
         cachedItems = sort.filter.filtered(items)

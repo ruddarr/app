@@ -14,19 +14,12 @@ extension MovieDetails {
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .phone ? 8 : 16)
 
             VStack(alignment: .leading, spacing: 0) {
-                Text(movie.stateLabel)
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .textCase(.uppercase)
-                    .foregroundStyle(settings.theme.tint)
+                if movie.exists {
+                    detailsState
+                }
 
-                Text(movie.title)
-                    .font(shrinkTitle ? .title : .largeTitle)
-                    .fontWeight(.bold)
-                    .lineLimit(3)
-                    .kerning(-0.5)
+                detailsTitle
                     .padding(.bottom, 6)
-                    .textSelection(.enabled)
 
                 detailsSubtitle
                     .padding(.bottom, 6)
@@ -47,6 +40,23 @@ extension MovieDetails {
         }
 
         return false
+    }
+
+    var detailsState: some View {
+        Text(movie.stateLabel)
+            .font(.caption)
+            .fontWeight(.semibold)
+            .textCase(.uppercase)
+            .foregroundStyle(settings.theme.tint)
+    }
+
+    var detailsTitle: some View {
+        Text(movie.title)
+            .font(shrinkTitle ? .title : .largeTitle)
+            .fontWeight(.bold)
+            .lineLimit(3)
+            .kerning(-0.5)
+            .textSelection(.enabled)
     }
 
     var detailsSubtitle: some View {

@@ -23,7 +23,7 @@ struct MovieEditView: View {
             }
             .alert(
                 "Something Went Wrong",
-                isPresented: Binding(get: { instance.movies.error != nil }, set: { _ in }),
+                isPresented: instance.movies.errorBinding,
                 presenting: instance.movies.error
             ) { _ in
                 Button("OK", role: .cancel) { }

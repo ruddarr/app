@@ -3,53 +3,45 @@ import SwiftUI
 struct MovieDetails: View {
     var movie: Movie
 
-    @State private var descriptionTruncated = UIDevice.current.userInterfaceIdiom == .phone ? true : false
+    @State private var descriptionTruncated = true
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
+
+    let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
 
     var body: some View {
         VStack(alignment: .leading) {
             detailsOverview
                 .padding(.bottom)
 
-            description
+            if hasDescription {
+                description
+                    .padding(.bottom)
+            }
+
+            detailsGrid
                 .padding(.bottom)
 
-            Grid(alignment: .leading) {
-                if let studio = movie.studio, !studio.isEmpty {
-                    detailsRow(String(localized: "Studio"), value: studio)
-                }
-
-                if !movie.genres.isEmpty {
-                    detailsRow(String(localized: "Genre"), value: movie.genreLabel)
-                }
-
-                detailsRow(String(localized: "Status"), value: movie.status.label)
-
-                if movie.isDownloaded {
-                    detailsRow(String(localized: "Video"), value: videoQuality)
-                    detailsRow(String(localized: "Audio"), value: audioQuality)
-
-                    if let languages = subtitles {
-                        detailsRow(String(localized: "Subtitles"), value: languages)
-                    }
-                }
-            }.padding(.bottom)
-
-            if UIDevice.current.userInterfaceIdiom == .phone {
+            if smallScreen {
                 actions
                     .padding(.bottom)
             }
 
-            information
-                .padding(.bottom)
+            if movie.exists {
+                information
+                    .padding(.bottom)
+            }
         }
+    }
+
+    var hasDescription: Bool {
+        !(movie.overview ?? "").trimmingCharacters(in: .whitespaces).isEmpty
     }
 
     var description: some View {
         HStack(alignment: .top) {
-            Text(movie.overview!)
+            Text(movie.overview ?? "")
                 .font(.callout)
                 .transition(.slide)
                 .lineLimit(descriptionTruncated ? 4 : nil)
@@ -60,10 +52,49 @@ struct MovieDetails: View {
 
             Spacer()
         }
+        .onAppear {
+            descriptionTruncated = smallScreen
+        }
     }
 
+    var detailsGrid: some View {
+        Grid(alignment: .leading) {
+            if let studio = movie.studio, !studio.isEmpty {
+                detailsRow(String(localized: "Studio"), value: studio)
+            }
+
+            if !movie.genres.isEmpty {
+                detailsRow(String(localized: "Genre"), value: movie.genreLabel)
+            }
+
+            detailsRow(String(localized: "Status"), value: movie.status.label)
+
+            if movie.isDownloaded {
+                detailsRow(String(localized: "Video"), value: videoQuality)
+                detailsRow(String(localized: "Audio"), value: audioQuality)
+
+                if let languages = subtitles {
+                    detailsRow(String(localized: "Subtitles"), value: languages)
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
     var actions: some View {
         HStack(spacing: 24) {
+            if movie.exists {
+                movieActions
+            } else {
+                previewActions
+            }
+        }
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: 450)
+    }
+
+    var movieActions: some View {
+        Group {
             Button {
                 Task { @MainActor in
                     guard await instance.movies.command(movie, command: .automaticSearch) else {
@@ -87,8 +118,36 @@ struct MovieDetails: View {
             .buttonStyle(.bordered)
             .tint(.secondary)
         }
-        .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: 450)
+    }
+
+    var previewActions: some View {
+        Group {
+            Menu {
+                MovieContextMenu(movie: movie)
+            } label: {
+                ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.right.square")
+                    .modifier(MoviePreviewActionModifier())
+            }
+            .buttonStyle(.bordered)
+            .tint(.secondary)
+
+            if let trailerUrl = MovieContextMenu.youTubeTrailer(movie.youTubeTrailerId) {
+                Button {
+                    UIApplication.shared.open(URL(string: trailerUrl)!)
+                } label: {
+                    let label = smallScreen
+                        ? String(localized: "Trailer")
+                        : String(localized: "Watch Trailer")
+
+                    ButtonLabel(text: label, icon: "play.fill")
+                        .modifier(MoviePreviewActionModifier())
+                }
+                .buttonStyle(.bordered)
+                .tint(.secondary)
+            } else if !smallScreen {
+                 Spacer()
+            }
+        }
     }
 
     var videoQuality: String {
@@ -193,7 +252,26 @@ struct MovieDetails: View {
     let movies: [Movie] = PreviewData.load(name: "movies")
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
-    return MovieDetailsSheet(movie: movie)
+    return MovieView(movie: Binding(get: { movie }, set: { _ in }))
         .withSettings()
         .withRadarrInstance(movies: movies)
+}
+
+#Preview("Preview") {
+    let movies: [Movie] = PreviewData.load(name: "movie-lookup")
+    let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
+
+    return MovieView(movie: Binding(get: { movie }, set: { _ in }))
+        .withSettings()
+        .withRadarrInstance(movies: movies)
+}
+
+struct MoviePreviewActionModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            content.frame(maxWidth: .infinity)
+        } else {
+            content.frame(maxWidth: 215)
+        }
+    }
 }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Movie: Identifiable, Codable, Hashable {
+struct Movie: Identifiable, Codable {
     var id: Int { movieId ?? tmdbId }
 
     var movieId: Int?
@@ -164,14 +164,6 @@ struct Movie: Identifiable, Codable, Hashable {
         case .released, .deleted:
             false
         }
-    }
-
-    static func == (lhs: Movie, rhs: Movie) -> Bool {
-        lhs.tmdbId == rhs.tmdbId
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
     }
 
     struct MovieRatings: Codable {

@@ -17,6 +17,7 @@ struct MoviesView: View {
 
     enum Path: Hashable {
         case search(String = "")
+        case preview(Data?)
         case movie(Movie.ID)
         case edit(Movie.ID)
         case releases(Movie.ID)
@@ -56,6 +57,13 @@ struct MoviesView: View {
                 case .search(let query):
                     MovieSearchView(searchQuery: query)
                         .environment(instance).environmentObject(settings)
+                case .preview(let data):
+                    if let payload = data,
+                       let movie = try? JSONDecoder().decode(Movie.self, from: payload)
+                    {
+                        MoviePreviewView(movie: movie)
+                            .environment(instance).environmentObject(settings)
+                    }
                 case .movie(let movieId):
                     if let movie = instance.movies.byId(movieId).unwrapped {
                         MovieView(movie: movie)

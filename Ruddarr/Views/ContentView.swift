@@ -97,7 +97,7 @@ struct ContentView: View {
 
             ForEach(Tab.allCases) { tab in
                 if tab != .settings {
-                    button(for: tab)
+                    rowButton(for: tab)
                 }
             }
         }
@@ -105,7 +105,7 @@ struct ContentView: View {
             List(selection: dependencies.$router.selectedTab.optional) {
                 ForEach(Tab.allCases) { tab in
                     if tab == .settings {
-                        button(for: tab)
+                        rowButton(for: tab)
                     }
                 }
             }
@@ -128,13 +128,13 @@ struct ContentView: View {
     }
 
     @ViewBuilder
-    func button(for tab: Tab) -> some View {
+    func rowButton(for tab: Tab) -> some View {
         Button {
             if dependencies.router.selectedTab == tab {
                 goToRoot(tab: tab)
+            } else {
+                dependencies.router.selectedTab = tab
             }
-
-            dependencies.router.selectedTab = tab
 
             if isPortrait {
                 columnVisibility = .detailOnly

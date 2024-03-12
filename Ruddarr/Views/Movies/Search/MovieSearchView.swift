@@ -4,8 +4,6 @@ import Combine
 struct MovieSearchView: View {
     @State var searchQuery = ""
 
-    @State private var selectedMovie: Movie?
-    @State private var presentingSheet = false
     @State private var presentingSearch = true
 
     @Environment(RadarrInstance.self) private var instance
@@ -22,8 +20,11 @@ struct MovieSearchView: View {
             LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
                 ForEach(movieLookup.sortedItems) { movie in
                     Button {
-                        selectedMovie = movie
-                        presentingSheet = true
+                        dependencies.router.moviesPath.append(
+                            movie.exists
+                                ? MoviesView.Path.movie(movie.id)
+                                : MoviesView.Path.preview(try? JSONEncoder().encode(movie))
+                        )
                     } label: {
                         MovieGridItem(movie: movie)
                     }
@@ -40,7 +41,7 @@ struct MovieSearchView: View {
             isPresented: $presentingSearch,
             placement: .navigationBarDrawer(displayMode: .always)
         )
-        .disabled(instance.isVoid || presentingSheet)
+        .disabled(instance.isVoid)
         .searchScopes($movieLookup.sort) {
             ForEach(MovieLookup.SortOption.allCases) { option in
                 Text(option.label)
@@ -49,7 +50,7 @@ struct MovieSearchView: View {
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)
         }
-        .onChange(of: searchQuery) {
+        .onChange(of: searchQuery, initial: true) {
             searchQuery.isEmpty
                 ? instance.lookup.reset()
                 : searchTextPublisher.send(searchQuery)
@@ -71,15 +72,6 @@ struct MovieSearchView: View {
             }
 
             Text(error.localizedDescription)
-        }
-        .sheet(isPresented: $presentingSheet) {
-            if let movie = selectedMovie {
-                if movie.exists {
-                    MovieDetailsSheet(movie: movie).presentationDetents([.fraction(0.90)])
-                } else {
-                    MoviePreviewSheet(movie: movie).presentationDetents([.medium])
-                }
-            }
         }
         .overlay {
             let noSearchResults = instance.lookup.items?.count == 0 && !searchQuery.isEmpty
