@@ -7,6 +7,8 @@ struct MovieReleaseSheet: View {
     @Environment(RadarrInstance.self) private var instance
     @Environment(\.dismiss) private var dismiss
 
+    let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -108,7 +110,11 @@ struct MovieReleaseSheet: View {
         HStack(spacing: 24) {
             if let url = release.infoUrl {
                 Link(destination: URL(string: url)!, label: {
-                    ButtonLabel(text: String(localized: "Open Link"), icon: "arrow.up.right.square")
+                    let label = smallScreen
+                        ? String(localized: "Visit")
+                        : String(localized: "Visit Website")
+
+                    ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .frame(maxWidth: .infinity)
                 })
                 .buttonStyle(.bordered)
@@ -118,8 +124,12 @@ struct MovieReleaseSheet: View {
             Button {
                 Task { await downloadRelease() }
             } label: {
+                let label = smallScreen
+                    ? String(localized: "Download")
+                    : String(localized: "Download Release")
+
                 ButtonLabel(
-                    text: String(localized: "Download"),
+                    text: label,
                     icon: "arrow.down.circle",
                     isLoading: instance.movies.isWorking
                 )

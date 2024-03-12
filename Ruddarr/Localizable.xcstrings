@@ -171,16 +171,6 @@
         }
       }
     },
-    "Add" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add"
-          }
-        }
-      }
-    },
     "Add Header" : {
       "localizations" : {
         "en" : {
@@ -207,6 +197,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Add New Movie"
+          }
+        }
+      }
+    },
+    "Add to Library" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to Library"
           }
         }
       }
@@ -501,16 +501,6 @@
         }
       }
     },
-    "Close" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Close"
-          }
-        }
-      }
-    },
     "Coming Soon" : {
       "localizations" : {
         "en" : {
@@ -707,6 +697,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Download Queued"
+          }
+        }
+      }
+    },
+    "Download Release" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Release"
           }
         }
       }
@@ -1241,16 +1241,6 @@
         }
       }
     },
-    "Next" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next"
-          }
-        }
-      }
-    },
     "No" : {
       "localizations" : {
         "en" : {
@@ -1740,16 +1730,6 @@
         }
       }
     },
-    "Open in" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open in"
-          }
-        }
-      }
-    },
     "Open in %@" : {
       "localizations" : {
         "en" : {
@@ -1760,12 +1740,12 @@
         }
       }
     },
-    "Open Link" : {
+    "Open In..." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Link"
+            "value" : "Open In..."
           }
         }
       }
@@ -2387,6 +2367,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Video"
+          }
+        }
+      }
+    },
+    "Visit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visit"
+          }
+        }
+      }
+    },
+    "Visit Website" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visit Website"
           }
         }
       }
