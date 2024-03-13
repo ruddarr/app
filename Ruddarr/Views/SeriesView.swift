@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ShowsView: View {
+struct SeriesView: View {
     var body: some View {
         ContentUnavailableView(
             "Coming Soon",
@@ -11,7 +11,7 @@ struct ShowsView: View {
 }
 
 #Preview {
-    dependencies.router.selectedTab = .shows
+    dependencies.router.selectedTab = .series
 
     return ContentView()
         .withAppState()

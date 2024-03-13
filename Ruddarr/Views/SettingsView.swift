@@ -66,7 +66,7 @@ struct SettingsView: View {
 }
 
 #Preview {
-    dependencies.router.selectedTab = .settings
+    dependencies.router.selectedTab = .series
 
     return ContentView()
         .withAppState()
