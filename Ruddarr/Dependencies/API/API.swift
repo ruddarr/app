@@ -176,26 +176,24 @@ extension API {
 
             return try decoder.decode(Response.self, from: data)
         default:
-            var message: String?
+            if json.isEmpty {
+                leaveBreadcrumb(.warning, category: "api", message: "Request failed", data: ["status": statusCode])
 
-            do {
-                if let data = try JSONSerialization.jsonObject(with: json, options: []) as? [String: Any] {
-                    if let error = data["message"] as? String {
-                        message = error
-                    }
-                }
-            } catch {
-                leaveBreadcrumb(.error, category: "api", message: "Failed to decode error response", data: ["status": statusCode, "error": error])
-
-                if let data = String(data: json, encoding: .utf8) {
-                    leaveBreadcrumb(.debug, category: "api", message: "Request failed", data: ["status": statusCode, "response": data])
-                }
+                throw Error.badStatusCode(code: statusCode)
             }
 
-            if let error = message {
-                leaveBreadcrumb(.warning, category: "api", message: error, data: ["status": statusCode])
+            if let data = try JSONSerialization.jsonObject(with: json, options: []) as? [String: Any],
+               let message = data["message"] as? String
+            {
+                leaveBreadcrumb(.warning, category: "api", message: "Request failed", data: ["status": statusCode, "message": message])
 
-                throw Error.errorResponse(code: statusCode, message: error)
+                throw Error.errorResponse(code: statusCode, message: message)
+            }
+
+            if let data = String(data: json, encoding: .utf8) {
+                leaveBreadcrumb(.warning, category: "api", message: "Request failed", data: ["status": statusCode, "response": data])
+            } else {
+                leaveBreadcrumb(.error, category: "api", message: "Unhandled request failure", data: ["status": statusCode])
             }
 
             throw Error.badStatusCode(code: statusCode)
