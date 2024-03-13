@@ -88,7 +88,7 @@ fileprivate extension API {
 
                 return try decoder.decode(Model.self, from: data)
             } catch {
-                fatalError("Preview data `\(filename)` could not be decoded")
+                fatalError("Preview data `\(filename)` could not be decoded: \(error)")
             }
         }
 

@@ -159,12 +159,12 @@ struct MovieDetails: View {
             label = label.replacingOccurrences(of: "2160p", with: "4K")
             label = label.replacingOccurrences(of: "4320p", with: "8K")
 
-            if let dynamicRange = movie.movieFile?.mediaInfo.videoDynamicRange, !dynamicRange.isEmpty {
+            if let dynamicRange = movie.movieFile?.mediaInfo?.videoDynamicRange, !dynamicRange.isEmpty {
                 label += " \(dynamicRange)"
             }
         }
 
-        if let videoCodec = movie.movieFile?.mediaInfo.videoCodec {
+        if let videoCodec = movie.movieFile?.mediaInfo?.videoCodec {
             codec = videoCodec
             codec = codec.replacingOccurrences(of: "x264", with: "H264")
             codec = codec.replacingOccurrences(of: "h264", with: "H264")
@@ -176,7 +176,7 @@ struct MovieDetails: View {
             label = String(localized: "Unknown")
         }
 
-        return "\(label) (\(codec))"
+        return codec.isEmpty ? "\(label)" : "\(label) (\(codec))"
     }
 
     var audioQuality: String {
@@ -189,10 +189,10 @@ struct MovieDetails: View {
                 .map { $0.name ?? String(localized: "Unknown") }
         }
 
-        if let audioCodec = movie.movieFile?.mediaInfo.audioCodec {
+        if let audioCodec = movie.movieFile?.mediaInfo?.audioCodec {
             codec = audioCodec
 
-            if let channels = movie.movieFile?.mediaInfo.audioChannels {
+            if let channels = movie.movieFile?.mediaInfo?.audioChannels {
                 codec += " " + String(channels)
             }
         }
@@ -203,11 +203,11 @@ struct MovieDetails: View {
 
         let languageList = languages.formatted(.list(type: .and, width: .narrow))
 
-        return "\(languageList) (\(codec))"
+        return codec.isEmpty ? "\(languageList)" : "\(languageList) (\(codec))"
     }
 
     var subtitles: String? {
-        guard let codes = movie.movieFile?.mediaInfo.subtitleCodes else {
+        guard let codes = movie.movieFile?.mediaInfo?.subtitleCodes else {
             return nil
         }
 

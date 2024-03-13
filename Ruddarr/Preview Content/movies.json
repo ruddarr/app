@@ -38300,23 +38300,6 @@
         }
       },
       "customFormatScore": 0,
-      "mediaInfo": {
-        "audioBitrate": 640000,
-        "audioChannels": 5.1,
-        "audioCodec": "EAC3",
-        "audioLanguages": "eng",
-        "audioStreamCount": 1,
-        "videoBitDepth": 8,
-        "videoBitrate": 0,
-        "videoCodec": "h264",
-        "videoFps": 24,
-        "videoDynamicRange": "",
-        "videoDynamicRangeType": "",
-        "resolution": "1920x800",
-        "runTime": "1:39:08",
-        "scanType": "Progressive",
-        "subtitles": "eng/eng"
-      },
       "originalFilePath": "Mavka.The.Forest.Song.2023.1080p.AMZN.WEB-DL.DDP5.1.H.264-CMRG.mkv",
       "qualityCutoffNotMet": false,
       "languages": [

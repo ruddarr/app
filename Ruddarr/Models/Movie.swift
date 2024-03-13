@@ -214,7 +214,7 @@ struct MovieRating: Codable {
 }
 
 struct MovieFile: Codable {
-    let mediaInfo: MovieMediaInfo
+    let mediaInfo: MovieMediaInfo?
     let quality: MovieQualityInfo
     let languages: [MovieLanguages]
 }
