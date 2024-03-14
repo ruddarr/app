@@ -156,9 +156,9 @@ class Movies {
     }
 
     private func setAlternateTitlesStrings() {
-        Task(priority: .utility) {
-            for index in items.indices {
-                items[index].setAlternateTitlesString()
+        Task.detached {
+            for index in self.items.indices {
+                self.items[index].setAlternateTitlesString()
             }
         }
     }
