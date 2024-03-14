@@ -33,6 +33,7 @@ struct SettingsView: View {
 
                 case .createInstance:
                     InstanceEditView(mode: .create, instance: Instance())
+                        .environment(radarrInstance).environmentObject(settings)
 
                 case .viewInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
