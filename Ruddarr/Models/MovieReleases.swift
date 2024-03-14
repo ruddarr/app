@@ -93,8 +93,23 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var isFreeleech: Bool {
-        guard indexerFlags.count == 1 else { return false }
-        return cleanIndexerFlags[0].localizedStandardContains("freeleech")
+        guard !indexerFlags.isEmpty else { return false }
+
+        return cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }
+    }
+
+    var isProper: Bool {
+        quality.revision.isProper
+    }
+
+    var isRepack: Bool {
+        quality.revision.isRepack
+    }
+
+    var hasNonFreeleechFlags: Bool {
+        guard !indexerFlags.isEmpty else { return false }
+
+        return !(indexerFlags.count == 1 && isFreeleech)
     }
 
     var cleanTitle: String {
@@ -204,11 +219,14 @@ struct MovieReleaseLanguage: Codable {
 
 struct MovieReleaseQuality: Codable {
     let quality: MovieReleaseQualityDetails
+    let revision: MovieReleaseRevisionDetails
 }
 
 struct MovieReleaseQualityDetails: Codable {
     let name: String?
     let resolution: Int
+    let source: String // unknown, cam, telesync, telecine, workprint, dvd, tv, webdl, webrip, bluray
+    let modifier: String // none, regional, screener, rawhd, brdisk, remux
 
     var normalizedName: String {
         guard let label = name else {
@@ -223,6 +241,20 @@ struct MovieReleaseQualityDetails: Codable {
             .replacingOccurrences(of: "BR-DISK", with: "1080p")
             .replacingOccurrences(of: "DVD-R", with: "480p")
             .replacingOccurrences(of: "SDTV", with: "480p")
+    }
+}
+
+struct MovieReleaseRevisionDetails: Codable {
+    let version: Int
+    let real: Int
+    let isRepack: Bool
+
+    var isReal: Bool {
+        real > 0
+    }
+
+    var isProper: Bool {
+        version > 1
     }
 }
 

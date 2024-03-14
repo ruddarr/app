@@ -60,15 +60,25 @@ struct MovieReleaseRow: View {
     }
 
     var releaseIcon: some View {
-        Group {
+        HStack(spacing: 2) {
             if release.isFreeleech {
                 Image(systemName: "f.square")
-            } else if !release.indexerFlags.isEmpty {
-                Image(systemName: "flag")
+            }
+
+            if release.isProper {
+                Image(systemName: "p.square")
+            }
+
+            if release.isRepack {
+                Image(systemName: "r.square")
+            }
+
+            if release.hasNonFreeleechFlags {
+                Image(systemName: "flag.square")
             }
 
             if release.rejected {
-                Image(systemName: "exclamationmark.triangle")
+                Image(systemName: "exclamationmark.square")
             }
         }
         .symbolVariant(.fill)
@@ -84,4 +94,17 @@ struct MovieReleaseRow: View {
         default: .red
         }
     }
+}
+
+#Preview {
+    let movies: [Movie] = PreviewData.load(name: "movies")
+    let movie = movies.first(where: { $0.id == 66 }) ?? movies[0]
+
+    dependencies.router.selectedTab = .movies
+    dependencies.router.moviesPath.append(MoviesView.Path.movie(movie.id))
+    dependencies.router.moviesPath.append(MoviesView.Path.releases(movie.id))
+
+    return ContentView()
+        .withSettings()
+        .withRadarrInstance(movies: movies)
 }
