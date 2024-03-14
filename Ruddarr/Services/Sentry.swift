@@ -18,12 +18,18 @@ func leaveBreadcrumb(
 
     // TestFlight: report higher level breadcrumbs as events 
     if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
-        if level == .error || level == .error {
-            let event = Event(level: level)
-            event.message = SentryMessage(formatted: message ?? "")
-
-            SentrySDK.capture(event: event)
+        if ![.error, .fatal].contains(level) {
+            return
         }
+
+        if let error = data["error"] as? URLError, error.code == .notConnectedToInternet {
+            return
+        }
+
+        let event = Event(level: level)
+        event.message = SentryMessage(formatted: message ?? "")
+
+        SentrySDK.capture(event: event)
     }
 
 #if DEBUG
