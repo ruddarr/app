@@ -48,7 +48,7 @@ extension API {
 
             let body = DownloadMovieRelease(guid: guid, indexerId: indexerId)
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: body)
+            return try await request(method: .post, url: url, headers: instance.auth, body: body, timeout: 15)
         }, getMovie: { movieId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
