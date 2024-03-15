@@ -10,6 +10,10 @@ class MovieReleases {
 
     var isSearching: Bool = false
 
+    var indexers: [String] = []
+    var qualities: [String] = []
+    var customFormats: [String] = []
+
     init(_ instance: Instance) {
         self.instance = instance
     }
@@ -21,6 +25,9 @@ class MovieReleases {
         do {
             isSearching = true
             items = try await dependencies.api.lookupReleases(movie.movieId!, instance)
+            setIndexers()
+            setQualities()
+            setCustomFormats()
         } catch is CancellationError {
             // do nothing
         } catch let urlError as URLError where urlError.code == .cancelled {
@@ -32,6 +39,32 @@ class MovieReleases {
         }
 
         isSearching = false
+    }
+
+    func setIndexers() {
+        var seen: Set<String> = []
+
+        indexers = items
+            .map { $0.indexerLabel }
+            .filter { seen.insert($0).inserted }
+            .sorted()
+    }
+
+    func setQualities() {
+        var seen: Set<String> = []
+
+        qualities = items
+            .sorted { $0.quality.quality.resolution > $1.quality.quality.resolution }
+            .map { $0.quality.quality.normalizedName }
+            .filter { seen.insert($0).inserted }
+    }
+
+    func setCustomFormats() {
+        let customFormatNames = items
+            .filter { $0.hasCustomFormats }
+            .flatMap { $0.customFormats.unsafelyUnwrapped.map { $0.label } }
+
+        customFormats = Array(Set(customFormatNames))
     }
 }
 

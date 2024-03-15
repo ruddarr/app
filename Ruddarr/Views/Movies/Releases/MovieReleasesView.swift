@@ -181,7 +181,7 @@ extension MovieReleasesView {
             Picker("Indexer", selection: $sort.indexer) {
                 Text("Any Indexer").tag(".all")
 
-                ForEach(indexers, id: \.self) { indexer in
+                ForEach(instance.releases.indexers, id: \.self) { indexer in
                     Text(indexer).tag(Optional.some(indexer))
                 }
             }
@@ -196,7 +196,7 @@ extension MovieReleasesView {
             Picker("Quality", selection: $sort.quality) {
                 Text("Any Quality").tag(".all")
 
-                ForEach(qualities, id: \.self) { quality in
+                ForEach(instance.releases.qualities, id: \.self) { quality in
                     Text(quality).tag(Optional.some(quality))
                 }
             }
@@ -211,7 +211,7 @@ extension MovieReleasesView {
             Picker("Custom Format", selection: $sort.customFormat) {
                 Text("Any Format").tag(".all")
 
-                ForEach(customFormats, id: \.self) { format in
+                ForEach(instance.releases.customFormats, id: \.self) { format in
                     Text(format).tag(Optional.some(format))
                 }
             }
@@ -219,32 +219,6 @@ extension MovieReleasesView {
         } label: {
             Label("Custom Format", systemImage: "person.badge.plus")
         }
-    }
-
-    var indexers: [String] {
-        var seen: Set<String> = []
-
-        return instance.releases.items
-            .map { $0.indexerLabel }
-            .filter { seen.insert($0).inserted }
-            .sorted()
-    }
-
-    var qualities: [String] {
-        var seen: Set<String> = []
-
-        return instance.releases.items
-            .sorted { $0.quality.quality.resolution > $1.quality.quality.resolution }
-            .map { $0.quality.quality.normalizedName }
-            .filter { seen.insert($0).inserted }
-    }
-
-    var customFormats: [String] {
-        let customFormatNames = instance.releases.items
-            .filter { $0.hasCustomFormats }
-            .flatMap { $0.customFormats.unsafelyUnwrapped.map { $0.label } }
-
-        return Array(Set(customFormatNames))
     }
 }
 
