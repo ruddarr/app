@@ -135,7 +135,9 @@ extension MovieReleasesView {
 
             qualityPicker
 
-            customFormatPicker
+            if !instance.releases.customFormats.isEmpty {
+                customFormatPicker
+            }
 
             Section {
                 Toggle("Only Approved", systemImage: "checkmark.seal", isOn: $sort.approvedOnly)
@@ -157,7 +159,7 @@ extension MovieReleasesView {
                     switch sort.option {
                     case .byWeight: sort.isAscending = false
                     case .byAge: sort.isAscending = true
-                    case .bySize: sort.isAscending = true
+                    case .byFilesize: sort.isAscending = true
                     case .bySeeders: sort.isAscending = false
                     case .byCustomScore: sort.isAscending = false
                     }

@@ -62,7 +62,7 @@ extension MovieDetails {
 
         if movie.isDownloaded {
             items.append(InformationItem(
-                label: String(localized: "Size"),
+                label: String(localized: "File Size"),
                 value: movie.sizeLabel
             ))
         }

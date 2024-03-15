@@ -821,6 +821,16 @@
         }
       }
     },
+    "File Size" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Size"
+          }
+        }
+      }
+    },
     "Filter" : {
       "localizations" : {
         "en" : {
@@ -2229,6 +2239,9 @@
           }
         }
       }
+    },
+    "Test" : {
+
     },
     "The API Key can be found in the web interface under \"Settings > General > Security\"." : {
       "localizations" : {
