@@ -46,15 +46,15 @@ struct MovieReleaseSheet: View {
 
     var header: some View {
         VStack(alignment: .leading) {
-            if !release.indexerFlags.isEmpty {
+            if !flags().isEmpty {
                 HStack {
-                    ForEach(release.cleanIndexerFlags, id: \.self) { flag in
+                    ForEach(flags(), id: \.self) { flag in
                         Text(flag).textCase(.uppercase)
                     }
                 }
                 .font(.footnote)
                 .fontWeight(.semibold)
-                .tracking(1.15)
+                .tracking(1.1)
                 .foregroundStyle(settings.theme.tint)
             }
 
@@ -74,44 +74,26 @@ struct MovieReleaseSheet: View {
             .foregroundStyle(.secondary)
 
             if !tags().isEmpty {
-                customFormats
+                OverflowLayout(spacing: 6) {
+                    customFormats
+                }
             }
         }
-    }
-
-    func tags() -> [String] {
-        var tags: [String] = []
-
-        if release.isProper {
-            tags.append(String(localized: "Proper"))
-        }
-
-        if release.isRepack {
-            tags.append(String(localized: "Repack"))
-        }
-
-        if release.hasCustomFormats {
-            tags.append(contentsOf: release.customFormats!.map { $0.label })
-        }
-
-        return tags
     }
 
     @ViewBuilder
     var customFormats: some View {
-        OverflowLayout(spacing: 6) {
-            ForEach(tags(), id: \.self) { tag in
-                Text(tag)
-                    .font(.caption2)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(Color(UIColor.lightText))
-                    .padding(.vertical, 4)
-                    .padding(.horizontal, 8)
-                    .background(
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(.secondarySystemBackground)
-                    )
-            }
+        ForEach(tags(), id: \.self) { tag in
+            Text(tag)
+                .font(.caption2)
+                .fontWeight(.semibold)
+                .foregroundStyle(Color(UIColor.lightText))
+                .padding(.vertical, 4)
+                .padding(.horizontal, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(.secondarySystemBackground)
+                )
         }
     }
 
@@ -195,11 +177,6 @@ struct MovieReleaseSheet: View {
                     Divider()
                 }
 
-                if release.hasCustomFormats {
-                    row(String(localized: "Custom Score"), value: release.customFormatScoreLabel)
-                    Divider()
-                }
-
                 row(String(localized: "Indexer"), value: release.indexerLabel)
 
                 if release.isTorrent {
@@ -213,6 +190,38 @@ struct MovieReleaseSheet: View {
             }
             .font(.callout)
         }
+    }
+
+    func flags() -> [String] {
+        var flags: [String] = []
+
+        if release.hasCustomFormats {
+            flags.append(release.customFormatScoreLabel)
+        }
+
+        if !release.indexerFlags.isEmpty {
+            flags.append(contentsOf: release.cleanIndexerFlags)
+        }
+
+        return flags
+    }
+
+    func tags() -> [String] {
+        var tags: [String] = []
+
+        if release.isProper {
+            tags.append(String(localized: "Proper"))
+        }
+
+        if release.isRepack {
+            tags.append(String(localized: "Repack"))
+        }
+
+        if release.hasCustomFormats {
+            tags.append(contentsOf: release.customFormats!.map { $0.label })
+        }
+
+        return tags
     }
 
     func row(_ label: String, value: String) -> some View {
