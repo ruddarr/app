@@ -47,6 +47,9 @@ struct MovieRelease: Identifiable, Codable {
     let ageMinutes: Float
     let rejected: Bool
 
+    let customFormats: [MovieReleaseCustomFormat]?
+    let customFormatScore: Int
+
     let indexerId: Int
     let indexer: String?
     let indexerFlags: [String]
@@ -71,6 +74,8 @@ struct MovieRelease: Identifiable, Codable {
         case age
         case ageMinutes
         case rejected
+        case customFormats
+        case customFormatScore
         case indexerId
         case indexer
         case indexerFlags
@@ -106,6 +111,14 @@ struct MovieRelease: Identifiable, Codable {
         quality.revision.isRepack
     }
 
+    var hasCustomFormats: Bool {
+        if let formats = customFormats {
+            return !formats.isEmpty
+        }
+
+        return false
+    }
+
     var hasNonFreeleechFlags: Bool {
         guard !indexerFlags.isEmpty else { return false }
 
@@ -138,12 +151,25 @@ struct MovieRelease: Identifiable, Codable {
         return cleanIndexerFlags.formatted(.list(type: .and, width: .narrow))
     }
 
-    var languageLabel: String? {
-        guard !languages.isEmpty else {
-            return nil
+    var languageLabel: String {
+        if languages.isEmpty {
+            return String(localized: "Unknown")
         }
 
-        return languages.map { $0.name ?? String($0.id) }
+        if languages.count == 1 {
+            return languages[0].label
+
+        }
+
+        return String(localized: "Multilingual")
+    }
+
+    var languagesLabel: String? {
+        if languages.isEmpty {
+            return String(localized: "Unknown")
+        }
+
+        return languages.map { $0.label }
             .formatted(.list(type: .and, width: .narrow))
     }
 
@@ -160,9 +186,10 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var sizeLabel: String {
-        ByteCountFormatter().string(
-            fromByteCount: Int64(size)
-        )
+        let formatter = ByteCountFormatter()
+        formatter.isAdaptive = size < 1_073_741_824 // 1 GB
+
+        return formatter.string(fromByteCount: Int64(size))
     }
 
     var qualityLabel: String {
@@ -210,11 +237,32 @@ struct MovieRelease: Identifiable, Codable {
             String(format: String(localized: "%d years"), Int(years))
         }
     }
+
+    var customFormatScoreLabel: String {
+        String(
+            format: "%@%d",
+            customFormatScore < 0 ? "-" : "+",
+            customFormatScore
+        )
+    }
 }
 
 struct MovieReleaseLanguage: Codable {
     let id: Int
     let name: String?
+
+    var label: String {
+        name ?? String(localized: "Unknown")
+    }
+}
+
+struct MovieReleaseCustomFormat: Identifiable, Codable {
+    let id: Int
+    let name: String?
+
+    var label: String {
+        name ?? String(localized: "Unknown")
+    }
 }
 
 struct MovieReleaseQuality: Codable {

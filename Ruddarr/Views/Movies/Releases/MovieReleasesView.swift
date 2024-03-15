@@ -8,6 +8,7 @@ struct MovieReleasesView: View {
     @State private var fetched: Bool = false
     @State private var waitingTextOpacity: Double = 0
 
+    @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
@@ -15,6 +16,7 @@ struct MovieReleasesView: View {
             List {
                 ForEach(displayedReleases) { release in
                     MovieReleaseRow(release: release)
+                        .environment(instance).environmentObject(settings)
                 }
             }
             .listStyle(.inset)
@@ -64,6 +66,10 @@ struct MovieReleasesView: View {
 
         if sort.quality != ".all" {
             sortedReleases = sortedReleases.filter { $0.quality.quality.normalizedName == sort.quality }
+        }
+
+        if sort.customFormat != ".all" {
+            sortedReleases = sortedReleases.filter { $0.customFormats?.contains { $0.name == sort.customFormat } ?? false }
         }
 
         if sort.approvedOnly {
@@ -129,6 +135,8 @@ extension MovieReleasesView {
 
             qualityPicker
 
+            customFormatPicker
+
             Section {
                 Toggle("Only Approved", systemImage: "checkmark.seal", isOn: $sort.approvedOnly)
                 Toggle("Only FreeLeech", systemImage: "f.square", isOn: $sort.freeleechOnly)
@@ -151,6 +159,7 @@ extension MovieReleasesView {
                     case .byAge: sort.isAscending = true
                     case .bySize: sort.isAscending = true
                     case .bySeeders: sort.isAscending = false
+                    case .byCustomScore: sort.isAscending = false
                     }
                 }
             }
@@ -170,7 +179,7 @@ extension MovieReleasesView {
     var indexersPicker: some View {
         Menu {
             Picker("Indexer", selection: $sort.indexer) {
-                Text("All Indexers").tag(".all")
+                Text("Any Indexer").tag(".all")
 
                 ForEach(indexers, id: \.self) { indexer in
                     Text(indexer).tag(Optional.some(indexer))
@@ -185,7 +194,7 @@ extension MovieReleasesView {
     var qualityPicker: some View {
         Menu {
             Picker("Quality", selection: $sort.quality) {
-                Text("All Qualities").tag(".all")
+                Text("Any Quality").tag(".all")
 
                 ForEach(qualities, id: \.self) { quality in
                     Text(quality).tag(Optional.some(quality))
@@ -194,6 +203,21 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label("Quality", systemImage: "film.stack")
+        }
+    }
+
+    var customFormatPicker: some View {
+        Menu {
+            Picker("Custom Format", selection: $sort.customFormat) {
+                Text("Any Format").tag(".all")
+
+                ForEach(customFormats, id: \.self) { format in
+                    Text(format).tag(Optional.some(format))
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label("Custom Format", systemImage: "person.badge.plus")
         }
     }
 
@@ -213,6 +237,14 @@ extension MovieReleasesView {
             .sorted { $0.quality.quality.resolution > $1.quality.quality.resolution }
             .map { $0.quality.quality.normalizedName }
             .filter { seen.insert($0).inserted }
+    }
+
+    var customFormats: [String] {
+        let customFormatNames = instance.releases.items
+            .filter { $0.hasCustomFormats }
+            .flatMap { $0.customFormats.unsafelyUnwrapped.map { $0.label } }
+
+        return Array(Set(customFormatNames))
     }
 }
 

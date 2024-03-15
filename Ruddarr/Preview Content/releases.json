@@ -254,8 +254,10 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "Foobar 3"}
+    ],
+    "customFormatScore": 123,
     "qualityWeight": 2401,
     "age": 129,
     "ageHours": 3098.3439388342777,
@@ -315,8 +317,14 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "x264"},
+        {"id": 2, "name": "HD Spanish"},
+        {"id": 5, "name": "Tier 1"},
+        {"id": 11, "name": "Foobar 1"},
+        {"id": 11, "name": "REPACK/PROPER"},
+    ],
+    "customFormatScore": 123,
     "qualityWeight": 2401,
     "age": 1147,
     "ageHours": 27530.680049948834,
@@ -343,9 +351,7 @@
     "rejected": true,
     "tmdbId": 0,
     "imdbId": 0,
-    "rejections": [
-      "Not enough seeders: 0. Minimum seeders: 1"
-    ],
+    "rejections": [],
     "publishDate": "2020-12-12T02:13:26Z",
     "commentUrl": "https://www.torrentday.com/details.php?id=5299632",
     "downloadUrl": "http://localhost:9696/1/download?apikey=7f6159d4c8954cfe8cd3eee9134d3313&link=RWRQMTlueStqc01UVXhOd0xlSmxTc0pMbkFER0hjcXNMR2NkczV1amErZDB0eWlyYnlLdjlMcFNxMW81dmlsbkU2Mm5XM2NTUWZJcXo4bmZDTEczY2txYVFuS2NDeHVwM2RIdkZsclQyWWM9&file=Tenet+2020+COMPLETE+UHD+BLURAY-GLiMMER",
@@ -686,8 +692,10 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "Foobar 2"}
+    ],
+    "customFormatScore": 123,
     "qualityWeight": 2401,
     "age": 1131,
     "ageHours": 27156.000605511526,

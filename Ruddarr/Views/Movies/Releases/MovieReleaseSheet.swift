@@ -52,8 +52,9 @@ struct MovieReleaseSheet: View {
                         Text(flag).textCase(.uppercase)
                     }
                 }
-                .font(.caption)
+                .font(.footnote)
                 .fontWeight(.semibold)
+                .tracking(1.15)
                 .foregroundStyle(settings.theme.tint)
             }
 
@@ -71,6 +72,46 @@ struct MovieReleaseSheet: View {
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
+
+            if !tags().isEmpty {
+                customFormats
+            }
+        }
+    }
+
+    func tags() -> [String] {
+        var tags: [String] = []
+
+        if release.isProper {
+            tags.append(String(localized: "Proper"))
+        }
+
+        if release.isRepack {
+            tags.append(String(localized: "Repack"))
+        }
+
+        if release.hasCustomFormats {
+            tags.append(contentsOf: release.customFormats!.map { $0.label })
+        }
+
+        return tags
+    }
+
+    @ViewBuilder
+    var customFormats: some View {
+        OverflowLayout(spacing: 6) {
+            ForEach(tags(), id: \.self) { tag in
+                Text(tag)
+                    .font(.caption2)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color(UIColor.lightText))
+                    .padding(.vertical, 4)
+                    .padding(.horizontal, 8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(.secondarySystemBackground)
+                    )
+            }
         }
     }
 
@@ -149,8 +190,13 @@ struct MovieReleaseSheet: View {
                 .fontWeight(.bold)
         ) {
             VStack(spacing: 12) {
-                if let language = release.languageLabel {
-                    row(String(localized: "Language"), value: language)
+                if let languages = release.languagesLabel {
+                    row(String(localized: "Language"), value: languages)
+                    Divider()
+                }
+
+                if release.hasCustomFormats {
+                    row(String(localized: "Custom Score"), value: release.customFormatScoreLabel)
                     Divider()
                 }
 
@@ -194,7 +240,7 @@ struct MovieReleaseSheet: View {
 
 #Preview {
     let releases: [MovieRelease] = PreviewData.load(name: "releases")
-    let release = releases[50]
+    let release = releases[5]
 
     return MovieReleaseSheet(release: release)
         .withAppState()

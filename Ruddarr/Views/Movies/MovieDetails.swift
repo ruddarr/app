@@ -186,7 +186,7 @@ struct MovieDetails: View {
         if let langs = movie.movieFile?.languages {
             languages = langs
                 .filter { $0.name != nil }
-                .map { $0.name ?? String(localized: "Unknown") }
+                .map { $0.label }
         }
 
         if let audioCodec = movie.movieFile?.mediaInfo?.audioCodec {

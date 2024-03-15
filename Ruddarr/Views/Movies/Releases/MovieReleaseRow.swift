@@ -5,6 +5,9 @@ struct MovieReleaseRow: View {
 
     @State private var isShowingPopover = false
 
+    @EnvironmentObject var settings: AppSettings
+    @Environment(RadarrInstance.self) private var instance
+
     var body: some View {
         linesStack
             .contentShape(Rectangle())
@@ -12,11 +15,14 @@ struct MovieReleaseRow: View {
                 isShowingPopover = true
             }
             .sheet(isPresented: $isShowingPopover) {
-                MovieReleaseSheet(release: release)
+                 MovieReleaseSheet(release: release)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
+                    .environment(instance).environmentObject(settings)
             }
     }
+
+    let secondaryOpacity = 0.65
 
     var linesStack: some View {
         VStack(alignment: .leading) {
@@ -27,39 +33,49 @@ struct MovieReleaseRow: View {
                     .lineLimit(1)
             }
 
-            let secondaryOpacity = 0.65
-
-            Group {
-                HStack(spacing: 6) {
-                    Text(release.qualityLabel)
-                    Bullet()
-                    Text(release.sizeLabel)
-                    Bullet()
-                    Text(release.ageLabel)
-                }
-                .opacity(secondaryOpacity)
-                .lineLimit(1)
-
-                HStack(spacing: 6) {
-                    Text(release.typeLabel)
-                        .foregroundStyle(peerColor)
-
-                    Group {
-                        Bullet()
-                        Text(release.indexerLabel)
-                    }.opacity(secondaryOpacity)
-
-                    Spacer()
-
-                    releaseIcon
-                }
-                .lineLimit(1)
-            }
-            .font(.subheadline)
+            secondRow
+            thirdRow
         }
     }
 
-    var releaseIcon: some View {
+    var secondRow: some View {
+        HStack(spacing: 6) {
+            Text(release.qualityLabel)
+
+            Bullet()
+            Text(release.sizeLabel)
+
+            Bullet()
+            Text(release.ageLabel)
+        }
+        .opacity(secondaryOpacity)
+        .lineLimit(1)
+        .font(.subheadline)
+    }
+
+    var thirdRow: some View {
+        HStack(spacing: 6) {
+            Text(release.typeLabel)
+                .foregroundStyle(peerColor)
+
+            Group {
+                Bullet()
+                Text(release.languageLabel)
+
+                Bullet()
+                Text(release.indexerLabel)
+            }
+            .opacity(secondaryOpacity)
+
+            Spacer()
+
+            releaseIcons
+        }
+        .lineLimit(1)
+        .font(.subheadline)
+    }
+
+    var releaseIcons: some View {
         HStack(spacing: 2) {
             if release.isFreeleech {
                 Image(systemName: "f.square")

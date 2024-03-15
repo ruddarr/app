@@ -231,32 +231,12 @@
         }
       }
     },
-    "All Indexers" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All Indexers"
-          }
-        }
-      }
-    },
     "All Movies" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "All Movies"
-          }
-        }
-      }
-    },
-    "All Qualities" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All Qualities"
           }
         }
       }
@@ -287,6 +267,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Announced"
+          }
+        }
+      }
+    },
+    "Any Format" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Format"
+          }
+        }
+      }
+    },
+    "Any Indexer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Indexer"
+          }
+        }
+      }
+    },
+    "Any Quality" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Quality"
           }
         }
       }
@@ -561,12 +571,32 @@
         }
       }
     },
+    "Custom Format" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom Format"
+          }
+        }
+      }
+    },
     "Custom headers are an advanced feature, only needed to access instances protected by zero trust services." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Custom headers are an advanced feature, only needed to access instances protected by zero trust services."
+          }
+        }
+      }
+    },
+    "Custom Score" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom Score"
           }
         }
       }
@@ -1221,6 +1251,16 @@
         }
       }
     },
+    "Multilingual" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Multilingual"
+          }
+        }
+      }
+    },
     "Music" : {
       "localizations" : {
         "en" : {
@@ -1840,6 +1880,16 @@
         }
       }
     },
+    "Proper" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proper"
+          }
+        }
+      }
+    },
     "Quality" : {
       "localizations" : {
         "en" : {
@@ -1916,6 +1966,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Relevant"
+          }
+        }
+      }
+    },
+    "Repack" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repack"
           }
         }
       }

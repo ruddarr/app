@@ -6,6 +6,7 @@ struct MovieReleaseSort {
 
     var indexer: String = ".all"
     var quality: String = ".all"
+    var customFormat: String = ".all"
 
     var approvedOnly: Bool = false
     var freeleechOnly: Bool = false
@@ -16,14 +17,16 @@ struct MovieReleaseSort {
         case byWeight
         case byAge
         case bySize
+        case byCustomScore
         case bySeeders
 
         var label: some View {
             switch self {
             case .byWeight: Label("Weight", systemImage: "scalemass")
-            case .bySeeders: Label("Seeders", systemImage: "person.2.wave.2")
+            case .bySeeders: Label("Seeders", systemImage: "person.wave.2")
             case .bySize: Label("Size", systemImage: "externaldrive")
             case .byAge: Label("Age", systemImage: "calendar")
+            case .byCustomScore: Label("Custom Score", systemImage: "person.badge.plus")
             }
         }
 
@@ -37,6 +40,8 @@ struct MovieReleaseSort {
                 lhs.ageMinutes < rhs.ageMinutes
             case .bySize:
                 lhs.size < rhs.size
+            case .byCustomScore:
+                lhs.customFormatScore < rhs.customFormatScore
             }
         }
     }

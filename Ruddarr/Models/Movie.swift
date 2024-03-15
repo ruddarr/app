@@ -249,6 +249,9 @@ struct MovieQuality: Codable {
 
 struct MovieLanguages: Codable {
     let name: String?
+    var label: String {
+        name ?? String(localized: "Unknown")
+    }
 }
 
 struct MovieEditorResource: Codable {
