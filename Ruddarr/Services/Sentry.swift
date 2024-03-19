@@ -22,7 +22,7 @@ func leaveBreadcrumb(
             return
         }
 
-        if let error = data["error"] as? URLError, error.code == .notConnectedToInternet {
+        if data["error"] is API.Error || data["error"] is URLError {
             return
         }
 
