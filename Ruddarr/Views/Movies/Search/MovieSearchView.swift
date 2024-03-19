@@ -61,17 +61,10 @@ struct MovieSearchView: View {
             performSearch()
         }
         .alert(
-            "Something Went Wrong",
-            isPresented: Binding(get: { instance.lookup.error != nil }, set: { _ in }),
-            presenting: instance.lookup.error
-        ) { _ in
-            Button("OK", role: .cancel) { }
-        } message: { error in
-            if error.localizedDescription == "cancelled" {
-                let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MovieSearchView") // swiftlint:disable:this redundant_discardable_let
-            }
-
-            Text(error.localizedDescription)
+            isPresented: instance.lookup.errorBinding,
+            error: instance.lookup.error
+        ) { _ in } message: { error in
+            Text(error.recoverySuggestionFallback)
         }
         .overlay {
             let noSearchResults = instance.lookup.items?.count == 0 && !searchQuery.isEmpty

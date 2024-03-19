@@ -52,10 +52,6 @@ import Foundation
         do {
             instance.rootFolders = try await dependencies.api.rootFolders(instance)
             instance.qualityProfiles = try await dependencies.api.qualityProfiles(instance)
-        } catch is CancellationError {
-            return nil
-        } catch let urlError as URLError where urlError.code == .cancelled {
-            return nil
         } catch {
             return nil
         }

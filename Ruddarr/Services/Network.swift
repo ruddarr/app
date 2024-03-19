@@ -27,7 +27,9 @@ class NetworkMonitor {
 
     func checkReachability() throws {
         guard isReachable else {
-            throw URLError(.notConnectedToInternet)
+            throw API.Error.notConnectedToInternet
+
+            // -1009 "The Internet connection appears to be offline."
         }
     }
 }

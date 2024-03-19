@@ -1,11 +1,14 @@
 import SwiftUI
 
 struct NoInternet: View {
+    static var Title = String(localized: "No Internet Connection")
+    static var Description = String(localized: "Please check your internet connection and try again.")
+
     var body: some View {
         ContentUnavailableView(
-            "No Internet Connection",
+            NoInternet.Title,
             systemImage: "wifi.slash",
-            description: Text("Please check your internet connection and try again.")
+            description: Text(NoInternet.Description)
         )
     }
 }

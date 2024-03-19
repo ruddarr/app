@@ -7,7 +7,9 @@ class MovieLookup {
 
     var items: [Movie]?
     var sort: SortOption = .byRelevance
-    var error: Error?
+
+    var error: API.Error?
+    var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
     var isSearching: Bool = false
 
@@ -48,12 +50,12 @@ class MovieLookup {
             items = try await dependencies.api.lookupMovies(instance, query)
         } catch is CancellationError {
             // do nothing
-        } catch let urlError as URLError where urlError.code == .cancelled {
-            // do nothing
-        } catch {
-            self.error = error
+        } catch let apiError as API.Error {
+            error = apiError
 
-            leaveBreadcrumb(.error, category: "movie.lookup", message: "Movie lookup failed", data: ["query": query, "error": error])
+            leaveBreadcrumb(.error, category: "movie.lookup", message: "Movie lookup failed", data: ["query": query, "error": apiError])
+        } catch {
+            self.error = API.Error(from: error)
         }
 
         isSearching = false

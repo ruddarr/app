@@ -28,7 +28,11 @@ struct Instance: Identifiable, Equatable, Codable {
     }
 
     func isPrivateIp() -> Bool {
-        isPrivateIpAddress(URL(string: url)?.host() ?? "")
+        guard let instanceUrl = URL(string: url) else {
+            return false
+        }
+
+        return isPrivateIpAddress(instanceUrl.host() ?? "")
     }
 }
 

@@ -8,7 +8,7 @@ class Movies {
     var items: [Movie] = []
     var cachedItems: [Movie] = []
 
-    var error: Error?
+    var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
     // enum Status { case idle, case working, case failed(Error) }
@@ -111,14 +111,12 @@ class Movies {
             try await performOperation(operation)
         } catch is CancellationError {
             // do nothing
-        } catch let urlError as URLError where urlError.code == .cancelled {
-            // do nothing
-        } catch let urlError as URLError where urlError.code == .timedOut {
-            self.error = instance.isPrivateIp() ? URLError.timedOutOnPrivateIp : urlError
-        } catch {
-            self.error = error
+        } catch let apiError as API.Error {
+            error = apiError
 
-            leaveBreadcrumb(.error, category: "movies", message: "Request failed", data: ["operation": operation, "error": error])
+            leaveBreadcrumb(.error, category: "movies", message: "Request failed", data: ["operation": operation, "error": apiError])
+        } catch {
+            self.error = API.Error(from: error)
         }
 
         isWorking = false

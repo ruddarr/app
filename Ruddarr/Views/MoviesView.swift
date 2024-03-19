@@ -10,7 +10,7 @@ struct MoviesView: View {
     @State private var searchQuery = ""
     @State private var searchPresented = false
 
-    @State private var error: Error?
+    @State private var error: API.Error?
     @State private var alertPresented = false
 
     @Environment(\.scenePhase) private var scenePhase
@@ -108,14 +108,8 @@ struct MoviesView: View {
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
                 updateDisplayedMovies()
             }
-            .alert("Something Went Wrong", isPresented: $alertPresented) {
-                Button("OK", role: .cancel) { }
-            } message: {
-                if alertErrorMessage == "cancelled" {
-                    let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MoviesView") // swiftlint:disable:this redundant_discardable_let
-                }
-
-                Text(alertErrorMessage)
+            .alert(isPresented: $alertPresented, error: error) { _ in } message: { error in
+                Text(error.recoverySuggestionFallback)
             }
             .overlay {
                 if case .notConnectedToInternet? = (error as? URLError)?.code {
@@ -196,18 +190,6 @@ struct MoviesView: View {
         )
     }
 
-    var alertErrorMessage: String {
-        let errorText = error?.localizedDescription
-            ?? String(localized: "An unknown error occurred.")
-
-        if let nsError = error as? NSError,
-           let suggestion = nsError.localizedRecoverySuggestion {
-            return "\(errorText)\n\n\(suggestion)"
-        }
-
-        return errorText
-    }
-
     func fetchMoviesWithMetadata() {
         Task { @MainActor in
             _ = await instance.movies.fetch()
@@ -232,22 +214,14 @@ struct MoviesView: View {
         _ = await instance.movies.fetch()
         updateDisplayedMovies()
 
-        if instance.movies.error is CancellationError {
-            return
-        }
+        if let apiError = instance.movies.error {
+            error = apiError
 
-        if let urlError = instance.movies.error as? URLError, urlError.code == .cancelled {
-            return
-        }
-
-        if instance.movies.error != nil {
-            error = instance.movies.error
-
-            if ignoreOffline && (instance.movies.error as? URLError)?.code == .notConnectedToInternet {
+            if case .notConnectedToInternet = apiError, ignoreOffline {
                 return
             }
 
-            alertPresented = instance.movies.error != nil
+            alertPresented = true
         }
     }
 
@@ -273,7 +247,7 @@ struct MoviesView: View {
 
 #Preview("Offline") {
     dependencies.api.fetchMovies = { _ in
-        throw URLError(.notConnectedToInternet)
+        throw API.Error.notConnectedToInternet
     }
 
     return ContentView()
@@ -282,7 +256,9 @@ struct MoviesView: View {
 
 #Preview("Failure") {
     dependencies.api.fetchMovies = { _ in
-        throw URLError(.badServerResponse)
+        throw API.Error.urlError(
+            URLError(.badServerResponse)
+        )
     }
 
     return ContentView()
@@ -291,7 +267,9 @@ struct MoviesView: View {
 
 #Preview("Timeout") {
     dependencies.api.fetchMovies = { _ in
-        throw URLError(.timedOut)
+        throw API.Error.timeoutOnPrivateIp(
+            URLError(.timedOut)
+        )
     }
 
     return ContentView()

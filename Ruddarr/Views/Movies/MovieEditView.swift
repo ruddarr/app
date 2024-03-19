@@ -22,17 +22,10 @@ struct MovieEditView: View {
                 toolbarSaveButton
             }
             .alert(
-                "Something Went Wrong",
                 isPresented: instance.movies.errorBinding,
-                presenting: instance.movies.error
-            ) { _ in
-                Button("OK", role: .cancel) { }
-            } message: { error in
-                if error.localizedDescription == "cancelled" {
-                    let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MovieEditView") // swiftlint:disable:this redundant_discardable_let
-                }
-
-                Text(error.localizedDescription)
+                error: instance.movies.error
+            ) { _ in } message: { error in
+                Text(error.recoverySuggestionFallback)
             }
             .onDisappear {
                 if !savedChanges {

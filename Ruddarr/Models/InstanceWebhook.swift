@@ -6,7 +6,10 @@ import CloudKit
 class InstanceWebhook {
     var instance: Instance
     var model: InstanceNotification = .init(id: 0, name: "")
-    var error: Error?
+
+    var error: API.Error?
+    var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
+
     var isEnabled: Bool = false
     var isSynchronizing: Bool = false
 
@@ -43,12 +46,12 @@ class InstanceWebhook {
             }
         } catch is CancellationError {
             // do nothing
-        } catch let urlError as URLError where urlError.code == .cancelled {
-            // do nothing
-        } catch {
-            self.error = error
+        } catch let apiError as API.Error {
+            error = apiError
 
-            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook \(mode) failed", data: ["error": error])
+            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook \(mode) failed", data: ["error": apiError])
+        } catch {
+            self.error = API.Error(from: error)
         }
 
         isEnabled = model.isEnabled

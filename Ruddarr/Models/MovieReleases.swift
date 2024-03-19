@@ -6,7 +6,9 @@ class MovieReleases {
     var instance: Instance
 
     var items: [MovieRelease] = []
-    var error: Error?
+
+    var error: API.Error?
+    var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
     var isSearching: Bool = false
 
@@ -30,12 +32,12 @@ class MovieReleases {
             setCustomFormats()
         } catch is CancellationError {
             // do nothing
-        } catch let urlError as URLError where urlError.code == .cancelled {
-            // do nothing
-        } catch {
-            self.error = error
+        } catch let apiError as API.Error {
+            error = apiError
 
-            leaveBreadcrumb(.error, category: "movie.releases", message: "Movie releases lookup failed", data: ["error": error])
+            leaveBreadcrumb(.error, category: "movie.releases", message: "Movie releases lookup failed", data: ["error": apiError])
+        } catch {
+            self.error = API.Error(from: error)
         }
 
         isSearching = false

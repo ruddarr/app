@@ -54,17 +54,10 @@ struct InstanceView: View {
         .subscriptionStatusTask(for: Subscription.group, action: handleSubscriptionStatusChange)
         .sheet(isPresented: $showSubscription) { RuddarrPlusSheet() }
         .alert(
-            "Something Went Wrong",
-            isPresented: Binding(get: { webhook.error != nil }, set: { _ in }),
-            presenting: webhook.error
-        ) { _ in
-            Button("OK", role: .cancel) { }
-        } message: { error in
-            if error.localizedDescription == "cancelled" {
-                let _ = leaveBreadcrumb(.error, category: "cancelled", message: "InstanceView") // swiftlint:disable:this redundant_discardable_let
-            }
-
-            Text(error.localizedDescription)
+            isPresented: webhook.errorBinding,
+            error: webhook.error
+        ) { _ in } message: { error in
+            Text(error.recoverySuggestionFallback)
         }
     }
 

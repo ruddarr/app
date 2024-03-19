@@ -128,6 +128,7 @@ extension API {
 
     struct Empty: Encodable, Decodable { }
 
+    // swiftlint:disable cyclomatic_complexity function_body_length
     fileprivate static func request<Body: Encodable, Response: Decodable>(
         method: HTTPMethod = .get,
         url: URL,
@@ -165,33 +166,72 @@ extension API {
             "body": body ?? "",
         ])
 
-        let (json, response) = try await URLSession.shared.data(for: request)
-        let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 599
+        var json: Data?
+        var response: URLResponse?
+
+        do {
+            (json, response) = try await session.data(for: request)
+        } catch let cancellationError as CancellationError {
+            // re-throw `CancellationError` so they can be handled elsewhere
+            throw cancellationError
+        } catch let urlError as URLError where urlError.code == .cancelled {
+            // re-throw `URLError.cancelled` as `CancellationError`
+            throw CancellationError()
+        } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
+            throw Error.notConnectedToInternet
+        } catch let urlError as URLError where urlError.code == .timedOut {
+            guard isPrivateIpAddress(url.host() ?? "") else {
+                throw Error.urlError(urlError)
+            }
+            throw Error.timeoutOnPrivateIp(urlError)
+        } catch let urlError as URLError {
+            throw Error.urlError(urlError)
+        } catch let localizedError as LocalizedError {
+            throw Error.localizedError(localizedError)
+        } catch let nsError as NSError {
+            throw Error.nsError(nsError)
+        } catch {
+            leaveBreadcrumb(.fatal, category: "api", message: "Unhandled error type", data: ["error": error])
+
+            throw Error(from: error)
+        }
+
+        guard let data = json else {
+            throw Error(from: AppError("Failed to unwrap JSON payload."))
+        }
+
+        let statusCode: Int = (response as? HTTPURLResponse)?.statusCode ?? 599
 
         switch statusCode {
         case (200..<400):
-            let data = Response.self != Empty.self
-                ? json
-                : "{}".data(using: .utf8)!
+            if Response.self == Empty.self {
+                return try decoder.decode(Response.self, from: "{}".data(using: .utf8)!)
+            }
 
-            return try decoder.decode(Response.self, from: data)
+            do {
+                return try decoder.decode(Response.self, from: data)
+            } catch let decodingError as DecodingError {
+                throw Error.decodingError(decodingError)
+            } catch {
+                throw Error(from: error)
+            }
         default:
-            if json.isEmpty {
+            if data.isEmpty {
                 leaveBreadcrumb(.warning, category: "api", message: "Request failed", data: ["status": statusCode])
 
                 throw Error.badStatusCode(code: statusCode)
             }
 
-            if let data = try JSONSerialization.jsonObject(with: json, options: []) as? [String: Any],
-               let message = data["message"] as? String
+            if let payload = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+               let message = payload["message"] as? String
             {
                 leaveBreadcrumb(.warning, category: "api", message: "Request failed", data: ["status": statusCode, "message": message])
 
                 throw Error.errorResponse(code: statusCode, message: message)
             }
 
-            if let data = String(data: json, encoding: .utf8) {
-                leaveBreadcrumb(.warning, category: "api", message: "Request failed", data: ["status": statusCode, "response": data])
+            if let payload = String(data: data, encoding: .utf8) {
+                leaveBreadcrumb(.warning, category: "api", message: "Request failed", data: ["status": statusCode, "response": payload])
             } else {
                 leaveBreadcrumb(.error, category: "api", message: "Unhandled request failure", data: ["status": statusCode])
             }
@@ -199,6 +239,7 @@ extension API {
             throw Error.badStatusCode(code: statusCode)
         }
     }
+    // swiftlint:enable cyclomatic_complexity function_body_length
 
     fileprivate static func request<Response: Decodable>(
         method: HTTPMethod = .get,
@@ -210,24 +251,6 @@ extension API {
         session: URLSession = .shared
     ) async throws -> Response {
         try await request(method: method, url: url, headers: headers, body: Empty?.none, timeout: timeout, decoder: decoder, encoder: encoder, session: session)
-    }
-}
-
-extension API {
-    enum Error: LocalizedError {
-        case badStatusCode(code: Int)
-        case errorResponse(code: Int, message: String)
-    }
-}
-
-extension API.Error {
-    var errorDescription: String? {
-        switch self {
-        case .badStatusCode(let code):
-            return String(localized: "Server returned \(code) status code.")
-        case .errorResponse(let code, let message):
-            return "[\(code)] \(message)"
-        }
     }
 }
 

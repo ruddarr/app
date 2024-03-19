@@ -66,10 +66,8 @@ struct InstanceEditView: View {
         .toolbar {
             toolbarButton
         }
-        .alert(isPresented: $showingAlert, error: error) { _ in
-            Button("OK") { }
-        } message: { error in
-            Text(error.recoverySuggestion ?? "Try again later.")
+        .alert(isPresented: $showingAlert, error: error) { _ in } message: { error in
+            Text(error.recoverySuggestionFallback)
         }
     }
 
@@ -282,18 +280,10 @@ extension InstanceEditView {
 
         do {
             status = try await dependencies.api.systemStatus(instance)
-        } catch API.Error.badStatusCode(code: let code) {
-            throw InstanceError.badStatusCode(code)
-        } catch API.Error.errorResponse(code: let code, message: let message) {
-            throw InstanceError.errorResponse(code, message)
-        } catch let error as DecodingError {
-            throw InstanceError.badResponse(error)
-        } catch let urlError as URLError where urlError.code == .timedOut {
-            throw instance.isPrivateIp()
-                ? InstanceError.timedOutOnPrivateIp(URLError.timedOutOnPrivateIp)
-                : InstanceError.urlNotReachable(urlError)
+        } catch let apiError as API.Error {
+            throw InstanceError.apiError(apiError)
         } catch {
-            throw InstanceError.urlNotReachable(error)
+            throw InstanceError.apiError(API.Error(from: error))
         }
 
         guard let appName = status?.appName else {
@@ -321,6 +311,39 @@ struct InstanceHeaderRow: View {
             TextField("Name", text: $header.name)
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
+        }
+    }
+}
+
+enum InstanceError: Error {
+    case urlIsLocal
+    case urlNotValid
+    case badAppName(_ name: String)
+    case apiError(_ error: API.Error)
+}
+
+extension InstanceError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .urlIsLocal, .urlNotValid:
+            return String(localized: "Invalid URL")
+        case .badAppName:
+            return String(localized: "Wrong Instance Type")
+        case .apiError(let error):
+            return error.errorDescription
+        }
+    }
+
+    var recoverySuggestion: String? {
+        switch self {
+        case .urlIsLocal:
+            return String(localized: "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work.")
+        case .urlNotValid:
+            return String(localized: "Enter a valid URL.")
+        case .badAppName(let name):
+            return String(localized: "URL returned is a \(name) instance.")
+        case .apiError(let error):
+            return error.recoverySuggestion
         }
     }
 }

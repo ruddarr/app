@@ -17,14 +17,3 @@ extension AppError {
         return .init(String(localized: "An unexpected error occurred."))
     }
 }
-
-extension URLError {
-    static var timedOutOnPrivateIp: URLError {
-        URLError(.timedOut, userInfo: [
-            NSLocalizedDescriptionKey: URLError(.timedOut).localizedDescription,
-            NSLocalizedRecoverySuggestionErrorKey: String(
-                localized: "Are you attempting to connect to a private IP address from outside its network?"
-            ),
-        ])
-    }
-}

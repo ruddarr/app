@@ -251,12 +251,12 @@
         }
       }
     },
-    "An unknown error occurred." : {
+    "An unknown error occurred: %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "An unknown error occurred."
+            "value" : "An unknown error occurred: %@"
           }
         }
       }
@@ -477,6 +477,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Books"
+          }
+        }
+      }
+    },
+    "Calendar" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendar"
           }
         }
       }
@@ -981,26 +991,6 @@
         }
       }
     },
-    "Invalid Server Response" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Invalid Server Response"
-          }
-        }
-      }
-    },
-    "Invalid Status Code" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Invalid Status Code"
-          }
-        }
-      }
-    },
     "Invalid URL" : {
       "localizations" : {
         "en" : {
@@ -1117,6 +1107,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Manage Subscription"
+          }
+        }
+      }
+    },
+    "Media Type" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Media Type"
           }
         }
       }
@@ -1261,6 +1261,16 @@
         }
       }
     },
+    "Movies & Series" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movies & Series"
+          }
+        }
+      }
+    },
     "Multilingual" : {
       "localizations" : {
         "en" : {
@@ -1377,6 +1387,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No Results for \"%@\""
+          }
+        }
+      }
+    },
+    "Noisy Action" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noisy Action"
           }
         }
       }
@@ -1750,16 +1770,6 @@
         }
       }
     },
-    "OK" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        }
-      }
-    },
     "Only Approved" : {
       "localizations" : {
         "en" : {
@@ -1776,6 +1786,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Only FreeLeech"
+          }
+        }
+      }
+    },
+    "Only Monitored" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only Monitored"
           }
         }
       }
@@ -2000,6 +2020,16 @@
         }
       }
     },
+    "Response Decoding Error" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Response Decoding Error"
+          }
+        }
+      }
+    },
     "Root Folder" : {
       "localizations" : {
         "en" : {
@@ -2130,16 +2160,6 @@
         }
       }
     },
-    "Size" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Size"
-          }
-        }
-      }
-    },
     "Something Went Wrong" : {
       "localizations" : {
         "en" : {
@@ -2240,9 +2260,6 @@
         }
       }
     },
-    "Test" : {
-
-    },
     "The API Key can be found in the web interface under \"Settings > General > Security\"." : {
       "localizations" : {
         "en" : {
@@ -2273,6 +2290,16 @@
         }
       }
     },
+    "This webhook action can be noisy." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This webhook action can be noisy."
+          }
+        }
+      }
+    },
     "Title" : {
       "localizations" : {
         "en" : {
@@ -2283,12 +2310,32 @@
         }
       }
     },
+    "Today" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        }
+      }
+    },
     "Trailer" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trailer"
+          }
+        }
+      }
+    },
+    "Try again later." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again later."
           }
         }
       }
@@ -2379,16 +2426,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "URL Not Reachable"
-          }
-        }
-      }
-    },
-    "URL returned %lld status code." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "URL returned %lld status code."
           }
         }
       }

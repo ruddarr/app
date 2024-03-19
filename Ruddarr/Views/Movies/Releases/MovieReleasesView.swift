@@ -32,17 +32,10 @@ struct MovieReleasesView: View {
             fetched = true
         }
         .alert(
-            "Something Went Wrong",
-            isPresented: Binding(get: { instance.releases.error != nil }, set: { _ in }),
-            presenting: instance.releases.error
-        ) { _ in
-            Button("OK", role: .cancel) { }
-        } message: { error in
-            if error.localizedDescription == "cancelled" {
-                let _ = leaveBreadcrumb(.error, category: "cancelled", message: "MovieReleasesView") // swiftlint:disable:this redundant_discardable_let
-            }
-
-            Text(error.localizedDescription)
+            isPresented: instance.releases.errorBinding,
+            error: instance.releases.error
+        ) { _ in } message: { error in
+            Text(error.recoverySuggestionFallback)
         }
         .overlay {
             if instance.releases.isSearching {
