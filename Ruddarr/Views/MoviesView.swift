@@ -30,7 +30,7 @@ struct MoviesView: View {
         ) {
             Group {
                 if instance.isVoid {
-                    noRadarrInstance
+                    NoRadarrInstance()
                 } else {
                     ScrollView {
                         movieItemGrid
@@ -112,18 +112,36 @@ struct MoviesView: View {
                 Text(error.recoverySuggestionFallback)
             }
             .overlay {
-                if case .notConnectedToInternet? = (error as? URLError)?.code {
+                if notConnectedToInternet {
                     NoInternet()
-                } else if displayedMovies.isEmpty && !searchQuery.isEmpty && !instance.isVoid {
-                    noSearchResults
-                } else if instance.movies.isWorking && instance.movies.items.isEmpty {
+                } else if hasNoSearchResults {
+                    MovieNoSearchResults(query: $searchQuery)
+                } else if isLoadingMovies {
                     ProgressView("Loading...").tint(.secondary)
-                } else if displayedMovies.isEmpty && !instance.movies.items.isEmpty {
-                    noMatchingMovies
+                } else if hasNoMatchingResults {
+                    NoMatchingMovies()
                 }
             }
         }
         // swiftlint:enable closure_body_length
+    }
+
+    var notConnectedToInternet: Bool {
+        if !instance.movies.cachedItems.isEmpty { return false }
+        if case .notConnectedToInternet = error { return true }
+        return false
+    }
+
+    var hasNoSearchResults: Bool {
+        !searchQuery.isEmpty && !instance.isVoid && instance.movies.cachedItems.isEmpty
+    }
+
+    var hasNoMatchingResults: Bool {
+        instance.movies.cachedItems.isEmpty && !instance.movies.items.isEmpty
+    }
+
+    var isLoadingMovies: Bool {
+        instance.movies.isWorking && instance.movies.cachedItems.isEmpty
     }
 
     var movieItemGrid: some View {
@@ -146,48 +164,6 @@ struct MoviesView: View {
 
     func updateDisplayedMovies() {
         instance.movies.sortAndFilterItems(sort, searchQuery)
-    }
-
-    var noRadarrInstance: some View {
-        let description = String(
-            format: String(localized: "Connect a Radarr instance under %@."),
-            String(format: "[%@](#view)", String(localized: "Settings"))
-        )
-
-        return ContentUnavailableView(
-            "No Radarr Instance",
-            systemImage: "externaldrive.badge.xmark",
-            description: Text(description.toMarkdown())
-        ).environment(\.openURL, .init { _ in
-            dependencies.router.selectedTab = .settings
-            return .handled
-        })
-    }
-
-    var noSearchResults: some View {
-        let description = String(
-            format: String(localized: "Check the spelling or try [adding the movie](%@)."),
-            "#view"
-        )
-
-        return ContentUnavailableView(
-            "No Results for \"\(searchQuery)\"",
-            systemImage: "magnifyingglass",
-            description: Text(description.toMarkdown())
-        ).environment(\.openURL, .init { _ in
-            searchPresented = false
-            dependencies.router.moviesPath.append(MoviesView.Path.search(searchQuery))
-            searchQuery = ""
-            return .handled
-        })
-    }
-
-    var noMatchingMovies: some View {
-        ContentUnavailableView(
-            "No Movies Match",
-            systemImage: "slash.circle",
-            description: Text("No movies match the selected filters.")
-        )
     }
 
     func fetchMoviesWithMetadata() {

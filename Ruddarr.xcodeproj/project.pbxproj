@@ -54,6 +54,7 @@
 		BB94F1B92B7E7B870050F6A0 /* InstanceWebhook.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB94F1B82B7E7B870050F6A0 /* InstanceWebhook.swift */; };
 		BB94F1BB2B7E8A190050F6A0 /* notifications.json in Resources */ = {isa = PBXBuildFile; fileRef = BB94F1BA2B7E8A190050F6A0 /* notifications.json */; };
 		BB9DC2252BA920AF00459FFF /* API+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9DC2242BA920AF00459FFF /* API+Error.swift */; };
+		BB9DC22B2BAA11C700459FFF /* MoviesView+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9DC22A2BAA11C700459FFF /* MoviesView+Overlay.swift */; };
 		BBA54BDE2B561FB200CA0F3E /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */; };
 		BBA54BE32B563E2000CA0F3E /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = BBA54BE22B563E2000CA0F3E /* Nuke */; };
 		BBA54BE52B563E2000CA0F3E /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBA54BE42B563E2000CA0F3E /* NukeUI */; };
@@ -143,6 +144,7 @@
 		BB94F1B82B7E7B870050F6A0 /* InstanceWebhook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceWebhook.swift; sourceTree = "<group>"; };
 		BB94F1BA2B7E8A190050F6A0 /* notifications.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = notifications.json; sourceTree = "<group>"; };
 		BB9DC2242BA920AF00459FFF /* API+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+Error.swift"; sourceTree = "<group>"; };
+		BB9DC22A2BAA11C700459FFF /* MoviesView+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoviesView+Overlay.swift"; sourceTree = "<group>"; };
 		BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
 		BBAED12A2B7205A9006C6CF2 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLabel.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 				BBC45B942B57078400AB258F /* Shared */,
 				BBE828582B4F2C7000C1E1D9 /* ContentView.swift */,
 				BBE828672B4F320F00C1E1D9 /* MoviesView.swift */,
+				BB9DC22A2BAA11C700459FFF /* MoviesView+Overlay.swift */,
 				BB09B9B32B9FABE700FA6586 /* MoviesView+Toolbar.swift */,
 				BBE828692B4F325400C1E1D9 /* SeriesView.swift */,
 				BBF477A82B4FA20B00C2DED3 /* SettingsView.swift */,
@@ -565,6 +568,7 @@
 				BB9DC2252BA920AF00459FFF /* API+Error.swift in Sources */,
 				BBE828592B4F2C7000C1E1D9 /* ContentView.swift in Sources */,
 				BB4B34F32B7BFE640063F2D3 /* AppDelegate.swift in Sources */,
+				BB9DC22B2BAA11C700459FFF /* MoviesView+Overlay.swift in Sources */,
 				BB4E441E2B842C0A00E0BC73 /* MovieContextMenu.swift in Sources */,
 				BB25DC612B62ECF700FE55A0 /* InstanceRow.swift in Sources */,
 				BB8A60262B93DE020039CFF6 /* InstanceNotification.swift in Sources */,
