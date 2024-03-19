@@ -98,9 +98,15 @@ extension InstanceView {
                 .onChange(of: webhook.model.onGrab, updateWebhook)
 
             Toggle(isOn: $webhook.model.onDownload) {
-                HStack(spacing: 6) {
+                HStack(spacing: 8) {
                     Text("Episode Downloaded")
-                    Image(systemName: "megaphone").foregroundStyle(.secondary)
+                    Image(systemName: "info")
+                        .symbolVariant(.circle)
+                        .foregroundStyle(.secondary)
+                        .onTapGesture { showSonarrNoiseAlert = true }
+                        .alert("Noisy Action", isPresented: $showSonarrNoiseAlert) { } message: {
+                            Text("This webhook action can be noisy.")
+                        }
                 }
             }
             .onChange(of: webhook.model.onDownload, updateWebhook)

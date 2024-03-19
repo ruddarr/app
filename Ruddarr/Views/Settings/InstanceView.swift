@@ -20,6 +20,8 @@ struct InstanceView: View {
     @State var cloudKitStatus: CKAccountStatus = .couldNotDetermine
     @State var cloudKitUserId: CKRecord.ID?
 
+    @State var showSonarrNoiseAlert = false
+
     @EnvironmentObject var settings: AppSettings
 
     @Environment(\.scenePhase) private var scenePhase
