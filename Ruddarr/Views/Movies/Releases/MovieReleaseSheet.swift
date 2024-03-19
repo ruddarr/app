@@ -5,7 +5,9 @@ struct MovieReleaseSheet: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
+
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) var colorScheme
 
     let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
 
@@ -80,7 +82,7 @@ struct MovieReleaseSheet: View {
             Text(tag)
                 .font(.caption2)
                 .fontWeight(.semibold)
-                .foregroundStyle(Color(UIColor.lightText))
+                .foregroundStyle(colorScheme == .dark ? Color(UIColor.lightText) : .secondary)
                 .padding(.vertical, 4)
                 .padding(.horizontal, 8)
                 .background(
