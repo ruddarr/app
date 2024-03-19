@@ -198,8 +198,8 @@ struct AlternateMovieTitle: Codable {
 
 struct MovieImage: Codable {
     let coverType: String
-    let remoteURL: String
-    let url: String
+    let remoteURL: String?
+    let url: String?
 
     enum CodingKeys: String, CodingKey {
         case coverType
