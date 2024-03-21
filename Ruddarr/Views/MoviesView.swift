@@ -122,6 +122,8 @@ struct MoviesView: View {
                     Loading()
                 } else if hasNoMatchingResults {
                     NoMatchingMovies()
+                } else if initialLoadingFailed {
+                    contentUnavailable
                 }
             }
         }
@@ -144,6 +146,22 @@ struct MoviesView: View {
 
     var isLoadingMovies: Bool {
         instance.movies.isWorking && instance.movies.cachedItems.isEmpty
+    }
+
+    var initialLoadingFailed: Bool {
+        guard instance.movies.items.isEmpty else { return false }
+        return instance.movies.error != nil
+    }
+
+    var contentUnavailable: some View {
+        ContentUnavailableView {
+            Label("Connection Failure", systemImage: "exclamationmark.triangle")
+        } description: {
+            Text(instance.movies.error?.recoverySuggestionFallback ?? "")
+            Button("Retry") {
+                Task { await fetchMoviesWithAlert(ignoreOffline: true) }
+            }
+        }
     }
 
     var movieItemGrid: some View {
