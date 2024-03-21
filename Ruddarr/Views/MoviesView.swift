@@ -88,6 +88,8 @@ struct MoviesView: View {
                     instance.switchTo(first)
                     settings.radarrInstanceId = first.id
                 }
+
+                dependencies.quickActions.pending()
             }
             .onReceive(dependencies.quickActions.moviePublisher, perform: navigateToMovie)
             .toolbar {
@@ -203,6 +205,8 @@ struct MoviesView: View {
 
     func navigateToMovie(_ id: Movie.ID) {
         let startTime = Date()
+
+        dependencies.quickActions.reset()
 
         func scheduleNextRun(time: DispatchTime, id: Movie.ID) {
             DispatchQueue.main.asyncAfter(deadline: time) {

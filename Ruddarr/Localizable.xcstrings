@@ -191,12 +191,12 @@
         }
       }
     },
-    "Add New Movie" : {
+    "Add Movie" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add New Movie"
+            "value" : "Add Movie"
           }
         }
       }
@@ -1067,16 +1067,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Light"
-          }
-        }
-      }
-    },
-    "Loading" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading"
           }
         }
       }

@@ -3,15 +3,21 @@ import Combine
 
 /**
 [public] ruddarr://open
+[public] ruddarr://movies
 [public] ruddarr://movies/search
 [public] ruddarr://movies/search/{query?}
 [private] ruddarr://movies/open/{id}
 */
 struct QuickActions {
     let moviePublisher = PassthroughSubject<Movie.ID, Never>()
+    var moviePublisherPending: Movie.ID?
 
     var registerShortcutItems: () -> Void = {
         UIApplication.shared.shortcutItems = ShortcutItem.allCases.map(\.shortcutItem)
+    }
+
+    var openMovies: () -> Void = {
+        dependencies.router.selectedTab = .movies
     }
 
     var searchMovies: (String) -> Void = { query in
@@ -21,13 +27,30 @@ struct QuickActions {
 
     func openMovie(_ id: Movie.ID) {
         dependencies.router.selectedTab = .movies
-        dependencies.quickActions.moviePublisher.send(id)
+        dependencies.router.moviesPath = .init()
+
+        Task { @MainActor in
+            try await Task.sleep(nanoseconds: 100_000_000)
+            dependencies.quickActions.moviePublisherPending = id
+            dependencies.quickActions.moviePublisher.send(id)
+        }
+    }
+
+    func reset() {
+        dependencies.quickActions.moviePublisherPending = nil
+    }
+
+    func pending() {
+        if let movieId = dependencies.quickActions.moviePublisherPending {
+            dependencies.quickActions.moviePublisher.send(movieId)
+        }
     }
 }
 
 extension QuickActions {
     enum Deeplink {
         case openApp
+        case openMovies
         case openMovie(_ id: Movie.ID)
         case searchMovies(_ query: String = "")
 
@@ -35,6 +58,8 @@ extension QuickActions {
             switch self {
             case .openApp:
                 break
+            case .openMovies:
+                dependencies.quickActions.openMovies()
             case .searchMovies(let query):
                 dependencies.quickActions.searchMovies(query)
             case .openMovie(let id):
@@ -58,6 +83,8 @@ extension QuickActions.Deeplink {
         switch action {
         case "", "open":
             self = .openApp
+        case "movies":
+            self = .openMovies
         case "movies/search":
             self = .searchMovies()
         case _ where action.hasPrefix("movies/search/"):
@@ -77,7 +104,7 @@ extension QuickActions {
 
         var title: String {
             switch self {
-            case .addMovie: String(localized: "Add New Movie")
+            case .addMovie: String(localized: "Add Movie")
             }
         }
 
