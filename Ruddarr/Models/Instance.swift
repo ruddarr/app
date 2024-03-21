@@ -88,7 +88,7 @@ extension Instance {
         )
     }
 
-    static var till: Self {
+    static var radarr: Self {
         .init(
             id: UUID(uuidString: "f8a124e4-e7d8-405a-b38e-cab1005fc2dd")!,
             type: .radarr,
@@ -97,7 +97,7 @@ extension Instance {
         )
     }
 
-    static var till2: Self {
+    static var sonarr: Self {
         .init(
             id: UUID(uuidString: "8d67b5cd-d6db-4453-940c-6b858703dd87")!,
             type: .sonarr,

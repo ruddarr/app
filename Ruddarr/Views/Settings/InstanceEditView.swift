@@ -169,35 +169,6 @@ struct InstanceEditView: View {
             }
         }
     }
-
-    var debugQuickFill: some View {
-        Group {
-            Button {
-                instance.label = "Syno Radarr"
-                instance.url = Instance.till.url
-                instance.apiKey = Instance.till.apiKey
-            } label: {
-                Text(verbatim: "Synology: Radarr")
-            }
-
-            Button {
-                instance.type = .sonarr
-                instance.label = "Syno Sonarr"
-                instance.url = Instance.till2.url
-                instance.apiKey = Instance.till2.apiKey
-            } label: {
-                Text(verbatim: "Synology: Sonarrr")
-            }
-
-            Button{
-                self.instance.label = "Digital Ocean"
-                self.instance.url = Instance.digitalOcean.url
-                self.instance.apiKey = Instance.digitalOcean.apiKey
-            } label: {
-                Text(verbatim: "Digital Ocean")
-            }
-        }
-    }
 }
 
 extension InstanceEditView {
@@ -295,6 +266,45 @@ extension InstanceEditView {
         }
 
         instance.version = status!.version
+    }
+}
+
+extension InstanceEditView {
+    var debugQuickFill: some View {
+        Group {
+            Button {
+                instance.label = "Dummy"
+                instance.url = "https://dummyjson.com/products/1"
+                instance.apiKey = "fake"
+            } label: {
+                Text(verbatim: "Dummy")
+            }
+
+            Button {
+                instance.label = "Syno Radarr"
+                instance.url = Instance.radarr.url
+                instance.apiKey = Instance.radarr.apiKey
+            } label: {
+                Text(verbatim: "Synology: Radarr")
+            }
+
+            Button {
+                instance.type = .sonarr
+                instance.label = "Syno Sonarr"
+                instance.url = Instance.sonarr.url
+                instance.apiKey = Instance.sonarr.apiKey
+            } label: {
+                Text(verbatim: "Synology: Sonarrr")
+            }
+
+            Button{
+                self.instance.label = "Digital Ocean"
+                self.instance.url = Instance.digitalOcean.url
+                self.instance.apiKey = Instance.digitalOcean.apiKey
+            } label: {
+                Text(verbatim: "Digital Ocean")
+            }
+        }
     }
 }
 
