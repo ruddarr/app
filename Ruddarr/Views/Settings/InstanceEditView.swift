@@ -158,7 +158,7 @@ struct InstanceEditView: View {
     var toolbarButton: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             if isLoading {
-                ProgressView().tint(.secondary)
+                Loading()
             } else {
                 Button("Done") {
                     Task {

@@ -70,9 +70,7 @@ struct MovieSearchView: View {
             let noSearchResults = instance.lookup.items?.count == 0 && !searchQuery.isEmpty
 
             if instance.lookup.isSearching && noSearchResults {
-                ProgressView {
-                    Text("Loading")
-                }.tint(.secondary)
+                Loading()
             } else if noSearchResults {
                 ContentUnavailableView.search(text: searchQuery)
             }

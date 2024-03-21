@@ -117,7 +117,7 @@ struct MoviesView: View {
                 } else if hasNoSearchResults {
                     MovieNoSearchResults(query: $searchQuery)
                 } else if isLoadingMovies {
-                    ProgressView("Loading...").tint(.secondary)
+                    Loading()
                 } else if hasNoMatchingResults {
                     NoMatchingMovies()
                 }
