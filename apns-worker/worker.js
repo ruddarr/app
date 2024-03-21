@@ -274,7 +274,6 @@ function buildNotificationPayload(payload) {
   const instanceName = payload.instanceName?.trim().length > 0 ? payload.instanceName : '{Instance}'
   const isSeries = payload.hasOwnProperty('series')
 
-  const type = isSeries ? 'SERIES' : 'MOVIE'
   const title = payload.series?.title ?? payload.movie?.title ?? '{Title}'
   const year = payload.series?.year ?? payload.movie?.year ?? '{Year}'
   const threadId = payload.series?.tvdbId ?? payload.movie?.tmdbId
@@ -435,6 +434,17 @@ function buildNotificationPayload(payload) {
       }
 
       if (episodes === 1) {
+        const releaseString = payload.release.releaseTitle.replace('.', ' ').toUpperCase()
+        const seasonPadded = String(season).padStart(2, '0')
+        const episodePadded = String(episode).padStart(2, '0')
+
+        if (
+          releaseString.includes(` S${seasonPadded} `) &&
+          ! releaseString.contains(` S${seasonPadded}E${episodePadded} `)
+        ) {
+          return
+        }
+
         return {
           aps: {
             'alert': {
