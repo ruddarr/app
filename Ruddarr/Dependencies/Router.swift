@@ -20,12 +20,14 @@ enum Tab: Hashable, CaseIterable, Identifiable {
 
     case movies
     case series
+    case calendar
     case settings
 
     var text: String {
         switch self {
         case .movies: String(localized: "Movies")
         case .series: String(localized: "Series")
+        case .calendar: String(localized: "Calendar")
         case .settings: String(localized: "Settings")
         }
     }
@@ -34,6 +36,7 @@ enum Tab: Hashable, CaseIterable, Identifiable {
         switch self {
         case .movies: "film"
         case .series: "tv"
+        case .calendar: "calendar"
         case .settings: "gear"
         }
     }
@@ -68,6 +71,12 @@ enum Tab: Hashable, CaseIterable, Identifiable {
                 Text(text).font(.system(size: 10, weight: .semibold))
                     .frame(height: 15).padding(.top, 8)
             case .series:
+                Image(systemName: icon).font(.system(size: 23))
+                    .frame(height: 15)
+
+                Text(text).font(.system(size: 10, weight: .semibold))
+                    .frame(height: 15).padding(.top, 8)
+            case .calendar:
                 Image(systemName: icon).font(.system(size: 23))
                     .frame(height: 15)
 

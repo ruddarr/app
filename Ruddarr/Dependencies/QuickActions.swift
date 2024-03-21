@@ -3,6 +3,7 @@ import Combine
 
 /**
 [public] ruddarr://open
+[public] ruddarr://calendar
 [public] ruddarr://movies
 [public] ruddarr://movies/search
 [public] ruddarr://movies/search/{query?}
@@ -14,6 +15,10 @@ struct QuickActions {
 
     var registerShortcutItems: () -> Void = {
         UIApplication.shared.shortcutItems = ShortcutItem.allCases.map(\.shortcutItem)
+    }
+
+    var openCalendar: () -> Void = {
+        dependencies.router.selectedTab = .calendar
     }
 
     var openMovies: () -> Void = {
@@ -50,6 +55,7 @@ struct QuickActions {
 extension QuickActions {
     enum Deeplink {
         case openApp
+        case openCalendar
         case openMovies
         case openMovie(_ id: Movie.ID)
         case searchMovies(_ query: String = "")
@@ -58,6 +64,8 @@ extension QuickActions {
             switch self {
             case .openApp:
                 break
+            case .openCalendar:
+                dependencies.quickActions.openCalendar()
             case .openMovies:
                 dependencies.quickActions.openMovies()
             case .searchMovies(let query):
@@ -83,6 +91,8 @@ extension QuickActions.Deeplink {
         switch action {
         case "", "open":
             self = .openApp
+        case "calendar":
+            self = .openCalendar
         case "movies":
             self = .openMovies
         case "movies/search":
@@ -100,22 +110,26 @@ extension QuickActions.Deeplink {
 
 extension QuickActions {
     enum ShortcutItem: String, CaseIterable {
+        case calendar
         case addMovie
 
         var title: String {
             switch self {
+            case .calendar: String(localized: "Upcoming")
             case .addMovie: String(localized: "Add Movie")
             }
         }
 
         var icon: UIApplicationShortcutIcon {
             switch self {
+            case .calendar: UIApplicationShortcutIcon(type: .date)
             case .addMovie: UIApplicationShortcutIcon(type: .add)
             }
         }
 
         func callAsFunction() {
             switch self {
+            case .calendar: dependencies.quickActions.openCalendar()
             case .addMovie: dependencies.quickActions.searchMovies("")
             }
         }

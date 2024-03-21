@@ -39,6 +39,19 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
+        }, fetchSeries: { _ in
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+
+            return loadPreviewData(filename: "series")
+        }, movieCalendar: { _, _, _ in
+            let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
+
+            return movies
+        }, episodeCalendar: { _, _, _ in
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+            let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
+
+            return episodes
         }, command: { _, _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 

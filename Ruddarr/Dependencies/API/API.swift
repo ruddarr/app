@@ -12,6 +12,11 @@ struct API {
     var updateMovie: (Movie, Bool, Instance) async throws -> Empty
     var deleteMovie: (Movie, Instance) async throws -> Empty
 
+    var fetchSeries: (Instance) async throws -> [Series]
+
+    var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
+    var episodeCalendar: (Date, Date, Instance) async throws -> [Episode]
+
     var command: (RadarrCommand, Instance) async throws -> Empty
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolders]
@@ -81,6 +86,31 @@ extension API {
                 .appending(queryItems: [.init(name: "deleteFiles", value: "true")])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
+        }, fetchSeries: { instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/series")
+
+            return try await request(url: url, headers: instance.auth)
+        }, movieCalendar: { start, end, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/calendar")
+                .appending(queryItems: [
+                    .init(name: "unmonitored", value: "true"),
+                    .init(name: "start", value: start.formatted(.iso8601)),
+                    .init(name: "end", value: end.formatted(.iso8601)),
+                ])
+
+            return try await request(url: url, headers: instance.auth)
+        }, episodeCalendar: { start, end, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/calendar")
+                .appending(queryItems: [
+                    .init(name: "unmonitored", value: "true"),
+                    .init(name: "start", value: start.formatted(.iso8601)),
+                    .init(name: "end", value: end.formatted(.iso8601)),
+                ])
+
+            return try await request(url: url, headers: instance.auth)
         }, command: { command, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/command")

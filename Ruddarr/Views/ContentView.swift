@@ -122,6 +122,8 @@ struct ContentView: View {
             MoviesView()
         case .series:
             SeriesView()
+        case .calendar:
+            CalendarView()
         case .settings:
             SettingsView()
         }

@@ -4,10 +4,12 @@ A companion app for Radarr and Sonarr instances. Browse libraries, manage conten
 
 ## URL Schemes
 
-### Open App
+### Open Screen
 
 ```
 ruddarr://open
+ruddarr://movies
+ruddarr://calendar
 ```
 
 ### Search Movies
@@ -59,3 +61,21 @@ docker run -d \
   --restart unless-stopped \
   lscr.io/linuxserver/radarr:latest
 ```
+
+```bash
+curl --request POST \
+  --url 'https://api.letterboxd.com/api/v0/auth/token' \
+  --header 'accept: application/json' \
+  --header 'content-type: application/x-www-form-urlencoded' \
+  --data grant_type=client_credentials \
+  --data client_id=a8cabc7a-d963-454f-8757-69788adb432e \
+  --data client_secret=XhFUbf9MA7HwqsamD84n6SBLGK5NduJkgjYxTPVpeR2QtvZE \
+  --data audience=YOUR_API_IDENTIFIER
+```
+
+curl -X "POST" "https://api.letterboxd.com/api/v0/auth/token" \
+     -H 'Accept: application/json' \
+     -H 'Content-Type: application/x-www-form-urlencoded; charset=utf-8' \
+     --data-urlencode "grant_type=password" \
+     --data-urlencode "username=a8cabc7a-d963-454f-8757-69788adb432e" \
+     --data-urlencode "password=XhFUbf9MA7HwqsamD84n6SBLGK5NduJkgjYxTPVpeR2QtvZE"

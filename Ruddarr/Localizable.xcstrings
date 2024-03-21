@@ -261,6 +261,16 @@
         }
       }
     },
+    "Anime" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anime"
+          }
+        }
+      }
+    },
     "Announced" : {
       "localizations" : {
         "en" : {
@@ -571,6 +581,26 @@
         }
       }
     },
+    "Connection Failure" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connection Failure"
+          }
+        }
+      }
+    },
+    "Continuing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuing"
+          }
+        }
+      }
+    },
     "Contribute on GitHub" : {
       "localizations" : {
         "en" : {
@@ -607,6 +637,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Custom Score"
+          }
+        }
+      }
+    },
+    "Daily" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily"
           }
         }
       }
@@ -791,6 +831,16 @@
         }
       }
     },
+    "Ended" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ended"
+          }
+        }
+      }
+    },
     "Enter a valid URL." : {
       "localizations" : {
         "en" : {
@@ -827,6 +877,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Episode Upgraded"
+          }
+        }
+      }
+    },
+    "Everything" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything"
           }
         }
       }
@@ -1111,6 +1171,16 @@
         }
       }
     },
+    "Midseason Finale" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Midseason Finale"
+          }
+        }
+      }
+    },
     "Min. Availability" : {
       "localizations" : {
         "en" : {
@@ -1247,16 +1317,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movies"
-          }
-        }
-      }
-    },
-    "Movies & Series" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movies & Series"
           }
         }
       }
@@ -2020,6 +2080,16 @@
         }
       }
     },
+    "Retry" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
+          }
+        }
+      }
+    },
     "Root Folder" : {
       "localizations" : {
         "en" : {
@@ -2060,6 +2130,26 @@
         }
       }
     },
+    "Season Finale" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season Finale"
+          }
+        }
+      }
+    },
+    "Season Premiere" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season Premiere"
+          }
+        }
+      }
+    },
     "Seeders" : {
       "localizations" : {
         "en" : {
@@ -2086,6 +2176,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Series Added"
+          }
+        }
+      }
+    },
+    "Series Finale" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Series Finale"
+          }
+        }
+      }
+    },
+    "Series Premiere" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Series Premiere"
           }
         }
       }
@@ -2166,6 +2276,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sort By"
+          }
+        }
+      }
+    },
+    "Special" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Special"
+          }
+        }
+      }
+    },
+    "Standard" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard"
           }
         }
       }
@@ -2396,6 +2526,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unwanted"
+          }
+        }
+      }
+    },
+    "Upcoming" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upcoming"
           }
         }
       }

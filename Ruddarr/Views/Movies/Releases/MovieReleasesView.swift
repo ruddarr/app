@@ -12,15 +12,13 @@ struct MovieReleasesView: View {
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
-        Group {
-            List {
-                ForEach(displayedReleases) { release in
-                    MovieReleaseRow(release: release)
-                        .environment(instance).environmentObject(settings)
-                }
+        List {
+            ForEach(displayedReleases) { release in
+                MovieReleaseRow(release: release)
+                    .environment(instance).environmentObject(settings)
             }
-            .listStyle(.inset)
         }
+        .listStyle(.inset)
         .toolbar {
             toolbarButtons
         }
