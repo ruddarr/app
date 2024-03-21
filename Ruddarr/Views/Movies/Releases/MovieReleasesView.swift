@@ -150,11 +150,8 @@ extension MovieReleasesView {
                 .pickerStyle(.inline)
                 .onChange(of: sort.option) {
                     switch sort.option {
-                    case .byWeight: sort.isAscending = false
-                    case .byAge: sort.isAscending = true
-                    case .byFilesize: sort.isAscending = true
-                    case .bySeeders: sort.isAscending = false
-                    case .byCustomScore: sort.isAscending = false
+                    case .byWeight, .bySeeders, .byQuality, .byCustomScore: sort.isAscending = false
+                    default: sort.isAscending = true
                     }
                 }
             }

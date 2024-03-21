@@ -16,6 +16,7 @@ struct MovieReleaseSort {
 
         case byWeight
         case byAge
+        case byQuality
         case byFilesize
         case bySeeders
         case byCustomScore
@@ -23,8 +24,9 @@ struct MovieReleaseSort {
         var label: some View {
             switch self {
             case .byWeight: Label("Weight", systemImage: "scalemass")
+            case .byQuality: Label("Quality", systemImage: "slider.horizontal.3")
             case .bySeeders: Label("Seeders", systemImage: "person.wave.2")
-            case .byFilesize: Label("File Size", systemImage: "externaldrive")
+            case .byFilesize: Label("File Size", systemImage: "internaldrive")
             case .byAge: Label("Age", systemImage: "calendar")
             case .byCustomScore: Label("Custom Score", systemImage: "person.badge.plus")
             }
@@ -40,6 +42,8 @@ struct MovieReleaseSort {
                 lhs.ageMinutes < rhs.ageMinutes
             case .byFilesize:
                 lhs.size < rhs.size
+            case .byQuality:
+                lhs.quality.quality.resolution < rhs.quality.quality.resolution
             case .byCustomScore:
                 lhs.customFormatScore < rhs.customFormatScore
             }
