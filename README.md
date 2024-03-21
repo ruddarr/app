@@ -4,7 +4,7 @@ A companion app for Radarr and Sonarr instances. Browse libraries, manage conten
 
 ## URL Schemes
 
-### Open Screen
+### Open Screens
 
 ```
 ruddarr://open
