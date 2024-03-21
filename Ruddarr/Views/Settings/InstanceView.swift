@@ -155,11 +155,15 @@ struct InstanceView: View {
 }
 
 #Preview {
+    let settings = AppSettings()
+
     dependencies.router.selectedTab = .settings
 
-    dependencies.router.settingsPath.append(
-        SettingsView.Path.viewInstance(Instance.till.id)
-    )
+    if let instance = settings.instances.first {
+        dependencies.router.settingsPath.append(
+            SettingsView.Path.viewInstance(instance.id)
+        )
+    }
 
     return ContentView()
         .withAppState()
