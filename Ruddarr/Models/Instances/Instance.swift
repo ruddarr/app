@@ -80,6 +80,7 @@ struct RadarrCommand: Codable {
     }
 }
 
+// TODO: Remove these?
 extension Instance {
     static var void: Self {
         .init(

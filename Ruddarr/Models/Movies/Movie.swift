@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 struct Movie: Identifiable, Codable {
     var id: Int { movieId ?? tmdbId }
@@ -123,6 +123,24 @@ struct Movie: Identifiable, Codable {
         }
 
         return rating
+    }
+
+    func releaseType(for date: Date) -> String? {
+        let calendar: Calendar = Calendar.current
+
+        if let inCinemas = inCinemas, calendar.isDate(date, inSameDayAs: inCinemas) {
+            return String(localized: "In Cinemas") // popcorn
+        }
+
+        if let digital = digitalRelease, calendar.isDate(date, inSameDayAs: digital) {
+            return String(localized: "Digital Release") // arrow.down.doc
+        }
+
+        if let physical = physicalRelease, calendar.isDate(date, inSameDayAs: physical) {
+            return String(localized: "Physical Release") // opticaldisc
+        }
+
+        return nil
     }
 
     var sizeLabel: String {

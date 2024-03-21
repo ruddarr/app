@@ -243,7 +243,7 @@ struct MovieReleaseSheet: View {
 }
 
 #Preview {
-    let releases: [MovieRelease] = PreviewData.load(name: "releases")
+    let releases: [MovieRelease] = PreviewData.load(name: "movie-releases")
     let release = releases[5]
 
     return MovieReleaseSheet(release: release)

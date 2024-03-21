@@ -22,8 +22,6 @@ struct MovieReleaseRow: View {
             }
     }
 
-    let secondaryOpacity = 0.65
-
     var linesStack: some View {
         VStack(alignment: .leading) {
             HStack(spacing: 4) {
@@ -48,7 +46,7 @@ struct MovieReleaseRow: View {
             Bullet()
             Text(release.ageLabel)
         }
-        .opacity(secondaryOpacity)
+        .foregroundStyle(.secondary)
         .lineLimit(1)
         .font(.subheadline)
     }
@@ -65,7 +63,7 @@ struct MovieReleaseRow: View {
                 Bullet()
                 Text(release.indexerLabel)
             }
-            .opacity(secondaryOpacity)
+            .foregroundStyle(.secondary)
 
             Spacer()
 

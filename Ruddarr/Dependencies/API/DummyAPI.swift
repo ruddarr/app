@@ -16,7 +16,7 @@ extension API {
         }, lookupReleases: { _, _ in
             try await Task.sleep(nanoseconds: 1_500_000_000)
 
-            return loadPreviewData(filename: "releases")
+            return loadPreviewData(filename: "movie-releases")
         }, downloadRelease: { _, _, _ in
             try await Task.sleep(nanoseconds: 1_000_000_000)
 

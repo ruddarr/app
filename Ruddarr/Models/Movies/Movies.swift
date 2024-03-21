@@ -11,7 +11,6 @@ class Movies {
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
-    // enum Status { case idle, case working, case failed(Error) }
     var isWorking: Bool = false
 
     enum Operation {

@@ -33,6 +33,7 @@
 		BB4140C62B71CA89007C7DA4 /* MovieReleaseSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */; };
 		BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D222B58C71300C29B00 /* NoInternet.swift */; };
 		BB456D272B58E4B900C29B00 /* system-status.json in Resources */ = {isa = PBXBuildFile; fileRef = BB456D262B58E4B900C29B00 /* system-status.json */; };
+		BB4689E02BA385390073BC99 /* releases2.json in Resources */ = {isa = PBXBuildFile; fileRef = BB4689DF2BA385390073BC99 /* releases2.json */; };
 		BB4B34F12B7BF4C80063F2D3 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BB4B34F02B7BF4C80063F2D3 /* Localizable.xcstrings */; };
 		BB4B34F32B7BFE640063F2D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4B34F22B7BFE640063F2D3 /* AppDelegate.swift */; };
 		BB4E441E2B842C0A00E0BC73 /* MovieContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4E441D2B842C0A00E0BC73 /* MovieContextMenu.swift */; };
@@ -61,7 +62,7 @@
 		BBAED12B2B7205A9006C6CF2 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAED12A2B7205A9006C6CF2 /* Helpers.swift */; };
 		BBAED12D2B72D444006C6CF2 /* ButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */; };
 		BBB8691F2B6CAE26009C1A54 /* MovieReleases.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB8691E2B6CAE26009C1A54 /* MovieReleases.swift */; };
-		BBB869212B6CB0AC009C1A54 /* releases.json in Resources */ = {isa = PBXBuildFile; fileRef = BBB869202B6CB0AC009C1A54 /* releases.json */; };
+		BBB869212B6CB0AC009C1A54 /* movie-releases.json in Resources */ = {isa = PBXBuildFile; fileRef = BBB869202B6CB0AC009C1A54 /* movie-releases.json */; };
 		BBBB08D42B77FBC700BADBA1 /* IconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBB08D32B77FBC700BADBA1 /* IconsView.swift */; };
 		BBBE93162B68638400353216 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBE93152B68638400353216 /* Theme.swift */; };
 		BBC136A42B62DD780074C7AA /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC136A32B62DD780074C7AA /* Network.swift */; };
@@ -124,6 +125,7 @@
 		BB42618C2B6980760078B94E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BB456D222B58C71300C29B00 /* NoInternet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternet.swift; sourceTree = "<group>"; };
 		BB456D262B58E4B900C29B00 /* system-status.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "system-status.json"; sourceTree = "<group>"; };
+		BB4689DF2BA385390073BC99 /* releases2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = releases2.json; sourceTree = "<group>"; };
 		BB4B34F02B7BF4C80063F2D3 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		BB4B34F22B7BFE640063F2D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB4E441D2B842C0A00E0BC73 /* MovieContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieContextMenu.swift; sourceTree = "<group>"; };
@@ -150,7 +152,7 @@
 		BBAED12A2B7205A9006C6CF2 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLabel.swift; sourceTree = "<group>"; };
 		BBB8691E2B6CAE26009C1A54 /* MovieReleases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleases.swift; sourceTree = "<group>"; };
-		BBB869202B6CB0AC009C1A54 /* releases.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = releases.json; sourceTree = "<group>"; };
+		BBB869202B6CB0AC009C1A54 /* movie-releases.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "movie-releases.json"; sourceTree = "<group>"; };
 		BBBB08D32B77FBC700BADBA1 /* IconsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsView.swift; sourceTree = "<group>"; };
 		BBBE93152B68638400353216 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		BBC136A32B62DD780074C7AA /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -492,9 +494,11 @@
 			files = (
 				BB644FCF2B8538A3007C7AD5 /* ci_post_xcodebuild.sh in Resources */,
 				BB94F1BB2B7E8A190050F6A0 /* notifications.json in Resources */,
+				BBF583B62BABDB1300AFA7FB /* series.json in Resources */,
 				BBE1E4432B51FA0200946222 /* movie-lookup.json in Resources */,
-				BBB869212B6CB0AC009C1A54 /* releases.json in Resources */,
+				BBB869212B6CB0AC009C1A54 /* movie-releases.json in Resources */,
 				BB7602752B62027C006E5A1F /* quality-profiles.json in Resources */,
+				BB4689E02BA385390073BC99 /* releases2.json in Resources */,
 				BB8B3DF42B617FE800B80E2D /* root-folders.json in Resources */,
 				BB456D272B58E4B900C29B00 /* system-status.json in Resources */,
 				BB4B34F12B7BF4C80063F2D3 /* Localizable.xcstrings in Resources */,
