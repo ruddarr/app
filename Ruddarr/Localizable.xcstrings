@@ -1539,7 +1539,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloaded Episode on %@"
+            "value" : "Episode Downloaded on %@"
           }
         }
       }
@@ -1572,7 +1572,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upgraded Episode on %@"
+            "value" : "Episode Upgraded on %@"
           }
         }
       }
@@ -1583,7 +1583,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloaded %2$@ Episodes on %1$@"
+            "value" : "%2$@ Episodes Downloaded on %1$@"
           }
         }
       }
@@ -1605,7 +1605,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloading %2$@ Episodes on %1$@"
+            "value" : "%2$@ Episodes Downloading on %1$@"
           }
         }
       }
@@ -1638,7 +1638,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloaded %2$@ Episodes on %1$@"
+            "value" : "%2$@ Episodes Upgraded on %1$@"
           }
         }
       }
@@ -1660,7 +1660,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resolved Health Issue on %@"
+            "value" : "Health Issue Resolved on %@"
           }
         }
       }
@@ -1671,7 +1671,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New Movie on %@"
+            "value" : "Movie Added on %@"
           }
         }
       }
@@ -1693,7 +1693,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloaded Movie on %@"
+            "value" : "Movie Downloaded on %@"
           }
         }
       }
@@ -1715,7 +1715,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloading Movie on %@"
+            "value" : "Movie Downloading on %@"
           }
         }
       }
@@ -1748,7 +1748,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upgraded Movie on %@"
+            "value" : "Movie Upgraded on %@"
           }
         }
       }
@@ -1770,7 +1770,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New Series on %@"
+            "value" : "Series Added on %@"
           }
         }
       }
@@ -1792,7 +1792,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upgraded Series on %@"
+            "value" : "Series Upgraded on %@"
           }
         }
       }
