@@ -351,6 +351,16 @@
         }
       }
     },
+    "Approved Only" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Approved Only"
+          }
+        }
+      }
+    },
     "Are you attempting to connect to a private IP address from outside its network?" : {
       "localizations" : {
         "en" : {
@@ -941,6 +951,16 @@
         }
       }
     },
+    "FreeLeech Only" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FreeLeech Only"
+          }
+        }
+      }
+    },
     "Genre" : {
       "localizations" : {
         "en" : {
@@ -1257,6 +1277,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Monitored"
+          }
+        }
+      }
+    },
+    "Monitored Only" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monitored Only"
           }
         }
       }
@@ -1836,36 +1866,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifications"
-          }
-        }
-      }
-    },
-    "Only Approved" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Only Approved"
-          }
-        }
-      }
-    },
-    "Only FreeLeech" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Only FreeLeech"
-          }
-        }
-      }
-    },
-    "Only Monitored" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Only Monitored"
           }
         }
       }

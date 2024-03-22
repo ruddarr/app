@@ -170,7 +170,7 @@ struct CalendarView: View {
                 .pickerStyle(.inline)
 
                 Toggle(isOn: $onlyMonitored) {
-                    Label("Only Monitored", systemImage: "bookmark")
+                    Label("Monitored Only", systemImage: "bookmark")
                         .symbolVariant(onlyMonitored ? .fill : .none)
                 }
             }
