@@ -1051,16 +1051,6 @@
         }
       }
     },
-    "Instance" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instance"
-          }
-        }
-      }
-    },
     "Instances" : {
       "localizations" : {
         "en" : {

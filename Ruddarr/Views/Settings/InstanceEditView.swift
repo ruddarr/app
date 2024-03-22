@@ -20,43 +20,9 @@ struct InstanceEditView: View {
 
     var body: some View {
         Form {
-            Section {
-                typeField
-                labelField
-                urlField
-            } header: {
-                HStack {
-                    Text("Instance")
-                    Spacer()
-                    pasteButton(pasteUrl)
-                }
-            } footer: {
-                Text("The URL used to access the \(instance.type.rawValue) web interface. Must be prefixed with \"http://\" or \"https://\".")
-            }
-
-            Section {
-                apiKeyField
-            } header: {
-                HStack {
-                    Text("Authentication")
-                    Spacer()
-                    pasteButton(pasteApiKey)
-                }
-            } footer: {
-                Text("The API Key can be found in the web interface under \"Settings > General > Security\".")
-            }
-
-            Section {
-                headersSection
-            } header: {
-                HStack {
-                    Text("Headers")
-                    Spacer()
-                    pasteButton(pasteHeader)
-                }
-            } footer: {
-                Text("Custom headers are an advanced feature, only needed to access instances protected by zero trust services.")
-            }
+            instanceSection
+            apiKeySection
+            headersSection
 
             if mode == .update {
                 Section {
@@ -84,6 +50,26 @@ struct InstanceEditView: View {
         }
     }
 
+    var instanceSection: some View {
+        Section {
+            typeField
+            labelField
+            urlField
+        } footer: {
+            Text("The URL used to access the \(instance.type.rawValue) web interface. Must be prefixed with \"http://\" or \"https://\".")
+        }
+    }
+
+    var apiKeySection: some View {
+        Section {
+            apiKeyField
+        } header: {
+            Text("Authentication")
+        } footer: {
+            Text("The API Key can be found in the web interface under \"Settings > General > Security\".")
+        }
+    }
+
     var typeField: some View {
         Picker("Type", selection: $instance.type) {
             ForEach(InstanceType.allCases) { type in
@@ -104,14 +90,13 @@ struct InstanceEditView: View {
 
     var urlField: some View {
         LabeledContent {
-            TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) {
-                EmptyView()
-            }
+            TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
                 .multilineTextAlignment(.trailing)
                 .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
                 .textCase(.lowercase)
                 .keyboardType(.URL)
+                .onChange(of: instance.url, detectInstanceType)
         } label: {
             Text("URL")
         }
@@ -130,7 +115,7 @@ struct InstanceEditView: View {
     }
 
     var headersSection: some View {
-        Group {
+        Section {
             ForEach($instance.headers.indices, id: \.self) { index in
                 InstanceHeaderRow(header: $instance.headers[index])
                     .swipeActions {
@@ -144,6 +129,14 @@ struct InstanceEditView: View {
             Button("Add Header") {
                 instance.headers.append(InstanceHeader())
             }
+        } header: {
+            HStack {
+                Text("Headers")
+                Spacer()
+                pasteButton(pasteHeader)
+            }
+        } footer: {
+            Text("Custom headers are an advanced feature, only needed to access instances protected by zero trust services.")
         }
     }
 

@@ -105,11 +105,7 @@ extension InstanceEditView {
         instance.version = status!.version
     }
 
-    func pasteUrl() {
-        guard let string = UIPasteboard.general.string else { return }
-
-        instance.url = string.trimmingCharacters(in: .whitespacesAndNewlines)
-
+    func detectInstanceType() {
         if [":7878", ":8310", "radar"].contains(where: instance.url.contains) {
             instance.type = .radarr
         }
@@ -117,12 +113,6 @@ extension InstanceEditView {
         if [":8989", "sonar"].contains(where: instance.url.contains) {
             instance.type = .radarr
         }
-    }
-
-    func pasteApiKey() {
-        guard let string = UIPasteboard.general.string else { return }
-
-        instance.apiKey = string.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     func pasteHeader() {
