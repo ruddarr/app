@@ -248,6 +248,16 @@ struct MovieDetails: View {
     }
 }
 
+struct MoviePreviewActionModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            content.frame(maxWidth: .infinity)
+        } else {
+            content.frame(maxWidth: 215)
+        }
+    }
+}
+
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
@@ -264,14 +274,4 @@ struct MovieDetails: View {
     return MovieView(movie: Binding(get: { movie }, set: { _ in }))
         .withSettings()
         .withRadarrInstance(movies: movies)
-}
-
-struct MoviePreviewActionModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            content.frame(maxWidth: .infinity)
-        } else {
-            content.frame(maxWidth: 215)
-        }
-    }
 }
