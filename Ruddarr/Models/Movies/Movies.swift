@@ -127,6 +127,7 @@ class Movies {
         switch operation {
         case .fetch:
             items = try await dependencies.api.fetchMovies(instance)
+            leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
             setAlternateTitlesStrings()
 
         case .add(let movie):
