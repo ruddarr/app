@@ -54,6 +54,16 @@ struct Episode: Identifiable, Codable {
     var isPremiere: Bool {
         episodeNumber == 1 && seasonNumber > 0
     }
+
+    var isDownloaded: Bool {
+        hasFile || grabbed
+    }
+    var isWaiting: Bool {
+        guard let date = airDateUtc else {
+            return false
+        }
+        return date > Date.now
+    }
 }
 
 enum EpisodeFinale: String, Codable {

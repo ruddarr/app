@@ -9,9 +9,18 @@ struct CalendarMovie: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-                Text(movie.title)
-                    .font(.body)
-                    .lineLimit(1)
+                HStack(alignment: .center) {
+                    Text(movie.title)
+                        .font(.body)
+                        .lineLimit(1)
+
+                    Spacer()
+
+                    statusIcon
+                        .font(.subheadline)
+                        .imageScale(.small)
+                        .foregroundStyle(.secondary)
+                }
 
                 if let type = movie.releaseType(for: date) {
                     Text(type)
@@ -19,8 +28,6 @@ struct CalendarMovie: View {
                         .foregroundStyle(settings.theme.tint)
                 }
             }
-
-            Spacer()
         }
             .padding(.vertical, 8)
             .padding(.horizontal, 12)
@@ -31,6 +38,21 @@ struct CalendarMovie: View {
                 let deeplink = URL(string: "ruddarr://movies/open/\(movie.id)")
                 try? QuickActions.Deeplink(url: deeplink!)()
             }
+    }
+
+    @ViewBuilder
+    var statusIcon: some View {
+        if movie.isDownloaded {
+            Image(systemName: "checkmark")
+                .symbolVariant(.circle.fill)
+        } else if !movie.monitored {
+            Image(systemName: "bookmark.slash")
+        } else if movie.isWaiting {
+            Image(systemName: "clock")
+        } else if movie.monitored {
+            Image(systemName: "xmark")
+                .symbolVariant(.circle)
+        }
     }
 }
 
@@ -56,7 +78,7 @@ struct CalendarEpisode: View {
                 }
             }
 
-            HStack(spacing: 6) {
+            HStack(alignment: .center, spacing: 6) {
                 Text(episode.episodeLabel)
 
                 if let title = episode.title {
@@ -65,6 +87,10 @@ struct CalendarEpisode: View {
                 }
 
                 Spacer()
+
+                statusIcon
+                    .foregroundStyle(.secondary)
+                    .imageScale(.small)
             }
             .foregroundStyle(.secondary)
             .font(.subheadline)
@@ -96,6 +122,21 @@ struct CalendarEpisode: View {
             Text(episode.premiereLabel)
                 .font(.caption)
                 .foregroundStyle(settings.theme.tint)
+        }
+    }
+
+    @ViewBuilder
+    var statusIcon: some View {
+        if episode.isDownloaded {
+            Image(systemName: "checkmark")
+                .symbolVariant(.circle.fill)
+        } else if !episode.monitored {
+            Image(systemName: "bookmark.slash")
+        } else if episode.isWaiting {
+            Image(systemName: "clock")
+        } else if episode.monitored {
+            Image(systemName: "xmark")
+                .symbolVariant(.circle)
         }
     }
 }
