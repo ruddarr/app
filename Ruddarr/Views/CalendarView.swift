@@ -11,6 +11,7 @@ struct CalendarView: View {
     @State private var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(RadarrInstance.self) var instance
 
     private let firstWeekday = Calendar.current.firstWeekday
 
@@ -21,27 +22,33 @@ struct CalendarView: View {
 
     var body: some View {
         // swiftlint:disable closure_body_length
-        NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
-                    ForEach(calendar.dates, id: \.self) { timestamp in
-                        let date = Date(timeIntervalSince1970: timestamp)
-                        let weekday = Calendar.current.component(.weekday, from: date)
+        NavigationStack(path: dependencies.$router.calendarPath) {
+            Group {
+                if instance.isVoid {
+                    NoRadarrInstance()
+                } else {
+                    ScrollView {
+                        LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
+                            ForEach(calendar.dates, id: \.self) { timestamp in
+                                let date = Date(timeIntervalSince1970: timestamp)
+                                let weekday = Calendar.current.component(.weekday, from: date)
 
-                        if firstWeekday == weekday {
-                            CalendarWeekRange(date: date)
+                                if firstWeekday == weekday {
+                                    CalendarWeekRange(date: date)
+                                }
+
+                                CalendarDate(date: date)
+                                    .offset(x: -6)
+
+                                media(for: timestamp, date: date)
+                            }
                         }
+                        .scrollTargetLayout()
 
-                        CalendarDate(date: date)
-                            .offset(x: -6)
-
-                        media(for: timestamp, date: date)
+                        if calendar.isLoadingFuture {
+                            ProgressView().tint(.secondary).padding(.bottom)
+                        }
                     }
-                }
-                .scrollTargetLayout()
-
-                if calendar.isLoadingFuture {
-                    ProgressView().tint(.secondary).padding(.bottom)
                 }
             }
             .viewPadding(.horizontal)

@@ -8,10 +8,12 @@ final class Router {
     var selectedTab: Tab = .movies
 
     var moviesPath: NavigationPath = .init()
+    var calendarPath: NavigationPath = .init()
     var settingsPath: NavigationPath = .init()
 
     func reset() {
         moviesPath = .init()
+        calendarPath = .init()
     }
 }
 

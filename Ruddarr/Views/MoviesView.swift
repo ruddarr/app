@@ -25,9 +25,7 @@ struct MoviesView: View {
 
     var body: some View {
         // swiftlint:disable closure_body_length
-        NavigationStack(
-            path: dependencies.$router.moviesPath
-        ) {
+        NavigationStack(path: dependencies.$router.moviesPath) {
             Group {
                 if instance.isVoid {
                     NoRadarrInstance()
