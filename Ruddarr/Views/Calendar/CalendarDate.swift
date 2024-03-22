@@ -59,9 +59,10 @@ struct CalendarWeekRange: View {
         Text(weekRange(date))
             .font(.subheadline)
             .textCase(.uppercase)
-            .kerning(1.05)
+            .kerning(1.0)
             .foregroundStyle(.secondary)
-            .padding(.bottom, 8)
+            .padding(.bottom, 12)
+            .padding(.leading, 1)
     }
 
     func weekRange(_ date: Date) -> String {
@@ -72,7 +73,7 @@ struct CalendarWeekRange: View {
         }
 
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM d"
+        dateFormatter.dateFormat = "MMMM d"
 
         let startFormat = dateFormatter.string(from: date)
 

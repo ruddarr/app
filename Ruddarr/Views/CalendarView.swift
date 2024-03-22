@@ -22,7 +22,7 @@ struct CalendarView: View {
         // swiftlint:disable closure_body_length
         NavigationStack {
             ScrollView {
-                LazyVGrid(columns: gridLayout, alignment: .leading) {
+                LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
                     ForEach(calendar.dates, id: \.self) { timestamp in
                         let date = Date(timeIntervalSince1970: timestamp)
                         let weekday = Calendar.current.component(.weekday, from: date)
@@ -32,7 +32,7 @@ struct CalendarView: View {
                         }
 
                         CalendarDate(date: date)
-                            .offset(x: -5)
+                            .offset(x: -6)
 
                         media(for: timestamp, date: date)
                     }
@@ -113,7 +113,7 @@ struct CalendarView: View {
     }
 
     func media(for timestamp: TimeInterval, date: Date) -> some View {
-        VStack(spacing: 6) {
+        VStack(spacing: 8) {
             if displayMovies, let movies = calendar.movies[timestamp] {
                 ForEach(movies) { movie in
                     if !onlyMonitored || movie.monitored {
@@ -132,6 +132,8 @@ struct CalendarView: View {
                     }
                 }
             }
+
+            Spacer()
         }
         .padding(.top, 4)
     }
