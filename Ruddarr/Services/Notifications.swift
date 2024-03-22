@@ -89,10 +89,37 @@ class Notifications {
     func maybeUpdateWebhooks(_ settings: AppSettings) {
         let instances = settings.instances
 
-        Task.detached { [instances] in
-            guard let accountId = try? await CKContainer.default().userRecordID() else {
-                leaveBreadcrumb(.error, category: "notifications", message: "User record lookup failed")
+        let updateNeeded = instances.map {
+            Occurrence.hoursSince("webhookUpdated:\($0.id)") >= 24
+        }.contains(true)
 
+        if !updateNeeded {
+            return
+        }
+
+        Task.detached { [instances] in
+            let notificationStatus = await Notifications.shared.authorizationStatus()
+
+            if ![.authorized, .provisional, .ephemeral].contains(notificationStatus) {
+                return
+            }
+
+            let cloudkit = CKContainer.default()
+            let cloudKitStatus = try? await cloudkit.accountStatus()
+
+            if cloudKitStatus != .available {
+                return
+            }
+
+            guard let cloudKitUserId = try? await cloudkit.userRecordID() else {
+                leaveBreadcrumb(.warning, category: "notifications", message: "CloudKit user record lookup failed")
+
+                return
+            }
+
+            let entitledToService = await Subscription.entitledToService()
+
+            if !entitledToService {
                 return
             }
 
@@ -105,11 +132,9 @@ class Notifications {
 
                 let webhook = InstanceWebhook(instance)
 
-                await webhook.update(accountId)
+                await webhook.update(cloudKitUserId)
 
-                if let error = webhook.error {
-                    leaveBreadcrumb(.error, category: "notifications", message: "Background webhook update failed", data: ["error": error])
-                } else {
+                if webhook.error == nil {
                     Occurrence.occurred(lastUpdate)
                 }
             }
