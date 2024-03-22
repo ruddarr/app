@@ -851,6 +851,16 @@
         }
       }
     },
+    "Enter an instance label." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter an instance label."
+          }
+        }
+      }
+    },
     "Episode Downloaded" : {
       "localizations" : {
         "en" : {
@@ -1021,6 +1031,16 @@
         }
       }
     },
+    "Instance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instance"
+          }
+        }
+      }
+    },
     "Instances" : {
       "localizations" : {
         "en" : {
@@ -1047,6 +1067,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Interactive Search"
+          }
+        }
+      }
+    },
+    "Invalid Label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid Label"
           }
         }
       }
@@ -1437,16 +1467,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No Results for \"%@\""
-          }
-        }
-      }
-    },
-    "Noisy Action" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Noisy Action"
           }
         }
       }
@@ -1866,6 +1886,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open In..."
+          }
+        }
+      }
+    },
+    "Paste" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste"
           }
         }
       }
@@ -2406,16 +2436,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Third Party Libraries"
-          }
-        }
-      }
-    },
-    "This webhook action can be noisy." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This webhook action can be noisy."
           }
         }
       }

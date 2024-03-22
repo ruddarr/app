@@ -98,6 +98,7 @@
 		BBF583BD2BACA3B200AFA7FB /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF583BC2BACA3B200AFA7FB /* Series.swift */; };
 		BBF583C22BACBE1400AFA7FB /* calendar-movies.json in Resources */ = {isa = PBXBuildFile; fileRef = BBF583C12BACBE1400AFA7FB /* calendar-movies.json */; };
 		BBF583C42BACBE5000AFA7FB /* calendar-episodes.json in Resources */ = {isa = PBXBuildFile; fileRef = BBF583C32BACBE5000AFA7FB /* calendar-episodes.json */; };
+		BBF583C62BAD0E0A00AFA7FB /* InstanceEditView+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF583C52BAD0E0A00AFA7FB /* InstanceEditView+Functions.swift */; };
 		BBF706BC2B6220BF00B2B504 /* Sentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF706BB2B6220BF00B2B504 /* Sentry.swift */; };
 		BBF94F632B508F8B00300EBA /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F622B508F8B00300EBA /* MovieView.swift */; };
 		BBF94F652B50C88300300EBA /* Instance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F642B50C88300300EBA /* Instance.swift */; };
@@ -194,6 +195,7 @@
 		BBF583BC2BACA3B200AFA7FB /* Series.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
 		BBF583C12BACBE1400AFA7FB /* calendar-movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "calendar-movies.json"; sourceTree = "<group>"; };
 		BBF583C32BACBE5000AFA7FB /* calendar-episodes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "calendar-episodes.json"; sourceTree = "<group>"; };
+		BBF583C52BAD0E0A00AFA7FB /* InstanceEditView+Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InstanceEditView+Functions.swift"; sourceTree = "<group>"; };
 		BBF706BB2B6220BF00B2B504 /* Sentry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentry.swift; sourceTree = "<group>"; };
 		BBF94F622B508F8B00300EBA /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
 		BBF94F642B50C88300300EBA /* Instance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instance.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				BBC77E232B7AAD3300573EBD /* InstanceView.swift */,
 				BB8A60292B97840F0039CFF6 /* InstanceView+Notifications.swift */,
 				BB9255CD2B54657900967F84 /* InstanceEditView.swift */,
+				BBF583C52BAD0E0A00AFA7FB /* InstanceEditView+Functions.swift */,
 				BBBB08D32B77FBC700BADBA1 /* IconsView.swift */,
 				BB25DC632B62ED9100FE55A0 /* LibrariesView.swift */,
 				BB6F23AA2B6ABB8700A4347A /* SettingsAboutSection.swift */,
@@ -674,6 +677,7 @@
 				BBF583B92BAC99CA00AFA7FB /* CalendarDate.swift in Sources */,
 				BB25DC6A2B63161E00FE55A0 /* MovieForm.swift in Sources */,
 				BB05C9072B86E247009B6444 /* MovieRatings.swift in Sources */,
+				BBF583C62BAD0E0A00AFA7FB /* InstanceEditView+Functions.swift in Sources */,
 				BB336F8A2B9A32FE000904FA /* MovieSearchView.swift in Sources */,
 				BBA54BDE2B561FB200CA0F3E /* CachedAsyncImage.swift in Sources */,
 				BBF583BB2BAC9A0A00AFA7FB /* CalendarMedia.swift in Sources */,

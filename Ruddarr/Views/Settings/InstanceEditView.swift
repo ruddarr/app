@@ -6,14 +6,12 @@ struct InstanceEditView: View {
     @State var instance: Instance
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) private var radarrInstance
+    @Environment(RadarrInstance.self) var radarrInstance
 
-    @State private var isLoading = false
-    @State private var showingAlert = false
-    @State private var showingConfirmation = false
-    @State private var error: InstanceError?
-
-    @Environment(\.dismiss) private var dismiss
+    @State var isLoading = false
+    @State var showingAlert = false
+    @State var showingConfirmation = false
+    @State var error: InstanceError?
 
     enum Mode {
         case create
@@ -26,6 +24,12 @@ struct InstanceEditView: View {
                 typeField
                 labelField
                 urlField
+            } header: {
+                HStack {
+                    Text("Instance")
+                    Spacer()
+                    pasteButton(pasteUrl)
+                }
             } footer: {
                 Text("The URL used to access the \(instance.type.rawValue) web interface. Must be prefixed with \"http://\" or \"https://\".")
             }
@@ -33,7 +37,11 @@ struct InstanceEditView: View {
             Section {
                 apiKeyField
             } header: {
-                Text("Authentication")
+                HStack {
+                    Text("Authentication")
+                    Spacer()
+                    pasteButton(pasteApiKey)
+                }
             } footer: {
                 Text("The API Key can be found in the web interface under \"Settings > General > Security\".")
             }
@@ -41,7 +49,11 @@ struct InstanceEditView: View {
             Section {
                 headersSection
             } header: {
-                Text("Headers")
+                HStack {
+                    Text("Headers")
+                    Spacer()
+                    pasteButton(pasteHeader)
+                }
             } footer: {
                 Text("Custom headers are an advanced feature, only needed to access instances protected by zero trust services.")
             }
@@ -56,6 +68,7 @@ struct InstanceEditView: View {
                 debugQuickFill
             #endif
         }
+        .navigationBarTitleDisplayMode(.inline)
         .onSubmit {
             guard !hasEmptyFields() else { return }
 
@@ -154,6 +167,12 @@ struct InstanceEditView: View {
         }
     }
 
+    func pasteButton(_ callback: @escaping () -> Void) -> some View {
+        Button("Paste", action: callback)
+            .buttonStyle(PlainButtonStyle())
+            .foregroundStyle(settings.theme.tint)
+    }
+
     @ToolbarContentBuilder
     var toolbarButton: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
@@ -166,143 +185,6 @@ struct InstanceEditView: View {
                     }
                 }
                 .disabled(hasEmptyFields())
-            }
-        }
-    }
-}
-
-extension InstanceEditView {
-    @MainActor
-    func createOrUpdateInstance() async {
-        do {
-            isLoading = true
-
-            sanitizeInstanceUrl()
-            try await validateInstance()
-
-            settings.saveInstance(instance)
-
-            dismiss()
-        } catch let error as InstanceError {
-            isLoading = false
-            showingAlert = true
-            self.error = error
-        } catch {
-            fatalError("Failed to save instance: Unhandled error")
-        }
-    }
-
-    @MainActor
-    func deleteInstance() {
-        deleteInstanceWebhook(instance)
-
-        if instance.id == settings.radarrInstanceId {
-            dependencies.router.reset()
-            radarrInstance.switchTo(.void)
-        }
-
-        settings.deleteInstance(instance)
-
-        dependencies.router.settingsPath = .init()
-    }
-
-    func deleteInstanceWebhook(_ deletedInstance: Instance) {
-        var instance = deletedInstance
-        instance.id = UUID()
-
-        let webhook = InstanceWebhook(instance)
-
-        Task.detached { [webhook] in
-            await webhook.delete()
-        }
-    }
-
-    func hasEmptyFields() -> Bool {
-        instance.label.isEmpty || instance.url.isEmpty || instance.apiKey.isEmpty
-    }
-
-    func sanitizeInstanceUrl() {
-        if let url = URL(string: instance.url) {
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-            components.path = ""
-
-            if let urlWithoutPath = components.url {
-                instance.url = urlWithoutPath.absoluteString
-            }
-        }
-
-        instance.url = instance.url.lowercased()
-    }
-
-    func validateInstance() async throws {
-        guard let url = URL(string: instance.url) else {
-            throw InstanceError.urlNotValid
-        }
-
-        if !UIApplication.shared.canOpenURL(url) {
-            throw InstanceError.urlNotValid
-        }
-
-        if ["localhost", "127.0.0.1"].contains(url.host()) {
-            throw InstanceError.urlIsLocal
-        }
-
-        var status: InstanceStatus?
-
-        do {
-            status = try await dependencies.api.systemStatus(instance)
-        } catch let apiError as API.Error {
-            throw InstanceError.apiError(apiError)
-        } catch {
-            throw InstanceError.apiError(API.Error(from: error))
-        }
-
-        guard let appName = status?.appName else {
-            return
-        }
-
-        if appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
-            throw InstanceError.badAppName(appName)
-        }
-
-        instance.version = status!.version
-    }
-}
-
-extension InstanceEditView {
-    var debugQuickFill: some View {
-        Group {
-            Button {
-                instance.label = "Dummy"
-                instance.url = "https://dummyjson.com/products/1"
-                instance.apiKey = "fake"
-            } label: {
-                Text(verbatim: "Dummy")
-            }
-
-            Button {
-                instance.label = "Syno Radarr"
-                instance.url = Instance.radarr.url
-                instance.apiKey = Instance.radarr.apiKey
-            } label: {
-                Text(verbatim: "Synology: Radarr")
-            }
-
-            Button {
-                instance.type = .sonarr
-                instance.label = "Syno Sonarr"
-                instance.url = Instance.sonarr.url
-                instance.apiKey = Instance.sonarr.apiKey
-            } label: {
-                Text(verbatim: "Synology: Sonarrr")
-            }
-
-            Button{
-                self.instance.label = "Digital Ocean"
-                self.instance.url = Instance.digitalOcean.url
-                self.instance.apiKey = Instance.digitalOcean.apiKey
-            } label: {
-                Text(verbatim: "Digital Ocean")
             }
         }
     }
@@ -328,6 +210,7 @@ struct InstanceHeaderRow: View {
 enum InstanceError: Error {
     case urlIsLocal
     case urlNotValid
+    case labelEmpty
     case badAppName(_ name: String)
     case apiError(_ error: API.Error)
 }
@@ -337,6 +220,8 @@ extension InstanceError: LocalizedError {
         switch self {
         case .urlIsLocal, .urlNotValid:
             return String(localized: "Invalid URL")
+        case .labelEmpty:
+            return String(localized: "Invalid Label")
         case .badAppName:
             return String(localized: "Wrong Instance Type")
         case .apiError(let error):
@@ -350,6 +235,8 @@ extension InstanceError: LocalizedError {
             return String(localized: "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work.")
         case .urlNotValid:
             return String(localized: "Enter a valid URL.")
+        case .labelEmpty:
+            return String(localized: "Enter an instance label.")
         case .badAppName(let name):
             return String(localized: "URL returned is a \(name) instance.")
         case .apiError(let error):
