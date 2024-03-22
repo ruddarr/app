@@ -7,6 +7,7 @@ struct CalendarView: View {
     @State private var scrollPosition: TimeInterval?
 
     @State private var onlyMonitored: Bool = false
+    @State private var onlyPremieres: Bool = false
     @State private var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
@@ -57,10 +58,7 @@ struct CalendarView: View {
             .onChange(of: scrollPosition) {
                 calendar.maybeLoadMoreDates(scrollPosition)
             }
-            .onChange(of: displayedMediaType) {
-                scrollPosition = (scrollPosition ?? 0) - 86_400
-            }
-            .onChange(of: onlyMonitored) {
+            .onChange(of: [displayedMediaType, onlyMonitored, onlyPremieres] as [AnyHashable]) {
                 scrollPosition = (scrollPosition ?? 0) - 86_400
             }
             .task {
@@ -127,7 +125,9 @@ struct CalendarView: View {
                     let series: String = calendar.series[episode.seriesId]?.title
                         ?? String(localized: "Unknown")
 
-                    if !onlyMonitored || episode.monitored {
+                    if (!onlyMonitored || episode.monitored) &&
+                       (!onlyPremieres || episode.isPremiere)
+                    {
                         CalendarEpisode(episode: episode, seriesTitle: series)
                     }
                 }
@@ -168,6 +168,11 @@ struct CalendarView: View {
                     }
                 }
                 .pickerStyle(.inline)
+
+                Toggle(isOn: $onlyPremieres) {
+                    Label("Premieres Only", systemImage: "play")
+                        .symbolVariant(onlyPremieres ? .fill : .none)
+                }
 
                 Toggle(isOn: $onlyMonitored) {
                     Label("Monitored Only", systemImage: "bookmark")

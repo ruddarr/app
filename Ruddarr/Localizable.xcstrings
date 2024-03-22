@@ -1980,6 +1980,16 @@
         }
       }
     },
+    "Premieres Only" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premieres Only"
+          }
+        }
+      }
+    },
     "Prologue" : {
       "localizations" : {
         "en" : {
