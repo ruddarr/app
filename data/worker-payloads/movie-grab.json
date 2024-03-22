@@ -1,0 +1,41 @@
+{
+  "movie": {
+    "id": 285,
+    "title": "Akira",
+    "year": 1988,
+    "releaseDate": "1996-12-01",
+    "folderPath": "/volume2/Media/Documentaries/Akira (1988)",
+    "tmdbId": 149,
+    "imdbId": "tt0094625",
+    "overview": "A secret military project endangers Neo-Tokyo when it turns a biker gang member into a rampaging psychic psychopath that only two teenagers and a group of psychics can stop."
+  },
+  "remoteMovie": {
+    "tmdbId": 149,
+    "imdbId": "tt0094625",
+    "title": "Akira",
+    "year": 1988
+  },
+  "release": {
+    "quality": "Bluray-1080p",
+    "qualityVersion": 1,
+    "releaseGroup": "KiNGDOM",
+    "releaseTitle": "Akira 1988 1080p BDRip H264 AAC English Dubbed -KiNGDOM",
+    "indexer": "Pirate Bay (Prowlarr)",
+    "size": 4252075264,
+    "customFormatScore": 0,
+    "customFormats": [],
+    "indexerFlags": [
+      "G_Freeleech"
+    ]
+  },
+  "downloadClient": "Download Station",
+  "downloadClientType": "Download Station",
+  "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1234",
+  "customFormatInfo": {
+    "customFormats": [],
+    "customFormatScore": 0
+  },
+  "eventType": "Grab",
+  "instanceName": "Radarr",
+  "applicationUrl": ""
+}
