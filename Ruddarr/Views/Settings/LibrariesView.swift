@@ -6,7 +6,7 @@ struct LibrariesView: View {
             LibrariesViewItem(
                 url: "https://github.com/kean/Nuke",
                 name: "Nuke",
-                version: "12.4.0"
+                version: "12.5.0"
             )
 
             LibrariesViewItem(
