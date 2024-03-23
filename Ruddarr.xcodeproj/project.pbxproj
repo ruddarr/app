@@ -44,6 +44,7 @@
 		BB6F23AD2B6ABBBD00A4347A /* SettingsSystemSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F23AC2B6ABBBD00A4347A /* SettingsSystemSection.swift */; };
 		BB7602752B62027C006E5A1F /* quality-profiles.json in Resources */ = {isa = PBXBuildFile; fileRef = BB7602742B62027C006E5A1F /* quality-profiles.json */; };
 		BB7666CF2BA51F49009D4F68 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7666CE2BA51F49009D4F68 /* Calendar.swift */; };
+		BB77996D2BAE4757007D713B /* Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB77996C2BAE4757007D713B /* Shortcuts.swift */; };
 		BB7DDF652B718DFB0001CDFC /* MovieReleaseSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7DDF642B718DFB0001CDFC /* MovieReleaseSheet.swift */; };
 		BB865E612B83C11E00ADCEFE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB865E602B83C11E00ADCEFE /* Error.swift */; };
 		BB89ABC62B756B91009FB62D /* MovieReleaseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */; };
@@ -145,6 +146,7 @@
 		BB6F23AC2B6ABBBD00A4347A /* SettingsSystemSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSystemSection.swift; sourceTree = "<group>"; };
 		BB7602742B62027C006E5A1F /* quality-profiles.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "quality-profiles.json"; sourceTree = "<group>"; };
 		BB7666CE2BA51F49009D4F68 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		BB77996C2BAE4757007D713B /* Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcuts.swift; sourceTree = "<group>"; };
 		BB7DDF642B718DFB0001CDFC /* MovieReleaseSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseSheet.swift; sourceTree = "<group>"; };
 		BB865E602B83C11E00ADCEFE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseRow.swift; sourceTree = "<group>"; };
@@ -467,6 +469,7 @@
 				BBF706BB2B6220BF00B2B504 /* Sentry.swift */,
 				BBC136A32B62DD780074C7AA /* Network.swift */,
 				BBC94DE82B5F63A000504568 /* Telemetry.swift */,
+				BB77996C2BAE4757007D713B /* Shortcuts.swift */,
 				BB8A60272B952D710039CFF6 /* Subscription.swift */,
 				BBC77E252B7AB79100573EBD /* Notifications.swift */,
 			);
@@ -643,6 +646,7 @@
 				BB581D1A2BA0ED5E0070DFFC /* CalendarView.swift in Sources */,
 				BBC94DE32B5F3DE600504568 /* CloudStorage.swift in Sources */,
 				BBE828572B4F2C7000C1E1D9 /* Ruddarr.swift in Sources */,
+				BB77996D2BAE4757007D713B /* Shortcuts.swift in Sources */,
 				798010BD2B6268D200BBC056 /* RawRepresentable.swift in Sources */,
 				BB25DC662B62EDC700FE55A0 /* MovieGridItem.swift in Sources */,
 				798010BA2B61719C00BBC056 /* Router.swift in Sources */,

@@ -1860,6 +1860,16 @@
         }
       }
     },
+    "Open Calendar" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Calendar"
+          }
+        }
+      }
+    },
     "Open in %@" : {
       "localizations" : {
         "en" : {
@@ -1876,6 +1886,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open In..."
+          }
+        }
+      }
+    },
+    "Open Movies" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Movies"
+          }
+        }
+      }
+    },
+    "Open Series" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Series"
           }
         }
       }

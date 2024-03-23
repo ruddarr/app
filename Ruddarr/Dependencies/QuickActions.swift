@@ -115,7 +115,7 @@ extension QuickActions {
 
         var title: String {
             switch self {
-            case .calendar: String(localized: "Upcoming")
+            case .calendar: String(localized: "Calendar")
             case .addMovie: String(localized: "Add Movie")
             }
         }
