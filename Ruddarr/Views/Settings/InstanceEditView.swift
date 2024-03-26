@@ -13,6 +13,10 @@ struct InstanceEditView: View {
     @State var showingConfirmation = false
     @State var error: InstanceError?
 
+    @State var showBasicAuthentication = false
+    @State var username: String = ""
+    @State var password: String = ""
+
     enum Mode {
         case create
         case update
@@ -129,6 +133,21 @@ struct InstanceEditView: View {
             Button("Add Header") {
                 instance.headers.append(InstanceHeader())
             }
+
+            Button("Add Authentication") {
+                showBasicAuthentication = true
+            }
+            .alert("Basic Authentication", isPresented: $showBasicAuthentication, actions: {
+                TextField("Username", text: $username)
+                SecureField("Password", text: $password)
+                Button("Add Header") {
+                    let auth = Data("\(username):\(password)".utf8).base64EncodedString()
+                    instance.headers.append(InstanceHeader(name: "Authorization", value: "Basic \(auth)"))
+                }
+                Button("Cancel", role: .cancel, action: {})
+            }, message: {
+                Text("The credentials will be encoded and added as \"Authorization\" header.")
+            })
         } header: {
             HStack {
                 Text("Headers")
@@ -136,7 +155,7 @@ struct InstanceEditView: View {
                 pasteButton(pasteHeader)
             }
         } footer: {
-            Text("Custom headers are an advanced feature, only needed to access instances protected by zero trust services.")
+            Text("Custom Headers and Basic Authentication are an advanced feature, only needed to access instances protected by zero trust services.")
         }
     }
 

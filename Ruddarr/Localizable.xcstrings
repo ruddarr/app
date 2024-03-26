@@ -171,6 +171,16 @@
         }
       }
     },
+    "Add Authentication" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Authentication"
+          }
+        }
+      }
+    },
     "Add Header" : {
       "localizations" : {
         "en" : {
@@ -491,6 +501,16 @@
         }
       }
     },
+    "Basic Authentication" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basic Authentication"
+          }
+        }
+      }
+    },
     "Books" : {
       "localizations" : {
         "en" : {
@@ -631,12 +651,12 @@
         }
       }
     },
-    "Custom headers are an advanced feature, only needed to access instances protected by zero trust services." : {
+    "Custom Headers and Basic Authentication are an advanced feature, only needed to access instances protected by zero trust services." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Custom headers are an advanced feature, only needed to access instances protected by zero trust services."
+            "value" : "Custom Headers and Basic Authentication are an advanced feature, only needed to access instances protected by zero trust services."
           }
         }
       }
@@ -1000,6 +1020,9 @@
           }
         }
       }
+    },
+    "Hello, World!" : {
+
     },
     "Hold on, this may take a moment." : {
       "localizations" : {
@@ -1910,6 +1933,16 @@
         }
       }
     },
+    "Password" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password"
+          }
+        }
+      }
+    },
     "Paste" : {
       "localizations" : {
         "en" : {
@@ -2450,6 +2483,16 @@
         }
       }
     },
+    "The credentials will be encoded and added as \"Authorization\" header." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The credentials will be encoded and added as \"Authorization\" header."
+          }
+        }
+      }
+    },
     "The URL used to access the %@ web interface. Must be prefixed with \"http://\" or \"https://\"." : {
       "localizations" : {
         "en" : {
@@ -2626,6 +2669,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work."
+          }
+        }
+      }
+    },
+    "Username" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Username"
           }
         }
       }
