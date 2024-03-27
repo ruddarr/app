@@ -68,6 +68,8 @@
 		BBBB08D42B77FBC700BADBA1 /* IconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBB08D32B77FBC700BADBA1 /* IconsView.swift */; };
 		BBBE93162B68638400353216 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBE93152B68638400353216 /* Theme.swift */; };
 		BBC136A42B62DD780074C7AA /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC136A32B62DD780074C7AA /* Network.swift */; };
+		BBC17C452BB3BCE000341497 /* movies-2k.json in Resources */ = {isa = PBXBuildFile; fileRef = BBC17C442BB3BCE000341497 /* movies-2k.json */; };
+		BBC17C492BB3BE1800341497 /* movies-5k.json in Resources */ = {isa = PBXBuildFile; fileRef = BBC17C482BB3BE1800341497 /* movies-5k.json */; };
 		BBC45B8F2B56426700AB258F /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B8E2B56426700AB258F /* Nuke */; };
 		BBC45B912B56426700AB258F /* NukeExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B902B56426700AB258F /* NukeExtensions */; };
 		BBC45B932B56426700AB258F /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B922B56426700AB258F /* NukeUI */; };
@@ -168,6 +170,8 @@
 		BBBB08D32B77FBC700BADBA1 /* IconsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsView.swift; sourceTree = "<group>"; };
 		BBBE93152B68638400353216 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		BBC136A32B62DD780074C7AA /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		BBC17C442BB3BCE000341497 /* movies-2k.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "movies-2k.json"; path = "data/radarr-api/movies-2k.json"; sourceTree = SOURCE_ROOT; };
+		BBC17C482BB3BE1800341497 /* movies-5k.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "movies-5k.json"; path = "data/radarr-api/movies-5k.json"; sourceTree = SOURCE_ROOT; };
 		BBC77E232B7AAD3300573EBD /* InstanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceView.swift; sourceTree = "<group>"; };
 		BBC77E252B7AB79100573EBD /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		BBC94DE22B5F3DE600504568 /* CloudStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudStorage.swift; sourceTree = "<group>"; };
@@ -377,6 +381,8 @@
 			children = (
 				BBE8285E2B4F2C7100C1E1D9 /* Preview Assets.xcassets */,
 				BBE1E4402B51F9DC00946222 /* movies.json */,
+				BBC17C442BB3BCE000341497 /* movies-2k.json */,
+				BBC17C482BB3BE1800341497 /* movies-5k.json */,
 				BBE1E4422B51FA0200946222 /* movie-lookup.json */,
 				BBB869202B6CB0AC009C1A54 /* movie-releases.json */,
 				BBF583B52BABDB1300AFA7FB /* series.json */,
@@ -550,9 +556,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBC17C492BB3BE1800341497 /* movies-5k.json in Resources */,
 				BB644FCF2B8538A3007C7AD5 /* ci_post_xcodebuild.sh in Resources */,
 				BB94F1BB2B7E8A190050F6A0 /* notifications.json in Resources */,
 				BBF583C42BACBE5000AFA7FB /* calendar-episodes.json in Resources */,
+				BBC17C452BB3BCE000341497 /* movies-2k.json in Resources */,
 				BBF583B62BABDB1300AFA7FB /* series.json in Resources */,
 				BBE1E4432B51FA0200946222 /* movie-lookup.json in Resources */,
 				BBB869212B6CB0AC009C1A54 /* movie-releases.json in Resources */,

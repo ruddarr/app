@@ -103,7 +103,7 @@ def generate_movie():
         "movieFile": generate_movie_file() if faker.boolean() else None,
     }
 
-movies = [generate_movie() for _ in range(10000)]
+movies = [generate_movie() for _ in range(5000)]
 
 json_output = json.dumps(movies, indent=4)
 
