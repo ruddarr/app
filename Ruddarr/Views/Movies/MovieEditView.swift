@@ -89,7 +89,7 @@ struct MovieEditView: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
-    let movie = movies.first(where: { $0.id == 232 }) ?? movies[0]
+    let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     dependencies.router.selectedTab = .movies
     dependencies.router.moviesPath.append(MoviesView.Path.movie(movie.id))

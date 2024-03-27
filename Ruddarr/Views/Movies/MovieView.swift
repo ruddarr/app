@@ -191,7 +191,7 @@ extension MovieView {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
-    let movie = movies.first(where: { $0.id == 44 }) ?? movies[0]
+    let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     dependencies.router.selectedTab = .movies
 
