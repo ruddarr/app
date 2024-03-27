@@ -156,28 +156,26 @@ struct MoviesView: View {
             Label("Connection Failure", systemImage: "exclamationmark.triangle")
         } description: {
             Text(instance.movies.error?.recoverySuggestionFallback ?? "")
+
             Button("Retry") {
                 Task { await fetchMoviesWithAlert(ignoreOffline: true) }
             }
         }
     }
 
+    @ViewBuilder
     var movieItemGrid: some View {
         let gridItemLayout = MovieGridItem.gridItemLayout()
         let gridItemSpacing = MovieGridItem.gridItemSpacing()
 
-        return LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-            ForEach(displayedMovies) { movie in
+        LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
+            ForEach(instance.movies.cachedItems) { movie in
                 NavigationLink(value: Path.movie(movie.id)) {
                     MovieGridItem(movie: movie)
                 }
                 .buttonStyle(.plain)
             }
         }
-    }
-
-    var displayedMovies: [Movie] {
-        instance.movies.cachedItems
     }
 
     func updateDisplayedMovies() {

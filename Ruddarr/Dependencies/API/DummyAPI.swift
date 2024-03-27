@@ -8,7 +8,7 @@ extension API {
             return loadPreviewData(filename: "movies")
         }, lookupMovies: { _, query in
             let movies: [Movie] = loadPreviewData(filename: "movie-lookup")
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return movies.filter {
                 $0.title.localizedCaseInsensitiveContains(query)
