@@ -6,6 +6,8 @@ class Movies {
     var instance: Instance
 
     var items: [Movie] = []
+    var itemsCount: Int = 0
+
     var cachedItems: [Movie] = []
 
     var error: API.Error?
@@ -127,6 +129,7 @@ class Movies {
         switch operation {
         case .fetch:
             items = try await dependencies.api.fetchMovies(instance)
+            itemsCount = items.count
             leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
             setAlternateTitlesStrings()
 

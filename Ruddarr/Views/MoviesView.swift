@@ -139,7 +139,7 @@ struct MoviesView: View {
     }
 
     var hasNoMatchingResults: Bool {
-        instance.movies.cachedItems.isEmpty && !instance.movies.items.isEmpty
+        instance.movies.cachedItems.isEmpty && instance.movies.itemsCount > 0
     }
 
     var isLoadingMovies: Bool {
@@ -147,7 +147,7 @@ struct MoviesView: View {
     }
 
     var initialLoadingFailed: Bool {
-        guard instance.movies.items.isEmpty else { return false }
+        guard instance.movies.itemsCount == 0 else { return false }
         return instance.movies.error != nil
     }
 
