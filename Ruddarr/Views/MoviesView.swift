@@ -35,18 +35,14 @@ struct MoviesView: View {
                             .padding(.top, searchPresented ? 10 : 0)
                             .viewPadding(.horizontal)
                     }
-                    .task(priority: .low) {
+                    .task {
                         guard !instance.isVoid else { return }
                         await fetchMoviesWithAlert(ignoreOffline: true)
                     }
                     .refreshable {
                         await fetchMoviesWithAlert()
                     }
-                    .onChange(of: scenePhase) { previous, phase in
-                        if phase == .inactive && previous == .background {
-                            fetchMoviesWithMetadata()
-                        }
-                    }
+                    .onChange(of: scenePhase, handleScenePhaseChange)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -214,6 +210,16 @@ struct MoviesView: View {
             }
 
             alertPresented = true
+        }
+    }
+
+    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+        guard dependencies.router.moviesPath.isEmpty else {
+            return
+        }
+
+        if phase == .inactive && oldPhase == .background {
+            fetchMoviesWithMetadata()
         }
     }
 
