@@ -1,9 +1,10 @@
 import Foundation
 
 struct Movie: Identifiable, Codable {
-    var id: Int { movieId ?? tmdbId }
+    var id: Int { guid ?? (tmdbId + 100_000) }
 
-    var movieId: Int?
+    var guid: Int? // this is the `id` coming from the API
+
     let tmdbId: Int
     let imdbId: String?
 
@@ -49,7 +50,7 @@ struct Movie: Identifiable, Codable {
     let movieFile: MovieFile?
 
     enum CodingKeys: String, CodingKey {
-        case movieId = "id"
+        case guid = "id"
         case tmdbId
         case imdbId
         case title
@@ -83,7 +84,7 @@ struct Movie: Identifiable, Codable {
     }
 
     var exists: Bool {
-        movieId != nil
+        guid != nil
     }
 
     var stateLabel: String {

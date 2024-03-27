@@ -1021,9 +1021,6 @@
         }
       }
     },
-    "Hello, World!" : {
-
-    },
     "Hold on, this may take a moment." : {
       "localizations" : {
         "en" : {

@@ -62,18 +62,18 @@ struct MoviesView: View {
                         MoviePreviewView(movie: movie)
                             .environment(instance).environmentObject(settings)
                     }
-                case .movie(let movieId):
-                    if let movie = instance.movies.byId(movieId).unwrapped {
+                case .movie(let id):
+                    if let movie = instance.movies.byId(id).unwrapped {
                         MovieView(movie: movie)
                             .environment(instance).environmentObject(settings)
                     }
-                case .edit(let movieId):
-                    if let movie = instance.movies.byId(movieId).unwrapped {
+                case .edit(let id):
+                    if let movie = instance.movies.byId(id).unwrapped {
                         MovieEditView(movie: movie)
                             .environment(instance).environmentObject(settings)
                     }
-                case .releases(let movieId):
-                    if let movie = instance.movies.byId(movieId).unwrapped {
+                case .releases(let id):
+                    if let movie = instance.movies.byId(id).unwrapped {
                         MovieReleasesView(movie: movie)
                             .environment(instance).environmentObject(settings)
                     }

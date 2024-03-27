@@ -51,14 +51,14 @@ class Movies {
     func byId(_ id: Movie.ID) -> Binding<Movie?> {
         Binding(
             get: { [weak self] in
-                guard let index = self?.items.firstIndex(where: { $0.movieId == id }) else {
+                guard let index = self?.items.firstIndex(where: { $0.guid == id }) else {
                     return nil
                 }
 
                 return self?.items[index]
             },
             set: { [weak self] in
-                guard let index = self?.items.firstIndex(where: { $0.movieId == id }) else {
+                guard let index = self?.items.firstIndex(where: { $0.guid == id }) else {
                     if let newValue = $0 {
                         self?.items.append(newValue)
                     }
@@ -141,15 +141,15 @@ class Movies {
 
         case .delete(let movie):
             _ = try await dependencies.api.deleteMovie(movie, instance)
-            items.removeAll(where: { $0.movieId == movie.movieId })
+            items.removeAll(where: { $0.guid == movie.guid })
 
         case .download(let guid, let indexerId):
             _ = try await dependencies.api.downloadRelease(guid, indexerId, instance)
 
         case .command(let movie, let commandName):
             let command = switch commandName {
-            case .refresh: RadarrCommand(name: commandName, movieIds: [movie.movieId!])
-            case .automaticSearch: RadarrCommand(name: commandName, movieIds: [movie.movieId!])
+            case .refresh: RadarrCommand(name: commandName, movieIds: [movie.id])
+            case .automaticSearch: RadarrCommand(name: commandName, movieIds: [movie.id])
             }
 
             _ = try await dependencies.api.command(command, instance)

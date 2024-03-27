@@ -25,7 +25,7 @@ extension API {
             let movies: [Movie] = loadPreviewData(filename: "movies")
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
-            return movies.first(where: { $0.movieId == movieId })!
+            return movies.first(where: { $0.guid == movieId })!
         }, addMovie: { _, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
             try await Task.sleep(nanoseconds: 2_000_000_000)

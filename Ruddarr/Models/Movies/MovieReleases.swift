@@ -26,7 +26,7 @@ class MovieReleases {
 
         do {
             isSearching = true
-            items = try await dependencies.api.lookupReleases(movie.movieId!, instance)
+            items = try await dependencies.api.lookupReleases(movie.id, instance)
             setIndexers()
             setQualities()
             setCustomFormats()

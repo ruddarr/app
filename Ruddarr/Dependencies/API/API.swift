@@ -70,7 +70,7 @@ extension API {
                 .appending(path: "/api/v3/movie/editor")
 
             let body = MovieEditorResource(
-                movieIds: [movie.movieId!],
+                movieIds: [movie.id],
                 monitored: movie.monitored,
                 qualityProfileId: movie.qualityProfileId,
                 minimumAvailability: movie.minimumAvailability,
@@ -82,7 +82,7 @@ extension API {
         }, deleteMovie: { movie, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
-                .appending(path: String(movie.movieId!))
+                .appending(path: String(movie.id))
                 .appending(queryItems: [.init(name: "deleteFiles", value: "true")])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
