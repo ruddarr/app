@@ -148,7 +148,7 @@ struct CalendarView: View {
     var todayButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button("Today") {
-                withAnimation(.smooth()) {
+                withAnimation(.smooth) {
                     scrollPosition = calendar.today()
                 }
             }

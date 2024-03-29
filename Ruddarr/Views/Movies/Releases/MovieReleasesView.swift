@@ -101,7 +101,7 @@ struct MovieReleasesView: View {
                     .opacity(waitingTextOpacity)
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                            withAnimation { waitingTextOpacity = 1 }
+                            withAnimation(.spring) { waitingTextOpacity = 1 }
                         }
                     }
             }

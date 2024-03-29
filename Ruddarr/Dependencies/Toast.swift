@@ -33,7 +33,7 @@ final class Toast {
         try await Task.sleep(until: .now + self.timeout)
 
         if self.currentMessage?.id == $0 {
-            withAnimation {
+            withAnimation(self.animation) {
                 self.currentMessage = nil
             }
         }

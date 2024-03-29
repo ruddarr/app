@@ -47,7 +47,7 @@ struct MovieDetails: View {
                 .lineLimit(descriptionTruncated ? 4 : nil)
                 .textSelection(.enabled)
                 .onTapGesture {
-                    withAnimation { descriptionTruncated = false }
+                    withAnimation(.spring(duration: 0.35)) { descriptionTruncated = false }
                 }
 
             Spacer()
