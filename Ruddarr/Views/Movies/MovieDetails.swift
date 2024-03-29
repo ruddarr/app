@@ -12,16 +12,16 @@ struct MovieDetails: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            detailsOverview
+            header
+                .padding(.bottom)
+
+            details
                 .padding(.bottom)
 
             if hasDescription {
                 description
                     .padding(.bottom)
             }
-
-            detailsGrid
-                .padding(.bottom)
 
             if smallScreen {
                 actions
@@ -57,24 +57,24 @@ struct MovieDetails: View {
         }
     }
 
-    var detailsGrid: some View {
+    var details: some View {
         Grid(alignment: .leading) {
+            detailsRow("Status", value: "\(movie.status.label)")
+
             if let studio = movie.studio, !studio.isEmpty {
-                detailsRow(String(localized: "Studio"), value: studio)
+                detailsRow("Studio", value: studio)
             }
 
             if !movie.genres.isEmpty {
-                detailsRow(String(localized: "Genre"), value: movie.genreLabel)
+                detailsRow("Genre", value: movie.genreLabel)
             }
 
-            detailsRow(String(localized: "Status"), value: movie.status.label)
-
             if movie.isDownloaded {
-                detailsRow(String(localized: "Video"), value: videoQuality)
-                detailsRow(String(localized: "Audio"), value: audioQuality)
+                detailsRow("Video", value: videoQuality)
+                detailsRow("Audio", value: audioQuality)
 
                 if let languages = subtitles {
-                    detailsRow(String(localized: "Subtitles"), value: languages)
+                    detailsRow("Subtitles", value: languages)
                 }
             }
         }
@@ -104,7 +104,7 @@ struct MovieDetails: View {
                     dependencies.toast.show(.searchQueued)
                 }
             } label: {
-                ButtonLabel(text: String(localized: "Automatic"), icon: "magnifyingglass")
+                ButtonLabel(text: "Automatic", icon: "magnifyingglass")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
@@ -112,7 +112,7 @@ struct MovieDetails: View {
             .allowsHitTesting(!instance.movies.isWorking)
 
             NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
-                ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
+                ButtonLabel(text: "Interactive", icon: "person.fill")
                     .frame(maxWidth: .infinity)
             })
             .buttonStyle(.bordered)
@@ -125,7 +125,7 @@ struct MovieDetails: View {
             Menu {
                 MovieContextMenu(movie: movie)
             } label: {
-                ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.right.square")
+                ButtonLabel(text: "Open In...", icon: "arrow.up.right.square")
                     .modifier(MoviePreviewActionModifier())
             }
             .buttonStyle(.bordered)
@@ -135,9 +135,7 @@ struct MovieDetails: View {
                 Button {
                     UIApplication.shared.open(URL(string: trailerUrl)!)
                 } label: {
-                    let label = smallScreen
-                        ? String(localized: "Trailer")
-                        : String(localized: "Watch Trailer")
+                    let label: LocalizedStringKey = smallScreen ? "Trailer" : "Watch Trailer"
 
                     ButtonLabel(text: label, icon: "play.fill")
                         .modifier(MoviePreviewActionModifier())
@@ -234,7 +232,7 @@ struct MovieDetails: View {
         )?.name ?? String(localized: "Unknown")
     }
 
-    func detailsRow(_ label: String, value: String) -> some View {
+    func detailsRow(_ label: LocalizedStringKey, value: String) -> some View {
         GridRow(alignment: .top) {
             Text(label)
                 .textCase(.uppercase)

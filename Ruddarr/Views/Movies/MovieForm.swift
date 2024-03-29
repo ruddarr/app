@@ -70,7 +70,7 @@ struct MovieForm: View {
     }
 
     var rootFolderField: some View {
-        Section(smallScreen ? "Root Folder" : "Paths") {
+        Section {
             Picker(selection: $movie.rootFolderPath) {
                 ForEach(instance.rootFolders) { folder in
                     HStack {
@@ -85,6 +85,8 @@ struct MovieForm: View {
                 smallScreen ? Text(verbatim: "") : Text("Root Folder")
             }
             .pickerStyle(.navigationLink)
+        } header: {
+            smallScreen ? Text("Root Folder") : Text("Paths")
         }
     }
 

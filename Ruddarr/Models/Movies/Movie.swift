@@ -87,20 +87,20 @@ struct Movie: Identifiable, Codable {
         guid != nil
     }
 
-    var stateLabel: String {
+    var stateLabel: LocalizedStringKey {
         if isDownloaded {
-            return String(localized: "Downloaded")
+            return "Downloaded"
         }
 
         if isWaiting {
-            return String(localized: "Waiting")
+            return "Waiting"
         }
 
         if monitored && isAvailable {
-            return String(localized: "Missing")
+            return "Missing"
         }
 
-        return String(localized: "Unwanted")
+        return "Unwanted"
     }
 
     var runtimeLabel: String? {
@@ -126,19 +126,19 @@ struct Movie: Identifiable, Codable {
         return rating
     }
 
-    func releaseType(for date: Date) -> String? {
+    func releaseType(for date: Date) -> LocalizedStringKey? {
         let calendar: Calendar = Calendar.current
 
         if let inCinemas = inCinemas, calendar.isDate(date, inSameDayAs: inCinemas) {
-            return String(localized: "In Cinemas") // popcorn
+            return "In Cinemas" // popcorn
         }
 
         if let digital = digitalRelease, calendar.isDate(date, inSameDayAs: digital) {
-            return String(localized: "Digital Release") // arrow.down.doc
+            return "Digital Release" // arrow.down.doc
         }
 
         if let physical = physicalRelease, calendar.isDate(date, inSameDayAs: physical) {
-            return String(localized: "Physical Release") // opticaldisc
+            return "Physical Release" // opticaldisc
         }
 
         return nil

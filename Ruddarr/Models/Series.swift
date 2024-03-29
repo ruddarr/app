@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 struct Series: Identifiable, Codable {
     let id: Int
@@ -52,12 +52,12 @@ enum SeriesStatus: String, Codable {
     case upcoming
     case deleted
 
-    var label: String {
+    var label: LocalizedStringKey {
         switch self {
-        case .continuing: String(localized: "Continuing")
-        case .ended: String(localized: "Ended")
-        case .upcoming: String(localized: "Upcoming")
-        case .deleted: String(localized: "Deleted")
+        case .continuing: "Continuing"
+        case .ended: "Ended"
+        case .upcoming: "Upcoming"
+        case .deleted: "Deleted"
         }
     }
 }
@@ -67,11 +67,11 @@ enum SeriesType: String, Codable {
     case daily
     case anime
 
-    var label: String {
+    var label: LocalizedStringKey {
         switch self {
-        case .standard: String(localized: "Standard")
-        case .daily: String(localized: "Daily")
-        case .anime: String(localized: "Anime")
+        case .standard: "Standard"
+        case .daily: "Daily"
+        case .anime: "Anime"
         }
     }
 }

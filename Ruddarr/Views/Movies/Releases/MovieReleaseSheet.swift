@@ -128,9 +128,7 @@ struct MovieReleaseSheet: View {
         HStack(spacing: 24) {
             if let url = release.infoUrl {
                 Link(destination: URL(string: url)!, label: {
-                    let label = smallScreen
-                        ? String(localized: "Visit")
-                        : String(localized: "Visit Website")
+                    let label: LocalizedStringKey = smallScreen ? "Visit" : "Visit Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .frame(maxWidth: .infinity)
@@ -142,9 +140,7 @@ struct MovieReleaseSheet: View {
             Button {
                 Task { await downloadRelease() }
             } label: {
-                let label = smallScreen
-                    ? String(localized: "Download")
-                    : String(localized: "Download Release")
+                let label: LocalizedStringKey = smallScreen ? "Download" : "Download Release"
 
                 ButtonLabel(
                     text: label,
@@ -168,15 +164,15 @@ struct MovieReleaseSheet: View {
         ) {
             VStack(spacing: 12) {
                 if let languages = release.languagesLabel {
-                    row(String(localized: "Language"), value: languages)
+                    row("Language", value: languages)
                     Divider()
                 }
 
-                row(String(localized: "Indexer"), value: release.indexerLabel)
+                row("Indexer", value: release.indexerLabel)
 
                 if release.isTorrent {
                     Divider()
-                    row(String(localized: "Peers"), value: String(
+                    row("Peers", value: String(
                         format: "S: %i  L: %i",
                         release.seeders ?? 0,
                         release.leechers ?? 0
@@ -219,7 +215,7 @@ struct MovieReleaseSheet: View {
         return tags
     }
 
-    func row(_ label: String, value: String) -> some View {
+    func row(_ label: LocalizedStringKey, value: String) -> some View {
         LabeledContent {
             Text(value).foregroundStyle(.primary)
         } label: {

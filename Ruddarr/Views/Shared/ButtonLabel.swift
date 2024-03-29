@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ButtonLabel: View {
-    var text: String
+    var text: LocalizedStringKey
     var icon: String
 
     var isLoading: Bool = false

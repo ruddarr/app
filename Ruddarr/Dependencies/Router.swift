@@ -27,12 +27,12 @@ enum Tab: Hashable, CaseIterable, Identifiable {
     case calendar
     case settings
 
-    var text: String {
+    var text: LocalizedStringKey {
         switch self {
-        case .movies: String(localized: "Movies")
-        case .series: String(localized: "Series")
-        case .calendar: String(localized: "Calendar")
-        case .settings: String(localized: "Settings")
+        case .movies: "Movies"
+        case .series: "Series"
+        case .calendar: "Calendar"
+        case .settings: "Settings"
         }
     }
 

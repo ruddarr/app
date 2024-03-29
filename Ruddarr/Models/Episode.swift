@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 struct Episode: Identifiable, Codable {
     let id: Int
@@ -37,14 +37,12 @@ struct Episode: Identifiable, Codable {
         String(format: "%02dx%02d", seasonNumber, episodeNumber)
     }
 
-    var premiereLabel: String {
-        seasonNumber == 1
-            ? String(localized: "Series Premiere")
-            : String(localized: "Season Premiere")
+    var premiereLabel: LocalizedStringKey {
+        seasonNumber == 1 ? "Series Premiere" : "Season Premiere"
     }
 
-    var specialLabel: String {
-        String(localized: "Special")
+    var specialLabel: LocalizedStringKey {
+        "Special"
     }
 
     var isSpecial: Bool {
@@ -62,6 +60,7 @@ struct Episode: Identifiable, Codable {
         guard let date = airDateUtc else {
             return false
         }
+
         return date > Date.now
     }
 }
@@ -71,11 +70,11 @@ enum EpisodeFinale: String, Codable {
     case season
     case midseason
 
-    var label: String {
+    var label: LocalizedStringKey {
         switch self {
-        case .series: String(localized: "Series Finale")
-        case .season: String(localized: "Season Finale")
-        case .midseason: String(localized: "Midseason Finale")
+        case .series: "Series Finale"
+        case .season: "Season Finale"
+        case .midseason: "Midseason Finale"
         }
     }
 }

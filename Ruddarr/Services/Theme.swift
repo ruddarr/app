@@ -17,17 +17,17 @@ enum Theme: String, Identifiable, CaseIterable {
 
     var id: Self { self }
 
-    var label: String {
+    var label: LocalizedStringKey {
         switch self {
-        case .blue: String(localized: "Mail")
-        case .purple: String(localized: "Podcasts")
-        case .green: String(localized: "Fitness")
-        case .red: String(localized: "Music")
-        case .orange: String(localized: "Watch")
-        case .yellow: String(localized: "Notes")
-        case .mono: String(localized: "Books")
-        case .barbie: String(localized: "Barbie")
-        case .brown: String(localized: "Prologue")
+        case .blue: "Mail"
+        case .purple: "Podcasts"
+        case .green: "Fitness"
+        case .red: "Music"
+        case .orange: "Watch"
+        case .yellow: "Notes"
+        case .mono: "Books"
+        case .barbie: "Barbie"
+        case .brown: "Prologue"
         }
     }
 
@@ -35,13 +35,13 @@ enum Theme: String, Identifiable, CaseIterable {
         switch self {
         case .blue: Color.blue
         case .purple: Color.purple
-        case .green: Color("Fitness")
+        case .green: Color(.fitness)
         case .brown: Color.brown
         case .red: Color.red
         case .orange: Color.orange
         case .yellow: Color.yellow
-        case .mono: Color("Monochrome")
-        case .barbie: Color("Barbie")
+        case .mono: Color(.monochrome)
+        case .barbie: Color(.barbie)
         }
     }
 
@@ -60,11 +60,11 @@ enum Appearance: String, Identifiable, CaseIterable {
 
     var id: Self { self }
 
-    var label: String {
+    var label: LocalizedStringKey {
         switch self {
-        case .automatic: String(localized: "Automatic")
-        case .light:  String(localized: "Light")
-        case .dark:  String(localized: "Dark")
+        case .automatic: "Automatic"
+        case .light: "Light"
+        case .dark: "Dark"
         }
     }
 
@@ -108,7 +108,7 @@ enum AppIcon: String, Identifiable, CaseIterable {
 }
 
 struct AppIconData {
-    var label: String
+    var label: LocalizedStringKey
     var asset: String
     var locked: Bool
 
@@ -127,35 +127,35 @@ struct AppIconData {
     }
 
     static var factory: Self {
-        .init(label: String(localized: "Default"), asset: "AppIcon", locked: false)
+        .init(label: "Default", asset: "AppIcon", locked: false)
     }
 
     static var podcasts: Self {
-        .init(label: String(localized: "Podcasts"), asset: "AppIconPodcasts", locked: false)
+        .init(label: "Podcasts", asset: "AppIconPodcasts", locked: false)
     }
 
     static var music: Self {
-        .init(label: String(localized: "Music"), asset: "AppIconMusic", locked: false)
+        .init(label: "Music", asset: "AppIconMusic", locked: false)
     }
 
     static var books: Self {
-        .init(label: String(localized: "Books"), asset: "AppIconBooks", locked: false)
+        .init(label: "Books", asset: "AppIconBooks", locked: false)
     }
 
     static var mono: Self {
-        .init(label: String(localized: "Monochrome"), asset: "AppIconMono", locked: true)
+        .init(label: "Monochrome", asset: "AppIconMono", locked: true)
     }
 
     static var barbie: Self {
-        .init(label: String(localized: "Barbie"), asset: "AppIconBarbie", locked: true)
+        .init(label: "Barbie", asset: "AppIconBarbie", locked: true)
     }
 
     static var plex: Self {
-        .init(label: String(localized: "Plex"), asset: "AppIconPlex", locked: true)
+        .init(label: "Plex", asset: "AppIconPlex", locked: true)
     }
 
     static var telegram: Self {
-        .init(label: String(localized: "Telegram"), asset: "AppIconTelegram", locked: true)
+        .init(label: "Telegram", asset: "AppIconTelegram", locked: true)
     }
 
     static var warp: Self {

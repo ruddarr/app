@@ -24,11 +24,11 @@ class MovieLookup {
         case byYear
         case byPopularity
 
-        var label: String {
+        var label: LocalizedStringKey {
             switch self {
-            case .byRelevance: String(localized: "Relevant")
-            case .byYear: String(localized: "Latest")
-            case .byPopularity: String(localized: "Popular")
+            case .byRelevance: "Relevant"
+            case .byYear: "Latest"
+            case .byPopularity: "Popular"
             }
         }
     }
