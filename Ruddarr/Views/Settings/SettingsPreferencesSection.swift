@@ -47,7 +47,7 @@ struct SettingsPreferencesSection: View {
                 }
 
                 Image(systemName: icon)
-                    .foregroundStyle(Color("Monochrome"))
+                    .foregroundStyle(Color(.monochrome))
             }
         }.tint(.secondary)
     }
