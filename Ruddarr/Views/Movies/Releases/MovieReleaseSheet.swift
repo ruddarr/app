@@ -186,7 +186,7 @@ struct MovieReleaseSheet: View {
     func flags() -> [String] {
         var flags: [String] = []
 
-        if release.hasCustomFormats {
+        if release.customFormatScore != 0 {
             flags.append(release.customFormatScoreLabel)
         }
 
