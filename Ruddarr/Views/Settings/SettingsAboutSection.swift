@@ -6,7 +6,8 @@ import Foundation
 struct SettingsAboutSection: View {
     private let shareUrl = URL(string: "https://testflight.apple.com/join/WbWNuoos")!
     private let githubUrl = URL(string: "https://github.com/ruddarr/app")!
-    private let reviewUrl = URL(string: "itms-apps://itunes.apple.com/app/????????")!
+    private let discordUrl = URL(string: "https://discord.gg/UksvtDQUBA")!
+    private let reviewUrl = URL(string: "itms-apps://itunes.apple.com/app/id6476240130")!
 
     var body: some View {
         // TODO: re-enable some menu items
@@ -14,6 +15,7 @@ struct SettingsAboutSection: View {
             share
             review
             support
+            discord
             // contribute
             // invite
             libraries
@@ -42,6 +44,17 @@ struct SettingsAboutSection: View {
         }
     }
 
+    var discord: some View {
+        Link(destination: discordUrl) {
+            Label {
+                Text("Join Discord").tint(.primary)
+            } icon: {
+                Image(systemName: "text.bubble")
+                    .foregroundStyle(.purple)
+            }
+        }
+    }
+
     var support: some View {
         Button {
             Task { await openSupportEmail() }
@@ -60,7 +73,7 @@ struct SettingsAboutSection: View {
             Label {
                 Text("Contribute on GitHub").tint(.primary)
             } icon: {
-                Image(systemName: "curlybraces.square").foregroundStyle(.purple)
+                Image(systemName: "curlybraces.square").foregroundStyle(.teal)
             }
         })
     }
