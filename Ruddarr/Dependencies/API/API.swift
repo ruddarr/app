@@ -5,9 +5,13 @@ struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
     var lookupReleases: (Movie.ID, Instance) async throws -> [MovieRelease]
+
     var downloadRelease: (String, Int, Instance) async throws -> Empty
 
     var getMovie: (Movie.ID, Instance) async throws -> Movie
+    var getMovieHistory: (Movie.ID, Instance) async throws -> [MovieHistoryEvent]
+    var getMovieFiles: (Movie.ID, Instance) async throws -> [MovieFile]
+    var getMovieExtraFiles: (Movie.ID, Instance) async throws -> [MovieExtraFile]
     var addMovie: (Movie, Instance) async throws -> Movie
     var updateMovie: (Movie, Bool, Instance) async throws -> Empty
     var deleteMovie: (Movie, Instance) async throws -> Empty
@@ -58,6 +62,24 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
                 .appending(path: String(movieId))
+
+            return try await request(url: url, headers: instance.auth)
+        }, getMovieHistory: { movieId, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/history/movie")
+                .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
+
+            return try await request(url: url, headers: instance.auth)
+        }, getMovieFiles: { movieId, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/moviefile")
+                .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
+
+            return try await request(url: url, headers: instance.auth)
+        }, getMovieExtraFiles: { movieId, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/extrafile")
+                .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
             return try await request(url: url, headers: instance.auth)
         }, addMovie: { movie, instance in

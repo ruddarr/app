@@ -48,6 +48,8 @@ class Languages {
         "ind": String(localized: "Indonesian"),
         "tel": String(localized: "Telugu"),
         "msa": String(localized: "Malay"),
+
+        "und": String(localized: "Undetermined"),
     ]
 
     static let iso639: [String: String] = [

@@ -82,7 +82,7 @@ struct MovieRelease: Identifiable, Codable {
     let ageMinutes: Float
     let rejected: Bool
 
-    let customFormats: [MovieReleaseCustomFormat]?
+    let customFormats: [MovieCustomFormat]?
     let customFormatScore: Int
 
     let indexerId: Int
@@ -92,7 +92,7 @@ struct MovieRelease: Identifiable, Codable {
     let leechers: Int?
 
     let quality: MovieReleaseQuality
-    let languages: [MovieReleaseLanguage]
+    let languages: [MovieLanguage]
     let rejections: [String]
 
     let qualityWeight: Int
@@ -160,10 +160,6 @@ struct MovieRelease: Identifiable, Codable {
         return !(indexerFlags.count == 1 && isFreeleech)
     }
 
-    var cleanTitle: String {
-        title.replacingOccurrences(of: ".", with: " ")
-    }
-
     var cleanIndexerFlags: [String] {
         indexerFlags.map {
             $0.hasPrefix("G_") ? String($0.dropFirst(2)) : $0
@@ -187,16 +183,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var languageLabel: String {
-        if languages.isEmpty {
-            return String(localized: "Unknown")
-        }
-
-        if languages.count == 1 {
-            return languages[0].label
-
-        }
-
-        return String(localized: "Multilingual")
+        languageSingleLabel(languages)
     }
 
     var languagesLabel: String? {
@@ -273,30 +260,8 @@ struct MovieRelease: Identifiable, Codable {
         }
     }
 
-    var customFormatScoreLabel: String {
-        String(
-            format: "%@%d",
-            customFormatScore < 0 ? "-" : "+",
-            customFormatScore
-        )
-    }
-}
-
-struct MovieReleaseLanguage: Codable {
-    let id: Int
-    let name: String?
-
-    var label: String {
-        name ?? String(localized: "Unknown")
-    }
-}
-
-struct MovieReleaseCustomFormat: Identifiable, Codable {
-    let id: Int
-    let name: String?
-
-    var label: String {
-        name ?? String(localized: "Unknown")
+    var scoreLabel: String {
+        formatCustomScore(customFormatScore)
     }
 }
 

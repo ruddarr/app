@@ -1,0 +1,60 @@
+[
+    {
+        "movieId": 295,
+        "relativePath": "The Martian 2015 10bit dts hevc-d3g (4k).mkv",
+        "path": "/volume2/Media/Movies/The Martian (2015)/The Martian 2015 10bit dts hevc-d3g (4k).mkv",
+        "size": 9270651722,
+        "dateAdded": "2024-03-31T16:35:23Z",
+        "sceneName": "The Martian 2015 10bit dts hevc-d3g (4k)",
+        "indexerFlags": 1,
+        "quality": {
+            "quality": {
+                "id": 7,
+                "name": "Bluray-1080p",
+                "source": "bluray",
+                "resolution": 1080,
+                "modifier": "none"
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [
+            {
+                "id": 3,
+                "name": "H.265"
+            }
+        ],
+        "customFormatScore": 0,
+        "mediaInfo": {
+            "audioBitrate": 0,
+            "audioChannels": 7.1,
+            "audioCodec": "DTS-HD MA",
+            "audioLanguages": "eng",
+            "audioStreamCount": 1,
+            "videoBitDepth": 10,
+            "videoBitrate": 0,
+            "videoCodec": "HEVC",
+            "videoFps": 23.976,
+            "videoDynamicRange": "",
+            "videoDynamicRangeType": "",
+            "resolution": "1920x800",
+            "runTime": "2:21:37",
+            "scanType": "Progressive",
+            "subtitles": "eng/spa/fre"
+        },
+        "originalFilePath": "The Martian 2015 10bit dts hevc-d3g (4k)/The Martian 2015 BluRay 10Bit 1080p Dts-HD Ma7.1 H265-d3g.mkv",
+        "qualityCutoffNotMet": false,
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "releaseGroup": "d3g",
+        "edition": "",
+        "id": 259
+    }
+]

@@ -14,7 +14,7 @@ extension API {
                 $0.title.localizedCaseInsensitiveContains(query)
             }
         }, lookupReleases: { _, _ in
-            try await Task.sleep(nanoseconds: 1_500_000_000)
+            try await Task.sleep(nanoseconds: 500_000_000)
 
             return loadPreviewData(filename: "movie-releases")
         }, downloadRelease: { _, _, _ in
@@ -26,6 +26,21 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return movies.first(where: { $0.guid == movieId })!
+        }, getMovieHistory: { _, _ in
+            let events: [MovieHistoryEvent] = loadPreviewData(filename: "movie-history")
+            // try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return events
+        }, getMovieFiles: { _, _ in
+            let files: [MovieFile] = loadPreviewData(filename: "movie-files")
+            // try await Task.sleep(nanoseconds: 500_000_000)
+
+            return files
+        }, getMovieExtraFiles: { _, _ in
+            let files: [MovieExtraFile] = loadPreviewData(filename: "movie-extra-files")
+            // try await Task.sleep(nanoseconds: 500_000_000)
+
+            return files
         }, addMovie: { _, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
             try await Task.sleep(nanoseconds: 2_000_000_000)

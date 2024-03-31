@@ -9,6 +9,7 @@ import Foundation
     var movies: Movies
     var lookup: MovieLookup
     var releases: MovieReleases
+    var metadata: MovieMetadata
 
     init(_ instance: Instance = .void) {
         if instance.type != .radarr {
@@ -21,6 +22,7 @@ import Foundation
         self.movies = Movies(instance)
         self.lookup = MovieLookup(instance)
         self.releases = MovieReleases(instance)
+        self.metadata = MovieMetadata(instance)
     }
 
     var id: UUID {

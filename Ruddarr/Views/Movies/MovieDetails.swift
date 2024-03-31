@@ -162,12 +162,8 @@ struct MovieDetails: View {
             }
         }
 
-        if let videoCodec = movie.movieFile?.mediaInfo?.videoCodec {
-            codec = videoCodec
-            codec = codec.replacingOccurrences(of: "x264", with: "H264")
-            codec = codec.replacingOccurrences(of: "h264", with: "H264")
-            codec = codec.replacingOccurrences(of: "h265", with: "HEVC")
-            codec = codec.replacingOccurrences(of: "x265", with: "HEVC")
+        if let videoCodecLabel = movie.movieFile?.mediaInfo?.videoCodecLabel {
+            codec = videoCodecLabel
         }
 
         if label.isEmpty {
@@ -191,7 +187,7 @@ struct MovieDetails: View {
             codec = audioCodec
 
             if let channels = movie.movieFile?.mediaInfo?.audioChannels {
-                codec += " " + String(channels)
+                codec += " \(channels)"
             }
         }
 
@@ -209,21 +205,19 @@ struct MovieDetails: View {
             return nil
         }
 
-        if codes.count > 6 {
-            var someCodes = Array(codes.prefix(4)).map {
+        if codes.count > 1 {
+            var someCodes = Array(codes.prefix(2)).map {
                 $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
             }
 
             someCodes.append(
-                String(format: String(localized: "+%d more..."), codes.count - 4)
+                String(format: String(localized: "+%d more..."), codes.count - 2)
             )
 
             return someCodes.formatted(.list(type: .and, width: .narrow))
         }
 
-        return codes.map {
-            $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
-        }.formatted(.list(type: .and, width: .narrow))
+        return languagesList(codes)
     }
 
     var qualityProfile: String {

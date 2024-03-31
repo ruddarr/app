@@ -12,30 +12,37 @@ struct MovieReleaseSheet: View {
     let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                header
-                    .padding(.bottom)
+        ZStack(alignment: .topTrailing) {
+            CloseButton {
+                dismiss()
+            }
 
-                if !release.rejections.isEmpty {
-                    rejectionReasons
+            ScrollView {
+                VStack(alignment: .leading) {
+                    header
+                        .padding(.bottom)
+                        .padding(.trailing, 25)
+
+                    if !release.rejections.isEmpty {
+                        rejectionReasons
+                            .padding(.bottom)
+                    }
+
+                    actions
+                        .padding(.bottom)
+
+                    details
                         .padding(.bottom)
                 }
-
-                actions
-                    .padding(.bottom)
-
-                details
-                    .padding(.bottom)
+                .padding(.top)
+                .viewPadding(.horizontal)
             }
-            .padding(.top)
-            .viewPadding(.horizontal)
-        }
-        .alert(
-            isPresented: instance.movies.errorBinding,
-            error: instance.movies.error
-        ) { _ in } message: { error in
-            Text(error.recoverySuggestionFallback)
+            .alert(
+                isPresented: instance.movies.errorBinding,
+                error: instance.movies.error
+            ) { _ in } message: { error in
+                Text(error.recoverySuggestionFallback)
+            }
         }
     }
 
@@ -53,7 +60,7 @@ struct MovieReleaseSheet: View {
                 .foregroundStyle(settings.theme.tint)
             }
 
-            Text(release.cleanTitle)
+            Text(release.title)
                 .font(.title2)
                 .fontWeight(.bold)
                 .kerning(-0.5)
@@ -68,27 +75,7 @@ struct MovieReleaseSheet: View {
             .font(.subheadline)
             .foregroundStyle(.secondary)
 
-            if !tags().isEmpty {
-                OverflowLayout(spacing: 6) {
-                    customFormats
-                }
-            }
-        }
-    }
-
-    @ViewBuilder
-    var customFormats: some View {
-        ForEach(tags(), id: \.self) { tag in
-            Text(tag)
-                .font(.caption2)
-                .fontWeight(.semibold)
-                .foregroundStyle(colorScheme == .dark ? Color(UIColor.lightText) : .secondary)
-                .padding(.vertical, 4)
-                .padding(.horizontal, 8)
-                .background(
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(.secondarySystemBackground)
-                )
+            CustomFormats(tags())
         }
     }
 
@@ -187,7 +174,7 @@ struct MovieReleaseSheet: View {
         var flags: [String] = []
 
         if release.customFormatScore != 0 {
-            flags.append(release.customFormatScoreLabel)
+            flags.append(release.scoreLabel)
         }
 
         if !release.indexerFlags.isEmpty {

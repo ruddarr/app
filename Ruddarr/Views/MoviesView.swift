@@ -21,6 +21,7 @@ struct MoviesView: View {
         case movie(Movie.ID)
         case edit(Movie.ID)
         case releases(Movie.ID)
+        case metadata(Movie.ID)
     }
 
     var body: some View {
@@ -71,6 +72,11 @@ struct MoviesView: View {
                 case .releases(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieReleasesView(movie: movie)
+                            .environment(instance).environmentObject(settings)
+                    }
+                case .metadata(let id):
+                    if let movie = instance.movies.byId(id).unwrapped {
+                        MovieMetadataView(movie: movie)
                             .environment(instance).environmentObject(settings)
                     }
                 }

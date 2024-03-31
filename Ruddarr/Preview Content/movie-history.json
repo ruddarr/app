@@ -1,0 +1,238 @@
+[
+    {
+        "movieId": 295,
+        "sourceTitle": "The Martian 2015 10bit dts hevc-d3g (4k)",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 7,
+                "name": "Bluray-1080p",
+                "source": "bluray",
+                "resolution": 1080,
+                "modifier": "none"
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [
+            {
+                "id": 3,
+                "name": "H.265"
+            }
+        ],
+        "customFormatScore": 0,
+        "qualityCutoffNotMet": false,
+        "date": "2024-03-31T16:35:25Z",
+        "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1379",
+        "eventType": "downloadFolderImported",
+        "data": {
+            "fileId": "259",
+            "droppedPath": "/volume2/Media/#downloads/The Martian 2015 10bit dts hevc-d3g (4k)/The Martian 2015 BluRay 10Bit 1080p Dts-HD Ma7.1 H265-d3g.mkv",
+            "importedPath": "/volume2/Media/Movies/The Martian (2015)/The Martian 2015 10bit dts hevc-d3g (4k).mkv",
+            "downloadClient": "Download Station",
+            "downloadClientName": "Download Station",
+            "releaseGroup": "d3g",
+            "customFormatScore": "0",
+            "size": "9270651722",
+            "indexerFlags": "G_Freeleech"
+        },
+        "id": 232
+    },
+    {
+        "movieId": 295,
+        "sourceTitle": "/volume2/Media/Movies/The Martian (2015)/The.Martian.2015.720p.BluRay.H264.AAC.mp4",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 6,
+                "name": "Bluray-720p",
+                "source": "bluray",
+                "resolution": 720,
+                "modifier": "none"
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [],
+        "customFormatScore": 0,
+        "qualityCutoffNotMet": true,
+        "date": "2024-03-31T16:35:24Z",
+        "eventType": "movieFileDeleted",
+        "data": {
+            "reason": "Upgrade",
+            "releaseGroup": null,
+            "size": "1105429424",
+            "indexerFlags": "0"
+        },
+        "id": 231
+    },
+    {
+        "movieId": 295,
+        "sourceTitle": "The Martian 2015 BluRay 10Bit 1080p Dts-HD Ma7 1 H265-d3g",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 7,
+                "name": "Bluray-1080p",
+                "source": "bluray",
+                "resolution": 1080,
+                "modifier": "none"
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [
+            {
+                "id": 3,
+                "name": "H.265"
+            }
+        ],
+        "customFormatScore": 0,
+        "qualityCutoffNotMet": false,
+        "date": "2024-03-31T16:27:48Z",
+        "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1379",
+        "eventType": "grabbed",
+        "data": {
+            "indexer": "IPTorrents (Prowlarr)",
+            "nzbInfoUrl": "https://iptorrents.com/t/2458963",
+            "releaseGroup": "d3g",
+            "age": "2409",
+            "ageHours": "57816.039170697055",
+            "ageMinutes": "3468962.350241885",
+            "publishedDate": "2017-08-26T16:25:27Z",
+            "downloadClient": "Download Station",
+            "downloadClientName": "Download Station",
+            "size": "9266392064",
+            "downloadUrl": "http://localhost:9696/6/download?apikey=7f6159d4c8954cfe8cd3eee9134d3313&link=cVBZblZnU2JlQ2RwekFIa3JUeUJ5NW9TdDVXb3FTLzNpR2g3THlqK1NQcWVxcXdoOHhWYis1YmJBRDBMQjlxdXFUUFJVR3c2RGpPUHlOS2RKdGhHaXNzbkJPcWVOa0NFOTUyZ3NFMEU5U01YcS83dW9LUlk1bG4vTHFxdGxmczRvN1JMWFVEWllzaHZ1ck1qaUpHUXNrVEpJYWtyN3Mvcm0xVWlzdjRJYXNNPQ&file=The+Martian+2015+BluRay+10Bit+1080p+Dts-HD+Ma7+1+H265-d3g",
+            "guid": "https://iptorrents.com/t/2458963",
+            "tmdbId": "0",
+            "protocol": "2",
+            "customFormatScore": "0",
+            "movieMatchType": "Title",
+            "releaseSource": "InteractiveSearch",
+            "indexerFlags": "G_Freeleech",
+            "indexerId": "6",
+            "torrentInfoHash": "7FCD0190AB00FDACE9B29B041BD29F9069418688"
+        },
+        "id": 230
+    },
+    {
+        "movieId": 295,
+        "sourceTitle": "The.Martian.2015.720p.BluRay.H264.AAC",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 6,
+                "name": "Bluray-720p",
+                "source": "bluray",
+                "resolution": 720,
+                "modifier": "none"
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [],
+        "customFormatScore": 0,
+        "qualityCutoffNotMet": true,
+        "date": "2024-03-31T16:16:21Z",
+        "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1378",
+        "eventType": "downloadFolderImported",
+        "data": {
+            "fileId": "258",
+            "droppedPath": "/volume2/Media/#downloads/The.Martian.2015.720p.BluRay.H264.AAC.mp4",
+            "importedPath": "/volume2/Media/Movies/The Martian (2015)/The.Martian.2015.720p.BluRay.H264.AAC.mp4",
+            "downloadClient": "Download Station",
+            "downloadClientName": "Download Station",
+            "releaseGroup": null,
+            "customFormatScore": "0",
+            "size": "1105429424",
+            "indexerFlags": "0"
+        },
+        "id": 229
+    },
+    {
+        "movieId": 295,
+        "sourceTitle": "The Martian 2015 720p BluRay H264 AAC mp4",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 6,
+                "name": "Bluray-720p",
+                "source": "bluray",
+                "resolution": 720,
+                "modifier": "none"
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [],
+        "customFormatScore": 0,
+        "qualityCutoffNotMet": true,
+        "date": "2024-03-31T16:13:41Z",
+        "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1378",
+        "eventType": "grabbed",
+        "data": {
+            "indexer": "IPTorrents (Prowlarr)",
+            "nzbInfoUrl": "https://iptorrents.com/t/1948476",
+            "releaseGroup": null,
+            "age": "2774",
+            "ageHours": "66576.00897407356",
+            "ageMinutes": "3994560.538444482",
+            "publishedDate": "2016-08-26T16:13:09Z",
+            "downloadClient": "Download Station",
+            "downloadClientName": "Download Station",
+            "size": "1095216640",
+            "downloadUrl": "http://localhost:9696/6/download?apikey=7f6159d4c8954cfe8cd3eee9134d3313&link=dWtTbGdqR2UzUXJ1cEJaL0RzMzgzWDRTNk1xVG9ieTRuK3VaWG9pS0NsMU1teGNNRlVQc1A1R0oxTVF2RC9INmxTZWpxNWY0UDluRTYvTFBzaHpqZTNlZ083WDV4Q0FDTkpnd1Ryd3JVc0Z2QTF4ZXA5WEJMb1AzN29Eck1MbFlQM2FyRlhKLy93ZHY2Z2pHSUVNOVJ3PT0&file=The+Martian+2015+720p+BluRay+H264+AAC+mp4",
+            "guid": "https://iptorrents.com/t/1948476",
+            "tmdbId": "0",
+            "protocol": "2",
+            "customFormatScore": "0",
+            "movieMatchType": "Title",
+            "releaseSource": "InteractiveSearch",
+            "indexerFlags": "0",
+            "indexerId": "6",
+            "torrentInfoHash": "FD322D4B0EB95952A569B86AC148513BB9C2090C"
+        },
+        "id": 228
+    }
+]

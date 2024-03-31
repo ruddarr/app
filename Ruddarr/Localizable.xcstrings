@@ -251,6 +251,16 @@
         }
       }
     },
+    "An Error Occurred" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An Error Occurred"
+          }
+        }
+      }
+    },
     "An unexpected error occurred." : {
       "localizations" : {
         "en" : {
@@ -781,6 +791,16 @@
         }
       }
     },
+    "Custom Formats" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom Formats"
+          }
+        }
+      }
+    },
     "Custom Headers and Basic Authentication are an advanced feature, only needed to access instances protected by zero trust services." : {
       "localizations" : {
         "en" : {
@@ -951,14 +971,36 @@
         }
       }
     },
+    "download client" : {
+      "comment" : "Fallback for download client name within mid-sentence",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "download client"
+          }
+        }
+      }
+    },
     "Download Failed" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Failed"
+          }
+        }
+      }
     },
     "Download Ignored" : {
-
-    },
-    "Download Imported" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Ignored"
+          }
+        }
+      }
     },
     "Download Queued" : {
       "localizations" : {
@@ -1130,8 +1172,15 @@
         }
       }
     },
-    "File Renamed" : {
-
+    "Failed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed"
+          }
+        }
+      }
     },
     "File Size" : {
       "localizations" : {
@@ -1143,12 +1192,52 @@
         }
       }
     },
+    "File was deleted manually." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File was deleted manually."
+          }
+        }
+      }
+    },
+    "File was deleted to import an upgrade." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File was deleted to import an upgrade."
+          }
+        }
+      }
+    },
+    "File was not found on disk so it was unlinked from the movie in the database." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File was not found on disk so it was unlinked from the movie in the database."
+          }
+        }
+      }
+    },
     "Files" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Files"
+          }
+        }
+      }
+    },
+    "Files & History" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Files & History"
           }
         }
       }
@@ -1193,8 +1282,25 @@
         }
       }
     },
+    "Flags" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flags"
+          }
+        }
+      }
+    },
     "Folder Imported" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folder Imported"
+          }
+        }
+      }
     },
     "Frame Rate" : {
       "localizations" : {
@@ -1247,7 +1353,14 @@
       }
     },
     "Grabbed" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grabbed"
+          }
+        }
+      }
     },
     "Greek" : {
       "localizations" : {
@@ -1359,12 +1472,43 @@
         }
       }
     },
+    "Ignored" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignored"
+          }
+        }
+      }
+    },
+    "Imported" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imported"
+          }
+        }
+      }
+    },
     "In Cinemas" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "In Cinemas"
+          }
+        }
+      }
+    },
+    "indexer" : {
+      "comment" : "Fallback for indexer name within mid-sentence",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "indexer"
           }
         }
       }
@@ -1629,6 +1773,16 @@
         }
       }
     },
+    "Match Type" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Match Type"
+          }
+        }
+      }
+    },
     "Media Type" : {
       "localizations" : {
         "en" : {
@@ -1769,6 +1923,16 @@
         }
       }
     },
+    "Movie downloaded successfully and imported from %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie downloaded successfully and imported from %@."
+          }
+        }
+      }
+    },
     "Movie Downloading" : {
       "localizations" : {
         "en" : {
@@ -1779,11 +1943,75 @@
         }
       }
     },
-    "Movie has no files." : {
-
+    "Movie file was renamed." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie file was renamed."
+          }
+        }
+      }
     },
-    "Movie has no history." : {
-
+    "Movie grabbed from %@ and sent to %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Movie grabbed from %1$@ and sent to %2$@."
+          }
+        }
+      }
+    },
+    "Movie Has No Files" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie Has No Files"
+          }
+        }
+      }
+    },
+    "Movie Has No History" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie Has No History"
+          }
+        }
+      }
+    },
+    "Movie Imported" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie Imported"
+          }
+        }
+      }
+    },
+    "Movie imported from folder." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie imported from folder."
+          }
+        }
+      }
+    },
+    "Movie Renamed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie Renamed"
+          }
+        }
+      }
     },
     "Movie Search" : {
       "localizations" : {
@@ -2544,6 +2772,16 @@
         }
       }
     },
+    "Published" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Published"
+          }
+        }
+      }
+    },
     "Quality" : {
       "localizations" : {
         "en" : {
@@ -2594,6 +2832,16 @@
         }
       }
     },
+    "Release Group" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release Group"
+          }
+        }
+      }
+    },
     "Release Rejected" : {
       "localizations" : {
         "en" : {
@@ -2620,6 +2868,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Relevant"
+          }
+        }
+      }
+    },
+    "Renamed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renamed"
           }
         }
       }
@@ -2734,6 +2992,16 @@
         }
       }
     },
+    "Score" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Score"
+          }
+        }
+      }
+    },
     "Search Queued" : {
       "localizations" : {
         "en" : {
@@ -2770,16 +3038,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Season Premiere"
-          }
-        }
-      }
-    },
-    "See More" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "See More"
           }
         }
       }
@@ -2940,6 +3198,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sort By"
+          }
+        }
+      }
+    },
+    "Source" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source"
           }
         }
       }
@@ -3224,6 +3492,16 @@
         }
       }
     },
+    "Undetermined" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undetermined"
+          }
+        }
+      }
+    },
     "Unknown" : {
       "localizations" : {
         "en" : {
@@ -3235,7 +3513,24 @@
       }
     },
     "Unknown Event" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown Event"
+          }
+        }
+      }
+    },
+    "Unknown event." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown event."
+          }
+        }
+      }
     },
     "Unmonitored" : {
       "localizations" : {
@@ -3444,6 +3739,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Watch Trailer"
+          }
+        }
+      }
+    },
+    "Website" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Website"
           }
         }
       }

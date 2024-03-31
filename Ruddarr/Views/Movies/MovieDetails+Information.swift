@@ -2,11 +2,7 @@ import SwiftUI
 
 extension MovieDetails {
     var information: some View {
-        Section(
-            header: Text("Information")
-                .font(.title2)
-                .fontWeight(.bold)
-        ) {
+        Section {
             if UIDevice.current.userInterfaceIdiom == .phone {
                 VStack(spacing: 12) {
                     ForEach(informationItems, id: \.self) { item in
@@ -35,6 +31,19 @@ extension MovieDetails {
                     }
                 }
             }
+        } header: {
+            HStack {
+                Text("Information")
+                    .font(.title2)
+                    .fontWeight(.bold)
+
+                Spacer()
+
+                NavigationLink(
+                    "Files & History",
+                    value: MoviesView.Path.metadata(movie.id)
+                )
+            }
         }
         .font(.callout)
     }
@@ -59,13 +68,6 @@ extension MovieDetails {
                 value: movie.rootFolderPath ?? "Unknown"
             ),
         ]
-
-        if movie.isDownloaded {
-            items.append(InformationItem(
-                label: String(localized: "File Size"),
-                value: movie.sizeLabel
-            ))
-        }
 
         if let inCinemas = movie.inCinemas {
             items.append(InformationItem(
