@@ -64,12 +64,12 @@ struct IconsView: View {
                 GroupBox {
                     VStack(alignment: .leading, spacing: 12) {
                         ForEach(logLines, id: \.self) { line in
-                            Text(line)
+                            Text(line).textSelection(.enabled)
+                            Divider()
                         }
                     }
                 }
                 .font(.caption2)
-                .textSelection(.enabled)
                 .padding(.top)
             }
             // DEBUG: END
@@ -133,7 +133,22 @@ struct IconsView: View {
     ) async {
         switch taskState {
         case .success(let statuses):
-            logLines.append("\(statuses)")
+            logLines.append("statuses: \(statuses.count)")
+
+            for status in statuses {
+                let statusLabel = switch status.state {
+                case .subscribed: "subscribed"
+                case .expired: "expired"
+                case .inBillingRetryPeriod: "inBillingRetryPeriod"
+                case .inGracePeriod: "inGracePeriod"
+                case .revoked: "revoked"
+                default: "default"
+                }
+
+                logLines.append("status: \(statusLabel)")
+                logLines.append("\(status)")
+            }
+
             entitledToService = Subscription.containsEntitledState(statuses)
             showSubscription = false
         case .failure(let error):
