@@ -143,7 +143,7 @@ struct MovieDetails: View {
                 .buttonStyle(.bordered)
                 .tint(.secondary)
             } else if !smallScreen {
-                 Spacer()
+                Spacer()
             }
         }
     }

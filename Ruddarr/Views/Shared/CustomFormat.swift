@@ -2,20 +2,23 @@ import SwiftUI
 
 struct CustomFormats: View {
     var formats: [String]
+    var style: CustomFormatStyle
 
-    init(_ formats: [String]) {
+    init(_ formats: [String], style: CustomFormatStyle = .primary) {
         self.formats = formats
+        self.style = style
     }
 
-    init(_ formats: [MovieCustomFormat]) {
+    init(_ formats: [MovieCustomFormat], style: CustomFormatStyle = .primary) {
         self.formats = formats.map { $0.label }
+        self.style = style
     }
 
     var body: some View {
         if !formats.isEmpty {
             OverflowLayout {
                 ForEach(formats, id: \.self) { tag in
-                    CustomFormat(tag)
+                    CustomFormat(tag, style: style)
                 }
             }
         }
@@ -24,9 +27,11 @@ struct CustomFormats: View {
 
 struct CustomFormat: View {
     var label: String
+    var style: CustomFormatStyle
 
-    init(_ label: String) {
+    init(_ label: String, style: CustomFormatStyle = .primary) {
         self.label = label
+        self.style = style
     }
 
     @Environment(\.colorScheme) var colorScheme
@@ -39,10 +44,16 @@ struct CustomFormat: View {
             .padding(.vertical, 4)
             .padding(.horizontal, 8)
             .background(
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(.secondarySystemBackground)
+                RoundedRectangle(cornerRadius: 4).fill(
+                    style == .primary ? .secondarySystemBackground : .tertiarySystemBackground
+                )
             )
     }
+}
+
+enum CustomFormatStyle {
+    case primary
+    case secondary
 }
 
 struct OverflowLayout: Layout {
@@ -89,5 +100,9 @@ struct OverflowLayout: Layout {
 }
 
 #Preview {
-    CustomFormats(["Test Foo, BAZ", "Test"])
+    Group {
+        CustomFormats(["Test Foo, BAZ", "Test"])
+
+        CustomFormats(["Test Foo, BAZ", "Test"], style: .secondary)
+    }
 }

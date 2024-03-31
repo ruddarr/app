@@ -127,9 +127,9 @@ struct MovieFilesFile: View {
                 Text(file.sizeLabel)
                 Spacer()
             }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .lineLimit(1)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
         } label: {
             Text(file.relativePath ?? "--")
                 .padding(.bottom, 2)
@@ -169,9 +169,9 @@ struct MovieHistoryItem: View {
                 Spacer()
                 Text(date)
             }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .lineLimit(1)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
         } label: {
             Text(event.eventType.label)
                 .foregroundStyle(settings.theme.tint)

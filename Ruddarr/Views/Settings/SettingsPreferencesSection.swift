@@ -7,7 +7,7 @@ struct SettingsPreferencesSection: View {
 
     @State private var entitledToService: Bool = false
     @State private var showSubscriptionSheet: Bool = false
-    @State private var showManageScriptionSheet: Bool = false
+    @State private var showManageSubscriptionSheet: Bool = false
 
     var body: some View {
         Section {
@@ -26,7 +26,7 @@ struct SettingsPreferencesSection: View {
             action: handleSubscriptionStatusChange
         )
         .manageSubscriptionsSheet(
-            isPresented: $showManageScriptionSheet,
+            isPresented: $showManageSubscriptionSheet,
             subscriptionGroupID: Subscription.group
         )
     }
@@ -94,7 +94,7 @@ struct SettingsPreferencesSection: View {
 
     var manageSubscription: some View {
         Button {
-            showManageScriptionSheet = true
+            showManageSubscriptionSheet = true
         } label: {
             NavigationLink(destination: EmptyView()) {
                 Label {

@@ -11,20 +11,17 @@ struct MovieHistoryEventSheet: View {
                 dismiss()
             }
 
-            VStack {
+            VStack(alignment: .leading) {
                 Text(event.eventType.title)
                     .font(.title3.bold())
-                    .frame(maxWidth: .infinity, alignment: .leading)
 
                 Text(formatDate(event.date))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 12)
 
                 Text(event.description)
                     .font(.callout)
-                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom)
 
                 if event.eventType == .grabbed {

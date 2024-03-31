@@ -372,7 +372,6 @@ function buildNotificationPayload(payload) {
       }
 
     case 'Grab':
-      const releaseTitle = payload.release.releaseTitle.replace('.', ' ')
       const indexerName = payload.release.indexer.replace(' (Prowlarr)', '')
 
       if (! isSeries) {
@@ -384,7 +383,7 @@ function buildNotificationPayload(payload) {
               'subtitle-loc-key': 'NOTIFICATION_MOVIE_GRAB_SUBTITLE',
               'subtitle-loc-args': [title, year],
               'loc-key': 'NOTIFICATION_MOVIE_GRAB_BODY',
-              'loc-args': [releaseTitle, indexerName],
+              'loc-args': [payload.release.releaseTitle, indexerName],
             },
             'sound': 'ping.aiff',
             'thread-id': `movie:${threadId}`,
