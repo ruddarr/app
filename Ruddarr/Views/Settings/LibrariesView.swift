@@ -38,6 +38,8 @@ struct LibrariesViewItem: View {
     var name: String
     var version: String
 
+    @EnvironmentObject var settings: AppSettings
+
     var body: some View {
         Link(destination: URL(string: url)!, label: {
             HStack {
@@ -45,6 +47,7 @@ struct LibrariesViewItem: View {
                 Text(version).foregroundStyle(.secondary)
                 Spacer()
                 Image(systemName: "arrow.up.right.square")
+                    .foregroundStyle(settings.theme.tint)
             }
         })
     }

@@ -38,6 +38,49 @@ class Subscription {
 
         return nil
     }
+
+    static func status(from statuses: [StoreKit.Product.SubscriptionInfo.Status]) -> SubscriptionStatus {
+        if statuses.count == 0 {
+            return .notSubscribed
+        }
+
+        if statuses.count > 1 {
+            leaveBreadcrumb(.fatal, category: "subscription", message: "More than one status", data: ["statuses": statuses])
+        }
+
+        return switch statuses[0].state {
+        case .subscribed: .subscribed
+        case .expired: .expired
+        case .inBillingRetryPeriod: .inBillingRetryPeriod
+        case .inGracePeriod: .inGracePeriod
+        case .revoked: .revoked
+        default: .unknown
+        }
+    }
+}
+
+enum SubscriptionStatus {
+    case subscribed
+    case notSubscribed
+    case expired
+    case inBillingRetryPeriod
+    case inGracePeriod
+    case revoked
+    case error
+    case unknown
+
+    var label: LocalizedStringKey {
+        switch self {
+        case .subscribed: "Active"
+        case .notSubscribed: "Not Subscribed"
+        case .expired: "Expired"
+        case .inBillingRetryPeriod: "Inactive"
+        case .inGracePeriod: "Active"
+        case .revoked: "Revoked"
+        case .error: "Error"
+        case .unknown: "Unknown"
+        }
+    }
 }
 
 struct RuddarrPlusSheet: View {

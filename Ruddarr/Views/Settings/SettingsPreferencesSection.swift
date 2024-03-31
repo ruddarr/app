@@ -6,6 +6,7 @@ struct SettingsPreferencesSection: View {
     @Environment(\.colorScheme) var colorScheme
 
     @State private var entitledToService: Bool = false
+    @State private var subscriptionStatus: SubscriptionStatus = .unknown
     @State private var showSubscriptionSheet: Bool = false
     @State private var showManageSubscriptionSheet: Bool = false
 
@@ -15,7 +16,7 @@ struct SettingsPreferencesSection: View {
             themePicker
             iconPicker
 
-            if entitledToService {
+            if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
                 manageSubscription
             }
         } header: {
@@ -98,11 +99,17 @@ struct SettingsPreferencesSection: View {
         } label: {
             NavigationLink(destination: EmptyView()) {
                 Label {
-                    Text("Manage Subscription")
+                    LabeledContent {
+                        Text(subscriptionStatus.label).foregroundStyle(.secondary)
+                    } label: {
+                        Text("Subscription")
+                    }
                 } icon: {
-                    Image(systemName: "goforward.plus")
-                        .foregroundStyle(.teal)
+                    Image(systemName: "crown")
+                        .symbolVariant(.fill)
+                        .foregroundStyle(.yellow)
                 }
+                .offset(y: -1)
             }
         }
         .foregroundColor(Color(uiColor: .label))
@@ -114,12 +121,19 @@ struct SettingsPreferencesSection: View {
         switch taskState {
         case .success(let statuses):
             entitledToService = Subscription.containsEntitledState(statuses)
+            subscriptionStatus = Subscription.status(from: statuses)
             showSubscriptionSheet = false
+
+            leaveBreadcrumb(.info, category: "subscription", message: "SubscriptionStatusTask success", data: ["statuses": statuses])
         case .failure(let error):
-            leaveBreadcrumb(.fatal, category: "subscription", message: "SubscriptionStatusTask failed", data: ["error": error])
             entitledToService = false
-        case .loading: break
-        @unknown default: break
+            subscriptionStatus = .error
+
+            leaveBreadcrumb(.fatal, category: "subscription", message: "SubscriptionStatusTask failed", data: ["error": error])
+        case .loading:
+            break
+        @unknown default:
+            subscriptionStatus = .unknown
         }
     }
 }

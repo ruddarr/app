@@ -8,9 +8,12 @@
   ],
   "settings" : {
     "_applicationInternalID" : "6476240130",
+    "_compatibilityTimeRate" : {
+      "3" : 6
+    },
     "_developerTeamID" : "B9ZZ8GLWRA",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 732775250.47971904,
+    "_lastSynchronizedDate" : 733618930.12474597,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [
@@ -45,7 +48,10 @@
         "name" : "App Transaction"
       },
       {
-        "current" : null,
+        "current" : {
+          "index" : 3,
+          "type" : "generic"
+        },
         "enabled" : false,
         "name" : "Manage Subscriptions Sheet"
       },
@@ -59,7 +65,8 @@
         "enabled" : false,
         "name" : "Offer Code Redeem Sheet"
       }
-    ]
+    ],
+    "_timeRate" : 15
   },
   "subscriptionGroups" : [
     {
@@ -83,8 +90,8 @@
           "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "Access to instance push notifications.",
-              "displayName" : "Ruddarr+ (Yearly)",
+              "description" : "Access to push notifications and app icons.",
+              "displayName" : "Ruddarr+",
               "locale" : "en_US"
             }
           ],

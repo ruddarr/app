@@ -171,6 +171,16 @@
         }
       }
     },
+    "Active" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active"
+          }
+        }
+      }
+    },
     "Add Authentication" : {
       "localizations" : {
         "en" : {
@@ -1152,6 +1162,16 @@
         }
       }
     },
+    "Error" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
+          }
+        }
+      }
+    },
     "Estonian" : {
       "localizations" : {
         "en" : {
@@ -1168,6 +1188,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Everything"
+          }
+        }
+      }
+    },
+    "Expired" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expired"
           }
         }
       }
@@ -1498,6 +1528,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "In Cinemas"
+          }
+        }
+      }
+    },
+    "Inactive" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inactive"
           }
         }
       }
@@ -2179,6 +2219,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Norwegian Bokmal"
+          }
+        }
+      }
+    },
+    "Not Subscribed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Subscribed"
           }
         }
       }
@@ -2932,6 +2982,16 @@
         }
       }
     },
+    "Revoked" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revoked"
+          }
+        }
+      }
+    },
     "Romanian" : {
       "localizations" : {
         "en" : {
@@ -3268,6 +3328,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Studio"
+          }
+        }
+      }
+    },
+    "Subscribe" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribe"
+          }
+        }
+      }
+    },
+    "Subscription" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscription"
           }
         }
       }

@@ -4,6 +4,8 @@ import CloudKit
 import Foundation
 
 struct SettingsAboutSection: View {
+    @EnvironmentObject var settings: AppSettings
+
     private let shareUrl = URL(string: "https://testflight.apple.com/join/WbWNuoos")!
     private let githubUrl = URL(string: "https://github.com/ruddarr/app")!
     private let discordUrl = URL(string: "https://discord.gg/UksvtDQUBA")!
@@ -27,7 +29,8 @@ struct SettingsAboutSection: View {
             Label {
                 Text("Share App").tint(.primary)
             } icon: {
-                Image(systemName: "square.and.arrow.up").foregroundStyle(.blue)
+                Image(systemName: "square.and.arrow.up")
+                    .foregroundStyle(settings.theme.tint)
             }
         }
     }
@@ -39,7 +42,7 @@ struct SettingsAboutSection: View {
             } icon: {
                 Image(systemName: "star")
                     .symbolVariant(.fill)
-                    .foregroundStyle(.yellow)
+                    .foregroundStyle(settings.theme.tint)
             }
         }
     }
@@ -50,7 +53,7 @@ struct SettingsAboutSection: View {
                 Text("Join Discord").tint(.primary)
             } icon: {
                 Image(systemName: "text.bubble")
-                    .foregroundStyle(.purple)
+                    .foregroundStyle(settings.theme.tint)
             }
         }
     }
@@ -63,7 +66,7 @@ struct SettingsAboutSection: View {
                 Text("Email Support").tint(.primary)
             } icon: {
                 Image(systemName: "square.and.pencil")
-                    .foregroundStyle(Color(red: 255 / 255, green: 128 / 255, blue: 112 / 255))
+                    .foregroundStyle(settings.theme.tint)
             }
         }
     }
@@ -73,7 +76,8 @@ struct SettingsAboutSection: View {
             Label {
                 Text("Contribute on GitHub").tint(.primary)
             } icon: {
-                Image(systemName: "curlybraces.square").foregroundStyle(.teal)
+                Image(systemName: "curlybraces.square")
+                    .foregroundStyle(settings.theme.tint)
             }
         })
     }
@@ -85,7 +89,9 @@ struct SettingsAboutSection: View {
             Label {
                 Text("Invite me to BTN / PTP").tint(.primary)
             } icon: {
-                Image(systemName: "figure.2").foregroundStyle(.orange).scaleEffect(0.9)
+                Image(systemName: "figure.2")
+                    .foregroundStyle(settings.theme.tint)
+                    .scaleEffect(0.8)
             }
         }
     }
@@ -97,7 +103,9 @@ struct SettingsAboutSection: View {
             Label {
                 Text("Third Party Libraries").tint(.primary)
             } icon: {
-                Image(systemName: "text.book.closed").foregroundStyle(.gray)
+                Image(systemName: "text.book.closed")
+                    .foregroundStyle(settings.theme.tint)
+                    .scaleEffect(0.95)
             }
         }
     }
