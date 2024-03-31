@@ -2,80 +2,130 @@ import SwiftUI
 import StoreKit
 
 struct IconsView: View {
-    let columns = [GridItem(.adaptive(minimum: 80, maximum: 120))]
-
-    var body: some View {
-        ScrollView {
-            LazyVGrid(columns: columns, alignment: .center, spacing: 15) {
-                Icons()
-            }
-            .padding(.top)
-            .viewPadding(.horizontal)
-        }
-        .navigationTitle("Icons")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-private struct Icons: View {
     @EnvironmentObject var settings: AppSettings
 
     @State var showSubscription: Bool = false
     @State var entitledToService: Bool = false
 
-    let iconSize: CGFloat = 64
-    var iconRadius: CGFloat { (10 / 57) * iconSize }
-    let strokeWidth: CGFloat = 2
+    private let columns = [GridItem(.adaptive(minimum: 80, maximum: 120))]
+
+    // DEBUG: START
+    @State var logLines: [String] = []
+    @State var showSubscriptionSheet: Bool = false
+    @State var showManageScriptionSheet: Bool = false
+    // DEBUG: END
 
     var body: some View {
-        ForEach(AppIcon.allCases) { icon in
-            VStack {
-                Image(uiImage: icon.data.uiImage)
-                    .resizable()
-                    .frame(width: iconSize, height: iconSize)
-                    .clipShape(.rect(cornerRadius: iconRadius))
-                    .padding([.all], 3)
-                    .overlay {
-                        if settings.icon == icon {
-                            currentOverlay
-                        }
-                    }
-                    .onTapGesture {
-                        if !icon.data.locked || entitledToService {
-                            settings.icon = icon
-                            UIApplication.shared.setAlternateIconName(icon.data.value)
-                        } else {
-                            showSubscription = true
-                        }
-                    }
-
-                Text(icon.data.label)
-                    .font(.caption)
-                    .fontWeight(.medium)
-                    .lineLimit(1)
-            }
-            .overlay(alignment: .topTrailing) {
-                if icon.data.locked && !entitledToService {
-                    lockOverlay
+        ScrollView {
+            LazyVGrid(columns: columns, alignment: .center, spacing: 15) {
+                ForEach(AppIcon.allCases) { icon in
+                    renderIcon(icon)
                 }
             }
+            .padding(.top)
+            .viewPadding(.horizontal)
+
+            // DEBUG: START
+            VStack {
+                Button("Manage Subscription") {
+                    showManageScriptionSheet = true
+                }
+                .manageSubscriptionsSheet(
+                    isPresented: $showManageScriptionSheet,
+                    subscriptionGroupID: Subscription.group
+                )
+
+                Button("Subscribe") {
+                    showSubscriptionSheet = true
+                }
+                .sheet(isPresented: $showSubscriptionSheet) {
+                    SubscriptionStoreView(groupID: Subscription.group, visibleRelationships: .all) {
+                        RuddarrPlusSheetContent()
+                    }
+                    .subscriptionStoreButtonLabel(.action)
+                    .storeButton(.visible, for: .restorePurchases)
+                    .tint(.blue)
+                    .onInAppPurchaseStart { product in
+                        logLines.append("onInAppPurchaseStart")
+                        logLines.append("\(product)")
+                    }
+                    .onInAppPurchaseCompletion { product, result in
+                        logLines.append("onInAppPurchaseCompletion")
+                        logLines.append("\(product)")
+                        logLines.append("\(result)")
+                    }
+                }
+            }
+            .font(.footnote)
+            .padding(.top)
+            .viewPadding(.horizontal)
+
+            if !logLines.isEmpty {
+                GroupBox {
+                    VStack(alignment: .leading, spacing: 12) {
+                        ForEach(logLines, id: \.self) { line in
+                            Text(line)
+                        }
+                    }
+                }
+                .font(.caption2)
+                .textSelection(.enabled)
+                .padding(.top)
+            }
+            // DEBUG: END
         }
-        .subscriptionStatusTask(for: Subscription.group, action: handleSubscriptionStatusChange)
-        .sheet(isPresented: $showSubscription) { RuddarrPlusSheet() }
+        .navigationTitle("Icons")
+        .navigationBarTitleDisplayMode(.inline)
+        .subscriptionStatusTask(
+            for: Subscription.group,
+            action: handleSubscriptionStatusChange
+        )
+        .sheet(isPresented: $showSubscription) {
+            RuddarrPlusSheet()
+        }
     }
 
-    var currentOverlay: some View {
-        RoundedRectangle(cornerRadius: iconRadius + 3)
-            .stroke(.primary, lineWidth: strokeWidth)
-    }
+    let strokeWidth: CGFloat = 2
+    let iconSize: CGFloat = 64
+    var iconRadius: CGFloat { (10 / 57) * iconSize }
 
-    var lockOverlay: some View {
-        Image(systemName: "lock")
-            .symbolVariant(.circle.fill)
-            .foregroundStyle(.white, settings.theme.safeTint)
-            .imageScale(.large)
-            .background(Circle().fill(.systemBackground))
-            .offset(x: 3, y: -6)
+    func renderIcon(_ icon: AppIcon) -> some View {
+        VStack {
+            Image(uiImage: icon.data.uiImage)
+                .resizable()
+                .frame(width: iconSize, height: iconSize)
+                .clipShape(.rect(cornerRadius: iconRadius))
+                .padding([.all], 3)
+                .overlay {
+                    if settings.icon == icon {
+                        RoundedRectangle(cornerRadius: iconRadius + 3)
+                            .stroke(.primary, lineWidth: strokeWidth)
+                    }
+                }
+                .onTapGesture {
+                    if !icon.data.locked || entitledToService {
+                        settings.icon = icon
+                        UIApplication.shared.setAlternateIconName(icon.data.value)
+                    } else {
+                        showSubscription = true
+                    }
+                }
+
+            Text(icon.data.label)
+                .font(.caption)
+                .fontWeight(.medium)
+                .lineLimit(1)
+        }
+        .overlay(alignment: .topTrailing) {
+            if icon.data.locked && !entitledToService {
+                Image(systemName: "lock")
+                    .symbolVariant(.circle.fill)
+                    .foregroundStyle(.white, settings.theme.safeTint)
+                    .imageScale(.large)
+                    .background(Circle().fill(.systemBackground))
+                    .offset(x: 3, y: -6)
+            }
+        }
     }
 
     func handleSubscriptionStatusChange(
@@ -83,12 +133,16 @@ private struct Icons: View {
     ) async {
         switch taskState {
         case .success(let statuses):
+            logLines.append("\(statuses)")
             entitledToService = Subscription.containsEntitledState(statuses)
             showSubscription = false
         case .failure(let error):
+            logLines.append("\(error)")
             leaveBreadcrumb(.error, category: "subscription", message: "SubscriptionStatusTask failed", data: ["error": error])
             entitledToService = false
-        case .loading: break
+        case .loading:
+            logLines.append("loading")
+            break
         @unknown default: break
         }
     }
