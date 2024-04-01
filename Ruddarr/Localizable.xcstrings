@@ -1663,12 +1663,12 @@
         }
       }
     },
-    "Join Discord" : {
+    "Join the Discord" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Join Discord"
+            "value" : "Join the Discord"
           }
         }
       }
@@ -1799,16 +1799,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Malay"
-          }
-        }
-      }
-    },
-    "Manage Subscription" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Manage Subscription"
           }
         }
       }
@@ -3328,16 +3318,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Studio"
-          }
-        }
-      }
-    },
-    "Subscribe" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Subscribe"
           }
         }
       }

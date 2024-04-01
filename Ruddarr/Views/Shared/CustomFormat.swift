@@ -40,7 +40,7 @@ struct CustomFormat: View {
         Text(label)
             .font(.caption2)
             .fontWeight(.semibold)
-            .foregroundStyle(colorScheme == .dark ? Color(UIColor.lightText) : .secondary)
+            .foregroundStyle(colorScheme == .dark ? .lightText : .secondary)
             .padding(.vertical, 4)
             .padding(.horizontal, 8)
             .background(

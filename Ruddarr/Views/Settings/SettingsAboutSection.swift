@@ -6,11 +6,6 @@ import Foundation
 struct SettingsAboutSection: View {
     @EnvironmentObject var settings: AppSettings
 
-    private let shareUrl = URL(string: "https://testflight.apple.com/join/WbWNuoos")!
-    private let githubUrl = URL(string: "https://github.com/ruddarr/app")!
-    private let discordUrl = URL(string: "https://discord.gg/UksvtDQUBA")!
-    private let reviewUrl = URL(string: "itms-apps://itunes.apple.com/app/id6476240130")!
-
     var body: some View {
         // TODO: re-enable some menu items
         Section(header: Text("About")) {
@@ -25,7 +20,7 @@ struct SettingsAboutSection: View {
     }
 
     var share: some View {
-        ShareLink(item: shareUrl) {
+        ShareLink(item: Links.TestFlight) {
             Label {
                 Text("Share App").tint(.primary)
             } icon: {
@@ -36,7 +31,7 @@ struct SettingsAboutSection: View {
     }
 
     var review: some View {
-        Link(destination: reviewUrl) {
+        Link(destination: Links.AppStore) {
             Label {
                 Text("Leave a Review").tint(.primary)
             } icon: {
@@ -48,9 +43,9 @@ struct SettingsAboutSection: View {
     }
 
     var discord: some View {
-        Link(destination: discordUrl) {
+        Link(destination: Links.Discord) {
             Label {
-                Text("Join Discord").tint(.primary)
+                Text("Join the Discord").tint(.primary)
             } icon: {
                 Image(systemName: "text.bubble")
                     .foregroundStyle(settings.theme.tint)
@@ -72,7 +67,7 @@ struct SettingsAboutSection: View {
     }
 
     var contribute: some View {
-        Link(destination: githubUrl, label: {
+        Link(destination: Links.GitHub, label: {
             Label {
                 Text("Contribute on GitHub").tint(.primary)
             } icon: {
@@ -151,13 +146,11 @@ struct SettingsAboutSection: View {
             leaveBreadcrumb(.warning, category: "settings.about", message: "Unable to open mailto", data: ["url": mailtoUrl])
         }
 
-        let gitHubUrl = URL(string: "https://github.com/ruddarr/app/discussions")!
-
-        if await UIApplication.shared.open(gitHubUrl) {
+        if await UIApplication.shared.open(Links.GitHubDiscussions) {
             return
         }
 
-        leaveBreadcrumb(.warning, category: "settings.about", message: "Unable to open URL", data: ["url": gitHubUrl])
+        leaveBreadcrumb(.warning, category: "settings.about", message: "Unable to open GitHubDiscussions")
     }
 
     @MainActor

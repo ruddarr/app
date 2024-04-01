@@ -160,6 +160,7 @@ struct CalendarView: View {
             Label("Connection Failure", systemImage: "exclamationmark.triangle")
         } description: {
             Text(calendar.error?.recoverySuggestionFallback ?? "")
+        } actions: {
             Button("Retry") {
                 Task { await calendar.initialize() }
             }

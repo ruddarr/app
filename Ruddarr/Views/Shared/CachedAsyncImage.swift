@@ -73,7 +73,7 @@ struct PlaceholderImage: View {
             .imageScale(.large)
             .foregroundStyle(.secondary)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(UIColor.systemFill))
+            .background(.systemFill)
             .tint(.secondary)
     }
 }

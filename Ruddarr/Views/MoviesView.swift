@@ -158,7 +158,7 @@ struct MoviesView: View {
             Label("Connection Failure", systemImage: "exclamationmark.triangle")
         } description: {
             Text(instance.movies.error?.recoverySuggestionFallback ?? "")
-
+        } actions: {
             Button("Retry") {
                 Task { await fetchMoviesWithAlert(ignoreOffline: true) }
             }
