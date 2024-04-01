@@ -104,7 +104,7 @@ struct RuddarrPlusSheetContent: View {
                 .clipShape(.rect(cornerRadius: (10 / 57) * 75))
                 .padding(.bottom, 8)
 
-            Text(Subscription.name)
+            Text(verbatim: Subscription.name)
                 .font(.largeTitle.bold())
                 .padding(.bottom, 4)
 
