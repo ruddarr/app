@@ -22,6 +22,7 @@ struct MovieHistoryEventSheet: View {
 
                 Text(event.description)
                     .font(.callout)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom)
 
                 if event.eventType == .grabbed {
@@ -251,5 +252,5 @@ struct MovieFileSheet: View {
 #Preview("Event") {
     let events: [MovieHistoryEvent] = PreviewData.load(name: "movie-history")
 
-    return MovieHistoryEventSheet(event: events[2])
+    return MovieHistoryEventSheet(event: events[1])
 }

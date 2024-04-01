@@ -5,7 +5,6 @@ struct CloseButton: View {
 
     var body: some View {
         Button {
-            print("pressed...")
             callback()
         } label: {
             Image(systemName: "xmark")
