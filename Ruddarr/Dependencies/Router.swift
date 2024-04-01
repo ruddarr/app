@@ -7,6 +7,8 @@ final class Router {
 
     var selectedTab: Tab = .movies
 
+    var switchToRadarrInstance: Instance.ID?
+
     var moviesPath: NavigationPath = .init()
     var seriesPath: NavigationPath = .init()
     var calendarPath: NavigationPath = .init()

@@ -89,9 +89,19 @@ extension MoviesView {
 
     func changeInstance() {
         Task { @MainActor in
-            instance.switchTo(
-                settings.instanceById(settings.radarrInstanceId!)!
-            )
+            guard let newInstanceId = settings.radarrInstanceId else {
+                leaveBreadcrumb(.fatal, category: "movies", message: "Missing radarr instance id")
+
+                return
+            }
+
+            guard let newInstance = settings.instanceById(newInstanceId) else {
+                leaveBreadcrumb(.fatal, category: "movies", message: "Radarr instance not found")
+
+                return
+            }
+
+            instance.switchTo(newInstance)
 
             await fetchMoviesWithAlert()
 

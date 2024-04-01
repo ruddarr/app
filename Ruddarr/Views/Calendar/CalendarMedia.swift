@@ -35,7 +35,8 @@ struct CalendarMovie: View {
             .background(.secondarySystemBackground)
             .clipShape(RoundedRectangle(cornerRadius: 6))
             .onTapGesture {
-                let deeplink = URL(string: "ruddarr://movies/open/\(movie.id)")
+                let instance = movie.instanceId!.uuidString
+                let deeplink = URL(string: "ruddarr://movies/open/\(movie.id)?instance=\(instance)")
                 try? QuickActions.Deeplink(url: deeplink!)()
             }
     }

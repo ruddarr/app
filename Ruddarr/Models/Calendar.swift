@@ -59,19 +59,12 @@ class MediaCalendar {
 
         do {
             for instance in instances where instance.type == .radarr {
-                insertMovies(
-                    try await dependencies.api.movieCalendar(startMidnight, endMidnight, instance)
-                )
+                try await fetchMovies(instance, startMidnight, endMidnight)
             }
 
             for instance in instances where instance.type == .sonarr {
-                insertSeries(
-                    try await dependencies.api.fetchSeries(instance)
-                )
-
-                insertEpisodes(
-                    try await dependencies.api.episodeCalendar(startMidnight, endMidnight, instance)
-                )
+                try await fetchSeries(instance)
+                try await fetchEpisodes(instance, startMidnight, endMidnight)
             }
 
             insertDates(startMidnight, endMidnight)
@@ -106,8 +99,12 @@ class MediaCalendar {
         }
     }
 
-    func insertMovies(_ movies: [Movie]) {
-        for movie in movies {
+    func fetchMovies(_ instance: Instance, _ startMidnight: Date, _ endMidnight: Date) async throws {
+        let movies = try await dependencies.api.movieCalendar(startMidnight, endMidnight, instance)
+
+        for var movie in movies {
+            movie.instanceId = instance.id
+
             if let digitalRelease = movie.digitalRelease {
                 maybeInsertMovie(movie, digitalRelease)
             }
@@ -136,13 +133,17 @@ class MediaCalendar {
         movies[day]!.append(movie)
     }
 
-    func insertSeries(_ series: [Series]) {
+    func fetchSeries(_ instance: Instance) async throws {
+        let series = try await dependencies.api.fetchSeries(instance)
+
         for item in series {
             self.series[item.id] = item
         }
     }
 
-    func insertEpisodes(_ episodes: [Episode]) {
+    func fetchEpisodes(_ instance: Instance, _ startMidnight: Date, _ endMidnight: Date) async throws {
+        let episodes = try await dependencies.api.episodeCalendar(startMidnight, endMidnight, instance)
+
         for episode in episodes {
             if let airDate = episode.airDateUtc {
                 maybeInsertEpisode(episode, airDate)

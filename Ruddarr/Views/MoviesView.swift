@@ -85,8 +85,15 @@ struct MoviesView: View {
                 // if no instance is selected, try to select one
                 // if the selected instance was deleted, try to select one
                 if instance.isVoid, let first = settings.radarrInstances.first {
-                    instance.switchTo(first)
                     settings.radarrInstanceId = first.id
+                    changeInstance()
+                }
+
+                // if a deeplink set an instance, try to switch to it
+                if let instanceId = dependencies.router.switchToRadarrInstance {
+                    dependencies.router.switchToRadarrInstance = nil
+                    settings.radarrInstanceId = instanceId
+                    changeInstance()
                 }
 
                 dependencies.quickActions.pending()

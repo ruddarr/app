@@ -1,9 +1,14 @@
 import SwiftUI
 
 struct Movie: Identifiable, Codable {
+    // movies only have an `id` after being added
     var id: Int { guid ?? (tmdbId + 100_000) }
 
-    var guid: Int? // this is the `id` coming from the API
+    // the remapped `id` field
+    var guid: Int?
+
+    // used by deeplinks to switch instances
+    var instanceId: Instance.ID?
 
     let tmdbId: Int
     let imdbId: String?

@@ -7,7 +7,7 @@ import Combine
 [public] ruddarr://movies
 [public] ruddarr://movies/search
 [public] ruddarr://movies/search/{query?}
-[private] ruddarr://movies/open/{id}
+[private] ruddarr://movies/open/{id}?instance={instance?}
 */
 struct QuickActions {
     let moviePublisher = PassthroughSubject<Movie.ID, Never>()
@@ -30,7 +30,11 @@ struct QuickActions {
         dependencies.router.moviesPath = .init([MoviesView.Path.search(query)])
     }
 
-    func openMovie(_ id: Movie.ID) {
+    func openMovie(_ id: Movie.ID, _ instance: Instance.ID?) {
+        if let instanceId = instance {
+            dependencies.router.switchToRadarrInstance = instanceId
+        }
+
         dependencies.router.selectedTab = .movies
         dependencies.router.moviesPath = .init()
 
@@ -57,7 +61,7 @@ extension QuickActions {
         case openApp
         case openCalendar
         case openMovies
-        case openMovie(_ id: Movie.ID)
+        case openMovie(_ id: Movie.ID, _ instance: Instance.ID?)
         case searchMovies(_ query: String = "")
 
         func callAsFunction() {
@@ -70,8 +74,8 @@ extension QuickActions {
                 dependencies.quickActions.openMovies()
             case .searchMovies(let query):
                 dependencies.quickActions.searchMovies(query)
-            case .openMovie(let id):
-                dependencies.quickActions.openMovie(id)
+            case .openMovie(let movie, let instance):
+                dependencies.quickActions.openMovie(movie, instance)
             }
         }
     }
@@ -101,7 +105,8 @@ extension QuickActions.Deeplink {
             self = .searchMovies(value)
         case _ where action.hasPrefix("movies/open/"):
             guard let tmdbId = Movie.ID(value) else { throw unsupportedURL }
-            self = .openMovie(tmdbId)
+            let instanceId = components.queryItems?.first(where: { $0.name == "instance" })?.value
+            self = .openMovie(tmdbId, instanceId == nil ? nil : UUID(uuidString: instanceId!))
         default:
             throw unsupportedURL
         }
