@@ -1993,11 +1993,11 @@
         }
       }
     },
-    "Movie grabbed from %@ and sent to %@." : {
+    "Movie grabbed from %1$@ and sent to %2$@." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "Movie grabbed from %1$@ and sent to %2$@."
           }
         }

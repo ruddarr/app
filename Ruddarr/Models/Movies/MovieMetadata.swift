@@ -135,7 +135,7 @@ struct MovieHistoryEvent: Identifiable, Codable {
         case .unknown:
             fallback
         case .grabbed:
-            String(format: String(localized: "Movie grabbed from %@ and sent to %@."), indexerLabel, downloadClientLabel)
+            String(format: String(localized: "Movie grabbed from %1$@ and sent to %2$@."), indexerLabel, downloadClientLabel)
         case .downloadFolderImported:
             String(format: String(localized: "Movie downloaded successfully and imported from %@."), downloadClientLabel)
         case .downloadFailed:
