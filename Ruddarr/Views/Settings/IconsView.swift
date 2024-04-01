@@ -10,6 +10,7 @@ struct IconsView: View {
     private let columns = [GridItem(.adaptive(minimum: 80, maximum: 120))]
 
     // DEBUG: START
+    private var debug: Bool = false
     @State var logLines: [String] = []
     @State var showSubscriptionSheet: Bool = false
     @State var showManageScriptionSheet: Bool = false
@@ -26,66 +27,68 @@ struct IconsView: View {
             .viewPadding(.horizontal)
 
             // DEBUG: START
-            VStack {
-                Button("Sheet") {
-                    showManageScriptionSheet = true
-                }
-                .padding(.bottom)
-                .manageSubscriptionsSheet(
-                    isPresented: $showManageScriptionSheet,
-                    subscriptionGroupID: Subscription.group
-                )
+            if debug {
+                VStack {
+                    Button("Sheet") {
+                        showManageScriptionSheet = true
+                    }
+                    .padding(.bottom)
+                    .manageSubscriptionsSheet(
+                        isPresented: $showManageScriptionSheet,
+                        subscriptionGroupID: Subscription.group
+                    )
 
-                Button("Purchase") {
-                    Task {
-                        do {
-                            let products = try await Product.products(for: ["plus_yearly"])
-                            let result = try await products.first?.purchase()
+                    Button("Purchase") {
+                        Task {
+                            do {
+                                let products = try await Product.products(for: ["plus_yearly"])
+                                let result = try await products.first?.purchase()
 
+                                logLines.append("\(result)")
+                            } catch {
+                                logLines.append("\(error)")
+                            }
+                        }
+                    }
+                    .padding(.bottom)
+
+                    Button("View") {
+                        showSubscriptionSheet = true
+                    }
+                    .sheet(isPresented: $showSubscriptionSheet) {
+                        SubscriptionStoreView(groupID: Subscription.group, visibleRelationships: .all) {
+                            RuddarrPlusSheetContent()
+                        }
+                        .subscriptionStoreButtonLabel(.action)
+                        .storeButton(.visible, for: .restorePurchases)
+                        .tint(.blue)
+                        .onInAppPurchaseStart { product in
+                            logLines.append("onInAppPurchaseStart")
+                            logLines.append("\(product)")
+                        }
+                        .onInAppPurchaseCompletion { product, result in
+                            logLines.append("onInAppPurchaseCompletion")
+                            logLines.append("\(product)")
                             logLines.append("\(result)")
-                        } catch {
-                            logLines.append("\(error)")
                         }
                     }
                 }
-                .padding(.bottom)
-
-                Button("View") {
-                    showSubscriptionSheet = true
-                }
-                .sheet(isPresented: $showSubscriptionSheet) {
-                    SubscriptionStoreView(groupID: Subscription.group, visibleRelationships: .all) {
-                        RuddarrPlusSheetContent()
-                    }
-                    .subscriptionStoreButtonLabel(.action)
-                    .storeButton(.visible, for: .restorePurchases)
-                    .tint(.blue)
-                    .onInAppPurchaseStart { product in
-                        logLines.append("onInAppPurchaseStart")
-                        logLines.append("\(product)")
-                    }
-                    .onInAppPurchaseCompletion { product, result in
-                        logLines.append("onInAppPurchaseCompletion")
-                        logLines.append("\(product)")
-                        logLines.append("\(result)")
-                    }
-                }
-            }
-            .font(.footnote)
-            .padding(.top)
-            .viewPadding(.horizontal)
-
-            if !logLines.isEmpty {
-                GroupBox {
-                    VStack(alignment: .leading, spacing: 12) {
-                        ForEach(logLines, id: \.self) { line in
-                            Text(line).textSelection(.enabled)
-                            Divider()
-                        }
-                    }
-                }
-                .font(.caption2)
+                .font(.footnote)
                 .padding(.top)
+                .viewPadding(.horizontal)
+
+                if !logLines.isEmpty {
+                    GroupBox {
+                        VStack(alignment: .leading, spacing: 12) {
+                            ForEach(logLines, id: \.self) { line in
+                                Text(line).textSelection(.enabled)
+                                Divider()
+                            }
+                        }
+                    }
+                    .font(.caption2)
+                    .padding(.top)
+                }
             }
             // DEBUG: END
         }
