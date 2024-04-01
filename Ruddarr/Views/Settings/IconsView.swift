@@ -27,15 +27,30 @@ struct IconsView: View {
 
             // DEBUG: START
             VStack {
-                Button("Manage Subscription") {
+                Button("Sheet") {
                     showManageScriptionSheet = true
                 }
+                .padding(.bottom)
                 .manageSubscriptionsSheet(
                     isPresented: $showManageScriptionSheet,
                     subscriptionGroupID: Subscription.group
                 )
 
-                Button("Subscribe") {
+                Button("Purchase") {
+                    Task {
+                        do {
+                            let products = try await Product.products(for: ["plus_yearly"])
+                            let result = try await products.first?.purchase()
+
+                            logLines.append("\(result)")
+                        } catch {
+                            logLines.append("\(error)")
+                        }
+                    }
+                }
+                .padding(.bottom)
+
+                Button("View") {
                     showSubscriptionSheet = true
                 }
                 .sheet(isPresented: $showSubscriptionSheet) {
@@ -158,7 +173,8 @@ struct IconsView: View {
         case .loading:
             logLines.append("loading")
             break
-        @unknown default: break
+        @unknown default:
+            break
         }
     }
 }
