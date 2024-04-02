@@ -90,9 +90,9 @@ struct MoviesView: View {
                 }
 
                 // if a deeplink set an instance, try to switch to it
-                if let instanceId = dependencies.router.switchToRadarrInstance {
+                if let id = dependencies.router.switchToRadarrInstance, id != instance.id {
                     dependencies.router.switchToRadarrInstance = nil
-                    settings.radarrInstanceId = instanceId
+                    settings.radarrInstanceId = id
                     changeInstance()
                 }
 
