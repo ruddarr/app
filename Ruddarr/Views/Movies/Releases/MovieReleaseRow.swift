@@ -101,7 +101,9 @@ struct MovieReleaseRow: View {
     }
 
     var peerColor: any ShapeStyle {
-        switch release.seeders ?? 0 {
+        guard release.isTorrent else { return .green }
+
+        return switch release.seeders ?? 0 {
         case 50...: .green
         case 10..<50: .blue
         case 1..<10: .orange
