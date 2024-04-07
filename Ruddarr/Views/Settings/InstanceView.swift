@@ -56,7 +56,9 @@ struct InstanceView: View {
         .alert(
             isPresented: webhook.errorBinding,
             error: webhook.error
-        ) { _ in } message: { error in
+        ) { _ in
+            Button("OK") { webhook.error = nil }
+        } message: { error in
             Text(error.recoverySuggestionFallback)
         }
     }

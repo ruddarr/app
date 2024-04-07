@@ -117,7 +117,9 @@ struct MoviesView: View {
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
                 updateDisplayedMovies()
             }
-            .alert(isPresented: $alertPresented, error: error) { _ in } message: { error in
+            .alert(isPresented: $alertPresented, error: error) { _ in
+                Button("OK") { error = nil }
+            } message: { error in
                 Text(error.recoverySuggestionFallback)
             }
             .overlay {

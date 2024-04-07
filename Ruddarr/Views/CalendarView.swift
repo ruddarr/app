@@ -77,7 +77,9 @@ struct CalendarView: View {
             .alert(
                 isPresented: calendar.errorBinding,
                 error: calendar.error
-            ) { _ in } message: { error in
+            ) { _ in
+                Button("OK") { calendar.error = nil }
+            } message: { error in
                 Text(error.recoverySuggestionFallback)
             }
             .overlay {

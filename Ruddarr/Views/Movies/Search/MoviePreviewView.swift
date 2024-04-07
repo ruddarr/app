@@ -32,7 +32,9 @@ struct MoviePreviewView: View {
         .alert(
             isPresented: instance.movies.errorBinding,
             error: instance.movies.error
-        ) { _ in } message: { error in
+        ) { _ in
+            Button("OK") { instance.movies.error = nil }
+        } message: { error in
             Text(error.recoverySuggestionFallback)
         }
     }

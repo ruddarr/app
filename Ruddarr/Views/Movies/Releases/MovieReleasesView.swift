@@ -32,7 +32,9 @@ struct MovieReleasesView: View {
         .alert(
             isPresented: instance.releases.errorBinding,
             error: instance.releases.error
-        ) { _ in } message: { error in
+        ) { _ in
+            Button("OK") { instance.releases.error = nil }
+        } message: { error in
             Text(error.recoverySuggestionFallback)
         }
         .overlay {

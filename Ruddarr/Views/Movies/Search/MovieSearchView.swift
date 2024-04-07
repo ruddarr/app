@@ -63,7 +63,9 @@ struct MovieSearchView: View {
         .alert(
             isPresented: instance.lookup.errorBinding,
             error: instance.lookup.error
-        ) { _ in } message: { error in
+        ) { _ in
+            Button("OK") { instance.lookup.error = nil }
+        } message: { error in
             Text(error.recoverySuggestionFallback)
         }
         .overlay {
