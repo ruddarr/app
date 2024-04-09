@@ -51,7 +51,7 @@ struct MovieHistoryEventSheet: View {
 
                 if let string = event.data("nzbInfoUrl"), let url = URL(string: string), let domain = url.host {
                     Divider()
-                    renderRow("Website", Link(domain, destination: url))
+                    renderRow("URL", Link(domain, destination: url))
                 }
 
                 if let flags = event.indexerFlagsLabel {

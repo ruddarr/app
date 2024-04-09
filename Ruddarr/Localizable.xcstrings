@@ -3913,16 +3913,6 @@
         }
       }
     },
-    "Website" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Website"
-          }
-        }
-      }
-    },
     "Weight" : {
       "localizations" : {
         "en" : {
