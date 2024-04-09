@@ -19,6 +19,8 @@ extension InstanceEditView {
 
             settings.saveInstance(instance)
 
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+
             dependencies.router.settingsPath.removeLast()
         } catch let error as InstanceError {
             isLoading = false

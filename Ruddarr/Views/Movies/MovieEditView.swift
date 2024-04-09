@@ -77,6 +77,8 @@ struct MovieEditView: View {
     @MainActor
     func updateMovie(moveFiles: Bool = false) async {
         _ = await instance.movies.update(movie, moveFiles: moveFiles)
+
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
         savedChanges = true
 
         dismiss()

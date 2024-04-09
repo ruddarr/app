@@ -84,6 +84,8 @@ struct MoviePreviewView: View {
             fatalError("Failed to locate added movie by tmdbId")
         }
 
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+
         instance.lookup.reset()
         presentingForm = false
 
