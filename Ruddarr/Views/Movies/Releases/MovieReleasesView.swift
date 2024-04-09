@@ -3,6 +3,7 @@ import SwiftUI
 struct MovieReleasesView: View {
     @Binding var movie: Movie
 
+    @State private var releases: [MovieRelease] = []
     @State private var sort: MovieReleaseSort = .init()
 
     @State private var fetched: Bool = false
@@ -13,7 +14,7 @@ struct MovieReleasesView: View {
 
     var body: some View {
         List {
-            ForEach(displayedReleases) { release in
+            ForEach(releases) { release in
                 MovieReleaseRow(release: release)
                     .environment(instance).environmentObject(settings)
             }
@@ -26,9 +27,11 @@ struct MovieReleasesView: View {
             guard !fetched else { return }
 
             await instance.releases.search(movie)
+            updateDisplayedReleases()
 
             fetched = true
         }
+        .onChange(of: sort, updateDisplayedReleases)
         .alert(
             isPresented: instance.releases.errorBinding,
             error: instance.releases.error
@@ -42,40 +45,10 @@ struct MovieReleasesView: View {
                 searchingIndicator
             } else if instance.releases.items.isEmpty {
                 noReleasesFound
-            } else if displayedReleases.isEmpty {
+            } else if releases.isEmpty {
                 noMatchingReleases
             }
         }
-    }
-
-    var displayedReleases: [MovieRelease] {
-        var sortedReleases = instance.releases.items.sorted(
-            by: sort.option.isOrderedBefore
-        )
-
-        if sort.indexer != ".all" {
-            sortedReleases = sortedReleases.filter { $0.indexerLabel == sort.indexer }
-        }
-
-        if sort.quality != ".all" {
-            sortedReleases = sortedReleases.filter { $0.quality.quality.normalizedName == sort.quality }
-        }
-
-        if sort.customFormat != ".all" {
-            sortedReleases = sortedReleases.filter { $0.customFormats?.contains { $0.name == sort.customFormat } ?? false }
-        }
-
-        if sort.approvedOnly {
-            sortedReleases = sortedReleases.filter { !$0.rejected }
-        }
-
-        if sort.freeleechOnly {
-            sortedReleases = sortedReleases.filter {
-                $0.cleanIndexerFlags.contains(where: { $0.localizedStandardContains("freeleech") })
-            }
-        }
-
-        return sort.isAscending ? sortedReleases : sortedReleases.reversed()
     }
 
     var noReleasesFound: some View {
@@ -108,6 +81,40 @@ struct MovieReleasesView: View {
                     }
             }
         }.tint(.secondary)
+    }
+
+    func updateDisplayedReleases() {
+        releases = instance.releases.items.sorted(by: sort.option.isOrderedBefore)
+
+        if sort.type != ".all" {
+            releases = releases.filter { $0.type.label == sort.type }
+        }
+
+        if sort.indexer != ".all" {
+            releases = releases.filter { $0.indexerLabel == sort.indexer }
+        }
+
+        if sort.quality != ".all" {
+            releases = releases.filter { $0.quality.quality.normalizedName == sort.quality }
+        }
+
+        if sort.customFormat != ".all" {
+            releases = releases.filter { $0.customFormats?.contains { $0.name == sort.customFormat } ?? false }
+        }
+
+        if sort.approvedOnly {
+            releases = releases.filter { !$0.rejected }
+        }
+
+        if sort.freeleechOnly {
+            releases = releases.filter {
+                $0.cleanIndexerFlags.contains(where: { $0.localizedStandardContains("freeleech") })
+            }
+        }
+
+        if sort.isAscending {
+            releases = releases.reversed()
+        }
     }
 }
 

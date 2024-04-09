@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MovieReleaseSort {
+struct MovieReleaseSort: Equatable {
     var isAscending: Bool = false
     var option: Option = .byWeight
 
