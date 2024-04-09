@@ -124,7 +124,7 @@ extension MovieReleasesView {
 
     var toolbarFilterButton: some View {
         Menu("Filters", systemImage: "line.3.horizontal.decrease") {
-            if instance.releases.protocols.count > 0 {
+            if instance.releases.protocols.count > 1 {
                 protocolPicker
             }
 
@@ -216,7 +216,6 @@ extension MovieReleasesView {
             Label("Protocol", systemImage: "point.3.connected.trianglepath.dotted")
         }
     }
-
 
     var customFormatPicker: some View {
         Menu {
