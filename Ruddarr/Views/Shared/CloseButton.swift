@@ -3,6 +3,8 @@ import SwiftUI
 struct CloseButton: View {
     var callback: () -> Void
 
+    @Environment(\.colorScheme) var colorScheme
+
     var body: some View {
         Button {
             callback()
@@ -11,7 +13,12 @@ struct CloseButton: View {
                 .symbolVariant(.circle.fill)
                 .scaleEffect(1.65)
                 .tint(.gray)
-                .foregroundStyle(.primary, .tertiarySystemBackground)
+                .foregroundStyle(
+                    .primary,
+                    colorScheme == .dark
+                        ? .tertiarySystemBackground
+                        : .secondarySystemBackground
+                )
         }
         .padding(.top)
         .padding(.trailing)
