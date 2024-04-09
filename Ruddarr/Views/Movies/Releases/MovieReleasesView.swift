@@ -124,6 +124,10 @@ extension MovieReleasesView {
 
     var toolbarFilterButton: some View {
         Menu("Filters", systemImage: "line.3.horizontal.decrease") {
+            if instance.releases.protocols.count > 0 {
+                protocolPicker
+            }
+
             indexersPicker
 
             qualityPicker
@@ -197,6 +201,22 @@ extension MovieReleasesView {
             Label("Quality", systemImage: "film.stack")
         }
     }
+
+    var protocolPicker: some View {
+        Menu {
+            Picker("Protocol", selection: $sort.type) {
+                Text("Any Protocol").tag(".all")
+
+                ForEach(instance.releases.protocols, id: \.self) { type in
+                    Text(type).tag(Optional.some(type))
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label("Protocol", systemImage: "point.3.connected.trianglepath.dotted")
+        }
+    }
+
 
     var customFormatPicker: some View {
         Menu {

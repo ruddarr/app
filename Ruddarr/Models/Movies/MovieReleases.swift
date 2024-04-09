@@ -14,6 +14,7 @@ class MovieReleases {
 
     var indexers: [String] = []
     var qualities: [String] = []
+    var protocols: [String] = []
     var customFormats: [String] = []
 
     init(_ instance: Instance) {
@@ -29,6 +30,7 @@ class MovieReleases {
             items = try await dependencies.api.lookupReleases(movie.id, instance)
             setIndexers()
             setQualities()
+            setProtocols()
             setCustomFormats()
         } catch is CancellationError {
             // do nothing
@@ -61,6 +63,14 @@ class MovieReleases {
             .filter { seen.insert($0).inserted }
     }
 
+    func setProtocols() {
+        var seen: Set<String> = []
+
+        protocols = items
+            .map { $0.type.label }
+            .filter { seen.insert($0).inserted }
+    }
+
     func setCustomFormats() {
         let customFormatNames = items
             .filter { $0.hasCustomFormats }
@@ -75,7 +85,7 @@ struct MovieRelease: Identifiable, Codable {
 
     let guid: String
     let mappedMovieId: Int?
-    let type: String
+    let type: MovieReleaseType
     let title: String
     let size: Int
     let age: Int
@@ -124,13 +134,8 @@ struct MovieRelease: Identifiable, Codable {
         case infoUrl
     }
 
-    var isTorrent: Bool {
-        type == "torrent"
-    }
-
-    var isUsenet: Bool {
-        type == "usenet"
-    }
+    var isTorrent: Bool { type == .torrent }
+    var isUsenet: Bool { type == .usenet }
 
     var isFreeleech: Bool {
         guard !indexerFlags.isEmpty else { return false }
@@ -196,15 +201,11 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var typeLabel: String {
-        if isTorrent {
-            return "Torrent (\(seeders ?? 0)/\(leechers ?? 0))"
+        if type == .torrent {
+            return "\(type.label) (\(seeders ?? 0)/\(leechers ?? 0))"
         }
 
-        if isUsenet {
-            return "Usenet"
-        }
-
-        return type
+        return type.label
     }
 
     var sizeLabel: String {
@@ -309,4 +310,18 @@ struct MovieReleaseRevisionDetails: Codable {
 struct DownloadMovieRelease: Codable {
     let guid: String
     let indexerId: Int
+}
+
+enum MovieReleaseType: String, Codable {
+    case usenet
+    case torrent
+    case unknown
+
+    var label: String {
+        switch self {
+        case .usenet: String(localized: "Usenet")
+        case .torrent: String(localized: "Torrent")
+        case .unknown: String(localized: "Unknown")
+        }
+    }
 }

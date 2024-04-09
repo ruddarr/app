@@ -6,6 +6,7 @@ struct MovieReleaseSort {
 
     var indexer: String = ".all"
     var quality: String = ".all"
+    var type: String = ".all"
     var customFormat: String = ".all"
 
     var approvedOnly: Bool = false

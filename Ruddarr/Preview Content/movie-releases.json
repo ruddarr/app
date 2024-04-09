@@ -322,7 +322,7 @@
         {"id": 2, "name": "HD Spanish"},
         {"id": 5, "name": "Tier 1"},
         {"id": 11, "name": "Foobar 1"},
-        {"id": 11, "name": "REPACK/PROPER"},
+        {"id": 11, "name": "REPACK/PROPER"}
     ],
     "customFormatScore": 123,
     "qualityWeight": 2401,

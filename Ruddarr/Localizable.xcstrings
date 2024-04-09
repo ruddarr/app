@@ -341,6 +341,16 @@
         }
       }
     },
+    "Any Protocol" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Protocol"
+          }
+        }
+      }
+    },
     "Any Quality" : {
       "localizations" : {
         "en" : {
@@ -2842,6 +2852,16 @@
         }
       }
     },
+    "Protocol" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protocol"
+          }
+        }
+      }
+    },
     "Published" : {
       "localizations" : {
         "en" : {
@@ -3552,6 +3572,16 @@
         }
       }
     },
+    "Torrent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torrent"
+          }
+        }
+      }
+    },
     "Trailer" : {
       "localizations" : {
         "en" : {
@@ -3738,6 +3768,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work."
+          }
+        }
+      }
+    },
+    "Usenet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usenet"
           }
         }
       }
