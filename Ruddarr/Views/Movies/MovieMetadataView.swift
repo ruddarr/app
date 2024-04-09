@@ -42,13 +42,13 @@ struct MovieMetadataView: View {
             } else {
                 ForEach(instance.metadata.files) { file in
                     MovieFilesFile(file: file)
-                        .padding(.bottom, 8)
+                        .padding(.bottom, 4)
                         .onTapGesture { fileSheet = file }
                 }
 
                 ForEach(instance.metadata.extraFiles) { file in
                     MovieFilesExtraFile(file: file)
-                        .padding(.bottom, 8)
+                        .padding(.bottom, 4)
                 }
             }
         } header: {
@@ -61,7 +61,7 @@ struct MovieMetadataView: View {
         }
         .sheet(item: $fileSheet) { file in
             MovieFileSheet(file: file)
-                .presentationDetents([.medium])
+                .presentationDetents([.fraction(0.9)])
         }
     }
 
@@ -76,7 +76,7 @@ struct MovieMetadataView: View {
             } else {
                 ForEach(instance.metadata.history) { event in
                     MovieHistoryItem(event: event)
-                        .padding(.bottom, 8)
+                        .padding(.bottom, 4)
                         .onTapGesture { eventSheet = event }
                 }
             }
@@ -105,9 +105,8 @@ struct MovieMetadataView: View {
 
                 Text(label)
                     .font(.callout)
-                    .fontWeight(.semibold)
             }
-            .padding(.vertical)
+            .padding(.vertical, 6)
             .frame(maxWidth: .infinity)
         }
         .padding(.bottom)
@@ -132,7 +131,6 @@ struct MovieFilesFile: View {
                 .lineLimit(1)
         } label: {
             Text(file.relativePath ?? "--")
-                .padding(.bottom, 2)
         }
     }
 }
@@ -150,7 +148,6 @@ struct MovieFilesExtraFile: View {
             .foregroundStyle(.secondary)
         } label: {
             Text(file.relativePath ?? "--")
-                .padding(.bottom, 2)
         }
     }
 }
@@ -166,6 +163,12 @@ struct MovieHistoryItem: View {
                 Text(event.quality.quality.label)
                 Bullet()
                 Text(event.languageLabel)
+
+                if event.eventType == .grabbed {
+                    Bullet()
+                    Text(event.indexerLabel)
+                }
+
                 Spacer()
                 Text(date)
             }
@@ -192,13 +195,13 @@ struct MovieHistoryItem: View {
     }
 
     var date: String {
-        if event.date < Calendar.current.date(byAdding: .day, value: -30, to: Date())! {
-            return event.date.formatted(date: .abbreviated, time: .omitted)
+        let twoWeeksAgo = Calendar.current.date(byAdding: .day, value: -14, to: Date())!
+
+        if event.date > twoWeeksAgo {
+            return event.date.formatted(.relative(presentation: .named, unitsStyle: .narrow))
         }
 
-        return event.date.formatted(
-            .relative(presentation: .named, unitsStyle: .narrow)
-        )
+        return event.date.formatted(date: .abbreviated, time: .omitted)
     }
 }
 

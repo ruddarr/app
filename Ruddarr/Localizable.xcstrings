@@ -251,6 +251,16 @@
         }
       }
     },
+    "Alias" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alias"
+          }
+        }
+      }
+    },
     "All Movies" : {
       "localizations" : {
         "en" : {
@@ -1498,6 +1508,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Icons"
+          }
+        }
+      }
+    },
+    "Identifier" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Identifier"
           }
         }
       }
@@ -2892,6 +2912,16 @@
         }
       }
     },
+    "Release Push" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release Push"
+          }
+        }
+      }
+    },
     "Release Rejected" : {
       "localizations" : {
         "en" : {
@@ -3012,6 +3042,16 @@
         }
       }
     },
+    "RSS" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RSS"
+          }
+        }
+      }
+    },
     "Runtime" : {
       "localizations" : {
         "en" : {
@@ -3058,6 +3098,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Score"
+          }
+        }
+      }
+    },
+    "Search" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
           }
         }
       }
@@ -3688,6 +3738,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work."
+          }
+        }
+      }
+    },
+    "User Invoked Search" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User Invoked Search"
           }
         }
       }

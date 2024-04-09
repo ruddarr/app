@@ -104,8 +104,9 @@ struct MovieHistoryEvent: Identifiable, Codable {
         languageSingleLabel(languages)
     }
 
-    var scoreLabel: String {
-        formatCustomScore(customFormatScore)
+    var scoreLabel: String? {
+        guard !customFormats.isEmpty else { return nil }
+        return formatCustomScore(customFormatScore)
     }
 
     var indexerLabel: String {
@@ -118,6 +119,14 @@ struct MovieHistoryEvent: Identifiable, Codable {
         }
 
         return String(indexer.dropLast(11))
+    }
+
+    var indexerFlagsLabel: String? {
+        guard let flags = data("indexerFlags"), !flags.isEmpty, flags != "0" else {
+            return nil
+        }
+
+        return flags.replacing("G_", with: "")
     }
 
     var downloadClientLabel: String {
@@ -163,6 +172,10 @@ struct MovieHistoryEvent: Identifiable, Codable {
     func data(_ key: String) -> String? {
         guard let dict = data else { return nil }
         guard let value = dict[key] else { return nil }
+
+        if key == "releaseSource" { return localizeReleaseSource(value) }
+        if key == "movieMatchType" { return localizeMovieMatchType(value) }
+
         return value
     }
 }
@@ -202,4 +215,22 @@ enum MovieHistoryEventType: String, Codable {
         case .movieFileRenamed: "Movie Renamed"
         }
     }
+}
+
+func localizeReleaseSource(_ value: String?) -> String? {
+    if value == "Rss" { return String(localized: "RSS") }
+    if value == "Search" { return String(localized: "Search") }
+    if value == "UserInvokedSearch" { return String(localized: "User Invoked Search") }
+    if value == "InteractiveSearch" { return String(localized: "Interactive Search") }
+    if value == "ReleasePush" { return String(localized: "Release Push") }
+
+    return String(localized: "Unknown")
+}
+
+func localizeMovieMatchType(_ value: String?) -> String? {
+    if value == "Title" { return String(localized: "Title") }
+    if value == "Alias" { return String(localized: "Alias") }
+    if value == "Id" { return String(localized: "Identifier") }
+
+    return String(localized: "Unknown")
 }

@@ -44,11 +44,6 @@ struct MovieHistoryEventSheet: View {
                 Divider()
                 row("Match Type", event.data("movieMatchType") ?? "--")
 
-                if let group = event.data("releaseGroup") {
-                    Divider()
-                    row("Release Group", group)
-                }
-
                 if let string = event.data("publishedDate"), let date = parseDate(string) {
                     Divider()
                     row("Published", formatDate(date))
@@ -56,32 +51,44 @@ struct MovieHistoryEventSheet: View {
 
                 if let string = event.data("nzbInfoUrl"), let url = URL(string: string), let domain = url.host {
                     Divider()
-                    row("Website", domain)
+                    renderRow("Website", Link(domain, destination: url))
                 }
 
-                Divider()
-                row("Flags", event.data("indexerFlags")?.replacing("G_", with: "") ?? "--")
+                if let flags = event.indexerFlagsLabel {
+                    Divider()
+                    row("Flags", flags)
+                }
 
-                Divider()
-                row("Score", event.scoreLabel)
+                if let score = event.scoreLabel {
+                    Divider()
+                    row("Score", score)
+                }
 
                 if !event.customFormats.isEmpty  {
                     Divider()
                     row("Custom Formats", event.customFormats.map { $0.label }.formatted(.list(type: .and, width: .narrow)))
+                }
+
+                if let group = event.data("releaseGroup") {
+                    Divider()
+                    row("Release Group", group)
                 }
             }
         }
     }
 
     func row(_ label: LocalizedStringKey, _ value: String) -> some View {
+        renderRow(label, Text(value).foregroundStyle(.primary))
+    }
+
+    func renderRow<V: View>(_ label: LocalizedStringKey, _ value: V) -> some View {
         HStack(alignment: .top) {
             Text(label)
                 .foregroundStyle(.secondary)
             Spacer()
             Spacer()
             Spacer()
-            Text(value)
-                .foregroundStyle(.primary)
+            value
         }
         .font(.subheadline)
     }
