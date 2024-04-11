@@ -49,6 +49,7 @@ struct MovieView: View {
             }
             .buttonStyle(.plain)
             .allowsHitTesting(!instance.movies.isWorking)
+            .id(UUID())
         }
     }
 
@@ -71,6 +72,7 @@ struct MovieView: View {
             } label: {
                 actionMenuIcon
             }
+            .id(UUID())
             .confirmationDialog(
                 "Are you sure you want to delete the movie and permanently erase the movie folder and its contents?",
                 isPresented: $showDeleteConfirmation,

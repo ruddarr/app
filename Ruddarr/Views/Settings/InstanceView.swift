@@ -66,7 +66,7 @@ struct InstanceView: View {
     @ToolbarContentBuilder
     var toolbarEditButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            NavigationLink("Edit", value: SettingsView.Path.editInstance(instance.id))
+            NavigationLink("Edit", value: SettingsView.Path.editInstance(instance.id)).id(UUID())
         }
     }
 

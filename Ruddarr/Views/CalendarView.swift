@@ -153,7 +153,7 @@ struct CalendarView: View {
                 withAnimation(.smooth) {
                     scrollPosition = calendar.today()
                 }
-            }
+            }.id(UUID())
         }
     }
 

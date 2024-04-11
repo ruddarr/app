@@ -17,6 +17,9 @@ struct InstanceEditView: View {
     @State var username: String = ""
     @State var password: String = ""
 
+    @State var hotfixId = UUID()
+    @Environment(\.scenePhase) private var scenePhase
+
     enum Mode {
         case create
         case update
@@ -46,6 +49,7 @@ struct InstanceEditView: View {
                 await createOrUpdateInstance()
             }
         }
+        .onChange(of: scenePhase) { hotfixId = UUID() }
         .toolbar {
             toolbarButton
         }
@@ -189,15 +193,14 @@ struct InstanceEditView: View {
 
     @ToolbarContentBuilder
     var toolbarButton: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .primaryAction) {
             if isLoading {
                 ProgressView().tint(.secondary)
             } else {
                 Button("Done") {
-                    Task {
-                        await createOrUpdateInstance()
-                    }
+                    Task { await createOrUpdateInstance() }
                 }
+                .id(hotfixId) // somehow `.id(UUID())` doesn't work in this case
                 .disabled(hasEmptyFields())
             }
         }

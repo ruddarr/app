@@ -49,6 +49,7 @@ struct MovieEditView: View {
                         Task { await updateMovie() }
                     }
                 }
+                .id(UUID())
                 .confirmationDialog(
                     "Move Files",
                     isPresented: $showConfirmation,
