@@ -43,9 +43,9 @@ struct MovieReleasesView: View {
         .overlay {
             if instance.releases.isSearching {
                 searchingIndicator
-            } else if instance.releases.items.isEmpty {
+            } else if instance.releases.items.isEmpty && fetched {
                 noReleasesFound
-            } else if releases.isEmpty {
+            } else if releases.isEmpty && fetched {
                 noMatchingReleases
             }
         }
