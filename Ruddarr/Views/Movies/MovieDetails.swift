@@ -142,8 +142,9 @@ struct MovieDetails: View {
                 }
                 .buttonStyle(.bordered)
                 .tint(.secondary)
-            } else if !smallScreen {
+            } else {
                 Spacer()
+                    .modifier(MoviePreviewActionSpacerModifier())
             }
         }
     }
@@ -246,6 +247,16 @@ struct MoviePreviewActionModifier: ViewModifier {
             content.frame(maxWidth: .infinity)
         } else {
             content.frame(maxWidth: 215)
+        }
+    }
+}
+
+struct MoviePreviewActionSpacerModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            content.frame(maxWidth: .infinity)
+        } else {
+            content
         }
     }
 }

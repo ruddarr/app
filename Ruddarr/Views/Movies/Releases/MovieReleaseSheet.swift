@@ -115,12 +115,16 @@ struct MovieReleaseSheet: View {
 
     var actions: some View {
         HStack(spacing: 24) {
+            if !smallScreen {
+                Spacer()
+            }
+
             if let url = release.infoUrl {
                 Link(destination: URL(string: url)!, label: {
                     let label: LocalizedStringKey = smallScreen ? "Visit" : "Visit Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
-                        .frame(maxWidth: .infinity)
+                        .modifier(MoviePreviewActionModifier())
                 })
                 .buttonStyle(.bordered)
                 .tint(.secondary)
@@ -136,11 +140,15 @@ struct MovieReleaseSheet: View {
                     icon: "arrow.down.circle",
                     isLoading: instance.movies.isWorking
                 )
-                .frame(maxWidth: .infinity)
+                .modifier(MoviePreviewActionModifier())
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
             .allowsHitTesting(!instance.movies.isWorking)
+
+            if !smallScreen {
+                Spacer()
+            }
         }
         .fixedSize(horizontal: false, vertical: true)
     }
