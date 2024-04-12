@@ -36,9 +36,9 @@ struct MovieMetadataView: View {
             if instance.metadata.loadingFiles {
                 ProgressView().tint(.secondary)
             } else if instance.metadata.failedFiles {
-                noContent("An Error Occurred", icon: "exclamationmark.triangle")
+                noContent("An error occurred.")
             } else if instance.metadata.files.isEmpty && instance.metadata.extraFiles.isEmpty {
-                noContent("Movie Has No Files", icon: "folder")
+                noContent("Movie has no files.")
             } else {
                 ForEach(instance.metadata.files) { file in
                     MovieFilesFile(file: file)
@@ -70,9 +70,9 @@ struct MovieMetadataView: View {
             if instance.metadata.loadingHistory {
                 ProgressView().tint(.secondary)
             } else if instance.metadata.failedFiles {
-                noContent("An Error Occurred", icon: "exclamationmark.triangle")
+                noContent("An error occurred.")
             } else if instance.metadata.history.isEmpty {
-                noContent("Movie Has No History", icon: "clock.arrow.circlepath")
+                noContent("Movie has no history.")
             } else {
                 ForEach(instance.metadata.history) { event in
                     MovieHistoryItem(event: event)
@@ -96,20 +96,12 @@ struct MovieMetadataView: View {
         }
     }
 
-    func noContent(_ label: LocalizedStringKey, icon: String) -> some View {
-        GroupBox {
-            VStack(spacing: 6) {
-                Image(systemName: icon)
-                    .foregroundStyle(settings.theme.tint)
-                    .imageScale(.large)
-
-                Text(label)
-                    .font(.callout)
-            }
-            .padding(.vertical, 6)
-            .frame(maxWidth: .infinity)
-        }
-        .padding(.bottom)
+    func noContent(_ label: LocalizedStringKey) -> some View {
+        Text(label)
+            .font(.callout)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.bottom)
     }
 }
 

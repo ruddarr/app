@@ -271,12 +271,12 @@
         }
       }
     },
-    "An Error Occurred" : {
+    "An error occurred." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "An Error Occurred"
+            "value" : "An error occurred."
           }
         }
       }
@@ -2023,22 +2023,22 @@
         }
       }
     },
-    "Movie Has No Files" : {
+    "Movie has no files." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Movie Has No Files"
+            "value" : "Movie has no files."
           }
         }
       }
     },
-    "Movie Has No History" : {
+    "Movie has no history." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Movie Has No History"
+            "value" : "Movie has no history."
           }
         }
       }
