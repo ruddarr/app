@@ -5,8 +5,8 @@ struct MovieContextMenu: View {
 
     var body: some View {
         link(name: "Trakt", url: traktUrl)
-        link(name: "IMDb", url: imdbUrl)
         link(name: "Letterboxd", url: letterboxdUrl)
+        link(name: "IMDb", url: imdbUrl)
 
         if let callsheetUrl = callsheet {
             link(name: "Callsheet", url: callsheetUrl)
