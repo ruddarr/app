@@ -28,7 +28,7 @@ struct IconsView: View {
 
             // DEBUG: START
             if debug {
-                debugButtons
+                // debugButtons
             }
             // DEBUG: END
         }
@@ -91,18 +91,18 @@ struct IconsView: View {
     ) async {
         switch taskState {
         case .success(let statuses):
-            logLines.append("statuses: \(statuses.count)")
-            debugSuccessStatuses(statuses)
+            // logLines.append("statuses: \(statuses.count)")
+            // debugSuccessStatuses(statuses)
 
             entitledToService = Subscription.containsEntitledState(statuses)
             showSubscription = false
         case .failure(let error):
-            logLines.append("\(error)")
+            // logLines.append("\(error)")
 
             leaveBreadcrumb(.error, category: "subscription", message: "SubscriptionStatusTask failed", data: ["error": error])
             entitledToService = false
         case .loading:
-            logLines.append("loading")
+            // logLines.append("loading")
             break
         @unknown default:
             break
@@ -110,93 +110,93 @@ struct IconsView: View {
     }
 
     // DEBUG: START
-    func debugSuccessStatuses(_ statuses: [Product.SubscriptionInfo.Status]) {
-        for status in statuses {
-            let statusLabel = switch status.state {
-            case .subscribed: "subscribed"
-            case .expired: "expired"
-            case .inBillingRetryPeriod: "inBillingRetryPeriod"
-            case .inGracePeriod: "inGracePeriod"
-            case .revoked: "revoked"
-            default: "default"
-            }
+    // func debugSuccessStatuses(_ statuses: [Product.SubscriptionInfo.Status]) {
+    //     for status in statuses {
+    //         let statusLabel = switch status.state {
+    //         case .subscribed: "subscribed"
+    //         case .expired: "expired"
+    //         case .inBillingRetryPeriod: "inBillingRetryPeriod"
+    //         case .inGracePeriod: "inGracePeriod"
+    //         case .revoked: "revoked"
+    //         default: "default"
+    //         }
+    //
+    //         // logLines.append("status: \(statusLabel)")
+    //         // logLines.append("\(status)")
+    //     }
+    // }
 
-            logLines.append("status: \(statusLabel)")
-            logLines.append("\(status)")
-        }
-    }
-
-    @ViewBuilder
-    var debugButtons: some View {
-        VStack {
-            Button {
-                showManageScriptionSheet = true
-            } label: {
-                Text(verbatim: "Sheet")
-            }
-            .padding(.bottom)
-            .manageSubscriptionsSheet(
-                isPresented: $showManageScriptionSheet,
-                subscriptionGroupID: Subscription.group
-            )
-
-            Button {
-                Task {
-                    do {
-                        let products = try await Product.products(for: ["plus_yearly"])
-                        let result = try await products.first?.purchase()
-
-                        logLines.append("\(result)")
-                    } catch {
-                        logLines.append("\(error)")
-                    }
-                }
-            } label: {
-                Text(verbatim: "Purchase")
-            }
-            .padding(.bottom)
-
-            Button {
-                showSubscriptionSheet = true
-            } label: {
-                Text(verbatim: "View")
-            }
-            .sheet(isPresented: $showSubscriptionSheet) {
-                SubscriptionStoreView(groupID: Subscription.group, visibleRelationships: .all) {
-                    RuddarrPlusSheetContent()
-                }
-                .subscriptionStoreButtonLabel(.action)
-                .storeButton(.visible, for: .restorePurchases)
-                .tint(.blue)
-                .onInAppPurchaseStart { product in
-                    logLines.append("onInAppPurchaseStart")
-                    logLines.append("\(product)")
-                }
-                .onInAppPurchaseCompletion { product, result in
-                    logLines.append("onInAppPurchaseCompletion")
-                    logLines.append("\(product)")
-                    logLines.append("\(result)")
-                }
-            }
-        }
-        .font(.footnote)
-        .padding(.top)
-        .viewPadding(.horizontal)
-
-        if !logLines.isEmpty {
-            GroupBox {
-                VStack(alignment: .leading, spacing: 12) {
-                    ForEach(logLines, id: \.self) { line in
-                        Text(line).textSelection(.enabled)
-                        Divider()
-                    }
-                }
-            }
-            .font(.caption2)
-            .padding(.top)
-        }
-    }
-    // DEBUG: END
+    // @ViewBuilder
+    // var debugButtons: some View {
+    //     VStack {
+    //         Button {
+    //             showManageScriptionSheet = true
+    //         } label: {
+    //             Text(verbatim: "Sheet")
+    //         }
+    //         .padding(.bottom)
+    //         .manageSubscriptionsSheet(
+    //             isPresented: $showManageScriptionSheet,
+    //             subscriptionGroupID: Subscription.group
+    //         )
+    //
+    //         Button {
+    //             Task {
+    //                 do {
+    //                     let products = try await Product.products(for: ["plus_yearly"])
+    //                     let result = try await products.first?.purchase()
+    //
+    //                     logLines.append("\(String(describing: result))")
+    //                 } catch {
+    //                     logLines.append("\(error)")
+    //                 }
+    //             }
+    //         } label: {
+    //             Text(verbatim: "Purchase")
+    //         }
+    //         .padding(.bottom)
+    //
+    //         Button {
+    //             showSubscriptionSheet = true
+    //         } label: {
+    //             Text(verbatim: "View")
+    //         }
+    //         .sheet(isPresented: $showSubscriptionSheet) {
+    //             SubscriptionStoreView(groupID: Subscription.group, visibleRelationships: .all) {
+    //                 RuddarrPlusSheetContent()
+    //             }
+    //             .subscriptionStoreButtonLabel(.action)
+    //             .storeButton(.visible, for: .restorePurchases)
+    //             .tint(.blue)
+    //             .onInAppPurchaseStart { product in
+    //                 logLines.append("onInAppPurchaseStart")
+    //                 logLines.append("\(product)")
+    //             }
+    //             .onInAppPurchaseCompletion { product, result in
+    //                 logLines.append("onInAppPurchaseCompletion")
+    //                 logLines.append("\(product)")
+    //                 logLines.append("\(result)")
+    //             }
+    //         }
+    //     }
+    //     .font(.footnote)
+    //     .padding(.top)
+    //     .viewPadding(.horizontal)
+    //
+    //     if !logLines.isEmpty {
+    //         GroupBox {
+    //             VStack(alignment: .leading, spacing: 12) {
+    //                 ForEach(logLines, id: \.self) { line in
+    //                     Text(line).textSelection(.enabled)
+    //                     Divider()
+    //                 }
+    //             }
+    //         }
+    //         .font(.caption2)
+    //         .padding(.top)
+    //     }
+    // }
+    // // DEBUG: END
 }
 
 #Preview {

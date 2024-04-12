@@ -150,7 +150,7 @@ struct SettingsAboutSection: View {
             return
         }
 
-        leaveBreadcrumb(.warning, category: "settings.about", message: "Unable to open GitHubDiscussions")
+        leaveBreadcrumb(.warning, category: "settings.about", message: "Unable to open GitHub Discussions")
     }
 
     @MainActor
