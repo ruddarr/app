@@ -1793,6 +1793,16 @@
         }
       }
     },
+    "Link" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Link"
+          }
+        }
+      }
+    },
     "Lithuanian" : {
       "localizations" : {
         "en" : {
