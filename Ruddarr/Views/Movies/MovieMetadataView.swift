@@ -26,16 +26,17 @@ struct MovieMetadataView: View {
             instance.metadata.setMovie(movie)
         }
         .refreshable {
-            await instance.metadata.fetchFiles(for: movie)
-            await instance.metadata.fetchHistory(for: movie)
+            await Task {
+                await instance.metadata.refresh(for: movie)
+            }.value
         }
     }
 
     var files: some View {
         Section {
-            if instance.metadata.loadingFiles {
+            if instance.metadata.filesLoading {
                 ProgressView().tint(.secondary)
-            } else if instance.metadata.failedFiles {
+            } else if instance.metadata.filesError {
                 noContent("An error occurred.")
             } else if instance.metadata.files.isEmpty && instance.metadata.extraFiles.isEmpty {
                 noContent("Movie has no files.")
@@ -67,9 +68,9 @@ struct MovieMetadataView: View {
 
     var history: some View {
         Section {
-            if instance.metadata.loadingHistory {
+            if instance.metadata.historyLoading {
                 ProgressView().tint(.secondary)
-            } else if instance.metadata.failedFiles {
+            } else if instance.metadata.historyError {
                 noContent("An error occurred.")
             } else if instance.metadata.history.isEmpty {
                 noContent("Movie has no history.")

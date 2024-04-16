@@ -10,11 +10,11 @@ class MovieMetadata {
     var extraFiles: [MovieExtraFile] = []
     var history: [MovieHistoryEvent] = []
 
-    var loadingFiles: Bool = false
-    var loadingHistory: Bool = false
+    var filesLoading: Bool = false
+    var filesError: Bool = false
 
-    var failedFiles: Bool = false
-    var failedHistory: Bool = false
+    var historyLoading: Bool = false
+    var historyError: Bool = false
 
     init(_ instance: Instance) {
         self.instance = instance
@@ -35,17 +35,17 @@ class MovieMetadata {
             return
         }
 
-        loadingFiles = true
-        failedFiles = false
+        filesLoading = true
+        filesError = false
 
         do {
             files = try await dependencies.api.getMovieFiles(movie.id, instance)
             extraFiles = try await dependencies.api.getMovieExtraFiles(movie.id, instance)
         } catch {
-            failedFiles = true
+            filesError = true
         }
 
-        loadingFiles = false
+        filesLoading = false
     }
 
     func fetchHistory(for movie: Movie) async {
@@ -53,16 +53,35 @@ class MovieMetadata {
             return
         }
 
-        loadingHistory = true
-        failedHistory = false
+        historyLoading = true
+        historyError = false
 
         do {
             history = try await dependencies.api.getMovieHistory(movie.id, instance)
         } catch {
-            failedHistory = true
+            historyError = true
         }
 
-        loadingHistory = false
+        historyLoading = false
+    }
+
+    func refresh(for movie: Movie) async {
+        do {
+            files = try await dependencies.api.getMovieFiles(movie.id, instance)
+            extraFiles = try await dependencies.api.getMovieExtraFiles(movie.id, instance)
+        } catch {
+            filesError = true
+        }
+
+        filesLoading = false
+
+        do {
+            history = try await dependencies.api.getMovieHistory(movie.id, instance)
+        } catch {
+            historyError = true
+        }
+
+        historyLoading = false
     }
 }
 
