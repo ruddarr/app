@@ -113,7 +113,7 @@ extension InstanceEditView {
         }
 
         if [":8989", "sonar"].contains(where: instance.url.contains) {
-            instance.type = .radarr
+            instance.type = .sonarr
         }
     }
 
