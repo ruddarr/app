@@ -25,10 +25,9 @@ struct MovieReleasesView: View {
         }
         .task {
             guard !fetched else { return }
-
             await instance.releases.search(movie)
-            updateDisplayedReleases()
 
+            updateDisplayedReleases()
             fetched = true
         }
         .onChange(of: sort, updateDisplayedReleases)

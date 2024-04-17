@@ -24,9 +24,9 @@ class MovieReleases {
     func search(_ movie: Movie) async {
         items = []
         error = nil
+        isSearching = true
 
         do {
-            isSearching = true
             items = try await dependencies.api.lookupReleases(movie.id, instance)
             setIndexers()
             setQualities()
