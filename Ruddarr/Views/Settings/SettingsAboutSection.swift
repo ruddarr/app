@@ -76,19 +76,19 @@ struct SettingsAboutSection: View {
         })
     }
 
-    var invite: some View {
-        Button {
-            Task { await openInviteEmail() }
-        } label: {
-            Label {
-                Text("Invite me to BTN / PTP").tint(.primary)
-            } icon: {
-                Image(systemName: "figure.2")
-                    .foregroundStyle(settings.theme.tint)
-                    .scaleEffect(0.8)
-            }
-        }
-    }
+//    var invite: some View {
+//        Button {
+//            Task { await openInviteEmail() }
+//        } label: {
+//            Label {
+//                Text("BTN Invite").tint(.primary)
+//            } icon: {
+//                Image(systemName: "figure.2")
+//                    .foregroundStyle(settings.theme.tint)
+//                    .scaleEffect(0.8)
+//            }
+//        }
+//    }
 
     var libraries: some View {
         NavigationLink {
@@ -157,7 +157,7 @@ struct SettingsAboutSection: View {
         let address = "ruddarr@icloud.com"
         let subject = "Invite"
 
-        let body = "I have an invite for you, show me your tracker ratios, let's talk."
+        let body = "I have a BTN invite for you, show me your tracker ratios, let's talk."
 
         var components = URLComponents()
         components.scheme = "mailto"

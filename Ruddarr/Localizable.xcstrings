@@ -1663,16 +1663,6 @@
         }
       }
     },
-    "Invite me to BTN / PTP" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Invite me to BTN / PTP"
-          }
-        }
-      }
-    },
     "Italian" : {
       "localizations" : {
         "en" : {
