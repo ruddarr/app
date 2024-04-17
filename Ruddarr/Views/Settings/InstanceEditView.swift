@@ -36,10 +36,6 @@ struct InstanceEditView: View {
                     deleteButton
                 }
             }
-
-            #if DEBUG
-                debugQuickFill
-            #endif
         }
         .navigationBarTitleDisplayMode(.inline)
         .onSubmit {

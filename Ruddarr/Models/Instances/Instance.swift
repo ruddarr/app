@@ -80,39 +80,11 @@ struct RadarrCommand: Codable {
     }
 }
 
-// TODO: Remove these?
 extension Instance {
     static var void: Self {
         .init(
             id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
             type: .radarr
-        )
-    }
-
-    static var radarr: Self {
-        .init(
-            id: UUID(uuidString: "f8a124e4-e7d8-405a-b38e-cab1005fc2dd")!,
-            type: .radarr,
-            url: "HTTP://10.0.1.5:8310/api",
-            apiKey: "3b0600c1b3aa42bfb0222f4e13a81f39"
-        )
-    }
-
-    static var sonarr: Self {
-        .init(
-            id: UUID(uuidString: "8d67b5cd-d6db-4453-940c-6b858703dd87")!,
-            type: .sonarr,
-            url: "http://10.0.1.5:8989",
-            apiKey: "f8e3682b3b984cddbaa00047a09d0fbd"
-        )
-    }
-
-    static var digitalOcean: Self {
-        .init(
-            id: UUID(uuidString: "6cd49e6e-fbb2-40c3-9f22-f4025c070ae5")!,
-            type: .radarr,
-            url: "http://167.172.20.216:7878",
-            apiKey: "b3216ceaa69341619b1b56377607972c"
         )
     }
 

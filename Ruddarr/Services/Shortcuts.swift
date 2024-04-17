@@ -77,7 +77,7 @@ struct SeriesIntent: AppIntent {
     @MainActor
     func perform() async throws -> some IntentResult {
         dependencies.router.seriesPath = .init()
-        dependencies.router.selectedTab = .series
+        // dependencies.router.selectedTab = .series
 
         return .result()
     }

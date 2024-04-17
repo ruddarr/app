@@ -15,7 +15,7 @@ struct SeriesView: View {
 }
 
 #Preview {
-    dependencies.router.selectedTab = .series
+    // dependencies.router.selectedTab = .series
 
     return ContentView()
         .withAppState()

@@ -7,14 +7,13 @@ struct SettingsAboutSection: View {
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
-        // TODO: re-enable some menu items
         Section(header: Text("About")) {
             share
             review
             support
             discord
-            // contribute
-            // invite
+            contribute
+            // invite // TODO: re-enable
             libraries
         }
     }
