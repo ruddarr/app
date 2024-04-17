@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>APNsKey</key>
+	<string>TESTING</string>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundleAlternateIcons</key>
@@ -20,7 +22,7 @@
 					<string>AppIconPodcasts</string>
 				</array>
 			</dict>
-            <key>AppIconBooks</key>
+			<key>AppIconBooks</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
@@ -62,7 +64,7 @@
 					<string>AppIconWarp</string>
 				</array>
 			</dict>
-            <key>AppIconATP</key>
+			<key>AppIconATP</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>

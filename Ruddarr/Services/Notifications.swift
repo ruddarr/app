@@ -142,7 +142,12 @@ class Notifications {
     }
 
     func signature(_ message: String) -> String {
-        let secret = Secrets.NotificationKey
+        guard let secret = Bundle.main.infoDictionary?["APNsKey"] as? String else {
+            leaveBreadcrumb(.fatal, category: "notifications", message: "Failed to load APNs key")
+
+            return "TESTING"
+        }
+
         let key = SymmetricKey(data: Data(secret.utf8))
         let data = Data(message.utf8)
         let hmac = HMAC<SHA256>.authenticationCode(for: data, using: key)
