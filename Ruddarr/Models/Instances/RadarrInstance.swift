@@ -2,10 +2,12 @@ import os
 import SwiftUI
 import Foundation
 
-@Observable class RadarrInstance {
+@Observable
+class RadarrInstance {
     private var instance: Instance
 
     var isVoid = true
+
     var movies: Movies
     var lookup: MovieLookup
     var releases: MovieReleases
@@ -25,6 +27,16 @@ import Foundation
         self.metadata = MovieMetadata(instance)
     }
 
+    func switchTo(_ target: Instance) {
+        isVoid = target == .void
+
+        self.instance = target
+        self.movies = Movies(target)
+        self.lookup = MovieLookup(target)
+        self.releases = MovieReleases(target)
+        self.metadata = MovieMetadata(target)
+    }
+
     var id: UUID {
         instance.id
     }
@@ -35,15 +47,6 @@ import Foundation
 
     var qualityProfiles: [InstanceQualityProfile] {
         instance.qualityProfiles
-    }
-
-    func switchTo(_ target: Instance) {
-        isVoid = target == .void
-        instance = target
-        movies.items.removeAll()
-        movies = Movies(target)
-        lookup = MovieLookup(target)
-        releases = MovieReleases(target)
     }
 
     func fetchMetadata() async -> Instance? {
