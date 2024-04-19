@@ -3682,6 +3682,17 @@
         }
       }
     },
+    "Unlocks unlimited instance notifications, all alternate app icons and supports the continued indie development of Ruddarr." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlocks unlimited instance notifications, all alternate app icons and supports the continued indie development of Ruddarr."
+          }
+        }
+      }
+    },
     "Unmonitored" : {
       "localizations" : {
         "en" : {

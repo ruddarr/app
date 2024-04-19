@@ -84,6 +84,9 @@ enum SubscriptionStatus {
 }
 
 struct RuddarrPlusSheet: View {
+    let privacy = URL(string: "https://ruddarr.com/privacy")!
+    let terms = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
+
     var body: some View {
         SubscriptionStoreView(groupID: Subscription.group, visibleRelationships: .all) {
              RuddarrPlusSheetContent()
@@ -91,6 +94,8 @@ struct RuddarrPlusSheet: View {
         .subscriptionStoreButtonLabel(.action)
         // .storeButton(.visible, for: .redeemCode)
         .storeButton(.visible, for: .restorePurchases)
+        .subscriptionStorePolicyDestination(url: privacy, for: .privacyPolicy)
+        .subscriptionStorePolicyDestination(url: terms, for: .termsOfService)
         .tint(.blue)
     }
 }
