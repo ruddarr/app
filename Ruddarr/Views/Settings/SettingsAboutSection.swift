@@ -19,7 +19,9 @@ struct SettingsAboutSection: View {
     }
 
     var share: some View {
-        ShareLink(item: Links.TestFlight) {
+        var isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
+
+        return ShareLink(item: isTestFlight ? Links.TestFlight : Links.AppStore) {
             Label {
                 Text("Share App").tint(.primary)
             } icon: {
