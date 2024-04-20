@@ -4,6 +4,10 @@ A native companion app for Radarr and Sonarr instances written in SwiftUI.
 
 - [Ruddarr on the App Store](https://apps.apple.com/app/ruddarr/id6476240130)
 
+## Notifications
+
+The notifications are powered by a [Cloudflare Worker](https://github.com/ruddarr/apns-worker).
+
 ## URL Schemes
 
 ### Open Screens
