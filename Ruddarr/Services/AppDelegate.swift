@@ -39,7 +39,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         return sceneConfiguration
     }
 
-    // Called after successful registeration with APNs
+    // Called after successful registration with APNs
     func application(
         _ application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
