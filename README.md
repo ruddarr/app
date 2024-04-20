@@ -1,6 +1,6 @@
 # Ruddarr
 
-A companion app for Radarr and Sonarr instances. Browse libraries, manage content and search for new content.
+A native iOS companion app for Radarr and Sonarr instances.
 
 ## URL Schemes
 
