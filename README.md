@@ -1,6 +1,8 @@
 # Ruddarr
 
-A native iOS companion app for Radarr and Sonarr instances.
+A native companion app for Radarr and Sonarr instances written in SwiftUI.
+
+- [Ruddarr on the App Store](https://apps.apple.com/app/ruddarr/id6476240130)
 
 ## URL Schemes
 
