@@ -138,9 +138,7 @@ struct ContentView: View {
                 dependencies.router.selectedTab = tab
             }
 
-            if isPortrait {
-                columnVisibility = .detailOnly
-            }
+            columnVisibility = isPortrait ? .automatic : .doubleColumn
         } label: {
             tab.row
         }
