@@ -731,6 +731,16 @@
         }
       }
     },
+    "Community" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Community"
+          }
+        }
+      }
+    },
     "Connect a Radarr instance under %@." : {
       "localizations" : {
         "en" : {
@@ -3498,6 +3508,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Telugu"
+          }
+        }
+      }
+    },
+    "Test the Beta" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test the Beta"
           }
         }
       }

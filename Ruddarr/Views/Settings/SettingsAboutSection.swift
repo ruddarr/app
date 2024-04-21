@@ -11,17 +11,13 @@ struct SettingsAboutSection: View {
             share
             review
             support
-            discord
-            contribute
             // invite // TODO: re-enable
             libraries
         }
     }
 
     var share: some View {
-        var isTestFlight = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
-
-        return ShareLink(item: isTestFlight ? Links.TestFlight : Links.AppStore) {
+        ShareLink(item: Links.AppShare) {
             Label {
                 Text("Share App").tint(.primary)
             } icon: {
@@ -43,17 +39,6 @@ struct SettingsAboutSection: View {
         }
     }
 
-    var discord: some View {
-        Link(destination: Links.Discord) {
-            Label {
-                Text("Join the Discord").tint(.primary)
-            } icon: {
-                Image(systemName: "text.bubble")
-                    .foregroundStyle(settings.theme.tint)
-            }
-        }
-    }
-
     var support: some View {
         Button {
             Task { await openSupportEmail() }
@@ -65,17 +50,6 @@ struct SettingsAboutSection: View {
                     .foregroundStyle(settings.theme.tint)
             }
         }
-    }
-
-    var contribute: some View {
-        Link(destination: Links.GitHub, label: {
-            Label {
-                Text("Contribute on GitHub").tint(.primary)
-            } icon: {
-                Image(systemName: "curlybraces.square")
-                    .foregroundStyle(settings.theme.tint)
-            }
-        })
     }
 
 //    var invite: some View {
