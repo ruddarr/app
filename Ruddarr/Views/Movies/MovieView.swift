@@ -38,7 +38,7 @@ struct MovieView: View {
             }
             Button("Cancel", role: .cancel) { }
         } message: {
-            Text("This will delete the movie and permanently erase the movie folder and its contents. You can’t undo this action.")
+            Text("This will delete the movie and permanently erase the movie folder and its contents.")
         }
     }
 

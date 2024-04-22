@@ -21,6 +21,11 @@ struct MovieEditView: View {
             .toolbar {
                 toolbarSaveButton
             }
+            .onDisappear {
+                if !savedChanges {
+                    undoMovieChanges()
+                }
+            }
             .alert(
                 isPresented: instance.movies.errorBinding,
                 error: instance.movies.error
@@ -29,10 +34,17 @@ struct MovieEditView: View {
             } message: { error in
                 Text(error.recoverySuggestionFallback)
             }
-            .onDisappear {
-                if !savedChanges {
-                    undoMovieChanges()
+            .alert(
+                "Move the movie files to \"\(movie.rootFolderPath!)\"?",
+                isPresented: $showConfirmation
+            ) {
+                Button("Move Files", role: .destructive) {
+                    Task { await updateMovie(moveFiles: true) }
                 }
+                Button("No") {
+                    Task { await updateMovie() }
+                }
+                Button("Cancel", role: .cancel) {}
             }
     }
 
@@ -50,23 +62,6 @@ struct MovieEditView: View {
                     }
                 }
                 .id(UUID())
-                .confirmationDialog(
-                    "Move Files",
-                    isPresented: $showConfirmation,
-                    titleVisibility: .hidden
-                ) {
-                    Button("Move Files", role: .destructive) {
-                        Task { await updateMovie(moveFiles: true) }
-                    }
-                    Button("No") {
-                        Task { await updateMovie() }
-                    }
-                    Button("Cancel", role: .cancel) {
-                        showConfirmation = false
-                    }
-                } message: {
-                    Text("Would you like to move the movie folder to \"\(movie.rootFolderPath!)\"?")
-                }
             }
         }
     }

@@ -25,13 +25,14 @@ struct SettingsSystemSection: View {
             Button("Reset All Settings", role: .destructive) {
                 showingEraseConfirmation = true
             }
-            .confirmationDialog("Are you sure?", isPresented: $showingEraseConfirmation) {
+            .alert(
+                "Are you sure you want to erase all settings?",
+                isPresented: $showingEraseConfirmation
+            ) {
                 Button("Reset All Settings", role: .destructive) {
                     resetAllSettings()
                 }
                 Button("Cancel", role: .cancel) { }
-            } message: {
-                Text("Are you sure you want to erase all settings?")
             }
         } header: {
             Text("System")

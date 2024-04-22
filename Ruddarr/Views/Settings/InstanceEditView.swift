@@ -173,11 +173,12 @@ struct InstanceEditView: View {
             showingConfirmation = true
         }
         .frame(maxWidth: .infinity, alignment: .center)
-        .confirmationDialog("Are you sure?", isPresented: $showingConfirmation) {
+        .alert(
+            "Are you sure you want to delete the instance?",
+            isPresented: $showingConfirmation
+        ) {
             Button("Delete Instance", role: .destructive) { deleteInstance() }
             Button("Cancel", role: .cancel) { }
-        } message: {
-            Text("Are you sure you want to delete the instance?")
         }
     }
 

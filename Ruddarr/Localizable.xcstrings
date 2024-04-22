@@ -1953,6 +1953,16 @@
         }
       }
     },
+    "Move the movie files to \"%@\"?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move the movie files to \"%@\"?"
+          }
+        }
+      }
+    },
     "Movie Added" : {
       "localizations" : {
         "en" : {
@@ -3562,12 +3572,12 @@
         }
       }
     },
-    "This will delete the movie and permanently erase the movie folder and its contents. You can’t undo this action." : {
+    "This will delete the movie and permanently erase the movie folder and its contents." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This will delete the movie and permanently erase the movie folder and its contents. You can’t undo this action."
+            "value" : "This will delete the movie and permanently erase the movie folder and its contents."
           }
         }
       }
@@ -3950,16 +3960,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Weight"
-          }
-        }
-      }
-    },
-    "Would you like to move the movie folder to \"%@\"?" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Would you like to move the movie folder to \"%@\"?"
           }
         }
       }
