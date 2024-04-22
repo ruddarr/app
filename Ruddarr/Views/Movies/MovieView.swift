@@ -29,6 +29,17 @@ struct MovieView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
+        .alert(
+            "Are you sure?",
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button("Delete Movie", role: .destructive) {
+                Task { await deleteMovie(movie) }
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("This will delete the movie and permanently erase the movie folder and its contents. You can’t undo this action.")
+        }
     }
 
     @ToolbarContentBuilder
@@ -73,20 +84,6 @@ struct MovieView: View {
                 actionMenuIcon
             }
             .id(UUID())
-            .confirmationDialog(
-                "Are you sure you want to delete the movie and permanently erase the movie folder and its contents?",
-                isPresented: $showDeleteConfirmation,
-                titleVisibility: .visible
-            ) {
-                Button("Delete Movie", role: .destructive) {
-                    Task {
-                        await deleteMovie(movie)
-                    }
-                }
-                Button("Cancel", role: .cancel) { }
-            } message: {
-                Text("You can’t undo this action.")
-            }
         }
     }
 

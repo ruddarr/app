@@ -441,16 +441,6 @@
         }
       }
     },
-    "Are you sure you want to delete the movie and permanently erase the movie folder and its contents?" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Are you sure you want to delete the movie and permanently erase the movie folder and its contents?"
-          }
-        }
-      }
-    },
     "Are you sure you want to erase all settings?" : {
       "localizations" : {
         "en" : {
@@ -3572,6 +3562,16 @@
         }
       }
     },
+    "This will delete the movie and permanently erase the movie folder and its contents. You can’t undo this action." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This will delete the movie and permanently erase the movie folder and its contents. You can’t undo this action."
+          }
+        }
+      }
+    },
     "Title" : {
       "localizations" : {
         "en" : {
@@ -3980,16 +3980,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Year"
-          }
-        }
-      }
-    },
-    "You can’t undo this action." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You can’t undo this action."
           }
         }
       }
