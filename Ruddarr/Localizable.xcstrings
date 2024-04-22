@@ -2722,16 +2722,6 @@
         }
       }
     },
-    "Paths" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paths"
-          }
-        }
-      }
-    },
     "Peers" : {
       "localizations" : {
         "en" : {
