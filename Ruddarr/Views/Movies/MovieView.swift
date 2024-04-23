@@ -1,4 +1,5 @@
 import SwiftUI
+import TelemetryClient
 
 struct MovieView: View {
     @Binding var movie: Movie
@@ -179,6 +180,8 @@ extension MovieView {
         }
 
         dependencies.toast.show(.searchQueued)
+
+        TelemetryManager.send("automaticSearchDispatched")
     }
 
     @MainActor

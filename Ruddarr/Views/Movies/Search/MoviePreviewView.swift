@@ -1,4 +1,5 @@
 import SwiftUI
+import TelemetryClient
 
 struct MoviePreviewView: View {
     @State var movie: Movie
@@ -93,6 +94,8 @@ struct MoviePreviewView: View {
 
         dependencies.router.moviesPath.removeLast(dependencies.router.moviesPath.count)
         dependencies.router.moviesPath.append(moviePath)
+
+        TelemetryManager.send("movieAdded")
     }
 }
 
