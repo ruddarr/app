@@ -29,7 +29,7 @@ struct MoviesView: View {
         NavigationStack(path: dependencies.$router.moviesPath) {
             Group {
                 if instance.isVoid {
-                    NoRadarrInstance()
+                    NoInstance(type: "Radarr")
                 } else {
                     ScrollView {
                         movieItemGrid
@@ -51,33 +51,39 @@ struct MoviesView: View {
                 switch $0 {
                 case .search(let query):
                     MovieSearchView(searchQuery: query)
-                        .environment(instance).environmentObject(settings)
+                        .environment(instance)
+                        .environmentObject(settings)
                 case .preview(let data):
                     if let payload = data,
                        let movie = try? JSONDecoder().decode(Movie.self, from: payload)
                     {
                         MoviePreviewView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .movie(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .edit(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieEditView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .releases(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieReleasesView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .metadata(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieMetadataView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 }
             }
@@ -126,7 +132,7 @@ struct MoviesView: View {
                 if notConnectedToInternet {
                     NoInternet()
                 } else if hasNoSearchResults {
-                    MovieNoSearchResults(query: $searchQuery)
+                    NoMovieSearchResults(query: $searchQuery)
                 } else if isLoadingMovies {
                     Loading()
                 } else if hasNoMatchingResults {

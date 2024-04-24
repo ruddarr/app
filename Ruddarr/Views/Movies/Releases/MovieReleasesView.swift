@@ -16,7 +16,8 @@ struct MovieReleasesView: View {
         List {
             ForEach(releases) { release in
                 MovieReleaseRow(release: release)
-                    .environment(instance).environmentObject(settings)
+                    .environment(instance)
+                    .environmentObject(settings)
             }
         }
         .listStyle(.inset)

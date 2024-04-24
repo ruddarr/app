@@ -1,6 +1,7 @@
 import SwiftUI
 
-struct MovieSort: Hashable {
+// TODO: needs work
+struct SeriesSort: Hashable {
     var isAscending: Bool = false
     var option: Option = .byAdded
     var filter: Filter = .all
@@ -9,6 +10,7 @@ struct MovieSort: Hashable {
         var id: Self { self }
 
         case byTitle
+        // TODO: next/previous airing
         case byYear
         case byAdded
 
@@ -20,7 +22,7 @@ struct MovieSort: Hashable {
             }
         }
 
-        func isOrderedBefore(_ lhs: Movie, _ rhs: Movie) -> Bool {
+        func isOrderedBefore(_ lhs: Series, _ rhs: Series) -> Bool {
             switch self {
             case .byTitle:
                 lhs.sortTitle < rhs.sortTitle
@@ -38,49 +40,54 @@ struct MovieSort: Hashable {
         case all
         case monitored
         case unmonitored
-        case missing
-        case wanted
-        case dangling
+        // case continuing
+        // case ended
+        // case missing
+// case wanted
+// case dangling
+// anime only
 
         var label: some View {
             switch self {
-            case .all: Label("All Movies", systemImage: "rectangle.stack")
+            case .all: Label("All TV Series", systemImage: "rectangle.stack")
             case .monitored: Label("Monitored", systemImage: "bookmark.fill")
             case .unmonitored: Label("Unmonitored", systemImage: "bookmark")
-            case .missing: Label("Missing", systemImage: "exclamationmark.magnifyingglass")
-            case .wanted: Label("Wanted", systemImage: "sparkle.magnifyingglass")
-            case .dangling: Label("Dangling", systemImage: "questionmark.square")
+//            case .missing: Label("Missing", systemImage: "exclamationmark.magnifyingglass")
+//            case .wanted: Label("Wanted", systemImage: "sparkle.magnifyingglass")
+//            case .dangling: Label("Dangling", systemImage: "questionmark.square")
             }
         }
 
-        func filtered(_ movies: [Movie]) -> [Movie] {
+        func filtered(_ series: [Series]) -> [Series] {
             switch self {
             case .all:
-                movies
+                series
             case .monitored:
-                movies.filter { $0.monitored }
+                series.filter { $0.monitored }
             case .unmonitored:
-                movies.filter { !$0.monitored }
-            case .missing:
-                movies.filter { $0.monitored && !$0.isDownloaded }
-            case .wanted:
-                movies.filter { $0.monitored && !$0.isDownloaded && $0.isAvailable }
-            case .dangling:
-                movies.filter { !$0.monitored && !$0.isDownloaded }
+                series.filter { !$0.monitored }
+//            case .missing:
+//                series.filter { $0.monitored && !$0.isDownloaded }
+//            case .wanted:
+//                // TODO: needs fix
+//                // series.filter { $0.monitored && !$0.isDownloaded && $0.isAvailable }
+//                series.filter { $0.monitored && !$0.isDownloaded && true }
+//            case .dangling:
+//                series.filter { !$0.monitored && !$0.isDownloaded }
             }
         }
     }
 }
 
-extension MovieSort: RawRepresentable {
+extension SeriesSort: RawRepresentable {
     public init?(rawValue: String) {
         do {
             guard let data = rawValue.data(using: .utf8)
             else { return nil }
-            let result = try JSONDecoder().decode(MovieSort.self, from: data)
+            let result = try JSONDecoder().decode(SeriesSort.self, from: data)
             self = result
         } catch {
-            leaveBreadcrumb(.fatal, category: "movie.sort", message: "init failed", data: ["error": error])
+            leaveBreadcrumb(.fatal, category: "series.sort", message: "init failed", data: ["error": error])
 
             return nil
         }
@@ -97,7 +104,7 @@ extension MovieSort: RawRepresentable {
     }
 }
 
-extension MovieSort: Codable {
+extension SeriesSort: Codable {
     enum CodingKeys: String, CodingKey {
         case isAscending
         case option

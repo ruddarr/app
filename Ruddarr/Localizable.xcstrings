@@ -221,12 +221,32 @@
         }
       }
     },
+    "Add Series" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Series"
+          }
+        }
+      }
+    },
     "Add to Library" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Add to Library"
+          }
+        }
+      }
+    },
+    "Add TV Series" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add TV Series"
           }
         }
       }
@@ -267,6 +287,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "All Movies"
+          }
+        }
+      }
+    },
+    "All TV Series" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All TV Series"
           }
         }
       }
@@ -681,6 +711,16 @@
         }
       }
     },
+    "Check the spelling or try [adding the series](%@)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check the spelling or try [adding the series](%@)."
+          }
+        }
+      }
+    },
     "Chinese" : {
       "localizations" : {
         "en" : {
@@ -711,16 +751,6 @@
         }
       }
     },
-    "Coming Soon" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coming Soon"
-          }
-        }
-      }
-    },
     "Community" : {
       "localizations" : {
         "en" : {
@@ -731,12 +761,12 @@
         }
       }
     },
-    "Connect a Radarr instance under %@." : {
+    "Connect a %@ instance under %@." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Connect a Radarr instance under %@."
+            "value" : "Connect a %1$@ instance under %2$@."
           }
         }
       }
@@ -2153,6 +2183,16 @@
         }
       }
     },
+    "No %@ Instance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No %@ Instance"
+          }
+        }
+      }
+    },
     "No Internet Connection" : {
       "localizations" : {
         "en" : {
@@ -2179,16 +2219,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No movies match the selected filters."
-          }
-        }
-      }
-    },
-    "No Radarr Instance" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Radarr Instance"
           }
         }
       }
@@ -2232,6 +2262,30 @@
           }
         }
       }
+    },
+    "No Series Match" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Series Match"
+          }
+        }
+      }
+    },
+    "No series match the selected filters." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No series match the selected filters."
+          }
+        }
+      }
+    },
+    "No Sonarr Match" : {
+
     },
     "Norwegian" : {
       "localizations" : {
@@ -3628,16 +3682,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Turkish"
-          }
-        }
-      }
-    },
-    "TV Series will be added once the movies component has been thoroughly tested in TestFlight." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "TV Series will be added once the movies component has been thoroughly tested in TestFlight."
           }
         }
       }

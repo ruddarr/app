@@ -80,23 +80,58 @@ struct RadarrCommand: Codable {
     }
 }
 
+// TODO: this needs work...
+struct SonarrCommand: Codable {
+    let name: Command
+    let seriesIds: [Int]
+
+    enum Command: String, Codable {
+        case refresh = "RefreshSeries"
+        case automaticSearch = "MoviesSearch"
+    }
+}
+
 extension Instance {
-    static var void: Self {
+    static var radarrVoid: Self {
         .init(
-            id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
+            id: UUID(uuidString: "00000000-1000-0000-0000-000000000000")!,
             type: .radarr
         )
     }
 
-    static var sample: Self {
+    static var sonarrVoid: Self {
         .init(
-            id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
+            id: UUID(uuidString: "00000000-2000-0000-0000-000000000000")!,
+            type: .sonarr
+        )
+    }
+
+    static var radarrDummy: Self {
+        .init(
+            id: UUID(uuidString: "00000000-2000-0000-0000-000000000000")!,
             type: .radarr,
-            label: ".sample",
+            label: ".radarr",
             url: "http://10.0.1.5:8310",
             apiKey: "3b0600c1b3aa42bfb0222f4e13a81f39",
             rootFolders: [
                 InstanceRootFolders(id: 1, accessible: true, path: "/volume1/Media/Movies", freeSpace: 1_000_000_000),
+            ],
+            qualityProfiles: [
+                InstanceQualityProfile(id: 1, name: "Any"),
+                InstanceQualityProfile(id: 2, name: "4K"),
+            ]
+        )
+    }
+
+    static var sonarrDummy: Self {
+        .init(
+            id: UUID(uuidString: "00000000-4000-0000-0000-000000000000")!,
+            type: .radarr,
+            label: ".sonarr",
+            url: "http://10.0.1.5:8989",
+            apiKey: "f8e3682b3b984cddbaa00047a09d0fbd",
+            rootFolders: [
+                InstanceRootFolders(id: 1, accessible: true, path: "/volume1/Media/TV Series", freeSpace: 2_000_000_000),
             ],
             qualityProfiles: [
                 InstanceQualityProfile(id: 1, name: "Any"),

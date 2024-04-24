@@ -52,6 +52,18 @@ struct Shortcuts: AppShortcutsProvider {
             shortTitle: "Add Movie",
             systemImageName: "plus"
         )
+
+        AppShortcut(
+            intent: AddSeriesIntent(),
+            phrases: [
+                "Add Series to \(.applicationName)",
+                "Add TV Series to \(.applicationName)",
+                "Add series to rudder",
+                "Add tv series to rudder",
+            ],
+            shortTitle: "Add Series",
+            systemImageName: "plus"
+        )
     }
 }
 
@@ -77,7 +89,7 @@ struct SeriesIntent: AppIntent {
     @MainActor
     func perform() async throws -> some IntentResult {
         dependencies.router.seriesPath = .init()
-        // dependencies.router.selectedTab = .series
+        dependencies.router.selectedTab = .series
 
         return .result()
     }
@@ -126,6 +138,40 @@ struct AddMovieIntent: AppIntent {
         )
 
         dependencies.router.selectedTab = .movies
+
+        return .result()
+    }
+}
+
+struct AddSeriesIntent: AppIntent {
+    static var title: LocalizedStringResource = "Add TV Series"
+
+    @Parameter(title: "Title")
+    var title: String?
+
+    static var parameterSummary: some ParameterSummary {
+        Summary("Add TV Series with \(\.$title)")
+    }
+
+    static var openAppWhenRun: Bool = true
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        var query: String = ""
+
+        if let seriesTitle = title, !seriesTitle.isEmpty {
+            query = seriesTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+
+        dependencies.router.seriesPath = .init()
+
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        dependencies.router.seriesPath.append(
+            SeriesView.Path.search(query)
+        )
+
+        dependencies.router.selectedTab = .series
 
         return .result()
     }

@@ -1,16 +1,16 @@
 import SwiftUI
 import TelemetryClient
 
-struct MovieView: View {
-    @Binding var movie: Movie
+struct SeriesDetailView: View {
+    @Binding var series: Series
 
-    @Environment(RadarrInstance.self) private var instance
+    @Environment(SonarrInstance.self) private var instance
 
     @State private var showDeleteConfirmation = false
 
     var body: some View {
         ScrollView {
-            MovieDetails(movie: movie)
+            SeriesDetails(series: series)
                 .padding(.top)
                 .viewPadding(.horizontal)
         }
@@ -19,14 +19,14 @@ struct MovieView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-             toolbarMonitorButton
-             toolbarMenu
+            toolbarMonitorButton
+            toolbarMenu
         }
         .alert(
-            isPresented: instance.movies.errorBinding,
-            error: instance.movies.error
+            isPresented: instance.series.errorBinding,
+            error: instance.series.error
         ) { _ in
-            Button("OK") { instance.movies.error = nil }
+            Button("OK") { instance.series.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
@@ -34,12 +34,12 @@ struct MovieView: View {
             "Are you sure?",
             isPresented: $showDeleteConfirmation
         ) {
-            Button("Delete Movie", role: .destructive) {
-                Task { await deleteMovie(movie) }
+            Button("Delete Series", role: .destructive) {
+                Task { await deleteSeries(series) }
             }
             Button("Cancel", role: .cancel) { }
         } message: {
-            Text("This will delete the movie and permanently erase its folder and its contents.")
+            Text("This will delete the TV series and permanently erase its folder and its contents.")
         }
     }
 
@@ -55,12 +55,12 @@ struct MovieView: View {
                     .overlay {
                         Image(systemName: "bookmark")
                             .font(.system(size: 11, weight: .bold))
-                            .symbolVariant(movie.monitored ? .fill : .none)
+                            .symbolVariant(series.monitored ? .fill : .none)
                             .foregroundStyle(.tint)
                     }
             }
             .buttonStyle(.plain)
-            .allowsHitTesting(!instance.movies.isWorking)
+            .allowsHitTesting(!instance.series.isWorking)
             .id(UUID())
         }
     }
@@ -80,7 +80,7 @@ struct MovieView: View {
                 }
 
                 openInLinks
-                deleteMovieButton
+                deleteSeriesButton
             } label: {
                 actionMenuIcon
             }
@@ -96,7 +96,7 @@ struct MovieView: View {
                 Image(systemName: "ellipsis")
                     .symbolVariant(.fill)
                     .font(.system(size: 12, weight: .bold))
-                    .symbolVariant(movie.monitored ? .fill : .none)
+                    .symbolVariant(series.monitored ? .fill : .none)
                     .foregroundStyle(.tint)
             }
     }
@@ -109,7 +109,7 @@ struct MovieView: View {
 
     var editAction: some View {
         NavigationLink(
-            value: MoviesView.Path.edit(movie.id)
+            value: SeriesView.Path.edit(series.id)
         ) {
             Label("Edit", systemImage: "pencil")
         }
@@ -122,24 +122,18 @@ struct MovieView: View {
     }
 
     var interactiveSearch: some View {
-        NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
+        NavigationLink(value: SeriesView.Path.releases(series.id), label: {
             Label("Interactive Search", systemImage: "person")
         })
     }
 
     var openInLinks: some View {
         Section {
-            if let trailerUrl = MovieContextMenu.youTubeTrailer(movie.youTubeTrailerId) {
-                Link(destination: URL(string: trailerUrl)!, label: {
-                    Label("Watch Trailer", systemImage: "play")
-                })
-            }
-
-            MovieContextMenu(movie: movie)
+            SeriesContextMenu(series: series)
         }
     }
 
-    var deleteMovieButton: some View {
+    var deleteSeriesButton: some View {
         Section {
             Button("Delete", systemImage: "trash", role: .destructive) {
                 showDeleteConfirmation = true
@@ -148,62 +142,64 @@ struct MovieView: View {
     }
 }
 
-extension MovieView {
+extension SeriesDetailView {
     @MainActor
     func toggleMonitor() async {
-        movie.monitored.toggle()
+        // TODO: needs fix
+        // series.monitored.toggle()
 
-        guard await instance.movies.update(movie) else {
+        guard await instance.series.update(series) else {
             return
         }
 
-        dependencies.toast.show(movie.monitored ? .monitored : .unmonitored)
+        dependencies.toast.show(series.monitored ? .monitored : .unmonitored)
     }
 
     @MainActor
     func refresh() async {
-        guard await instance.movies.command(movie, command: .refresh) else {
+        guard await instance.series.command(series, command: .refresh) else {
             return
         }
 
         dependencies.toast.show(.refreshQueued)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            Task { await instance.movies.fetch() }
+            Task { await instance.series.fetch() }
         }
     }
 
     @MainActor
     func dispatchSearch() async {
-        guard await instance.movies.command(movie, command: .automaticSearch) else {
+        guard await instance.series.command(series, command: .automaticSearch) else {
             return
         }
 
         dependencies.toast.show(.searchQueued)
 
+        // TODO: do we need more details for all of these?
         TelemetryManager.send("automaticSearchDispatched")
     }
 
     @MainActor
-    func deleteMovie(_ movie: Movie) async {
-        _ = await instance.movies.delete(movie)
+    func deleteSeries(_ series: Series) async {
+        _ = await instance.series.delete(series)
 
-        dependencies.router.moviesPath.removeLast()
-        dependencies.toast.show(.movieDeleted)
+        dependencies.router.seriesPath.removeLast()
+        dependencies.toast.show(.seriesDeleted)
     }
 }
 
 #Preview {
-    let movies: [Movie] = PreviewData.load(name: "movies")
-    let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
+    let series: [Series] = PreviewData.load(name: "series")
+    let item = series.first(where: { $0.id == 2 }) ?? series[0]
 
-    dependencies.router.selectedTab = .movies
+    dependencies.router.selectedTab = .series
 
-    dependencies.router.moviesPath.append(
-        MoviesView.Path.movie(movie.id)
+    dependencies.router.seriesPath.append(
+        SeriesView.Path.series(item.id)
     )
 
     return ContentView()
         .withSettings()
-        .withRadarrInstance(movies: movies)
+        .withSonarrInstance(series: series)
 }

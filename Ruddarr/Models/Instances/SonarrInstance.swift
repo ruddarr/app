@@ -1,0 +1,67 @@
+import os
+import SwiftUI
+import Foundation
+
+@Observable
+class SonarrInstance {
+    private var instance: Instance
+
+    var isVoid = true
+
+    var series: SeriesModel
+    var lookup: SeriesLookup
+    // var releases: MovieReleases
+    // var metadata: MovieMetadata
+
+    init(_ instance: Instance = .sonarrVoid) {
+        if instance.type != .sonarr {
+            fatalError("\(instance.type.rawValue) given to SonarrInstance")
+        }
+
+        self.isVoid = instance == .sonarrVoid
+
+        self.instance = instance
+        self.series = SeriesModel(instance)
+        self.lookup = SeriesLookup(instance)
+        // self.releases = MovieReleases(instance)
+        // self.metadata = MovieMetadata(instance)
+    }
+
+    func switchTo(_ target: Instance) {
+        isVoid = target == .sonarrVoid
+
+        self.instance = target
+        self.series = SeriesModel(target)
+        self.lookup = SeriesLookup(target)
+        // self.releases = MovieReleases(target)
+        // self.metadata = MovieMetadata(target)
+    }
+
+    var id: UUID {
+        instance.id
+    }
+
+    var rootFolders: [InstanceRootFolders] {
+        instance.rootFolders
+    }
+
+    var qualityProfiles: [InstanceQualityProfile] {
+        instance.qualityProfiles
+    }
+
+    func fetchMetadata() async -> Instance? {
+        if isVoid {
+            return nil
+        }
+
+        do {
+            // TODO: figure out root folders for Sonarr
+            // instance.rootFolders = try await dependencies.api.rootFolders(instance)
+            instance.qualityProfiles = try await dependencies.api.qualityProfiles(instance)
+        } catch {
+            return nil
+        }
+
+        return instance
+    }
+}

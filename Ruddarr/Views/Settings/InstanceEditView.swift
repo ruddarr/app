@@ -7,6 +7,7 @@ struct InstanceEditView: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) var radarrInstance
+    @Environment(SonarrInstance.self) var sonarrInstance
 
     @State var isLoading = false
     @State var showingAlert = false

@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension MoviesView {
+extension SeriesView {
     @ToolbarContentBuilder
     var toolbarSearchButton: some ToolbarContent {
         if !instance.isVoid {
@@ -25,7 +25,8 @@ extension MoviesView {
     var toolbarFilterButton: some View {
         Menu("Filter", systemImage: "line.3.horizontal.decrease") {
             Picker(selection: $sort.filter, label: Text("Filter")) {
-                ForEach(MovieSort.Filter.allCases) { filter in
+                ForEach(SeriesSort.Filter.allCases) { filter in
+                    // TODO: needs work
                     filter.label
                 }
             }
@@ -36,12 +37,14 @@ extension MoviesView {
     var toolbarSortingButton: some View {
         Menu {
             Picker(selection: $sort.option, label: Text("Sort By")) {
-                ForEach(MovieSort.Option.allCases) { option in
+                ForEach(SeriesSort.Option.allCases) { option in
+                    // TODO: needs work
                     option.label
                 }
             }
             .pickerStyle(.inline)
             .onChange(of: sort.option) {
+                // TODO: needs work
                 switch sort.option {
                 case .byTitle: sort.isAscending = true
                 case .byYear: sort.isAscending = false
@@ -65,16 +68,16 @@ extension MoviesView {
     var toolbarInstancePicker: some ToolbarContent {
         ToolbarItem(placement: .principal) {
             Menu {
-                Picker(selection: $settings.radarrInstanceId, label: Text("Instances")) {
-                    ForEach(settings.radarrInstances) { instance in
+                Picker(selection: $settings.sonarrInstanceId, label: Text("Instances")) {
+                    ForEach(settings.sonarrInstances) { instance in
                         Text(instance.label).tag(Optional.some(instance.id))
                     }
                 }
-                .onChange(of: settings.radarrInstanceId, changeInstance)
+                .onChange(of: settings.sonarrInstanceId, changeInstance)
                 .pickerStyle(.inline)
             } label: {
                 HStack(alignment: .bottom, spacing: 6) {
-                    Text(settings.radarrInstance?.label ?? "Instance")
+                    Text(settings.sonarrInstance?.label ?? "Instance")
                         .fontWeight(.semibold)
                         .tint(.primary)
 
@@ -89,21 +92,21 @@ extension MoviesView {
 
     func changeInstance() {
         Task { @MainActor in
-            guard let newInstanceId = settings.radarrInstanceId else {
-                leaveBreadcrumb(.fatal, category: "movies", message: "Missing Radarr instance id")
+            guard let newInstanceId = settings.sonarrInstanceId else {
+                leaveBreadcrumb(.fatal, category: "series", message: "Missing Sonarr instance id")
 
                 return
             }
 
             guard let newInstance = settings.instanceById(newInstanceId) else {
-                leaveBreadcrumb(.fatal, category: "movies", message: "Radarr instance not found")
+                leaveBreadcrumb(.fatal, category: "series", message: "Sonarr instance not found")
 
                 return
             }
 
             instance.switchTo(newInstance)
 
-            await fetchMoviesWithAlert()
+            await fetchSeriesWithAlert()
 
             if let model = await instance.fetchMetadata() {
                 settings.saveInstance(model)

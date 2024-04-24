@@ -12,6 +12,7 @@ struct CalendarView: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) var instance
+    // TODO: support both (sonarr missing)
 
     private let firstWeekday = Calendar.current.firstWeekday
 
@@ -25,7 +26,7 @@ struct CalendarView: View {
         NavigationStack(path: dependencies.$router.calendarPath) {
             Group {
                 if instance.isVoid {
-                    NoRadarrInstance()
+                    NoInstance(type: "Radarr")
                 } else {
                     ScrollView {
                         LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {

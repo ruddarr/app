@@ -1,6 +1,8 @@
 import SwiftUI
 import Combine
 
+// TODO: add missing series actions
+
 /**
 [public] ruddarr://open
 [public] ruddarr://calendar
@@ -12,6 +14,9 @@ import Combine
 struct QuickActions {
     let moviePublisher = PassthroughSubject<Movie.ID, Never>()
     var moviePublisherPending: Movie.ID?
+
+    let seriesPublisher = PassthroughSubject<Movie.ID, Never>()
+    var seriesPublisherPending: Movie.ID?
 
     var registerShortcutItems: () -> Void = {
         UIApplication.shared.shortcutItems = ShortcutItem.allCases.map(\.shortcutItem)

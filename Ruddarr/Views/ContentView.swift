@@ -120,8 +120,8 @@ struct ContentView: View {
         switch tab {
         case .movies:
             MoviesView()
-        // case .series:
-        //     SeriesView()
+        case .series:
+            SeriesView()
         case .calendar:
             CalendarView()
         case .settings:

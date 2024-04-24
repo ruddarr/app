@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var radarrInstance
+    @Environment(SonarrInstance.self) private var sonarrInstance
 
     enum Path: Hashable {
         case icons
@@ -34,7 +35,9 @@ struct SettingsView: View {
 
                 case .createInstance:
                     InstanceEditView(mode: .create, instance: Instance())
-                        .environment(radarrInstance).environmentObject(settings)
+                        .environment(radarrInstance)
+                        .environment(sonarrInstance)
+                        .environmentObject(settings)
 
                 case .viewInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
@@ -45,7 +48,9 @@ struct SettingsView: View {
                 case .editInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
                         InstanceEditView(mode: .update, instance: instance)
-                            .environment(radarrInstance).environmentObject(settings)
+                            .environment(radarrInstance)
+                            .environment(sonarrInstance)
+                            .environmentObject(settings)
                     }
                 }
             }

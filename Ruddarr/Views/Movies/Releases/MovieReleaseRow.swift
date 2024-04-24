@@ -18,7 +18,8 @@ struct MovieReleaseRow: View {
                  MovieReleaseSheet(release: release)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
-                    .environment(instance).environmentObject(settings)
+                    .environment(instance)
+                    .environmentObject(settings)
             }
     }
 

@@ -16,8 +16,15 @@ extension View {
     }
 
     func withRadarrInstance(movies: [Movie] = [], lookup: [Movie] = []) -> some View {
-        let instance = RadarrInstance(.sample)
+        let instance = RadarrInstance(.radarrDummy)
         instance.movies.items = movies
+
+        return self.environment(instance)
+    }
+
+    func withSonarrInstance(series: [Series] = [], lookup: [Series] = []) -> some View {
+        let instance = SonarrInstance(.sonarrDummy)
+        instance.series.items = series
 
         return self.environment(instance)
     }
@@ -41,13 +48,15 @@ private struct WithAppStateModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         let settings = AppSettings()
-        let radarrInstance = settings.radarrInstance ?? Instance.void
+        let radarrInstance = settings.radarrInstance ?? Instance.radarrVoid
+        let sonarrInstance = settings.sonarrInstance ?? Instance.sonarrVoid
 
         content
             .tint(theme.tint)
             .preferredColorScheme(appearance.preferredColorScheme)
             .environmentObject(settings)
             .environment(RadarrInstance(radarrInstance))
+            .environment(SonarrInstance(sonarrInstance))
     }
 }
 

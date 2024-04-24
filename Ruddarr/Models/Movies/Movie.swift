@@ -1,6 +1,5 @@
 import SwiftUI
 
-// swiftlint:disable file_length
 struct Movie: Identifiable, Codable {
     // movies only have an `id` after being added
     var id: Int { guid ?? (tmdbId + 100_000) }
@@ -163,14 +162,6 @@ struct Movie: Identifiable, Codable {
 
     var remotePoster: String? {
         if let remote = self.images.first(where: { $0.coverType == "poster" }) {
-            return remote.remoteURL
-        }
-
-        return nil
-    }
-
-    var remoteFanart: String? {
-        if let remote = self.images.first(where: { $0.coverType == "fanart" }) {
             return remote.remoteURL
         }
 
@@ -404,5 +395,3 @@ func languagesList(_ codes: [String]) -> String {
         $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
     }.formatted(.list(type: .and, width: .narrow))
 }
-
-// swiftlint:enable file_length
