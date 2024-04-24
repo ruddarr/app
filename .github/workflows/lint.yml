@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: "Lint"
+
+on:
+    pull_request: null
+    push:
+        branches:
+        - develop
+        - main
+
+permissions: {}
+
+concurrency:
+    group: "${{ github.workflow }}-${{ github.ref }}"
+    cancel-in-progress: true
+
+jobs:
+
+    typos:
+        name: Typos
+        runs-on: ubuntu-latest
+        timeout-minutes: 1
+
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+          - name: Search for misspellings
+            uses: crate-ci/typos@master

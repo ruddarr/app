@@ -441,16 +441,6 @@
         }
       }
     },
-    "Are you sure you want to delete the movie and permanently erase the movie folder and its contents?" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Are you sure you want to delete the movie and permanently erase the movie folder and its contents?"
-          }
-        }
-      }
-    },
     "Are you sure you want to erase all settings?" : {
       "localizations" : {
         "en" : {
@@ -727,6 +717,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Coming Soon"
+          }
+        }
+      }
+    },
+    "Community" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Community"
           }
         }
       }
@@ -1953,6 +1953,16 @@
         }
       }
     },
+    "Move the movie files to \"%@\"?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move the movie files to \"%@\"?"
+          }
+        }
+      }
+    },
     "Movie Added" : {
       "localizations" : {
         "en" : {
@@ -2708,16 +2718,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Paste"
-          }
-        }
-      }
-    },
-    "Paths" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paths"
           }
         }
       }
@@ -3502,6 +3502,16 @@
         }
       }
     },
+    "Test the Beta" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test the Beta"
+          }
+        }
+      }
+    },
     "Thai" : {
       "localizations" : {
         "en" : {
@@ -3548,6 +3558,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Third Party Libraries"
+          }
+        }
+      }
+    },
+    "This will delete the movie and permanently erase the movie folder and its contents." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This will delete the movie and permanently erase the movie folder and its contents."
           }
         }
       }
@@ -3678,6 +3698,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unknown event."
+          }
+        }
+      }
+    },
+    "Unlocks unlimited instance notifications, all alternate app icons and supports the continued indie development of Ruddarr." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlocks unlimited instance notifications, all alternate app icons and supports the continued indie development of Ruddarr."
           }
         }
       }
@@ -3923,16 +3954,6 @@
         }
       }
     },
-    "Would you like to move the movie folder to \"%@\"?" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Would you like to move the movie folder to \"%@\"?"
-          }
-        }
-      }
-    },
     "Wrong Instance Type" : {
       "localizations" : {
         "en" : {
@@ -3949,16 +3970,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Year"
-          }
-        }
-      }
-    },
-    "You can’t undo this action." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You can’t undo this action."
           }
         }
       }

@@ -16,10 +16,17 @@ enum ImageType {
 struct CachedAsyncImage: View {
     let url: String?
     let type: ImageType
+    let placeholder: String?
+
+    init(_ type: ImageType, _ url: String?, placeholder: String? = nil) {
+        self.url = url
+        self.type = type
+        self.placeholder = placeholder
+    }
 
     var body: some View {
         if url == nil {
-            PlaceholderImage(icon: "text.below.photo")
+            PlaceholderImage(icon: "text.below.photo", text: placeholder)
         } else {
             LazyImage(request: imageRequest(url)) { state in
                 if let image = state.image {
@@ -27,9 +34,9 @@ struct CachedAsyncImage: View {
                 } else if state.error != nil {
                     let _: Void = print(state.error.debugDescription)
 
-                    PlaceholderImage(icon: "network.slash")
+                    PlaceholderImage(icon: "network.slash", text: nil)
                 } else {
-                    PlaceholderImage(icon: "text.below.photo")
+                    PlaceholderImage(icon: "text.below.photo", text: nil)
                 }
             }.pipeline(
                 imagePipeline()
@@ -67,14 +74,29 @@ struct CachedAsyncImage: View {
 
 struct PlaceholderImage: View {
     let icon: String
+    let text: String?
 
     var body: some View {
-        Image(systemName: icon)
-            .imageScale(.large)
-            .foregroundStyle(.secondary)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(.systemFill)
-            .tint(.secondary)
+        if let placeholder = text {
+            Rectangle()
+                .fill(.systemFill)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .overlay {
+                    Text(placeholder)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(4)
+                        .padding(8)
+                }
+        } else {
+            Image(systemName: icon)
+                .imageScale(.large)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(.systemFill)
+                .tint(.secondary)
+        }
     }
 }
 
@@ -82,19 +104,29 @@ struct PlaceholderImage: View {
     VStack {
         Section {
             HStack {
-                CachedAsyncImage(url: "https://picsum.photos/id/23/500/500", type: .poster)
+                CachedAsyncImage(.poster, "https://picsum.photos/id/23/500/500", placeholder: "Fallback")
                     .frame(width: 100, height: 150)
                     .border(.green)
-            }.frame(width: 250, height: 250)
+            }.frame(width: 200, height: 200)
         }
         .border(.yellow).padding()
 
         Section {
             HStack {
-                CachedAsyncImage(url: "https://picsum.photos-broken/id/23/500/500", type: .poster)
+                CachedAsyncImage(.poster, "https://picsum.photos-broken/id/23/500/500", placeholder: "Fallback")
                     .frame(width: 100, height: 150)
                     .border(.green)
-            }.frame(width: 250, height: 250)
+            }.frame(width: 200, height: 200)
+        }
+        .border(.yellow)
+        .background(.secondarySystemBackground)
+
+        Section {
+            HStack {
+                CachedAsyncImage(.poster, nil, placeholder: "Aquaman and the Lost Kingdom")
+                    .frame(width: 100, height: 150)
+                    .border(.green)
+            }.frame(width: 200, height: 200)
         }
         .border(.yellow)
         .background(.secondarySystemBackground)

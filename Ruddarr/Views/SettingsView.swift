@@ -19,6 +19,7 @@ struct SettingsView: View {
 
                 SettingsPreferencesSection()
                 SettingsAboutSection()
+                SettingsLinksSection()
                 SettingsSystemSection()
             }
             .navigationTitle("Settings")

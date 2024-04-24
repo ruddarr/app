@@ -23,7 +23,7 @@ struct MovieGridItem: View {
     }
 
     var poster: some View {
-        CachedAsyncImage(url: movie.remotePoster, type: .poster)
+        CachedAsyncImage(.poster, movie.remotePoster, placeholder: movie.title)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .aspectRatio(
                 CGSize(width: 150, height: 225),

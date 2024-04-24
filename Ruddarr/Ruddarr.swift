@@ -32,6 +32,7 @@ struct Ruddarr: App {
 }
 
 struct Links {
+    static let AppShare = URL(string: "https://apps.apple.com/app/ruddarr/id6476240130")!
     static let AppStore = URL(string: "itms-apps://itunes.apple.com/app/id6476240130")!
     static let TestFlight = URL(string: "https://testflight.apple.com/join/WbWNuoos")!
     static let Discord = URL(string: "https://discord.gg/UksvtDQUBA")!

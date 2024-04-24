@@ -26,13 +26,8 @@ struct MovieForm: View {
                 qualityProfileField
             }
 
-            if smallScreen {
-                rootFolderField
-                    .labelsHidden()
-                    .foregroundStyle(.secondary)
-            } else {
-                rootFolderField
-                    .tint(.secondary)
+            if instance.rootFolders.count > 1 {
+                rootFolderField.tint(.secondary)
             }
         }
         .onAppear {
@@ -70,24 +65,12 @@ struct MovieForm: View {
     }
 
     var rootFolderField: some View {
-        Section {
-            Picker(selection: $movie.rootFolderPath) {
-                ForEach(instance.rootFolders) { folder in
-                    HStack {
-                        Text(folder.label)
-
-                        if smallScreen {
-                            Spacer()
-                        }
-                    }.tag(folder.path)
-                }
-            } label: {
-                smallScreen ? Text(verbatim: "") : Text("Root Folder")
+        Picker("Root Folder", selection: $movie.rootFolderPath) {
+            ForEach(instance.rootFolders) { folder in
+                Text(folder.label).tag(folder.path)
             }
-            .pickerStyle(.navigationLink)
-        } header: {
-            smallScreen ? Text("Root Folder") : Text("Paths")
         }
+        .pickerStyle(.inline)
     }
 
     func selectDefaultValues() {

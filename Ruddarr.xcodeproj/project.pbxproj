@@ -117,6 +117,7 @@
 		BBF94F652B50C88300300EBA /* Instance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F642B50C88300300EBA /* Instance.swift */; };
 		BBFB1F8B2B782D1000181233 /* SettingsPreferencesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */; };
 		BBFB1F8E2B792BCB00181233 /* TelemetryClient in Frameworks */ = {isa = PBXBuildFile; productRef = BBFB1F8D2B792BCB00181233 /* TelemetryClient */; };
+		BBFDEB842BD5B78B009F002F /* SettingsLinksSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -227,6 +228,7 @@
 		BBF94F622B508F8B00300EBA /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
 		BBF94F642B50C88300300EBA /* Instance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instance.swift; sourceTree = "<group>"; };
 		BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPreferencesSection.swift; sourceTree = "<group>"; };
+		BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLinksSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,8 +283,9 @@
 				BBF583C52BAD0E0A00AFA7FB /* InstanceEditView+Functions.swift */,
 				BBBB08D32B77FBC700BADBA1 /* IconsView.swift */,
 				BB25DC632B62ED9100FE55A0 /* LibrariesView.swift */,
-				BB6F23AA2B6ABB8700A4347A /* SettingsAboutSection.swift */,
 				BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */,
+				BB6F23AA2B6ABB8700A4347A /* SettingsAboutSection.swift */,
+				BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */,
 				BB6F23AC2B6ABBBD00A4347A /* SettingsSystemSection.swift */,
 			);
 			path = Settings;
@@ -730,6 +733,7 @@
 				BB05C9092B86E272009B6444 /* MovieDetails+Overview.swift in Sources */,
 				79159D6C2B5953D700F7F997 /* Dependencies.swift in Sources */,
 				BBF94F632B508F8B00300EBA /* MovieView.swift in Sources */,
+				BBFDEB842BD5B78B009F002F /* SettingsLinksSection.swift in Sources */,
 				BB8A602A2B97840F0039CFF6 /* InstanceView+Notifications.swift in Sources */,
 				BB9255CE2B54657900967F84 /* InstanceEditView.swift in Sources */,
 				BBC77E262B7AB79100573EBD /* Notifications.swift in Sources */,
@@ -910,7 +914,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -958,7 +962,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

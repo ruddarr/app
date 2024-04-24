@@ -3,7 +3,7 @@ import SwiftUI
 extension MovieDetails {
     var header: some View {
         HStack(alignment: .top) {
-            CachedAsyncImage(url: movie.remotePoster, type: .poster)
+            CachedAsyncImage(.poster, movie.remotePoster)
                 .aspectRatio(
                     CGSize(width: 150, height: 225),
                     contentMode: .fill

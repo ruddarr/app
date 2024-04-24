@@ -63,7 +63,11 @@ extension InstanceEditView {
     func sanitizeInstanceUrl() {
         if let url = URL(string: instance.url) {
             var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-            components.path = ""
+
+            components.path = stripAfter("/system", in: components.path)
+            components.path = stripAfter("/settings", in: components.path)
+            components.path = stripAfter("/activity", in: components.path)
+            components.path = stripAfter("/calendar", in: components.path)
 
             if let urlWithoutPath = components.url {
                 instance.url = urlWithoutPath.absoluteString
@@ -71,6 +75,18 @@ extension InstanceEditView {
         }
 
         instance.url = instance.url.lowercased()
+
+        if instance.url.hasSuffix("/") {
+            instance.url = String(instance.url.dropLast())
+        }
+    }
+
+    func stripAfter(_ path: String, in string: String) -> String {
+        guard let range = string.range(of: path) else {
+            return string
+        }
+
+        return String(string[..<range.lowerBound])
     }
 
     func validateInstance() async throws {
