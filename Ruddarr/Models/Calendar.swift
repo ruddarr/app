@@ -178,7 +178,13 @@ class MediaCalendar {
             return
         }
 
-        if timestamp > dates[dates.count - loadingOffset] {
+        let threshold = dates.count - loadingOffset
+
+        if !dates.indices.contains(threshold) {
+            return
+        }
+
+        if timestamp > dates[threshold] {
             Task {
                 await loadFutureDates(dates.last!)
             }
