@@ -38,15 +38,15 @@ struct MovieReleaseSort: Equatable {
             case .byWeight:
                 lhs.releaseWeight > rhs.releaseWeight
             case .bySeeders:
-                lhs.seeders ?? 0 < rhs.seeders ?? 0
+                lhs.seeders ?? 0 > rhs.seeders ?? 0
             case .byAge:
-                lhs.ageMinutes < rhs.ageMinutes
+                lhs.ageMinutes > rhs.ageMinutes
             case .byFilesize:
-                lhs.size < rhs.size
+                lhs.size > rhs.size
             case .byQuality:
-                lhs.quality.quality.resolution < rhs.quality.quality.resolution
+                lhs.quality.quality.resolution > rhs.quality.quality.resolution
             case .byCustomScore:
-                lhs.customFormatScore < rhs.customFormatScore
+                lhs.customFormatScore > rhs.customFormatScore
             }
         }
     }

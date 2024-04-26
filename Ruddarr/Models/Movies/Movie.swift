@@ -187,7 +187,7 @@ struct Movie: Identifiable, Codable {
     }
 
     func alternateTitlesString() -> String {
-        return alternateTitles.map { $0.title }.joined(separator: " ")
+        alternateTitles.map { $0.title }.joined(separator: " ")
     }
 
     struct MovieRatings: Codable {
