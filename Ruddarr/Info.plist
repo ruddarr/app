@@ -8,18 +8,18 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>AppIconMono</key>
+			<key>AppIconATP</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIconMono</string>
+					<string>AppIconATP</string>
 				</array>
 			</dict>
-			<key>AppIconPodcasts</key>
+			<key>AppIconBarbie</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>AppIconPodcasts</string>
+					<string>AppIconBarbie</string>
 				</array>
 			</dict>
 			<key>AppIconBooks</key>
@@ -27,6 +27,13 @@
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>AppIconBooks</string>
+				</array>
+			</dict>
+			<key>AppIconMono</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIconMono</string>
 				</array>
 			</dict>
 			<key>AppIconMusic</key>
@@ -43,6 +50,13 @@
 					<string>AppIconPlex</string>
 				</array>
 			</dict>
+			<key>AppIconPodcasts</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIconPodcasts</string>
+				</array>
+			</dict>
 			<key>AppIconTelegram</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -50,25 +64,11 @@
 					<string>AppIconTelegram</string>
 				</array>
 			</dict>
-			<key>AppIconBarbie</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>AppIconBarbie</string>
-				</array>
-			</dict>
 			<key>AppIconWarp</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>AppIconWarp</string>
-				</array>
-			</dict>
-			<key>AppIconATP</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>AppIconATP</string>
 				</array>
 			</dict>
 		</dict>
