@@ -31,6 +31,10 @@ class MediaCalendar {
     }()
 
     func initialize() async {
+        if isLoading {
+            return
+        }
+
         isLoading = true
 
         await fetch(
