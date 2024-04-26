@@ -22,13 +22,7 @@ struct Movie: Identifiable, Codable {
     let overview: String?
     let certification: String?
     let youTubeTrailerId: String?
-
     let alternateTitles: [AlternateMovieTitle]
-    var alternateTitlesString: String?
-
-    mutating func setAlternateTitlesString() {
-        alternateTitlesString = alternateTitles.map { $0.title }.joined(separator: " ")
-    }
 
     let genres: [String]
     let ratings: MovieRatings?
@@ -190,6 +184,10 @@ struct Movie: Identifiable, Codable {
         case .released, .deleted:
             false
         }
+    }
+
+    func alternateTitlesString() -> String {
+        return alternateTitles.map { $0.title }.joined(separator: " ")
     }
 
     struct MovieRatings: Codable {
