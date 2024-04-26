@@ -60,8 +60,6 @@
 		BB9DC2252BA920AF00459FFF /* API+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9DC2242BA920AF00459FFF /* API+Error.swift */; };
 		BB9DC22B2BAA11C700459FFF /* MoviesView+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9DC22A2BAA11C700459FFF /* MoviesView+Overlay.swift */; };
 		BBA54BDE2B561FB200CA0F3E /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */; };
-		BBA54BE32B563E2000CA0F3E /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = BBA54BE22B563E2000CA0F3E /* Nuke */; };
-		BBA54BE52B563E2000CA0F3E /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBA54BE42B563E2000CA0F3E /* NukeUI */; };
 		BBA733632BB4C1F400A5022B /* MovieMetadataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA733622BB4C1F400A5022B /* MovieMetadataView.swift */; };
 		BBA733652BB4F66600A5022B /* MovieMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA733642BB4F66600A5022B /* MovieMetadata.swift */; };
 		BBA733672BB5278800A5022B /* movie-history.json in Resources */ = {isa = PBXBuildFile; fileRef = BBA733662BB5278800A5022B /* movie-history.json */; };
@@ -77,14 +75,14 @@
 		BBBB08D42B77FBC700BADBA1 /* IconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBB08D32B77FBC700BADBA1 /* IconsView.swift */; };
 		BBBE93162B68638400353216 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBE93152B68638400353216 /* Theme.swift */; };
 		BBC136A42B62DD780074C7AA /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC136A32B62DD780074C7AA /* Network.swift */; };
-		BBC45B8F2B56426700AB258F /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B8E2B56426700AB258F /* Nuke */; };
-		BBC45B912B56426700AB258F /* NukeExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B902B56426700AB258F /* NukeExtensions */; };
-		BBC45B932B56426700AB258F /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBC45B922B56426700AB258F /* NukeUI */; };
 		BBC77E242B7AAD3300573EBD /* InstanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC77E232B7AAD3300573EBD /* InstanceView.swift */; };
 		BBC77E262B7AB79100573EBD /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC77E252B7AB79100573EBD /* Notifications.swift */; };
 		BBC94DE32B5F3DE600504568 /* CloudStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC94DE22B5F3DE600504568 /* CloudStorage.swift */; };
 		BBC94DE52B5F3E0B00504568 /* CloudStorageSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC94DE42B5F3E0B00504568 /* CloudStorageSync.swift */; };
 		BBC94DE92B5F63A000504568 /* Telemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC94DE82B5F63A000504568 /* Telemetry.swift */; };
+		BBDA775D2BDACD2500568E64 /* TelemetryClient in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA775C2BDACD2500568E64 /* TelemetryClient */; };
+		BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA77602BDACD3C00568E64 /* NukeUI */; };
+		BBDA77632BDACD6300568E64 /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA77622BDACD6300568E64 /* SentrySwiftUI */; };
 		BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1E43E2B51F61700946222 /* MovieLookup.swift */; };
 		BBE1E4412B51F9DC00946222 /* movies.json in Resources */ = {isa = PBXBuildFile; fileRef = BBE1E4402B51F9DC00946222 /* movies.json */; };
 		BBE1E4432B51FA0200946222 /* movie-lookup.json in Resources */ = {isa = PBXBuildFile; fileRef = BBE1E4422B51FA0200946222 /* movie-lookup.json */; };
@@ -98,7 +96,6 @@
 		BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE828672B4F320F00C1E1D9 /* MoviesView.swift */; };
 		BBE8286A2B4F325400C1E1D9 /* SeriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE828692B4F325400C1E1D9 /* SeriesView.swift */; };
 		BBE8286C2B4F360700C1E1D9 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE8286B2B4F360700C1E1D9 /* Movie.swift */; };
-		BBEF2E422B802D6A00478E03 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = BBEF2E412B802D6A00478E03 /* Sentry */; };
 		BBF477A92B4FA20B00C2DED3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF477A82B4FA20B00C2DED3 /* SettingsView.swift */; };
 		BBF583B22BABAE8C00AFA7FB /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF583B12BABAE8C00AFA7FB /* Loading.swift */; };
 		BBF583B42BABD75300AFA7FB /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF583B32BABD75300AFA7FB /* Episode.swift */; };
@@ -113,7 +110,6 @@
 		BBF94F632B508F8B00300EBA /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F622B508F8B00300EBA /* MovieView.swift */; };
 		BBF94F652B50C88300300EBA /* Instance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F642B50C88300300EBA /* Instance.swift */; };
 		BBFB1F8B2B782D1000181233 /* SettingsPreferencesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */; };
-		BBFB1F8E2B792BCB00181233 /* TelemetryClient in Frameworks */ = {isa = PBXBuildFile; productRef = BBFB1F8D2B792BCB00181233 /* TelemetryClient */; };
 		BBFDEB842BD5B78B009F002F /* SettingsLinksSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */; };
 /* End PBXBuildFile section */
 
@@ -230,13 +226,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBA54BE52B563E2000CA0F3E /* NukeUI in Frameworks */,
-				BBFB1F8E2B792BCB00181233 /* TelemetryClient in Frameworks */,
-				BBA54BE32B563E2000CA0F3E /* Nuke in Frameworks */,
-				BBC45B932B56426700AB258F /* NukeUI in Frameworks */,
-				BBC45B8F2B56426700AB258F /* Nuke in Frameworks */,
-				BBEF2E422B802D6A00478E03 /* Sentry in Frameworks */,
-				BBC45B912B56426700AB258F /* NukeExtensions in Frameworks */,
+				BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */,
+				BBDA77632BDACD6300568E64 /* SentrySwiftUI in Frameworks */,
+				BBDA775D2BDACD2500568E64 /* TelemetryClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +357,6 @@
 			isa = PBXGroup;
 			children = (
 				BB644FCA2B8529C2007C7AD5 /* ci_scripts */,
-				BB41A2D52BD0A5720011BB45 /* data */,
 				BBE828552B4F2C7000C1E1D9 /* Ruddarr */,
 				BBE828542B4F2C7000C1E1D9 /* Products */,
 			);
@@ -526,13 +517,9 @@
 			);
 			name = Ruddarr;
 			packageProductDependencies = (
-				BBA54BE22B563E2000CA0F3E /* Nuke */,
-				BBA54BE42B563E2000CA0F3E /* NukeUI */,
-				BBC45B8E2B56426700AB258F /* Nuke */,
-				BBC45B902B56426700AB258F /* NukeExtensions */,
-				BBC45B922B56426700AB258F /* NukeUI */,
-				BBFB1F8D2B792BCB00181233 /* TelemetryClient */,
-				BBEF2E412B802D6A00478E03 /* Sentry */,
+				BBDA775C2BDACD2500568E64 /* TelemetryClient */,
+				BBDA77602BDACD3C00568E64 /* NukeUI */,
+				BBDA77622BDACD6300568E64 /* SentrySwiftUI */,
 			);
 			productName = Ruddarr;
 			productReference = BBE828532B4F2C7000C1E1D9 /* Ruddarr.app */;
@@ -1009,40 +996,20 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BBA54BE22B563E2000CA0F3E /* Nuke */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */;
-			productName = Nuke;
-		};
-		BBA54BE42B563E2000CA0F3E /* NukeUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */;
-			productName = NukeUI;
-		};
-		BBC45B8E2B56426700AB258F /* Nuke */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */;
-			productName = Nuke;
-		};
-		BBC45B902B56426700AB258F /* NukeExtensions */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */;
-			productName = NukeExtensions;
-		};
-		BBC45B922B56426700AB258F /* NukeUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */;
-			productName = NukeUI;
-		};
-		BBEF2E412B802D6A00478E03 /* Sentry */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
-			productName = Sentry;
-		};
-		BBFB1F8D2B792BCB00181233 /* TelemetryClient */ = {
+		BBDA775C2BDACD2500568E64 /* TelemetryClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BBFB1F8C2B792BCB00181233 /* XCRemoteSwiftPackageReference "SwiftClient" */;
 			productName = TelemetryClient;
+		};
+		BBDA77602BDACD3C00568E64 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
+		BBDA77622BDACD6300568E64 /* SentrySwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = SentrySwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
