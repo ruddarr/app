@@ -249,7 +249,7 @@ struct MovieFile: Identifiable, Codable {
     let quality: MovieQualityInfo
     let languages: [MovieLanguage]
     let customFormats: [MovieCustomFormat]?
-    let customFormatScore: Int
+    let customFormatScore: Int?
 
     var sizeLabel: String {
         ByteCountFormatter().string(fromByteCount: Int64(size))
@@ -260,7 +260,7 @@ struct MovieFile: Identifiable, Codable {
     }
 
     var scoreLabel: String {
-        formatCustomScore(customFormatScore)
+        formatCustomScore(customFormatScore ?? 0)
     }
 
     var customFormatsList: [String]? {
