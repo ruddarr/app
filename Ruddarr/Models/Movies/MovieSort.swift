@@ -11,12 +11,14 @@ struct MovieSort: Hashable {
         case byTitle
         case byYear
         case byAdded
+        case bySize
 
         var label: some View {
             switch self {
             case .byTitle: Label("Title", systemImage: "textformat.abc")
             case .byYear: Label("Year", systemImage: "calendar")
             case .byAdded: Label("Added", systemImage: "calendar.badge.plus")
+            case .bySize: Label("File Size", systemImage: "internaldrive")
             }
         }
 
@@ -26,6 +28,8 @@ struct MovieSort: Hashable {
                 lhs.sortTitle < rhs.sortTitle
             case .byYear:
                 lhs.year < rhs.year
+            case .bySize:
+                lhs.sizeOnDisk ?? 0 < rhs.sizeOnDisk ?? 0
             case .byAdded:
                 lhs.added < rhs.added
             }

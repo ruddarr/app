@@ -43,9 +43,10 @@ extension MoviesView {
             .pickerStyle(.inline)
             .onChange(of: sort.option) {
                 switch sort.option {
-                case .byTitle: sort.isAscending = true
-                case .byYear: sort.isAscending = false
-                case .byAdded: sort.isAscending = false
+                case .byTitle:
+                    sort.isAscending = true
+                default:
+                    sort.isAscending = false
                 }
             }
 
