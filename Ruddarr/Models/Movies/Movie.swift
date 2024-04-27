@@ -272,6 +272,18 @@ struct MovieFile: Identifiable, Codable {
 
         return formats.map { $0.label }
     }
+
+    var videoResolution: Int? {
+        if quality.quality.resolution > 0 {
+            return quality.quality.resolution
+        }
+
+        if let resolution = mediaInfo?.resolution, let range = resolution.range(of: "x") {
+            return Int(resolution[range.upperBound...])
+        }
+
+        return nil
+    }
 }
 
 struct MovieMediaInfo: Codable {
