@@ -146,8 +146,9 @@ struct Movie: Identifiable, Codable {
     }
 
     var sizeLabel: String {
-        ByteCountFormatter().string(
-            fromByteCount: Int64(sizeOnDisk ?? 0)
+        ByteCountFormatter.string(
+            fromByteCount: Int64(sizeOnDisk ?? 0),
+            countStyle: .binary
         )
     }
 
@@ -250,7 +251,10 @@ struct MovieFile: Identifiable, Codable {
     let customFormatScore: Int?
 
     var sizeLabel: String {
-        ByteCountFormatter().string(fromByteCount: Int64(size))
+        ByteCountFormatter.string(
+            fromByteCount: Int64(size),
+            countStyle: .binary
+        )
     }
 
     var languageLabel: String {
