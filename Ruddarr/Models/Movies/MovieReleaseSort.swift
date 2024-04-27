@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MovieReleaseSort: Equatable {
-    var isAscending: Bool = false
+    var isAscending: Bool = true
     var option: Option = .byWeight
 
     var indexer: String = ".all"
@@ -18,8 +18,8 @@ struct MovieReleaseSort: Equatable {
         case byWeight
         case byAge
         case byQuality
-        case byFilesize
         case bySeeders
+        case byFilesize
         case byCustomScore
 
         var label: some View {

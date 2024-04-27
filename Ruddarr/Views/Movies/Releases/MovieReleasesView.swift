@@ -85,7 +85,7 @@ struct MovieReleasesView: View {
 
     func updateSortDirection() {
         switch sort.option {
-        case .byWeight, .bySeeders, .byQuality, .byCustomScore:
+        case .bySeeders, .byQuality, .byCustomScore:
             sort.isAscending = false
         default:
             sort.isAscending = true
