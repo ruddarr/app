@@ -44,6 +44,7 @@ struct MovieSort: Hashable {
         case unmonitored
         case missing
         case wanted
+        case downloaded
         case dangling
 
         var label: some View {
@@ -53,6 +54,7 @@ struct MovieSort: Hashable {
             case .unmonitored: Label("Unmonitored", systemImage: "bookmark")
             case .missing: Label("Missing", systemImage: "exclamationmark.magnifyingglass")
             case .wanted: Label("Wanted", systemImage: "sparkle.magnifyingglass")
+            case .downloaded: Label("Downloaded", systemImage: "internaldrive")
             case .dangling: Label("Dangling", systemImage: "questionmark.square")
             }
         }
@@ -69,6 +71,8 @@ struct MovieSort: Hashable {
                 movies.filter { $0.monitored && !$0.isDownloaded }
             case .wanted:
                 movies.filter { $0.monitored && !$0.isDownloaded && $0.isAvailable }
+            case .downloaded:
+                movies.filter { $0.isDownloaded }
             case .dangling:
                 movies.filter { !$0.monitored && !$0.isDownloaded }
             }
