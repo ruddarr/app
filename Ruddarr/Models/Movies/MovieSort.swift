@@ -27,7 +27,7 @@ struct MovieSort: Hashable {
             case .byTitle:
                 lhs.sortTitle < rhs.sortTitle
             case .byYear:
-                lhs.year < rhs.year
+                lhs.sortYear < rhs.sortYear
             case .bySize:
                 lhs.sizeOnDisk ?? 0 < rhs.sizeOnDisk ?? 0
             case .byAdded:
