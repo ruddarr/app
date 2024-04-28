@@ -113,6 +113,7 @@ struct InstanceEditView: View {
         LabeledContent {
             TextField("Synology", text: $instance.label)
                 .multilineTextAlignment(.trailing)
+                .disableAutocorrection(true)
         } label: {
             Text("Label")
         }
