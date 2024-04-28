@@ -8,6 +8,7 @@ struct Instance: Identifiable, Equatable, Codable {
     var label: String = ""
     var url: String = ""
     var apiKey: String = ""
+    var timeout: Double = 10
     var headers: [InstanceHeader] = []
 
     var version: String = ""
@@ -34,6 +35,23 @@ struct Instance: Identifiable, Equatable, Codable {
 
         return isPrivateIpAddress(instanceUrl.host() ?? "")
     }
+
+    func isDefaultTimeout() -> Bool {
+        timeout == 10
+    }
+
+    static func timeoutLabel(_ seconds: Double) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .short
+
+        switch seconds {
+        case 0...60: formatter.allowedUnits = [.second]
+        default: formatter.allowedUnits = [.minute]
+        }
+
+        return formatter.string(from: seconds) ?? String(seconds)
+    }
+
 }
 
 enum InstanceType: String, Identifiable, CaseIterable, Codable {

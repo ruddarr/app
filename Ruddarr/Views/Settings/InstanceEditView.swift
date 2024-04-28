@@ -32,6 +32,7 @@ struct InstanceEditView: View {
             apiKeySection
 
             if showAdvanced {
+                advancedSection
                 headersSection
             }
 
@@ -46,7 +47,7 @@ struct InstanceEditView: View {
             toolbarButton
         }
         .onAppear {
-            showAdvanced = !instance.headers.isEmpty
+            showAdvanced = !instance.isDefaultTimeout() || !instance.headers.isEmpty
         }
         .onSubmit {
             guard !hasEmptyFields() else { return }
@@ -93,6 +94,12 @@ struct InstanceEditView: View {
         }
     }
 
+    var advancedSection: some View {
+        Section("Configuration") {
+            timeoutField
+        }
+    }
+
     var typeField: some View {
         Picker("Type", selection: $instance.type) {
             ForEach(InstanceType.allCases) { type in
@@ -123,6 +130,15 @@ struct InstanceEditView: View {
         } label: {
             Text("URL")
         }
+    }
+
+    var timeoutField: some View {
+        Picker("Timeout", selection: $instance.timeout) {
+            Text(Instance.timeoutLabel(10)).tag(10.0)
+            Text(Instance.timeoutLabel(30)).tag(30.0)
+            Text(Instance.timeoutLabel(60)).tag(60.0)
+        }
+        .tint(.secondary)
     }
 
     var apiKeyField: some View {

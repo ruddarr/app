@@ -741,6 +741,16 @@
         }
       }
     },
+    "Configuration" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuration"
+          }
+        }
+      }
+    },
     "Connect a Radarr instance under %@." : {
       "localizations" : {
         "en" : {
@@ -3588,6 +3598,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This will delete the movie and permanently erase the movie folder and its contents."
+          }
+        }
+      }
+    },
+    "Timeout" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timeout"
           }
         }
       }
