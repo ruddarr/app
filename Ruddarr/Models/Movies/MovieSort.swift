@@ -11,12 +11,14 @@ struct MovieSort: Hashable {
         case byTitle
         case byYear
         case byAdded
+        case bySize
 
         var label: some View {
             switch self {
             case .byTitle: Label("Title", systemImage: "textformat.abc")
             case .byYear: Label("Year", systemImage: "calendar")
             case .byAdded: Label("Added", systemImage: "calendar.badge.plus")
+            case .bySize: Label("File Size", systemImage: "internaldrive")
             }
         }
 
@@ -25,7 +27,9 @@ struct MovieSort: Hashable {
             case .byTitle:
                 lhs.sortTitle < rhs.sortTitle
             case .byYear:
-                lhs.year < rhs.year
+                lhs.sortYear < rhs.sortYear
+            case .bySize:
+                lhs.sizeOnDisk ?? 0 < rhs.sizeOnDisk ?? 0
             case .byAdded:
                 lhs.added < rhs.added
             }
@@ -40,6 +44,7 @@ struct MovieSort: Hashable {
         case unmonitored
         case missing
         case wanted
+        case downloaded
         case dangling
 
         var label: some View {
@@ -49,6 +54,7 @@ struct MovieSort: Hashable {
             case .unmonitored: Label("Unmonitored", systemImage: "bookmark")
             case .missing: Label("Missing", systemImage: "exclamationmark.magnifyingglass")
             case .wanted: Label("Wanted", systemImage: "sparkle.magnifyingglass")
+            case .downloaded: Label("Downloaded", systemImage: "internaldrive")
             case .dangling: Label("Dangling", systemImage: "questionmark.square")
             }
         }
@@ -65,6 +71,8 @@ struct MovieSort: Hashable {
                 movies.filter { $0.monitored && !$0.isDownloaded }
             case .wanted:
                 movies.filter { $0.monitored && !$0.isDownloaded && $0.isAvailable }
+            case .downloaded:
+                movies.filter { $0.isDownloaded }
             case .dangling:
                 movies.filter { !$0.monitored && !$0.isDownloaded }
             }

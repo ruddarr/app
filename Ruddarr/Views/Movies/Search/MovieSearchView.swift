@@ -50,14 +50,10 @@ struct MovieSearchView: View {
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)
         }
-        .onChange(of: searchQuery, initial: true) {
-            searchQuery.isEmpty
-                ? instance.lookup.reset()
-                : searchTextPublisher.send(searchQuery)
-        }
-        .onReceive(searchTextPublisher.throttle(
-            for: .milliseconds(750), scheduler: DispatchQueue.main, latest: true
-        )) { _ in
+        .onChange(of: searchQuery, initial: true, handleSearchQueryChange)
+        .onReceive(
+            searchTextPublisher.throttle(for: .milliseconds(750), scheduler: DispatchQueue.main, latest: true)
+        ) { _ in
             performSearch()
         }
         .alert(
@@ -82,6 +78,16 @@ struct MovieSearchView: View {
     func performSearch() {
         Task {
             await instance.lookup.search(query: searchQuery)
+        }
+    }
+
+    func handleSearchQueryChange(oldQuery: String, newQuery: String) {
+        if searchQuery.isEmpty {
+            instance.lookup.reset()
+        } else if oldQuery == newQuery {
+            performSearch() // always perform inital search
+        } else {
+            searchTextPublisher.send(searchQuery)
         }
     }
 }

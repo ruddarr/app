@@ -30,6 +30,7 @@ struct MovieReleasesView: View {
             updateDisplayedReleases()
             fetched = true
         }
+        .onChange(of: sort.option, updateSortDirection)
         .onChange(of: sort, updateDisplayedReleases)
         .alert(
             isPresented: instance.releases.errorBinding,
@@ -80,6 +81,15 @@ struct MovieReleasesView: View {
                     }
             }
         }.tint(.secondary)
+    }
+
+    func updateSortDirection() {
+        switch sort.option {
+        case .bySeeders, .byQuality, .byCustomScore:
+            sort.isAscending = false
+        default:
+            sort.isAscending = true
+        }
     }
 
     func updateDisplayedReleases() {
@@ -158,12 +168,6 @@ extension MovieReleasesView {
                     }
                 }
                 .pickerStyle(.inline)
-                .onChange(of: sort.option) {
-                    switch sort.option {
-                    case .byWeight, .bySeeders, .byQuality, .byCustomScore: sort.isAscending = false
-                    default: sort.isAscending = true
-                    }
-                }
             }
 
             Section {

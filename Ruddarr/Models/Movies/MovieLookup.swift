@@ -71,9 +71,12 @@ class MovieLookup {
 
         return items.sorted {
             switch sort {
-            case .byRelevance: $0.id < $1.id // see guard above
-            case .byYear: $0.year > $1.year
-            case .byPopularity: $0.popularity ?? 0 > $1.popularity ?? 0
+            case .byRelevance:
+                $0.id < $1.id // see `.byRelevance guard above
+            case .byYear:
+                $0.sortYear > $1.sortYear
+            case .byPopularity:
+                $0.popularity ?? 0 > $1.popularity ?? 0
             }
         }
     }
