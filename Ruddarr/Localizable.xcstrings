@@ -782,6 +782,7 @@
       }
     },
     "Connection failed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -790,6 +791,9 @@
           }
         }
       }
+    },
+    "Connection Failed" : {
+
     },
     "Connection Failure" : {
       "localizations" : {
