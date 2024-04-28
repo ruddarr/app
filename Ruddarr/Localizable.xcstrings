@@ -781,19 +781,15 @@
         }
       }
     },
-    "Connection failed" : {
-      "extractionState" : "stale",
+    "Connection Failed" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Connection failed"
+            "value" : "Connection Failed"
           }
         }
       }
-    },
-    "Connection Failed" : {
-
     },
     "Connection Failure" : {
       "localizations" : {
