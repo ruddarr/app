@@ -5,10 +5,10 @@ struct Instance: Identifiable, Equatable, Codable {
     var id = UUID()
 
     var type: InstanceType = .radarr
+    var mode: InstanceMode = .normal
     var label: String = ""
     var url: String = ""
     var apiKey: String = ""
-    var timeout: Double = 10
     var headers: [InstanceHeader] = []
 
     var version: String = ""
@@ -36,28 +36,32 @@ struct Instance: Identifiable, Equatable, Codable {
         return isPrivateIpAddress(instanceUrl.host() ?? "")
     }
 
-    func isDefaultTimeout() -> Bool {
-        timeout == 10
-    }
-
-    static func timeoutLabel(_ seconds: Double) -> String {
-        let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .short
-
-        switch seconds {
-        case 0...60: formatter.allowedUnits = [.second]
-        default: formatter.allowedUnits = [.minute]
+    func timeout(_ call: InstanceTimeout) -> Double {
+        switch call {
+        case .normal: 10
+        case .slow: mode == .large ? 180 : 10
+        case .releaseSearch: 60
+        case .releaseDownload: 15
         }
-
-        return formatter.string(from: seconds) ?? String(seconds)
     }
-
 }
 
 enum InstanceType: String, Identifiable, CaseIterable, Codable {
     case radarr = "Radarr"
     case sonarr = "Sonarr"
     var id: Self { self }
+}
+
+enum InstanceMode: Codable {
+    case normal
+    case large
+}
+
+enum InstanceTimeout: Codable {
+    case normal
+    case slow
+    case releaseSearch
+    case releaseDownload
 }
 
 struct InstanceHeader: Equatable, Identifiable, Codable {

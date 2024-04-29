@@ -78,10 +78,6 @@ struct InstanceView: View {
 
             LabeledContent("URL", value: instance.url)
                 .textSelection(.enabled)
-
-            if !instance.isDefaultTimeout() {
-                LabeledContent("Timeout", value: Instance.timeoutLabel(instance.timeout))
-            }
         }
     }
 

@@ -32,7 +32,6 @@ struct InstanceEditView: View {
             apiKeySection
 
             if showAdvanced {
-                advancedSection
                 headersSection
             }
 
@@ -47,7 +46,7 @@ struct InstanceEditView: View {
             toolbarButton
         }
         .onAppear {
-            showAdvanced = !instance.isDefaultTimeout() || !instance.headers.isEmpty
+            showAdvanced = instance.mode != .normal || !instance.headers.isEmpty
         }
         .onSubmit {
             guard !hasEmptyFields() else { return }
@@ -68,6 +67,11 @@ struct InstanceEditView: View {
         Section {
             typeField
             labelField
+
+            if showAdvanced {
+                modeField
+            }
+
             urlField
         } footer: {
             Text("The URL used to access the \(instance.type.rawValue) web interface. Must be prefixed with \"http://\" or \"https://\".")
@@ -94,12 +98,6 @@ struct InstanceEditView: View {
         }
     }
 
-    var advancedSection: some View {
-        Section("Configuration") {
-            timeoutField
-        }
-    }
-
     var typeField: some View {
         Picker("Type", selection: $instance.type) {
             ForEach(InstanceType.allCases) { type in
@@ -119,6 +117,13 @@ struct InstanceEditView: View {
         }
     }
 
+    var modeField: some View {
+        Toggle("Large Library", isOn: Binding(
+            get: { instance.mode == .large },
+            set: { _ in instance.mode = .large }
+        ))
+    }
+
     var urlField: some View {
         LabeledContent {
             TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
@@ -131,15 +136,6 @@ struct InstanceEditView: View {
         } label: {
             Text("URL")
         }
-    }
-
-    var timeoutField: some View {
-        Picker("Timeout", selection: $instance.timeout) {
-            ForEach([10, 20, 60, 120, 300], id: \.self) { seconds in
-                Text(Instance.timeoutLabel(seconds)).tag(seconds)
-            }
-        }
-        .tint(.secondary)
     }
 
     var apiKeyField: some View {
