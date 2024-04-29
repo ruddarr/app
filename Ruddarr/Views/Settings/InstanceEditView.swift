@@ -135,9 +135,9 @@ struct InstanceEditView: View {
 
     var timeoutField: some View {
         Picker("Timeout", selection: $instance.timeout) {
-            Text(Instance.timeoutLabel(10)).tag(10.0)
-            Text(Instance.timeoutLabel(30)).tag(30.0)
-            Text(Instance.timeoutLabel(60)).tag(60.0)
+            ForEach([10, 20, 60, 120, 300], id: \.self) { seconds in
+                Text(Instance.timeoutLabel(seconds)).tag(seconds)
+            }
         }
         .tint(.secondary)
     }
