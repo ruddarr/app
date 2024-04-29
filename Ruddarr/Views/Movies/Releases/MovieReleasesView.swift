@@ -107,6 +107,10 @@ struct MovieReleasesView: View {
             releases = releases.filter { $0.quality.quality.normalizedName == sort.quality }
         }
 
+        if sort.language != ".all" {
+            releases = releases.filter { $0.languages.contains { $0.label == sort.language } }
+        }
+
         if sort.customFormat != ".all" {
             releases = releases.filter { $0.customFormats?.contains { $0.name == sort.customFormat } ?? false }
         }
@@ -147,6 +151,10 @@ extension MovieReleasesView {
             indexersPicker
 
             qualityPicker
+
+            if !instance.releases.languages.isEmpty {
+                languagePicker
+            }
 
             if !instance.releases.customFormats.isEmpty {
                 customFormatPicker
@@ -224,6 +232,21 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label("Protocol", systemImage: "point.3.connected.trianglepath.dotted")
+        }
+    }
+
+    var languagePicker: some View {
+        Menu {
+            Picker("Language", selection: $sort.language) {
+                Text("Any Language").tag(".all")
+
+                ForEach(instance.releases.languages, id: \.self) { language in
+                    Text(language).tag(Optional.some(language))
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label("Language", systemImage: "character.bubble")
         }
     }
 

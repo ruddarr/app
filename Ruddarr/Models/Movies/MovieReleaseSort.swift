@@ -6,6 +6,7 @@ struct MovieReleaseSort: Equatable {
 
     var indexer: String = ".all"
     var quality: String = ".all"
+    var language: String = ".all"
     var type: String = ".all"
     var customFormat: String = ".all"
 
