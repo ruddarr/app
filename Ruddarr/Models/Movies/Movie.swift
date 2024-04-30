@@ -18,7 +18,7 @@ struct Movie: Identifiable, Codable {
     let sortTitle: String
     let studio: String?
     let year: Int
-    var sortYear: Int { year == 0 ? 2100 : year }
+    var sortYear: Int { year == 0 ? 2_100 : year }
     let runtime: Int
     let overview: String?
     let certification: String?

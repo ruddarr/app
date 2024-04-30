@@ -66,8 +66,14 @@ enum InstanceTimeout: Codable {
 
 struct InstanceHeader: Equatable, Identifiable, Codable {
     var id = UUID()
-    var name: String = ""
-    var value: String = ""
+    var name: String
+    var value: String
+
+    init(name: String = "", value: String = "") {
+        self.name = name.replacingOccurrences(of: ":", with: "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        self.value = value.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
 
 struct InstanceStatus: Codable {

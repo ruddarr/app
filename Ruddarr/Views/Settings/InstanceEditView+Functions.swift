@@ -142,15 +142,13 @@ extension InstanceEditView {
             if line.contains(":") {
                 createHeader(from: line)
             } else {
-                appendHeader(from: line.trimmingCharacters(in: .whitespaces))
+                appendHeader(from: line)
             }
         }
     }
 
     func createHeader(from line: String) {
-        let components = line.components(separatedBy: ":").map {
-            $0.trimmingCharacters(in: .whitespaces)
-        }
+        let components = line.components(separatedBy: ":")
 
         instance.headers.append(InstanceHeader(
             name: components[0],
