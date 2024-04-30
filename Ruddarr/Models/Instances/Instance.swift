@@ -39,7 +39,7 @@ struct Instance: Identifiable, Equatable, Codable {
     func timeout(_ call: InstanceTimeout) -> Double {
         switch call {
         case .normal: 10
-        case .slow: mode == .large ? 180 : 10
+        case .slow: mode == .large ? 300 : 10
         case .releaseSearch: 60
         case .releaseDownload: 15
         }

@@ -33,6 +33,7 @@ struct InstanceEditView: View {
 
             if showAdvanced {
                 headersSection
+                modeSection
             }
 
             if mode == .update {
@@ -67,11 +68,6 @@ struct InstanceEditView: View {
         Section {
             typeField
             labelField
-
-            if showAdvanced {
-                modeField
-            }
-
             urlField
         } footer: {
             Text("The URL used to access the \(instance.type.rawValue) web interface. Must be prefixed with \"http://\" or \"https://\".")
@@ -117,13 +113,6 @@ struct InstanceEditView: View {
         }
     }
 
-    var modeField: some View {
-        Toggle("Large Library", isOn: Binding(
-            get: { instance.mode == .large },
-            set: { _ in instance.mode = .large }
-        ))
-    }
-
     var urlField: some View {
         LabeledContent {
             TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
@@ -147,6 +136,21 @@ struct InstanceEditView: View {
                 .textCase(.lowercase)
         } label: {
             Text("API Key")
+        }
+    }
+
+    var modeSection: some View {
+        Section {
+            Toggle("Large Instance", isOn: Binding(
+                get: {
+                    instance.mode == .large
+                },
+                set: { value in
+                    instance.mode = value ? .large : .normal
+                }
+            ))
+        } footer: {
+            Text("Optimize API calls for instances that load slowly.")
         }
     }
 

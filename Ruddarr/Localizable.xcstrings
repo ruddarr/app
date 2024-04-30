@@ -1763,12 +1763,12 @@
         }
       }
     },
-    "Large Library" : {
+    "Large Instance" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Large Library"
+            "value" : "Large Instance"
           }
         }
       }
@@ -2718,6 +2718,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open Series"
+          }
+        }
+      }
+    },
+    "Optimize API calls for instances that load slowly." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optimize API calls for instances that load slowly."
           }
         }
       }
