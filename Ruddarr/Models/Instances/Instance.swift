@@ -19,7 +19,7 @@ struct Instance: Identifiable, Equatable, Codable {
     var auth: [String: String] {
         var map: [String: String] = [:]
 
-        map["Authorization"] = "Bearer \(apiKey)"
+        map["X-Api-Key"] = apiKey
 
         for header in headers {
             map[header.name] = header.value
