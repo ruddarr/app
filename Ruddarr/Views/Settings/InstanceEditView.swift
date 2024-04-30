@@ -200,8 +200,8 @@ struct InstanceEditView: View {
 
     var urlPlaceholder: String {
         switch instance.type {
-        case .radarr: "https://10.0.1.42:7878"
-        case .sonarr: "https://10.0.1.42:8989"
+        case .radarr: "http://10.0.1.1:7878"
+        case .sonarr: "http://10.0.1.1:8989"
         }
     }
 
