@@ -110,6 +110,7 @@
 		BBF94F632B508F8B00300EBA /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F622B508F8B00300EBA /* MovieView.swift */; };
 		BBF94F652B50C88300300EBA /* Instance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F642B50C88300300EBA /* Instance.swift */; };
 		BBFB1F8B2B782D1000181233 /* SettingsPreferencesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */; };
+		BBFBAD5C2BDFF5A4007B70BC /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFBAD5B2BDFF5A4007B70BC /* WhatsNew.swift */; };
 		BBFDEB842BD5B78B009F002F /* SettingsLinksSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */; };
 /* End PBXBuildFile section */
 
@@ -218,6 +219,7 @@
 		BBF94F622B508F8B00300EBA /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
 		BBF94F642B50C88300300EBA /* Instance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instance.swift; sourceTree = "<group>"; };
 		BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPreferencesSection.swift; sourceTree = "<group>"; };
+		BBFBAD5B2BDFF5A4007B70BC /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLinksSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -494,6 +496,7 @@
 				BB77996C2BAE4757007D713B /* Shortcuts.swift */,
 				BB8A60272B952D710039CFF6 /* Subscription.swift */,
 				BBC77E252B7AB79100573EBD /* Notifications.swift */,
+				BBFBAD5B2BDFF5A4007B70BC /* WhatsNew.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -715,6 +718,7 @@
 				BBF583C62BAD0E0A00AFA7FB /* InstanceEditView+Functions.swift in Sources */,
 				BB336F8A2B9A32FE000904FA /* MovieSearchView.swift in Sources */,
 				BBA54BDE2B561FB200CA0F3E /* CachedAsyncImage.swift in Sources */,
+				BBFBAD5C2BDFF5A4007B70BC /* WhatsNew.swift in Sources */,
 				BBF583BB2BAC9A0A00AFA7FB /* CalendarMedia.swift in Sources */,
 				BB8A60282B952D710039CFF6 /* Subscription.swift in Sources */,
 				790D1EC52B864EC700FCDB64 /* QuickActions.swift in Sources */,

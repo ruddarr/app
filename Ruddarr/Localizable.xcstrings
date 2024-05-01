@@ -801,6 +801,16 @@
         }
       }
     },
+    "Continue" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        }
+      }
+    },
     "Continuing" : {
       "localizations" : {
         "en" : {
