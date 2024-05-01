@@ -18,7 +18,7 @@ struct LibrariesView: View {
             LibrariesViewItem(
                 url: "https://github.com/getsentry/sentry-cocoa",
                 name: "Sentry",
-                version: "8.24.0"
+                version: "8.25.0"
             )
 
             LibrariesViewItem(

@@ -13,7 +13,7 @@
     },
     "_developerTeamID" : "B9ZZ8GLWRA",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 735525655.98412704,
+    "_lastSynchronizedDate" : 736296131.38246799,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [
@@ -83,7 +83,7 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "14.99",
+          "displayPrice" : "5.99",
           "familyShareable" : true,
           "groupNumber" : 1,
           "internalID" : "6478978286",
