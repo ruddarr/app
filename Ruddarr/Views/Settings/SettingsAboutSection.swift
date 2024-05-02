@@ -11,7 +11,6 @@ struct SettingsAboutSection: View {
             share
             review
             support
-            libraries
         }
     }
 
@@ -47,20 +46,6 @@ struct SettingsAboutSection: View {
             } icon: {
                 Image(systemName: "square.and.pencil")
                     .foregroundStyle(settings.theme.tint)
-            }
-        }
-    }
-
-    var libraries: some View {
-        NavigationLink {
-            LibrariesView()
-        } label: {
-            Label {
-                Text("Third Party Libraries").tint(.primary)
-            } icon: {
-                Image(systemName: "text.book.closed")
-                    .foregroundStyle(settings.theme.tint)
-                    .scaleEffect(0.95)
             }
         }
     }

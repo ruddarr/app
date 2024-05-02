@@ -3612,16 +3612,6 @@
         }
       }
     },
-    "Third Party Libraries" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Third Party Libraries"
-          }
-        }
-      }
-    },
     "This will delete the movie and permanently erase the movie folder and its contents." : {
       "localizations" : {
         "en" : {
