@@ -14,6 +14,7 @@ struct InstanceEditView: View {
     @State var showingConfirmation = false
     @State var error: InstanceError?
 
+    @State var showAdvanced: Bool = false
     @State var showBasicAuthentication = false
     @State var username: String = ""
     @State var password: String = ""
@@ -30,7 +31,11 @@ struct InstanceEditView: View {
         Form {
             instanceSection
             apiKeySection
-            headersSection
+
+            if showAdvanced {
+                headersSection
+                modeSection
+            }
 
             if mode == .update {
                 Section {
@@ -39,6 +44,12 @@ struct InstanceEditView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            toolbarButton
+        }
+        .onAppear {
+            showAdvanced = instance.mode != .normal || !instance.headers.isEmpty
+        }
         .onSubmit {
             guard !hasEmptyFields() else { return }
 
@@ -47,9 +58,6 @@ struct InstanceEditView: View {
             }
         }
         .onChange(of: scenePhase) { hotfixId = UUID() }
-        .toolbar {
-            toolbarButton
-        }
         .alert(isPresented: $showingAlert, error: error) { _ in
             Button("OK") { error = nil }
         } message: { error in
@@ -73,7 +81,17 @@ struct InstanceEditView: View {
         } header: {
             Text("Authentication")
         } footer: {
-            Text("The API Key can be found in the web interface under \"Settings > General > Security\".")
+            VStack(alignment: .leading, spacing: 12) {
+                Text("The API Key can be found in the web interface under \"Settings > General > Security\".")
+
+                if !showAdvanced {
+                    Text("Show Advanced Settings")
+                        .foregroundStyle(.tint)
+                        .onTapGesture {
+                            withAnimation { showAdvanced = true }
+                        }
+                }
+            }
         }
     }
 
@@ -90,6 +108,7 @@ struct InstanceEditView: View {
         LabeledContent {
             TextField("Synology", text: $instance.label)
                 .multilineTextAlignment(.trailing)
+                .disableAutocorrection(true)
         } label: {
             Text("Label")
         }
@@ -121,6 +140,21 @@ struct InstanceEditView: View {
         }
     }
 
+    var modeSection: some View {
+        Section {
+            Toggle("Large Instance", isOn: Binding(
+                get: {
+                    instance.mode == .large
+                },
+                set: { value in
+                    instance.mode = value ? .large : .normal
+                }
+            ))
+        } footer: {
+            Text("Optimize API calls for instances that load slowly.")
+        }
+    }
+
     var headersSection: some View {
         Section {
             ForEach($instance.headers.indices, id: \.self) { index in
@@ -149,7 +183,7 @@ struct InstanceEditView: View {
                 }
                 Button("Cancel", role: .cancel, action: {})
             }, message: {
-                Text("The credentials will be encoded and added as \"Authorization\" header.")
+                Text("The credentials will be encoded and added as an \"Authorization\" header.")
             })
         } header: {
             HStack {
@@ -158,14 +192,17 @@ struct InstanceEditView: View {
                 pasteButton(pasteHeader)
             }
         } footer: {
-            Text("Custom Headers and Basic Authentication are an advanced feature, only needed to access instances protected by zero trust services.")
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Custom Headers can be used to access instances protected by Zero Trust services.")
+                Text("Basic Authentication is for advanced server management tools and will not work with the \(instance.type.rawValue) instance login.")
+            }
         }
     }
 
     var urlPlaceholder: String {
         switch instance.type {
-        case .radarr: "https://10.0.1.42:7878"
-        case .sonarr: "https://10.0.1.42:8989"
+        case .radarr: "http://10.0.1.1:7878"
+        case .sonarr: "http://10.0.1.1:8989"
         }
     }
 

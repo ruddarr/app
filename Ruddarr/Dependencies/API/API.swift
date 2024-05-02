@@ -39,7 +39,7 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
         }, lookupMovies: { instance, query in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie/lookup")
@@ -51,14 +51,14 @@ extension API {
                 .appending(path: "/api/v3/release")
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
-            return try await request(url: url, headers: instance.auth, timeout: 60)
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
         }, downloadRelease: { guid, indexerId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/release")
 
             let body = DownloadMovieRelease(guid: guid, indexerId: indexerId)
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: body, timeout: 15)
+            return try await request(method: .post, url: url, headers: instance.auth, body: body, timeout: instance.timeout(.releaseDownload))
         }, getMovie: { movieId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
@@ -113,13 +113,13 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series")
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
         }, lookupSeries: { instance, query in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
         }, movieCalendar: { start, end, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/calendar")
@@ -129,7 +129,7 @@ extension API {
                     .init(name: "end", value: end.formatted(.iso8601)),
                 ])
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
         }, episodeCalendar: { start, end, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/calendar")
@@ -139,7 +139,7 @@ extension API {
                     .init(name: "end", value: end.formatted(.iso8601)),
                 ])
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
         }, command: { command, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/command")
@@ -154,7 +154,7 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/rootfolder")
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
         }, qualityProfiles: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/qualityprofile")
@@ -222,6 +222,7 @@ extension API {
         leaveBreadcrumb(.debug, category: "api", message: "Sending request", data: [
             "url": url,
             "method": method.rawValue,
+            "timeout": timeout,
             "body": body ?? "",
         ])
 

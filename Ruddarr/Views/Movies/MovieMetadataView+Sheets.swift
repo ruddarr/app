@@ -172,7 +172,10 @@ struct MovieFileSheet: View {
                         row("Subtitles", codes.count <= 3 ? languagesList(codes) : "")
 
                         if codes.count > 3 {
-                            Text(languagesList(codes)).foregroundStyle(.primary).font(.subheadline)
+                            Text(languagesList(codes))
+                                .foregroundStyle(.primary)
+                                .font(.subheadline)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     } else {
                         row("Subtitles", "--")
@@ -202,7 +205,10 @@ struct MovieFileSheet: View {
                         row("Languages", codes.count <= 3 ? languagesList(codes) : "")
 
                         if codes.count > 3 {
-                            Text(languagesList(codes)).foregroundStyle(.primary).font(.subheadline)
+                            Text(languagesList(codes))
+                                .foregroundStyle(.primary)
+                                .font(.subheadline)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     } else {
                         row("Languages", "--")

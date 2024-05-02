@@ -17,17 +17,12 @@ struct Movie: Identifiable, Codable {
     let sortTitle: String
     let studio: String?
     let year: Int
+    var sortYear: Int { year == 0 ? 2_100 : year }
     let runtime: Int
     let overview: String?
     let certification: String?
     let youTubeTrailerId: String?
-
     let alternateTitles: [AlternateMovieTitle]
-    var alternateTitlesString: String?
-
-    mutating func setAlternateTitlesString() {
-        alternateTitlesString = alternateTitles.map { $0.title }.joined(separator: " ")
-    }
 
     let genres: [String]
     let ratings: MovieRatings?
@@ -151,8 +146,9 @@ struct Movie: Identifiable, Codable {
     }
 
     var sizeLabel: String {
-        ByteCountFormatter().string(
-            fromByteCount: Int64(sizeOnDisk ?? 0)
+        ByteCountFormatter.string(
+            fromByteCount: Int64(sizeOnDisk ?? 0),
+            countStyle: .binary
         )
     }
 
@@ -181,6 +177,10 @@ struct Movie: Identifiable, Codable {
         case .released, .deleted:
             false
         }
+    }
+
+    func alternateTitlesString() -> String {
+        alternateTitles.map { $0.title }.joined(separator: " ")
     }
 
     struct MovieRatings: Codable {
@@ -240,10 +240,13 @@ struct MovieFile: Identifiable, Codable {
     let quality: MovieQualityInfo
     let languages: [MovieLanguage]
     let customFormats: [MovieCustomFormat]?
-    let customFormatScore: Int
+    let customFormatScore: Int?
 
     var sizeLabel: String {
-        ByteCountFormatter().string(fromByteCount: Int64(size))
+        ByteCountFormatter.string(
+            fromByteCount: Int64(size),
+            countStyle: .binary
+        )
     }
 
     var languageLabel: String {
@@ -251,7 +254,7 @@ struct MovieFile: Identifiable, Codable {
     }
 
     var scoreLabel: String {
-        formatCustomScore(customFormatScore)
+        formatCustomScore(customFormatScore ?? 0)
     }
 
     var customFormatsList: [String]? {
@@ -260,6 +263,18 @@ struct MovieFile: Identifiable, Codable {
         }
 
         return formats.map { $0.label }
+    }
+
+    var videoResolution: Int? {
+        if quality.quality.resolution > 0 {
+            return quality.quality.resolution
+        }
+
+        if let resolution = mediaInfo?.resolution, let range = resolution.range(of: "x") {
+            return Int(resolution[range.upperBound...])
+        }
+
+        return nil
     }
 }
 

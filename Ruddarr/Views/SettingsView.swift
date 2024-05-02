@@ -7,7 +7,6 @@ struct SettingsView: View {
 
     enum Path: Hashable {
         case icons
-        case libraries
         case createInstance
         case viewInstance(Instance.ID)
         case editInstance(Instance.ID)
@@ -29,9 +28,6 @@ struct SettingsView: View {
                 case .icons:
                     IconsView()
                         .environmentObject(settings)
-
-                case .libraries:
-                    LibrariesView()
 
                 case .createInstance:
                     InstanceEditView(mode: .create, instance: Instance())

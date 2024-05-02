@@ -41,13 +41,16 @@ struct MovieGridItem: View {
                 } else if movie.monitored {
                     Image(systemName: "xmark").symbolVariant(.circle)
                 }
-            }.foregroundStyle(.white)
+            }
+                .foregroundStyle(.white)
+                .imageScale(.small)
 
             Spacer()
 
             Image(systemName: "bookmark")
                 .symbolVariant(movie.monitored ? .fill : .none)
                 .foregroundStyle(.white)
+                .imageScale(.small)
         }
         .font(.body)
         .padding(.top, 36)
@@ -57,7 +60,9 @@ struct MovieGridItem: View {
             LinearGradient(
                 colors: [
                     Color.black.opacity(0.0),
-                    Color.black.opacity(0.8)
+                    Color.black.opacity(0.2),
+                    Color.black.opacity(0.4),
+                    Color.black.opacity(0.9)
                 ],
                 startPoint: .top,
                 endPoint: .bottom

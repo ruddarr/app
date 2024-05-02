@@ -17,7 +17,10 @@ struct SettingsSystemSection: View {
             }, label: {
                 LabeledContent(
                     "Clear Image Cache",
-                    value: ByteCountFormatter().string(fromByteCount: Int64(imageCacheSize))
+                    value: ByteCountFormatter.string(
+                        fromByteCount: Int64(imageCacheSize),
+                        countStyle: .binary
+                    )
                 )
             }).onAppear {
                 calculateImageCacheSize()

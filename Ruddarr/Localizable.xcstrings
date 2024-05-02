@@ -371,6 +371,16 @@
         }
       }
     },
+    "Any Language" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Language"
+          }
+        }
+      }
+    },
     "Any Protocol" : {
       "localizations" : {
         "en" : {
@@ -591,6 +601,16 @@
         }
       }
     },
+    "Basic Authentication is for advanced server management tools and will not work with the %@ instance login." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basic Authentication is for advanced server management tools and will not work with the %@ instance login."
+          }
+        }
+      }
+    },
     "Bengali" : {
       "localizations" : {
         "en" : {
@@ -791,12 +811,12 @@
         }
       }
     },
-    "Connection failed" : {
+    "Connection Failed" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Connection failed"
+            "value" : "Connection Failed"
           }
         }
       }
@@ -807,6 +827,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Connection Failure"
+          }
+        }
+      }
+    },
+    "Continue" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
           }
         }
       }
@@ -861,12 +891,12 @@
         }
       }
     },
-    "Custom Headers and Basic Authentication are an advanced feature, only needed to access instances protected by zero trust services." : {
+    "Custom Headers can be used to access instances protected by Zero Trust services." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Custom Headers and Basic Authentication are an advanced feature, only needed to access instances protected by zero trust services."
+            "value" : "Custom Headers can be used to access instances protected by Zero Trust services."
           }
         }
       }
@@ -1769,6 +1799,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Languages"
+          }
+        }
+      }
+    },
+    "Large Instance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Large Instance"
           }
         }
       }
@@ -2746,6 +2786,16 @@
         }
       }
     },
+    "Optimize API calls for instances that load slowly." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optimize API calls for instances that load slowly."
+          }
+        }
+      }
+    },
     "Other" : {
       "localizations" : {
         "en" : {
@@ -3346,6 +3396,16 @@
         }
       }
     },
+    "Show Advanced Settings" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Advanced Settings"
+          }
+        }
+      }
+    },
     "Slovak" : {
       "localizations" : {
         "en" : {
@@ -3586,12 +3646,12 @@
         }
       }
     },
-    "The credentials will be encoded and added as \"Authorization\" header." : {
+    "The credentials will be encoded and added as an \"Authorization\" header." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The credentials will be encoded and added as \"Authorization\" header."
+            "value" : "The credentials will be encoded and added as an \"Authorization\" header."
           }
         }
       }
@@ -3602,16 +3662,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The URL used to access the %@ web interface. Must be prefixed with \"http://\" or \"https://\"."
-          }
-        }
-      }
-    },
-    "Third Party Libraries" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Third Party Libraries"
           }
         }
       }

@@ -156,7 +156,7 @@ struct MovieDetails: View {
         var label = ""
         var codec = ""
 
-        if let resolution = movie.movieFile?.quality.quality.resolution {
+        if let resolution = movie.movieFile?.videoResolution {
             label = "\(resolution)p"
             label = label.replacingOccurrences(of: "2160p", with: "4K")
             label = label.replacingOccurrences(of: "4320p", with: "8K")

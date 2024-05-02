@@ -30,6 +30,7 @@ struct ContentView: View {
                 }
             )
             .displayToasts()
+            .whatsNewSheet()
             .onAppear {
                 isPortrait = UIDevice.current.orientation.isPortrait
                 columnVisibility = isPortrait ? .automatic : .doubleColumn
@@ -67,6 +68,7 @@ struct ContentView: View {
                     .padding(.horizontal, 4)
                 }
             }
+            .whatsNewSheet()
             .onChange(of: scenePhase, handleScenePhaseChange)
             .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
                 showTabViewOverlay = false

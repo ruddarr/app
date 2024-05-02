@@ -9,6 +9,7 @@ class Movies {
     var itemsCount: Int = 0
 
     var cachedItems: [Movie] = []
+    var alternateTitles: [Movie.ID: String] = [:]
 
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
@@ -37,7 +38,7 @@ class Movies {
             cachedItems = cachedItems.filter { movie in
                 movie.sortTitle.localizedCaseInsensitiveContains(query) ||
                 movie.studio?.localizedCaseInsensitiveContains(query) ?? false ||
-                movie.alternateTitlesString?.localizedCaseInsensitiveContains(query) ?? false
+                alternateTitles[movie.id]?.localizedCaseInsensitiveContains(query) ?? false
             }
         }
 
@@ -131,7 +132,7 @@ class Movies {
             items = try await dependencies.api.fetchMovies(instance)
             itemsCount = items.count
             leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
-            setAlternateTitlesStrings()
+            computeAlternateTitles()
 
         case .add(let movie):
             items.append(try await dependencies.api.addMovie(movie, instance))
@@ -156,11 +157,19 @@ class Movies {
         }
     }
 
-    private func setAlternateTitlesStrings() {
-        Task.detached {
+    private func computeAlternateTitles() {
+        if alternateTitles.count == items.count {
+            return
+        }
+
+        Task.detached(priority: .medium) {
+            var titles: [Movie.ID: String] = [:]
+
             for index in self.items.indices {
-                self.items[index].setAlternateTitlesString()
+                titles[self.items[index].id] = self.items[index].alternateTitlesString()
             }
+
+            self.alternateTitles = titles
         }
     }
 }
