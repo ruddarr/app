@@ -11,10 +11,6 @@ extension View {
         modifier(WithAppStateModifier())
     }
 
-    func withSettings() -> some View {
-        modifier(WithSettingsModifier())
-    }
-
     func withRadarrInstance(movies: [Movie] = [], lookup: [Movie] = []) -> some View {
         let instance = RadarrInstance(.radarrDummy)
         instance.movies.items = movies
@@ -57,20 +53,6 @@ private struct WithAppStateModifier: ViewModifier {
             .environmentObject(settings)
             .environment(RadarrInstance(radarrInstance))
             .environment(SonarrInstance(sonarrInstance))
-    }
-}
-
-private struct WithSettingsModifier: ViewModifier {
-    @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
-    @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
-
-    func body(content: Content) -> some View {
-        let settings = AppSettings()
-
-        content
-            .tint(theme.tint)
-            .preferredColorScheme(appearance.preferredColorScheme)
-            .environmentObject(settings)
     }
 }
 

@@ -269,7 +269,7 @@ struct MoviePreviewActionSpacerModifier: ViewModifier {
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     return MovieView(movie: Binding(get: { movie }, set: { _ in }))
-        .withSettings()
+        .withAppState()
         .withRadarrInstance(movies: movies)
 }
 
@@ -278,6 +278,6 @@ struct MoviePreviewActionSpacerModifier: ViewModifier {
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     return MovieView(movie: Binding(get: { movie }, set: { _ in }))
-        .withSettings()
+        .withAppState()
         .withRadarrInstance(movies: movies)
 }

@@ -154,7 +154,7 @@ extension Instance {
     static var sonarrDummy: Self {
         .init(
             id: UUID(uuidString: "00000000-4000-0000-0000-000000000000")!,
-            type: .radarr,
+            type: .sonarr,
             label: ".sonarr",
             url: "http://10.0.1.5:8989",
             apiKey: "f8e3682b3b984cddbaa00047a09d0fbd",

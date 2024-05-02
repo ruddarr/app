@@ -98,6 +98,6 @@ struct MovieEditView: View {
     dependencies.router.moviesPath.append(MoviesView.Path.edit(movie.id))
 
     return ContentView()
-        .withSettings()
+        .withAppState()
         .withRadarrInstance(movies: movies)
 }

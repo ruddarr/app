@@ -204,6 +204,6 @@ extension MovieView {
     )
 
     return ContentView()
-        .withSettings()
+        .withAppState()
         .withRadarrInstance(movies: movies)
 }

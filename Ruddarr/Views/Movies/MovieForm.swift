@@ -100,7 +100,7 @@ struct MovieForm: View {
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     return MovieForm(movie: Binding(get: { movie }, set: { _ in }))
-        .withSettings()
+        .withAppState()
         .withRadarrInstance(movies: movies)
 }
 
@@ -109,6 +109,6 @@ struct MovieForm: View {
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     return MovieForm(movie: Binding(get: { movie }, set: { _ in }))
-        .withSettings()
+        .withAppState()
         .withRadarrInstance(movies: movies)
 }

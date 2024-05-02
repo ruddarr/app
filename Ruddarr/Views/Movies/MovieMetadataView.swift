@@ -222,6 +222,6 @@ struct MovieHistoryItem: View {
     )
 
     return ContentView()
-        .withSettings()
+        .withAppState()
         .withRadarrInstance(movies: movies)
 }

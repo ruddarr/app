@@ -200,6 +200,6 @@ extension SeriesDetailView {
     )
 
     return ContentView()
-        .withSettings()
         .withSonarrInstance(series: series)
+        .withAppState()
 }

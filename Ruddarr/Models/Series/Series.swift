@@ -198,14 +198,7 @@ struct SeriesLanguage: Codable {
 }
 
 struct SeriesStatistics: Codable {
-    let episodeFileCount: Int
-    let episodeCount: Int
-    let totalEpisodeCount: Int
     let sizeOnDisk: Int
-    let releaseGroups: [String]
-    let percentOfEpisodes: Double
-    let previousAiring, nextAiring: Date?
-    let seasonCount: Int?
 }
 
 enum SeriesMonitorNewItems: String, Codable {
@@ -216,14 +209,10 @@ enum SeriesMonitorNewItems: String, Codable {
 struct Season: Codable {
     let seasonNumber: Int
     let monitored: Bool
-    let statistics: SeasonStatistics
+    let statistics: SeasonStatistics?
 
     struct SeasonStatistics: Codable {
-        let seasonCount: Int?
         let episodeFileCount: Int
         let episodeCount: Int
-        let totalEpisodeCount: Int
-        let percentOfEpisodes: Float
-        let releaseGroups: [String]
     }
 }

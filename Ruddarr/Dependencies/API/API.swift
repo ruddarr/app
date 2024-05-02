@@ -144,7 +144,7 @@ extension API {
 //                moveFiles: moveFiles ? true : nil
 //            )
 
-            return try await request(method: .put, url: url, headers: instance.auth) // TOOD: missing body...
+            return try await request(method: .put, url: url, headers: instance.auth) // TODO: missing body...
         }, deleteSeries: { series, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series")

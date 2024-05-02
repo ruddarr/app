@@ -177,18 +177,18 @@ struct SeriesDetails: View {
 
 #Preview {
     let series: [Series] = PreviewData.load(name: "series")
-    let item = series.first(where: { $0.id == 235 }) ?? series[0]
+    let item = series.first(where: { $0.id == 2 }) ?? series[0]
 
     return SeriesDetailView(series: Binding(get: { item }, set: { _ in }))
-        .withSettings()
         .withSonarrInstance(series: series)
+        .withAppState()
 }
 
 #Preview("Preview") {
     let series: [Series] = PreviewData.load(name: "series-lookup")
-    let item = series.first(where: { $0.id == 235 }) ?? series[0]
+    let item = series[1]
 
     return SeriesDetailView(series: Binding(get: { item }, set: { _ in }))
-        .withSettings()
         .withSonarrInstance(series: series)
+        .withAppState()
 }

@@ -276,6 +276,6 @@ extension MovieReleasesView {
     dependencies.router.moviesPath.append(MoviesView.Path.releases(movie.id))
 
     return ContentView()
-        .withSettings()
+        .withAppState()
         .withRadarrInstance(movies: movies)
 }

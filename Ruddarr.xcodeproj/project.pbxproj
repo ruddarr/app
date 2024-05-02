@@ -453,13 +453,13 @@
 				BBA7336A2BB6261D00A5022B /* movie-files.json */,
 				BBA733682BB6070900A5022B /* movie-extra-files.json */,
 				BBF583B52BABDB1300AFA7FB /* series.json */,
+				BB507D292BD9799300EC4016 /* series-lookup.json */,
 				BB456D262B58E4B900C29B00 /* system-status.json */,
 				BB8B3DF32B617FE800B80E2D /* root-folders.json */,
 				BB7602742B62027C006E5A1F /* quality-profiles.json */,
 				BB94F1BA2B7E8A190050F6A0 /* notifications.json */,
 				BBF583C12BACBE1400AFA7FB /* calendar-movies.json */,
 				BBF583C32BACBE5000AFA7FB /* calendar-episodes.json */,
-				BB507D292BD9799300EC4016 /* series-lookup.json */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -632,7 +632,6 @@
 				BBE1E4432B51FA0200946222 /* movie-lookup.json in Resources */,
 				BBA7336B2BB6261D00A5022B /* movie-files.json in Resources */,
 				BBB869212B6CB0AC009C1A54 /* movie-releases.json in Resources */,
-				BBDA77652BDBF0E500568E64 /* movies.json in Resources */,
 				BB7602752B62027C006E5A1F /* quality-profiles.json in Resources */,
 				BBF583C22BACBE1400AFA7FB /* calendar-movies.json in Resources */,
 				BB8B3DF42B617FE800B80E2D /* root-folders.json in Resources */,
@@ -640,7 +639,7 @@
 				BBA733672BB5278800A5022B /* movie-history.json in Resources */,
 				BB456D272B58E4B900C29B00 /* system-status.json in Resources */,
 				BB4B34F12B7BF4C80063F2D3 /* Localizable.xcstrings in Resources */,
-				BBE1E4412B51F9DC00946222 /* movies2.json in Resources */,
+				BBE1E4412B51F9DC00946222 /* movies.json in Resources */,
 				BBE8285F2B4F2C7100C1E1D9 /* Preview Assets.xcassets in Resources */,
 				BB507D2A2BD9799300EC4016 /* series-lookup.json in Resources */,
 				BBE8285B2B4F2C7100C1E1D9 /* Assets.xcassets in Resources */,

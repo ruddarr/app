@@ -112,6 +112,6 @@ struct MoviePreviewView: View {
     )
 
     return ContentView()
-        .withSettings()
+        .withAppState()
         .withRadarrInstance(movies: movies)
 }
