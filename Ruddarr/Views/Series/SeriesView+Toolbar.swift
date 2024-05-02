@@ -46,9 +46,10 @@ extension SeriesView {
             .onChange(of: sort.option) {
                 // TODO: needs work
                 switch sort.option {
-                case .byTitle: sort.isAscending = true
-                case .byYear: sort.isAscending = false
-                case .byAdded: sort.isAscending = false
+                case .byTitle:
+                    sort.isAscending = true
+                default:
+                    sort.isAscending = false
                 }
             }
 

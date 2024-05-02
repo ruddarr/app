@@ -132,7 +132,8 @@ class SeriesModel {
             items = try await dependencies.api.fetchSeries(instance)
             itemsCount = items.count
             leaveBreadcrumb(.info, category: "series", message: "Fetched series", data: ["count": items.count])
-            setAlternateTitlesStrings()
+
+            setAlternateTitlesStrings() // TODO: port over changes from `develop`
 
 //        case .add(let series):
 //            items.append(try await dependencies.api.addSeries(series, instance))

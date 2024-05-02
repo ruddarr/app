@@ -29,6 +29,7 @@ struct Series: Identifiable, Codable {
     let certification: String?
 
     let year: Int
+    var sortYear: Int { year == 0 ? 2100 : year }
     let runtime: Int
     let ended: Bool
     let seasonFolder: Bool
@@ -56,10 +57,9 @@ struct Series: Identifiable, Codable {
     let seasons: [Season]
     let genres: [String]
     let images: [MovieImage]
+    let statistics: SeriesStatistics?
 
-    // runtime
-    // ratings
-    // statistics
+    // TODO: ratings
 
     enum CodingKeys: String, CodingKey {
         case guid = "id"
@@ -194,6 +194,17 @@ enum SeriesType: String, Codable {
 struct SeriesLanguage: Codable {
     let id: Int
     let name: String?
+}
+
+struct SeriesStatistics: Codable {
+    let episodeFileCount: Int
+    let episodeCount: Int
+    let totalEpisodeCount: Int
+    let sizeOnDisk: Int
+    let releaseGroups: [String]
+    let percentOfEpisodes: Double
+    let previousAiring, nextAiring: Date?
+    let seasonCount: Int?
 }
 
 enum SeriesMonitorNewItems: String, Codable {

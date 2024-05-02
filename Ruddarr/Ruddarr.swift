@@ -47,23 +47,14 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static var version: String = "1.0.3"
+    static var version: String = "2.0.0"
 
+    // TODO: Sonarr
     static var features: [WhatsNewFeature] = [
         .init(
-            image: "line.3.horizontal.decrease",
-            title: "Filter by Language",
-            subtitle: "Releases can now be filtered by language when browsing interactive search results."
-        ),
-        .init(
-            image: "key.horizontal",
-            title: "Sonarr 3 Authentication",
-            subtitle: "API authentication for Sonarr 3.x instances has been added."
-        ),
-        .init(
-            image: "internaldrive",
-            title: "Large Instance Mode",
-            subtitle: "Instances that load slowly can now be flagged as large to automatically optimize API calls and timeouts."
+            image: "tv",
+            title: "Sonarr Support",
+            subtitle: "..."
         ),
     ]
 }
