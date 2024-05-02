@@ -43,14 +43,14 @@ struct MovieGridItem: View {
                 }
             }
                 .foregroundStyle(.white)
-                .imageScale(.small)
+                .imageScale(MovieGridItem.gridIconScale())
 
             Spacer()
 
             Image(systemName: "bookmark")
                 .symbolVariant(movie.monitored ? .fill : .none)
                 .foregroundStyle(.white)
-                .imageScale(.small)
+                .imageScale(MovieGridItem.gridIconScale())
         }
         .font(.body)
         .padding(.top, 36)
@@ -68,6 +68,14 @@ struct MovieGridItem: View {
                 endPoint: .bottom
             )
         }
+    }
+
+    static func gridIconScale() -> Image.Scale {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .small
+        }
+
+        return .medium
     }
 
     static func gridItemSpacing() -> CGFloat {
