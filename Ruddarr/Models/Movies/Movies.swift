@@ -153,7 +153,7 @@ class Movies {
             case .automaticSearch: RadarrCommand(name: commandName, movieIds: [movie.id])
             }
 
-            _ = try await dependencies.api.command(command, instance)
+            _ = try await dependencies.api.radarrCommand(command, instance)
         }
     }
 

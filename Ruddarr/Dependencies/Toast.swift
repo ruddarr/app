@@ -66,6 +66,7 @@ extension Toast {
         case searchQueued
         case downloadQueued
         case movieDeleted
+        case seriesDeleted
         case error(String)
     }
 

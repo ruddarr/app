@@ -19,10 +19,16 @@ struct API {
     var fetchSeries: (Instance) async throws -> [Series]
     var lookupSeries: (_ instance: Instance, _ query: String) async throws -> [Series]
 
+    var addSeries: (Series, Instance) async throws -> Series
+    var updateSeries: (Series, Bool, Instance) async throws -> Empty
+    var deleteSeries: (Series, Instance) async throws -> Empty
+
     var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
     var episodeCalendar: (Date, Date, Instance) async throws -> [Episode]
 
-    var command: (RadarrCommand, Instance) async throws -> Empty
+    var radarrCommand: (RadarrCommand, Instance) async throws -> Empty
+    var sonarrCommand: (SonarrCommand, Instance) async throws -> Empty
+
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolders]
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
@@ -120,6 +126,32 @@ extension API {
                 .appending(queryItems: [.init(name: "term", value: query)])
 
             return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+        }, addSeries: { series, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/series")
+
+            return try await request(method: .post, url: url, headers: instance.auth, body: series)
+        }, updateSeries: { series, moveFiles, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/series/editor")
+
+//            let body = MovieEditorResource(
+//                movieIds: [movie.id],
+//                monitored: movie.monitored,
+//                qualityProfileId: movie.qualityProfileId,
+//                minimumAvailability: movie.minimumAvailability,
+//                rootFolderPath: movie.rootFolderPath,
+//                moveFiles: moveFiles ? true : nil
+//            )
+
+            return try await request(method: .put, url: url, headers: instance.auth) // TOOD: missing body...
+        }, deleteSeries: { series, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/series")
+                .appending(path: String(series.id))
+                .appending(queryItems: [.init(name: "deleteFiles", value: "true")]) // TODO: check
+
+            return try await request(method: .delete, url: url, headers: instance.auth)
         }, movieCalendar: { start, end, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/calendar")
@@ -140,7 +172,12 @@ extension API {
                 ])
 
             return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-        }, command: { command, instance in
+        }, radarrCommand: { command, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/command")
+
+            return try await request(method: .post, url: url, headers: instance.auth, body: command)
+        }, sonarrCommand: { command, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/command")
 

@@ -29,7 +29,7 @@ struct Series: Identifiable, Codable {
     let certification: String?
 
     let year: Int
-    var sortYear: Int { year == 0 ? 2100 : year }
+    var sortYear: Int { year == 0 ? 2_100 : year }
     let runtime: Int
     let ended: Bool
     let seasonFolder: Bool
@@ -92,6 +92,7 @@ struct Series: Identifiable, Codable {
         case seasons
         case genres
         case images
+        case statistics
     }
 
     var exists: Bool {

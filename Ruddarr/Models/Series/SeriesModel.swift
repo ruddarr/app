@@ -135,26 +135,27 @@ class SeriesModel {
 
             setAlternateTitlesStrings() // TODO: port over changes from `develop`
 
-//        case .add(let series):
-//            items.append(try await dependencies.api.addSeries(series, instance))
+        case .add(let series):
+            items.append(try await dependencies.api.addSeries(series, instance))
 
-//        case .update(let series, let moveFiles):
-//            _ = try await dependencies.api.updateSeries(series, moveFiles, instance)
-//
-//        case .delete(let series):
-//            _ = try await dependencies.api.deleteSeries(series, instance)
-//            items.removeAll(where: { $0.guid == movie.guid })
-//
+        case .update(let series, let moveFiles):
+            _ = try await dependencies.api.updateSeries(series, moveFiles, instance)
+
+        case .delete(let series):
+            _ = try await dependencies.api.deleteSeries(series, instance)
+            items.removeAll(where: { $0.guid == series.guid })
+
 //        case .download(let guid, let indexerId):
 //            _ = try await dependencies.api.downloadRelease(guid, indexerId, instance)
-//
-//        case .command(let movie, let commandName):
-//            let command = switch commandName {
-//            case .refresh: RadarrCommand(name: commandName, movieIds: [movie.id])
-//            case .automaticSearch: RadarrCommand(name: commandName, movieIds: [movie.id])
-//            }
-//
-//            _ = try await dependencies.api.command(command, instance)
+
+        case .command(let series, let commandName):
+            let command = switch commandName {
+            // TODO: test these...
+            case .refresh: SonarrCommand(name: commandName, seriesIds: [series.id])
+            case .automaticSearch: SonarrCommand(name: commandName, seriesIds: [series.id])
+            }
+
+            _ = try await dependencies.api.sonarrCommand(command, instance)
         }
     }
 

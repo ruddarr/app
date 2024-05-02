@@ -1001,6 +1001,9 @@
         }
       }
     },
+    "Delete Series" : {
+
+    },
     "Deleted" : {
       "localizations" : {
         "en" : {
@@ -2213,6 +2216,9 @@
         }
       }
     },
+    "Network" : {
+
+    },
     "No" : {
       "localizations" : {
         "en" : {
@@ -2323,9 +2329,6 @@
           }
         }
       }
-    },
-    "No Sonarr Match" : {
-
     },
     "Norwegian" : {
       "localizations" : {
@@ -3316,6 +3319,9 @@
         }
       }
     },
+    "Series Deleted" : {
+
+    },
     "Series Finale" : {
       "localizations" : {
         "en" : {
@@ -3666,7 +3672,11 @@
         }
       }
     },
+    "This will delete the movie and permanently erase its folder and its contents." : {
+
+    },
     "This will delete the movie and permanently erase the movie folder and its contents." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3675,6 +3685,9 @@
           }
         }
       }
+    },
+    "This will delete the TV series and permanently erase its folder and its contents." : {
+
     },
     "Title" : {
       "localizations" : {
