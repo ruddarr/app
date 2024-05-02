@@ -9,6 +9,7 @@ class SeriesModel {
     var itemsCount: Int = 0
 
     var cachedItems: [Series] = []
+    var alternateTitles: [Series.ID: String] = [:]
 
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
@@ -37,7 +38,7 @@ class SeriesModel {
             cachedItems = cachedItems.filter { series in
                 series.sortTitle.localizedCaseInsensitiveContains(query) ||
                 series.network?.localizedCaseInsensitiveContains(query) ?? false ||
-                series.alternateTitlesString?.localizedCaseInsensitiveContains(query) ?? false
+                alternateTitles[series.id]?.localizedCaseInsensitiveContains(query) ?? false
             }
         }
 
@@ -132,8 +133,7 @@ class SeriesModel {
             items = try await dependencies.api.fetchSeries(instance)
             itemsCount = items.count
             leaveBreadcrumb(.info, category: "series", message: "Fetched series", data: ["count": items.count])
-
-            setAlternateTitlesStrings() // TODO: port over changes from `develop`
+            computeAlternateTitles()
 
         case .add(let series):
             items.append(try await dependencies.api.addSeries(series, instance))
@@ -159,11 +159,19 @@ class SeriesModel {
         }
     }
 
-    private func setAlternateTitlesStrings() {
-        Task.detached {
+    private func computeAlternateTitles() {
+        if alternateTitles.count == items.count {
+            return
+        }
+
+        Task.detached(priority: .medium) {
+            var titles: [Series.ID: String] = [:]
+
             for index in self.items.indices {
-                self.items[index].setAlternateTitlesString()
+                titles[self.items[index].id] = self.items[index].alternateTitlesString() ?? ""
             }
+
+            self.alternateTitles = titles
         }
     }
 }

@@ -23,7 +23,7 @@ struct Series: Identifiable, Codable {
     let status: SeriesStatus
     let seriesType: SeriesType
 
-    let path: String
+    let path: String?
     let qualityProfileId: Int?
     var rootFolderPath: String?
     let certification: String?
@@ -47,12 +47,7 @@ struct Series: Identifiable, Codable {
 
     let originalLanguage: SeriesLanguage
 
-    let alternateTitles: [AlternateMovieTitle]
-    var alternateTitlesString: String?
-
-    mutating func setAlternateTitlesString() {
-        alternateTitlesString = alternateTitles.map { $0.title }.joined(separator: " ")
-    }
+    let alternateTitles: [AlternateMovieTitle]?
 
     let seasons: [Season]
     let genres: [String]
@@ -159,6 +154,10 @@ struct Series: Identifiable, Codable {
         }
 
         return rating
+    }
+
+    func alternateTitlesString() -> String? {
+        alternateTitles?.map { $0.title }.joined(separator: " ")
     }
 }
 
