@@ -11,8 +11,6 @@ struct CalendarView: View {
     @State private var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) var instance
-    // TODO: support both (sonarr missing)
 
     private let firstWeekday = Calendar.current.firstWeekday
 
@@ -25,7 +23,7 @@ struct CalendarView: View {
         // swiftlint:disable closure_body_length
         NavigationStack(path: dependencies.$router.calendarPath) {
             Group {
-                if instance.isVoid {
+                if onlyVoidInstances {
                     NoInstance(type: "Radarr")
                 } else {
                     ScrollView {
@@ -118,6 +116,10 @@ struct CalendarView: View {
 
     var displaySeries: Bool {
         [.all, .series].contains(displayedMediaType)
+    }
+
+    var onlyVoidInstances: Bool {
+        !settings.instances.contains { $0 != .radarrVoid && $0 != .sonarrVoid }
     }
 
     func media(for timestamp: TimeInterval, date: Date) -> some View {
