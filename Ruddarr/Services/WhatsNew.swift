@@ -85,16 +85,18 @@ struct WhatsNewView: View {
             HStack {
                 Spacer()
 
-                Button("Continue") {
+                Button {
                     UINotificationFeedbackGenerator().notificationOccurred(.success)
                     dismiss()
+                } label: {
+                    Text("Continue")
+                        .font(.headline.weight(.semibold))
+                        .padding(.vertical)
+                        .frame(maxWidth: .infinity)
+                        .foregroundStyle(.white)
+                        .background(.blue)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                 }
-                    .font(.headline.weight(.semibold))
-                    .padding(.vertical)
-                    .frame(maxWidth: .infinity)
-                    .foregroundStyle(.white)
-                    .background(.blue)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
 
                 Spacer()
             }
