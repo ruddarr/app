@@ -52,7 +52,7 @@ struct WhatsNewView: View {
 
                 footer
                     .modifier(WhatsNewFooterPadding())
-                    .background(.white)
+                    .background(.systemBackground)
             }
             .edgesIgnoringSafeArea(.bottom)
 
