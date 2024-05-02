@@ -48,14 +48,14 @@ struct SeriesGridItem: View {
                 }
             }
                 .foregroundStyle(.white)
-                .imageScale(.small)
+                .imageScale(MovieGridItem.gridIconScale())
 
             Spacer()
 
             Image(systemName: "bookmark")
                 .symbolVariant(series.monitored ? .fill : .none)
                 .foregroundStyle(.white)
-                .imageScale(.small)
+                .imageScale(MovieGridItem.gridIconScale())
         }
         .font(.body)
         .padding(.top, 36)
