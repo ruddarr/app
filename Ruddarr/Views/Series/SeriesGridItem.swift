@@ -33,6 +33,10 @@ struct SeriesGridItem: View {
 
     var posterOverlay: some View {
         HStack {
+            // "status": "ended", upcoming continuing
+            // Continuing
+            // Ended
+            // upcoming
             Group {
                 // TODO: needs work
                 if series.isDownloaded {

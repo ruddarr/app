@@ -98,6 +98,8 @@
 		BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1E43E2B51F61700946222 /* MovieLookup.swift */; };
 		BBE1E4412B51F9DC00946222 /* movies.json in Resources */ = {isa = PBXBuildFile; fileRef = BBE1E4402B51F9DC00946222 /* movies.json */; };
 		BBE1E4432B51FA0200946222 /* movie-lookup.json in Resources */ = {isa = PBXBuildFile; fileRef = BBE1E4422B51FA0200946222 /* movie-lookup.json */; };
+		BBE640D12BE4259A00B436CC /* SeriesDetails+Information.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE640D02BE4259A00B436CC /* SeriesDetails+Information.swift */; };
+		BBE640D32BE4554500B436CC /* SeasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE640D22BE4554500B436CC /* SeasonView.swift */; };
 		BBE7CE032B91745100431801 /* MovieDetails+Information.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE7CE022B91745100431801 /* MovieDetails+Information.swift */; };
 		BBE7F8A72B6423A60014DD57 /* Movies.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE7F8A62B6423A60014DD57 /* Movies.swift */; };
 		BBE7F8A92B6424350014DD57 /* RadarrInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE7F8A82B6424350014DD57 /* RadarrInstance.swift */; };
@@ -216,6 +218,8 @@
 		BBE1E43E2B51F61700946222 /* MovieLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieLookup.swift; sourceTree = "<group>"; };
 		BBE1E4402B51F9DC00946222 /* movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = movies.json; sourceTree = "<group>"; };
 		BBE1E4422B51FA0200946222 /* movie-lookup.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "movie-lookup.json"; sourceTree = "<group>"; };
+		BBE640D02BE4259A00B436CC /* SeriesDetails+Information.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SeriesDetails+Information.swift"; sourceTree = "<group>"; };
+		BBE640D22BE4554500B436CC /* SeasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonView.swift; sourceTree = "<group>"; };
 		BBE7CE022B91745100431801 /* MovieDetails+Information.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieDetails+Information.swift"; sourceTree = "<group>"; };
 		BBE7F8A62B6423A60014DD57 /* Movies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movies.swift; sourceTree = "<group>"; };
 		BBE7F8A82B6424350014DD57 /* RadarrInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarrInstance.swift; sourceTree = "<group>"; };
@@ -344,9 +348,11 @@
 				BB507D272BD9736600EC4016 /* SeriesGridItem.swift */,
 				BB507D2F2BD99A0500EC4016 /* SeriesDetails.swift */,
 				BB507D312BD99C0300EC4016 /* SeriesDetails+Overview.swift */,
+				BBE640D02BE4259A00B436CC /* SeriesDetails+Information.swift */,
 				BB507D2D2BD991E100EC4016 /* SeriesContextMenu.swift */,
 				BB507D1A2BD96E0000EC4016 /* SeriesView+Overlay.swift */,
 				BB507D1C2BD96E3000EC4016 /* SeriesView+Toolbar.swift */,
+				BBE640D22BE4554500B436CC /* SeasonView.swift */,
 			);
 			path = Series;
 			sourceTree = "<group>";
@@ -726,6 +732,7 @@
 				BB507D262BD9718F00EC4016 /* SeriesLookup.swift in Sources */,
 				BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */,
 				794BD7822B5ED48E003819AB /* Binding.swift in Sources */,
+				BBE640D32BE4554500B436CC /* SeasonView.swift in Sources */,
 				BB507D242BD9709F00EC4016 /* SeriesSort.swift in Sources */,
 				BB581D1A2BA0ED5E0070DFFC /* CalendarView.swift in Sources */,
 				BBC94DE32B5F3DE600504568 /* CloudStorage.swift in Sources */,
@@ -786,6 +793,7 @@
 				BB8A60282B952D710039CFF6 /* Subscription.swift in Sources */,
 				790D1EC52B864EC700FCDB64 /* QuickActions.swift in Sources */,
 				BB6D96952B61E61D0017BFB3 /* AppSettings.swift in Sources */,
+				BBE640D12BE4259A00B436CC /* SeriesDetails+Information.swift in Sources */,
 				BBE8286C2B4F360700C1E1D9 /* Movie.swift in Sources */,
 				BBB8691F2B6CAE26009C1A54 /* MovieReleases.swift in Sources */,
 				BB6F23AB2B6ABB8700A4347A /* SettingsAboutSection.swift in Sources */,

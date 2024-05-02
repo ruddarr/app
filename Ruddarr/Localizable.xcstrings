@@ -2217,7 +2217,14 @@
       }
     },
     "Network" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Network"
+          }
+        }
+      }
     },
     "No" : {
       "localizations" : {
@@ -3259,6 +3266,16 @@
         }
       }
     },
+    "Season %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season %lld"
+          }
+        }
+      }
+    },
     "Season Finale" : {
       "localizations" : {
         "en" : {
@@ -3482,6 +3499,16 @@
         }
       }
     },
+    "Specials" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Specials"
+          }
+        }
+      }
+    },
     "Standard" : {
       "localizations" : {
         "en" : {
@@ -3673,21 +3700,24 @@
       }
     },
     "This will delete the movie and permanently erase its folder and its contents." : {
-
-    },
-    "This will delete the movie and permanently erase the movie folder and its contents." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This will delete the movie and permanently erase the movie folder and its contents."
+            "value" : "This will delete the movie and permanently erase its folder and its contents."
           }
         }
       }
     },
     "This will delete the TV series and permanently erase its folder and its contents." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This will delete the TV series and permanently erase its folder and its contents."
+          }
+        }
+      }
     },
     "Title" : {
       "localizations" : {

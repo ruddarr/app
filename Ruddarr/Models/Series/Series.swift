@@ -156,6 +156,10 @@ struct Series: Identifiable, Codable {
         return rating
     }
 
+    func seasonById(_ id: Season.ID) -> Season? {
+        seasons.first { $0.id == id }
+    }
+
     func alternateTitlesString() -> String? {
         alternateTitles?.map { $0.title }.joined(separator: " ")
     }
@@ -167,12 +171,12 @@ enum SeriesStatus: String, Codable {
     case upcoming
     case deleted
 
-    var label: LocalizedStringKey {
+    var label: String {
         switch self {
-        case .continuing: "Continuing"
-        case .ended: "Ended"
-        case .upcoming: "Upcoming"
-        case .deleted: "Deleted"
+        case .continuing: String(localized: "Continuing")
+        case .ended: String(localized: "Ended")
+        case .upcoming: String(localized: "Upcoming")
+        case .deleted: String(localized: "Deleted")
         }
     }
 }
@@ -182,11 +186,11 @@ enum SeriesType: String, Codable {
     case daily
     case anime
 
-    var label: LocalizedStringKey {
+    var label: String {
         switch self {
-        case .standard: "Standard"
-        case .daily: "Daily"
-        case .anime: "Anime"
+        case .standard: String(localized: "Standard")
+        case .daily: String(localized: "Daily")
+        case .anime: String(localized: "Anime")
         }
     }
 }
@@ -205,7 +209,8 @@ enum SeriesMonitorNewItems: String, Codable {
     case none
 }
 
-struct Season: Codable {
+struct Season: Identifiable, Codable {
+    var id: Int { seasonNumber }
     let seasonNumber: Int
     let monitored: Bool
     let statistics: SeasonStatistics?
@@ -213,5 +218,11 @@ struct Season: Codable {
     struct SeasonStatistics: Codable {
         let episodeFileCount: Int
         let episodeCount: Int
+        let totalEpisodeCount: Int
+        let sizeOnDisk: Int
+
+        var label: String {
+            "\(episodeCount) / \(totalEpisodeCount)"
+        }
     }
 }

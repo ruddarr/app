@@ -24,15 +24,19 @@ struct SeriesDetails: View {
                     .padding(.bottom)
             }
 
-            if smallScreen {
+            if smallScreen && !series.exists {
                 actions
                     .padding(.bottom)
             }
-            // TODO: needs work
-//            if movie.exists {
-//                information
-//                    .padding(.bottom)
-//            }
+
+            if series.exists {
+                // TODO: next episode (nzb360)
+                seasons
+                    .padding(.bottom)
+
+                information
+                    .padding(.bottom)
+            }
         }
     }
 
@@ -85,44 +89,10 @@ struct SeriesDetails: View {
     @ViewBuilder
     var actions: some View {
         HStack(spacing: 24) {
-            if series.exists {
-                movieActions
-            } else {
-                previewActions
-            }
+            previewActions
         }
         .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 450)
-    }
-
-    var movieActions: some View {
-        Group {
-            Button {
-                Task { @MainActor in
-                    // TODO: which command should fire?
-                    guard await instance.series.command(series, command: .automaticSearch) else {
-                        return
-                    }
-
-                    dependencies.toast.show(.searchQueued)
-
-                    TelemetryManager.send("automaticSearchDispatched")
-                }
-            } label: {
-                ButtonLabel(text: "Automatic", icon: "magnifyingglass")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.bordered)
-            .tint(.secondary)
-            .allowsHitTesting(!instance.series.isWorking)
-
-            NavigationLink(value: SeriesView.Path.releases(series.id), label: {
-                ButtonLabel(text: "Interactive", icon: "person.fill")
-                    .frame(maxWidth: .infinity)
-            })
-            .buttonStyle(.bordered)
-            .tint(.secondary)
-        }
     }
 
     var previewActions: some View {
@@ -159,6 +129,38 @@ struct SeriesDetails: View {
         instance.qualityProfiles.first(
             where: { $0.id == series.qualityProfileId }
         )?.name ?? String(localized: "Unknown")
+    }
+
+    // Size on Disk for Movie, Series and Season?
+
+    var seasons: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            ForEach(series.seasons.reversed()) { season in
+                NavigationLink(value: SeriesView.Path.season(series.id, season.id), label: {
+                    VStack {
+                        HStack(spacing: 12) {
+                            Text(season.seasonNumber == 0 ? "Specials" : "Season \(season.seasonNumber)")
+
+                            if let statistics = season.statistics {
+                                Text(statistics.label)
+                                    .font(.footnote)
+                                    .foregroundStyle(.secondary)
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "bookmark")
+                                .symbolVariant(season.monitored ? .fill : .none)
+                        }
+                        .padding(.vertical, 15)
+                        .padding(.horizontal)
+                    }
+                    .background(.secondarySystemBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                })
+                .tint(.primary)
+            }
+        }
     }
 
     func detailsRow(_ label: LocalizedStringKey, value: String) -> some View {

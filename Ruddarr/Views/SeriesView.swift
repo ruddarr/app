@@ -1,8 +1,6 @@
 import SwiftUI
 import Combine
 
-// TODO: The Series module is a work in progress. [Join the Discord.]
-
 struct SeriesView: View {
     @AppStorage("seriesSort", store: dependencies.store) var sort: SeriesSort = .init()
 
@@ -25,6 +23,7 @@ struct SeriesView: View {
         case edit(Series.ID)
         case releases(Series.ID)
         // case metadata(Movie.ID)
+        case season(Series.ID, Season.ID)
     }
 
     var body: some View {
@@ -51,25 +50,25 @@ struct SeriesView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: Path.self) {
-                // TODO: WIP
                 switch $0 {
                 case .search(let query):
-                    if true {
-
-                    }
-//                    MovieSearchView(searchQuery: query)
-//                        .environment(instance).environmentObject(settings)
+                    EmptyView() // TODO: WIP
                 case .series(let id):
                     if let series = instance.series.byId(id).unwrapped {
                         SeriesDetailView(series: series)
                             .environment(instance)
                             .environmentObject(settings)
                     }
-
                 case .edit(let id):
-                    EmptyView()
+                    EmptyView() // TODO: WIP
                 case .releases(let id):
-                    EmptyView()
+                    EmptyView() // TODO: WIP
+                case .season(let id, let season):
+                    if let series = instance.series.byId(id).unwrapped {
+                        SeasonView(series: series, seasonId: season)
+                            .environment(instance)
+                            .environmentObject(settings)
+                    }
                 }
             }
             .onAppear {
