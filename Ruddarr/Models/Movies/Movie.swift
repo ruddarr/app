@@ -153,7 +153,7 @@ struct Movie: Identifiable, Codable {
     }
 
     var genreLabel: String {
-        genres.formatted(.list(type: .and, width: .narrow))
+        genres.prefix(3).formatted(.list(type: .and, width: .narrow))
     }
 
     var remotePoster: String? {
