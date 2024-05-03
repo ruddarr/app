@@ -580,7 +580,6 @@
 				BBE1E4432B51FA0200946222 /* movie-lookup.json in Resources */,
 				BBA7336B2BB6261D00A5022B /* movie-files.json in Resources */,
 				BBB869212B6CB0AC009C1A54 /* movie-releases.json in Resources */,
-				BBDA77652BDBF0E500568E64 /* movies.json in Resources */,
 				BB7602752B62027C006E5A1F /* quality-profiles.json in Resources */,
 				BBF583C22BACBE1400AFA7FB /* calendar-movies.json in Resources */,
 				BB8B3DF42B617FE800B80E2D /* root-folders.json in Resources */,
@@ -588,7 +587,7 @@
 				BBA733672BB5278800A5022B /* movie-history.json in Resources */,
 				BB456D272B58E4B900C29B00 /* system-status.json in Resources */,
 				BB4B34F12B7BF4C80063F2D3 /* Localizable.xcstrings in Resources */,
-				BBE1E4412B51F9DC00946222 /* movies2.json in Resources */,
+				BBE1E4412B51F9DC00946222 /* movies.json in Resources */,
 				BBE8285F2B4F2C7100C1E1D9 /* Preview Assets.xcassets in Resources */,
 				BBE8285B2B4F2C7100C1E1D9 /* Assets.xcassets in Resources */,
 				BB336F882B98F61B000904FA /* Ruddarr.storekit in Resources */,
@@ -887,7 +886,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -935,7 +934,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
