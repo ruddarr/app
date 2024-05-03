@@ -104,12 +104,13 @@ struct WhatsNewView: View {
     }
 
     func feature(_ feature: WhatsNewFeature) -> some View {
-        HStack(alignment: .center, spacing: 15) {
+        HStack(alignment: .top, spacing: 20) {
             Image(systemName: feature.image)
                 .font(.title)
                 .imageScale(.large)
                 .foregroundStyle(.blue)
                 .frame(width: 40)
+                .offset(y: 15)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(feature.title)
