@@ -3,11 +3,7 @@ import SwiftUI
 extension MovieDetails {
     var information: some View {
         Section {
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                informationList
-            } else {
-                informationGrid
-            }
+            Information(items: informationItems)
         } header: {
             HStack {
                 Text("Information")
@@ -23,58 +19,6 @@ extension MovieDetails {
             }
         }
         .font(.callout)
-    }
-
-    var informationList: some View {
-        VStack(spacing: 12) {
-            ForEach(informationItems, id: \.self) { item in
-                if item != informationItems.first {
-                    Divider()
-                }
-
-                let label = Text(item.value).lineLimit(1).truncationMode(.head)
-
-                LabeledContent {
-                    Group {
-                        if let link = item.link {
-                            NavigationLink(value: link, label: { label })
-                        } else {
-                            label
-                        }
-                    }.foregroundStyle(.primary)
-                } label: {
-                    Text(item.label).foregroundStyle(.secondary)
-                }
-            }
-        }
-    }
-
-    var informationGrid: some View {
-        let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
-
-        return LazyVGrid(columns: columns, alignment: .leading) {
-            ForEach(informationItems, id: \.self) { item in
-                VStack(alignment: .leading) {
-                    Text(item.label).foregroundStyle(.secondary)
-                    let label = Text(item.value).lineLimit(1).truncationMode(.head)
-
-                    if let link = item.link {
-                        NavigationLink(value: link, label: { label })
-                            .foregroundStyle(.primary)
-                    } else {
-                        label
-                    }
-                }
-                .font(.subheadline)
-                .padding(.bottom)
-            }
-        }
-    }
-
-    struct InformationItem: Hashable {
-        var label: String
-        var value: String
-        var link: MoviesView.Path?
     }
 
     var informationItems: [InformationItem] {

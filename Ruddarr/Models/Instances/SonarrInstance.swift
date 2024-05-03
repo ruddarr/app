@@ -59,8 +59,7 @@ class SonarrInstance {
         }
 
         do {
-            // TODO: figure out root folders for Sonarr
-            // instance.rootFolders = try await dependencies.api.rootFolders(instance)
+            instance.rootFolders = try await dependencies.api.rootFolders(instance)
             instance.qualityProfiles = try await dependencies.api.qualityProfiles(instance)
         } catch {
             return nil

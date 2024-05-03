@@ -75,8 +75,7 @@ struct SeriesDetailView: View {
                 }
 
                 Section {
-                    automaticSearch
-                    interactiveSearch
+                    searchMonitored
                 }
 
                 openInLinks
@@ -115,16 +114,10 @@ struct SeriesDetailView: View {
         }
     }
 
-    var automaticSearch: some View {
-        Button("Automatic Search", systemImage: "magnifyingglass") {
+    var searchMonitored: some View {
+        Button("Search Monitored", systemImage: "magnifyingglass") {
             Task { await dispatchSearch() }
         }
-    }
-
-    var interactiveSearch: some View {
-        NavigationLink(value: SeriesView.Path.releases(series.id), label: {
-            Label("Interactive Search", systemImage: "person")
-        })
     }
 
     var openInLinks: some View {
@@ -145,8 +138,7 @@ struct SeriesDetailView: View {
 extension SeriesDetailView {
     @MainActor
     func toggleMonitor() async {
-        // TODO: needs fix
-        // series.monitored.toggle()
+        series.monitored.toggle()
 
         guard await instance.series.update(series) else {
             return
@@ -170,7 +162,7 @@ extension SeriesDetailView {
 
     @MainActor
     func dispatchSearch() async {
-        guard await instance.series.command(series, command: .automaticSearch) else {
+        guard await instance.series.command(series, command: .searchMonitored) else {
             return
         }
 

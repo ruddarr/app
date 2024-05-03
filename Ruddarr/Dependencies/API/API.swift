@@ -135,16 +135,18 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series/editor")
 
-//            let body = MovieEditorResource(
-//                movieIds: [movie.id],
-//                monitored: movie.monitored,
-//                qualityProfileId: movie.qualityProfileId,
-//                minimumAvailability: movie.minimumAvailability,
-//                rootFolderPath: movie.rootFolderPath,
-//                moveFiles: moveFiles ? true : nil
-//            )
+            let body = SeriesEditorResource(
+                seriesIds: [series.id],
+                monitored: series.monitored,
+                monitorNewItems: series.monitorNewItems,
+                seriesType: series.seriesType,
+                seasonFolder: series.seasonFolder,
+                qualityProfileId: series.qualityProfileId,
+                rootFolderPath: series.rootFolderPath,
+                moveFiles: moveFiles ? true : nil
+            )
 
-            return try await request(method: .put, url: url, headers: instance.auth) // TODO: missing body...
+            return try await request(method: .put, url: url, headers: instance.auth, body: body)
         }, deleteSeries: { series, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series")

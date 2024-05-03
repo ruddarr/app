@@ -108,14 +108,13 @@ struct RadarrCommand: Codable {
     }
 }
 
-// TODO: this needs work...
 struct SonarrCommand: Codable {
     let name: Command
-    let seriesIds: [Int]
+    let seriesId: Int
 
     enum Command: String, Codable {
         case refresh = "RefreshSeries"
-        case automaticSearch = "MoviesSearch"
+        case searchMonitored = "SeriesSearch"
     }
 }
 
@@ -160,10 +159,14 @@ extension Instance {
             apiKey: "f8e3682b3b984cddbaa00047a09d0fbd",
             rootFolders: [
                 InstanceRootFolders(id: 1, accessible: true, path: "/volume1/Media/TV Series", freeSpace: 2_000_000_000),
+                InstanceRootFolders(id: 2, accessible: true, path: "/volume2/Media/Docuseries", freeSpace: 2_000_000_000),
             ],
             qualityProfiles: [
                 InstanceQualityProfile(id: 1, name: "Any"),
-                InstanceQualityProfile(id: 2, name: "4K"),
+                InstanceQualityProfile(id: 2, name: "SD"),
+                InstanceQualityProfile(id: 3, name: "720p"),
+                InstanceQualityProfile(id: 4, name: "1080p"),
+                InstanceQualityProfile(id: 5, name: "4K"),
             ]
         )
     }

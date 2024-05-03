@@ -131,7 +131,7 @@ struct SeriesDetails: View {
         )?.name ?? String(localized: "Unknown")
     }
 
-    // Size on Disk for Movie, Series and Season?
+    // TODO: Size on Disk for Movie, Series and Season?
 
     var seasons: some View {
         VStack(alignment: .leading, spacing: 12) {

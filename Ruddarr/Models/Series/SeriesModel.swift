@@ -150,9 +150,8 @@ class SeriesModel {
 
         case .command(let series, let commandName):
             let command = switch commandName {
-            // TODO: test these...
-            case .refresh: SonarrCommand(name: commandName, seriesIds: [series.id])
-            case .automaticSearch: SonarrCommand(name: commandName, seriesIds: [series.id])
+            case .refresh: SonarrCommand(name: commandName, seriesId: series.id)
+            case .searchMonitored: SonarrCommand(name: commandName, seriesId: series.id)
             }
 
             _ = try await dependencies.api.sonarrCommand(command, instance)

@@ -121,6 +121,7 @@
 		BBF583C42BACBE5000AFA7FB /* calendar-episodes.json in Resources */ = {isa = PBXBuildFile; fileRef = BBF583C32BACBE5000AFA7FB /* calendar-episodes.json */; };
 		BBF583C62BAD0E0A00AFA7FB /* InstanceEditView+Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF583C52BAD0E0A00AFA7FB /* InstanceEditView+Functions.swift */; };
 		BBF706BC2B6220BF00B2B504 /* Sentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF706BB2B6220BF00B2B504 /* Sentry.swift */; };
+		BBF7BFDE2BE4971D00B485FA /* InformationList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF7BFDD2BE4971D00B485FA /* InformationList.swift */; };
 		BBF94F632B508F8B00300EBA /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F622B508F8B00300EBA /* MovieView.swift */; };
 		BBF94F652B50C88300300EBA /* Instance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F642B50C88300300EBA /* Instance.swift */; };
 		BBFB1F8B2B782D1000181233 /* SettingsPreferencesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */; };
@@ -244,6 +245,7 @@
 		BBF583C52BAD0E0A00AFA7FB /* InstanceEditView+Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InstanceEditView+Functions.swift"; sourceTree = "<group>"; };
 		BBF583C72BAD25F700AFA7FB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		BBF706BB2B6220BF00B2B504 /* Sentry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentry.swift; sourceTree = "<group>"; };
+		BBF7BFDD2BE4971D00B485FA /* InformationList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationList.swift; sourceTree = "<group>"; };
 		BBF94F622B508F8B00300EBA /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
 		BBF94F642B50C88300300EBA /* Instance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instance.swift; sourceTree = "<group>"; };
 		BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPreferencesSection.swift; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 				BBAFC7ED2BB8D3CE00245D10 /* CloseButton.swift */,
 				BBF583B12BABAE8C00AFA7FB /* Loading.swift */,
 				BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */,
+				BBF7BFDD2BE4971D00B485FA /* InformationList.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -752,6 +755,7 @@
 				BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */,
 				BBAED12D2B72D444006C6CF2 /* ButtonLabel.swift in Sources */,
 				BB4140C62B71CA89007C7DA4 /* MovieReleaseSort.swift in Sources */,
+				BBF7BFDE2BE4971D00B485FA /* InformationList.swift in Sources */,
 				BB94F1B92B7E7B870050F6A0 /* InstanceWebhook.swift in Sources */,
 				798010BF2B6268DE00BBC056 /* MovieSort.swift in Sources */,
 				BB8B3DF22B61713500B80E2D /* MovieEditView.swift in Sources */,

@@ -39,7 +39,7 @@ struct Series: Identifiable, Codable {
     let firstAired: Date?
     let lastAired: Date?
 
-    let monitored: Bool
+    var monitored: Bool
     let monitorNewItems: SeriesMonitorNewItems
 
     let overview: String?
@@ -209,6 +209,17 @@ struct SeriesStatistics: Codable {
 enum SeriesMonitorNewItems: String, Codable {
     case all
     case none
+}
+
+struct SeriesEditorResource: Codable {
+    let seriesIds: [Int]
+    let monitored: Bool?
+    let monitorNewItems: SeriesMonitorNewItems
+    let seriesType: SeriesType
+    let seasonFolder: Bool?
+    let qualityProfileId: Int?
+    let rootFolderPath: String?
+    let moveFiles: Bool?
 }
 
 struct Season: Identifiable, Codable {
