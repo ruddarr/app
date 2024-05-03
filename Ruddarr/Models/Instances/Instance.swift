@@ -5,6 +5,7 @@ struct Instance: Identifiable, Equatable, Codable {
     var id = UUID()
 
     var type: InstanceType = .radarr
+    var mode: InstanceMode = .normal
     var label: String = ""
     var url: String = ""
     var apiKey: String = ""
@@ -18,7 +19,7 @@ struct Instance: Identifiable, Equatable, Codable {
     var auth: [String: String] {
         var map: [String: String] = [:]
 
-        map["Authorization"] = "Bearer \(apiKey)"
+        map["X-Api-Key"] = apiKey
 
         for header in headers {
             map[header.name] = header.value
@@ -34,6 +35,15 @@ struct Instance: Identifiable, Equatable, Codable {
 
         return isPrivateIpAddress(instanceUrl.host() ?? "")
     }
+
+    func timeout(_ call: InstanceTimeout) -> Double {
+        switch call {
+        case .normal: 10
+        case .slow: mode == .large ? 300 : 10
+        case .releaseSearch: 60
+        case .releaseDownload: 15
+        }
+    }
 }
 
 enum InstanceType: String, Identifiable, CaseIterable, Codable {
@@ -42,10 +52,28 @@ enum InstanceType: String, Identifiable, CaseIterable, Codable {
     var id: Self { self }
 }
 
+enum InstanceMode: Codable {
+    case normal
+    case large
+}
+
+enum InstanceTimeout: Codable {
+    case normal
+    case slow
+    case releaseSearch
+    case releaseDownload
+}
+
 struct InstanceHeader: Equatable, Identifiable, Codable {
     var id = UUID()
-    var name: String = ""
-    var value: String = ""
+    var name: String
+    var value: String
+
+    init(name: String = "", value: String = "") {
+        self.name = name.replacingOccurrences(of: ":", with: "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        self.value = value.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
 
 struct InstanceStatus: Codable {

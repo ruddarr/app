@@ -4,32 +4,9 @@ extension MovieDetails {
     var information: some View {
         Section {
             if UIDevice.current.userInterfaceIdiom == .phone {
-                VStack(spacing: 12) {
-                    ForEach(informationItems, id: \.self) { item in
-                        if item != informationItems.first {
-                            Divider()
-                        }
-
-                        LabeledContent {
-                            Text(item.value).foregroundStyle(.primary)
-                        } label: {
-                            Text(item.label).foregroundStyle(.secondary)
-                        }
-                    }
-                }
+                informationList
             } else {
-                let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
-
-                LazyVGrid(columns: columns, alignment: .leading) {
-                    ForEach(informationItems, id: \.self) { item in
-                        VStack(alignment: .leading) {
-                            Text(item.label).foregroundStyle(.secondary)
-                            Text(item.value).lineLimit(1)
-                        }
-                        .font(.subheadline)
-                        .padding(.bottom)
-                    }
-                }
+                informationGrid
             }
         } header: {
             HStack {
@@ -48,24 +25,74 @@ extension MovieDetails {
         .font(.callout)
     }
 
+    var informationList: some View {
+        VStack(spacing: 12) {
+            ForEach(informationItems, id: \.self) { item in
+                if item != informationItems.first {
+                    Divider()
+                }
+
+                let label = Text(item.value).lineLimit(1).truncationMode(.head)
+
+                LabeledContent {
+                    Group {
+                        if let link = item.link {
+                            NavigationLink(value: link, label: { label })
+                        } else {
+                            label
+                        }
+                    }.foregroundStyle(.primary)
+                } label: {
+                    Text(item.label).foregroundStyle(.secondary)
+                }
+            }
+        }
+    }
+
+    var informationGrid: some View {
+        let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
+
+        return LazyVGrid(columns: columns, alignment: .leading) {
+            ForEach(informationItems, id: \.self) { item in
+                VStack(alignment: .leading) {
+                    Text(item.label).foregroundStyle(.secondary)
+                    let label = Text(item.value).lineLimit(1).truncationMode(.head)
+
+                    if let link = item.link {
+                        NavigationLink(value: link, label: { label })
+                            .foregroundStyle(.primary)
+                    } else {
+                        label
+                    }
+                }
+                .font(.subheadline)
+                .padding(.bottom)
+            }
+        }
+    }
+
     struct InformationItem: Hashable {
         var label: String
         var value: String
+        var link: MoviesView.Path?
     }
 
     var informationItems: [InformationItem] {
         var items = [
             InformationItem(
                 label: String(localized: "Quality Profile"),
-                value: qualityProfile
+                value: qualityProfile,
+                link: MoviesView.Path.edit(movie.id)
             ),
             InformationItem(
                 label: String(localized: "Minimum Availability"),
-                value: movie.minimumAvailability.label
+                value: movie.minimumAvailability.label,
+                link: MoviesView.Path.edit(movie.id)
             ),
             InformationItem(
                 label: String(localized: "Root Folder"),
-                value: movie.rootFolderPath ?? "Unknown"
+                value: movie.rootFolderPath ?? "Unknown",
+                link: MoviesView.Path.edit(movie.id)
             ),
         ]
 

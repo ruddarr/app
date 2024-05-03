@@ -41,13 +41,16 @@ struct MovieGridItem: View {
                 } else if movie.monitored {
                     Image(systemName: "xmark").symbolVariant(.circle)
                 }
-            }.foregroundStyle(.white)
+            }
+                .foregroundStyle(.white)
+                .imageScale(MovieGridItem.gridIconScale())
 
             Spacer()
 
             Image(systemName: "bookmark")
                 .symbolVariant(movie.monitored ? .fill : .none)
                 .foregroundStyle(.white)
+                .imageScale(MovieGridItem.gridIconScale())
         }
         .font(.body)
         .padding(.top, 36)
@@ -57,12 +60,22 @@ struct MovieGridItem: View {
             LinearGradient(
                 colors: [
                     Color.black.opacity(0.0),
-                    Color.black.opacity(0.8)
+                    Color.black.opacity(0.2),
+                    Color.black.opacity(0.4),
+                    Color.black.opacity(0.9)
                 ],
                 startPoint: .top,
                 endPoint: .bottom
             )
         }
+    }
+
+    static func gridIconScale() -> Image.Scale {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .small
+        }
+
+        return .medium
     }
 
     static func gridItemSpacing() -> CGFloat {

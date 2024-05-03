@@ -199,8 +199,9 @@ struct MoviesView: View {
             updateDisplayedMovies()
 
             let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
+            let cacheInSeconds: Double = instance.isLarge ? 300 : 30
 
-            if Occurrence.since(lastMetadataFetch) > 30 {
+            if Occurrence.since(lastMetadataFetch) > cacheInSeconds {
                 if let model = await instance.fetchMetadata() {
                     settings.saveInstance(model)
                     Occurrence.occurred(lastMetadataFetch)

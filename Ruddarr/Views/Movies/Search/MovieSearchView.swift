@@ -85,7 +85,7 @@ struct MovieSearchView: View {
         if searchQuery.isEmpty {
             instance.lookup.reset()
         } else if oldQuery == newQuery {
-            performSearch() // always perform inital search
+            performSearch() // always perform initial search
         } else {
             searchTextPublisher.send(searchQuery)
         }

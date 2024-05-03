@@ -15,6 +15,7 @@ class MovieReleases {
     var indexers: [String] = []
     var qualities: [String] = []
     var protocols: [String] = []
+    var languages: [String] = []
     var customFormats: [String] = []
 
     init(_ instance: Instance) {
@@ -31,6 +32,7 @@ class MovieReleases {
             setIndexers()
             setQualities()
             setProtocols()
+            setLanguages()
             setCustomFormats()
         } catch is CancellationError {
             // do nothing
@@ -68,6 +70,15 @@ class MovieReleases {
 
         protocols = items
             .map { $0.type.label }
+            .filter { seen.insert($0).inserted }
+    }
+
+    func setLanguages() {
+        var seen: Set<String> = []
+
+        languages = items
+            .map { $0.languages.map { $0.label } }
+            .flatMap { $0 }
             .filter { seen.insert($0).inserted }
     }
 

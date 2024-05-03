@@ -18,7 +18,7 @@ struct Movie: Identifiable, Codable {
     let sortTitle: String
     let studio: String?
     let year: Int
-    var sortYear: Int { year == 0 ? 2100 : year }
+    var sortYear: Int { year == 0 ? 2_100 : year }
     let runtime: Int
     let overview: String?
     let certification: String?
@@ -154,7 +154,7 @@ struct Movie: Identifiable, Codable {
     }
 
     var genreLabel: String {
-        genres.formatted(.list(type: .and, width: .narrow))
+        genres.prefix(3).formatted(.list(type: .and, width: .narrow))
     }
 
     var remotePoster: String? {

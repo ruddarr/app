@@ -18,6 +18,8 @@ struct MovieEditView: View {
 
     var body: some View {
         MovieForm(movie: $movie)
+            .navigationTitle(movie.title)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 toolbarSaveButton
             }
