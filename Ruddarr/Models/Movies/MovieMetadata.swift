@@ -27,7 +27,10 @@ class MovieMetadata {
 
         files = []
         extraFiles = []
+        filesLoading = false
+
         history = []
+        historyLoading = false
     }
 
     func fetchFiles(for movie: Movie) async {
