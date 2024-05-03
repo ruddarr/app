@@ -113,7 +113,9 @@ struct Series: Identifiable, Codable {
     }
 
     var genreLabel: String {
-        genres.formatted(.list(type: .and, width: .narrow))
+        genres.prefix(3)
+            .map { $0.replacingOccurrences(of: "Science Fiction", with: "Sci-Fi") }
+            .formatted(.list(type: .and, width: .narrow))
     }
 
     // TODO: needs work
