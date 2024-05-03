@@ -189,5 +189,7 @@ extension InstanceView {
         Task {
             await webhook.update(cloudKitUserId)
         }
+
+        Occurrence.forget("instanceCheck:\(instance.id)")
     }
 }
