@@ -209,7 +209,7 @@ struct MovieDetails: View {
             return nil
         }
 
-        if codes.count > 1 {
+        if codes.count > 2 {
             var someCodes = Array(codes.prefix(2)).map {
                 $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
             }
