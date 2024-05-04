@@ -1963,16 +1963,6 @@
         }
       }
     },
-    "Monitored Only" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Monitored Only"
-          }
-        }
-      }
-    },
     "Monochrome" : {
       "localizations" : {
         "en" : {
@@ -2882,12 +2872,12 @@
         }
       }
     },
-    "Premieres Only" : {
+    "Premieres" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Premieres Only"
+            "value" : "Premieres"
           }
         }
       }
