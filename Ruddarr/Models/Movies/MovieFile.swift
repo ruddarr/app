@@ -122,10 +122,39 @@ struct MovieQualityInfo: Codable {
 
 struct MovieQuality: Codable {
     let name: String?
+    let source: MovieQualitySource
     let resolution: Int
 
     var label: String {
         name ?? String(localized: "Unknown")
+    }
+}
+
+enum MovieQualitySource: String, Codable {
+    case unknown
+    case cam
+    case telesync
+    case telecine
+    case workprint
+    case dvd
+    case tv
+    case webdl
+    case webrip
+    case bluray
+
+    var label: String {
+        switch self {
+        case .unknown: String(localized: "Unknown")
+        case .cam: "CAM"
+        case .telesync: "TELESYNC"
+        case .telecine: "TELECINE"
+        case .workprint: "WORKPRINT"
+        case .dvd: "DVD"
+        case .tv: "TV"
+        case .webdl: "WEBDL"
+        case .webrip: "WEBRip"
+        case .bluray: "Bluray"
+        }
     }
 }
 
