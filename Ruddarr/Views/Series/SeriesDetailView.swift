@@ -149,7 +149,7 @@ extension SeriesDetailView {
 
     @MainActor
     func refresh() async {
-        guard await instance.series.command(series, command: .refresh) else {
+        guard await instance.series.command(.refresh(series.id)) else {
             return
         }
 
@@ -162,7 +162,7 @@ extension SeriesDetailView {
 
     @MainActor
     func dispatchSearch() async {
-        guard await instance.series.command(series, command: .searchMonitored) else {
+        guard await instance.series.command(.seriesSearch(series.id)) else {
             return
         }
 

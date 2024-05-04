@@ -185,12 +185,12 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/command")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: command)
+            return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
         }, sonarrCommand: { command, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/command")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: command)
+            return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
         }, systemStatus: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/system/status")

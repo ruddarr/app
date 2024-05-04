@@ -102,23 +102,56 @@ struct InstanceQualityProfile: Identifiable, Equatable, Codable {
     let name: String
 }
 
-struct RadarrCommand: Codable {
-    let name: Command
-    let movieIds: [Int]
+enum RadarrCommand {
+    case refresh(_ ids: [Movie.ID])
+    case search(_ ids: [Movie.ID])
 
-    enum Command: String, Codable {
-        case refresh = "RefreshMovie"
-        case automaticSearch = "MoviesSearch"
+    var payload: Payload {
+        return switch self {
+        case .refresh(let ids):
+            Payload(name: "RefreshMovie", movieIds: ids)
+        case .search(let ids):
+            Payload(name: "MoviesSearch", movieIds: ids)
+        }
+    }
+
+    struct Payload: Encodable {
+        let name: String
+        let movieIds: [Int]
     }
 }
 
-struct SonarrCommand: Codable {
-    let name: Command
-    let seriesId: Int
+enum SonarrCommand {
+    case refresh(_ series: Series.ID)
+    case seriesSearch(_ series: Series.ID)
+    case seasonSearch(_ series: Series.ID, season: Season.ID)
+    case episodeSearch(_ ids: [Episode.ID])
 
-    enum Command: String, Codable {
-        case refresh = "RefreshSeries"
-        case searchMonitored = "SeriesSearch"
+    var payload: Payload {
+        return switch self {
+        case .refresh(let series):
+            Payload(name: "RefreshSeries", seriesId: series)
+        case .seriesSearch(let series):
+            Payload(name: "SeriesSearch", seriesId: series)
+        case .seasonSearch(let series, let season):
+            Payload(name: "SeasonSearch", seriesId: series, seasonNumber: season)
+        case .episodeSearch(let ids):
+            Payload(name: "EpisodeSearch", episodeIds: ids)
+        }
+    }
+
+    struct Payload: Encodable {
+        let name: String
+        let seriesId: Int?
+        let seasonNumber: Int?
+        let episodeIds: [Int]?
+
+        init(name: String, seriesId: Int? = nil, seasonNumber: Int? = nil, episodeIds: [Int]? = nil) {
+            self.name = name
+            self.seriesId = seriesId
+            self.seasonNumber = seasonNumber
+            self.episodeIds = episodeIds
+        }
     }
 }
 

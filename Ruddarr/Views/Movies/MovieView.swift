@@ -162,7 +162,7 @@ extension MovieView {
 
     @MainActor
     func refresh() async {
-        guard await instance.movies.command(movie, command: .refresh) else {
+        guard await instance.movies.command(.refresh([movie.id])) else {
             return
         }
 
@@ -175,7 +175,7 @@ extension MovieView {
 
     @MainActor
     func dispatchSearch() async {
-        guard await instance.movies.command(movie, command: .automaticSearch) else {
+        guard await instance.movies.command(.search([movie.id])) else {
             return
         }
 

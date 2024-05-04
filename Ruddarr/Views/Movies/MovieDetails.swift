@@ -98,7 +98,7 @@ struct MovieDetails: View {
         Group {
             Button {
                 Task { @MainActor in
-                    guard await instance.movies.command(movie, command: .automaticSearch) else {
+                    guard await instance.movies.command(.search([movie.id])) else {
                         return
                     }
 

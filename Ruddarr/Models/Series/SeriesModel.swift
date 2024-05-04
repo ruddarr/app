@@ -22,7 +22,7 @@ class SeriesModel {
         case update(Series, Bool)
         case delete(Series)
         // case download(String, Int)
-        case command(Series, SonarrCommand.Command)
+        case command(SonarrCommand)
     }
 
     init(_ instance: Instance) {
@@ -101,8 +101,8 @@ class SeriesModel {
 //        await request(.download(guid, indexerId))
 //    }
 
-    func command(_ series: Series, command: SonarrCommand.Command) async -> Bool {
-        await request(.command(series, command))
+    func command(_ command: SonarrCommand) async -> Bool {
+        await request(.command(command))
     }
 
     @MainActor
@@ -148,12 +148,7 @@ class SeriesModel {
 //        case .download(let guid, let indexerId):
 //            _ = try await dependencies.api.downloadRelease(guid, indexerId, instance)
 
-        case .command(let series, let commandName):
-            let command = switch commandName {
-            case .refresh: SonarrCommand(name: commandName, seriesId: series.id)
-            case .searchMonitored: SonarrCommand(name: commandName, seriesId: series.id)
-            }
-
+        case .command(let command):
             _ = try await dependencies.api.sonarrCommand(command, instance)
         }
     }
