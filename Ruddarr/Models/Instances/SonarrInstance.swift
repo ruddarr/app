@@ -12,6 +12,7 @@ class SonarrInstance {
     var lookup: SeriesLookup
     // var releases: MovieReleases
     // var metadata: MovieMetadata
+    var episodes: SeriesEpisodes
 
     init(_ instance: Instance = .sonarrVoid) {
         if instance.type != .sonarr {
@@ -25,6 +26,7 @@ class SonarrInstance {
         self.lookup = SeriesLookup(instance)
         // self.releases = MovieReleases(instance)
         // self.metadata = MovieMetadata(instance)
+        self.episodes = SeriesEpisodes(instance)
     }
 
     func switchTo(_ target: Instance) {
@@ -35,6 +37,7 @@ class SonarrInstance {
         self.lookup = SeriesLookup(target)
         // self.releases = MovieReleases(target)
         // self.metadata = MovieMetadata(target)
+        self.episodes = SeriesEpisodes(instance)
     }
 
     var id: UUID {

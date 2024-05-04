@@ -42,6 +42,16 @@ struct InstanceEditView: View {
                     deleteButton
                 }
             }
+
+            Button {
+                instance.url = "http://10.0.1.5:8310/settings/general"
+                instance.apiKey = "3b0600c1b3aa42bfb0222f4e13a81f39"
+            } label: { Text(verbatim: "Radarr") }
+
+            Button {
+                instance.url = "http://10.0.1.5:8989/"
+                instance.apiKey = "f8e3682b3b984cddbaa00047a09d0fbd"
+            } label: { Text(verbatim: "Sonarr") }
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

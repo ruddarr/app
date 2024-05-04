@@ -183,7 +183,7 @@ extension SeriesDetailView {
 
 #Preview {
     let series: [Series] = PreviewData.load(name: "series")
-    let item = series.first(where: { $0.id == 2 }) ?? series[0]
+    let item = series.first(where: { $0.id == 67 }) ?? series[0]
 
     dependencies.router.selectedTab = .series
 

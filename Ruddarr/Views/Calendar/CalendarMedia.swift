@@ -133,7 +133,7 @@ struct CalendarEpisode: View {
                 .symbolVariant(.circle.fill)
         } else if !episode.monitored {
             Image(systemName: "bookmark.slash")
-        } else if episode.isWaiting {
+        } else if episode.hasAired {
             Image(systemName: "clock")
         } else if episode.monitored {
             Image(systemName: "xmark")

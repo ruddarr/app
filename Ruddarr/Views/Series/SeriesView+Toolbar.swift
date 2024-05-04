@@ -25,6 +25,7 @@ extension SeriesView {
     var toolbarFilterButton: some View {
         Menu("Filter", systemImage: "line.3.horizontal.decrease") {
             Picker(selection: $sort.filter, label: Text("Filter")) {
+                // TODO: filter Ended, Continuing, Missing Episodes
                 ForEach(SeriesSort.Filter.allCases) { filter in
                     // TODO: needs work
                     filter.label
@@ -37,6 +38,7 @@ extension SeriesView {
     var toolbarSortingButton: some View {
         Menu {
             Picker(selection: $sort.option, label: Text("Sort By")) {
+                // TODO: sort by next airing
                 ForEach(SeriesSort.Option.allCases) { option in
                     // TODO: needs work
                     option.label

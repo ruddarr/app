@@ -54,8 +54,6 @@ struct Series: Identifiable, Codable {
     let images: [MovieImage]
     let statistics: SeriesStatistics?
 
-    // TODO: ratings
-
     enum CodingKeys: String, CodingKey {
         case guid = "id"
         case title

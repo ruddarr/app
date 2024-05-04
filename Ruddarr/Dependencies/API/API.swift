@@ -17,6 +17,7 @@ struct API {
     var deleteMovie: (Movie, Instance) async throws -> Empty
 
     var fetchSeries: (Instance) async throws -> [Series]
+    var fetchEpisodes: (Series.ID, Instance) async throws -> [Episode]
     var lookupSeries: (_ instance: Instance, _ query: String) async throws -> [Series]
 
     var addSeries: (Series, Instance) async throws -> Series
@@ -120,6 +121,12 @@ extension API {
                 .appending(path: "/api/v3/series")
 
             return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+        }, fetchEpisodes: { seriesId, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/episode")
+                .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
+
+            return try await request(url: url, headers: instance.auth)
         }, lookupSeries: { instance, query in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series/lookup")

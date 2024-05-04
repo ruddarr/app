@@ -35,6 +35,7 @@ struct Episode: Identifiable, Codable {
 
     var episodeLabel: String {
         String(format: "%02dx%02d", seasonNumber, episodeNumber)
+        // TODO: Anime formatting
     }
 
     var premiereLabel: LocalizedStringKey {
@@ -56,7 +57,8 @@ struct Episode: Identifiable, Codable {
     var isDownloaded: Bool {
         hasFile || grabbed
     }
-    var isWaiting: Bool {
+
+    var hasAired: Bool {
         guard let date = airDateUtc else {
             return false
         }

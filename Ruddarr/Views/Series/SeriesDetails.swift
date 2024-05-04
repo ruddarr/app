@@ -73,16 +73,6 @@ struct SeriesDetails: View {
             if !series.genres.isEmpty {
                 detailsRow("Genre", value: series.genreLabel)
             }
-
-// TODO: needs work
-//            if movie.isDownloaded {
-//                detailsRow("Video", value: videoQuality)
-//                detailsRow("Audio", value: audioQuality)
-//
-//                if let languages = subtitles {
-//                    detailsRow("Subtitles", value: languages)
-//                }
-//            }
         }
     }
 
@@ -179,7 +169,7 @@ struct SeriesDetails: View {
 
 #Preview {
     let series: [Series] = PreviewData.load(name: "series")
-    let item = series.first(where: { $0.id == 2 }) ?? series[0]
+    let item = series.first(where: { $0.id == 67 }) ?? series[0]
 
     return SeriesDetailView(series: Binding(get: { item }, set: { _ in }))
         .withSonarrInstance(series: series)
@@ -188,7 +178,7 @@ struct SeriesDetails: View {
 
 #Preview("Preview") {
     let series: [Series] = PreviewData.load(name: "series-lookup")
-    let item = series[1]
+    let item = series.first(where: { $0.id == 67 }) ?? series[0]
 
     return SeriesDetailView(series: Binding(get: { item }, set: { _ in }))
         .withSonarrInstance(series: series)

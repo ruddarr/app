@@ -65,7 +65,7 @@ struct SeriesView: View {
                     EmptyView() // TODO: WIP
                 case .season(let id, let season):
                     if let series = instance.series.byId(id).unwrapped {
-                        SeasonView(series: series, seasonId: season)
+                        SeasonView(series: series, seasonNumber: season)
                             .environment(instance)
                             .environmentObject(settings)
                     }

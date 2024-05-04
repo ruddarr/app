@@ -196,8 +196,9 @@
             },
             {
                 "seasonNumber": 1,
-                "monitored": false,
+                "monitored": true,
                 "statistics": {
+                    "previousAiring": "2010-09-27T07:00:00Z",
                     "episodeFileCount": 26,
                     "episodeCount": 26,
                     "totalEpisodeCount": 26,
@@ -304,7 +305,7 @@
             },
             {
                 "seasonNumber": 10,
-                "monitored": true,
+                "monitored": false,
                 "statistics": {
                     "episodeFileCount": 0,
                     "episodeCount": 0,
@@ -382,7 +383,6 @@
         "status": "continuing",
         "ended": false,
         "overview": "In a dangerous era, Cassian Andor embarks on a path destined to turn him into a rebel hero.",
-        "previousAiring": "2022-11-23T08:00:00Z",
         "network": "Disney+",
         "airTime": "03:00",
         "images": [
@@ -414,11 +414,10 @@
         "seasons": [
             {
                 "seasonNumber": 0,
-                "monitored": true,
+                "monitored": false,
                 "statistics": {
-                    "previousAiring": "2022-11-23T08:00:00Z",
                     "episodeFileCount": 0,
-                    "episodeCount": 11,
+                    "episodeCount": 0,
                     "totalEpisodeCount": 11,
                     "sizeOnDisk": 0,
                     "releaseGroups": [],
@@ -473,13 +472,13 @@
         "statistics": {
             "seasonCount": 1,
             "episodeFileCount": 12,
-            "episodeCount": 23,
+            "episodeCount": 12,
             "totalEpisodeCount": 23,
             "sizeOnDisk": 26325015173,
             "releaseGroups": [
                 "NTb"
             ],
-            "percentOfEpisodes": 52.173913043478260869565217390
+            "percentOfEpisodes": 100
         },
         "languageProfileId": 1,
         "id": 4
@@ -9834,7 +9833,7 @@
         ],
         "year": 2015,
         "path": "/volume2/Media/TV Series/The Jinx/",
-        "qualityProfileId": 1,
+        "qualityProfileId": 4,
         "seasonFolder": true,
         "monitored": true,
         "monitorNewItems": "all",
@@ -22435,7 +22434,7 @@
         "tvMazeId": 4924,
         "firstAired": "2004-05-20T00:00:00Z",
         "lastAired": "2005-03-19T00:00:00Z",
-        "seriesType": "standard",
+        "seriesType": "anime",
         "cleanTitle": "samuraichamploo",
         "imdbId": "tt0423731",
         "titleSlug": "samurai-champloo",
@@ -25762,8 +25761,8 @@
         "status": "continuing",
         "ended": false,
         "overview": "A group of farmers are presented with women from the city and they must choose one to be their spouse.",
-        "nextAiring": "2024-05-03T01:00:00Z",
-        "previousAiring": "2024-04-26T01:00:00Z",
+        "nextAiring": "2024-05-10T01:00:00Z",
+        "previousAiring": "2024-05-03T01:00:00Z",
         "network": "FOX",
         "airTime": "21:00",
         "images": [
@@ -25806,10 +25805,10 @@
                 "seasonNumber": 2,
                 "monitored": true,
                 "statistics": {
-                    "nextAiring": "2024-05-03T01:00:00Z",
-                    "previousAiring": "2024-04-26T01:00:00Z",
+                    "nextAiring": "2024-05-10T01:00:00Z",
+                    "previousAiring": "2024-05-03T01:00:00Z",
                     "episodeFileCount": 0,
-                    "episodeCount": 11,
+                    "episodeCount": 12,
                     "totalEpisodeCount": 13,
                     "sizeOnDisk": 0,
                     "releaseGroups": [],
@@ -25848,13 +25847,13 @@
         "statistics": {
             "seasonCount": 2,
             "episodeFileCount": 11,
-            "episodeCount": 22,
+            "episodeCount": 23,
             "totalEpisodeCount": 24,
             "sizeOnDisk": 12404616237,
             "releaseGroups": [
                 "BTN"
             ],
-            "percentOfEpisodes": 50.0
+            "percentOfEpisodes": 47.826086956521739130434782610
         },
         "languageProfileId": 1,
         "id": 181
@@ -29926,7 +29925,7 @@
         "tvMazeId": 0,
         "firstAired": "2020-01-06T00:00:00Z",
         "lastAired": "2020-03-23T00:00:00Z",
-        "seriesType": "standard",
+        "seriesType": "anime",
         "cleanTitle": "keepyourhandsoffeizouken",
         "imdbId": "tt10320398",
         "titleSlug": "keep-your-hands-off-eizouken",
@@ -30062,7 +30061,7 @@
         "tvMazeId": 10525,
         "firstAired": "2016-01-16T00:00:00Z",
         "lastAired": "2016-12-24T00:00:00Z",
-        "seriesType": "standard",
+        "seriesType": "anime",
         "cleanTitle": "ajin",
         "imdbId": "tt5537534",
         "titleSlug": "ajin",
@@ -30271,7 +30270,7 @@
         "tvMazeId": 919,
         "firstAired": "2013-04-07T00:00:00Z",
         "lastAired": "2023-11-05T00:00:00Z",
-        "seriesType": "standard",
+        "seriesType": "anime",
         "cleanTitle": "attackontitan",
         "imdbId": "tt2560140",
         "titleSlug": "attack-on-titan",
@@ -30675,7 +30674,7 @@
         "tvMazeId": 4092,
         "firstAired": "2015-04-04T00:00:00Z",
         "lastAired": "2015-12-26T00:00:00Z",
-        "seriesType": "standard",
+        "seriesType": "anime",
         "cleanTitle": "seraphend",
         "imdbId": "tt4584326",
         "titleSlug": "seraph-of-the-end",
@@ -32249,7 +32248,7 @@
                 "statistics": {
                     "episodeFileCount": 0,
                     "episodeCount": 0,
-                    "totalEpisodeCount": 9,
+                    "totalEpisodeCount": 8,
                     "sizeOnDisk": 0,
                     "releaseGroups": [],
                     "percentOfEpisodes": 0
@@ -32305,7 +32304,7 @@
             "seasonCount": 1,
             "episodeFileCount": 0,
             "episodeCount": 0,
-            "totalEpisodeCount": 17,
+            "totalEpisodeCount": 16,
             "sizeOnDisk": 0,
             "releaseGroups": [],
             "percentOfEpisodes": 0
@@ -33665,8 +33664,8 @@
         "status": "continuing",
         "ended": false,
         "overview": "In 1922, Count Rostov finds himself stuck in Moscow and on the wrong side of history. The Communist Party agrees to let him live, but he is never allowed to set foot outside the Metropole Hotel until the day he dies.",
-        "nextAiring": "2024-05-03T07:00:00Z",
-        "previousAiring": "2024-04-26T07:00:00Z",
+        "nextAiring": "2024-05-10T07:00:00Z",
+        "previousAiring": "2024-05-03T07:00:00Z",
         "network": "Paramount+",
         "airTime": "03:00",
         "images": [
@@ -33700,17 +33699,17 @@
                 "seasonNumber": 1,
                 "monitored": true,
                 "statistics": {
-                    "nextAiring": "2024-05-03T07:00:00Z",
-                    "previousAiring": "2024-04-26T07:00:00Z",
+                    "nextAiring": "2024-05-10T07:00:00Z",
+                    "previousAiring": "2024-05-03T07:00:00Z",
                     "episodeFileCount": 5,
-                    "episodeCount": 5,
+                    "episodeCount": 6,
                     "totalEpisodeCount": 8,
                     "sizeOnDisk": 2543467733,
                     "releaseGroups": [
                         "ELiTE",
                         "MeGusta"
                     ],
-                    "percentOfEpisodes": 100
+                    "percentOfEpisodes": 83.33333333333333333333333333
                 }
             }
         ],
@@ -33748,14 +33747,14 @@
         "statistics": {
             "seasonCount": 1,
             "episodeFileCount": 5,
-            "episodeCount": 5,
+            "episodeCount": 6,
             "totalEpisodeCount": 8,
             "sizeOnDisk": 2543467733,
             "releaseGroups": [
                 "ELiTE",
                 "MeGusta"
             ],
-            "percentOfEpisodes": 100
+            "percentOfEpisodes": 83.33333333333333333333333333
         },
         "languageProfileId": 1,
         "id": 246
@@ -33886,90 +33885,5 @@
         },
         "languageProfileId": 1,
         "id": 247
-    },
-    {
-        "title": "Ironheart",
-        "alternateTitles": [],
-        "sortTitle": "ironheart",
-        "status": "upcoming",
-        "ended": false,
-        "overview": "Genius inventor Riri Williams creates the most advanced suit of armor since Iron Man and becomes Ironheart.",
-        "network": "Disney+",
-        "airTime": "00:00",
-        "images": [
-            {
-                "coverType": "banner",
-                "url": "/MediaCover/248/banner.jpg?lastWrite=638502715285670886",
-                "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/393204/banners/6620faa0eb7e6.jpg"
-            },
-            {
-                "coverType": "poster",
-                "url": "/MediaCover/248/poster.jpg?lastWrite=638502715285970889",
-                "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/393204/posters/618eb7f5a984b.jpg"
-            },
-            {
-                "coverType": "clearlogo",
-                "url": "/MediaCover/248/clearlogo.png?lastWrite=638502715286420893",
-                "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/393204/clearlogo/618f54ea3818c.png"
-            }
-        ],
-        "originalLanguage": {
-            "id": 1,
-            "name": "English"
-        },
-        "seasons": [
-            {
-                "seasonNumber": 1,
-                "monitored": false,
-                "statistics": {
-                    "episodeFileCount": 0,
-                    "episodeCount": 0,
-                    "totalEpisodeCount": 1,
-                    "sizeOnDisk": 0,
-                    "releaseGroups": [],
-                    "percentOfEpisodes": 0
-                }
-            }
-        ],
-        "year": 0,
-        "path": "/volume2/Media/TV Series/Ironheart",
-        "qualityProfileId": 1,
-        "seasonFolder": false,
-        "monitored": false,
-        "monitorNewItems": "all",
-        "useSceneNumbering": false,
-        "runtime": 0,
-        "tvdbId": 393204,
-        "tvRageId": 0,
-        "tvMazeId": 47859,
-        "seriesType": "standard",
-        "cleanTitle": "ironheart",
-        "imdbId": "tt13623126",
-        "titleSlug": "ironheart",
-        "rootFolderPath": "/volume2/Media/TV Series/",
-        "genres": [
-            "Action",
-            "Adventure",
-            "Drama",
-            "Fantasy",
-            "Science Fiction"
-        ],
-        "tags": [],
-        "added": "2024-05-02T18:32:08Z",
-        "ratings": {
-            "votes": 0,
-            "value": 0
-        },
-        "statistics": {
-            "seasonCount": 1,
-            "episodeFileCount": 0,
-            "episodeCount": 0,
-            "totalEpisodeCount": 1,
-            "sizeOnDisk": 0,
-            "releaseGroups": [],
-            "percentOfEpisodes": 0
-        },
-        "languageProfileId": 1,
-        "id": 248
     }
 ]
