@@ -113,7 +113,7 @@ struct MovieRelease: Identifiable, Codable {
     let leechers: Int?
 
     let quality: MovieReleaseQuality
-    let languages: [MovieLanguage]
+    let languages: [MediaLanguage]
     let rejections: [String]
 
     let qualityWeight: Int
@@ -145,8 +145,13 @@ struct MovieRelease: Identifiable, Codable {
         case infoUrl
     }
 
-    var isTorrent: Bool { type == .torrent }
-    var isUsenet: Bool { type == .usenet }
+    var isTorrent: Bool {
+        type == .torrent
+    }
+
+    var isUsenet: Bool {
+        type == .usenet
+    }
 
     var isFreeleech: Bool {
         guard !indexerFlags.isEmpty else { return false }
@@ -220,11 +225,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var sizeLabel: String {
-        let formatter = ByteCountFormatter()
-        formatter.countStyle = .binary
-        formatter.isAdaptive = size < 1_073_741_824 // 1 GB
-
-        return formatter.string(fromByteCount: Int64(size))
+        formatBytes(size)
     }
 
     var qualityLabel: String {

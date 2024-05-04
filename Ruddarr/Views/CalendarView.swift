@@ -183,12 +183,12 @@ struct CalendarView: View {
                 .pickerStyle(.inline)
 
                 Toggle(isOn: $onlyPremieres) {
-                    Label("Premieres Only", systemImage: "play")
+                    Label("Premieres", systemImage: "play")
                         .symbolVariant(onlyPremieres ? .fill : .none)
                 }
 
                 Toggle(isOn: $onlyMonitored) {
-                    Label("Monitored Only", systemImage: "bookmark")
+                    Label("Monitored", systemImage: "bookmark")
                         .symbolVariant(onlyMonitored ? .fill : .none)
                 }
             }

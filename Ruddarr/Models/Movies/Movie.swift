@@ -22,6 +22,7 @@ struct Movie: Identifiable, Codable {
     let overview: String?
     let certification: String?
     let youTubeTrailerId: String?
+    let originalLanguage: MediaLanguage
     let alternateTitles: [AlternateMovieTitle]
 
     let genres: [String]
@@ -35,7 +36,6 @@ struct Movie: Identifiable, Codable {
     var qualityProfileId: Int
     let sizeOnDisk: Int?
     let hasFile: Bool?
-    let isAvailable: Bool
 
     var path: String?
     var relativePath: String?
@@ -63,6 +63,7 @@ struct Movie: Identifiable, Codable {
         case overview
         case certification
         case youTubeTrailerId
+        case originalLanguage
         case genres
         case ratings
         case popularity
@@ -72,7 +73,6 @@ struct Movie: Identifiable, Codable {
         case qualityProfileId
         case sizeOnDisk
         case hasFile
-        case isAvailable
         case path
         case folderName
         case rootFolderPath
@@ -97,7 +97,7 @@ struct Movie: Identifiable, Codable {
             return "Waiting"
         }
 
-        if monitored && isAvailable {
+        if monitored && isReleased {
             return "Missing"
         }
 
@@ -145,13 +145,6 @@ struct Movie: Identifiable, Codable {
         return nil
     }
 
-    var sizeLabel: String {
-        ByteCountFormatter.string(
-            fromByteCount: Int64(sizeOnDisk ?? 0),
-            countStyle: .binary
-        )
-    }
-
     var genreLabel: String {
         genres.prefix(3)
             .map { $0.replacingOccurrences(of: "Science Fiction", with: "Sci-Fi") }
@@ -168,6 +161,10 @@ struct Movie: Identifiable, Codable {
 
     var isDownloaded: Bool {
         hasFile ?? false
+    }
+
+    var isReleased: Bool {
+        status == .released
     }
 
     var isWaiting: Bool {
@@ -232,155 +229,6 @@ struct MovieRating: Codable {
     let value: Float
 }
 
-struct MovieFile: Identifiable, Codable {
-    let id: Int
-    let size: Int
-    let relativePath: String?
-    let dateAdded: Date
-
-    let mediaInfo: MovieMediaInfo?
-    let quality: MovieQualityInfo
-    let languages: [MovieLanguage]
-    let customFormats: [MovieCustomFormat]?
-    let customFormatScore: Int?
-
-    var sizeLabel: String {
-        ByteCountFormatter.string(
-            fromByteCount: Int64(size),
-            countStyle: .binary
-        )
-    }
-
-    var languageLabel: String {
-        languageSingleLabel(languages)
-    }
-
-    var scoreLabel: String {
-        formatCustomScore(customFormatScore ?? 0)
-    }
-
-    var customFormatsList: [String]? {
-        guard let formats = customFormats else {
-            return nil
-        }
-
-        return formats.map { $0.label }
-    }
-
-    var videoResolution: Int? {
-        if quality.quality.resolution > 0 {
-            return quality.quality.resolution
-        }
-
-        if let resolution = mediaInfo?.resolution, let range = resolution.range(of: "x") {
-            return Int(resolution[range.upperBound...])
-        }
-
-        return nil
-    }
-}
-
-struct MovieMediaInfo: Codable {
-    let audioBitrate: Int
-    let audioStreamCount: Int
-    let audioChannels: Float
-    let audioCodec: String?
-    let audioLanguages: String?
-
-    let videoBitDepth: Int
-    let videoBitrate: Int
-    let videoFps: Float
-    let videoCodec: String?
-    let resolution: String?
-    let runTime: String?
-    let videoDynamicRange: String?
-    let videoDynamicRangeType: String?
-    let scanType: String?
-
-    let subtitles: String?
-
-    var videoCodecLabel: String? {
-        guard var label = videoCodec else {
-            return nil
-        }
-
-        label = label.replacingOccurrences(of: "x264", with: "H264")
-        label = label.replacingOccurrences(of: "h264", with: "H264")
-        label = label.replacingOccurrences(of: "h265", with: "HEVC")
-        label = label.replacingOccurrences(of: "x265", with: "HEVC")
-
-        return label
-    }
-
-    var videoDynamicRangeLabel: String? {
-        guard let label = videoDynamicRange, !label.isEmpty else {
-            return nil
-        }
-
-        if let type = videoDynamicRangeType {
-            if type == "HDR10" { return "HDR10" }
-            if type == "HDR10Plus" { return "HDR10+" }
-            if !type.isEmpty { return "\(label) (\(type))" }
-        }
-
-        return label
-    }
-
-    var audioLanguageCodes: [String]? {
-        guard let languages = audioLanguages, languages.count > 0 else {
-            return nil
-        }
-
-        let codes = Array(Set(
-            languages.components(separatedBy: "/")
-        ))
-
-        return codes.sorted(by: Languages.codeSort)
-    }
-
-    var subtitleCodes: [String]? {
-        guard let languages = subtitles, languages.count > 0 else {
-            return nil
-        }
-
-        let codes = Array(Set(
-            languages.components(separatedBy: "/")
-        ))
-
-        return codes.sorted(by: Languages.codeSort)
-    }
-}
-
-struct MovieQualityInfo: Codable {
-    let quality: MovieQuality
-}
-
-struct MovieQuality: Codable {
-    let name: String?
-    let resolution: Int
-
-    var label: String {
-        name ?? String(localized: "Unknown")
-    }
-}
-
-struct MovieLanguage: Codable {
-    let name: String?
-
-    var label: String {
-        name ?? String(localized: "Unknown")
-    }
-}
-
-struct MovieCustomFormat: Identifiable, Codable {
-    let id: Int
-    let name: String?
-
-    var label: String {
-        name ?? String(localized: "Unknown")
-    }
-}
-
 struct MovieEditorResource: Codable {
     let movieIds: [Int]
     let monitored: Bool?
@@ -392,23 +240,4 @@ struct MovieEditorResource: Codable {
 
 func formatCustomScore(_ score: Int) -> String {
     String(format: "%@%d", score < 0 ? "-" : "+", score)
-}
-
-func languageSingleLabel(_ languages: [MovieLanguage]) -> String {
-    if languages.isEmpty {
-        return String(localized: "Unknown")
-    }
-
-    if languages.count == 1 {
-        return languages[0].label
-
-    }
-
-    return String(localized: "Multilingual")
-}
-
-func languagesList(_ codes: [String]) -> String {
-    codes.map {
-        $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
-    }.formatted(.list(type: .and, width: .narrow))
 }

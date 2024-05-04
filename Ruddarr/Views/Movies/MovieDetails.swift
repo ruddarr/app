@@ -153,28 +153,36 @@ struct MovieDetails: View {
     }
 
     var videoQuality: String {
-        var label = ""
-        var codec = ""
+        var quality = ""
+        var details: [String] = []
 
         if let resolution = movie.movieFile?.videoResolution {
-            label = "\(resolution)p"
-            label = label.replacingOccurrences(of: "2160p", with: "4K")
-            label = label.replacingOccurrences(of: "4320p", with: "8K")
+            quality = "\(resolution)p"
+            quality = quality.replacingOccurrences(of: "2160p", with: "4K")
+            quality = quality.replacingOccurrences(of: "4320p", with: "8K")
 
             if let dynamicRange = movie.movieFile?.mediaInfo?.videoDynamicRange, !dynamicRange.isEmpty {
-                label += " \(dynamicRange)"
+                quality += " \(dynamicRange)"
             }
         }
 
-        if let videoCodecLabel = movie.movieFile?.mediaInfo?.videoCodecLabel {
-            codec = videoCodecLabel
+        if quality.isEmpty {
+            quality = String(localized: "Unknown")
         }
 
-        if label.isEmpty {
-            label = String(localized: "Unknown")
+        if let codec = movie.movieFile?.mediaInfo?.videoCodecLabel {
+            details.append(codec)
         }
 
-        return codec.isEmpty ? "\(label)" : "\(label) (\(codec))"
+        if let source = movie.movieFile?.quality.quality.source {
+            details.append(source.label)
+        }
+
+        if details.isEmpty {
+            return quality
+        }
+
+        return "\(quality) (\(details.formatted(.list(type: .and, width: .narrow))))"
     }
 
     var audioQuality: String {

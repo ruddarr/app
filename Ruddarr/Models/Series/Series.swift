@@ -45,7 +45,7 @@ struct Series: Identifiable, Codable {
     let overview: String?
     let network: String?
 
-    let originalLanguage: SeriesLanguage
+    let originalLanguage: MediaLanguage
 
     let alternateTitles: [AlternateMovieTitle]?
 
@@ -193,11 +193,6 @@ enum SeriesType: String, Codable {
         case .anime: String(localized: "Anime")
         }
     }
-}
-
-struct SeriesLanguage: Codable {
-    let id: Int
-    let name: String?
 }
 
 struct SeriesStatistics: Codable {

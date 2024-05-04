@@ -15,12 +15,7 @@ class MediaCalendar {
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
-    let gmt: Calendar = {
-        var calendar = Calendar.current
-        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
-
-        return calendar
-    }()
+    let calendar: Calendar = Calendar.current
 
     let futureCutoff: TimeInterval = {
         Date().timeIntervalSince1970 + (365 * 86_400)
@@ -58,20 +53,20 @@ class MediaCalendar {
     func fetch(start: Date, end: Date, initial: Bool = false) async {
         error = nil
 
-        let startMidnight = gmt.startOfDay(for: start)
-        let endMidnight = gmt.startOfDay(for: end)
+        let start = calendar.startOfDay(for: start)
+        let end = calendar.startOfDay(for: end)
 
         do {
             for instance in instances where instance.type == .radarr {
-                try await fetchMovies(instance, startMidnight, endMidnight)
+                try await fetchMovies(instance, start, end)
             }
 
             for instance in instances where instance.type == .sonarr {
                 try await fetchSeries(instance)
-                try await fetchEpisodes(instance, startMidnight, endMidnight)
+                try await fetchEpisodes(instance, start, end)
             }
 
-            insertDates(startMidnight, endMidnight)
+            insertDates(start, end)
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
@@ -84,17 +79,17 @@ class MediaCalendar {
     }
 
     func addDays(_ days: Int, _ date: Date) -> Date {
-        gmt.date(byAdding: .day, value: days, to: date)!
+        calendar.date(byAdding: .day, value: days, to: date)!
     }
 
-    func insertDates(_ startMidnight: Date, _ endMidnight: Date) {
-        guard startMidnight <= endMidnight else {
-            fatalError("endMidnight < startMidnight")
+    func insertDates(_ start: Date, _ end: Date) {
+        guard start <= end else {
+            fatalError("end < start")
         }
 
-        var currentDay = startMidnight
+        var currentDay = start
 
-        while currentDay <= endMidnight {
+        while currentDay <= end {
             if !dates.contains(currentDay.timeIntervalSince1970) {
                 dates.append(currentDay.timeIntervalSince1970)
             }
@@ -103,8 +98,8 @@ class MediaCalendar {
         }
     }
 
-    func fetchMovies(_ instance: Instance, _ startMidnight: Date, _ endMidnight: Date) async throws {
-        let movies = try await dependencies.api.movieCalendar(startMidnight, endMidnight, instance)
+    func fetchMovies(_ instance: Instance, _ start: Date, _ end: Date) async throws {
+        let movies = try await dependencies.api.movieCalendar(start, end, instance)
 
         for var movie in movies {
             movie.instanceId = instance.id
@@ -124,7 +119,7 @@ class MediaCalendar {
     }
 
     func maybeInsertMovie(_ movie: Movie, _ date: Date) {
-        let day = gmt.startOfDay(for: date).timeIntervalSince1970
+        let day = calendar.startOfDay(for: date).timeIntervalSince1970
 
         if movies[day] == nil {
             movies[day] = []
@@ -145,8 +140,8 @@ class MediaCalendar {
         }
     }
 
-    func fetchEpisodes(_ instance: Instance, _ startMidnight: Date, _ endMidnight: Date) async throws {
-        let episodes = try await dependencies.api.episodeCalendar(startMidnight, endMidnight, instance)
+    func fetchEpisodes(_ instance: Instance, _ start: Date, _ end: Date) async throws {
+        let episodes = try await dependencies.api.episodeCalendar(start, end, instance)
 
         for episode in episodes {
             if let airDate = episode.airDateUtc {
@@ -156,7 +151,7 @@ class MediaCalendar {
     }
 
     func maybeInsertEpisode(_ episode: Episode, _ date: Date) {
-        let day = gmt.startOfDay(for: date).timeIntervalSince1970
+        let day = calendar.startOfDay(for: date).timeIntervalSince1970
 
         if episodes[day] == nil {
             episodes[day] = []
@@ -170,7 +165,7 @@ class MediaCalendar {
     }
 
     func today() -> TimeInterval {
-        gmt.startOfDay(for: Date.now).timeIntervalSince1970
+        calendar.startOfDay(for: Date.now).timeIntervalSince1970
     }
 
     func maybeLoadMoreDates(_ scrollPosition: TimeInterval?) {

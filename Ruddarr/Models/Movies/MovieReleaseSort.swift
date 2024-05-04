@@ -10,8 +10,9 @@ struct MovieReleaseSort: Equatable {
     var type: String = ".all"
     var customFormat: String = ".all"
 
-    var approvedOnly: Bool = false
-    var freeleechOnly: Bool = false
+    var approved: Bool = false
+    var freeleech: Bool = false
+    var originalLanguage: Bool = false
 
     enum Option: CaseIterable, Hashable, Identifiable, Codable {
         var id: Self { self }

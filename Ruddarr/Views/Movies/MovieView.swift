@@ -188,7 +188,10 @@ extension MovieView {
     func deleteMovie(_ movie: Movie) async {
         _ = await instance.movies.delete(movie)
 
-        dependencies.router.moviesPath.removeLast()
+        if !dependencies.router.moviesPath.isEmpty {
+            dependencies.router.moviesPath.removeLast()
+        }
+
         dependencies.toast.show(.movieDeleted)
     }
 }

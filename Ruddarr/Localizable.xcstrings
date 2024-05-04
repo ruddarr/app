@@ -441,12 +441,12 @@
         }
       }
     },
-    "Approved Only" : {
+    "Approved" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Approved Only"
+            "value" : "Approved"
           }
         }
       }
@@ -1425,12 +1425,12 @@
         }
       }
     },
-    "FreeLeech Only" : {
+    "FreeLeech" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "FreeLeech Only"
+            "value" : "FreeLeech"
           }
         }
       }
@@ -1992,16 +1992,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Monitored"
-          }
-        }
-      }
-    },
-    "Monitored Only" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Monitored Only"
           }
         }
       }
@@ -2806,6 +2796,16 @@
         }
       }
     },
+    "Original" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Original"
+          }
+        }
+      }
+    },
     "Other" : {
       "localizations" : {
         "en" : {
@@ -2936,12 +2936,12 @@
         }
       }
     },
-    "Premieres Only" : {
+    "Premieres" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Premieres Only"
+            "value" : "Premieres"
           }
         }
       }

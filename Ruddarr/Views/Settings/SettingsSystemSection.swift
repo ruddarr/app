@@ -15,13 +15,7 @@ struct SettingsSystemSection: View {
             Button(role: .destructive, action: {
                 withAnimation(.spring(duration: 0.35)) { clearImageCache() }
             }, label: {
-                LabeledContent(
-                    "Clear Image Cache",
-                    value: ByteCountFormatter.string(
-                        fromByteCount: Int64(imageCacheSize),
-                        countStyle: .binary
-                    )
-                )
+                LabeledContent("Clear Image Cache", value: formatBytes(imageCacheSize))
             }).onAppear {
                 calculateImageCacheSize()
             }

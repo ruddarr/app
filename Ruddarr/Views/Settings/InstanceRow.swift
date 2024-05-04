@@ -72,8 +72,6 @@ struct InstanceRow: View {
 
             Occurrence.occurred(lastCheck)
 
-            try await Task.sleep(nanoseconds: 2_000_000_000)
-
             let webhook = InstanceWebhook(instance)
             await webhook.synchronize(nil)
             self.webhook = webhook.isEnabled ? .enabled : .disabled

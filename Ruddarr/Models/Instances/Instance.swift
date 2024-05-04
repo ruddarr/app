@@ -1,15 +1,19 @@
 import SwiftUI
 import Foundation
 
+// Changing instance properties is risky and can break cloud
+// synchronization, extensively changes don't wipe instance data.
 struct Instance: Identifiable, Equatable, Codable {
     var id = UUID()
 
+    // WARNING: BE CAREFUL CHANGING
     var type: InstanceType = .radarr
     var mode: InstanceMode = .normal
     var label: String = ""
     var url: String = ""
     var apiKey: String = ""
     var headers: [InstanceHeader] = []
+    // WARNING: BE CAREFUL CHANGING
 
     var version: String = ""
 
@@ -40,7 +44,7 @@ struct Instance: Identifiable, Equatable, Codable {
         switch call {
         case .normal: 10
         case .slow: mode == .large ? 300 : 10
-        case .releaseSearch: 60
+        case .releaseSearch: mode == .large ? 120 : 60
         case .releaseDownload: 15
         }
     }

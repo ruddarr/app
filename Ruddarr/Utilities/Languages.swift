@@ -89,3 +89,9 @@ class Languages {
         return index1 < index2 || (index1 == index2 && lhs < rhs)
     }
 }
+
+func languagesList(_ codes: [String]) -> String {
+    codes.map {
+        $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
+    }.formatted(.list(type: .and, width: .narrow))
+}
