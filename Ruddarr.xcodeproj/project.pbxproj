@@ -470,13 +470,13 @@
 			isa = PBXGroup;
 			children = (
 				BBE8286B2B4F360700C1E1D9 /* Movie.swift */,
+				BBC6CEF62BE69BEE00F71839 /* MovieFile.swift */,
 				BBE7F8A62B6423A60014DD57 /* Movies.swift */,
 				BBE1E43E2B51F61700946222 /* MovieLookup.swift */,
 				BBB8691E2B6CAE26009C1A54 /* MovieReleases.swift */,
 				BBA733642BB4F66600A5022B /* MovieMetadata.swift */,
 				798010BE2B6268DE00BBC056 /* MovieSort.swift */,
 				BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */,
-				BBC6CEF62BE69BEE00F71839 /* MovieFile.swift */,
 			);
 			path = Movies;
 			sourceTree = "<group>";

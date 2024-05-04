@@ -225,11 +225,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var sizeLabel: String {
-        let formatter = ByteCountFormatter()
-        formatter.countStyle = .binary
-        formatter.isAdaptive = size < 1_073_741_824 // 1 GB
-
-        return formatter.string(fromByteCount: Int64(size))
+        formatBytes(size)
     }
 
     var qualityLabel: String {

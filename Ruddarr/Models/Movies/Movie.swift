@@ -145,13 +145,6 @@ struct Movie: Identifiable, Codable {
         return nil
     }
 
-    var sizeLabel: String {
-        ByteCountFormatter.string(
-            fromByteCount: Int64(sizeOnDisk ?? 0),
-            countStyle: .binary
-        )
-    }
-
     var genreLabel: String {
         genres.prefix(3)
             .map { $0.replacingOccurrences(of: "Science Fiction", with: "Sci-Fi") }
