@@ -121,18 +121,16 @@ struct SeriesDetails: View {
         )?.name ?? String(localized: "Unknown")
     }
 
-    // TODO: Size on Disk for Movie, Series and Season?
-
     var seasons: some View {
         VStack(alignment: .leading, spacing: 12) {
             ForEach(series.seasons.reversed()) { season in
                 NavigationLink(value: SeriesView.Path.season(series.id, season.id), label: {
-                    VStack {
+                    GroupBox {
                         HStack(spacing: 12) {
-                            Text(season.seasonNumber == 0 ? "Specials" : "Season \(season.seasonNumber)")
+                            Text(season.label)
 
-                            if let statistics = season.statistics {
-                                Text(statistics.label)
+                            if let progress = season.progressLabel {
+                                Text(progress)
                                     .font(.footnote)
                                     .foregroundStyle(.secondary)
                             }
@@ -142,11 +140,7 @@ struct SeriesDetails: View {
                             Image(systemName: "bookmark")
                                 .symbolVariant(season.monitored ? .fill : .none)
                         }
-                        .padding(.vertical, 15)
-                        .padding(.horizontal)
                     }
-                    .background(.secondarySystemBackground)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
                 })
                 .tint(.primary)
             }

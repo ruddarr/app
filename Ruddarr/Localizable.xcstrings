@@ -2216,6 +2216,16 @@
         }
       }
     },
+    "Next Airing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Airing"
+          }
+        }
+      }
+    },
     "No" : {
       "localizations" : {
         "en" : {
@@ -3359,6 +3369,16 @@
         }
       }
     },
+    "Series Type" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Series Type"
+          }
+        }
+      }
+    },
     "Server Error Response" : {
       "localizations" : {
         "en" : {
@@ -3795,6 +3815,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ukrainian"
+          }
+        }
+      }
+    },
+    "Unaired" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unaired"
           }
         }
       }

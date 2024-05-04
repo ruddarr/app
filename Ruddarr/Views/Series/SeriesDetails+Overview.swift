@@ -64,7 +64,7 @@ extension SeriesDetails {
         ViewThatFits(in: .horizontal) {
             HStack(spacing: 6) {
                 Text(String(series.year))
-                // TODO: end year...
+                // TODO: end year...  2009-2011
 
                 if let runtime = series.runtimeLabel {
                     Bullet()

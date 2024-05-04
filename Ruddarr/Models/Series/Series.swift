@@ -38,6 +38,7 @@ struct Series: Identifiable, Codable {
     let added: Date
     let firstAired: Date?
     let lastAired: Date?
+    let nextAiring: Date?
 
     var monitored: Bool
     let monitorNewItems: SeriesMonitorNewItems
@@ -76,6 +77,7 @@ struct Series: Identifiable, Codable {
         case added
         case firstAired
         case lastAired
+        case nextAiring
         case monitored
         case monitorNewItems
         case overview
@@ -160,6 +162,10 @@ struct Series: Identifiable, Codable {
         seasons.first { $0.id == id }
     }
 
+    func seasonYear(_ id: Season.ID) -> Season? {
+        seasons.first { $0.id == id }
+    }
+
     func alternateTitlesString() -> String? {
         alternateTitles?.map { $0.title }.joined(separator: " ")
     }
@@ -218,17 +224,29 @@ struct SeriesEditorResource: Codable {
 struct Season: Identifiable, Codable {
     var id: Int { seasonNumber }
     let seasonNumber: Int
-    let monitored: Bool
+    var monitored: Bool
     let statistics: SeasonStatistics?
+
+    var label: String {
+        seasonNumber == 0
+            ? String(localized: "Specials")
+            : String(localized: "Season \(seasonNumber)")
+    }
+
+    var progressLabel: String? {
+        guard let stats = statistics else { return nil }
+        return "\(stats.episodeCount) / \(stats.totalEpisodeCount)"
+    }
+
+    var episodeCountLabel: LocalizedStringKey {
+        guard let stats = statistics else { return "Episodes" }
+        return "\(stats.totalEpisodeCount) Episodes"
+    }
 
     struct SeasonStatistics: Codable {
         let episodeFileCount: Int
         let episodeCount: Int
         let totalEpisodeCount: Int
         let sizeOnDisk: Int
-
-        var label: String {
-            "\(episodeCount) / \(totalEpisodeCount)"
-        }
     }
 }

@@ -137,7 +137,7 @@ enum MovieQualitySource: String, Codable {
     case telecine
     case workprint
     case dvd
-    case tv
+    case tv // swiftlint:disable:this identifier_name
     case webdl
     case webrip
     case bluray
