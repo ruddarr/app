@@ -411,12 +411,12 @@
         }
       }
     },
-    "Approved Only" : {
+    "Approved" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Approved Only"
+            "value" : "Approved"
           }
         }
       }
@@ -1392,12 +1392,12 @@
         }
       }
     },
-    "FreeLeech Only" : {
+    "FreeLeech" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "FreeLeech Only"
+            "value" : "FreeLeech"
           }
         }
       }
@@ -2738,6 +2738,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Optimize API calls for instances that load slowly."
+          }
+        }
+      }
+    },
+    "Original" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Original"
           }
         }
       }

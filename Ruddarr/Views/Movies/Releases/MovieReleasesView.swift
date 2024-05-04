@@ -115,13 +115,19 @@ struct MovieReleasesView: View {
             releases = releases.filter { $0.customFormats?.contains { $0.name == sort.customFormat } ?? false }
         }
 
-        if sort.approvedOnly {
+        if sort.approved {
             releases = releases.filter { !$0.rejected }
         }
 
-        if sort.freeleechOnly {
+        if sort.freeleech {
             releases = releases.filter {
                 $0.cleanIndexerFlags.contains(where: { $0.localizedStandardContains("freeleech") })
+            }
+        }
+
+        if sort.originalLanguage {
+            releases = releases.filter {
+                $0.languages.contains(where: { $0.id == movie.originalLanguage.id })
             }
         }
 
@@ -161,8 +167,9 @@ extension MovieReleasesView {
             }
 
             Section {
-                Toggle("Approved Only", systemImage: "checkmark.seal", isOn: $sort.approvedOnly)
-                Toggle("FreeLeech Only", systemImage: "f.square", isOn: $sort.freeleechOnly)
+                Toggle("Approved", systemImage: "checkmark.seal", isOn: $sort.approved)
+                Toggle("FreeLeech", systemImage: "f.square", isOn: $sort.freeleech)
+                Toggle("Original", systemImage: "character.bubble", isOn: $sort.originalLanguage)
             }
         }
     }
@@ -246,7 +253,7 @@ extension MovieReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Language", systemImage: "character.bubble")
+            Label("Language", systemImage: "waveform")
         }
     }
 

@@ -22,6 +22,7 @@ struct Movie: Identifiable, Codable {
     let overview: String?
     let certification: String?
     let youTubeTrailerId: String?
+    let originalLanguage: MediaLanguage
     let alternateTitles: [AlternateMovieTitle]
 
     let genres: [String]
@@ -62,6 +63,7 @@ struct Movie: Identifiable, Codable {
         case overview
         case certification
         case youTubeTrailerId
+        case originalLanguage
         case genres
         case ratings
         case popularity
