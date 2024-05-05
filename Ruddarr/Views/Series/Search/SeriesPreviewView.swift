@@ -1,18 +1,18 @@
 import SwiftUI
 import TelemetryClient
 
-struct MoviePreviewView: View {
-    @State var movie: Movie
+struct SeriesPreviewView: View {
+    @State var series: Series
 
     @State private var presentingForm: Bool = false
 
-    @Environment(RadarrInstance.self) private var instance
+    @Environment(SonarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         ScrollView {
-            MovieDetails(movie: movie)
+            SeriesDetails(series: series)
                 .padding(.top)
                 .viewPadding(.horizontal)
         }
@@ -22,7 +22,7 @@ struct MoviePreviewView: View {
         }
         .sheet(isPresented: $presentingForm) {
             NavigationStack {
-                MovieForm(movie: $movie)
+                SeriesForm(series: $series)
                     .padding(.top, -25)
                     .toolbar {
                         toolbarCancelButton
@@ -32,10 +32,10 @@ struct MoviePreviewView: View {
             .presentationDetents([.medium])
         }
         .alert(
-            isPresented: instance.movies.errorBinding,
-            error: instance.movies.error
+            isPresented: instance.series.errorBinding,
+            error: instance.series.error
         ) { _ in
-            Button("OK") { instance.movies.error = nil }
+            Button("OK") { instance.series.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
@@ -53,7 +53,7 @@ struct MoviePreviewView: View {
     @ToolbarContentBuilder
     var toolbarNextButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Button("Add Movie") {
+            Button("Add Series") {
                 presentingForm = true
             }.id(UUID())
         }
@@ -62,12 +62,12 @@ struct MoviePreviewView: View {
     @ToolbarContentBuilder
     var toolbarSaveButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            if instance.movies.isWorking {
+            if instance.series.isWorking {
                 ProgressView().tint(.secondary)
             } else {
                 Button("Done") {
                     Task {
-                        await addMovie()
+                        await addSeries()
                     }
                 }
             }
@@ -75,15 +75,15 @@ struct MoviePreviewView: View {
     }
 
     @MainActor
-    func addMovie() async {
-        guard await instance.movies.add(movie) else {
-            leaveBreadcrumb(.error, category: "view.movie.preview", message: "Failed to add movie", data: ["error": instance.movies.error ?? ""])
+    func addSeries() async {
+        guard await instance.series.add(series) else {
+            leaveBreadcrumb(.error, category: "view.series.preview", message: "Failed to add series", data: ["error": instance.series.error ?? ""])
 
             return
         }
 
-        guard let addedMovie = instance.movies.byTmdbId(movie.tmdbId) else {
-            fatalError("Failed to locate added movie by tmdbId")
+        guard let addedSeries = instance.series.byTvdbId(series.tvdbId) else {
+            fatalError("Failed to locate added series by tvdbId")
         }
 
         UINotificationFeedbackGenerator().notificationOccurred(.success)
@@ -91,28 +91,28 @@ struct MoviePreviewView: View {
         instance.lookup.reset()
         presentingForm = false
 
-        let moviePath = MoviesView.Path.movie(addedMovie.id)
+        let seriesPath = SeriesView.Path.series(addedSeries.id)
 
-        dependencies.router.moviesPath.removeLast(dependencies.router.moviesPath.count)
-        dependencies.router.moviesPath.append(moviePath)
+        dependencies.router.seriesPath.removeLast(dependencies.router.seriesPath.count)
+        dependencies.router.seriesPath.append(seriesPath)
 
-        TelemetryManager.send("movieAdded")
+        TelemetryManager.send("seriesAdded")
     }
 }
 
 #Preview {
-    let movies: [Movie] = PreviewData.load(name: "movie-lookup")
-    let movie = movies.first(where: { $0.tmdbId == 736_308 }) ?? movies[0]
+    let series: [Series] = PreviewData.load(name: "series-lookup")
+    let item = series.first(where: { $0.tvdbId == 736_308 }) ?? series[0]
 
-    dependencies.router.selectedTab = .movies
+    dependencies.router.selectedTab = .series
 
-    dependencies.router.moviesPath.append(
-        MoviesView.Path.preview(
-            try? JSONEncoder().encode(movie)
+    dependencies.router.seriesPath.append(
+        SeriesView.Path.preview(
+            try? JSONEncoder().encode(item)
         )
     )
 
     return ContentView()
         .withAppState()
-        .withRadarrInstance(movies: movies)
+        .withSonarrInstance(series: series)
 }

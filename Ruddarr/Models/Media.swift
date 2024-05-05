@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 struct MediaLanguage: Codable {
     let id: Int
@@ -20,4 +20,34 @@ func languageSingleLabel(_ languages: [MediaLanguage]) -> String {
     }
 
     return String(localized: "Multilingual")
+}
+
+struct MediaPreviewActionModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            content.frame(maxWidth: .infinity)
+        } else {
+            content.frame(maxWidth: 215)
+        }
+    }
+}
+
+struct MediaPreviewActionSpacerModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            content.frame(maxWidth: .infinity)
+        } else {
+            content
+        }
+    }
+}
+
+struct MediaDetailsPosterModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            content.containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 0)
+        } else {
+            content.frame(width: 200, height: 300)
+        }
+    }
 }

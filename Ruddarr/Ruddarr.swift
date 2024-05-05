@@ -47,7 +47,7 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static var version: String = "2.0.0"
+    static var version: String = "1.1.0"
 
     // TODO: Sonarr
     static var features: [WhatsNewFeature] = [

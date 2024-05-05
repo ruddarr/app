@@ -129,7 +129,7 @@ struct MovieDetails: View {
                 MovieContextMenu(movie: movie)
             } label: {
                 ButtonLabel(text: "Open In...", icon: "arrow.up.right.square")
-                    .modifier(MoviePreviewActionModifier())
+                    .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
@@ -141,13 +141,13 @@ struct MovieDetails: View {
                     let label: LocalizedStringKey = smallScreen ? "Trailer" : "Watch Trailer"
 
                     ButtonLabel(text: label, icon: "play.fill")
-                        .modifier(MoviePreviewActionModifier())
+                        .modifier(MediaPreviewActionModifier())
                 }
                 .buttonStyle(.bordered)
                 .tint(.secondary)
             } else {
                 Spacer()
-                    .modifier(MoviePreviewActionSpacerModifier())
+                    .modifier(MediaPreviewActionSpacerModifier())
             }
         }
     }
@@ -249,26 +249,6 @@ struct MovieDetails: View {
             Spacer()
         }
         .font(.callout)
-    }
-}
-
-struct MoviePreviewActionModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            content.frame(maxWidth: .infinity)
-        } else {
-            content.frame(maxWidth: 215)
-        }
-    }
-}
-
-struct MoviePreviewActionSpacerModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            content.frame(maxWidth: .infinity)
-        } else {
-            content
-        }
     }
 }
 

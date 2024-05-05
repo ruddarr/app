@@ -57,7 +57,7 @@ struct EpisodeSheet: View {
             .tracking(1.1)
             .foregroundStyle(settings.theme.tint)
 
-            Text(episode.title ?? "TBA")
+            Text(episode.titleLabel)
                 .font(.title2)
                 .fontWeight(.bold)
                 .kerning(-0.5)

@@ -66,6 +66,10 @@ struct SeriesDetails: View {
         Grid(alignment: .leading) {
             detailsRow("Status", value: "\(series.status.label)")
 
+            if !series.exists && series.seasonCount != 0 {
+                detailsRow("Seasons", value: series.seasonCount.formatted())
+            }
+
             if let network = series.network, !network.isEmpty {
                 detailsRow("Network", value: network)
             }
@@ -91,7 +95,7 @@ struct SeriesDetails: View {
                 SeriesContextMenu(series: series)
             } label: {
                 ButtonLabel(text: "Open In...", icon: "arrow.up.right.square")
-                    .modifier(MoviePreviewActionModifier())
+                    .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
@@ -110,7 +114,7 @@ struct SeriesDetails: View {
 //                .tint(.secondary)
             //} else {
                 Spacer()
-                    .modifier(MoviePreviewActionSpacerModifier())
+                    .modifier(MediaPreviewActionSpacerModifier())
             //}
         }
     }
@@ -128,6 +132,7 @@ struct SeriesDetails: View {
                     GroupBox {
                         HStack(spacing: 12) {
                             Text(season.label)
+                                .fontWeight(.medium)
 
                             if let progress = season.progressLabel {
                                 Text(progress)

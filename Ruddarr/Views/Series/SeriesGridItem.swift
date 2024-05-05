@@ -15,9 +15,7 @@ struct SeriesGridItem: View {
         }
         .background(.secondarySystemBackground)
         .overlay(alignment: .bottom) {
-            if series.exists {
-                posterOverlay
-            }
+            posterOverlay
         }
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
@@ -33,29 +31,11 @@ struct SeriesGridItem: View {
 
     var posterOverlay: some View {
         HStack {
-            // "status": "ended", upcoming continuing
-            // Continuing
-            // Ended
-            // upcoming
-            Group {
-                // TODO: needs work
-                if series.isDownloaded {
-                    Image(systemName: "checkmark").symbolVariant(.circle.fill)
-                } else if series.isWaiting {
-                    Image(systemName: "clock")
-                } else if series.monitored {
-                    Image(systemName: "xmark").symbolVariant(.circle)
-                }
+            if series.exists {
+                posterIcons
+            } else {
+                posterIconsPreview
             }
-                .foregroundStyle(.white)
-                .imageScale(MovieGridItem.gridIconScale())
-
-            Spacer()
-
-            Image(systemName: "bookmark")
-                .symbolVariant(series.monitored ? .fill : .none)
-                .foregroundStyle(.white)
-                .imageScale(MovieGridItem.gridIconScale())
         }
         .font(.body)
         .padding(.top, 36)
@@ -72,6 +52,41 @@ struct SeriesGridItem: View {
                 startPoint: .top,
                 endPoint: .bottom
             )
+        }
+    }
+
+    @ViewBuilder
+    var posterIcons: some View {
+        Group {
+            // TODO: needs work
+//            if series.isDownloaded {
+//                Image(systemName: "checkmark").symbolVariant(.circle.fill)
+//            } else if series.isWaiting {
+//                Image(systemName: "clock")
+//            } else if series.monitored {
+//                Image(systemName: "xmark").symbolVariant(.circle)
+//            } else {
+//                Image(systemName: "questionmark").symbolVariant(.diamond)
+//            }
+        }
+        .foregroundStyle(.white)
+        .imageScale(MovieGridItem.gridIconScale())
+
+        Spacer()
+
+        Image(systemName: "bookmark")
+            .symbolVariant(series.monitored ? .fill : .none)
+            .foregroundStyle(.white)
+            .imageScale(MovieGridItem.gridIconScale())
+    }
+
+    var posterIconsPreview: some View {
+        Group {
+            series.status.icon
+                .foregroundStyle(.white)
+                .imageScale(MovieGridItem.gridIconScale())
+
+            Spacer()
         }
     }
 }

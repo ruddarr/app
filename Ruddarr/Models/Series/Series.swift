@@ -21,10 +21,10 @@ struct Series: Identifiable, Codable {
     let imdbId: String?
 
     let status: SeriesStatus
-    let seriesType: SeriesType
+    var seriesType: SeriesType
 
     let path: String?
-    let qualityProfileId: Int?
+    var qualityProfileId: Int?
     var rootFolderPath: String?
     let certification: String?
 
@@ -32,7 +32,7 @@ struct Series: Identifiable, Codable {
     var sortYear: Int { year == 0 ? 2_100 : year }
     let runtime: Int
     let ended: Bool
-    let seasonFolder: Bool
+    var seasonFolder: Bool
     let useSceneNumbering: Bool
 
     let added: Date
@@ -41,7 +41,7 @@ struct Series: Identifiable, Codable {
     let nextAiring: Date?
 
     var monitored: Bool
-    let monitorNewItems: SeriesMonitorNewItems
+    var monitorNewItems: SeriesMonitorNewItems
 
     let overview: String?
     let network: String?
@@ -54,6 +54,8 @@ struct Series: Identifiable, Codable {
     let genres: [String]
     let images: [MovieImage]
     let statistics: SeriesStatistics?
+
+    var addOptions: SeriesAddOptions?
 
     enum CodingKeys: String, CodingKey {
         case guid = "id"
@@ -135,6 +137,11 @@ struct Series: Identifiable, Codable {
         return "Unwanted"
     }
 
+    var yearLabel: String? {
+        guard year != 0 else { return nil }
+        return "\(year)"
+    }
+
     var runtimeLabel: String? {
         guard runtime > 0 else { return nil }
 
@@ -156,6 +163,10 @@ struct Series: Identifiable, Codable {
         }
 
         return rating
+    }
+
+    var seasonCount: Int {
+        seasons.filter { $0.seasonNumber != 0 }.count
     }
 
     func seasonById(_ id: Season.ID) -> Season? {
@@ -185,9 +196,20 @@ enum SeriesStatus: String, Codable {
         case .deleted: String(localized: "Deleted")
         }
     }
+
+    var icon: Image {
+        switch self {
+        case .continuing: Image(systemName: "play.fill")
+        case .ended: Image(systemName: "stop.fill")
+        case .upcoming: Image(systemName: "clock")
+        case .deleted: Image(systemName: "xmark.circle")
+        }
+    }
 }
 
-enum SeriesType: String, Codable {
+enum SeriesType: String, Codable, Identifiable, CaseIterable {
+    var id: Self { self }
+
     case standard
     case daily
     case anime
@@ -208,6 +230,48 @@ struct SeriesStatistics: Codable {
 enum SeriesMonitorNewItems: String, Codable {
     case all
     case none
+}
+
+struct SeriesAddOptions: Codable {
+    var monitor: SeriesMonitorType
+}
+
+enum SeriesMonitorType: String, Codable, Identifiable, CaseIterable {
+    var id: Self { self }
+
+    case unknown
+    case all
+    case future
+    case missing
+    case existing
+    case firstSeason
+    case lastSeason
+    case latestSeason // Obsolete
+    case pilot
+    case recent
+    case monitorSpecials
+    case unmonitorSpecials
+    case none
+    case skip
+
+    var label: String {
+        switch self {
+        case .unknown: String(localized: "Unknown")
+        case .all: String(localized: "All Episodes")
+        case .future: String(localized: "Future Episodes")
+        case .missing: String(localized: "Missing Episodes")
+        case .existing: String(localized: "Existing Episodes")
+        case .recent: String(localized: "Recent Episodes")
+        case .pilot: String(localized: "Pilot Episode")
+        case .firstSeason: String(localized: "First Season")
+        case .lastSeason: String(localized: "Last Season")
+        case .latestSeason: ""
+        case .monitorSpecials: String(localized: "Monitor Specials")
+        case .unmonitorSpecials: String(localized: "Unmonitor Specials")
+        case .none: String(localized: "None")
+        case .skip: ""
+        }
+    }
 }
 
 struct SeriesEditorResource: Codable {

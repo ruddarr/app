@@ -131,6 +131,26 @@
         }
       }
     },
+    "%lld Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Episodes"
+          }
+        }
+      }
+    },
+    "%lld." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LJHSJKDKSDSDKJSDHKJSHDJKSHDKJHDKJ"
+          }
+        }
+      }
+    },
     "+%d more..." : {
       "localizations" : {
         "en" : {
@@ -231,16 +251,6 @@
         }
       }
     },
-    "Add to Library" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add to Library"
-          }
-        }
-      }
-    },
     "Add TV Series" : {
       "localizations" : {
         "en" : {
@@ -277,6 +287,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alias"
+          }
+        }
+      }
+    },
+    "All Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All Episodes"
           }
         }
       }
@@ -1245,6 +1265,16 @@
         }
       }
     },
+    "Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Episodes"
+          }
+        }
+      }
+    },
     "Error" : {
       "localizations" : {
         "en" : {
@@ -1271,6 +1301,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Everything"
+          }
+        }
+      }
+    },
+    "Existing Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Existing Episodes"
           }
         }
       }
@@ -1385,6 +1425,16 @@
         }
       }
     },
+    "First Season" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First Season"
+          }
+        }
+      }
+    },
     "Fitness" : {
       "localizations" : {
         "en" : {
@@ -1441,6 +1491,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "French"
+          }
+        }
+      }
+    },
+    "Future Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Future Episodes"
           }
         }
       }
@@ -1816,6 +1876,16 @@
         }
       }
     },
+    "Last Season" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last Season"
+          }
+        }
+      }
+    },
     "Latest" : {
       "localizations" : {
         "en" : {
@@ -1982,6 +2052,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Missing CloudKit user identifier."
+          }
+        }
+      }
+    },
+    "Missing Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missing Episodes"
+          }
+        }
+      }
+    },
+    "Monitor" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monitor"
+          }
+        }
+      }
+    },
+    "Monitor Specials" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monitor Specials"
           }
         }
       }
@@ -2333,6 +2433,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No series match the selected filters."
+          }
+        }
+      }
+    },
+    "None" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "None"
           }
         }
       }
@@ -2876,6 +2986,16 @@
         }
       }
     },
+    "Pilot Episode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilot Episode"
+          }
+        }
+      }
+    },
     "Please check your internet connection and try again." : {
       "localizations" : {
         "en" : {
@@ -3022,6 +3142,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Radarr found no releases for \"%@\"."
+          }
+        }
+      }
+    },
+    "Recent Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent Episodes"
           }
         }
       }
@@ -3256,6 +3386,9 @@
         }
       }
     },
+    "Search Monitored" : {
+
+    },
     "Search Queued" : {
       "localizations" : {
         "en" : {
@@ -3296,12 +3429,32 @@
         }
       }
     },
+    "Season Folders" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season Folders"
+          }
+        }
+      }
+    },
     "Season Premiere" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Season Premiere"
+          }
+        }
+      }
+    },
+    "Seasons" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seasons"
           }
         }
       }
@@ -3368,6 +3521,9 @@
           }
         }
       }
+    },
+    "Series Search" : {
+
     },
     "Series Type" : {
       "localizations" : {
@@ -3876,6 +4032,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unlocks unlimited instance notifications, all alternate app icons and supports the continued indie development of Ruddarr."
+          }
+        }
+      }
+    },
+    "Unmonitor Specials" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unmonitor Specials"
           }
         }
       }

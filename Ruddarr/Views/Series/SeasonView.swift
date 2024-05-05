@@ -100,9 +100,11 @@ struct SeasonView: View {
 
             HStack(spacing: 6) {
                 Text(year.formatted(.dateTime.year()))
-                Bullet()
+
                 // TODO: runtime? certification?
-                if let bytes = season.statistics?.sizeOnDisk {
+
+                if let bytes = season.statistics?.sizeOnDisk, bytes > 0 {
+                    Bullet()
                     Text(formatBytes(bytes))
                 }
             }
@@ -167,13 +169,16 @@ struct SeasonView: View {
     }
 }
 
+// http://10.0.1.5:8989/api/v3/release?seriesId=67&seasonNumber=2
+// http://10.0.1.5:8989/api/v3/release?episodeId=15784
+
 extension SeasonView {
     func episodeRow(_ episode: Episode) -> some View {
         HStack {
             VStack(alignment: .leading) {
                 HStack(spacing: 6) {
-                    Text("\(episode.episodeNumber).").foregroundStyle(.secondary)
-                    Text(episode.title ?? "TBA").lineLimit(1)
+                    Text(verbatim: "\(episode.episodeNumber).").foregroundStyle(.secondary)
+                    Text(episode.titleLabel).lineLimit(1)
                 }
 
                 Group {
@@ -183,6 +188,7 @@ extension SeasonView {
                         if let airdate = episode.airDateUtc {
                             Bullet()
                             Text(airdate.formatted(date: .abbreviated, time: .omitted))
+                            // TODO: Today 5pm, tomorrow
                         }
 
                         if let finale = episode.finaleType {

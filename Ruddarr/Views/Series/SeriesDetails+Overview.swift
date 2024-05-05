@@ -8,7 +8,7 @@ extension SeriesDetails {
                     CGSize(width: 150, height: 225),
                     contentMode: .fill
                 )
-                .modifier(MovieDetailsPosterModifier())
+                .modifier(MediaDetailsPosterModifier())
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .phone ? 8 : 16)
@@ -61,28 +61,18 @@ extension SeriesDetails {
     }
 
     var detailsSubtitle: some View {
-        ViewThatFits(in: .horizontal) {
-            HStack(spacing: 6) {
-                Text(String(series.year))
-                // TODO: end year...  2009-2011
-
-                if let runtime = series.runtimeLabel {
-                    Bullet()
-                    Text(runtime)
-                }
-
+        HStack(spacing: 6) {
+            if let year = series.yearLabel {
+                Text(year)
                 Bullet()
-                Text(series.certificationLabel)
             }
 
-            HStack(spacing: 6) {
-                Text(String(series.year))
-
-                if let runtime = series.runtimeLabel {
-                    Bullet()
-                    Text(runtime)
-                }
+            if let runtime = series.runtimeLabel {
+                Text(runtime)
+                Bullet()
             }
+
+            Text(series.certificationLabel).lineLimit(1)
         }
         .font(.callout)
         .foregroundStyle(.secondary)

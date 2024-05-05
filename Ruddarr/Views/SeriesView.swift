@@ -18,7 +18,7 @@ struct SeriesView: View {
     // TODO: WIP
     enum Path: Hashable {
         case search(String = "")
-        // case preview(Data?)
+        case preview(Data?)
         case series(Series.ID)
         case edit(Series.ID)
         case releases(Series.ID)
@@ -52,7 +52,15 @@ struct SeriesView: View {
             .navigationDestination(for: Path.self) {
                 switch $0 {
                 case .search(let query):
-                    EmptyView() // TODO: WIP
+                    SeriesSearchView(searchQuery: query)
+                        .environment(instance)
+                        .environmentObject(settings)
+                case .preview(let data):
+                    if let series = try? JSONDecoder().decode(Series.self, from: data!) {
+                        SeriesPreviewView(series: series)
+                            .environment(instance)
+                            .environmentObject(settings)
+                    }
                 case .series(let id):
                     if let series = instance.series.byId(id).unwrapped {
                         SeriesDetailView(series: series)
@@ -60,7 +68,11 @@ struct SeriesView: View {
                             .environmentObject(settings)
                     }
                 case .edit(let id):
-                    EmptyView() // TODO: WIP
+                    if let series = instance.series.byId(id).unwrapped {
+                        SeriesEditView(series: series)
+                            .environment(instance)
+                            .environmentObject(settings)
+                    }
                 case .releases(let id):
                     EmptyView() // TODO: WIP
                 case .season(let id, let season):

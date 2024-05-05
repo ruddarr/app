@@ -54,9 +54,7 @@ struct MoviesView: View {
                         .environment(instance)
                         .environmentObject(settings)
                 case .preview(let data):
-                    if let payload = data,
-                       let movie = try? JSONDecoder().decode(Movie.self, from: payload)
-                    {
+                    if let movie = try? JSONDecoder().decode(Movie.self, from: data!) {
                         MoviePreviewView(movie: movie)
                             .environment(instance)
                             .environmentObject(settings)

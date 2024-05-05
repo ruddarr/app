@@ -33,6 +33,10 @@ struct Episode: Identifiable, Codable {
     let sceneSeasonNumber: Int?
     let unverifiedSceneNumbering: Bool
 
+    var titleLabel: String {
+        title ?? String(localized: "TBA")
+    }
+
     var episodeLabel: String {
         String(format: "%dx%02d", seasonNumber, episodeNumber)
         // TODO: Anime formatting

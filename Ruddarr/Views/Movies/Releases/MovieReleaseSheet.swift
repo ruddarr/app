@@ -125,7 +125,7 @@ struct MovieReleaseSheet: View {
                     let label: LocalizedStringKey = smallScreen ? "Visit" : "Visit Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
-                        .modifier(MoviePreviewActionModifier())
+                        .modifier(MediaPreviewActionModifier())
                 })
                 .buttonStyle(.bordered)
                 .tint(.secondary)
@@ -141,7 +141,7 @@ struct MovieReleaseSheet: View {
                     icon: "arrow.down.circle",
                     isLoading: instance.movies.isWorking
                 )
-                .modifier(MoviePreviewActionModifier())
+                .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
