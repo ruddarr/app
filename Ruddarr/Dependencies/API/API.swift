@@ -21,6 +21,7 @@ struct API {
     var lookupSeries: (_ instance: Instance, _ query: String) async throws -> [Series]
 
     var addSeries: (Series, Instance) async throws -> Series
+    var pushSeries: (Series, Instance) async throws -> Series
     var updateSeries: (Series, Bool, Instance) async throws -> Empty
     var deleteSeries: (Series, Instance) async throws -> Empty
 
@@ -138,6 +139,12 @@ extension API {
                 .appending(path: "/api/v3/series")
 
             return try await request(method: .post, url: url, headers: instance.auth, body: series)
+        }, pushSeries: { series, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/series")
+                .appending(path: String(series.id))
+
+            return try await request(method: .put, url: url, headers: instance.auth, body: series)
         }, updateSeries: { series, moveFiles, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series/editor")
@@ -158,7 +165,7 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series")
                 .appending(path: String(series.id))
-                .appending(queryItems: [.init(name: "deleteFiles", value: "true")]) // TODO: check
+                .appending(queryItems: [.init(name: "deleteFiles", value: "true")])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
         }, movieCalendar: { start, end, instance in

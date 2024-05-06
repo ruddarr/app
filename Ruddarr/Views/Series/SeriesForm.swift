@@ -56,7 +56,7 @@ struct SeriesForm: View {
     var qualityProfileField: some View {
         Picker(selection: $series.qualityProfileId) {
             ForEach(instance.qualityProfiles) { profile in
-                Text(profile.name)
+                Text(profile.name).tag(Optional.some(profile.id))
             }
         } label: {
             ViewThatFits(in: .horizontal) {

@@ -10,7 +10,7 @@ struct SeriesDetailView: View {
 
     var body: some View {
         ScrollView {
-            SeriesDetails(series: series)
+            SeriesDetails(series: $series)
                 .padding(.top)
                 .viewPadding(.horizontal)
         }
@@ -39,7 +39,7 @@ struct SeriesDetailView: View {
             }
             Button("Cancel", role: .cancel) { }
         } message: {
-            Text("This will delete the TV series and permanently erase its folder and its contents.")
+            Text("This will delete the series and permanently erase its folder and its contents.")
         }
     }
 
@@ -49,15 +49,7 @@ struct SeriesDetailView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                Circle()
-                    .fill(.secondarySystemBackground)
-                    .frame(width: 28, height: 28)
-                    .overlay {
-                        Image(systemName: "bookmark")
-                            .font(.system(size: 11, weight: .bold))
-                            .symbolVariant(series.monitored ? .fill : .none)
-                            .foregroundStyle(.tint)
-                    }
+                ToolbarMonitorButton(monitored: $series.monitored)
             }
             .buttonStyle(.plain)
             .allowsHitTesting(!instance.series.isWorking)
@@ -71,33 +63,20 @@ struct SeriesDetailView: View {
             Menu {
                 Section {
                     refreshAction
-                    editAction
-                }
-
-                Section {
                     searchMonitored
                 }
 
                 openInLinks
-                deleteSeriesButton
+
+                Section {
+                    editAction
+                    deleteSeriesButton
+                }
             } label: {
-                actionMenuIcon
+                ToolbarActionButton()
             }
             .id(UUID())
         }
-    }
-
-    var actionMenuIcon: some View {
-        Circle()
-            .fill(.secondarySystemBackground)
-            .frame(width: 28, height: 28)
-            .overlay {
-                Image(systemName: "ellipsis")
-                    .symbolVariant(.fill)
-                    .font(.system(size: 12, weight: .bold))
-                    .symbolVariant(series.monitored ? .fill : .none)
-                    .foregroundStyle(.tint)
-            }
     }
 
     var refreshAction: some View {
@@ -118,6 +97,7 @@ struct SeriesDetailView: View {
         Button("Search Monitored", systemImage: "magnifyingglass") {
             Task { await dispatchSearch() }
         }
+        .disabled(!series.monitored)
     }
 
     var openInLinks: some View {
@@ -127,10 +107,8 @@ struct SeriesDetailView: View {
     }
 
     var deleteSeriesButton: some View {
-        Section {
-            Button("Delete", systemImage: "trash", role: .destructive) {
-                showDeleteConfirmation = true
-            }
+        Button("Delete", systemImage: "trash", role: .destructive) {
+            showDeleteConfirmation = true
         }
     }
 }
@@ -168,8 +146,7 @@ extension SeriesDetailView {
 
         dependencies.toast.show(.searchQueued)
 
-        // TODO: do we need more details for all of these?
-        TelemetryManager.send("automaticSearchDispatched")
+        TelemetryManager.send("automaticSearchDispatched", with: ["type": "series"])
     }
 
     @MainActor

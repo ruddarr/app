@@ -2,7 +2,7 @@ import SwiftUI
 import TelemetryClient
 
 struct SeriesDetails: View {
-    var series: Series
+    @Binding var series: Series
 
     @State private var descriptionTruncated = true
 
@@ -100,22 +100,10 @@ struct SeriesDetails: View {
             .buttonStyle(.bordered)
             .tint(.secondary)
 
-            // TODO: handle...
-//            if let trailerUrl = MovieContextMenu.youTubeTrailer(movie.youTubeTrailerId) {
-//                Button {
-//                    UIApplication.shared.open(URL(string: trailerUrl)!)
-//                } label: {
-//                    let label: LocalizedStringKey = smallScreen ? "Trailer" : "Watch Trailer"
-//
-//                    ButtonLabel(text: label, icon: "play.fill")
-//                        .modifier(MoviePreviewActionModifier())
-//                }
-//                .buttonStyle(.bordered)
-//                .tint(.secondary)
-            //} else {
-                Spacer()
-                    .modifier(MediaPreviewActionSpacerModifier())
-            //}
+            Spacer()
+                .modifier(MediaPreviewActionSpacerModifier())
+
+            // TODO: Trailer URL?
         }
     }
 
@@ -142,8 +130,17 @@ struct SeriesDetails: View {
 
                             Spacer()
 
-                            Image(systemName: "bookmark")
-                                .symbolVariant(season.monitored ? .fill : .none)
+                            Button {
+                                Task { await monitorSeason(season.id) }
+                            } label: {
+                                Image(systemName: "bookmark")
+                                    .symbolVariant(season.monitored ? .fill : .none)
+                            }
+                            .overlay {
+                                Rectangle().padding(20)
+                            }
+                            .allowsHitTesting(!instance.series.isWorking)
+                            .disabled(!series.monitored)
                         }
                     }
                 })
@@ -164,22 +161,46 @@ struct SeriesDetails: View {
         }
         .font(.callout)
     }
+
+    @MainActor
+    func monitorSeason(_ season: Season.ID) async {
+        guard let index = series.seasons.firstIndex(where: { $0.id == season }) else {
+            return
+        }
+
+        series.seasons[index].monitored.toggle()
+
+        guard await instance.series.push(series) else {
+            return
+        }
+
+        dependencies.toast.show(series.seasons[index].monitored ? .monitored : .unmonitored)
+
+        TelemetryManager.send("automaticSearchDispatched", with: ["type": "season"])
+    }
 }
 
-#Preview {
-    let series: [Series] = PreviewData.load(name: "series")
-    let item = series.first(where: { $0.id == 67 }) ?? series[0]
+struct SeriesDetailsPreview: View {
+    let series: [Series]
+    @State var item: Series
 
-    return SeriesDetailView(series: Binding(get: { item }, set: { _ in }))
-        .withSonarrInstance(series: series)
-        .withAppState()
+    init(_ file: String) {
+        let series: [Series] = PreviewData.load(name: file)
+        self.series = series
+        self._item = State(initialValue: series.first(where: { $0.id == 67 }) ?? series[0])
+    }
+
+    var body: some View {
+        SeriesDetailView(series: $item)
+            .withSonarrInstance(series: series)
+            .withAppState()
+    }
 }
 
 #Preview("Preview") {
-    let series: [Series] = PreviewData.load(name: "series-lookup")
-    let item = series.first(where: { $0.id == 67 }) ?? series[0]
+    SeriesDetailsPreview("series-lookup")
+}
 
-    return SeriesDetailView(series: Binding(get: { item }, set: { _ in }))
-        .withSonarrInstance(series: series)
-        .withAppState()
+#Preview {
+    SeriesDetailsPreview("series")
 }

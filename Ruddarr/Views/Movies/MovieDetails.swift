@@ -104,7 +104,7 @@ struct MovieDetails: View {
 
                     dependencies.toast.show(.searchQueued)
 
-                    TelemetryManager.send("automaticSearchDispatched")
+                    TelemetryManager.send("automaticSearchDispatched", with: ["type": "movie"])
                 }
             } label: {
                 ButtonLabel(text: "Automatic", icon: "magnifyingglass")

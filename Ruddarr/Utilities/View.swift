@@ -1,11 +1,5 @@
 import SwiftUI
 
-struct Bullet: View {
-    var body: some View {
-        Text(verbatim: "•")
-    }
-}
-
 extension View {
     func withAppState() -> some View {
         modifier(WithAppStateModifier())

@@ -1,12 +1,14 @@
 import SwiftUI
 
-struct EpisodeSheet: View {
+struct EpisodeView: View {
     var series: Series
-    var episode: Episode
+    var episodeId: Episode.ID
 
     @State private var descriptionTruncated = true
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(SonarrInstance.self) var instance
+
     @Environment(\.dismiss) private var dismiss
 
     let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
@@ -23,6 +25,7 @@ struct EpisodeSheet: View {
                         .padding(.bottom)
                         .padding(.trailing, 25)
 
+                    // TODO: fix me
 //                    actions
 //                        .padding(.bottom)
 //
@@ -32,6 +35,7 @@ struct EpisodeSheet: View {
                 .padding(.top)
                 .viewPadding(.horizontal)
             }
+            // TODO: fix me
 //            .alert(
 //                isPresented: instance.movies.errorBinding,
 //                error: instance.movies.error
@@ -42,11 +46,14 @@ struct EpisodeSheet: View {
 //            }
         }
 
-        // season 2 * episode 1
         // file details (media etc.)
         // monitor button
         // search buttons
         // history
+    }
+
+    var episode: Episode {
+        instance.episodes.items.first { $0.id == episodeId }!
     }
 
     var header: some View {
@@ -63,9 +70,13 @@ struct EpisodeSheet: View {
                 .kerning(-0.5)
 
             HStack(spacing: 6) {
-                if let airdate = episode.airDateUtc {
-                    Text(airdate.formatted(date: .abbreviated, time: .omitted))
-                    // Bullet()
+                Text(episode.episodeLabel)
+                Bullet()
+                Text(episode.airDateLabel)
+
+                if let runtime = episode.runtimeLabel {
+                    Bullet()
+                    Text(runtime)
                 }
             }
             .font(.subheadline)
@@ -103,6 +114,6 @@ struct EpisodeSheet: View {
 
     let episodes: [Episode] = PreviewData.load(name: "series-episodes")
 
-    return EpisodeSheet(series: item, episode: episodes[1])
+    return EpisodeView(series: item, episode: episodes[22])
         .withAppState()
 }

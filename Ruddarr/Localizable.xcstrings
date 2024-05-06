@@ -141,16 +141,6 @@
         }
       }
     },
-    "%lld." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "LJHSJKDKSDSDKJSDHKJSHDJKSHDKJHDKJ"
-          }
-        }
-      }
-    },
     "+%d more..." : {
       "localizations" : {
         "en" : {
@@ -1022,7 +1012,14 @@
       }
     },
     "Delete Series" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Series"
+          }
+        }
+      }
     },
     "Deleted" : {
       "localizations" : {
@@ -2126,6 +2123,16 @@
         }
       }
     },
+    "Move the series files to \"%@\"?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move the series files to \"%@\"?"
+          }
+        }
+      }
+    },
     "Movie Added" : {
       "localizations" : {
         "en" : {
@@ -2242,16 +2249,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movie Renamed"
-          }
-        }
-      }
-    },
-    "Movie Search" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movie Search"
           }
         }
       }
@@ -3387,7 +3384,14 @@
       }
     },
     "Search Monitored" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Monitored"
+          }
+        }
+      }
     },
     "Search Queued" : {
       "localizations" : {
@@ -3500,7 +3504,14 @@
       }
     },
     "Series Deleted" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Series Deleted"
+          }
+        }
+      }
     },
     "Series Finale" : {
       "localizations" : {
@@ -3521,9 +3532,6 @@
           }
         }
       }
-    },
-    "Series Search" : {
-
     },
     "Series Type" : {
       "localizations" : {
@@ -3885,12 +3893,12 @@
         }
       }
     },
-    "This will delete the TV series and permanently erase its folder and its contents." : {
+    "This will delete the series and permanently erase its folder and its contents." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This will delete the TV series and permanently erase its folder and its contents."
+            "value" : "This will delete the series and permanently erase its folder and its contents."
           }
         }
       }

@@ -62,7 +62,7 @@ extension MovieDetails {
     var detailsSubtitle: some View {
         ViewThatFits(in: .horizontal) {
             HStack(spacing: 6) {
-                Text(String(movie.year))
+                Text(movie.yearLabel)
 
                 if let runtime = movie.runtimeLabel {
                     Bullet()

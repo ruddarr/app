@@ -18,7 +18,7 @@ struct SeriesSearchView: View {
 
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-                ForEach(seriesLookup.sortedItems) { series in
+                ForEach(seriesLookup.items ?? []) { series in
                     Button {
                         dependencies.router.seriesPath.append(
                             series.exists
@@ -33,7 +33,7 @@ struct SeriesSearchView: View {
             .padding(.top, 12)
             .viewPadding(.horizontal)
         }
-        .navigationTitle("Series Search")
+        .navigationTitle("Add TV Series")
         .navigationBarTitleDisplayMode(.large)
         .scrollDismissesKeyboard(.immediately)
         .searchable(
@@ -42,11 +42,6 @@ struct SeriesSearchView: View {
             placement: .navigationBarDrawer(displayMode: .always)
         )
         .disabled(instance.isVoid)
-        .searchScopes($seriesLookup.sort) {
-            ForEach(SeriesLookup.SortOption.allCases) { option in
-                Text(option.label)
-            }
-        }
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)
         }

@@ -37,15 +37,28 @@ struct Episode: Identifiable, Codable {
         title ?? String(localized: "TBA")
     }
 
+    var airDateLabel: String {
+        guard let date = airDateUtc else {
+            return String(localized: "TBA")
+        }
+
+        return date.formatted(date: .abbreviated, time: .omitted)
+    }
+
+    // TODO: Do we need anime formatting?
     var episodeLabel: String {
         String(format: "%dx%02d", seasonNumber, episodeNumber)
-        // TODO: Anime formatting
     }
 
     var statusLabel: LocalizedStringKey {
         if hasFile { return "Downloaded" }
-        if hasAired { return "Missing" }
-        return "Unaired"
+        if !hasAired { return "Unaired" }
+        return "Missing"
+    }
+
+    var runtimeLabel: String? {
+        guard runtime > 0 else { return nil }
+        return formatRuntime(runtime)
     }
 
     var premiereLabel: LocalizedStringKey {

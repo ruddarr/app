@@ -15,7 +15,6 @@ struct SeriesView: View {
 
     @Environment(\.scenePhase) private var scenePhase
 
-    // TODO: WIP
     enum Path: Hashable {
         case search(String = "")
         case preview(Data?)
@@ -24,6 +23,7 @@ struct SeriesView: View {
         case releases(Series.ID)
         // case metadata(Movie.ID)
         case season(Series.ID, Season.ID)
+        case episode(Series.ID, Episode.ID)
     }
 
     var body: some View {
@@ -78,6 +78,12 @@ struct SeriesView: View {
                 case .season(let id, let season):
                     if let series = instance.series.byId(id).unwrapped {
                         SeasonView(series: series, seasonNumber: season)
+                            .environment(instance)
+                            .environmentObject(settings)
+                    }
+                case .episode(let id, let episode):
+                    if let series = instance.series.byId(id).unwrapped {
+                        EpisodeView(series: series, episode: episode)
                             .environment(instance)
                             .environmentObject(settings)
                     }

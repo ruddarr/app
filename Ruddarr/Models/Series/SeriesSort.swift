@@ -1,6 +1,5 @@
 import SwiftUI
 
-// TODO: needs work
 struct SeriesSort: Hashable {
     var isAscending: Bool = false
     var option: Option = .byAdded
@@ -28,7 +27,7 @@ struct SeriesSort: Hashable {
         func isOrderedBefore(_ lhs: Series, _ rhs: Series) -> Bool {
             switch self {
             case .byTitle:
-                lhs.sortTitle < rhs.sortTitle
+                lhs.sortTitle > rhs.sortTitle
             case .byYear:
                 lhs.sortYear < rhs.sortYear
             case .byAiring:
@@ -47,21 +46,20 @@ struct SeriesSort: Hashable {
         case all
         case monitored
         case unmonitored
-        // case continuing
-        // case ended
-        // case missing
-// case wanted
-// case dangling
-// anime only
+        case continuing
+        case ended
+        case missing
+        case dangling
 
         var label: some View {
             switch self {
             case .all: Label("All TV Series", systemImage: "rectangle.stack")
             case .monitored: Label("Monitored", systemImage: "bookmark.fill")
             case .unmonitored: Label("Unmonitored", systemImage: "bookmark")
-//            case .missing: Label("Missing", systemImage: "exclamationmark.magnifyingglass")
-//            case .wanted: Label("Wanted", systemImage: "sparkle.magnifyingglass")
-//            case .dangling: Label("Dangling", systemImage: "questionmark.square")
+            case .continuing: Label("Continuing", systemImage: "play.fill")
+            case .ended: Label("Ended", systemImage: "stop.fill")
+            case .missing: Label("Missing Episodes", systemImage: "exclamationmark.magnifyingglass")
+            case .dangling: Label("Dangling", systemImage: "questionmark.square")
             }
         }
 
@@ -73,14 +71,14 @@ struct SeriesSort: Hashable {
                 series.filter { $0.monitored }
             case .unmonitored:
                 series.filter { !$0.monitored }
-//            case .missing:
-//                series.filter { $0.monitored && !$0.isDownloaded }
-//            case .wanted:
-//                // TODO: needs fix
-//                // series.filter { $0.monitored && !$0.isDownloaded && $0.isAvailable }
-//                series.filter { $0.monitored && !$0.isDownloaded && true }
-//            case .dangling:
-//                series.filter { !$0.monitored && !$0.isDownloaded }
+            case .continuing:
+                series.filter { $0.status == .continuing }
+            case .ended:
+                series.filter { $0.status == .ended }
+            case .missing:
+                series.filter { (($0.statistics?.episodeCount ?? 0) - ($0.statistics?.episodeFileCount ?? 0)) > 0 }
+            case .dangling:
+                series.filter { !$0.monitored && ($0.statistics?.episodeFileCount ?? 0) == 0 }
             }
         }
     }

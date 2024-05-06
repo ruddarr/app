@@ -49,15 +49,7 @@ struct MovieView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                Circle()
-                    .fill(.secondarySystemBackground)
-                    .frame(width: 28, height: 28)
-                    .overlay {
-                        Image(systemName: "bookmark")
-                            .font(.system(size: 11, weight: .bold))
-                            .symbolVariant(movie.monitored ? .fill : .none)
-                            .foregroundStyle(.tint)
-                    }
+                ToolbarMonitorButton(monitored: $movie.monitored)
             }
             .buttonStyle(.plain)
             .allowsHitTesting(!instance.movies.isWorking)
@@ -71,34 +63,21 @@ struct MovieView: View {
             Menu {
                 Section {
                     refreshAction
-                    editAction
-                }
-
-                Section {
                     automaticSearch
                     interactiveSearch
                 }
 
                 openInLinks
-                deleteMovieButton
+
+                Section {
+                    editAction
+                    deleteMovieButton
+                }
             } label: {
-                actionMenuIcon
+                ToolbarActionButton()
             }
             .id(UUID())
         }
-    }
-
-    var actionMenuIcon: some View {
-        Circle()
-            .fill(.secondarySystemBackground)
-            .frame(width: 28, height: 28)
-            .overlay {
-                Image(systemName: "ellipsis")
-                    .symbolVariant(.fill)
-                    .font(.system(size: 12, weight: .bold))
-                    .symbolVariant(movie.monitored ? .fill : .none)
-                    .foregroundStyle(.tint)
-            }
     }
 
     var refreshAction: some View {
@@ -140,10 +119,8 @@ struct MovieView: View {
     }
 
     var deleteMovieButton: some View {
-        Section {
-            Button("Delete", systemImage: "trash", role: .destructive) {
-                showDeleteConfirmation = true
-            }
+        Button("Delete", systemImage: "trash", role: .destructive) {
+            showDeleteConfirmation = true
         }
     }
 }
@@ -181,7 +158,7 @@ extension MovieView {
 
         dependencies.toast.show(.searchQueued)
 
-        TelemetryManager.send("automaticSearchDispatched")
+        TelemetryManager.send("automaticSearchDispatched", with: ["type": "movie"])
     }
 
     @MainActor

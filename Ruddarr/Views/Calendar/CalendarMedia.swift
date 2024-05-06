@@ -103,6 +103,9 @@ struct CalendarEpisode: View {
         .frame(maxWidth: .infinity)
         .background(.secondarySystemBackground)
         .clipShape(RoundedRectangle(cornerRadius: 6))
+        .onTapGesture {
+            // TODO: build...
+        }
     }
 
     @ViewBuilder

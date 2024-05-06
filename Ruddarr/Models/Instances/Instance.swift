@@ -107,7 +107,7 @@ enum RadarrCommand {
     case search(_ ids: [Movie.ID])
 
     var payload: Payload {
-        return switch self {
+        switch self {
         case .refresh(let ids):
             Payload(name: "RefreshMovie", movieIds: ids)
         case .search(let ids):
@@ -128,7 +128,7 @@ enum SonarrCommand {
     case episodeSearch(_ ids: [Episode.ID])
 
     var payload: Payload {
-        return switch self {
+        switch self {
         case .refresh(let series):
             Payload(name: "RefreshSeries", seriesId: series)
         case .seriesSearch(let series):

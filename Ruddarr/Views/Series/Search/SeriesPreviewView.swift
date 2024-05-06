@@ -12,7 +12,7 @@ struct SeriesPreviewView: View {
 
     var body: some View {
         ScrollView {
-            SeriesDetails(series: series)
+            SeriesDetails(series: $series)
                 .padding(.top)
                 .viewPadding(.horizontal)
         }

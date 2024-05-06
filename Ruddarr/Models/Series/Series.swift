@@ -12,8 +12,6 @@ struct Series: Identifiable, Codable {
 
     let title: String
     let sortTitle: String
-    // cleanTitle
-    // alternateTitles
 
     let tvdbId: Int
     let tvRageId: Int?
@@ -50,7 +48,7 @@ struct Series: Identifiable, Codable {
 
     let alternateTitles: [AlternateMovieTitle]?
 
-    let seasons: [Season]
+    var seasons: [Season]
     let genres: [String]
     let images: [MovieImage]
     let statistics: SeriesStatistics?
@@ -137,20 +135,13 @@ struct Series: Identifiable, Codable {
         return "Unwanted"
     }
 
-    var yearLabel: String? {
-        guard year != 0 else { return nil }
-        return "\(year)"
+    var yearLabel: String {
+        year > 0 ? String(year) : String(localized: "TBA")
     }
 
     var runtimeLabel: String? {
         guard runtime > 0 else { return nil }
-
-        let hours = runtime / 60
-        let minutes = runtime % 60
-
-        return hours == 0
-            ? String(format: String(localized: "%dm", comment: "%d = minutes (13m)"), minutes)
-            : String(format: String(localized: "%dh %dm", comment: "$1 = hours, $2 = minutes (1h 13m)"), hours, minutes)
+        return formatRuntime(runtime)
     }
 
     var certificationLabel: String {
@@ -225,6 +216,8 @@ enum SeriesType: String, Codable, Identifiable, CaseIterable {
 
 struct SeriesStatistics: Codable {
     let sizeOnDisk: Int
+    let episodeCount: Int
+    let episodeFileCount: Int
 }
 
 enum SeriesMonitorNewItems: String, Codable {
@@ -246,7 +239,7 @@ enum SeriesMonitorType: String, Codable, Identifiable, CaseIterable {
     case existing
     case firstSeason
     case lastSeason
-    case latestSeason // Obsolete
+    case latestSeason // obsolete
     case pilot
     case recent
     case monitorSpecials
@@ -283,34 +276,4 @@ struct SeriesEditorResource: Codable {
     let qualityProfileId: Int?
     let rootFolderPath: String?
     let moveFiles: Bool?
-}
-
-struct Season: Identifiable, Codable {
-    var id: Int { seasonNumber }
-    let seasonNumber: Int
-    var monitored: Bool
-    let statistics: SeasonStatistics?
-
-    var label: String {
-        seasonNumber == 0
-            ? String(localized: "Specials")
-            : String(localized: "Season \(seasonNumber)")
-    }
-
-    var progressLabel: String? {
-        guard let stats = statistics else { return nil }
-        return "\(stats.episodeCount) / \(stats.totalEpisodeCount)"
-    }
-
-    var episodeCountLabel: LocalizedStringKey {
-        guard let stats = statistics else { return "Episodes" }
-        return "\(stats.totalEpisodeCount) Episodes"
-    }
-
-    struct SeasonStatistics: Codable {
-        let episodeFileCount: Int
-        let episodeCount: Int
-        let totalEpisodeCount: Int
-        let sizeOnDisk: Int
-    }
 }

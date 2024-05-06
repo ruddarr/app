@@ -24,9 +24,6 @@ extension SeriesDetails {
                 detailsSubtitle
                     .padding(.bottom, 6)
 
-                // TODO: ratings...
-                // MovieRatings(series: series)
-
                 if UIDevice.current.userInterfaceIdiom != .phone {
                     Spacer()
                     actions
@@ -62,10 +59,8 @@ extension SeriesDetails {
 
     var detailsSubtitle: some View {
         HStack(spacing: 6) {
-            if let year = series.yearLabel {
-                Text(year)
-                Bullet()
-            }
+            Text(series.yearLabel)
+            Bullet()
 
             if let runtime = series.runtimeLabel {
                 Text(runtime)

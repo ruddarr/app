@@ -19,6 +19,7 @@ class SeriesModel {
     enum Operation {
         case fetch
         case add(Series)
+        case push(Series)
         case update(Series, Bool)
         case delete(Series)
         // case download(String, Int)
@@ -88,6 +89,10 @@ class SeriesModel {
         await request(.add(series))
     }
 
+    func push(_ series: Series) async -> Bool {
+        await request(.push(series))
+    }
+
     // TODO: `moveFiles` used?
     func update(_ series: Series, moveFiles: Bool = false) async -> Bool {
         await request(.update(series, moveFiles))
@@ -137,6 +142,9 @@ class SeriesModel {
 
         case .add(let series):
             items.append(try await dependencies.api.addSeries(series, instance))
+
+        case .push(let series):
+            _ = try await dependencies.api.pushSeries(series, instance)
 
         case .update(let series, let moveFiles):
             _ = try await dependencies.api.updateSeries(series, moveFiles, instance)

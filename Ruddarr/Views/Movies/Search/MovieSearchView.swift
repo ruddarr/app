@@ -33,7 +33,7 @@ struct MovieSearchView: View {
             .padding(.top, 12)
             .viewPadding(.horizontal)
         }
-        .navigationTitle("Movie Search")
+        .navigationTitle("Add Movie")
         .navigationBarTitleDisplayMode(.large)
         .scrollDismissesKeyboard(.immediately)
         .searchable(

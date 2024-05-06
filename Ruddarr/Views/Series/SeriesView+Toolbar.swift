@@ -25,9 +25,7 @@ extension SeriesView {
     var toolbarFilterButton: some View {
         Menu("Filter", systemImage: "line.3.horizontal.decrease") {
             Picker(selection: $sort.filter, label: Text("Filter")) {
-                // TODO: filter Ended, Continuing, Missing Episodes
                 ForEach(SeriesSort.Filter.allCases) { filter in
-                    // TODO: needs work
                     filter.label
                 }
             }
@@ -44,7 +42,6 @@ extension SeriesView {
             }
             .pickerStyle(.inline)
             .onChange(of: sort.option) {
-                // TODO: needs work
                 switch sort.option {
                 case .byTitle:
                     sort.isAscending = true

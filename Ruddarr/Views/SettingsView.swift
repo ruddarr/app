@@ -13,6 +13,7 @@ struct SettingsView: View {
     }
 
     var body: some View {
+        // swiftlint:disable closure_body_length
         NavigationStack(path: dependencies.$router.settingsPath) {
             List {
                 instanceSection
@@ -28,19 +29,16 @@ struct SettingsView: View {
                 case .icons:
                     IconsView()
                         .environmentObject(settings)
-
                 case .createInstance:
                     InstanceEditView(mode: .create, instance: Instance())
                         .environment(radarrInstance)
                         .environment(sonarrInstance)
                         .environmentObject(settings)
-
                 case .viewInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
                         InstanceView(instance: instance)
                             .environmentObject(settings)
                     }
-
                 case .editInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
                         InstanceEditView(mode: .update, instance: instance)
@@ -51,6 +49,7 @@ struct SettingsView: View {
                 }
             }
         }
+        // swiftlint:enable closure_body_length
     }
 
     var instanceSection: some View {

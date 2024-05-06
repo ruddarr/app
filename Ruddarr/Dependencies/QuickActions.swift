@@ -1,8 +1,6 @@
 import SwiftUI
 import Combine
 
-// TODO: add missing series actions
-
 /**
 [public] ruddarr://open
 [public] ruddarr://calendar
@@ -10,13 +8,17 @@ import Combine
 [public] ruddarr://movies/search
 [public] ruddarr://movies/search/{query?}
 [private] ruddarr://movies/open/{id}?instance={instance?}
+[public] ruddarr://series
+[public] ruddarr://series/search
+[public] ruddarr://series/search/{query?}
+[private] ruddarr://series/open/{id}?instance={instance?}
 */
 struct QuickActions {
     let moviePublisher = PassthroughSubject<Movie.ID, Never>()
     var moviePublisherPending: Movie.ID?
 
-    let seriesPublisher = PassthroughSubject<Movie.ID, Never>()
-    var seriesPublisherPending: Movie.ID?
+    let seriesPublisher = PassthroughSubject<Series.ID, Never>()
+    var seriesPublisherPending: Series.ID?
 
     var registerShortcutItems: () -> Void = {
         UIApplication.shared.shortcutItems = ShortcutItem.allCases.map(\.shortcutItem)
@@ -30,7 +32,7 @@ struct QuickActions {
         dependencies.router.selectedTab = .movies
     }
 
-    var searchMovies: (String) -> Void = { query in
+    var openMovieSearch: (String) -> Void = { query in
         dependencies.router.selectedTab = .movies
         dependencies.router.moviesPath = .init([MoviesView.Path.search(query)])
     }
@@ -50,13 +52,42 @@ struct QuickActions {
         }
     }
 
+    var openSeries: () -> Void = {
+        dependencies.router.selectedTab = .series
+    }
+
+    var openSeriesSearch: (String) -> Void = { query in
+        dependencies.router.selectedTab = .series
+        dependencies.router.seriesPath = .init([SeriesView.Path.search(query)])
+    }
+
+    func openSeriesItem(_ id: Series.ID, _ instance: Instance.ID?) {
+        if let instanceId = instance {
+            dependencies.router.switchToSonarrInstance = instanceId
+        }
+
+        dependencies.router.selectedTab = .series
+        dependencies.router.seriesPath = .init()
+
+        Task { @MainActor in
+            try await Task.sleep(nanoseconds: 100_000_000)
+            dependencies.quickActions.seriesPublisherPending = id
+            dependencies.quickActions.seriesPublisher.send(id)
+        }
+    }
+
     func reset() {
         dependencies.quickActions.moviePublisherPending = nil
+        dependencies.quickActions.seriesPublisherPending = nil
     }
 
     func pending() {
         if let movieId = dependencies.quickActions.moviePublisherPending {
             dependencies.quickActions.moviePublisher.send(movieId)
+        }
+
+        if let movieId = dependencies.quickActions.seriesPublisherPending {
+            dependencies.quickActions.seriesPublisher.send(movieId)
         }
     }
 }
@@ -67,7 +98,10 @@ extension QuickActions {
         case openCalendar
         case openMovies
         case openMovie(_ id: Movie.ID, _ instance: Instance.ID?)
-        case searchMovies(_ query: String = "")
+        case addMovie(_ query: String = "")
+        case openSeries
+        case openSeriesItem(_ id: Movie.ID, _ instance: Instance.ID?)
+        case addSeries(_ query: String = "")
 
         func callAsFunction() {
             switch self {
@@ -77,10 +111,16 @@ extension QuickActions {
                 dependencies.quickActions.openCalendar()
             case .openMovies:
                 dependencies.quickActions.openMovies()
-            case .searchMovies(let query):
-                dependencies.quickActions.searchMovies(query)
+            case .addMovie(let query):
+                dependencies.quickActions.openMovieSearch(query)
             case .openMovie(let movie, let instance):
                 dependencies.quickActions.openMovie(movie, instance)
+            case .openSeries:
+                dependencies.quickActions.openSeries()
+            case .addSeries(let query):
+                dependencies.quickActions.openSeriesSearch(query)
+            case .openSeriesItem(let series, let instance):
+                dependencies.quickActions.openSeriesItem(series, instance)
             }
         }
     }
@@ -105,13 +145,23 @@ extension QuickActions.Deeplink {
         case "movies":
             self = .openMovies
         case "movies/search":
-            self = .searchMovies()
+            self = .addMovie()
         case _ where action.hasPrefix("movies/search/"):
-            self = .searchMovies(value)
+            self = .addMovie(value)
         case _ where action.hasPrefix("movies/open/"):
             guard let tmdbId = Movie.ID(value) else { throw unsupportedURL }
             let instanceId = components.queryItems?.first(where: { $0.name == "instance" })?.value
             self = .openMovie(tmdbId, instanceId == nil ? nil : UUID(uuidString: instanceId!))
+        case "series":
+            self = .openMovies
+        case "series/search":
+            self = .addSeries()
+        case _ where action.hasPrefix("series/search/"):
+            self = .addSeries(value)
+        case _ where action.hasPrefix("series/open/"):
+            guard let tvdbId = Series.ID(value) else { throw unsupportedURL }
+            let instanceId = components.queryItems?.first(where: { $0.name == "instance" })?.value
+            self = .openSeriesItem(tvdbId, instanceId == nil ? nil : UUID(uuidString: instanceId!))
         default:
             throw unsupportedURL
         }
@@ -122,11 +172,13 @@ extension QuickActions {
     enum ShortcutItem: String, CaseIterable {
         case calendar
         case addMovie
+        case addSeries
 
         var title: String {
             switch self {
             case .calendar: String(localized: "Calendar")
             case .addMovie: String(localized: "Add Movie")
+            case .addSeries: String(localized: "Add Series")
             }
         }
 
@@ -134,13 +186,15 @@ extension QuickActions {
             switch self {
             case .calendar: UIApplicationShortcutIcon(type: .date)
             case .addMovie: UIApplicationShortcutIcon(type: .add)
+            case .addSeries: UIApplicationShortcutIcon(type: .add)
             }
         }
 
         func callAsFunction() {
             switch self {
             case .calendar: dependencies.quickActions.openCalendar()
-            case .addMovie: dependencies.quickActions.searchMovies("")
+            case .addMovie: dependencies.quickActions.openMovieSearch("")
+            case .addSeries: dependencies.quickActions.openSeriesSearch("")
             }
         }
     }

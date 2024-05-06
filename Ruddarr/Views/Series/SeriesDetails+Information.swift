@@ -12,6 +12,7 @@ extension SeriesDetails {
 
                 Spacer()
 
+                // TODO: cleanup
 //                NavigationLink(
 //                    "Files & History",
 //                    value: MoviesView.Path.metadata(movie.id)

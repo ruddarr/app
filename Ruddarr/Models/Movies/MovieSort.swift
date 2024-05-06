@@ -25,7 +25,7 @@ struct MovieSort: Hashable {
         func isOrderedBefore(_ lhs: Movie, _ rhs: Movie) -> Bool {
             switch self {
             case .byTitle:
-                lhs.sortTitle < rhs.sortTitle
+                lhs.sortTitle > rhs.sortTitle
             case .byYear:
                 lhs.sortYear < rhs.sortYear
             case .bySize:

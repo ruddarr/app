@@ -34,6 +34,17 @@ extension String {
     }
 }
 
+func formatRuntime(_ runtime: Int) -> String {
+    let hours = runtime / 60
+    let minutes = runtime % 60
+
+    if hours == 0 {
+        return String(format: String(localized: "%dm", comment: "%d = minutes (13m)"), minutes)
+    }
+
+    return String(format: String(localized: "%dh %dm", comment: "$1 = hours, $2 = minutes (1h 13m)"), hours, minutes)
+}
+
 func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
     let formatter = ByteCountFormatter()
     formatter.countStyle = .binary

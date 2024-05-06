@@ -83,11 +83,12 @@ struct SeriesEditView: View {
         dismiss()
     }
 
-    // TODO: needs work
     func undoSeriesChanges() {
-        // series.monitored = unmodifiedMovie.monitored
-        // series.minimumAvailability = unmodifiedMovie.minimumAvailability
-        // series.qualityProfileId = unmodifiedMovie.qualityProfileId
+        series.monitored = unmodifiedSeries.monitored
+        series.qualityProfileId = unmodifiedSeries.qualityProfileId
+        series.seriesType = unmodifiedSeries.seriesType
+        series.seasonFolder = unmodifiedSeries.seasonFolder
+        series.rootFolderPath = unmodifiedSeries.rootFolderPath
     }
 }
 
