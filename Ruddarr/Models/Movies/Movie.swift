@@ -104,6 +104,10 @@ struct Movie: Identifiable, Codable {
         return "Unwanted"
     }
 
+    var yearLabel: String {
+        year > 0 ? String(year) : String(localized: "TBA")
+    }
+
     var runtimeLabel: String? {
         guard runtime > 0 else { return nil }
 
