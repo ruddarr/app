@@ -86,6 +86,7 @@ struct MovieEditView: View {
         movie.monitored = unmodifiedMovie.monitored
         movie.minimumAvailability = unmodifiedMovie.minimumAvailability
         movie.qualityProfileId = unmodifiedMovie.qualityProfileId
+        movie.rootFolderPath = unmodifiedMovie.rootFolderPath
     }
 }
 
