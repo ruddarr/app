@@ -92,13 +92,12 @@ struct Series: Identifiable, Codable {
     }
 
     var isDownloaded: Bool {
-        // TODO: needs logic
-        false
+        (statistics?.percentOfEpisodes ?? 0) >= 100
     }
 
     var isWaiting: Bool {
-        // TODO: needs logic
-        false
+        if let premiere = firstAired { return premiere > Date.now }
+        return status == .upcoming || year == 0 || seasons.isEmpty
     }
 
     var remotePoster: String? {
@@ -155,6 +154,14 @@ struct Series: Identifiable, Codable {
 
     var seasonCount: Int {
         seasons.filter { $0.seasonNumber != 0 }.count
+    }
+
+    var episodeCount: Int {
+        statistics?.episodeCount ?? 0
+    }
+
+    var episodeFileCount: Int {
+        statistics?.episodeFileCount ?? 0
     }
 
     func seasonById(_ id: Season.ID) -> Season? {
@@ -215,6 +222,7 @@ struct SeriesStatistics: Codable {
     let sizeOnDisk: Int
     let episodeCount: Int
     let episodeFileCount: Int
+    let percentOfEpisodes: Float
 }
 
 enum SeriesMonitorNewItems: String, Codable {

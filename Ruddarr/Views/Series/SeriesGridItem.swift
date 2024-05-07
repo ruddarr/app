@@ -58,16 +58,17 @@ struct SeriesGridItem: View {
     @ViewBuilder
     var posterIcons: some View {
         Group {
-            // TODO: needs work
-//            if series.isDownloaded {
-//                Image(systemName: "checkmark").symbolVariant(.circle.fill)
-//            } else if series.isWaiting {
-//                Image(systemName: "clock")
-//            } else if series.monitored {
-//                Image(systemName: "xmark").symbolVariant(.circle)
-//            } else {
-//                Image(systemName: "questionmark").symbolVariant(.diamond)
-//            }
+            if series.isDownloaded {
+                Image(systemName: "checkmark").symbolVariant(.circle.fill)
+            } else if series.isWaiting {
+                Image(systemName: "clock")
+            } else if series.episodeCount > 0 {
+                if series.episodeFileCount > 0 {
+                    Image(systemName: "checkmark.circle.trianglebadge.exclamationmark")
+                } else {
+                    Image(systemName: "xmark").symbolVariant(.circle)
+                }
+            }
         }
         .foregroundStyle(.white)
         .imageScale(MovieGridItem.gridIconScale())

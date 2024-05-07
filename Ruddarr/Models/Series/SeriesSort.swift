@@ -76,9 +76,9 @@ struct SeriesSort: Hashable {
             case .ended:
                 series.filter { $0.status == .ended }
             case .missing:
-                series.filter { (($0.statistics?.episodeCount ?? 0) - ($0.statistics?.episodeFileCount ?? 0)) > 0 }
+                series.filter { $0.episodeCount > $0.episodeFileCount }
             case .dangling:
-                series.filter { !$0.monitored && ($0.statistics?.episodeFileCount ?? 0) == 0 }
+                series.filter { !$0.monitored && $0.episodeCount == 0 }
             }
         }
     }

@@ -17,7 +17,7 @@ struct SeasonView: View {
                 actions
                     .padding(.bottom)
 
-                seasons
+                episodesList
             }
             .viewPadding(.horizontal)
         }
@@ -114,7 +114,7 @@ struct SeasonView: View {
         .frame(maxWidth: 450)
     }
 
-    var seasons: some View {
+    var episodesList: some View {
         Section {
             if instance.episodes.isWorking {
                 ProgressView().tint(.secondary)

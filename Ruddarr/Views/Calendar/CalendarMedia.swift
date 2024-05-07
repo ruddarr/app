@@ -48,15 +48,13 @@ struct CalendarMovie: View {
     @ViewBuilder
     var statusIcon: some View {
         if movie.isDownloaded {
-            Image(systemName: "checkmark")
-                .symbolVariant(.circle.fill)
+            Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !movie.monitored {
-            Image(systemName: "bookmark.slash")
+            Image(systemName: "bookmark").symbolVariant(.slash)
         } else if movie.isWaiting {
             Image(systemName: "clock")
         } else if movie.monitored {
-            Image(systemName: "xmark")
-                .symbolVariant(.circle)
+            Image(systemName: "xmark").symbolVariant(.circle)
         }
     }
 }
@@ -143,15 +141,13 @@ struct CalendarEpisode: View {
     @ViewBuilder
     var statusIcon: some View {
         if episode.isDownloaded {
-            Image(systemName: "checkmark")
-                .symbolVariant(.circle.fill)
+            Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !episode.monitored {
-            Image(systemName: "bookmark.slash")
+            Image(systemName: "bookmark").symbolVariant(.slash)
         } else if episode.hasAired {
             Image(systemName: "clock")
         } else if episode.monitored {
-            Image(systemName: "xmark")
-                .symbolVariant(.circle)
+            Image(systemName: "xmark").symbolVariant(.circle)
         }
     }
 }

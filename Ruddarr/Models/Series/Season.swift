@@ -14,7 +14,7 @@ struct Season: Identifiable, Codable {
 
     var progressLabel: String? {
         guard let stats = statistics else { return nil }
-        return "\(stats.episodeCount) / \(stats.totalEpisodeCount)"
+        return "\(stats.episodeFileCount) / \(stats.totalEpisodeCount)"
     }
 
     var episodeCountLabel: LocalizedStringKey {

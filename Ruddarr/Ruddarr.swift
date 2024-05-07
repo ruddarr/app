@@ -49,12 +49,21 @@ struct Secrets {
 extension WhatsNew {
     static var version: String = "1.1.0"
 
-    // TODO: Sonarr
     static var features: [WhatsNewFeature] = [
         .init(
             image: "tv",
             title: "Sonarr Support",
-            subtitle: "Manage and monitor TV Series."
+            subtitle: "Manage and monitor TV Series, seasons and episodes."
+        ),
+        .init(
+            image: "line.3.horizontal.decrease",
+            title: "Filter by Original Language",
+            subtitle: "Releases can now be filtered by language when browsing interactive search results."
+        ),
+        .init(
+            image: "ant",
+            title: "Bug Fixes & Improvements",
+            subtitle: "Dozens of bug fixes and minor improvements."
         ),
     ]
 }
