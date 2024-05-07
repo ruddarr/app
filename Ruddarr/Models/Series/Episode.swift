@@ -3,6 +3,9 @@ import SwiftUI
 struct Episode: Identifiable, Codable {
     let id: Int
 
+    // used by deeplinks to switch instances
+    var instanceId: Instance.ID?
+
     let seriesId: Int
     let tvdbId: Int
 

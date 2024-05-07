@@ -143,7 +143,9 @@ class MediaCalendar {
     func fetchEpisodes(_ instance: Instance, _ start: Date, _ end: Date) async throws {
         let episodes = try await dependencies.api.episodeCalendar(start, end, instance)
 
-        for episode in episodes {
+        for var episode in episodes {
+            episode.instanceId = instance.id
+
             if let airDate = episode.airDateUtc {
                 maybeInsertEpisode(episode, airDate)
             }

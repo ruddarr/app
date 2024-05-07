@@ -251,7 +251,7 @@ struct SeriesView: View {
         }
     }
 
-    func navigateToSeries(_ id: Series.ID) {
+    func navigateToSeries(_ id: Series.ID, season: Season.ID?) {
         let startTime = Date()
 
         dependencies.quickActions.reset()
@@ -260,6 +260,11 @@ struct SeriesView: View {
             DispatchQueue.main.asyncAfter(deadline: time) {
                 if instance.series.items.first(where: { $0.id == id }) != nil {
                     dependencies.router.seriesPath = .init([SeriesPath.series(id)])
+
+                    if let seasonId = season {
+                        dependencies.router.seriesPath.append(SeriesPath.season(id, seasonId))
+                    }
+
                     return
                 }
 
