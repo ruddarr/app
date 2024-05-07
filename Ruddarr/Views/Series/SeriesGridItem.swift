@@ -62,7 +62,7 @@ struct SeriesGridItem: View {
                 Image(systemName: "checkmark").symbolVariant(.circle.fill)
             } else if series.isWaiting {
                 Image(systemName: "clock")
-            } else if series.episodeCount > 0 {
+            } else if series.percentOfEpisodes < 100 {
                 if series.episodeFileCount > 0 {
                     Image(systemName: "checkmark.circle.trianglebadge.exclamationmark")
                 } else {

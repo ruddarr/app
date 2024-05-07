@@ -2383,6 +2383,16 @@
         }
       }
     },
+    "No releases found for \"%@\"." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No releases found for \"%@\"."
+          }
+        }
+      }
+    },
     "No Releases Match" : {
       "localizations" : {
         "en" : {
@@ -3129,16 +3139,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quality Profile"
-          }
-        }
-      }
-    },
-    "Radarr found no releases for \"%@\"." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Radarr found no releases for \"%@\"."
           }
         }
       }

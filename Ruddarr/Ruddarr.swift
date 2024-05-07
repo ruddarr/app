@@ -62,8 +62,8 @@ extension WhatsNew {
         ),
         .init(
             image: "ant",
-            title: "Bug Fixes & Improvements",
-            subtitle: "Dozens of bug fixes and minor improvements."
+            title: "Fixes & Improvements",
+            subtitle: "Tuned, fixed and polished dozens of parts, everything is a little better than before."
         ),
     ]
 }

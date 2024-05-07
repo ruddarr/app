@@ -114,19 +114,18 @@ struct Series: Identifiable, Codable {
             .formatted(.list(type: .and, width: .narrow))
     }
 
-    // TODO: needs work
     var stateLabel: LocalizedStringKey {
-//        if isDownloaded {
-//            return "Downloaded"
-//        }
-//
-//        if isWaiting {
-//            return "Waiting"
-//        }
-//
-//        if monitored && isAvailable {
-//            return "Missing"
-//        }
+        if isDownloaded {
+            return "Downloaded"
+        }
+
+        if isWaiting {
+            return "Waiting"
+        }
+
+        if percentOfEpisodes < 100 {
+            return episodeFileCount == 0 ? "Missing" : "Missing Episodes"
+        }
 
         return "Unwanted"
     }
@@ -162,6 +161,10 @@ struct Series: Identifiable, Codable {
 
     var episodeFileCount: Int {
         statistics?.episodeFileCount ?? 0
+    }
+
+    var percentOfEpisodes: Float {
+        statistics?.percentOfEpisodes ?? 0
     }
 
     func seasonById(_ id: Season.ID) -> Season? {
