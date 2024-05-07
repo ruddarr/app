@@ -103,7 +103,7 @@ struct MovieRelease: Identifiable, Codable {
     let ageMinutes: Float
     let rejected: Bool
 
-    let customFormats: [MovieCustomFormat]?
+    let customFormats: [MediaCustomFormat]?
     let customFormatScore: Int
 
     let indexerId: Int

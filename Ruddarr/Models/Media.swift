@@ -9,6 +9,15 @@ struct MediaLanguage: Codable {
     }
 }
 
+struct MediaCustomFormat: Identifiable, Codable {
+    let id: Int
+    let name: String?
+
+    var label: String {
+        name ?? String(localized: "Unknown")
+    }
+}
+
 enum MediaReleaseType: String, Codable {
     case usenet
     case torrent

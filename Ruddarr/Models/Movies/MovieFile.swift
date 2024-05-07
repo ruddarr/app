@@ -9,7 +9,7 @@ struct MovieFile: Identifiable, Codable {
     let mediaInfo: MovieMediaInfo?
     let quality: MediaQuality
     let languages: [MediaLanguage]
-    let customFormats: [MovieCustomFormat]?
+    let customFormats: [MediaCustomFormat]?
     let customFormatScore: Int?
 
     var sizeLabel: String {
@@ -113,14 +113,5 @@ struct MovieMediaInfo: Codable {
         ))
 
         return codes.sorted(by: Languages.codeSort)
-    }
-}
-
-struct MovieCustomFormat: Identifiable, Codable {
-    let id: Int
-    let name: String?
-
-    var label: String {
-        name ?? String(localized: "Unknown")
     }
 }
