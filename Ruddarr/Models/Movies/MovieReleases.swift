@@ -95,7 +95,6 @@ struct MovieRelease: Identifiable, Codable {
     var id: String { guid }
 
     let guid: String
-    let mappedMovieId: Int?
     let type: MediaReleaseType
     let title: String
     let size: Int
@@ -123,7 +122,6 @@ struct MovieRelease: Identifiable, Codable {
 
     enum CodingKeys: String, CodingKey {
         case guid
-        case mappedMovieId
         case type = "protocol"
         case title
         case size
