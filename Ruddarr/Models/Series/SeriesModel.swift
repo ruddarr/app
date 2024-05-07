@@ -93,7 +93,6 @@ class SeriesModel {
         await request(.push(series))
     }
 
-    // TODO: `moveFiles` used?
     func update(_ series: Series, moveFiles: Bool = false) async -> Bool {
         await request(.update(series, moveFiles))
     }

@@ -1,7 +1,5 @@
 import SwiftUI
 
-// TODO: select season pack / episode by default when opening
-
 struct SeriesReleasesView: View {
     @Binding var series: Series
     var seasonId: Season.ID?

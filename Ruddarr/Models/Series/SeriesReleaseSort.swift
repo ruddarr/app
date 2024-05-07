@@ -1,6 +1,7 @@
 import SwiftUI
 
-// TODO: filter by season pack or not season pack...
+// TODO: Filter by season pack or not season pack...
+// TODO: Select season pack / episode by default when opening view
 
 struct SeriesReleaseSort: Equatable {
     var isAscending: Bool = true

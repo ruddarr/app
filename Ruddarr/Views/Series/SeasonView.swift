@@ -5,9 +5,6 @@ struct SeasonView: View {
     @Binding var series: Series
     var seasonId: Season.ID
 
-    // TODO: needs work!
-    // @State private var fetched: Bool = false
-
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
 
@@ -20,31 +17,7 @@ struct SeasonView: View {
                 actions
                     .padding(.bottom)
 
-                Section {
-                    if instance.episodes.isWorking {
-                        ProgressView().tint(.secondary)
-                    } else {
-                        VStack(spacing: 12) {
-                            ForEach(episodes) { episode in
-                                NavigationLink(
-                                    value: SeriesPath.episode(episode.seriesId, episode.id)
-                                ) {
-                                    EpisodeRow(episode: episode)
-                                        .environment(instance)
-                                        .environmentObject(settings)
-                                }.buttonStyle(.plain)
-
-                                Divider()
-                            }
-                        }
-                    }
-                } header: {
-                    Text(season.episodeCountLabel)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.bottom, 6)
-                }
+                seasons
             }
             .viewPadding(.horizontal)
         }
@@ -53,13 +26,10 @@ struct SeasonView: View {
         }
         .toolbar {
             toolbarMonitorButton
-            // toolbarMenu
-            // TODO: needs work
         }
         .task {
-            // guard !fetched else { return }
+            guard !instance.episodes.fetched(series) else { return }
             await instance.episodes.fetch(series)
-            // fetched = true
         }
         .alert(
             isPresented: instance.episodes.errorBinding,
@@ -68,16 +38,6 @@ struct SeasonView: View {
             Button("OK") { instance.episodes.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
-        .overlay {
-            // TODO: fix me
-//            if instance.releases.isSearching {
-//                searchingIndicator
-//            } else if instance.releases.items.isEmpty && fetched {
-//                noReleasesFound
-//            } else if releases.isEmpty && fetched {
-//                noMatchingReleases
-//            }
         }
     }
 
@@ -129,7 +89,6 @@ struct SeasonView: View {
         return String(localized: "TBA")
     }
 
-    @ViewBuilder
     var actions: some View {
         HStack(spacing: 24) {
             Button {
@@ -153,6 +112,34 @@ struct SeasonView: View {
         }
         .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 450)
+    }
+
+    var seasons: some View {
+        Section {
+            if instance.episodes.isWorking {
+                ProgressView().tint(.secondary)
+            } else {
+                VStack(spacing: 12) {
+                    ForEach(episodes) { episode in
+                        NavigationLink(
+                            value: SeriesPath.episode(episode.seriesId, episode.id)
+                        ) {
+                            EpisodeRow(episode: episode)
+                                .environment(instance)
+                                .environmentObject(settings)
+                        }.buttonStyle(.plain)
+
+                        Divider()
+                    }
+                }
+            }
+        } header: {
+            Text(season.episodeCountLabel)
+                .font(.title2)
+                .fontWeight(.bold)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 6)
+        }
     }
 
     @ToolbarContentBuilder

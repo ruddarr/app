@@ -1,8 +1,6 @@
 import SwiftUI
 import TelemetryClient
 
-// TODO: center single buttons like Music/Podcasts does.
-
 struct EpisodeView: View {
     @Binding var series: Series
     var episodeId: Episode.ID
@@ -37,6 +35,7 @@ struct EpisodeView: View {
         }
         .toolbar {
             toolbarMonitorButton
+            // TODO: delete episode (or part of file details section?)
         }
         .alert(
             isPresented: instance.episodes.errorBinding,

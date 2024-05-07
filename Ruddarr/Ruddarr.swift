@@ -54,7 +54,7 @@ extension WhatsNew {
         .init(
             image: "tv",
             title: "Sonarr Support",
-            subtitle: "..."
+            subtitle: "Manage and monitor TV Series."
         ),
     ]
 }

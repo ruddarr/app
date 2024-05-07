@@ -22,7 +22,6 @@ extension MoviesView {
         }
     }
 
-    // TODO: we need little indicators when a filter is selected
     var toolbarFilterButton: some View {
         Menu("Filter", systemImage: "line.3.horizontal.decrease") {
             Picker(selection: $sort.filter, label: Text("Filter")) {
