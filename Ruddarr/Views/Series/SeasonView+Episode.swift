@@ -67,13 +67,9 @@ struct EpisodeRow: View {
                     Image(systemName: "magnifyingglass")
                 }
 
-                // NavigationLink(value: SeriesPath.releases(series.id), label: {
-                //     Label("Interactive Search", systemImage: "person")
-                // })
-
-                Button {
-                    // TODO: fix me
-                } label: {
+                NavigationLink(
+                    value: SeriesPath.releases(episode.seriesId, nil, episode.id)
+                ) {
                     Image(systemName: "person").symbolVariant(.fill)
                 }
             }
