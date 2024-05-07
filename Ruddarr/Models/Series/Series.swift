@@ -19,6 +19,7 @@ struct Series: Identifiable, Codable {
     var seriesType: SeriesType
 
     let path: String?
+    let folder: String?
     var qualityProfileId: Int?
     var rootFolderPath: String?
     let certification: String?
@@ -31,12 +32,13 @@ struct Series: Identifiable, Codable {
     let useSceneNumbering: Bool
 
     let added: Date
+    let airTime: String?
     let firstAired: Date?
     let lastAired: Date?
     let nextAiring: Date?
 
     var monitored: Bool
-    var monitorNewItems: SeriesMonitorNewItems
+    var monitorNewItems: SeriesMonitorNewItems?
 
     let overview: String?
     let network: String?
@@ -49,7 +51,6 @@ struct Series: Identifiable, Codable {
     let genres: [String]
     let images: [MovieImage]
     let statistics: SeriesStatistics?
-
     var addOptions: SeriesAddOptions?
 
     enum CodingKeys: String, CodingKey {
@@ -63,6 +64,7 @@ struct Series: Identifiable, Codable {
         case status
         case seriesType
         case path
+        case folder
         case qualityProfileId
         case rootFolderPath
         case certification
@@ -72,6 +74,7 @@ struct Series: Identifiable, Codable {
         case seasonFolder
         case useSceneNumbering
         case added
+        case airTime
         case firstAired
         case lastAired
         case nextAiring
@@ -85,6 +88,7 @@ struct Series: Identifiable, Codable {
         case genres
         case images
         case statistics
+        case addOptions
     }
 
     var exists: Bool {
@@ -223,8 +227,10 @@ enum SeriesType: String, Codable, Identifiable, CaseIterable {
 
 struct SeriesStatistics: Codable {
     let sizeOnDisk: Int
+    let seasonCount: Int
     let episodeCount: Int
     let episodeFileCount: Int
+    let totalEpisodeCount: Int
     let percentOfEpisodes: Float
 }
 

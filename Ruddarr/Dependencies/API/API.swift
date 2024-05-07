@@ -166,7 +166,7 @@ extension API {
             let body = SeriesEditorResource(
                 seriesIds: [series.id],
                 monitored: series.monitored,
-                monitorNewItems: series.monitorNewItems,
+                monitorNewItems: series.monitorNewItems ?? .none,
                 seriesType: series.seriesType,
                 seasonFolder: series.seasonFolder,
                 qualityProfileId: series.qualityProfileId,
@@ -297,7 +297,7 @@ extension API {
             "url": url,
             "method": method.rawValue,
             "timeout": timeout,
-            "body": body ?? "",
+            "body": body ?? "nil",
         ])
 
         var json: Data?
