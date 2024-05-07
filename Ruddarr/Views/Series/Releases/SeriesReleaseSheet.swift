@@ -188,10 +188,9 @@ struct SeriesReleaseSheet: View {
             flags.append(release.scoreLabel)
         }
 
-        // TODO: flags...
-//        if !release.indexerFlags.isEmpty {
-//            flags.append(contentsOf: release.cleanIndexerFlags)
-//        }
+        if release.indexerFlags != 0 {
+            flags.append(contentsOf: release.cleanIndexerFlags)
+        }
 
         return flags
     }

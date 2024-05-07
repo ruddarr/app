@@ -173,11 +173,7 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var isFreeleech: Bool {
-        return false
-        // TODO: fix me
-//        guard !indexerFlags.isEmpty else { return false }
-//
-//        return cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }
+        indexerFlags == 1
     }
 
     var isProper: Bool {
@@ -196,20 +192,22 @@ struct SeriesRelease: Identifiable, Codable {
         return false
     }
 
+    // TODO: check this logic...
     var hasNonFreeleechFlags: Bool {
-        return false
-        // TODO: fix me
-//        guard !indexerFlags.isEmpty else { return false }
-//
-//        return !(indexerFlags.count == 1 && isFreeleech)
+        indexerFlags > 1
     }
 
     var cleanIndexerFlags: [String] {
-        return []
-        // TODO: fix me
-//        indexerFlags.map {
-//            $0.hasPrefix("G_") ? String($0.dropFirst(2)) : $0
-//        }
+        switch indexerFlags {
+        case 1: ["Freeleech"]
+        case 2: ["Halfleech"]
+        case 4: ["DoubleUpload"]
+        case 8: ["Internal"]
+        case 16: ["Scene"]
+        case 32: ["Freeleech75"]
+        case 64: ["Freeleech25"]
+        default: []
+        }
     }
 
     var indexerLabel: String {
@@ -221,13 +219,7 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var indexerFlagsLabel: String? {
-        return nil
-        // TODO: fix me
-//        guard !indexerFlags.isEmpty else {
-//            return nil
-//        }
-//
-//        return cleanIndexerFlags.formatted(.list(type: .and, width: .narrow))
+        indexerFlags == 0 ? nil : cleanIndexerFlags[0]
     }
 
     var languageLabel: String {
