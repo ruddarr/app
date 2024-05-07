@@ -95,26 +95,7 @@ struct SeriesRelease: Identifiable, Codable {
     var id: String { guid }
 
     let guid: String
-    // TODO: fix this... Which other fields are missing?
-    // let mappedMovieId: Int?
-    // fullSeason
-    // seasonNumber
-    // seriesTitle
-    // episodeNumbers
-    // absoluteEpisodeNumbers
-    // mappedSeasonNumber
-    // mappedEpisodeNumbers
-    // mappedAbsoluteEpisodeNumbers
-    // mappedSeriesId
-    // mappedEpisodeInfo
-    // downloadAllowed
-    // episodeRequested
-    // shouldOverride
-    // episodeIds
-    // episodeId
-    // seriesId
-    // `special`
-    // `isPossibleSpecialEpisode`
+
     let type: MediaReleaseType
     let title: String
     let size: Int
@@ -140,6 +121,27 @@ struct SeriesRelease: Identifiable, Codable {
 
     let infoUrl: String?
 
+    let fullSeason: Bool
+
+    // TODO: fix this... Which other fields are missing?
+    // seasonNumber
+    // seriesTitle
+    // episodeNumbers
+    // absoluteEpisodeNumbers
+    // mappedSeasonNumber
+    // mappedEpisodeNumbers
+    // mappedAbsoluteEpisodeNumbers
+    // mappedSeriesId
+    // mappedEpisodeInfo
+    // downloadAllowed
+    // episodeRequested
+    // shouldOverride
+    // episodeIds
+    // episodeId
+    // seriesId
+    // `special`
+    // `isPossibleSpecialEpisode`
+
     enum CodingKeys: String, CodingKey {
         case guid
         // case mappedMovieId
@@ -162,6 +164,7 @@ struct SeriesRelease: Identifiable, Codable {
         case qualityWeight
         case releaseWeight
         case infoUrl
+        case fullSeason
     }
 
     var isTorrent: Bool {

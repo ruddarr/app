@@ -234,8 +234,7 @@ struct SeriesReleaseSheet: View {
         dependencies.router.seriesPath.removeLast()
         dependencies.toast.show(.downloadQueued)
 
-        // TODO: adjust these...
-        TelemetryManager.send("releaseDownloaded")
+        TelemetryManager.send("releaseDownloaded", with: ["type": release.fullSeason ? "season" : "episode"])
     }
 }
 

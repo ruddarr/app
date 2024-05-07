@@ -234,7 +234,7 @@ struct MovieReleaseSheet: View {
         dependencies.router.moviesPath.removeLast()
         dependencies.toast.show(.downloadQueued)
 
-        TelemetryManager.send("releaseDownloaded")
+        TelemetryManager.send("releaseDownloaded", with: ["type": "movie"])
     }
 }
 
