@@ -7,8 +7,9 @@ struct SeriesPreviewView: View {
     @State private var presentingForm: Bool = false
 
     @Environment(SonarrInstance.self) private var instance
-
     @Environment(\.dismiss) private var dismiss
+
+    @AppStorage("seriesSort", store: dependencies.store) var seriesSort: SeriesSort = .init()
 
     var body: some View {
         ScrollView {
@@ -90,6 +91,7 @@ struct SeriesPreviewView: View {
 
         instance.lookup.reset()
         presentingForm = false
+        seriesSort.filter = .all
 
         let seriesPath = SeriesPath.series(addedSeries.id)
 
