@@ -25,6 +25,7 @@ struct EpisodeRow: View {
 
             actions
         }
+        .contentShape(Rectangle())
 
         // TODO: clean up
         // monitor icon
@@ -52,7 +53,6 @@ struct EpisodeRow: View {
                         // .foregroundStyle(settings.theme.tint) // TODO: fix me
                 }
             }
-
         }
         .font(.subheadline)
         .foregroundStyle(.secondary)
@@ -73,7 +73,7 @@ struct EpisodeRow: View {
                     Image(systemName: "person").symbolVariant(.fill)
                 }
             }
-        }
+        }.foregroundStyle(.primary)
     }
 
     @MainActor
