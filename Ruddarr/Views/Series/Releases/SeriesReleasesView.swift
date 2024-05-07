@@ -1,5 +1,7 @@
 import SwiftUI
 
+// TODO: select season pack / episode by default when opening
+
 struct SeriesReleasesView: View {
     @Binding var series: Series
     var seasonId: Season.ID?
@@ -58,10 +60,8 @@ struct SeriesReleasesView: View {
         ContentUnavailableView(
             "No Releases Found",
             systemImage: "slash.circle",
-            description: Text("Radarr found no releases for \"\(series.title)\".")
+            description: Text("No releases found for \"\(series.title)\".")
         )
-
-        // TODO: needs fixing
     }
 
     var noMatchingReleases: some View {

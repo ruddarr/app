@@ -56,7 +56,7 @@ struct MovieReleasesView: View {
         ContentUnavailableView(
             "No Releases Found",
             systemImage: "slash.circle",
-            description: Text("Radarr found no releases for \"\(movie.title)\".")
+            description: Text("No releases found for \"\(movie.title)\".")
         )
     }
 
