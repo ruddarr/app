@@ -7,8 +7,9 @@ struct MoviePreviewView: View {
     @State private var presentingForm: Bool = false
 
     @Environment(RadarrInstance.self) private var instance
-
     @Environment(\.dismiss) private var dismiss
+
+    @AppStorage("movieSort", store: dependencies.store) var movieSort: MovieSort = .init()
 
     var body: some View {
         ScrollView {
@@ -90,6 +91,7 @@ struct MoviePreviewView: View {
 
         instance.lookup.reset()
         presentingForm = false
+        movieSort.filter = .all
 
         let moviePath = MoviesPath.movie(addedMovie.id)
 
