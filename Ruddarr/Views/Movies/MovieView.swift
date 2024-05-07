@@ -101,9 +101,11 @@ struct MovieView: View {
     }
 
     var interactiveSearch: some View {
-        NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
+        NavigationLink(
+            value: MoviesView.Path.releases(movie.id)
+        ) {
             Label("Interactive Search", systemImage: "person")
-        })
+        }
     }
 
     var openInLinks: some View {
@@ -184,6 +186,6 @@ extension MovieView {
     )
 
     return ContentView()
-        .withAppState()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }

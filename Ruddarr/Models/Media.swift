@@ -9,6 +9,62 @@ struct MediaLanguage: Codable {
     }
 }
 
+enum MediaReleaseType: String, Codable {
+    case usenet
+    case torrent
+    case unknown
+
+    var label: String {
+        switch self {
+        case .usenet: String(localized: "Usenet")
+        case .torrent: String(localized: "Torrent")
+        case .unknown: String(localized: "Unknown")
+        }
+    }
+}
+
+struct MediaReleaseQuality: Codable {
+    let quality: MediaReleaseQualityDetails
+    let revision: MediaReleaseRevisionDetails
+}
+
+struct MediaReleaseQualityDetails: Codable {
+    let name: String?
+    let resolution: Int
+    // TODO: don't we have an enum for this?
+    let source: String // unknown, cam, telesync, telecine, workprint, dvd, tv, webdl, webrip, bluray
+    let modifier: String // none, regional, screener, rawhd, brdisk, remux
+
+    var normalizedName: String {
+        guard let label = name else {
+            return String(localized: "Unknown")
+        }
+
+        if let range = label.range(of: #"-(\d+p)$"#, options: .regularExpression) {
+            return String(name![range].dropFirst())
+        }
+
+        return label
+            .replacingOccurrences(of: "BR-DISK", with: "1080p")
+            .replacingOccurrences(of: "DVD-R", with: "480p")
+            .replacingOccurrences(of: "SDTV", with: "480p")
+    }
+}
+
+struct MediaReleaseRevisionDetails: Codable {
+    let version: Int
+    let real: Int
+    let isRepack: Bool
+
+    var isReal: Bool {
+        real > 0
+    }
+
+    var isProper: Bool {
+        version > 1
+    }
+}
+
 func languageSingleLabel(_ languages: [MediaLanguage]) -> String {
     if languages.isEmpty {
         return String(localized: "Unknown")

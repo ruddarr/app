@@ -1,12 +1,12 @@
 import SwiftUI
 
-struct MovieReleaseRow: View {
-    var release: MovieRelease
+struct SeriesReleaseRow: View {
+    var release: SeriesRelease
 
     @State private var isShowingPopover = false
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) private var instance
+    @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
         linesStack
@@ -15,11 +15,11 @@ struct MovieReleaseRow: View {
                 isShowingPopover = true
             }
             .sheet(isPresented: $isShowingPopover) {
-                 MovieReleaseSheet(release: release)
-                    .presentationDetents([.medium])
-                    .presentationDragIndicator(.hidden)
-                    .environment(instance)
-                    .environmentObject(settings)
+//                SeriesReleaseSheet(release: release)
+//                    .presentationDetents([.medium])
+//                    .presentationDragIndicator(.hidden)
+//                    .environment(instance)
+//                    .environmentObject(settings)
             }
     }
 
@@ -114,14 +114,20 @@ struct MovieReleaseRow: View {
 }
 
 #Preview {
-    let movies: [Movie] = PreviewData.load(name: "movies")
-    let movie = movies.first(where: { $0.id == 66 }) ?? movies[0]
+    let series: [Series] = PreviewData.load(name: "series")
+    let item = series.first(where: { $0.id == 67 }) ?? series[0]
 
-    dependencies.router.selectedTab = .movies
-    dependencies.router.moviesPath.append(MoviesView.Path.movie(movie.id))
-    dependencies.router.moviesPath.append(MoviesView.Path.releases(movie.id))
+    dependencies.router.selectedTab = .series
+
+    dependencies.router.seriesPath.append(
+        SeriesView.Path.series(item.id)
+    )
+
+    dependencies.router.seriesPath.append(
+        SeriesView.Path.releases(item.id, 2, nil)
+    )
 
     return ContentView()
-        .withRadarrInstance(movies: movies)
+        .withSonarrInstance(series: series)
         .withAppState()
 }

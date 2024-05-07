@@ -1,12 +1,9 @@
 import SwiftUI
 import TelemetryClient
 
-// http://10.0.1.5:8989/api/v3/release?seriesId=67&seasonNumber=2
-// http://10.0.1.5:8989/api/v3/release?episodeId=15784
-
 struct SeasonView: View {
     @Binding var series: Series
-    var seasonNumber: Season.ID
+    var seasonId: Season.ID
 
     // TODO: needs work!
     // @State private var fetched: Bool = false
@@ -29,9 +26,14 @@ struct SeasonView: View {
                     } else {
                         VStack(spacing: 12) {
                             ForEach(episodes) { episode in
-                                NavigationLink(value: SeriesView.Path.episode(episode.seriesId, episode)) {
-                                    episodeRow(episode)
-                                }
+                                NavigationLink(
+                                    value: SeriesView.Path.episode(episode.seriesId, episode.id)
+                                ) {
+                                    EpisodeRow(episode: episode)
+                                        .environment(instance)
+                                        .environmentObject(settings)
+                                }.buttonStyle(.plain)
+
                                 Divider()
                             }
                         }
@@ -80,11 +82,11 @@ struct SeasonView: View {
     }
 
     var season: Season {
-        series.seasonById(seasonNumber)!
+        series.seasonById(seasonId)!
     }
 
     var episodes: [Episode] {
-        instance.episodes.items.filter { $0.seasonNumber == seasonNumber }
+        instance.episodes.items.filter { $0.seasonNumber == seasonId }
     }
 
     var header: some View {
@@ -131,20 +133,21 @@ struct SeasonView: View {
     var actions: some View {
         HStack(spacing: 24) {
             Button {
-                Task { await dispatchSeasonSearch() }
+                Task { await dispatchSearch() }
             } label: {
                 ButtonLabel(text: "Automatic", icon: "magnifyingglass")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
-            // TODO: fix me
-            // .allowsHitTesting(!instance.movies.isWorking)
+            .allowsHitTesting(!instance.series.isWorking)
 
-            NavigationLink(value: SeriesView.Path.series(series.id), label: {
+            NavigationLink(
+                value: SeriesView.Path.releases(series.id, seasonId, nil)
+            ) {
                 ButtonLabel(text: "Interactive", icon: "person.fill")
                     .frame(maxWidth: .infinity)
-            })
+            }
             .buttonStyle(.bordered)
             .tint(.secondary)
         }
@@ -171,7 +174,7 @@ struct SeasonView: View {
 extension SeasonView {
     @MainActor
     func toggleMonitor() async {
-        guard let index = series.seasons.firstIndex(where: { $0.id == seasonNumber }) else {
+        guard let index = series.seasons.firstIndex(where: { $0.id == season.id }) else {
             return
         }
 
@@ -186,7 +189,9 @@ extension SeasonView {
 
     @MainActor
     func refresh() async {
-        guard await instance.series.command(.refresh(series.id)) else {
+        guard await instance.series.command(
+            .refresh(series.id)
+        ) else {
             return
         }
 
@@ -198,8 +203,10 @@ extension SeasonView {
     }
 
     @MainActor
-    func dispatchSeasonSearch() async {
-        guard await instance.series.command(.seasonSearch(series.id, season: seasonNumber)) else {
+    func dispatchSearch() async {
+        guard await instance.series.command(
+            .seasonSearch(series.id, season: season.id)
+        ) else {
             return
         }
 

@@ -10,7 +10,7 @@ class SonarrInstance {
 
     var series: SeriesModel
     var lookup: SeriesLookup
-    // var releases: MovieReleases
+    var releases: SeriesReleases
     // var metadata: MovieMetadata
     var episodes: SeriesEpisodes
 
@@ -24,7 +24,7 @@ class SonarrInstance {
         self.instance = instance
         self.series = SeriesModel(instance)
         self.lookup = SeriesLookup(instance)
-        // self.releases = MovieReleases(instance)
+        self.releases = SeriesReleases(instance)
         // self.metadata = MovieMetadata(instance)
         self.episodes = SeriesEpisodes(instance)
     }
@@ -35,7 +35,7 @@ class SonarrInstance {
         self.instance = target
         self.series = SeriesModel(target)
         self.lookup = SeriesLookup(target)
-        // self.releases = MovieReleases(target)
+        self.releases = SeriesReleases(target)
         // self.metadata = MovieMetadata(target)
         self.episodes = SeriesEpisodes(instance)
     }

@@ -1,21 +1,23 @@
 import SwiftUI
 
-struct MovieReleasesView: View {
-    @Binding var movie: Movie
+struct SeriesReleasesView: View {
+    @Binding var series: Series
+    var seasonId: Season.ID?
+    var episodeId: Episode.ID?
 
-    @State private var releases: [MovieRelease] = []
-    @State private var sort: MovieReleaseSort = .init()
+    @State private var releases: [SeriesRelease] = []
+    @State private var sort: SeriesReleaseSort = .init()
 
     @State private var fetched: Bool = false
     @State private var waitingTextOpacity: Double = 0
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) private var instance
+    @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
         List {
             ForEach(releases) { release in
-                MovieReleaseRow(release: release)
+                SeriesReleaseRow(release: release)
                     .environment(instance)
                     .environmentObject(settings)
             }
@@ -26,7 +28,7 @@ struct MovieReleasesView: View {
         }
         .task {
             guard !fetched else { return }
-            await instance.releases.search(movie)
+            await instance.releases.search(series, seasonId, episodeId)
 
             updateDisplayedReleases()
             fetched = true
@@ -56,8 +58,10 @@ struct MovieReleasesView: View {
         ContentUnavailableView(
             "No Releases Found",
             systemImage: "slash.circle",
-            description: Text("Radarr found no releases for \"\(movie.title)\".")
+            description: Text("Radarr found no releases for \"\(series.title)\".")
         )
+
+        // TODO: needs fixing
     }
 
     var noMatchingReleases: some View {
@@ -128,7 +132,7 @@ struct MovieReleasesView: View {
 
         if sort.originalLanguage {
             releases = releases.filter {
-                $0.languages.contains(where: { $0.id == movie.originalLanguage.id })
+                $0.languages.contains(where: { $0.id == series.originalLanguage.id })
             }
         }
 
@@ -138,7 +142,7 @@ struct MovieReleasesView: View {
     }
 }
 
-extension MovieReleasesView {
+extension SeriesReleasesView {
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
@@ -179,7 +183,7 @@ extension MovieReleasesView {
         Menu {
             Section {
                 Picker("Sort By", selection: $sort.option) {
-                    ForEach(MovieReleaseSort.Option.allCases) { option in
+                    ForEach(SeriesReleaseSort.Option.allCases) { option in
                         option.label
                     }
                 }
@@ -275,14 +279,20 @@ extension MovieReleasesView {
 }
 
 #Preview {
-    let movies: [Movie] = PreviewData.load(name: "movies")
-    let movie = movies.first(where: { $0.id == 66 }) ?? movies[0]
+    let series: [Series] = PreviewData.load(name: "series")
+    let item = series.first(where: { $0.id == 67 }) ?? series[0]
 
-    dependencies.router.selectedTab = .movies
-    dependencies.router.moviesPath.append(MoviesView.Path.movie(movie.id))
-    dependencies.router.moviesPath.append(MoviesView.Path.releases(movie.id))
+    dependencies.router.selectedTab = .series
+
+    dependencies.router.seriesPath.append(
+        SeriesView.Path.series(item.id)
+    )
+
+    dependencies.router.seriesPath.append(
+        SeriesView.Path.releases(item.id, nil, 4)
+    )
 
     return ContentView()
-        .withRadarrInstance(movies: movies)
+        .withSonarrInstance(series: series)
         .withAppState()
 }

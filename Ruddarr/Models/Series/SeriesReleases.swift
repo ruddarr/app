@@ -2,10 +2,10 @@ import os
 import SwiftUI
 
 @Observable
-class MovieReleases {
+class SeriesReleases {
     var instance: Instance
 
-    var items: [MovieRelease] = []
+    var items: [SeriesRelease] = []
 
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
@@ -22,13 +22,13 @@ class MovieReleases {
         self.instance = instance
     }
 
-    func search(_ movie: Movie) async {
+    func search(_ series: Series, _ season: Season.ID?, _ episode: Episode.ID?) async {
         items = []
         error = nil
         isSearching = true
 
         do {
-            items = try await dependencies.api.lookupMovieReleases(movie.id, instance)
+            items = try await dependencies.api.lookupSeriesReleases(series.id, season, episode, instance)
             setIndexers()
             setQualities()
             setProtocols()
@@ -39,7 +39,7 @@ class MovieReleases {
         } catch let apiError as API.Error {
             error = apiError
 
-            leaveBreadcrumb(.error, category: "movie.releases", message: "Movie releases lookup failed", data: ["error": apiError])
+            leaveBreadcrumb(.error, category: "series.releases", message: "Series releases lookup failed", data: ["error": apiError])
         } catch {
             self.error = API.Error(from: error)
         }
@@ -91,11 +91,30 @@ class MovieReleases {
     }
 }
 
-struct MovieRelease: Identifiable, Codable {
+struct SeriesRelease: Identifiable, Codable {
     var id: String { guid }
 
     let guid: String
-    let mappedMovieId: Int?
+    // TODO: fix this... Which other fields are missing?
+    // let mappedMovieId: Int?
+    // fullSeason
+    // seasonNumber
+    // seriesTitle
+    // episodeNumbers
+    // absoluteEpisodeNumbers
+    // mappedSeasonNumber
+    // mappedEpisodeNumbers
+    // mappedAbsoluteEpisodeNumbers
+    // mappedSeriesId
+    // mappedEpisodeInfo
+    // downloadAllowed
+    // episodeRequested
+    // shouldOverride
+    // episodeIds
+    // episodeId
+    // seriesId
+    // `special`
+    // `isPossibleSpecialEpisode`
     let type: MediaReleaseType
     let title: String
     let size: Int
@@ -123,7 +142,7 @@ struct MovieRelease: Identifiable, Codable {
 
     enum CodingKeys: String, CodingKey {
         case guid
-        case mappedMovieId
+        // case mappedMovieId
         case type = "protocol"
         case title
         case size
@@ -277,9 +296,4 @@ struct MovieRelease: Identifiable, Codable {
     var scoreLabel: String {
         formatCustomScore(customFormatScore)
     }
-}
-
-struct DownloadMovieRelease: Codable {
-    let guid: String
-    let indexerId: Int
 }

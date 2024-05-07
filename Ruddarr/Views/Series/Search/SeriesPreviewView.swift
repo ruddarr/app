@@ -113,6 +113,6 @@ struct SeriesPreviewView: View {
     )
 
     return ContentView()
-        .withAppState()
         .withSonarrInstance(series: series)
+        .withAppState()
 }

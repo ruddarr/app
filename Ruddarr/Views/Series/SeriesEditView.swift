@@ -101,6 +101,6 @@ struct SeriesEditView: View {
     dependencies.router.seriesPath.append(SeriesView.Path.edit(item.id))
 
     return ContentView()
-        .withAppState()
         .withSonarrInstance(series: series)
+        .withAppState()
 }

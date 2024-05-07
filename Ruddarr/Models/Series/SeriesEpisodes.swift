@@ -35,4 +35,25 @@ class SeriesEpisodes {
 
         isWorking = false
     }
+
+    func monitor(_ episodes: [Episode.ID], _ monitored: Bool) async -> Bool {
+        error = nil
+        isWorking = true
+
+        do {
+            _ = try await dependencies.api.monitorEpisode(episodes, monitored, instance)
+        } catch is CancellationError {
+            // do nothing
+        } catch let apiError as API.Error {
+            error = apiError
+
+            leaveBreadcrumb(.error, category: "series.episodes", message: "Series episodes fetch failed", data: ["error": apiError])
+        } catch {
+            self.error = API.Error(from: error)
+        }
+
+        isWorking = false
+
+        return error == nil
+    }
 }

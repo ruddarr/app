@@ -122,8 +122,8 @@ struct SeriesForm: View {
     return SeriesForm(
         series: Binding(get: { item }, set: { _ in })
     )
-        .withAppState()
         .withSonarrInstance(series: series)
+        .withAppState()
 }
 
 #Preview("Existing") {
@@ -135,6 +135,6 @@ struct SeriesForm: View {
     return SeriesForm(
         series: Binding(get: { item }, set: { _ in })
     )
-        .withAppState()
         .withSonarrInstance(series: series)
+        .withAppState()
 }

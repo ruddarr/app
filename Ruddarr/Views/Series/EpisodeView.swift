@@ -1,7 +1,10 @@
 import SwiftUI
+import TelemetryClient
+
+// TODO: center single buttons like Music/Podcasts does.
 
 struct EpisodeView: View {
-    var series: Series
+    @Binding var series: Series
     var episodeId: Episode.ID
 
     @State private var descriptionTruncated = true
@@ -14,46 +17,39 @@ struct EpisodeView: View {
     let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            CloseButton {
-                dismiss()
-            }
+        ScrollView {
+            VStack(alignment: .leading) {
+                header
+                    .padding(.bottom)
 
-            ScrollView {
-                VStack(alignment: .leading) {
-                    header
-                        .padding(.bottom)
-                        .padding(.trailing, 25)
+                actions
+                    .padding(.bottom)
 
-                    // TODO: fix me
-//                    actions
-//                        .padding(.bottom)
-//
-//                    details
-//                        .padding(.bottom)
-                }
-                .padding(.top)
-                .viewPadding(.horizontal)
+                // TODO: fix these...
+                // TODO: size on disk
+                // file details (media etc.)
+                // monitor button
+                // search buttons
+                // history
             }
-            // TODO: fix me
-//            .alert(
-//                isPresented: instance.movies.errorBinding,
-//                error: instance.movies.error
-//            ) { _ in
-//                Button("OK") { instance.movies.error = nil }
-//            } message: { error in
-//                Text(error.recoverySuggestionFallback)
-//            }
+            .padding(.top)
+            .viewPadding(.horizontal)
         }
-
-        // file details (media etc.)
-        // monitor button
-        // search buttons
-        // history
+        .toolbar {
+            toolbarMonitorButton
+        }
+        .alert(
+            isPresented: instance.episodes.errorBinding,
+            error: instance.episodes.error
+        ) { _ in
+            Button("OK") { instance.episodes.error = nil }
+        } message: { error in
+            Text(error.recoverySuggestionFallback)
+        }
     }
 
     var episode: Episode {
-        instance.episodes.items.first { $0.id == episodeId }!
+        instance.episodes.items.first(where: { $0.id == episodeId }) ?? Episode.void
     }
 
     var header: some View {
@@ -65,8 +61,7 @@ struct EpisodeView: View {
             .foregroundStyle(settings.theme.tint)
 
             Text(episode.titleLabel)
-                .font(.title2)
-                .fontWeight(.bold)
+                .font(.largeTitle.bold())
                 .kerning(-0.5)
 
             HStack(spacing: 6) {
@@ -106,14 +101,98 @@ struct EpisodeView: View {
             descriptionTruncated = smallScreen
         }
     }
+
+    @ToolbarContentBuilder
+    var toolbarMonitorButton: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                Task { await toggleMonitor() }
+            } label: {
+                ToolbarMonitorButton(monitored: .constant(episode.monitored))
+            }
+            .buttonStyle(.plain)
+            .allowsHitTesting(!instance.episodes.isWorking)
+            .disabled(!series.monitored)
+            .id(UUID())
+        }
+    }
+
+    @ViewBuilder
+    var actions: some View {
+        HStack(spacing: 24) {
+            Button {
+                Task { await dispatchSearch() }
+            } label: {
+                ButtonLabel(text: "Automatic", icon: "magnifyingglass")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .tint(.secondary)
+            .allowsHitTesting(!instance.series.isWorking)
+
+            NavigationLink(
+                value: SeriesView.Path.releases(series.id, nil, episodeId)
+            ) {
+                ButtonLabel(text: "Interactive", icon: "person.fill")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .tint(.secondary)
+        }
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: 450)
+    }
+}
+
+extension EpisodeView {
+    @MainActor
+    func toggleMonitor() async {
+        guard let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) else {
+            return
+        }
+
+        instance.episodes.items[index].monitored.toggle()
+
+        guard await instance.episodes.monitor([episode.id], episode.monitored) else {
+            return
+        }
+
+        dependencies.toast.show(episode.monitored ? .monitored : .unmonitored)
+    }
+
+    @MainActor
+    func dispatchSearch() async {
+        guard await instance.series.command(
+            .episodeSearch([episode.id])) else {
+            return
+        }
+
+        dependencies.toast.show(.searchQueued)
+
+        TelemetryManager.send("automaticSearchDispatched", with: ["type": "episode"])
+    }
 }
 
 #Preview {
     let series: [Series] = PreviewData.load(name: "series")
-    let item = series.first(where: { $0.id == 67 }) ?? series[0]
-
     let episodes: [Episode] = PreviewData.load(name: "series-episodes")
+    let item = series.first(where: { $0.id == 15 }) ?? series[0]
 
-    return EpisodeView(series: item, episode: episodes[22])
+    dependencies.router.selectedTab = .series
+
+    dependencies.router.seriesPath.append(
+        SeriesView.Path.series(item.id)
+    )
+
+    dependencies.router.seriesPath.append(
+        SeriesView.Path.season(item.id, 2)
+    )
+
+    dependencies.router.seriesPath.append(
+        SeriesView.Path.episode(item.id, episodes[24].id)
+    )
+
+    return ContentView()
+        .withSonarrInstance(series: series, episodes: episodes)
         .withAppState()
 }

@@ -114,10 +114,10 @@ struct MovieDetails: View {
             .tint(.secondary)
             .allowsHitTesting(!instance.movies.isWorking)
 
-            NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
+            NavigationLink(value: MoviesView.Path.releases(movie.id)) {
                 ButtonLabel(text: "Interactive", icon: "person.fill")
                     .frame(maxWidth: .infinity)
-            })
+            }
             .buttonStyle(.bordered)
             .tint(.secondary)
         }
@@ -257,8 +257,8 @@ struct MovieDetails: View {
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     return MovieView(movie: Binding(get: { movie }, set: { _ in }))
-        .withAppState()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }
 
 #Preview("Preview") {
@@ -266,6 +266,6 @@ struct MovieDetails: View {
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     return MovieView(movie: Binding(get: { movie }, set: { _ in }))
-        .withAppState()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }

@@ -116,7 +116,9 @@ struct SeriesDetails: View {
     var seasons: some View {
         VStack(alignment: .leading, spacing: 12) {
             ForEach(series.seasons.reversed()) { season in
-                NavigationLink(value: SeriesView.Path.season(series.id, season.id), label: {
+                NavigationLink(
+                    value: SeriesView.Path.season(series.id, season.id)
+                ) {
                     GroupBox {
                         HStack(spacing: 12) {
                             Text(season.label)
@@ -143,8 +145,7 @@ struct SeriesDetails: View {
                             .disabled(!series.monitored)
                         }
                     }
-                })
-                .tint(.primary)
+                }.buttonStyle(.plain)
             }
         }
     }

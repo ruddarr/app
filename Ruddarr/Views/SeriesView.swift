@@ -20,7 +20,7 @@ struct SeriesView: View {
         case preview(Data?)
         case series(Series.ID)
         case edit(Series.ID)
-        case releases(Series.ID)
+        case releases(Series.ID, Season.ID?, Episode.ID?)
         // case metadata(Movie.ID)
         case season(Series.ID, Season.ID)
         case episode(Series.ID, Episode.ID)
@@ -73,17 +73,21 @@ struct SeriesView: View {
                             .environment(instance)
                             .environmentObject(settings)
                     }
-                case .releases(let id):
-                    EmptyView() // TODO: WIP
+                case .releases(let id, let season, let episode):
+                    if let series = instance.series.byId(id).unwrapped {
+                        SeriesReleasesView(series: series, seasonId: season, episodeId: episode)
+                            .environment(instance)
+                            .environmentObject(settings)
+                    }
                 case .season(let id, let season):
                     if let series = instance.series.byId(id).unwrapped {
-                        SeasonView(series: series, seasonNumber: season)
+                        SeasonView(series: series, seasonId: season)
                             .environment(instance)
                             .environmentObject(settings)
                     }
                 case .episode(let id, let episode):
                     if let series = instance.series.byId(id).unwrapped {
-                        EpisodeView(series: series, episode: episode)
+                        EpisodeView(series: series, episodeId: episode)
                             .environment(instance)
                             .environmentObject(settings)
                     }

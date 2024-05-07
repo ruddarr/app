@@ -15,12 +15,12 @@ struct Episode: Identifiable, Codable {
     let overview: String?
 
     let hasFile: Bool
-    let monitored: Bool
+    var monitored: Bool
     let grabbed: Bool
 
     let finaleType: EpisodeFinale?
 
-    let airDate: String? // "2024-03-10"
+    // let airDate: String? // "2024-03-10"
     let airDateUtc: Date?
 
     let endTime: Date?
@@ -101,5 +101,20 @@ enum EpisodeFinale: String, Codable {
         case .season: "Season Finale"
         case .midseason: "Midseason Finale"
         }
+    }
+}
+
+struct EpisodesMonitorResource: Codable {
+    let episodeIds: [Int]
+    let monitored: Bool
+}
+
+extension Episode {
+    static var void: Self {
+        .init(
+            id: 0, seriesId: 0, tvdbId: 0, seasonNumber: 0, episodeNumber: 0, runtime: 0, title: nil, seriesTitle: nil, overview: nil, hasFile: false,
+            monitored: false, grabbed: false, finaleType: nil, airDateUtc: nil, endTime: nil, grabDate: nil, absoluteEpisodeNumber: nil,
+            sceneAbsoluteEpisodeNumber: nil, sceneEpisodeNumber: nil, sceneSeasonNumber: nil, unverifiedSceneNumbering: false
+        )
     }
 }

@@ -5,16 +5,17 @@ extension View {
         modifier(WithAppStateModifier())
     }
 
-    func withRadarrInstance(movies: [Movie] = [], lookup: [Movie] = []) -> some View {
+    func withRadarrInstance(movies: [Movie] = []) -> some View {
         let instance = RadarrInstance(.radarrDummy)
         instance.movies.items = movies
 
         return self.environment(instance)
     }
 
-    func withSonarrInstance(series: [Series] = [], lookup: [Series] = []) -> some View {
+    func withSonarrInstance(series: [Series] = [], episodes: [Episode] = []) -> some View {
         let instance = SonarrInstance(.sonarrDummy)
         instance.series.items = series
+        instance.episodes.items = episodes
 
         return self.environment(instance)
     }
