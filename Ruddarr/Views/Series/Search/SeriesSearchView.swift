@@ -22,8 +22,8 @@ struct SeriesSearchView: View {
                     Button {
                         dependencies.router.seriesPath.append(
                             series.exists
-                                ? SeriesView.Path.series(series.id)
-                                : SeriesView.Path.preview(try? JSONEncoder().encode(series))
+                                ? SeriesPath.series(series.id)
+                                : SeriesPath.preview(try? JSONEncoder().encode(series))
                         )
                     } label: {
                         SeriesGridItem(series: series)
@@ -89,7 +89,7 @@ struct SeriesSearchView: View {
 
 #Preview {
     dependencies.router.selectedTab = .series
-    dependencies.router.seriesPath.append(SeriesView.Path.search())
+    dependencies.router.seriesPath.append(SeriesPath.search())
 
     return ContentView()
         .withAppState()

@@ -214,11 +214,11 @@ struct MovieHistoryItem: View {
     dependencies.router.selectedTab = .movies
 
     dependencies.router.moviesPath.append(
-        MoviesView.Path.movie(movie.id)
+        MoviesPath.movie(movie.id)
     )
 
     dependencies.router.moviesPath.append(
-        MoviesView.Path.metadata(movie.id)
+        MoviesPath.metadata(movie.id)
     )
 
     return ContentView()

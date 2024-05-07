@@ -134,7 +134,7 @@ struct AddMovieIntent: AppIntent {
         try? await Task.sleep(nanoseconds: 50_000_000)
 
         dependencies.router.moviesPath.append(
-            MoviesView.Path.search(query)
+            MoviesPath.search(query)
         )
 
         dependencies.router.selectedTab = .movies
@@ -168,7 +168,7 @@ struct AddSeriesIntent: AppIntent {
         try? await Task.sleep(nanoseconds: 50_000_000)
 
         dependencies.router.seriesPath.append(
-            SeriesView.Path.search(query)
+            SeriesPath.search(query)
         )
 
         dependencies.router.selectedTab = .series

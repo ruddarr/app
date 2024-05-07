@@ -15,7 +15,7 @@ extension SeriesDetails {
                 // TODO: cleanup
 //                NavigationLink(
 //                    "Files & History",
-//                    value: MoviesView.Path.metadata(movie.id)
+//                    value: MoviesPath.metadata(movie.id)
 //                )
             }
         }
@@ -27,17 +27,17 @@ extension SeriesDetails {
             InformationItem(
                 label: String(localized: "Quality Profile"),
                 value: qualityProfile,
-                link: SeriesView.Path.edit(series.id)
+                link: SeriesPath.edit(series.id)
             ),
             InformationItem(
                 label: String(localized: "Series Type"),
                 value: series.seriesType.label,
-                link: SeriesView.Path.edit(series.id)
+                link: SeriesPath.edit(series.id)
             ),
             InformationItem(
                 label: String(localized: "Root Folder"),
                 value: series.rootFolderPath ?? "Unknown",
-                link: SeriesView.Path.edit(series.id)
+                link: SeriesPath.edit(series.id)
             ),
         ]
 

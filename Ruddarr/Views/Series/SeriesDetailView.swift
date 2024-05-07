@@ -87,7 +87,7 @@ struct SeriesDetailView: View {
 
     var editAction: some View {
         NavigationLink(
-            value: SeriesView.Path.edit(series.id)
+            value: SeriesPath.edit(series.id)
         ) {
             Label("Edit", systemImage: "pencil")
         }
@@ -169,7 +169,7 @@ extension SeriesDetailView {
     dependencies.router.selectedTab = .series
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.series(item.id)
+        SeriesPath.series(item.id)
     )
 
     return ContentView()

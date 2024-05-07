@@ -35,7 +35,7 @@ struct NoMovieSearchResults: View {
             systemImage: "magnifyingglass",
             description: Text(description.toMarkdown())
         ).environment(\.openURL, .init { _ in
-            dependencies.router.moviesPath.append(MoviesView.Path.search(query))
+            dependencies.router.moviesPath.append(MoviesPath.search(query))
             query = ""
             return .handled
         })

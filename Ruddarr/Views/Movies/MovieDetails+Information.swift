@@ -14,7 +14,7 @@ extension MovieDetails {
 
                 NavigationLink(
                     "Files & History",
-                    value: MoviesView.Path.metadata(movie.id)
+                    value: MoviesPath.metadata(movie.id)
                 )
             }
         }
@@ -26,17 +26,17 @@ extension MovieDetails {
             InformationItem(
                 label: String(localized: "Quality Profile"),
                 value: qualityProfile,
-                link: MoviesView.Path.edit(movie.id)
+                link: MoviesPath.edit(movie.id)
             ),
             InformationItem(
                 label: String(localized: "Minimum Availability"),
                 value: movie.minimumAvailability.label,
-                link: MoviesView.Path.edit(movie.id)
+                link: MoviesPath.edit(movie.id)
             ),
             InformationItem(
                 label: String(localized: "Root Folder"),
                 value: movie.rootFolderPath ?? "Unknown",
-                link: MoviesView.Path.edit(movie.id)
+                link: MoviesPath.edit(movie.id)
             ),
         ]
 

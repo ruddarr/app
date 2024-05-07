@@ -114,7 +114,7 @@ struct MovieDetails: View {
             .tint(.secondary)
             .allowsHitTesting(!instance.movies.isWorking)
 
-            NavigationLink(value: MoviesView.Path.releases(movie.id)) {
+            NavigationLink(value: MoviesPath.releases(movie.id)) {
                 ButtonLabel(text: "Interactive", icon: "person.fill")
                     .frame(maxWidth: .infinity)
             }

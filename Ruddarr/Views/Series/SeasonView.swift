@@ -27,7 +27,7 @@ struct SeasonView: View {
                         VStack(spacing: 12) {
                             ForEach(episodes) { episode in
                                 NavigationLink(
-                                    value: SeriesView.Path.episode(episode.seriesId, episode.id)
+                                    value: SeriesPath.episode(episode.seriesId, episode.id)
                                 ) {
                                     EpisodeRow(episode: episode)
                                         .environment(instance)
@@ -143,7 +143,7 @@ struct SeasonView: View {
             .allowsHitTesting(!instance.series.isWorking)
 
             NavigationLink(
-                value: SeriesView.Path.releases(series.id, seasonId, nil)
+                value: SeriesPath.releases(series.id, seasonId, nil)
             ) {
                 ButtonLabel(text: "Interactive", icon: "person.fill")
                     .frame(maxWidth: .infinity)
@@ -223,11 +223,11 @@ extension SeasonView {
     dependencies.router.selectedTab = .series
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.series(item.id)
+        SeriesPath.series(item.id)
     )
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.season(item.id, 2)
+        SeriesPath.season(item.id, 2)
     )
 
     return ContentView()

@@ -286,11 +286,11 @@ extension SeriesReleasesView {
     dependencies.router.selectedTab = .series
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.series(item.id)
+        SeriesPath.series(item.id)
     )
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.releases(item.id, nil, 4)
+        SeriesPath.releases(item.id, nil, 4)
     )
 
     return ContentView()

@@ -95,8 +95,8 @@ struct MovieEditView: View {
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     dependencies.router.selectedTab = .movies
-    dependencies.router.moviesPath.append(MoviesView.Path.movie(movie.id))
-    dependencies.router.moviesPath.append(MoviesView.Path.edit(movie.id))
+    dependencies.router.moviesPath.append(MoviesPath.movie(movie.id))
+    dependencies.router.moviesPath.append(MoviesPath.edit(movie.id))
 
     return ContentView()
         .withRadarrInstance(movies: movies)

@@ -131,7 +131,7 @@ struct EpisodeView: View {
             .allowsHitTesting(!instance.series.isWorking)
 
             NavigationLink(
-                value: SeriesView.Path.releases(series.id, nil, episodeId)
+                value: SeriesPath.releases(series.id, nil, episodeId)
             ) {
                 ButtonLabel(text: "Interactive", icon: "person.fill")
                     .frame(maxWidth: .infinity)
@@ -181,15 +181,15 @@ extension EpisodeView {
     dependencies.router.selectedTab = .series
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.series(item.id)
+        SeriesPath.series(item.id)
     )
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.season(item.id, 2)
+        SeriesPath.season(item.id, 2)
     )
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.episode(item.id, episodes[24].id)
+        SeriesPath.episode(item.id, episodes[24].id)
     )
 
     return ContentView()

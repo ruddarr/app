@@ -5,7 +5,7 @@ extension SeriesView {
     var toolbarSearchButton: some ToolbarContent {
         if !instance.isVoid {
             ToolbarItem(placement: .primaryAction) {
-                NavigationLink(value: Path.search()) {
+                NavigationLink(value: SeriesPath.search()) {
                     Image(systemName: "plus")
                 }.id(UUID())
             }

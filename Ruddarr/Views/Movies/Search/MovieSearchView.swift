@@ -22,8 +22,8 @@ struct MovieSearchView: View {
                     Button {
                         dependencies.router.moviesPath.append(
                             movie.exists
-                                ? MoviesView.Path.movie(movie.id)
-                                : MoviesView.Path.preview(try? JSONEncoder().encode(movie))
+                                ? MoviesPath.movie(movie.id)
+                                : MoviesPath.preview(try? JSONEncoder().encode(movie))
                         )
                     } label: {
                         MovieGridItem(movie: movie)
@@ -94,7 +94,7 @@ struct MovieSearchView: View {
 
 #Preview {
     dependencies.router.selectedTab = .movies
-    dependencies.router.moviesPath.append(MoviesView.Path.search())
+    dependencies.router.moviesPath.append(MoviesPath.search())
 
     return ContentView()
         .withAppState()

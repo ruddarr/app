@@ -97,8 +97,8 @@ struct SeriesEditView: View {
     let item = series.first(where: { $0.id == 67 }) ?? series[0]
 
     dependencies.router.selectedTab = .series
-    dependencies.router.seriesPath.append(SeriesView.Path.series(item.id))
-    dependencies.router.seriesPath.append(SeriesView.Path.edit(item.id))
+    dependencies.router.seriesPath.append(SeriesPath.series(item.id))
+    dependencies.router.seriesPath.append(SeriesPath.edit(item.id))
 
     return ContentView()
         .withSonarrInstance(series: series)

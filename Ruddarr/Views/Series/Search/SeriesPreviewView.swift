@@ -91,7 +91,7 @@ struct SeriesPreviewView: View {
         instance.lookup.reset()
         presentingForm = false
 
-        let seriesPath = SeriesView.Path.series(addedSeries.id)
+        let seriesPath = SeriesPath.series(addedSeries.id)
 
         dependencies.router.seriesPath.removeLast(dependencies.router.seriesPath.count)
         dependencies.router.seriesPath.append(seriesPath)
@@ -107,7 +107,7 @@ struct SeriesPreviewView: View {
     dependencies.router.selectedTab = .series
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.preview(
+        SeriesPath.preview(
             try? JSONEncoder().encode(item)
         )
     )

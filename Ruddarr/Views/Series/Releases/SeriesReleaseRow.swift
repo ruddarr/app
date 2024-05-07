@@ -120,11 +120,11 @@ struct SeriesReleaseRow: View {
     dependencies.router.selectedTab = .series
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.series(item.id)
+        SeriesPath.series(item.id)
     )
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.releases(item.id, 2, nil)
+        SeriesPath.releases(item.id, 2, nil)
     )
 
     return ContentView()

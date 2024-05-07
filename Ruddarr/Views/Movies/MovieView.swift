@@ -88,7 +88,7 @@ struct MovieView: View {
 
     var editAction: some View {
         NavigationLink(
-            value: MoviesView.Path.edit(movie.id)
+            value: MoviesPath.edit(movie.id)
         ) {
             Label("Edit", systemImage: "pencil")
         }
@@ -102,7 +102,7 @@ struct MovieView: View {
 
     var interactiveSearch: some View {
         NavigationLink(
-            value: MoviesView.Path.releases(movie.id)
+            value: MoviesPath.releases(movie.id)
         ) {
             Label("Interactive Search", systemImage: "person")
         }
@@ -182,7 +182,7 @@ extension MovieView {
     dependencies.router.selectedTab = .movies
 
     dependencies.router.moviesPath.append(
-        MoviesView.Path.movie(movie.id)
+        MoviesPath.movie(movie.id)
     )
 
     return ContentView()

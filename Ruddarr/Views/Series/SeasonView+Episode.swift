@@ -67,7 +67,7 @@ struct EpisodeRow: View {
                     Image(systemName: "magnifyingglass")
                 }
 
-                // NavigationLink(value: SeriesView.Path.releases(series.id), label: {
+                // NavigationLink(value: SeriesPath.releases(series.id), label: {
                 //     Label("Interactive Search", systemImage: "person")
                 // })
 
@@ -101,11 +101,11 @@ struct EpisodeRow: View {
     dependencies.router.selectedTab = .series
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.series(item.id)
+        SeriesPath.series(item.id)
     )
 
     dependencies.router.seriesPath.append(
-        SeriesView.Path.season(item.id, 2)
+        SeriesPath.season(item.id, 2)
     )
 
     return ContentView()

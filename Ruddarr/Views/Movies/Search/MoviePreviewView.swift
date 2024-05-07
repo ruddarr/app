@@ -91,7 +91,7 @@ struct MoviePreviewView: View {
         instance.lookup.reset()
         presentingForm = false
 
-        let moviePath = MoviesView.Path.movie(addedMovie.id)
+        let moviePath = MoviesPath.movie(addedMovie.id)
 
         dependencies.router.moviesPath.removeLast(dependencies.router.moviesPath.count)
         dependencies.router.moviesPath.append(moviePath)
@@ -107,7 +107,7 @@ struct MoviePreviewView: View {
     dependencies.router.selectedTab = .movies
 
     dependencies.router.moviesPath.append(
-        MoviesView.Path.preview(
+        MoviesPath.preview(
             try? JSONEncoder().encode(movie)
         )
     )

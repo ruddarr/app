@@ -1,6 +1,17 @@
 import SwiftUI
 import Combine
 
+enum SeriesPath: Hashable {
+    case search(String = "")
+    case preview(Data?)
+    case series(Series.ID)
+    case edit(Series.ID)
+    case releases(Series.ID, Season.ID?, Episode.ID?)
+    // case metadata(Movie.ID)
+    case season(Series.ID, Season.ID)
+    case episode(Series.ID, Episode.ID)
+}
+
 struct SeriesView: View {
     @AppStorage("seriesSort", store: dependencies.store) var sort: SeriesSort = .init()
 
@@ -14,17 +25,6 @@ struct SeriesView: View {
     @State private var alertPresented = false
 
     @Environment(\.scenePhase) private var scenePhase
-
-    enum Path: Hashable {
-        case search(String = "")
-        case preview(Data?)
-        case series(Series.ID)
-        case edit(Series.ID)
-        case releases(Series.ID, Season.ID?, Episode.ID?)
-        // case metadata(Movie.ID)
-        case season(Series.ID, Season.ID)
-        case episode(Series.ID, Episode.ID)
-    }
 
     var body: some View {
         // swiftlint:disable closure_body_length
@@ -49,7 +49,7 @@ struct SeriesView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(for: Path.self) {
+            .navigationDestination(for: SeriesPath.self) {
                 switch $0 {
                 case .search(let query):
                     SeriesSearchView(searchQuery: query)
@@ -193,7 +193,7 @@ struct SeriesView: View {
 
         LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
             ForEach(instance.series.cachedItems) { series in
-                NavigationLink(value: Path.series(series.id)) {
+                NavigationLink(value: SeriesPath.series(series.id)) {
                     SeriesGridItem(series: series)
                 }
                 .buttonStyle(.plain)
@@ -259,7 +259,7 @@ struct SeriesView: View {
         func scheduleNextRun(time: DispatchTime, id: Series.ID) {
             DispatchQueue.main.asyncAfter(deadline: time) {
                 if instance.series.items.first(where: { $0.id == id }) != nil {
-                    dependencies.router.seriesPath = .init([Path.series(id)])
+                    dependencies.router.seriesPath = .init([SeriesPath.series(id)])
                     return
                 }
 

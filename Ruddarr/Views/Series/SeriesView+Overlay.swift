@@ -14,7 +14,7 @@ struct NoSeriesSearchResults: View {
             systemImage: "magnifyingglass",
             description: Text(description.toMarkdown())
         ).environment(\.openURL, .init { _ in
-            dependencies.router.seriesPath.append(SeriesView.Path.search(query))
+            dependencies.router.seriesPath.append(SeriesPath.search(query))
             query = ""
             return .handled
         })

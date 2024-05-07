@@ -117,7 +117,7 @@ struct SeriesDetails: View {
         VStack(alignment: .leading, spacing: 12) {
             ForEach(series.seasons.reversed()) { season in
                 NavigationLink(
-                    value: SeriesView.Path.season(series.id, season.id)
+                    value: SeriesPath.season(series.id, season.id)
                 ) {
                     GroupBox {
                         HStack(spacing: 12) {
