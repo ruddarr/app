@@ -124,11 +124,12 @@ struct SeriesReleasesView: View {
             releases = releases.filter { !$0.rejected }
         }
 
-        if sort.freeleech {
-            releases = releases.filter {
-                $0.cleanIndexerFlags.contains(where: { $0.localizedStandardContains("freeleech") })
-            }
-        }
+        // TODO: fix it
+//        if sort.freeleech {
+//            releases = releases.filter {
+//                $0.cleanIndexerFlags.contains(where: { $0.localizedStandardContains("freeleech") })
+//            }
+//        }
 
         if sort.originalLanguage {
             releases = releases.filter {

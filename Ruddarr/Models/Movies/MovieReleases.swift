@@ -112,7 +112,7 @@ struct MovieRelease: Identifiable, Codable {
     let seeders: Int?
     let leechers: Int?
 
-    let quality: MediaReleaseQuality
+    let quality: MediaQuality
     let languages: [MediaLanguage]
     let rejections: [String]
 

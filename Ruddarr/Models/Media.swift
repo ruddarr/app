@@ -23,17 +23,20 @@ enum MediaReleaseType: String, Codable {
     }
 }
 
-struct MediaReleaseQuality: Codable {
-    let quality: MediaReleaseQualityDetails
-    let revision: MediaReleaseRevisionDetails
+struct MediaQuality: Codable {
+    let quality: MediaQualityDetails
+    let revision: MediaQualityRevision
 }
 
-struct MediaReleaseQualityDetails: Codable {
+struct MediaQualityDetails: Codable {
     let name: String?
+    let source: MediaQualitySource
     let resolution: Int
-    // TODO: don't we have an enum for this?
-    let source: String // unknown, cam, telesync, telecine, workprint, dvd, tv, webdl, webrip, bluray
-    let modifier: String // none, regional, screener, rawhd, brdisk, remux
+    let modifier: MediaReleaseQualityModifier?
+
+    var label: String {
+        name ?? String(localized: "Unknown")
+    }
 
     var normalizedName: String {
         guard let label = name else {
@@ -51,7 +54,16 @@ struct MediaReleaseQualityDetails: Codable {
     }
 }
 
-struct MediaReleaseRevisionDetails: Codable {
+enum MediaReleaseQualityModifier: String, Codable {
+    case none
+    case regional
+    case screener
+    case rawhd
+    case brdisk
+    case remux
+}
+
+struct MediaQualityRevision: Codable {
     let version: Int
     let real: Int
     let isRepack: Bool
@@ -62,6 +74,44 @@ struct MediaReleaseRevisionDetails: Codable {
 
     var isProper: Bool {
         version > 1
+    }
+}
+
+enum MediaQualitySource: String, Codable {
+    case unknown
+    case cam
+    case telesync
+    case telecine
+    case workprint
+    case dvd
+    case tv // swiftlint:disable:this identifier_name
+    case television
+    case televisionRaw
+    case web
+    case webdl
+    case webrip
+    case webRip
+    case bluray
+    case blurayRaw
+
+    // TODO: fix this
+    var label: String {
+        switch self {
+        case .unknown: String(localized: "Unknown")
+        case .cam: "CAM"
+        case .telesync: "TELESYNC"
+        case .telecine: "TELECINE"
+        case .workprint: "WORKPRINT"
+        case .dvd: "DVD"
+        case .tv: "TV"
+        case .television: "television..."
+        case .televisionRaw: "Raw-HD"
+        case .web: "WEB..."
+        case .webdl: "WEBDL"
+        case .webrip, .webRip: "WEBRip"
+        case .bluray: "Bluray"
+        case .blurayRaw: "Bluray Remux ..."
+        }
     }
 }
 

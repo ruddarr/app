@@ -7,7 +7,7 @@ struct MovieFile: Identifiable, Codable {
     let dateAdded: Date
 
     let mediaInfo: MovieMediaInfo?
-    let quality: MovieQualityInfo
+    let quality: MediaQuality
     let languages: [MediaLanguage]
     let customFormats: [MovieCustomFormat]?
     let customFormatScore: Int?
@@ -113,48 +113,6 @@ struct MovieMediaInfo: Codable {
         ))
 
         return codes.sorted(by: Languages.codeSort)
-    }
-}
-
-struct MovieQualityInfo: Codable {
-    let quality: MovieQuality
-}
-
-struct MovieQuality: Codable {
-    let name: String?
-    let source: MovieQualitySource
-    let resolution: Int
-
-    var label: String {
-        name ?? String(localized: "Unknown")
-    }
-}
-
-enum MovieQualitySource: String, Codable {
-    case unknown
-    case cam
-    case telesync
-    case telecine
-    case workprint
-    case dvd
-    case tv // swiftlint:disable:this identifier_name
-    case webdl
-    case webrip
-    case bluray
-
-    var label: String {
-        switch self {
-        case .unknown: String(localized: "Unknown")
-        case .cam: "CAM"
-        case .telesync: "TELESYNC"
-        case .telecine: "TELECINE"
-        case .workprint: "WORKPRINT"
-        case .dvd: "DVD"
-        case .tv: "TV"
-        case .webdl: "WEBDL"
-        case .webrip: "WEBRip"
-        case .bluray: "Bluray"
-        }
     }
 }
 

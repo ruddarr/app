@@ -109,6 +109,7 @@
 		BBD3F7D42BE9A8410050D9A0 /* SeriesReleases.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F7D32BE9A8410050D9A0 /* SeriesReleases.swift */; };
 		BBD3F7D62BE9AD060050D9A0 /* SeriesReleaseSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F7D52BE9AD060050D9A0 /* SeriesReleaseSort.swift */; };
 		BBD3F7D82BE9AD9E0050D9A0 /* SeriesReleaseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F7D72BE9AD9E0050D9A0 /* SeriesReleaseRow.swift */; };
+		BBD3F7DA2BE9E31F0050D9A0 /* SeriesReleaseSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F7D92BE9E31F0050D9A0 /* SeriesReleaseSheet.swift */; };
 		BBDA775D2BDACD2500568E64 /* TelemetryClient in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA775C2BDACD2500568E64 /* TelemetryClient */; };
 		BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA77602BDACD3C00568E64 /* NukeUI */; };
 		BBDA77632BDACD6300568E64 /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA77622BDACD6300568E64 /* SentrySwiftUI */; };
@@ -250,6 +251,7 @@
 		BBD3F7D32BE9A8410050D9A0 /* SeriesReleases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesReleases.swift; sourceTree = "<group>"; };
 		BBD3F7D52BE9AD060050D9A0 /* SeriesReleaseSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesReleaseSort.swift; sourceTree = "<group>"; };
 		BBD3F7D72BE9AD9E0050D9A0 /* SeriesReleaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesReleaseRow.swift; sourceTree = "<group>"; };
+		BBD3F7D92BE9E31F0050D9A0 /* SeriesReleaseSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesReleaseSheet.swift; sourceTree = "<group>"; };
 		BBE1E43E2B51F61700946222 /* MovieLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieLookup.swift; sourceTree = "<group>"; };
 		BBE1E4402B51F9DC00946222 /* movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = movies.json; sourceTree = "<group>"; };
 		BBE1E4422B51FA0200946222 /* movie-lookup.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "movie-lookup.json"; sourceTree = "<group>"; };
@@ -472,6 +474,7 @@
 			children = (
 				BBD3F7D12BE9A6320050D9A0 /* SeriesReleasesView.swift */,
 				BBD3F7D72BE9AD9E0050D9A0 /* SeriesReleaseRow.swift */,
+				BBD3F7D92BE9E31F0050D9A0 /* SeriesReleaseSheet.swift */,
 			);
 			path = Releases;
 			sourceTree = "<group>";
@@ -878,6 +881,7 @@
 				BBD3F7D62BE9AD060050D9A0 /* SeriesReleaseSort.swift in Sources */,
 				BBFBAD5C2BDFF5A4007B70BC /* WhatsNew.swift in Sources */,
 				BBF583BB2BAC9A0A00AFA7FB /* CalendarMedia.swift in Sources */,
+				BBD3F7DA2BE9E31F0050D9A0 /* SeriesReleaseSheet.swift in Sources */,
 				BB8A60282B952D710039CFF6 /* Subscription.swift in Sources */,
 				790D1EC52B864EC700FCDB64 /* QuickActions.swift in Sources */,
 				BB6D96952B61E61D0017BFB3 /* AppSettings.swift in Sources */,

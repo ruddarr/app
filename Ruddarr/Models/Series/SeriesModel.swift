@@ -22,7 +22,7 @@ class SeriesModel {
         case push(Series)
         case update(Series, Bool)
         case delete(Series)
-        // case download(String, Int)
+        case download(String, Int)
         case command(SonarrCommand)
     }
 
@@ -102,9 +102,9 @@ class SeriesModel {
         await request(.delete(series))
     }
 
-//    func download(guid: String, indexerId: Int) async -> Bool {
-//        await request(.download(guid, indexerId))
-//    }
+    func download(guid: String, indexerId: Int) async -> Bool {
+        await request(.download(guid, indexerId))
+    }
 
     func command(_ command: SonarrCommand) async -> Bool {
         await request(.command(command))
@@ -153,8 +153,8 @@ class SeriesModel {
             _ = try await dependencies.api.deleteSeries(series, instance)
             items.removeAll(where: { $0.guid == series.guid })
 
-//        case .download(let guid, let indexerId):
-//            _ = try await dependencies.api.downloadRelease(guid, indexerId, instance)
+        case .download(let guid, let indexerId):
+            _ = try await dependencies.api.downloadRelease(guid, indexerId, instance)
 
         case .command(let command):
             _ = try await dependencies.api.sonarrCommand(command, instance)

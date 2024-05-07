@@ -127,11 +127,11 @@ struct SeriesRelease: Identifiable, Codable {
 
     let indexerId: Int
     let indexer: String?
-    let indexerFlags: [String]
+    let indexerFlags: Int
     let seeders: Int?
     let leechers: Int?
 
-    let quality: MediaReleaseQuality
+    let quality: MediaQuality
     let languages: [MediaLanguage]
     let rejections: [String]
 
@@ -173,9 +173,11 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var isFreeleech: Bool {
-        guard !indexerFlags.isEmpty else { return false }
-
-        return cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }
+        return false
+        // TODO: fix me
+//        guard !indexerFlags.isEmpty else { return false }
+//
+//        return cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }
     }
 
     var isProper: Bool {
@@ -195,15 +197,19 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var hasNonFreeleechFlags: Bool {
-        guard !indexerFlags.isEmpty else { return false }
-
-        return !(indexerFlags.count == 1 && isFreeleech)
+        return false
+        // TODO: fix me
+//        guard !indexerFlags.isEmpty else { return false }
+//
+//        return !(indexerFlags.count == 1 && isFreeleech)
     }
 
     var cleanIndexerFlags: [String] {
-        indexerFlags.map {
-            $0.hasPrefix("G_") ? String($0.dropFirst(2)) : $0
-        }
+        return []
+        // TODO: fix me
+//        indexerFlags.map {
+//            $0.hasPrefix("G_") ? String($0.dropFirst(2)) : $0
+//        }
     }
 
     var indexerLabel: String {
@@ -215,11 +221,13 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var indexerFlagsLabel: String? {
-        guard !indexerFlags.isEmpty else {
-            return nil
-        }
-
-        return cleanIndexerFlags.formatted(.list(type: .and, width: .narrow))
+        return nil
+        // TODO: fix me
+//        guard !indexerFlags.isEmpty else {
+//            return nil
+//        }
+//
+//        return cleanIndexerFlags.formatted(.list(type: .and, width: .narrow))
     }
 
     var languageLabel: String {
