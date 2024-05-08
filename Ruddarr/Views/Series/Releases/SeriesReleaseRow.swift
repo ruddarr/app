@@ -15,11 +15,11 @@ struct SeriesReleaseRow: View {
                 isShowingPopover = true
             }
             .sheet(isPresented: $isShowingPopover) {
-//                SeriesReleaseSheet(release: release)
-//                    .presentationDetents([.medium])
-//                    .presentationDragIndicator(.hidden)
-//                    .environment(instance)
-//                    .environmentObject(settings)
+                SeriesReleaseSheet(release: release)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.hidden)
+                    .environment(instance)
+                    .environmentObject(settings)
             }
     }
 
