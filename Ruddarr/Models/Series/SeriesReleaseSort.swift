@@ -1,8 +1,5 @@
 import SwiftUI
 
-// TODO: Filter by season pack or not season pack...
-// TODO: Select season pack / episode by default when opening view
-
 struct SeriesReleaseSort: Equatable {
     var isAscending: Bool = true
     var option: Option = .byWeight
@@ -12,12 +9,13 @@ struct SeriesReleaseSort: Equatable {
     var language: String = ".all"
     var type: String = ".all"
     var customFormat: String = ".all"
+    var seasonPack: SeasonPack = .any
 
     var approved: Bool = false
     var freeleech: Bool = false
     var originalLanguage: Bool = false
 
-    enum Option: CaseIterable, Hashable, Identifiable, Codable {
+    enum Option: Hashable, Identifiable, CaseIterable {
         var id: Self { self }
 
         case byWeight
@@ -52,6 +50,22 @@ struct SeriesReleaseSort: Equatable {
                 lhs.quality.quality.resolution > rhs.quality.quality.resolution
             case .byCustomScore:
                 lhs.customFormatScore > rhs.customFormatScore
+            }
+        }
+    }
+
+    enum SeasonPack: Identifiable, CaseIterable {
+        var id: Self { self }
+
+        case any
+        case season
+        case episode
+
+        var label: String {
+            switch self {
+            case .any: String(localized: "Any")
+            case .season: String(localized: "Season Pack")
+            case .episode: String(localized: "Single Episode")
             }
         }
     }

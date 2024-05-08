@@ -361,6 +361,16 @@
         }
       }
     },
+    "Any" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any"
+          }
+        }
+      }
+    },
     "Any Format" : {
       "localizations" : {
         "en" : {
@@ -3453,6 +3463,16 @@
         }
       }
     },
+    "Season Pack" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season Pack"
+          }
+        }
+      }
+    },
     "Season Premiere" : {
       "localizations" : {
         "en" : {
@@ -3619,6 +3639,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Show Advanced Settings"
+          }
+        }
+      }
+    },
+    "Single Episode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Single Episode"
           }
         }
       }

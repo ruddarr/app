@@ -26,6 +26,9 @@ struct SeriesReleasesView: View {
         .toolbar {
             toolbarButtons
         }
+        .onAppear {
+            sort.seasonPack = seasonId == nil ? .episode : .season
+        }
         .task {
             guard !fetched else { return }
             await instance.releases.search(series, seasonId, episodeId)
@@ -118,6 +121,12 @@ struct SeriesReleasesView: View {
             releases = releases.filter { $0.customFormats?.contains { $0.name == sort.customFormat } ?? false }
         }
 
+        if sort.seasonPack == .season {
+            releases = releases.filter { $0.fullSeason }
+        } else if sort.seasonPack == .episode {
+            releases = releases.filter { !$0.fullSeason }
+        }
+
         if sort.approved {
             releases = releases.filter { !$0.rejected }
         }
@@ -168,6 +177,8 @@ extension SeriesReleasesView {
             if !instance.releases.customFormats.isEmpty {
                 customFormatPicker
             }
+
+            seasonPackPicker
 
             Section {
                 Toggle("Approved", systemImage: "checkmark.seal", isOn: $sort.approved)
@@ -282,12 +293,26 @@ extension SeriesReleasesView {
         }
     }
 
+    var seasonPackPicker: some View {
+        Menu {
+            Picker("Season Pack", selection: $sort.seasonPack) {
+                ForEach(SeriesReleaseSort.SeasonPack.allCases) { item in
+                    Text(item.label).tag(Optional.some(item))
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label("Season Pack", systemImage: "shippingbox")
+        }
+    }
+
     var isFiltered: Bool {
         sort.type != ".all"
         || sort.indexer != ".all"
         || sort.quality != ".all"
         || sort.language != ".all"
         || sort.customFormat != ".all"
+        || sort.seasonPack != .any
         || sort.approved
         || sort.freeleech
         || sort.originalLanguage

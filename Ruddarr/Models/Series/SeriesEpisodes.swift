@@ -17,7 +17,7 @@ class SeriesEpisodes {
     }
 
     func fetched(_ series: Series) -> Bool {
-        items.contains {$0.seriesId == series.id }
+        items.contains { $0.seriesId == series.id }
     }
 
     func fetch(_ series: Series) async {
