@@ -67,7 +67,19 @@ func formatIndexer(_ name: String) -> String {
         indexer = String(indexer.dropLast(6))
     }
 
-    return indexer
+    return switch indexer {
+    case "BeyondHD": "BHD"
+    case "Blutopia": "BLU"
+    case "FileList": "FL"
+    case "IPTorrents": "IPT"
+    case "MyAnonaMouse": "MAM"
+    case "PassThePopcorn": "PTP"
+    case "REDacted": "RED"
+    case "TorrentDay": "TD"
+    case "TorrentLeech": "TL"
+    case "DrunkenSlug": "DS"
+    default: indexer
+    }
 }
 
 class PreviewData {
