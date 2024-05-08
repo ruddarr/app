@@ -23,12 +23,8 @@ struct EpisodeView: View {
                 actions
                     .padding(.bottom)
 
-                // TODO: fix these...
-                // TODO: size on disk
-                // file details (media etc.)
-                // monitor button
-                // search buttons
-                // history
+                // TODO: file details (media etc.)
+                // TODO: history
             }
             .padding(.top)
             .viewPadding(.horizontal)
@@ -54,10 +50,10 @@ struct EpisodeView: View {
     var header: some View {
         VStack(alignment: .leading) {
             Text(episode.statusLabel)
-            .font(.footnote)
-            .fontWeight(.semibold)
-            .tracking(1.1)
-            .foregroundStyle(settings.theme.tint)
+                .font(.caption)
+                .fontWeight(.semibold)
+                .textCase(.uppercase)
+                .foregroundStyle(settings.theme.tint)
 
             Text(episode.titleLabel)
                 .font(.largeTitle.bold())
@@ -65,16 +61,18 @@ struct EpisodeView: View {
 
             HStack(spacing: 6) {
                 Text(episode.episodeLabel)
-                Bullet()
-                Text(episode.airDateLabel)
 
                 if let runtime = episode.runtimeLabel {
                     Bullet()
                     Text(runtime)
                 }
+
+                Bullet()
+                Text(episode.airDateTimeLabel)
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
+            .lineLimit(1)
 
             if episode.overview != nil {
                 description

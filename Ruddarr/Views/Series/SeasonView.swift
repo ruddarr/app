@@ -64,7 +64,10 @@ struct SeasonView: View {
             HStack(spacing: 6) {
                 Text(year)
 
-                // TODO: runtime? certification?
+                if let minutes = runtime {
+                    Bullet()
+                    Text(formatRuntime(minutes))
+                }
 
                 if let bytes = season.statistics?.sizeOnDisk, bytes > 0 {
                     Bullet()
@@ -87,6 +90,12 @@ struct SeasonView: View {
         }
 
         return String(localized: "TBA")
+    }
+
+    var runtime: Int? {
+        let items = episodes.filter { $0.runtime > 0 }.map { $0.runtime }
+        guard !items.isEmpty else { return nil }
+        return items.sorted(by: <)[items.count / 2]
     }
 
     var actions: some View {

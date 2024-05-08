@@ -42,9 +42,6 @@ extension SeriesDetails {
         ]
 
         // TODO: dates
-        // "firstAired": "2005-11-06T00:00:00Z",
-        // "lastAired": "2014-06-23T00:00:00Z",
-
         // monitorNewItems
         // season folders?
 

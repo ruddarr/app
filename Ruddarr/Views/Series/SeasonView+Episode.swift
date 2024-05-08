@@ -18,7 +18,19 @@ struct EpisodeRow: View {
                         .lineLimit(1)
                 }
 
-                details
+                HStack(spacing: 6) {
+                    Text(episode.statusLabel)
+                    Bullet()
+                    Text(episode.airingToday ? episode.airDateTimeLabel : episode.airDateLabel)
+                }
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+
+                if let finale = episode.finaleType {
+                    Text(finale.label)
+                        .font(.subheadline)
+                        .foregroundStyle(settings.theme.tint)
+                }
             }.padding(.trailing)
 
             Spacer()
@@ -27,35 +39,8 @@ struct EpisodeRow: View {
         }
         .contentShape(Rectangle())
 
-        // TODO: clean up
-        // monitor icon
-        // EO3
-        // title (finale)
-        // Air Date
-        // runtime of episode?
-        // quality & file size (or status)
-    }
-
-    var details: some View {
-        Group {
-            HStack(spacing: 6) {
-                Text(episode.statusLabel)
-
-                if let airdate = episode.airDateUtc {
-                    Bullet()
-                    Text(airdate.formatted(date: .abbreviated, time: .omitted))
-                    // TODO: Today 5pm, tomorrow
-                }
-
-                if let finale = episode.finaleType {
-                    Bullet()
-                    Text(finale.label)
-                        // .foregroundStyle(settings.theme.tint) // TODO: fix me
-                }
-            }
-        }
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
+        // TODO: monitor icon
+        // TODO: quality & file size (instead of status?)
     }
 
     var actions: some View {

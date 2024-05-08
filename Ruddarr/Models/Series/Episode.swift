@@ -40,14 +40,6 @@ struct Episode: Identifiable, Codable {
         title ?? String(localized: "TBA")
     }
 
-    var airDateLabel: String {
-        guard let date = airDateUtc else {
-            return String(localized: "TBA")
-        }
-
-        return date.formatted(date: .abbreviated, time: .omitted)
-    }
-
     // TODO: Do we need anime formatting?
     var episodeLabel: String {
         String(format: "%dx%02d", seasonNumber, episodeNumber)
@@ -85,11 +77,34 @@ struct Episode: Identifiable, Codable {
     }
 
     var hasAired: Bool {
-        guard let date = airDateUtc else {
-            return false
-        }
-
+        guard let date = airDateUtc else { return false }
         return date < Date.now
+    }
+
+    var airingToday: Bool {
+        guard let date = airDateUtc else { return false }
+        return Calendar.current.isDateInToday(date)
+    }
+
+    var airDateLabel: String {
+        guard let date = airDateUtc else { return String(localized: "TBA") }
+        let calendar = Calendar.current
+        if calendar.isDateInToday(date) { return String(localized: "Today") }
+        if calendar.isDateInTomorrow(date) { return String(localized: "Tomorrow") }
+        if calendar.isDateInYesterday(date) { return String(localized: "Yesterday") }
+
+        return date.formatted(date: .abbreviated, time: .omitted)
+    }
+
+    var airDateTimeLabel: String {
+        guard let date = airDateUtc else { return String(localized: "TBA") }
+        let calendar = Calendar.current
+        let time = date.formatted(date: .omitted, time: .shortened)
+        if calendar.isDateInToday(date) { return String(localized: "Today at \(time)") }
+        if calendar.isDateInTomorrow(date) { return String(localized: "Tomorrow at \(time)") }
+        if calendar.isDateInYesterday(date) { return String(localized: "Yesterday at \(time)") }
+
+        return date.formatted(date: .abbreviated, time: .shortened)
     }
 }
 
