@@ -52,12 +52,13 @@ struct MediaQualityDetails: Codable {
             return String(localized: "Unknown")
         }
 
-        if let range = label.range(of: #"-(\d+p)$"#, options: .regularExpression) {
+        if let range = label.range(of: #"-(\d+p)"#, options: .regularExpression) {
             return String(name![range].dropFirst())
         }
 
         return label
             .replacingOccurrences(of: "BR-DISK", with: "1080p")
+            .replacingOccurrences(of: "Raw-HD", with: "1080p")
             .replacingOccurrences(of: "DVD-R", with: "480p")
             .replacingOccurrences(of: "SDTV", with: "480p")
     }

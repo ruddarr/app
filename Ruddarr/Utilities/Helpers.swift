@@ -82,6 +82,29 @@ func formatIndexer(_ name: String) -> String {
     }
 }
 
+func formatAge(_ age: Float) -> String {
+    let minutes: Int = Int(age)
+    let days: Int = minutes / 60 / 24
+    let years: Float = Float(days) / 30 / 12
+
+    return switch minutes {
+    case -10_000..<1: // less than 1 minute (or bad data from radarr)
+        String(localized: "Just now")
+    case 1..<119: // less than 120 minutes
+        String(format: String(localized: "%d minutes"), minutes)
+    case 120..<2_880: // less than 48 hours
+        String(format: String(localized: "%d hours"), minutes / 60)
+    case 2_880..<129_600: // less than 90 days
+        String(format: String(localized: "%d days"), days)
+    case 129_600..<525_600: // less than 365 days
+        String(format: String(localized: "%d months"), days / 30)
+    case 525_600..<2_628_000: // less than 5 years
+        String(format: String(localized: "%.1f years"), years)
+    default:
+        String(format: String(localized: "%d years"), Int(years))
+    }
+}
+
 class PreviewData {
     static func load<T: Codable> (name: String) -> [T] {
         if let path = Bundle.main.path(forResource: name, ofType: "json") {
