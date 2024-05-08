@@ -136,11 +136,7 @@ struct MovieHistoryEvent: Identifiable, Codable {
             return String(localized: "indexer", comment: "Fallback for indexer name within mid-sentence")
         }
 
-        guard indexer.hasSuffix(" (Prowlarr)") else {
-            return indexer
-        }
-
-        return String(indexer.dropLast(11))
+        return formatIndexer(indexer)
     }
 
     var indexerFlagsLabel: String? {

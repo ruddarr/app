@@ -186,11 +186,11 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var indexerLabel: String {
-        guard let indexer = indexer, indexer.hasSuffix(" (Prowlarr)") else {
-            return indexer ?? String(indexerId)
+        guard let name = indexer else {
+            return String(indexerId)
         }
 
-        return String(indexer.dropLast(11))
+        return formatIndexer(name)
     }
 
     var indexerFlagsLabel: String? {

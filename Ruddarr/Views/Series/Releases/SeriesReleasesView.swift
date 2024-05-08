@@ -123,7 +123,9 @@ struct SeriesReleasesView: View {
 
         if sort.seasonPack == .season {
             releases = releases.filter { $0.fullSeason }
-        } else if sort.seasonPack == .episode {
+        }
+
+        if sort.seasonPack == .episode {
             releases = releases.filter { !$0.fullSeason }
         }
 

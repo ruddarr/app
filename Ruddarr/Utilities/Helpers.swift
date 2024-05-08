@@ -56,6 +56,20 @@ func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
     return formatter.string(fromByteCount: Int64(bytes))
 }
 
+func formatIndexer(_ name: String) -> String {
+    var indexer = name
+
+    if indexer.hasSuffix(" (Prowlarr)") {
+        indexer = String(indexer.dropLast(11))
+    }
+
+    if indexer.hasSuffix(" (API)") {
+        indexer = String(indexer.dropLast(6))
+    }
+
+    return indexer
+}
+
 class PreviewData {
     static func load<T: Codable> (name: String) -> [T] {
         if let path = Bundle.main.path(forResource: name, ofType: "json") {
