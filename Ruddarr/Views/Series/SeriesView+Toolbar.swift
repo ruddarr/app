@@ -23,13 +23,20 @@ extension SeriesView {
     }
 
     var toolbarFilterButton: some View {
-        Menu("Filter", systemImage: "line.3.horizontal.decrease") {
+        Menu {
             Picker(selection: $sort.filter, label: Text("Filter")) {
                 ForEach(SeriesSort.Filter.allCases) { filter in
                     filter.label
                 }
             }
             .pickerStyle(.inline)
+        } label: {
+            Image(systemName: "line.3.horizontal.decrease")
+                .overlay {
+                    if sort.filter != .all {
+                        ToolbarFilterBadge()
+                    }
+                }
         }
     }
 

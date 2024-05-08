@@ -179,7 +179,7 @@ struct CalendarView: View {
 
     var filtersMenu: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
-            Menu("Filters", systemImage: "line.3.horizontal.decrease") {
+            Menu {
                 Picker(selection: $displayedMediaType, label: Text("Media Type")) {
                     ForEach(CalendarMediaType.allCases, id: \.self) { type in
                         type.label
@@ -196,6 +196,13 @@ struct CalendarView: View {
                     Label("Monitored", systemImage: "bookmark")
                         .symbolVariant(onlyMonitored ? .fill : .none)
                 }
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease")
+                    .overlay {
+                        if displayedMediaType != .all || onlyPremieres || onlyMonitored {
+                            ToolbarFilterBadge()
+                        }
+                    }
             }
         }
     }

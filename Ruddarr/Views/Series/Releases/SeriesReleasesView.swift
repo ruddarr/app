@@ -152,7 +152,7 @@ extension SeriesReleasesView {
     }
 
     var toolbarFilterButton: some View {
-        Menu("Filters", systemImage: "line.3.horizontal.decrease") {
+        Menu {
             if instance.releases.protocols.count > 1 {
                 protocolPicker
             }
@@ -174,6 +174,13 @@ extension SeriesReleasesView {
                 Toggle("FreeLeech", systemImage: "f.square", isOn: $sort.freeleech)
                 Toggle("Original", systemImage: "character.bubble", isOn: $sort.originalLanguage)
             }
+        } label: {
+            Image(systemName: "line.3.horizontal.decrease")
+                .overlay {
+                    if isFiltered {
+                        ToolbarFilterBadge()
+                    }
+                }
         }
     }
 
@@ -273,6 +280,17 @@ extension SeriesReleasesView {
         } label: {
             Label("Custom Format", systemImage: "person.badge.plus")
         }
+    }
+
+    var isFiltered: Bool {
+        sort.type != ".all"
+        || sort.indexer != ".all"
+        || sort.quality != ".all"
+        || sort.language != ".all"
+        || sort.customFormat != ".all"
+        || sort.approved
+        || sort.freeleech
+        || sort.originalLanguage
     }
 }
 
