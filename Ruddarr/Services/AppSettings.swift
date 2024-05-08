@@ -10,6 +10,7 @@ class AppSettings: ObservableObject {
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
     @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
     @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
+    @AppStorage("sonarrInstanceId", store: dependencies.store) var sonarrInstanceId: Instance.ID?
 
     func resetAll() {
         instances.removeAll()
@@ -23,6 +24,10 @@ class AppSettings: ObservableObject {
 extension AppSettings {
     var radarrInstance: Instance? {
         radarrInstances.first(where: { $0.id == radarrInstanceId })
+    }
+
+    var sonarrInstance: Instance? {
+        sonarrInstances.first(where: { $0.id == sonarrInstanceId })
     }
 
     var radarrInstances: [Instance] {

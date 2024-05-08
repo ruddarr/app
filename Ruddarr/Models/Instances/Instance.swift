@@ -102,29 +102,79 @@ struct InstanceQualityProfile: Identifiable, Equatable, Codable {
     let name: String
 }
 
-struct RadarrCommand: Codable {
-    let name: Command
-    let movieIds: [Int]
+enum RadarrCommand {
+    case refresh(_ ids: [Movie.ID])
+    case search(_ ids: [Movie.ID])
 
-    enum Command: String, Codable {
-        case refresh = "RefreshMovie"
-        case automaticSearch = "MoviesSearch"
+    var payload: Payload {
+        switch self {
+        case .refresh(let ids):
+            Payload(name: "RefreshMovie", movieIds: ids)
+        case .search(let ids):
+            Payload(name: "MoviesSearch", movieIds: ids)
+        }
+    }
+
+    struct Payload: Encodable {
+        let name: String
+        let movieIds: [Int]
+    }
+}
+
+enum SonarrCommand {
+    case refresh(_ series: Series.ID)
+    case seriesSearch(_ series: Series.ID)
+    case seasonSearch(_ series: Series.ID, season: Season.ID)
+    case episodeSearch(_ ids: [Episode.ID])
+
+    var payload: Payload {
+        switch self {
+        case .refresh(let series):
+            Payload(name: "RefreshSeries", seriesId: series)
+        case .seriesSearch(let series):
+            Payload(name: "SeriesSearch", seriesId: series)
+        case .seasonSearch(let series, let season):
+            Payload(name: "SeasonSearch", seriesId: series, seasonNumber: season)
+        case .episodeSearch(let ids):
+            Payload(name: "EpisodeSearch", episodeIds: ids)
+        }
+    }
+
+    struct Payload: Encodable {
+        let name: String
+        let seriesId: Int?
+        let seasonNumber: Int?
+        let episodeIds: [Int]?
+
+        init(name: String, seriesId: Int? = nil, seasonNumber: Int? = nil, episodeIds: [Int]? = nil) {
+            self.name = name
+            self.seriesId = seriesId
+            self.seasonNumber = seasonNumber
+            self.episodeIds = episodeIds
+        }
     }
 }
 
 extension Instance {
-    static var void: Self {
+    static var radarrVoid: Self {
         .init(
-            id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
+            id: UUID(uuidString: "00000000-1000-0000-0000-000000000000")!,
             type: .radarr
         )
     }
 
-    static var sample: Self {
+    static var sonarrVoid: Self {
         .init(
-            id: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
+            id: UUID(uuidString: "00000000-2000-0000-0000-000000000000")!,
+            type: .sonarr
+        )
+    }
+
+    static var radarrDummy: Self {
+        .init(
+            id: UUID(uuidString: "00000000-2000-0000-0000-000000000000")!,
             type: .radarr,
-            label: ".sample",
+            label: ".radarr",
             url: "http://10.0.1.5:8310",
             apiKey: "3b0600c1b3aa42bfb0222f4e13a81f39",
             rootFolders: [
@@ -133,6 +183,27 @@ extension Instance {
             qualityProfiles: [
                 InstanceQualityProfile(id: 1, name: "Any"),
                 InstanceQualityProfile(id: 2, name: "4K"),
+            ]
+        )
+    }
+
+    static var sonarrDummy: Self {
+        .init(
+            id: UUID(uuidString: "00000000-4000-0000-0000-000000000000")!,
+            type: .sonarr,
+            label: ".sonarr",
+            url: "http://10.0.1.5:8989",
+            apiKey: "f8e3682b3b984cddbaa00047a09d0fbd",
+            rootFolders: [
+                InstanceRootFolders(id: 1, accessible: true, path: "/volume1/Media/TV Series", freeSpace: 2_000_000_000),
+                InstanceRootFolders(id: 2, accessible: true, path: "/volume2/Media/Docuseries", freeSpace: 2_000_000_000),
+            ],
+            qualityProfiles: [
+                InstanceQualityProfile(id: 1, name: "Any"),
+                InstanceQualityProfile(id: 2, name: "SD"),
+                InstanceQualityProfile(id: 3, name: "720p"),
+                InstanceQualityProfile(id: 4, name: "1080p"),
+                InstanceQualityProfile(id: 5, name: "4K"),
             ]
         )
     }

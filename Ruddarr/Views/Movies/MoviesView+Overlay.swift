@@ -1,14 +1,17 @@
 import SwiftUI
 
-struct NoRadarrInstance: View {
+struct NoInstance: View {
+    let type: String
+
     var body: some View {
         let description = String(
-            format: String(localized: "Connect a Radarr instance under %@."),
+            format: String(localized: "Connect a %@ instance under %@."),
+            type,
             String(format: "[%@](#view)", String(localized: "Settings"))
         )
 
         return ContentUnavailableView(
-            "No Radarr Instance",
+            "No \(type) Instance",
             systemImage: "externaldrive.badge.xmark",
             description: Text(description.toMarkdown())
         ).environment(\.openURL, .init { _ in
@@ -18,7 +21,7 @@ struct NoRadarrInstance: View {
     }
 }
 
-struct MovieNoSearchResults: View {
+struct NoMovieSearchResults: View {
     @Binding var query: String
 
     var body: some View {
@@ -32,7 +35,7 @@ struct MovieNoSearchResults: View {
             systemImage: "magnifyingglass",
             description: Text(description.toMarkdown())
         ).environment(\.openURL, .init { _ in
-            dependencies.router.moviesPath.append(MoviesView.Path.search(query))
+            dependencies.router.moviesPath.append(MoviesPath.search(query))
             query = ""
             return .handled
         })

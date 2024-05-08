@@ -4,7 +4,7 @@ import SwiftUI
 struct API {
     var fetchMovies: (Instance) async throws -> [Movie]
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
-    var lookupReleases: (Movie.ID, Instance) async throws -> [MovieRelease]
+    var lookupMovieReleases: (Movie.ID, Instance) async throws -> [MovieRelease]
 
     var downloadRelease: (String, Int, Instance) async throws -> Empty
 
@@ -17,11 +17,23 @@ struct API {
     var deleteMovie: (Movie, Instance) async throws -> Empty
 
     var fetchSeries: (Instance) async throws -> [Series]
+    var fetchEpisodes: (Series.ID, Instance) async throws -> [Episode]
+    var lookupSeries: (_ instance: Instance, _ query: String) async throws -> [Series]
+    var lookupSeriesReleases: (Series.ID?, Series.ID?, Episode.ID?, Instance) async throws -> [SeriesRelease]
+
+    var addSeries: (Series, Instance) async throws -> Series
+    var pushSeries: (Series, Instance) async throws -> Series
+    var updateSeries: (Series, Bool, Instance) async throws -> Empty
+    var deleteSeries: (Series, Instance) async throws -> Empty
+
+    var monitorEpisode: ([Episode.ID], Bool, Instance) async throws -> Empty
 
     var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
     var episodeCalendar: (Date, Date, Instance) async throws -> [Episode]
 
-    var command: (RadarrCommand, Instance) async throws -> Empty
+    var radarrCommand: (RadarrCommand, Instance) async throws -> Empty
+    var sonarrCommand: (SonarrCommand, Instance) async throws -> Empty
+
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolders]
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
@@ -45,7 +57,7 @@ extension API {
                 .appending(queryItems: [.init(name: "term", value: query)])
 
             return try await request(url: url, headers: instance.auth)
-        }, lookupReleases: { movieId, instance in
+        }, lookupMovieReleases: { movieId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/release")
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
@@ -113,6 +125,70 @@ extension API {
                 .appending(path: "/api/v3/series")
 
             return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+        }, fetchEpisodes: { seriesId, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/episode")
+                .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
+
+            return try await request(url: url, headers: instance.auth)
+        }, lookupSeries: { instance, query in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/series/lookup")
+                .appending(queryItems: [.init(name: "term", value: query)])
+
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+        }, lookupSeriesReleases: { seriesId, seasonId, episodeId, instance in
+            var url = URL(string: instance.url)!
+                .appending(path: "/api/v3/release")
+
+            if let episode = episodeId {
+                url = url.appending(queryItems: [.init(name: "episodeId", value: String(episode))])
+            } else {
+                url = url.appending(queryItems: [.init(name: "seriesId", value: String(seriesId!)), .init(name: "seasonNumber", value: String(seasonId!))])
+            }
+
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
+        }, addSeries: { series, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/series")
+
+            return try await request(method: .post, url: url, headers: instance.auth, body: series)
+        }, pushSeries: { series, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/series")
+                .appending(path: String(series.id))
+
+            return try await request(method: .put, url: url, headers: instance.auth, body: series)
+        }, updateSeries: { series, moveFiles, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/series/editor")
+
+            let body = SeriesEditorResource(
+                seriesIds: [series.id],
+                monitored: series.monitored,
+                monitorNewItems: series.monitorNewItems ?? .none,
+                seriesType: series.seriesType,
+                seasonFolder: series.seasonFolder,
+                qualityProfileId: series.qualityProfileId,
+                rootFolderPath: series.rootFolderPath,
+                moveFiles: moveFiles ? true : nil
+            )
+
+            return try await request(method: .put, url: url, headers: instance.auth, body: body)
+        }, deleteSeries: { series, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/series")
+                .appending(path: String(series.id))
+                .appending(queryItems: [.init(name: "deleteFiles", value: "true")])
+
+            return try await request(method: .delete, url: url, headers: instance.auth)
+        }, monitorEpisode: { ids, monitored, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/episode/monitor")
+
+            let body = EpisodesMonitorResource(episodeIds: ids, monitored: monitored)
+
+            return try await request(method: .put, url: url, headers: instance.auth, body: body)
         }, movieCalendar: { start, end, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/calendar")
@@ -133,11 +209,16 @@ extension API {
                 ])
 
             return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-        }, command: { command, instance in
+        }, radarrCommand: { command, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/command")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: command)
+            return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
+        }, sonarrCommand: { command, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/command")
+
+            return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
         }, systemStatus: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/system/status")
@@ -216,7 +297,7 @@ extension API {
             "url": url,
             "method": method.rawValue,
             "timeout": timeout,
-            "body": body ?? "",
+            "body": body ?? "nil",
         ])
 
         var json: Data?

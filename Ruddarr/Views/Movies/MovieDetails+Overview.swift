@@ -8,7 +8,7 @@ extension MovieDetails {
                     CGSize(width: 150, height: 225),
                     contentMode: .fill
                 )
-                .modifier(MovieDetailsPosterModifier())
+                .modifier(MediaDetailsPosterModifier())
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .padding(.trailing, UIDevice.current.userInterfaceIdiom == .phone ? 8 : 16)
@@ -84,15 +84,5 @@ extension MovieDetails {
         }
         .font(.callout)
         .foregroundStyle(.secondary)
-    }
-}
-
-struct MovieDetailsPosterModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            content.containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 0)
-        } else {
-            content.frame(width: 200, height: 300)
-        }
     }
 }

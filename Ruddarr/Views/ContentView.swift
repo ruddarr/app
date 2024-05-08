@@ -94,8 +94,7 @@ struct ContentView: View {
     var sidebar: some View {
         List(selection: dependencies.$router.selectedTab.optional) {
             Text(verbatim: "Ruddarr")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(.largeTitle.bold())
 
             ForEach(Tab.allCases) { tab in
                 if tab != .settings {
@@ -122,8 +121,8 @@ struct ContentView: View {
         switch tab {
         case .movies:
             MoviesView()
-        // case .series:
-        //     SeriesView()
+        case .series:
+            SeriesView()
         case .calendar:
             CalendarView()
         case .settings:

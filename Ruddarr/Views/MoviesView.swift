@@ -1,6 +1,15 @@
 import SwiftUI
 import Combine
 
+enum MoviesPath: Hashable {
+    case search(String = "")
+    case preview(Data?)
+    case movie(Movie.ID)
+    case edit(Movie.ID)
+    case releases(Movie.ID)
+    case metadata(Movie.ID)
+}
+
 struct MoviesView: View {
     @AppStorage("movieSort", store: dependencies.store) var sort: MovieSort = .init()
 
@@ -15,21 +24,12 @@ struct MoviesView: View {
 
     @Environment(\.scenePhase) private var scenePhase
 
-    enum Path: Hashable {
-        case search(String = "")
-        case preview(Data?)
-        case movie(Movie.ID)
-        case edit(Movie.ID)
-        case releases(Movie.ID)
-        case metadata(Movie.ID)
-    }
-
     var body: some View {
         // swiftlint:disable closure_body_length
         NavigationStack(path: dependencies.$router.moviesPath) {
             Group {
                 if instance.isVoid {
-                    NoRadarrInstance()
+                    NoInstance(type: "Radarr")
                 } else {
                     ScrollView {
                         movieItemGrid
@@ -47,37 +47,41 @@ struct MoviesView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(for: Path.self) {
+            .navigationDestination(for: MoviesPath.self) {
                 switch $0 {
                 case .search(let query):
                     MovieSearchView(searchQuery: query)
-                        .environment(instance).environmentObject(settings)
+                        .environment(instance)
+                        .environmentObject(settings)
                 case .preview(let data):
-                    if let payload = data,
-                       let movie = try? JSONDecoder().decode(Movie.self, from: payload)
-                    {
+                    if let movie = try? JSONDecoder().decode(Movie.self, from: data!) {
                         MoviePreviewView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .movie(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .edit(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieEditView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .releases(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieReleasesView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .metadata(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieMetadataView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 }
             }
@@ -126,7 +130,7 @@ struct MoviesView: View {
                 if notConnectedToInternet {
                     NoInternet()
                 } else if hasNoSearchResults {
-                    MovieNoSearchResults(query: $searchQuery)
+                    NoMovieSearchResults(query: $searchQuery)
                 } else if isLoadingMovies {
                     Loading()
                 } else if hasNoMatchingResults {
@@ -181,7 +185,7 @@ struct MoviesView: View {
 
         LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
             ForEach(instance.movies.cachedItems) { movie in
-                NavigationLink(value: Path.movie(movie.id)) {
+                NavigationLink(value: MoviesPath.movie(movie.id)) {
                     MovieGridItem(movie: movie)
                 }
                 .buttonStyle(.plain)
@@ -247,7 +251,7 @@ struct MoviesView: View {
         func scheduleNextRun(time: DispatchTime, id: Movie.ID) {
             DispatchQueue.main.asyncAfter(deadline: time) {
                 if instance.movies.items.first(where: { $0.id == id }) != nil {
-                    dependencies.router.moviesPath = .init([Path.movie(id)])
+                    dependencies.router.moviesPath = .init([MoviesPath.movie(id)])
                     return
                 }
 

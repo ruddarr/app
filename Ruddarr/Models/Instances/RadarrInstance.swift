@@ -13,12 +13,12 @@ class RadarrInstance {
     var releases: MovieReleases
     var metadata: MovieMetadata
 
-    init(_ instance: Instance = .void) {
+    init(_ instance: Instance = .radarrVoid) {
         if instance.type != .radarr {
             fatalError("\(instance.type.rawValue) given to RadarrInstance")
         }
 
-        self.isVoid = instance == .void
+        self.isVoid = instance == .radarrVoid
 
         self.instance = instance
         self.movies = Movies(instance)
@@ -28,7 +28,7 @@ class RadarrInstance {
     }
 
     func switchTo(_ target: Instance) {
-        isVoid = target == .void
+        isVoid = target == .radarrVoid
 
         self.instance = target
         self.movies = Movies(target)

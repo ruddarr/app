@@ -115,9 +115,9 @@ struct MovieHistoryEvent: Identifiable, Codable {
 
     let sourceTitle: String?
 
-    let customFormats: [MovieCustomFormat]
+    let customFormats: [MediaCustomFormat]
     let customFormatScore: Int
-    let quality: MovieQualityInfo
+    let quality: MediaQuality
     let languages: [MediaLanguage]
 
     let data: [String: String?]?

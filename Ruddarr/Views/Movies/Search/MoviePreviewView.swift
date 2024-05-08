@@ -24,6 +24,7 @@ struct MoviePreviewView: View {
         .sheet(isPresented: $presentingForm) {
             NavigationStack {
                 MovieForm(movie: $movie)
+                    .padding(.top, -25)
                     .toolbar {
                         toolbarCancelButton
                         toolbarSaveButton
@@ -53,7 +54,7 @@ struct MoviePreviewView: View {
     @ToolbarContentBuilder
     var toolbarNextButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Button("Add to Library") {
+            Button("Add Movie") {
                 presentingForm = true
             }.id(UUID())
         }
@@ -92,7 +93,7 @@ struct MoviePreviewView: View {
         presentingForm = false
         movieSort.filter = .all
 
-        let moviePath = MoviesView.Path.movie(addedMovie.id)
+        let moviePath = MoviesPath.movie(addedMovie.id)
 
         dependencies.router.moviesPath.removeLast(dependencies.router.moviesPath.count)
         dependencies.router.moviesPath.append(moviePath)
@@ -108,12 +109,12 @@ struct MoviePreviewView: View {
     dependencies.router.selectedTab = .movies
 
     dependencies.router.moviesPath.append(
-        MoviesView.Path.preview(
+        MoviesPath.preview(
             try? JSONEncoder().encode(movie)
         )
     )
 
     return ContentView()
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }

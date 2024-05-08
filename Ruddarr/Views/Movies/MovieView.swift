@@ -39,7 +39,7 @@ struct MovieView: View {
             }
             Button("Cancel", role: .cancel) { }
         } message: {
-            Text("This will delete the movie and permanently erase the movie folder and its contents.")
+            Text("This will delete the movie and permanently erase its folder and its contents.")
         }
     }
 
@@ -49,15 +49,7 @@ struct MovieView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                Circle()
-                    .fill(.secondarySystemBackground)
-                    .frame(width: 28, height: 28)
-                    .overlay {
-                        Image(systemName: "bookmark")
-                            .font(.system(size: 11, weight: .bold))
-                            .symbolVariant(movie.monitored ? .fill : .none)
-                            .foregroundStyle(.tint)
-                    }
+                ToolbarMonitorButton(monitored: $movie.monitored)
             }
             .buttonStyle(.plain)
             .allowsHitTesting(!instance.movies.isWorking)
@@ -71,34 +63,21 @@ struct MovieView: View {
             Menu {
                 Section {
                     refreshAction
-                    editAction
-                }
-
-                Section {
                     automaticSearch
                     interactiveSearch
                 }
 
                 openInLinks
-                deleteMovieButton
+
+                Section {
+                    editAction
+                    deleteMovieButton
+                }
             } label: {
-                actionMenuIcon
+                ToolbarActionButton()
             }
             .id(UUID())
         }
-    }
-
-    var actionMenuIcon: some View {
-        Circle()
-            .fill(.secondarySystemBackground)
-            .frame(width: 28, height: 28)
-            .overlay {
-                Image(systemName: "ellipsis")
-                    .symbolVariant(.fill)
-                    .font(.system(size: 12, weight: .bold))
-                    .symbolVariant(movie.monitored ? .fill : .none)
-                    .foregroundStyle(.tint)
-            }
     }
 
     var refreshAction: some View {
@@ -109,7 +88,7 @@ struct MovieView: View {
 
     var editAction: some View {
         NavigationLink(
-            value: MoviesView.Path.edit(movie.id)
+            value: MoviesPath.edit(movie.id)
         ) {
             Label("Edit", systemImage: "pencil")
         }
@@ -122,9 +101,11 @@ struct MovieView: View {
     }
 
     var interactiveSearch: some View {
-        NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
+        NavigationLink(
+            value: MoviesPath.releases(movie.id)
+        ) {
             Label("Interactive Search", systemImage: "person")
-        })
+        }
     }
 
     var openInLinks: some View {
@@ -140,10 +121,8 @@ struct MovieView: View {
     }
 
     var deleteMovieButton: some View {
-        Section {
-            Button("Delete", systemImage: "trash", role: .destructive) {
-                showDeleteConfirmation = true
-            }
+        Button("Delete", systemImage: "trash", role: .destructive) {
+            showDeleteConfirmation = true
         }
     }
 }
@@ -162,7 +141,7 @@ extension MovieView {
 
     @MainActor
     func refresh() async {
-        guard await instance.movies.command(movie, command: .refresh) else {
+        guard await instance.movies.command(.refresh([movie.id])) else {
             return
         }
 
@@ -175,13 +154,13 @@ extension MovieView {
 
     @MainActor
     func dispatchSearch() async {
-        guard await instance.movies.command(movie, command: .automaticSearch) else {
+        guard await instance.movies.command(.search([movie.id])) else {
             return
         }
 
         dependencies.toast.show(.searchQueued)
 
-        TelemetryManager.send("automaticSearchDispatched")
+        TelemetryManager.send("automaticSearchDispatched", with: ["type": "movie"])
     }
 
     @MainActor
@@ -203,10 +182,10 @@ extension MovieView {
     dependencies.router.selectedTab = .movies
 
     dependencies.router.moviesPath.append(
-        MoviesView.Path.movie(movie.id)
+        MoviesPath.movie(movie.id)
     )
 
     return ContentView()
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }

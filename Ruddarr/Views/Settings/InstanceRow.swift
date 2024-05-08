@@ -28,7 +28,10 @@ struct InstanceRow: View {
                 Text(instance.label)
 
                 if webhook != .pending {
-                    Image(systemName: notifications && webhook == .enabled ? "bell" : "bell.slash")
+                    Image(systemName: "bell")
+                        .symbolVariant(
+                            notifications && webhook == .enabled ? .none : .slash
+                        )
                         .imageScale(.small)
                         .scaleEffect(0.95)
                         .foregroundStyle(.secondary)

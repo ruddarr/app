@@ -1,23 +1,21 @@
 import SwiftUI
 
-struct Bullet: View {
-    var body: some View {
-        Text(verbatim: "•")
-    }
-}
-
 extension View {
     func withAppState() -> some View {
         modifier(WithAppStateModifier())
     }
 
-    func withSettings() -> some View {
-        modifier(WithSettingsModifier())
+    func withRadarrInstance(movies: [Movie] = []) -> some View {
+        let instance = RadarrInstance(.radarrDummy)
+        instance.movies.items = movies
+
+        return self.environment(instance)
     }
 
-    func withRadarrInstance(movies: [Movie] = [], lookup: [Movie] = []) -> some View {
-        let instance = RadarrInstance(.sample)
-        instance.movies.items = movies
+    func withSonarrInstance(series: [Series] = [], episodes: [Episode] = []) -> some View {
+        let instance = SonarrInstance(.sonarrDummy)
+        instance.series.items = series
+        instance.episodes.items = episodes
 
         return self.environment(instance)
     }
@@ -41,27 +39,15 @@ private struct WithAppStateModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         let settings = AppSettings()
-        let radarrInstance = settings.radarrInstance ?? Instance.void
+        let radarrInstance = settings.radarrInstance ?? Instance.radarrVoid
+        let sonarrInstance = settings.sonarrInstance ?? Instance.sonarrVoid
 
         content
             .tint(theme.tint)
             .preferredColorScheme(appearance.preferredColorScheme)
             .environmentObject(settings)
             .environment(RadarrInstance(radarrInstance))
-    }
-}
-
-private struct WithSettingsModifier: ViewModifier {
-    @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
-    @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
-
-    func body(content: Content) -> some View {
-        let settings = AppSettings()
-
-        content
-            .tint(theme.tint)
-            .preferredColorScheme(appearance.preferredColorScheme)
-            .environmentObject(settings)
+            .environment(SonarrInstance(sonarrInstance))
     }
 }
 

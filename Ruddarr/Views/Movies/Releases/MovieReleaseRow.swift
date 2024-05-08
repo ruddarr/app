@@ -18,7 +18,8 @@ struct MovieReleaseRow: View {
                  MovieReleaseSheet(release: release)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
-                    .environment(instance).environmentObject(settings)
+                    .environment(instance)
+                    .environmentObject(settings)
             }
     }
 
@@ -117,10 +118,10 @@ struct MovieReleaseRow: View {
     let movie = movies.first(where: { $0.id == 66 }) ?? movies[0]
 
     dependencies.router.selectedTab = .movies
-    dependencies.router.moviesPath.append(MoviesView.Path.movie(movie.id))
-    dependencies.router.moviesPath.append(MoviesView.Path.releases(movie.id))
+    dependencies.router.moviesPath.append(MoviesPath.movie(movie.id))
+    dependencies.router.moviesPath.append(MoviesPath.releases(movie.id))
 
     return ContentView()
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }

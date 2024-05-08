@@ -39,7 +39,8 @@ extension InstanceEditView {
 
         if instance.id == settings.radarrInstanceId {
             dependencies.router.reset()
-            radarrInstance.switchTo(.void)
+            radarrInstance.switchTo(.radarrVoid)
+            sonarrInstance.switchTo(.sonarrVoid)
         }
 
         settings.deleteInstance(instance)

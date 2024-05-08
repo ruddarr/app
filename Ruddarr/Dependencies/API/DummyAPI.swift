@@ -13,7 +13,7 @@ extension API {
             return movies.filter {
                 $0.title.localizedCaseInsensitiveContains(query)
             }
-        }, lookupReleases: { _, _ in
+        }, lookupMovieReleases: { _, _ in
             try await Task.sleep(nanoseconds: 500_000_000)
 
             return loadPreviewData(filename: "movie-releases")
@@ -58,6 +58,40 @@ extension API {
             try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return loadPreviewData(filename: "series")
+        }, fetchEpisodes: { _, _ in
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+
+            return loadPreviewData(filename: "series-episodes")
+        }, lookupSeries: { _, _ in
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+
+            return loadPreviewData(filename: "series-lookup")
+        }, lookupSeriesReleases: { _, _, _, _ in
+            try await Task.sleep(nanoseconds: 500_000_000)
+
+            return loadPreviewData(filename: "series-releases")
+        }, addSeries: { _, _ in
+            let series: [Series] = loadPreviewData(filename: "series")
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return series[0]
+        }, pushSeries: { _, _ in
+            let series: [Series] = loadPreviewData(filename: "series")
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return series[0]
+        }, updateSeries: { _, _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
+        }, deleteSeries: { _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
+        }, monitorEpisode: { _, _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
         }, movieCalendar: { _, _, _ in
             let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
 
@@ -67,7 +101,11 @@ extension API {
             let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
 
             return episodes
-        }, command: { _, _ in
+        }, radarrCommand: { _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
+        }, sonarrCommand: { _, _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()

@@ -9,7 +9,7 @@ struct CustomFormats: View {
         self.style = style
     }
 
-    init(_ formats: [MovieCustomFormat], style: CustomFormatStyle = .primary) {
+    init(_ formats: [MediaCustomFormat], style: CustomFormatStyle = .primary) {
         self.formats = formats.map { $0.label }
         self.style = style
     }

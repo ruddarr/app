@@ -35,24 +35,26 @@ struct CalendarMovie: View {
             .background(.secondarySystemBackground)
             .clipShape(RoundedRectangle(cornerRadius: 6))
             .onTapGesture {
-                let instance = movie.instanceId!.uuidString
-                let deeplink = URL(string: "ruddarr://movies/open/\(movie.id)?instance=\(instance)")
-                try? QuickActions.Deeplink(url: deeplink!)()
+                let deeplink = String(
+                    format: "ruddarr://movies/open/%d?instance=%@",
+                    movie.id,
+                    movie.instanceId!.uuidString
+                )
+
+                try? QuickActions.Deeplink(url: URL(string: deeplink)!)()
             }
     }
 
     @ViewBuilder
     var statusIcon: some View {
         if movie.isDownloaded {
-            Image(systemName: "checkmark")
-                .symbolVariant(.circle.fill)
+            Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !movie.monitored {
-            Image(systemName: "bookmark.slash")
+            Image(systemName: "bookmark").symbolVariant(.slash)
         } else if movie.isWaiting {
             Image(systemName: "clock")
         } else if movie.monitored {
-            Image(systemName: "xmark")
-                .symbolVariant(.circle)
+            Image(systemName: "xmark").symbolVariant(.circle)
         }
     }
 }
@@ -103,6 +105,16 @@ struct CalendarEpisode: View {
         .frame(maxWidth: .infinity)
         .background(.secondarySystemBackground)
         .clipShape(RoundedRectangle(cornerRadius: 6))
+        .onTapGesture {
+            let deeplink = String(
+                format: "ruddarr://series/open/%d?season=%d&instance=%@",
+                episode.seriesId,
+                episode.seasonNumber,
+                episode.instanceId!.uuidString
+            )
+
+            try? QuickActions.Deeplink(url: URL(string: deeplink)!)()
+        }
     }
 
     @ViewBuilder
@@ -129,15 +141,13 @@ struct CalendarEpisode: View {
     @ViewBuilder
     var statusIcon: some View {
         if episode.isDownloaded {
-            Image(systemName: "checkmark")
-                .symbolVariant(.circle.fill)
+            Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !episode.monitored {
-            Image(systemName: "bookmark.slash")
-        } else if episode.isWaiting {
+            Image(systemName: "bookmark").symbolVariant(.slash)
+        } else if episode.hasAired {
             Image(systemName: "clock")
         } else if episode.monitored {
-            Image(systemName: "xmark")
-                .symbolVariant(.circle)
+            Image(systemName: "xmark").symbolVariant(.circle)
         }
     }
 }

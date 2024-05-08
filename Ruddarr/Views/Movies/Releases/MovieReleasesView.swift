@@ -16,7 +16,8 @@ struct MovieReleasesView: View {
         List {
             ForEach(releases) { release in
                 MovieReleaseRow(release: release)
-                    .environment(instance).environmentObject(settings)
+                    .environment(instance)
+                    .environmentObject(settings)
             }
         }
         .listStyle(.inset)
@@ -55,7 +56,7 @@ struct MovieReleasesView: View {
         ContentUnavailableView(
             "No Releases Found",
             systemImage: "slash.circle",
-            description: Text("Radarr found no releases for \"\(movie.title)\".")
+            description: Text("No releases found for \"\(movie.title)\".")
         )
     }
 
@@ -278,10 +279,10 @@ extension MovieReleasesView {
     let movie = movies.first(where: { $0.id == 66 }) ?? movies[0]
 
     dependencies.router.selectedTab = .movies
-    dependencies.router.moviesPath.append(MoviesView.Path.movie(movie.id))
-    dependencies.router.moviesPath.append(MoviesView.Path.releases(movie.id))
+    dependencies.router.moviesPath.append(MoviesPath.movie(movie.id))
+    dependencies.router.moviesPath.append(MoviesPath.releases(movie.id))
 
     return ContentView()
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }

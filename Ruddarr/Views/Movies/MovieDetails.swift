@@ -98,13 +98,13 @@ struct MovieDetails: View {
         Group {
             Button {
                 Task { @MainActor in
-                    guard await instance.movies.command(movie, command: .automaticSearch) else {
+                    guard await instance.movies.command(.search([movie.id])) else {
                         return
                     }
 
                     dependencies.toast.show(.searchQueued)
 
-                    TelemetryManager.send("automaticSearchDispatched")
+                    TelemetryManager.send("automaticSearchDispatched", with: ["type": "movie"])
                 }
             } label: {
                 ButtonLabel(text: "Automatic", icon: "magnifyingglass")
@@ -114,10 +114,10 @@ struct MovieDetails: View {
             .tint(.secondary)
             .allowsHitTesting(!instance.movies.isWorking)
 
-            NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
+            NavigationLink(value: MoviesPath.releases(movie.id)) {
                 ButtonLabel(text: "Interactive", icon: "person.fill")
                     .frame(maxWidth: .infinity)
-            })
+            }
             .buttonStyle(.bordered)
             .tint(.secondary)
         }
@@ -129,7 +129,7 @@ struct MovieDetails: View {
                 MovieContextMenu(movie: movie)
             } label: {
                 ButtonLabel(text: "Open In...", icon: "arrow.up.right.square")
-                    .modifier(MoviePreviewActionModifier())
+                    .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
@@ -141,13 +141,13 @@ struct MovieDetails: View {
                     let label: LocalizedStringKey = smallScreen ? "Trailer" : "Watch Trailer"
 
                     ButtonLabel(text: label, icon: "play.fill")
-                        .modifier(MoviePreviewActionModifier())
+                        .modifier(MediaPreviewActionModifier())
                 }
                 .buttonStyle(.bordered)
                 .tint(.secondary)
             } else {
                 Spacer()
-                    .modifier(MoviePreviewActionSpacerModifier())
+                    .modifier(MediaPreviewActionSpacerModifier())
             }
         }
     }
@@ -252,33 +252,13 @@ struct MovieDetails: View {
     }
 }
 
-struct MoviePreviewActionModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            content.frame(maxWidth: .infinity)
-        } else {
-            content.frame(maxWidth: 215)
-        }
-    }
-}
-
-struct MoviePreviewActionSpacerModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            content.frame(maxWidth: .infinity)
-        } else {
-            content
-        }
-    }
-}
-
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     return MovieView(movie: Binding(get: { movie }, set: { _ in }))
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }
 
 #Preview("Preview") {
@@ -286,6 +266,6 @@ struct MoviePreviewActionSpacerModifier: ViewModifier {
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     return MovieView(movie: Binding(get: { movie }, set: { _ in }))
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }

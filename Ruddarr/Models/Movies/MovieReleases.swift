@@ -28,7 +28,7 @@ class MovieReleases {
         isSearching = true
 
         do {
-            items = try await dependencies.api.lookupReleases(movie.id, instance)
+            items = try await dependencies.api.lookupMovieReleases(movie.id, instance)
             setIndexers()
             setQualities()
             setProtocols()
@@ -95,15 +95,14 @@ struct MovieRelease: Identifiable, Codable {
     var id: String { guid }
 
     let guid: String
-    let mappedMovieId: Int?
-    let type: MovieReleaseType
+    let type: MediaReleaseType
     let title: String
     let size: Int
     let age: Int
     let ageMinutes: Float
     let rejected: Bool
 
-    let customFormats: [MovieCustomFormat]?
+    let customFormats: [MediaCustomFormat]?
     let customFormatScore: Int
 
     let indexerId: Int
@@ -112,7 +111,7 @@ struct MovieRelease: Identifiable, Codable {
     let seeders: Int?
     let leechers: Int?
 
-    let quality: MovieReleaseQuality
+    let quality: MediaQuality
     let languages: [MediaLanguage]
     let rejections: [String]
 
@@ -123,7 +122,6 @@ struct MovieRelease: Identifiable, Codable {
 
     enum CodingKeys: String, CodingKey {
         case guid
-        case mappedMovieId
         case type = "protocol"
         case title
         case size
@@ -279,62 +277,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 }
 
-struct MovieReleaseQuality: Codable {
-    let quality: MovieReleaseQualityDetails
-    let revision: MovieReleaseRevisionDetails
-}
-
-struct MovieReleaseQualityDetails: Codable {
-    let name: String?
-    let resolution: Int
-    let source: String // unknown, cam, telesync, telecine, workprint, dvd, tv, webdl, webrip, bluray
-    let modifier: String // none, regional, screener, rawhd, brdisk, remux
-
-    var normalizedName: String {
-        guard let label = name else {
-            return String(localized: "Unknown")
-        }
-
-        if let range = label.range(of: #"-(\d+p)$"#, options: .regularExpression) {
-            return String(name![range].dropFirst())
-        }
-
-        return label
-            .replacingOccurrences(of: "BR-DISK", with: "1080p")
-            .replacingOccurrences(of: "DVD-R", with: "480p")
-            .replacingOccurrences(of: "SDTV", with: "480p")
-    }
-}
-
-struct MovieReleaseRevisionDetails: Codable {
-    let version: Int
-    let real: Int
-    let isRepack: Bool
-
-    var isReal: Bool {
-        real > 0
-    }
-
-    var isProper: Bool {
-        version > 1
-    }
-}
-
 struct DownloadMovieRelease: Codable {
     let guid: String
     let indexerId: Int
-}
-
-enum MovieReleaseType: String, Codable {
-    case usenet
-    case torrent
-    case unknown
-
-    var label: String {
-        switch self {
-        case .usenet: String(localized: "Usenet")
-        case .torrent: String(localized: "Torrent")
-        case .unknown: String(localized: "Unknown")
-        }
-    }
 }

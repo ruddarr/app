@@ -110,13 +110,7 @@ struct Movie: Identifiable, Codable {
 
     var runtimeLabel: String? {
         guard runtime > 0 else { return nil }
-
-        let hours = runtime / 60
-        let minutes = runtime % 60
-
-        return hours == 0
-            ? String(format: String(localized: "%dm", comment: "%d = minutes (13m)"), minutes)
-            : String(format: String(localized: "%dh %dm", comment: "$1 = hours, $2 = minutes (1h 13m)"), hours, minutes)
+        return formatRuntime(runtime)
     }
 
     var certificationLabel: String {
@@ -157,14 +151,6 @@ struct Movie: Identifiable, Codable {
 
     var remotePoster: String? {
         if let remote = self.images.first(where: { $0.coverType == "poster" }) {
-            return remote.remoteURL
-        }
-
-        return nil
-    }
-
-    var remoteFanart: String? {
-        if let remote = self.images.first(where: { $0.coverType == "fanart" }) {
             return remote.remoteURL
         }
 

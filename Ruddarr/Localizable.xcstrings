@@ -131,6 +131,16 @@
         }
       }
     },
+    "%lld Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Episodes"
+          }
+        }
+      }
+    },
     "+%d more..." : {
       "localizations" : {
         "en" : {
@@ -221,12 +231,22 @@
         }
       }
     },
-    "Add to Library" : {
+    "Add Series" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add to Library"
+            "value" : "Add Series"
+          }
+        }
+      }
+    },
+    "Add TV Series" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add TV Series"
           }
         }
       }
@@ -261,12 +281,32 @@
         }
       }
     },
+    "All Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All Episodes"
+          }
+        }
+      }
+    },
     "All Movies" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "All Movies"
+          }
+        }
+      }
+    },
+    "All TV Series" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All TV Series"
           }
         }
       }
@@ -701,6 +741,16 @@
         }
       }
     },
+    "Check the spelling or try [adding the series](%@)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check the spelling or try [adding the series](%@)."
+          }
+        }
+      }
+    },
     "Chinese" : {
       "localizations" : {
         "en" : {
@@ -731,16 +781,6 @@
         }
       }
     },
-    "Coming Soon" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coming Soon"
-          }
-        }
-      }
-    },
     "Community" : {
       "localizations" : {
         "en" : {
@@ -751,12 +791,12 @@
         }
       }
     },
-    "Connect a Radarr instance under %@." : {
+    "Connect a %@ instance under %@." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Connect a Radarr instance under %@."
+            "value" : "Connect a %1$@ instance under %2$@."
           }
         }
       }
@@ -967,6 +1007,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Delete Movie"
+          }
+        }
+      }
+    },
+    "Delete Series" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Series"
           }
         }
       }
@@ -1212,6 +1262,16 @@
         }
       }
     },
+    "Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Episodes"
+          }
+        }
+      }
+    },
     "Error" : {
       "localizations" : {
         "en" : {
@@ -1238,6 +1298,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Everything"
+          }
+        }
+      }
+    },
+    "Existing Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Existing Episodes"
           }
         }
       }
@@ -1352,6 +1422,16 @@
         }
       }
     },
+    "First Season" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First Season"
+          }
+        }
+      }
+    },
     "Fitness" : {
       "localizations" : {
         "en" : {
@@ -1408,6 +1488,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "French"
+          }
+        }
+      }
+    },
+    "Future Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Future Episodes"
           }
         }
       }
@@ -1783,6 +1873,16 @@
         }
       }
     },
+    "Last Season" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last Season"
+          }
+        }
+      }
+    },
     "Latest" : {
       "localizations" : {
         "en" : {
@@ -1953,6 +2053,36 @@
         }
       }
     },
+    "Missing Episodes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missing Episodes"
+          }
+        }
+      }
+    },
+    "Monitor" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monitor"
+          }
+        }
+      }
+    },
+    "Monitor Specials" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monitor Specials"
+          }
+        }
+      }
+    },
     "Monitored" : {
       "localizations" : {
         "en" : {
@@ -1989,6 +2119,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Move the movie files to \"%@\"?"
+          }
+        }
+      }
+    },
+    "Move the series files to \"%@\"?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move the series files to \"%@\"?"
           }
         }
       }
@@ -2113,16 +2253,6 @@
         }
       }
     },
-    "Movie Search" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movie Search"
-          }
-        }
-      }
-    },
     "Movie Upgraded" : {
       "localizations" : {
         "en" : {
@@ -2173,12 +2303,42 @@
         }
       }
     },
+    "Network" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Network"
+          }
+        }
+      }
+    },
+    "Next Airing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Airing"
+          }
+        }
+      }
+    },
     "No" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "No"
+          }
+        }
+      }
+    },
+    "No %@ Instance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No %@ Instance"
           }
         }
       }
@@ -2213,22 +2373,22 @@
         }
       }
     },
-    "No Radarr Instance" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Radarr Instance"
-          }
-        }
-      }
-    },
     "No Releases Found" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "No Releases Found"
+          }
+        }
+      }
+    },
+    "No releases found for \"%@\"." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No releases found for \"%@\"."
           }
         }
       }
@@ -2259,6 +2419,37 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No Results for \"%@\""
+          }
+        }
+      }
+    },
+    "No Series Match" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Series Match"
+          }
+        }
+      }
+    },
+    "No series match the selected filters." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No series match the selected filters."
+          }
+        }
+      }
+    },
+    "None" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "None"
           }
         }
       }
@@ -2802,6 +2993,16 @@
         }
       }
     },
+    "Pilot Episode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilot Episode"
+          }
+        }
+      }
+    },
     "Please check your internet connection and try again." : {
       "localizations" : {
         "en" : {
@@ -2942,12 +3143,12 @@
         }
       }
     },
-    "Radarr found no releases for \"%@\"." : {
+    "Recent Episodes" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Radarr found no releases for \"%@\"."
+            "value" : "Recent Episodes"
           }
         }
       }
@@ -3182,6 +3383,16 @@
         }
       }
     },
+    "Search Monitored" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Monitored"
+          }
+        }
+      }
+    },
     "Search Queued" : {
       "localizations" : {
         "en" : {
@@ -3202,6 +3413,16 @@
         }
       }
     },
+    "Season %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season %lld"
+          }
+        }
+      }
+    },
     "Season Finale" : {
       "localizations" : {
         "en" : {
@@ -3212,12 +3433,32 @@
         }
       }
     },
+    "Season Folders" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season Folders"
+          }
+        }
+      }
+    },
     "Season Premiere" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Season Premiere"
+          }
+        }
+      }
+    },
+    "Seasons" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seasons"
           }
         }
       }
@@ -3262,6 +3503,16 @@
         }
       }
     },
+    "Series Deleted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Series Deleted"
+          }
+        }
+      }
+    },
     "Series Finale" : {
       "localizations" : {
         "en" : {
@@ -3278,6 +3529,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Series Premiere"
+          }
+        }
+      }
+    },
+    "Series Type" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Series Type"
           }
         }
       }
@@ -3418,6 +3679,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Special"
+          }
+        }
+      }
+    },
+    "Specials" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Specials"
           }
         }
       }
@@ -3612,12 +3883,22 @@
         }
       }
     },
-    "This will delete the movie and permanently erase the movie folder and its contents." : {
+    "This will delete the movie and permanently erase its folder and its contents." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This will delete the movie and permanently erase the movie folder and its contents."
+            "value" : "This will delete the movie and permanently erase its folder and its contents."
+          }
+        }
+      }
+    },
+    "This will delete the series and permanently erase its folder and its contents." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This will delete the series and permanently erase its folder and its contents."
           }
         }
       }
@@ -3638,6 +3919,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Today"
+          }
+        }
+      }
+    },
+    "Today at %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today at %@"
+          }
+        }
+      }
+    },
+    "Tomorrow" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow"
+          }
+        }
+      }
+    },
+    "Tomorrow at %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow at %@"
           }
         }
       }
@@ -3682,16 +3993,6 @@
         }
       }
     },
-    "TV Series will be added once the movies component has been thoroughly tested in TestFlight." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "TV Series will be added once the movies component has been thoroughly tested in TestFlight."
-          }
-        }
-      }
-    },
     "Type" : {
       "localizations" : {
         "en" : {
@@ -3708,6 +4009,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ukrainian"
+          }
+        }
+      }
+    },
+    "Unaired" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unaired"
           }
         }
       }
@@ -3759,6 +4070,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unlocks unlimited instance notifications, all alternate app icons and supports the continued indie development of Ruddarr."
+          }
+        }
+      }
+    },
+    "Unmonitor Specials" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unmonitor Specials"
           }
         }
       }
@@ -4020,6 +4341,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Year"
+          }
+        }
+      }
+    },
+    "Yesterday" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yesterday"
+          }
+        }
+      }
+    },
+    "Yesterday at %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yesterday at %@"
           }
         }
       }

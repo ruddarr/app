@@ -5,7 +5,7 @@ extension MoviesView {
     var toolbarSearchButton: some ToolbarContent {
         if !instance.isVoid {
             ToolbarItem(placement: .primaryAction) {
-                NavigationLink(value: Path.search()) {
+                NavigationLink(value: MoviesPath.search()) {
                     Image(systemName: "plus")
                 }.id(UUID())
             }
@@ -91,7 +91,7 @@ extension MoviesView {
     func changeInstance() {
         Task { @MainActor in
             guard let newInstanceId = settings.radarrInstanceId else {
-                leaveBreadcrumb(.fatal, category: "movies", message: "Missing radarr instance id")
+                leaveBreadcrumb(.fatal, category: "movies", message: "Missing Radarr instance id")
 
                 return
             }
