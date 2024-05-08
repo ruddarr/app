@@ -18,7 +18,11 @@ struct SeriesForm: View {
                     Toggle("Monitored", isOn: $series.monitored)
                         .tint(settings.theme.safeTint)
 
-                    // TODO: "Monitor New Seasons" (Toggle)
+                    Toggle("Monitor New Seasons", isOn: Binding(
+                        get: { series.monitorNewItems == .all },
+                        set: { value in series.monitorNewItems = value ? .all : .none })
+                    )
+                        .tint(settings.theme.safeTint)
                 } else {
                     monitoringField
                 }

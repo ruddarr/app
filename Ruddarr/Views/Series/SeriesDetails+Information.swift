@@ -23,7 +23,7 @@ extension SeriesDetails {
     }
 
     var informationItems: [InformationItem] {
-        var items = [
+        let items = [
             InformationItem(
                 label: String(localized: "Quality Profile"),
                 value: qualityProfile,
@@ -39,11 +39,17 @@ extension SeriesDetails {
                 value: series.rootFolderPath ?? "Unknown",
                 link: SeriesPath.edit(series.id)
             ),
+            InformationItem(
+                label: String(localized: "New Seasons"),
+                value: series.monitorNewItems == .all ? "Monitored" : "Unmonitored",
+                link: SeriesPath.edit(series.id)
+            ),
+            InformationItem(
+                label: String(localized: "Season Folders"),
+                value: series.seasonFolder ? "Yes" : "No",
+                link: SeriesPath.edit(series.id)
+            ),
         ]
-
-        // TODO: dates
-        // monitorNewItems
-        // season folders?
 
         return items
     }

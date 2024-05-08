@@ -2073,6 +2073,16 @@
         }
       }
     },
+    "Monitor New Seasons" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monitor New Seasons"
+          }
+        }
+      }
+    },
     "Monitor Specials" : {
       "localizations" : {
         "en" : {
@@ -2309,6 +2319,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Network"
+          }
+        }
+      }
+    },
+    "New Seasons" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Seasons"
           }
         }
       }
