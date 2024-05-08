@@ -1,5 +1,5 @@
-import Foundation
 import SwiftUI
+import Combine
 
 @Observable
 final class Router {
@@ -14,6 +14,10 @@ final class Router {
     var seriesPath: NavigationPath = .init()
     var calendarPath: NavigationPath = .init()
     var settingsPath: NavigationPath = .init()
+
+    let moviesScoll = PassthroughSubject<Void, Never>()
+    let seriesScoll = PassthroughSubject<Void, Never>()
+    let calendarScoll = PassthroughSubject<Void, Never>()
 
     func reset() {
         moviesPath = .init()

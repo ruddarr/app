@@ -16,6 +16,8 @@ struct MoviesView: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) var instance
 
+    @State private var scrollPosition: Movie.ID?
+
     @State private var searchQuery = ""
     @State private var searchPresented = false
 
@@ -33,9 +35,11 @@ struct MoviesView: View {
                 } else {
                     ScrollView {
                         movieItemGrid
+                            .scrollTargetLayout()
                             .padding(.top, searchPresented ? 10 : 0)
                             .viewPadding(.horizontal)
                     }
+                    .scrollPosition(id: $scrollPosition)
                     .task {
                         guard !instance.isVoid else { return }
                         await fetchMoviesWithAlert(ignoreOffline: true)
@@ -44,6 +48,7 @@ struct MoviesView: View {
                         await fetchMoviesWithAlert()
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
+                    .onReceive(dependencies.router.moviesScoll, perform: scrollToTop)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -240,6 +245,12 @@ struct MoviesView: View {
 
         if phase == .inactive && oldPhase == .background {
             fetchMoviesWithMetadata()
+        }
+    }
+
+    func scrollToTop() {
+        withAnimation(.smooth) {
+            scrollPosition = instance.movies.cachedItems.first?.id
         }
     }
 

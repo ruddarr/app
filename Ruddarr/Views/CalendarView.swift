@@ -67,6 +67,11 @@ struct CalendarView: View {
             .onChange(of: [displayedMediaType, onlyMonitored, onlyPremieres] as [AnyHashable]) {
                 scrollPosition = (scrollPosition ?? 0) - 86_400
             }
+            .onReceive(dependencies.router.calendarScoll) {
+                withAnimation(.smooth) {
+                    scrollPosition = calendar.today()
+                }
+            }
             .task {
                 await calendar.initialize()
                 guard !initialized else { return }

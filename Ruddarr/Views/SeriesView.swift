@@ -18,6 +18,8 @@ struct SeriesView: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
 
+    @State private var scrollPosition: Movie.ID?
+
     @State private var searchQuery = ""
     @State private var searchPresented = false
 
@@ -35,9 +37,11 @@ struct SeriesView: View {
                 } else {
                     ScrollView {
                         seriesItemGrid
+                            .scrollTargetLayout()
                             .padding(.top, searchPresented ? 10 : 0)
                             .viewPadding(.horizontal)
                     }
+                    .scrollPosition(id: $scrollPosition)
                     .task {
                         guard !instance.isVoid else { return }
                         await fetchSeriesWithAlert(ignoreOffline: true)
@@ -46,6 +50,7 @@ struct SeriesView: View {
                         await fetchSeriesWithAlert()
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
+                    .onReceive(dependencies.router.seriesScoll, perform: scrollToTop)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -248,6 +253,12 @@ struct SeriesView: View {
 
         if phase == .inactive && oldPhase == .background {
             fetchSeriesWithMetadata()
+        }
+    }
+
+    func scrollToTop() {
+        withAnimation(.smooth) {
+            scrollPosition = instance.series.cachedItems.first?.id
         }
     }
 

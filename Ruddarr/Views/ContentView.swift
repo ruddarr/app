@@ -8,6 +8,8 @@ struct ContentView: View {
     @State private var columnVisibility: NavigationSplitViewVisibility = .doubleColumn
     @State private var showTabViewOverlay: Bool = true
 
+    @ScaledMetric(relativeTo: .body) var safeAreaInsetHeight = 48
+
     private let orientationChangePublisher = NotificationCenter.default.publisher(
         for: UIDevice.orientationDidChangeNotification
     )
@@ -41,7 +43,7 @@ struct ContentView: View {
             .onChange(of: scenePhase, handleScenePhaseChange)
         } else {
             TabView(selection: dependencies.$router.selectedTab.onSet {
-                if dependencies.router.selectedTab == $0 { goToRoot(tab: $0) }
+                if dependencies.router.selectedTab == $0 { goToRootOrTop(tab: $0) }
             }) {
                 ForEach(Tab.allCases) { tab in
                     screen(for: tab)
@@ -77,19 +79,6 @@ struct ContentView: View {
             }
         }
     }
-
-    func goToRoot(tab: Tab) {
-        switch tab {
-        case .movies:
-            dependencies.router.moviesPath = .init()
-        case .settings:
-            dependencies.router.settingsPath = .init()
-        default:
-            break
-        }
-    }
-
-    @ScaledMetric(relativeTo: .body) var safeAreaInsetHeight = 48
 
     var sidebar: some View {
         List(selection: dependencies.$router.selectedTab.optional) {
@@ -134,7 +123,7 @@ struct ContentView: View {
     func rowButton(for tab: Tab) -> some View {
         Button {
             if dependencies.router.selectedTab == tab {
-                goToRoot(tab: tab)
+                goToRootOrTop(tab: tab)
             } else {
                 dependencies.router.selectedTab = tab
             }
@@ -162,6 +151,23 @@ struct ContentView: View {
         ) as? UIWindowScene {
             isPortrait = windowScene.interfaceOrientation.isPortrait
             columnVisibility = isPortrait ? .detailOnly : .doubleColumn
+        }
+    }
+
+    func goToRootOrTop(tab: Tab) {
+        switch tab {
+        case .movies:
+            dependencies.router.moviesPath.isEmpty
+                ? dependencies.router.moviesScoll.send()
+                : (dependencies.router.moviesPath = .init())
+        case .series:
+            dependencies.router.seriesPath.isEmpty
+                ? dependencies.router.seriesScoll.send()
+                : (dependencies.router.seriesPath = .init())
+        case .calendar:
+            dependencies.router.calendarScoll.send()
+        case .settings:
+            dependencies.router.settingsPath = .init()
         }
     }
 
