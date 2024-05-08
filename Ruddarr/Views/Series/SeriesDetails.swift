@@ -16,6 +16,11 @@ struct SeriesDetails: View {
             header
                 .padding(.bottom)
 
+            if series.exists {
+                nextAiring
+                    .padding(.bottom)
+            }
+
             details
                 .padding(.bottom)
 
@@ -30,13 +35,16 @@ struct SeriesDetails: View {
             }
 
             if series.exists {
-                // TODO: next episode (nzb360)
                 seasons
                     .padding(.bottom)
 
                 information
                     .padding(.bottom)
             }
+        }
+        .task {
+            guard !instance.episodes.fetched(series) else { return }
+            await instance.episodes.fetch(series)
         }
     }
 
@@ -83,14 +91,6 @@ struct SeriesDetails: View {
     @ViewBuilder
     var actions: some View {
         HStack(spacing: 24) {
-            previewActions
-        }
-        .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: 450)
-    }
-
-    var previewActions: some View {
-        Group {
             Menu {
                 SeriesContextMenu(series: series)
             } label: {
@@ -105,6 +105,8 @@ struct SeriesDetails: View {
 
             // TODO: Trailer URL?
         }
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: 450)
     }
 
     var qualityProfile: String {
@@ -147,6 +149,47 @@ struct SeriesDetails: View {
                     }
                 }.buttonStyle(.plain)
             }
+        }
+    }
+
+    var nextEpisode: Episode? {
+        guard let nextAiring = series.nextAiring else { return nil }
+        return instance.episodes.items.first { $0.airDateUtc == nextAiring }
+    }
+
+    @ViewBuilder
+    var nextAiring: some View {
+        if let episode = nextEpisode {
+            NavigationLink(value: SeriesPath.season(series.id, episode.seasonNumber)) {
+                GroupBox {
+                    VStack(alignment: .leading) {
+                        HStack(spacing: 4) {
+                            Text(episode.episodeLabel)
+                                .lineLimit(1)
+                            Bullet()
+                            Text(episode.titleLabel)
+                                .lineLimit(1)
+                        }
+                        .fontWeight(.medium)
+
+                        Text(episode.airDateUtc!.formatted(date: .complete, time: .shortened))
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
+                    .font(.subheadline)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "clock")
+                        Text(verbatim: "Next Episode")
+                    }
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.tint)
+                    .padding(.bottom, 2)
+                }
+            }
+            .buttonStyle(.plain)
         }
     }
 
