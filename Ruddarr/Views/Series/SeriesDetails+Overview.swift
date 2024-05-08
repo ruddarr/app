@@ -23,11 +23,6 @@ extension SeriesDetails {
 
                 detailsSubtitle
                     .padding(.bottom, 6)
-
-                if UIDevice.current.userInterfaceIdiom != .phone {
-                    Spacer()
-                    actions
-                }
             }
         }
     }
