@@ -98,6 +98,7 @@ struct SeriesRelease: Identifiable, Codable {
 
     let type: MediaReleaseType
     let title: String
+    let seriesTitle: String?
     let size: Int
     let age: Int
     let ageMinutes: Float
@@ -121,32 +122,32 @@ struct SeriesRelease: Identifiable, Codable {
 
     let infoUrl: String?
 
+    let downloadAllowed: Bool
     let fullSeason: Bool
+    let episodeRequested: Bool
+    let shouldOverride: Bool?
+    let special: Bool
+    let isPossibleSpecialEpisode: Bool
 
-    // TODO: fix this... Which other fields are missing?
-    // seasonNumber
-    // seriesTitle
-    // episodeNumbers
-    // absoluteEpisodeNumbers
-    // mappedSeasonNumber
-    // mappedEpisodeNumbers
-    // mappedAbsoluteEpisodeNumbers
-    // mappedSeriesId
-    // mappedEpisodeInfo
-    // downloadAllowed
-    // episodeRequested
-    // shouldOverride
-    // episodeIds
-    // episodeId
-    // seriesId
-    // `special`
-    // `isPossibleSpecialEpisode`
+    let seriesId: Series.ID?
+    let mappedSeriesId: Series.ID?
+
+    let episodeId: Series.ID?
+    let episodeIds: [Series.ID]?
+
+    let seasonNumber: Season.ID
+    let mappedSeasonNumber: Season.ID?
+
+    let episodeNumbers: [Episode.ID]?
+    let mappedEpisodeNumbers: [Episode.ID]?
+
+    let mappedEpisodeInfo: [SeriesReleaseEpisode]?
 
     enum CodingKeys: String, CodingKey {
         case guid
-        // case mappedMovieId
         case type = "protocol"
         case title
+        case seriesTitle
         case size
         case age
         case ageMinutes
@@ -164,7 +165,21 @@ struct SeriesRelease: Identifiable, Codable {
         case qualityWeight
         case releaseWeight
         case infoUrl
+        case downloadAllowed
         case fullSeason
+        case episodeRequested
+        case shouldOverride
+        case special
+        case isPossibleSpecialEpisode
+        case seriesId
+        case mappedSeriesId
+        case episodeId
+        case episodeIds
+        case seasonNumber
+        case mappedSeasonNumber
+        case episodeNumbers
+        case mappedEpisodeNumbers
+        case mappedEpisodeInfo
     }
 
     var isTorrent: Bool {
@@ -299,4 +314,11 @@ struct SeriesRelease: Identifiable, Codable {
     var scoreLabel: String {
         formatCustomScore(customFormatScore)
     }
+}
+
+struct SeriesReleaseEpisode: Codable {
+    let id: Episode.ID
+    let seasonNumber: Season.ID
+    let episodeNumber: Episode.ID
+    let title: String?
 }

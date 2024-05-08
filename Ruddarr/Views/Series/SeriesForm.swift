@@ -20,7 +20,7 @@ struct SeriesForm: View {
 
                     Toggle("Monitor New Seasons", isOn: Binding(
                         get: { series.monitorNewItems == .all },
-                        set: { value in series.monitorNewItems = value ? .all : .none })
+                        set: { value in series.monitorNewItems = value ? .all : SeriesMonitorNewItems.none })
                     )
                         .tint(settings.theme.safeTint)
                 } else {

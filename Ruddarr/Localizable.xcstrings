@@ -1402,16 +1402,6 @@
         }
       }
     },
-    "Filters" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filters"
-          }
-        }
-      }
-    },
     "Finnish" : {
       "localizations" : {
         "en" : {
