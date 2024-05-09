@@ -6,6 +6,7 @@ struct EpisodeRow: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         HStack {
@@ -18,9 +19,10 @@ struct EpisodeRow: View {
                         .lineLimit(1)
                 }
 
-                // TODO: quality & file size (instead of status?)
                 HStack(spacing: 6) {
                     Text(episode.statusLabel)
+                        .foregroundColor(episode.isMissing ? .red : .secondary)
+
                     Bullet()
                     Text(episode.airingToday ? episode.airDateTimeLabel : episode.airDateLabel)
                 }

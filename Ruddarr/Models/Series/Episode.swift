@@ -77,6 +77,10 @@ struct Episode: Identifiable, Codable {
         hasFile || grabbed
     }
 
+    var isMissing: Bool {
+        hasAired && !hasFile
+    }
+
     var hasAired: Bool {
         guard let date = airDateUtc else { return false }
         return date < Date.now
