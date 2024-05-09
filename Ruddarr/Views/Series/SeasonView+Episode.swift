@@ -17,6 +17,12 @@ struct EpisodeRow: View {
 
                     Text(episode.titleLabel)
                         .lineLimit(1)
+
+                    if let finale = episode.finaleType {
+                        Text(finale.label)
+                            .font(.caption)
+                            .foregroundStyle(settings.theme.tint)
+                    }
                 }
 
                 HStack(spacing: 6) {
@@ -24,16 +30,15 @@ struct EpisodeRow: View {
                         .foregroundColor(episode.isMissing ? .red : .secondary)
 
                     Bullet()
-                    Text(episode.airingToday ? episode.airDateTimeLabel : episode.airDateLabel)
+
+                    Text(
+                        episode.airingToday
+                            ? episode.airDateTimeLabel
+                            : episode.airDateLabel
+                    )
                 }
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-
-                if let finale = episode.finaleType {
-                    Text(finale.label)
-                        .font(.subheadline)
-                        .foregroundStyle(settings.theme.tint)
-                }
             }.padding(.trailing)
 
             Spacer()
