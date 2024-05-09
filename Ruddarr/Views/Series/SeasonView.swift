@@ -10,7 +10,7 @@ struct SeasonView: View {
 
     var body: some View {
         ScrollView {
-            Group {
+            VStack(alignment: .leading) {
                 header
                     .padding(.bottom)
 
