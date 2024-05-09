@@ -17,9 +17,6 @@ struct MediaFile: Identifiable, Codable {
     let seriesId: Series.ID?
     let releaseType: FileReleaseType?
 
-    //    let seasonNumber: Season.ID
-    //    let releaseGroup: String?
-
     var sizeLabel: String {
         formatBytes(size)
     }
@@ -33,7 +30,7 @@ struct MediaFile: Identifiable, Codable {
     }
 
     var customFormatsList: [String]? {
-        guard let formats = customFormats else {
+        guard let formats = customFormats, !formats.isEmpty else {
             return nil
         }
 
