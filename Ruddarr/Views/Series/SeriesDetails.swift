@@ -8,6 +8,7 @@ struct SeriesDetails: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) private var instance
+    @Environment(\.colorScheme) var colorScheme
 
     let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
 
@@ -135,6 +136,7 @@ struct SeriesDetails: View {
                             } label: {
                                 Image(systemName: "bookmark")
                                     .symbolVariant(season.monitored ? .fill : .none)
+                                    .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
                             }
                             .buttonStyle(.plain)
                             .overlay(Rectangle().padding(18))

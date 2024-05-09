@@ -68,6 +68,9 @@ private struct ViewPadding: ViewModifier {
 }
 
 extension ShapeStyle where Self == Color {
+    static var darkGray: Color { Color(UIColor.darkGray) }
+    static var darkText: Color { Color(UIColor.darkText) }
+
     static var lightGray: Color { Color(UIColor.lightGray) }
     static var lightText: Color { Color(UIColor.lightText) }
 

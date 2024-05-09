@@ -51,6 +51,7 @@ struct EpisodeRow: View {
         } label: {
             Image(systemName: "bookmark")
                 .symbolVariant(episode.monitored ? .fill : .none)
+                .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
         }
         .buttonStyle(.plain)
         .overlay(Rectangle().padding(18))
