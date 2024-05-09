@@ -48,7 +48,7 @@ struct Movie: Identifiable, Codable {
     let digitalRelease: Date?
 
     let images: [MovieImage]
-    let movieFile: MovieFile?
+    let movieFile: MediaFile?
 
     enum CodingKeys: String, CodingKey {
         case guid = "id"

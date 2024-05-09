@@ -32,7 +32,7 @@ extension API {
 
             return events
         }, getMovieFiles: { _, _ in
-            let files: [MovieFile] = loadPreviewData(filename: "movie-files")
+            let files: [MediaFile] = loadPreviewData(filename: "movie-files")
             // try await Task.sleep(nanoseconds: 500_000_000)
 
             return files
@@ -62,6 +62,10 @@ extension API {
             try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return loadPreviewData(filename: "series-episodes")
+        }, fetchEpisodeFiles: { _, _ in
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+
+            return loadPreviewData(filename: "series-episode-files")
         }, lookupSeries: { _, _ in
             try await Task.sleep(nanoseconds: 1_000_000_000)
 

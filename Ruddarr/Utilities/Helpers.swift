@@ -56,6 +56,7 @@ func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
     return formatter.string(fromByteCount: Int64(bytes))
 }
 
+// swiftlint:disable cyclomatic_complexity
 func formatIndexer(_ name: String) -> String {
     var indexer = name
 
@@ -81,6 +82,7 @@ func formatIndexer(_ name: String) -> String {
     default: indexer
     }
 }
+// swiftlint:enable cyclomatic_complexity
 
 func formatAge(_ age: Float) -> String {
     let minutes: Int = Int(age)

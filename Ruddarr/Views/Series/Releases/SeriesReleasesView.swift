@@ -102,6 +102,7 @@ struct SeriesReleasesView: View {
         }
     }
 
+    // swiftlint:disable cyclomatic_complexity
     func updateDisplayedReleases() {
         releases = instance.releases.items.sorted(by: sort.option.isOrderedBefore)
 
@@ -153,6 +154,7 @@ struct SeriesReleasesView: View {
             releases = releases.reversed()
         }
     }
+    // swiftlint:enable cyclomatic_complexity
 }
 
 extension SeriesReleasesView {

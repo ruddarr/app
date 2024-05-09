@@ -22,6 +22,10 @@ struct SeriesDetailView: View {
             toolbarMonitorButton
             toolbarMenu
         }
+        .task {
+            await instance.episodes.maybeFetch(series)
+            await instance.files.maybeFetch(series)
+        }
         .alert(
             isPresented: instance.series.errorBinding,
             error: instance.series.error

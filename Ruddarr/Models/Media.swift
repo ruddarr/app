@@ -104,7 +104,7 @@ enum MediaQualitySource: String, Codable {
     case bluray
     case blurayRaw
 
-    // TODO: fix this
+    // TODO: currently only used by movie detail view
     var label: String {
         switch self {
         case .unknown: String(localized: "Unknown")

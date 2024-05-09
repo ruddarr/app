@@ -8,7 +8,6 @@ struct MovieReleaseSheet: View {
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.colorScheme) var colorScheme
 
     let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
 

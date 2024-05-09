@@ -42,10 +42,6 @@ struct SeriesDetails: View {
                     .padding(.bottom)
             }
         }
-        .task {
-            guard !instance.episodes.fetched(series) else { return }
-            await instance.episodes.fetch(series)
-        }
     }
 
     var hasDescription: Bool {

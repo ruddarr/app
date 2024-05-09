@@ -21,6 +21,10 @@ class SeriesEpisodes {
         items.contains { $0.seriesId == series.id }
     }
 
+    func maybeFetch(_ series: Series) async {
+        if !fetched(series) { await fetch(series) }
+    }
+
     func fetch(_ series: Series) async {
         items = []
         error = nil
@@ -52,7 +56,7 @@ class SeriesEpisodes {
         } catch let apiError as API.Error {
             error = apiError
 
-            leaveBreadcrumb(.error, category: "series.episodes", message: "Series episodes fetch failed", data: ["error": apiError])
+            leaveBreadcrumb(.error, category: "series.episodes", message: "Series episode monitor failed", data: ["error": apiError])
         } catch {
             self.error = API.Error(from: error)
         }

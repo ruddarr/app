@@ -6,7 +6,7 @@ class MovieMetadata {
 
     var instance: Instance
 
-    var files: [MovieFile] = []
+    var files: [MediaFile] = []
     var extraFiles: [MovieExtraFile] = []
     var history: [MovieHistoryEvent] = []
 

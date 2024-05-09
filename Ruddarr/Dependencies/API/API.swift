@@ -10,7 +10,7 @@ struct API {
 
     var getMovie: (Movie.ID, Instance) async throws -> Movie
     var getMovieHistory: (Movie.ID, Instance) async throws -> [MovieHistoryEvent]
-    var getMovieFiles: (Movie.ID, Instance) async throws -> [MovieFile]
+    var getMovieFiles: (Movie.ID, Instance) async throws -> [MediaFile]
     var getMovieExtraFiles: (Movie.ID, Instance) async throws -> [MovieExtraFile]
     var addMovie: (Movie, Instance) async throws -> Movie
     var updateMovie: (Movie, Bool, Instance) async throws -> Empty
@@ -18,6 +18,7 @@ struct API {
 
     var fetchSeries: (Instance) async throws -> [Series]
     var fetchEpisodes: (Series.ID, Instance) async throws -> [Episode]
+    var fetchEpisodeFiles: (Series.ID, Instance) async throws -> [MediaFile]
     var lookupSeries: (_ instance: Instance, _ query: String) async throws -> [Series]
     var lookupSeriesReleases: (Series.ID?, Series.ID?, Episode.ID?, Instance) async throws -> [SeriesRelease]
 
@@ -44,6 +45,7 @@ struct API {
     var deleteNotification: (InstanceNotification, Instance) async throws -> Empty
 }
 
+// swiftlint:disable file_length
 extension API {
     static var live: Self {
         .init(fetchMovies: { instance in
@@ -128,6 +130,12 @@ extension API {
         }, fetchEpisodes: { seriesId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/episode")
+                .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
+
+            return try await request(url: url, headers: instance.auth)
+        }, fetchEpisodeFiles: { seriesId, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/episodeFile")
                 .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
 
             return try await request(url: url, headers: instance.auth)
@@ -394,3 +402,4 @@ enum HTTPMethod: String {
     case delete
     case post
 }
+// swiftlint:enable file_length

@@ -146,6 +146,7 @@ extension QuickActions {
 }
 
 extension QuickActions.Deeplink {
+    // swiftlint:disable cyclomatic_complexity
     init(url: URL) throws {
         let unsupportedURL = AppError(String(localized: "Unsupported URL: \(url.absoluteString)"))
 
@@ -191,6 +192,7 @@ extension QuickActions.Deeplink {
             throw unsupportedURL
         }
     }
+    // swiftlint:enable cyclomatic_complexity
 }
 
 extension QuickActions {

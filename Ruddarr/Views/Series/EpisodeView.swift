@@ -1,10 +1,16 @@
 import SwiftUI
 import TelemetryClient
 
+// TODO: loading animation if files are not loaded yet (missing alerts?)
+// TODO: pull to refresh episode and files
+// TODO: delete episode (or part of file details section?)
+// TODO: add episode history
+
 struct EpisodeView: View {
     @Binding var series: Series
     var episodeId: Episode.ID
 
+    @State private var fileSheet: MediaFile?
     @State private var descriptionTruncated = true
 
     @EnvironmentObject var settings: AppSettings
@@ -23,28 +29,29 @@ struct EpisodeView: View {
                 actions
                     .padding(.bottom)
 
-                // TODO: file details (media etc.)
-                // TODO: history
+                if episode.overview != nil {
+                    description
+                        .padding(.bottom)
+                }
+
+                file
+                    .padding(.bottom)
             }
             .padding(.top)
             .viewPadding(.horizontal)
         }
         .toolbar {
             toolbarMonitorButton
-            // TODO: delete episode (or part of file details section?)
-        }
-        .alert(
-            isPresented: instance.episodes.errorBinding,
-            error: instance.episodes.error
-        ) { _ in
-            Button("OK") { instance.episodes.error = nil }
-        } message: { error in
-            Text(error.recoverySuggestionFallback)
+
         }
     }
 
     var episode: Episode {
         instance.episodes.items.first(where: { $0.id == episodeId }) ?? Episode.void
+    }
+
+    var episodeFile: MediaFile? {
+        instance.files.items.first(where: { $0.id == episode.episodeFileId })
     }
 
     var header: some View {
@@ -73,11 +80,6 @@ struct EpisodeView: View {
             .font(.subheadline)
             .foregroundStyle(.secondary)
             .lineLimit(1)
-
-            if episode.overview != nil {
-                description
-                    .padding(.top, 6)
-            }
         }
     }
 
@@ -86,7 +88,7 @@ struct EpisodeView: View {
             Text(episode.overview ?? "")
                 .font(.callout)
                 .transition(.slide)
-                .lineLimit(descriptionTruncated ? 3 : nil)
+                .lineLimit(descriptionTruncated ? 4 : nil)
                 .textSelection(.enabled)
                 .onTapGesture {
                     withAnimation(.spring(duration: 0.35)) { descriptionTruncated = false }
@@ -114,7 +116,6 @@ struct EpisodeView: View {
         }
     }
 
-    @ViewBuilder
     var actions: some View {
         HStack(spacing: 24) {
             Button {
@@ -138,6 +139,19 @@ struct EpisodeView: View {
         }
         .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 450)
+    }
+
+    var file: some View {
+        Group {
+            if let file = episodeFile {
+                EpisodeFileView(file: file)
+                    .onTapGesture { fileSheet = file }
+            }
+        }
+        .sheet(item: $fileSheet) { file in
+            MediaFileSheet(file: file)
+                .presentationDetents([.fraction(0.9)])
+        }
     }
 }
 
@@ -167,6 +181,28 @@ extension EpisodeView {
         dependencies.toast.show(.searchQueued)
 
         TelemetryManager.send("automaticSearchDispatched", with: ["type": "episode"])
+    }
+}
+
+struct EpisodeFileView: View {
+    var file: MediaFile
+
+    var body: some View {
+        GroupBox {
+            HStack(spacing: 6) {
+                Text(file.quality.quality.label)
+                Bullet()
+                Text(file.languageLabel)
+                Bullet()
+                Text(file.sizeLabel)
+                Spacer()
+            }
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+        } label: {
+            Text(file.relativePath ?? "--")
+        }
     }
 }
 

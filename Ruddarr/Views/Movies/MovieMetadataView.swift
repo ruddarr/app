@@ -9,7 +9,7 @@ struct MovieMetadataView: View {
     @State private var videoExpanded: Bool = false
     @State private var audioExpanded: Bool = false
 
-    @State private var fileSheet: MovieFile?
+    @State private var fileSheet: MediaFile?
     @State private var eventSheet: MovieHistoryEvent?
 
     var body: some View {
@@ -62,7 +62,7 @@ struct MovieMetadataView: View {
             await instance.metadata.fetchFiles(for: movie)
         }
         .sheet(item: $fileSheet) { file in
-            MovieFileSheet(file: file)
+            MediaFileSheet(file: file)
                 .presentationDetents([.fraction(0.9)])
         }
     }
@@ -108,7 +108,7 @@ struct MovieMetadataView: View {
 }
 
 struct MovieFilesFile: View {
-    var file: MovieFile
+    var file: MediaFile
 
     var body: some View {
         GroupBox {

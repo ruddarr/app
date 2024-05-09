@@ -7,6 +7,7 @@ struct Episode: Identifiable, Codable {
     var instanceId: Instance.ID?
 
     let seriesId: Int
+    let episodeFileId: Int
     let tvdbId: Int
 
     let seasonNumber: Int
@@ -130,8 +131,8 @@ struct EpisodesMonitorResource: Codable {
 extension Episode {
     static var void: Self {
         .init(
-            id: 0, seriesId: 0, tvdbId: 0, seasonNumber: 0, episodeNumber: 0, runtime: 0, title: nil, seriesTitle: nil, overview: nil, hasFile: false,
-            monitored: false, grabbed: false, finaleType: nil, airDateUtc: nil, endTime: nil, grabDate: nil, absoluteEpisodeNumber: nil,
+            id: 0, seriesId: 0, episodeFileId: 0, tvdbId: 0, seasonNumber: 0, episodeNumber: 0, runtime: 0, title: nil, seriesTitle: nil, overview: nil,
+            hasFile: false, monitored: false, grabbed: false, finaleType: nil, airDateUtc: nil, endTime: nil, grabDate: nil, absoluteEpisodeNumber: nil,
             sceneAbsoluteEpisodeNumber: nil, sceneEpisodeNumber: nil, sceneSeasonNumber: nil, unverifiedSceneNumbering: false
         )
     }

@@ -1,16 +1,24 @@
 import Foundation
 
-struct MovieFile: Identifiable, Codable {
+struct MediaFile: Identifiable, Codable {
     let id: Int
     let size: Int
     let relativePath: String?
     let dateAdded: Date
 
-    let mediaInfo: MovieMediaInfo?
+    let mediaInfo: FileMediaInfo?
     let quality: MediaQuality
     let languages: [MediaLanguage]
+
     let customFormats: [MediaCustomFormat]?
     let customFormatScore: Int?
+
+    // Sonarr
+    let seriesId: Series.ID?
+    let releaseType: FileReleaseType?
+
+    //    let seasonNumber: Season.ID
+    //    let releaseGroup: String?
 
     var sizeLabel: String {
         formatBytes(size)
@@ -45,7 +53,14 @@ struct MovieFile: Identifiable, Codable {
     }
 }
 
-struct MovieMediaInfo: Codable {
+enum FileReleaseType: String, Codable {
+    case unknown
+    case singleEpisode
+    case multiEpisode
+    case seasonPack
+}
+
+struct FileMediaInfo: Codable {
     let audioBitrate: Int
     let audioStreamCount: Int
     let audioChannels: Float

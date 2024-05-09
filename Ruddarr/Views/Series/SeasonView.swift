@@ -28,8 +28,8 @@ struct SeasonView: View {
             toolbarMonitorButton
         }
         .task {
-            guard !instance.episodes.fetched(series) else { return }
-            await instance.episodes.fetch(series)
+            await instance.episodes.maybeFetch(series)
+            await instance.files.maybeFetch(series)
         }
         .alert(
             isPresented: instance.episodes.errorBinding,
