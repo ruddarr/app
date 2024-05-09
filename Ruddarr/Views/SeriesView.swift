@@ -50,7 +50,7 @@ struct SeriesView: View {
                         await fetchSeriesWithAlert()
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
-                    .onReceive(dependencies.router.seriesScoll, perform: scrollToTop)
+                    .onReceive(dependencies.router.seriesScroll, perform: scrollToTop)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

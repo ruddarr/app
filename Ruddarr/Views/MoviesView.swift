@@ -48,7 +48,7 @@ struct MoviesView: View {
                         await fetchMoviesWithAlert()
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
-                    .onReceive(dependencies.router.moviesScoll, perform: scrollToTop)
+                    .onReceive(dependencies.router.moviesScroll, perform: scrollToTop)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

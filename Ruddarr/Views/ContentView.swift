@@ -158,14 +158,14 @@ struct ContentView: View {
         switch tab {
         case .movies:
             dependencies.router.moviesPath.isEmpty
-                ? dependencies.router.moviesScoll.send()
+                ? dependencies.router.moviesScroll.send()
                 : (dependencies.router.moviesPath = .init())
         case .series:
             dependencies.router.seriesPath.isEmpty
-                ? dependencies.router.seriesScoll.send()
+                ? dependencies.router.seriesScroll.send()
                 : (dependencies.router.seriesPath = .init())
         case .calendar:
-            dependencies.router.calendarScoll.send()
+            dependencies.router.calendarScroll.send()
         case .settings:
             dependencies.router.settingsPath = .init()
         }

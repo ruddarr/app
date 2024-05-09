@@ -15,9 +15,9 @@ final class Router {
     var calendarPath: NavigationPath = .init()
     var settingsPath: NavigationPath = .init()
 
-    let moviesScoll = PassthroughSubject<Void, Never>()
-    let seriesScoll = PassthroughSubject<Void, Never>()
-    let calendarScoll = PassthroughSubject<Void, Never>()
+    let moviesScroll = PassthroughSubject<Void, Never>()
+    let seriesScroll = PassthroughSubject<Void, Never>()
+    let calendarScroll = PassthroughSubject<Void, Never>()
 
     func reset() {
         moviesPath = .init()
