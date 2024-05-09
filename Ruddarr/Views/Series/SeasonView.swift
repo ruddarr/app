@@ -125,7 +125,7 @@ struct SeasonView: View {
 
     var episodesList: some View {
         Section {
-            if instance.episodes.isWorking {
+            if instance.episodes.isFetching {
                 ProgressView().tint(.secondary)
             } else {
                 VStack(spacing: 12) {
@@ -136,7 +136,8 @@ struct SeasonView: View {
                             EpisodeRow(episode: episode)
                                 .environment(instance)
                                 .environmentObject(settings)
-                        }.buttonStyle(.plain)
+                        }
+                        .buttonStyle(.plain)
 
                         Divider()
                     }

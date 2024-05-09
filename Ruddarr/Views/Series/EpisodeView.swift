@@ -108,7 +108,7 @@ struct EpisodeView: View {
                 ToolbarMonitorButton(monitored: .constant(episode.monitored))
             }
             .buttonStyle(.plain)
-            .allowsHitTesting(!instance.episodes.isWorking)
+            .allowsHitTesting(!instance.episodes.isMonitoring)
             .disabled(!series.monitored)
             .id(UUID())
         }

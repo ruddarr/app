@@ -11,13 +11,14 @@ struct EpisodeRow: View {
         HStack {
             VStack(alignment: .leading) {
                 HStack(spacing: 6) {
-                    Text(verbatim: "\(episode.episodeNumber).")
+                    Text("\(episode.episodeNumber.formatted()).", comment: "Prefix for episode title (episode number)")
                         .foregroundStyle(.secondary)
 
                     Text(episode.titleLabel)
                         .lineLimit(1)
                 }
 
+                // TODO: quality & file size (instead of status?)
                 HStack(spacing: 6) {
                     Text(episode.statusLabel)
                     Bullet()
@@ -35,43 +36,41 @@ struct EpisodeRow: View {
 
             Spacer()
 
-            actions
+            Button {
+                Task { await toggleMonitor() }
+            } label: {
+                Image(systemName: "bookmark")
+                    .symbolVariant(episode.monitored ? .fill : .none)
+
+            }
+            .foregroundStyle(.primary)
+            .overlay {
+                Rectangle().padding(18)
+            }
+            .allowsHitTesting(!instance.episodes.isMonitoring)
+            .disabled(!(series?.monitored ?? true))
+
         }
         .contentShape(Rectangle())
-
-        // TODO: monitor icon
-        // TODO: quality & file size (instead of status?)
     }
 
-    var actions: some View {
-        Group {
-            if episode.hasAired {
-                Button {
-                    Task { await dispatchSearch(episode.id) }
-                } label: {
-                    Image(systemName: "magnifyingglass")
-                }
-
-                NavigationLink(
-                    value: SeriesPath.releases(episode.seriesId, nil, episode.id)
-                ) {
-                    Image(systemName: "person").symbolVariant(.fill)
-                }
-            }
-        }.foregroundStyle(.primary)
+    var series: Series? {
+        instance.series.byId(episode.seriesId).wrappedValue
     }
 
     @MainActor
-    func dispatchSearch(_ episode: Episode.ID) async {
-        guard await instance.series.command(
-            .episodeSearch([episode])
-        ) else {
+    func toggleMonitor() async {
+        guard let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) else {
             return
         }
 
-        dependencies.toast.show(.searchQueued)
+        instance.episodes.items[index].monitored.toggle()
 
-        TelemetryManager.send("automaticSearchDispatched", with: ["type": "episode"])
+        guard await instance.episodes.monitor([episode.id], episode.monitored) else {
+            return
+        }
+
+        dependencies.toast.show(episode.monitored ? .monitored : .unmonitored)
     }
 }
 

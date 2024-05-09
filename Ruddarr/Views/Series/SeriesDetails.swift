@@ -140,8 +140,9 @@ struct SeriesDetails: View {
                                 Image(systemName: "bookmark")
                                     .symbolVariant(season.monitored ? .fill : .none)
                             }
+                            .foregroundStyle(.primary)
                             .overlay {
-                                Rectangle().padding(20)
+                                Rectangle().padding(18)
                             }
                             .allowsHitTesting(!instance.series.isWorking)
                             .disabled(!series.monitored)
