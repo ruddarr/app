@@ -66,11 +66,15 @@ struct SeriesReleasesView: View {
     }
 
     var noMatchingReleases: some View {
-        ContentUnavailableView(
-            "No Releases Match",
-            systemImage: "slash.circle",
-            description: Text("No releases match the selected filters.")
-        )
+        ContentUnavailableView {
+            Label("No Releases Match", systemImage: "slash.circle")
+        } description: {
+            Text("No releases match the selected filters.")
+        } actions: {
+            Button("Reset Filters") {
+                sort.resetFilters()
+            }
+        }
     }
 
     var searchingIndicator: some View {
@@ -190,7 +194,7 @@ extension SeriesReleasesView {
         } label: {
             Image(systemName: "line.3.horizontal.decrease")
                 .overlay {
-                    if isFiltered {
+                    if sort.hasFilter {
                         ToolbarFilterBadge()
                     }
                 }
@@ -306,18 +310,6 @@ extension SeriesReleasesView {
         } label: {
             Label("Season Pack", systemImage: "shippingbox")
         }
-    }
-
-    var isFiltered: Bool {
-        sort.type != ".all"
-        || sort.indexer != ".all"
-        || sort.quality != ".all"
-        || sort.language != ".all"
-        || sort.customFormat != ".all"
-        || sort.seasonPack != .any
-        || sort.approved
-        || sort.freeleech
-        || sort.originalLanguage
     }
 }
 

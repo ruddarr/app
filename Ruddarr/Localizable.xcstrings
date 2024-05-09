@@ -11,6 +11,17 @@
         }
       }
     },
+    "%@." : {
+      "comment" : "Prefix for episode title (episode number)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@."
+          }
+        }
+      }
+    },
     "%d days" : {
       "localizations" : {
         "en" : {
@@ -2343,6 +2354,16 @@
         }
       }
     },
+    "Next Episode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Episode"
+          }
+        }
+      }
+    },
     "No" : {
       "localizations" : {
         "en" : {
@@ -3269,6 +3290,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reset All Settings"
+          }
+        }
+      }
+    },
+    "Reset Filters" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset Filters"
           }
         }
       }

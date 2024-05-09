@@ -69,4 +69,28 @@ struct SeriesReleaseSort: Equatable {
             }
         }
     }
+
+    var hasFilter: Bool {
+        type != ".all"
+        || indexer != ".all"
+        || quality != ".all"
+        || language != ".all"
+        || customFormat != ".all"
+        || seasonPack != .any
+        || approved
+        || freeleech
+        || originalLanguage
+    }
+
+    mutating func resetFilters() {
+        type = ".all"
+        indexer = ".all"
+        quality = ".all"
+        language = ".all"
+        customFormat = ".all"
+        seasonPack = .any
+        approved = false
+        freeleech = false
+        originalLanguage = false
+    }
 }

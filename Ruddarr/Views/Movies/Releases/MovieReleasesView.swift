@@ -61,11 +61,15 @@ struct MovieReleasesView: View {
     }
 
     var noMatchingReleases: some View {
-        ContentUnavailableView(
-            "No Releases Match",
-            systemImage: "slash.circle",
-            description: Text("No releases match the selected filters.")
-        )
+        ContentUnavailableView {
+            Label("No Releases Match", systemImage: "slash.circle")
+        } description: {
+            Text("No releases match the selected filters.")
+        } actions: {
+            Button("Reset Filters") {
+                sort.resetFilters()
+            }
+        }
     }
 
     var searchingIndicator: some View {
@@ -175,7 +179,7 @@ extension MovieReleasesView {
         } label: {
             Image(systemName: "line.3.horizontal.decrease")
                 .overlay {
-                    if isFiltered {
+                    if sort.hasFilter {
                         ToolbarFilterBadge()
                     }
                 }
@@ -278,17 +282,6 @@ extension MovieReleasesView {
         } label: {
             Label("Custom Format", systemImage: "person.badge.plus")
         }
-    }
-
-    var isFiltered: Bool {
-        sort.type != ".all"
-        || sort.indexer != ".all"
-        || sort.quality != ".all"
-        || sort.language != ".all"
-        || sort.customFormat != ".all"
-        || sort.approved
-        || sort.freeleech
-        || sort.originalLanguage
     }
 }
 
