@@ -182,7 +182,7 @@ struct SeriesDetails: View {
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: "clock")
-                        Text(verbatim: "Next Episode")
+                        Text("Next Episode")
                     }
                     .font(.subheadline)
                     .fontWeight(.semibold)
@@ -220,8 +220,6 @@ struct SeriesDetails: View {
         }
 
         dependencies.toast.show(series.seasons[index].monitored ? .monitored : .unmonitored)
-
-        TelemetryManager.send("automaticSearchDispatched", with: ["type": "season"])
     }
 }
 

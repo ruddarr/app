@@ -58,7 +58,7 @@ struct SeriesSort: Hashable {
             case .unmonitored: Label("Unmonitored", systemImage: "bookmark")
             case .continuing: Label("Continuing", systemImage: "play.fill")
             case .ended: Label("Ended", systemImage: "stop.fill")
-            case .missing: Label("Missing Episodes", systemImage: "exclamationmark.magnifyingglass")
+            case .missing: Label("Missing", systemImage: "exclamationmark.magnifyingglass")
             case .dangling: Label("Dangling", systemImage: "questionmark.square")
             }
         }
