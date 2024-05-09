@@ -36,26 +36,26 @@ struct EpisodeRow: View {
 
             Spacer()
 
-            Button {
-                Task { await toggleMonitor() }
-            } label: {
-                Image(systemName: "bookmark")
-                    .symbolVariant(episode.monitored ? .fill : .none)
-
-            }
-            .foregroundStyle(.primary)
-            .overlay {
-                Rectangle().padding(18)
-            }
-            .allowsHitTesting(!instance.episodes.isMonitoring)
-            .disabled(!(series?.monitored ?? true))
-
+            monitorButton
         }
         .contentShape(Rectangle())
     }
 
     var series: Series? {
         instance.series.byId(episode.seriesId).wrappedValue
+    }
+
+    var monitorButton: some View {
+        Button {
+            Task { await toggleMonitor() }
+        } label: {
+            Image(systemName: "bookmark")
+                .symbolVariant(episode.monitored ? .fill : .none)
+        }
+        .buttonStyle(.plain)
+        .overlay(Rectangle().padding(18))
+        .allowsHitTesting(!instance.episodes.isMonitoring)
+        .disabled(!(series?.monitored ?? false))
     }
 
     @MainActor
