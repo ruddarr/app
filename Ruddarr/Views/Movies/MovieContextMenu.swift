@@ -30,13 +30,15 @@ struct MovieContextMenu: View {
     }
 
     var imdbUrl: String {
-        if UIApplication.shared.canOpenURL(URL(string: "imdb://")!) {
-            if let imdbId = movie.imdbId {
-                return "imdb:///title/\(imdbId)"
-            }
+        #if os(iOS)
+            if UIApplication.shared.canOpenURL(URL(string: "imdb://")!) {
+                if let imdbId = movie.imdbId {
+                    return "imdb:///title/\(imdbId)"
+                }
 
-            return "imdb:///find?q=\(encodedTitle)"
-        }
+                return "imdb:///find?q=\(encodedTitle)"
+            }
+        #endif
 
         if let imdbId = movie.imdbId {
             return "https://www.imdb.com/title/\(imdbId)"
@@ -46,21 +48,25 @@ struct MovieContextMenu: View {
     }
 
     var letterboxdUrl: String {
-        let url = "letterboxd://x-callback-url/search?type=film&query=\(encodedTitle)"
+        #if os(iOS)
+            let url = "letterboxd://x-callback-url/search?type=film&query=\(encodedTitle)"
 
-        if UIApplication.shared.canOpenURL(URL(string: url)!) {
-            return url
-        }
+            if UIApplication.shared.canOpenURL(URL(string: url)!) {
+                return url
+            }
+        #endif
 
         return "https://letterboxd.com/search/films/\(encodedTitle)/"
     }
 
     var callsheet: String? {
-        let url = "callsheet://open/movie/\(movie.tmdbId)"
+        #if os(iOS)
+            let url = "callsheet://open/movie/\(movie.tmdbId)"
 
-        if UIApplication.shared.canOpenURL(URL(string: url)!) {
-            return url
-        }
+            if UIApplication.shared.canOpenURL(URL(string: url)!) {
+                return url
+            }
+        #endif
 
         return nil
     }
@@ -70,11 +76,13 @@ struct MovieContextMenu: View {
             return nil
         }
 
-        let url = "youtube://\(trailer)"
+        #if os(iOS)
+            let url = "youtube://\(trailer)"
 
-        if UIApplication.shared.canOpenURL(URL(string: url)!) {
-            return url
-        }
+            if UIApplication.shared.canOpenURL(URL(string: url)!) {
+                return url
+            }
+        #endif
 
         return "https://www.youtube.com/watch?v=\(trailer)"
     }

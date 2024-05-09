@@ -8,9 +8,9 @@ struct SeriesDetails: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) private var instance
-    @Environment(\.colorScheme) var colorScheme
 
-    let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.deviceType) var deviceType
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -30,7 +30,7 @@ struct SeriesDetails: View {
                     .padding(.bottom)
             }
 
-            if smallScreen && !series.exists {
+            if deviceType == .phone && !series.exists {
                 actions
                     .padding(.bottom)
             }
@@ -63,7 +63,7 @@ struct SeriesDetails: View {
             Spacer()
         }
         .onAppear {
-            descriptionTruncated = smallScreen
+            descriptionTruncated = deviceType == .phone
         }
     }
 

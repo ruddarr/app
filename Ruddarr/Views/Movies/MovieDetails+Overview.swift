@@ -11,7 +11,7 @@ extension MovieDetails {
                 .modifier(MediaDetailsPosterModifier())
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .phone ? 8 : 16)
+                .padding(.trailing, deviceType == .phone ? 8 : 16)
 
             VStack(alignment: .leading, spacing: 0) {
                 if movie.exists {
@@ -26,7 +26,7 @@ extension MovieDetails {
 
                 MovieRatings(movie: movie)
 
-                if UIDevice.current.userInterfaceIdiom != .phone {
+                if deviceType != .phone {
                     Spacer()
                     actions
                 }
@@ -35,7 +35,7 @@ extension MovieDetails {
     }
 
     var shrinkTitle: Bool {
-        if UIDevice.current.userInterfaceIdiom == .phone {
+        if deviceType == .phone {
             return movie.title.count > 25
         }
 

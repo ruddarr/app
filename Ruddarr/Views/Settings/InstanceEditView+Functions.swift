@@ -19,7 +19,9 @@ extension InstanceEditView {
 
             settings.saveInstance(instance)
 
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
+            #if os(iOS)
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
+            #endif
 
             if !dependencies.router.settingsPath.isEmpty {
                 dependencies.router.settingsPath.removeLast()
@@ -97,9 +99,11 @@ extension InstanceEditView {
             throw InstanceError.urlNotValid
         }
 
-        if !UIApplication.shared.canOpenURL(url) {
-            throw InstanceError.urlNotValid
-        }
+        #if os(iOS)
+            if !UIApplication.shared.canOpenURL(url) {
+                throw InstanceError.urlNotValid
+            }
+        #endif
 
         if ["localhost", "127.0.0.1"].contains(url.host()) {
             throw InstanceError.urlIsLocal
@@ -137,7 +141,11 @@ extension InstanceEditView {
     }
 
     func pasteHeader() {
-        guard let string = UIPasteboard.general.string else { return }
+        #if os(macOS)
+            let string = ""
+        #else
+            guard let string = UIPasteboard.general.string else { return }
+        #endif
 
         let lines = string.components(separatedBy: .newlines)
 

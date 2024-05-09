@@ -2,7 +2,11 @@ import SwiftUI
 
 @main
 struct Ruddarr: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    #if os(macOS)
+        @NSApplicationDelegateAdaptor(AppDelegateMac.self) var appDelegate
+    #else
+        @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    #endif
 
     init() {
         #if DEBUG

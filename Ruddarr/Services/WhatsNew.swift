@@ -28,6 +28,7 @@ struct WhatsNew {
 
 struct WhatsNewView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         ZStack {
@@ -64,7 +65,7 @@ struct WhatsNewView: View {
 
     var title: some View {
         Group {
-            if UIDevice.current.userInterfaceIdiom == .phone {
+            if deviceType == .phone {
                 VStack {
                     Text(verbatim: "What's New in")
                     Text(verbatim: "Ruddarr").foregroundStyle(.blue)
@@ -86,7 +87,10 @@ struct WhatsNewView: View {
                 Spacer()
 
                 Button {
-                    UINotificationFeedbackGenerator().notificationOccurred(.success)
+                    #if os(iOS)
+                        UINotificationFeedbackGenerator().notificationOccurred(.success)
+                    #endif
+
                     dismiss()
                 } label: {
                     Text("Continue")
@@ -115,11 +119,11 @@ struct WhatsNewView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(feature.title)
                     .font(.subheadline.weight(.semibold))
-                    .foregroundColor(.primary)
+                    .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
                 Text(feature.subtitle)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
             .multilineTextAlignment(.leading)

@@ -14,7 +14,7 @@ extension SeriesView {
 
     @ToolbarContentBuilder
     var toolbarViewOptions: some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
+        ToolbarItem(placement: .cancellationAction) {
             HStack {
                 toolbarFilterButton
                 toolbarSortingButton
@@ -88,7 +88,7 @@ extension SeriesView {
 
                     Image(systemName: "chevron.down")
                         .symbolVariant(.circle.fill)
-                        .foregroundStyle(.secondary, Color(UIColor.secondarySystemFill))
+                        .foregroundStyle(.secondary, .secondarySystemFill)
                         .font(.system(size: 13, weight: .bold))
                 }.tint(.primary)
             }

@@ -17,7 +17,7 @@ struct SeriesPreviewView: View {
                 .padding(.top)
                 .viewPadding(.horizontal)
         }
-        .navigationBarTitleDisplayMode(.inline)
+        .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarNextButton
         }
@@ -44,7 +44,7 @@ struct SeriesPreviewView: View {
 
     @ToolbarContentBuilder
     var toolbarCancelButton: some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
+        ToolbarItem(placement: .cancellationAction) {
             Button("Cancel") {
                 presentingForm = false
             }
@@ -87,7 +87,9 @@ struct SeriesPreviewView: View {
             fatalError("Failed to locate added series by tvdbId")
         }
 
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        #if os(iOS)
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        #endif
 
         instance.lookup.reset()
         presentingForm = false

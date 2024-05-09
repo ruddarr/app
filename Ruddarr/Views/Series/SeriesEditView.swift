@@ -20,7 +20,7 @@ struct SeriesEditView: View {
         SeriesForm(series: $series)
             .padding(.top, -20)
             .navigationTitle(series.title)
-            .navigationBarTitleDisplayMode(.inline)
+            .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 toolbarSaveButton
             }
@@ -77,7 +77,10 @@ struct SeriesEditView: View {
     func updateSeries(moveFiles: Bool = false) async {
         _ = await instance.series.update(series, moveFiles: moveFiles)
 
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        #if os(iOS)
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        #endif
+
         savedChanges = true
 
         dismiss()

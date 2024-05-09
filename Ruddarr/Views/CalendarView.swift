@@ -53,7 +53,7 @@ struct CalendarView: View {
             .viewPadding(.horizontal)
             .scrollIndicators(.never)
             .scrollPosition(id: $scrollPosition, anchor: .center)
-            .navigationBarTitleDisplayMode(.inline)
+            .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 todayButton
                 filtersMenu
@@ -178,7 +178,7 @@ struct CalendarView: View {
     }
 
     var filtersMenu: some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
+        ToolbarItem(placement: .cancellationAction) {
             Menu {
                 Picker(selection: $displayedMediaType, label: Text("Media Type")) {
                     ForEach(CalendarMediaType.allCases, id: \.self) { type in

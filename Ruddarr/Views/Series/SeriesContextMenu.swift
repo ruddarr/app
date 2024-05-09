@@ -30,13 +30,15 @@ struct SeriesContextMenu: View {
     }
 
     var imdbUrl: String {
-        if UIApplication.shared.canOpenURL(URL(string: "imdb://")!) {
-            if let imdbId = series.imdbId {
-                return "imdb:///title/\(imdbId)"
-            }
+        #if os(iOS)
+            if UIApplication.shared.canOpenURL(URL(string: "imdb://")!) {
+                if let imdbId = series.imdbId {
+                    return "imdb:///title/\(imdbId)"
+                }
 
-            return "imdb:///find?q=\(encodedTitle)"
-        }
+                return "imdb:///find?q=\(encodedTitle)"
+            }
+        #endif
 
         if let imdbId = series.imdbId {
             return "https://www.imdb.com/title/\(imdbId)"

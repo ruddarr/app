@@ -51,7 +51,7 @@ struct MoviesView: View {
                     .onReceive(dependencies.router.moviesScroll, perform: scrollToTop)
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
+            .safeNavigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: MoviesPath.self) {
                 switch $0 {
                 case .search(let query):
@@ -121,7 +121,7 @@ struct MoviesView: View {
             .searchable(
                 text: $searchQuery,
                 isPresented: $searchPresented,
-                placement: .navigationBarDrawer(displayMode: .always)
+                placement: .drawerOrToolbar
             )
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
                 updateDisplayedMovies()

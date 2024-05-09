@@ -10,9 +10,11 @@ final class Toast {
         guard let self else { return }
         let message = Message(view: view, type: type)
 
-        UINotificationFeedbackGenerator().notificationOccurred(
-            type == .error ? .error : .success
-        )
+        #if os(iOS)
+            UINotificationFeedbackGenerator().notificationOccurred(
+                type == .error ? .error : .success
+            )
+        #endif
 
         withAnimation(self.animation) {
             self.currentMessage = message

@@ -102,6 +102,9 @@
 		BBBCA05C2BE958F300BAE374 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBCA05B2BE958F300BAE374 /* Toolbar.swift */; };
 		BBBE93162B68638400353216 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBE93152B68638400353216 /* Theme.swift */; };
 		BBC136A42B62DD780074C7AA /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC136A32B62DD780074C7AA /* Network.swift */; };
+		BBC309D82BED584C004080FD /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC309D72BED584C004080FD /* Platform.swift */; };
+		BBC309DA2BED7FE4004080FD /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC309D92BED7FE4004080FD /* Environment.swift */; };
+		BBC309DC2BED95DF004080FD /* AppDelegateMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC309DB2BED95DF004080FD /* AppDelegateMac.swift */; };
 		BBC6CEF52BE69B1600F71839 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC6CEF42BE69B1600F71839 /* Media.swift */; };
 		BBC6CEF72BE69BEE00F71839 /* MediaFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC6CEF62BE69BEE00F71839 /* MediaFile.swift */; };
 		BBC77E242B7AAD3300573EBD /* InstanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC77E232B7AAD3300573EBD /* InstanceView.swift */; };
@@ -245,6 +248,9 @@
 		BBBCA05B2BE958F300BAE374 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		BBBE93152B68638400353216 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		BBC136A32B62DD780074C7AA /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		BBC309D72BED584C004080FD /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
+		BBC309D92BED7FE4004080FD /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		BBC309DB2BED95DF004080FD /* AppDelegateMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateMac.swift; sourceTree = "<group>"; };
 		BBC6CEF42BE69B1600F71839 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		BBC6CEF62BE69BEE00F71839 /* MediaFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFile.swift; sourceTree = "<group>"; };
 		BBC77E232B7AAD3300573EBD /* InstanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceView.swift; sourceTree = "<group>"; };
@@ -372,10 +378,12 @@
 		BB456D212B58BDF300C29B00 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				BB865E602B83C11E00ADCEFE /* Error.swift */,
+				BBC309D92BED7FE4004080FD /* Environment.swift */,
+				BBC309D72BED584C004080FD /* Platform.swift */,
 				BB01B1F32B6465730025FAF4 /* View.swift */,
-				794BD7812B5ED48E003819AB /* Binding.swift */,
+				BB865E602B83C11E00ADCEFE /* Error.swift */,
 				BBAED12A2B7205A9006C6CF2 /* Helpers.swift */,
+				794BD7812B5ED48E003819AB /* Binding.swift */,
 				BB05C9042B86D0EC009B6444 /* Languages.swift */,
 				798010BC2B6268D200BBC056 /* RawRepresentable.swift */,
 			);
@@ -617,6 +625,7 @@
 			children = (
 				BB6D96942B61E61D0017BFB3 /* AppSettings.swift */,
 				BB4B34F22B7BFE640063F2D3 /* AppDelegate.swift */,
+				BBC309DB2BED95DF004080FD /* AppDelegateMac.swift */,
 				BBBE93152B68638400353216 /* Theme.swift */,
 				BBF706BB2B6220BF00B2B504 /* Sentry.swift */,
 				BBC136A32B62DD780074C7AA /* Network.swift */,
@@ -825,6 +834,7 @@
 				BB0FE1152BED3E3700D1D847 /* MediaFileSheet.swift in Sources */,
 				BB6F23AD2B6ABBBD00A4347A /* SettingsSystemSection.swift in Sources */,
 				BB0FE1112BED30D100D1D847 /* SeriesFiles.swift in Sources */,
+				BBC309D82BED584C004080FD /* Platform.swift in Sources */,
 				BB96C32B2BE833AD00E24C1C /* SeriesForm.swift in Sources */,
 				BBF583B22BABAE8C00AFA7FB /* Loading.swift in Sources */,
 				BB6F23A92B6A039400A4347A /* MovieReleasesView.swift in Sources */,
@@ -867,6 +877,7 @@
 				BBC77E262B7AB79100573EBD /* Notifications.swift in Sources */,
 				BBBE93162B68638400353216 /* Theme.swift in Sources */,
 				BBC77E242B7AAD3300573EBD /* InstanceView.swift in Sources */,
+				BBC309DA2BED7FE4004080FD /* Environment.swift in Sources */,
 				BBD3F7D22BE9A6320050D9A0 /* SeriesReleasesView.swift in Sources */,
 				BBF583B92BAC99CA00AFA7FB /* CalendarDate.swift in Sources */,
 				BB25DC6A2B63161E00FE55A0 /* MovieForm.swift in Sources */,
@@ -882,6 +893,7 @@
 				BBFBAD5C2BDFF5A4007B70BC /* WhatsNew.swift in Sources */,
 				BBF583BB2BAC9A0A00AFA7FB /* CalendarMedia.swift in Sources */,
 				BBD3F7DA2BE9E31F0050D9A0 /* SeriesReleaseSheet.swift in Sources */,
+				BBC309DC2BED95DF004080FD /* AppDelegateMac.swift in Sources */,
 				BB8A60282B952D710039CFF6 /* Subscription.swift in Sources */,
 				790D1EC52B864EC700FCDB64 /* QuickActions.swift in Sources */,
 				BB6D96952B61E61D0017BFB3 /* AppSettings.swift in Sources */,

@@ -26,10 +26,12 @@ struct SettingsPreferencesSection: View {
             for: Subscription.group,
             action: handleSubscriptionStatusChange
         )
+        #if os(iOS)
         .manageSubscriptionsSheet(
             isPresented: $showManageSubscriptionSheet,
             subscriptionGroupID: Subscription.group
         )
+        #endif
     }
 
     var appearancePicker: some View {
@@ -83,12 +85,16 @@ struct SettingsPreferencesSection: View {
                     Text("App Icon")
                 }
             } icon: {
-                Image(
-                    uiImage: UIImage(named: UIApplication.shared.alternateIconName ?? "AppIcon")!
-                )
-                .resizable()
-                .frame(width: appIconSize, height: appIconSize)
-                .clipShape(.rect(cornerRadius: (10 / 57) * appIconSize))
+                #if os(macOS)
+                    let icon = "AppIcon"
+                #else
+                    let icon = UIApplication.shared.alternateIconName ?? "AppIcon"
+                #endif
+
+                Image(appIcon: icon)
+                    .resizable()
+                    .frame(width: appIconSize, height: appIconSize)
+                    .clipShape(.rect(cornerRadius: (10 / 57) * appIconSize))
             }
         }
     }
@@ -112,7 +118,7 @@ struct SettingsPreferencesSection: View {
                 .offset(y: -1)
             }
         }
-        .foregroundColor(Color(uiColor: .label))
+        .foregroundStyle(.label)
     }
 
     func handleSubscriptionStatusChange(

@@ -39,7 +39,7 @@ struct InstanceView: View {
         .toolbar {
             toolbarEditButton
         }
-        .navigationBarTitleDisplayMode(.inline)
+        .safeNavigationBarTitleDisplayMode(.inline)
         .task {
             await setup()
         }

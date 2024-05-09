@@ -20,7 +20,7 @@ struct IconsView: View {
             .viewPadding(.horizontal)
         }
         .navigationTitle("Icons")
-        .navigationBarTitleDisplayMode(.inline)
+        .safeNavigationBarTitleDisplayMode(.inline)
         .subscriptionStatusTask(
             for: Subscription.group,
             action: handleSubscriptionStatusChange
@@ -36,7 +36,7 @@ struct IconsView: View {
 
     func renderIcon(_ icon: AppIcon) -> some View {
         VStack {
-            Image(uiImage: icon.data.uiImage)
+            Image(appIcon: icon.data.asset)
                 .resizable()
                 .frame(width: iconSize, height: iconSize)
                 .clipShape(.rect(cornerRadius: iconRadius))
@@ -50,7 +50,13 @@ struct IconsView: View {
                 .onTapGesture {
                     if !icon.data.locked || entitledToService {
                         settings.icon = icon
-                        UIApplication.shared.setAlternateIconName(icon.data.value)
+
+                        #if os(macOS)
+                            NSApplication.shared.applicationIconImage = NSImage(named: icon.data.asset)
+                            // NSWorkspace.shared.setIcon(image, forFile: bundle.path, options: [])
+                        #else
+                            UIApplication.shared.setAlternateIconName(icon.data.value)
+                        #endif
                     } else {
                         showSubscription = true
                     }

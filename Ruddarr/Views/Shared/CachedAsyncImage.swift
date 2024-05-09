@@ -84,7 +84,7 @@ struct PlaceholderImage: View {
                 .overlay {
                     Text(placeholder)
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                         .lineLimit(4)
                         .padding(8)

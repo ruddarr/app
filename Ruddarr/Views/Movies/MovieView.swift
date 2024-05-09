@@ -17,7 +17,7 @@ struct MovieView: View {
         .refreshable {
             await refresh()
         }
-        .navigationBarTitleDisplayMode(.inline)
+        .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
              toolbarMonitorButton
              toolbarMenu
@@ -45,7 +45,7 @@ struct MovieView: View {
 
     @ToolbarContentBuilder
     var toolbarMonitorButton: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .automatic) {
             Button {
                 Task { await toggleMonitor() }
             } label: {

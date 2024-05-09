@@ -11,7 +11,7 @@ extension SeriesDetails {
                 .modifier(MediaDetailsPosterModifier())
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .phone ? 8 : 16)
+                .padding(.trailing, deviceType == .phone ? 8 : 16)
 
             VStack(alignment: .leading, spacing: 0) {
                 if series.exists {
@@ -28,7 +28,7 @@ extension SeriesDetails {
     }
 
     var shrinkTitle: Bool {
-        if UIDevice.current.userInterfaceIdiom == .phone {
+        if deviceType == .phone {
             return series.title.count > 25
         }
 

@@ -34,12 +34,12 @@ struct SeriesSearchView: View {
             .viewPadding(.horizontal)
         }
         .navigationTitle("Add TV Series")
-        .navigationBarTitleDisplayMode(.large)
+        .safeNavigationBarTitleDisplayMode(.large)
         .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,
             isPresented: $presentingSearch,
-            placement: .navigationBarDrawer(displayMode: .always)
+            placement: .drawerOrToolbar
         )
         .disabled(instance.isVoid)
         .onSubmit(of: .search) {

@@ -2,7 +2,9 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var settings: AppSettings
+
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.deviceType) private var deviceType
 
     @State private var isPortrait = false
     @State private var columnVisibility: NavigationSplitViewVisibility = .doubleColumn
@@ -10,17 +12,17 @@ struct ContentView: View {
 
     @ScaledMetric(relativeTo: .body) var safeAreaInsetHeight = 48
 
-    private let orientationChangePublisher = NotificationCenter.default.publisher(
-        for: UIDevice.orientationDidChangeNotification
-    )
+    #if os(iOS)
+        private let orientationChangePublisher = NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)
 
-    init() {
-        UITabBar.appearance().unselectedItemTintColor = .clear
-        UITabBar.appearance().tintColor = .clear // this does not work (see `.tint` below)
-    }
+        init() {
+            UITabBar.appearance().unselectedItemTintColor = .clear
+            UITabBar.appearance().tintColor = .clear // this does not work (see `.tint` below)
+        }
+    #endif
 
     var body: some View {
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if deviceType == .pad {
             NavigationSplitView(
                 columnVisibility: $columnVisibility,
                 sidebar: {
@@ -34,13 +36,18 @@ struct ContentView: View {
             .displayToasts()
             .whatsNewSheet()
             .onAppear {
-                isPortrait = UIDevice.current.orientation.isPortrait
+                #if os(iOS)
+                    isPortrait = UIDevice.current.orientation.isPortrait
+                #else
+                    isPortrait = false
+                #endif
+
                 columnVisibility = isPortrait ? .automatic : .doubleColumn
             }
-            .onReceive(orientationChangePublisher) { _ in
-                handleOrientationChange()
-            }
             .onChange(of: scenePhase, handleScenePhaseChange)
+            #if os(iOS)
+            .onReceive(orientationChangePublisher, perform: handleOrientationChange)
+            #endif
         } else {
             TabView(selection: dependencies.$router.selectedTab.onSet {
                 if dependencies.router.selectedTab == $0 { goToRootOrTop(tab: $0) }
@@ -72,11 +79,14 @@ struct ContentView: View {
             }
             .whatsNewSheet()
             .onChange(of: scenePhase, handleScenePhaseChange)
+            #if os(iOS)
             .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
                 showTabViewOverlay = false
-            }.onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
                 showTabViewOverlay = true
             }
+            #endif
         }
     }
 
@@ -145,13 +155,15 @@ struct ContentView: View {
         }
     }
 
-    func handleOrientationChange() {
-        if let windowScene = UIApplication.shared.connectedScenes.first(
-            where: { $0.activationState == .foregroundActive }
-        ) as? UIWindowScene {
-            isPortrait = windowScene.interfaceOrientation.isPortrait
-            columnVisibility = isPortrait ? .detailOnly : .doubleColumn
-        }
+    func handleOrientationChange(_ notification: Notification) {
+        #if os(iOS)
+            if let windowScene = UIApplication.shared.connectedScenes.first(
+                where: { $0.activationState == .foregroundActive }
+            ) as? UIWindowScene {
+                isPortrait = windowScene.interfaceOrientation.isPortrait
+                columnVisibility = isPortrait ? .detailOnly : .doubleColumn
+            }
+        #endif
     }
 
     func goToRootOrTop(tab: Tab) {

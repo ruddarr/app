@@ -5,6 +5,8 @@ import TelemetryClient
 // TODO: pull to refresh episode and files
 // TODO: delete episode (or part of file details section?)
 // TODO: add episode history
+// TODO: show `Quality Profile` & Network
+// Airs: Aug 27 2019 at 9pm on Hulu
 
 struct EpisodeView: View {
     @Binding var series: Series
@@ -17,8 +19,7 @@ struct EpisodeView: View {
     @Environment(SonarrInstance.self) var instance
 
     @Environment(\.dismiss) private var dismiss
-
-    let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         ScrollView {
@@ -42,7 +43,6 @@ struct EpisodeView: View {
         }
         .toolbar {
             toolbarMonitorButton
-
         }
     }
 
@@ -97,13 +97,13 @@ struct EpisodeView: View {
             Spacer()
         }
         .onAppear {
-            descriptionTruncated = smallScreen
+            descriptionTruncated = deviceType == .phone
         }
     }
 
     @ToolbarContentBuilder
     var toolbarMonitorButton: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .automatic) {
             Button {
                 Task { await toggleMonitor() }
             } label: {

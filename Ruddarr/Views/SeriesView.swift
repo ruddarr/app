@@ -53,7 +53,7 @@ struct SeriesView: View {
                     .onReceive(dependencies.router.seriesScroll, perform: scrollToTop)
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
+            .safeNavigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: SeriesPath.self) {
                 switch $0 {
                 case .search(let query):
@@ -129,7 +129,7 @@ struct SeriesView: View {
             .searchable(
                 text: $searchQuery,
                 isPresented: $searchPresented,
-                placement: .navigationBarDrawer(displayMode: .always)
+                placement: .drawerOrToolbar
             )
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
                 updateDisplayedSeries()

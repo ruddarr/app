@@ -20,7 +20,7 @@ struct MovieEditView: View {
         MovieForm(movie: $movie)
             .padding(.top, -20)
             .navigationTitle(movie.title)
-            .navigationBarTitleDisplayMode(.inline)
+            .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 toolbarSaveButton
             }
@@ -77,7 +77,10 @@ struct MovieEditView: View {
     func updateMovie(moveFiles: Bool = false) async {
         _ = await instance.movies.update(movie, moveFiles: moveFiles)
 
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        #if os(iOS)
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        #endif
+
         savedChanges = true
 
         dismiss()

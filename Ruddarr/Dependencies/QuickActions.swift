@@ -22,7 +22,9 @@ struct QuickActions {
     var seriesPublisherPending: (Series.ID, Season.ID?)?
 
     var registerShortcutItems: () -> Void = {
-        UIApplication.shared.shortcutItems = ShortcutItem.allCases.map(\.shortcutItem)
+        #if os(iOS)
+            UIApplication.shared.shortcutItems = ShortcutItem.allCases.map(\.shortcutItem)
+        #endif
     }
 
     var openCalendar: () -> Void = {
@@ -195,6 +197,7 @@ extension QuickActions.Deeplink {
     // swiftlint:enable cyclomatic_complexity
 }
 
+#if os(iOS)
 extension QuickActions {
     enum ShortcutItem: String, CaseIterable {
         case calendar
@@ -236,3 +239,4 @@ extension QuickActions.ShortcutItem {
         self.init(rawValue: shortcutItem.type)
     }
 }
+#endif

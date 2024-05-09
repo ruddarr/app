@@ -34,12 +34,12 @@ struct MovieSearchView: View {
             .viewPadding(.horizontal)
         }
         .navigationTitle("Add Movie")
-        .navigationBarTitleDisplayMode(.large)
+        .safeNavigationBarTitleDisplayMode(.large)
         .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,
             isPresented: $presentingSearch,
-            placement: .navigationBarDrawer(displayMode: .always)
+            placement: .drawerOrToolbar
         )
         .disabled(instance.isVoid)
         .searchScopes($movieLookup.sort) {

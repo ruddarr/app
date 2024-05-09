@@ -3,8 +3,10 @@ import SwiftUI
 struct Information: View {
     var items: [InformationItem]
 
+    @Environment(\.deviceType) private var deviceType
+
     var body: some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
+        if deviceType == .phone {
             informationList
         } else {
             informationGrid

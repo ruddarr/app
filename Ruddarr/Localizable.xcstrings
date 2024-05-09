@@ -3645,6 +3645,7 @@
       }
     },
     "Settings > Notifications > Ruddarr" : {
+      "comment" : "iOS path",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3860,6 +3861,27 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "System"
+          }
+        }
+      }
+    },
+    "System Settings > Notifications" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System Settings > Notifications"
+          }
+        }
+      }
+    },
+    "System Settings > Notifications > Ruddarr" : {
+      "comment" : "macOS path",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System Settings > Notifications > Ruddarr"
           }
         }
       }

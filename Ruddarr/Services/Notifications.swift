@@ -3,6 +3,7 @@ import SwiftUI
 import CloudKit
 import StoreKit
 import CryptoKit
+import UserNotifications
 
 class Notifications {
     static let shared: Notifications = Notifications()
@@ -100,7 +101,7 @@ class Notifications {
         Task.detached { [instances] in
             let notificationStatus = await Notifications.shared.authorizationStatus()
 
-            if ![.authorized, .provisional, .ephemeral].contains(notificationStatus) {
+            if ![.authorized, .provisional].contains(notificationStatus) {
                 return
             }
 

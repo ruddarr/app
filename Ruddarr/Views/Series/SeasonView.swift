@@ -154,7 +154,7 @@ struct SeasonView: View {
 
     @ToolbarContentBuilder
     var toolbarMonitorButton: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
+        ToolbarItem(placement: .automatic) {
             Button {
                 Task { await toggleMonitor() }
             } label: {

@@ -4,6 +4,7 @@ import CloudKit
 import MetricKit
 import TelemetryClient
 
+#if os(iOS)
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MXMetricManagerSubscriber {
     func application(
         _ application: UIApplication,
@@ -152,3 +153,4 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 private func handleShortcutItem(_ item: UIApplicationShortcutItem) {
     QuickActions.ShortcutItem(shortcutItem: item)?()
 }
+#endif

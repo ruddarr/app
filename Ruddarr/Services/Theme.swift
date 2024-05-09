@@ -116,16 +116,6 @@ struct AppIconData {
         asset == "AppIcon" ? nil : asset
     }
 
-    var uiImage: UIImage {
-        guard let image = UIImage(named: asset) else {
-            assertionFailure("Missing asset: \(asset)")
-
-            return UIImage()
-        }
-
-        return image
-    }
-
     static var factory: Self {
         .init(label: "Default", asset: "AppIcon", locked: false)
     }

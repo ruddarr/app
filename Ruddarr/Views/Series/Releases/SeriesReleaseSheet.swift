@@ -8,8 +8,7 @@ struct SeriesReleaseSheet: View {
     @Environment(SonarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
-
-    let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -115,13 +114,13 @@ struct SeriesReleaseSheet: View {
 
     var actions: some View {
         HStack(spacing: 24) {
-            if !smallScreen {
+            if deviceType != .phone {
                 Spacer()
             }
 
             if let url = release.infoUrl {
                 Link(destination: URL(string: url)!, label: {
-                    let label: LocalizedStringKey = smallScreen ? "Visit" : "Visit Website"
+                    let label: LocalizedStringKey = deviceType == .phone ? "Visit" : "Visit Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .modifier(MediaPreviewActionModifier())
@@ -133,7 +132,7 @@ struct SeriesReleaseSheet: View {
             Button {
                 Task { await downloadRelease() }
             } label: {
-                let label: LocalizedStringKey = smallScreen ? "Download" : "Download Release"
+                let label: LocalizedStringKey = deviceType == .phone ? "Download" : "Download Release"
 
                 ButtonLabel(
                     text: label,
@@ -146,7 +145,7 @@ struct SeriesReleaseSheet: View {
             .tint(.secondary)
             .allowsHitTesting(!instance.series.isWorking)
 
-            if !smallScreen {
+            if deviceType != .phone {
                 Spacer()
             }
         }

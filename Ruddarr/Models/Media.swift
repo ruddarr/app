@@ -139,8 +139,10 @@ func languageSingleLabel(_ languages: [MediaLanguage]) -> String {
 }
 
 struct MediaPreviewActionModifier: ViewModifier {
+    @Environment(\.deviceType) private var deviceType
+
     func body(content: Content) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
+        if deviceType == .phone {
             content.frame(maxWidth: .infinity)
         } else {
             content.frame(maxWidth: 215)
@@ -149,8 +151,10 @@ struct MediaPreviewActionModifier: ViewModifier {
 }
 
 struct MediaPreviewActionSpacerModifier: ViewModifier {
+    @Environment(\.deviceType) private var deviceType
+
     func body(content: Content) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
+        if deviceType == .phone {
             content.frame(maxWidth: .infinity)
         } else {
             content
@@ -159,8 +163,10 @@ struct MediaPreviewActionSpacerModifier: ViewModifier {
 }
 
 struct MediaDetailsPosterModifier: ViewModifier {
+    @Environment(\.deviceType) private var deviceType
+
     func body(content: Content) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
+        if deviceType == .phone {
             content.containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 0)
         } else {
             content.frame(width: 200, height: 300)

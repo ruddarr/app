@@ -27,7 +27,7 @@ struct EpisodeRow: View {
 
                 HStack(spacing: 6) {
                     Text(episode.statusLabel)
-                        .foregroundColor(episode.isMissing ? .red : .secondary)
+                        .foregroundStyle(episode.isMissing ? .red : .secondary)
 
                     Bullet()
 

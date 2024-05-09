@@ -22,7 +22,7 @@ class MediaCalendar {
     }()
 
     let loadingOffset: Int = {
-        UIDevice.current.userInterfaceIdiom == .phone ? 7 : 14
+        Platform.deviceType() == .phone ? 7 : 14
     }()
 
     func initialize() async {

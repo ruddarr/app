@@ -6,10 +6,10 @@ struct SeriesForm: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) private var instance
 
+    @Environment(\.deviceType) private var deviceType
+
     @State private var showingConfirmation = false
     @State private var addOptions = SeriesAddOptions(monitor: .none)
-
-    let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
 
     var body: some View {
         Form {

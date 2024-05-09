@@ -9,7 +9,8 @@ struct MovieDetails: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
 
-    let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
+    @Environment(\.deviceType) var deviceType
+    @Environment(\.openURL) var openURL
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -24,7 +25,7 @@ struct MovieDetails: View {
                     .padding(.bottom)
             }
 
-            if smallScreen {
+            if deviceType == .phone {
                 actions
                     .padding(.bottom)
             }
@@ -54,7 +55,7 @@ struct MovieDetails: View {
             Spacer()
         }
         .onAppear {
-            descriptionTruncated = smallScreen
+            descriptionTruncated = deviceType == .phone
         }
     }
 
@@ -136,9 +137,9 @@ struct MovieDetails: View {
 
             if let trailerUrl = MovieContextMenu.youTubeTrailer(movie.youTubeTrailerId) {
                 Button {
-                    UIApplication.shared.open(URL(string: trailerUrl)!)
+                    openURL(URL(string: trailerUrl)!)
                 } label: {
-                    let label: LocalizedStringKey = smallScreen ? "Trailer" : "Watch Trailer"
+                    let label: LocalizedStringKey = deviceType == .phone ? "Trailer" : "Watch Trailer"
 
                     ButtonLabel(text: label, icon: "play.fill")
                         .modifier(MediaPreviewActionModifier())

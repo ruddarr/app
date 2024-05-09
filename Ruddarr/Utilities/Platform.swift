@@ -1,0 +1,32 @@
+import SwiftUI
+
+class Platform {
+    static func deviceId() -> String {
+        #if os(macOS)
+            "unknown (macOS)"
+        #else
+            UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
+        #endif
+    }
+
+    static func deviceType() -> DeviceType {
+        #if os(macOS)
+            .mac
+        #else
+            switch UIDevice.current.userInterfaceIdiom {
+            case .phone: .phone
+            case .pad: .pad
+            case .vision: .vision
+            default: .unspecified
+            }
+        #endif
+    }
+}
+
+enum DeviceType {
+    case unspecified
+    case phone
+    case pad
+    case mac
+    case vision
+}

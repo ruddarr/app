@@ -22,7 +22,7 @@ struct MovieMetadataView: View {
             .viewPadding(.horizontal)
         }
         .navigationTitle(movie.title)
-        .navigationBarTitleDisplayMode(.inline)
+        .safeNavigationBarTitleDisplayMode(.inline)
         .onAppear {
             instance.metadata.setMovie(movie)
         }

@@ -71,31 +71,39 @@ struct MovieGridItem: View {
     }
 
     static func gridIconScale() -> Image.Scale {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .small
-        }
+        #if os(macOS)
+            return .medium
+        #else
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return .small
+            }
 
-        return .medium
+            return .medium
+        #endif
     }
 
     static func gridItemSpacing() -> CGFloat {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return 12
-        }
+        #if os(macOS)
+            return 20
+        #else
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return 12
+            }
 
-        return 20
+            return 20
+        #endif
     }
 
     static func gridItemLayout() -> [GridItem] {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return [GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)]
-        }
-
-        if ProcessInfo.processInfo.isiOSAppOnMac {
+        #if os(macOS)
             return [GridItem(.adaptive(minimum: 160, maximum: 200), spacing: 20)]
-        }
+        #else
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return [GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)]
+            }
 
-        return [GridItem(.adaptive(minimum: 145, maximum: 180), spacing: 20)]
+            return [GridItem(.adaptive(minimum: 145, maximum: 180), spacing: 20)]
+        #endif
     }
 }
 
