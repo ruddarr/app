@@ -105,33 +105,76 @@ extension Toast {
     // swiftlint:enable cyclomatic_complexity
 
     func custom(text: String, icon: String? = nil, type: MessageType = .notice) {
-        let label = Label {
+        show(AnyView(label(text, icon)), type)
+    }
+
+    func label(_ text: String, _ icon: String? = nil) -> any View {
+        Label {
             Text(text)
         } icon: {
             if let icon {
                 Image(systemName: icon)
             }
         }
-        .font(.callout)
-        .fontWeight(.semibold)
+            .font(.callout)
+            .fontWeight(.semibold)
+    }
 
-        show(AnyView(label), type)
+    func render(_ message: Toast.Message) -> some View {
+        message.view
+            .padding()
+            #if os(macOS)
+                .background(.systemFill)
+            #else
+                .background(.ultraThinMaterial)
+            #endif
+            .foregroundStyle(message.textColor)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .padding()
+            .transition(.opacity)
+            .id(message.id)
     }
 }
 
 extension View {
     func displayToasts(from toast: Toast = dependencies.toast) -> some View {
-        overlay(alignment: .bottom) {
+        @Environment(\.colorScheme) var colorScheme
+
+        return overlay(alignment: .bottom) {
             if let message = toast.currentMessage {
-                message.view
-                    .padding()
-                    .background(.ultraThinMaterial)
-                    .foregroundStyle(message.textColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .padding()
-                    .transition(.opacity)
-                    .id(message.id)
+                toast.render(message)
             }
+        }
+    }
+}
+
+#Preview {
+    var toast = Toast()
+    toast.show(.monitored)
+
+    let notice = Toast.Message(
+        view: AnyView(toast.label("Monitored", "bookmark.fill")),
+        type: .notice
+    )
+
+    let error = Toast.Message(
+        view: AnyView(toast.label("Something Went Wrong", "exclamationmark.circle.fill")),
+        type: .error
+    )
+
+    @Environment(\.colorScheme) var colorScheme
+
+    return VStack {
+        Text("Headline")
+            .font(.largeTitle.bold())
+            .overlay { toast.render(notice) }
+
+        toast.render(error)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .overlay(alignment: .bottom) {
+        if let message = toast.currentMessage {
+            toast.render(message)
         }
     }
 }
