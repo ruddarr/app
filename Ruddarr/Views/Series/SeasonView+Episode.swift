@@ -27,7 +27,9 @@ struct EpisodeRow: View {
 
                 HStack(spacing: 6) {
                     Text(episode.statusLabel)
-                        .foregroundStyle(episode.isMissing ? .red : .secondary)
+                        .foregroundStyle(
+                            episodeIsMissing ? .red : .secondary
+                        )
 
                     Bullet()
 
@@ -48,8 +50,16 @@ struct EpisodeRow: View {
         .contentShape(Rectangle())
     }
 
-    var series: Series? {
-        instance.series.byId(episode.seriesId).wrappedValue
+    var series: Series {
+        instance.series.byId(episode.seriesId).wrappedValue ?? Series.void
+    }
+
+    var season: Season {
+        series.seasonById(episode.seasonNumber)!
+    }
+
+    var episodeIsMissing: Bool {
+        episode.isMissing && series.monitored && season.monitored
     }
 
     var monitorButton: some View {
@@ -63,7 +73,7 @@ struct EpisodeRow: View {
         .buttonStyle(.plain)
         .overlay(Rectangle().padding(18))
         .allowsHitTesting(!instance.episodes.isMonitoring)
-        .disabled(!(series?.monitored ?? false))
+        .disabled(!series.monitored)
     }
 
     @MainActor

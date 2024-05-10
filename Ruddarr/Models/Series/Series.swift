@@ -291,3 +291,15 @@ struct SeriesEditorResource: Codable {
     let rootFolderPath: String?
     let moveFiles: Bool?
 }
+
+extension Series {
+    static var void: Self {
+        .init(
+            title: "", sortTitle: "", tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, status: .deleted, seriesType: .standard,
+            path: nil, folder: nil, certification: nil, year: 0, runtime: 0, ended: false, seasonFolder: false, useSceneNumbering: false,
+            added: Date.now, airTime: nil, firstAired: nil, lastAired: nil, nextAiring: nil, monitored: false, overview: nil, network: nil,
+            originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], genres: [], images: [], statistics: nil
+        )
+    }
+}
+
