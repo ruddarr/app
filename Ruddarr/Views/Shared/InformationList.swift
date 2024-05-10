@@ -49,6 +49,7 @@ struct Information: View {
                     if let link = item.link {
                         NavigationLink(value: link, label: { label })
                             .foregroundStyle(.primary)
+                            .buttonStyle(.plain)
                     } else {
                         label
                     }
