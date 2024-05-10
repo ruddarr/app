@@ -182,7 +182,7 @@ struct SeriesDetails: View {
                     }
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                    .foregroundStyle(.tint)
+                    .foregroundStyle(settings.theme.tint)
                     .padding(.bottom, 2)
                 }
             }

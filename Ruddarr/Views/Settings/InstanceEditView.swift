@@ -86,7 +86,7 @@ struct InstanceEditView: View {
 
                 if !showAdvanced {
                     Text("Show Advanced Settings")
-                        .foregroundStyle(.tint)
+                        .foregroundStyle(settings.theme.tint)
                         .onTapGesture {
                             withAnimation { showAdvanced = true }
                         }
