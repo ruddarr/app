@@ -41,6 +41,10 @@ struct EpisodeView: View {
             .padding(.top)
             .viewPadding(.horizontal)
         }
+        .navigationTitle(
+            series.title.count < 20 ? series.title : "\(series.title.prefix(18))..."
+        )
+        .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
         }
