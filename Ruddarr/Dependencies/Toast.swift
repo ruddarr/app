@@ -75,6 +75,7 @@ extension Toast {
         case error(String)
     }
 
+    // swiftlint:disable cyclomatic_complexity
     func show(_ preset: PresetMessage) {
         switch preset {
         case .monitored:
@@ -101,6 +102,7 @@ extension Toast {
             custom(text: message, icon: "exclamationmark.circle.fill", type: .error)
         }
     }
+    // swiftlint:enable cyclomatic_complexity
 
     func custom(text: String, icon: String? = nil, type: MessageType = .notice) {
         let label = Label {

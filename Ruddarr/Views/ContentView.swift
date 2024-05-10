@@ -1,5 +1,6 @@
 import SwiftUI
 
+#if os(iOS)
 struct ContentView: View {
     @EnvironmentObject var settings: AppSettings
 
@@ -12,81 +13,78 @@ struct ContentView: View {
 
     @ScaledMetric(relativeTo: .body) var safeAreaInsetHeight = 48
 
-    #if os(iOS)
-        private let orientationChangePublisher = NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)
+    private let orientationChangePublisher = NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)
 
-        init() {
-            UITabBar.appearance().unselectedItemTintColor = .clear
-            UITabBar.appearance().tintColor = .clear // this does not work (see `.tint` below)
-        }
-    #endif
+    init() {
+        UITabBar.appearance().unselectedItemTintColor = .clear
+        UITabBar.appearance().tintColor = .clear // this does not work (see `.tint` below)
+    }
 
     var body: some View {
         if deviceType == .pad {
-            NavigationSplitView(
-                columnVisibility: $columnVisibility,
-                sidebar: {
-                    sidebar
-                        .ignoresSafeArea(.all, edges: .bottom)
-                },
-                detail: {
-                    screen(for: dependencies.router.selectedTab)
-                }
-            )
-            .displayToasts()
-            .whatsNewSheet()
-            .onAppear {
-                #if os(iOS)
-                    isPortrait = UIDevice.current.orientation.isPortrait
-                #else
-                    isPortrait = false
-                #endif
-
-                columnVisibility = isPortrait ? .automatic : .doubleColumn
-            }
-            .onChange(of: scenePhase, handleScenePhaseChange)
-            #if os(iOS)
-            .onReceive(orientationChangePublisher, perform: handleOrientationChange)
-            #endif
+            padBody
         } else {
-            TabView(selection: dependencies.$router.selectedTab.onSet {
-                if dependencies.router.selectedTab == $0 { goToRootOrTop(tab: $0) }
-            }) {
-                ForEach(Tab.allCases) { tab in
-                    screen(for: tab)
-                        .tint(settings.theme.tint) // restore tint for view
-                        .tabItem { tab.label }
-                        .displayToasts()
-                        .tag(tab)
-                }
-            }
-            .tint(.clear) // hide selected `tabItem` tint
-            .overlay(alignment: .bottom) { // the default `tabItem`s are hidden, display our own
-                let columns: [GridItem] = Array(repeating: .init(.flexible()), count: Tab.allCases.count)
+            phoneBody
+        }
+    }
 
-                if showTabViewOverlay {
-                    LazyVGrid(columns: columns) {
-                        ForEach(Tab.allCases) { tab in
-                            tab.stack
-                                .foregroundStyle(
-                                    dependencies.router.selectedTab == tab ? settings.theme.tint : .gray
-                                )
-                        }
+    var padBody: some View {
+        NavigationSplitView(
+            columnVisibility: $columnVisibility,
+            sidebar: {
+                sidebar
+                    .ignoresSafeArea(.all, edges: .bottom)
+            },
+            detail: {
+                screen(for: dependencies.router.selectedTab)
+            }
+        )
+        .displayToasts()
+        .whatsNewSheet()
+        .onAppear {
+            isPortrait = UIDevice.current.orientation.isPortrait
+            columnVisibility = isPortrait ? .automatic : .doubleColumn
+        }
+        .onChange(of: scenePhase, handleScenePhaseChange)
+        .onReceive(orientationChangePublisher, perform: handleOrientationChange)
+    }
+
+    var phoneBody: some View {
+        TabView(selection: dependencies.$router.selectedTab.onSet {
+            if dependencies.router.selectedTab == $0 { goToRootOrTop(tab: $0) }
+        }) {
+            ForEach(Tab.allCases) { tab in
+                screen(for: tab)
+                    .tint(settings.theme.tint) // restore tint for view
+                    .tabItem { tab.label }
+                    .displayToasts()
+                    .tag(tab)
+            }
+        }
+        .tint(.clear) // hide selected `tabItem` tint
+        .overlay(alignment: .bottom) { // the default `tabItem`s are hidden, display our own
+            let columns: [GridItem] = Array(repeating: .init(.flexible()), count: Tab.allCases.count)
+
+            if showTabViewOverlay {
+                LazyVGrid(columns: columns) {
+                    ForEach(Tab.allCases) { tab in
+                        tab.stack
+                            .foregroundStyle(
+                                dependencies.router.selectedTab == tab ? settings.theme.tint : .gray
+                            )
                     }
-                    .allowsHitTesting(false)
-                    .padding(.horizontal, 4)
                 }
+                .allowsHitTesting(false)
+                .padding(.horizontal, 4)
             }
-            .whatsNewSheet()
-            .onChange(of: scenePhase, handleScenePhaseChange)
-            #if os(iOS)
-            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
-                showTabViewOverlay = false
-            }
-            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
-                showTabViewOverlay = true
-            }
-            #endif
+        }
+        .whatsNewSheet()
+        .onChange(of: scenePhase, handleScenePhaseChange)
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
+            showTabViewOverlay = false
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+            showTabViewOverlay = true
         }
     }
 
@@ -156,14 +154,12 @@ struct ContentView: View {
     }
 
     func handleOrientationChange(_ notification: Notification) {
-        #if os(iOS)
-            if let windowScene = UIApplication.shared.connectedScenes.first(
-                where: { $0.activationState == .foregroundActive }
-            ) as? UIWindowScene {
-                isPortrait = windowScene.interfaceOrientation.isPortrait
-                columnVisibility = isPortrait ? .detailOnly : .doubleColumn
-            }
-        #endif
+        if let windowScene = UIApplication.shared.connectedScenes.first(
+            where: { $0.activationState == .foregroundActive }
+        ) as? UIWindowScene {
+            isPortrait = windowScene.interfaceOrientation.isPortrait
+            columnVisibility = isPortrait ? .detailOnly : .doubleColumn
+        }
     }
 
     func goToRootOrTop(tab: Tab) {
@@ -192,3 +188,4 @@ struct ContentView: View {
     ContentView()
         .withAppState()
 }
+#endif
