@@ -152,7 +152,7 @@ extension SeriesDetailView {
             return
         }
 
-        dependencies.toast.show(.searchQueued)
+        dependencies.toast.show(.monitoredSearchQueued)
 
         TelemetryManager.send("automaticSearchDispatched", with: ["type": "series"])
     }

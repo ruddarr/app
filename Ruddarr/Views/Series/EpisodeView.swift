@@ -178,7 +178,7 @@ extension EpisodeView {
             return
         }
 
-        dependencies.toast.show(.searchQueued)
+        dependencies.toast.show(.episodeSearchQueued)
 
         TelemetryManager.send("automaticSearchDispatched", with: ["type": "episode"])
     }

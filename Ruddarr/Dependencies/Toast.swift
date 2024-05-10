@@ -65,8 +65,11 @@ extension Toast {
         case monitored
         case unmonitored
         case refreshQueued
-        case searchQueued
         case downloadQueued
+        case movieSearchQueued
+        case seasonSearchQueued
+        case episodeSearchQueued
+        case monitoredSearchQueued
         case movieDeleted
         case seriesDeleted
         case error(String)
@@ -80,10 +83,16 @@ extension Toast {
             custom(text: String(localized: "Unmonitored"), icon: "bookmark")
         case .refreshQueued:
             custom(text: String(localized: "Refresh Queued"), icon: "checkmark.circle.fill")
-        case .searchQueued:
-            custom(text: String(localized: "Search Queued"), icon: "checkmark.circle.fill")
         case .downloadQueued:
             custom(text: String(localized: "Download Queued"), icon: "checkmark.circle.fill")
+        case .movieSearchQueued:
+            custom(text: String(localized: "Movie Search Queued"), icon: "checkmark.circle.fill")
+        case .seasonSearchQueued:
+            custom(text: String(localized: "Season Search Queued"), icon: "checkmark.circle.fill")
+        case .episodeSearchQueued:
+            custom(text: String(localized: "Episode Search Queued"), icon: "checkmark.circle.fill")
+        case .monitoredSearchQueued:
+            custom(text: String(localized: "Monitored Search Queued"), icon: "checkmark.circle.fill")
         case .movieDeleted:
             custom(text: String(localized: "Movie Deleted"), icon: "checkmark.circle.fill")
         case .seriesDeleted:

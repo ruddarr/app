@@ -103,7 +103,7 @@ struct MovieDetails: View {
                         return
                     }
 
-                    dependencies.toast.show(.searchQueued)
+                    dependencies.toast.show(.movieSearchQueued)
 
                     TelemetryManager.send("automaticSearchDispatched", with: ["type": "movie"])
                 }

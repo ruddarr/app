@@ -207,7 +207,7 @@ extension SeasonView {
             return
         }
 
-        dependencies.toast.show(.searchQueued)
+        dependencies.toast.show(.seasonSearchQueued)
 
         TelemetryManager.send("automaticSearchDispatched", with: ["type": "season"])
     }
