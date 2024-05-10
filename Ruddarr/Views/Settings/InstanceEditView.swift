@@ -91,6 +91,8 @@ struct InstanceEditView: View {
                             withAnimation { showAdvanced = true }
                         }
                 }
+            }.transaction { transaction in
+                transaction.animation = nil // disable animation
             }
         }
     }
