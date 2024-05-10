@@ -72,7 +72,7 @@ struct MovieGridItem: View {
 
     static func gridIconScale() -> Image.Scale {
         #if os(macOS)
-            return .medium
+            return .large
         #else
             if UIDevice.current.userInterfaceIdiom == .phone {
                 return .small

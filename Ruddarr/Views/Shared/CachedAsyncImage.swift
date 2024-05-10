@@ -8,7 +8,11 @@ enum ImageType {
 
     var size: CGSize {
         switch self {
-        case .poster: CGSize(width: 250, height: 375)
+            #if os(macOS)
+                case .poster: CGSize(width: 325, height: 488)
+            #else
+                case .poster: CGSize(width: 250, height: 375)
+            #endif
         }
     }
 }
