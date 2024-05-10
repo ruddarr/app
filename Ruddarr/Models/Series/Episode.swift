@@ -24,13 +24,11 @@ struct Episode: Identifiable, Codable {
 
     let finaleType: EpisodeFinale?
 
-    // let airDate: String? // "2024-03-10"
     let airDateUtc: Date?
 
     let endTime: Date?
     let grabDate: Date?
 
-    // let episodeFileId: Int
     let absoluteEpisodeNumber: Int?
     let sceneAbsoluteEpisodeNumber: Int?
     let sceneEpisodeNumber: Int?
@@ -41,7 +39,6 @@ struct Episode: Identifiable, Codable {
         title ?? String(localized: "TBA")
     }
 
-    // TODO: Do we need anime formatting?
     var episodeLabel: String {
         String(format: "%dx%02d", seasonNumber, episodeNumber)
     }

@@ -99,8 +99,6 @@ struct SeriesDetails: View {
 
             Spacer()
                 .modifier(MediaPreviewActionSpacerModifier())
-
-            // TODO: Trailer URL?
         }
         .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 450)

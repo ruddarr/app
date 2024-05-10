@@ -35,7 +35,7 @@ struct MovieView: View {
             isPresented: $showDeleteConfirmation
         ) {
             Button("Delete Movie", role: .destructive) {
-                Task { await deleteMovie(movie) }
+                Task { await deleteMovie() }
             }
             Button("Cancel", role: .cancel) { }
         } message: {
@@ -164,7 +164,7 @@ extension MovieView {
     }
 
     @MainActor
-    func deleteMovie(_ movie: Movie) async {
+    func deleteMovie() async {
         _ = await instance.movies.delete(movie)
 
         if !dependencies.router.moviesPath.isEmpty {

@@ -11,12 +11,6 @@ extension SeriesDetails {
                     .fontWeight(.bold)
 
                 Spacer()
-
-                // TODO: cleanup
-//                NavigationLink(
-//                    "Files & History",
-//                    value: MoviesPath.metadata(movie.id)
-//                )
             }
         }
         .font(.callout)

@@ -4,10 +4,9 @@ import CloudKit
 import MetricKit
 import TelemetryClient
 
-// TODO: needs work (macOS)
-
 #if os(macOS)
 class AppDelegateMac: NSObject, NSApplicationDelegate {
+    // TODO: [macOS] Needs work
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         configureSentry()
         configureTelemetryDeck()

@@ -22,7 +22,6 @@ extension View {
 
     func appWindowFrame() -> some View {
         #if os(macOS)
-            // TODO: preserve macOS window size and position #250
             self.frame(minWidth: 1_280, maxWidth: 12_032, minHeight: 768, maxHeight: 6_768)
         #else
             return self

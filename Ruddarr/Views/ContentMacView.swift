@@ -69,7 +69,7 @@ struct ContentView: View {
     }
 
     func handleScenePhaseChange() {
-        // TODO: test this
+        // TODO: [macOS] Test this
         if controlActiveState == .key {
             Notifications.shared.maybeUpdateWebhooks(settings)
             Telemetry.shared.maybeUploadTelemetry(settings)

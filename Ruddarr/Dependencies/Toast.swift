@@ -165,7 +165,7 @@ extension View {
     @Environment(\.colorScheme) var colorScheme
 
     return VStack {
-        Text("Headline")
+        Text(verbatim: "Headline")
             .font(.largeTitle.bold())
             .overlay { toast.render(notice) }
 
