@@ -4,7 +4,7 @@ import CloudKit
 import MetricKit
 import TelemetryClient
 
-// TODO: needs work
+// TODO: needs work (macOS)
 
 #if os(macOS)
 class AppDelegateMac: NSObject, NSApplicationDelegate {

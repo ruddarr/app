@@ -33,7 +33,7 @@ struct SeriesSearchView: View {
             .padding(.top, 12)
             .viewPadding(.horizontal)
         }
-        .navigationTitle("Add TV Series")
+        .navigationTitle("Search")
         .safeNavigationBarTitleDisplayMode(.large)
         .scrollDismissesKeyboard(.immediately)
         .searchable(

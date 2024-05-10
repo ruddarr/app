@@ -1273,6 +1273,16 @@
         }
       }
     },
+    "Episode Search Queued" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Episode Search Queued"
+          }
+        }
+      }
+    },
     "Episode Upgraded" : {
       "localizations" : {
         "en" : {
@@ -2114,6 +2124,9 @@
         }
       }
     },
+    "Monitored Search Queued" : {
+
+    },
     "Monochrome" : {
       "localizations" : {
         "en" : {
@@ -2270,6 +2283,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movie Renamed"
+          }
+        }
+      }
+    },
+    "Movie Search Queued" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie Search Queued"
           }
         }
       }
@@ -3444,16 +3467,6 @@
         }
       }
     },
-    "Search Queued" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search Queued"
-          }
-        }
-      }
-    },
     "Searching..." : {
       "localizations" : {
         "en" : {
@@ -3510,6 +3523,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Season Premiere"
+          }
+        }
+      }
+    },
+    "Season Search Queued" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season Search Queued"
           }
         }
       }

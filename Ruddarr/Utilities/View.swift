@@ -84,7 +84,7 @@ extension SearchFieldPlacement {
 extension Image {
     init(appIcon: String) {
         #if os(macOS)
-            self.init(nsImage: NSImage(named: appIcon)!)
+            self.init(nsImage: NSImage(named: appIcon) ?? NSImage())
         #else
             self.init(uiImage: UIImage(named: appIcon)!)
         #endif
@@ -141,17 +141,16 @@ extension ShapeStyle where Self == Color {
     static var label: Color { Color(nsColor: .labelColor) }
 
     static var darkGray: Color { Color(NSColor.darkGray) }
+    static var darkText: Color { Color(NSColor.secondaryLabelColor) }
+
     static var lightGray: Color { Color(NSColor.lightGray) }
+    static var lightText: Color { Color(NSColor.secondaryLabelColor) }
 
     static var systemFill: Color { Color(NSColor.systemFill) }
     static var secondarySystemFill: Color { Color(NSColor.secondarySystemFill) }
 
     static var systemBackground: Color { Color(NSColor.windowBackgroundColor) }
-
-    // TODO: check these colors!
-    static var darkText: Color { Color(NSColor.darkGray) }
-    static var lightText: Color { Color(NSColor.lightGray) }
-    static var secondarySystemBackground: Color { Color(NSColor.underPageBackgroundColor) }
-    static var tertiarySystemBackground: Color { Color(NSColor.controlBackgroundColor) }
+    static var secondarySystemBackground: Color { Color(NSColor.controlBackgroundColor) }
+    static var tertiarySystemBackground: Color { Color(NSColor.underPageBackgroundColor) }
 #endif
 }
