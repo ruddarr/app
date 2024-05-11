@@ -10,17 +10,19 @@ struct SeriesSort: Hashable {
 
         case byTitle
         case byYear
-        case byAiring
         case byAdded
         case bySize
+        case byNextAiring
+        case byPreviousAiring
 
         var label: some View {
             switch self {
             case .byTitle: Label("Title", systemImage: "textformat.abc")
             case .byYear: Label("Year", systemImage: "calendar")
-            case .byAiring: Label("Next Airing", systemImage: "clock")
             case .byAdded: Label("Added", systemImage: "calendar.badge.plus")
             case .bySize: Label("File Size", systemImage: "internaldrive")
+            case .byNextAiring: Label("Next Airing", systemImage: "clock")
+            case .byPreviousAiring: Label("Previous Airing", systemImage: "clock.arrow.circlepath")
             }
         }
 
@@ -30,12 +32,14 @@ struct SeriesSort: Hashable {
                 lhs.sortTitle > rhs.sortTitle
             case .byYear:
                 lhs.sortYear < rhs.sortYear
-            case .byAiring:
-                lhs.nextAiring?.timeIntervalSince1970 ?? 0 < rhs.nextAiring?.timeIntervalSince1970 ?? 0
             case .byAdded:
                 lhs.added < rhs.added
             case .bySize:
                 lhs.statistics?.sizeOnDisk ?? 0 < rhs.statistics?.sizeOnDisk ?? 0
+            case .byNextAiring:
+                lhs.nextAiring?.timeIntervalSince1970 ?? 0 < rhs.nextAiring?.timeIntervalSince1970 ?? 0
+            case .byPreviousAiring:
+                lhs.previousAiring?.timeIntervalSince1970 ?? 0 < rhs.previousAiring?.timeIntervalSince1970 ?? 0
             }
         }
     }

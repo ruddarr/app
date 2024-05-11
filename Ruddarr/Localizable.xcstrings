@@ -3147,6 +3147,16 @@
         }
       }
     },
+    "Previous Airing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previous Airing"
+          }
+        }
+      }
+    },
     "Prologue" : {
       "localizations" : {
         "en" : {

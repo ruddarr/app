@@ -36,6 +36,7 @@ struct Series: Identifiable, Codable {
     let firstAired: Date?
     let lastAired: Date?
     let nextAiring: Date?
+    let previousAiring: Date?
 
     var monitored: Bool
     var monitorNewItems: SeriesMonitorNewItems?
@@ -78,6 +79,7 @@ struct Series: Identifiable, Codable {
         case firstAired
         case lastAired
         case nextAiring
+        case previousAiring
         case monitored
         case monitorNewItems
         case overview
@@ -141,6 +143,11 @@ struct Series: Identifiable, Codable {
     var runtimeLabel: String? {
         guard runtime > 0 else { return nil }
         return formatRuntime(runtime)
+    }
+
+    var sizeLabel: String? {
+        guard let bytes = statistics?.sizeOnDisk, bytes > 0 else { return nil }
+        return formatBytes(bytes)
     }
 
     var certificationLabel: String {
@@ -297,8 +304,8 @@ extension Series {
         .init(
             title: "", sortTitle: "", tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, status: .deleted, seriesType: .standard,
             path: nil, folder: nil, certification: nil, year: 0, runtime: 0, ended: false, seasonFolder: false, useSceneNumbering: false,
-            added: Date.now, airTime: nil, firstAired: nil, lastAired: nil, nextAiring: nil, monitored: false, overview: nil, network: nil,
-            originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], genres: [], images: [], statistics: nil
+            added: Date.now, airTime: nil, firstAired: nil, lastAired: nil, nextAiring: nil, previousAiring: nil, monitored: false, overview: nil,
+            network: nil, originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], genres: [], images: [], statistics: nil
         )
     }
 }
