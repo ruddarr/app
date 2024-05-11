@@ -183,7 +183,7 @@ struct MovieDetails: View {
             return quality
         }
 
-        return "\(quality) (\(details.formatted(.list(type: .and, width: .narrow))))"
+        return "\(quality) (\(details.formattedList()))"
     }
 
     var audioQuality: String {
@@ -208,7 +208,7 @@ struct MovieDetails: View {
             languages.append(String(localized: "Unknown"))
         }
 
-        let languageList = languages.formatted(.list(type: .and, width: .narrow))
+        let languageList = languages.formattedList()
 
         return codec.isEmpty ? "\(languageList)" : "\(languageList) (\(codec))"
     }
@@ -227,7 +227,7 @@ struct MovieDetails: View {
                 String(format: String(localized: "+%d more..."), codes.count - 2)
             )
 
-            return someCodes.formatted(.list(type: .and, width: .narrow))
+            return someCodes.formattedList()
         }
 
         return languagesList(codes)

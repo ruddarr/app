@@ -117,7 +117,7 @@ struct Series: Identifiable, Codable {
     var genreLabel: String {
         genres.prefix(3)
             .map { $0.replacingOccurrences(of: "Science Fiction", with: "Sci-Fi") }
-            .formatted(.list(type: .and, width: .narrow))
+            .formattedList()
     }
 
     var stateLabel: LocalizedStringKey {
@@ -309,4 +309,3 @@ extension Series {
         )
     }
 }
-

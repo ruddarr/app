@@ -31,7 +31,7 @@ struct MediaFileSheet: View {
 
                 if let formats = file.customFormatsList {
                     Divider()
-                    row("Custom Formats", formats.formatted(.list(type: .and, width: .narrow)))
+                    row("Custom Formats", formats.formattedList())
                 }
             }
         } header: {

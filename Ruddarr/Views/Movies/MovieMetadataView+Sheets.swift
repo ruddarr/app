@@ -66,7 +66,7 @@ struct MovieHistoryEventSheet: View {
 
                 if !event.customFormats.isEmpty  {
                     Divider()
-                    row("Custom Formats", event.customFormats.map { $0.label }.formatted(.list(type: .and, width: .narrow)))
+                    row("Custom Formats", event.customFormats.map { $0.label }.formattedList())
                 }
 
                 if let group = event.data("releaseGroup") {

@@ -198,7 +198,7 @@ struct MovieRelease: Identifiable, Codable {
             return nil
         }
 
-        return cleanIndexerFlags.formatted(.list(type: .and, width: .narrow))
+        return cleanIndexerFlags.formattedList()
     }
 
     var languageLabel: String {
@@ -211,7 +211,7 @@ struct MovieRelease: Identifiable, Codable {
         }
 
         return languages.map { $0.label }
-            .formatted(.list(type: .and, width: .narrow))
+            .formattedList()
     }
 
     var typeLabel: String {

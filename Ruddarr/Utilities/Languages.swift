@@ -93,5 +93,13 @@ class Languages {
 func languagesList(_ codes: [String]) -> String {
     codes.map {
         $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
-    }.formatted(.list(type: .and, width: .narrow))
+    }.formattedList()
+}
+
+extension Array where Element: StringProtocol {
+    // Canada weirdly inserts `and` between only two elements
+    // `.formatted(.list(type: .and, width: .narrow))`
+    func formattedList() -> String {
+        joined(separator: ", ")
+    }
 }

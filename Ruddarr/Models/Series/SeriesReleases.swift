@@ -248,8 +248,7 @@ struct SeriesRelease: Identifiable, Codable {
             return String(localized: "Unknown")
         }
 
-        return languages.map { $0.label }
-            .formatted(.list(type: .and, width: .narrow))
+        return languages.map { $0.label }.formattedList()
     }
 
     var typeLabel: String {
