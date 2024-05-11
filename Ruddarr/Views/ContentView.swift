@@ -13,7 +13,9 @@ struct ContentView: View {
 
     @ScaledMetric(relativeTo: .body) var safeAreaInsetHeight = 48
 
-    private let orientationChangePublisher = NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)
+    private let orientationChangePublisher = NotificationCenter.default.publisher(
+        for: UIDevice.orientationDidChangeNotification
+    )
 
     init() {
         UITabBar.appearance().unselectedItemTintColor = .clear
@@ -154,11 +156,16 @@ struct ContentView: View {
     }
 
     func handleOrientationChange(_ notification: Notification) {
-        if let windowScene = UIApplication.shared.connectedScenes.first(
-            where: { $0.activationState == .foregroundActive }
-        ) as? UIWindowScene {
-            isPortrait = windowScene.interfaceOrientation.isPortrait
-            columnVisibility = isPortrait ? .detailOnly : .doubleColumn
+        isPortrait = UIDevice.current.orientation.isPortrait
+
+        if !isPortrait {
+            columnVisibility = .doubleColumn
+        }
+
+        if isPortrait {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                columnVisibility = .detailOnly
+            }
         }
     }
 
