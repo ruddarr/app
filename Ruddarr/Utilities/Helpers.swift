@@ -114,7 +114,7 @@ class PreviewData {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
 
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .iso8601extended
 
                 return try decoder.decode([T].self, from: data)
             } catch {

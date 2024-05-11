@@ -27,12 +27,12 @@ struct Series: Identifiable, Codable {
     let year: Int
     var sortYear: Int { year == 0 ? 2_100 : year }
     let runtime: Int
+    let airTime: String?
     let ended: Bool
     var seasonFolder: Bool
     let useSceneNumbering: Bool
 
     let added: Date
-    let airTime: String?
     let firstAired: Date?
     let lastAired: Date?
     let nextAiring: Date?
@@ -44,7 +44,7 @@ struct Series: Identifiable, Codable {
     let overview: String?
     let network: String?
 
-    let originalLanguage: MediaLanguage
+    let originalLanguage: MediaLanguage?
 
     let alternateTitles: [AlternateMovieTitle]?
 
@@ -71,11 +71,11 @@ struct Series: Identifiable, Codable {
         case certification
         case year
         case runtime
+        case airTime
         case ended
         case seasonFolder
         case useSceneNumbering
         case added
-        case airTime
         case firstAired
         case lastAired
         case nextAiring
@@ -302,10 +302,10 @@ struct SeriesEditorResource: Codable {
 extension Series {
     static var void: Self {
         .init(
-            title: "", sortTitle: "", tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, status: .deleted, seriesType: .standard,
-            path: nil, folder: nil, certification: nil, year: 0, runtime: 0, ended: false, seasonFolder: false, useSceneNumbering: false,
-            added: Date.now, airTime: nil, firstAired: nil, lastAired: nil, nextAiring: nil, previousAiring: nil, monitored: false, overview: nil,
-            network: nil, originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], genres: [], images: [], statistics: nil
+            title: "", sortTitle: "", tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, status: .deleted, seriesType: .standard, path: nil, folder: nil,
+            certification: nil, year: 0, runtime: 0, airTime: nil, ended: false, seasonFolder: false, useSceneNumbering: false, added: Date.now,
+            firstAired: nil, lastAired: nil, nextAiring: nil, previousAiring: nil, monitored: false, overview: nil, network: nil,
+            originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], genres: [], images: [], statistics: nil
         )
     }
 }

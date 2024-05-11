@@ -149,7 +149,7 @@ extension View {
 }
 
 #Preview {
-    var toast = Toast()
+    let toast = Toast()
     toast.show(.monitored)
 
     let notice = Toast.Message(

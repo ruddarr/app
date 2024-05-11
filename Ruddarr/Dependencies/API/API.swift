@@ -281,7 +281,7 @@ extension API {
         session: URLSession = .shared
     ) async throws -> Response {
         encoder.dateEncodingStrategy = .iso8601
-        decoder.dateDecodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = .iso8601extended
 
         try NetworkMonitor.shared.checkReachability()
 

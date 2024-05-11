@@ -152,7 +152,7 @@ fileprivate extension API {
         if let path = Bundle.main.path(forResource: filename, ofType: "json") {
             do {
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .iso8601extended
 
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
 
