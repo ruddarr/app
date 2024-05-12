@@ -12,7 +12,7 @@ struct Episode: Identifiable, Codable {
 
     let seasonNumber: Int
     let episodeNumber: Int
-    let runtime: Int
+    let runtime: Int?
 
     let title: String?
     let seriesTitle: String?
@@ -20,7 +20,7 @@ struct Episode: Identifiable, Codable {
 
     let hasFile: Bool
     var monitored: Bool
-    let grabbed: Bool
+    let grabbed: Bool?
 
     let finaleType: EpisodeFinale?
 
