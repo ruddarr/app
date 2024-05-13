@@ -93,7 +93,7 @@ struct SeasonView: View {
     }
 
     var runtime: Int? {
-        let items = episodes.filter { $0.runtime > 0 }.map { $0.runtime }
+        let items = episodes.map { $0.runtime ?? 0 }.filter { $0 > 0 }
         guard !items.isEmpty else { return nil }
         return items.sorted(by: <)[items.count / 2]
     }

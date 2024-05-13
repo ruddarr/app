@@ -50,8 +50,8 @@ struct Episode: Identifiable, Codable {
     }
 
     var runtimeLabel: String? {
-        guard runtime > 0 else { return nil }
-        return formatRuntime(runtime)
+        guard let minutes = runtime, minutes > 0 else { return nil }
+        return formatRuntime(minutes)
     }
 
     var premiereLabel: LocalizedStringKey {
@@ -71,7 +71,7 @@ struct Episode: Identifiable, Codable {
     }
 
     var isDownloaded: Bool {
-        hasFile || grabbed
+        hasFile
     }
 
     var isMissing: Bool {

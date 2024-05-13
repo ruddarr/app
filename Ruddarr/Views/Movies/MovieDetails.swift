@@ -264,7 +264,7 @@ struct MovieDetails: View {
 
 #Preview("Preview") {
     let movies: [Movie] = PreviewData.load(name: "movie-lookup")
-    let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
+    let movie = movies[4]
 
     return MovieView(movie: Binding(get: { movie }, set: { _ in }))
         .withRadarrInstance(movies: movies)
