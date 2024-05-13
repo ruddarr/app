@@ -24,7 +24,7 @@ struct ContentView: View {
         List(selection: dependencies.$router.selectedTab.optional) {
             ForEach(Tab.allCases) { tab in
                 if tab != .settings {
-                    sidebarItem(for: tab)
+                    NavigationLink(value: tab, label: { tab.label })
                 }
             }
         }
@@ -34,23 +34,12 @@ struct ContentView: View {
             List(selection: dependencies.$router.selectedTab.optional) {
                 ForEach(Tab.allCases) { tab in
                     if tab == .settings {
-                        sidebarItem(for: tab)
+                        NavigationLink(value: tab, label: { tab.label })
                     }
                 }
             }
             .frame(height: 48)
             .scrollDisabled(true)
-        }
-    }
-
-    @ViewBuilder
-    func sidebarItem(for tab: Tab) -> some View {
-        NavigationLink(
-            destination: screen(for: tab),
-            tag: tab,
-            selection: dependencies.$router.selectedTab.optional
-        ) {
-            tab.label
         }
     }
 
