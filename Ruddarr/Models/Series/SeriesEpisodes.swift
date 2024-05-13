@@ -11,7 +11,7 @@ class SeriesEpisodes {
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
     var isFetching: Bool = false
-    var isMonitoring: Bool = false
+    var isMonitoring: Episode.ID = 0
 
     init(_ instance: Instance) {
         self.instance = instance
@@ -47,7 +47,7 @@ class SeriesEpisodes {
 
     func monitor(_ episodes: [Episode.ID], _ monitored: Bool) async -> Bool {
         error = nil
-        isMonitoring = true
+        isMonitoring = episodes[0]
 
         do {
             _ = try await dependencies.api.monitorEpisode(episodes, monitored, instance)
@@ -61,7 +61,7 @@ class SeriesEpisodes {
             self.error = API.Error(from: error)
         }
 
-        isMonitoring = false
+        isMonitoring = 0
 
         return error == nil
     }

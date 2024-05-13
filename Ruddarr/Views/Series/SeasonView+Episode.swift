@@ -66,13 +66,17 @@ struct EpisodeRow: View {
         Button {
             Task { await toggleMonitor() }
         } label: {
-            Image(systemName: "bookmark")
-                .symbolVariant(episode.monitored ? .fill : .none)
-                .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
+            if instance.episodes.isMonitoring == episode.id {
+                ProgressView().tint(.secondary)
+            } else {
+                Image(systemName: "bookmark")
+                    .symbolVariant(episode.monitored ? .fill : .none)
+                    .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
+            }
         }
         .buttonStyle(.plain)
         .overlay(Rectangle().padding(18))
-        .allowsHitTesting(!instance.episodes.isMonitoring)
+        .allowsHitTesting(instance.episodes.isMonitoring != episode.id)
         .disabled(!series.monitored)
     }
 
