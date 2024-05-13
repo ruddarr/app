@@ -4,22 +4,20 @@ struct MovieGridItem: View {
     var movie: Movie
 
     var body: some View {
-        ZStack {
-            poster
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .contextMenu {
-            MovieContextMenu(movie: movie)
-        } preview: {
-            poster.frame(width: 300, height: 450)
-        }
-        .background(.secondarySystemBackground)
-        .overlay(alignment: .bottom) {
-            if movie.exists {
-                posterOverlay
+        poster
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .contextMenu {
+                MovieContextMenu(movie: movie)
+            } preview: {
+                poster.frame(width: 300, height: 450)
             }
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+            .background(.secondarySystemBackground)
+            .overlay(alignment: .bottom) {
+                if movie.exists {
+                    posterOverlay
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
     var poster: some View {

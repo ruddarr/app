@@ -4,20 +4,18 @@ struct SeriesGridItem: View {
     var series: Series
 
     var body: some View {
-        ZStack {
-            poster
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .contextMenu {
-            SeriesContextMenu(series: series)
-        } preview: {
-            poster.frame(width: 300, height: 450)
-        }
-        .background(.secondarySystemBackground)
-        .overlay(alignment: .bottom) {
-            posterOverlay
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        poster
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .contextMenu {
+                SeriesContextMenu(series: series)
+            } preview: {
+                poster.frame(width: 300, height: 450)
+            }
+            .background(.secondarySystemBackground)
+            .overlay(alignment: .bottom) {
+                posterOverlay
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
     var poster: some View {
