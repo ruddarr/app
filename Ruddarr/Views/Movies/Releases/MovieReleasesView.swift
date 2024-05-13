@@ -177,12 +177,11 @@ extension MovieReleasesView {
                 Toggle("Original", systemImage: "character.bubble", isOn: $sort.originalLanguage)
             }
         } label: {
-            Image(systemName: "line.3.horizontal.decrease")
-                .overlay {
-                    if sort.hasFilter {
-                        ToolbarFilterBadge()
-                    }
-                }
+            if sort.hasFilter {
+                Image("filters.badge").offset(y: 3.2)
+            } else{
+                Image(systemName: "line.3.horizontal.decrease")
+            }
         }
     }
 

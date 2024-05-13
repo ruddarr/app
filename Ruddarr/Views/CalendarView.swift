@@ -197,12 +197,11 @@ struct CalendarView: View {
                         .symbolVariant(onlyMonitored ? .fill : .none)
                 }
             } label: {
-                Image(systemName: "line.3.horizontal.decrease")
-                    .overlay {
-                        if displayedMediaType != .all || onlyPremieres || onlyMonitored {
-                            ToolbarFilterBadge()
-                        }
-                    }
+                if displayedMediaType != .all || onlyPremieres || onlyMonitored {
+                    Image("filters.badge").offset(y: 3.2)
+                } else {
+                    Image(systemName: "line.3.horizontal.decrease")
+                }
             }
         }
     }

@@ -31,12 +31,11 @@ extension SeriesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Image(systemName: "line.3.horizontal.decrease")
-                .overlay {
-                    if sort.filter != .all {
-                        ToolbarFilterBadge()
-                    }
-                }
+            if sort.filter != .all {
+                Image("filters.badge").offset(y: 3.2)
+            } else {
+                Image(systemName: "line.3.horizontal.decrease")
+            }
         }
     }
 
