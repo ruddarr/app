@@ -14,6 +14,8 @@ struct EpisodeView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
 
+    var startOfToday = Calendar.current.startOfDay(for: Date())
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -80,7 +82,11 @@ struct EpisodeView: View {
                 }
 
                 Bullet()
-                Text(episode.airDateTimeLabel)
+                Text(
+                    episode.airDateUtc ?? Date() > startOfToday
+                        ? episode.airDateTimeLabel
+                        : episode.airDateLabel
+                )
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
