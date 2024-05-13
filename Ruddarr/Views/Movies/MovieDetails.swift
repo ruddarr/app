@@ -61,22 +61,22 @@ struct MovieDetails: View {
 
     var details: some View {
         Grid(alignment: .leading) {
-            detailsRow("Status", value: "\(movie.status.label)")
+            MediaDetailsRow("Status", value: "\(movie.status.label)")
 
             if let studio = movie.studio, !studio.isEmpty {
-                detailsRow("Studio", value: studio)
+                MediaDetailsRow("Studio", value: studio)
             }
 
             if !movie.genres.isEmpty {
-                detailsRow("Genre", value: movie.genreLabel)
+                MediaDetailsRow("Genre", value: movie.genreLabel)
             }
 
             if movie.isDownloaded {
-                detailsRow("Video", value: videoQuality)
-                detailsRow("Audio", value: audioQuality)
+                MediaDetailsRow("Video", value: mediaDetailsVideoQuality(movie.movieFile))
+                MediaDetailsRow("Audio", value: mediaDetailsAudioQuality(movie.movieFile))
 
-                if let languages = subtitles {
-                    detailsRow("Subtitles", value: languages)
+                if let subtitles = mediaDetailsSubtitles(movie.movieFile) {
+                    MediaDetailsRow("Subtitles", value: subtitles)
                 }
             }
         }
@@ -153,103 +153,10 @@ struct MovieDetails: View {
         }
     }
 
-    var videoQuality: String {
-        var quality = ""
-        var details: [String] = []
-
-        if let resolution = movie.movieFile?.videoResolution {
-            quality = "\(resolution)p"
-            quality = quality.replacingOccurrences(of: "2160p", with: "4K")
-            quality = quality.replacingOccurrences(of: "4320p", with: "8K")
-
-            if let dynamicRange = movie.movieFile?.mediaInfo?.videoDynamicRange, !dynamicRange.isEmpty {
-                quality += " \(dynamicRange)"
-            }
-        }
-
-        if quality.isEmpty {
-            quality = String(localized: "Unknown")
-        }
-
-        if let codec = movie.movieFile?.mediaInfo?.videoCodecLabel {
-            details.append(codec)
-        }
-
-        if let source = movie.movieFile?.quality.quality.source {
-            details.append(source.label)
-        }
-
-        if details.isEmpty {
-            return quality
-        }
-
-        return "\(quality) (\(details.formattedList()))"
-    }
-
-    var audioQuality: String {
-        var languages: [String] = []
-        var codec = ""
-
-        if let langs = movie.movieFile?.languages {
-            languages = langs
-                .filter { $0.name != nil }
-                .map { $0.label }
-        }
-
-        if let audioCodec = movie.movieFile?.mediaInfo?.audioCodec {
-            codec = audioCodec
-
-            if let channels = movie.movieFile?.mediaInfo?.audioChannels {
-                codec += " \(channels)"
-            }
-        }
-
-        if languages.isEmpty {
-            languages.append(String(localized: "Unknown"))
-        }
-
-        let languageList = languages.formattedList()
-
-        return codec.isEmpty ? "\(languageList)" : "\(languageList) (\(codec))"
-    }
-
-    var subtitles: String? {
-        guard let codes = movie.movieFile?.mediaInfo?.subtitleCodes else {
-            return nil
-        }
-
-        if codes.count > 2 {
-            var someCodes = Array(codes.prefix(2)).map {
-                $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
-            }
-
-            someCodes.append(
-                String(format: String(localized: "+%d more..."), codes.count - 2)
-            )
-
-            return someCodes.formattedList()
-        }
-
-        return languagesList(codes)
-    }
-
     var qualityProfile: String {
         instance.qualityProfiles.first(
             where: { $0.id == movie.qualityProfileId }
         )?.name ?? String(localized: "Unknown")
-    }
-
-    func detailsRow(_ label: LocalizedStringKey, value: String) -> some View {
-        GridRow(alignment: .top) {
-            Text(label)
-                .textCase(.uppercase)
-                .foregroundStyle(.secondary)
-                .fontWeight(.medium)
-                .padding(.trailing)
-            Text(value)
-            Spacer()
-        }
-        .font(.callout)
     }
 }
 

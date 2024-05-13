@@ -1,13 +1,6 @@
 import SwiftUI
 import TelemetryClient
 
-// TODO: loading animation if files are not loaded yet (missing alerts?)
-// TODO: pull to refresh episode and files
-// TODO: delete episode (or part of file details section?)
-// TODO: add episode history
-// TODO: show `Quality Profile` & Network
-// Airs: Aug 27 2019 at 9pm on Hulu
-
 struct EpisodeView: View {
     @Binding var series: Series
     var episodeId: Episode.ID
@@ -27,16 +20,24 @@ struct EpisodeView: View {
                 header
                     .padding(.bottom)
 
-                actions
-                    .padding(.bottom)
-
                 if episode.overview != nil {
                     description
                         .padding(.bottom)
                 }
 
-                file
+                details
                     .padding(.bottom)
+
+                actions
+                    .padding(.bottom)
+
+                Section {
+                    file
+                } header: {
+                    Text("Files & History")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                }
             }
             .padding(.top)
             .viewPadding(.horizontal)
@@ -84,6 +85,27 @@ struct EpisodeView: View {
             .font(.subheadline)
             .foregroundStyle(.secondary)
             .lineLimit(1)
+        }
+    }
+
+    var details: some View {
+        Grid(alignment: .leading) {
+            if let network = series.network, !network.isEmpty {
+                MediaDetailsRow("Network", value: network)
+            }
+
+            if !series.genres.isEmpty {
+                MediaDetailsRow("Genre", value: series.genreLabel)
+            }
+
+            if episode.isDownloaded {
+                MediaDetailsRow("Video", value: mediaDetailsVideoQuality(episodeFile))
+                MediaDetailsRow("Audio", value: mediaDetailsAudioQuality(episodeFile))
+
+                if let subtitles = mediaDetailsSubtitles(episodeFile) {
+                    MediaDetailsRow("Subtitles", value: subtitles)
+                }
+            }
         }
     }
 

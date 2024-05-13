@@ -69,18 +69,18 @@ struct SeriesDetails: View {
 
     var details: some View {
         Grid(alignment: .leading) {
-            detailsRow("Status", value: "\(series.status.label)")
+            MediaDetailsRow("Status", value: "\(series.status.label)")
 
             if !series.exists && series.seasonCount != 0 {
-                detailsRow("Seasons", value: series.seasonCount.formatted())
+                MediaDetailsRow("Seasons", value: series.seasonCount.formatted())
             }
 
             if let network = series.network, !network.isEmpty {
-                detailsRow("Network", value: network)
+                MediaDetailsRow("Network", value: network)
             }
 
             if !series.genres.isEmpty {
-                detailsRow("Genre", value: series.genreLabel)
+                MediaDetailsRow("Genre", value: series.genreLabel)
             }
         }
     }
@@ -186,19 +186,6 @@ struct SeriesDetails: View {
             }
             .buttonStyle(.plain)
         }
-    }
-
-    func detailsRow(_ label: LocalizedStringKey, value: String) -> some View {
-        GridRow(alignment: .top) {
-            Text(label)
-                .textCase(.uppercase)
-                .foregroundStyle(.secondary)
-                .fontWeight(.medium)
-                .padding(.trailing)
-            Text(value)
-            Spacer()
-        }
-        .font(.callout)
     }
 
     @MainActor

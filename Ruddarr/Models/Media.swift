@@ -62,6 +62,24 @@ struct MediaQualityDetails: Codable {
             .replacingOccurrences(of: "DVD-R", with: "480p")
             .replacingOccurrences(of: "SDTV", with: "480p")
     }
+
+    var sourceLabel: String {
+        switch source {
+        case .unknown: String(localized: "Unknown")
+        case .cam: "CAM"
+        case .telesync: "TELESYNC"
+        case .telecine: "TELECINE"
+        case .workprint: "WORKPRINT"
+        case .dvd: "DVD"
+        case .tv: "TV"
+        case .television: resolution < 480 ? "SDTV" : "HDTV"
+        case .televisionRaw: "Raw-HD"
+        case .web, .webdl: "WEBDL"
+        case .webrip, .webRip: "WEBRip"
+        case .bluray: "Bluray"
+        case .blurayRaw: "Remux"
+        }
+    }
 }
 
 enum MediaReleaseQualityModifier: String, Codable {
@@ -94,7 +112,7 @@ enum MediaQualitySource: String, Codable {
     case telecine
     case workprint
     case dvd
-    case tv // swiftlint:disable:this identifier_name
+    case tv
     case television
     case televisionRaw
     case web
@@ -103,26 +121,6 @@ enum MediaQualitySource: String, Codable {
     case webRip
     case bluray
     case blurayRaw
-
-    // TODO: currently only used by movie detail view
-    var label: String {
-        switch self {
-        case .unknown: String(localized: "Unknown")
-        case .cam: "CAM"
-        case .telesync: "TELESYNC"
-        case .telecine: "TELECINE"
-        case .workprint: "WORKPRINT"
-        case .dvd: "DVD"
-        case .tv: "TV"
-        case .television: "television..."
-        case .televisionRaw: "Raw-HD"
-        case .web: "WEB..."
-        case .webdl: "WEBDL"
-        case .webrip, .webRip: "WEBRip"
-        case .bluray: "Bluray"
-        case .blurayRaw: "Bluray Remux ..."
-        }
-    }
 }
 
 func languageSingleLabel(_ languages: [MediaLanguage]) -> String {
@@ -136,6 +134,109 @@ func languageSingleLabel(_ languages: [MediaLanguage]) -> String {
     }
 
     return String(localized: "Multilingual")
+}
+
+struct MediaDetailsRow: View {
+    var label: LocalizedStringKey
+    var value: String
+
+    init(_ label: LocalizedStringKey, value: String) {
+        self.label = label
+        self.value = value
+    }
+
+    var body: some View {
+        GridRow(alignment: .top) {
+            Text(label)
+                .textCase(.uppercase)
+                .foregroundStyle(.secondary)
+                .fontWeight(.medium)
+                .padding(.trailing)
+            Text(value)
+            Spacer()
+        }
+        .font(.callout)
+    }
+}
+
+func mediaDetailsVideoQuality(_ file: MediaFile?) -> String {
+    var quality = ""
+    var details: [String] = []
+
+    if let resolution = file?.videoResolution {
+        quality = "\(resolution)p"
+        quality = quality.replacingOccurrences(of: "2160p", with: "4K")
+        quality = quality.replacingOccurrences(of: "4320p", with: "8K")
+
+        if let dynamicRange = file?.mediaInfo?.videoDynamicRange, !dynamicRange.isEmpty {
+            quality += " \(dynamicRange)"
+        }
+    }
+
+    if quality.isEmpty {
+        quality = String(localized: "Unknown")
+    }
+
+    if let codec = file?.mediaInfo?.videoCodecLabel {
+        details.append(codec)
+    }
+
+    if let mediaQuality = file?.quality.quality, mediaQuality.source != .unknown {
+        details.append(mediaQuality.sourceLabel)
+    }
+
+    if details.isEmpty {
+        return quality
+    }
+
+    return "\(quality) (\(details.formattedList()))"
+}
+
+func mediaDetailsAudioQuality(_ file: MediaFile?) -> String {
+    var languages: [String] = []
+    var codec = ""
+
+    if let langs = file?.languages {
+        languages = langs
+            .filter { $0.name != nil }
+            .map { $0.label }
+    }
+
+    if let audioCodec = file?.mediaInfo?.audioCodec {
+        codec = audioCodec
+
+        if let channels = file?.mediaInfo?.audioChannels {
+            codec += " \(channels)"
+        }
+    }
+
+    if languages.isEmpty {
+        languages.append(String(localized: "Unknown"))
+    }
+
+    let languageList = languages.formattedList()
+
+    return codec.isEmpty ? "\(languageList)" : "\(languageList) (\(codec))"
+}
+
+func mediaDetailsSubtitles(_ file: MediaFile?) -> String? {
+    guard let codes = file?.mediaInfo?.subtitleCodes else {
+        return nil
+    }
+
+    if codes.count > 2 {
+        var someCodes = Array(codes.prefix(2)).map {
+            $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
+        }
+
+        someCodes.append(
+            String(format: String(localized: "+%d more..."), codes.count - 2)
+        )
+
+        return someCodes.formattedList()
+    }
+
+    return languagesList(codes)
 }
 
 struct MediaPreviewActionModifier: ViewModifier {
