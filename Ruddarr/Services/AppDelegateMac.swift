@@ -8,6 +8,8 @@ import TelemetryClient
 class AppDelegateMac: NSObject, NSApplicationDelegate {
     // TODO: [macOS] Needs work
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        NSWindow.allowsAutomaticWindowTabbing = false
+
         configureSentry()
         configureTelemetryDeck()
     }

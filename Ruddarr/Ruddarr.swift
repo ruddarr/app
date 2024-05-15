@@ -2,11 +2,11 @@ import SwiftUI
 
 @main
 struct Ruddarr: App {
-    #if os(macOS)
-        @NSApplicationDelegateAdaptor(AppDelegateMac.self) var appDelegate
-    #else
-        @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    #endif
+#if os(macOS)
+    @NSApplicationDelegateAdaptor(AppDelegateMac.self) var appDelegate
+#else
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+#endif
 
     init() {
         #if DEBUG
@@ -16,15 +16,25 @@ struct Ruddarr: App {
         NetworkMonitor.shared.start()
     }
 
+#if os(macOS)
     var body: some Scene {
-        WindowGroup {
+        Window("Ruddarr", id: "ruddarr") {
             ContentView()
-                .appWindowFrame()
                 .withAppState()
                 .onOpenURL(perform: openDeeplink)
         }
+        .defaultSize(width: 1_280, height: 768)
         .windowResizability(.contentSize)
     }
+#else
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .withAppState()
+                .onOpenURL(perform: openDeeplink)
+        }
+    }
+#endif
 
     func openDeeplink(url: URL) {
         do {
