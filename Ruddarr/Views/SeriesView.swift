@@ -47,7 +47,7 @@ struct SeriesView: View {
                         await fetchSeriesWithAlert(ignoreOffline: true)
                     }
                     .refreshable {
-                        await fetchSeriesWithAlert()
+                        await Task { await fetchSeriesWithAlert() }.value
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
                     .onReceive(dependencies.router.seriesScroll, perform: scrollToTop)

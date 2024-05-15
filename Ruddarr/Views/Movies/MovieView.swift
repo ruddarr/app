@@ -15,7 +15,7 @@ struct MovieView: View {
                 .viewPadding(.horizontal)
         }
         .refreshable {
-            await refresh()
+            await Task { await refresh() }.value
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {

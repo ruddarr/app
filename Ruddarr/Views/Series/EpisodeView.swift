@@ -56,7 +56,7 @@ struct EpisodeView: View {
             toolbarMenu
         }
         .refreshable {
-            await refresh()
+            await Task { await refresh() }.value
         }
     }
 

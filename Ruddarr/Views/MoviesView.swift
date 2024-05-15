@@ -45,7 +45,7 @@ struct MoviesView: View {
                         await fetchMoviesWithAlert(ignoreOffline: true)
                     }
                     .refreshable {
-                        await fetchMoviesWithAlert()
+                        await Task { await fetchMoviesWithAlert() }.value
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
                     .onReceive(dependencies.router.moviesScroll, perform: scrollToTop)

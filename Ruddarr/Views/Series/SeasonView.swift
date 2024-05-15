@@ -22,7 +22,7 @@ struct SeasonView: View {
             .viewPadding(.horizontal)
         }
         .refreshable {
-            await refresh()
+            await Task { await refresh() }.value
         }
         .toolbar {
             toolbarMonitorButton
