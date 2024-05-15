@@ -148,7 +148,7 @@ extension MovieView {
         dependencies.toast.show(.refreshQueued)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            Task { await instance.movies.fetch() }
+            Task { await instance.movies.get(movie) }
         }
     }
 

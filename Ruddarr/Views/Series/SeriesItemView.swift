@@ -140,7 +140,7 @@ extension SeriesDetailView {
         dependencies.toast.show(.refreshQueued)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            Task { await instance.series.fetch() }
+            Task { await instance.series.get(series) }
         }
     }
 

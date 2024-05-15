@@ -18,6 +18,7 @@ class Movies {
 
     enum Operation {
         case fetch
+        case get(Movie)
         case add(Movie)
         case update(Movie, Bool)
         case delete(Movie)
@@ -84,6 +85,10 @@ class Movies {
         await request(.fetch)
     }
 
+    func get(_ movie: Movie) async -> Bool {
+        await request(.get(movie))
+    }
+
     func add(_ movie: Movie) async -> Bool {
         await request(.add(movie))
     }
@@ -133,6 +138,11 @@ class Movies {
             itemsCount = items.count
             leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
             computeAlternateTitles()
+
+        case .get(let movie):
+            if let index = items.firstIndex(where: { $0.id == movie.id }) {
+                items[index] = try await dependencies.api.getMovie(movie.id, instance)
+            }
 
         case .add(let movie):
             items.append(try await dependencies.api.addMovie(movie, instance))

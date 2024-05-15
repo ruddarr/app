@@ -18,6 +18,7 @@ class SeriesModel {
 
     enum Operation {
         case fetch
+        case get(Series)
         case add(Series)
         case push(Series)
         case update(Series, Bool)
@@ -85,6 +86,10 @@ class SeriesModel {
         await request(.fetch)
     }
 
+    func get(_ series: Series) async -> Bool {
+        await request(.get(series))
+    }
+
     func add(_ series: Series) async -> Bool {
         await request(.add(series))
     }
@@ -138,6 +143,11 @@ class SeriesModel {
             itemsCount = items.count
             leaveBreadcrumb(.info, category: "series", message: "Fetched series", data: ["count": items.count])
             computeAlternateTitles()
+
+        case .get(let series):
+            if let index = items.firstIndex(where: { $0.id == series.id }) {
+                items[index] = try await dependencies.api.getSeries(series.id, instance)
+            }
 
         case .add(let series):
             items.append(try await dependencies.api.addSeries(series, instance))

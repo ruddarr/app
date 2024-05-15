@@ -22,6 +22,7 @@ struct API {
     var lookupSeries: (_ instance: Instance, _ query: String) async throws -> [Series]
     var lookupSeriesReleases: (Series.ID?, Series.ID?, Episode.ID?, Instance) async throws -> [SeriesRelease]
 
+    var getSeries: (Series.ID, Instance) async throws -> Series
     var addSeries: (Series, Instance) async throws -> Series
     var pushSeries: (Series, Instance) async throws -> Series
     var updateSeries: (Series, Bool, Instance) async throws -> Empty
@@ -156,6 +157,12 @@ extension API {
             }
 
             return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
+        }, getSeries: { series, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/series")
+                .appending(path: String(series))
+
+            return try await request(url: url, headers: instance.auth)
         }, addSeries: { series, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series")

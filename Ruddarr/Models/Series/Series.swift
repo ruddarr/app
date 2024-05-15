@@ -8,7 +8,9 @@ struct Series: Identifiable, Codable {
     var guid: Int?
 
     let title: String
+    let titleSlug: String?
     let sortTitle: String
+    let cleanTitle: String?
 
     let tvdbId: Int
     let tvRageId: Int?
@@ -57,7 +59,9 @@ struct Series: Identifiable, Codable {
     enum CodingKeys: String, CodingKey {
         case guid = "id"
         case title
+        case titleSlug
         case sortTitle
+        case cleanTitle
         case tvdbId
         case tvRageId
         case tvMazeId
@@ -302,8 +306,8 @@ struct SeriesEditorResource: Codable {
 extension Series {
     static var void: Self {
         .init(
-            title: "", sortTitle: "", tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, status: .deleted, seriesType: .standard, path: nil, folder: nil,
-            certification: nil, year: 0, runtime: 0, airTime: nil, ended: false, seasonFolder: false, useSceneNumbering: false, added: Date.now,
+            title: "", titleSlug: nil, sortTitle: "", cleanTitle: nil, tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, status: .deleted, seriesType: .standard,
+            path: nil, folder: nil, certification: nil, year: 0, runtime: 0, airTime: nil, ended: false, seasonFolder: false, useSceneNumbering: false, added: Date.now,
             firstAired: nil, lastAired: nil, nextAiring: nil, previousAiring: nil, monitored: false, overview: nil, network: nil,
             originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], genres: [], images: [], statistics: nil
         )

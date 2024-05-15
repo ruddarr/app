@@ -74,6 +74,11 @@ extension API {
             try await Task.sleep(nanoseconds: 500_000_000)
 
             return loadPreviewData(filename: "series-releases")
+        }, getSeries: { _, _ in
+            let series: [Series] = loadPreviewData(filename: "series")
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+
+            return series[0]
         }, addSeries: { _, _ in
             let series: [Series] = loadPreviewData(filename: "series")
             try await Task.sleep(nanoseconds: 2_000_000_000)
