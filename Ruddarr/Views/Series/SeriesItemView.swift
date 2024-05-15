@@ -22,6 +22,9 @@ struct SeriesDetailView: View {
             toolbarMonitorButton
             toolbarMenu
         }
+        .onAppear {
+            Task { await refetch() }
+        }
         .task {
             await instance.episodes.maybeFetch(series)
             await instance.files.maybeFetch(series)
@@ -127,6 +130,14 @@ extension SeriesDetailView {
         }
 
         dependencies.toast.show(series.monitored ? .monitored : .unmonitored)
+    }
+
+    @MainActor
+    func refetch() async {
+        for i in 0..<3 {
+            _ = await instance.series.get(series)
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
+        }
     }
 
     @MainActor
