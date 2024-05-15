@@ -36,7 +36,7 @@ struct SeriesContextMenu: View {
                     return "imdb:///title/\(imdbId)"
                 }
 
-                return "imdb:///find?q=\(encodedTitle)"
+                return "imdb:///find/?s=tt&q=\(encodedTitle)"
             }
         #endif
 
@@ -44,6 +44,6 @@ struct SeriesContextMenu: View {
             return "https://www.imdb.com/title/\(imdbId)"
         }
 
-        return "https://www.imdb.com/find/?q=\(encodedTitle)"
+        return "https://www.imdb.com/find/?s=tt&q=\(encodedTitle)"
     }
 }

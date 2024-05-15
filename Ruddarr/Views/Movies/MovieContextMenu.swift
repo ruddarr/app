@@ -36,7 +36,7 @@ struct MovieContextMenu: View {
                     return "imdb:///title/\(imdbId)"
                 }
 
-                return "imdb:///find?q=\(encodedTitle)"
+                return "imdb:///find/?s=tt&q=\(encodedTitle)"
             }
         #endif
 
@@ -44,7 +44,7 @@ struct MovieContextMenu: View {
             return "https://www.imdb.com/title/\(imdbId)"
         }
 
-        return "https://www.imdb.com/find/?q=\(encodedTitle)"
+        return "https://www.imdb.com/find/?s=tt&q=\(encodedTitle)"
     }
 
     var letterboxdUrl: String {

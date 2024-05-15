@@ -53,6 +53,10 @@ struct EpisodeView: View {
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
+            toolbarMenu
+        }
+        .refreshable {
+            await refresh()
         }
     }
 
@@ -151,6 +155,30 @@ struct EpisodeView: View {
         }
     }
 
+    @ToolbarContentBuilder
+    var toolbarMenu: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Menu {
+                Section {
+                    refreshAction
+                }
+
+                Section {
+                    EpisodeContextMenu(episode: episode)
+                }
+
+                if episodeFile != nil {
+                    Section {
+                        deleteFileButton
+                    }
+                }
+            } label: {
+                ToolbarActionButton()
+            }
+            .id(UUID())
+        }
+    }
+
     var actions: some View {
         HStack(spacing: 24) {
             Button {
@@ -201,6 +229,12 @@ struct EpisodeView: View {
         }
     }
 
+    var refreshAction: some View {
+        Button("Refresh", systemImage: "arrow.triangle.2.circlepath") {
+            Task { await refresh() }
+        }
+    }
+
     var deleteFileButton: some View {
         Button("Delete File", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
@@ -225,6 +259,12 @@ extension EpisodeView {
     }
 
     @MainActor
+    func refresh() async {
+        await instance.episodes.fetch(series)
+        await instance.files.fetch(series)
+    }
+
+    @MainActor
     func dispatchSearch() async {
         guard await instance.series.command(
             .episodeSearch([episode.id])) else {
@@ -240,6 +280,7 @@ extension EpisodeView {
     func deleteEpisode() async {
         if await instance.files.delete(episodeFile!) {
             dependencies.toast.show(.fileDeleted)
+            await refresh()
         }
     }
 }

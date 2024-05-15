@@ -63,8 +63,6 @@ struct MovieView: View {
             Menu {
                 Section {
                     refreshAction
-                    automaticSearch
-                    interactiveSearch
                 }
 
                 openInLinks
@@ -91,20 +89,6 @@ struct MovieView: View {
             value: MoviesPath.edit(movie.id)
         ) {
             Label("Edit", systemImage: "pencil")
-        }
-    }
-
-    var automaticSearch: some View {
-        Button("Automatic Search", systemImage: "magnifyingglass") {
-            Task { await dispatchSearch() }
-        }
-    }
-
-    var interactiveSearch: some View {
-        NavigationLink(
-            value: MoviesPath.releases(movie.id)
-        ) {
-            Label("Interactive Search", systemImage: "person")
         }
     }
 
