@@ -96,7 +96,7 @@ extension SeriesSort: RawRepresentable {
             let result = try JSONDecoder().decode(SeriesSort.self, from: data)
             self = result
         } catch {
-            leaveBreadcrumb(.fatal, category: "series.sort", message: "init failed", data: ["error": error])
+            leaveBreadcrumb(.fatal, category: "series.sort", message: "init failed", data: ["error": error, "rawValue": rawValue])
 
             return nil
         }
