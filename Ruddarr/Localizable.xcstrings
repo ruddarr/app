@@ -1012,6 +1012,16 @@
         }
       }
     },
+    "Delete File" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete File"
+          }
+        }
+      }
+    },
     "Delete Instance" : {
       "localizations" : {
         "en" : {
@@ -1359,6 +1369,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Failed"
+          }
+        }
+      }
+    },
+    "File Deleted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Deleted"
           }
         }
       }
@@ -4025,6 +4045,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This will delete the series and permanently erase its folder and its contents."
+          }
+        }
+      }
+    },
+    "This will permanently erase the movie file." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This will permanently erase the movie file."
           }
         }
       }

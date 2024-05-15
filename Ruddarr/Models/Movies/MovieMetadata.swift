@@ -86,6 +86,17 @@ class MovieMetadata {
 
         historyLoading = false
     }
+
+    func delete(_ file: MediaFile) async -> Bool {
+        do {
+            _ = try await dependencies.api.deleteMovieFile(file, instance)
+            return true
+        } catch {
+            leaveBreadcrumb(.error, category: "movie.metadata", message: "Failed to delete file", data: ["error": error])
+        }
+
+        return false
+    }
 }
 
 struct MovieExtraFile: Identifiable, Codable {

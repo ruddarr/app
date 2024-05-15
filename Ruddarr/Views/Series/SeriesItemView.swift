@@ -134,7 +134,7 @@ extension SeriesDetailView {
 
     @MainActor
     func refetch() async {
-        for i in 0..<3 {
+        for _ in 0..<3 {
             _ = await instance.series.get(series)
             try? await Task.sleep(nanoseconds: 1_000_000_000)
         }

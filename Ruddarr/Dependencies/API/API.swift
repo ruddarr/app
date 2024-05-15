@@ -15,6 +15,7 @@ struct API {
     var addMovie: (Movie, Instance) async throws -> Movie
     var updateMovie: (Movie, Bool, Instance) async throws -> Empty
     var deleteMovie: (Movie, Instance) async throws -> Empty
+    var deleteMovieFile: (MediaFile, Instance) async throws -> Empty
 
     var fetchSeries: (Instance) async throws -> [Series]
     var fetchEpisodes: (Series.ID, Instance) async throws -> [Episode]
@@ -121,6 +122,12 @@ extension API {
                 .appending(path: "/api/v3/movie")
                 .appending(path: String(movie.id))
                 .appending(queryItems: [.init(name: "deleteFiles", value: "true")])
+
+            return try await request(method: .delete, url: url, headers: instance.auth)
+        }, deleteMovieFile: { file, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/moviefile")
+                .appending(path: String(file.id))
 
             return try await request(method: .delete, url: url, headers: instance.auth)
         }, fetchSeries: { instance in

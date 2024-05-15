@@ -72,6 +72,7 @@ extension Toast {
         case monitoredSearchQueued
         case movieDeleted
         case seriesDeleted
+        case fileDeleted
         case error(String)
     }
 
@@ -98,6 +99,8 @@ extension Toast {
             custom(text: String(localized: "Movie Deleted"), icon: "checkmark.circle.fill")
         case .seriesDeleted:
             custom(text: String(localized: "Series Deleted"), icon: "checkmark.circle.fill")
+        case .fileDeleted:
+            custom(text: String(localized: "File Deleted"), icon: "checkmark.circle.fill")
         case .error(let message):
             custom(text: message, icon: "exclamationmark.circle.fill", type: .error)
         }

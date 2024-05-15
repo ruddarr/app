@@ -110,6 +110,10 @@ struct MovieMetadataView: View {
 struct MovieFilesFile: View {
     var file: MediaFile
 
+    @Environment(RadarrInstance.self) private var instance
+
+    @State private var showDeleteConfirmation = false
+
     var body: some View {
         GroupBox {
             HStack(spacing: 6) {
@@ -125,6 +129,29 @@ struct MovieFilesFile: View {
                 .lineLimit(1)
         } label: {
             Text(file.relativePath ?? "--")
+        }
+        .contextMenu {
+            Button("Delete File", systemImage: "trash", role: .destructive) {
+                showDeleteConfirmation = true
+            }
+        }
+        .alert(
+            "Are you sure?",
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button("Delete File", role: .destructive) {
+                Task { await deleteFile() }
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("This will permanently erase the movie file.")
+        }
+    }
+
+    @MainActor
+    func deleteFile() async {
+        if await instance.metadata.delete(file) {
+            dependencies.toast.show(.fileDeleted)
         }
     }
 }

@@ -54,6 +54,10 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
+        }, deleteMovieFile: { _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
         }, fetchSeries: { _ in
             try await Task.sleep(nanoseconds: 1_000_000_000)
 
