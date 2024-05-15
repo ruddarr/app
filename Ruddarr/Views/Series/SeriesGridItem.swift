@@ -63,7 +63,7 @@ struct SeriesGridItem: View {
             } else if series.percentOfEpisodes < 100 {
                 if series.episodeFileCount > 0 {
                     Image(systemName: "checkmark.circle.trianglebadge.exclamationmark")
-                } else {
+                } else if series.monitored {
                     Image(systemName: "xmark").symbolVariant(.circle)
                 }
             }
