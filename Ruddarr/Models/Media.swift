@@ -214,7 +214,9 @@ func mediaDetailsAudioQuality(_ file: MediaFile?) -> String {
         languages.append(String(localized: "Unknown"))
     }
 
-    let languageList = languages.formattedList()
+    let languageList = languages.count > 2
+        ? String(localized: "Multilingual")
+        : languages.formattedList()
 
     return codec.isEmpty ? "\(languageList)" : "\(languageList) (\(codec))"
 }
