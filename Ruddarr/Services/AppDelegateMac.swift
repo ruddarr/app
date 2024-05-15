@@ -21,7 +21,6 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
             options.dsn = Secrets.SentryDsn
             options.sendDefaultPii = false
 
-            // options.attachViewHierarchy = true
             options.swiftAsyncStacktraces = true
 
             options.enableMetricKit = true

@@ -97,7 +97,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             options.dsn = Secrets.SentryDsn
             options.sendDefaultPii = false
 
-            options.attachViewHierarchy = true
+            options.attachViewHierarchy = false
             options.swiftAsyncStacktraces = true
 
             options.enableMetricKit = true
