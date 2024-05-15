@@ -7,6 +7,7 @@ struct EpisodeView: View {
 
     @State private var fileSheet: MediaFile?
     @State private var descriptionTruncated = true
+    @State private var showDeleteConfirmation = false
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
@@ -180,11 +181,29 @@ struct EpisodeView: View {
             if let file = episodeFile {
                 EpisodeFileView(file: file)
                     .onTapGesture { fileSheet = file }
+                    .contextMenu { deleteFileButton }
             }
         }
         .sheet(item: $fileSheet) { file in
             MediaFileSheet(file: file)
                 .presentationDetents([.fraction(0.9)])
+        }
+        .alert(
+            "Are you sure?",
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button("Delete File", role: .destructive) {
+                Task { await deleteEpisode() }
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("This will permanently erase the episode file.")
+        }
+    }
+
+    var deleteFileButton: some View {
+        Button("Delete File", systemImage: "trash", role: .destructive) {
+            showDeleteConfirmation = true
         }
     }
 }
@@ -215,6 +234,13 @@ extension EpisodeView {
         dependencies.toast.show(.episodeSearchQueued)
 
         TelemetryManager.send("automaticSearchDispatched", with: ["type": "episode"])
+    }
+
+    @MainActor
+    func deleteEpisode() async {
+        if await instance.files.delete(episodeFile!) {
+            dependencies.toast.show(.fileDeleted)
+        }
     }
 }
 

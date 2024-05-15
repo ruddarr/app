@@ -105,6 +105,10 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
+        }, deleteEpisodeFile: { _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
         }, movieCalendar: { _, _, _ in
             let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
 

@@ -4056,6 +4056,16 @@
         }
       }
     },
+    "This will permanently erase the episode file." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This will permanently erase the episode file."
+          }
+        }
+      }
+    },
     "This will permanently erase the movie file." : {
       "localizations" : {
         "en" : {

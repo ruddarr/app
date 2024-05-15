@@ -30,6 +30,7 @@ struct API {
     var deleteSeries: (Series, Instance) async throws -> Empty
 
     var monitorEpisode: ([Episode.ID], Bool, Instance) async throws -> Empty
+    var deleteEpisodeFile: (MediaFile, Instance) async throws -> Empty
 
     var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
     var episodeCalendar: (Date, Date, Instance) async throws -> [Episode]
@@ -211,6 +212,12 @@ extension API {
             let body = EpisodesMonitorResource(episodeIds: ids, monitored: monitored)
 
             return try await request(method: .put, url: url, headers: instance.auth, body: body)
+        }, deleteEpisodeFile: { file, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/episodefile")
+                .appending(path: String(file.id))
+
+            return try await request(method: .delete, url: url, headers: instance.auth)
         }, movieCalendar: { start, end, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/calendar")

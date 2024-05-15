@@ -43,4 +43,23 @@ class SeriesFiles {
 
         isFetching = false
     }
+
+    func delete(_ file: MediaFile) async -> Bool {
+        error = nil
+
+        do {
+            _ = try await dependencies.api.deleteEpisodeFile(file, instance)
+            items.remove(at: items.firstIndex { $0.id == file.id } ?? 0)
+        } catch is CancellationError {
+            // do nothing
+        } catch let apiError as API.Error {
+            error = apiError
+
+            leaveBreadcrumb(.error, category: "series.episodes", message: "Episode deletion failed", data: ["error": apiError])
+        } catch {
+            self.error = API.Error(from: error)
+        }
+
+        return error == nil
+    }
 }
