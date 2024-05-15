@@ -22,13 +22,13 @@ struct EpisodeView: View {
                 header
                     .padding(.bottom)
 
+                details
+                    .padding(.bottom)
+
                 if episode.overview != nil {
                     description
                         .padding(.bottom)
                 }
-
-                details
-                    .padding(.bottom)
 
                 actions
                     .padding(.bottom)

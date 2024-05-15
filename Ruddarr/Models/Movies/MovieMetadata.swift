@@ -44,6 +44,8 @@ class MovieMetadata {
         do {
             files = try await dependencies.api.getMovieFiles(movie.id, instance)
             extraFiles = try await dependencies.api.getMovieExtraFiles(movie.id, instance)
+        } catch is CancellationError {
+            // do nothing
         } catch {
             filesError = true
         }
@@ -61,6 +63,8 @@ class MovieMetadata {
 
         do {
             history = try await dependencies.api.getMovieHistory(movie.id, instance)
+        } catch is CancellationError {
+            // do nothing
         } catch {
             historyError = true
         }
@@ -72,6 +76,8 @@ class MovieMetadata {
         do {
             files = try await dependencies.api.getMovieFiles(movie.id, instance)
             extraFiles = try await dependencies.api.getMovieExtraFiles(movie.id, instance)
+        } catch is CancellationError {
+            // do nothing
         } catch {
             filesError = true
         }
@@ -80,6 +86,8 @@ class MovieMetadata {
 
         do {
             history = try await dependencies.api.getMovieHistory(movie.id, instance)
+        } catch is CancellationError {
+            // do nothing
         } catch {
             historyError = true
         }
@@ -91,6 +99,8 @@ class MovieMetadata {
         do {
             _ = try await dependencies.api.deleteMovieFile(file, instance)
             return true
+        } catch is CancellationError {
+            // do nothing
         } catch {
             leaveBreadcrumb(.error, category: "movie.metadata", message: "Failed to delete file", data: ["error": error])
         }

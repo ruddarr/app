@@ -2145,7 +2145,14 @@
       }
     },
     "Monitored Search Queued" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monitored Search Queued"
+          }
+        }
+      }
     },
     "Monochrome" : {
       "localizations" : {
