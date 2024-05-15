@@ -33,12 +33,14 @@ struct EpisodeView: View {
                 actions
                     .padding(.bottom)
 
-                Section {
-                    file
-                } header: {
-                    Text("Files & History")
-                        .font(.title2)
-                        .fontWeight(.bold)
+                if episodeFile != nil {
+                    Section {
+                        file
+                    } header: {
+                        Text("Files & History")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                    }
                 }
             }
             .padding(.top)

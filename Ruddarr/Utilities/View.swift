@@ -20,14 +20,6 @@ extension View {
         return self.environment(instance)
     }
 
-    func appWindowFrame() -> some View {
-        #if os(macOS)
-            self.frame(minWidth: 1_280, maxWidth: 12_032, minHeight: 768, maxHeight: 6_768)
-        #else
-            return self
-        #endif
-    }
-
     func viewPadding(_ edges: Edge.Set = .all) -> some View {
         self.modifier(ViewPadding(edges))
     }
