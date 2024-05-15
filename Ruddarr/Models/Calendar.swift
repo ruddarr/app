@@ -25,6 +25,7 @@ class MediaCalendar {
         Platform.deviceType() == .phone ? 7 : 14
     }()
 
+    @MainActor
     func initialize() async {
         if isLoading {
             return
