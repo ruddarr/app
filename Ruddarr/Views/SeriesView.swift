@@ -131,8 +131,10 @@ struct SeriesView: View {
                 isPresented: $searchPresented,
                 placement: .drawerOrToolbar
             )
+            .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
                 updateDisplayedSeries()
+                scrollToTop()
             }
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
@@ -203,6 +205,15 @@ struct SeriesView: View {
                 }
                 .buttonStyle(.plain)
             }
+        }
+    }
+
+    func updateSortDirection() {
+        switch sort.option {
+        case .byTitle:
+            sort.isAscending = true
+        default:
+            sort.isAscending = false
         }
     }
 

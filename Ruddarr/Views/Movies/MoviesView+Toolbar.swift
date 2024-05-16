@@ -47,14 +47,6 @@ extension MoviesView {
                 }
             }
             .pickerStyle(.inline)
-            .onChange(of: sort.option) {
-                switch sort.option {
-                case .byTitle:
-                    sort.isAscending = true
-                default:
-                    sort.isAscending = false
-                }
-            }
 
             Section {
                 Picker("Direction", selection: $sort.isAscending) {

@@ -29,7 +29,7 @@ struct SeriesSort: Hashable {
         func isOrderedBefore(_ lhs: Series, _ rhs: Series) -> Bool {
             switch self {
             case .byTitle:
-                lhs.sortTitle > rhs.sortTitle
+                lhs.sortTitle < rhs.sortTitle
             case .byYear:
                 lhs.sortYear < rhs.sortYear
             case .byAdded:
