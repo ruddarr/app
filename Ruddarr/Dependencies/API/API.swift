@@ -276,13 +276,13 @@ extension API {
         }, updateNotification: { model, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/notification")
-                .appending(path: String(model.id))
+                .appending(path: String(model.id ?? 0))
 
             return try await request(method: .put, url: url, headers: instance.auth, body: model)
         }, deleteNotification: { model, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/notification")
-                .appending(path: String(model.id))
+                .appending(path: String(model.id ?? 0))
 
             return try await request(method: .delete, url: url, headers: instance.auth)
         })

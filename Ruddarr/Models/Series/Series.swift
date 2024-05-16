@@ -56,6 +56,9 @@ struct Series: Identifiable, Equatable, Codable {
     let statistics: SeriesStatistics?
     var addOptions: SeriesAddOptions?
 
+    // Sonarr v3
+    let languageProfileId: Int = 1
+
     enum CodingKeys: String, CodingKey {
         case guid = "id"
         case title
@@ -95,6 +98,7 @@ struct Series: Identifiable, Equatable, Codable {
         case images
         case statistics
         case addOptions
+        case languageProfileId
     }
 
     var exists: Bool {

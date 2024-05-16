@@ -94,7 +94,10 @@ extension InstanceView {
             Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
                 .onChange(of: webhook.model.onHealthIssue, updateWebhook)
 
-            Toggle("Health Restored", isOn: $webhook.model.onHealthRestored)
+            Toggle("Health Restored", isOn: Binding(
+                get: { webhook.model.onHealthRestored ?? false },
+                set: { webhook.model.onHealthRestored = $0 }
+            ))
                 .onChange(of: webhook.model.onHealthRestored, updateWebhook)
 
             Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
@@ -122,7 +125,10 @@ extension InstanceView {
             Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
                 .onChange(of: webhook.model.onHealthIssue, updateWebhook)
 
-            Toggle("Health Restored", isOn: $webhook.model.onHealthRestored)
+            Toggle("Health Restored", isOn: Binding(
+                get: { webhook.model.onHealthRestored ?? false },
+                set: { webhook.model.onHealthRestored = $0 }
+            ))
                 .onChange(of: webhook.model.onHealthRestored, updateWebhook)
 
             Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
