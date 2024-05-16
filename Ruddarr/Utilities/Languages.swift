@@ -1,58 +1,61 @@
 import Foundation
 
 class Languages {
-    static let iso3166: [String: String] = [
-        "eng": String(localized: "English"),
-        "fra": String(localized: "French"),
-        "spa": String(localized: "Spanish"),
-        "deu": String(localized: "German"),
-        "ita": String(localized: "Italian"),
-        "dan": String(localized: "Danish"),
-        "nld": String(localized: "Dutch"),
-        "jpn": String(localized: "Japanese"),
-        "isl": String(localized: "Icelandic"),
-        "zho": String(localized: "Chinese"),
-        "rus": String(localized: "Russian"),
-        "pol": String(localized: "Polish"),
-        "vie": String(localized: "Vietnamese"),
-        "swe": String(localized: "Swedish"),
-        "nor": String(localized: "Norwegian"),
-        "nob": String(localized: "Norwegian Bokmal"),
-        "fin": String(localized: "Finnish"),
-        "tur": String(localized: "Turkish"),
-        "por": String(localized: "Portuguese"),
-        "ell": String(localized: "Greek"),
-        "kor": String(localized: "Korean"),
-        "hun": String(localized: "Hungarian"),
-        "heb": String(localized: "Hebrew"),
-        "ces": String(localized: "Czech"),
-        "hin": String(localized: "Hindi"),
-        "tha": String(localized: "Thai"),
-        "bul": String(localized: "Bulgarian"),
-        "ron": String(localized: "Romanian"),
-        "bra": String(localized: "Brazilian Portuguese"),
+    // https://localizely.com/iso-639-2-list/
+    static let iso639_2: [String: String] = [
         "ara": String(localized: "Arabic"),
-        "ukr": String(localized: "Ukrainian"),
-        "fas": String(localized: "Persian"),
+        "baq": String(localized: "Basque"),
         "ben": String(localized: "Bengali"),
+        "bos": String(localized: "Bosnian"),
+        "bra": String(localized: "Brazilian Portuguese"),
+        "bul": String(localized: "Bulgarian"),
+        "cat": String(localized: "Catalan"),
+        "ces": String(localized: "Czech"),
+        "dan": String(localized: "Danish"),
+        "deu": String(localized: "German"),
+        "ell": String(localized: "Greek"),
+        "eng": String(localized: "English"),
+        "est": String(localized: "Estonian"),
+        "fas": String(localized: "Persian"),
+        "fin": String(localized: "Finnish"),
+        "fra": String(localized: "French"),
+        "glg": String(localized: "Galician"),
+        "heb": String(localized: "Hebrew"),
+        "hin": String(localized: "Hindi"),
+        "hrv": String(localized: "Croatian"),
+        "hun": String(localized: "Hungarian"),
+        "ind": String(localized: "Indonesian"),
+        "isl": String(localized: "Icelandic"),
+        "ita": String(localized: "Italian"),
+        "jpn": String(localized: "Japanese"),
+        "kor": String(localized: "Korean"),
+        "lav": String(localized: "Latvian"),
         "lit": String(localized: "Lithuanian"),
+        "msa": String(localized: "Malay"),
+        "nld": String(localized: "Dutch"),
+        "nob": String(localized: "Norwegian Bokmal"),
+        "nor": String(localized: "Norwegian"),
+        "pol": String(localized: "Polish"),
+        "por": String(localized: "Portuguese"),
+        "ron": String(localized: "Romanian"),
+        "rus": String(localized: "Russian"),
         "slk": String(localized: "Slovak"),
         "slv": String(localized: "Slovenian"),
-        "lav": String(localized: "Latvian"),
-        "cat": String(localized: "Catalan"),
-        "hrv": String(localized: "Croatian"),
+        "spa": String(localized: "Spanish"),
         "srp": String(localized: "Serbian"),
-        "bos": String(localized: "Bosnian"),
-        "est": String(localized: "Estonian"),
+        "swe": String(localized: "Swedish"),
         "tam": String(localized: "Tamil"),
-        "ind": String(localized: "Indonesian"),
         "tel": String(localized: "Telugu"),
-        "msa": String(localized: "Malay"),
+        "tha": String(localized: "Thai"),
+        "tur": String(localized: "Turkish"),
+        "ukr": String(localized: "Ukrainian"),
+        "vie": String(localized: "Vietnamese"),
+        "zho": String(localized: "Chinese"),
 
         "und": String(localized: "Undetermined"),
     ]
 
-    static let iso639: [String: String] = [
+    static let aliases: [String: String] = [
         "chi": "zho",
         "cze": "ces",
         "dut": "nld",
@@ -67,11 +70,11 @@ class Languages {
     ]
 
     static func name(byCode code: String) -> String {
-        if let name = iso3166[code] {
+        if let name = iso639_2[code] {
             return name
         }
 
-        if let alias = iso639[code], let name = iso3166[alias] {
+        if let alias = aliases[code], let name = iso639_2[alias] {
             return name
         }
 

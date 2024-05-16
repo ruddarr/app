@@ -632,6 +632,16 @@
         }
       }
     },
+    "Basque" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basque"
+          }
+        }
+      }
+    },
     "Bengali" : {
       "localizations" : {
         "en" : {
@@ -1529,6 +1539,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Future Episodes"
+          }
+        }
+      }
+    },
+    "Galician" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galician"
           }
         }
       }
