@@ -186,10 +186,6 @@ struct Series: Identifiable, Codable {
         seasons.first { $0.id == id }
     }
 
-    func seasonYear(_ id: Season.ID) -> Season? {
-        seasons.first { $0.id == id }
-    }
-
     func alternateTitlesString() -> String? {
         alternateTitles?.map { $0.title }.joined(separator: " ")
     }

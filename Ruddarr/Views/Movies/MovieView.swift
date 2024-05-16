@@ -15,7 +15,7 @@ struct MovieView: View {
                 .viewPadding(.horizontal)
         }
         .refreshable {
-            await Task { await refresh() }.value
+            await Task { await reload() }.value
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -121,6 +121,11 @@ extension MovieView {
         }
 
         dependencies.toast.show(movie.monitored ? .monitored : .unmonitored)
+    }
+
+    @MainActor
+    func reload() async {
+        await instance.movies.get(movie)
     }
 
     @MainActor

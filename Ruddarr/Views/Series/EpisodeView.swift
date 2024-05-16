@@ -56,7 +56,7 @@ struct EpisodeView: View {
             toolbarMenu
         }
         .refreshable {
-            await Task { await refresh() }.value
+            await Task { await reload() }.value
         }
     }
 
@@ -160,10 +160,6 @@ struct EpisodeView: View {
         ToolbarItem(placement: .primaryAction) {
             Menu {
                 Section {
-                    refreshAction
-                }
-
-                Section {
                     EpisodeContextMenu(episode: episode)
                 }
 
@@ -229,12 +225,6 @@ struct EpisodeView: View {
         }
     }
 
-    var refreshAction: some View {
-        Button("Refresh", systemImage: "arrow.triangle.2.circlepath") {
-            Task { await refresh() }
-        }
-    }
-
     var deleteFileButton: some View {
         Button("Delete File", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
@@ -259,7 +249,7 @@ extension EpisodeView {
     }
 
     @MainActor
-    func refresh() async {
+    func reload() async {
         await instance.episodes.fetch(series)
         await instance.files.fetch(series)
     }
@@ -280,7 +270,7 @@ extension EpisodeView {
     func deleteEpisode() async {
         if await instance.files.delete(episodeFile!) {
             dependencies.toast.show(.fileDeleted)
-            await refresh()
+            await reload()
         }
     }
 }

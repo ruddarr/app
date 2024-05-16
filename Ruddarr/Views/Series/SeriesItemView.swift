@@ -15,7 +15,7 @@ struct SeriesDetailView: View {
                 .viewPadding(.horizontal)
         }
         .refreshable {
-            await Task { await refresh() }.value
+            await Task { await reload(times: 1, meta: true) }.value
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -23,7 +23,7 @@ struct SeriesDetailView: View {
             toolbarMenu
         }
         .onAppear {
-            Task { await refetch() }
+            Task { await reload(times: 3) }
         }
         .task {
             await instance.episodes.maybeFetch(series)
@@ -133,9 +133,15 @@ extension SeriesDetailView {
     }
 
     @MainActor
-    func refetch() async {
-        for _ in 0..<3 {
+    func reload(times: Int = 1, meta: Bool = false) async {
+        for _ in 0..<times {
             _ = await instance.series.get(series)
+
+            if meta {
+                await instance.episodes.fetch(series)
+                await instance.files.fetch(series)
+            }
+
             try? await Task.sleep(nanoseconds: 1_000_000_000)
         }
     }

@@ -22,7 +22,7 @@ struct SeasonView: View {
             .viewPadding(.horizontal)
         }
         .refreshable {
-            await Task { await refresh() }.value
+            await Task { await reload() }.value
         }
         .toolbar {
             toolbarMonitorButton
@@ -185,18 +185,9 @@ extension SeasonView {
     }
 
     @MainActor
-    func refresh() async {
-        guard await instance.series.command(
-            .refresh(series.id)
-        ) else {
-            return
-        }
-
-        dependencies.toast.show(.refreshQueued)
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            Task { await instance.series.get(series) }
-        }
+    func reload() async {
+        _ = await instance.series.get(series)
+        await instance.episodes.fetch(series)
     }
 
     @MainActor
