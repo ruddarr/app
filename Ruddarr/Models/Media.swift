@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MediaLanguage: Codable {
+struct MediaLanguage: Equatable, Codable {
     let id: Int
     let name: String?
 
@@ -9,7 +9,11 @@ struct MediaLanguage: Codable {
     }
 }
 
-struct MediaCustomFormat: Identifiable, Codable {
+struct AlternateMediaTitle: Equatable, Codable {
+    let title: String
+}
+
+struct MediaCustomFormat: Identifiable, Equatable, Codable {
     let id: Int
     let name: String?
 
@@ -32,12 +36,24 @@ enum MediaReleaseType: String, Codable {
     }
 }
 
-struct MediaQuality: Codable {
+struct MediaImage: Equatable, Codable {
+    let coverType: String
+    let remoteURL: String?
+    let url: String?
+
+    enum CodingKeys: String, CodingKey {
+        case coverType
+        case remoteURL = "remoteUrl"
+        case url
+    }
+}
+
+struct MediaQuality: Equatable, Codable {
     let quality: MediaQualityDetails
     let revision: MediaQualityRevision
 }
 
-struct MediaQualityDetails: Codable {
+struct MediaQualityDetails: Equatable, Codable {
     let name: String?
     let source: MediaQualitySource
     let resolution: Int
@@ -91,7 +107,7 @@ enum MediaReleaseQualityModifier: String, Codable {
     case remux
 }
 
-struct MediaQualityRevision: Codable {
+struct MediaQualityRevision: Equatable, Codable {
     let version: Int
     let real: Int
     let isRepack: Bool

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Movie: Identifiable, Codable {
+struct Movie: Identifiable, Equatable, Codable {
     // movies only have an `id` after being added
     var id: Int { guid ?? (tmdbId + 100_000) }
 
@@ -23,7 +23,7 @@ struct Movie: Identifiable, Codable {
     let certification: String?
     let youTubeTrailerId: String?
     let originalLanguage: MediaLanguage
-    let alternateTitles: [AlternateMovieTitle]
+    let alternateTitles: [AlternateMediaTitle]
 
     let genres: [String]
     let ratings: MovieRatings?
@@ -47,7 +47,7 @@ struct Movie: Identifiable, Codable {
     let physicalRelease: Date?
     let digitalRelease: Date?
 
-    let images: [MovieImage]
+    let images: [MediaImage]
     let movieFile: MediaFile?
 
     enum CodingKeys: String, CodingKey {
@@ -180,7 +180,7 @@ struct Movie: Identifiable, Codable {
         alternateTitles.map { $0.title }.joined(separator: " ")
     }
 
-    struct MovieRatings: Codable {
+    struct MovieRatings: Equatable, Codable {
         let imdb: MovieRating?
         let tmdb: MovieRating?
         let metacritic: MovieRating?
@@ -188,7 +188,7 @@ struct Movie: Identifiable, Codable {
     }
 }
 
-enum MovieStatus: String, Codable {
+enum MovieStatus: String, Equatable, Codable {
     case tba
     case announced
     case inCinemas
@@ -206,23 +206,7 @@ enum MovieStatus: String, Codable {
     }
 }
 
-struct AlternateMovieTitle: Codable {
-    let title: String
-}
-
-struct MovieImage: Codable {
-    let coverType: String
-    let remoteURL: String?
-    let url: String?
-
-    enum CodingKeys: String, CodingKey {
-        case coverType
-        case remoteURL = "remoteUrl"
-        case url
-    }
-}
-
-struct MovieRating: Codable {
+struct MovieRating: Equatable, Codable {
     let votes: Int
     let value: Float
 }

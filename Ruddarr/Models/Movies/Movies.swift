@@ -141,7 +141,11 @@ class Movies {
 
         case .get(let movie):
             if let index = items.firstIndex(where: { $0.id == movie.id }) {
-                items[index] = try await dependencies.api.getMovie(movie.id, instance)
+                let item = try await dependencies.api.getMovie(movie.id, instance)
+
+                if items[index] != item {
+                    items[index] = item
+                }
             }
 
         case .add(let movie):

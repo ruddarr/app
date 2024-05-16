@@ -1,6 +1,6 @@
 import Foundation
 
-struct MediaFile: Identifiable, Codable {
+struct MediaFile: Identifiable, Equatable, Codable {
     let id: Int
     let size: Int
     let relativePath: String?
@@ -50,14 +50,14 @@ struct MediaFile: Identifiable, Codable {
     }
 }
 
-enum FileReleaseType: String, Codable {
+enum FileReleaseType: String, Equatable, Codable {
     case unknown
     case singleEpisode
     case multiEpisode
     case seasonPack
 }
 
-struct FileMediaInfo: Codable {
+struct FileMediaInfo: Equatable, Codable {
     let audioBitrate: Int
     let audioStreamCount: Int
     let audioChannels: Float

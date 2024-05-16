@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Season: Identifiable, Codable {
+struct Season: Identifiable, Equatable, Codable {
     var id: Int { seasonNumber }
     let seasonNumber: Int
     var monitored: Bool
@@ -22,7 +22,7 @@ struct Season: Identifiable, Codable {
         return "\(stats.totalEpisodeCount) Episodes"
     }
 
-    struct SeasonStatistics: Codable {
+    struct SeasonStatistics: Equatable, Codable {
         let episodeFileCount: Int
         let episodeCount: Int
         let totalEpisodeCount: Int

@@ -146,7 +146,11 @@ class SeriesModel {
 
         case .get(let series):
             if let index = items.firstIndex(where: { $0.id == series.id }) {
-                items[index] = try await dependencies.api.getSeries(series.id, instance)
+                let item = try await dependencies.api.getSeries(series.id, instance)
+
+                if items[index] != item {
+                    items[index] = item
+                }
             }
 
         case .add(let series):

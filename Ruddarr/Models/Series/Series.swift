@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Series: Identifiable, Codable {
+struct Series: Identifiable, Equatable, Codable {
     // series only have an `id` after being added
     var id: Int { guid ?? (tvdbId + 100_000) }
 
@@ -48,11 +48,11 @@ struct Series: Identifiable, Codable {
 
     let originalLanguage: MediaLanguage?
 
-    let alternateTitles: [AlternateMovieTitle]?
+    let alternateTitles: [AlternateMediaTitle]?
 
     var seasons: [Season]
     let genres: [String]
-    let images: [MovieImage]
+    let images: [MediaImage]
     let statistics: SeriesStatistics?
     var addOptions: SeriesAddOptions?
 
@@ -191,7 +191,7 @@ struct Series: Identifiable, Codable {
     }
 }
 
-enum SeriesStatus: String, Codable {
+enum SeriesStatus: String, Equatable, Codable {
     case continuing
     case ended
     case upcoming
@@ -216,7 +216,7 @@ enum SeriesStatus: String, Codable {
     }
 }
 
-enum SeriesType: String, Codable, Identifiable, CaseIterable {
+enum SeriesType: String, Equatable, Codable, Identifiable, CaseIterable {
     var id: Self { self }
 
     case standard
@@ -232,7 +232,7 @@ enum SeriesType: String, Codable, Identifiable, CaseIterable {
     }
 }
 
-struct SeriesStatistics: Codable {
+struct SeriesStatistics: Equatable, Codable {
     let sizeOnDisk: Int
     let seasonCount: Int
     let episodeCount: Int
@@ -241,12 +241,12 @@ struct SeriesStatistics: Codable {
     let percentOfEpisodes: Float
 }
 
-enum SeriesMonitorNewItems: String, Codable {
+enum SeriesMonitorNewItems: String, Equatable, Codable {
     case all
     case none
 }
 
-struct SeriesAddOptions: Codable {
+struct SeriesAddOptions: Equatable, Codable {
     var monitor: SeriesMonitorType
 }
 
