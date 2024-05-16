@@ -125,7 +125,7 @@ extension MovieView {
 
     @MainActor
     func reload() async {
-        await instance.movies.get(movie)
+        _ = await instance.movies.get(movie)
     }
 
     @MainActor

@@ -4,7 +4,7 @@ struct CalendarView: View {
     @State var calendar = MediaCalendar()
 
     @State private var initialized: Bool = false
-    @State private var scrollPosition: TimeInterval?
+    @State private var scrollView: ScrollViewProxy?
 
     @State private var onlyMonitored: Bool = false
     @State private var onlyPremieres: Bool = false
@@ -26,33 +26,40 @@ struct CalendarView: View {
                 if onlyVoidInstances {
                     NoInstance(type: "Radarr")
                 } else {
-                    ScrollView {
-                        LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
-                            ForEach(calendar.dates, id: \.self) { timestamp in
-                                let date = Date(timeIntervalSince1970: timestamp)
-                                let weekday = Calendar.current.component(.weekday, from: date)
+                    ScrollViewReader { proxy in
+                        ScrollView {
+                            LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
+                                ForEach(calendar.dates, id: \.self) { timestamp in
+                                    let date = Date(timeIntervalSince1970: timestamp)
+                                    let weekday = Calendar.current.component(.weekday, from: date)
 
-                                if firstWeekday == weekday {
-                                    CalendarWeekRange(date: date)
+                                    if firstWeekday == weekday {
+                                        CalendarWeekRange(date: date)
+                                    }
+
+                                    CalendarDate(date: date)
+                                        .offset(x: -6)
+                                        .onAppear {
+                                            // calendar.maybeLoadMoreDates(scrollPosition)
+                                        }
+
+                                    media(for: timestamp, date: date)
                                 }
+                            }
 
-                                CalendarDate(date: date)
-                                    .offset(x: -6)
-
-                                media(for: timestamp, date: date)
+                            if calendar.isLoadingFuture {
+                                ProgressView().tint(.secondary).padding(.bottom)
                             }
                         }
-                        .scrollTargetLayout()
-
-                        if calendar.isLoadingFuture {
-                            ProgressView().tint(.secondary).padding(.bottom)
+                        .onAppear {
+                            scrollView = proxy
                         }
                     }
                 }
             }
             .viewPadding(.horizontal)
             .scrollIndicators(.never)
-            .scrollPosition(id: $scrollPosition, anchor: .center)
+            .defaultScrollAnchor(.center)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 todayButton
@@ -61,22 +68,16 @@ struct CalendarView: View {
             .onAppear {
                 calendar.instances = settings.instances
             }
-            .onChange(of: scrollPosition) {
-                calendar.maybeLoadMoreDates(scrollPosition)
-            }
-            .onChange(of: [displayedMediaType, onlyMonitored, onlyPremieres] as [AnyHashable]) {
-                scrollPosition = (scrollPosition ?? 0) - 86_400
-            }
             .onReceive(dependencies.router.calendarScroll) {
                 withAnimation(.smooth) {
-                    scrollPosition = calendar.today()
+                    scrollTo(calendar.today())
                 }
             }
             .task {
                 await calendar.initialize()
                 guard !initialized else { return }
                 initialized = (calendar.error == nil)
-                scrollPosition = calendar.today()
+                scrollTo(calendar.today())
             }
             .alert(
                 isPresented: calendar.errorBinding,
@@ -127,6 +128,10 @@ struct CalendarView: View {
         !settings.instances.contains { $0 != .radarrVoid && $0 != .sonarrVoid }
     }
 
+    func scrollTo(_ timestamp: TimeInterval) {
+        scrollView?.scrollTo(timestamp, anchor: .center)
+    }
+
     func media(for timestamp: TimeInterval, date: Date) -> some View {
         VStack(spacing: 8) {
             if displayMovies, let movies = calendar.movies[timestamp] {
@@ -159,7 +164,7 @@ struct CalendarView: View {
         ToolbarItem(placement: .primaryAction) {
             Button("Today") {
                 withAnimation(.smooth) {
-                    scrollPosition = calendar.today()
+                    scrollTo(calendar.today())
                 }
             }.id(UUID())
         }

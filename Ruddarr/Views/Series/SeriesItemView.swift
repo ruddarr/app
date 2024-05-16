@@ -139,12 +139,11 @@ extension SeriesDetailView {
         await instance.files.fetch(series)
     }
 
-    // This is an annoying "hack".
-    // Sonarr takes a couple of seconds after adding a new series
-    // before it updates it's monitoring values.
+    // This is an annoying "hack" because Sonarr takes a couple of seconds
+    // after adding a new series before it updates its monitoring values.
     @MainActor
     func reloadRepeatedly() async {
-        for i in 0..<5 {
+        for _ in 0..<5 {
             _ = await instance.series.get(series)
             try? await Task.sleep(nanoseconds: 1_000_000_000)
         }

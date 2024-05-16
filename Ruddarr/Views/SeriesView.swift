@@ -7,7 +7,6 @@ enum SeriesPath: Hashable {
     case series(Series.ID)
     case edit(Series.ID)
     case releases(Series.ID, Season.ID?, Episode.ID?)
-    // case metadata(Movie.ID)
     case season(Series.ID, Season.ID)
     case episode(Series.ID, Episode.ID)
 }
@@ -18,7 +17,7 @@ struct SeriesView: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
 
-    @State private var scrollPosition: Movie.ID?
+    @State private var scrollView: ScrollViewProxy?
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
@@ -35,13 +34,16 @@ struct SeriesView: View {
                 if instance.isVoid {
                     NoInstance(type: "Sonarr")
                 } else {
-                    ScrollView {
-                        seriesItemGrid
-                            .scrollTargetLayout()
-                            .padding(.top, searchPresented ? 10 : 0)
-                            .viewPadding(.horizontal)
+                    ScrollViewReader { proxy in
+                        ScrollView {
+                            seriesItemGrid
+                                .padding(.top, searchPresented ? 10 : 0)
+                                .viewPadding(.horizontal)
+                        }
+                        .onAppear {
+                            scrollView = proxy
+                        }
                     }
-                    .scrollPosition(id: $scrollPosition)
                     .task {
                         guard !instance.isVoid else { return }
                         await fetchSeriesWithAlert(ignoreOffline: true)
@@ -50,7 +52,9 @@ struct SeriesView: View {
                         await Task { await fetchSeriesWithAlert() }.value
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
-                    .onReceive(dependencies.router.seriesScroll, perform: scrollToTop)
+                    .onReceive(dependencies.router.seriesScroll) {
+                        withAnimation(.smooth) { scrollToTop() }
+                    }
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
@@ -133,8 +137,8 @@ struct SeriesView: View {
             )
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
-                updateDisplayedSeries()
                 scrollToTop()
+                updateDisplayedSeries()
             }
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
@@ -204,6 +208,7 @@ struct SeriesView: View {
                     SeriesGridItem(series: series)
                 }
                 .buttonStyle(.plain)
+                .id(series.id)
             }
         }
     }
@@ -268,9 +273,9 @@ struct SeriesView: View {
     }
 
     func scrollToTop() {
-        withAnimation(.smooth) {
-            scrollPosition = instance.series.cachedItems.first?.id
-        }
+        scrollView?.scrollTo(
+            instance.series.cachedItems.first?.id
+        )
     }
 
     func navigateToSeries(_ id: Series.ID, season: Season.ID?) {

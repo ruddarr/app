@@ -1,6 +1,8 @@
 import SwiftUI
 import Combine
 
+// cmd+r to refresh page
+
 enum MoviesPath: Hashable {
     case search(String = "")
     case preview(Data?)
@@ -16,7 +18,7 @@ struct MoviesView: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) var instance
 
-    @State private var scrollPosition: Movie.ID?
+    @State private var scrollView: ScrollViewProxy?
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
@@ -33,13 +35,16 @@ struct MoviesView: View {
                 if instance.isVoid {
                     NoInstance(type: "Radarr")
                 } else {
-                    ScrollView {
-                        movieItemGrid
-                            .scrollTargetLayout()
-                            .padding(.top, searchPresented ? 10 : 0)
-                            .viewPadding(.horizontal)
+                    ScrollViewReader { proxy in
+                        ScrollView {
+                            movieItemGrid
+                                .padding(.top, searchPresented ? 10 : 0)
+                                .viewPadding(.horizontal)
+                        }
+                        .onAppear {
+                            scrollView = proxy
+                        }
                     }
-                    .scrollPosition(id: $scrollPosition)
                     .task {
                         guard !instance.isVoid else { return }
                         await fetchMoviesWithAlert(ignoreOffline: true)
@@ -48,7 +53,9 @@ struct MoviesView: View {
                         await Task { await fetchMoviesWithAlert() }.value
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
-                    .onReceive(dependencies.router.moviesScroll, perform: scrollToTop)
+                    .onReceive(dependencies.router.moviesScroll) {
+                        withAnimation(.smooth) { scrollToTop() }
+                    }
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
@@ -125,8 +132,8 @@ struct MoviesView: View {
             )
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
-                updateDisplayedMovies()
                 scrollToTop()
+                updateDisplayedMovies()
             }
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
@@ -196,6 +203,7 @@ struct MoviesView: View {
                     MovieGridItem(movie: movie)
                 }
                 .buttonStyle(.plain)
+                .id(movie.id)
             }
         }
     }
@@ -260,9 +268,9 @@ struct MoviesView: View {
     }
 
     func scrollToTop() {
-        withAnimation(.smooth) {
-            scrollPosition = instance.movies.cachedItems.first?.id
-        }
+        scrollView?.scrollTo(
+            instance.movies.cachedItems.first?.id
+        )
     }
 
     func navigateToMovie(_ id: Movie.ID) {
