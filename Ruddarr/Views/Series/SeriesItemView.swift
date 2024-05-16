@@ -15,7 +15,7 @@ struct SeriesDetailView: View {
                 .viewPadding(.horizontal)
         }
         .refreshable {
-            await Task { await reload(times: 1, meta: true) }.value
+            await Task { await reload() }.value
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -23,7 +23,7 @@ struct SeriesDetailView: View {
             toolbarMenu
         }
         .onAppear {
-            Task { await reload(times: 3) }
+            Task { await reloadRepeatedly() }
         }
         .task {
             await instance.episodes.maybeFetch(series)
@@ -133,15 +133,19 @@ extension SeriesDetailView {
     }
 
     @MainActor
-    func reload(times: Int = 1, meta: Bool = false) async {
-        for _ in 0..<times {
+    func reload() async {
+        _ = await instance.series.get(series)
+        await instance.episodes.fetch(series)
+        await instance.files.fetch(series)
+    }
+
+    // This is an annoying "hack".
+    // Sonarr takes a couple of seconds after adding a new series
+    // before it updates it's monitoring values.
+    @MainActor
+    func reloadRepeatedly() async {
+        for i in 0..<5 {
             _ = await instance.series.get(series)
-
-            if meta {
-                await instance.episodes.fetch(series)
-                await instance.files.fetch(series)
-            }
-
             try? await Task.sleep(nanoseconds: 1_000_000_000)
         }
     }
