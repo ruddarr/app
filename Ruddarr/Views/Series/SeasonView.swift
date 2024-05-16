@@ -58,7 +58,7 @@ struct SeasonView: View {
                 .frame(maxWidth: 250, alignment: .leading)
                 .offset(y: 2)
 
-            Text("Season \(season.seasonNumber)")
+            Text(season.label)
                 .font(.largeTitle.bold())
 
             HStack(spacing: 6) {
