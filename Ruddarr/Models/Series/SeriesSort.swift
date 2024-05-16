@@ -91,7 +91,8 @@ struct SeriesSort: Hashable {
 extension SeriesSort: RawRepresentable {
     public init?(rawValue: String) {
         do {
-            guard let data = rawValue.data(using: .utf8)
+            let compat = rawValue.replacingOccurrences(of: "byAiring", with: "byNextAiring")
+            guard let data = compat.data(using: .utf8)
             else { return nil }
             let result = try JSONDecoder().decode(SeriesSort.self, from: data)
             self = result
