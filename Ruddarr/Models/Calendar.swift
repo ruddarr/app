@@ -35,7 +35,7 @@ class MediaCalendar {
 
         await fetch(
             start: addDays(-60, Date.now),
-            end: addDays(30, Date.now),
+            end: addDays(60, Date.now),
             initial: true
         )
 
@@ -46,7 +46,7 @@ class MediaCalendar {
         isLoadingFuture = true
 
         let date = Date(timeIntervalSince1970: timestamp)
-        await fetch(start: date, end: addDays(30, date))
+        await fetch(start: date, end: addDays(60, date))
 
         isLoadingFuture = false
     }
@@ -169,6 +169,16 @@ class MediaCalendar {
 
     func today() -> TimeInterval {
         calendar.startOfDay(for: Date.now).timeIntervalSince1970
+    }
+
+    func loadMoreDates() {
+        if isLoadingFuture || dates.isEmpty {
+            return
+        }
+
+        Task {
+            await loadFutureDates(dates.last!)
+        }
     }
 
     func maybeLoadMoreDates(_ scrollPosition: TimeInterval?) {

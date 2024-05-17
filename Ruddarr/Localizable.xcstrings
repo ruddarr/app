@@ -1994,6 +1994,16 @@
         }
       }
     },
+    "Load More" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Load More"
+          }
+        }
+      }
+    },
     "Loading..." : {
       "localizations" : {
         "en" : {

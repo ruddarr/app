@@ -37,19 +37,21 @@ struct CalendarView: View {
                                         CalendarWeekRange(date: date)
                                     }
 
-                                    CalendarDate(date: date)
-                                        .offset(x: -6)
-                                        .onAppear {
-                                            // calendar.maybeLoadMoreDates(scrollPosition)
-                                        }
-
+                                    CalendarDate(date: date).offset(x: -6)
                                     media(for: timestamp, date: date)
                                 }
                             }
 
-                            if calendar.isLoadingFuture {
-                                ProgressView().tint(.secondary).padding(.bottom)
-                            }
+                            Group {
+                                if calendar.isLoadingFuture {
+                                    ProgressView().tint(.secondary)
+                                } else if !calendar.dates.isEmpty {
+                                    Button("Load More") {
+                                        calendar.loadMoreDates()
+                                    }
+                                    .buttonStyle(.bordered)
+                                }
+                            }.padding(.bottom, 32)
                         }
                         .onAppear {
                             scrollView = proxy
@@ -59,7 +61,6 @@ struct CalendarView: View {
             }
             .viewPadding(.horizontal)
             .scrollIndicators(.never)
-            .defaultScrollAnchor(.center)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 todayButton
@@ -69,8 +70,10 @@ struct CalendarView: View {
                 calendar.instances = settings.instances
             }
             .onReceive(dependencies.router.calendarScroll) {
-                withAnimation(.smooth) {
-                    scrollTo(calendar.today())
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                    withAnimation(.smooth) {
+                        scrollTo(calendar.today())
+                    }
                 }
             }
             .task {
