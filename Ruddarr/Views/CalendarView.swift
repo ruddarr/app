@@ -63,8 +63,8 @@ struct CalendarView: View {
             .scrollIndicators(.never)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
-                todayButton
                 filtersMenu
+                todayButton
             }
             .onAppear {
                 calendar.instances = settings.instances
@@ -210,7 +210,7 @@ struct CalendarView: View {
                 } else {
                     Image(systemName: "line.3.horizontal.decrease")
                 }
-            }
+            }.id(UUID())
         }
     }
 }
