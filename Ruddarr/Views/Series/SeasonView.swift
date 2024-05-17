@@ -126,9 +126,7 @@ struct SeasonView: View {
     }
 
     var episodesList: some View {
-        Section(
-            header: Text("Episodes").font(.title2.bold()).padding(.bottom, 6)
-        ) {
+        Section {
             if instance.episodes.isFetching {
                 ProgressView().tint(.secondary)
             } else {
@@ -147,6 +145,8 @@ struct SeasonView: View {
                     }
                 }
             }
+        } header: {
+            Text("Episodes").font(.title2.bold()).padding(.bottom, 6)
         }
     }
 

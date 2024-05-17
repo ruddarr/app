@@ -2,11 +2,11 @@ import SwiftUI
 
 extension SeriesDetails {
     var information: some View {
-        Section(
-            header: Text("Information").font(.title2.bold())
-        ) {
+        Section {
             Information(items: informationItems)
                 .font(.subheadline)
+        } header: {
+            Text("Information").font(.title2.bold()).padding(.top)
         }
     }
 

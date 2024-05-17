@@ -11,6 +11,16 @@
         }
       }
     },
+    "%@ at %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ at %2$@"
+          }
+        }
+      }
+    },
     "%@." : {
       "comment" : "Prefix for episode title (episode number)",
       "localizations" : {
@@ -142,16 +152,6 @@
         }
       }
     },
-    "%lld Episodes" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld Episodes"
-          }
-        }
-      }
-    },
     "+%d more..." : {
       "localizations" : {
         "en" : {
@@ -278,6 +278,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Age"
+          }
+        }
+      }
+    },
+    "Airing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Airing"
           }
         }
       }
@@ -2424,16 +2434,6 @@
         }
       }
     },
-    "Next Episode" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next Episode"
-          }
-        }
-      }
-    },
     "No" : {
       "localizations" : {
         "en" : {
@@ -4116,32 +4116,12 @@
         }
       }
     },
-    "Today at %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Today at %@"
-          }
-        }
-      }
-    },
     "Tomorrow" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tomorrow"
-          }
-        }
-      }
-    },
-    "Tomorrow at %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tomorrow at %@"
           }
         }
       }
@@ -4544,16 +4524,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yesterday"
-          }
-        }
-      }
-    },
-    "Yesterday at %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yesterday at %@"
           }
         }
       }

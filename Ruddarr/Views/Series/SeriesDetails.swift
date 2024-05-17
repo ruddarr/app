@@ -17,11 +17,6 @@ struct SeriesDetails: View {
             header
                 .padding(.bottom)
 
-            if series.exists {
-                nextAiring
-                    .padding(.bottom)
-            }
-
             details
                 .padding(.bottom)
 
@@ -37,7 +32,6 @@ struct SeriesDetails: View {
 
             if series.exists {
                 seasons
-                    .padding(.bottom)
 
                 information
                     .padding(.bottom)
@@ -82,6 +76,12 @@ struct SeriesDetails: View {
             if !series.genres.isEmpty {
                 MediaDetailsRow("Genre", value: series.genreLabel)
             }
+
+            if let episode = nextEpisode {
+                let date = episode.airDateUtc!.formatted(date: .complete, time: .shortened)
+
+                MediaDetailsRow("Airing", value: episode.airDateTimeShortLabel)
+            }
         }
     }
 
@@ -111,81 +111,49 @@ struct SeriesDetails: View {
     }
 
     var seasons: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            ForEach(series.seasons.reversed()) { season in
-                NavigationLink(
-                    value: SeriesPath.season(series.id, season.id)
-                ) {
-                    GroupBox {
-                        HStack(spacing: 12) {
-                            Text(season.label)
-                                .fontWeight(.medium)
+        Section {
+            VStack(alignment: .leading, spacing: 12) {
+                ForEach(series.seasons.reversed()) { season in
+                    NavigationLink(value: SeriesPath.season(series.id, season.id)) {
+                        GroupBox {
+                            HStack(spacing: 12) {
+                                Text(season.label)
+                                    .fontWeight(.medium)
 
-                            if let progress = season.progressLabel {
-                                Text(progress)
-                                    .font(.footnote)
-                                    .foregroundStyle(.secondary)
+                                if let progress = season.progressLabel {
+                                    Text(progress)
+                                        .font(.footnote)
+                                        .foregroundStyle(.secondary)
+                                }
+
+                                Spacer()
+
+                                Button {
+                                    Task { await monitorSeason(season.id) }
+                                } label: {
+                                    Image(systemName: "bookmark")
+                                        .symbolVariant(season.monitored ? .fill : .none)
+                                        .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
+                                }
+                                .buttonStyle(.plain)
+                                .overlay(Rectangle().padding(18))
+                                .allowsHitTesting(!instance.series.isWorking)
+                                .disabled(!series.monitored)
                             }
-
-                            Spacer()
-
-                            Button {
-                                Task { await monitorSeason(season.id) }
-                            } label: {
-                                Image(systemName: "bookmark")
-                                    .symbolVariant(season.monitored ? .fill : .none)
-                                    .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
-                            }
-                            .buttonStyle(.plain)
-                            .overlay(Rectangle().padding(18))
-                            .allowsHitTesting(!instance.series.isWorking)
-                            .disabled(!series.monitored)
                         }
-                    }
-                }.buttonStyle(.plain)
+                    }.buttonStyle(.plain)
+                }
             }
+        } header: {
+            Text("Seasons")
+                .font(.title2.bold())
+                .padding(.bottom, 6)
         }
     }
 
     var nextEpisode: Episode? {
         guard let nextAiring = series.nextAiring else { return nil }
         return instance.episodes.items.first { $0.airDateUtc == nextAiring }
-    }
-
-    @ViewBuilder
-    var nextAiring: some View {
-        if let episode = nextEpisode {
-            NavigationLink(value: SeriesPath.season(series.id, episode.seasonNumber)) {
-                GroupBox {
-                    VStack(alignment: .leading) {
-                        HStack(spacing: 4) {
-                            Text(episode.episodeLabel)
-                                .lineLimit(1)
-                            Bullet()
-                            Text(episode.titleLabel)
-                                .lineLimit(1)
-                        }
-                        .fontWeight(.medium)
-
-                        Text(episode.airDateUtc!.formatted(date: .complete, time: .shortened))
-                            .foregroundStyle(.secondary)
-                            .lineLimit(1)
-                    }
-                    .font(.subheadline)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "clock")
-                        Text("Next Episode")
-                    }
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(settings.theme.tint)
-                    .padding(.bottom, 2)
-                }
-            }
-            .buttonStyle(.plain)
-        }
     }
 
     @MainActor

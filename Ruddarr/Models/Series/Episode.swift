@@ -91,9 +91,10 @@ struct Episode: Identifiable, Codable {
     var airDateLabel: String {
         guard let date = airDateUtc else { return String(localized: "TBA") }
         let calendar = Calendar.current
-        if calendar.isDateInToday(date) { return String(localized: "Today") }
-        if calendar.isDateInTomorrow(date) { return String(localized: "Tomorrow") }
-        if calendar.isDateInYesterday(date) { return String(localized: "Yesterday") }
+
+        if calendar.isDateInToday(date) { return RelativeDate.today.label }
+        if calendar.isDateInTomorrow(date) { return RelativeDate.tomorrow.label }
+        if calendar.isDateInYesterday(date) { return RelativeDate.yesterday.label }
 
         return date.formatted(date: .abbreviated, time: .omitted)
     }
@@ -102,11 +103,30 @@ struct Episode: Identifiable, Codable {
         guard let date = airDateUtc else { return String(localized: "TBA") }
         let calendar = Calendar.current
         let time = date.formatted(date: .omitted, time: .shortened)
-        if calendar.isDateInToday(date) { return String(localized: "Today at \(time)") }
-        if calendar.isDateInTomorrow(date) { return String(localized: "Tomorrow at \(time)") }
-        if calendar.isDateInYesterday(date) { return String(localized: "Yesterday at \(time)") }
+
+        if calendar.isDateInToday(date) { return String(localized: "\(RelativeDate.today.label) at \(time)") }
+        if calendar.isDateInTomorrow(date) { return String(localized: "\(RelativeDate.tomorrow.label) at \(time)") }
+        if calendar.isDateInYesterday(date) { return String(localized: "\(RelativeDate.yesterday.label) at \(time)") }
 
         return date.formatted(date: .abbreviated, time: .shortened)
+    }
+
+    var airDateTimeShortLabel: String {
+        guard let date = airDateUtc else { return String(localized: "TBA") }
+        let calendar = Calendar.current
+        let time = date.formatted(date: .omitted, time: .shortened)
+        let weekday = date.formatted(.dateTime.weekday(.wide))
+
+        if calendar.isDateInToday(date) { return String(localized: "\(RelativeDate.today.label) at \(time)") }
+        if calendar.isDateInTomorrow(date) { return String(localized: "\(RelativeDate.tomorrow.label) at \(time)") }
+
+        guard let days = calendar.dateComponents([.day], from: Date.now, to: date).day else {
+            return airDateTimeLabel
+        }
+
+        return days < 7
+            ? String(localized: "\(weekday) at \(time)")
+            : date.formatted(date: .abbreviated, time: .shortened)
     }
 }
 

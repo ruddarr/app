@@ -203,3 +203,17 @@ class MediaCalendar {
         }
     }
 }
+
+enum RelativeDate {
+    case today
+    case tomorrow
+    case yesterday
+
+    var label: String {
+        switch self {
+        case .today: String(localized: "Today")
+        case .tomorrow: String(localized: "Tomorrow")
+        case .yesterday: String(localized: "Yesterday")
+        }
+    }
+}
