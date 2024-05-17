@@ -46,7 +46,9 @@ struct SeasonView: View {
     }
 
     var episodes: [Episode] {
-        instance.episodes.items.filter { $0.seasonNumber == seasonId }
+        instance.episodes.items
+            .filter { $0.seasonNumber == seasonId }
+            .sorted { $0.episodeNumber > $1.episodeNumber }
     }
 
     var header: some View {
@@ -124,7 +126,9 @@ struct SeasonView: View {
     }
 
     var episodesList: some View {
-        Section {
+        Section(
+            header: Text("Episodes").font(.title2.bold()).padding(.bottom, 6)
+        ) {
             if instance.episodes.isFetching {
                 ProgressView().tint(.secondary)
             } else {
@@ -143,11 +147,6 @@ struct SeasonView: View {
                     }
                 }
             }
-        } header: {
-            Text(season.episodeCountLabel)
-                .font(.title2.bold())
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.bottom, 6)
         }
     }
 

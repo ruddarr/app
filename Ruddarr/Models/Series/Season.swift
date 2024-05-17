@@ -17,11 +17,6 @@ struct Season: Identifiable, Equatable, Codable {
         return "\(stats.episodeFileCount) / \(stats.totalEpisodeCount)"
     }
 
-    var episodeCountLabel: LocalizedStringKey {
-        guard let stats = statistics else { return "Episodes" }
-        return "\(stats.totalEpisodeCount) Episodes"
-    }
-
     struct SeasonStatistics: Equatable, Codable {
         let episodeFileCount: Int
         let episodeCount: Int
