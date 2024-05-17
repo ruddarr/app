@@ -88,11 +88,11 @@ struct EpisodeRow: View {
 
         instance.episodes.items[index].monitored.toggle()
 
-        guard await instance.episodes.monitor([episode.id], episode.monitored) else {
+        guard await instance.episodes.monitor([episode.id], !episode.monitored) else {
             return
         }
 
-        dependencies.toast.show(episode.monitored ? .monitored : .unmonitored)
+        dependencies.toast.show(!episode.monitored ? .monitored : .unmonitored)
     }
 }
 
