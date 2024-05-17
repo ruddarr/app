@@ -86,8 +86,8 @@ class SeriesModel {
         await request(.fetch)
     }
 
-    func get(_ series: Series) async -> Bool {
-        await request(.get(series))
+    func get(_ series: Series, silent: Bool = false) async -> Bool {
+        await request(.get(series), silent: silent)
     }
 
     func add(_ series: Series) async -> Bool {
@@ -115,23 +115,31 @@ class SeriesModel {
     }
 
     @MainActor
-    func request(_ operation: Operation) async -> Bool {
-        error = nil
-        isWorking = true
+    func request(_ operation: Operation, silent: Bool = false) async -> Bool {
+        if !silent {
+            error = nil
+            isWorking = true
+        }
 
         do {
             try await performOperation(operation)
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
-            error = apiError
+            if !silent {
+                error = apiError
+            }
 
             leaveBreadcrumb(.error, category: "series", message: "Request failed", data: ["operation": operation, "error": apiError])
         } catch {
-            self.error = API.Error(from: error)
+            if !silent {
+                self.error = API.Error(from: error)
+            }
         }
 
-        isWorking = false
+        if !silent {
+            isWorking = false
+        }
 
         return error == nil
     }

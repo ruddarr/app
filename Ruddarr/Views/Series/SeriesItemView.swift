@@ -23,7 +23,7 @@ struct SeriesDetailView: View {
             toolbarMenu
         }
         .onAppear {
-            Task { await reloadRepeatedly() }
+            maybeReloadRepeatedly()
         }
         .task {
             await instance.episodes.maybeFetch(series)
@@ -139,16 +139,6 @@ extension SeriesDetailView {
         await instance.files.fetch(series)
     }
 
-    // This is an annoying "hack" because Sonarr takes a couple of seconds
-    // after adding a new series before it updates its monitoring values.
-    @MainActor
-    func reloadRepeatedly() async {
-        for _ in 0..<5 {
-            _ = await instance.series.get(series)
-            try? await Task.sleep(nanoseconds: 1_000_000_000)
-        }
-    }
-
     @MainActor
     func refresh() async {
         guard await instance.series.command(
@@ -183,6 +173,21 @@ extension SeriesDetailView {
 
         dependencies.router.seriesPath.removeLast()
         dependencies.toast.show(.seriesDeleted)
+    }
+
+    // This is an annoying "hack" because Sonarr takes a couple of seconds
+    // after adding a new series before it updates its monitoring values.
+    func maybeReloadRepeatedly() {
+        if abs(series.added.timeIntervalSinceNow) > 15 {
+            return
+        }
+
+        Task {
+            for _ in 0..<6 {
+                _ = await instance.series.get(series, silent: true)
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+            }
+        }
     }
 }
 

@@ -22,7 +22,11 @@ class SeriesEpisodes {
     }
 
     func maybeFetch(_ series: Series) async {
-        if !fetched(series) { await fetch(series) }
+        let force = abs(series.added.timeIntervalSinceNow) < 30
+
+        if !fetched(series) || force {
+            await fetch(series)
+        }
     }
 
     func fetch(_ series: Series) async {
