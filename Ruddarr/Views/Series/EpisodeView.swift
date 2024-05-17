@@ -39,8 +39,7 @@ struct EpisodeView: View {
                         file
                     } header: {
                         Text("Files & History")
-                            .font(.title2)
-                            .fontWeight(.bold)
+                            .font(.title2.bold())
                     }
                 }
             }

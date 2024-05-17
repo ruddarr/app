@@ -4,11 +4,11 @@ extension MovieDetails {
     var information: some View {
         Section {
             Information(items: informationItems)
+                .font(.subheadline)
         } header: {
             HStack {
                 Text("Information")
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(.title2.bold())
 
                 Spacer()
 
@@ -16,9 +16,9 @@ extension MovieDetails {
                     "Files & History",
                     value: MoviesPath.metadata(movie.id)
                 )
+                .font(.callout)
             }
         }
-        .font(.callout)
     }
 
     var informationItems: [InformationItem] {

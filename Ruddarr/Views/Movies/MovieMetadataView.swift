@@ -18,7 +18,7 @@ struct MovieMetadataView: View {
                 files
                 history
             }
-            .padding(.bottom)
+            .padding(.vertical)
             .viewPadding(.horizontal)
         }
         .navigationTitle(movie.title)

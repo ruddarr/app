@@ -2,18 +2,12 @@ import SwiftUI
 
 extension SeriesDetails {
     var information: some View {
-        Section {
+        Section(
+            header: Text("Information").font(.title2.bold())
+        ) {
             Information(items: informationItems)
-        } header: {
-            HStack {
-                Text("Information")
-                    .font(.title2)
-                    .fontWeight(.bold)
-
-                Spacer()
-            }
+                .font(.subheadline)
         }
-        .font(.callout)
     }
 
     var informationItems: [InformationItem] {

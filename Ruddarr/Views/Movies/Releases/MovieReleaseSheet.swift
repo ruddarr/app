@@ -62,8 +62,7 @@ struct MovieReleaseSheet: View {
             }
 
             Text(release.title)
-                .font(.title2)
-                .fontWeight(.bold)
+                .font(.title2.bold())
                 .kerning(-0.5)
 
             HStack(spacing: 6) {
@@ -154,9 +153,7 @@ struct MovieReleaseSheet: View {
 
     var details: some View {
         Section(
-            header: Text("Information")
-                .font(.title2)
-                .fontWeight(.bold)
+            header: Text("Information").font(.title2.bold())
         ) {
             VStack(spacing: 12) {
                 if let languages = release.languagesLabel {

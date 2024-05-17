@@ -145,8 +145,7 @@ struct SeasonView: View {
             }
         } header: {
             Text(season.episodeCountLabel)
-                .font(.title2)
-                .fontWeight(.bold)
+                .font(.title2.bold())
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.bottom, 6)
         }
