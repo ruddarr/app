@@ -12,6 +12,7 @@ struct MovieSort: Hashable {
         case byYear
         case byAdded
         case bySize
+        case byRelease
 
         var label: some View {
             switch self {
@@ -19,6 +20,7 @@ struct MovieSort: Hashable {
             case .byYear: Label("Year", systemImage: "calendar")
             case .byAdded: Label("Added", systemImage: "calendar.badge.plus")
             case .bySize: Label("File Size", systemImage: "internaldrive")
+            case .byRelease: Label("Digital Release", systemImage: "play.tv")
             }
         }
 
@@ -32,6 +34,8 @@ struct MovieSort: Hashable {
                 lhs.sizeOnDisk ?? 0 < rhs.sizeOnDisk ?? 0
             case .byAdded:
                 lhs.added < rhs.added
+            case .byRelease:
+                lhs.digitalRelease?.timeIntervalSince1970 ?? 0 < rhs.digitalRelease?.timeIntervalSince1970 ?? 0
             }
         }
     }
