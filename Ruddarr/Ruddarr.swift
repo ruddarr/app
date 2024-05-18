@@ -65,7 +65,7 @@ extension WhatsNew {
         .init(
             image: "tv",
             title: "Sonarr Support",
-            subtitle: "Manage and monitor TV Series, seasons and episodes."
+            subtitle: "Monitor and manage TV Series, seasons and episodes. Works best with Sonarr v4."
         ),
         .init(
             image: "line.3.horizontal.decrease",
