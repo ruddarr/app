@@ -23,6 +23,11 @@ extension SeriesDetails {
 
                 detailsSubtitle
                     .padding(.bottom, 6)
+
+                if deviceType != .phone && !series.exists {
+                    Spacer()
+                    actions
+                }
             }
         }
     }
