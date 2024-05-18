@@ -134,10 +134,10 @@ struct Series: Identifiable, Equatable, Codable {
         }
 
         if isWaiting {
-            return "Waiting"
+            return "Unreleased"
         }
 
-        if percentOfEpisodes < 100 {
+        if monitored && percentOfEpisodes < 100 {
             return episodeFileCount == 0 ? "Missing" : "Missing Episodes"
         }
 

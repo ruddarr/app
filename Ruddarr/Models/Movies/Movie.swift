@@ -94,6 +94,10 @@ struct Movie: Identifiable, Equatable, Codable {
         }
 
         if isWaiting {
+            if status == .tba || status == .announced {
+                return "Unreleased"
+            }
+
             return "Waiting"
         }
 

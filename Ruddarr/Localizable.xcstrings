@@ -4277,6 +4277,16 @@
         }
       }
     },
+    "Unreleased" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unreleased"
+          }
+        }
+      }
+    },
     "Unsupported URL: %@" : {
       "localizations" : {
         "en" : {
