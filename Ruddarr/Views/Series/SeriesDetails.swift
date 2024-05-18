@@ -78,8 +78,6 @@ struct SeriesDetails: View {
             }
 
             if let episode = nextEpisode {
-                let date = episode.airDateUtc!.formatted(date: .complete, time: .shortened)
-
                 MediaDetailsRow("Airing", value: episode.airDateTimeShortLabel)
             }
         }

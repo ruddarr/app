@@ -184,7 +184,7 @@ func mediaDetailsVideoQuality(_ file: MediaFile?) -> String {
         quality = quality.replacingOccurrences(of: "2160p", with: "4K")
         quality = quality.replacingOccurrences(of: "4320p", with: "8K")
 
-        if let dynamicRange = file?.mediaInfo?.videoDynamicRange, !dynamicRange.isEmpty {
+        if let dynamicRange = file?.mediaInfo?.videoDynamicRangeLabel {
             quality += " \(dynamicRange)"
         }
     }
@@ -195,10 +195,6 @@ func mediaDetailsVideoQuality(_ file: MediaFile?) -> String {
 
     if let codec = file?.mediaInfo?.videoCodecLabel {
         details.append(codec)
-    }
-
-    if let mediaQuality = file?.quality.quality, mediaQuality.source != .unknown {
-        details.append(mediaQuality.sourceLabel)
     }
 
     if details.isEmpty {

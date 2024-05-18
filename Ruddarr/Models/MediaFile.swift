@@ -94,10 +94,10 @@ struct FileMediaInfo: Equatable, Codable {
             return nil
         }
 
-        if let type = videoDynamicRangeType {
-            if type == "HDR10" { return "HDR10" }
-            if type == "HDR10Plus" { return "HDR10+" }
-            if !type.isEmpty { return "\(label) (\(type))" }
+        if let type = videoDynamicRangeType, !type.isEmpty {
+            return type
+                .replacingOccurrences(of: " ", with: "/")
+                .replacingOccurrences(of: "HDR10Plus", with: "HDR10+")
         }
 
         return label
