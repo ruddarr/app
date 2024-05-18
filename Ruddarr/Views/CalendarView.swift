@@ -77,8 +77,8 @@ struct CalendarView: View {
                 }
             }
             .task {
-                await calendar.initialize()
                 guard !initialized else { return }
+                await calendar.initialize()
                 initialized = (calendar.error == nil)
                 scrollTo(calendar.today())
             }
