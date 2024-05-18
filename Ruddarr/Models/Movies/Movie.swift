@@ -17,7 +17,6 @@ struct Movie: Identifiable, Equatable, Codable {
     let sortTitle: String
     let studio: String?
     let year: Int
-    var sortYear: Int { year == 0 ? 2_100 : year }
     let runtime: Int
     let overview: String?
     let certification: String?
@@ -86,6 +85,13 @@ struct Movie: Identifiable, Equatable, Codable {
 
     var exists: Bool {
         guid != nil
+    }
+
+    var sortYear: TimeInterval {
+        if let date = inCinemas { return date.timeIntervalSince1970 }
+        if let date = digitalRelease { return date.timeIntervalSince1970 }
+        if year <= 0 { return 2_942_956_800 }
+        return DateComponents(calendar: .current, year: year).date?.timeIntervalSince1970 ?? 2_942_956_800
     }
 
     var stateLabel: LocalizedStringKey {

@@ -31,7 +31,9 @@ struct SeriesDetails: View {
             }
 
             if series.exists {
-                seasons
+                if !series.seasons.isEmpty {
+                    seasons
+                }
 
                 information
                     .padding(.bottom)
