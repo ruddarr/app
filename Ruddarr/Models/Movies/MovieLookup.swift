@@ -37,6 +37,10 @@ class MovieLookup {
         items = nil
     }
 
+    func isEmpty() -> Bool {
+        items == nil || items?.count == 0
+    }
+
     func search(query: String) async {
         error = nil
 

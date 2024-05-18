@@ -60,11 +60,9 @@ struct SeriesSearchView: View {
             Text(error.recoverySuggestionFallback)
         }
         .overlay {
-            let noSearchResults = instance.lookup.items?.count == 0 && !searchQuery.isEmpty
-
-            if instance.lookup.isSearching && noSearchResults {
+            if instance.lookup.isSearching && instance.lookup.isEmpty() {
                 Loading()
-            } else if noSearchResults {
+            } else if !instance.lookup.isSearching && !searchQuery.isEmpty && instance.lookup.isEmpty() {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
