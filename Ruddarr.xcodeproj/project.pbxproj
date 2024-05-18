@@ -25,6 +25,7 @@
 		BB09B9B62B9FAF6D00FA6586 /* MoviePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB09B9B52B9FAF6D00FA6586 /* MoviePreviewView.swift */; };
 		BB0BEA8D2BE593C2004DBFE6 /* SeriesEpisodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0BEA8C2BE593C2004DBFE6 /* SeriesEpisodes.swift */; };
 		BB0BEA8F2BE59640004DBFE6 /* series-episodes.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0BEA8E2BE5963F004DBFE6 /* series-episodes.json */; };
+		BB0C3EC72BF90C5900632CB1 /* NoInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C3EC62BF90C5900632CB1 /* NoInstance.swift */; };
 		BB0FE10F2BEC660500D1D847 /* CloudStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BB0FE10E2BEC660500D1D847 /* CloudStorage */; };
 		BB0FE1112BED30D100D1D847 /* SeriesFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0FE1102BED30D100D1D847 /* SeriesFiles.swift */; };
 		BB0FE1132BED33A800D1D847 /* series-episode-files.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0FE1122BED33A800D1D847 /* series-episode-files.json */; };
@@ -174,6 +175,7 @@
 		BB09B9B52B9FAF6D00FA6586 /* MoviePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePreviewView.swift; sourceTree = "<group>"; };
 		BB0BEA8C2BE593C2004DBFE6 /* SeriesEpisodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesEpisodes.swift; sourceTree = "<group>"; };
 		BB0BEA8E2BE5963F004DBFE6 /* series-episodes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-episodes.json"; sourceTree = "<group>"; };
+		BB0C3EC62BF90C5900632CB1 /* NoInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInstance.swift; sourceTree = "<group>"; };
 		BB0FE1102BED30D100D1D847 /* SeriesFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesFiles.swift; sourceTree = "<group>"; };
 		BB0FE1122BED33A800D1D847 /* series-episode-files.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-episode-files.json"; sourceTree = "<group>"; };
 		BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFileSheet.swift; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 				BBF7BFDD2BE4971D00B485FA /* InformationList.swift */,
 				BBBCA05B2BE958F300BAE374 /* Toolbar.swift */,
 				BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */,
+				BB0C3EC62BF90C5900632CB1 /* NoInstance.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -811,6 +814,7 @@
 				BBA733652BB4F66600A5022B /* MovieMetadata.swift in Sources */,
 				BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */,
 				BBF706BC2B6220BF00B2B504 /* Sentry.swift in Sources */,
+				BB0C3EC72BF90C5900632CB1 /* NoInstance.swift in Sources */,
 				BBC94DE92B5F63A000504568 /* Telemetry.swift in Sources */,
 				BBBCA05C2BE958F300BAE374 /* Toolbar.swift in Sources */,
 				BB9DC2252BA920AF00459FFF /* API+Error.swift in Sources */,

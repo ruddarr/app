@@ -66,7 +66,7 @@ struct MovieReleasesView: View {
         } description: {
             Text("No releases match the selected filters.")
         } actions: {
-            Button("Reset Filters") {
+            Button("Clear Filters") {
                 sort.resetFilters()
             }
         }

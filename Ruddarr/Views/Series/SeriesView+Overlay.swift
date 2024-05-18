@@ -2,6 +2,7 @@ import SwiftUI
 
 struct NoSeriesSearchResults: View {
     @Binding var query: String
+    @Binding var sort: SeriesSort
 
     var body: some View {
         let description = String(
@@ -9,24 +10,40 @@ struct NoSeriesSearchResults: View {
             "#view"
         )
 
-        return ContentUnavailableView(
-            "No Results for \"\(query)\"",
-            systemImage: "magnifyingglass",
-            description: Text(description.toMarkdown())
-        ).environment(\.openURL, .init { _ in
+        ContentUnavailableView {
+            Label("No Results for \"\(query)\"", systemImage: "magnifyingglass")
+        } description: {
+            Text(description.toMarkdown())
+        } actions: {
+            if sort.filter != .all {
+                Button("Clear Filters") {
+                    sort.filter = .all
+                }
+            }
+        }
+        .environment(\.openURL, .init { _ in
             dependencies.router.seriesPath.append(SeriesPath.search(query))
             query = ""
+
             return .handled
         })
     }
 }
 
 struct NoMatchingSeries: View {
+    @Binding var sort: SeriesSort
+
     var body: some View {
-        ContentUnavailableView(
-            "No Series Match",
-            systemImage: "slash.circle",
-            description: Text("No series match the selected filters.")
-        )
+        ContentUnavailableView {
+            Label("No Series Match", systemImage: "slash.circle")
+        } description: {
+            Text("No series match the selected filters.")
+        } actions: {
+            if sort.filter != .all {
+                Button("Clear Filters") {
+                    sort.filter = .all
+                }
+            }
+        }
     }
 }

@@ -144,11 +144,11 @@ struct MoviesView: View {
                 if notConnectedToInternet {
                     NoInternet()
                 } else if hasNoSearchResults {
-                    NoMovieSearchResults(query: $searchQuery)
+                    NoMovieSearchResults(query: $searchQuery, sort: $sort)
                 } else if isLoadingMovies {
                     Loading()
                 } else if hasNoMatchingResults {
-                    NoMatchingMovies()
+                    NoMatchingMovies(sort: $sort)
                 } else if initialLoadingFailed {
                     contentUnavailable
                 }

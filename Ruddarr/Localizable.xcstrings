@@ -792,6 +792,16 @@
         }
       }
     },
+    "Clear Filters" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear Filters"
+          }
+        }
+      }
+    },
     "Clear Image Cache" : {
       "localizations" : {
         "en" : {
@@ -3370,16 +3380,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reset All Settings"
-          }
-        }
-      }
-    },
-    "Reset Filters" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset Filters"
           }
         }
       }

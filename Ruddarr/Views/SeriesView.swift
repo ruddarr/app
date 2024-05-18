@@ -149,11 +149,11 @@ struct SeriesView: View {
                 if notConnectedToInternet {
                     NoInternet()
                 } else if hasNoSearchResults {
-                    NoSeriesSearchResults(query: $searchQuery)
+                    NoSeriesSearchResults(query: $searchQuery, sort: $sort)
                 } else if isLoadingSeries {
                     Loading()
                 } else if hasNoMatchingResults {
-                    NoMatchingSeries()
+                    NoMatchingSeries(sort: $sort)
                 } else if initialLoadingFailed {
                     contentUnavailable
                 }
