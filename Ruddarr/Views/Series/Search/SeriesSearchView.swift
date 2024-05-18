@@ -19,13 +19,10 @@ struct SeriesSearchView: View {
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
                 ForEach(seriesLookup.items ?? []) { series in
-                    Button {
-                        dependencies.router.seriesPath.append(
-                            series.exists
-                                ? SeriesPath.series(series.id)
-                                : SeriesPath.preview(try? JSONEncoder().encode(series))
-                        )
-                    } label: {
+                    NavigationLink(value: series.exists
+                       ? SeriesPath.series(series.id)
+                       : SeriesPath.preview(try? JSONEncoder().encode(series))
+                    ) {
                         SeriesGridItem(series: series)
                     }
                 }

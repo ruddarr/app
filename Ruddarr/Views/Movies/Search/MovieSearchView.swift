@@ -19,13 +19,10 @@ struct MovieSearchView: View {
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
                 ForEach(movieLookup.sortedItems) { movie in
-                    Button {
-                        dependencies.router.moviesPath.append(
-                            movie.exists
-                                ? MoviesPath.movie(movie.id)
-                                : MoviesPath.preview(try? JSONEncoder().encode(movie))
-                        )
-                    } label: {
+                    NavigationLink(value: movie.exists
+                       ? MoviesPath.movie(movie.id)
+                       : MoviesPath.preview(try? JSONEncoder().encode(movie))
+                    ) {
                         MovieGridItem(movie: movie)
                     }
                 }
