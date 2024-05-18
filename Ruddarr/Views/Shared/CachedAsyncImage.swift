@@ -89,6 +89,7 @@ struct PlaceholderImage: View {
                     Text(placeholder)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
+                        .tint(.secondary)
                         .multilineTextAlignment(.center)
                         .lineLimit(4)
                         .padding(8)
@@ -96,10 +97,10 @@ struct PlaceholderImage: View {
         } else {
             Image(systemName: icon)
                 .imageScale(.large)
-                .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.systemFill)
+                .foregroundStyle(.secondary)
                 .tint(.secondary)
+                .background(.systemFill)
         }
     }
 }
@@ -125,15 +126,19 @@ struct PlaceholderImage: View {
         .border(.yellow)
         .background(.secondarySystemBackground)
 
-        Section {
-            HStack {
-                CachedAsyncImage(.poster, nil, placeholder: "Aquaman and the Lost Kingdom")
-                    .frame(width: 100, height: 150)
-                    .border(.green)
-            }.frame(width: 200, height: 200)
+        NavigationStack {
+            Section {
+                HStack {
+                    NavigationLink(destination: EmptyView()) {
+                        CachedAsyncImage(.poster, nil, placeholder: "Aquaman and the Lost Kingdom")
+                            .frame(width: 100, height: 150)
+                            .border(.green)
+                    }
+                }.frame(width: 200, height: 200)
+            }
+            .border(.yellow)
+            .background(.secondarySystemBackground)
         }
-        .border(.yellow)
-        .background(.secondarySystemBackground)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .border(.yellow)
