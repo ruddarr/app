@@ -5,6 +5,7 @@ struct MovieDetails: View {
     var movie: Movie
 
     @State private var descriptionTruncated = true
+    @State private var fileSheet: MediaFile?
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
@@ -72,13 +73,21 @@ struct MovieDetails: View {
             }
 
             if movie.isDownloaded {
-                MediaDetailsRow("Video", value: mediaDetailsVideoQuality(movie.movieFile))
-                MediaDetailsRow("Audio", value: mediaDetailsAudioQuality(movie.movieFile))
+                Group {
+                    MediaDetailsRow("Video", value: mediaDetailsVideoQuality(movie.movieFile))
+                    MediaDetailsRow("Audio", value: mediaDetailsAudioQuality(movie.movieFile))
 
-                if let subtitles = mediaDetailsSubtitles(movie.movieFile) {
-                    MediaDetailsRow("Subtitles", value: subtitles)
+                    if let subtitles = mediaDetailsSubtitles(movie.movieFile) {
+                        MediaDetailsRow("Subtitles", value: subtitles)
+                    }
+                }.onTapGesture {
+                    fileSheet = movie.movieFile
                 }
             }
+        }
+        .sheet(item: $fileSheet) { file in
+            MediaFileSheet(file: file)
+                .presentationDetents([.fraction(0.9)])
         }
     }
 

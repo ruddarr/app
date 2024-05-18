@@ -111,11 +111,15 @@ struct EpisodeView: View {
             }
 
             if episode.isDownloaded {
-                MediaDetailsRow("Video", value: mediaDetailsVideoQuality(episodeFile))
-                MediaDetailsRow("Audio", value: mediaDetailsAudioQuality(episodeFile))
+                Group {
+                    MediaDetailsRow("Video", value: mediaDetailsVideoQuality(episodeFile))
+                    MediaDetailsRow("Audio", value: mediaDetailsAudioQuality(episodeFile))
 
-                if let subtitles = mediaDetailsSubtitles(episodeFile) {
-                    MediaDetailsRow("Subtitles", value: subtitles)
+                    if let subtitles = mediaDetailsSubtitles(episodeFile) {
+                        MediaDetailsRow("Subtitles", value: subtitles)
+                    }
+                }.onTapGesture {
+                    fileSheet = episodeFile
                 }
             }
         }
