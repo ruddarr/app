@@ -31,6 +31,7 @@ class Languages {
         "kor": String(localized: "Korean"),
         "lav": String(localized: "Latvian"),
         "lit": String(localized: "Lithuanian"),
+        "mac": String(localized: "Macedonian"),
         "msa": String(localized: "Malay"),
         "nld": String(localized: "Dutch"),
         "nob": String(localized: "Norwegian Bokmal"),

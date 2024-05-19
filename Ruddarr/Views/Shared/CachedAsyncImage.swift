@@ -105,6 +105,7 @@ struct PlaceholderImage: View {
     }
 }
 
+// swiftlint:disable closure_body_length
 #Preview {
     VStack {
         Section {
@@ -112,7 +113,8 @@ struct PlaceholderImage: View {
                 CachedAsyncImage(.poster, "https://picsum.photos/id/23/500/500", placeholder: "Fallback")
                     .frame(width: 100, height: 150)
                     .border(.green)
-            }.frame(width: 200, height: 200)
+            }
+            .frame(width: 200, height: 200)
         }
         .border(.yellow).padding()
 
@@ -121,7 +123,8 @@ struct PlaceholderImage: View {
                 CachedAsyncImage(.poster, "https://picsum.photos-broken/id/23/500/500", placeholder: "Fallback")
                     .frame(width: 100, height: 150)
                     .border(.green)
-            }.frame(width: 200, height: 200)
+            }
+            .frame(width: 200, height: 200)
         }
         .border(.yellow)
         .background(.secondarySystemBackground)
@@ -134,7 +137,8 @@ struct PlaceholderImage: View {
                             .frame(width: 100, height: 150)
                             .border(.green)
                     }
-                }.frame(width: 200, height: 200)
+                }
+                .frame(width: 200, height: 200)
             }
             .border(.yellow)
             .background(.secondarySystemBackground)
@@ -143,3 +147,4 @@ struct PlaceholderImage: View {
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .border(.yellow)
 }
+// swiftlint:enable closure_body_length

@@ -1393,6 +1393,16 @@
         }
       }
     },
+    "File" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File"
+          }
+        }
+      }
+    },
     "File Deleted" : {
       "localizations" : {
         "en" : {

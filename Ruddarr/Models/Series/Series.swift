@@ -47,7 +47,7 @@ struct Series: Identifiable, Equatable, Codable {
 
     let originalLanguage: MediaLanguage?
 
-    let alternateTitles: [AlternateMediaTitle]?
+    let alternateTitles: [MediaAlternateTitle]?
 
     var seasons: [Season]
     let genres: [String]

@@ -6,6 +6,7 @@ class SeriesEpisodes {
     var instance: Instance
 
     var items: [Episode] = []
+    var history: [MediaHistoryEvent] = []
 
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
@@ -68,5 +69,23 @@ class SeriesEpisodes {
         isMonitoring = 0
 
         return error == nil
+    }
+
+    func fetchHistory(_ episode: Episode) async {
+        if !history.isEmpty && history[0].episodeId == episode.id {
+            return
+        }
+
+        do {
+            history = try await dependencies.api.getEpisodeHistory(episode.id, instance).records
+        } catch is CancellationError {
+            // do nothing
+        } catch let apiError as API.Error {
+            error = apiError
+
+            leaveBreadcrumb(.error, category: "series.episodes", message: "Episodes history fetch failed", data: ["error": apiError])
+        } catch {
+            self.error = API.Error(from: error)
+        }
     }
 }

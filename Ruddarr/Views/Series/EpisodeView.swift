@@ -6,6 +6,7 @@ struct EpisodeView: View {
     var episodeId: Episode.ID
 
     @State private var fileSheet: MediaFile?
+    @State private var eventSheet: MediaHistoryEvent?
     @State private var descriptionTruncated = true
     @State private var showDeleteConfirmation = false
 
@@ -34,16 +35,11 @@ struct EpisodeView: View {
                 actions
                     .padding(.bottom)
 
-                if episodeFile != nil {
-                    Section {
-                        file
-                    } header: {
-                        Text("Files & History")
-                            .font(.title2.bold())
-                    }
-                }
+                file
+
+                history
             }
-            .padding(.top)
+            .padding(.vertical)
             .viewPadding(.horizontal)
         }
         .navigationTitle(
@@ -53,6 +49,9 @@ struct EpisodeView: View {
         .toolbar {
             toolbarMonitorButton
             toolbarMenu
+        }
+        .task {
+            await instance.episodes.fetchHistory(episode)
         }
         .refreshable {
             await Task { await reload() }.value
@@ -203,34 +202,59 @@ struct EpisodeView: View {
         .frame(maxWidth: 450)
     }
 
+    @ViewBuilder
     var file: some View {
-        Group {
-            if let file = episodeFile {
+        if let file = episodeFile {
+            Section {
                 EpisodeFileView(file: file)
                     .onTapGesture { fileSheet = file }
                     .contextMenu { deleteFileButton }
+                    .padding(.bottom)
+            } header: {
+                Text("File").font(.title2.bold()).padding(.bottom, 6)
             }
-        }
-        .sheet(item: $fileSheet) { file in
-            MediaFileSheet(file: file)
-                .presentationDetents([.fraction(0.9)])
-        }
-        .alert(
-            "Are you sure?",
-            isPresented: $showDeleteConfirmation
-        ) {
-            Button("Delete File", role: .destructive) {
-                Task { await deleteEpisode() }
+            .sheet(item: $fileSheet) { file in
+                MediaFileSheet(file: file)
+                    .presentationDetents([.fraction(0.9)])
             }
-            Button("Cancel", role: .cancel) { }
-        } message: {
-            Text("This will permanently erase the episode file.")
+            .alert(
+                "Are you sure?",
+                isPresented: $showDeleteConfirmation
+            ) {
+                Button("Delete File", role: .destructive) {
+                    Task { await deleteEpisode() }
+                }
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                Text("This will permanently erase the episode file.")
+            }
         }
     }
 
     var deleteFileButton: some View {
         Button("Delete File", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
+        }
+    }
+
+    @ViewBuilder
+    var history: some View {
+        if !instance.episodes.history.isEmpty {
+            Section {
+                ForEach(instance.episodes.history) { event in
+                    MovieHistoryItem(event: event)
+                        .padding(.bottom, 4)
+                        .onTapGesture { eventSheet = event }
+                }
+            } header: {
+                Text("History").font(.title2.bold()).padding(.bottom, 6)
+            }
+            .sheet(item: $eventSheet) { event in
+                MediaEventSheet(event: event)
+                    .presentationDetents(
+                        event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
+                    )
+            }
         }
     }
 }

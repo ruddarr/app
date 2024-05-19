@@ -95,7 +95,7 @@
 		BBA7336B2BB6261D00A5022B /* movie-files.json in Resources */ = {isa = PBXBuildFile; fileRef = BBA7336A2BB6261D00A5022B /* movie-files.json */; };
 		BBAED12B2B7205A9006C6CF2 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAED12A2B7205A9006C6CF2 /* Helpers.swift */; };
 		BBAED12D2B72D444006C6CF2 /* ButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */; };
-		BBAFC7E72BB733E800245D10 /* MovieMetadataView+Sheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFC7E62BB733E800245D10 /* MovieMetadataView+Sheets.swift */; };
+		BBAFC7E72BB733E800245D10 /* MediaEventSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFC7E62BB733E800245D10 /* MediaEventSheets.swift */; };
 		BBAFC7EC2BB8704000245D10 /* CustomFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */; };
 		BBAFC7EE2BB8D3CE00245D10 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFC7ED2BB8D3CE00245D10 /* CloseButton.swift */; };
 		BBB8691F2B6CAE26009C1A54 /* MovieReleases.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB8691E2B6CAE26009C1A54 /* MovieReleases.swift */; };
@@ -114,6 +114,9 @@
 		BBC77E242B7AAD3300573EBD /* InstanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC77E232B7AAD3300573EBD /* InstanceView.swift */; };
 		BBC77E262B7AB79100573EBD /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC77E252B7AB79100573EBD /* Notifications.swift */; };
 		BBC94DE92B5F63A000504568 /* Telemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC94DE82B5F63A000504568 /* Telemetry.swift */; };
+		BBD3F2D42BFA520700DE5D8E /* series-episode-history.json in Resources */ = {isa = PBXBuildFile; fileRef = BBD3F2D32BFA520700DE5D8E /* series-episode-history.json */; };
+		BBD3F2D62BFA55FE00DE5D8E /* MediaQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F2D52BFA55FE00DE5D8E /* MediaQuality.swift */; };
+		BBD3F2D82BFA578000DE5D8E /* MediaHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F2D72BFA578000DE5D8E /* MediaHistory.swift */; };
 		BBD3F7D22BE9A6320050D9A0 /* SeriesReleasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F7D12BE9A6320050D9A0 /* SeriesReleasesView.swift */; };
 		BBD3F7D42BE9A8410050D9A0 /* SeriesReleases.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F7D32BE9A8410050D9A0 /* SeriesReleases.swift */; };
 		BBD3F7D62BE9AD060050D9A0 /* SeriesReleaseSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F7D52BE9AD060050D9A0 /* SeriesReleaseSort.swift */; };
@@ -245,7 +248,7 @@
 		BBA7336A2BB6261D00A5022B /* movie-files.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "movie-files.json"; sourceTree = "<group>"; };
 		BBAED12A2B7205A9006C6CF2 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLabel.swift; sourceTree = "<group>"; };
-		BBAFC7E62BB733E800245D10 /* MovieMetadataView+Sheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieMetadataView+Sheets.swift"; sourceTree = "<group>"; };
+		BBAFC7E62BB733E800245D10 /* MediaEventSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaEventSheets.swift; sourceTree = "<group>"; };
 		BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormat.swift; sourceTree = "<group>"; };
 		BBAFC7ED2BB8D3CE00245D10 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		BBB8691E2B6CAE26009C1A54 /* MovieReleases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleases.swift; sourceTree = "<group>"; };
@@ -264,6 +267,9 @@
 		BBC77E232B7AAD3300573EBD /* InstanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceView.swift; sourceTree = "<group>"; };
 		BBC77E252B7AB79100573EBD /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		BBC94DE82B5F63A000504568 /* Telemetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Telemetry.swift; sourceTree = "<group>"; };
+		BBD3F2D32BFA520700DE5D8E /* series-episode-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-episode-history.json"; sourceTree = "<group>"; };
+		BBD3F2D52BFA55FE00DE5D8E /* MediaQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaQuality.swift; sourceTree = "<group>"; };
+		BBD3F2D72BFA578000DE5D8E /* MediaHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaHistory.swift; sourceTree = "<group>"; };
 		BBD3F7D12BE9A6320050D9A0 /* SeriesReleasesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesReleasesView.swift; sourceTree = "<group>"; };
 		BBD3F7D32BE9A8410050D9A0 /* SeriesReleases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesReleases.swift; sourceTree = "<group>"; };
 		BBD3F7D52BE9AD060050D9A0 /* SeriesReleaseSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesReleaseSort.swift; sourceTree = "<group>"; };
@@ -376,7 +382,6 @@
 				BB05C9082B86E272009B6444 /* MovieDetails+Overview.swift */,
 				BBE7CE022B91745100431801 /* MovieDetails+Information.swift */,
 				BBA733622BB4C1F400A5022B /* MovieMetadataView.swift */,
-				BBAFC7E62BB733E800245D10 /* MovieMetadataView+Sheets.swift */,
 				BB9DC22A2BAA11C700459FFF /* MoviesView+Overlay.swift */,
 				BB09B9B32B9FABE700FA6586 /* MoviesView+Toolbar.swift */,
 			);
@@ -488,6 +493,7 @@
 				BBF7BFDD2BE4971D00B485FA /* InformationList.swift */,
 				BBBCA05B2BE958F300BAE374 /* Toolbar.swift */,
 				BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */,
+				BBAFC7E62BB733E800245D10 /* MediaEventSheets.swift */,
 				BB0C3EC62BF90C5900632CB1 /* NoInstance.swift */,
 			);
 			path = Shared;
@@ -555,6 +561,7 @@
 				BB507D292BD9799300EC4016 /* series-lookup.json */,
 				BB0BEA8E2BE5963F004DBFE6 /* series-episodes.json */,
 				BB0FE1122BED33A800D1D847 /* series-episode-files.json */,
+				BBD3F2D32BFA520700DE5D8E /* series-episode-history.json */,
 				BB96C32C2BE8351800E24C1C /* series-releases.json */,
 				BB456D262B58E4B900C29B00 /* system-status.json */,
 				BB8B3DF32B617FE800B80E2D /* root-folders.json */,
@@ -575,6 +582,8 @@
 				BB7666CE2BA51F49009D4F68 /* Calendar.swift */,
 				BBC6CEF42BE69B1600F71839 /* Media.swift */,
 				BBC6CEF62BE69BEE00F71839 /* MediaFile.swift */,
+				BBD3F2D52BFA55FE00DE5D8E /* MediaQuality.swift */,
+				BBD3F2D72BFA578000DE5D8E /* MediaHistory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -737,6 +746,7 @@
 				BBF583C22BACBE1400AFA7FB /* calendar-movies.json in Resources */,
 				BB8B3DF42B617FE800B80E2D /* root-folders.json in Resources */,
 				BB19BF872BE3E3E900F3E7AC /* Settings.bundle in Resources */,
+				BBD3F2D42BFA520700DE5D8E /* series-episode-history.json in Resources */,
 				BBA733672BB5278800A5022B /* movie-history.json in Resources */,
 				BB456D272B58E4B900C29B00 /* system-status.json in Resources */,
 				BB4B34F12B7BF4C80063F2D3 /* Localizable.xcstrings in Resources */,
@@ -836,7 +846,7 @@
 				BB581D1A2BA0ED5E0070DFFC /* CalendarView.swift in Sources */,
 				BBE828572B4F2C7000C1E1D9 /* Ruddarr.swift in Sources */,
 				BB507D2E2BD991E100EC4016 /* SeriesContextMenu.swift in Sources */,
-				BBAFC7E72BB733E800245D10 /* MovieMetadataView+Sheets.swift in Sources */,
+				BBAFC7E72BB733E800245D10 /* MediaEventSheets.swift in Sources */,
 				BBC6CEF52BE69B1600F71839 /* Media.swift in Sources */,
 				BB77996D2BAE4757007D713B /* Shortcuts.swift in Sources */,
 				798010BD2B6268D200BBC056 /* RawRepresentable.swift in Sources */,
@@ -852,6 +862,7 @@
 				BBF583B22BABAE8C00AFA7FB /* Loading.swift in Sources */,
 				BB6F23A92B6A039400A4347A /* MovieReleasesView.swift in Sources */,
 				BB7666CF2BA51F49009D4F68 /* Calendar.swift in Sources */,
+				BBD3F2D82BFA578000DE5D8E /* MediaHistory.swift in Sources */,
 				BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */,
 				BBAED12D2B72D444006C6CF2 /* ButtonLabel.swift in Sources */,
 				BBC6CEF72BE69BEE00F71839 /* MediaFile.swift in Sources */,
@@ -862,6 +873,7 @@
 				BB8B3DF22B61713500B80E2D /* MovieEditView.swift in Sources */,
 				BBAED12B2B7205A9006C6CF2 /* Helpers.swift in Sources */,
 				BB96C3292BE8337300E24C1C /* SeriesPreviewView.swift in Sources */,
+				BBD3F2D62BFA55FE00DE5D8E /* MediaQuality.swift in Sources */,
 				79159D712B5955A800F7F997 /* DummyAPI.swift in Sources */,
 				BBE7F8A92B6424350014DD57 /* RadarrInstance.swift in Sources */,
 				BBE7F8A72B6423A60014DD57 /* Movies.swift in Sources */,

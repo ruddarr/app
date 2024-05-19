@@ -9,7 +9,7 @@ struct API {
     var downloadRelease: (String, Int, Instance) async throws -> Empty
 
     var getMovie: (Movie.ID, Instance) async throws -> Movie
-    var getMovieHistory: (Movie.ID, Instance) async throws -> [MovieHistoryEvent]
+    var getMovieHistory: (Movie.ID, Instance) async throws -> [MediaHistoryEvent]
     var getMovieFiles: (Movie.ID, Instance) async throws -> [MediaFile]
     var getMovieExtraFiles: (Movie.ID, Instance) async throws -> [MovieExtraFile]
     var addMovie: (Movie, Instance) async throws -> Movie
@@ -30,6 +30,7 @@ struct API {
     var deleteSeries: (Series, Instance) async throws -> Empty
 
     var monitorEpisode: ([Episode.ID], Bool, Instance) async throws -> Empty
+    var getEpisodeHistory: (Episode.ID, Instance) async throws -> MediaHistory
     var deleteEpisodeFile: (MediaFile, Instance) async throws -> Empty
 
     var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
@@ -212,6 +213,12 @@ extension API {
             let body = EpisodesMonitorResource(episodeIds: ids, monitored: monitored)
 
             return try await request(method: .put, url: url, headers: instance.auth, body: body)
+        }, getEpisodeHistory: { id, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/history")
+                .appending(queryItems: [.init(name: "episodeId", value: String(id))])
+
+            return try await request(url: url, headers: instance.auth)
         }, deleteEpisodeFile: { file, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/episodefile")

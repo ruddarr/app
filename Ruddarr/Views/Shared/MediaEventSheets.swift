@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct MovieHistoryEventSheet: View {
-    var event: MovieHistoryEvent
+struct MediaEventSheet: View {
+    var event: MediaHistoryEvent
 
     @Environment(\.dismiss) private var dismiss
 
@@ -114,7 +114,7 @@ struct MovieHistoryEventSheet: View {
 }
 
 #Preview("Event") {
-    let events: [MovieHistoryEvent] = PreviewData.load(name: "movie-history")
+    let events: [MediaHistoryEvent] = PreviewData.load(name: "movie-history")
 
-    return MovieHistoryEventSheet(event: events[1])
+    return MediaEventSheet(event: events[1])
 }

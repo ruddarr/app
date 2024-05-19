@@ -10,7 +10,7 @@ struct MovieMetadataView: View {
     @State private var audioExpanded: Bool = false
 
     @State private var fileSheet: MediaFile?
-    @State private var eventSheet: MovieHistoryEvent?
+    @State private var eventSheet: MediaHistoryEvent?
 
     var body: some View {
         ScrollView {
@@ -91,7 +91,7 @@ struct MovieMetadataView: View {
             await instance.metadata.fetchHistory(for: movie)
         }
         .sheet(item: $eventSheet) { event in
-            MovieHistoryEventSheet(event: event)
+            MediaEventSheet(event: event)
                 .presentationDetents(
                     event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )
@@ -174,7 +174,7 @@ struct MovieFilesExtraFile: View {
 }
 
 struct MovieHistoryItem: View {
-    var event: MovieHistoryEvent
+    var event: MediaHistoryEvent
 
     @EnvironmentObject var settings: AppSettings
 

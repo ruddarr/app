@@ -27,13 +27,13 @@ extension API {
 
             return movies.first(where: { $0.guid == movieId })!
         }, getMovieHistory: { _, _ in
-            let events: [MovieHistoryEvent] = loadPreviewData(filename: "movie-history")
-            // try await Task.sleep(nanoseconds: 2_000_000_000)
+            let events: [MediaHistoryEvent] = loadPreviewData(filename: "movie-history")
+            try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return events
         }, getMovieFiles: { _, _ in
             let files: [MediaFile] = loadPreviewData(filename: "movie-files")
-            // try await Task.sleep(nanoseconds: 500_000_000)
+            try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return files
         }, getMovieExtraFiles: { _, _ in
@@ -105,6 +105,11 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
+        }, getEpisodeHistory: { _, _ in
+            let events: MediaHistory = loadPreviewData(filename: "series-episode-history")
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return events
         }, deleteEpisodeFile: { _, _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
