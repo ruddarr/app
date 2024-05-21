@@ -1283,6 +1283,16 @@
         }
       }
     },
+    "episode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "episode"
+          }
+        }
+      }
+    },
     "Episode Downloaded" : {
       "localizations" : {
         "en" : {
@@ -1299,6 +1309,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Episode Downloading"
+          }
+        }
+      }
+    },
+    "Episode file was renamed." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Episode file was renamed."
           }
         }
       }
@@ -1423,12 +1443,12 @@
         }
       }
     },
-    "File was deleted manually." : {
+    "File was deleted either manually or by a client through the API." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "File was deleted manually."
+            "value" : "File was deleted either manually or by a client through the API."
           }
         }
       }
@@ -1443,12 +1463,12 @@
         }
       }
     },
-    "File was not found on disk so it was unlinked from the movie in the database." : {
+    "File was not found on disk so it was unlinked from the %@ in the database." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "File was not found on disk so it was unlinked from the movie in the database."
+            "value" : "File was not found on disk so it was unlinked from the %@ in the database."
           }
         }
       }
@@ -2044,6 +2064,16 @@
         }
       }
     },
+    "Macedonian" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Macedonian"
+          }
+        }
+      }
+    },
     "Mail" : {
       "localizations" : {
         "en" : {
@@ -2240,6 +2270,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Move the series files to \"%@\"?"
+          }
+        }
+      }
+    },
+    "movie" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "movie"
           }
         }
       }
@@ -3670,6 +3710,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Series Finale"
+          }
+        }
+      }
+    },
+    "Series imported from folder." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Series imported from folder."
           }
         }
       }

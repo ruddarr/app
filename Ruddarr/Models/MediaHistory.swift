@@ -73,12 +73,19 @@ struct MediaHistoryEvent: Identifiable, Codable {
             data("message") ?? fallback
         case .downloadIgnored:
             data("message") ?? fallback
-        case .movieFileDeleted:
+        case .movieFileRenamed:
+            String(localized: "Movie file was renamed.")
+        case .episodeFileRenamed:
+            String(localized: "Episode file was renamed.")
+        case .movieFileDeleted, .episodeFileDeleted:
             switch data?["reason"] {
             case "Manual":
-                String(localized: "File was deleted manually.")
+                String(localized: "File was deleted either manually or by a client through the API.")
             case "MissingFromDisk":
-                String(localized: "File was not found on disk so it was unlinked from the movie in the database.")
+                String(
+                    format: String(localized: "File was not found on disk so it was unlinked from the %@ in the database."),
+                    eventType == .episodeFileDeleted ? String(localized: "episode") : String(localized: "movie")
+                )
             case "Upgrade":
                 String(localized: "File was deleted to import an upgrade.")
             default:
@@ -86,8 +93,8 @@ struct MediaHistoryEvent: Identifiable, Codable {
             }
         case .movieFolderImported:
             String(localized: "Movie imported from folder.")
-        case .movieFileRenamed:
-            String(localized: "Movie file was renamed.")
+        case .seriesFolderImported:
+            String(localized: "Series imported from folder.")
         }
     }
 
@@ -108,9 +115,14 @@ enum HistoryEventType: String, Codable {
     case downloadFolderImported
     case downloadFailed
     case downloadIgnored
+
+    case movieFileRenamed
     case movieFileDeleted
     case movieFolderImported // unused
-    case movieFileRenamed
+
+    case episodeFileRenamed
+    case episodeFileDeleted
+    case seriesFolderImported
 
     var label: LocalizedStringKey {
         switch self {
@@ -119,9 +131,9 @@ enum HistoryEventType: String, Codable {
         case .downloadFolderImported: "Imported"
         case .downloadFailed: "Failed"
         case .downloadIgnored: "Ignored"
-        case .movieFileDeleted: "Deleted"
-        case .movieFolderImported: "Imported" // unused
-        case .movieFileRenamed: "Renamed"
+        case .movieFileRenamed, .episodeFileRenamed: "Renamed"
+        case .movieFileDeleted, .episodeFileDeleted: "Deleted"
+        case .movieFolderImported, .seriesFolderImported: "Imported"
         }
     }
 
@@ -132,9 +144,12 @@ enum HistoryEventType: String, Codable {
         case .downloadFolderImported: "Movie Imported"
         case .downloadFailed: "Download Failed"
         case .downloadIgnored: "Download Ignored"
-        case .movieFileDeleted: "Movie Deleted"
-        case .movieFolderImported: "Folder Imported" // unused
         case .movieFileRenamed: "Movie Renamed"
+        case .movieFileDeleted: "Movie Deleted"
+        case .movieFolderImported: "Folder Imported"
+        case .episodeFileRenamed: "Movie Renamed"
+        case .episodeFileDeleted: "Movie Deleted"
+        case .seriesFolderImported: "Folder Imported"
         }
     }
 }
