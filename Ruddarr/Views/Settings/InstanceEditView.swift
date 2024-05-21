@@ -63,6 +63,17 @@ struct InstanceEditView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
+        .alert("Basic Authentication", isPresented: $showBasicAuthentication, actions: {
+            TextField("Username", text: $username)
+            SecureField("Password", text: $password)
+            Button("Add Header") {
+                let auth = Data("\(username):\(password)".utf8).base64EncodedString()
+                instance.headers.append(InstanceHeader(name: "Authorization", value: "Basic \(auth)"))
+            }
+            Button("Cancel", role: .cancel, action: {})
+        }, message: {
+            Text("The credentials will be encoded and added as an \"Authorization\" header.")
+        })
     }
 
     var instanceSection: some View {
@@ -180,17 +191,6 @@ struct InstanceEditView: View {
             Button("Add Authentication") {
                 showBasicAuthentication = true
             }
-            .alert("Basic Authentication", isPresented: $showBasicAuthentication, actions: {
-                TextField("Username", text: $username)
-                SecureField("Password", text: $password)
-                Button("Add Header") {
-                    let auth = Data("\(username):\(password)".utf8).base64EncodedString()
-                    instance.headers.append(InstanceHeader(name: "Authorization", value: "Basic \(auth)"))
-                }
-                Button("Cancel", role: .cancel, action: {})
-            }, message: {
-                Text("The credentials will be encoded and added as an \"Authorization\" header.")
-            })
         } header: {
             HStack {
                 Text("Headers")
