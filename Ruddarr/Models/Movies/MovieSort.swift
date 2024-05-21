@@ -12,6 +12,7 @@ struct MovieSort: Hashable {
         case byYear
         case byAdded
         case bySize
+        case byRelease
 
         var label: some View {
             switch self {
@@ -19,6 +20,7 @@ struct MovieSort: Hashable {
             case .byYear: Label("Year", systemImage: "calendar")
             case .byAdded: Label("Added", systemImage: "calendar.badge.plus")
             case .bySize: Label("File Size", systemImage: "internaldrive")
+            case .byRelease: Label("Digital Release", systemImage: "play.tv")
             }
         }
 
@@ -32,6 +34,8 @@ struct MovieSort: Hashable {
                 lhs.sizeOnDisk ?? 0 < rhs.sizeOnDisk ?? 0
             case .byAdded:
                 lhs.added < rhs.added
+            case .byRelease:
+                lhs.digitalRelease?.timeIntervalSince1970 ?? 0 < rhs.digitalRelease?.timeIntervalSince1970 ?? 0
             }
         }
     }
@@ -42,9 +46,9 @@ struct MovieSort: Hashable {
         case all
         case monitored
         case unmonitored
+        case downloaded
         case wanted
         case missing
-        case downloaded
         case dangling
 
         var label: some View {
@@ -68,7 +72,7 @@ struct MovieSort: Hashable {
             case .unmonitored:
                 movies.filter { !$0.monitored }
             case .missing:
-                movies.filter { $0.monitored && !$0.isDownloaded && $0.isAvailable }
+                movies.filter { $0.monitored && !$0.isDownloaded && $0.isReleased }
             case .wanted:
                 movies.filter { $0.monitored && !$0.isDownloaded }
             case .downloaded:
@@ -77,5 +81,54 @@ struct MovieSort: Hashable {
                 movies.filter { !$0.monitored && !$0.isDownloaded }
             }
         }
+    }
+}
+
+extension MovieSort: RawRepresentable {
+    public init?(rawValue: String) {
+        do {
+            guard let data = rawValue.data(using: .utf8)
+            else { return nil }
+            let result = try JSONDecoder().decode(MovieSort.self, from: data)
+            self = result
+        } catch {
+            leaveBreadcrumb(.fatal, category: "movie.sort", message: "init failed", data: ["error": error])
+
+            return nil
+        }
+    }
+
+    public var rawValue: String {
+        guard let data = try? JSONEncoder().encode(self),
+              let result = String(data: data, encoding: .utf8)
+        else {
+            return "{}"
+        }
+
+        return result
+    }
+}
+
+extension MovieSort: Codable {
+    enum CodingKeys: String, CodingKey {
+        case isAscending
+        case option
+        case filter
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        try self.init(
+            isAscending: container.decode(Bool.self, forKey: .isAscending),
+            option: container.decode(Option.self, forKey: .option),
+            filter: container.decode(Filter.self, forKey: .filter)
+        )
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(isAscending, forKey: .isAscending)
+        try container.encode(option, forKey: .option)
+        try container.encode(filter, forKey: .filter)
     }
 }

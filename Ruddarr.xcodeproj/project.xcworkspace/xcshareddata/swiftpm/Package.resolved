@@ -1,13 +1,22 @@
 {
-  "originHash" : "3088c2da029be9fc1a696946e16ec4519105cd21cbd5943f58e036aab9bda8b1",
+  "originHash" : "8574a4882e0d4cb4fa84e38fc6d560ec3bc8d9b8b608c925f92ed3150eb204b6",
   "pins" : [
+    {
+      "identity" : "cloudstorage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nonstrict-hq/CloudStorage.git",
+      "state" : {
+        "revision" : "35700218d35579df091974b6e7765db94c83448b",
+        "version" : "0.4.0"
+      }
+    },
     {
       "identity" : "nuke",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kean/Nuke",
       "state" : {
-        "revision" : "8e431251dea0081b6ab154dab61a6ec74e4b6577",
-        "version" : "12.6.0"
+        "revision" : "7395c7a9dcd390bbcfad17a731d8d529602702c6",
+        "version" : "12.7.0"
       }
     },
     {
@@ -15,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa.git",
       "state" : {
-        "revision" : "82af013792dca3784a2dc5e7f975159fb9d263b3",
-        "version" : "8.25.0"
+        "revision" : "7fc7ca43967e2980d8691a8e017c118a84133aac",
+        "version" : "8.26.0"
       }
     },
     {

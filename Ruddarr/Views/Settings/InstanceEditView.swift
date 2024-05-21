@@ -7,6 +7,7 @@ struct InstanceEditView: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) var radarrInstance
+    @Environment(SonarrInstance.self) var sonarrInstance
 
     @State var isLoading = false
     @State var showingAlert = false
@@ -42,7 +43,7 @@ struct InstanceEditView: View {
                 }
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
+        .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarButton
         }
@@ -85,11 +86,13 @@ struct InstanceEditView: View {
 
                 if !showAdvanced {
                     Text("Show Advanced Settings")
-                        .foregroundStyle(.tint)
+                        .foregroundStyle(settings.theme.tint)
                         .onTapGesture {
                             withAnimation { showAdvanced = true }
                         }
                 }
+            }.transaction { transaction in
+                transaction.animation = nil // disable animation
             }
         }
     }
@@ -117,11 +120,13 @@ struct InstanceEditView: View {
         LabeledContent {
             TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
                 .multilineTextAlignment(.trailing)
-                .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
                 .textCase(.lowercase)
-                .keyboardType(.URL)
                 .onChange(of: instance.url, detectInstanceType)
+                #if os(iOS)
+                .textInputAutocapitalization(.never)
+                .keyboardType(.URL)
+                #endif
         } label: {
             Text("URL")
         }
@@ -131,9 +136,11 @@ struct InstanceEditView: View {
         LabeledContent {
             TextField("0a1b2c3d...", text: $instance.apiKey)
                 .multilineTextAlignment(.trailing)
-                .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
                 .textCase(.lowercase)
+                #if os(iOS)
+                .textInputAutocapitalization(.never)
+                #endif
         } label: {
             Text("API Key")
         }
@@ -220,9 +227,13 @@ struct InstanceEditView: View {
     }
 
     func pasteButton(_ callback: @escaping () -> Void) -> some View {
-        Button("Paste", action: callback)
-            .buttonStyle(PlainButtonStyle())
-            .foregroundStyle(settings.theme.tint)
+        #if os(macOS)
+            EmptyView()
+        #else
+            Button("Paste", action: callback)
+                .buttonStyle(PlainButtonStyle())
+                .foregroundStyle(settings.theme.tint)
+        #endif
     }
 
     @ToolbarContentBuilder
@@ -248,12 +259,16 @@ struct InstanceHeaderRow: View {
         LabeledContent {
             TextField("Value", text: $header.value)
                 .multilineTextAlignment(.trailing)
-                .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
+                #if os(iOS)
+                .textInputAutocapitalization(.never)
+                #endif
         } label: {
             TextField("Name", text: $header.name)
-                .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
+                #if os(iOS)
+                .textInputAutocapitalization(.never)
+                #endif
         }
     }
 }

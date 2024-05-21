@@ -6,6 +6,8 @@ struct MovieForm: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
 
+    @Environment(\.deviceType) private var deviceType
+
     @State private var showingConfirmation = false
 
     var availabilities: [MovieStatus] = [
@@ -13,8 +15,6 @@ struct MovieForm: View {
         .inCinemas,
         .released,
     ]
-
-    let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
 
     var body: some View {
         Form {
@@ -100,8 +100,8 @@ struct MovieForm: View {
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     return MovieForm(movie: Binding(get: { movie }, set: { _ in }))
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }
 
 #Preview("Existing") {
@@ -109,6 +109,6 @@ struct MovieForm: View {
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     return MovieForm(movie: Binding(get: { movie }, set: { _ in }))
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }

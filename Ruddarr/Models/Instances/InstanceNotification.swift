@@ -1,8 +1,8 @@
 import Foundation
 
 struct InstanceNotification: Identifiable, Codable {
-    let id: Int
-    let name: String?
+    var id: Int?
+    var name: String?
     var implementation: String = "Webhook"
     var configContract: String = "WebhookSettings"
     var fields: [InstanceNotificationField] = []
@@ -18,7 +18,7 @@ struct InstanceNotification: Identifiable, Codable {
 
     // `Download`: Completed downloading release
     var onDownload: Bool = false { didSet { onManualInteractionRequired = onHealthIssue } }
-    private(set) var onManualInteractionRequired: Bool = false // Sends test emails only
+    private(set) var onManualInteractionRequired: Bool? = false // Sends test emails only
 
     // `Download`: Completed downloading upgrade (`isUpgrade`)
     var onUpgrade: Bool = false
@@ -26,7 +26,7 @@ struct InstanceNotification: Identifiable, Codable {
     var onApplicationUpdate: Bool = false
 
     var onHealthIssue: Bool = false { didSet { includeHealthWarnings = onHealthIssue } }
-    var onHealthRestored: Bool = false
+    var onHealthRestored: Bool? = false
     private(set) var includeHealthWarnings: Bool = false
 
     var isEnabled: Bool {
@@ -36,7 +36,7 @@ struct InstanceNotification: Identifiable, Codable {
         || onMovieAdded ?? false
         || onSeriesAdd ?? false
         || onHealthIssue
-        || onHealthRestored
+        || onHealthRestored ?? false
         || onApplicationUpdate
     }
 

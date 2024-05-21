@@ -9,8 +9,8 @@ struct MovieMetadataView: View {
     @State private var videoExpanded: Bool = false
     @State private var audioExpanded: Bool = false
 
-    @State private var fileSheet: MovieFile?
-    @State private var eventSheet: MovieHistoryEvent?
+    @State private var fileSheet: MediaFile?
+    @State private var eventSheet: MediaHistoryEvent?
 
     var body: some View {
         ScrollView {
@@ -18,11 +18,11 @@ struct MovieMetadataView: View {
                 files
                 history
             }
-            .padding(.bottom)
+            .padding(.vertical)
             .viewPadding(.horizontal)
         }
         .navigationTitle(movie.title)
-        .navigationBarTitleDisplayMode(.inline)
+        .safeNavigationBarTitleDisplayMode(.inline)
         .onAppear {
             instance.metadata.setMovie(movie)
         }
@@ -62,7 +62,7 @@ struct MovieMetadataView: View {
             await instance.metadata.fetchFiles(for: movie)
         }
         .sheet(item: $fileSheet) { file in
-            MovieFileSheet(file: file)
+            MediaFileSheet(file: file)
                 .presentationDetents([.fraction(0.9)])
         }
     }
@@ -91,7 +91,7 @@ struct MovieMetadataView: View {
             await instance.metadata.fetchHistory(for: movie)
         }
         .sheet(item: $eventSheet) { event in
-            MovieHistoryEventSheet(event: event)
+            MediaEventSheet(event: event)
                 .presentationDetents(
                     event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )
@@ -108,7 +108,11 @@ struct MovieMetadataView: View {
 }
 
 struct MovieFilesFile: View {
-    var file: MovieFile
+    var file: MediaFile
+
+    @Environment(RadarrInstance.self) private var instance
+
+    @State private var showDeleteConfirmation = false
 
     var body: some View {
         GroupBox {
@@ -125,6 +129,29 @@ struct MovieFilesFile: View {
                 .lineLimit(1)
         } label: {
             Text(file.relativePath ?? "--")
+        }
+        .contextMenu {
+            Button("Delete File", systemImage: "trash", role: .destructive) {
+                showDeleteConfirmation = true
+            }
+        }
+        .alert(
+            "Are you sure?",
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button("Delete File", role: .destructive) {
+                Task { await deleteFile() }
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("This will permanently erase the movie file.")
+        }
+    }
+
+    @MainActor
+    func deleteFile() async {
+        if await instance.metadata.delete(file) {
+            dependencies.toast.show(.fileDeleted)
         }
     }
 }
@@ -147,7 +174,7 @@ struct MovieFilesExtraFile: View {
 }
 
 struct MovieHistoryItem: View {
-    var event: MovieHistoryEvent
+    var event: MediaHistoryEvent
 
     @EnvironmentObject var settings: AppSettings
 
@@ -214,14 +241,14 @@ struct MovieHistoryItem: View {
     dependencies.router.selectedTab = .movies
 
     dependencies.router.moviesPath.append(
-        MoviesView.Path.movie(movie.id)
+        MoviesPath.movie(movie.id)
     )
 
     dependencies.router.moviesPath.append(
-        MoviesView.Path.metadata(movie.id)
+        MoviesPath.metadata(movie.id)
     )
 
     return ContentView()
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }

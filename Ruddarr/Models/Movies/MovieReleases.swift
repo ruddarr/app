@@ -28,7 +28,7 @@ class MovieReleases {
         isSearching = true
 
         do {
-            items = try await dependencies.api.lookupReleases(movie.id, instance)
+            items = try await dependencies.api.lookupMovieReleases(movie.id, instance)
             setIndexers()
             setQualities()
             setProtocols()
@@ -95,15 +95,14 @@ struct MovieRelease: Identifiable, Codable {
     var id: String { guid }
 
     let guid: String
-    let mappedMovieId: Int?
-    let type: MovieReleaseType
+    let type: MediaReleaseType
     let title: String
     let size: Int
     let age: Int
     let ageMinutes: Float
     let rejected: Bool
 
-    let customFormats: [MovieCustomFormat]?
+    let customFormats: [MediaCustomFormat]?
     let customFormatScore: Int
 
     let indexerId: Int
@@ -112,8 +111,8 @@ struct MovieRelease: Identifiable, Codable {
     let seeders: Int?
     let leechers: Int?
 
-    let quality: MovieReleaseQuality
-    let languages: [MovieLanguage]
+    let quality: MediaQuality
+    let languages: [MediaLanguage]
     let rejections: [String]
 
     let qualityWeight: Int
@@ -123,7 +122,6 @@ struct MovieRelease: Identifiable, Codable {
 
     enum CodingKeys: String, CodingKey {
         case guid
-        case mappedMovieId
         case type = "protocol"
         case title
         case size
@@ -145,8 +143,13 @@ struct MovieRelease: Identifiable, Codable {
         case infoUrl
     }
 
-    var isTorrent: Bool { type == .torrent }
-    var isUsenet: Bool { type == .usenet }
+    var isTorrent: Bool {
+        type == .torrent
+    }
+
+    var isUsenet: Bool {
+        type == .usenet
+    }
 
     var isFreeleech: Bool {
         guard !indexerFlags.isEmpty else { return false }
@@ -183,11 +186,11 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var indexerLabel: String {
-        guard let indexer = indexer, indexer.hasSuffix(" (Prowlarr)") else {
-            return indexer ?? String(indexerId)
+        guard let name = indexer else {
+            return String(indexerId)
         }
 
-        return String(indexer.dropLast(11))
+        return formatIndexer(name)
     }
 
     var indexerFlagsLabel: String? {
@@ -195,7 +198,7 @@ struct MovieRelease: Identifiable, Codable {
             return nil
         }
 
-        return cleanIndexerFlags.formatted(.list(type: .and, width: .narrow))
+        return cleanIndexerFlags.formattedList()
     }
 
     var languageLabel: String {
@@ -208,7 +211,7 @@ struct MovieRelease: Identifiable, Codable {
         }
 
         return languages.map { $0.label }
-            .formatted(.list(type: .and, width: .narrow))
+            .formattedList()
     }
 
     var typeLabel: String {
@@ -220,11 +223,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var sizeLabel: String {
-        let formatter = ByteCountFormatter()
-        formatter.countStyle = .binary
-        formatter.isAdaptive = size < 1_073_741_824 // 1 GB
-
-        return formatter.string(fromByteCount: Int64(size))
+        formatBytes(size)
     }
 
     var qualityLabel: String {
@@ -251,26 +250,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var ageLabel: String {
-        let minutes: Int = Int(ageMinutes)
-        let days: Int = minutes / 60 / 24
-        let years: Float = Float(days) / 30 / 12
-
-        return switch minutes {
-        case -10_000..<1: // less than 1 minute (or bad data from radarr)
-            String(localized: "Just now")
-        case 1..<119: // less than 120 minutes
-            String(format: String(localized: "%d minutes"), minutes)
-        case 120..<2_880: // less than 48 hours
-            String(format: String(localized: "%d hours"), minutes / 60)
-        case 2_880..<129_600: // less than 90 days
-            String(format: String(localized: "%d days"), days)
-        case 129_600..<525_600: // less than 365 days
-            String(format: String(localized: "%d months"), days / 30)
-        case 525_600..<2_628_000: // less than 5 years
-            String(format: String(localized: "%.1f years"), years)
-        default:
-            String(format: String(localized: "%d years"), Int(years))
-        }
+        formatAge(ageMinutes)
     }
 
     var scoreLabel: String {
@@ -278,62 +258,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 }
 
-struct MovieReleaseQuality: Codable {
-    let quality: MovieReleaseQualityDetails
-    let revision: MovieReleaseRevisionDetails
-}
-
-struct MovieReleaseQualityDetails: Codable {
-    let name: String?
-    let resolution: Int
-    let source: String // unknown, cam, telesync, telecine, workprint, dvd, tv, webdl, webrip, bluray
-    let modifier: String // none, regional, screener, rawhd, brdisk, remux
-
-    var normalizedName: String {
-        guard let label = name else {
-            return String(localized: "Unknown")
-        }
-
-        if let range = label.range(of: #"-(\d+p)$"#, options: .regularExpression) {
-            return String(name![range].dropFirst())
-        }
-
-        return label
-            .replacingOccurrences(of: "BR-DISK", with: "1080p")
-            .replacingOccurrences(of: "DVD-R", with: "480p")
-            .replacingOccurrences(of: "SDTV", with: "480p")
-    }
-}
-
-struct MovieReleaseRevisionDetails: Codable {
-    let version: Int
-    let real: Int
-    let isRepack: Bool
-
-    var isReal: Bool {
-        real > 0
-    }
-
-    var isProper: Bool {
-        version > 1
-    }
-}
-
 struct DownloadMovieRelease: Codable {
     let guid: String
     let indexerId: Int
-}
-
-enum MovieReleaseType: String, Codable {
-    case usenet
-    case torrent
-    case unknown
-
-    var label: String {
-        switch self {
-        case .usenet: String(localized: "Usenet")
-        case .torrent: String(localized: "Torrent")
-        case .unknown: String(localized: "Unknown")
-        }
-    }
 }

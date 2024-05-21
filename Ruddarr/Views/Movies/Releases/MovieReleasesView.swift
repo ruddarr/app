@@ -16,7 +16,8 @@ struct MovieReleasesView: View {
         List {
             ForEach(releases) { release in
                 MovieReleaseRow(release: release)
-                    .environment(instance).environmentObject(settings)
+                    .environment(instance)
+                    .environmentObject(settings)
             }
         }
         .listStyle(.inset)
@@ -55,16 +56,20 @@ struct MovieReleasesView: View {
         ContentUnavailableView(
             "No Releases Found",
             systemImage: "slash.circle",
-            description: Text("Radarr found no releases for \"\(movie.title)\".")
+            description: Text("No releases found for \"\(movie.title)\".")
         )
     }
 
     var noMatchingReleases: some View {
-        ContentUnavailableView(
-            "No Releases Match",
-            systemImage: "slash.circle",
-            description: Text("No releases match the selected filters.")
-        )
+        ContentUnavailableView {
+            Label("No Releases Match", systemImage: "slash.circle")
+        } description: {
+            Text("No releases match the selected filters.")
+        } actions: {
+            Button("Clear Filters") {
+                sort.resetFilters()
+            }
+        }
     }
 
     var searchingIndicator: some View {
@@ -115,13 +120,19 @@ struct MovieReleasesView: View {
             releases = releases.filter { $0.customFormats?.contains { $0.name == sort.customFormat } ?? false }
         }
 
-        if sort.approvedOnly {
+        if sort.approved {
             releases = releases.filter { !$0.rejected }
         }
 
-        if sort.freeleechOnly {
+        if sort.freeleech {
             releases = releases.filter {
                 $0.cleanIndexerFlags.contains(where: { $0.localizedStandardContains("freeleech") })
+            }
+        }
+
+        if sort.originalLanguage {
+            releases = releases.filter {
+                $0.languages.contains(where: { $0.id == movie.originalLanguage.id })
             }
         }
 
@@ -143,7 +154,7 @@ extension MovieReleasesView {
     }
 
     var toolbarFilterButton: some View {
-        Menu("Filters", systemImage: "line.3.horizontal.decrease") {
+        Menu {
             if instance.releases.protocols.count > 1 {
                 protocolPicker
             }
@@ -161,8 +172,15 @@ extension MovieReleasesView {
             }
 
             Section {
-                Toggle("Approved Only", systemImage: "checkmark.seal", isOn: $sort.approvedOnly)
-                Toggle("FreeLeech Only", systemImage: "f.square", isOn: $sort.freeleechOnly)
+                Toggle("Approved", systemImage: "checkmark.seal", isOn: $sort.approved)
+                Toggle("FreeLeech", systemImage: "f.square", isOn: $sort.freeleech)
+                Toggle("Original", systemImage: "character.bubble", isOn: $sort.originalLanguage)
+            }
+        } label: {
+            if sort.hasFilter {
+                Image("filters.badge").offset(y: 3.2)
+            } else{
+                Image(systemName: "line.3.horizontal.decrease")
             }
         }
     }
@@ -246,7 +264,7 @@ extension MovieReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Language", systemImage: "character.bubble")
+            Label("Language", systemImage: "waveform")
         }
     }
 
@@ -271,10 +289,10 @@ extension MovieReleasesView {
     let movie = movies.first(where: { $0.id == 66 }) ?? movies[0]
 
     dependencies.router.selectedTab = .movies
-    dependencies.router.moviesPath.append(MoviesView.Path.movie(movie.id))
-    dependencies.router.moviesPath.append(MoviesView.Path.releases(movie.id))
+    dependencies.router.moviesPath.append(MoviesPath.movie(movie.id))
+    dependencies.router.moviesPath.append(MoviesPath.releases(movie.id))
 
     return ContentView()
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }

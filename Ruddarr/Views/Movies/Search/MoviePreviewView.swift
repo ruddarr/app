@@ -7,8 +7,9 @@ struct MoviePreviewView: View {
     @State private var presentingForm: Bool = false
 
     @Environment(RadarrInstance.self) private var instance
-
     @Environment(\.dismiss) private var dismiss
+
+    @AppStorage("movieSort", store: dependencies.store) var movieSort: MovieSort = .init()
 
     var body: some View {
         ScrollView {
@@ -16,13 +17,14 @@ struct MoviePreviewView: View {
                 .padding(.top)
                 .viewPadding(.horizontal)
         }
-        .navigationBarTitleDisplayMode(.inline)
+        .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarNextButton
         }
         .sheet(isPresented: $presentingForm) {
             NavigationStack {
                 MovieForm(movie: $movie)
+                    .padding(.top, -25)
                     .toolbar {
                         toolbarCancelButton
                         toolbarSaveButton
@@ -42,7 +44,7 @@ struct MoviePreviewView: View {
 
     @ToolbarContentBuilder
     var toolbarCancelButton: some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
+        ToolbarItem(placement: .cancellationAction) {
             Button("Cancel") {
                 presentingForm = false
             }
@@ -52,7 +54,7 @@ struct MoviePreviewView: View {
     @ToolbarContentBuilder
     var toolbarNextButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Button("Add to Library") {
+            Button("Add Movie") {
                 presentingForm = true
             }.id(UUID())
         }
@@ -85,12 +87,15 @@ struct MoviePreviewView: View {
             fatalError("Failed to locate added movie by tmdbId")
         }
 
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        #if os(iOS)
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        #endif
 
         instance.lookup.reset()
         presentingForm = false
+        movieSort.filter = .all
 
-        let moviePath = MoviesView.Path.movie(addedMovie.id)
+        let moviePath = MoviesPath.movie(addedMovie.id)
 
         dependencies.router.moviesPath.removeLast(dependencies.router.moviesPath.count)
         dependencies.router.moviesPath.append(moviePath)
@@ -106,12 +111,12 @@ struct MoviePreviewView: View {
     dependencies.router.selectedTab = .movies
 
     dependencies.router.moviesPath.append(
-        MoviesView.Path.preview(
+        MoviesPath.preview(
             try? JSONEncoder().encode(movie)
         )
     )
 
     return ContentView()
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }

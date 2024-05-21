@@ -31,22 +31,16 @@ struct ButtonLabel: View {
 
 #Preview {
     VStack {
-        Button {
-            //
-        } label: {
+        Button { } label: {
             ButtonLabel(text: "Download", icon: "arrow.down.circle")
         }
-        .buttonStyle(.bordered)
-        .tint(.secondary)
-        .withSettings()
+            .buttonStyle(.bordered)
+            .tint(.secondary)
 
-        Button {
-            //
-        } label: {
+        Button { } label: {
             ButtonLabel(text: "Download", icon: "arrow.down.circle", isLoading: true)
         }
-        .buttonStyle(.bordered)
-        .tint(.secondary)
-        .withSettings()
-    }
+            .buttonStyle(.bordered)
+            .tint(.secondary)
+    }.withAppState()
 }

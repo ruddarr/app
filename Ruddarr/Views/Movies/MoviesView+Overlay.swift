@@ -1,25 +1,8 @@
 import SwiftUI
 
-struct NoRadarrInstance: View {
-    var body: some View {
-        let description = String(
-            format: String(localized: "Connect a Radarr instance under %@."),
-            String(format: "[%@](#view)", String(localized: "Settings"))
-        )
-
-        return ContentUnavailableView(
-            "No Radarr Instance",
-            systemImage: "externaldrive.badge.xmark",
-            description: Text(description.toMarkdown())
-        ).environment(\.openURL, .init { _ in
-            dependencies.router.selectedTab = .settings
-            return .handled
-        })
-    }
-}
-
-struct MovieNoSearchResults: View {
+struct NoMovieSearchResults: View {
     @Binding var query: String
+    @Binding var sort: MovieSort
 
     var body: some View {
         let description = String(
@@ -27,24 +10,40 @@ struct MovieNoSearchResults: View {
             "#view"
         )
 
-        return ContentUnavailableView(
-            "No Results for \"\(query)\"",
-            systemImage: "magnifyingglass",
-            description: Text(description.toMarkdown())
-        ).environment(\.openURL, .init { _ in
-            dependencies.router.moviesPath.append(MoviesView.Path.search(query))
+        ContentUnavailableView {
+            Label("No Results for \"\(query)\"", systemImage: "magnifyingglass")
+        } description: {
+            Text(description.toMarkdown())
+        } actions: {
+            if sort.filter != .all {
+                Button("Clear Filters") {
+                    sort.filter = .all
+                }
+            }
+        }
+        .environment(\.openURL, .init { _ in
+            dependencies.router.moviesPath.append(MoviesPath.search(query))
             query = ""
+
             return .handled
         })
     }
 }
 
 struct NoMatchingMovies: View {
+    @Binding var sort: MovieSort
+
     var body: some View {
-        ContentUnavailableView(
-            "No Movies Match",
-            systemImage: "slash.circle",
-            description: Text("No movies match the selected filters.")
-        )
+        ContentUnavailableView {
+            Label("No Movies Match", systemImage: "slash.circle")
+        } description: {
+            Text("No movies match the selected filters.")
+        } actions: {
+            if sort.filter != .all {
+                Button("Clear Filters") {
+                    sort.filter = .all
+                }
+            }
+        }
     }
 }

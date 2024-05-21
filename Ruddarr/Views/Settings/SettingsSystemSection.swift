@@ -5,6 +5,7 @@ import Foundation
 struct SettingsSystemSection: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var radarrInstance
+    @Environment(SonarrInstance.self) private var sonarrInstance
 
     @State private var imageCacheSize: Int = 0
     @State private var showingEraseConfirmation: Bool = false
@@ -14,13 +15,7 @@ struct SettingsSystemSection: View {
             Button(role: .destructive, action: {
                 withAnimation(.spring(duration: 0.35)) { clearImageCache() }
             }, label: {
-                LabeledContent(
-                    "Clear Image Cache",
-                    value: ByteCountFormatter.string(
-                        fromByteCount: Int64(imageCacheSize),
-                        countStyle: .binary
-                    )
-                )
+                LabeledContent("Clear Image Cache", value: formatBytes(imageCacheSize))
             }).onAppear {
                 calculateImageCacheSize()
             }
@@ -80,7 +75,8 @@ struct SettingsSystemSection: View {
 
     func resetAllSettings() {
         dependencies.router.reset()
-        radarrInstance.switchTo(.void)
+        radarrInstance.switchTo(.radarrVoid)
+        sonarrInstance.switchTo(.sonarrVoid)
         settings.resetAll()
     }
 }

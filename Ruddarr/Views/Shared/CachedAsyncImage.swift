@@ -8,7 +8,11 @@ enum ImageType {
 
     var size: CGSize {
         switch self {
-        case .poster: CGSize(width: 250, height: 375)
+            #if os(macOS)
+                case .poster: CGSize(width: 325, height: 488)
+            #else
+                case .poster: CGSize(width: 250, height: 375)
+            #endif
         }
     }
 }
@@ -84,7 +88,8 @@ struct PlaceholderImage: View {
                 .overlay {
                     Text(placeholder)
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
+                        .tint(.secondary)
                         .multilineTextAlignment(.center)
                         .lineLimit(4)
                         .padding(8)
@@ -92,14 +97,15 @@ struct PlaceholderImage: View {
         } else {
             Image(systemName: icon)
                 .imageScale(.large)
-                .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.systemFill)
+                .foregroundStyle(.secondary)
                 .tint(.secondary)
+                .background(.systemFill)
         }
     }
 }
 
+// swiftlint:disable closure_body_length
 #Preview {
     VStack {
         Section {
@@ -107,7 +113,8 @@ struct PlaceholderImage: View {
                 CachedAsyncImage(.poster, "https://picsum.photos/id/23/500/500", placeholder: "Fallback")
                     .frame(width: 100, height: 150)
                     .border(.green)
-            }.frame(width: 200, height: 200)
+            }
+            .frame(width: 200, height: 200)
         }
         .border(.yellow).padding()
 
@@ -116,21 +123,28 @@ struct PlaceholderImage: View {
                 CachedAsyncImage(.poster, "https://picsum.photos-broken/id/23/500/500", placeholder: "Fallback")
                     .frame(width: 100, height: 150)
                     .border(.green)
-            }.frame(width: 200, height: 200)
+            }
+            .frame(width: 200, height: 200)
         }
         .border(.yellow)
         .background(.secondarySystemBackground)
 
-        Section {
-            HStack {
-                CachedAsyncImage(.poster, nil, placeholder: "Aquaman and the Lost Kingdom")
-                    .frame(width: 100, height: 150)
-                    .border(.green)
-            }.frame(width: 200, height: 200)
+        NavigationStack {
+            Section {
+                HStack {
+                    NavigationLink(destination: EmptyView()) {
+                        CachedAsyncImage(.poster, nil, placeholder: "Aquaman and the Lost Kingdom")
+                            .frame(width: 100, height: 150)
+                            .border(.green)
+                    }
+                }
+                .frame(width: 200, height: 200)
+            }
+            .border(.yellow)
+            .background(.secondarySystemBackground)
         }
-        .border(.yellow)
-        .background(.secondarySystemBackground)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .border(.yellow)
 }
+// swiftlint:enable closure_body_length

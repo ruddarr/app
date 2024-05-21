@@ -90,6 +90,7 @@
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>mailto</string>
 		<string>youtube</string>
 		<string>imdb</string>
 		<string>letterboxd</string>

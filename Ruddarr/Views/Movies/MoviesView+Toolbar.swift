@@ -5,7 +5,7 @@ extension MoviesView {
     var toolbarSearchButton: some ToolbarContent {
         if !instance.isVoid {
             ToolbarItem(placement: .primaryAction) {
-                NavigationLink(value: Path.search()) {
+                NavigationLink(value: MoviesPath.search()) {
                     Image(systemName: "plus")
                 }.id(UUID())
             }
@@ -14,7 +14,7 @@ extension MoviesView {
 
     @ToolbarContentBuilder
     var toolbarViewOptions: some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
+        ToolbarItem(placement: .cancellationAction) {
             HStack {
                 toolbarFilterButton
                 toolbarSortingButton
@@ -23,13 +23,19 @@ extension MoviesView {
     }
 
     var toolbarFilterButton: some View {
-        Menu("Filter", systemImage: "line.3.horizontal.decrease") {
+        Menu {
             Picker(selection: $sort.filter, label: Text("Filter")) {
                 ForEach(MovieSort.Filter.allCases) { filter in
                     filter.label
                 }
             }
             .pickerStyle(.inline)
+        } label: {
+            if sort.filter != .all {
+                Image("filters.badge").offset(y: 3.2)
+            } else {
+                Image(systemName: "line.3.horizontal.decrease")
+            }
         }
     }
 
@@ -41,14 +47,6 @@ extension MoviesView {
                 }
             }
             .pickerStyle(.inline)
-            .onChange(of: sort.option) {
-                switch sort.option {
-                case .byTitle:
-                    sort.isAscending = true
-                default:
-                    sort.isAscending = false
-                }
-            }
 
             Section {
                 Picker("Direction", selection: $sort.isAscending) {
@@ -81,7 +79,7 @@ extension MoviesView {
 
                     Image(systemName: "chevron.down")
                         .symbolVariant(.circle.fill)
-                        .foregroundStyle(.secondary, Color(UIColor.secondarySystemFill))
+                        .foregroundStyle(.secondary, .secondarySystemFill)
                         .font(.system(size: 13, weight: .bold))
                 }.tint(.primary)
             }
@@ -91,7 +89,7 @@ extension MoviesView {
     func changeInstance() {
         Task { @MainActor in
             guard let newInstanceId = settings.radarrInstanceId else {
-                leaveBreadcrumb(.fatal, category: "movies", message: "Missing radarr instance id")
+                leaveBreadcrumb(.fatal, category: "movies", message: "Missing Radarr instance id")
 
                 return
             }

@@ -13,7 +13,7 @@ extension API {
             return movies.filter {
                 $0.title.localizedCaseInsensitiveContains(query)
             }
-        }, lookupReleases: { _, _ in
+        }, lookupMovieReleases: { _, _ in
             try await Task.sleep(nanoseconds: 500_000_000)
 
             return loadPreviewData(filename: "movie-releases")
@@ -27,13 +27,13 @@ extension API {
 
             return movies.first(where: { $0.guid == movieId })!
         }, getMovieHistory: { _, _ in
-            let events: [MovieHistoryEvent] = loadPreviewData(filename: "movie-history")
-            // try await Task.sleep(nanoseconds: 2_000_000_000)
+            let events: [MediaHistoryEvent] = loadPreviewData(filename: "movie-history")
+            try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return events
         }, getMovieFiles: { _, _ in
-            let files: [MovieFile] = loadPreviewData(filename: "movie-files")
-            // try await Task.sleep(nanoseconds: 500_000_000)
+            let files: [MediaFile] = loadPreviewData(filename: "movie-files")
+            try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return files
         }, getMovieExtraFiles: { _, _ in
@@ -54,10 +54,66 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
+        }, deleteMovieFile: { _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
         }, fetchSeries: { _ in
             try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return loadPreviewData(filename: "series")
+        }, fetchEpisodes: { _, _ in
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+
+            return loadPreviewData(filename: "series-episodes")
+        }, fetchEpisodeFiles: { _, _ in
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+
+            return loadPreviewData(filename: "series-episode-files")
+        }, lookupSeries: { _, _ in
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+
+            return loadPreviewData(filename: "series-lookup")
+        }, lookupSeriesReleases: { _, _, _, _ in
+            try await Task.sleep(nanoseconds: 500_000_000)
+
+            return loadPreviewData(filename: "series-releases")
+        }, getSeries: { _, _ in
+            let series: [Series] = loadPreviewData(filename: "series")
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+
+            return series[0]
+        }, addSeries: { _, _ in
+            let series: [Series] = loadPreviewData(filename: "series")
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return series[0]
+        }, pushSeries: { _, _ in
+            let series: [Series] = loadPreviewData(filename: "series")
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return series[0]
+        }, updateSeries: { _, _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
+        }, deleteSeries: { _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
+        }, monitorEpisode: { _, _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
+        }, getEpisodeHistory: { _, _ in
+            let events: MediaHistory = loadPreviewData(filename: "series-episode-history")
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return events
+        }, deleteEpisodeFile: { _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
         }, movieCalendar: { _, _, _ in
             let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
 
@@ -67,7 +123,11 @@ extension API {
             let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
 
             return episodes
-        }, command: { _, _ in
+        }, radarrCommand: { _, _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
+        }, sonarrCommand: { _, _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
@@ -110,7 +170,7 @@ fileprivate extension API {
         if let path = Bundle.main.path(forResource: filename, ofType: "json") {
             do {
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .iso8601extended
 
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
 

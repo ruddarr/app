@@ -5,11 +5,13 @@ struct MovieDetails: View {
     var movie: Movie
 
     @State private var descriptionTruncated = true
+    @State private var fileSheet: MediaFile?
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
 
-    let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
+    @Environment(\.deviceType) var deviceType
+    @Environment(\.openURL) var openURL
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -24,7 +26,7 @@ struct MovieDetails: View {
                     .padding(.bottom)
             }
 
-            if smallScreen {
+            if deviceType == .phone {
                 actions
                     .padding(.bottom)
             }
@@ -54,30 +56,38 @@ struct MovieDetails: View {
             Spacer()
         }
         .onAppear {
-            descriptionTruncated = smallScreen
+            descriptionTruncated = deviceType == .phone
         }
     }
 
     var details: some View {
         Grid(alignment: .leading) {
-            detailsRow("Status", value: "\(movie.status.label)")
+            MediaDetailsRow("Status", value: "\(movie.status.label)")
 
             if let studio = movie.studio, !studio.isEmpty {
-                detailsRow("Studio", value: studio)
+                MediaDetailsRow("Studio", value: studio)
             }
 
             if !movie.genres.isEmpty {
-                detailsRow("Genre", value: movie.genreLabel)
+                MediaDetailsRow("Genre", value: movie.genreLabel)
             }
 
             if movie.isDownloaded {
-                detailsRow("Video", value: videoQuality)
-                detailsRow("Audio", value: audioQuality)
+                Group {
+                    MediaDetailsRow("Video", value: mediaDetailsVideoQuality(movie.movieFile))
+                    MediaDetailsRow("Audio", value: mediaDetailsAudioQuality(movie.movieFile))
 
-                if let languages = subtitles {
-                    detailsRow("Subtitles", value: languages)
+                    if let subtitles = mediaDetailsSubtitles(movie.movieFile) {
+                        MediaDetailsRow("Subtitles", value: subtitles)
+                    }
+                }.onTapGesture {
+                    fileSheet = movie.movieFile
                 }
             }
+        }
+        .sheet(item: $fileSheet) { file in
+            MediaFileSheet(file: file)
+                .presentationDetents([.fraction(0.9)])
         }
     }
 
@@ -98,13 +108,13 @@ struct MovieDetails: View {
         Group {
             Button {
                 Task { @MainActor in
-                    guard await instance.movies.command(movie, command: .automaticSearch) else {
+                    guard await instance.movies.command(.search([movie.id])) else {
                         return
                     }
 
-                    dependencies.toast.show(.searchQueued)
+                    dependencies.toast.show(.movieSearchQueued)
 
-                    TelemetryManager.send("automaticSearchDispatched")
+                    TelemetryManager.send("automaticSearchDispatched", with: ["type": "movie"])
                 }
             } label: {
                 ButtonLabel(text: "Automatic", icon: "magnifyingglass")
@@ -114,10 +124,10 @@ struct MovieDetails: View {
             .tint(.secondary)
             .allowsHitTesting(!instance.movies.isWorking)
 
-            NavigationLink(value: MoviesView.Path.releases(movie.id), label: {
+            NavigationLink(value: MoviesPath.releases(movie.id)) {
                 ButtonLabel(text: "Interactive", icon: "person.fill")
                     .frame(maxWidth: .infinity)
-            })
+            }
             .buttonStyle(.bordered)
             .tint(.secondary)
         }
@@ -129,138 +139,33 @@ struct MovieDetails: View {
                 MovieContextMenu(movie: movie)
             } label: {
                 ButtonLabel(text: "Open In...", icon: "arrow.up.right.square")
-                    .modifier(MoviePreviewActionModifier())
+                    .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
 
             if let trailerUrl = MovieContextMenu.youTubeTrailer(movie.youTubeTrailerId) {
                 Button {
-                    UIApplication.shared.open(URL(string: trailerUrl)!)
+                    openURL(URL(string: trailerUrl)!)
                 } label: {
-                    let label: LocalizedStringKey = smallScreen ? "Trailer" : "Watch Trailer"
+                    let label: LocalizedStringKey = deviceType == .phone ? "Trailer" : "Watch Trailer"
 
                     ButtonLabel(text: label, icon: "play.fill")
-                        .modifier(MoviePreviewActionModifier())
+                        .modifier(MediaPreviewActionModifier())
                 }
                 .buttonStyle(.bordered)
                 .tint(.secondary)
             } else {
                 Spacer()
-                    .modifier(MoviePreviewActionSpacerModifier())
+                    .modifier(MediaPreviewActionSpacerModifier())
             }
         }
-    }
-
-    var videoQuality: String {
-        var label = ""
-        var codec = ""
-
-        if let resolution = movie.movieFile?.videoResolution {
-            label = "\(resolution)p"
-            label = label.replacingOccurrences(of: "2160p", with: "4K")
-            label = label.replacingOccurrences(of: "4320p", with: "8K")
-
-            if let dynamicRange = movie.movieFile?.mediaInfo?.videoDynamicRange, !dynamicRange.isEmpty {
-                label += " \(dynamicRange)"
-            }
-        }
-
-        if let videoCodecLabel = movie.movieFile?.mediaInfo?.videoCodecLabel {
-            codec = videoCodecLabel
-        }
-
-        if label.isEmpty {
-            label = String(localized: "Unknown")
-        }
-
-        return codec.isEmpty ? "\(label)" : "\(label) (\(codec))"
-    }
-
-    var audioQuality: String {
-        var languages: [String] = []
-        var codec = ""
-
-        if let langs = movie.movieFile?.languages {
-            languages = langs
-                .filter { $0.name != nil }
-                .map { $0.label }
-        }
-
-        if let audioCodec = movie.movieFile?.mediaInfo?.audioCodec {
-            codec = audioCodec
-
-            if let channels = movie.movieFile?.mediaInfo?.audioChannels {
-                codec += " \(channels)"
-            }
-        }
-
-        if languages.isEmpty {
-            languages.append(String(localized: "Unknown"))
-        }
-
-        let languageList = languages.formatted(.list(type: .and, width: .narrow))
-
-        return codec.isEmpty ? "\(languageList)" : "\(languageList) (\(codec))"
-    }
-
-    var subtitles: String? {
-        guard let codes = movie.movieFile?.mediaInfo?.subtitleCodes else {
-            return nil
-        }
-
-        if codes.count > 2 {
-            var someCodes = Array(codes.prefix(2)).map {
-                $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
-            }
-
-            someCodes.append(
-                String(format: String(localized: "+%d more..."), codes.count - 2)
-            )
-
-            return someCodes.formatted(.list(type: .and, width: .narrow))
-        }
-
-        return languagesList(codes)
     }
 
     var qualityProfile: String {
         instance.qualityProfiles.first(
             where: { $0.id == movie.qualityProfileId }
         )?.name ?? String(localized: "Unknown")
-    }
-
-    func detailsRow(_ label: LocalizedStringKey, value: String) -> some View {
-        GridRow(alignment: .top) {
-            Text(label)
-                .textCase(.uppercase)
-                .foregroundStyle(.secondary)
-                .fontWeight(.medium)
-                .padding(.trailing)
-            Text(value)
-            Spacer()
-        }
-        .font(.callout)
-    }
-}
-
-struct MoviePreviewActionModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            content.frame(maxWidth: .infinity)
-        } else {
-            content.frame(maxWidth: 215)
-        }
-    }
-}
-
-struct MoviePreviewActionSpacerModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            content.frame(maxWidth: .infinity)
-        } else {
-            content
-        }
     }
 }
 
@@ -269,15 +174,15 @@ struct MoviePreviewActionSpacerModifier: ViewModifier {
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
     return MovieView(movie: Binding(get: { movie }, set: { _ in }))
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }
 
 #Preview("Preview") {
     let movies: [Movie] = PreviewData.load(name: "movie-lookup")
-    let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
+    let movie = movies[4]
 
     return MovieView(movie: Binding(get: { movie }, set: { _ in }))
-        .withSettings()
         .withRadarrInstance(movies: movies)
+        .withAppState()
 }

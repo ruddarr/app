@@ -1,0 +1,458 @@
+[
+    {
+        "seriesId": 67,
+        "seasonNumber": 1,
+        "relativePath": "The Jinx - S01E01 - Chapter 1 - A Body in the Bay.mkv",
+        "path": "/volume2/Media/TV Series/The Jinx/The Jinx - S01E01 - Chapter 1 - A Body in the Bay.mkv",
+        "size": 3519411768,
+        "dateAdded": "2024-02-10T05:56:07Z",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 9,
+                "name": "HDTV-1080p",
+                "source": "television",
+                "resolution": 1080
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [],
+        "customFormatScore": 0,
+        "indexerFlags": 0,
+        "releaseType": "unknown",
+        "mediaInfo": {
+            "audioBitrate": 1536000,
+            "audioChannels": 5.1,
+            "audioCodec": "DTS",
+            "audioLanguages": "eng",
+            "audioStreamCount": 1,
+            "videoBitDepth": 8,
+            "videoBitrate": 0,
+            "videoCodec": "x264",
+            "videoFps": 23.976,
+            "videoDynamicRange": "",
+            "videoDynamicRangeType": "",
+            "resolution": "1920x1080",
+            "runTime": "43:05",
+            "scanType": "Progressive",
+            "subtitles": "eng"
+        },
+        "qualityCutoffNotMet": false,
+        "id": 3536
+    },
+    {
+        "seriesId": 67,
+        "seasonNumber": 1,
+        "relativePath": "The Jinx - S01E02 - Chapter 2 - Poor Little Rich Boy.mkv",
+        "path": "/volume2/Media/TV Series/The Jinx/The Jinx - S01E02 - Chapter 2 - Poor Little Rich Boy.mkv",
+        "size": 3518516110,
+        "dateAdded": "2024-02-10T05:56:07Z",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 9,
+                "name": "HDTV-1080p",
+                "source": "television",
+                "resolution": 1080
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [],
+        "customFormatScore": 0,
+        "indexerFlags": 0,
+        "releaseType": "unknown",
+        "mediaInfo": {
+            "audioBitrate": 1536000,
+            "audioChannels": 5.1,
+            "audioCodec": "DTS",
+            "audioLanguages": "eng",
+            "audioStreamCount": 1,
+            "videoBitDepth": 8,
+            "videoBitrate": 0,
+            "videoCodec": "x264",
+            "videoFps": 23.976,
+            "videoDynamicRange": "",
+            "videoDynamicRangeType": "",
+            "resolution": "1920x1080",
+            "runTime": "46:10",
+            "scanType": "Progressive",
+            "subtitles": "eng"
+        },
+        "qualityCutoffNotMet": false,
+        "id": 3537
+    },
+    {
+        "seriesId": 67,
+        "seasonNumber": 1,
+        "relativePath": "The Jinx - S01E03 - Chapter 3 - The Gangster's Daughter.mkv",
+        "path": "/volume2/Media/TV Series/The Jinx/The Jinx - S01E03 - Chapter 3 - The Gangster's Daughter.mkv",
+        "size": 3518707716,
+        "dateAdded": "2024-02-10T05:56:07Z",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 9,
+                "name": "HDTV-1080p",
+                "source": "television",
+                "resolution": 1080
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [],
+        "customFormatScore": 0,
+        "indexerFlags": 0,
+        "releaseType": "unknown",
+        "mediaInfo": {
+            "audioBitrate": 1536000,
+            "audioChannels": 5.1,
+            "audioCodec": "DTS",
+            "audioLanguages": "eng",
+            "audioStreamCount": 1,
+            "videoBitDepth": 8,
+            "videoBitrate": 0,
+            "videoCodec": "x264",
+            "videoFps": 23.976,
+            "videoDynamicRange": "",
+            "videoDynamicRangeType": "",
+            "resolution": "1920x1080",
+            "runTime": "44:08",
+            "scanType": "Progressive",
+            "subtitles": "eng"
+        },
+        "qualityCutoffNotMet": false,
+        "id": 3538
+    },
+    {
+        "seriesId": 67,
+        "seasonNumber": 1,
+        "relativePath": "The Jinx - S01E04 - Chapter 4 - The State of Texas vs. Robert Durst.mkv",
+        "path": "/volume2/Media/TV Series/The Jinx/The Jinx - S01E04 - Chapter 4 - The State of Texas vs. Robert Durst.mkv",
+        "size": 4263588833,
+        "dateAdded": "2024-02-10T05:56:08Z",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 9,
+                "name": "HDTV-1080p",
+                "source": "television",
+                "resolution": 1080
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [],
+        "customFormatScore": 0,
+        "indexerFlags": 0,
+        "releaseType": "unknown",
+        "mediaInfo": {
+            "audioBitrate": 1536000,
+            "audioChannels": 5.1,
+            "audioCodec": "DTS",
+            "audioLanguages": "eng",
+            "audioStreamCount": 1,
+            "videoBitDepth": 8,
+            "videoBitrate": 0,
+            "videoCodec": "x264",
+            "videoFps": 23.976,
+            "videoDynamicRange": "",
+            "videoDynamicRangeType": "",
+            "resolution": "1920x1080",
+            "runTime": "51:12",
+            "scanType": "Progressive",
+            "subtitles": "eng"
+        },
+        "qualityCutoffNotMet": false,
+        "id": 3539
+    },
+    {
+        "seriesId": 67,
+        "seasonNumber": 1,
+        "relativePath": "The Jinx - S01E05 - Chapter 5 - Family Values.mkv",
+        "path": "/volume2/Media/TV Series/The Jinx/The Jinx - S01E05 - Chapter 5 - Family Values.mkv",
+        "size": 3518979727,
+        "dateAdded": "2024-02-10T05:56:08Z",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 9,
+                "name": "HDTV-1080p",
+                "source": "television",
+                "resolution": 1080
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [],
+        "customFormatScore": 0,
+        "indexerFlags": 0,
+        "releaseType": "unknown",
+        "mediaInfo": {
+            "audioBitrate": 1536000,
+            "audioChannels": 5.1,
+            "audioCodec": "DTS",
+            "audioLanguages": "eng",
+            "audioStreamCount": 1,
+            "videoBitDepth": 8,
+            "videoBitrate": 0,
+            "videoCodec": "x264",
+            "videoFps": 23.976,
+            "videoDynamicRange": "",
+            "videoDynamicRangeType": "",
+            "resolution": "1920x1080",
+            "runTime": "46:19",
+            "scanType": "Progressive",
+            "subtitles": "eng"
+        },
+        "qualityCutoffNotMet": false,
+        "id": 3540
+    },
+    {
+        "seriesId": 67,
+        "seasonNumber": 1,
+        "relativePath": "The Jinx - S01E06 - Chapter 6 - What The Hell Did I Do\uF025.mkv",
+        "path": "/volume2/Media/TV Series/The Jinx/The Jinx - S01E06 - Chapter 6 - What The Hell Did I Do\uF025.mkv",
+        "size": 3518636553,
+        "dateAdded": "2024-02-10T05:56:08Z",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 9,
+                "name": "HDTV-1080p",
+                "source": "television",
+                "resolution": 1080
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [],
+        "customFormatScore": 0,
+        "indexerFlags": 0,
+        "releaseType": "unknown",
+        "mediaInfo": {
+            "audioBitrate": 1536000,
+            "audioChannels": 5.1,
+            "audioCodec": "DTS",
+            "audioLanguages": "eng",
+            "audioStreamCount": 1,
+            "videoBitDepth": 8,
+            "videoBitrate": 0,
+            "videoCodec": "x264",
+            "videoFps": 23.976,
+            "videoDynamicRange": "",
+            "videoDynamicRangeType": "",
+            "resolution": "1920x1080",
+            "runTime": "38:00",
+            "scanType": "Progressive",
+            "subtitles": "eng"
+        },
+        "qualityCutoffNotMet": false,
+        "id": 3541
+    },
+    {
+        "seriesId": 67,
+        "seasonNumber": 2,
+        "relativePath": "Season 2/The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E01.Why.Are.You.Still.Here.1080p.AMZN.WEB-DL.DDP5.1.H.264-FLUX.mkv",
+        "path": "/volume2/Media/TV Series/The Jinx/Season 2/The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E01.Why.Are.You.Still.Here.1080p.AMZN.WEB-DL.DDP5.1.H.264-FLUX.mkv",
+        "size": 2769987707,
+        "dateAdded": "2024-04-22T09:22:58Z",
+        "sceneName": "The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E01.Why.Are.You.Still.Here.1080p.AMZN.WEB-DL.DDP5.1.H.264-FLUX",
+        "releaseGroup": "FLUX",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 3,
+                "name": "WEBDL-1080p",
+                "source": "web",
+                "resolution": 1080
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [],
+        "customFormatScore": 0,
+        "indexerFlags": 0,
+        "releaseType": "singleEpisode",
+        "mediaInfo": {
+            "audioBitrate": 640000,
+            "audioChannels": 5.1,
+            "audioCodec": "EAC3",
+            "audioLanguages": "eng",
+            "audioStreamCount": 1,
+            "videoBitDepth": 8,
+            "videoBitrate": 0,
+            "videoCodec": "h264",
+            "videoFps": 23.976,
+            "videoDynamicRange": "",
+            "videoDynamicRangeType": "",
+            "resolution": "1920x1080",
+            "runTime": "47:10",
+            "scanType": "Progressive",
+            "subtitles": "eng/eng/spa"
+        },
+        "qualityCutoffNotMet": false,
+        "id": 5181
+    },
+    {
+        "seriesId": 67,
+        "seasonNumber": 2,
+        "relativePath": "Season 2/The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E02.Friendships.Die.Hard.720p.HMAX.WEB-DL.DD5.1.H.264-playWEB.mkv",
+        "path": "/volume2/Media/TV Series/The Jinx/Season 2/The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E02.Friendships.Die.Hard.720p.HMAX.WEB-DL.DD5.1.H.264-playWEB.mkv",
+        "size": 1346051156,
+        "dateAdded": "2024-04-29T20:02:35Z",
+        "sceneName": "The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E02.Friendships.Die.Hard.720p.HMAX.WEB-DL.DD5.1.H.264-playWEB",
+        "releaseGroup": "playWEB",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 5,
+                "name": "WEBDL-720p",
+                "source": "web",
+                "resolution": 720
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [],
+        "customFormatScore": 0,
+        "indexerFlags": 9,
+        "releaseType": "singleEpisode",
+        "mediaInfo": {
+            "audioBitrate": 384000,
+            "audioChannels": 5.1,
+            "audioCodec": "AC3",
+            "audioLanguages": "eng",
+            "audioStreamCount": 1,
+            "videoBitDepth": 8,
+            "videoBitrate": 0,
+            "videoCodec": "x264",
+            "videoFps": 25,
+            "videoDynamicRange": "",
+            "videoDynamicRangeType": "",
+            "resolution": "1280x720",
+            "runTime": "47:26",
+            "scanType": "Progressive",
+            "subtitles": "bul/cze/dan/eng/spa/est/fin/hrv/hun/lit/lav/mac/dut/nor/pol/por/rum/slv/srp/swe"
+        },
+        "qualityCutoffNotMet": false,
+        "id": 5329
+    },
+    {
+        "seriesId": 67,
+        "seasonNumber": 2,
+        "relativePath": "Season 2/The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E03.Saving.My.Tears.Until.Its.Official.1080p.AMZN.WEB-DL.DDP5.1.H.264-FLUX.mkv",
+        "path": "/volume2/Media/TV Series/The Jinx/Season 2/The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E03.Saving.My.Tears.Until.Its.Official.1080p.AMZN.WEB-DL.DDP5.1.H.264-FLUX.mkv",
+        "size": 3267603739,
+        "dateAdded": "2024-05-06T07:21:28Z",
+        "sceneName": "The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E03.Saving.My.Tears.Until.Its.Official.1080p.AMZN.WEB-DL.DDP5.1.H.264-FLUX",
+        "releaseGroup": "FLUX",
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "quality": {
+            "quality": {
+                "id": 3,
+                "name": "WEBDL-1080p",
+                "source": "web",
+                "resolution": 1080
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "customFormats": [],
+        "customFormatScore": 0,
+        "indexerFlags": 9,
+        "releaseType": "singleEpisode",
+        "mediaInfo": {
+            "audioBitrate": 640000,
+            "audioChannels": 5.1,
+            "audioCodec": "EAC3",
+            "audioLanguages": "eng",
+            "audioStreamCount": 1,
+            "videoBitDepth": 8,
+            "videoBitrate": 0,
+            "videoCodec": "h264",
+            "videoFps": 23.976,
+            "videoDynamicRange": "",
+            "videoDynamicRangeType": "",
+            "resolution": "1920x1080",
+            "runTime": "57:36",
+            "scanType": "Progressive",
+            "subtitles": "eng/eng/spa"
+        },
+        "qualityCutoffNotMet": false,
+        "id": 5490
+    }
+]

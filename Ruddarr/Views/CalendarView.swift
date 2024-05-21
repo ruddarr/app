@@ -4,14 +4,13 @@ struct CalendarView: View {
     @State var calendar = MediaCalendar()
 
     @State private var initialized: Bool = false
-    @State private var scrollPosition: TimeInterval?
+    @State private var scrollView: ScrollViewProxy?
 
     @State private var onlyMonitored: Bool = false
     @State private var onlyPremieres: Bool = false
     @State private var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) var instance
 
     private let firstWeekday = Calendar.current.firstWeekday
 
@@ -24,55 +23,64 @@ struct CalendarView: View {
         // swiftlint:disable closure_body_length
         NavigationStack(path: dependencies.$router.calendarPath) {
             Group {
-                if instance.isVoid {
-                    NoRadarrInstance()
+                if onlyVoidInstances {
+                    NoInstance(type: "Radarr")
                 } else {
-                    ScrollView {
-                        LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
-                            ForEach(calendar.dates, id: \.self) { timestamp in
-                                let date = Date(timeIntervalSince1970: timestamp)
-                                let weekday = Calendar.current.component(.weekday, from: date)
+                    ScrollViewReader { proxy in
+                        ScrollView {
+                            LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
+                                ForEach(calendar.dates, id: \.self) { timestamp in
+                                    let date = Date(timeIntervalSince1970: timestamp)
+                                    let weekday = Calendar.current.component(.weekday, from: date)
 
-                                if firstWeekday == weekday {
-                                    CalendarWeekRange(date: date)
+                                    if firstWeekday == weekday {
+                                        CalendarWeekRange(date: date)
+                                    }
+
+                                    CalendarDate(date: date).offset(x: -6)
+                                    media(for: timestamp, date: date)
                                 }
-
-                                CalendarDate(date: date)
-                                    .offset(x: -6)
-
-                                media(for: timestamp, date: date)
                             }
-                        }
-                        .scrollTargetLayout()
 
-                        if calendar.isLoadingFuture {
-                            ProgressView().tint(.secondary).padding(.bottom)
+                            Group {
+                                if calendar.isLoadingFuture {
+                                    ProgressView().tint(.secondary)
+                                } else if !calendar.dates.isEmpty {
+                                    Button("Load More") {
+                                        calendar.loadMoreDates()
+                                    }
+                                    .buttonStyle(.bordered)
+                                }
+                            }.padding(.bottom, 32)
+                        }
+                        .onAppear {
+                            scrollView = proxy
                         }
                     }
                 }
             }
             .viewPadding(.horizontal)
             .scrollIndicators(.never)
-            .scrollPosition(id: $scrollPosition, anchor: .center)
-            .navigationBarTitleDisplayMode(.inline)
+            .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
-                todayButton
                 filtersMenu
+                todayButton
             }
             .onAppear {
                 calendar.instances = settings.instances
             }
-            .onChange(of: scrollPosition) {
-                calendar.maybeLoadMoreDates(scrollPosition)
-            }
-            .onChange(of: [displayedMediaType, onlyMonitored, onlyPremieres] as [AnyHashable]) {
-                scrollPosition = (scrollPosition ?? 0) - 86_400
+            .onReceive(dependencies.router.calendarScroll) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                    withAnimation(.smooth) {
+                        scrollTo(calendar.today())
+                    }
+                }
             }
             .task {
-                await calendar.initialize()
                 guard !initialized else { return }
+                await calendar.initialize()
                 initialized = (calendar.error == nil)
-                scrollPosition = calendar.today()
+                scrollTo(calendar.today())
             }
             .alert(
                 isPresented: calendar.errorBinding,
@@ -119,6 +127,14 @@ struct CalendarView: View {
         [.all, .series].contains(displayedMediaType)
     }
 
+    var onlyVoidInstances: Bool {
+        !settings.instances.contains { $0 != .radarrVoid && $0 != .sonarrVoid }
+    }
+
+    func scrollTo(_ timestamp: TimeInterval) {
+        scrollView?.scrollTo(timestamp, anchor: .center)
+    }
+
     func media(for timestamp: TimeInterval, date: Date) -> some View {
         VStack(spacing: 8) {
             if displayMovies, let movies = calendar.movies[timestamp] {
@@ -151,7 +167,7 @@ struct CalendarView: View {
         ToolbarItem(placement: .primaryAction) {
             Button("Today") {
                 withAnimation(.smooth) {
-                    scrollPosition = calendar.today()
+                    scrollTo(calendar.today())
                 }
             }.id(UUID())
         }
@@ -170,8 +186,8 @@ struct CalendarView: View {
     }
 
     var filtersMenu: some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
-            Menu("Filters", systemImage: "line.3.horizontal.decrease") {
+        ToolbarItem(placement: .cancellationAction) {
+            Menu {
                 Picker(selection: $displayedMediaType, label: Text("Media Type")) {
                     ForEach(CalendarMediaType.allCases, id: \.self) { type in
                         type.label
@@ -180,15 +196,21 @@ struct CalendarView: View {
                 .pickerStyle(.inline)
 
                 Toggle(isOn: $onlyPremieres) {
-                    Label("Premieres Only", systemImage: "play")
+                    Label("Premieres", systemImage: "play")
                         .symbolVariant(onlyPremieres ? .fill : .none)
                 }
 
                 Toggle(isOn: $onlyMonitored) {
-                    Label("Monitored Only", systemImage: "bookmark")
+                    Label("Monitored", systemImage: "bookmark")
                         .symbolVariant(onlyMonitored ? .fill : .none)
                 }
-            }
+            } label: {
+                if displayedMediaType != .all || onlyPremieres || onlyMonitored {
+                    Image("filters.badge").offset(y: 3.2)
+                } else {
+                    Image(systemName: "line.3.horizontal.decrease")
+                }
+            }.id(UUID())
         }
     }
 }

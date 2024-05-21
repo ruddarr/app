@@ -19,13 +19,10 @@ struct MovieSearchView: View {
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
                 ForEach(movieLookup.sortedItems) { movie in
-                    Button {
-                        dependencies.router.moviesPath.append(
-                            movie.exists
-                                ? MoviesView.Path.movie(movie.id)
-                                : MoviesView.Path.preview(try? JSONEncoder().encode(movie))
-                        )
-                    } label: {
+                    NavigationLink(value: movie.exists
+                       ? MoviesPath.movie(movie.id)
+                       : MoviesPath.preview(try? JSONEncoder().encode(movie))
+                    ) {
                         MovieGridItem(movie: movie)
                     }
                 }
@@ -33,13 +30,13 @@ struct MovieSearchView: View {
             .padding(.top, 12)
             .viewPadding(.horizontal)
         }
-        .navigationTitle("Movie Search")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationTitle("Search")
+        .safeNavigationBarTitleDisplayMode(.large)
         .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,
             isPresented: $presentingSearch,
-            placement: .navigationBarDrawer(displayMode: .always)
+            placement: .drawerOrToolbar
         )
         .disabled(instance.isVoid)
         .searchScopes($movieLookup.sort) {
@@ -65,11 +62,9 @@ struct MovieSearchView: View {
             Text(error.recoverySuggestionFallback)
         }
         .overlay {
-            let noSearchResults = instance.lookup.items?.count == 0 && !searchQuery.isEmpty
-
-            if instance.lookup.isSearching && noSearchResults {
+            if instance.lookup.isSearching && instance.lookup.isEmpty() {
                 Loading()
-            } else if noSearchResults {
+            } else if !instance.lookup.isSearching && !searchQuery.isEmpty && instance.lookup.isEmpty() {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
@@ -94,7 +89,7 @@ struct MovieSearchView: View {
 
 #Preview {
     dependencies.router.selectedTab = .movies
-    dependencies.router.moviesPath.append(MoviesView.Path.search())
+    dependencies.router.moviesPath.append(MoviesPath.search())
 
     return ContentView()
         .withAppState()

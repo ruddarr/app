@@ -1,12 +1,17 @@
 import SwiftUI
 
+#if os(iOS)
 struct ContentView: View {
     @EnvironmentObject var settings: AppSettings
+
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.deviceType) private var deviceType
 
     @State private var isPortrait = false
     @State private var columnVisibility: NavigationSplitViewVisibility = .doubleColumn
     @State private var showTabViewOverlay: Bool = true
+
+    @ScaledMetric(relativeTo: .body) var safeAreaInsetHeight = 48
 
     private let orientationChangePublisher = NotificationCenter.default.publisher(
         for: UIDevice.orientationDidChangeNotification
@@ -18,84 +23,77 @@ struct ContentView: View {
     }
 
     var body: some View {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            NavigationSplitView(
-                columnVisibility: $columnVisibility,
-                sidebar: {
-                    sidebar
-                        .ignoresSafeArea(.all, edges: .bottom)
-                },
-                detail: {
-                    screen(for: dependencies.router.selectedTab)
-                }
-            )
-            .displayToasts()
-            .whatsNewSheet()
-            .onAppear {
-                isPortrait = UIDevice.current.orientation.isPortrait
-                columnVisibility = isPortrait ? .automatic : .doubleColumn
-            }
-            .onReceive(orientationChangePublisher) { _ in
-                handleOrientationChange()
-            }
-            .onChange(of: scenePhase, handleScenePhaseChange)
+        if deviceType == .pad {
+            padBody
         } else {
-            TabView(selection: dependencies.$router.selectedTab.onSet {
-                if dependencies.router.selectedTab == $0 { goToRoot(tab: $0) }
-            }) {
-                ForEach(Tab.allCases) { tab in
-                    screen(for: tab)
-                        .tint(settings.theme.tint) // restore tint for view
-                        .tabItem { tab.label }
-                        .displayToasts()
-                        .tag(tab)
-                }
-            }
-            .tint(.clear) // hide selected `tabItem` tint
-            .overlay(alignment: .bottom) { // the default `tabItem`s are hidden, display our own
-                let columns: [GridItem] = Array(repeating: .init(.flexible()), count: Tab.allCases.count)
+            phoneBody
+        }
+    }
 
-                if showTabViewOverlay {
-                    LazyVGrid(columns: columns) {
-                        ForEach(Tab.allCases) { tab in
-                            tab.stack
-                                .foregroundStyle(
-                                    dependencies.router.selectedTab == tab ? settings.theme.tint : .gray
-                                )
-                        }
+    var padBody: some View {
+        NavigationSplitView(
+            columnVisibility: $columnVisibility,
+            sidebar: {
+                sidebar
+                    .ignoresSafeArea(.all, edges: .bottom)
+            },
+            detail: {
+                screen(for: dependencies.router.selectedTab)
+            }
+        )
+        .displayToasts()
+        .whatsNewSheet()
+        .onAppear {
+            isPortrait = UIDevice.current.orientation.isPortrait
+            columnVisibility = isPortrait ? .automatic : .doubleColumn
+        }
+        .onChange(of: scenePhase, handleScenePhaseChange)
+        .onReceive(orientationChangePublisher, perform: handleOrientationChange)
+    }
+
+    var phoneBody: some View {
+        TabView(selection: dependencies.$router.selectedTab.onSet {
+            if dependencies.router.selectedTab == $0 { goToRootOrTop(tab: $0) }
+        }) {
+            ForEach(Tab.allCases) { tab in
+                screen(for: tab)
+                    .tint(settings.theme.tint) // restore tint for view
+                    .tabItem { tab.label }
+                    .displayToasts()
+                    .tag(tab)
+            }
+        }
+        .tint(.clear) // hide selected `tabItem` tint
+        .overlay(alignment: .bottom) { // the default `tabItem`s are hidden, display our own
+            let columns: [GridItem] = Array(repeating: .init(.flexible()), count: Tab.allCases.count)
+
+            if showTabViewOverlay {
+                LazyVGrid(columns: columns) {
+                    ForEach(Tab.allCases) { tab in
+                        tab.stack
+                            .foregroundStyle(
+                                dependencies.router.selectedTab == tab ? settings.theme.tint : .gray
+                            )
                     }
-                    .allowsHitTesting(false)
-                    .padding(.horizontal, 4)
                 }
-            }
-            .whatsNewSheet()
-            .onChange(of: scenePhase, handleScenePhaseChange)
-            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
-                showTabViewOverlay = false
-            }.onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
-                showTabViewOverlay = true
+                .allowsHitTesting(false)
+                .padding(.horizontal, 4)
             }
         }
-    }
-
-    func goToRoot(tab: Tab) {
-        switch tab {
-        case .movies:
-            dependencies.router.moviesPath = .init()
-        case .settings:
-            dependencies.router.settingsPath = .init()
-        default:
-            break
+        .whatsNewSheet()
+        .onChange(of: scenePhase, handleScenePhaseChange)
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
+            showTabViewOverlay = false
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+            showTabViewOverlay = true
         }
     }
-
-    @ScaledMetric(relativeTo: .body) var safeAreaInsetHeight = 48
 
     var sidebar: some View {
         List(selection: dependencies.$router.selectedTab.optional) {
             Text(verbatim: "Ruddarr")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                .font(.largeTitle.bold())
 
             ForEach(Tab.allCases) { tab in
                 if tab != .settings {
@@ -122,8 +120,8 @@ struct ContentView: View {
         switch tab {
         case .movies:
             MoviesView()
-        // case .series:
-        //     SeriesView()
+        case .series:
+            SeriesView()
         case .calendar:
             CalendarView()
         case .settings:
@@ -135,7 +133,7 @@ struct ContentView: View {
     func rowButton(for tab: Tab) -> some View {
         Button {
             if dependencies.router.selectedTab == tab {
-                goToRoot(tab: tab)
+                goToRootOrTop(tab: tab)
             } else {
                 dependencies.router.selectedTab = tab
             }
@@ -157,12 +155,34 @@ struct ContentView: View {
         }
     }
 
-    func handleOrientationChange() {
-        if let windowScene = UIApplication.shared.connectedScenes.first(
-            where: { $0.activationState == .foregroundActive }
-        ) as? UIWindowScene {
-            isPortrait = windowScene.interfaceOrientation.isPortrait
-            columnVisibility = isPortrait ? .detailOnly : .doubleColumn
+    func handleOrientationChange(_ notification: Notification) {
+        isPortrait = UIDevice.current.orientation.isPortrait
+
+        if !isPortrait {
+            columnVisibility = .doubleColumn
+        }
+
+        if isPortrait {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                columnVisibility = .detailOnly
+            }
+        }
+    }
+
+    func goToRootOrTop(tab: Tab) {
+        switch tab {
+        case .movies:
+            dependencies.router.moviesPath.isEmpty
+                ? dependencies.router.moviesScroll.send()
+                : (dependencies.router.moviesPath = .init())
+        case .series:
+            dependencies.router.seriesPath.isEmpty
+                ? dependencies.router.seriesScroll.send()
+                : (dependencies.router.seriesPath = .init())
+        case .calendar:
+            dependencies.router.calendarScroll.send()
+        case .settings:
+            dependencies.router.settingsPath = .init()
         }
     }
 
@@ -175,3 +195,4 @@ struct ContentView: View {
     ContentView()
         .withAppState()
 }
+#endif

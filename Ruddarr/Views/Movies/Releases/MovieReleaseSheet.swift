@@ -8,9 +8,7 @@ struct MovieReleaseSheet: View {
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.colorScheme) var colorScheme
-
-    let smallScreen = UIDevice.current.userInterfaceIdiom == .phone
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -64,8 +62,7 @@ struct MovieReleaseSheet: View {
             }
 
             Text(release.title)
-                .font(.title2)
-                .fontWeight(.bold)
+                .font(.title2.bold())
                 .kerning(-0.5)
 
             HStack(spacing: 6) {
@@ -116,16 +113,16 @@ struct MovieReleaseSheet: View {
 
     var actions: some View {
         HStack(spacing: 24) {
-            if !smallScreen {
+            if deviceType != .phone {
                 Spacer()
             }
 
             if let url = release.infoUrl {
                 Link(destination: URL(string: url)!, label: {
-                    let label: LocalizedStringKey = smallScreen ? "Visit" : "Visit Website"
+                    let label: LocalizedStringKey = deviceType == .phone ? "Visit" : "Visit Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
-                        .modifier(MoviePreviewActionModifier())
+                        .modifier(MediaPreviewActionModifier())
                 })
                 .buttonStyle(.bordered)
                 .tint(.secondary)
@@ -134,20 +131,20 @@ struct MovieReleaseSheet: View {
             Button {
                 Task { await downloadRelease() }
             } label: {
-                let label: LocalizedStringKey = smallScreen ? "Download" : "Download Release"
+                let label: LocalizedStringKey = deviceType == .phone ? "Download" : "Download Release"
 
                 ButtonLabel(
                     text: label,
                     icon: "arrow.down.circle",
                     isLoading: instance.movies.isWorking
                 )
-                .modifier(MoviePreviewActionModifier())
+                .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
             .allowsHitTesting(!instance.movies.isWorking)
 
-            if !smallScreen {
+            if deviceType != .phone {
                 Spacer()
             }
         }
@@ -155,11 +152,7 @@ struct MovieReleaseSheet: View {
     }
 
     var details: some View {
-        Section(
-            header: Text("Information")
-                .font(.title2)
-                .fontWeight(.bold)
-        ) {
+        Section {
             VStack(spacing: 12) {
                 if let languages = release.languagesLabel {
                     row("Language", value: languages)
@@ -178,6 +171,9 @@ struct MovieReleaseSheet: View {
                 }
             }
             .font(.callout)
+        } header: {
+            Text("Information")
+                .font(.title2.bold())
         }
     }
 
@@ -234,7 +230,7 @@ struct MovieReleaseSheet: View {
         dependencies.router.moviesPath.removeLast()
         dependencies.toast.show(.downloadQueued)
 
-        TelemetryManager.send("releaseDownloaded")
+        TelemetryManager.send("releaseDownloaded", with: ["type": "movie"])
     }
 }
 

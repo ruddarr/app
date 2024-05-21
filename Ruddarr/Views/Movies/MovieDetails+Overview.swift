@@ -8,10 +8,10 @@ extension MovieDetails {
                     CGSize(width: 150, height: 225),
                     contentMode: .fill
                 )
-                .modifier(MovieDetailsPosterModifier())
+                .modifier(MediaDetailsPosterModifier())
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                .padding(.trailing, UIDevice.current.userInterfaceIdiom == .phone ? 8 : 16)
+                .padding(.trailing, deviceType == .phone ? 8 : 16)
 
             VStack(alignment: .leading, spacing: 0) {
                 if movie.exists {
@@ -26,7 +26,7 @@ extension MovieDetails {
 
                 MovieRatings(movie: movie)
 
-                if UIDevice.current.userInterfaceIdiom != .phone {
+                if deviceType != .phone {
                     Spacer()
                     actions
                 }
@@ -35,7 +35,7 @@ extension MovieDetails {
     }
 
     var shrinkTitle: Bool {
-        if UIDevice.current.userInterfaceIdiom == .phone {
+        if deviceType == .phone {
             return movie.title.count > 25
         }
 
@@ -62,7 +62,7 @@ extension MovieDetails {
     var detailsSubtitle: some View {
         ViewThatFits(in: .horizontal) {
             HStack(spacing: 6) {
-                Text(String(movie.year))
+                Text(movie.yearLabel)
 
                 if let runtime = movie.runtimeLabel {
                     Bullet()
@@ -74,7 +74,7 @@ extension MovieDetails {
             }
 
             HStack(spacing: 6) {
-                Text(String(movie.year))
+                Text(movie.yearLabel)
 
                 if let runtime = movie.runtimeLabel {
                     Bullet()
@@ -84,15 +84,5 @@ extension MovieDetails {
         }
         .font(.callout)
         .foregroundStyle(.secondary)
-    }
-}
-
-struct MovieDetailsPosterModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            content.containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 0)
-        } else {
-            content.frame(width: 200, height: 300)
-        }
     }
 }

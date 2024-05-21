@@ -1,11 +1,24 @@
 import SwiftUI
 import Combine
 
+// cmd+r to refresh page
+
+enum MoviesPath: Hashable {
+    case search(String = "")
+    case preview(Data?)
+    case movie(Movie.ID)
+    case edit(Movie.ID)
+    case releases(Movie.ID)
+    case metadata(Movie.ID)
+}
+
 struct MoviesView: View {
     @AppStorage("movieSort", store: dependencies.store) var sort: MovieSort = .init()
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) var instance
+
+    @State private var scrollView: ScrollViewProxy?
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
@@ -15,69 +28,72 @@ struct MoviesView: View {
 
     @Environment(\.scenePhase) private var scenePhase
 
-    enum Path: Hashable {
-        case search(String = "")
-        case preview(Data?)
-        case movie(Movie.ID)
-        case edit(Movie.ID)
-        case releases(Movie.ID)
-        case metadata(Movie.ID)
-    }
-
     var body: some View {
         // swiftlint:disable closure_body_length
         NavigationStack(path: dependencies.$router.moviesPath) {
             Group {
                 if instance.isVoid {
-                    NoRadarrInstance()
+                    NoInstance(type: "Radarr")
                 } else {
-                    ScrollView {
-                        movieItemGrid
-                            .padding(.top, searchPresented ? 10 : 0)
-                            .viewPadding(.horizontal)
+                    ScrollViewReader { proxy in
+                        ScrollView {
+                            movieItemGrid
+                                .padding(.top, searchPresented ? 10 : 0)
+                                .viewPadding(.horizontal)
+                        }
+                        .onAppear {
+                            scrollView = proxy
+                        }
                     }
                     .task {
                         guard !instance.isVoid else { return }
                         await fetchMoviesWithAlert(ignoreOffline: true)
                     }
                     .refreshable {
-                        await fetchMoviesWithAlert()
+                        await Task { await fetchMoviesWithAlert() }.value
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
+                    .onReceive(dependencies.router.moviesScroll) {
+                        withAnimation(.smooth) { scrollToTop() }
+                    }
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(for: Path.self) {
+            .safeNavigationBarTitleDisplayMode(.inline)
+            .navigationDestination(for: MoviesPath.self) {
                 switch $0 {
                 case .search(let query):
                     MovieSearchView(searchQuery: query)
-                        .environment(instance).environmentObject(settings)
+                        .environment(instance)
+                        .environmentObject(settings)
                 case .preview(let data):
-                    if let payload = data,
-                       let movie = try? JSONDecoder().decode(Movie.self, from: payload)
-                    {
+                    if let movie = try? JSONDecoder().decode(Movie.self, from: data!) {
                         MoviePreviewView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .movie(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .edit(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieEditView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .releases(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieReleasesView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 case .metadata(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieMetadataView(movie: movie)
-                            .environment(instance).environmentObject(settings)
+                            .environment(instance)
+                            .environmentObject(settings)
                     }
                 }
             }
@@ -112,9 +128,11 @@ struct MoviesView: View {
             .searchable(
                 text: $searchQuery,
                 isPresented: $searchPresented,
-                placement: .navigationBarDrawer(displayMode: .always)
+                placement: .drawerOrToolbar
             )
+            .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
+                scrollToTop()
                 updateDisplayedMovies()
             }
             .alert(isPresented: $alertPresented, error: error) { _ in
@@ -126,11 +144,11 @@ struct MoviesView: View {
                 if notConnectedToInternet {
                     NoInternet()
                 } else if hasNoSearchResults {
-                    MovieNoSearchResults(query: $searchQuery)
+                    NoMovieSearchResults(query: $searchQuery, sort: $sort)
                 } else if isLoadingMovies {
                     Loading()
                 } else if hasNoMatchingResults {
-                    NoMatchingMovies()
+                    NoMatchingMovies(sort: $sort)
                 } else if initialLoadingFailed {
                     contentUnavailable
                 }
@@ -181,11 +199,21 @@ struct MoviesView: View {
 
         LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
             ForEach(instance.movies.cachedItems) { movie in
-                NavigationLink(value: Path.movie(movie.id)) {
+                NavigationLink(value: MoviesPath.movie(movie.id)) {
                     MovieGridItem(movie: movie)
                 }
                 .buttonStyle(.plain)
+                .id(movie.id)
             }
+        }
+    }
+
+    func updateSortDirection() {
+        switch sort.option {
+        case .byTitle:
+            sort.isAscending = true
+        default:
+            sort.isAscending = false
         }
     }
 
@@ -239,6 +267,12 @@ struct MoviesView: View {
         }
     }
 
+    func scrollToTop() {
+        scrollView?.scrollTo(
+            instance.movies.cachedItems.first?.id
+        )
+    }
+
     func navigateToMovie(_ id: Movie.ID) {
         let startTime = Date()
 
@@ -247,7 +281,7 @@ struct MoviesView: View {
         func scheduleNextRun(time: DispatchTime, id: Movie.ID) {
             DispatchQueue.main.asyncAfter(deadline: time) {
                 if instance.movies.items.first(where: { $0.id == id }) != nil {
-                    dependencies.router.moviesPath = .init([Path.movie(id)])
+                    dependencies.router.moviesPath = .init([MoviesPath.movie(id)])
                     return
                 }
 

@@ -3,30 +3,46 @@ import CloudKit
 
 extension InstanceView {
     var enableNotifications: some View {
+        #if os(macOS)
+            let link = String(format: "\"%@\"", String(localized: "System Settings > Notifications > Ruddarr", comment: "macOS path"))
+        #else
+            let link = String(format: "[%@](#link)", String(localized: "Settings > Notifications > Ruddarr", comment: "iOS path"))
+        #endif
+
         let text = String(
             format: String(localized: "Notification are disabled, please enable them in %@."),
-            String(format: "[%@](#link)", String(localized: "Settings > Notifications > Ruddarr"))
+            link
         )
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
-            if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
+            #if os(iOS)
+                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            #endif
 
             return .handled
         })
     }
 
     var disableNotifications: some View {
+        #if os(iOS)
+            let link = String(format: "\"%@\"", String(localized: "System Settings > Notifications"))
+        #else
+            let link = String(format: "[%@](#link)", String(localized: "Settings > Notifications"))
+        #endif
+
         let text = String(
             format: String(localized: "Notification settings for each instance are shared between devices. To disable notifications for a specific device go to %@."),
-            String(format: "[%@](#link)", String(localized: "Settings > Notifications"))
+            link
         )
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
-            if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
+            #if os(iOS)
+                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            #endif
 
             return .handled
         })
@@ -78,7 +94,10 @@ extension InstanceView {
             Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
                 .onChange(of: webhook.model.onHealthIssue, updateWebhook)
 
-            Toggle("Health Restored", isOn: $webhook.model.onHealthRestored)
+            Toggle("Health Restored", isOn: Binding(
+                get: { webhook.model.onHealthRestored ?? false },
+                set: { webhook.model.onHealthRestored = $0 }
+            ))
                 .onChange(of: webhook.model.onHealthRestored, updateWebhook)
 
             Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
@@ -106,7 +125,10 @@ extension InstanceView {
             Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
                 .onChange(of: webhook.model.onHealthIssue, updateWebhook)
 
-            Toggle("Health Restored", isOn: $webhook.model.onHealthRestored)
+            Toggle("Health Restored", isOn: Binding(
+                get: { webhook.model.onHealthRestored ?? false },
+                set: { webhook.model.onHealthRestored = $0 }
+            ))
                 .onChange(of: webhook.model.onHealthRestored, updateWebhook)
 
             Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
@@ -181,7 +203,13 @@ extension InstanceView {
         }
 
         await Notifications.shared.requestAuthorization()
-        UIApplication.shared.registerForRemoteNotifications()
+
+        #if os(macOS)
+            NSApplication.shared.registerForRemoteNotifications()
+        #else
+            UIApplication.shared.registerForRemoteNotifications()
+        #endif
+
         await setAppNotificationsStatus()
     }
 
@@ -189,5 +217,7 @@ extension InstanceView {
         Task {
             await webhook.update(cloudKitUserId)
         }
+
+        Occurrence.forget("instanceCheck:\(instance.id)")
     }
 }

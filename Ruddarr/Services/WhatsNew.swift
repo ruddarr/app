@@ -28,6 +28,7 @@ struct WhatsNew {
 
 struct WhatsNewView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         ZStack {
@@ -52,7 +53,9 @@ struct WhatsNewView: View {
 
                 footer
                     .modifier(WhatsNewFooterPadding())
-                    .background(.systemBackground)
+                    #if os(iOS)
+                        .background(.systemBackground)
+                    #endif
             }
             .edgesIgnoringSafeArea(.bottom)
 
@@ -64,7 +67,7 @@ struct WhatsNewView: View {
 
     var title: some View {
         Group {
-            if UIDevice.current.userInterfaceIdiom == .phone {
+            if deviceType == .phone {
                 VStack {
                     Text(verbatim: "What's New in")
                     Text(verbatim: "Ruddarr").foregroundStyle(.blue)
@@ -86,16 +89,21 @@ struct WhatsNewView: View {
                 Spacer()
 
                 Button {
-                    UINotificationFeedbackGenerator().notificationOccurred(.success)
+                    #if os(iOS)
+                        UINotificationFeedbackGenerator().notificationOccurred(.success)
+                    #endif
+
                     dismiss()
                 } label: {
                     Text("Continue")
                         .font(.headline.weight(.semibold))
                         .padding(.vertical)
                         .frame(maxWidth: .infinity)
-                        .foregroundStyle(.white)
-                        .background(.blue)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        #if os(iOS)
+                            .foregroundStyle(.white)
+                            .background(.blue)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                        #endif
                 }
 
                 Spacer()
@@ -104,21 +112,24 @@ struct WhatsNewView: View {
     }
 
     func feature(_ feature: WhatsNewFeature) -> some View {
-        HStack(alignment: .center, spacing: 15) {
+        HStack(alignment: .top, spacing: 20) {
             Image(systemName: feature.image)
                 .font(.title)
                 .imageScale(.large)
                 .foregroundStyle(.blue)
                 .frame(width: 40)
+                #if os(iOS)
+                    .offset(y: Platform.deviceType() == .phone ? 10 : 5)
+                #endif
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(feature.title)
                     .font(.subheadline.weight(.semibold))
-                    .foregroundColor(.primary)
+                    .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
                 Text(feature.subtitle)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
             .multilineTextAlignment(.leading)
@@ -138,19 +149,25 @@ struct WhatsNewFooterPadding: ViewModifier {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
 
     func body(content: Content) -> some View {
-        if self.horizontalSizeClass == .regular {
+        #if os(macOS)
             content.padding(
-                .init(top: 0, leading: 150, bottom: 50, trailing: 150)
+                .init(top: 0, leading: 30, bottom: 30, trailing: 30)
             )
-        } else if self.verticalSizeClass == .compact {
-            content.padding(
-                .init(top: 0, leading: 40, bottom: 35, trailing: 40)
-            )
-        } else {
-            content.padding(
-                .init(top: 0, leading: 20, bottom: 80, trailing: 20)
-            )
-        }
+        #else
+            if self.horizontalSizeClass == .regular {
+                content.padding(
+                    .init(top: 0, leading: 150, bottom: 50, trailing: 150)
+                )
+            } else if self.verticalSizeClass == .compact {
+                content.padding(
+                    .init(top: 0, leading: 40, bottom: 35, trailing: 40)
+                )
+            } else {
+                content.padding(
+                    .init(top: 0, leading: 20, bottom: 80, trailing: 20)
+                )
+            }
+        #endif
     }
 }
 
@@ -159,13 +176,17 @@ struct WhatsNewFeaturesPadding: ViewModifier {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
 
     func body(content: Content) -> some View {
-        if self.horizontalSizeClass == .regular {
-            content.padding(
-                .init(top: 0, leading: 100, bottom: 0, trailing: 100)
-            )
-        } else {
-            content
-        }
+        #if os(macOS)
+            content.padding(.horizontal)
+        #else
+            if self.horizontalSizeClass == .regular {
+                content.padding(
+                    .init(top: 0, leading: 100, bottom: 0, trailing: 100)
+                )
+            } else {
+                content
+            }
+        #endif
     }
 }
 

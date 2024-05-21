@@ -18,11 +18,12 @@ class Movies {
 
     enum Operation {
         case fetch
+        case get(Movie)
         case add(Movie)
         case update(Movie, Bool)
         case delete(Movie)
         case download(String, Int)
-        case command(Movie, RadarrCommand.Command)
+        case command(RadarrCommand)
     }
 
     init(_ instance: Instance) {
@@ -84,6 +85,10 @@ class Movies {
         await request(.fetch)
     }
 
+    func get(_ movie: Movie) async -> Bool {
+        await request(.get(movie))
+    }
+
     func add(_ movie: Movie) async -> Bool {
         await request(.add(movie))
     }
@@ -100,8 +105,8 @@ class Movies {
         await request(.download(guid, indexerId))
     }
 
-    func command(_ movie: Movie, command: RadarrCommand.Command) async -> Bool {
-        await request(.command(movie, command))
+    func command(_ command: RadarrCommand) async -> Bool {
+        await request(.command(command))
     }
 
     @MainActor
@@ -134,6 +139,15 @@ class Movies {
             leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
             computeAlternateTitles()
 
+        case .get(let movie):
+            if let index = items.firstIndex(where: { $0.id == movie.id }) {
+                let item = try await dependencies.api.getMovie(movie.id, instance)
+
+                if items[index] != item {
+                    items[index] = item
+                }
+            }
+
         case .add(let movie):
             items.append(try await dependencies.api.addMovie(movie, instance))
 
@@ -147,13 +161,8 @@ class Movies {
         case .download(let guid, let indexerId):
             _ = try await dependencies.api.downloadRelease(guid, indexerId, instance)
 
-        case .command(let movie, let commandName):
-            let command = switch commandName {
-            case .refresh: RadarrCommand(name: commandName, movieIds: [movie.id])
-            case .automaticSearch: RadarrCommand(name: commandName, movieIds: [movie.id])
-            }
-
-            _ = try await dependencies.api.command(command, instance)
+        case .command(let command):
+            _ = try await dependencies.api.radarrCommand(command, instance)
         }
     }
 

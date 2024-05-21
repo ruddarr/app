@@ -29,6 +29,9 @@ struct CalendarDate: View {
             Spacer()
         }
         .foregroundStyle(isToday ? settings.theme.tint : .primary)
+        .transaction { transaction in
+            transaction.animation = nil // disable animation
+        }
     }
 
     static let dayOfWeek: DateFormatter = {

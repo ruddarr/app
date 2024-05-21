@@ -3,6 +3,7 @@
 A native companion app for Radarr and Sonarr instances written in SwiftUI.
 
 - [Ruddarr on the App Store](https://apps.apple.com/app/ruddarr/id6476240130)
+- [Ruddarr TestFlight Beta](https://testflight.apple.com/join/WbWNuoos)
 
 ## Notifications
 
@@ -15,14 +16,11 @@ The notifications are powered by a [Cloudflare Worker](https://github.com/ruddar
 ```
 ruddarr://open
 ruddarr://movies
+ruddarr://series
 ruddarr://calendar
-```
 
-### Search Movies
-
-```
-ruddarr://movies/search
-ruddarr://movies/search/{query}
+ruddarr://{movies,series}/search
+ruddarr://{movies,series}/search/{query}
 ```
 
 ## Sentry Symbols

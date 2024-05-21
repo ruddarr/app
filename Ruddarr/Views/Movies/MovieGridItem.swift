@@ -4,22 +4,20 @@ struct MovieGridItem: View {
     var movie: Movie
 
     var body: some View {
-        ZStack {
-            poster
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .contextMenu {
-            MovieContextMenu(movie: movie)
-        } preview: {
-            poster.frame(width: 300, height: 450)
-        }
-        .background(.secondarySystemBackground)
-        .overlay(alignment: .bottom) {
-            if movie.exists {
-                posterOverlay
+        poster
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .contextMenu {
+                MovieContextMenu(movie: movie)
+            } preview: {
+                poster.frame(width: 300, height: 450)
             }
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+            .background(.secondarySystemBackground)
+            .overlay(alignment: .bottom) {
+                if movie.exists {
+                    posterOverlay
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
     var poster: some View {
@@ -62,7 +60,7 @@ struct MovieGridItem: View {
                     Color.black.opacity(0.0),
                     Color.black.opacity(0.2),
                     Color.black.opacity(0.4),
-                    Color.black.opacity(0.9)
+                    Color.black.opacity(0.9),
                 ],
                 startPoint: .top,
                 endPoint: .bottom
@@ -71,31 +69,39 @@ struct MovieGridItem: View {
     }
 
     static func gridIconScale() -> Image.Scale {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .small
-        }
+        #if os(macOS)
+            return .large
+        #else
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return .small
+            }
 
-        return .medium
+            return .medium
+        #endif
     }
 
     static func gridItemSpacing() -> CGFloat {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return 12
-        }
+        #if os(macOS)
+            return 20
+        #else
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return 12
+            }
 
-        return 20
+            return 20
+        #endif
     }
 
     static func gridItemLayout() -> [GridItem] {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return [GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)]
-        }
-
-        if ProcessInfo.processInfo.isiOSAppOnMac {
+        #if os(macOS)
             return [GridItem(.adaptive(minimum: 160, maximum: 200), spacing: 20)]
-        }
+        #else
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return [GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)]
+            }
 
-        return [GridItem(.adaptive(minimum: 145, maximum: 180), spacing: 20)]
+            return [GridItem(.adaptive(minimum: 145, maximum: 180), spacing: 20)]
+        #endif
     }
 }
 

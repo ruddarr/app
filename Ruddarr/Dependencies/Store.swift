@@ -41,4 +41,8 @@ class Occurrence {
     static func occurred(_ key: String) {
         dependencies.store.set(Date().timeIntervalSince1970, forKey: key)
     }
+
+    static func forget(_ key: String) {
+        dependencies.store.removeObject(forKey: key)
+    }
 }

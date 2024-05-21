@@ -56,6 +56,7 @@ struct Episode: Identifiable, Codable {
     var isDownloaded: Bool {
         hasFile || grabbed
     }
+
     var isWaiting: Bool {
         guard let date = airDateUtc else {
             return false

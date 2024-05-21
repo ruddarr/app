@@ -75,7 +75,6 @@ extension API.Error: LocalizedError {
         case .badStatusCode(code: let code):
             String(localized: "Server returned \(code) status code.")
         case .decodingError(let error):
-            // let xxx = print("foobar")
             error.context.debugDescription
         case .errorResponse(code: let code, message: let message):
             "[\(code)] \(message)"

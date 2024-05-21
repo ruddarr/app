@@ -5,7 +5,7 @@ import CloudKit
 @Observable
 class InstanceWebhook {
     var instance: Instance
-    var model: InstanceNotification = .init(id: 0, name: "")
+    var model: InstanceNotification = .init()
 
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
@@ -82,7 +82,8 @@ class InstanceWebhook {
         }
 
         let record = InstanceNotification(
-            id: 0, name: "Ruddarr", fields: webhookFields(account)
+            name: "Ruddarr",
+            fields: webhookFields(account)
         )
 
         model = try await dependencies.api.createNotification(record, instance)
@@ -91,7 +92,7 @@ class InstanceWebhook {
     }
 
     private func updateWebook(_ accountId: CKRecord.ID?) async throws {
-        if model.id == 0 {
+        if model.id == nil {
             try await createWebook(accountId)
         }
 

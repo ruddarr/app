@@ -2,7 +2,11 @@ import SwiftUI
 
 @main
 struct Ruddarr: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    #if os(macOS)
+        @NSApplicationDelegateAdaptor(AppDelegateMac.self) var appDelegate
+    #else
+        @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    #endif
 
     init() {
         #if DEBUG
@@ -13,13 +17,21 @@ struct Ruddarr: App {
     }
 
     var body: some Scene {
-        WindowGroup {
-            ContentView()
-                .appWindowFrame()
-                .withAppState()
-                .onOpenURL(perform: openDeeplink)
-        }
-        .windowResizability(.contentSize)
+        #if os(macOS)
+            Window(String("Ruddarr"), id: "ruddarr") {
+                ContentView()
+                    .withAppState()
+                    .onOpenURL(perform: openDeeplink)
+            }
+            .defaultSize(width: 1_280, height: 768)
+            .windowResizability(.contentSize)
+        #else
+            WindowGroup {
+                ContentView()
+                    .withAppState()
+                    .onOpenURL(perform: openDeeplink)
+            }
+        #endif
     }
 
     func openDeeplink(url: URL) {
@@ -47,23 +59,23 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static var version: String = "1.0.3"
+    static var version: String = "1.1.0"
 
     static var features: [WhatsNewFeature] = [
         .init(
+            image: "tv",
+            title: "Sonarr Support",
+            subtitle: "Monitor and manage TV Series, seasons and episodes. Works best with Sonarr v4."
+        ),
+        .init(
             image: "line.3.horizontal.decrease",
-            title: "Filter by Language",
+            title: "Filter by Original Language",
             subtitle: "Releases can now be filtered by language when browsing interactive search results."
         ),
         .init(
-            image: "key.horizontal",
-            title: "Sonarr 3 Authentication",
-            subtitle: "API authentication for Sonarr 3.x instances has been added."
-        ),
-        .init(
-            image: "internaldrive",
-            title: "Large Instance Mode",
-            subtitle: "Instances that load slowly can now be flagged as large to automatically optimize API calls and timeouts."
+            image: "ant",
+            title: "Fixes & Improvements",
+            subtitle: "Tuned, fixed and polished dozens of parts, everything is a little better than before."
         ),
     ]
 }

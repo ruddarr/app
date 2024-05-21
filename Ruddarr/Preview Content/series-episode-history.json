@@ -1,0 +1,105 @@
+{
+    "page": 1,
+    "pageSize": 10,
+    "records": [
+        {
+            "customFormatScore": 0,
+            "customFormats": [],
+            "data": {
+                "customFormatScore": "0",
+                "downloadClient": "SABnzbd",
+                "downloadClientName": "SABnzbd",
+                "droppedPath": "/volume2/nzb/complete/The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E04.1080p.WEB.h264-EDITH/The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E04.1080p.WEB.h264-EDITH.mkv",
+                "fileId": "5640",
+                "importedPath": "/volume2/Media/TV Series/The Jinx/Season 2/The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E04.1080p.WEB.h264-EDITH.mkv",
+                "indexerFlags": "0",
+                "releaseGroup": "EDITH",
+                "releaseType": "SingleEpisode",
+                "size": "2985229926"
+            },
+            "date": "2024-05-13T02:18:52Z",
+            "downloadId": "SABnzbd_nzo_qv1jpw1k",
+            "episodeId": 15785,
+            "eventType": "downloadFolderImported",
+            "id": 3019,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "qualityCutoffNotMet": false,
+            "seriesId": 67,
+            "sourceTitle": "The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E04.1080p.WEB.h264-EDITH"
+        },
+        {
+            "customFormatScore": 0,
+            "customFormats": [],
+            "data": {
+                "age": "0",
+                "ageHours": "0.07905038619444445",
+                "ageMinutes": "4.743023236666667",
+                "customFormatScore": "0",
+                "downloadClient": "SABnzbd",
+                "downloadClientName": "SABnzbd",
+                "downloadUrl": "http://localhost:9696/11/download?apikey=7f6159d4c8954cfe8cd3eee9134d3313&link=U1pNYnBQc1JnLzdkMWRwMUVQdTZBMWlub3ZtaStoNW1Sa2V0aURRZFVDM1lUTEZTVzVKdnoxNjMxblJzWFlPMzJ6Wll1NTdQT283TDJyWitDRUd3SVRRRUhrVXpwUE84RkhjL2NtMVNqTnVZZ2JEWW5HV2J5eVE4QjFLWW9CczFQdFhLSmMvVml5SDRsbG93MGtzRmZubkU1aU1uR0ZrSHRqRGo2WUVYQnZmU2NxMGQ3VXk4ckxLYWNkODRGaTVJ&file=The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E04.1080p.WEB.h264-EDITH",
+                "guid": "https://drunkenslug.com/details/b2bc130fdcd128b2c43f45fe714d36cb1e00f568",
+                "indexer": "DrunkenSlug (Prowlarr)",
+                "indexerFlags": "0",
+                "nzbInfoUrl": "https://drunkenslug.com/details/b2bc130fdcd128b2c43f45fe714d36cb1e00f568",
+                "protocol": "1",
+                "publishedDate": "2024-05-13T02:12:51Z",
+                "releaseGroup": "EDITH",
+                "releaseSource": "Rss",
+                "releaseType": "SingleEpisode",
+                "seriesMatchType": "Title",
+                "size": "3388720964",
+                "tvRageId": "0",
+                "tvdbId": "0"
+            },
+            "date": "2024-05-13T02:17:35Z",
+            "downloadId": "SABnzbd_nzo_qv1jpw1k",
+            "episodeId": 15785,
+            "eventType": "grabbed",
+            "id": 3018,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "qualityCutoffNotMet": false,
+            "seriesId": 67,
+            "sourceTitle": "The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E04.1080p.WEB.h264-EDITH"
+        }
+    ],
+    "sortDirection": "descending",
+    "sortKey": "date",
+    "totalRecords": 2
+}

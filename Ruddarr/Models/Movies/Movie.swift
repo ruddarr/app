@@ -1,7 +1,6 @@
 import SwiftUI
 
-// swiftlint:disable file_length
-struct Movie: Identifiable, Codable {
+struct Movie: Identifiable, Equatable, Codable {
     // movies only have an `id` after being added
     var id: Int { guid ?? (tmdbId + 100_000) }
 
@@ -18,12 +17,12 @@ struct Movie: Identifiable, Codable {
     let sortTitle: String
     let studio: String?
     let year: Int
-    var sortYear: Int { year == 0 ? 2_100 : year }
     let runtime: Int
     let overview: String?
     let certification: String?
     let youTubeTrailerId: String?
-    let alternateTitles: [AlternateMovieTitle]
+    let originalLanguage: MediaLanguage
+    let alternateTitles: [MediaAlternateTitle]
 
     let genres: [String]
     let ratings: MovieRatings?
@@ -36,7 +35,6 @@ struct Movie: Identifiable, Codable {
     var qualityProfileId: Int
     let sizeOnDisk: Int?
     let hasFile: Bool?
-    let isAvailable: Bool
 
     var path: String?
     var relativePath: String?
@@ -48,8 +46,8 @@ struct Movie: Identifiable, Codable {
     let physicalRelease: Date?
     let digitalRelease: Date?
 
-    let images: [MovieImage]
-    let movieFile: MovieFile?
+    let images: [MediaImage]
+    let movieFile: MediaFile?
 
     enum CodingKeys: String, CodingKey {
         case guid = "id"
@@ -64,6 +62,7 @@ struct Movie: Identifiable, Codable {
         case overview
         case certification
         case youTubeTrailerId
+        case originalLanguage
         case genres
         case ratings
         case popularity
@@ -73,7 +72,6 @@ struct Movie: Identifiable, Codable {
         case qualityProfileId
         case sizeOnDisk
         case hasFile
-        case isAvailable
         case path
         case folderName
         case rootFolderPath
@@ -89,31 +87,40 @@ struct Movie: Identifiable, Codable {
         guid != nil
     }
 
+    var sortYear: TimeInterval {
+        if let date = inCinemas { return date.timeIntervalSince1970 }
+        if let date = digitalRelease { return date.timeIntervalSince1970 }
+        if year <= 0 { return 2_942_956_800 }
+        return DateComponents(calendar: .current, year: year).date?.timeIntervalSince1970 ?? 2_942_956_800
+    }
+
     var stateLabel: LocalizedStringKey {
         if isDownloaded {
             return "Downloaded"
         }
 
         if isWaiting {
+            if status == .tba || status == .announced {
+                return "Unreleased"
+            }
+
             return "Waiting"
         }
 
-        if monitored && isAvailable {
+        if monitored && isReleased {
             return "Missing"
         }
 
         return "Unwanted"
     }
 
+    var yearLabel: String {
+        year > 0 ? String(year) : String(localized: "TBA")
+    }
+
     var runtimeLabel: String? {
         guard runtime > 0 else { return nil }
-
-        let hours = runtime / 60
-        let minutes = runtime % 60
-
-        return hours == 0
-            ? String(format: String(localized: "%dm", comment: "%d = minutes (13m)"), minutes)
-            : String(format: String(localized: "%dh %dm", comment: "$1 = hours, $2 = minutes (1h 13m)"), hours, minutes)
+        return formatRuntime(runtime)
     }
 
     var certificationLabel: String {
@@ -146,15 +153,10 @@ struct Movie: Identifiable, Codable {
         return nil
     }
 
-    var sizeLabel: String {
-        ByteCountFormatter.string(
-            fromByteCount: Int64(sizeOnDisk ?? 0),
-            countStyle: .binary
-        )
-    }
-
     var genreLabel: String {
-        genres.prefix(3).formatted(.list(type: .and, width: .narrow))
+        genres.prefix(3)
+            .map { $0.replacingOccurrences(of: "Science Fiction", with: "Sci-Fi") }
+            .formattedList()
     }
 
     var remotePoster: String? {
@@ -165,16 +167,12 @@ struct Movie: Identifiable, Codable {
         return nil
     }
 
-    var remoteFanart: String? {
-        if let remote = self.images.first(where: { $0.coverType == "fanart" }) {
-            return remote.remoteURL
-        }
-
-        return nil
-    }
-
     var isDownloaded: Bool {
         hasFile ?? false
+    }
+
+    var isReleased: Bool {
+        status == .released
     }
 
     var isWaiting: Bool {
@@ -192,7 +190,7 @@ struct Movie: Identifiable, Codable {
         alternateTitles.map { $0.title }.joined(separator: " ")
     }
 
-    struct MovieRatings: Codable {
+    struct MovieRatings: Equatable, Codable {
         let imdb: MovieRating?
         let tmdb: MovieRating?
         let metacritic: MovieRating?
@@ -200,7 +198,7 @@ struct Movie: Identifiable, Codable {
     }
 }
 
-enum MovieStatus: String, Codable {
+enum MovieStatus: String, Equatable, Codable {
     case tba
     case announced
     case inCinemas
@@ -218,174 +216,9 @@ enum MovieStatus: String, Codable {
     }
 }
 
-struct AlternateMovieTitle: Codable {
-    let title: String
-}
-
-struct MovieImage: Codable {
-    let coverType: String
-    let remoteURL: String?
-    let url: String?
-
-    enum CodingKeys: String, CodingKey {
-        case coverType
-        case remoteURL = "remoteUrl"
-        case url
-    }
-}
-
-struct MovieRating: Codable {
+struct MovieRating: Equatable, Codable {
     let votes: Int
     let value: Float
-}
-
-struct MovieFile: Identifiable, Codable {
-    let id: Int
-    let size: Int
-    let relativePath: String?
-    let dateAdded: Date
-
-    let mediaInfo: MovieMediaInfo?
-    let quality: MovieQualityInfo
-    let languages: [MovieLanguage]
-    let customFormats: [MovieCustomFormat]?
-    let customFormatScore: Int?
-
-    var sizeLabel: String {
-        ByteCountFormatter.string(
-            fromByteCount: Int64(size),
-            countStyle: .binary
-        )
-    }
-
-    var languageLabel: String {
-        languageSingleLabel(languages)
-    }
-
-    var scoreLabel: String {
-        formatCustomScore(customFormatScore ?? 0)
-    }
-
-    var customFormatsList: [String]? {
-        guard let formats = customFormats else {
-            return nil
-        }
-
-        return formats.map { $0.label }
-    }
-
-    var videoResolution: Int? {
-        if quality.quality.resolution > 0 {
-            return quality.quality.resolution
-        }
-
-        if let resolution = mediaInfo?.resolution, let range = resolution.range(of: "x") {
-            return Int(resolution[range.upperBound...])
-        }
-
-        return nil
-    }
-}
-
-struct MovieMediaInfo: Codable {
-    let audioBitrate: Int
-    let audioStreamCount: Int
-    let audioChannels: Float
-    let audioCodec: String?
-    let audioLanguages: String?
-
-    let videoBitDepth: Int
-    let videoBitrate: Int
-    let videoFps: Float
-    let videoCodec: String?
-    let resolution: String?
-    let runTime: String?
-    let videoDynamicRange: String?
-    let videoDynamicRangeType: String?
-    let scanType: String?
-
-    let subtitles: String?
-
-    var videoCodecLabel: String? {
-        guard var label = videoCodec else {
-            return nil
-        }
-
-        label = label.replacingOccurrences(of: "x264", with: "H264")
-        label = label.replacingOccurrences(of: "h264", with: "H264")
-        label = label.replacingOccurrences(of: "h265", with: "HEVC")
-        label = label.replacingOccurrences(of: "x265", with: "HEVC")
-
-        return label
-    }
-
-    var videoDynamicRangeLabel: String? {
-        guard let label = videoDynamicRange, !label.isEmpty else {
-            return nil
-        }
-
-        if let type = videoDynamicRangeType {
-            if type == "HDR10" { return "HDR10" }
-            if type == "HDR10Plus" { return "HDR10+" }
-            if !type.isEmpty { return "\(label) (\(type))" }
-        }
-
-        return label
-    }
-
-    var audioLanguageCodes: [String]? {
-        guard let languages = audioLanguages, languages.count > 0 else {
-            return nil
-        }
-
-        let codes = Array(Set(
-            languages.components(separatedBy: "/")
-        ))
-
-        return codes.sorted(by: Languages.codeSort)
-    }
-
-    var subtitleCodes: [String]? {
-        guard let languages = subtitles, languages.count > 0 else {
-            return nil
-        }
-
-        let codes = Array(Set(
-            languages.components(separatedBy: "/")
-        ))
-
-        return codes.sorted(by: Languages.codeSort)
-    }
-}
-
-struct MovieQualityInfo: Codable {
-    let quality: MovieQuality
-}
-
-struct MovieQuality: Codable {
-    let name: String?
-    let resolution: Int
-
-    var label: String {
-        name ?? String(localized: "Unknown")
-    }
-}
-
-struct MovieLanguage: Codable {
-    let name: String?
-
-    var label: String {
-        name ?? String(localized: "Unknown")
-    }
-}
-
-struct MovieCustomFormat: Identifiable, Codable {
-    let id: Int
-    let name: String?
-
-    var label: String {
-        name ?? String(localized: "Unknown")
-    }
 }
 
 struct MovieEditorResource: Codable {
@@ -400,24 +233,3 @@ struct MovieEditorResource: Codable {
 func formatCustomScore(_ score: Int) -> String {
     String(format: "%@%d", score < 0 ? "-" : "+", score)
 }
-
-func languageSingleLabel(_ languages: [MovieLanguage]) -> String {
-    if languages.isEmpty {
-        return String(localized: "Unknown")
-    }
-
-    if languages.count == 1 {
-        return languages[0].label
-
-    }
-
-    return String(localized: "Multilingual")
-}
-
-func languagesList(_ codes: [String]) -> String {
-    codes.map {
-        $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
-    }.formatted(.list(type: .and, width: .narrow))
-}
-
-// swiftlint:enable file_length

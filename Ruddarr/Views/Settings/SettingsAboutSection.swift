@@ -5,6 +5,7 @@ import Foundation
 
 struct SettingsAboutSection: View {
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.openURL) var openURL
 
     var body: some View {
         Section(header: Text("About")) {
@@ -50,11 +51,10 @@ struct SettingsAboutSection: View {
         }
     }
 
-    // If desired add `mailto` to `LSApplicationQueriesSchemes` in `Info.plist`
     @MainActor
     func openSupportEmail() async {
         let uuid = UUID().uuidString.prefix(8)
-        let deviceId = UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
+        let deviceId = Platform.deviceId()
 
         let cloudKitStatus = try? await CKContainer.default().accountStatus()
         let cloudKitUserId = try? await CKContainer.default().userRecordID().recordName
@@ -81,29 +81,41 @@ struct SettingsAboutSection: View {
             URLQueryItem(name: "body", value: "\n\n\(body)")
         ]
 
-        if let mailtoUrl = components.url {
-            if UIApplication.shared.canOpenURL(mailtoUrl) {
-                if await UIApplication.shared.open(mailtoUrl) {
-                    return
+        let openFallbackUrl = { () in
+            openURL(Links.GitHubDiscussions) { opened in
+                if !opened {
+                    leaveBreadcrumb(.warning, category: "settings.about", message: "Unable to open GitHub Discussions")
                 }
             }
-
-            leaveBreadcrumb(.warning, category: "settings.about", message: "Unable to open mailto", data: ["url": mailtoUrl])
         }
 
-        if await UIApplication.shared.open(Links.GitHubDiscussions) {
-            return
+        if let mailtoUrl = components.url {
+            openURL(mailtoUrl) { opened in
+                if !opened {
+                    leaveBreadcrumb(.warning, category: "settings.about", message: "Unable to open mailto", data: ["url": mailtoUrl])
+                    openFallbackUrl()
+                }
+            }
+        } else {
+            openFallbackUrl()
         }
-
-        leaveBreadcrumb(.warning, category: "settings.about", message: "Unable to open GitHub Discussions")
     }
 
     var systemName: String {
-        UIDevice.current.systemName
+        #if os(macOS)
+            return "macOS"
+        #else
+            UIDevice.current.systemName
+        #endif
     }
 
     var systemVersion: String {
-        UIDevice.current.systemVersion
+        #if os(macOS)
+            let version = ProcessInfo.processInfo.operatingSystemVersion
+            return "\(version.majorVersion).\(version.minorVersion).\(version.patchVersion)"
+        #else
+            UIDevice.current.systemVersion
+        #endif
     }
 
     var appVersion: String {
