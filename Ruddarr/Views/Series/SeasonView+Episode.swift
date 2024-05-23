@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryClient
 
 struct EpisodeRow: View {
     var episode: Episode

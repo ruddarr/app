@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct MovieReleaseSheet: View {
     @State var release: MovieRelease
@@ -230,7 +230,7 @@ struct MovieReleaseSheet: View {
         dependencies.router.moviesPath.removeLast()
         dependencies.toast.show(.downloadQueued)
 
-        TelemetryManager.send("releaseDownloaded", with: ["type": "movie"])
+        TelemetryDeck.signal("releaseDownloaded", parameters: ["type": "movie"])
     }
 }
 

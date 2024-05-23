@@ -71,6 +71,7 @@
 		BB7DDF652B718DFB0001CDFC /* MovieReleaseSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7DDF642B718DFB0001CDFC /* MovieReleaseSheet.swift */; };
 		BB865E612B83C11E00ADCEFE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB865E602B83C11E00ADCEFE /* Error.swift */; };
 		BB89ABC62B756B91009FB62D /* MovieReleaseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */; };
+		BB8A56772BFFFDF500199DB7 /* TelemetryDeck in Frameworks */ = {isa = PBXBuildFile; productRef = BB8A56762BFFFDF500199DB7 /* TelemetryDeck */; };
 		BB8A60262B93DE020039CFF6 /* InstanceNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A60252B93DE020039CFF6 /* InstanceNotification.swift */; };
 		BB8A60282B952D710039CFF6 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A60272B952D710039CFF6 /* Subscription.swift */; };
 		BB8A602A2B97840F0039CFF6 /* InstanceView+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A60292B97840F0039CFF6 /* InstanceView+Notifications.swift */; };
@@ -122,7 +123,6 @@
 		BBD3F7D62BE9AD060050D9A0 /* SeriesReleaseSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F7D52BE9AD060050D9A0 /* SeriesReleaseSort.swift */; };
 		BBD3F7D82BE9AD9E0050D9A0 /* SeriesReleaseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F7D72BE9AD9E0050D9A0 /* SeriesReleaseRow.swift */; };
 		BBD3F7DA2BE9E31F0050D9A0 /* SeriesReleaseSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F7D92BE9E31F0050D9A0 /* SeriesReleaseSheet.swift */; };
-		BBDA775D2BDACD2500568E64 /* TelemetryClient in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA775C2BDACD2500568E64 /* TelemetryClient */; };
 		BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA77602BDACD3C00568E64 /* NukeUI */; };
 		BBDA77632BDACD6300568E64 /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA77622BDACD6300568E64 /* SentrySwiftUI */; };
 		BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1E43E2B51F61700946222 /* MovieLookup.swift */; };
@@ -319,8 +319,8 @@
 			files = (
 				BB0FE10F2BEC660500D1D847 /* CloudStorage in Frameworks */,
 				BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */,
+				BB8A56772BFFFDF500199DB7 /* TelemetryDeck in Frameworks */,
 				BBDA77632BDACD6300568E64 /* SentrySwiftUI in Frameworks */,
-				BBDA775D2BDACD2500568E64 /* TelemetryClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,10 +678,10 @@
 			);
 			name = Ruddarr;
 			packageProductDependencies = (
-				BBDA775C2BDACD2500568E64 /* TelemetryClient */,
 				BBDA77602BDACD3C00568E64 /* NukeUI */,
 				BBDA77622BDACD6300568E64 /* SentrySwiftUI */,
 				BB0FE10E2BEC660500D1D847 /* CloudStorage */,
+				BB8A56762BFFFDF500199DB7 /* TelemetryDeck */,
 			);
 			productName = Ruddarr;
 			productReference = BBE828532B4F2C7000C1E1D9 /* Ruddarr.app */;
@@ -713,9 +713,9 @@
 			mainGroup = BBE8284A2B4F2C7000C1E1D9;
 			packageReferences = (
 				BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */,
-				BBFB1F8C2B792BCB00181233 /* XCRemoteSwiftPackageReference "SwiftClient" */,
 				BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 				BB0FE10D2BEC660500D1D847 /* XCRemoteSwiftPackageReference "CloudStorage" */,
+				BB8A56732BFFFDF500199DB7 /* XCRemoteSwiftPackageReference "SwiftSDK" */,
 			);
 			productRefGroup = BBE828542B4F2C7000C1E1D9 /* Products */;
 			projectDirPath = "";
@@ -1186,6 +1186,14 @@
 				minimumVersion = 0.4.0;
 			};
 		};
+		BB8A56732BFFFDF500199DB7 /* XCRemoteSwiftPackageReference "SwiftSDK" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TelemetryDeck/SwiftSDK";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kean/Nuke";
@@ -1202,14 +1210,6 @@
 				minimumVersion = 8.20.0;
 			};
 		};
-		BBFB1F8C2B792BCB00181233 /* XCRemoteSwiftPackageReference "SwiftClient" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/TelemetryDeck/SwiftClient";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.1;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1218,10 +1218,10 @@
 			package = BB0FE10D2BEC660500D1D847 /* XCRemoteSwiftPackageReference "CloudStorage" */;
 			productName = CloudStorage;
 		};
-		BBDA775C2BDACD2500568E64 /* TelemetryClient */ = {
+		BB8A56762BFFFDF500199DB7 /* TelemetryDeck */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BBFB1F8C2B792BCB00181233 /* XCRemoteSwiftPackageReference "SwiftClient" */;
-			productName = TelemetryClient;
+			package = BB8A56732BFFFDF500199DB7 /* XCRemoteSwiftPackageReference "SwiftSDK" */;
+			productName = TelemetryDeck;
 		};
 		BBDA77602BDACD3C00568E64 /* NukeUI */ = {
 			isa = XCSwiftPackageProductDependency;

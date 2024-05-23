@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct SeriesDetailView: View {
     @Binding var series: Series
@@ -164,7 +164,7 @@ extension SeriesDetailView {
 
         dependencies.toast.show(.monitoredSearchQueued)
 
-        TelemetryManager.send("automaticSearchDispatched", with: ["type": "series"])
+        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
     }
 
     @MainActor

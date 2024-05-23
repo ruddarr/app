@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct MovieDetails: View {
     var movie: Movie
@@ -114,7 +114,7 @@ struct MovieDetails: View {
 
                     dependencies.toast.show(.movieSearchQueued)
 
-                    TelemetryManager.send("automaticSearchDispatched", with: ["type": "movie"])
+                    TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "movie"])
                 }
             } label: {
                 ButtonLabel(text: "Automatic", icon: "magnifyingglass")

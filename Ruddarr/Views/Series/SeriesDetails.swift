@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryClient
 
 struct SeriesDetails: View {
     @Binding var series: Series

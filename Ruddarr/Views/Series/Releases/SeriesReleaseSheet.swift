@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct SeriesReleaseSheet: View {
     @State var release: SeriesRelease
@@ -230,7 +230,7 @@ struct SeriesReleaseSheet: View {
         dependencies.router.seriesPath.removeLast()
         dependencies.toast.show(.downloadQueued)
 
-        TelemetryManager.send("releaseDownloaded", with: ["type": release.fullSeason ? "season" : "episode"])
+        TelemetryDeck.signal("releaseDownloaded", parameters: ["type": release.fullSeason ? "season" : "episode"])
     }
 }
 

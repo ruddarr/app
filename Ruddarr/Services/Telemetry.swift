@@ -1,7 +1,7 @@
 import os
 import SwiftUI
 import CloudKit
-import TelemetryClient
+import TelemetryDeck
 
 class Telemetry {
     static let shared: Telemetry = Telemetry()
@@ -39,7 +39,7 @@ class Telemetry {
             "cloudkit": cloudKitStatus(accountStatus),
         ]
 
-        TelemetryManager.send("ping", with: payload)
+        TelemetryDeck.signal("ping", parameters: payload)
 
         leaveBreadcrumb(.info, category: "telemetry", message: "Sent ping", data: payload)
     }

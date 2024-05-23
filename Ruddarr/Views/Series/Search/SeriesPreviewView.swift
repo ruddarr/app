@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct SeriesPreviewView: View {
     @State var series: Series
@@ -100,7 +100,7 @@ struct SeriesPreviewView: View {
         dependencies.router.seriesPath.removeLast(dependencies.router.seriesPath.count)
         dependencies.router.seriesPath.append(seriesPath)
 
-        TelemetryManager.send("seriesAdded")
+        TelemetryDeck.signal("seriesAdded")
     }
 }
 

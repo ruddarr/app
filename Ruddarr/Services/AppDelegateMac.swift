@@ -2,7 +2,7 @@ import Sentry
 import SwiftUI
 import CloudKit
 import MetricKit
-import TelemetryClient
+import TelemetryDeck
 
 #if os(macOS)
 class AppDelegateMac: NSObject, NSApplicationDelegate {
@@ -54,13 +54,13 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
     }
 
     func configureTelemetryDeck() {
-        let configuration = TelemetryManagerConfiguration(
+        let configuration = TelemetryDeck.Config(
             appID: Secrets.TelemetryAppId
         )
 
         configuration.logHandler = LogHandler.stdout(.error)
 
-        TelemetryManager.initialize(with: configuration)
+        TelemetryDeck.initialize(config: configuration)
     }
 }
 #endif
