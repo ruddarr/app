@@ -27,7 +27,9 @@ struct SettingsAboutSection: View {
     }
 
     var review: some View {
-        Link(destination: Links.AppStore) {
+        Link(destination: Links.AppStore.appending(queryItems: [
+            .init(name: "action", value: "write-review"),
+        ])) {
             Label {
                 Text("Leave a Review").tint(.primary)
             } icon: {
