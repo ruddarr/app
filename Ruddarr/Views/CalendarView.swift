@@ -162,9 +162,26 @@ struct CalendarView: View {
 
     var todayButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Button("Today") {
-                withAnimation(.smooth) {
-                    scrollTo(calendar.today())
+            HStack(spacing: 5) {
+                Button("Today") {
+                    withAnimation(.smooth) {
+                        scrollTo(calendar.today())
+                    }
+                }
+
+                Button {
+                    Task { await calendar.refresh() }
+                } label: {
+                    ZStack {
+                        Image(systemName: "arrow.clockwise")
+                            .scaleEffect(0.85)
+                            .opacity(calendar.isRefreshing ? 0 : 1)
+
+                        if calendar.isRefreshing {
+                            ProgressView().tint(.secondary)
+                                .offset(y: 1)
+                        }
+                    }
                 }
             }.id(UUID())
         }

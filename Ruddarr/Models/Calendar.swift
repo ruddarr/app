@@ -10,6 +10,7 @@ class MediaCalendar {
     var episodes: [TimeInterval: [Episode]] = [:]
 
     var isInitializing: Bool = false
+    var isRefreshing: Bool = false
     var isLoadingFuture: Bool = false
 
     var error: API.Error?
@@ -35,11 +36,26 @@ class MediaCalendar {
 
         await fetch(
             start: addDays(-60, Date.now),
-            end: addDays(60, Date.now),
-            initial: true
+            end: addDays(60, Date.now)
         )
 
         isInitializing = false
+    }
+
+    @MainActor
+    func refresh() async {
+        if isRefreshing {
+            return
+        }
+
+        isRefreshing = true
+
+        await fetch(
+            start: addDays(-60, Date.now),
+            end: addDays(60, Date.now)
+        )
+
+        isRefreshing = false
     }
 
     func loadFutureDates(_ timestamp: TimeInterval) async {
@@ -52,7 +68,7 @@ class MediaCalendar {
     }
 
     @MainActor
-    func fetch(start: Date, end: Date, initial: Bool = false) async {
+    func fetch(start: Date, end: Date) async {
         error = nil
 
         let start = calendar.startOfDay(for: start)
