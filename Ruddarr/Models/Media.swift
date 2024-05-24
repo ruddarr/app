@@ -55,7 +55,6 @@ func languageSingleLabel(_ languages: [MediaLanguage]) -> String {
 
     if languages.count == 1 {
         return languages[0].label
-
     }
 
     return String(localized: "Multilingual")
