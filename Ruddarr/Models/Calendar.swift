@@ -51,6 +51,7 @@ class MediaCalendar {
         isLoadingFuture = false
     }
 
+    @MainActor
     func fetch(start: Date, end: Date, initial: Bool = false) async {
         error = nil
 
