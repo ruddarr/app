@@ -79,7 +79,7 @@ struct CalendarView: View {
                 }
             }
             .task {
-                guard !initialized else { return }
+                if initialized { return }
                 await initialize()
             }
             .alert(
@@ -125,7 +125,10 @@ struct CalendarView: View {
         await calendar.initialize()
         initializationError = calendar.error
         initialized = true
-        scrollTo(calendar.today())
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            scrollTo(calendar.today())
+        }
     }
 
     func scrollTo(_ timestamp: TimeInterval) {
