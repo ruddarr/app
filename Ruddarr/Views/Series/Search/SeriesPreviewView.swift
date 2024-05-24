@@ -101,6 +101,7 @@ struct SeriesPreviewView: View {
         dependencies.router.seriesPath.append(seriesPath)
 
         TelemetryDeck.signal("seriesAdded")
+        maybeAskForReview()
     }
 }
 

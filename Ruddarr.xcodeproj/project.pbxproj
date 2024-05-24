@@ -72,6 +72,7 @@
 		BB865E612B83C11E00ADCEFE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB865E602B83C11E00ADCEFE /* Error.swift */; };
 		BB89ABC62B756B91009FB62D /* MovieReleaseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */; };
 		BB8A56772BFFFDF500199DB7 /* TelemetryDeck in Frameworks */ = {isa = PBXBuildFile; productRef = BB8A56762BFFFDF500199DB7 /* TelemetryDeck */; };
+		BB8A56792C0004D500199DB7 /* Reviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A56782C0004D500199DB7 /* Reviews.swift */; };
 		BB8A60262B93DE020039CFF6 /* InstanceNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A60252B93DE020039CFF6 /* InstanceNotification.swift */; };
 		BB8A60282B952D710039CFF6 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A60272B952D710039CFF6 /* Subscription.swift */; };
 		BB8A602A2B97840F0039CFF6 /* InstanceView+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A60292B97840F0039CFF6 /* InstanceView+Notifications.swift */; };
@@ -224,6 +225,7 @@
 		BB7DDF642B718DFB0001CDFC /* MovieReleaseSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseSheet.swift; sourceTree = "<group>"; };
 		BB865E602B83C11E00ADCEFE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseRow.swift; sourceTree = "<group>"; };
+		BB8A56782C0004D500199DB7 /* Reviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviews.swift; sourceTree = "<group>"; };
 		BB8A60252B93DE020039CFF6 /* InstanceNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceNotification.swift; sourceTree = "<group>"; };
 		BB8A60272B952D710039CFF6 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		BB8A60292B97840F0039CFF6 /* InstanceView+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InstanceView+Notifications.swift"; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 			children = (
 				BBC309D92BED7FE4004080FD /* Environment.swift */,
 				BBC309D72BED584C004080FD /* Platform.swift */,
+				BB8A56782C0004D500199DB7 /* Reviews.swift */,
 				BB01B1F32B6465730025FAF4 /* View.swift */,
 				BB865E602B83C11E00ADCEFE /* Error.swift */,
 				BBAED12A2B7205A9006C6CF2 /* Helpers.swift */,
@@ -857,6 +860,7 @@
 				BB0FE1152BED3E3700D1D847 /* MediaFileSheet.swift in Sources */,
 				BB6F23AD2B6ABBBD00A4347A /* SettingsSystemSection.swift in Sources */,
 				BB0FE1112BED30D100D1D847 /* SeriesFiles.swift in Sources */,
+				BB8A56792C0004D500199DB7 /* Reviews.swift in Sources */,
 				BBC309D82BED584C004080FD /* Platform.swift in Sources */,
 				BB96C32B2BE833AD00E24C1C /* SeriesForm.swift in Sources */,
 				BBF583B22BABAE8C00AFA7FB /* Loading.swift in Sources */,

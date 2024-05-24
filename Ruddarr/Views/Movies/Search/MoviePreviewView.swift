@@ -101,6 +101,7 @@ struct MoviePreviewView: View {
         dependencies.router.moviesPath.append(moviePath)
 
         TelemetryDeck.signal("movieAdded")
+        maybeAskForReview()
     }
 }
 

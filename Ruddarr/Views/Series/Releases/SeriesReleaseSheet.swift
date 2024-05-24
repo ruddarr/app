@@ -231,6 +231,7 @@ struct SeriesReleaseSheet: View {
         dependencies.toast.show(.downloadQueued)
 
         TelemetryDeck.signal("releaseDownloaded", parameters: ["type": release.fullSeason ? "season" : "episode"])
+        maybeAskForReview()
     }
 }
 

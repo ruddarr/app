@@ -291,6 +291,7 @@ extension EpisodeView {
         dependencies.toast.show(.episodeSearchQueued)
 
         TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "episode"])
+        maybeAskForReview()
     }
 
     @MainActor

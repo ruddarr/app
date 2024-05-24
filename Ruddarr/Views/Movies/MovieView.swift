@@ -150,6 +150,7 @@ extension MovieView {
         dependencies.toast.show(.movieSearchQueued)
 
         TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "movie"])
+        maybeAskForReview()
     }
 
     @MainActor

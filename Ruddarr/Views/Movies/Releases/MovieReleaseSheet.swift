@@ -231,6 +231,7 @@ struct MovieReleaseSheet: View {
         dependencies.toast.show(.downloadQueued)
 
         TelemetryDeck.signal("releaseDownloaded", parameters: ["type": "movie"])
+        maybeAskForReview()
     }
 }
 
