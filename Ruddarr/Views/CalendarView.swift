@@ -4,6 +4,8 @@ struct CalendarView: View {
     @State var calendar = MediaCalendar()
 
     @State private var initialized: Bool = false
+    @State private var initializationError: API.Error?
+
     @State private var scrollView: ScrollViewProxy?
 
     @State private var onlyMonitored: Bool = false
@@ -78,9 +80,7 @@ struct CalendarView: View {
             }
             .task {
                 guard !initialized else { return }
-                await calendar.initialize()
-                initialized = (calendar.error == nil)
-                scrollTo(calendar.today())
+                await initialize()
             }
             .alert(
                 isPresented: calendar.errorBinding,
@@ -93,9 +93,9 @@ struct CalendarView: View {
             .overlay {
                 if notConnectedToInternet {
                     NoInternet()
-                } else if initialLoading {
+                } else if calendar.isInitializing {
                     Loading()
-                } else if initialLoadingFailed {
+                } else if initializationError != nil {
                     contentUnavailable
                 }
             }
@@ -109,16 +109,6 @@ struct CalendarView: View {
         return false
     }
 
-    var initialLoading: Bool {
-        if !calendar.dates.isEmpty { return false }
-        return calendar.isLoading
-    }
-
-    var initialLoadingFailed: Bool {
-        if !calendar.dates.isEmpty { return false }
-        return calendar.error != nil
-    }
-
     var displayMovies: Bool {
         [.all, .movies].contains(displayedMediaType)
     }
@@ -129,6 +119,13 @@ struct CalendarView: View {
 
     var onlyVoidInstances: Bool {
         !settings.instances.contains { $0 != .radarrVoid && $0 != .sonarrVoid }
+    }
+
+    func initialize() async {
+        await calendar.initialize()
+        initializationError = calendar.error
+        initialized = true
+        scrollTo(calendar.today())
     }
 
     func scrollTo(_ timestamp: TimeInterval) {
@@ -177,10 +174,10 @@ struct CalendarView: View {
         ContentUnavailableView {
             Label("Connection Failure", systemImage: "exclamationmark.triangle")
         } description: {
-            Text(calendar.error?.recoverySuggestionFallback ?? "")
+            Text(initializationError?.recoverySuggestionFallback ?? "")
         } actions: {
             Button("Retry") {
-                Task { await calendar.initialize() }
+                Task { await initialize() }
             }
         }
     }
