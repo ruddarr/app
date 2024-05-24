@@ -128,7 +128,11 @@ struct SeasonView: View {
     var episodesList: some View {
         Section {
             if instance.episodes.isFetching {
-                ProgressView().tint(.secondary)
+                HStack {
+                    Spacer()
+                    ProgressView().tint(.secondary)
+                    Spacer()
+                }
             } else {
                 VStack(spacing: 12) {
                     ForEach(episodes) { episode in
