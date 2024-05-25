@@ -16,7 +16,18 @@ struct MovieGridItem: View {
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             Group {
                 Text(movie.title).font(.footnote).fontWeight(.medium)
-                Text(movie.monitored ? "Monitored" : "Unmonitored").font(.footnote).foregroundStyle(.secondary)
+                HStack(spacing: 4) {
+                    Group {
+                        if movie.isDownloaded {
+                            Image(systemName: "checkmark").symbolVariant(.circle.fill)
+                        } else if movie.isWaiting {
+                            Image(systemName: "clock")
+                        } else if movie.monitored {
+                            Image(systemName: "xmark").symbolVariant(.circle)
+                        }
+                    }.font(.caption)
+                    Text(movie.monitored ? "Monitored" : "Unmonitored").font(.footnote)
+                }.foregroundStyle(.secondary).opacity(0.8)
             }.frame(maxWidth: .infinity, alignment: .leading).lineLimit(1)
         }
     }
