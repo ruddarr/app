@@ -13,9 +13,7 @@ class Queue {
     var items: [Instance.ID: [QueueItem]] = [:]
 
     private init() {
-        // TODO: show bubble, if download is active or pending?
-
-        self.timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
+        self.timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
             Task {
                 await self.fetch()
             }
@@ -23,8 +21,7 @@ class Queue {
     }
 
     var badgeCount: Int {
-        return 0
-        // items.filter
+        items.flatMap { $0.value }.filter { $0.trackedDownloadStatus != .ok }.count
     }
 
     func fetch() async {
@@ -65,7 +62,14 @@ struct QueueItem: Codable, Identifiable {
     let downloadId: String?
     let downloadClient: String?
 
-    let movieId: Int
+    // Radarr
+    let movieId: Int?
+
+    // Sonarr
+    let seriesId: Int?
+    let episodeId: Int?
+    let seasonNumber: Int?
+    let episodeHasFile: Bool?
 
     let title: String?
     let indexer: String?
@@ -99,6 +103,10 @@ struct QueueItem: Codable, Identifiable {
         case downloadId
         case downloadClient
         case movieId
+        case seriesId
+        case episodeId
+        case seasonNumber
+        case episodeHasFile
         case title
         case indexer
         case type = "protocol"
@@ -125,6 +133,13 @@ struct QueueItem: Codable, Identifiable {
         )
     }
 
+    var remainingLabel: String? {
+        guard trackedDownloadState == .downloading else { return nil }
+        guard let time = estimatedCompletionTime else { return nil }
+        guard time > Date.now else { return nil }
+        return formatRemainingTime(time)
+    }
+
     var statusLabel: String {
         if status == nil {
             return String(localized: "Unknown")
@@ -132,7 +147,7 @@ struct QueueItem: Codable, Identifiable {
 
         if status != "completed" {
             return switch status {
-            case "queue": String(localized: "Queue")
+            case "queue": String(localized: "Queued")
             case "paused": String(localized: "Paused")
             case "failed": String(localized: "Failed")
             case "downloading": String(localized: "Downloading")

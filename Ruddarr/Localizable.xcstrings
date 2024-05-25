@@ -3384,15 +3384,22 @@
         }
       }
     },
-    "Queue" : {
-
-    },
     "Queue Empty" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Queue Empty"
+          }
+        }
+      }
+    },
+    "Queued" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queued"
           }
         }
       }
