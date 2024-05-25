@@ -130,24 +130,12 @@
         }
       }
     },
-    "%dh %dm" : {
-      "comment" : "$1 = hours, $2 = minutes (1h 13m)",
+    "%lld Tasks" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$dh %2$dm"
-          }
-        }
-      }
-    },
-    "%dm" : {
-      "comment" : "%d = minutes (13m)",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%dm"
+            "value" : "%lld Tasks"
           }
         }
       }

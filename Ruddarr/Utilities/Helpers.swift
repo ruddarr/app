@@ -34,20 +34,19 @@ extension String {
     }
 }
 
-func formatRuntime(_ runtime: Int) -> String {
-    let hours = runtime / 60
-    let minutes = runtime % 60
+func formatRuntime(_ minutes: Int) -> String {
+    let formatter = DateComponentsFormatter()
+    formatter.allowedUnits = [.hour, .minute]
+    formatter.unitsStyle = .abbreviated
+
+    return formatter.string(from: TimeInterval(minutes * 60)) ?? formatter.string(from: 0)!
 }
 
-    if hours == 0 {
-        return String(format: String(localized: "%dm", comment: "%d = minutes (13m)"), minutes)
-    }
 func formatRemainingTime(_ date: Date) -> String? {
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.hour, .minute, .second]
     formatter.unitsStyle = .positional
 
-    return String(format: String(localized: "%dh %dm", comment: "$1 = hours, $2 = minutes (1h 13m)"), hours, minutes)
     return formatter.string(from: Date.now, to: date)
 }
 
