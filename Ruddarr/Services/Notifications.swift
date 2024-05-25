@@ -11,7 +11,7 @@ class Notifications {
 
     private let center: UNUserNotificationCenter
 
-    init() {
+    private init() {
         center = UNUserNotificationCenter.current()
     }
 

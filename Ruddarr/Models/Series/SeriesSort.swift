@@ -37,9 +37,9 @@ struct SeriesSort: Hashable {
             case .bySize:
                 lhs.statistics?.sizeOnDisk ?? 0 < rhs.statistics?.sizeOnDisk ?? 0
             case .byNextAiring:
-                lhs.nextAiring?.timeIntervalSince1970 ?? 0 < rhs.nextAiring?.timeIntervalSince1970 ?? 0
+                lhs.nextAiring ?? Date.distantPast < rhs.nextAiring ?? Date.distantPast
             case .byPreviousAiring:
-                lhs.previousAiring?.timeIntervalSince1970 ?? 0 < rhs.previousAiring?.timeIntervalSince1970 ?? 0
+                lhs.previousAiring ?? Date.distantPast < rhs.previousAiring ?? Date.distantPast
             }
         }
     }

@@ -175,16 +175,14 @@ struct CalendarView: View {
                 Button {
                     Task { await calendar.refresh() }
                 } label: {
-                    ZStack {
-                        Image(systemName: "arrow.clockwise")
-                            .scaleEffect(0.85)
-                            .opacity(calendar.isRefreshing ? 0 : 1)
-
-                        if calendar.isRefreshing {
-                            ProgressView().tint(.secondary)
-                                .offset(y: 1)
+                    Image(systemName: "arrow.clockwise")
+                        .scaleEffect(0.85)
+                        .opacity(calendar.isRefreshing ? 0 : 1)
+                        .overlay {
+                            if calendar.isRefreshing {
+                                ProgressView().tint(.secondary)
+                            }
                         }
-                    }
                 }
             }.id(UUID())
         }

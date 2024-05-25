@@ -106,8 +106,9 @@ struct Series: Identifiable, Equatable, Codable {
 
     var sortYear: TimeInterval {
         if let date = firstAired { return date.timeIntervalSince1970 }
-        if year <= 0 { return 2_942_956_800 }
-        return DateComponents(calendar: .current, year: year).date?.timeIntervalSince1970 ?? 2_942_956_800
+        if year <= 0 { return Date.distantFuture.timeIntervalSince1970 }
+        return DateComponents(calendar: .current, year: year).date?.timeIntervalSince1970
+            ?? Date.distantFuture.timeIntervalSince1970
     }
 
     var isDownloaded: Bool {
