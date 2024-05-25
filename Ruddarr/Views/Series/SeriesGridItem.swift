@@ -4,18 +4,21 @@ struct SeriesGridItem: View {
     var series: Series
 
     var body: some View {
-        poster
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .contextMenu {
-                SeriesContextMenu(series: series)
-            } preview: {
-                poster.frame(width: 300, height: 450)
-            }
-            .background(.secondarySystemBackground)
-            .overlay(alignment: .bottom) {
-                posterOverlay
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+        VStack {
+            poster
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contextMenu {
+                    SeriesContextMenu(series: series)
+                } preview: {
+                    poster.frame(width: 300, height: 450)
+                }
+                .background(.secondarySystemBackground)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            Group {
+                Text(series.title).font(.footnote).fontWeight(.medium)
+                Text(series.monitored ? "Monitored" : "Unmonitored").font(.footnote).foregroundStyle(.secondary)
+            }.frame(maxWidth: .infinity, alignment: .leading).lineLimit(1)
+        }
     }
 
     var poster: some View {

@@ -4,20 +4,21 @@ struct MovieGridItem: View {
     var movie: Movie
 
     var body: some View {
-        poster
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .contextMenu {
-                MovieContextMenu(movie: movie)
-            } preview: {
-                poster.frame(width: 300, height: 450)
-            }
-            .background(.secondarySystemBackground)
-            .overlay(alignment: .bottom) {
-                if movie.exists {
-                    posterOverlay
+        VStack {
+            poster
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contextMenu {
+                    MovieContextMenu(movie: movie)
+                } preview: {
+                    poster.frame(width: 300, height: 450)
                 }
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+                .background(.secondarySystemBackground)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            Group {
+                Text(movie.title).font(.footnote).fontWeight(.medium)
+                Text(movie.monitored ? "Monitored" : "Unmonitored").font(.footnote).foregroundStyle(.secondary)
+            }.frame(maxWidth: .infinity, alignment: .leading).lineLimit(1)
+        }
     }
 
     var poster: some View {
