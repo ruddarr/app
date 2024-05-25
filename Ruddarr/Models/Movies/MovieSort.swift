@@ -35,7 +35,7 @@ struct MovieSort: Hashable {
             case .byAdded:
                 lhs.added < rhs.added
             case .byRelease:
-                lhs.digitalRelease?.timeIntervalSince1970 ?? 0 < rhs.digitalRelease?.timeIntervalSince1970 ?? 0
+                lhs.digitalRelease ?? Date.distantPast < rhs.digitalRelease ?? Date.distantPast
             }
         }
     }

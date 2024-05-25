@@ -64,9 +64,9 @@ struct MediaEventSheet: View {
                     row("Score", score)
                 }
 
-                if !event.customFormats.isEmpty  {
+                if let formats = event.customFormats, !formats.isEmpty {
                     Divider()
-                    row("Custom Formats", event.customFormats.map { $0.label }.formattedList())
+                    row("Custom Formats", formats.map { $0.label }.formattedList())
                 }
 
                 if let group = event.data("releaseGroup") {

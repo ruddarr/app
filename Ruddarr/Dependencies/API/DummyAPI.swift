@@ -63,7 +63,7 @@ extension API {
 
             return loadPreviewData(filename: "series")
         }, fetchEpisodes: { _, _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return loadPreviewData(filename: "series-episodes")
         }, fetchEpisodeFiles: { _, _ in
@@ -143,6 +143,10 @@ extension API {
             try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return loadPreviewData(filename: "quality-profiles")
+        }, queue: { _ in
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+
+            return loadPreviewData(filename: "movie-queue")
         }, fetchNotifications: { _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 

@@ -19,20 +19,21 @@ struct MediaHistoryEvent: Identifiable, Codable {
     let seriesId: Int?
     let episodeId: Int?
 
-    let customFormats: [MediaCustomFormat]
-    let customFormatScore: Int
     let quality: MediaQuality
-    let languages: [MediaLanguage]
+    let languages: [MediaLanguage]?
+
+    let customFormats: [MediaCustomFormat]?
+    let customFormatScore: Int?
 
     let data: [String: String?]?
 
     var languageLabel: String {
-        languageSingleLabel(languages)
+        languageSingleLabel(languages ?? [])
     }
 
     var scoreLabel: String? {
-        guard !customFormats.isEmpty else { return nil }
-        return formatCustomScore(customFormatScore)
+        guard !(customFormats ?? []).isEmpty else { return nil }
+        return formatCustomScore(customFormatScore ?? 0)
     }
 
     var indexerLabel: String {

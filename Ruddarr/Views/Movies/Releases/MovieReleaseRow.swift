@@ -25,12 +25,10 @@ struct MovieReleaseRow: View {
 
     var linesStack: some View {
         VStack(alignment: .leading) {
-            HStack(spacing: 4) {
-                Text(release.title)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .lineLimit(1)
-            }
+            Text(release.title)
+                .font(.headline)
+                .fontWeight(.semibold)
+                .lineLimit(1)
 
             secondRow
             thirdRow
