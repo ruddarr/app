@@ -32,6 +32,7 @@ enum Tab: Hashable, CaseIterable, Identifiable {
     case movies
     case series
     case calendar
+    case activity
     case settings
 
     var text: LocalizedStringKey {
@@ -39,6 +40,7 @@ enum Tab: Hashable, CaseIterable, Identifiable {
         case .movies: "Movies"
         case .series: "Series"
         case .calendar: "Calendar"
+        case .activity: "Activity"
         case .settings: "Settings"
         }
     }
@@ -48,6 +50,7 @@ enum Tab: Hashable, CaseIterable, Identifiable {
         case .movies: "film"
         case .series: "tv"
         case .calendar: "calendar"
+        case .activity: "waveform.path.ecg"
         case .settings: "gear"
         }
     }
@@ -88,6 +91,12 @@ enum Tab: Hashable, CaseIterable, Identifiable {
                 Text(text).font(.system(size: 10, weight: .semibold))
                     .frame(height: 15).padding(.top, 8)
             case .calendar:
+                Image(systemName: icon).font(.system(size: 23))
+                    .frame(height: 15)
+
+                Text(text).font(.system(size: 10, weight: .semibold))
+                    .frame(height: 15).padding(.top, 8)
+            case .activity:
                 Image(systemName: icon).font(.system(size: 23))
                     .frame(height: 15)
 

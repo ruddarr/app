@@ -50,6 +50,8 @@ struct ContentView: View {
             MoviesView()
         case .series:
             SeriesView()
+        case .activity:
+            ActivityView()
         case .calendar:
             CalendarView()
         case .settings:

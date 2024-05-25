@@ -202,6 +202,16 @@
         }
       }
     },
+    "Activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activity"
+          }
+        }
+      }
+    },
     "Add Authentication" : {
       "localizations" : {
         "en" : {
@@ -308,6 +318,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "All Episodes"
+          }
+        }
+      }
+    },
+    "All instance queues are empty." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All instance queues are empty."
           }
         }
       }
@@ -1193,6 +1213,16 @@
         }
       }
     },
+    "Downloading" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloading"
+          }
+        }
+      }
+    },
     "Dutch" : {
       "localizations" : {
         "en" : {
@@ -1769,6 +1799,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Imported"
+          }
+        }
+      }
+    },
+    "Importing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importing"
           }
         }
       }
@@ -3134,12 +3174,32 @@
         }
       }
     },
+    "Paused" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paused"
+          }
+        }
+      }
+    },
     "Peers" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peers"
+          }
+        }
+      }
+    },
+    "Pending" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pending"
           }
         }
       }
@@ -3320,6 +3380,19 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quality Profile"
+          }
+        }
+      }
+    },
+    "Queue" : {
+
+    },
+    "Queue Empty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queue Empty"
           }
         }
       }

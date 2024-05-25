@@ -20,6 +20,7 @@ struct ContentView: View {
     init() {
         UITabBar.appearance().unselectedItemTintColor = .clear
         UITabBar.appearance().tintColor = .clear // this does not work (see `.tint` below)
+        UITabBarItem.appearance().badgeColor = .orange
     }
 
     var body: some View {
@@ -59,6 +60,7 @@ struct ContentView: View {
                 screen(for: tab)
                     .tint(settings.theme.tint) // restore tint for view
                     .tabItem { tab.label }
+                    .badge(tab == .activity ? Queue.shared.badgeCount : 0)
                     .displayToasts()
                     .tag(tab)
             }
@@ -122,6 +124,8 @@ struct ContentView: View {
             MoviesView()
         case .series:
             SeriesView()
+        case .activity:
+            ActivityView()
         case .calendar:
             CalendarView()
         case .settings:
@@ -179,6 +183,8 @@ struct ContentView: View {
             dependencies.router.seriesPath.isEmpty
                 ? dependencies.router.seriesScroll.send()
                 : (dependencies.router.seriesPath = .init())
+        case .activity:
+            break
         case .calendar:
             dependencies.router.calendarScroll.send()
         case .settings:
