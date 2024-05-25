@@ -121,7 +121,7 @@ struct InstanceEditView: View {
         LabeledContent {
             TextField("Synology", text: $instance.label)
                 .multilineTextAlignment(.trailing)
-                .disableAutocorrection(true)
+                .autocorrectionDisabled(true)
         } label: {
             Text("Label")
         }
@@ -131,7 +131,7 @@ struct InstanceEditView: View {
         LabeledContent {
             TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
                 .multilineTextAlignment(.trailing)
-                .disableAutocorrection(true)
+                .autocorrectionDisabled(true)
                 .textCase(.lowercase)
                 .onChange(of: instance.url, detectInstanceType)
                 #if os(iOS)
@@ -147,7 +147,7 @@ struct InstanceEditView: View {
         LabeledContent {
             TextField("0a1b2c3d...", text: $instance.apiKey)
                 .multilineTextAlignment(.trailing)
-                .disableAutocorrection(true)
+                .autocorrectionDisabled(true)
                 .textCase(.lowercase)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
@@ -259,13 +259,13 @@ struct InstanceHeaderRow: View {
         LabeledContent {
             TextField("Value", text: $header.value)
                 .multilineTextAlignment(.trailing)
-                .disableAutocorrection(true)
+                .autocorrectionDisabled(true)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
                 #endif
         } label: {
             TextField("Name", text: $header.name)
-                .disableAutocorrection(true)
+                .autocorrectionDisabled(true)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
                 #endif

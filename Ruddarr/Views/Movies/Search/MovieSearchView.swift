@@ -39,6 +39,7 @@ struct MovieSearchView: View {
             placement: .drawerOrToolbar
         )
         .disabled(instance.isVoid)
+        .autocorrectionDisabled(true)
         .searchScopes($movieLookup.sort) {
             ForEach(MovieLookup.SortOption.allCases) { option in
                 Text(option.label)
