@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct SeriesGridItem: View {
+    @EnvironmentObject var settings: AppSettings
     var series: Series
 
     var body: some View {
-        VStack {
+        switch settings.layout {
+        case .compact:
             poster
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .contextMenu {
@@ -13,26 +15,41 @@ struct SeriesGridItem: View {
                     poster.frame(width: 300, height: 450)
                 }
                 .background(.secondarySystemBackground)
+                .overlay(alignment: .bottom) {
+                    posterOverlay
+                }
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-            Group {
-                Text(series.title).font(.footnote).fontWeight(.medium)
-                HStack(spacing: 4) {
-                    Group {
-                        if series.isDownloaded {
-                            Image(systemName: "checkmark").symbolVariant(.circle.fill)
-                        } else if series.isWaiting {
-                            Image(systemName: "clock")
-                        } else if series.percentOfEpisodes < 100 {
-                            if series.episodeFileCount > 0 {
-                                Image(systemName: "checkmark.circle.trianglebadge.exclamationmark")
-                            } else if series.monitored {
-                                Image(systemName: "xmark").symbolVariant(.circle)
+        case .expanded:
+            VStack {
+                poster
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .contextMenu {
+                        SeriesContextMenu(series: series)
+                    } preview: {
+                        poster.frame(width: 300, height: 450)
+                    }
+                    .background(.secondarySystemBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                Group {
+                    Text(series.title).font(.footnote).fontWeight(.medium)
+                    HStack(spacing: 4) {
+                        Group {
+                            if series.isDownloaded {
+                                Image(systemName: "checkmark").symbolVariant(.circle.fill)
+                            } else if series.isWaiting {
+                                Image(systemName: "clock")
+                            } else if series.percentOfEpisodes < 100 {
+                                if series.episodeFileCount > 0 {
+                                    Image(systemName: "checkmark.circle.trianglebadge.exclamationmark")
+                                } else if series.monitored {
+                                    Image(systemName: "xmark").symbolVariant(.circle)
+                                }
                             }
-                        }
-                    }.font(.caption)
-                    Text(series.monitored ? "Monitored" : "Unmonitored").font(.footnote)
-                }.foregroundStyle(.secondary).opacity(0.8)
-            }.frame(maxWidth: .infinity, alignment: .leading).lineLimit(1)
+                        }.font(.caption)
+                        Text(series.monitored ? "Monitored" : "Unmonitored").font(.footnote)
+                    }.foregroundStyle(.secondary).opacity(0.8)
+                }.frame(maxWidth: .infinity, alignment: .leading).lineLimit(1)
+            }
         }
     }
 

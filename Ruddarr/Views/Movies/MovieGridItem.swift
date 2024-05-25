@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct MovieGridItem: View {
+    @EnvironmentObject var settings: AppSettings
     var movie: Movie
 
     var body: some View {
-        VStack {
+        switch settings.layout {
+        case .compact:
             poster
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .contextMenu {
@@ -13,22 +15,39 @@ struct MovieGridItem: View {
                     poster.frame(width: 300, height: 450)
                 }
                 .background(.secondarySystemBackground)
+                .overlay(alignment: .bottom) {
+                    if movie.exists {
+                        posterOverlay
+                    }
+                }
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-            Group {
-                Text(movie.title).font(.footnote).fontWeight(.medium)
-                HStack(spacing: 4) {
-                    Group {
-                        if movie.isDownloaded {
-                            Image(systemName: "checkmark").symbolVariant(.circle.fill)
-                        } else if movie.isWaiting {
-                            Image(systemName: "clock")
-                        } else if movie.monitored {
-                            Image(systemName: "xmark").symbolVariant(.circle)
-                        }
-                    }.font(.caption)
-                    Text(movie.monitored ? "Monitored" : "Unmonitored").font(.footnote)
-                }.foregroundStyle(.secondary).opacity(0.8)
-            }.frame(maxWidth: .infinity, alignment: .leading).lineLimit(1)
+        case .expanded:
+            VStack {
+                poster
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .contextMenu {
+                        MovieContextMenu(movie: movie)
+                    } preview: {
+                        poster.frame(width: 300, height: 450)
+                    }
+                    .background(.secondarySystemBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                Group {
+                    Text(movie.title).font(.footnote).fontWeight(.medium)
+                    HStack(spacing: 4) {
+                        Group {
+                            if movie.isDownloaded {
+                                Image(systemName: "checkmark").symbolVariant(.circle.fill)
+                            } else if movie.isWaiting {
+                                Image(systemName: "clock")
+                            } else if movie.monitored {
+                                Image(systemName: "xmark").symbolVariant(.circle)
+                            }
+                        }.font(.caption)
+                        Text(movie.monitored ? "Monitored" : "Unmonitored").font(.footnote)
+                    }.foregroundStyle(.secondary).opacity(0.8)
+                }.frame(maxWidth: .infinity, alignment: .leading).lineLimit(1)
+            }
         }
     }
 

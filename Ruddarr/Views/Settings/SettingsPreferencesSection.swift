@@ -15,6 +15,7 @@ struct SettingsPreferencesSection: View {
             appearancePicker
             themePicker
             iconPicker
+            layoutPicker
 
             if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
                 manageSubscription
@@ -96,6 +97,25 @@ struct SettingsPreferencesSection: View {
                     .frame(width: appIconSize, height: appIconSize)
                     .clipShape(.rect(cornerRadius: (10 / 57) * appIconSize))
             }
+        }
+    }
+    
+    var layoutPicker: some View {
+        Picker(selection: $settings.layout) {
+            ForEach(ViewLayout.allCases) { layout in
+                Text(layout.label)
+            }
+        } label: {
+            Label {
+                Text("Grid Layout")
+            } icon: {
+                Image(systemName: "rectangle.grid.1x2")
+                    .foregroundStyle(Color(.monochrome))
+            }
+        }
+        .tint(.secondary)
+        .onChange(of: settings.layout) {
+            dependencies.router.reset()
         }
     }
 

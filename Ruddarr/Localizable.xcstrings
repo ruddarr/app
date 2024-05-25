@@ -852,6 +852,16 @@
         }
       }
     },
+    "Compact" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compact"
+          }
+        }
+      }
+    },
     "Connect a %@ instance under %@." : {
       "localizations" : {
         "en" : {
@@ -1423,6 +1433,16 @@
         }
       }
     },
+    "Expanded" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expanded"
+          }
+        }
+      }
+    },
     "Expired" : {
       "localizations" : {
         "en" : {
@@ -1669,6 +1689,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Greek"
+          }
+        }
+      }
+    },
+    "Grid Layout" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grid Layout"
           }
         }
       }
