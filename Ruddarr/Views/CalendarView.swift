@@ -3,10 +3,8 @@ import SwiftUI
 struct CalendarView: View {
     @State var calendar = MediaCalendar()
 
-    @State private var initialized: Bool = false
-    @State private var initializationError: API.Error?
-
     @State private var scrollView: ScrollViewProxy?
+    @State private var initializationError: API.Error?
 
     @State private var onlyMonitored: Bool = false
     @State private var onlyPremieres: Bool = false
@@ -79,8 +77,7 @@ struct CalendarView: View {
                 }
             }
             .task {
-                if initialized { return }
-                await initialize()
+                await load()
             }
             .alert(
                 isPresented: calendar.errorBinding,
@@ -93,7 +90,7 @@ struct CalendarView: View {
             .overlay {
                 if notConnectedToInternet {
                     NoInternet()
-                } else if calendar.isInitializing {
+                } else if calendar.isLoading && calendar.dates.isEmpty {
                     Loading()
                 } else if initializationError != nil {
                     contentUnavailable
@@ -121,10 +118,20 @@ struct CalendarView: View {
         !settings.instances.contains { $0 != .radarrVoid && $0 != .sonarrVoid }
     }
 
-    func initialize() async {
-        await calendar.initialize()
-        initializationError = calendar.error
-        initialized = true
+    func load(force: Bool = false) async {
+        let lastFetch = Occurrence.since("calendarFetch")
+
+        if !force && !calendar.dates.isEmpty && lastFetch < 10 {
+            return
+        }
+
+        await calendar.load()
+
+        if calendar.dates.isEmpty {
+            initializationError = calendar.error
+        }
+
+        Occurrence.occurred("calendarFetch")
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             scrollTo(calendar.today())
@@ -147,13 +154,10 @@ struct CalendarView: View {
 
             if displaySeries, let episodes = calendar.episodes[timestamp] {
                 ForEach(episodes) { episode in
-                    let series: String = calendar.series[episode.seriesId]?.title
-                        ?? String(localized: "Unknown")
-
                     if (!onlyMonitored || episode.monitored) &&
                        (!onlyPremieres || episode.isPremiere)
                     {
-                        CalendarEpisode(episode: episode, seriesTitle: series)
+                        CalendarEpisode(episode: episode)
                     }
                 }
             }
@@ -165,24 +169,9 @@ struct CalendarView: View {
 
     var todayButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            HStack(spacing: 5) {
-                Button("Today") {
-                    withAnimation(.smooth) {
-                        scrollTo(calendar.today())
-                    }
-                }
-
-                Button {
-                    Task { await calendar.refresh() }
-                } label: {
-                    Image(systemName: "arrow.clockwise")
-                        .scaleEffect(0.85)
-                        .opacity(calendar.isRefreshing ? 0 : 1)
-                        .overlay {
-                            if calendar.isRefreshing {
-                                ProgressView().tint(.secondary)
-                            }
-                        }
+            Button("Today") {
+                withAnimation(.smooth) {
+                    scrollTo(calendar.today())
                 }
             }.id(UUID())
         }
@@ -195,7 +184,7 @@ struct CalendarView: View {
             Text(initializationError?.recoverySuggestionFallback ?? "")
         } actions: {
             Button("Retry") {
-                Task { await initialize() }
+                Task { await load(force: true) }
             }
         }
     }

@@ -242,6 +242,7 @@ extension API {
                 .appending(path: "/api/v3/calendar")
                 .appending(queryItems: [
                     .init(name: "unmonitored", value: "true"),
+                    .init(name: "includeSeries", value: "true"),
                     .init(name: "start", value: start.formatted(.iso8601)),
                     .init(name: "end", value: end.formatted(.iso8601)),
                 ])
