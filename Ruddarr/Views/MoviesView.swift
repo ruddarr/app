@@ -130,6 +130,7 @@ struct MoviesView: View {
                 isPresented: $searchPresented,
                 placement: .drawerOrToolbar
             )
+            .autocorrectionDisabled(true)
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
                 scrollToTop()

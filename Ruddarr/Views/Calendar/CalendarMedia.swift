@@ -61,14 +61,13 @@ struct CalendarMovie: View {
 
 struct CalendarEpisode: View {
     var episode: Episode
-    var seriesTitle: String
 
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(seriesTitle)
+                Text(episode.series?.title ?? "Unknown")
                     .font(.body)
                     .lineLimit(1)
 

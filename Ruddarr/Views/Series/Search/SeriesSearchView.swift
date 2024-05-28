@@ -39,6 +39,7 @@ struct SeriesSearchView: View {
             placement: .drawerOrToolbar
         )
         .disabled(instance.isVoid)
+        .autocorrectionDisabled(true)
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)
         }

@@ -1,0 +1,566 @@
+{
+    "page": 1,
+    "pageSize": 20,
+    "sortKey": "timeleft",
+    "sortDirection": "ascending",
+    "totalRecords": 13,
+    "records": [
+        {
+            "seriesId": 366,
+            "episodeId": 14199,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 1,
+                    "name": "SDTV",
+                    "source": "television",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 619259288,
+            "title": "Jamie.Cooks.Spring.S01E02.XviD-AFG[EZTVx.to]",
+            "sizeleft": 0,
+            "added": "2024-05-24T15:37:42Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "One or more episodes expected in this release were not imported or missing from the release",
+                    "messages": []
+                },
+                {
+                    "title": "Jamie.Cooks.Spring.S01E02.XviD-AFG[EZTVx.to].avi",
+                    "messages": [
+                        "Not an upgrade for existing episode file(s). Existing quality: HDTV-1080p. New Quality SDTV."
+                    ]
+                }
+            ],
+            "downloadId": "B7614F8F3E52276FEBEF99E45792CDB885B44B50",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "EZTV (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/Jamie.Cooks.Spring.S01E02.XviD-AFG[EZTVx.to].avi",
+            "episodeHasFile": true,
+            "id": 464955325
+        },
+        {
+            "seriesId": 344,
+            "episodeId": 13942,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 7,
+                    "name": "Bluray-1080p",
+                    "source": "bluray",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 25574586699,
+            "title": "The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
+            "sizeleft": 25574586699,
+            "added": "2024-04-07T09:06:51Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "687DF4991F687EDE2C46DE612B5BA1A4B1DDCF81",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "LimeTorrents (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
+            "episodeHasFile": false,
+            "id": 1248394871
+        },
+        {
+            "seriesId": 344,
+            "episodeId": 13943,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 7,
+                    "name": "Bluray-1080p",
+                    "source": "bluray",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 25574586699,
+            "title": "The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
+            "sizeleft": 25574586699,
+            "added": "2024-04-07T09:06:51Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "687DF4991F687EDE2C46DE612B5BA1A4B1DDCF81",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "LimeTorrents (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
+            "episodeHasFile": false,
+            "id": 1863176881
+        },
+        {
+            "seriesId": 344,
+            "episodeId": 13944,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 7,
+                    "name": "Bluray-1080p",
+                    "source": "bluray",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 25574586699,
+            "title": "The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
+            "sizeleft": 25574586699,
+            "added": "2024-04-07T09:06:51Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "687DF4991F687EDE2C46DE612B5BA1A4B1DDCF81",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "LimeTorrents (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
+            "episodeHasFile": false,
+            "id": 1955453833
+        },
+        {
+            "seriesId": 344,
+            "episodeId": 13945,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 7,
+                    "name": "Bluray-1080p",
+                    "source": "bluray",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 25574586699,
+            "title": "The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
+            "sizeleft": 25574586699,
+            "added": "2024-04-07T09:06:51Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "687DF4991F687EDE2C46DE612B5BA1A4B1DDCF81",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "LimeTorrents (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
+            "episodeHasFile": false,
+            "id": 1713002972
+        },
+        {
+            "seriesId": 344,
+            "episodeId": 13946,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 7,
+                    "name": "Bluray-1080p",
+                    "source": "bluray",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 25574586699,
+            "title": "The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
+            "sizeleft": 25574586699,
+            "added": "2024-04-07T09:06:51Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "687DF4991F687EDE2C46DE612B5BA1A4B1DDCF81",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "LimeTorrents (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
+            "episodeHasFile": false,
+            "id": 774242477
+        },
+        {
+            "seriesId": 344,
+            "episodeId": 13947,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 7,
+                    "name": "Bluray-1080p",
+                    "source": "bluray",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 25574586699,
+            "title": "The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
+            "sizeleft": 25574586699,
+            "added": "2024-04-07T09:06:51Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "687DF4991F687EDE2C46DE612B5BA1A4B1DDCF81",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "LimeTorrents (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
+            "episodeHasFile": false,
+            "id": 1466131362
+        },
+        {
+            "seriesId": 371,
+            "episodeId": 14284,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 18,
+                    "name": "Portuguese"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 4951119235,
+            "title": "Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
+            "sizeleft": 4951119235,
+            "added": "2024-05-21T14:02:40Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "A4A5D5FF43FDD995A1AF0D9EA7CA8F7873FE64E6",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "Solid Torrents (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
+            "episodeHasFile": false,
+            "id": 827112743
+        },
+        {
+            "seriesId": 371,
+            "episodeId": 14285,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 18,
+                    "name": "Portuguese"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 4951119235,
+            "title": "Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
+            "sizeleft": 4951119235,
+            "added": "2024-05-21T14:02:40Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "A4A5D5FF43FDD995A1AF0D9EA7CA8F7873FE64E6",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "Solid Torrents (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
+            "episodeHasFile": false,
+            "id": 526716615
+        },
+        {
+            "seriesId": 371,
+            "episodeId": 14286,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 18,
+                    "name": "Portuguese"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 4951119235,
+            "title": "Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
+            "sizeleft": 4951119235,
+            "added": "2024-05-21T14:02:40Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "A4A5D5FF43FDD995A1AF0D9EA7CA8F7873FE64E6",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "Solid Torrents (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
+            "episodeHasFile": false,
+            "id": 664516329
+        },
+        {
+            "seriesId": 371,
+            "episodeId": 14287,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 18,
+                    "name": "Portuguese"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 4951119235,
+            "title": "Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
+            "sizeleft": 4951119235,
+            "added": "2024-05-21T14:02:40Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "A4A5D5FF43FDD995A1AF0D9EA7CA8F7873FE64E6",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "Solid Torrents (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
+            "episodeHasFile": false,
+            "id": 280918815
+        },
+        {
+            "seriesId": 371,
+            "episodeId": 14288,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 18,
+                    "name": "Portuguese"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 4951119235,
+            "title": "Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
+            "sizeleft": 4951119235,
+            "added": "2024-05-21T14:02:40Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "A4A5D5FF43FDD995A1AF0D9EA7CA8F7873FE64E6",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "Solid Torrents (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
+            "episodeHasFile": false,
+            "id": 405438667
+        },
+        {
+            "seriesId": 371,
+            "episodeId": 14289,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 18,
+                    "name": "Portuguese"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 4951119235,
+            "title": "Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
+            "sizeleft": 4951119235,
+            "added": "2024-05-21T14:02:40Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "A4A5D5FF43FDD995A1AF0D9EA7CA8F7873FE64E6",
+            "protocol": "torrent",
+            "downloadClient": "Transmission",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "Solid Torrents (Prowlarr)",
+            "outputPath": "/mediathek/downloads/complete/Sonarr/Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
+            "episodeHasFile": false,
+            "id": 2033000549
+        }
+    ]
+}

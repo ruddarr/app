@@ -41,6 +41,9 @@ private struct WithAppStateModifier: ViewModifier {
             .environment(\.deviceType, Platform.deviceType())
             .environment(RadarrInstance(radarrInstance))
             .environment(SonarrInstance(sonarrInstance))
+            .onAppear {
+                Queue.shared.instances = settings.instances
+            }
     }
 }
 

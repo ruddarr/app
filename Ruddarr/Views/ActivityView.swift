@@ -6,8 +6,6 @@ struct ActivityView: View {
     @EnvironmentObject var settings: AppSettings
 
     // TODO: sheet with details
-    // TODO: reload button
-    // TODO: already reload when coming into view!!!
 
     var body: some View {
         NavigationStack {
@@ -17,8 +15,11 @@ struct ActivityView: View {
                         QueueItemView(item: item)
                     }
                     .listRowBackground(Color.secondarySystemBackground)
+                } header: {
+                    if !items.isEmpty {
+                        Text("\(items.count) Tasks")
+                    }
                 }
-                // header: { Text("\(items.count) Tasks") }
             }
             .background(.systemBackground)
             .scrollContentBackground(.hidden)
@@ -27,7 +28,6 @@ struct ActivityView: View {
                 reloadButton
             }
             .onAppear {
-                print("on appear")
                 queue.instances = settings.instances
 
                 Task {
@@ -77,6 +77,9 @@ struct ActivityView: View {
 struct QueueItemView: View {
     var item: QueueItem
 
+    @State private var time = Date()
+    private let timer = Timer.publish(every: 1, tolerance: 0.5, on: .main, in: .common).autoconnect()
+
     var body: some View {
         VStack(alignment: .leading) {
             Text(item.title ?? "Unknown")
@@ -89,16 +92,18 @@ struct QueueItemView: View {
                 Bullet()
                 Text(item.progressLabel)
 
-                // TODO: 1h 14min
-
-                if item.trackedDownloadState == .downloading {
+                if let remaining = item.remainingLabel {
                     Bullet()
-                    Text(item.timeleft ?? "???")
-                    // TODO: estimatedCompletionTime
+                    Text(remaining).id(time)
                 }
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
+        }
+        .onReceive(timer) { _ in
+            if item.trackedDownloadState == .downloading {
+                time = Date()
+            }
         }
     }
 }
