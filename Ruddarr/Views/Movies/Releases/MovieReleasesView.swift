@@ -26,8 +26,8 @@ struct MovieReleasesView: View {
         }
         .task {
             guard !fetched else { return }
+            releases = []
             await instance.releases.search(movie)
-
             updateDisplayedReleases()
             fetched = true
         }

@@ -31,8 +31,8 @@ struct SeriesReleasesView: View {
         }
         .task {
             guard !fetched else { return }
+            releases = []
             await instance.releases.search(series, seasonId, episodeId)
-
             updateDisplayedReleases()
             fetched = true
         }
