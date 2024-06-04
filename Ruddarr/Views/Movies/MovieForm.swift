@@ -27,7 +27,7 @@ struct MovieForm: View {
             }
 
             if instance.rootFolders.count > 1 {
-                rootFolderField.tint(.secondary)
+                rootFolderField
             }
         }
         .onAppear {
@@ -70,7 +70,9 @@ struct MovieForm: View {
                 Text(folder.label).tag(folder.path)
             }
         }
-        .pickerStyle(.inline)
+        .pickerStyle(InlinePickerStyle())
+        .tint(settings.theme.tint)
+        .accentColor(settings.theme.tint) // `.tint()` is broken on inline pickers
     }
 
     func selectDefaultValues() {

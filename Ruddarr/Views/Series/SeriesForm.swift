@@ -35,7 +35,7 @@ struct SeriesForm: View {
             }
 
             if instance.rootFolders.count > 1 {
-                rootFolderField.tint(.secondary)
+                rootFolderField
             }
         }
         .onAppear {
@@ -92,6 +92,8 @@ struct SeriesForm: View {
             }
         }
         .pickerStyle(.inline)
+        .tint(settings.theme.tint)
+        .accentColor(settings.theme.tint) // `.tint()` is broken on inline pickers
     }
 
     func selectDefaultValues() {
