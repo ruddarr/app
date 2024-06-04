@@ -33,9 +33,10 @@ func leaveBreadcrumb(
     }
 
 #if DEBUG
-    let dataString: String = data.map { key, value in
-        "\(key): \(value)"
-    }.joined(separator: "; ")
+    let dataString: String = data
+        .sorted { $0.key > $1.key }
+        .map { key, value in "\(key): \(value)" }
+        .joined(separator: "; ")
 
     let levelString: String = switch level {
     case .debug: "debug"
