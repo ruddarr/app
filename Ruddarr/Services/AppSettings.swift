@@ -49,11 +49,15 @@ extension AppSettings {
         } else {
             instances.append(instance)
         }
+
+        Queue.shared.instances = instances
     }
 
     func deleteInstance(_ instance: Instance) {
         if let index = instances.firstIndex(where: { $0.id == instance.id }) {
             instances.remove(at: index)
         }
+
+        Queue.shared.instances = instances
     }
 }
