@@ -37,7 +37,7 @@ struct SeriesSort: Hashable {
             case .bySize:
                 lhs.statistics?.sizeOnDisk ?? 0 < rhs.statistics?.sizeOnDisk ?? 0
             case .byNextAiring:
-                lhs.nextAiring ?? Date.distantPast < rhs.nextAiring ?? Date.distantPast
+                lhs.nextAiring ?? Date.distantFuture > rhs.nextAiring ?? Date.distantFuture
             case .byPreviousAiring:
                 lhs.previousAiring ?? Date.distantPast < rhs.previousAiring ?? Date.distantPast
             }
