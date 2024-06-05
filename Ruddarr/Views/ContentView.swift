@@ -20,7 +20,6 @@ struct ContentView: View {
     init() {
         UITabBar.appearance().unselectedItemTintColor = .clear
         UITabBar.appearance().tintColor = .clear // this does not work (see `.tint` below)
-        UITabBarItem.appearance().badgeColor = .orange
     }
 
     var body: some View {
@@ -60,12 +59,15 @@ struct ContentView: View {
                 screen(for: tab)
                     .tint(settings.theme.tint) // restore tint for view
                     .tabItem { tab.label }
-                    .badge(tab == .activity ? Queue.shared.badgeCount : 0)
+                    .badge(tab == .activity ? Queue.shared.badgeCount : 0) // TODO: fix spacing of badge
                     .displayToasts()
                     .tag(tab)
             }
         }
         .tint(.clear) // hide selected `tabItem` tint
+        .onAppear {
+            UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
+        }
         .overlay(alignment: .bottom) { // the default `tabItem`s are hidden, display our own
             let columns: [GridItem] = Array(repeating: .init(.flexible()), count: Tab.allCases.count)
 
