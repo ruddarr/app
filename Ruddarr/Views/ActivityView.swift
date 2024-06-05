@@ -3,21 +3,34 @@ import SwiftUI
 struct ActivityView: View {
     @State var queue = Queue.shared
 
+    @State private var itemSheet: QueueItem?
+
     @EnvironmentObject var settings: AppSettings
 
-    // TODO: sheet with details
+    // TODO: Sonarr “Unknown” Download state (find out what's causing this)
 
     var body: some View {
         NavigationStack {
             List {
                 Section {
                     ForEach(items) { item in
-                        QueueItemView(item: item)
+                        Button(action: { itemSheet = item}) {
+                            QueueItemView(item: item)
+                        }
+                        .buttonStyle(.plain)
                     }
                     .listRowBackground(Color.secondarySystemBackground)
                 } header: {
                     if !items.isEmpty {
-                        Text("\(items.count) Tasks")
+                        HStack(spacing: 6) {
+                            Text("\(items.count) Tasks")
+
+                            if queue.isLoading {
+                                ProgressView()
+                                    .controlSize(.small)
+                                    .tint(.secondary)
+                            }
+                        }
                     }
                 }
             }
@@ -25,14 +38,19 @@ struct ActivityView: View {
             .scrollContentBackground(.hidden)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
-                reloadButton
+                // TODO: show instance picker (center)
+                // TODO: sort by date added, title
             }
             .onAppear {
                 queue.instances = settings.instances
 
-                Task {
-                    await queue.fetch()
-                }
+                Task { await queue.fetch() }
+            }
+            .refreshable {
+                await Task { await queue.fetch() }.value
+            }
+            .sheet(item: $itemSheet) { item in
+                QueueItemSheet(item: item).presentationDetents([.medium])
             }
             .overlay {
                 if items.isEmpty {
@@ -50,27 +68,10 @@ struct ActivityView: View {
 
     var queueEmpty: some View {
         ContentUnavailableView(
-            "Queue Empty",
+            "No Tasks",
             systemImage: "slash.circle",
             description: Text("All instance queues are empty.")
         )
-    }
-
-    var reloadButton: some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
-            Button {
-                Task { await queue.fetch() }
-            } label: {
-                Image(systemName: "arrow.clockwise")
-                    .scaleEffect(0.85)
-                    .opacity(queue.isLoading ? 0 : 1)
-                    .overlay {
-                        if queue.isLoading {
-                            ProgressView().tint(.secondary)
-                        }
-                    }
-            }
-        }
     }
 }
 
@@ -82,10 +83,11 @@ struct QueueItemView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(item.title ?? "Unknown")
-                .font(.headline)
+            Text(item.itemTitle ?? "Unknown")
+                .font(.headline.monospacedDigit())
                 .fontWeight(.semibold)
                 .lineLimit(1)
+                .truncationMode(.middle)
 
             HStack(spacing: 6) {
                 Text(item.statusLabel)
@@ -100,6 +102,7 @@ struct QueueItemView: View {
             .font(.subheadline)
             .foregroundStyle(.secondary)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .onReceive(timer) { _ in
             if item.trackedDownloadState == .downloading {
                 time = Date()

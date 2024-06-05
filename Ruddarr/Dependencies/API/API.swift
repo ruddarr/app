@@ -277,6 +277,9 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/queue")
                 .appending(queryItems: [
+                    .init(name: "includeMovie", value: "true"),
+                    .init(name: "includeSeries", value: "true"),
+                    .init(name: "includeEpisode", value: "true"),
                     .init(name: "pageSize", value: "100"),
                 ])
 

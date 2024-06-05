@@ -561,6 +561,766 @@
             "outputPath": "/mediathek/downloads/complete/Sonarr/Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
             "episodeHasFile": false,
             "id": 2033000549
+        },
+        {
+            "seriesId": 311,
+            "episodeId": 18011,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3410946749,
+            "title": "Undone.S01.1080p.WEB.h265-FaiLED",
+            "sizeleft": 0,
+            "added": "2024-06-04T06:42:17Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "One or more episodes expected in this release were not imported or missing from the release",
+                    "messages": []
+                },
+                {
+                    "title": "undone.s01e01.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e02.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e03.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e04.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e05.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e06.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e07.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e08.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                }
+            ],
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1514",
+            "protocol": "torrent",
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "TorrentLeech (Prowlarr)",
+            "outputPath": "/volume2/Media/#downloads/Undone.S01.1080p.WEB.h265-FaiLED",
+            "episodeHasFile": false,
+            "id": 1885207201
+        },
+        {
+            "seriesId": 311,
+            "episodeId": 18012,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3410946749,
+            "title": "Undone.S01.1080p.WEB.h265-FaiLED",
+            "sizeleft": 0,
+            "added": "2024-06-04T06:42:17Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "One or more episodes expected in this release were not imported or missing from the release",
+                    "messages": []
+                },
+                {
+                    "title": "undone.s01e01.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e02.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e03.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e04.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e05.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e06.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e07.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e08.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                }
+            ],
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1514",
+            "protocol": "torrent",
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "TorrentLeech (Prowlarr)",
+            "outputPath": "/volume2/Media/#downloads/Undone.S01.1080p.WEB.h265-FaiLED",
+            "episodeHasFile": false,
+            "id": 470758870
+        },
+        {
+            "seriesId": 311,
+            "episodeId": 18013,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3410946749,
+            "title": "Undone.S01.1080p.WEB.h265-FaiLED",
+            "sizeleft": 0,
+            "added": "2024-06-04T06:42:17Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "One or more episodes expected in this release were not imported or missing from the release",
+                    "messages": []
+                },
+                {
+                    "title": "undone.s01e01.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e02.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e03.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e04.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e05.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e06.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e07.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e08.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                }
+            ],
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1514",
+            "protocol": "torrent",
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "TorrentLeech (Prowlarr)",
+            "outputPath": "/volume2/Media/#downloads/Undone.S01.1080p.WEB.h265-FaiLED",
+            "episodeHasFile": false,
+            "id": 377533264
+        },
+        {
+            "seriesId": 311,
+            "episodeId": 18014,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3410946749,
+            "title": "Undone.S01.1080p.WEB.h265-FaiLED",
+            "sizeleft": 0,
+            "added": "2024-06-04T06:42:17Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "One or more episodes expected in this release were not imported or missing from the release",
+                    "messages": []
+                },
+                {
+                    "title": "undone.s01e01.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e02.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e03.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e04.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e05.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e06.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e07.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e08.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                }
+            ],
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1514",
+            "protocol": "torrent",
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "TorrentLeech (Prowlarr)",
+            "outputPath": "/volume2/Media/#downloads/Undone.S01.1080p.WEB.h265-FaiLED",
+            "episodeHasFile": false,
+            "id": 1067710850
+        },
+        {
+            "seriesId": 311,
+            "episodeId": 18015,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3410946749,
+            "title": "Undone.S01.1080p.WEB.h265-FaiLED",
+            "sizeleft": 0,
+            "added": "2024-06-04T06:42:17Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "One or more episodes expected in this release were not imported or missing from the release",
+                    "messages": []
+                },
+                {
+                    "title": "undone.s01e01.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e02.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e03.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e04.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e05.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e06.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e07.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e08.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                }
+            ],
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1514",
+            "protocol": "torrent",
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "TorrentLeech (Prowlarr)",
+            "outputPath": "/volume2/Media/#downloads/Undone.S01.1080p.WEB.h265-FaiLED",
+            "episodeHasFile": false,
+            "id": 1104592882
+        },
+        {
+            "seriesId": 311,
+            "episodeId": 18016,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3410946749,
+            "title": "Undone.S01.1080p.WEB.h265-FaiLED",
+            "sizeleft": 0,
+            "added": "2024-06-04T06:42:17Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "One or more episodes expected in this release were not imported or missing from the release",
+                    "messages": []
+                },
+                {
+                    "title": "undone.s01e01.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e02.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e03.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e04.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e05.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e06.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e07.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e08.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                }
+            ],
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1514",
+            "protocol": "torrent",
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "TorrentLeech (Prowlarr)",
+            "outputPath": "/volume2/Media/#downloads/Undone.S01.1080p.WEB.h265-FaiLED",
+            "episodeHasFile": false,
+            "id": 920162701
+        },
+        {
+            "seriesId": 311,
+            "episodeId": 18017,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3410946749,
+            "title": "Undone.S01.1080p.WEB.h265-FaiLED",
+            "sizeleft": 0,
+            "added": "2024-06-04T06:42:17Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "One or more episodes expected in this release were not imported or missing from the release",
+                    "messages": []
+                },
+                {
+                    "title": "undone.s01e01.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e02.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e03.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e04.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e05.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e06.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e07.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e08.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                }
+            ],
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1514",
+            "protocol": "torrent",
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "TorrentLeech (Prowlarr)",
+            "outputPath": "/volume2/Media/#downloads/Undone.S01.1080p.WEB.h265-FaiLED",
+            "episodeHasFile": false,
+            "id": 450081934
+        },
+        {
+            "seriesId": 311,
+            "episodeId": 18018,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3410946749,
+            "title": "Undone.S01.1080p.WEB.h265-FaiLED",
+            "sizeleft": 0,
+            "added": "2024-06-04T06:42:17Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "One or more episodes expected in this release were not imported or missing from the release",
+                    "messages": []
+                },
+                {
+                    "title": "undone.s01e01.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e02.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e03.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e04.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e05.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e06.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e07.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                },
+                {
+                    "title": "undone.s01e08.1080p.web.h265-failed-sample.mkv",
+                    "messages": [
+                        "Sample"
+                    ]
+                }
+            ],
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1514",
+            "protocol": "torrent",
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "TorrentLeech (Prowlarr)",
+            "outputPath": "/volume2/Media/#downloads/Undone.S01.1080p.WEB.h265-FaiLED",
+            "episodeHasFile": false,
+            "id": 1506109172
         }
     ]
 }

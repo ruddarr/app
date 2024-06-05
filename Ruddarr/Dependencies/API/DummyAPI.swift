@@ -143,10 +143,10 @@ extension API {
             try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return loadPreviewData(filename: "quality-profiles")
-        }, queue: { _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+        }, queue: { instance in
+            try await Task.sleep(nanoseconds: 500_000_000)
 
-            return loadPreviewData(filename: "movie-queue")
+            return loadPreviewData(filename: instance.type == .sonarr ? "series-queue" : "movie-queue")
         }, fetchNotifications: { _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 

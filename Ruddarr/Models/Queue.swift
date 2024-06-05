@@ -64,12 +64,15 @@ struct QueueItem: Codable, Identifiable {
 
     // Radarr
     let movieId: Int?
+    let movie: Movie?
 
     // Sonarr
     let seriesId: Int?
+    let series: Series?
     let episodeId: Int?
-    let seasonNumber: Int?
+    let episode: Episode?
     let episodeHasFile: Bool?
+    let seasonNumber: Int?
 
     let title: String?
     let indexer: String?
@@ -103,10 +106,13 @@ struct QueueItem: Codable, Identifiable {
         case downloadId
         case downloadClient
         case movieId
+        case movie
         case seriesId
+        case series
         case episodeId
-        case seasonNumber
+        case episode
         case episodeHasFile
+        case seasonNumber
         case title
         case indexer
         case type = "protocol"
@@ -127,10 +133,22 @@ struct QueueItem: Codable, Identifiable {
         case outputPath
     }
 
+    var itemTitle: String? {
+        if let title = movie?.title {
+            return title
+        }
+
+        if let title = series?.title {
+            guard let label = episode?.episodeLabel else { return title }
+            return "\(title) \(label)"
+        }
+
+        return nil
+    }
+
     var progressLabel: String {
-        ((size - sizeleft) / size).formatted(
-            .percent.precision(.fractionLength(1))
-        )
+        guard sizeleft > 0 else { return 100.formatted(.percent) }
+        return ((size - sizeleft) / size).formatted(.percent.precision(.fractionLength(1)))
     }
 
     var remainingLabel: String? {
@@ -138,6 +156,16 @@ struct QueueItem: Codable, Identifiable {
         guard let time = estimatedCompletionTime else { return nil }
         guard time > Date.now else { return nil }
         return formatRemainingTime(time)
+    }
+
+    var languagesLabel: String? {
+        if languages.isEmpty { return nil }
+        return languages.map { $0.label }.formattedList()
+    }
+
+    var scoreLabel: String? {
+        guard !customFormats.isEmpty else { return nil }
+        return formatCustomScore(customFormatScore)
     }
 
     var statusLabel: String {

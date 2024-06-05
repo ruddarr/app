@@ -820,6 +820,16 @@
         }
       }
     },
+    "Client" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Client"
+          }
+        }
+      }
+    },
     "Codec" : {
       "localizations" : {
         "en" : {
@@ -2643,6 +2653,16 @@
         }
       }
     },
+    "No Tasks" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Tasks"
+          }
+        }
+      }
+    },
     "None" : {
       "localizations" : {
         "en" : {
@@ -3368,16 +3388,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quality Profile"
-          }
-        }
-      }
-    },
-    "Queue Empty" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Queue Empty"
           }
         }
       }
