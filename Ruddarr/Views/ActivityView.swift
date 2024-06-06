@@ -7,6 +7,8 @@ struct ActivityView: View {
 
     @EnvironmentObject var settings: AppSettings
 
+    // output path
+    // release title
     // TODO: Sonarr “Unknown” Download state (find out what's causing this)
 
     var body: some View {
@@ -21,17 +23,7 @@ struct ActivityView: View {
                     }
                     .listRowBackground(Color.secondarySystemBackground)
                 } header: {
-                    if !items.isEmpty {
-                        HStack(spacing: 6) {
-                            Text("\(items.count) Tasks")
-
-                            if queue.isLoading {
-                                ProgressView()
-                                    .controlSize(.small)
-                                    .tint(.secondary)
-                            }
-                        }
-                    }
+                    if !items.isEmpty { sectionHeader }
                 }
             }
             .background(.systemBackground)
@@ -73,6 +65,18 @@ struct ActivityView: View {
             description: Text("All instance queues are empty.")
         )
     }
+
+    var sectionHeader: some View {
+        HStack(spacing: 6) {
+            Text("\(items.count) Tasks")
+
+            if queue.isLoading {
+                ProgressView()
+                    .controlSize(.small)
+                    .tint(.secondary)
+            }
+        }
+    }
 }
 
 struct QueueItemView: View {
@@ -91,12 +95,15 @@ struct QueueItemView: View {
 
             HStack(spacing: 6) {
                 Text(item.statusLabel)
-                Bullet()
-                Text(item.progressLabel)
 
-                if let remaining = item.remainingLabel {
+                if item.status != "completed" {
                     Bullet()
-                    Text(remaining).id(time)
+                    Text(item.progressLabel)
+
+                    if let remaining = item.remainingLabel {
+                        Bullet()
+                        Text(remaining).id(time)
+                    }
                 }
             }
             .font(.subheadline)

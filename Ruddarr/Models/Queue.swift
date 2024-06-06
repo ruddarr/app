@@ -187,9 +187,9 @@ struct QueueItem: Codable, Identifiable {
         }
 
         return switch trackedDownloadState {
-        case .importPending: String(localized: "Import Pending") // Waiting to Import
+        case .importPending: String(localized: "Import Pending")
         case .importing: String(localized: "Importing")
-        case .failedPending: String(localized: "Waiting") // Waiting to Process
+        case .failedPending: String(localized: "Waiting")
         default: String(localized: "Downloading")
         }
     }

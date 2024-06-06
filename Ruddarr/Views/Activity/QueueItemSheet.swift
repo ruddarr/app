@@ -14,26 +14,7 @@ struct QueueItemSheet: View {
                 }
 
                 VStack(alignment: .leading) {
-                    Text(item.extendedStatusLabel)
-                        .foregroundStyle(settings.theme.tint)
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .textCase(.uppercase)
-                        .tracking(1.1)
-
-                    Text(item.titleLabel)
-                        .font(.title3.bold())
-                        .lineLimit(2)
-                        .padding(.trailing, 25)
-
-                    HStack(spacing: 6) {
-                        Text(item.quality.quality.label)
-                        Bullet()
-                        Text(formatBytes(Int(item.size)))
-                    }
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .padding(.bottom)
+                    header
 
                     if item.trackedDownloadStatus != .ok {
                         GroupBox {
@@ -55,6 +36,30 @@ struct QueueItemSheet: View {
                 .padding(.top)
             }
         }
+    }
+
+    @ViewBuilder
+    var header: some View {
+        Text(item.extendedStatusLabel)
+            .foregroundStyle(settings.theme.tint)
+            .font(.caption)
+            .fontWeight(.semibold)
+            .textCase(.uppercase)
+            .tracking(1.1)
+
+        Text(item.titleLabel)
+            .font(.title3.bold())
+            .lineLimit(2)
+            .padding(.trailing, 25)
+
+        HStack(spacing: 6) {
+            Text(item.quality.quality.label)
+            Bullet()
+            Text(formatBytes(Int(item.size)))
+        }
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+        .padding(.bottom)
     }
 
     @ViewBuilder
