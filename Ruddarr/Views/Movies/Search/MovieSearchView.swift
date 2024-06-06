@@ -50,7 +50,7 @@ struct MovieSearchView: View {
         }
         .onChange(of: searchQuery, initial: true, handleSearchQueryChange)
         .onReceive(
-            searchTextPublisher.throttle(for: .milliseconds(750), scheduler: DispatchQueue.main, latest: true)
+            searchTextPublisher.debounce(for: .milliseconds(250), scheduler: DispatchQueue.main)
         ) { _ in
             performSearch()
         }
@@ -65,7 +65,7 @@ struct MovieSearchView: View {
         .overlay {
             if instance.lookup.isSearching && instance.lookup.isEmpty() {
                 Loading()
-            } else if !instance.lookup.isSearching && !searchQuery.isEmpty && instance.lookup.isEmpty() {
+            } else if instance.lookup.noResults(searchQuery) {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }

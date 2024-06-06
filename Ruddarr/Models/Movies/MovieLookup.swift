@@ -11,7 +11,10 @@ class MovieLookup {
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
-    var isSearching: Bool = false
+    var isSearching: Bool { searchTask != nil }
+    var searchedQuery: String = ""
+
+    private var searchTask: Task<Void, Never>?
 
     init(_ instance: Instance) {
         self.instance = instance
@@ -41,28 +44,42 @@ class MovieLookup {
         items == nil || items?.count == 0
     }
 
+    func noResults(_ query: String) -> Bool {
+        if isSearching || query.isEmpty {
+            return false
+        }
+
+        return searchedQuery == query && isEmpty()
+    }
+
     func search(query: String) async {
+        searchTask?.cancel()
+
         error = nil
+        items = []
 
         guard !query.isEmpty else {
             items = []
             return
         }
 
-        do {
-            isSearching = true
-            items = try await dependencies.api.lookupMovies(instance, query)
-        } catch is CancellationError {
-            // do nothing
-        } catch let apiError as API.Error {
-            error = apiError
+        searchTask = Task {
+            do {
+                items = try await dependencies.api.lookupMovies(instance, query)
+            } catch is CancellationError {
+                // do nothing
+            } catch let apiError as API.Error {
+                error = apiError
 
-            leaveBreadcrumb(.error, category: "movie.lookup", message: "Movie lookup failed", data: ["query": query, "error": apiError])
-        } catch {
-            self.error = API.Error(from: error)
+                leaveBreadcrumb(.error, category: "movie.lookup", message: "Movie lookup failed", data: ["query": query, "error": apiError])
+            } catch {
+                self.error = API.Error(from: error)
+            }
+
+            if !Task.isCancelled {
+                searchTask = nil
+            }
         }
-
-        isSearching = false
     }
 
     // consider caching this for performance
