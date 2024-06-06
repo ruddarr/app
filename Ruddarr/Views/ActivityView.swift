@@ -14,7 +14,7 @@ struct ActivityView: View {
             List {
                 Section {
                     ForEach(items) { item in
-                        Button(action: { itemSheet = item}) {
+                        Button(action: { itemSheet = item }) {
                             QueueItemView(item: item)
                         }
                         .buttonStyle(.plain)
@@ -83,7 +83,7 @@ struct QueueItemView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(item.itemTitle ?? "Unknown")
+            Text(item.titleLabel)
                 .font(.headline.monospacedDigit())
                 .fontWeight(.semibold)
                 .lineLimit(1)
@@ -103,6 +103,7 @@ struct QueueItemView: View {
             .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
         .onReceive(timer) { _ in
             if item.trackedDownloadState == .downloading {
                 time = Date()

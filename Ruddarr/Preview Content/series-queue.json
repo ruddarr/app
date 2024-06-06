@@ -143,174 +143,6 @@
             "id": 1863176881
         },
         {
-            "seriesId": 344,
-            "episodeId": 13944,
-            "seasonNumber": 1,
-            "languages": [
-                {
-                    "id": 1,
-                    "name": "English"
-                }
-            ],
-            "quality": {
-                "quality": {
-                    "id": 7,
-                    "name": "Bluray-1080p",
-                    "source": "bluray",
-                    "resolution": 1080
-                },
-                "revision": {
-                    "version": 1,
-                    "real": 0,
-                    "isRepack": false
-                }
-            },
-            "customFormats": [],
-            "customFormatScore": 0,
-            "size": 25574586699,
-            "title": "The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
-            "sizeleft": 25574586699,
-            "added": "2024-04-07T09:06:51Z",
-            "status": "downloading",
-            "trackedDownloadStatus": "ok",
-            "trackedDownloadState": "downloading",
-            "statusMessages": [],
-            "downloadId": "687DF4991F687EDE2C46DE612B5BA1A4B1DDCF81",
-            "protocol": "torrent",
-            "downloadClient": "Transmission",
-            "downloadClientHasPostImportCategory": false,
-            "indexer": "LimeTorrents (Prowlarr)",
-            "outputPath": "/mediathek/downloads/complete/Sonarr/The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
-            "episodeHasFile": false,
-            "id": 1955453833
-        },
-        {
-            "seriesId": 344,
-            "episodeId": 13945,
-            "seasonNumber": 1,
-            "languages": [
-                {
-                    "id": 1,
-                    "name": "English"
-                }
-            ],
-            "quality": {
-                "quality": {
-                    "id": 7,
-                    "name": "Bluray-1080p",
-                    "source": "bluray",
-                    "resolution": 1080
-                },
-                "revision": {
-                    "version": 1,
-                    "real": 0,
-                    "isRepack": false
-                }
-            },
-            "customFormats": [],
-            "customFormatScore": 0,
-            "size": 25574586699,
-            "title": "The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
-            "sizeleft": 25574586699,
-            "added": "2024-04-07T09:06:51Z",
-            "status": "downloading",
-            "trackedDownloadStatus": "ok",
-            "trackedDownloadState": "downloading",
-            "statusMessages": [],
-            "downloadId": "687DF4991F687EDE2C46DE612B5BA1A4B1DDCF81",
-            "protocol": "torrent",
-            "downloadClient": "Transmission",
-            "downloadClientHasPostImportCategory": false,
-            "indexer": "LimeTorrents (Prowlarr)",
-            "outputPath": "/mediathek/downloads/complete/Sonarr/The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
-            "episodeHasFile": false,
-            "id": 1713002972
-        },
-        {
-            "seriesId": 344,
-            "episodeId": 13946,
-            "seasonNumber": 1,
-            "languages": [
-                {
-                    "id": 1,
-                    "name": "English"
-                }
-            ],
-            "quality": {
-                "quality": {
-                    "id": 7,
-                    "name": "Bluray-1080p",
-                    "source": "bluray",
-                    "resolution": 1080
-                },
-                "revision": {
-                    "version": 1,
-                    "real": 0,
-                    "isRepack": false
-                }
-            },
-            "customFormats": [],
-            "customFormatScore": 0,
-            "size": 25574586699,
-            "title": "The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
-            "sizeleft": 25574586699,
-            "added": "2024-04-07T09:06:51Z",
-            "status": "downloading",
-            "trackedDownloadStatus": "ok",
-            "trackedDownloadState": "downloading",
-            "statusMessages": [],
-            "downloadId": "687DF4991F687EDE2C46DE612B5BA1A4B1DDCF81",
-            "protocol": "torrent",
-            "downloadClient": "Transmission",
-            "downloadClientHasPostImportCategory": false,
-            "indexer": "LimeTorrents (Prowlarr)",
-            "outputPath": "/mediathek/downloads/complete/Sonarr/The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
-            "episodeHasFile": false,
-            "id": 774242477
-        },
-        {
-            "seriesId": 344,
-            "episodeId": 13947,
-            "seasonNumber": 1,
-            "languages": [
-                {
-                    "id": 1,
-                    "name": "English"
-                }
-            ],
-            "quality": {
-                "quality": {
-                    "id": 7,
-                    "name": "Bluray-1080p",
-                    "source": "bluray",
-                    "resolution": 1080
-                },
-                "revision": {
-                    "version": 1,
-                    "real": 0,
-                    "isRepack": false
-                }
-            },
-            "customFormats": [],
-            "customFormatScore": 0,
-            "size": 25574586699,
-            "title": "The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
-            "sizeleft": 25574586699,
-            "added": "2024-04-07T09:06:51Z",
-            "status": "downloading",
-            "trackedDownloadStatus": "ok",
-            "trackedDownloadState": "downloading",
-            "statusMessages": [],
-            "downloadId": "687DF4991F687EDE2C46DE612B5BA1A4B1DDCF81",
-            "protocol": "torrent",
-            "downloadClient": "Transmission",
-            "downloadClientHasPostImportCategory": false,
-            "indexer": "LimeTorrents (Prowlarr)",
-            "outputPath": "/mediathek/downloads/complete/Sonarr/The.Hour.UK.2011.S01.1080p.BluRay.x264-BTN",
-            "episodeHasFile": false,
-            "id": 1466131362
-        },
-        {
             "seriesId": 371,
             "episodeId": 14284,
             "seasonNumber": 1,
@@ -351,48 +183,6 @@
             "outputPath": "/mediathek/downloads/complete/Sonarr/Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
             "episodeHasFile": false,
             "id": 827112743
-        },
-        {
-            "seriesId": 371,
-            "episodeId": 14285,
-            "seasonNumber": 1,
-            "languages": [
-                {
-                    "id": 18,
-                    "name": "Portuguese"
-                }
-            ],
-            "quality": {
-                "quality": {
-                    "id": 3,
-                    "name": "WEBDL-1080p",
-                    "source": "web",
-                    "resolution": 1080
-                },
-                "revision": {
-                    "version": 1,
-                    "real": 0,
-                    "isRepack": false
-                }
-            },
-            "customFormats": [],
-            "customFormatScore": 0,
-            "size": 4951119235,
-            "title": "Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
-            "sizeleft": 4951119235,
-            "added": "2024-05-21T14:02:40Z",
-            "status": "downloading",
-            "trackedDownloadStatus": "ok",
-            "trackedDownloadState": "downloading",
-            "statusMessages": [],
-            "downloadId": "A4A5D5FF43FDD995A1AF0D9EA7CA8F7873FE64E6",
-            "protocol": "torrent",
-            "downloadClient": "Transmission",
-            "downloadClientHasPostImportCategory": false,
-            "indexer": "Solid Torrents (Prowlarr)",
-            "outputPath": "/mediathek/downloads/complete/Sonarr/Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
-            "episodeHasFile": false,
-            "id": 526716615
         },
         {
             "seriesId": 371,
@@ -521,48 +311,6 @@
             "id": 405438667
         },
         {
-            "seriesId": 371,
-            "episodeId": 14289,
-            "seasonNumber": 1,
-            "languages": [
-                {
-                    "id": 18,
-                    "name": "Portuguese"
-                }
-            ],
-            "quality": {
-                "quality": {
-                    "id": 3,
-                    "name": "WEBDL-1080p",
-                    "source": "web",
-                    "resolution": 1080
-                },
-                "revision": {
-                    "version": 1,
-                    "real": 0,
-                    "isRepack": false
-                }
-            },
-            "customFormats": [],
-            "customFormatScore": 0,
-            "size": 4951119235,
-            "title": "Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
-            "sizeleft": 4951119235,
-            "added": "2024-05-21T14:02:40Z",
-            "status": "downloading",
-            "trackedDownloadStatus": "ok",
-            "trackedDownloadState": "downloading",
-            "statusMessages": [],
-            "downloadId": "A4A5D5FF43FDD995A1AF0D9EA7CA8F7873FE64E6",
-            "protocol": "torrent",
-            "downloadClient": "Transmission",
-            "downloadClientHasPostImportCategory": false,
-            "indexer": "Solid Torrents (Prowlarr)",
-            "outputPath": "/mediathek/downloads/complete/Sonarr/Hard.2020.S01.1080p.WEB-DL.DD2.0.H264-RK",
-            "episodeHasFile": false,
-            "id": 2033000549
-        },
-        {
             "seriesId": 311,
             "episodeId": 18011,
             "seasonNumber": 1,
@@ -655,7 +403,103 @@
             "indexer": "TorrentLeech (Prowlarr)",
             "outputPath": "/volume2/Media/#downloads/Undone.S01.1080p.WEB.h265-FaiLED",
             "episodeHasFile": false,
-            "id": 1885207201
+            "id": 1885207201,
+            "series": {
+                "added": "2024-06-04T06:29:51Z",
+                "airTime": "00:00",
+                "certification": "TV-MA",
+                "cleanTitle": "undone",
+                "ended": true,
+                "firstAired": "2019-09-13T00:00:00Z",
+                "genres": [
+                    "Animation",
+                    "Comedy",
+                    "Drama",
+                    "Fantasy"
+                ],
+                "id": 311,
+                "images": [
+                    {
+                        "coverType": "banner",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/graphical/5daf63290930d.jpg"
+                    },
+                    {
+                        "coverType": "poster",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/357756/posters/6287264c13a46.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/fanart/original/5d80ae8e7b0b2.jpg"
+                    },
+                    {
+                        "coverType": "clearlogo",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/357756/clearlogo/611d881ab735c.png"
+                    }
+                ],
+                "imdbId": "tt8101850",
+                "languageProfileId": 1,
+                "lastAired": "2022-04-29T00:00:00Z",
+                "monitorNewItems": "all",
+                "monitored": false,
+                "network": "Prime Video",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "overview": "Alma, a 28-year-old living in San Antonio, Texas, finds that she has a new relationship to time after nearly dying in a car accident. As Alma develops new abilities, she pursues answers about her father’s death.",
+                "path": "/volume2/Media/TV Series/Undone",
+                "qualityProfileId": 1,
+                "ratings": {
+                    "value": 0,
+                    "votes": 0
+                },
+                "runtime": 24,
+                "seasonFolder": true,
+                "seasons": [
+                    {
+                        "monitored": false,
+                        "seasonNumber": 0
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 1
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 2
+                    }
+                ],
+                "seriesType": "standard",
+                "sortTitle": "undone",
+                "status": "ended",
+                "tags": [],
+                "title": "Undone",
+                "titleSlug": "undone",
+                "tvMazeId": 35236,
+                "tvRageId": 0,
+                "tvdbId": 357756,
+                "useSceneNumbering": false,
+                "year": 2019
+            },
+            "episode": {
+                "absoluteEpisodeNumber": 8,
+                "airDate": "2019-09-13",
+                "airDateUtc": "2019-09-13T00:00:00Z",
+                "episodeFileId": 0,
+                "episodeNumber": 8,
+                "finaleType": "season",
+                "grabbed": false,
+                "hasFile": false,
+                "id": 18018,
+                "monitored": false,
+                "overview": "Alma goes back to the Halloween night Jacob died and tries to change the past. Back in the present, Camila and Sam try to make Alma get help.",
+                "runtime": 20,
+                "seasonNumber": 1,
+                "seriesId": 311,
+                "title": "That Halloween Night",
+                "tvdbId": 7350643,
+                "unverifiedSceneNumbering": false
+            }
         },
         {
             "seriesId": 311,

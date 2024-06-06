@@ -1161,6 +1161,26 @@
         }
       }
     },
+    "Download Client Unavailable" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Client Unavailable"
+          }
+        }
+      }
+    },
+    "Download Client Warning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Client Warning"
+          }
+        }
+      }
+    },
     "Download Failed" : {
       "localizations" : {
         "en" : {
@@ -1787,6 +1807,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ignored"
+          }
+        }
+      }
+    },
+    "Import Pending" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Pending"
           }
         }
       }
@@ -4592,6 +4622,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Waiting"
+          }
+        }
+      }
+    },
+    "Waiting to Import" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waiting to Import"
+          }
+        }
+      }
+    },
+    "Waiting to Process" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waiting to Process"
           }
         }
       }

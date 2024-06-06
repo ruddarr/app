@@ -198,7 +198,6 @@ struct MovieHistoryItem: View {
                 .lineLimit(1)
         } label: {
             Text(event.eventType.label)
-                .foregroundStyle(settings.theme.tint)
                 .font(.caption)
                 .fontWeight(.semibold)
                 .textCase(.uppercase)

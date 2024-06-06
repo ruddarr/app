@@ -3,46 +3,81 @@ import SwiftUI
 struct QueueItemSheet: View {
     var item: QueueItem
 
+    @EnvironmentObject var settings: AppSettings
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            CloseButton {
-                dismiss()
+        ScrollView {
+            ZStack(alignment: .topTrailing) {
+                CloseButton {
+                    dismiss()
+                }
+
+                VStack(alignment: .leading) {
+                    Text(item.extendedStatusLabel)
+                        .foregroundStyle(settings.theme.tint)
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .textCase(.uppercase)
+                        .tracking(1.1)
+
+                    Text(item.titleLabel)
+                        .font(.title3.bold())
+                        .lineLimit(2)
+                        .padding(.trailing, 25)
+
+                    HStack(spacing: 6) {
+                        Text(item.quality.quality.label)
+                        Bullet()
+                        Text(formatBytes(Int(item.size)))
+                    }
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .padding(.bottom)
+
+                    if item.trackedDownloadStatus != .ok {
+                        GroupBox {
+                            statusMessages
+                        }
+                        .padding(.bottom)
+                    } else {
+                        Text(item.title ?? "Unknown")
+                            .font(.callout)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.bottom)
+                    }
+
+                    details
+
+                    Spacer()
+                }
+                .viewPadding(.horizontal)
+                .padding(.top)
             }
+        }
+    }
 
-            VStack(alignment: .leading) {
-                Text(item.title ?? "Unknown")
-                    .font(.title3.bold())
-                    .padding(.trailing, 25)
+    @ViewBuilder
+    var statusMessages: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            ForEach(item.statusMessages, id: \.self) { status in
+                VStack(alignment: .leading) {
+                    Text(status.title ?? "")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
 
-                // TODO: size (gb)
-                // TODO: status
-
-//                Text(formatDate(item.added))
-//                    .font(.footnote)
-//                    .foregroundStyle(.secondary)
-//                    .padding(.bottom, 12)
-
-//                Text(item.description)
-//                    .font(.callout)
-//                    .frame(maxWidth: .infinity, alignment: .leading)
-//                    .padding(.bottom)
-
-                details
-
-                Spacer()
+                    ForEach(status.messages, id: \.self) { message in
+                        Text(message)
+                            .font(.footnote)
+                    }
+                }
             }
-            .viewPadding(.horizontal)
-            .padding(.top)
         }
     }
 
     @ViewBuilder
     var details: some View {
         VStack(spacing: 6) {
-            row("Quality", item.quality.quality.name ?? "--")
-            Divider()
             row("Languages", item.languagesLabel ?? "--")
 
             if let score = item.scoreLabel {
@@ -59,6 +94,14 @@ struct QueueItemSheet: View {
                 Divider()
                 row("Indexer", formatIndexer(indexer))
             }
+
+            if let date = item.added {
+                Divider()
+                row("Added", date.formatted(date: .long, time: .shortened))
+            }
+
+            Divider()
+            row("Protocol", item.type.label)
 
             Divider()
             row("Client", item.downloadClient ?? "--")

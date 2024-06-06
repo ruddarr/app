@@ -59,7 +59,7 @@ struct ContentView: View {
                 screen(for: tab)
                     .tint(settings.theme.tint) // restore tint for view
                     .tabItem { tab.label }
-                    .badge(tab == .activity ? Queue.shared.badgeCount : 0) // TODO: fix spacing of badge
+                    .badge(tab == .activity ? Queue.shared.badgeCount : 0)
                     .displayToasts()
                     .tag(tab)
             }

@@ -133,7 +133,7 @@ struct QueueItem: Codable, Identifiable {
         case outputPath
     }
 
-    var itemTitle: String? {
+    var titleLabel: String {
         if let title = movie?.title {
             return title
         }
@@ -143,7 +143,7 @@ struct QueueItem: Codable, Identifiable {
             return "\(title) \(label)"
         }
 
-        return nil
+        return title ?? String(localized: "Unknown")
     }
 
     var progressLabel: String {
@@ -175,7 +175,7 @@ struct QueueItem: Codable, Identifiable {
 
         if status != "completed" {
             return switch status {
-            case "queue": String(localized: "Queued")
+            case "queued": String(localized: "Queued")
             case "paused": String(localized: "Paused")
             case "failed": String(localized: "Failed")
             case "downloading": String(localized: "Downloading")
@@ -187,15 +187,41 @@ struct QueueItem: Codable, Identifiable {
         }
 
         return switch trackedDownloadState {
-        case .importPending: String(localized: "Pending")
+        case .importPending: String(localized: "Import Pending") // Waiting to Import
         case .importing: String(localized: "Importing")
-        case .failedPending: String(localized: "Waiting")
+        case .failedPending: String(localized: "Waiting") // Waiting to Process
+        default: String(localized: "Downloading")
+        }
+    }
+
+    var extendedStatusLabel: String {
+        if status == nil {
+            return String(localized: "Unknown")
+        }
+
+        if status != "completed" {
+            return switch status {
+            case "queued": String(localized: "Queued")
+            case "paused": String(localized: "Paused")
+            case "failed": String(localized: "Download Failed")
+            case "downloading": String(localized: "Downloading")
+            case "delay": String(localized: "Pending")
+            case "downloadClientUnavailable": String(localized: "Download Client Unavailable")
+            case "warning": String(localized: "Download Client Warning")
+            default: String(localized: "Unknown")
+            }
+        }
+
+        return switch trackedDownloadState {
+        case .importPending: String(localized: "Waiting to Import")
+        case .importing: String(localized: "Importing")
+        case .failedPending: String(localized: "Waiting to Process")
         default: String(localized: "Downloading")
         }
     }
 }
 
-struct QueueStatusMessage: Codable {
+struct QueueStatusMessage: Codable, Hashable {
     let title: String?
     let messages: [String]
 }
