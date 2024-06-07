@@ -143,7 +143,7 @@ struct CalendarEpisode: View {
             Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !episode.monitored {
             Image(systemName: "bookmark").symbolVariant(.slash)
-        } else if episode.hasAired {
+        } else if !episode.hasAired {
             Image(systemName: "clock")
         } else if episode.monitored {
             Image(systemName: "xmark").symbolVariant(.circle)
