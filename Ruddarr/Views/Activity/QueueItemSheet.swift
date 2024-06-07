@@ -100,31 +100,37 @@ struct QueueItemSheet: View {
                 row("Indexer", formatIndexer(indexer))
             }
 
-            if let date = item.added {
-                Divider()
-                row("Added", date.formatted(date: .long, time: .shortened))
-            }
-
             Divider()
             row("Protocol", item.type.label)
 
             Divider()
             row("Client", item.downloadClient ?? "--")
+
+            if let date = item.added {
+                Divider()
+                row("Added", date.formatted(date: .long, time: .shortened))
+            }
         }
     }
 
     func row(_ label: LocalizedStringKey, _ value: String) -> some View {
-        renderRow(label, Text(value).foregroundStyle(.primary))
+        renderRow(
+            label,
+            Text(value).foregroundStyle(.primary)
+        )
     }
 
     func renderRow<V: View>(_ label: LocalizedStringKey, _ value: V) -> some View {
         HStack(alignment: .top) {
             Text(label)
                 .foregroundStyle(.secondary)
+
             Spacer()
             Spacer()
             Spacer()
+
             value
+                .multilineTextAlignment(.trailing)
         }
         .font(.subheadline)
     }
