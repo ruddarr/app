@@ -20,15 +20,21 @@ struct QueueItemSheet: View {
                         GroupBox {
                             statusMessages
                         }
-                        .padding(.bottom)
-                    } else {
-                        Text(item.title ?? "Unknown")
-                            .font(.callout)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.bottom)
+                    } else if let remaining = item.remainingLabel {
+                        ProgressView(value: item.sizeleft, total: item.size) {
+                            HStack {
+                                Text(item.progressLabel)
+                                Spacer()
+                                Text(remaining)
+                            }
+                            .font(.subheadline)
+                            .monospacedDigit()
+                            .foregroundStyle(.secondary)
+                        }
                     }
 
                     details
+                        .padding(.top)
 
                     Spacer()
                 }
@@ -59,7 +65,7 @@ struct QueueItemSheet: View {
         }
         .font(.subheadline)
         .foregroundStyle(.secondary)
-        .padding(.bottom)
+        .padding(.bottom, 8)
     }
 
     @ViewBuilder
@@ -73,7 +79,7 @@ struct QueueItemSheet: View {
 
                     ForEach(status.messages, id: \.self) { message in
                         Text(message)
-                            .font(.footnote)
+                            .font(.footnote.italic())
                     }
                 }
             }

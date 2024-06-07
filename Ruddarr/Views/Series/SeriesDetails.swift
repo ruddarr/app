@@ -122,6 +122,7 @@ struct SeriesDetails: View {
                                 if let progress = season.progressLabel {
                                     Text(progress)
                                         .font(.footnote)
+                                        .monospacedDigit()
                                         .foregroundStyle(.secondary)
                                 }
 

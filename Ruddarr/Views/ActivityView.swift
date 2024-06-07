@@ -42,7 +42,8 @@ struct ActivityView: View {
                 await Task { await queue.fetch() }.value
             }
             .sheet(item: $itemSheet) { item in
-                QueueItemSheet(item: item).presentationDetents([.medium])
+                QueueItemSheet(item: item)
+                    .presentationDetents([.medium])
             }
             .overlay {
                 if items.isEmpty {
@@ -99,10 +100,13 @@ struct QueueItemView: View {
                 if item.status != "completed" {
                     Bullet()
                     Text(item.progressLabel)
+                        .monospacedDigit()
 
                     if let remaining = item.remainingLabel {
                         Bullet()
-                        Text(remaining).id(time)
+                        Text(remaining)
+                            .monospacedDigit()
+                            .id(time)
                     }
                 }
             }

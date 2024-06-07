@@ -43,11 +43,12 @@ func formatRuntime(_ minutes: Int) -> String {
 }
 
 func formatRemainingTime(_ date: Date) -> String? {
+    let seconds = date.timeIntervalSince(Date.now)
     let formatter = DateComponentsFormatter()
-    formatter.allowedUnits = [.hour, .minute, .second]
-    formatter.unitsStyle = .positional
-
-    return formatter.string(from: Date.now, to: date)
+    formatter.unitsStyle = .abbreviated
+    formatter.includesTimeRemainingPhrase = true
+    formatter.allowedUnits = seconds >= 3_600 ? [.hour, .minute] : [.minute, .second]
+    return formatter.string(from: seconds)
 }
 
 func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
