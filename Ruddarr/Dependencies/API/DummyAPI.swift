@@ -50,7 +50,7 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
-        }, deleteMovie: { _, _ in
+        }, deleteMovie: { _, _, _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
@@ -97,7 +97,7 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
-        }, deleteSeries: { _, _ in
+        }, deleteSeries: { _, _, _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()

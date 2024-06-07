@@ -1050,6 +1050,16 @@
         }
       }
     },
+    "Delete and Exclude" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete and Exclude"
+          }
+        }
+      }
+    },
     "Delete File" : {
       "localizations" : {
         "en" : {
@@ -4224,26 +4234,6 @@
         }
       }
     },
-    "This will delete the movie and permanently erase its folder and its contents." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This will delete the movie and permanently erase its folder and its contents."
-          }
-        }
-      }
-    },
-    "This will delete the series and permanently erase its folder and its contents." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This will delete the series and permanently erase its folder and its contents."
-          }
-        }
-      }
-    },
     "This will permanently erase the episode file." : {
       "localizations" : {
         "en" : {
@@ -4260,6 +4250,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This will permanently erase the movie file."
+          }
+        }
+      }
+    },
+    "This will remove the movie and permanently erase its folder and its contents." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This will remove the movie and permanently erase its folder and its contents."
+          }
+        }
+      }
+    },
+    "This will remove the series and permanently erase its folder and its contents." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This will remove the series and permanently erase its folder and its contents."
           }
         }
       }

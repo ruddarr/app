@@ -34,12 +34,11 @@ struct MovieView: View {
             "Are you sure?",
             isPresented: $showDeleteConfirmation
         ) {
-            Button("Delete Movie", role: .destructive) {
-                Task { await deleteMovie() }
-            }
+            Button("Delete Movie", role: .destructive) { Task { await deleteMovie() } }
+            Button("Delete and Exclude", role: .destructive) { Task { await deleteMovie(exclude: true) } }
             Button("Cancel", role: .cancel) { }
         } message: {
-            Text("This will delete the movie and permanently erase its folder and its contents.")
+            Text("This will remove the movie and permanently erase its folder and its contents.")
         }
     }
 
@@ -154,8 +153,8 @@ extension MovieView {
     }
 
     @MainActor
-    func deleteMovie() async {
-        _ = await instance.movies.delete(movie)
+    func deleteMovie(exclude: Bool = false) async {
+        _ = await instance.movies.delete(movie, addExclusion: exclude)
 
         if !dependencies.router.moviesPath.isEmpty {
             dependencies.router.moviesPath.removeLast()

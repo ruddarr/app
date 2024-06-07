@@ -21,7 +21,7 @@ class Movies {
         case get(Movie)
         case add(Movie)
         case update(Movie, Bool)
-        case delete(Movie)
+        case delete(Movie, Bool)
         case download(String, Int)
         case command(RadarrCommand)
     }
@@ -97,8 +97,8 @@ class Movies {
         await request(.update(movie, moveFiles))
     }
 
-    func delete(_ movie: Movie) async -> Bool {
-        await request(.delete(movie))
+    func delete(_ movie: Movie, addExclusion: Bool = false) async -> Bool {
+        await request(.delete(movie, addExclusion))
     }
 
     func download(guid: String, indexerId: Int) async -> Bool {
@@ -154,8 +154,8 @@ class Movies {
         case .update(let movie, let moveFiles):
             _ = try await dependencies.api.updateMovie(movie, moveFiles, instance)
 
-        case .delete(let movie):
-            _ = try await dependencies.api.deleteMovie(movie, instance)
+        case .delete(let movie, let addExclusion):
+            _ = try await dependencies.api.deleteMovie(movie, addExclusion, instance)
             items.removeAll(where: { $0.guid == movie.guid })
 
         case .download(let guid, let indexerId):

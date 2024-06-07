@@ -41,12 +41,11 @@ struct SeriesDetailView: View {
             "Are you sure?",
             isPresented: $showDeleteConfirmation
         ) {
-            Button("Delete Series", role: .destructive) {
-                Task { await deleteSeries(series) }
-            }
+            Button("Delete Series", role: .destructive) { Task { await deleteSeries() } }
+            Button("Delete and Exclude", role: .destructive) { Task { await deleteSeries(exclude: true) } }
             Button("Cancel", role: .cancel) { }
         } message: {
-            Text("This will delete the series and permanently erase its folder and its contents.")
+            Text("This will remove the series and permanently erase its folder and its contents.")
         }
     }
 
@@ -169,8 +168,8 @@ extension SeriesDetailView {
     }
 
     @MainActor
-    func deleteSeries(_ series: Series) async {
-        _ = await instance.series.delete(series)
+    func deleteSeries(exclude: Bool = false) async {
+        _ = await instance.series.delete(series, addExclusion: exclude)
 
         dependencies.router.seriesPath.removeLast()
         dependencies.toast.show(.seriesDeleted)

@@ -14,7 +14,7 @@ struct API {
     var getMovieExtraFiles: (Movie.ID, Instance) async throws -> [MovieExtraFile]
     var addMovie: (Movie, Instance) async throws -> Movie
     var updateMovie: (Movie, Bool, Instance) async throws -> Empty
-    var deleteMovie: (Movie, Instance) async throws -> Empty
+    var deleteMovie: (Movie, Bool, Instance) async throws -> Empty
     var deleteMovieFile: (MediaFile, Instance) async throws -> Empty
 
     var fetchSeries: (Instance) async throws -> [Series]
@@ -27,7 +27,7 @@ struct API {
     var addSeries: (Series, Instance) async throws -> Series
     var pushSeries: (Series, Instance) async throws -> Series
     var updateSeries: (Series, Bool, Instance) async throws -> Empty
-    var deleteSeries: (Series, Instance) async throws -> Empty
+    var deleteSeries: (Series, Bool, Instance) async throws -> Empty
 
     var monitorEpisode: ([Episode.ID], Bool, Instance) async throws -> Empty
     var getEpisodeHistory: (Episode.ID, Instance) async throws -> MediaHistory
@@ -121,11 +121,14 @@ extension API {
             )
 
             return try await request(method: .put, url: url, headers: instance.auth, body: body)
-        }, deleteMovie: { movie, instance in
+        }, deleteMovie: { movie, addExclusion, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
                 .appending(path: String(movie.id))
-                .appending(queryItems: [.init(name: "deleteFiles", value: "true")])
+                .appending(queryItems: [
+                    .init(name: "deleteFiles", value: "true"),
+                    .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
+                ])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
         }, deleteMovieFile: { file, instance in
@@ -201,11 +204,14 @@ extension API {
             )
 
             return try await request(method: .put, url: url, headers: instance.auth, body: body)
-        }, deleteSeries: { series, instance in
+        }, deleteSeries: { series, addExclusion, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series")
                 .appending(path: String(series.id))
-                .appending(queryItems: [.init(name: "deleteFiles", value: "true")])
+                .appending(queryItems: [
+                    .init(name: "deleteFiles", value: "true"),
+                    .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
+                ])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
         }, monitorEpisode: { ids, monitored, instance in
