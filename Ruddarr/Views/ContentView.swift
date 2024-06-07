@@ -146,7 +146,11 @@ struct ContentView: View {
 
             columnVisibility = isPortrait ? .automatic : .doubleColumn
         } label: {
-            tab.row
+            if tab == .activity {
+                tab.row.badge(Queue.shared.badgeCount).padding(.trailing, 6)
+            } else {
+                tab.row
+            }
         }
     }
 
