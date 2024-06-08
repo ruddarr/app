@@ -75,7 +75,11 @@ extension API.Error: LocalizedError {
         case .badStatusCode(code: let code):
             String(localized: "Server returned \(code) status code.")
         case .decodingError(let error):
-            error.context.debugDescription
+            String(
+                format: "[%@] %@",
+                error.context.codingPath.map { $0.stringValue }.joined(separator: ", "),
+                error.context.debugDescription
+            )
         case .errorResponse(code: let code, message: let message):
             "[\(code)] \(message)"
         case .notConnectedToInternet:
