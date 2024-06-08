@@ -32,6 +32,7 @@ class Languages {
         "lav": String(localized: "Latvian"),
         "lit": String(localized: "Lithuanian"),
         "mac": String(localized: "Macedonian"),
+        "mal": String(localized: "Malayalam"),
         "msa": String(localized: "Malay"),
         "nld": String(localized: "Dutch"),
         "nob": String(localized: "Norwegian Bokmal"),
@@ -54,6 +55,7 @@ class Languages {
         "zho": String(localized: "Chinese"),
 
         "und": String(localized: "Undetermined"),
+        "zxx": String(localized: "N/A"),
     ]
 
     static let aliases: [String: String] = [
