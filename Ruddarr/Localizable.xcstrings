@@ -500,16 +500,6 @@
         }
       }
     },
-    "Arabic" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arabic"
-          }
-        }
-      }
-    },
     "Are you attempting to connect to a private IP address from outside its network?" : {
       "localizations" : {
         "en" : {
@@ -650,26 +640,6 @@
         }
       }
     },
-    "Basque" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Basque"
-          }
-        }
-      }
-    },
-    "Bengali" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bengali"
-          }
-        }
-      }
-    },
     "Bit Depth" : {
       "localizations" : {
         "en" : {
@@ -700,36 +670,6 @@
         }
       }
     },
-    "Bosnian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bosnian"
-          }
-        }
-      }
-    },
-    "Brazilian Portuguese" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Brazilian Portuguese"
-          }
-        }
-      }
-    },
-    "Bulgarian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bulgarian"
-          }
-        }
-      }
-    },
     "Calendar" : {
       "localizations" : {
         "en" : {
@@ -746,16 +686,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancel"
-          }
-        }
-      }
-    },
-    "Catalan" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Catalan"
           }
         }
       }
@@ -786,16 +716,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Check the spelling or try [adding the series](%@)."
-          }
-        }
-      }
-    },
-    "Chinese" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chinese"
           }
         }
       }
@@ -930,16 +850,6 @@
         }
       }
     },
-    "Croatian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Croatian"
-          }
-        }
-      }
-    },
     "Custom Format" : {
       "localizations" : {
         "en" : {
@@ -980,16 +890,6 @@
         }
       }
     },
-    "Czech" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Czech"
-          }
-        }
-      }
-    },
     "Daily" : {
       "localizations" : {
         "en" : {
@@ -1006,16 +906,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dangling"
-          }
-        }
-      }
-    },
-    "Danish" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Danish"
           }
         }
       }
@@ -1251,16 +1141,6 @@
         }
       }
     },
-    "Dutch" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dutch"
-          }
-        }
-      }
-    },
     "Dynamic Range" : {
       "localizations" : {
         "en" : {
@@ -1307,16 +1187,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ended"
-          }
-        }
-      }
-    },
-    "English" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "English"
           }
         }
       }
@@ -1417,16 +1287,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error"
-          }
-        }
-      }
-    },
-    "Estonian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estonian"
           }
         }
       }
@@ -1561,16 +1421,6 @@
         }
       }
     },
-    "Finnish" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finnish"
-          }
-        }
-      }
-    },
     "First Season" : {
       "localizations" : {
         "en" : {
@@ -1631,32 +1481,12 @@
         }
       }
     },
-    "French" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "French"
-          }
-        }
-      }
-    },
     "Future Episodes" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Future Episodes"
-          }
-        }
-      }
-    },
-    "Galician" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Galician"
           }
         }
       }
@@ -1671,32 +1501,12 @@
         }
       }
     },
-    "German" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "German"
-          }
-        }
-      }
-    },
     "Grabbed" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grabbed"
-          }
-        }
-      }
-    },
-    "Greek" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Greek"
           }
         }
       }
@@ -1731,26 +1541,6 @@
         }
       }
     },
-    "Hebrew" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hebrew"
-          }
-        }
-      }
-    },
-    "Hindi" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hindi"
-          }
-        }
-      }
-    },
     "History" : {
       "localizations" : {
         "en" : {
@@ -1771,25 +1561,8 @@
         }
       }
     },
-    "Hungarian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hungarian"
-          }
-        }
-      }
-    },
-    "Icelandic" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Icelandic"
-          }
-        }
-      }
+    "Home Tab" : {
+
     },
     "Icons" : {
       "localizations" : {
@@ -1892,16 +1665,6 @@
         }
       }
     },
-    "Indonesian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indonesian"
-          }
-        }
-      }
-    },
     "Information" : {
       "localizations" : {
         "en" : {
@@ -1962,26 +1725,6 @@
         }
       }
     },
-    "Italian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Italian"
-          }
-        }
-      }
-    },
-    "Japanese" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Japanese"
-          }
-        }
-      }
-    },
     "Join the Discord" : {
       "localizations" : {
         "en" : {
@@ -1998,16 +1741,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Just now"
-          }
-        }
-      }
-    },
-    "Korean" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Korean"
           }
         }
       }
@@ -2072,16 +1805,6 @@
         }
       }
     },
-    "Latvian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Latvian"
-          }
-        }
-      }
-    },
     "Leave a Review" : {
       "localizations" : {
         "en" : {
@@ -2112,16 +1835,6 @@
         }
       }
     },
-    "Lithuanian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lithuanian"
-          }
-        }
-      }
-    },
     "Load More" : {
       "localizations" : {
         "en" : {
@@ -2142,42 +1855,12 @@
         }
       }
     },
-    "Macedonian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Macedonian"
-          }
-        }
-      }
-    },
     "Mail" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mail"
-          }
-        }
-      }
-    },
-    "Malay" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Malay"
-          }
-        }
-      }
-    },
-    "Malayalam" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Malayalam"
           }
         }
       }
@@ -2542,16 +2225,6 @@
         }
       }
     },
-    "N/A" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "N/A"
-          }
-        }
-      }
-    },
     "Name" : {
       "localizations" : {
         "en" : {
@@ -2729,26 +2402,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "None"
-          }
-        }
-      }
-    },
-    "Norwegian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Norwegian"
-          }
-        }
-      }
-    },
-    "Norwegian Bokmal" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Norwegian Bokmal"
           }
         }
       }
@@ -3272,16 +2925,6 @@
         }
       }
     },
-    "Persian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Persian"
-          }
-        }
-      }
-    },
     "Physical Release" : {
       "localizations" : {
         "en" : {
@@ -3332,32 +2975,12 @@
         }
       }
     },
-    "Polish" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Polish"
-          }
-        }
-      }
-    },
     "Popular" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Popular"
-          }
-        }
-      }
-    },
-    "Portuguese" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Portuguese"
           }
         }
       }
@@ -3612,16 +3235,6 @@
         }
       }
     },
-    "Romanian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Romanian"
-          }
-        }
-      }
-    },
     "Root Folder" : {
       "localizations" : {
         "en" : {
@@ -3648,16 +3261,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Runtime"
-          }
-        }
-      }
-    },
-    "Russian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Russian"
           }
         }
       }
@@ -3798,16 +3401,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seeders"
-          }
-        }
-      }
-    },
-    "Serbian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Serbian"
           }
         }
       }
@@ -3963,26 +3556,6 @@
         }
       }
     },
-    "Slovak" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Slovak"
-          }
-        }
-      }
-    },
-    "Slovenian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Slovenian"
-          }
-        }
-      }
-    },
     "Something Went Wrong" : {
       "localizations" : {
         "en" : {
@@ -4009,16 +3582,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Source"
-          }
-        }
-      }
-    },
-    "Spanish" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spanish"
           }
         }
       }
@@ -4113,16 +3676,6 @@
         }
       }
     },
-    "Swedish" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Swedish"
-          }
-        }
-      }
-    },
     "Synology" : {
       "localizations" : {
         "en" : {
@@ -4164,16 +3717,6 @@
         }
       }
     },
-    "Tamil" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tamil"
-          }
-        }
-      }
-    },
     "TBA" : {
       "localizations" : {
         "en" : {
@@ -4194,32 +3737,12 @@
         }
       }
     },
-    "Telugu" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Telugu"
-          }
-        }
-      }
-    },
     "Test the Beta" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Test the Beta"
-          }
-        }
-      }
-    },
-    "Thai" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Thai"
           }
         }
       }
@@ -4354,32 +3877,12 @@
         }
       }
     },
-    "Turkish" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turkish"
-          }
-        }
-      }
-    },
     "Type" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Type"
-          }
-        }
-      }
-    },
-    "Ukrainian" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ukrainian"
           }
         }
       }
@@ -4394,7 +3897,19 @@
         }
       }
     },
+    "Uncoded" : {
+      "comment" : "Label for uncoded languages",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uncoded"
+          }
+        }
+      }
+    },
     "Undetermined" : {
+      "comment" : "Label for unknown/undetermined language",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4612,16 +4127,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Video"
-          }
-        }
-      }
-    },
-    "Vietnamese" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vietnamese"
           }
         }
       }
