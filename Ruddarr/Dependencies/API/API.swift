@@ -390,7 +390,9 @@ extension API {
             throw Error(from: AppError("Failed to unwrap JSON payload."))
         }
 
-        let statusCode: Int = (response as? HTTPURLResponse)?.statusCode ?? 599
+        let httpResponse: HTTPURLResponse? = response as? HTTPURLResponse
+        let statusCode: Int = httpResponse?.statusCode ?? 599
+        let appVersion: String? = httpResponse?.allHeaderFields["X-Application-Version"] as? String
 
         switch statusCode {
         case (200..<400):
@@ -401,6 +403,12 @@ extension API {
             do {
                 return try decoder.decode(Response.self, from: data)
             } catch let decodingError as DecodingError {
+                leaveBreadcrumb(.fatal, category: "api", message: "Decoding error", data: [
+                    "version": appVersion ?? "unknown",
+                    "payload": String(data: data, encoding: .utf8) ?? "",
+                    "error": decodingError,
+                ])
+
                 throw Error.decodingError(decodingError)
             } catch {
                 throw Error(from: error)
