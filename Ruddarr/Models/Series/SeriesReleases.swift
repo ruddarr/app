@@ -105,7 +105,7 @@ struct SeriesRelease: Identifiable, Codable {
     let rejected: Bool
 
     let customFormats: [MediaCustomFormat]?
-    let customFormatScore: Int
+    let customFormatScore: Int?
 
     let indexerId: Int
     let indexer: String?
@@ -290,8 +290,9 @@ struct SeriesRelease: Identifiable, Codable {
         formatAge(ageMinutes)
     }
 
-    var scoreLabel: String {
-        formatCustomScore(customFormatScore)
+    var scoreLabel: String? {
+        guard let score = customFormatScore else { return nil }
+        return formatCustomScore(score)
     }
 }
 

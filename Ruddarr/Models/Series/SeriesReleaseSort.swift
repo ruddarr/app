@@ -49,7 +49,7 @@ struct SeriesReleaseSort: Equatable {
             case .byQuality:
                 lhs.quality.quality.resolution > rhs.quality.quality.resolution
             case .byCustomScore:
-                lhs.customFormatScore > rhs.customFormatScore
+                lhs.customFormatScore ?? 0 > rhs.customFormatScore ?? 0
             }
         }
     }

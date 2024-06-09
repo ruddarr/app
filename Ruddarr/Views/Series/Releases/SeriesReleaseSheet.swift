@@ -180,8 +180,8 @@ struct SeriesReleaseSheet: View {
     func flags() -> [String] {
         var flags: [String] = []
 
-        if release.customFormatScore != 0 {
-            flags.append(release.scoreLabel)
+        if let score = release.scoreLabel, release.customFormatScore != 0 {
+            flags.append(score)
         }
 
         if release.indexerFlags != 0 {

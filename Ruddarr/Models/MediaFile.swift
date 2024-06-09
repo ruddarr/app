@@ -8,7 +8,7 @@ struct MediaFile: Identifiable, Equatable, Codable {
 
     let mediaInfo: FileMediaInfo?
     let quality: MediaQuality
-    let languages: [MediaLanguage]
+    let languages: [MediaLanguage]?
 
     let customFormats: [MediaCustomFormat]?
     let customFormatScore: Int?
@@ -22,7 +22,7 @@ struct MediaFile: Identifiable, Equatable, Codable {
     }
 
     var languageLabel: String {
-        languageSingleLabel(languages)
+        languageSingleLabel(languages ?? [])
     }
 
     var scoreLabel: String {

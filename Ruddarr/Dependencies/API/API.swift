@@ -353,8 +353,11 @@ extension API {
             "url": url,
             "method": method.rawValue,
             "timeout": timeout,
-            "body": body ?? "nil",
         ])
+
+        if let body {
+            leaveBreadcrumb(.debug, category: "api", message: "Request body", data: ["body": body])
+        }
 
         var json: Data?
         var response: URLResponse?
@@ -392,7 +395,8 @@ extension API {
 
         let httpResponse: HTTPURLResponse? = response as? HTTPURLResponse
         let statusCode: Int = httpResponse?.statusCode ?? 599
-        let appVersion: String? = httpResponse?.allHeaderFields["X-Application-Version"] as? String
+
+        leaveBreadcrumb(.debug, category: "api", message: "Response headers (\(statusCode))", data: parseResponseHeaders(httpResponse))
 
         switch statusCode {
         case (200..<400):
@@ -403,10 +407,9 @@ extension API {
             do {
                 return try decoder.decode(Response.self, from: data)
             } catch let decodingError as DecodingError {
-                leaveBreadcrumb(.fatal, category: "api", message: "Decoding error", data: [
-                    "version": appVersion ?? "unknown",
-                    "payload": String(data: data, encoding: .utf8) ?? "",
+                leaveBreadcrumb(.fatal, category: "api", message: decodingError.context.debugDescription, data: [
                     "error": decodingError,
+                    "payload": String(data: data, encoding: .utf8) ?? "",
                 ])
 
                 throw Error.decodingError(decodingError)
@@ -449,6 +452,11 @@ extension API {
         session: URLSession = .shared
     ) async throws -> Response {
         try await request(method: method, url: url, headers: headers, body: Empty?.none, timeout: timeout, decoder: decoder, encoder: encoder, session: session)
+    }
+
+    fileprivate static func parseResponseHeaders(_ response: HTTPURLResponse?) -> [String: Any] {
+        guard let headerFields = response?.allHeaderFields else { return [:] }
+        return Dictionary(uniqueKeysWithValues: headerFields.compactMap { ($0 as? (String, Any)) })
     }
 }
 
