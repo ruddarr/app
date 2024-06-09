@@ -15,7 +15,7 @@ struct MediaFile: Identifiable, Equatable, Codable {
 
     // Sonarr
     let seriesId: Series.ID?
-    let releaseType: FileReleaseType?
+    let episodeReleaseType: EpisodeReleaseType?
 
     var sizeLabel: String {
         formatBytes(size)
@@ -48,13 +48,6 @@ struct MediaFile: Identifiable, Equatable, Codable {
 
         return nil
     }
-}
-
-enum FileReleaseType: String, Equatable, Codable {
-    case unknown
-    case singleEpisode
-    case multiEpisode
-    case seasonPack
 }
 
 struct FileMediaInfo: Equatable, Codable {

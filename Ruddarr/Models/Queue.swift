@@ -92,14 +92,13 @@ struct QueueItem: Codable, Identifiable {
     let added: Date?
     let estimatedCompletionTime: Date?
 
-    let downloadClientHasPostImportCategory: Bool
-
     let status: String?
     let statusMessages: [QueueStatusMessage]
     let trackedDownloadStatus: QueueDownloadStatus
     let trackedDownloadState: QueueDownloadState
 
     let outputPath: String?
+    let downloadClientHasPostImportCategory: Bool?
 
     enum CodingKeys: String, CodingKey {
         case id
