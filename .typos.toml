@@ -9,12 +9,11 @@ ignore-hidden = false
 [default]
 extend-ignore-re = [
     "[0-9A-F]{24}",
-    '"fre": "fra"',
-    '"tha": String',
+    '"fre"',
+    '"mis"',
 ]
 
 [default.extend-words]
 
 [default.extend-identifiers]
-# Typos
 "Github" = "GitHub"
