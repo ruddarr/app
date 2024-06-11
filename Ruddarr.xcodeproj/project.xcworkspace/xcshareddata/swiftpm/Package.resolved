@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kean/Nuke",
       "state" : {
-        "revision" : "2efd206503e99dd3a88a4dc433a76f98ce8cc198",
-        "version" : "12.7.1"
+        "revision" : "084076db4f9b9ee4db51177ef5a4879689c1aa09",
+        "version" : "12.7.2"
       }
     },
     {
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa.git",
       "state" : {
-        "revision" : "e6f9da251a4696eec602dd8da8fc689af0a4d8f7",
-        "version" : "8.27.0"
+        "revision" : "a62862c99f5bcb28fd78617fab1a5fe29607c06c",
+        "version" : "8.28.0"
       }
     },
     {
