@@ -132,7 +132,7 @@ struct MovieReleasesView: View {
 
         if sort.originalLanguage {
             releases = releases.filter {
-                $0.languages.contains(where: { $0.id == movie.originalLanguage.id })
+                $0.languages.contains(where: { $0.id == movie.originalLanguage?.id })
             }
         }
 

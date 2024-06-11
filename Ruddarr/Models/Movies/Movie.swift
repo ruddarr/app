@@ -21,7 +21,7 @@ struct Movie: Identifiable, Equatable, Codable {
     let overview: String?
     let certification: String?
     let youTubeTrailerId: String?
-    let originalLanguage: MediaLanguage
+    let originalLanguage: MediaLanguage?
     let alternateTitles: [MediaAlternateTitle]
 
     let genres: [String]

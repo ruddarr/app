@@ -93,7 +93,7 @@ struct QueueItem: Codable, Identifiable {
     let estimatedCompletionTime: Date?
 
     let status: String?
-    let statusMessages: [QueueStatusMessage]
+    let statusMessages: [QueueStatusMessage]?
     let trackedDownloadStatus: QueueDownloadStatus
     let trackedDownloadState: QueueDownloadState
 
@@ -130,6 +130,10 @@ struct QueueItem: Codable, Identifiable {
         case trackedDownloadStatus
         case trackedDownloadState
         case outputPath
+    }
+
+    var messages: [QueueStatusMessage] {
+        statusMessages ?? []
     }
 
     var titleLabel: String {

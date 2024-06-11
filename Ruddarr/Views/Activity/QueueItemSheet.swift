@@ -16,7 +16,7 @@ struct QueueItemSheet: View {
                 VStack(alignment: .leading) {
                     header
 
-                    if item.trackedDownloadStatus != .ok {
+                    if item.trackedDownloadStatus != .ok && !item.messages.isEmpty {
                         GroupBox {
                             statusMessages
                         }
@@ -71,7 +71,7 @@ struct QueueItemSheet: View {
     @ViewBuilder
     var statusMessages: some View {
         VStack(alignment: .leading, spacing: 12) {
-            ForEach(item.statusMessages, id: \.self) { status in
+            ForEach(item.messages, id: \.self) { status in
                 VStack(alignment: .leading) {
                     Text(status.title ?? "")
                         .font(.subheadline)
