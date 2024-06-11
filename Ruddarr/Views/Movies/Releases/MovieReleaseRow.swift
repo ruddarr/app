@@ -54,6 +54,7 @@ struct MovieReleaseRow: View {
         HStack(spacing: 6) {
             Text(release.typeLabel)
                 .foregroundStyle(peerColor)
+                .truncationMode(.head)
 
             Group {
                 Bullet()
