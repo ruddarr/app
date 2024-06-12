@@ -12,6 +12,7 @@ struct SettingsPreferencesSection: View {
 
     var body: some View {
         Section {
+            tabPicker
             appearancePicker
             themePicker
             iconPicker
@@ -96,6 +97,25 @@ struct SettingsPreferencesSection: View {
                     .frame(width: appIconSize, height: appIconSize)
                     .clipShape(.rect(cornerRadius: (10 / 57) * appIconSize))
             }
+        }
+    }
+
+    var tabPicker: some View {
+        Picker(selection: $settings.tab) {
+            ForEach([Tab.movies, Tab.series, Tab.calendar]) { tab in
+                Text(tab.text)
+            }
+        } label: {
+            Label {
+                Text("Home")
+            } icon: {
+                Image(systemName: "house")
+                    .foregroundStyle(Color(.monochrome))
+            }
+        }
+        .tint(.secondary)
+        .onChange(of: settings.theme) {
+            dependencies.router.reset()
         }
     }
 

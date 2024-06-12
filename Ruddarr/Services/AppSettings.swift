@@ -10,6 +10,7 @@ class AppSettings: ObservableObject {
     @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
     @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
+    @AppStorage("tab", store: dependencies.store) var tab: Tab = .movies
     @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
     @AppStorage("sonarrInstanceId", store: dependencies.store) var sonarrInstanceId: Instance.ID?
 

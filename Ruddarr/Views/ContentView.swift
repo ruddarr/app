@@ -44,6 +44,7 @@ struct ContentView: View {
         .displayToasts()
         .whatsNewSheet()
         .onAppear {
+            dependencies.router.selectedTab = settings.tab
             isPortrait = UIDevice.current.orientation.isPortrait
             columnVisibility = isPortrait ? .automatic : .doubleColumn
         }
@@ -66,6 +67,7 @@ struct ContentView: View {
         }
         .tint(.clear) // hide selected `tabItem` tint
         .onAppear {
+            dependencies.router.selectedTab = settings.tab
             UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
         }
         .overlay(alignment: .bottom) { // the default `tabItem`s are hidden, display our own

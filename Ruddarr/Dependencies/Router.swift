@@ -26,7 +26,7 @@ final class Router {
     }
 }
 
-enum Tab: Hashable, CaseIterable, Identifiable {
+enum Tab: String, Hashable, CaseIterable, Identifiable {
     var id: Self { self }
 
     case movies

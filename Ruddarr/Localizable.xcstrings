@@ -1561,8 +1561,15 @@
         }
       }
     },
-    "Home Tab" : {
-
+    "Home" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home"
+          }
+        }
+      }
     },
     "Icons" : {
       "localizations" : {

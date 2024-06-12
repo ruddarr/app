@@ -17,6 +17,9 @@ struct ContentView: View {
         )
         .displayToasts()
         .whatsNewSheet()
+        .onAppear {
+            dependencies.router.selectedTab = settings.tab
+        }
         .onChange(of: controlActiveState, handleScenePhaseChange)
     }
 
