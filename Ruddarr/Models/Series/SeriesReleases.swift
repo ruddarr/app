@@ -109,7 +109,7 @@ struct SeriesRelease: Identifiable, Codable {
 
     let indexerId: Int
     let indexer: String?
-    let indexerFlags: Int
+    let indexerFlags: Int?
     let seeders: Int?
     let leechers: Int?
 
@@ -211,11 +211,12 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var hasNonFreeleechFlags: Bool {
-        indexerFlags > 1
+        guard let flags = indexerFlags else { return false }
+        return flags > 1
     }
 
     var cleanIndexerFlags: [String] {
-        switch indexerFlags {
+        switch indexerFlags ?? 0 {
         case 1: ["Freeleech"]
         case 2: ["Halfleech"]
         case 4: ["DoubleUpload"]

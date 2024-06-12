@@ -165,8 +165,6 @@ extension View {
         type: .error
     )
 
-    @Environment(\.colorScheme) var colorScheme
-
     return VStack {
         Text(verbatim: "Headline")
             .font(.largeTitle.bold())

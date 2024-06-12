@@ -94,8 +94,8 @@ struct QueueItem: Codable, Identifiable {
 
     let status: String?
     let statusMessages: [QueueStatusMessage]?
-    let trackedDownloadStatus: QueueDownloadStatus
-    let trackedDownloadState: QueueDownloadState
+    let trackedDownloadStatus: QueueDownloadStatus?
+    let trackedDownloadState: QueueDownloadState?
 
     let outputPath: String?
     let downloadClientHasPostImportCategory: Bool?
