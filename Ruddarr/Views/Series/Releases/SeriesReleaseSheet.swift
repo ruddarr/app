@@ -184,7 +184,7 @@ struct SeriesReleaseSheet: View {
             flags.append(score)
         }
 
-        if release.indexerFlags != 0 {
+        if let indexerFlags = release.indexerFlags, indexerFlags != 0 {
             flags.append(contentsOf: release.cleanIndexerFlags)
         }
 
