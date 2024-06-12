@@ -11,6 +11,8 @@ struct SeriesForm: View {
     @State private var showingConfirmation = false
     @State private var addOptions = SeriesAddOptions(monitor: .none)
 
+    @AppStorage("seriesDefaults", store: dependencies.store) var seriesDefaults: SeriesDefaults = .init()
+
     var body: some View {
         Form {
             Section {
@@ -98,9 +100,13 @@ struct SeriesForm: View {
 
     func selectDefaultValues() {
         if !series.exists {
+            addOptions.monitor = seriesDefaults.monitor
+
             series.addOptions = addOptions
-            series.seasonFolder = true
             series.monitorNewItems = nil
+            series.rootFolderPath = seriesDefaults.rootFolder
+            series.seasonFolder = seriesDefaults.seasonFolder
+            series.qualityProfileId = seriesDefaults.qualityProfile
         }
 
         if !instance.qualityProfiles.contains(where: {

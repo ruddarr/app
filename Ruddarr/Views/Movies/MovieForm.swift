@@ -10,11 +10,7 @@ struct MovieForm: View {
 
     @State private var showingConfirmation = false
 
-    var availabilities: [MovieStatus] = [
-        .announced,
-        .inCinemas,
-        .released,
-    ]
+    @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
 
     var body: some View {
         Form {
@@ -34,6 +30,12 @@ struct MovieForm: View {
             selectDefaultValues()
         }
     }
+
+    var availabilities: [MovieStatus] = [
+        .announced,
+        .inCinemas,
+        .released,
+    ]
 
     var minimumAvailabilityField: some View {
         Picker(selection: $movie.minimumAvailability) {
@@ -76,6 +78,13 @@ struct MovieForm: View {
     }
 
     func selectDefaultValues() {
+        if !movie.exists {
+            movie.monitored = movieDefaults.monitored
+            movie.rootFolderPath = movieDefaults.rootFolder
+            movie.qualityProfileId = movieDefaults.qualityProfile
+            movie.minimumAvailability = movieDefaults.minimumAvailability
+        }
+
         if !availabilities.contains(movie.minimumAvailability) {
             movie.minimumAvailability = .announced
         }
