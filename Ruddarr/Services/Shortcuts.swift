@@ -7,11 +7,9 @@ struct Shortcuts: AppShortcutsProvider {
         AppShortcut(
             intent: MoviesIntent(),
             phrases: [
-                "Open Movies in \(.applicationName)",
-                "Show movies in rudder",
-                "Show rudder movies",
-                "Show Radar movies",
-                "Show movie library"
+                "Open movies in \(.applicationName)",
+                "Show movies in \(.applicationName)",
+                "Show \(.applicationName) movies",
             ],
             shortTitle: "Movies",
             systemImageName: "film"
@@ -20,10 +18,12 @@ struct Shortcuts: AppShortcutsProvider {
         AppShortcut(
             intent: SeriesIntent(),
             phrases: [
-                "Open Series in \(.applicationName)",
-                "Show series in rudder",
-                "Show rudder series",
-                "Show Sonar series",
+                "Open series in \(.applicationName)",
+                "Open TV series in \(.applicationName)",
+                "Show series in \(.applicationName)",
+                "Show TV series in \(.applicationName)",
+                "Show \(.applicationName) series",
+                "Show \(.applicationName) TV series",
             ],
             shortTitle: "Series",
             systemImageName: "tv"
@@ -32,11 +32,12 @@ struct Shortcuts: AppShortcutsProvider {
         AppShortcut(
             intent: CalendarIntent(),
             phrases: [
-                "Open Calendar in \(.applicationName)",
-                "Show calendar in rudder",
-                "Show upcoming movies",
-                "Show upcoming series",
-                "Show upcoming TV series",
+                "Open calendar in \(.applicationName)",
+                "Show calendar in \(.applicationName)",
+                "Show \(.applicationName) calendar",
+                "Show upcoming movies in \(.applicationName)",
+                "Show upcoming series in \(.applicationName)",
+                "Show upcoming TV series in \(.applicationName)",
             ],
             shortTitle: "Calendar",
             systemImageName: "calendar"
@@ -45,8 +46,8 @@ struct Shortcuts: AppShortcutsProvider {
         AppShortcut(
             intent: AddMovieIntent(),
             phrases: [
-                "Add Movie to \(.applicationName)",
-                "Add movie to rudder",
+                "Add movie to \(.applicationName)",
+                "Search for movie in \(.applicationName)",
             ],
             shortTitle: "Add Movie",
             systemImageName: "plus"
@@ -55,10 +56,10 @@ struct Shortcuts: AppShortcutsProvider {
         AppShortcut(
             intent: AddSeriesIntent(),
             phrases: [
-                "Add Series to \(.applicationName)",
+                "Add series to \(.applicationName)",
                 "Add TV Series to \(.applicationName)",
-                "Add series to rudder",
-                "Add tv series to rudder",
+                "Search for series in \(.applicationName)",
+                "Search for TV Series in \(.applicationName)",
             ],
             shortTitle: "Add Series",
             systemImageName: "plus"
