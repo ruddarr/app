@@ -60,6 +60,7 @@
 		BB507D322BD99C0300EC4016 /* SeriesDetails+Overview.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB507D312BD99C0300EC4016 /* SeriesDetails+Overview.swift */; };
 		BB581D1A2BA0ED5E0070DFFC /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB581D192BA0ED5E0070DFFC /* CalendarView.swift */; };
 		BB585E892BF55EF400A9AF25 /* EpisodeContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */; };
+		BB63E1F02C17DE1A00BCCA94 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */; };
 		BB644FCF2B8538A3007C7AD5 /* ci_post_xcodebuild.sh in Resources */ = {isa = PBXBuildFile; fileRef = BB644FCE2B8538A3007C7AD5 /* ci_post_xcodebuild.sh */; };
 		BB6D96952B61E61D0017BFB3 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6D96942B61E61D0017BFB3 /* AppSettings.swift */; };
 		BB6EB88B2BF00FA900066FB4 /* DateDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EB88A2BF00FA900066FB4 /* DateDecodingStrategy.swift */; };
@@ -221,6 +222,7 @@
 		BB507D312BD99C0300EC4016 /* SeriesDetails+Overview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SeriesDetails+Overview.swift"; sourceTree = "<group>"; };
 		BB581D192BA0ED5E0070DFFC /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeContextMenu.swift; sourceTree = "<group>"; };
+		BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intents.swift; sourceTree = "<group>"; };
 		BB644FCE2B8538A3007C7AD5 /* ci_post_xcodebuild.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = ci_post_xcodebuild.sh; sourceTree = "<group>"; };
 		BB6D96942B61E61D0017BFB3 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		BB6EB88A2BF00FA900066FB4 /* DateDecodingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDecodingStrategy.swift; sourceTree = "<group>"; };
@@ -683,6 +685,7 @@
 				BBF706BB2B6220BF00B2B504 /* Sentry.swift */,
 				BBC136A32B62DD780074C7AA /* Network.swift */,
 				BBC94DE82B5F63A000504568 /* Telemetry.swift */,
+				BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */,
 				BB77996C2BAE4757007D713B /* Shortcuts.swift */,
 				BB8A60272B952D710039CFF6 /* Subscription.swift */,
 				BBC77E252B7AB79100573EBD /* Notifications.swift */,
@@ -946,6 +949,7 @@
 				BBC77E242B7AAD3300573EBD /* InstanceView.swift in Sources */,
 				BBC309DA2BED7FE4004080FD /* Environment.swift in Sources */,
 				BBD3F7D22BE9A6320050D9A0 /* SeriesReleasesView.swift in Sources */,
+				BB63E1F02C17DE1A00BCCA94 /* Intents.swift in Sources */,
 				BBF583B92BAC99CA00AFA7FB /* CalendarDate.swift in Sources */,
 				BB25DC6A2B63161E00FE55A0 /* MovieForm.swift in Sources */,
 				BB507D2C2BD9909D00EC4016 /* SeriesItemView.swift in Sources */,
