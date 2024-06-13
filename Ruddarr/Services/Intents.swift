@@ -2,7 +2,6 @@ import AppIntents
 
 struct MoviesIntent: AppIntent {
     static var title: LocalizedStringResource = "Open Movies"
-
     static var openAppWhenRun: Bool = true
 
     @MainActor
@@ -16,7 +15,6 @@ struct MoviesIntent: AppIntent {
 
 struct SeriesIntent: AppIntent {
     static var title: LocalizedStringResource = "Open Series"
-
     static var openAppWhenRun: Bool = true
 
     @MainActor
@@ -30,7 +28,6 @@ struct SeriesIntent: AppIntent {
 
 struct CalendarIntent: AppIntent {
     static var title: LocalizedStringResource = "Open Calendar"
-
     static var openAppWhenRun: Bool = true
 
     @MainActor
@@ -105,6 +102,52 @@ struct AddSeriesIntent: AppIntent {
         )
 
         dependencies.router.selectedTab = .series
+
+        return .result()
+    }
+}
+
+@available(iOS 18.0, *)
+@AssistantIntent(schema: .system.search)
+struct SystemSearchMoviesIntent: ShowInAppSearchResultsIntent {
+    static let searchScopes: [StringSearchScope] = [.movies]
+
+    @Parameter(title: "Criteria")
+    var criteria: StringSearchCriteria
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        dependencies.router.moviesPath = .init()
+        dependencies.router.selectedTab = .movies
+
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        dependencies.router.moviesPath.append(
+            MoviesPath.search(criteria.term.trimmingCharacters(in: .whitespaces))
+        )
+
+        return .result()
+    }
+}
+
+@available(iOS 18.0, *)
+@AssistantIntent(schema: .system.search)
+struct SystemSearchSeriesIntent: ShowInAppSearchResultsIntent {
+    static let searchScopes: [StringSearchScope] = [.tv]
+
+    @Parameter(title: "Criteria")
+    var criteria: StringSearchCriteria
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        dependencies.router.seriesPath = .init()
+        dependencies.router.selectedTab = .series
+
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        dependencies.router.seriesPath.append(
+            SeriesPath.search(criteria.term.trimmingCharacters(in: .whitespaces))
+        )
 
         return .result()
     }
