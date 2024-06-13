@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "telegram.png",
+      "filename" : "atp.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "ruddarr-telegram-clip.png",
+      "filename" : "ruddarr-atp.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -25,7 +25,7 @@
           "value" : "tinted"
         }
       ],
-      "filename" : "ruddarr-tinted.png",
+      "filename" : "ruddarr-atp-tinted.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
