@@ -2,9 +2,8 @@ import SwiftUI
 import Combine
 
 struct MovieSearchView: View {
-    @State var searchQuery = ""
-
-    @State private var presentingSearch = true
+    @State var searchQuery: String
+    @State private var searchPresented: Bool = true
 
     @Environment(RadarrInstance.self) private var instance
 
@@ -35,7 +34,7 @@ struct MovieSearchView: View {
         .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,
-            isPresented: $presentingSearch,
+            isPresented: $searchPresented,
             placement: .drawerOrToolbar
         )
         .disabled(instance.isVoid)
