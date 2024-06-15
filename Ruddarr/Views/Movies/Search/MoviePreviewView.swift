@@ -100,7 +100,7 @@ struct MoviePreviewView: View {
         movieSort.filter = .all
 
         let moviePath = MoviesPath.movie(addedMovie.id)
-        dependencies.router.moviesPath.removeLast(dependencies.router.moviesPath.count)
+        dependencies.router.moviesPath.removeLast()
         dependencies.router.moviesPath.append(moviePath)
 
         TelemetryDeck.signal("movieAdded")
