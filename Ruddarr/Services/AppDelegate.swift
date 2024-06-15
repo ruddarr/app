@@ -57,12 +57,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification
     ) async -> UNNotificationPresentationOptions {
-        let entitled = await Subscription.entitledToService()
-
-        if !entitled {
-            return []
-        }
-
         let userInfo = notification.request.content.userInfo
         let hideInForeground = userInfo["hideInForeground"] as? Bool ?? false
 
