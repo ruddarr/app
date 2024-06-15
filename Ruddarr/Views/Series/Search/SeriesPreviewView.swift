@@ -100,8 +100,7 @@ struct SeriesPreviewView: View {
         seriesSort.filter = .all
 
         let seriesPath = SeriesPath.series(addedSeries.id)
-
-        dependencies.router.seriesPath.removeLast(dependencies.router.seriesPath.count)
+        dependencies.router.seriesPath.removeLast()
         dependencies.router.seriesPath.append(seriesPath)
 
         TelemetryDeck.signal("seriesAdded")
