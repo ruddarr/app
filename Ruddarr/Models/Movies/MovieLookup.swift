@@ -66,6 +66,7 @@ class MovieLookup {
         searchTask = Task {
             do {
                 items = try await dependencies.api.lookupMovies(instance, query)
+                searchedQuery = query
             } catch is CancellationError {
                 // do nothing
             } catch let apiError as API.Error {
