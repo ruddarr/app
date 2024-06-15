@@ -8,6 +8,7 @@ struct SeriesPreviewView: View {
 
     @Environment(SonarrInstance.self) private var instance
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.deviceType) private var deviceType
 
     @AppStorage("seriesSort", store: dependencies.store) var seriesSort: SeriesSort = .init()
     @AppStorage("seriesDefaults", store: dependencies.store) var seriesDefaults: SeriesDefaults = .init()
@@ -31,7 +32,7 @@ struct SeriesPreviewView: View {
                         toolbarSaveButton
                     }
             }
-            .presentationDetents([.medium])
+            .presentationDetents([deviceType == .phone ? .medium : .large])
         }
         .alert(
             isPresented: instance.series.errorBinding,
