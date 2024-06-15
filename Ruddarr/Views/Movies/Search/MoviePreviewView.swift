@@ -8,6 +8,7 @@ struct MoviePreviewView: View {
 
     @Environment(RadarrInstance.self) private var instance
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.deviceType) private var deviceType
 
     @AppStorage("movieSort", store: dependencies.store) var movieSort: MovieSort = .init()
     @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
@@ -31,7 +32,7 @@ struct MoviePreviewView: View {
                         toolbarSaveButton
                     }
             }
-            .presentationDetents([.medium])
+            .presentationDetents([deviceType == .phone ? .medium : .large])
         }
         .alert(
             isPresented: instance.movies.errorBinding,
