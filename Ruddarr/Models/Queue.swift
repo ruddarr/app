@@ -83,7 +83,7 @@ struct QueueItem: Codable, Identifiable {
     let sizeleft: Float
     let timeleft: String?
 
-    let languages: [MediaLanguage]
+    let languages: [MediaLanguage]?
     let quality: MediaQuality
 
     let customFormats: [MediaCustomFormat]
@@ -162,8 +162,8 @@ struct QueueItem: Codable, Identifiable {
     }
 
     var languagesLabel: String? {
-        if languages.isEmpty { return nil }
-        return languages.map { $0.label }.formattedList()
+        guard let codes = languages, !codes.isEmpty else { return nil }
+        return codes.map { $0.label }.formattedList()
     }
 
     var scoreLabel: String? {
