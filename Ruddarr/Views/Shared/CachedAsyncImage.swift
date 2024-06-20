@@ -3,20 +3,6 @@ import NukeUI
 
 import SwiftUI
 
-enum ImageType {
-    case poster
-
-    var size: CGSize {
-        switch self {
-            #if os(macOS)
-                case .poster: CGSize(width: 325, height: 488)
-            #else
-                case .poster: CGSize(width: 250, height: 375)
-            #endif
-        }
-    }
-}
-
 struct CachedAsyncImage: View {
     let url: String?
     let type: ImageType
@@ -29,10 +15,8 @@ struct CachedAsyncImage: View {
     }
 
     var body: some View {
-        if url == nil {
-            PlaceholderImage(icon: "text.below.photo", text: placeholder)
-        } else {
-            LazyImage(request: imageRequest(url)) { state in
+        if let url = url {
+            LazyImage(request: Images.request(url, type)) { state in
                 if let image = state.image {
                     image.resizable()
                 } else if state.error != nil {
@@ -42,37 +26,10 @@ struct CachedAsyncImage: View {
                 } else {
                     PlaceholderImage(icon: "text.below.photo", text: nil)
                 }
-            }.pipeline(
-                imagePipeline()
-            )
+            }.pipeline(Images.pipeline())
+        } else {
+            PlaceholderImage(icon: "text.below.photo", text: placeholder)
         }
-    }
-
-    func imagePipeline() -> ImagePipeline {
-        var config = ImagePipeline.Configuration.withDataCache(
-            name: "com.ruddarr.images"
-        )
-
-        config.dataCachePolicy = .automatic
-
-        return ImagePipeline(configuration: config)
-    }
-
-    func imageRequest(_ urlString: String?) -> ImageRequest {
-        let url = URL(string: urlString!)
-        let request = URLRequest(url: url!, timeoutInterval: 5)
-
-        return ImageRequest(
-            urlRequest: request,
-            processors: [
-                .resize(
-                    size: type.size,
-                    contentMode: .aspectFill,
-                    crop: true,
-                    upscale: true
-                )
-            ]
-        )
     }
 }
 
