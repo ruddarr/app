@@ -80,7 +80,7 @@ extension Image {
         #if os(macOS)
             self.init(nsImage: NSImage(named: appIcon) ?? NSImage())
         #else
-            self.init(uiImage: UIImage(named: appIcon)!)
+            self.init(uiImage: UIImage(named: appIcon) ?? UIImage(systemName: "app")!)
         #endif
     }
 }
