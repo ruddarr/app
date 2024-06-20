@@ -124,6 +124,7 @@
 		BBC77E242B7AAD3300573EBD /* InstanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC77E232B7AAD3300573EBD /* InstanceView.swift */; };
 		BBC77E262B7AB79100573EBD /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC77E252B7AB79100573EBD /* Notifications.swift */; };
 		BBC94DE92B5F63A000504568 /* Telemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC94DE82B5F63A000504568 /* Telemetry.swift */; };
+		BBCC2E5D2C1FA72000EF159F /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCC2E5C2C1FA72000EF159F /* Images.swift */; };
 		BBD3F2D42BFA520700DE5D8E /* series-episode-history.json in Resources */ = {isa = PBXBuildFile; fileRef = BBD3F2D32BFA520700DE5D8E /* series-episode-history.json */; };
 		BBD3F2D62BFA55FE00DE5D8E /* MediaQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F2D52BFA55FE00DE5D8E /* MediaQuality.swift */; };
 		BBD3F2D82BFA578000DE5D8E /* MediaHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F2D72BFA578000DE5D8E /* MediaHistory.swift */; };
@@ -324,6 +325,7 @@
 		BBC77E232B7AAD3300573EBD /* InstanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceView.swift; sourceTree = "<group>"; };
 		BBC77E252B7AB79100573EBD /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		BBC94DE82B5F63A000504568 /* Telemetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Telemetry.swift; sourceTree = "<group>"; };
+		BBCC2E5C2C1FA72000EF159F /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		BBD3F2D32BFA520700DE5D8E /* series-episode-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-episode-history.json"; sourceTree = "<group>"; };
 		BBD3F2D52BFA55FE00DE5D8E /* MediaQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaQuality.swift; sourceTree = "<group>"; };
 		BBD3F2D72BFA578000DE5D8E /* MediaHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaHistory.swift; sourceTree = "<group>"; };
@@ -743,6 +745,7 @@
 				BB4B34F22B7BFE640063F2D3 /* AppDelegate.swift */,
 				BBC309DB2BED95DF004080FD /* AppDelegateMac.swift */,
 				BBBE93152B68638400353216 /* Theme.swift */,
+				BBCC2E5C2C1FA72000EF159F /* Images.swift */,
 				BBF706BB2B6220BF00B2B504 /* Sentry.swift */,
 				BBC136A32B62DD780074C7AA /* Network.swift */,
 				BBC94DE82B5F63A000504568 /* Telemetry.swift */,
@@ -986,6 +989,7 @@
 				BBE828572B4F2C7000C1E1D9 /* Ruddarr.swift in Sources */,
 				BB507D2E2BD991E100EC4016 /* SeriesContextMenu.swift in Sources */,
 				BBAFC7E72BB733E800245D10 /* MediaEventSheet.swift in Sources */,
+				BBCC2E5D2C1FA72000EF159F /* Images.swift in Sources */,
 				BBC6CEF52BE69B1600F71839 /* Media.swift in Sources */,
 				BB77996D2BAE4757007D713B /* Shortcuts.swift in Sources */,
 				BBD5D80E2C0135F9008E3B3F /* ActivityView.swift in Sources */,
