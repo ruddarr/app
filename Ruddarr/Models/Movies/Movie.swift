@@ -87,6 +87,11 @@ struct Movie: Identifiable, Equatable, Codable {
         guid != nil
     }
 
+    var sizeLabel: String {
+        guard let bytes = sizeOnDisk, bytes > 0 else { return "" }
+        return formatBytes(bytes)
+    }
+    
     var sortYear: TimeInterval {
         if let date = inCinemas { return date.timeIntervalSince1970 }
         if let date = digitalRelease { return date.timeIntervalSince1970 }
@@ -108,7 +113,7 @@ struct Movie: Identifiable, Equatable, Codable {
             return "Waiting"
         }
 
-        if monitored && isReleased {
+        if monitored {
             return "Missing"
         }
 
@@ -136,6 +141,13 @@ struct Movie: Identifiable, Equatable, Codable {
         return rating
     }
 
+    var ratingsExist: Bool {
+        ratings?.rottenTomatoes?.value != nil ||
+        ratings?.imdb?.value != nil ||
+        (ratings?.tmdb?.value ?? 0) > 0 ||
+        ratings?.metacritic?.value != nil
+    }
+    
     func releaseType(for date: Date) -> LocalizedStringKey? {
         let calendar: Calendar = Calendar.current
 

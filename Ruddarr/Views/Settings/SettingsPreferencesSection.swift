@@ -14,6 +14,7 @@ struct SettingsPreferencesSection: View {
         Section {
             tabPicker
             appearancePicker
+            layoutPicker
             themePicker
             iconPicker
 
@@ -118,6 +119,26 @@ struct SettingsPreferencesSection: View {
             dependencies.router.reset()
         }
     }
+    
+    var layoutPicker: some View {
+        Picker(selection: $settings.layout) {
+            ForEach(ViewLayout.allCases) { layout in
+                Text(layout.label)
+            }
+        } label: {
+            Label {
+                Text("Layout")
+            } icon: {
+                Image(systemName: "rectangle.grid.1x2")
+                    .foregroundStyle(Color(.monochrome))
+            }
+        }
+        .tint(.secondary)
+        .onChange(of: settings.layout) {
+            dependencies.router.reset()
+        }
+    }
+
 
     var manageSubscription: some View {
         Button {

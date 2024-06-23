@@ -195,18 +195,35 @@ struct MoviesView: View {
 
     @ViewBuilder
     var movieItemGrid: some View {
-        let gridItemLayout = MovieGridItem.gridItemLayout()
-        let gridItemSpacing = MovieGridItem.gridItemSpacing()
-
-        LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-            ForEach(instance.movies.cachedItems) { movie in
-                NavigationLink(value: MoviesPath.movie(movie.id)) {
-                    MovieGridItem(movie: movie)
+        Group {
+            switch settings.layout {
+            case .grid:
+                let gridItemLayout = MovieGridItem.gridItemLayout()
+                let gridItemSpacing = MovieGridItem.gridItemSpacing()
+                LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
+                    ForEach(instance.movies.cachedItems) { movie in
+                        NavigationLink(value: MoviesPath.movie(movie.id)) {
+                            MovieGridItem(movie: movie)
+                        }
+                        .buttonStyle(.plain)
+                        .id(movie.id)
+                    }
                 }
-                .buttonStyle(.plain)
-                .id(movie.id)
+            case .list:
+                let listItemSpacing = ListItemHelper.listItemSpacing()
+                LazyVStack(spacing: listItemSpacing) {
+                    ForEach(instance.movies.cachedItems) { movie in
+                        NavigationLink(value: MoviesPath.movie(movie.id)) {
+                            MovieListItem(movie: movie)
+                        }
+                        .buttonStyle(.plain)
+                        .id(movie.id)
+                    }
+                }
             }
         }
+        .frame(minWidth: ListItemHelper.layoutMinWidth())
+        .padding(ListItemHelper.layoutVerticalInsets())
     }
 
     func updateSortDirection() {

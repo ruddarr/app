@@ -21,6 +21,17 @@
         }
       }
     },
+    "%@ on %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ on %@"
+          }
+        }
+      }
+    },
     "%@." : {
       "comment" : "Prefix for episode title (episode number)",
       "localizations" : {
@@ -126,6 +137,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d years"
+          }
+        }
+      }
+    },
+    "%lld Seasons" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Season"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "%lld Seasons"
+                }
+              }
+            }
           }
         }
       }
@@ -240,6 +274,9 @@
         }
       }
     },
+    "Add Movie with ${name}" : {
+
+    },
     "Add Series" : {
       "localizations" : {
         "en" : {
@@ -259,6 +296,9 @@
           }
         }
       }
+    },
+    "Add TV Series with ${title}" : {
+
     },
     "Added" : {
       "localizations" : {
@@ -1511,6 +1551,17 @@
         }
       }
     },
+    "Grid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grid"
+          }
+        }
+      }
+    },
     "Headers" : {
       "localizations" : {
         "en" : {
@@ -1812,6 +1863,17 @@
         }
       }
     },
+    "Layout" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Layout"
+          }
+        }
+      }
+    },
     "Leave a Review" : {
       "localizations" : {
         "en" : {
@@ -1838,6 +1900,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Link"
+          }
+        }
+      }
+    },
+    "List" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List"
           }
         }
       }

@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 protocol OptionalProtocol {
     associatedtype Wrapped
@@ -110,6 +111,81 @@ func formatAge(_ age: Float) -> String {
         String(format: String(localized: "%.1f years"), years)
     default:
         String(format: String(localized: "%d years"), Int(years))
+    }
+}
+
+extension View {
+    func tag() -> some View {
+        self.modifier(ListItemHelper.Tag())
+    }
+}
+
+struct ListItemHelper {
+    static let posterRadius = 10.0
+    
+    static func primaryTextStyle() -> Font {
+        #if os(macOS)
+            return .title2
+        #else
+            return .body
+        #endif
+    }
+    
+    static func secondaryTextStyle() -> Font {
+        #if os(macOS)
+            return .body
+        #else
+            return .footnote
+        #endif
+    }
+    
+    static func tertiaryTextStyle() -> Font {
+        #if os(macOS)
+            return .body
+        #else
+            return .caption
+        #endif
+    }
+    
+    static func listItemSpacing() -> CGFloat {
+        #if os(macOS)
+            return 20
+        #else
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return 12
+            }
+            return 20
+        #endif
+    }
+    
+    static func posterHeight() -> CGFloat {
+        #if os(macOS)
+            return 176.0
+        #else
+            return 140.0
+        #endif
+    }
+    
+    static func layoutMinWidth() -> CGFloat {
+        #if os(macOS)
+            return 400
+        #else
+            return 0
+        #endif
+    }
+    
+    static func layoutVerticalInsets() -> EdgeInsets {
+        #if os(macOS)
+            return EdgeInsets(top: listItemSpacing(), leading: 0, bottom: listItemSpacing(), trailing: 0)
+        #else
+            return EdgeInsets(top: 0, leading: 0, bottom: listItemSpacing(), trailing: 0)
+        #endif
+    }
+    
+    struct Tag: ViewModifier {
+        func body(content: Content) -> some View {
+            content.lineLimit(1).opacity(0.8).padding(.horizontal, 6).padding(.vertical, 2).background(.foreground.opacity(0.15)).clipShape(RoundedRectangle(cornerRadius: 4))
+        }
     }
 }
 
