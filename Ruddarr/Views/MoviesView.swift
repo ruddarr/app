@@ -222,6 +222,7 @@ struct MoviesView: View {
                 }
             }
         }
+        .frame(minWidth: ListItemHelper.layoutMinWidth())
         .padding(.vertical)
     }
 

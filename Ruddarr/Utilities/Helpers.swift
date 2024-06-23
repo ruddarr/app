@@ -166,6 +166,14 @@ struct ListItemHelper {
         #endif
     }
     
+    static func layoutMinWidth() -> CGFloat {
+        #if os(macOS)
+            return 400
+        #else
+            return 0
+        #endif
+    }
+    
     struct Tag: ViewModifier {
         func body(content: Content) -> some View {
             content.lineLimit(1).opacity(0.8).padding(.horizontal, 6).padding(.vertical, 2).background(.foreground.opacity(0.15)).clipShape(RoundedRectangle(cornerRadius: 4))

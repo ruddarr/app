@@ -227,6 +227,7 @@ struct SeriesView: View {
                 }
             }
         }
+        .frame(minWidth: ListItemHelper.layoutMinWidth())
         .padding(.vertical)
     }
 
