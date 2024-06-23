@@ -223,7 +223,7 @@ struct MoviesView: View {
             }
         }
         .frame(minWidth: ListItemHelper.layoutMinWidth())
-        .padding(.vertical)
+        .padding(ListItemHelper.layoutVerticalInsets())
     }
 
     func updateSortDirection() {
