@@ -24,7 +24,7 @@ extension MovieDetails {
                 detailsSubtitle
                     .padding(.bottom, 6)
 
-                MovieRatings(movie: movie)
+                MovieRatings(movie: movie).font(.callout).foregroundStyle(.secondary)
 
                 if deviceType != .phone {
                     Spacer()

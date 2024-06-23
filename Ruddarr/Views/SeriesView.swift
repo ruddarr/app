@@ -200,18 +200,34 @@ struct SeriesView: View {
 
     @ViewBuilder
     var seriesItemGrid: some View {
-        let gridItemLayout = MovieGridItem.gridItemLayout()
-        let gridItemSpacing = MovieGridItem.gridItemSpacing()
-
-        LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-            ForEach(instance.series.cachedItems) { series in
-                NavigationLink(value: SeriesPath.series(series.id)) {
-                    SeriesGridItem(series: series)
+        Group {
+            switch settings.layout {
+            case .grid:
+                let gridItemLayout = MovieGridItem.gridItemLayout()
+                let gridItemSpacing = MovieGridItem.gridItemSpacing()
+                LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
+                    ForEach(instance.series.cachedItems) { series in
+                        NavigationLink(value: SeriesPath.series(series.id)) {
+                            SeriesGridItem(series: series)
+                        }
+                        .buttonStyle(.plain)
+                        .id(series.id)
+                    }
                 }
-                .buttonStyle(.plain)
-                .id(series.id)
+            case .list:
+                let listItemSpacing = ListItemHelper.listItemSpacing()
+                LazyVStack(spacing: listItemSpacing) {
+                    ForEach(instance.series.cachedItems) { series in
+                        NavigationLink(value: SeriesPath.series(series.id)) {
+                            SeriesListItem(series: series)
+                        }
+                        .buttonStyle(.plain)
+                        .id(series.id)
+                    }
+                }
             }
         }
+        .padding(.vertical)
     }
 
     func updateSortDirection() {

@@ -107,6 +107,20 @@ enum AppIcon: String, Identifiable, CaseIterable {
     }
 }
 
+enum ViewLayout: String, Identifiable, CaseIterable {
+    case grid
+    case list
+
+    var id: Self { self }
+
+    var label: LocalizedStringKey {
+        switch self {
+        case .grid: "Grid"
+        case .list: "List"
+        }
+    }
+}
+
 struct AppIconData {
     var label: LocalizedStringKey
     var asset: String
