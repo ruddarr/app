@@ -57,9 +57,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification
     ) async -> UNNotificationPresentationOptions {
-        let entitled = await Subscription.entitledToService()
-
-        if !entitled {
+        guard await Subscription.entitledToService() else {
             return []
         }
 

@@ -9,6 +9,11 @@ class Subscription {
         do {
             let subscriptions = try await Product.SubscriptionInfo.status(for: group)
 
+            // testflight subscriptions expire fast, accept any state
+            if environment() == .testflight {
+                return !subscriptions.isEmpty
+            }
+
             return containsEntitledState(subscriptions)
         } catch {
             leaveBreadcrumb(.error, category: "subscription", message: "entitledToService check failed", data: ["error": error])
