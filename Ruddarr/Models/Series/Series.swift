@@ -7,6 +7,9 @@ struct Series: Identifiable, Equatable, Codable {
     // the remapped `id` field
     var guid: Int?
 
+    // used by deeplinks to switch instances
+    var instanceId: Instance.ID?
+
     let title: String
     let titleSlug: String?
     let sortTitle: String
