@@ -152,7 +152,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var isFreeleech: Bool {
-        guard !indexerFlags.isEmpty else { return false }
+        guard !(indexerFlags ?? []).isEmpty else { return false }
 
         return cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }
     }
@@ -174,13 +174,16 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var hasNonFreeleechFlags: Bool {
-        guard !indexerFlags.isEmpty else { return false }
+        guard let flags = indexerFlags else { return false }
+        guard !flags.isEmpty else { return false }
 
-        return !(indexerFlags.count == 1 && isFreeleech)
+        return !(flags.count == 1 && isFreeleech)
     }
 
     var cleanIndexerFlags: [String] {
-        indexerFlags.map {
+        guard let flags = indexerFlags else { return [] }
+
+        return flags.map {
             $0.hasPrefix("G_") ? String($0.dropFirst(2)) : $0
         }
     }
@@ -194,9 +197,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var indexerFlagsLabel: String? {
-        guard !indexerFlags.isEmpty else {
-            return nil
-        }
+        guard !(indexerFlags ?? []).isEmpty else { return nil }
 
         return cleanIndexerFlags.formattedList()
     }
