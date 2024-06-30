@@ -785,10 +785,10 @@
 				BBE8284F2B4F2C7000C1E1D9 /* Sources */,
 				BBE828502B4F2C7000C1E1D9 /* Frameworks */,
 				BBE828512B4F2C7000C1E1D9 /* Resources */,
-				BB9D7AFA2B58A675001C5E3C /* Run SwiftLint */,
-				BB5187AA2B804C5F0015F036 /* Upload Debug Symbols to Sentry */,
 				BB4071142C1CD2DD006A3FA5 /* Embed Foundation Extensions */,
 				BB4071282C1CD46B006A3FA5 /* Embed ExtensionKit Extensions */,
+				BB9D7AFA2B58A675001C5E3C /* Run SwiftLint */,
+				BB5187AA2B804C5F0015F036 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
