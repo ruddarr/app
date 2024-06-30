@@ -107,7 +107,7 @@ struct MovieRelease: Identifiable, Codable {
 
     let indexerId: Int
     let indexer: String?
-    let indexerFlags: [String]
+    let indexerFlags: [String]?
     let seeders: Int?
     let leechers: Int?
 

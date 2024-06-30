@@ -184,7 +184,7 @@ struct MovieReleaseSheet: View {
             flags.append(release.scoreLabel)
         }
 
-        if !release.indexerFlags.isEmpty {
+        if let indexerFlags = release.indexerFlags, !indexerFlags.isEmpty {
             flags.append(contentsOf: release.cleanIndexerFlags)
         }
 
