@@ -91,9 +91,7 @@ class MediaCalendar {
     func fetchMovies(_ instance: Instance, _ start: Date, _ end: Date) async throws {
         let movies = try await dependencies.api.movieCalendar(start, end, instance)
 
-        for var movie in movies {
-            movie.instanceId = instance.id
-
+        for movie in movies {
             if let digitalRelease = movie.digitalRelease {
                 maybeInsertMovie(movie, digitalRelease)
             }
@@ -125,9 +123,7 @@ class MediaCalendar {
     func fetchEpisodes(_ instance: Instance, _ start: Date, _ end: Date) async throws {
         let episodes = try await dependencies.api.episodeCalendar(start, end, instance)
 
-        for var episode in episodes {
-            episode.instanceId = instance.id
-
+        for episode in episodes {
             if let airDate = episode.airDateUtc {
                 maybeInsertEpisode(episode, airDate)
             }

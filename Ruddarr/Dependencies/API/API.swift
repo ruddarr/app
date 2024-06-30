@@ -58,8 +58,9 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
 
-            // TODO: inject instanceId in all movies!!!
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            var movies: [Movie] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            for i in movies.indices { movies[i].instanceId = instance.id }
+            return movies
         }, lookupMovies: { instance, query in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie/lookup")
@@ -142,13 +143,17 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series")
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            var series: [Series] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            for i in series.indices { series[i].instanceId = instance.id }
+            return series
         }, fetchEpisodes: { seriesId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/episode")
                 .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
 
-            return try await request(url: url, headers: instance.auth)
+            var episodes: [Episode] = try await request(url: url, headers: instance.auth)
+            for i in episodes.indices { episodes[i].instanceId = instance.id }
+            return episodes
         }, fetchEpisodeFiles: { seriesId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/episodeFile")
@@ -243,7 +248,9 @@ extension API {
                     .init(name: "end", value: end.formatted(.iso8601)),
                 ])
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            var movies: [Movie] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            for i in movies.indices { movies[i].instanceId = instance.id }
+            return movies
         }, episodeCalendar: { start, end, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/calendar")
@@ -254,7 +261,9 @@ extension API {
                     .init(name: "end", value: end.formatted(.iso8601)),
                 ])
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            var episodes: [Episode] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            for i in episodes.indices { episodes[i].instanceId = instance.id }
+            return episodes
         }, radarrCommand: { command, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/command")
