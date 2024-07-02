@@ -1601,6 +1601,16 @@
         }
       }
     },
+    "Import Blocked" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Blocked"
+          }
+        }
+      }
+    },
     "Import Pending" : {
       "localizations" : {
         "en" : {
@@ -3890,6 +3900,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Type"
+          }
+        }
+      }
+    },
+    "Unable to Import Automatically" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to Import Automatically"
           }
         }
       }

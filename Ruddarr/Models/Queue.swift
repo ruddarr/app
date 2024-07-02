@@ -191,6 +191,7 @@ struct QueueItem: Codable, Identifiable {
 
         return switch trackedDownloadState {
         case .importPending: String(localized: "Import Pending")
+        case .importBlocked: String(localized: "Import Blocked")
         case .importing: String(localized: "Importing")
         case .failedPending: String(localized: "Waiting")
         default: String(localized: "Downloading")
@@ -217,6 +218,7 @@ struct QueueItem: Codable, Identifiable {
 
         return switch trackedDownloadState {
         case .importPending: String(localized: "Waiting to Import")
+        case .importBlocked: String(localized: "Unable to Import Automatically")
         case .importing: String(localized: "Importing")
         case .failedPending: String(localized: "Waiting to Process")
         default: String(localized: "Downloading")
@@ -238,6 +240,7 @@ enum QueueDownloadStatus: String, Codable {
 enum QueueDownloadState: String, Codable {
     case downloading
     case importPending
+    case importBlocked // https://github.com/Sonarr/Sonarr/pull/6889
     case importing
     case imported
     case failedPending
