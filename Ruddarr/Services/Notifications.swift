@@ -99,12 +99,6 @@ class Notifications {
         }
 
         Task.detached { [instances] in
-            let notificationStatus = await Notifications.shared.authorizationStatus()
-
-            if ![.authorized, .provisional].contains(notificationStatus) {
-                return
-            }
-
             let cloudkit = CKContainer.default()
             let cloudKitStatus = try? await cloudkit.accountStatus()
 
