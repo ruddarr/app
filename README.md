@@ -1,29 +1,31 @@
 # Ruddarr
 
-A native companion app for Radarr and Sonarr instances written in SwiftUI.
+Ruddarr is a beautifully designed, open source, native companion app for Radarr and Sonarr instances written in SwiftUI.
 
 - [Ruddarr on the App Store](https://apps.apple.com/app/ruddarr/id6476240130)
 - [Ruddarr TestFlight Beta](https://testflight.apple.com/join/WbWNuoos)
 
+## Features
+
+- Browse upcoming releases in the calendar
+- Receive fine-grained notifications
+- Switch between multiple instances
+- Customize the app color scheme and appearance
+- Use Custom Headers to connect to reverse proxies
+- Synchronize settings/instances between devices
+- Automate actions using Shortcuts
+
 ## Notifications
 
-The notifications are powered by a [Cloudflare Worker](https://github.com/ruddarr/apns-worker).
+The code of the notification service is powered by a Cloudflare Worker and also [open source](https://github.com/ruddarr/apns-worker).
 
 ## URL Schemes
 
-### Open Screens
+Ruddarr supports many URL Schemes to open specific tabs or perform actions. All supported schemes are listed in the [`QuickActions.swift`](https://github.com/ruddarr/app/blob/develop/Ruddarr/Dependencies/QuickActions.swift)
 
-```
-ruddarr://open
-ruddarr://movies
-ruddarr://series
-ruddarr://calendar
+## Development
 
-ruddarr://{movies,series}/search
-ruddarr://{movies,series}/search/{query}
-```
-
-## Sentry Symbols
+### Sentry Symbols
 
 Create a `.sentryclirc` file:
 
@@ -32,7 +34,7 @@ Create a `.sentryclirc` file:
 token=sntrys_eyJp...
 ```
 
-## Reset Xcode
+### Reset Xcode
 
 ```bash
 sudo xcode-select -s /Applications/Xcode.app
