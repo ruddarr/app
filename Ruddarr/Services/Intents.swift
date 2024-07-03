@@ -109,3 +109,32 @@ struct AddSeriesIntent: AppIntent {
         return .result()
     }
 }
+
+// TODO: reevaluate with iOS 18
+// https://developer.apple.com/documentation/appintents/acceleratingappinteractionswithappintents
+
+// TODO: needs universal search page...
+// TODO: Set `CoreSpotlightContinuation` to `YES`
+
+@available(iOS 18.0, macOS 15.0, *)
+@AssistantIntent(schema: .system.search)
+struct SystemSearchIntent: AppIntent {
+   static let searchScopes: [StringSearchScope] = [.movies, .tv]
+
+   @Parameter(title: "Criteria")
+   var criteria: StringSearchCriteria
+
+   @MainActor
+   func perform() async throws -> some IntentResult {
+       dependencies.router.moviesPath = .init()
+       dependencies.router.selectedTab = .movies
+
+       try? await Task.sleep(nanoseconds: 50_000_000)
+
+       dependencies.router.moviesPath.append(
+           MoviesPath.search(criteria.term.trimmingCharacters(in: .whitespaces))
+       )
+
+       return .result()
+   }
+}
