@@ -26,12 +26,9 @@ struct SeriesReleasesView: View {
         .toolbar {
             toolbarButtons
         }
-        .onAppear {
-            sort.seasonPack = seasonId == nil ? .episode : .season
-        }
         .task {
-            guard !fetched else { return }
             releases = []
+            sort.seasonPack = seasonId == nil ? .episode : .season
             await instance.releases.search(series, seasonId, episodeId)
             updateDisplayedReleases()
             fetched = true

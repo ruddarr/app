@@ -1,8 +1,6 @@
 import SwiftUI
 import Combine
 
-// cmd+r to refresh page
-
 enum MoviesPath: Hashable {
     case search(String = "")
     case preview(Data?)
