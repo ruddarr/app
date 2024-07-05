@@ -200,13 +200,11 @@ extension QuickActions.Deeplink {
 #if os(iOS)
 extension QuickActions {
     enum ShortcutItem: String, CaseIterable {
-        case calendar
         case addMovie
         case addSeries
 
         var title: String {
             switch self {
-            case .calendar: String(localized: "Calendar")
             case .addMovie: String(localized: "Add Movie")
             case .addSeries: String(localized: "Add Series")
             }
@@ -214,7 +212,6 @@ extension QuickActions {
 
         var icon: UIApplicationShortcutIcon {
             switch self {
-            case .calendar: UIApplicationShortcutIcon(type: .date)
             case .addMovie: UIApplicationShortcutIcon(type: .add)
             case .addSeries: UIApplicationShortcutIcon(type: .add)
             }
@@ -222,7 +219,6 @@ extension QuickActions {
 
         func callAsFunction() {
             switch self {
-            case .calendar: dependencies.quickActions.openCalendar()
             case .addMovie: dependencies.quickActions.openMovieSearch("")
             case .addSeries: dependencies.quickActions.openSeriesSearch("")
             }
