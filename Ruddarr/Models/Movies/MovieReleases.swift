@@ -210,7 +210,7 @@ struct MovieRelease: Identifiable, Codable {
         languageSingleLabel(languages)
     }
 
-    var languagesLabel: String? {
+    var languagesLabel: String {
         if languages.isEmpty {
             return String(localized: "Unknown")
         }

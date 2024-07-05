@@ -89,16 +89,16 @@ struct QueueItemSheet: View {
     @ViewBuilder
     var details: some View {
         VStack(spacing: 6) {
-            row("Languages", item.languagesLabel ?? "--")
+            row("Languages", item.languagesLabel)
 
             if let score = item.scoreLabel {
                 Divider()
                 row("Score", score)
             }
 
-            if !item.customFormats.isEmpty {
+            if let formats = item.customFormatsLabel {
                 Divider()
-                row("Custom Formats", item.customFormats.map { $0.label }.formattedList())
+                row("Custom Formats", formats)
             }
 
             if let indexer = item.indexer {

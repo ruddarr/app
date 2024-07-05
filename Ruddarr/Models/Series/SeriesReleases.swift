@@ -77,7 +77,7 @@ class SeriesReleases {
         var seen: Set<String> = []
 
         languages = items
-            .map { $0.languages.map { $0.label } }
+            .map { $0.languages?.map { $0.label } ?? [] }
             .flatMap { $0 }
             .filter { seen.insert($0).inserted }
     }
@@ -115,7 +115,7 @@ struct SeriesRelease: Identifiable, Codable {
     let leechers: Int?
 
     let quality: MediaQuality
-    let languages: [MediaLanguage]
+    let languages: [MediaLanguage]?
     let rejections: [String]
 
     let qualityWeight: Int
@@ -241,15 +241,15 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var languageLabel: String {
-        languageSingleLabel(languages)
+        languageSingleLabel(languages ?? [])
     }
 
-    var languagesLabel: String? {
-        if languages.isEmpty {
+    var languagesLabel: String {
+        guard let langs = languages, langs.isEmpty else {
             return String(localized: "Unknown")
         }
 
-        return languages.map { $0.label }.formattedList()
+        return langs.map { $0.label }.formattedList()
     }
 
     var typeLabel: String {

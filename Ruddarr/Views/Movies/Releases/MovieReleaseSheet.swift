@@ -58,7 +58,6 @@ struct MovieReleaseSheet: View {
                 Text("The release for this \(type) could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
             }
         }
-        // swiftlint:enable closure_body_length
     }
 
     var header: some View {
@@ -172,11 +171,8 @@ struct MovieReleaseSheet: View {
     var details: some View {
         Section {
             VStack(spacing: 12) {
-                if let languages = release.languagesLabel {
-                    row("Language", value: languages)
-                    Divider()
-                }
-
+                row("Language", value: release.languagesLabel)
+                Divider()
                 row("Indexer", value: release.indexerLabel)
 
                 if release.isTorrent {

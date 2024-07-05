@@ -86,8 +86,8 @@ struct QueueItem: Codable, Identifiable {
     let languages: [MediaLanguage]?
     let quality: MediaQuality
 
-    let customFormats: [MediaCustomFormat]
-    let customFormatScore: Int
+    let customFormats: [MediaCustomFormat]?
+    let customFormatScore: Int?
 
     let added: Date?
     let estimatedCompletionTime: Date?
@@ -161,14 +161,23 @@ struct QueueItem: Codable, Identifiable {
         return formatRemainingTime(time)
     }
 
-    var languagesLabel: String? {
-        guard let codes = languages, !codes.isEmpty else { return nil }
+    var languagesLabel: String {
+        guard let codes = languages, !codes.isEmpty else {
+            return String(localized: "Unknown")
+        }
+
         return codes.map { $0.label }.formattedList()
     }
 
     var scoreLabel: String? {
-        guard !customFormats.isEmpty else { return nil }
-        return formatCustomScore(customFormatScore)
+        guard let score = customFormatScore else { return nil }
+        guard let formats = customFormats, !formats.isEmpty else { return nil }
+        return formatCustomScore(score)
+    }
+
+    var customFormatsLabel: String? {
+        guard let formats = customFormats, !formats.isEmpty else { return nil }
+        return formats.map { $0.label }.formattedList()
     }
 
     var statusLabel: String {

@@ -173,11 +173,8 @@ struct SeriesReleaseSheet: View {
     var details: some View {
         Section {
             VStack(spacing: 12) {
-                if let languages = release.languagesLabel {
-                    row("Language", value: languages)
-                    Divider()
-                }
-
+                row("Language", value: release.languagesLabel)
+                Divider()
                 row("Indexer", value: release.indexerLabel)
 
                 if release.isTorrent {

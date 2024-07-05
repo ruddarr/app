@@ -116,7 +116,7 @@ struct SeriesReleasesView: View {
         }
 
         if sort.language != ".all" {
-            releases = releases.filter { $0.languages.contains { $0.label == sort.language } }
+            releases = releases.filter { $0.languages?.contains { $0.label == sort.language } ?? false }
         }
 
         if sort.customFormat != ".all" {
@@ -143,7 +143,7 @@ struct SeriesReleasesView: View {
 
         if sort.originalLanguage {
             releases = releases.filter {
-                $0.languages.contains(where: { $0.id == series.originalLanguage?.id })
+                $0.languages?.contains { $0.id == series.originalLanguage?.id } ?? false
             }
         }
 
