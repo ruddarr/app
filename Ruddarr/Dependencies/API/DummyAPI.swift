@@ -17,10 +17,6 @@ extension API {
             try await Task.sleep(nanoseconds: 500_000_000)
 
             return loadPreviewData(filename: "movie-releases")
-        }, downloadRelease: { _, _, _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
-
-            return Empty()
         }, getMovie: { movieId, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
             try await Task.sleep(nanoseconds: 2_000_000_000)
@@ -129,6 +125,10 @@ extension API {
             return Empty()
         }, sonarrCommand: { _, _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return Empty()
+        }, downloadRelease: { _, _ in
+            try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return Empty()
         }, systemStatus: { _ in

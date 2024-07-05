@@ -1,6 +1,7 @@
 reporter: "xcode"
 
 line_length: 180
+closure_body_length: 40
 function_body_length: 60
 type_body_length: 400
 

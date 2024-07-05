@@ -2,6 +2,9 @@ import SwiftUI
 
 struct SeriesReleaseRow: View {
     var release: SeriesRelease
+    var seriesId: Series.ID
+    var seasonId: Season.ID?
+    var episodeId: Episode.ID?
 
     @State private var isShowingPopover = false
 
@@ -15,7 +18,7 @@ struct SeriesReleaseRow: View {
                 isShowingPopover = true
             }
             .sheet(isPresented: $isShowingPopover) {
-                SeriesReleaseSheet(release: release)
+                SeriesReleaseSheet(release: release, seriesId: seriesId, seasonId: seasonId, episodeId: episodeId)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
                     .environment(instance)

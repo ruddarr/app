@@ -6,8 +6,6 @@ struct API {
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
     var lookupMovieReleases: (Movie.ID, Instance) async throws -> [MovieRelease]
 
-    var downloadRelease: (String, Int, Instance) async throws -> Empty
-
     var getMovie: (Movie.ID, Instance) async throws -> Movie
     var getMovieHistory: (Movie.ID, Instance) async throws -> [MediaHistoryEvent]
     var getMovieFiles: (Movie.ID, Instance) async throws -> [MediaFile]
@@ -38,6 +36,7 @@ struct API {
 
     var radarrCommand: (RadarrCommand, Instance) async throws -> Empty
     var sonarrCommand: (SonarrCommand, Instance) async throws -> Empty
+    var downloadRelease: (DownloadReleaseCommand, Instance) async throws -> Empty
 
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolders]
@@ -73,13 +72,6 @@ extension API {
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
             return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
-        }, downloadRelease: { guid, indexerId, instance in
-            let url = URL(string: instance.url)!
-                .appending(path: "/api/v3/release")
-
-            let body = DownloadMovieRelease(guid: guid, indexerId: indexerId)
-
-            return try await request(method: .post, url: url, headers: instance.auth, body: body, timeout: instance.timeout(.releaseDownload))
         }, getMovie: { movieId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
@@ -274,6 +266,11 @@ extension API {
                 .appending(path: "/api/v3/command")
 
             return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
+        }, downloadRelease: { payload, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/release")
+
+            return try await request(method: .post, url: url, headers: instance.auth, body: payload, timeout: instance.timeout(.releaseDownload))
         }, systemStatus: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/system/status")

@@ -103,6 +103,7 @@ struct SeriesRelease: Identifiable, Codable {
     let age: Int
     let ageMinutes: Float
     let rejected: Bool
+    let downloadAllowed: Bool
 
     let customFormats: [MediaCustomFormat]?
     let customFormatScore: Int?
@@ -122,7 +123,6 @@ struct SeriesRelease: Identifiable, Codable {
 
     let infoUrl: String?
 
-    let downloadAllowed: Bool
     let fullSeason: Bool
     let episodeRequested: Bool
     let shouldOverride: Bool?

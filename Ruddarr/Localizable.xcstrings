@@ -3492,6 +3492,17 @@
         }
       }
     },
+    "series/episode" : {
+      "comment" : "The words 'series/episode' used mid-sentence",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "series/episode"
+          }
+        }
+      }
+    },
     "Server Error Response" : {
       "localizations" : {
         "en" : {
@@ -3780,6 +3791,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The credentials will be encoded and added as an \"Authorization\" header."
+          }
+        }
+      }
+    },
+    "The release for this %@ could not be determined and it may not import automatically. Do you want to grab \"%@\"?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The release for this %1$@ could not be determined and it may not import automatically. Do you want to grab \"%2$@\"?"
           }
         }
       }

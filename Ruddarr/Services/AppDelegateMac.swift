@@ -6,7 +6,6 @@ import TelemetryDeck
 
 #if os(macOS)
 class AppDelegateMac: NSObject, NSApplicationDelegate {
-    // TODO: [macOS] Needs work
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSWindow.allowsAutomaticWindowTabbing = false
 

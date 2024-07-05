@@ -3,12 +3,15 @@ import TelemetryDeck
 
 struct MovieReleaseSheet: View {
     @State var release: MovieRelease
+    @State var movieId: Movie.ID
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+
+    @State private var showGrabConfirmation: Bool = false
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -44,7 +47,18 @@ struct MovieReleaseSheet: View {
             } message: { error in
                 Text(error.recoverySuggestionFallback)
             }
+            .alert(
+                "Grab Release",
+                isPresented: $showGrabConfirmation
+            ) {
+                Button("Grab Release") { Task { await downloadRelease(force: true) } }
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                let type = String(localized: "movie", comment: "The word 'movie' used mid-sentence")
+                Text("The release for this \(type) could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
+            }
         }
+        // swiftlint:enable closure_body_length
     }
 
     var header: some View {
@@ -129,7 +143,11 @@ struct MovieReleaseSheet: View {
             }
 
             Button {
-                Task { await downloadRelease() }
+                if release.downloadAllowed {
+                    Task { await downloadRelease() }
+                } else {
+                    showGrabConfirmation = true
+                }
             } label: {
                 let label: LocalizedStringKey = deviceType == .phone ? "Download" : "Download Release"
 
@@ -218,10 +236,11 @@ struct MovieReleaseSheet: View {
     }
 
     @MainActor
-    func downloadRelease() async {
+    func downloadRelease(force: Bool = false) async {
         guard await instance.movies.download(
             guid: release.guid,
-            indexerId: release.indexerId
+            indexerId: release.indexerId,
+            movieId: force ? movieId : nil
         ) else {
             return
         }
@@ -239,6 +258,6 @@ struct MovieReleaseSheet: View {
     let releases: [MovieRelease] = PreviewData.load(name: "movie-releases")
     let release = releases[5]
 
-    return MovieReleaseSheet(release: release)
+    return MovieReleaseSheet(release: release, movieId: release.mappedMovieId)
         .withAppState()
 }

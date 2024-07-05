@@ -102,6 +102,40 @@ struct InstanceQualityProfile: Identifiable, Equatable, Codable {
     let name: String
 }
 
+struct DownloadReleaseCommand: Codable {
+    let guid: String
+    let indexerId: Int
+
+    // Radarr
+    var movieId: Int?
+
+    // Sonarr (season)
+    var seriesId: Int?
+    var seasonNumber: Int?
+
+    // Sonarr (episode)
+    var episodeId: Int?
+
+    init(guid: String, indexerId: Int, movieId: Int?) {
+        self.guid = guid
+        self.indexerId = indexerId
+        self.movieId = movieId
+    }
+
+    init(guid: String, indexerId: Int, seriesId: Int?, seasonId: Int?) {
+        self.guid = guid
+        self.indexerId = indexerId
+        self.seriesId = seriesId
+        self.seasonNumber = seasonId
+    }
+
+    init(guid: String, indexerId: Int, episodeId: Int?) {
+        self.guid = guid
+        self.indexerId = indexerId
+        self.episodeId = episodeId
+    }
+}
+
 enum RadarrCommand {
     case refresh(_ ids: [Movie.ID])
     case search(_ ids: [Movie.ID])

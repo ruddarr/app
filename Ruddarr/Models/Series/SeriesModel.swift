@@ -23,7 +23,7 @@ class SeriesModel {
         case push(Series)
         case update(Series, Bool)
         case delete(Series, Bool)
-        case download(String, Int)
+        case download(String, Int, Int?, Int?, Int?)
         case command(SonarrCommand)
     }
 
@@ -106,8 +106,8 @@ class SeriesModel {
         await request(.delete(series, addExclusion))
     }
 
-    func download(guid: String, indexerId: Int) async -> Bool {
-        await request(.download(guid, indexerId))
+    func download(guid: String, indexerId: Int, seriesId: Int?, seasonId: Int?, episodeId: Int?) async -> Bool {
+        await request(.download(guid, indexerId, seriesId, seasonId, episodeId))
     }
 
     func command(_ command: SonarrCommand) async -> Bool {
@@ -175,8 +175,11 @@ class SeriesModel {
             _ = try await dependencies.api.deleteSeries(series, addExclusion, instance)
             items.removeAll(where: { $0.guid == series.guid })
 
-        case .download(let guid, let indexerId):
-            _ = try await dependencies.api.downloadRelease(guid, indexerId, instance)
+        case .download(let guid, let indexerId, let seriesId, let seasonId, let episodeId):
+            let payload = episodeId == nil
+                ? DownloadReleaseCommand(guid: guid, indexerId: indexerId, seriesId: seriesId, seasonId: seasonId)
+                : DownloadReleaseCommand(guid: guid, indexerId: indexerId, episodeId: episodeId)
+            _ = try await dependencies.api.downloadRelease(payload, instance)
 
         case .command(let command):
             _ = try await dependencies.api.sonarrCommand(command, instance)

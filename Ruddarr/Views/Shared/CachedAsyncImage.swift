@@ -62,7 +62,6 @@ struct PlaceholderImage: View {
     }
 }
 
-// swiftlint:disable closure_body_length
 #Preview {
     VStack {
         Section {
@@ -104,4 +103,3 @@ struct PlaceholderImage: View {
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .border(.yellow)
 }
-// swiftlint:enable closure_body_length
