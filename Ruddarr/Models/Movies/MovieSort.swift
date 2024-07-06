@@ -11,6 +11,7 @@ struct MovieSort: Hashable {
         case byTitle
         case byYear
         case byAdded
+        case byGrabbed
         case bySize
         case byRelease
 
@@ -19,6 +20,7 @@ struct MovieSort: Hashable {
             case .byTitle: Label("Title", systemImage: "textformat.abc")
             case .byYear: Label("Year", systemImage: "calendar")
             case .byAdded: Label("Added", systemImage: "calendar.badge.plus")
+            case .byGrabbed: Label("Grabbed", systemImage: "arrow.down.circle")
             case .bySize: Label("File Size", systemImage: "internaldrive")
             case .byRelease: Label("Digital Release", systemImage: "play.tv")
             }
@@ -34,6 +36,8 @@ struct MovieSort: Hashable {
                 lhs.sizeOnDisk ?? 0 < rhs.sizeOnDisk ?? 0
             case .byAdded:
                 lhs.added < rhs.added
+            case .byGrabbed:
+                lhs.movieFile?.dateAdded ?? Date.distantPast < rhs.movieFile?.dateAdded ?? Date.distantPast
             case .byRelease:
                 lhs.digitalRelease ?? Date.distantPast < rhs.digitalRelease ?? Date.distantPast
             }
