@@ -102,7 +102,13 @@ struct MovieReleaseRow: View {
     }
 
     var peerColor: any ShapeStyle {
-        guard release.isTorrent else { return .green }
+        if release.isUsenet {
+            return .green
+        }
+
+        if release.rejections.contains(where: { $0.contains("Not enough seeders") }) {
+            return .red
+        }
 
         return switch release.seeders ?? 0 {
         case 50...: .green
