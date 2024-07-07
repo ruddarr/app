@@ -24,6 +24,7 @@ class Queue {
         items.flatMap { $0.value }.filter { $0.trackedDownloadStatus != .ok }.count
     }
 
+    @MainActor
     func fetch() async {
         guard !isLoading else { return }
 
@@ -53,11 +54,14 @@ struct QueueItems: Codable {
     let pageSize: Int
     let totalRecords: Int
 
-    let records: [QueueItem]
+    var records: [QueueItem]
 }
 
 struct QueueItem: Codable, Identifiable {
     let id: Int
+
+    // used for filtering
+    var instanceId: Instance.ID?
 
     let downloadId: String?
     let downloadClient: String?

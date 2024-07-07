@@ -296,7 +296,9 @@ extension API {
                     .init(name: "pageSize", value: "100"),
                 ])
 
-            return try await request(url: url, headers: instance.auth)
+            var items: QueueItems = try await request(url: url, headers: instance.auth)
+            for i in items.records.indices { items.records[i].instanceId = instance.id }
+            return items
         }, fetchNotifications: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/notification")
