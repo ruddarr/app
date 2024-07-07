@@ -90,8 +90,8 @@ func formatIndexer(_ name: String) -> String {
 }
 // swiftlint:enable cyclomatic_complexity
 
-func formatAge(_ age: Float) -> String {
-    let minutes: Int = Int(age)
+func formatAge(_ ageInMinutes: Float) -> String {
+    let minutes: Int = Int(ageInMinutes)
     let days: Int = minutes / 60 / 24
     let years: Float = Float(days) / 30 / 12
 

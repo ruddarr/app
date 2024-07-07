@@ -242,7 +242,7 @@ struct EpisodeView: View {
         if !instance.episodes.history.isEmpty {
             Section {
                 ForEach(instance.episodes.history) { event in
-                    MovieHistoryItem(event: event)
+                    MediaHistoryItem(event: event)
                         .padding(.bottom, 4)
                         .onTapGesture { eventSheet = event }
                 }

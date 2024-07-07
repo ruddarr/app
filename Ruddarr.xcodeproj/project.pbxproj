@@ -60,6 +60,7 @@
 		BB507D2E2BD991E100EC4016 /* SeriesContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB507D2D2BD991E100EC4016 /* SeriesContextMenu.swift */; };
 		BB507D302BD99A0500EC4016 /* SeriesDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB507D2F2BD99A0500EC4016 /* SeriesDetails.swift */; };
 		BB507D322BD99C0300EC4016 /* SeriesDetails+Overview.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB507D312BD99C0300EC4016 /* SeriesDetails+Overview.swift */; };
+		BB50F2252C39BFDA005E14CA /* MediaHistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB50F2242C39BFDA005E14CA /* MediaHistoryItem.swift */; };
 		BB581D1A2BA0ED5E0070DFFC /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB581D192BA0ED5E0070DFFC /* CalendarView.swift */; };
 		BB585E892BF55EF400A9AF25 /* EpisodeContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */; };
 		BB63E1F02C17DE1A00BCCA94 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */; };
@@ -262,6 +263,7 @@
 		BB507D2D2BD991E100EC4016 /* SeriesContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesContextMenu.swift; sourceTree = "<group>"; };
 		BB507D2F2BD99A0500EC4016 /* SeriesDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesDetails.swift; sourceTree = "<group>"; };
 		BB507D312BD99C0300EC4016 /* SeriesDetails+Overview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SeriesDetails+Overview.swift"; sourceTree = "<group>"; };
+		BB50F2242C39BFDA005E14CA /* MediaHistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaHistoryItem.swift; sourceTree = "<group>"; };
 		BB581D192BA0ED5E0070DFFC /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeContextMenu.swift; sourceTree = "<group>"; };
 		BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intents.swift; sourceTree = "<group>"; };
@@ -584,6 +586,7 @@
 				BBBCA05B2BE958F300BAE374 /* Toolbar.swift */,
 				BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */,
 				BBAFC7E62BB733E800245D10 /* MediaEventSheet.swift */,
+				BB50F2242C39BFDA005E14CA /* MediaHistoryItem.swift */,
 				BB0C3EC62BF90C5900632CB1 /* NoInstance.swift */,
 			);
 			path = Shared;
@@ -1114,7 +1117,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1149,7 +1152,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
