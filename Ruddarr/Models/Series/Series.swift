@@ -19,6 +19,7 @@ struct Series: Identifiable, Equatable, Codable {
     let tvRageId: Int?
     let tvMazeId: Int?
     let imdbId: String?
+    let tmdbId: Int?
 
     let status: SeriesStatus
     var seriesType: SeriesType
@@ -71,6 +72,7 @@ struct Series: Identifiable, Equatable, Codable {
         case tvRageId
         case tvMazeId
         case imdbId
+        case tmdbId
         case status
         case seriesType
         case path
@@ -315,7 +317,7 @@ struct SeriesEditorResource: Codable {
 extension Series {
     static var void: Self {
         .init(
-            title: "", titleSlug: nil, sortTitle: "", cleanTitle: nil, tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, status: .deleted, seriesType: .standard,
+            title: "", titleSlug: nil, sortTitle: "", cleanTitle: nil, tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, tmdbId: nil, status: .deleted, seriesType: .standard,
             path: nil, folder: nil, certification: nil, year: 0, runtime: 0, airTime: nil, ended: false, seasonFolder: false, useSceneNumbering: false, added: Date.now,
             firstAired: nil, lastAired: nil, nextAiring: nil, previousAiring: nil, monitored: false, overview: nil, network: nil,
             originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], genres: [], images: [], statistics: nil
