@@ -101,7 +101,6 @@ struct MovieRelease: Identifiable, Codable {
     let age: Int
     let ageMinutes: Float
     let rejected: Bool
-    let mappedMovieId: Int?
     let downloadAllowed: Bool
 
     let customFormats: [MediaCustomFormat]?
@@ -130,7 +129,6 @@ struct MovieRelease: Identifiable, Codable {
         case age
         case ageMinutes
         case rejected
-        case mappedMovieId
         case downloadAllowed
         case customFormats
         case customFormatScore

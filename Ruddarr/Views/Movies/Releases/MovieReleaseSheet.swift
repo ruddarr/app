@@ -251,9 +251,10 @@ struct MovieReleaseSheet: View {
 }
 
 #Preview {
+    let movieId = 145
     let releases: [MovieRelease] = PreviewData.load(name: "movie-releases")
     let release = releases[5]
 
-    return MovieReleaseSheet(release: release, movieId: release.mappedMovieId ?? 0)
+    return MovieReleaseSheet(release: release, movieId: movieId)
         .withAppState()
 }
