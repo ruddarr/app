@@ -6,7 +6,7 @@ func maybeAskForReview() {
     let days: Double = 14
     let delay: DispatchTime = .now() + 2
 
-    if environment() == .testflight {
+    if isRunningIn(.testflight) {
         return
     }
 

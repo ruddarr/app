@@ -16,7 +16,9 @@ struct ActivityView: View {
             List {
                 Section {
                     ForEach(items) { item in
-                        Button(action: { itemSheet = item }) {
+                        Button(action: {
+                            itemSheet = item
+                        }) {
                             QueueItemView(item: item)
                         }
                         .buttonStyle(.plain)

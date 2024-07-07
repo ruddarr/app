@@ -17,7 +17,7 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
         SentrySDK.start { options in
             options.enabled = true
             options.debug = false
-            options.environment = environmentName()
+            options.environment = runningIn().rawValue
 
             options.dsn = Secrets.SentryDsn
             options.sendDefaultPii = false

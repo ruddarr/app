@@ -64,8 +64,8 @@ class Notifications {
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = try JSONSerialization.data(withJSONObject: payload)
 
-            guard [.appstore, .testflight].contains(environment()) else {
-                leaveBreadcrumb(.info, category: "notifications", message: "Skip device token registration in \(environmentName())")
+            guard [.appstore, .testflight].contains(runningIn()) else {
+                leaveBreadcrumb(.info, category: "notifications", message: "Skip device token registration in \(runningIn().rawValue)")
 
                 return
             }

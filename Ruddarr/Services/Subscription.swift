@@ -10,7 +10,7 @@ class Subscription {
             let subscriptions = try await Product.SubscriptionInfo.status(for: group)
 
             // testflight subscriptions expire fast, accept any state
-            if environment() == .testflight {
+            if isRunningIn(.testflight) {
                 return !subscriptions.isEmpty
             }
 
