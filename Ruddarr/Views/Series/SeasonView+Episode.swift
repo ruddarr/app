@@ -25,10 +25,13 @@ struct EpisodeRow: View {
                 }
 
                 HStack(spacing: 6) {
-                    Text(episode.statusLabel)
-                        .foregroundStyle(
-                            episodeIsMissing ? .red : .secondary
-                        )
+                    if let file = episodeFile {
+                        Text(file.quality.quality.normalizedName)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Text(episode.statusLabel)
+                            .foregroundStyle(episodeIsMissing ? .red : .secondary)
+                    }
 
                     Bullet()
 
@@ -55,6 +58,10 @@ struct EpisodeRow: View {
 
     var season: Season {
         series.seasonById(episode.seasonNumber)!
+    }
+
+    var episodeFile: MediaFile? {
+        instance.files.items.first(where: { $0.id == episode.episodeFileId })
     }
 
     var episodeIsMissing: Bool {
