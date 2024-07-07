@@ -8,6 +8,10 @@ class Languages {
     ]
 
     static func name(byCode code: String) -> String {
+        if code.count > 3 {
+            return code
+        }
+
         if let name = iso639_2[code] {
             return name
         }
