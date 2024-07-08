@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "(%lld Issues)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(%lld Issues)"
+          }
+        }
+      }
+    },
     "%.1f years" : {
       "localizations" : {
         "en" : {
@@ -416,6 +426,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Any Indexer"
+          }
+        }
+      }
+    },
+    "Any Instance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Instance"
           }
         }
       }
@@ -1501,6 +1521,16 @@
         }
       }
     },
+    "Grab Release" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grab Release"
+          }
+        }
+      }
+    },
     "Grabbed" : {
       "localizations" : {
         "en" : {
@@ -1692,6 +1722,16 @@
         }
       }
     },
+    "Instance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instance"
+          }
+        }
+      }
+    },
     "Instances" : {
       "localizations" : {
         "en" : {
@@ -1738,6 +1778,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Invalid URL"
+          }
+        }
+      }
+    },
+    "Issues" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Issues"
           }
         }
       }
@@ -2063,6 +2113,7 @@
       }
     },
     "movie" : {
+      "comment" : "The word 'movie' used mid-sentence",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2298,6 +2349,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No %@ Instance"
+          }
+        }
+      }
+    },
+    "No Instance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Instance"
           }
         }
       }
@@ -3098,6 +3159,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Queued"
+          }
+        }
+      }
+    },
+    "Radarr or Sonarr" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Radarr or Sonarr"
           }
         }
       }

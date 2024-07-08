@@ -11,23 +11,34 @@ struct ActivityView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                Section {
-                    ForEach(items) { item in
-                        Button(action: {
-                            itemSheet = item
-                        }) {
-                            QueueListItem(item: item)
+            Group {
+                if settings.configuredInstances.isEmpty {
+                    NoInstance()
+                } else {
+                    List {
+                        Section {
+                            ForEach(items) { item in
+                                Button {
+                                    itemSheet = item
+                                } label: {
+                                    QueueListItem(item: item)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                            .listRowBackground(Color.secondarySystemBackground)
+                        } header: {
+                            if !items.isEmpty { sectionHeader }
                         }
-                        .buttonStyle(.plain)
                     }
-                    .listRowBackground(Color.secondarySystemBackground)
-                } header: {
-                    if !items.isEmpty { sectionHeader }
+                    .background(.systemBackground)
+                    .scrollContentBackground(.hidden)
+                    .overlay {
+                        if items.isEmpty {
+                            queueEmpty
+                        }
+                    }
                 }
             }
-            .background(.systemBackground)
-            .scrollContentBackground(.hidden)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 toolbarButtons
@@ -47,11 +58,6 @@ struct ActivityView: View {
             .sheet(item: $itemSheet) { item in
                 QueueItemSheet(item: item)
                     .presentationDetents([.medium])
-            }
-            .overlay {
-                if items.isEmpty {
-                    queueEmpty
-                }
             }
         }
     }

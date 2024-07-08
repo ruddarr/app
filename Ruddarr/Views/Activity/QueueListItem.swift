@@ -29,6 +29,12 @@ struct QueueListItem: View {
                             .id(time)
                     }
                 }
+
+                if item.trackedDownloadStatus != .ok {
+                    Spacer()
+                    Image(systemName: "exclamationmark.triangle")
+                        .imageScale(.small)
+                }
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)

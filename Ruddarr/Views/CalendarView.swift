@@ -23,8 +23,8 @@ struct CalendarView: View {
         // swiftlint:disable closure_body_length
         NavigationStack(path: dependencies.$router.calendarPath) {
             Group {
-                if onlyVoidInstances {
-                    NoInstance(type: "Radarr")
+                if settings.configuredInstances.isEmpty {
+                    NoInstance()
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
@@ -112,10 +112,6 @@ struct CalendarView: View {
 
     var displaySeries: Bool {
         [.all, .series].contains(displayedMediaType)
-    }
-
-    var onlyVoidInstances: Bool {
-        !settings.instances.contains { $0 != .radarrVoid && $0 != .sonarrVoid }
     }
 
     func load(force: Bool = false) async {

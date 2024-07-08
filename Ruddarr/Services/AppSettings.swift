@@ -40,6 +40,10 @@ extension AppSettings {
         instances.filter { $0.type == .sonarr }
     }
 
+    var configuredInstances: [Instance] {
+        instances.filter { !$0.id.uuidString.starts(with: "00000000") }
+    }
+
     func instanceById(_ id: UUID) -> Instance? {
         instances.first(where: { $0.id == id })
     }
