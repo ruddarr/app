@@ -42,6 +42,16 @@ struct InstanceEditView: View {
                     deleteButton
                 }
             }
+
+            Button {
+                instance.url = "http://10.0.1.5:8310/settings/general"
+                instance.apiKey = "3b0600c1b3aa42bfb0222f4e13a81f39"
+            } label: { Text(verbatim: "Radarr") }
+
+            Button {
+                instance.url = "http://10.0.1.5:8989/"
+                instance.apiKey = "f8e3682b3b984cddbaa00047a09d0fbd"
+            } label: { Text(verbatim: "Sonarr") }
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -119,7 +129,7 @@ struct InstanceEditView: View {
 
     var labelField: some View {
         LabeledContent {
-            TextField("Synology", text: $instance.label)
+            TextField(text: $instance.label, prompt: Text(verbatim: instance.type.rawValue)) { EmptyView() }
                 .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
         } label: {
@@ -145,7 +155,7 @@ struct InstanceEditView: View {
 
     var apiKeyField: some View {
         LabeledContent {
-            TextField("0a1b2c3d...", text: $instance.apiKey)
+            TextField(text: $instance.apiKey, prompt: Text(verbatim: "0a1b2c3d...")) { EmptyView() }
                 .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)

@@ -106,6 +106,8 @@ struct RuddarrPlusSheet: View {
 }
 
 struct RuddarrPlusSheetContent: View {
+    let app: String = "Ruddarr"
+
     var body: some View {
         VStack {
             Image(appIcon: "AppIcon")
@@ -118,7 +120,7 @@ struct RuddarrPlusSheetContent: View {
                 .font(.largeTitle.bold())
                 .padding(.bottom, 4)
 
-            Text("Subscription unlocks instance notifications, alternate app icons and supports the continued indie development of Ruddarr.")
+            Text("Subscription unlocks instance notifications, alternate app icons and supports the continued indie development of \(app).")
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)

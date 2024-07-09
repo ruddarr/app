@@ -10,11 +10,7 @@ extension InstanceEditView {
             try await validateInstance()
 
             if instance.label.isEmpty {
-                guard let url = URL(string: instance.url), let label = url.host() else {
-                    throw InstanceError.labelEmpty
-                }
-
-                instance.label = label
+                instance.label = instance.type.rawValue
             }
 
             settings.saveInstance(instance)

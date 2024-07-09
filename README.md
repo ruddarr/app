@@ -4,6 +4,7 @@ Ruddarr is a beautifully designed, open source, native companion app for Radarr 
 
 - [Ruddarr on the App Store](https://apps.apple.com/app/ruddarr/id6476240130)
 - [Ruddarr TestFlight Beta](https://testflight.apple.com/join/WbWNuoos)
+- [Ruddarr on Discord](https://discord.gg/UksvtDQUBA)
 
 ## Features
 
@@ -14,6 +15,10 @@ Ruddarr is a beautifully designed, open source, native companion app for Radarr 
 - Use Custom Headers to connect to reverse proxies
 - Synchronize settings/instances between devices
 - Automate actions using Shortcuts
+
+## Localization
+
+Help [translate Ruddarr](https://crowdin.com/project/ruddarr) into other languages. Check the `#translators` channel [on Discord](https://discord.gg/UksvtDQUBA)
 
 ## Notifications
 

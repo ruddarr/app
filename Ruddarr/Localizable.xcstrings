@@ -160,16 +160,6 @@
         }
       }
     },
-    "0a1b2c3d..." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "0a1b2c3d..."
-          }
-        }
-      }
-    },
     "About" : {
       "localizations" : {
         "en" : {
@@ -560,16 +550,6 @@
         }
       }
     },
-    "ATP" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ATP"
-          }
-        }
-      }
-    },
     "Audio" : {
       "localizations" : {
         "en" : {
@@ -671,6 +651,7 @@
       }
     },
     "Books" : {
+      "comment" : "Localized name of Apple's Books app",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1222,6 +1203,7 @@
       }
     },
     "episode" : {
+      "comment" : "The word 'episode' used mid-sentence",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1442,6 +1424,7 @@
       }
     },
     "Fitness" : {
+      "comment" : "Localized name of Apple's Fitness app",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1913,6 +1896,7 @@
       }
     },
     "Mail" : {
+      "comment" : "Localized name of Apple's Mail app",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2063,6 +2047,7 @@
       }
     },
     "Monochrome" : {
+      "comment" : "Name of the 'Monochrome' theme",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2274,6 +2259,7 @@
       }
     },
     "Music" : {
+      "comment" : "Localized name of Apple's Music app",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2485,6 +2471,7 @@
       }
     },
     "Notes" : {
+      "comment" : "Localized name of Apple's Notes app",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3003,17 +2990,8 @@
         }
       }
     },
-    "Plex" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plex"
-          }
-        }
-      }
-    },
     "Podcasts" : {
+      "comment" : "Localized name of Apple's Podcasts app",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3059,16 +3037,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Previous Airing"
-          }
-        }
-      }
-    },
-    "Prologue" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prologue"
           }
         }
       }
@@ -3129,16 +3097,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Queued"
-          }
-        }
-      }
-    },
-    "Radarr or Sonarr" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Radarr or Sonarr"
           }
         }
       }
@@ -3299,16 +3257,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Root Folder"
-          }
-        }
-      }
-    },
-    "RSS" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "RSS"
           }
         }
       }
@@ -3604,13 +3552,13 @@
         }
       }
     },
-    "Settings > Notifications > Ruddarr" : {
+    "Settings > Notifications > %@" : {
       "comment" : "iOS path",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Settings > Notifications > Ruddarr"
+            "value" : "Settings > Notifications > %@"
           }
         }
       }
@@ -3745,12 +3693,12 @@
         }
       }
     },
-    "Subscription unlocks instance notifications, alternate app icons and supports the continued indie development of Ruddarr." : {
+    "Subscription unlocks instance notifications, alternate app icons and supports the continued indie development of %@." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Subscription unlocks instance notifications, alternate app icons and supports the continued indie development of Ruddarr."
+            "value" : "Subscription unlocks instance notifications, alternate app icons and supports the continued indie development of %@."
           }
         }
       }
@@ -3761,16 +3709,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Subtitles"
-          }
-        }
-      }
-    },
-    "Synology" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Synology"
           }
         }
       }
@@ -3795,13 +3733,13 @@
         }
       }
     },
-    "System Settings > Notifications > Ruddarr" : {
+    "System Settings > Notifications > %@" : {
       "comment" : "macOS path",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "System Settings > Notifications > Ruddarr"
+            "value" : "System Settings > Notifications > %@"
           }
         }
       }
@@ -3822,16 +3760,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "TBA"
-          }
-        }
-      }
-    },
-    "Telegram" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Telegram"
           }
         }
       }
@@ -4310,17 +4238,8 @@
         }
       }
     },
-    "Warp" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Warp"
-          }
-        }
-      }
-    },
     "Watch" : {
+      "comment" : "Localized name of Apple's Watch app",
       "localizations" : {
         "en" : {
           "stringUnit" : {

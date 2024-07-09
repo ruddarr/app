@@ -85,7 +85,9 @@ struct MediaHistoryEvent: Identifiable, Codable {
             case "MissingFromDisk":
                 String(
                     format: String(localized: "File was not found on disk so it was unlinked from the %@ in the database."),
-                    eventType == .episodeFileDeleted ? String(localized: "episode") : String(localized: "movie")
+                    eventType == .episodeFileDeleted
+                        ? String(localized: "episode", comment: "The word 'episode' used mid-sentence")
+                        : String(localized: "movie", comment: "The word 'movie' used mid-sentence")
                 )
             case "Upgrade":
                 String(localized: "File was deleted to import an upgrade.")
@@ -156,7 +158,7 @@ enum HistoryEventType: String, Codable {
 }
 
 func localizeReleaseSource(_ value: String?) -> String? {
-    if value == "Rss" { return String(localized: "RSS") }
+    if value == "Rss" { return String("RSS") }
     if value == "Search" { return String(localized: "Search") }
     if value == "UserInvokedSearch" { return String(localized: "User Invoked Search") }
     if value == "InteractiveSearch" { return String(localized: "Interactive Search") }

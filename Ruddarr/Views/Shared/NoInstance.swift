@@ -27,7 +27,7 @@ struct NoInstance: View {
     }
 
     var description: String {
-        let fallback = String(localized: "Radarr or Sonarr")
+        let fallback = ["Radarr", "Sonarr"].formatted(.list(type: .or))
 
         return String(
             format: String(localized: "Connect a %@ instance under %@."),

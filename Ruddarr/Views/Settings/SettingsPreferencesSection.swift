@@ -59,7 +59,7 @@ struct SettingsPreferencesSection: View {
     var themePicker: some View {
         Picker(selection: $settings.theme) {
             ForEach(Theme.allCases) { theme in
-                Text(theme.label)
+                Text(verbatim: theme.label)
             }
         } label: {
             Label {
