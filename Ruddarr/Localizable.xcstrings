@@ -260,16 +260,6 @@
         }
       }
     },
-    "Add TV Series" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add TV Series"
-          }
-        }
-      }
-    },
     "Added" : {
       "localizations" : {
         "en" : {
@@ -2873,16 +2863,6 @@
         }
       }
     },
-    "Open Calendar" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Calendar"
-          }
-        }
-      }
-    },
     "Open in %@" : {
       "localizations" : {
         "en" : {
@@ -2903,22 +2883,12 @@
         }
       }
     },
-    "Open Movies" : {
+    "Open Ruddarr" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Movies"
-          }
-        }
-      }
-    },
-    "Open Series" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Series"
+            "value" : "Open Ruddarr"
           }
         }
       }
@@ -3393,6 +3363,26 @@
         }
       }
     },
+    "Search for Movie" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for Movie"
+          }
+        }
+      }
+    },
+    "Search for TV Series" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for TV Series"
+          }
+        }
+      }
+    },
     "Search Monitored" : {
       "localizations" : {
         "en" : {
@@ -3812,6 +3802,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "System Settings > Notifications > Ruddarr"
+          }
+        }
+      }
+    },
+    "Tab" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tab"
           }
         }
       }

@@ -1,58 +1,37 @@
 import AppIntents
 
-struct MoviesIntent: AppIntent {
-    static var title: LocalizedStringResource = "Open Movies"
-
+struct OpenAppIntent: OpenIntent {
+    static var title: LocalizedStringResource = "Open Ruddarr"
     static var openAppWhenRun: Bool = true
+
+    @Parameter(title: "Tab", default: .movies)
+    var target: Tab.Openable
+
+    static var parameterSummary: some ParameterSummary {
+        Summary("Open \(\.$target)")
+    }
 
     @MainActor
     func perform() async throws -> some IntentResult {
         dependencies.router.moviesPath = .init()
-        dependencies.router.selectedTab = .movies
-
-        return .result()
-    }
-}
-
-struct SeriesIntent: AppIntent {
-    static var title: LocalizedStringResource = "Open Series"
-
-    static var openAppWhenRun: Bool = true
-
-    @MainActor
-    func perform() async throws -> some IntentResult {
         dependencies.router.seriesPath = .init()
-        dependencies.router.selectedTab = .series
+
+        dependencies.router.selectedTab = target.tab
 
         return .result()
     }
 }
 
-struct CalendarIntent: AppIntent {
-    static var title: LocalizedStringResource = "Open Calendar"
-
+struct SearchMovieIntent: AppIntent {
+    static var title: LocalizedStringResource = "Search for Movie"
     static var openAppWhenRun: Bool = true
-
-    @MainActor
-    func perform() async throws -> some IntentResult {
-        dependencies.router.calendarPath = .init()
-        dependencies.router.selectedTab = .calendar
-
-        return .result()
-    }
-}
-
-struct AddMovieIntent: AppIntent {
-    static var title: LocalizedStringResource = "Add Movie"
 
     @Parameter(title: "Title")
     var name: String?
 
     static var parameterSummary: some ParameterSummary {
-        Summary("Add Movie with \(\.$name)")
+        Summary("Search for movie with \(\.$name)")
     }
-
-    static var openAppWhenRun: Bool = true
 
     @MainActor
     func perform() async throws -> some IntentResult {
@@ -76,23 +55,22 @@ struct AddMovieIntent: AppIntent {
     }
 }
 
-struct AddSeriesIntent: AppIntent {
-    static var title: LocalizedStringResource = "Add TV Series"
+struct SearchSeriesIntent: AppIntent {
+    static var title: LocalizedStringResource = "Search for TV Series"
+    static var openAppWhenRun: Bool = true
 
     @Parameter(title: "Title")
-    var title: String?
+    var name: String?
 
     static var parameterSummary: some ParameterSummary {
-        Summary("Add TV Series with \(\.$title)")
+        Summary("Search for TV series with \(\.$name)")
     }
-
-    static var openAppWhenRun: Bool = true
 
     @MainActor
     func perform() async throws -> some IntentResult {
         var query: String = ""
 
-        if let seriesTitle = title, !seriesTitle.isEmpty {
+        if let seriesTitle = name, !seriesTitle.isEmpty {
             query = seriesTitle.trimmingCharacters(in: .whitespacesAndNewlines)
         }
 

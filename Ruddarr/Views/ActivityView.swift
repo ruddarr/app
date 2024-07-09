@@ -10,6 +10,7 @@ struct ActivityView: View {
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
+        // swiftlint:disable closure_body_length
         NavigationStack {
             Group {
                 if settings.configuredInstances.isEmpty {
@@ -60,6 +61,7 @@ struct ActivityView: View {
                     .presentationDetents([.medium])
             }
         }
+        // swiftlint:enable closure_body_length
     }
 
     var queueEmpty: some View {

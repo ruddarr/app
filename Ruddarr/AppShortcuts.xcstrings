@@ -1,82 +1,48 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Add movie to ${applicationName}" : {
+    "Open ${applicationName}" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringSet" : {
             "state" : "new",
             "values" : [
-              "Add movie to ${applicationName}",
-              "Search for movie in ${applicationName}"
+              "Open ${applicationName}",
+              "Open ${applicationName} ${target}",
+              "Show ${applicationName} ${target}",
+              "Open ${target} in ${applicationName}",
+              "Show ${target} in ${applicationName}"
             ]
           }
         }
       }
     },
-    "Add series to ${applicationName}" : {
+    "Search for movie in ${applicationName}" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringSet" : {
             "state" : "new",
             "values" : [
-              "Add series to ${applicationName}",
-              "Add TV Series to ${applicationName}",
+              "Search for movie in ${applicationName}",
+              "Add movie to ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
+    "Search for series in ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
               "Search for series in ${applicationName}",
-              "Search for TV Series in ${applicationName}"
-            ]
-          }
-        }
-      }
-    },
-    "Open calendar in ${applicationName}" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringSet" : {
-            "state" : "new",
-            "values" : [
-              "Open calendar in ${applicationName}",
-              "Show calendar in ${applicationName}",
-              "Show ${applicationName} calendar",
-              "Show upcoming movies in ${applicationName}",
-              "Show upcoming series in ${applicationName}",
-              "Show upcoming TV series in ${applicationName}"
-            ]
-          }
-        }
-      }
-    },
-    "Open movies in ${applicationName}" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringSet" : {
-            "state" : "new",
-            "values" : [
-              "Open movies in ${applicationName}",
-              "Show movies in ${applicationName}",
-              "Show ${applicationName} movies"
-            ]
-          }
-        }
-      }
-    },
-    "Open series in ${applicationName}" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringSet" : {
-            "state" : "new",
-            "values" : [
-              "Open series in ${applicationName}",
-              "Open TV series in ${applicationName}",
-              "Show series in ${applicationName}",
-              "Show TV series in ${applicationName}",
-              "Show ${applicationName} series",
-              "Show ${applicationName} TV series"
+              "Search for TV series in ${applicationName}",
+              "Add series to ${applicationName}",
+              "Add TV series to ${applicationName}"
             ]
           }
         }

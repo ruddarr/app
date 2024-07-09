@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import AppIntents
 
 @Observable
 final class Router {
@@ -34,6 +35,13 @@ enum Tab: String, Hashable, CaseIterable, Identifiable {
     case calendar
     case activity
     case settings
+
+    enum Openable: String {
+        case movies
+        case series
+        case calendar
+        case activity
+    }
 
     var text: LocalizedStringKey {
         switch self {
@@ -113,4 +121,40 @@ enum Tab: String, Hashable, CaseIterable, Identifiable {
         }
         .frame(height: 50)
     }
+}
+
+extension Tab.Openable: AppEnum {
+    var tab: Tab {
+        switch self {
+        case .movies: .movies
+        case .series: .series
+        case .calendar: .calendar
+        case .activity: .activity
+        }
+    }
+
+    static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Tab")
+
+    static var caseDisplayRepresentations: [Tab.Openable: DisplayRepresentation] {[
+        .movies: DisplayRepresentation(
+            title: "Movies",
+            subtitle: nil,
+            image: DisplayRepresentation.Image(systemName: "film")
+        ),
+        .series: DisplayRepresentation(
+            title: "Series",
+            subtitle: nil,
+            image: DisplayRepresentation.Image(systemName: "tv")
+        ),
+        .calendar: DisplayRepresentation(
+            title: "Calendar",
+            subtitle: nil,
+            image: DisplayRepresentation.Image(systemName: "calendar")
+        ),
+        .activity: DisplayRepresentation(
+            title: "Activity",
+            subtitle: nil,
+            image: DisplayRepresentation.Image(systemName: "waveform.path.ecg")
+        ),
+    ]}
 }

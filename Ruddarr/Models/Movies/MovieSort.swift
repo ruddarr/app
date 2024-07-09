@@ -91,8 +91,7 @@ struct MovieSort: Hashable {
 extension MovieSort: RawRepresentable {
     public init?(rawValue: String) {
         do {
-            guard let data = rawValue.data(using: .utf8)
-            else { return nil }
+            guard let data = rawValue.data(using: .utf8) else { return nil }
             let result = try JSONDecoder().decode(MovieSort.self, from: data)
             self = result
         } catch {
@@ -122,6 +121,7 @@ extension MovieSort: Codable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+
         try self.init(
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),
