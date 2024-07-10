@@ -21,6 +21,16 @@
         }
       }
     },
+    "%@ (%lld)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ (%2$lld)"
+          }
+        }
+      }
+    },
     "%@ at %@" : {
       "localizations" : {
         "en" : {
@@ -136,6 +146,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d years"
+          }
+        }
+      }
+    },
+    "%lld Seasons" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Seasons"
           }
         }
       }
@@ -977,6 +997,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Delete Series"
+          }
+        }
+      }
+    },
+    "Delete Spotlight Index" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Spotlight Index"
           }
         }
       }
@@ -2860,6 +2890,16 @@
         }
       }
     },
+    "Open ${target}" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open ${target}"
+          }
+        }
+      }
+    },
     "Open in %@" : {
       "localizations" : {
         "en" : {
@@ -3331,12 +3371,32 @@
         }
       }
     },
+    "Search for movie with ${name}" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for movie with ${name}"
+          }
+        }
+      }
+    },
     "Search for TV Series" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search for TV Series"
+          }
+        }
+      }
+    },
+    "Search for TV series with ${name}" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for TV series with ${name}"
           }
         }
       }

@@ -136,8 +136,10 @@ class Movies {
         case .fetch:
             items = try await dependencies.api.fetchMovies(instance)
             itemsCount = items.count
-            leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
             computeAlternateTitles()
+            Spotlight.of(instance).indexMovies(items)
+
+            leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
 
         case .get(let movie):
             if let index = items.firstIndex(where: { $0.id == movie.id }) {

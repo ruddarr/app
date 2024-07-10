@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreSpotlight
 
 struct Series: Identifiable, Equatable, Codable {
     // series only have an `id` after being added
@@ -112,6 +113,7 @@ struct Series: Identifiable, Equatable, Codable {
     var sortYear: TimeInterval {
         if let date = firstAired { return date.timeIntervalSince1970 }
         if year <= 0 { return Date.distantFuture.timeIntervalSince1970 }
+
         return DateComponents(calendar: .current, year: year).date?.timeIntervalSince1970
             ?? Date.distantFuture.timeIntervalSince1970
     }
@@ -124,6 +126,8 @@ struct Series: Identifiable, Equatable, Codable {
         if let premiere = firstAired { return premiere > Date.now }
         return status == .upcoming || year == 0 || seasons.isEmpty
     }
+
+    var remotePosterCached: URL?
 
     var remotePoster: String? {
         if let remote = self.images.first(where: { $0.coverType == "poster" }) {
@@ -203,6 +207,34 @@ struct Series: Identifiable, Equatable, Codable {
 
     func alternateTitlesString() -> String? {
         alternateTitles?.map { $0.title }.joined(separator: " ")
+    }
+}
+
+extension Series {
+    var searchableItem: CSSearchableItem {
+        CSSearchableItem(
+            uniqueIdentifier: "series:\(id):\(instanceId?.uuidString ?? "")",
+            domainIdentifier: nil,
+            attributeSet: attributeSet
+        )
+    }
+
+    var spotlightHash: String {
+        "\(id):\(sortTitle):\(year):\(runtime):\(seasonCount)"
+    }
+
+    var attributeSet: CSSearchableItemAttributeSet {
+        let attributes = CSSearchableItemAttributeSet(contentType: UTType.movie)
+        attributes.title = title
+        attributes.genre = genres.first
+        attributes.addedDate = added
+        attributes.thumbnailURL = remotePosterCached
+
+        attributes.contentDescription = [yearLabel, runtimeLabel, String(localized: "\(seasonCount) Seasons")]
+            .compactMap { $0 }
+            .joined(separator: " · ")
+
+        return attributes
     }
 }
 

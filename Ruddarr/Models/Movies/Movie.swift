@@ -1,4 +1,6 @@
 import SwiftUI
+import AppIntents
+import CoreSpotlight
 
 struct Movie: Identifiable, Equatable, Codable {
     // movies only have an `id` after being added
@@ -91,6 +93,7 @@ struct Movie: Identifiable, Equatable, Codable {
         if let date = inCinemas { return date.timeIntervalSince1970 }
         if let date = digitalRelease { return date.timeIntervalSince1970 }
         if year <= 0 { return Date.distantFuture.timeIntervalSince1970 }
+
         return DateComponents(calendar: .current, year: year).date?.timeIntervalSince1970
             ?? Date.distantFuture.timeIntervalSince1970
     }
@@ -160,6 +163,8 @@ struct Movie: Identifiable, Equatable, Codable {
             .formattedList()
     }
 
+    var remotePosterCached: URL?
+
     var remotePoster: String? {
         if let remote = self.images.first(where: { $0.coverType == "poster" }) {
             return remote.remoteURL
@@ -196,6 +201,34 @@ struct Movie: Identifiable, Equatable, Codable {
         let tmdb: MovieRating?
         let metacritic: MovieRating?
         let rottenTomatoes: MovieRating?
+    }
+}
+
+extension Movie {
+    var searchableItem: CSSearchableItem {
+        CSSearchableItem(
+            uniqueIdentifier: "movie:\(id):\(instanceId?.uuidString ?? "")",
+            domainIdentifier: nil,
+            attributeSet: attributeSet
+        )
+    }
+
+    var spotlightHash: String {
+        "\(id):\(sortTitle):\(year):\(runtime)"
+    }
+
+    var attributeSet: CSSearchableItemAttributeSet {
+        let attributes = CSSearchableItemAttributeSet(contentType: UTType.movie)
+        attributes.title = title
+        attributes.genre = genres.first
+        attributes.addedDate = added
+        attributes.thumbnailURL = remotePosterCached
+
+        attributes.contentDescription = [yearLabel, runtimeLabel, certificationLabel]
+            .compactMap { $0 }
+            .joined(separator: " · ")
+
+        return attributes
     }
 }
 

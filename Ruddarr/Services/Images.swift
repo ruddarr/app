@@ -1,5 +1,6 @@
-import Nuke
 import Foundation
+import CryptoKit
+import Nuke
 
 class Images {
     static let cacheName: String = "com.ruddarr.images"
@@ -26,6 +27,41 @@ class Images {
                 )
             ]
         )
+    }
+
+    static func thumbnail(_ poster: String?) async -> URL? {
+        guard let poster = poster else { return nil }
+
+        let pipeline = Images.pipeline()
+        let request = Images.request(poster, .poster)
+
+        let cacheKey = pipeline.cache.makeDataCacheKey(for: request)
+        let thumbnail = thumbnailPath(cacheKey)
+
+        if pipeline.cache.containsData(for: request) {
+            return thumbnail
+        }
+
+        do {
+            _ = try await pipeline.imageTask(with: request).response
+        } catch {
+            //
+        }
+
+        return thumbnail
+    }
+
+    private static func thumbnailPath(_ key: String) -> URL {
+        let cacheKeyHash = Insecure.SHA1
+            .hash(data: key.data(using: .utf8)!)
+            .prefix(Insecure.SHA1.byteCount)
+            .map { String(format: "%02hhx", $0) }
+            .joined()
+
+        return FileManager.default
+            .urls(for: .cachesDirectory, in: .userDomainMask)
+            .first!
+            .appendingPathComponent("com.ruddarr.images/\(cacheKeyHash)")
     }
 }
 

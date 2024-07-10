@@ -150,8 +150,10 @@ class SeriesModel {
         case .fetch:
             items = try await dependencies.api.fetchSeries(instance)
             itemsCount = items.count
-            leaveBreadcrumb(.info, category: "series", message: "Fetched series", data: ["count": items.count])
+            Spotlight.of(instance).indexSeries(items)
             computeAlternateTitles()
+
+            leaveBreadcrumb(.info, category: "series", message: "Fetched series", data: ["count": items.count])
 
         case .get(let series):
             if let index = items.firstIndex(where: { $0.id == series.id }) {

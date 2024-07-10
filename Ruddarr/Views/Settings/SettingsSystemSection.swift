@@ -1,6 +1,6 @@
 import SwiftUI
-import Nuke
 import Foundation
+import Nuke
 
 struct SettingsSystemSection: View {
     @EnvironmentObject var settings: AppSettings
@@ -19,6 +19,12 @@ struct SettingsSystemSection: View {
             }).onAppear {
                 calculateImageCacheSize()
             }
+
+            Button(role: .destructive, action: {
+                deleteSpotlightIndex()
+            }, label: {
+                Text("Delete Spotlight Index")
+            })
 
             Button("Reset All Settings", role: .destructive) {
                 showingEraseConfirmation = true
@@ -71,6 +77,14 @@ struct SettingsSystemSection: View {
         let dataCache = try? DataCache(name: "com.ruddarr.images")
         dataCache?.removeAll()
         imageCacheSize = 0
+    }
+
+    func deleteSpotlightIndex() {
+        for instance in settings.instances {
+            Task {
+                await Spotlight.of(instance).deleteInstanceIndex()
+            }
+        }
     }
 
     func resetAllSettings() {

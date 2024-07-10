@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreSpotlight
 
 @main
 struct Ruddarr: App {
@@ -22,6 +23,7 @@ struct Ruddarr: App {
                 ContentView()
                     .withAppState()
                     .onOpenURL(perform: openDeeplink)
+                    .onContinueUserActivity(CSSearchableItemActionType, perform: openSearchableItem)
             }
             .defaultSize(width: 1_280, height: 768)
             .windowResizability(.contentSize)
@@ -30,6 +32,7 @@ struct Ruddarr: App {
                 ContentView()
                     .withAppState()
                     .onOpenURL(perform: openDeeplink)
+                    .onContinueUserActivity(CSSearchableItemActionType, perform: openSearchableItem)
             }
         #endif
     }
@@ -39,6 +42,18 @@ struct Ruddarr: App {
             try QuickActions.Deeplink(url: url)()
         } catch {
             dependencies.toast.show(.error(error.localizedDescription))
+        }
+    }
+
+    func openSearchableItem(_ userActivity: NSUserActivity) {
+        guard let identifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else { return }
+
+        let parts = identifier.split(separator: ":").map(String.init) // `movie:<id>:<instance>`
+
+        switch parts[0] {
+        case "movie": openDeeplink(url: URL(string: "ruddarr://movies/open/\(parts[1])?instance=\(parts[2])")!)
+        case "series": openDeeplink(url: URL(string: "ruddarr://series/open/\(parts[1])?instance=\(parts[2])")!)
+        default: leaveBreadcrumb(.error, category: "spotlight", message: "Invalid identifier", data: ["openSearchableItem": identifier])
         }
     }
 }
