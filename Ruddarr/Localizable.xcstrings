@@ -1664,6 +1664,16 @@
         }
       }
     },
+    "Include Warnings" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Include Warnings"
+          }
+        }
+      }
+    },
     "indexer" : {
       "comment" : "Fallback for indexer name within mid-sentence",
       "localizations" : {
