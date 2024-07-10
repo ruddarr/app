@@ -53,7 +53,7 @@ struct QueueItemSheet: View {
             .textCase(.uppercase)
             .tracking(1.1)
 
-        Text(item.titleLabel)
+        Text(item.title ?? "Unknown")
             .font(.title3.bold())
             .lineLimit(2)
             .padding(.trailing, 25)

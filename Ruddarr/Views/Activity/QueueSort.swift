@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct QueueSort: Equatable {
-    var isAscending: Bool = true
+    var isAscending: Bool = false
     var option: Option = .byAdded
 
     var instance: String = ".all"

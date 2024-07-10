@@ -573,10 +573,10 @@
 		BBB8AED22C10DA0F00AA2D9C /* Activity */ = {
 			isa = PBXGroup;
 			children = (
+				BB50F2282C3B3322005E14CA /* ActivityView+Toolbar.swift */,
 				BB50F2262C3B06AD005E14CA /* QueueListItem.swift */,
 				BBB8AED32C10DA1A00AA2D9C /* QueueItemSheet.swift */,
 				BBDBBC682C13A0600087C844 /* QueueSort.swift */,
-				BB50F2282C3B3322005E14CA /* ActivityView+Toolbar.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";

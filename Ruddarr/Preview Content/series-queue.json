@@ -511,6 +511,2219 @@
             "outputPath": "/volume2/Media/#downloads/Undone.S01.1080p.WEB.h265-FaiLED",
             "episodeHasFile": false,
             "id": 1506109172
+        },
+        {
+            "added": "2024-07-09T04:24:10Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1547",
+            "episode": {
+                "airDate": "2024-06-22",
+                "airDateUtc": "2024-06-22T20:00:00Z",
+                "episodeFileId": 0,
+                "episodeNumber": 20,
+                "grabbed": false,
+                "hasFile": false,
+                "id": 18988,
+                "monitored": true,
+                "overview": "Strap yourselves in because it's time for another rollercoaster edition of exclusive unseen moments - from gossip to fighting - from the nation's favourite villa right here.",
+                "runtime": 46,
+                "seasonNumber": 11,
+                "seriesId": 325,
+                "title": "Episode 20",
+                "tvdbId": 10547210,
+                "unverifiedSceneNumbering": false
+            },
+            "episodeHasFile": false,
+            "episodeId": 18988,
+            "estimatedCompletionTime": "2024-07-09T04:26:00Z",
+            "id": 1223400831,
+            "indexer": "TorrentDay (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 11,
+            "series": {
+                "added": "2024-06-15T19:53:35Z",
+                "airTime": "21:00",
+                "cleanTitle": "loveisland",
+                "ended": false,
+                "firstAired": "2015-06-07T00:00:00Z",
+                "genres": [
+                    "Reality",
+                    "Romance"
+                ],
+                "id": 325,
+                "images": [
+                    {
+                        "coverType": "banner",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/graphical/296669-g.jpg"
+                    },
+                    {
+                        "coverType": "poster",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/posters/296669-3.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/fanart/original/296669-1.jpg"
+                    },
+                    {
+                        "coverType": "clearlogo",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/296669/clearlogo/611d0a7141146.png"
+                    }
+                ],
+                "imdbId": "tt4770018",
+                "languageProfileId": 1,
+                "lastAired": "2024-07-19T00:00:00Z",
+                "monitorNewItems": "none",
+                "monitored": true,
+                "network": "ITV2",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "overview": "Single hopefuls looking for love complete tasks, couple off and get voted out week by week. Packed full of drama.",
+                "path": "/volume2/Media/TV Series/Love Island",
+                "qualityProfileId": 4,
+                "ratings": {
+                    "value": 0,
+                    "votes": 0
+                },
+                "runtime": 49,
+                "seasonFolder": true,
+                "seasons": [
+                    {
+                        "monitored": false,
+                        "seasonNumber": 1
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 2
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 3
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 4
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 5
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 6
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 7
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 8
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 9
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 10
+                    },
+                    {
+                        "monitored": true,
+                        "seasonNumber": 11
+                    }
+                ],
+                "seriesType": "standard",
+                "sortTitle": "love island",
+                "status": "continuing",
+                "tags": [],
+                "title": "Love Island",
+                "titleSlug": "love-island",
+                "tvMazeId": 11363,
+                "tvRageId": 49318,
+                "tvdbId": 296669,
+                "useSceneNumbering": false,
+                "year": 2015
+            },
+            "seriesId": 325,
+            "size": 1971141030,
+            "sizeleft": 1260535808,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:00:53",
+            "title": "Love Island UK S11E20 1080p HULU WEB-DL AAC2 0 H264-WhiteHat",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-09T04:28:48Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1548",
+            "episode": {
+                "airDate": "2024-06-23",
+                "airDateUtc": "2024-06-23T20:00:00Z",
+                "episodeFileId": 0,
+                "episodeNumber": 21,
+                "grabbed": false,
+                "hasFile": false,
+                "id": 18989,
+                "monitored": true,
+                "overview": "Tiffany feels that something is missing with Ronnie, and Joey isn't impressed with Omar.",
+                "runtime": 49,
+                "seasonNumber": 11,
+                "seriesId": 325,
+                "title": "Episode 21",
+                "tvdbId": 10547211,
+                "unverifiedSceneNumbering": false
+            },
+            "episodeHasFile": false,
+            "episodeId": 18989,
+            "id": 656879800,
+            "indexer": "TorrentDay (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 11,
+            "series": {
+                "added": "2024-06-15T19:53:35Z",
+                "airTime": "21:00",
+                "cleanTitle": "loveisland",
+                "ended": false,
+                "firstAired": "2015-06-07T00:00:00Z",
+                "genres": [
+                    "Reality",
+                    "Romance"
+                ],
+                "id": 325,
+                "images": [
+                    {
+                        "coverType": "banner",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/graphical/296669-g.jpg"
+                    },
+                    {
+                        "coverType": "poster",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/posters/296669-3.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/fanart/original/296669-1.jpg"
+                    },
+                    {
+                        "coverType": "clearlogo",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/296669/clearlogo/611d0a7141146.png"
+                    }
+                ],
+                "imdbId": "tt4770018",
+                "languageProfileId": 1,
+                "lastAired": "2024-07-19T00:00:00Z",
+                "monitorNewItems": "none",
+                "monitored": true,
+                "network": "ITV2",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "overview": "Single hopefuls looking for love complete tasks, couple off and get voted out week by week. Packed full of drama.",
+                "path": "/volume2/Media/TV Series/Love Island",
+                "qualityProfileId": 4,
+                "ratings": {
+                    "value": 0,
+                    "votes": 0
+                },
+                "runtime": 49,
+                "seasonFolder": true,
+                "seasons": [
+                    {
+                        "monitored": false,
+                        "seasonNumber": 1
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 2
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 3
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 4
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 5
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 6
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 7
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 8
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 9
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 10
+                    },
+                    {
+                        "monitored": true,
+                        "seasonNumber": 11
+                    }
+                ],
+                "seriesType": "standard",
+                "sortTitle": "love island",
+                "status": "continuing",
+                "tags": [],
+                "title": "Love Island",
+                "titleSlug": "love-island",
+                "tvMazeId": 11363,
+                "tvRageId": 49318,
+                "tvdbId": 296669,
+                "useSceneNumbering": false,
+                "year": 2015
+            },
+            "seriesId": 325,
+            "size": 0,
+            "sizeleft": 0,
+            "status": "downloading",
+            "statusMessages": [],
+            "title": "Love Island UK S11E21 1080p HULU WEB-DL AAC2 0 H264-WhiteHat",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-09T04:34:02Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1552",
+            "episode": {
+                "airDate": "2024-06-28",
+                "airDateUtc": "2024-06-28T20:00:00Z",
+                "episodeFileId": 0,
+                "episodeNumber": 26,
+                "grabbed": false,
+                "hasFile": false,
+                "id": 19041,
+                "monitored": false,
+                "overview": "Joey and Jessy make their terrace exit, Ciaran and Nicole drop an 'L-bomb', and the Islanders get a shock text.",
+                "runtime": 47,
+                "seasonNumber": 11,
+                "seriesId": 325,
+                "title": "Episode 26",
+                "tvdbId": 10548640,
+                "unverifiedSceneNumbering": false
+            },
+            "episodeHasFile": false,
+            "episodeId": 19041,
+            "estimatedCompletionTime": "2024-07-25T10:29:38Z",
+            "id": 1557050252,
+            "indexer": "TorrentDay (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 11,
+            "series": {
+                "added": "2024-06-15T19:53:35Z",
+                "airTime": "21:00",
+                "cleanTitle": "loveisland",
+                "ended": false,
+                "firstAired": "2015-06-07T00:00:00Z",
+                "genres": [
+                    "Reality",
+                    "Romance"
+                ],
+                "id": 325,
+                "images": [
+                    {
+                        "coverType": "banner",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/graphical/296669-g.jpg"
+                    },
+                    {
+                        "coverType": "poster",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/posters/296669-3.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/fanart/original/296669-1.jpg"
+                    },
+                    {
+                        "coverType": "clearlogo",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/296669/clearlogo/611d0a7141146.png"
+                    }
+                ],
+                "imdbId": "tt4770018",
+                "languageProfileId": 1,
+                "lastAired": "2024-07-19T00:00:00Z",
+                "monitorNewItems": "none",
+                "monitored": true,
+                "network": "ITV2",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "overview": "Single hopefuls looking for love complete tasks, couple off and get voted out week by week. Packed full of drama.",
+                "path": "/volume2/Media/TV Series/Love Island",
+                "qualityProfileId": 4,
+                "ratings": {
+                    "value": 0,
+                    "votes": 0
+                },
+                "runtime": 49,
+                "seasonFolder": true,
+                "seasons": [
+                    {
+                        "monitored": false,
+                        "seasonNumber": 1
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 2
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 3
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 4
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 5
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 6
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 7
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 8
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 9
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 10
+                    },
+                    {
+                        "monitored": true,
+                        "seasonNumber": 11
+                    }
+                ],
+                "seriesType": "standard",
+                "sortTitle": "love island",
+                "status": "continuing",
+                "tags": [],
+                "title": "Love Island",
+                "titleSlug": "love-island",
+                "tvMazeId": 11363,
+                "tvRageId": 49318,
+                "tvdbId": 296669,
+                "useSceneNumbering": false,
+                "year": 2015
+            },
+            "seriesId": 325,
+            "size": 2038233320,
+            "sizeleft": 2038200552,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "16.05:55:19",
+            "title": "Love Island UK S11E26 1080p HULU WEB-DL AAC2 0 H264-WhiteHat",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-09T04:33:41Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1551",
+            "episode": {
+                "airDate": "2024-06-27",
+                "airDateUtc": "2024-06-27T20:00:00Z",
+                "episodeFileId": 0,
+                "episodeNumber": 25,
+                "grabbed": false,
+                "hasFile": false,
+                "id": 19040,
+                "monitored": false,
+                "overview": "Harriett and Ciaran's garden game tension continues, Joey pulls Jess as Grace watches on, and a global hip-hop superstar brings the party to the Villa.",
+                "runtime": 49,
+                "seasonNumber": 11,
+                "seriesId": 325,
+                "title": "Episode 25",
+                "tvdbId": 10548639,
+                "unverifiedSceneNumbering": false
+            },
+            "episodeHasFile": false,
+            "episodeId": 19040,
+            "estimatedCompletionTime": "2024-07-09T04:53:26Z",
+            "id": 1109822175,
+            "indexer": "TorrentDay (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 11,
+            "series": {
+                "added": "2024-06-15T19:53:35Z",
+                "airTime": "21:00",
+                "cleanTitle": "loveisland",
+                "ended": false,
+                "firstAired": "2015-06-07T00:00:00Z",
+                "genres": [
+                    "Reality",
+                    "Romance"
+                ],
+                "id": 325,
+                "images": [
+                    {
+                        "coverType": "banner",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/graphical/296669-g.jpg"
+                    },
+                    {
+                        "coverType": "poster",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/posters/296669-3.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/fanart/original/296669-1.jpg"
+                    },
+                    {
+                        "coverType": "clearlogo",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/296669/clearlogo/611d0a7141146.png"
+                    }
+                ],
+                "imdbId": "tt4770018",
+                "languageProfileId": 1,
+                "lastAired": "2024-07-19T00:00:00Z",
+                "monitorNewItems": "none",
+                "monitored": true,
+                "network": "ITV2",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "overview": "Single hopefuls looking for love complete tasks, couple off and get voted out week by week. Packed full of drama.",
+                "path": "/volume2/Media/TV Series/Love Island",
+                "qualityProfileId": 4,
+                "ratings": {
+                    "value": 0,
+                    "votes": 0
+                },
+                "runtime": 49,
+                "seasonFolder": true,
+                "seasons": [
+                    {
+                        "monitored": false,
+                        "seasonNumber": 1
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 2
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 3
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 4
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 5
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 6
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 7
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 8
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 9
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 10
+                    },
+                    {
+                        "monitored": true,
+                        "seasonNumber": 11
+                    }
+                ],
+                "seriesType": "standard",
+                "sortTitle": "love island",
+                "status": "continuing",
+                "tags": [],
+                "title": "Love Island",
+                "titleSlug": "love-island",
+                "tvMazeId": 11363,
+                "tvRageId": 49318,
+                "tvdbId": 296669,
+                "useSceneNumbering": false,
+                "year": 2015
+            },
+            "seriesId": 325,
+            "size": 2172040725,
+            "sizeleft": 2116730880,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:19:07",
+            "title": "Love Island UK S11E25 1080p HULU WEB-DL AAC2 0 H264-WhiteHat",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-09T04:33:24Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1550",
+            "episode": {
+                "airDate": "2024-06-25",
+                "airDateUtc": "2024-06-25T20:00:00Z",
+                "episodeFileId": 0,
+                "episodeNumber": 23,
+                "grabbed": false,
+                "hasFile": false,
+                "id": 19038,
+                "monitored": false,
+                "overview": "Jess gives Harriett some advice and the Heart Rate Challenge is back as we learn who sets hearts racing and which Islanders are left shocked by the results.",
+                "runtime": 47,
+                "seasonNumber": 11,
+                "seriesId": 325,
+                "title": "Episode 23",
+                "tvdbId": 10548637,
+                "unverifiedSceneNumbering": false
+            },
+            "episodeHasFile": false,
+            "episodeId": 19038,
+            "estimatedCompletionTime": "2024-07-09T04:35:55Z",
+            "id": 225538567,
+            "indexer": "TorrentDay (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 11,
+            "series": {
+                "added": "2024-06-15T19:53:35Z",
+                "airTime": "21:00",
+                "cleanTitle": "loveisland",
+                "ended": false,
+                "firstAired": "2015-06-07T00:00:00Z",
+                "genres": [
+                    "Reality",
+                    "Romance"
+                ],
+                "id": 325,
+                "images": [
+                    {
+                        "coverType": "banner",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/graphical/296669-g.jpg"
+                    },
+                    {
+                        "coverType": "poster",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/posters/296669-3.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/fanart/original/296669-1.jpg"
+                    },
+                    {
+                        "coverType": "clearlogo",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/296669/clearlogo/611d0a7141146.png"
+                    }
+                ],
+                "imdbId": "tt4770018",
+                "languageProfileId": 1,
+                "lastAired": "2024-07-19T00:00:00Z",
+                "monitorNewItems": "none",
+                "monitored": true,
+                "network": "ITV2",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "overview": "Single hopefuls looking for love complete tasks, couple off and get voted out week by week. Packed full of drama.",
+                "path": "/volume2/Media/TV Series/Love Island",
+                "qualityProfileId": 4,
+                "ratings": {
+                    "value": 0,
+                    "votes": 0
+                },
+                "runtime": 49,
+                "seasonFolder": true,
+                "seasons": [
+                    {
+                        "monitored": false,
+                        "seasonNumber": 1
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 2
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 3
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 4
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 5
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 6
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 7
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 8
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 9
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 10
+                    },
+                    {
+                        "monitored": true,
+                        "seasonNumber": 11
+                    }
+                ],
+                "seriesType": "standard",
+                "sortTitle": "love island",
+                "status": "continuing",
+                "tags": [],
+                "title": "Love Island",
+                "titleSlug": "love-island",
+                "tvMazeId": 11363,
+                "tvRageId": 49318,
+                "tvdbId": 296669,
+                "useSceneNumbering": false,
+                "year": 2015
+            },
+            "seriesId": 325,
+            "size": 2017771375,
+            "sizeleft": 1537441792,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:01:36",
+            "title": "Love Island UK S11E23 1080p HULU WEB-DL AAC2 0 H264-WhiteHat",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-09T04:33:05Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1549",
+            "episode": {
+                "airDate": "2024-06-24",
+                "airDateUtc": "2024-06-24T20:00:00Z",
+                "episodeFileId": 0,
+                "episodeNumber": 22,
+                "grabbed": false,
+                "hasFile": false,
+                "id": 19037,
+                "monitored": false,
+                "overview": "We're into week four and the drama shows no sign of letting up - our cast of hot young things are enjoying the summer of 2024, and it's one that none of them will ever forget even if nobody knows quite what to expect from one day to the next.",
+                "runtime": 48,
+                "seasonNumber": 11,
+                "seriesId": 325,
+                "title": "Episode 22",
+                "tvdbId": 10548636,
+                "unverifiedSceneNumbering": false
+            },
+            "episodeHasFile": false,
+            "episodeId": 19037,
+            "estimatedCompletionTime": "2024-07-09T04:35:26Z",
+            "id": 1624720598,
+            "indexer": "TorrentDay (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 11,
+            "series": {
+                "added": "2024-06-15T19:53:35Z",
+                "airTime": "21:00",
+                "cleanTitle": "loveisland",
+                "ended": false,
+                "firstAired": "2015-06-07T00:00:00Z",
+                "genres": [
+                    "Reality",
+                    "Romance"
+                ],
+                "id": 325,
+                "images": [
+                    {
+                        "coverType": "banner",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/graphical/296669-g.jpg"
+                    },
+                    {
+                        "coverType": "poster",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/posters/296669-3.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/fanart/original/296669-1.jpg"
+                    },
+                    {
+                        "coverType": "clearlogo",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/296669/clearlogo/611d0a7141146.png"
+                    }
+                ],
+                "imdbId": "tt4770018",
+                "languageProfileId": 1,
+                "lastAired": "2024-07-19T00:00:00Z",
+                "monitorNewItems": "none",
+                "monitored": true,
+                "network": "ITV2",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "overview": "Single hopefuls looking for love complete tasks, couple off and get voted out week by week. Packed full of drama.",
+                "path": "/volume2/Media/TV Series/Love Island",
+                "qualityProfileId": 4,
+                "ratings": {
+                    "value": 0,
+                    "votes": 0
+                },
+                "runtime": 49,
+                "seasonFolder": true,
+                "seasons": [
+                    {
+                        "monitored": false,
+                        "seasonNumber": 1
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 2
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 3
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 4
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 5
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 6
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 7
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 8
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 9
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 10
+                    },
+                    {
+                        "monitored": true,
+                        "seasonNumber": 11
+                    }
+                ],
+                "seriesType": "standard",
+                "sortTitle": "love island",
+                "status": "continuing",
+                "tags": [],
+                "title": "Love Island",
+                "titleSlug": "love-island",
+                "tvMazeId": 11363,
+                "tvRageId": 49318,
+                "tvdbId": 296669,
+                "useSceneNumbering": false,
+                "year": 2015
+            },
+            "seriesId": 325,
+            "size": 2068453677,
+            "sizeleft": 1346961408,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:01:07",
+            "title": "Love Island UK S11E22 1080p HULU WEB-DL AAC2 0 H264-WhiteHat",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-09T04:40:18Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "SABnzbd_nzo_i4ja0pgu",
+            "episode": {
+                "airDate": "2024-07-02",
+                "airDateUtc": "2024-07-02T20:00:00Z",
+                "episodeFileId": 0,
+                "episodeNumber": 30,
+                "grabbed": false,
+                "hasFile": false,
+                "id": 19046,
+                "monitored": true,
+                "overview": "The villas go head-to-head in a game of raunchy races, Blade gives Uma his opinion on Wil, and Ayo and Jess go to the Hideaway.",
+                "runtime": 44,
+                "seasonNumber": 11,
+                "seriesId": 325,
+                "title": "Episode 30",
+                "tvdbId": 10554366,
+                "unverifiedSceneNumbering": false
+            },
+            "episodeHasFile": false,
+            "episodeId": 19046,
+            "estimatedCompletionTime": "2024-07-09T04:58:58Z",
+            "id": 721484568,
+            "indexer": "DrunkenSlug (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "usenet",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 11,
+            "series": {
+                "added": "2024-06-15T19:53:35Z",
+                "airTime": "21:00",
+                "cleanTitle": "loveisland",
+                "ended": false,
+                "firstAired": "2015-06-07T00:00:00Z",
+                "genres": [
+                    "Reality",
+                    "Romance"
+                ],
+                "id": 325,
+                "images": [
+                    {
+                        "coverType": "banner",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/graphical/296669-g.jpg"
+                    },
+                    {
+                        "coverType": "poster",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/posters/296669-3.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/fanart/original/296669-1.jpg"
+                    },
+                    {
+                        "coverType": "clearlogo",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/296669/clearlogo/611d0a7141146.png"
+                    }
+                ],
+                "imdbId": "tt4770018",
+                "languageProfileId": 1,
+                "lastAired": "2024-07-19T00:00:00Z",
+                "monitorNewItems": "none",
+                "monitored": true,
+                "network": "ITV2",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "overview": "Single hopefuls looking for love complete tasks, couple off and get voted out week by week. Packed full of drama.",
+                "path": "/volume2/Media/TV Series/Love Island",
+                "qualityProfileId": 4,
+                "ratings": {
+                    "value": 0,
+                    "votes": 0
+                },
+                "runtime": 49,
+                "seasonFolder": true,
+                "seasons": [
+                    {
+                        "monitored": false,
+                        "seasonNumber": 1
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 2
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 3
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 4
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 5
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 6
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 7
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 8
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 9
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 10
+                    },
+                    {
+                        "monitored": true,
+                        "seasonNumber": 11
+                    }
+                ],
+                "seriesType": "standard",
+                "sortTitle": "love island",
+                "status": "continuing",
+                "tags": [],
+                "title": "Love Island",
+                "titleSlug": "love-island",
+                "tvMazeId": 11363,
+                "tvRageId": 49318,
+                "tvdbId": 296669,
+                "useSceneNumbering": false,
+                "year": 2015
+            },
+            "seriesId": 325,
+            "size": 2172680929,
+            "sizeleft": 2172680929,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:18:33",
+            "title": "Love.Island.UK.S11E30.1080p.HULU.WEB-DL.AAC2.0.H264-WhiteHat",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-09T04:39:54Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "SABnzbd_nzo_1f5k5q_g",
+            "episode": {
+                "airDate": "2024-07-01",
+                "airDateUtc": "2024-07-01T20:00:00Z",
+                "episodeFileId": 0,
+                "episodeNumber": 29,
+                "grabbed": false,
+                "hasFile": false,
+                "id": 19045,
+                "monitored": true,
+                "overview": "We're into week five in paradise and the pressure is rising for our cast of hot young things - the Islanders face more love games and everybody is desperate to stay in the running with a prize of 50,000 pounds up for grabs.",
+                "runtime": 47,
+                "seasonNumber": 11,
+                "seriesId": 325,
+                "title": "Episode 29",
+                "tvdbId": 10554365,
+                "unverifiedSceneNumbering": false
+            },
+            "episodeHasFile": false,
+            "episodeId": 19045,
+            "estimatedCompletionTime": "2024-07-09T04:48:16Z",
+            "id": 2043763707,
+            "indexer": "DrunkenSlug (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "usenet",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 11,
+            "series": {
+                "added": "2024-06-15T19:53:35Z",
+                "airTime": "21:00",
+                "cleanTitle": "loveisland",
+                "ended": false,
+                "firstAired": "2015-06-07T00:00:00Z",
+                "genres": [
+                    "Reality",
+                    "Romance"
+                ],
+                "id": 325,
+                "images": [
+                    {
+                        "coverType": "banner",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/graphical/296669-g.jpg"
+                    },
+                    {
+                        "coverType": "poster",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/posters/296669-3.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/fanart/original/296669-1.jpg"
+                    },
+                    {
+                        "coverType": "clearlogo",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/296669/clearlogo/611d0a7141146.png"
+                    }
+                ],
+                "imdbId": "tt4770018",
+                "languageProfileId": 1,
+                "lastAired": "2024-07-19T00:00:00Z",
+                "monitorNewItems": "none",
+                "monitored": true,
+                "network": "ITV2",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "overview": "Single hopefuls looking for love complete tasks, couple off and get voted out week by week. Packed full of drama.",
+                "path": "/volume2/Media/TV Series/Love Island",
+                "qualityProfileId": 4,
+                "ratings": {
+                    "value": 0,
+                    "votes": 0
+                },
+                "runtime": 49,
+                "seasonFolder": true,
+                "seasons": [
+                    {
+                        "monitored": false,
+                        "seasonNumber": 1
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 2
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 3
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 4
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 5
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 6
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 7
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 8
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 9
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 10
+                    },
+                    {
+                        "monitored": true,
+                        "seasonNumber": 11
+                    }
+                ],
+                "seriesType": "standard",
+                "sortTitle": "love island",
+                "status": "continuing",
+                "tags": [],
+                "title": "Love Island",
+                "titleSlug": "love-island",
+                "tvMazeId": 11363,
+                "tvRageId": 49318,
+                "tvdbId": 296669,
+                "useSceneNumbering": false,
+                "year": 2015
+            },
+            "seriesId": 325,
+            "size": 2295878123,
+            "sizeleft": 1595859271,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:07:51",
+            "title": "Love.Island.UK.S11E29.1080p.HULU.WEB-DL.AAC2.0.H264-WhiteHat",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-09T04:38:44Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "SABnzbd_nzo_r2z1h0s8",
+            "episode": {
+                "airDate": "2024-06-29",
+                "airDateUtc": "2024-06-29T20:00:00Z",
+                "episodeFileId": 0,
+                "episodeNumber": 27,
+                "grabbed": false,
+                "hasFile": false,
+                "id": 19043,
+                "monitored": true,
+                "overview": "Get ready because it's time for another rollercoaster ride - this really is the only place to see a mountain of brand-new unseen moments from the villa everybody's talking about, so grab your chance to get right up to date on all the hottest gossip.",
+                "runtime": 46,
+                "seasonNumber": 11,
+                "seriesId": 325,
+                "title": "Episode 27",
+                "tvdbId": 10554363,
+                "unverifiedSceneNumbering": false
+            },
+            "episodeHasFile": false,
+            "episodeId": 19043,
+            "errorMessage": "",
+            "estimatedCompletionTime": "2024-07-09T04:40:25Z",
+            "id": 1437883058,
+            "indexer": "DrunkenSlug (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "usenet",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 11,
+            "series": {
+                "added": "2024-06-15T19:53:35Z",
+                "airTime": "21:00",
+                "cleanTitle": "loveisland",
+                "ended": false,
+                "firstAired": "2015-06-07T00:00:00Z",
+                "genres": [
+                    "Reality",
+                    "Romance"
+                ],
+                "id": 325,
+                "images": [
+                    {
+                        "coverType": "banner",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/graphical/296669-g.jpg"
+                    },
+                    {
+                        "coverType": "poster",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/posters/296669-3.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/fanart/original/296669-1.jpg"
+                    },
+                    {
+                        "coverType": "clearlogo",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/296669/clearlogo/611d0a7141146.png"
+                    }
+                ],
+                "imdbId": "tt4770018",
+                "languageProfileId": 1,
+                "lastAired": "2024-07-19T00:00:00Z",
+                "monitorNewItems": "none",
+                "monitored": true,
+                "network": "ITV2",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "overview": "Single hopefuls looking for love complete tasks, couple off and get voted out week by week. Packed full of drama.",
+                "path": "/volume2/Media/TV Series/Love Island",
+                "qualityProfileId": 4,
+                "ratings": {
+                    "value": 0,
+                    "votes": 0
+                },
+                "runtime": 49,
+                "seasonFolder": true,
+                "seasons": [
+                    {
+                        "monitored": false,
+                        "seasonNumber": 1
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 2
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 3
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 4
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 5
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 6
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 7
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 8
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 9
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 10
+                    },
+                    {
+                        "monitored": true,
+                        "seasonNumber": 11
+                    }
+                ],
+                "seriesType": "standard",
+                "sortTitle": "love island",
+                "status": "continuing",
+                "tags": [],
+                "title": "Love Island",
+                "titleSlug": "love-island",
+                "tvMazeId": 11363,
+                "tvRageId": 49318,
+                "tvdbId": 296669,
+                "useSceneNumbering": false,
+                "year": 2015
+            },
+            "seriesId": 325,
+            "size": 2172277393,
+            "sizeleft": 0,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:00:00",
+            "title": "Love.Island.UK.S11E27.1080p.HULU.WEB-DL.AAC2.0.H264-WhiteHat",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-09T04:39:25Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "SABnzbd_nzo_aw4hxrat",
+            "episode": {
+                "airDate": "2024-06-30",
+                "airDateUtc": "2024-06-30T20:00:00Z",
+                "episodeFileId": 0,
+                "episodeNumber": 28,
+                "grabbed": false,
+                "hasFile": false,
+                "id": 19044,
+                "monitored": true,
+                "overview": "Joey speaks to Grace and Jess wonders if she's got the ick, and the girls receive a surprise text sending them to Casa Amor to meet six sexy new boys.",
+                "runtime": 45,
+                "seasonNumber": 11,
+                "seriesId": 325,
+                "title": "Episode 28",
+                "tvdbId": 10554364,
+                "unverifiedSceneNumbering": false
+            },
+            "episodeHasFile": false,
+            "episodeId": 19044,
+            "estimatedCompletionTime": "2024-07-09T04:40:25Z",
+            "id": 1240124227,
+            "indexer": "DrunkenSlug (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "usenet",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 11,
+            "series": {
+                "added": "2024-06-15T19:53:35Z",
+                "airTime": "21:00",
+                "cleanTitle": "loveisland",
+                "ended": false,
+                "firstAired": "2015-06-07T00:00:00Z",
+                "genres": [
+                    "Reality",
+                    "Romance"
+                ],
+                "id": 325,
+                "images": [
+                    {
+                        "coverType": "banner",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/graphical/296669-g.jpg"
+                    },
+                    {
+                        "coverType": "poster",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/posters/296669-3.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/fanart/original/296669-1.jpg"
+                    },
+                    {
+                        "coverType": "clearlogo",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/296669/clearlogo/611d0a7141146.png"
+                    }
+                ],
+                "imdbId": "tt4770018",
+                "languageProfileId": 1,
+                "lastAired": "2024-07-19T00:00:00Z",
+                "monitorNewItems": "none",
+                "monitored": true,
+                "network": "ITV2",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "overview": "Single hopefuls looking for love complete tasks, couple off and get voted out week by week. Packed full of drama.",
+                "path": "/volume2/Media/TV Series/Love Island",
+                "qualityProfileId": 4,
+                "ratings": {
+                    "value": 0,
+                    "votes": 0
+                },
+                "runtime": 49,
+                "seasonFolder": true,
+                "seasons": [
+                    {
+                        "monitored": false,
+                        "seasonNumber": 1
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 2
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 3
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 4
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 5
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 6
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 7
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 8
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 9
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 10
+                    },
+                    {
+                        "monitored": true,
+                        "seasonNumber": 11
+                    }
+                ],
+                "seriesType": "standard",
+                "sortTitle": "love island",
+                "status": "continuing",
+                "tags": [],
+                "title": "Love Island",
+                "titleSlug": "love-island",
+                "tvMazeId": 11363,
+                "tvRageId": 49318,
+                "tvdbId": 296669,
+                "useSceneNumbering": false,
+                "year": 2015
+            },
+            "seriesId": 325,
+            "size": 2121772564,
+            "sizeleft": 0,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:00:00",
+            "title": "Love.Island.UK.S11E28.1080p.HULU.WEB-DL.AAC2.0.H264-WhiteHat",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-09T04:38:04Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "SABnzbd_nzo_xqmusxjw",
+            "episode": {
+                "airDate": "2024-06-26",
+                "airDateUtc": "2024-06-26T20:00:00Z",
+                "episodeFileId": 0,
+                "episodeNumber": 24,
+                "grabbed": false,
+                "hasFile": false,
+                "id": 19039,
+                "monitored": true,
+                "overview": "The two new arrivals raise Joey and Jess's pulses, the Heart Rate Challenge results impact Ciaran and Nicole, and the Islanders play Never Have I Ever.",
+                "runtime": 48,
+                "seasonNumber": 11,
+                "seriesId": 325,
+                "title": "Episode 24",
+                "tvdbId": 10548638,
+                "unverifiedSceneNumbering": false
+            },
+            "episodeHasFile": false,
+            "episodeId": 19039,
+            "errorMessage": "",
+            "estimatedCompletionTime": "2024-07-09T04:40:25Z",
+            "id": 1726108321,
+            "indexer": "DrunkenSlug (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "usenet",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 11,
+            "series": {
+                "added": "2024-06-15T19:53:35Z",
+                "airTime": "21:00",
+                "cleanTitle": "loveisland",
+                "ended": false,
+                "firstAired": "2015-06-07T00:00:00Z",
+                "genres": [
+                    "Reality",
+                    "Romance"
+                ],
+                "id": 325,
+                "images": [
+                    {
+                        "coverType": "banner",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/graphical/296669-g.jpg"
+                    },
+                    {
+                        "coverType": "poster",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/posters/296669-3.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/fanart/original/296669-1.jpg"
+                    },
+                    {
+                        "coverType": "clearlogo",
+                        "remoteUrl": "https://artworks.thetvdb.com/banners/v4/series/296669/clearlogo/611d0a7141146.png"
+                    }
+                ],
+                "imdbId": "tt4770018",
+                "languageProfileId": 1,
+                "lastAired": "2024-07-19T00:00:00Z",
+                "monitorNewItems": "none",
+                "monitored": true,
+                "network": "ITV2",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "overview": "Single hopefuls looking for love complete tasks, couple off and get voted out week by week. Packed full of drama.",
+                "path": "/volume2/Media/TV Series/Love Island",
+                "qualityProfileId": 4,
+                "ratings": {
+                    "value": 0,
+                    "votes": 0
+                },
+                "runtime": 49,
+                "seasonFolder": true,
+                "seasons": [
+                    {
+                        "monitored": false,
+                        "seasonNumber": 1
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 2
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 3
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 4
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 5
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 6
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 7
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 8
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 9
+                    },
+                    {
+                        "monitored": false,
+                        "seasonNumber": 10
+                    },
+                    {
+                        "monitored": true,
+                        "seasonNumber": 11
+                    }
+                ],
+                "seriesType": "standard",
+                "sortTitle": "love island",
+                "status": "continuing",
+                "tags": [],
+                "title": "Love Island",
+                "titleSlug": "love-island",
+                "tvMazeId": 11363,
+                "tvRageId": 49318,
+                "tvdbId": 296669,
+                "useSceneNumbering": false,
+                "year": 2015
+            },
+            "seriesId": 325,
+            "size": 2388040223,
+            "sizeleft": 0,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:00:00",
+            "title": "Love.Island.UK.S11E24.1080p.HULU.WEB-DL.AAC2.0.H264-WhiteHat",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-10T01:12:02Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1555",
+            "episodeHasFile": false,
+            "episodeId": 19027,
+            "estimatedCompletionTime": "2024-07-10T01:16:08Z",
+            "id": 183360387,
+            "indexer": "Blutopia (API) (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 4,
+            "seriesId": 327,
+            "size": 18240588717,
+            "sizeleft": 14153482240,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:02:44",
+            "title": "Couples.Therapy.2019.S04.1080p.WEB.h264-EDITH",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-10T01:12:02Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1555",
+            "episodeHasFile": false,
+            "episodeId": 19028,
+            "estimatedCompletionTime": "2024-07-10T01:16:08Z",
+            "id": 1488593914,
+            "indexer": "Blutopia (API) (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 4,
+            "seriesId": 327,
+            "size": 18240588717,
+            "sizeleft": 14153482240,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:02:44",
+            "title": "Couples.Therapy.2019.S04.1080p.WEB.h264-EDITH",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-10T01:12:02Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1555",
+            "episodeHasFile": false,
+            "episodeId": 19029,
+            "estimatedCompletionTime": "2024-07-10T01:16:08Z",
+            "id": 2070798005,
+            "indexer": "Blutopia (API) (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 4,
+            "seriesId": 327,
+            "size": 18240588717,
+            "sizeleft": 14153482240,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:02:44",
+            "title": "Couples.Therapy.2019.S04.1080p.WEB.h264-EDITH",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-10T01:12:02Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1555",
+            "episodeHasFile": false,
+            "episodeId": 19030,
+            "estimatedCompletionTime": "2024-07-10T01:16:08Z",
+            "id": 1765596029,
+            "indexer": "Blutopia (API) (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 4,
+            "seriesId": 327,
+            "size": 18240588717,
+            "sizeleft": 14153482240,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:02:44",
+            "title": "Couples.Therapy.2019.S04.1080p.WEB.h264-EDITH",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-10T01:12:02Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1555",
+            "episodeHasFile": false,
+            "episodeId": 19031,
+            "estimatedCompletionTime": "2024-07-10T01:16:08Z",
+            "id": 1450740468,
+            "indexer": "Blutopia (API) (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 4,
+            "seriesId": 327,
+            "size": 18240588717,
+            "sizeleft": 14153482240,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:02:44",
+            "title": "Couples.Therapy.2019.S04.1080p.WEB.h264-EDITH",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-10T01:12:02Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1555",
+            "episodeHasFile": false,
+            "episodeId": 19032,
+            "estimatedCompletionTime": "2024-07-10T01:16:08Z",
+            "id": 893993983,
+            "indexer": "Blutopia (API) (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 4,
+            "seriesId": 327,
+            "size": 18240588717,
+            "sizeleft": 14153482240,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:02:44",
+            "title": "Couples.Therapy.2019.S04.1080p.WEB.h264-EDITH",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-10T01:12:02Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1555",
+            "episodeHasFile": false,
+            "episodeId": 19033,
+            "estimatedCompletionTime": "2024-07-10T01:16:08Z",
+            "id": 1720796161,
+            "indexer": "Blutopia (API) (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 4,
+            "seriesId": 327,
+            "size": 18240588717,
+            "sizeleft": 14153482240,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:02:44",
+            "title": "Couples.Therapy.2019.S04.1080p.WEB.h264-EDITH",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-10T01:12:02Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1555",
+            "episodeHasFile": false,
+            "episodeId": 19034,
+            "estimatedCompletionTime": "2024-07-10T01:16:08Z",
+            "id": 1014430764,
+            "indexer": "Blutopia (API) (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 4,
+            "seriesId": 327,
+            "size": 18240588717,
+            "sizeleft": 14153482240,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:02:44",
+            "title": "Couples.Therapy.2019.S04.1080p.WEB.h264-EDITH",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
+        },
+        {
+            "added": "2024-07-10T01:12:02Z",
+            "customFormatScore": 0,
+            "customFormats": [],
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1555",
+            "episodeHasFile": false,
+            "episodeId": 19035,
+            "estimatedCompletionTime": "2024-07-10T01:16:08Z",
+            "id": 361182972,
+            "indexer": "Blutopia (API) (Prowlarr)",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "protocol": "torrent",
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "resolution": 1080,
+                    "source": "web"
+                },
+                "revision": {
+                    "isRepack": false,
+                    "real": 0,
+                    "version": 1
+                }
+            },
+            "seasonNumber": 4,
+            "seriesId": 327,
+            "size": 18240588717,
+            "sizeleft": 14153482240,
+            "status": "downloading",
+            "statusMessages": [],
+            "timeleft": "00:02:44",
+            "title": "Couples.Therapy.2019.S04.1080p.WEB.h264-EDITH",
+            "trackedDownloadState": "downloading",
+            "trackedDownloadStatus": "ok"
         }
     ]
 }
