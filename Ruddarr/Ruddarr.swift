@@ -74,23 +74,23 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static var version: String = "1.1.0"
+    static var version: String = "1.2.0"
 
     static var features: [WhatsNewFeature] = [
         .init(
-            image: "tv",
-            title: "Sonarr Support",
-            subtitle: "Monitor and manage TV Series, seasons and episodes. Works best with Sonarr v4."
+            image: "waveform.path.ecg",
+            title: "Queue Support",
+            subtitle: "Keep an eye on your tasks queues across all instance in the new Activity tab."
         ),
         .init(
-            image: "line.3.horizontal.decrease",
-            title: "Filter by Original Language",
-            subtitle: "Releases can now be filtered by language when browsing interactive search results."
+            image: "sparkle.magnifyingglass",
+            title: "Spotlight Integration",
+            subtitle: "All movies and TV series are automatically indexed and searchable in Spotlight."
         ),
         .init(
             image: "ant",
             title: "Fixes & Improvements",
-            subtitle: "Tuned, fixed and polished dozens of parts, everything is a little better than before."
+            subtitle: "Over 30 other improvements and fixes, everything is a little better than before."
         ),
     ]
 }

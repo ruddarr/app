@@ -13,7 +13,9 @@ class Queue {
     var items: [Instance.ID: [QueueItem]] = [:]
 
     private init() {
-        self.timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+        let interval: TimeInterval = isRunningIn(.simulator) ? 120 : 5
+
+        self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
             Task {
                 await self.fetch()
             }
