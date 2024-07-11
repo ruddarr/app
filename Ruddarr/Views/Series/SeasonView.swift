@@ -39,6 +39,14 @@ struct SeasonView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
+        .alert(
+            isPresented: instance.files.errorBinding,
+            error: instance.files.error
+        ) { _ in
+            Button("OK") { instance.files.error = nil }
+        } message: { error in
+            Text(error.recoverySuggestionFallback)
+        }
     }
 
     var season: Season {
@@ -127,7 +135,7 @@ struct SeasonView: View {
 
     var episodesList: some View {
         Section {
-            if instance.episodes.isFetching {
+            if instance.episodes.isFetching || instance.files.isFetching {
                 HStack {
                     Spacer()
                     ProgressView().tint(.secondary)
