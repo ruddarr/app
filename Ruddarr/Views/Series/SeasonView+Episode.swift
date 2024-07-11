@@ -82,7 +82,7 @@ struct EpisodeRow: View {
         }
         .buttonStyle(.plain)
         .overlay(Rectangle().padding(18))
-        .allowsHitTesting(instance.episodes.isMonitoring != episode.id)
+        .allowsHitTesting(instance.episodes.isMonitoring != 0)
         .disabled(!series.monitored)
     }
 

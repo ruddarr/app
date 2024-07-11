@@ -50,6 +50,7 @@ class SeriesEpisodes {
         isFetching = false
     }
 
+    @MainActor
     func monitor(_ episodes: [Episode.ID], _ monitored: Bool) async -> Bool {
         error = nil
         isMonitoring = episodes[0]
