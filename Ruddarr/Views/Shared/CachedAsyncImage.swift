@@ -16,9 +16,16 @@ struct CachedAsyncImage: View {
 
     var body: some View {
         if let url = url {
-            LazyImage(request: Images.request(url, type)) { state in
+            LazyImage(
+                request: Images.request(url, type),
+                transaction: .init(animation: .smooth)
+            ) { state in
                 if let image = state.image {
-                    image.resizable()
+                    image.resizable().transition(
+                            (try? state.result?.get())?.cacheType != nil
+                                ? .identity
+                                : .opacity
+                        )
                 } else if state.error != nil {
                     let _: Void = print(state.error.debugDescription)
 
@@ -26,7 +33,9 @@ struct CachedAsyncImage: View {
                 } else {
                     PlaceholderImage(icon: "text.below.photo", text: nil)
                 }
-            }.pipeline(Images.pipeline())
+            }.pipeline(
+                Images.pipeline()
+            )
         } else {
             PlaceholderImage(icon: "text.below.photo", text: placeholder)
         }
