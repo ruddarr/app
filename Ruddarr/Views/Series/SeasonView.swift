@@ -144,6 +144,9 @@ struct SeasonView: View {
                                 .environmentObject(settings)
                         }
                         .buttonStyle(.plain)
+                        .contextMenu {
+                            EpisodeContextMenu(episode: episode)
+                        }
 
                         Divider()
                     }

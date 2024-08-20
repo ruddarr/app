@@ -1,7 +1,9 @@
 import SwiftUI
+import TelemetryDeck
 
 struct MovieContextMenu: View {
     var movie: Movie
+    @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
         link(name: "Trakt", url: traktUrl)
@@ -11,12 +13,30 @@ struct MovieContextMenu: View {
         if let callsheetUrl = callsheet {
             link(name: "Callsheet", url: callsheetUrl)
         }
+        
+        Divider()
+        
+        Button("Search", systemImage: "magnifyingglass") {
+            Task { await dispatchSearch() }
+        }
     }
 
     func link(name: String, url: String) -> some View {
         Link(destination: URL(string: url)!, label: {
             Label("Open in \(name)", systemImage: "arrow.up.right.square")
         })
+    }
+    
+    @MainActor
+    func dispatchSearch() async {
+        guard await instance.movies.command(.search([movie.id])) else {
+            return
+        }
+
+        dependencies.toast.show(.movieSearchQueued)
+
+        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "movie"])
+        maybeAskForReview()
     }
 
     var encodedTitle: String {
