@@ -12,10 +12,11 @@ struct SeriesContextMenu: View {
         
         Divider()
         
-        Button("Search Monitored", systemImage: "magnifyingglass") {
-            Task { await dispatchSearch() }
+        if series.monitored {
+            Button("Search Monitored", systemImage: "magnifyingglass") {
+                Task { await dispatchSearch() }
+            }
         }
-        .disabled(!series.monitored)
     }
 
     func link(name: String, url: String) -> some View {
