@@ -16,7 +16,7 @@ struct MovieContextMenu: View {
         
         Divider()
         
-        Button("Search", systemImage: "magnifyingglass") {
+        Button("Automatic Search", systemImage: "magnifyingglass") {
             Task { await dispatchSearch() }
         }
     }
