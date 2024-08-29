@@ -14,6 +14,7 @@ class SeriesLookup {
     var searchedQuery: String = ""
 
     private var searchTask: Task<Void, Never>?
+    private var searchTaskQuery: String = ""
 
     init(_ instance: Instance) {
         self.instance = instance
@@ -36,6 +37,10 @@ class SeriesLookup {
     }
 
     func search(query: String) async {
+        if searchedQuery == query || searchTaskQuery == query {
+            return
+        }
+
         searchTask?.cancel()
 
         error = nil
@@ -48,6 +53,7 @@ class SeriesLookup {
 
         searchTask = Task {
             do {
+                searchTaskQuery = query
                 items = try await dependencies.api.lookupSeries(instance, query)
                 searchedQuery = query
             } catch is CancellationError {
@@ -62,6 +68,7 @@ class SeriesLookup {
 
             if !Task.isCancelled {
                 searchTask = nil
+                searchTaskQuery = ""
             }
         }
     }
