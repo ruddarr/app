@@ -26,8 +26,10 @@ struct SeriesReleasesView: View {
         .toolbar {
             toolbarButtons
         }
-        .task {
+        .onAppear {
             releases = []
+        }
+        .task {
             sort.seasonPack = seasonId == nil ? .episode : .season
             await instance.releases.search(series, seasonId, episodeId)
             updateDisplayedReleases()
