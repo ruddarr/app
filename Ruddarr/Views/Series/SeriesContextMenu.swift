@@ -15,7 +15,7 @@ struct SeriesContextMenu: View {
         }
 
         Divider()
-        
+
         if series.monitored {
             Button("Search Monitored", systemImage: "magnifyingglass") {
                 Task { await dispatchSearch() }
@@ -28,7 +28,7 @@ struct SeriesContextMenu: View {
             Label("Open in \(name)", systemImage: "arrow.up.right.square")
         })
     }
-    
+
     @MainActor
     func dispatchSearch() async {
         guard await instance.series.command(.seriesSearch(series.id)) else {

@@ -13,9 +13,9 @@ struct MovieContextMenu: View {
         if let callsheetUrl = callsheet {
             link(name: "Callsheet", url: callsheetUrl)
         }
-        
+
         Divider()
-        
+
         Button("Automatic Search", systemImage: "magnifyingglass") {
             Task { await dispatchSearch() }
         }
@@ -26,7 +26,7 @@ struct MovieContextMenu: View {
             Label("Open in \(name)", systemImage: "arrow.up.right.square")
         })
     }
-    
+
     @MainActor
     func dispatchSearch() async {
         guard await instance.movies.command(.search([movie.id])) else {

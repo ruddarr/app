@@ -11,9 +11,9 @@ struct EpisodeContextMenu: View {
         if encodedTitle != nil {
             link(name: "IMDb", url: imdbUrl)
         }
-        
+
         Divider()
-        
+
         Button("Automatic Search", systemImage: "magnifyingglass") {
             Task { await dispatchSearch() }
         }
@@ -24,7 +24,7 @@ struct EpisodeContextMenu: View {
             Label("Open in \(name)", systemImage: "arrow.up.right.square")
         })
     }
-    
+
     @MainActor
     func dispatchSearch() async {
         guard await instance.series.command(.episodeSearch([episode.id])) else {
