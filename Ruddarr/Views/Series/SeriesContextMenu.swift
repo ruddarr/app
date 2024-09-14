@@ -1,18 +1,42 @@
 import SwiftUI
+import TelemetryDeck
 
 struct SeriesContextMenu: View {
     var series: Series
+    @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
         link(name: "Trakt", url: traktUrl)
         link(name: "IMDb", url: imdbUrl)
         link(name: "TVDB", url: tvdbUrl)
+        
+        Divider()
+        
+        if series.monitored {
+            Button("Search Monitored", systemImage: "magnifyingglass") {
+                Task { await dispatchSearch() }
+            }
+        }
     }
 
     func link(name: String, url: String) -> some View {
         Link(destination: URL(string: url)!, label: {
             Label("Open in \(name)", systemImage: "arrow.up.right.square")
         })
+    }
+    
+    @MainActor
+    func dispatchSearch() async {
+        guard await instance.series.command(
+            .seriesSearch(series.id)
+        ) else {
+            return
+        }
+
+        dependencies.toast.show(.monitoredSearchQueued)
+
+        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
+        maybeAskForReview()
     }
 
     var encodedTitle: String {
