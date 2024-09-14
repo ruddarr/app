@@ -211,7 +211,7 @@ private struct WhatsNewSheetViewModifier: ViewModifier {
 }
 
 #Preview {
-    @State var show: Bool = true
+    @Previewable @State var show: Bool = true
 
     return NavigationView { }.sheet(isPresented: $show, content: {
         WhatsNewView()

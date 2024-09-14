@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-extension UUID: RawRepresentable {
+extension UUID: @retroactive RawRepresentable {
     public var rawValue: String {
         self.uuidString
     }
@@ -13,7 +13,7 @@ extension UUID: RawRepresentable {
     }
 }
 
-extension Array<Instance>: RawRepresentable {
+extension Array<Instance>: @retroactive RawRepresentable {
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
             let result = try? JSONDecoder().decode([Element].self, from: data)
@@ -25,7 +25,7 @@ extension Array<Instance>: RawRepresentable {
 
     public var rawValue: String {
         guard let data = try? JSONEncoder().encode(self),
-            let result = String(data: data, encoding: .utf8)
+              let result = String(data: data, encoding: .utf8)
         else {
             return "[]"
         }

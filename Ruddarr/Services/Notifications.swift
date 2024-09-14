@@ -88,17 +88,17 @@ class Notifications {
     }
 
     func maybeUpdateWebhooks(_ settings: AppSettings) {
-        let instances = settings.instances
+        Task.detached { [settings] in
+            let instances = await settings.instances
 
-        let updateNeeded = instances.map {
-            Occurrence.hoursSince("webhookUpdated:\($0.id)") >= 24
-        }.contains(true)
+            let updateNeeded = instances.map {
+                Occurrence.hoursSince("webhookUpdated:\($0.id)") >= 24
+            }.contains(true)
 
-        if !updateNeeded {
-            return
-        }
+            if !updateNeeded {
+                return
+            }
 
-        Task.detached { [instances] in
             let cloudkit = CKContainer.default()
             let cloudKitStatus = try? await cloudkit.accountStatus()
 
