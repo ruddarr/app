@@ -35,7 +35,7 @@ class Queue {
 
         for instance in instances {
             do {
-                items[instance.id] = try await dependencies.api.queue(instance).records
+                items[instance.id] = try await dependencies.api.fetchQueueTasks(instance).records
             } catch is CancellationError {
                 // do nothing
             } catch let apiError as API.Error {
