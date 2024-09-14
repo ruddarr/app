@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nonstrict-hq/CloudStorage.git",
       "state" : {
-        "revision" : "35700218d35579df091974b6e7765db94c83448b",
-        "version" : "0.4.0"
+        "revision" : "766a589bd1347dbf9c0f658dd6f35e82ba445392",
+        "version" : "0.5.0"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kean/Nuke",
       "state" : {
-        "revision" : "311016d972aa751ae8ab0cd5897422ebe7db0501",
-        "version" : "12.7.3"
+        "revision" : "0ead44350d2737db384908569c012fe67c421e4d",
+        "version" : "12.8.0"
       }
     },
     {
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa.git",
       "state" : {
-        "revision" : "8fd4e804f2e72e0b9c1b189ce4e8349c4d10b6a2",
-        "version" : "8.30.0"
+        "revision" : "5575af93efb776414f243e93d6af9f6258dc539a",
+        "version" : "8.36.0"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/TelemetryDeck/SwiftSDK",
       "state" : {
-        "revision" : "9ec0f0c01b94acfe14d6745ab63c53ffbe1d2670",
-        "version" : "2.2.1"
+        "revision" : "13a26cf125b70d695913eb9bea9f9b9c29da5790",
+        "version" : "2.3.0"
       }
     }
   ],
