@@ -7,6 +7,10 @@ struct SeriesContextMenu: View {
         link(name: "Trakt", url: traktUrl)
         link(name: "IMDb", url: imdbUrl)
         link(name: "TVDB", url: tvdbUrl)
+
+        if let callsheetUrl = callsheet {
+            link(name: "Callsheet", url: callsheetUrl)
+        }
     }
 
     func link(name: String, url: String) -> some View {
@@ -45,5 +49,19 @@ struct SeriesContextMenu: View {
         }
 
         return "https://www.imdb.com/find/?s=tt&q=\(encodedTitle)"
+    }
+
+    var callsheet: String? {
+        #if os(iOS)
+        if let tmdbId = series.tmdbId {
+            let url = "callsheet://open/tv/\(tmdbId)"
+
+            if UIApplication.shared.canOpenURL(URL(string: url)!) {
+                return url
+            }
+        }
+        #endif
+
+        return nil
     }
 }
