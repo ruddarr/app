@@ -1,7 +1,9 @@
 import SwiftUI
+import TelemetryDeck
 
 struct SeriesContextMenu: View {
     var series: Series
+    @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
         link(name: "Trakt", url: traktUrl)
@@ -11,12 +13,31 @@ struct SeriesContextMenu: View {
         if let callsheetUrl = callsheet {
             link(name: "Callsheet", url: callsheetUrl)
         }
+
+        Divider()
+        
+        if series.monitored {
+            Button("Search Monitored", systemImage: "magnifyingglass") {
+                Task { await dispatchSearch() }
+            }
+        }
     }
 
     func link(name: String, url: String) -> some View {
         Link(destination: URL(string: url)!, label: {
             Label("Open in \(name)", systemImage: "arrow.up.right.square")
         })
+    }
+    
+    @MainActor
+    func dispatchSearch() async {
+        guard await instance.series.command(.seriesSearch(series.id)) else {
+            return
+        }
+
+        dependencies.toast.show(.monitoredSearchQueued)
+
+        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
     }
 
     var encodedTitle: String {
