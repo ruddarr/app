@@ -1,8 +1,6 @@
 import SwiftUI
 import Combine
 
-// cmd+r to refresh page
-
 enum MoviesPath: Hashable {
     case search(String = "")
     case preview(Data?)
@@ -130,6 +128,7 @@ struct MoviesView: View {
                 isPresented: $searchPresented,
                 placement: .drawerOrToolbar
             )
+            .autocorrectionDisabled(true)
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
                 scrollToTop()

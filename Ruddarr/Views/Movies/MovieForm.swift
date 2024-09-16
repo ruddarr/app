@@ -10,11 +10,7 @@ struct MovieForm: View {
 
     @State private var showingConfirmation = false
 
-    var availabilities: [MovieStatus] = [
-        .announced,
-        .inCinemas,
-        .released,
-    ]
+    @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
 
     var body: some View {
         Form {
@@ -27,13 +23,19 @@ struct MovieForm: View {
             }
 
             if instance.rootFolders.count > 1 {
-                rootFolderField.tint(.secondary)
+                rootFolderField
             }
         }
         .onAppear {
             selectDefaultValues()
         }
     }
+
+    var availabilities: [MovieStatus] = [
+        .announced,
+        .inCinemas,
+        .released,
+    ]
 
     var minimumAvailabilityField: some View {
         Picker(selection: $movie.minimumAvailability) {
@@ -70,10 +72,19 @@ struct MovieForm: View {
                 Text(folder.label).tag(folder.path)
             }
         }
-        .pickerStyle(.inline)
+        .pickerStyle(InlinePickerStyle())
+        .tint(settings.theme.tint)
+        .accentColor(settings.theme.tint) // `.tint()` is broken on inline pickers
     }
 
     func selectDefaultValues() {
+        if !movie.exists {
+            movie.monitored = movieDefaults.monitored
+            movie.rootFolderPath = movieDefaults.rootFolder
+            movie.qualityProfileId = movieDefaults.qualityProfile
+            movie.minimumAvailability = movieDefaults.minimumAvailability
+        }
+
         if !availabilities.contains(movie.minimumAvailability) {
             movie.minimumAvailability = .announced
         }

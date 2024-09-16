@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct EpisodeView: View {
     @Binding var series: Series
@@ -153,7 +153,7 @@ struct EpisodeView: View {
             .buttonStyle(.plain)
             .allowsHitTesting(instance.episodes.isMonitoring != episode.id)
             .disabled(!series.monitored)
-            .id(UUID())
+            .toolbarIdFix(UUID())
         }
     }
 
@@ -173,7 +173,7 @@ struct EpisodeView: View {
             } label: {
                 ToolbarActionButton()
             }
-            .id(UUID())
+            .toolbarIdFix(UUID())
         }
     }
 
@@ -242,7 +242,7 @@ struct EpisodeView: View {
         if !instance.episodes.history.isEmpty {
             Section {
                 ForEach(instance.episodes.history) { event in
-                    MovieHistoryItem(event: event)
+                    MediaHistoryItem(event: event)
                         .padding(.bottom, 4)
                         .onTapGesture { eventSheet = event }
                 }
@@ -290,7 +290,8 @@ extension EpisodeView {
 
         dependencies.toast.show(.episodeSearchQueued)
 
-        TelemetryManager.send("automaticSearchDispatched", with: ["type": "episode"])
+        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "episode"])
+        maybeAskForReview()
     }
 
     @MainActor

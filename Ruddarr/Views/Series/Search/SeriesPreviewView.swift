@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct SeriesPreviewView: View {
     @State var series: Series
@@ -8,8 +8,10 @@ struct SeriesPreviewView: View {
 
     @Environment(SonarrInstance.self) private var instance
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.deviceType) private var deviceType
 
     @AppStorage("seriesSort", store: dependencies.store) var seriesSort: SeriesSort = .init()
+    @AppStorage("seriesDefaults", store: dependencies.store) var seriesDefaults: SeriesDefaults = .init()
 
     var body: some View {
         ScrollView {
@@ -30,7 +32,7 @@ struct SeriesPreviewView: View {
                         toolbarSaveButton
                     }
             }
-            .presentationDetents([.medium])
+            .presentationDetents([deviceType == .phone ? .medium : .large])
         }
         .alert(
             isPresented: instance.series.errorBinding,
@@ -56,7 +58,7 @@ struct SeriesPreviewView: View {
         ToolbarItem(placement: .primaryAction) {
             Button("Add Series") {
                 presentingForm = true
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 
@@ -77,6 +79,8 @@ struct SeriesPreviewView: View {
 
     @MainActor
     func addSeries() async {
+        seriesDefaults = .init(from: series)
+
         guard await instance.series.add(series) else {
             leaveBreadcrumb(.error, category: "view.series.preview", message: "Failed to add series", data: ["error": instance.series.error ?? ""])
 
@@ -84,23 +88,24 @@ struct SeriesPreviewView: View {
         }
 
         guard let addedSeries = instance.series.byTvdbId(series.tvdbId) else {
-            fatalError("Failed to locate added series by tvdbId")
+            fatalError("Failed to locate added series by TVDB id")
         }
 
         #if os(iOS)
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         #endif
 
-        instance.lookup.reset()
         presentingForm = false
+
+        instance.lookup.reset()
         seriesSort.filter = .all
 
         let seriesPath = SeriesPath.series(addedSeries.id)
-
-        dependencies.router.seriesPath.removeLast(dependencies.router.seriesPath.count)
+        dependencies.router.seriesPath.removeLast()
         dependencies.router.seriesPath.append(seriesPath)
 
-        TelemetryManager.send("seriesAdded")
+        TelemetryDeck.signal("seriesAdded")
+        maybeAskForReview()
     }
 }
 

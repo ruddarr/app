@@ -42,6 +42,16 @@ struct InstanceEditView: View {
                     deleteButton
                 }
             }
+
+            Button {
+                instance.url = "http://10.0.1.5:8310/settings/general"
+                instance.apiKey = "3b0600c1b3aa42bfb0222f4e13a81f39"
+            } label: { Text(verbatim: "Radarr") }
+
+            Button {
+                instance.url = "http://10.0.1.5:8989/"
+                instance.apiKey = "f8e3682b3b984cddbaa00047a09d0fbd"
+            } label: { Text(verbatim: "Sonarr") }
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -63,6 +73,17 @@ struct InstanceEditView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
+        .alert("Basic Authentication", isPresented: $showBasicAuthentication, actions: {
+            TextField("Username", text: $username)
+            SecureField("Password", text: $password)
+            Button("Add Header") {
+                let auth = Data("\(username):\(password)".utf8).base64EncodedString()
+                instance.headers.append(InstanceHeader(name: "Authorization", value: "Basic \(auth)"))
+            }
+            Button("Cancel", role: .cancel, action: {})
+        }, message: {
+            Text("The credentials will be encoded and added as an \"Authorization\" header.")
+        })
     }
 
     var instanceSection: some View {
@@ -108,9 +129,9 @@ struct InstanceEditView: View {
 
     var labelField: some View {
         LabeledContent {
-            TextField("Synology", text: $instance.label)
+            TextField(text: $instance.label, prompt: Text(verbatim: instance.type.rawValue)) { EmptyView() }
                 .multilineTextAlignment(.trailing)
-                .disableAutocorrection(true)
+                .autocorrectionDisabled(true)
         } label: {
             Text("Label")
         }
@@ -120,7 +141,7 @@ struct InstanceEditView: View {
         LabeledContent {
             TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
                 .multilineTextAlignment(.trailing)
-                .disableAutocorrection(true)
+                .autocorrectionDisabled(true)
                 .textCase(.lowercase)
                 .onChange(of: instance.url, detectInstanceType)
                 #if os(iOS)
@@ -134,9 +155,9 @@ struct InstanceEditView: View {
 
     var apiKeyField: some View {
         LabeledContent {
-            TextField("0a1b2c3d...", text: $instance.apiKey)
+            TextField(text: $instance.apiKey, prompt: Text(verbatim: "0a1b2c3d...")) { EmptyView() }
                 .multilineTextAlignment(.trailing)
-                .disableAutocorrection(true)
+                .autocorrectionDisabled(true)
                 .textCase(.lowercase)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
@@ -180,17 +201,6 @@ struct InstanceEditView: View {
             Button("Add Authentication") {
                 showBasicAuthentication = true
             }
-            .alert("Basic Authentication", isPresented: $showBasicAuthentication, actions: {
-                TextField("Username", text: $username)
-                SecureField("Password", text: $password)
-                Button("Add Header") {
-                    let auth = Data("\(username):\(password)".utf8).base64EncodedString()
-                    instance.headers.append(InstanceHeader(name: "Authorization", value: "Basic \(auth)"))
-                }
-                Button("Cancel", role: .cancel, action: {})
-            }, message: {
-                Text("The credentials will be encoded and added as an \"Authorization\" header.")
-            })
         } header: {
             HStack {
                 Text("Headers")
@@ -259,13 +269,13 @@ struct InstanceHeaderRow: View {
         LabeledContent {
             TextField("Value", text: $header.value)
                 .multilineTextAlignment(.trailing)
-                .disableAutocorrection(true)
+                .autocorrectionDisabled(true)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
                 #endif
         } label: {
             TextField("Name", text: $header.name)
-                .disableAutocorrection(true)
+                .autocorrectionDisabled(true)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
                 #endif

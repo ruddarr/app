@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct SeriesDetailView: View {
     @Binding var series: Series
@@ -41,12 +41,11 @@ struct SeriesDetailView: View {
             "Are you sure?",
             isPresented: $showDeleteConfirmation
         ) {
-            Button("Delete Series", role: .destructive) {
-                Task { await deleteSeries(series) }
-            }
+            Button("Delete Series", role: .destructive) { Task { await deleteSeries() } }
+            Button("Delete and Exclude", role: .destructive) { Task { await deleteSeries(exclude: true) } }
             Button("Cancel", role: .cancel) { }
         } message: {
-            Text("This will delete the series and permanently erase its folder and its contents.")
+            Text("This will remove the series and permanently erase its folder and its contents.")
         }
     }
 
@@ -60,7 +59,7 @@ struct SeriesDetailView: View {
             }
             .buttonStyle(.plain)
             .allowsHitTesting(!instance.series.isWorking)
-            .id(UUID())
+            .toolbarIdFix(UUID())
         }
     }
 
@@ -82,7 +81,7 @@ struct SeriesDetailView: View {
             } label: {
                 ToolbarActionButton()
             }
-            .id(UUID())
+            .toolbarIdFix(UUID())
         }
     }
 
@@ -164,12 +163,13 @@ extension SeriesDetailView {
 
         dependencies.toast.show(.monitoredSearchQueued)
 
-        TelemetryManager.send("automaticSearchDispatched", with: ["type": "series"])
+        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
+        maybeAskForReview()
     }
 
     @MainActor
-    func deleteSeries(_ series: Series) async {
-        _ = await instance.series.delete(series)
+    func deleteSeries(exclude: Bool = false) async {
+        _ = await instance.series.delete(series, addExclusion: exclude)
 
         dependencies.router.seriesPath.removeLast()
         dependencies.toast.show(.seriesDeleted)

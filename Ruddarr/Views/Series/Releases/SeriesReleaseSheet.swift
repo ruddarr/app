@@ -1,14 +1,19 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct SeriesReleaseSheet: View {
     @State var release: SeriesRelease
+    var seriesId: Series.ID
+    var seasonId: Season.ID?
+    var episodeId: Episode.ID?
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+
+    @State private var showGrabConfirmation: Bool = false
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -43,6 +48,16 @@ struct SeriesReleaseSheet: View {
                 Button("OK") { instance.series.error = nil }
             } message: { error in
                 Text(error.recoverySuggestionFallback)
+            }
+            .alert(
+                "Grab Release",
+                isPresented: $showGrabConfirmation
+            ) {
+                Button("Grab Release") { Task { await downloadRelease(force: true) } }
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                let type = String(localized: "series/episode", comment: "The words 'series/episode' used mid-sentence")
+                Text("The release for this \(type) could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
             }
         }
     }
@@ -129,7 +144,11 @@ struct SeriesReleaseSheet: View {
             }
 
             Button {
-                Task { await downloadRelease() }
+                if release.downloadAllowed {
+                    Task { await downloadRelease() }
+                } else {
+                    showGrabConfirmation = true
+                }
             } label: {
                 let label: LocalizedStringKey = deviceType == .phone ? "Download" : "Download Release"
 
@@ -154,11 +173,8 @@ struct SeriesReleaseSheet: View {
     var details: some View {
         Section {
             VStack(spacing: 12) {
-                if let languages = release.languagesLabel {
-                    row("Language", value: languages)
-                    Divider()
-                }
-
+                row("Language", value: release.languagesLabel)
+                Divider()
                 row("Indexer", value: release.indexerLabel)
 
                 if release.isTorrent {
@@ -180,11 +196,11 @@ struct SeriesReleaseSheet: View {
     func flags() -> [String] {
         var flags: [String] = []
 
-        if release.customFormatScore != 0 {
-            flags.append(release.scoreLabel)
+        if let score = release.scoreLabel, release.customFormatScore != 0 {
+            flags.append(score)
         }
 
-        if release.indexerFlags != 0 {
+        if let indexerFlags = release.indexerFlags, indexerFlags != 0 {
             flags.append(contentsOf: release.cleanIndexerFlags)
         }
 
@@ -218,10 +234,13 @@ struct SeriesReleaseSheet: View {
     }
 
     @MainActor
-    func downloadRelease() async {
+    func downloadRelease(force: Bool = false) async {
         guard await instance.series.download(
             guid: release.guid,
-            indexerId: release.indexerId
+            indexerId: release.indexerId,
+            seriesId: force && episodeId != nil ? seriesId : nil,
+            seasonId: force && episodeId != nil ? seasonId : nil,
+            episodeId: force && episodeId != nil ? episodeId : nil
         ) else {
             return
         }
@@ -230,7 +249,8 @@ struct SeriesReleaseSheet: View {
         dependencies.router.seriesPath.removeLast()
         dependencies.toast.show(.downloadQueued)
 
-        TelemetryManager.send("releaseDownloaded", with: ["type": release.fullSeason ? "season" : "episode"])
+        TelemetryDeck.signal("releaseDownloaded", parameters: ["type": release.fullSeason ? "season" : "episode"])
+        maybeAskForReview()
     }
 }
 
@@ -238,6 +258,9 @@ struct SeriesReleaseSheet: View {
     let releases: [SeriesRelease] = PreviewData.load(name: "series-releases")
     let release = releases[5]
 
-    return SeriesReleaseSheet(release: release)
+    return SeriesReleaseSheet(
+        release: release,
+        seriesId: release.seriesId ?? 0
+    )
         .withAppState()
 }

@@ -15,7 +15,7 @@ struct MovieReleasesView: View {
     var body: some View {
         List {
             ForEach(releases) { release in
-                MovieReleaseRow(release: release)
+                MovieReleaseRow(release: release, movieId: movie.id)
                     .environment(instance)
                     .environmentObject(settings)
             }
@@ -25,9 +25,8 @@ struct MovieReleasesView: View {
             toolbarButtons
         }
         .task {
-            guard !fetched else { return }
+            releases = []
             await instance.releases.search(movie)
-
             updateDisplayedReleases()
             fetched = true
         }
@@ -132,7 +131,7 @@ struct MovieReleasesView: View {
 
         if sort.originalLanguage {
             releases = releases.filter {
-                $0.languages.contains(where: { $0.id == movie.originalLanguage.id })
+                $0.languages.contains(where: { $0.id == movie.originalLanguage?.id })
             }
         }
 
@@ -149,7 +148,7 @@ extension MovieReleasesView {
             HStack {
                 toolbarSortingButton
                 toolbarFilterButton
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 

@@ -8,21 +8,21 @@ struct MediaFile: Identifiable, Equatable, Codable {
 
     let mediaInfo: FileMediaInfo?
     let quality: MediaQuality
-    let languages: [MediaLanguage]
+    let languages: [MediaLanguage]?
 
     let customFormats: [MediaCustomFormat]?
     let customFormatScore: Int?
 
     // Sonarr
     let seriesId: Series.ID?
-    let releaseType: FileReleaseType?
+    let episodeReleaseType: EpisodeReleaseType?
 
     var sizeLabel: String {
         formatBytes(size)
     }
 
     var languageLabel: String {
-        languageSingleLabel(languages)
+        languageSingleLabel(languages ?? [])
     }
 
     var scoreLabel: String {
@@ -48,13 +48,6 @@ struct MediaFile: Identifiable, Equatable, Codable {
 
         return nil
     }
-}
-
-enum FileReleaseType: String, Equatable, Codable {
-    case unknown
-    case singleEpisode
-    case multiEpisode
-    case seasonPack
 }
 
 struct FileMediaInfo: Equatable, Codable {

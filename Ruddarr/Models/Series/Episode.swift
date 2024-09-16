@@ -15,7 +15,6 @@ struct Episode: Identifiable, Codable {
     let runtime: Int?
 
     let title: String?
-    let seriesTitle: String?
     let overview: String?
 
     let hasFile: Bool
@@ -34,6 +33,8 @@ struct Episode: Identifiable, Codable {
     let sceneEpisodeNumber: Int?
     let sceneSeasonNumber: Int?
     let unverifiedSceneNumbering: Bool
+
+    let series: Series?
 
     var titleLabel: String {
         title ?? String(localized: "TBA")
@@ -149,12 +150,32 @@ struct EpisodesMonitorResource: Codable {
     let monitored: Bool
 }
 
+enum EpisodeReleaseType: String, Equatable, Codable {
+    case unknown // 0
+    case singleEpisode // 1
+    case multiEpisode // 2
+    case seasonPack // 3
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+
+        do {
+            let stringType = try container.decode(String.self)
+            self = EpisodeReleaseType(rawValue: stringType) ?? .unknown
+        } catch {
+            // integer fallback (Sonarr v4.0.3)
+            // https://github.com/Sonarr/Sonarr/pull/6707
+            self = .unknown
+        }
+    }
+}
+
 extension Episode {
     static var void: Self {
         .init(
-            id: 0, seriesId: 0, episodeFileId: 0, tvdbId: 0, seasonNumber: 0, episodeNumber: 0, runtime: 0, title: nil, seriesTitle: nil, overview: nil,
+            id: 0, seriesId: 0, episodeFileId: 0, tvdbId: 0, seasonNumber: 0, episodeNumber: 0, runtime: 0, title: nil, overview: nil,
             hasFile: false, monitored: false, grabbed: false, finaleType: nil, airDateUtc: nil, endTime: nil, grabDate: nil, absoluteEpisodeNumber: nil,
-            sceneAbsoluteEpisodeNumber: nil, sceneEpisodeNumber: nil, sceneSeasonNumber: nil, unverifiedSceneNumbering: false
+            sceneAbsoluteEpisodeNumber: nil, sceneEpisodeNumber: nil, sceneSeasonNumber: nil, unverifiedSceneNumbering: false, series: nil
         )
     }
 }

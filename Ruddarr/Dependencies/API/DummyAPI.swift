@@ -17,10 +17,6 @@ extension API {
             try await Task.sleep(nanoseconds: 500_000_000)
 
             return loadPreviewData(filename: "movie-releases")
-        }, downloadRelease: { _, _, _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
-
-            return Empty()
         }, getMovie: { movieId, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
             try await Task.sleep(nanoseconds: 2_000_000_000)
@@ -50,7 +46,7 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
-        }, deleteMovie: { _, _ in
+        }, deleteMovie: { _, _, _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
@@ -63,7 +59,7 @@ extension API {
 
             return loadPreviewData(filename: "series")
         }, fetchEpisodes: { _, _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return loadPreviewData(filename: "series-episodes")
         }, fetchEpisodeFiles: { _, _ in
@@ -97,7 +93,7 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
-        }, deleteSeries: { _, _ in
+        }, deleteSeries: { _, _, _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
@@ -131,6 +127,10 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
+        }, downloadRelease: { _, _ in
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+
+            return Empty()
         }, systemStatus: { _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
@@ -143,6 +143,10 @@ extension API {
             try await Task.sleep(nanoseconds: 1_000_000_000)
 
             return loadPreviewData(filename: "quality-profiles")
+        }, fetchQueueTasks: { instance in
+            try await Task.sleep(nanoseconds: 500_000_000)
+
+            return loadPreviewData(filename: instance.type == .sonarr ? "series-queue" : "movie-queue")
         }, fetchNotifications: { _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 

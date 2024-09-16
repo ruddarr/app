@@ -77,7 +77,7 @@ class SeriesReleases {
         var seen: Set<String> = []
 
         languages = items
-            .map { $0.languages.map { $0.label } }
+            .map { $0.languages?.map { $0.label } ?? [] }
             .flatMap { $0 }
             .filter { seen.insert($0).inserted }
     }
@@ -103,18 +103,19 @@ struct SeriesRelease: Identifiable, Codable {
     let age: Int
     let ageMinutes: Float
     let rejected: Bool
+    let downloadAllowed: Bool
 
     let customFormats: [MediaCustomFormat]?
-    let customFormatScore: Int
+    let customFormatScore: Int?
 
     let indexerId: Int
     let indexer: String?
-    let indexerFlags: Int
+    let indexerFlags: Int?
     let seeders: Int?
     let leechers: Int?
 
     let quality: MediaQuality
-    let languages: [MediaLanguage]
+    let languages: [MediaLanguage]?
     let rejections: [String]
 
     let qualityWeight: Int
@@ -122,7 +123,6 @@ struct SeriesRelease: Identifiable, Codable {
 
     let infoUrl: String?
 
-    let downloadAllowed: Bool
     let fullSeason: Bool
     let episodeRequested: Bool
     let shouldOverride: Bool?
@@ -211,11 +211,12 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var hasNonFreeleechFlags: Bool {
-        indexerFlags > 1
+        guard let flags = indexerFlags else { return false }
+        return flags > 1
     }
 
     var cleanIndexerFlags: [String] {
-        switch indexerFlags {
+        switch indexerFlags ?? 0 {
         case 1: ["Freeleech"]
         case 2: ["Halfleech"]
         case 4: ["DoubleUpload"]
@@ -240,15 +241,15 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var languageLabel: String {
-        languageSingleLabel(languages)
+        languageSingleLabel(languages ?? [])
     }
 
-    var languagesLabel: String? {
-        if languages.isEmpty {
+    var languagesLabel: String {
+        guard let langs = languages, langs.isEmpty else {
             return String(localized: "Unknown")
         }
 
-        return languages.map { $0.label }.formattedList()
+        return langs.map { $0.label }.formattedList()
     }
 
     var typeLabel: String {
@@ -290,8 +291,9 @@ struct SeriesRelease: Identifiable, Codable {
         formatAge(ageMinutes)
     }
 
-    var scoreLabel: String {
-        formatCustomScore(customFormatScore)
+    var scoreLabel: String? {
+        guard let score = customFormatScore else { return nil }
+        return formatCustomScore(score)
     }
 }
 

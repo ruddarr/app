@@ -11,6 +11,8 @@ struct SeriesForm: View {
     @State private var showingConfirmation = false
     @State private var addOptions = SeriesAddOptions(monitor: .none)
 
+    @AppStorage("seriesDefaults", store: dependencies.store) var seriesDefaults: SeriesDefaults = .init()
+
     var body: some View {
         Form {
             Section {
@@ -35,7 +37,7 @@ struct SeriesForm: View {
             }
 
             if instance.rootFolders.count > 1 {
-                rootFolderField.tint(.secondary)
+                rootFolderField
             }
         }
         .onAppear {
@@ -92,13 +94,19 @@ struct SeriesForm: View {
             }
         }
         .pickerStyle(.inline)
+        .tint(settings.theme.tint)
+        .accentColor(settings.theme.tint) // `.tint()` is broken on inline pickers
     }
 
     func selectDefaultValues() {
         if !series.exists {
+            addOptions.monitor = seriesDefaults.monitor
+
             series.addOptions = addOptions
-            series.seasonFolder = true
             series.monitorNewItems = nil
+            series.rootFolderPath = seriesDefaults.rootFolder
+            series.seasonFolder = seriesDefaults.seasonFolder
+            series.qualityProfileId = seriesDefaults.qualityProfile
         }
 
         if !instance.qualityProfiles.contains(where: {

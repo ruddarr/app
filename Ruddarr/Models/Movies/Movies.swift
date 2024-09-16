@@ -21,8 +21,8 @@ class Movies {
         case get(Movie)
         case add(Movie)
         case update(Movie, Bool)
-        case delete(Movie)
-        case download(String, Int)
+        case delete(Movie, Bool)
+        case download(String, Int, Int?)
         case command(RadarrCommand)
     }
 
@@ -37,7 +37,7 @@ class Movies {
 
         if !query.isEmpty {
             cachedItems = cachedItems.filter { movie in
-                movie.sortTitle.localizedCaseInsensitiveContains(query) ||
+                movie.title.localizedCaseInsensitiveContains(query) ||
                 movie.studio?.localizedCaseInsensitiveContains(query) ?? false ||
                 alternateTitles[movie.id]?.localizedCaseInsensitiveContains(query) ?? false
             }
@@ -97,12 +97,12 @@ class Movies {
         await request(.update(movie, moveFiles))
     }
 
-    func delete(_ movie: Movie) async -> Bool {
-        await request(.delete(movie))
+    func delete(_ movie: Movie, addExclusion: Bool = false) async -> Bool {
+        await request(.delete(movie, addExclusion))
     }
 
-    func download(guid: String, indexerId: Int) async -> Bool {
-        await request(.download(guid, indexerId))
+    func download(guid: String, indexerId: Int, movieId: Int?) async -> Bool {
+        await request(.download(guid, indexerId, movieId))
     }
 
     func command(_ command: RadarrCommand) async -> Bool {
@@ -136,8 +136,10 @@ class Movies {
         case .fetch:
             items = try await dependencies.api.fetchMovies(instance)
             itemsCount = items.count
-            leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
             computeAlternateTitles()
+            Spotlight.of(instance).indexMovies(items)
+
+            leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
 
         case .get(let movie):
             if let index = items.firstIndex(where: { $0.id == movie.id }) {
@@ -154,12 +156,13 @@ class Movies {
         case .update(let movie, let moveFiles):
             _ = try await dependencies.api.updateMovie(movie, moveFiles, instance)
 
-        case .delete(let movie):
-            _ = try await dependencies.api.deleteMovie(movie, instance)
+        case .delete(let movie, let addExclusion):
+            _ = try await dependencies.api.deleteMovie(movie, addExclusion, instance)
             items.removeAll(where: { $0.guid == movie.guid })
 
-        case .download(let guid, let indexerId):
-            _ = try await dependencies.api.downloadRelease(guid, indexerId, instance)
+        case .download(let guid, let indexerId, let movieId):
+            let payload = DownloadReleaseCommand(guid: guid, indexerId: indexerId, movieId: movieId)
+            _ = try await dependencies.api.downloadRelease(payload, instance)
 
         case .command(let command):
             _ = try await dependencies.api.radarrCommand(command, instance)

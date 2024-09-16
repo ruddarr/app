@@ -13,7 +13,6 @@ struct SettingsView: View {
     }
 
     var body: some View {
-        // swiftlint:disable closure_body_length
         NavigationStack(path: dependencies.$router.settingsPath) {
             List {
                 instanceSection
@@ -49,7 +48,6 @@ struct SettingsView: View {
                 }
             }
         }
-        // swiftlint:enable closure_body_length
     }
 
     var instanceSection: some View {

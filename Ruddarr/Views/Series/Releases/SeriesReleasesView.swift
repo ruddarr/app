@@ -17,7 +17,7 @@ struct SeriesReleasesView: View {
     var body: some View {
         List {
             ForEach(releases) { release in
-                SeriesReleaseRow(release: release)
+                SeriesReleaseRow(release: release, seriesId: series.id, seasonId: seasonId, episodeId: episodeId)
                     .environment(instance)
                     .environmentObject(settings)
             }
@@ -27,12 +27,11 @@ struct SeriesReleasesView: View {
             toolbarButtons
         }
         .onAppear {
-            sort.seasonPack = seasonId == nil ? .episode : .season
+            releases = []
         }
         .task {
-            guard !fetched else { return }
+            sort.seasonPack = seasonId == nil ? .episode : .season
             await instance.releases.search(series, seasonId, episodeId)
-
             updateDisplayedReleases()
             fetched = true
         }
@@ -119,7 +118,7 @@ struct SeriesReleasesView: View {
         }
 
         if sort.language != ".all" {
-            releases = releases.filter { $0.languages.contains { $0.label == sort.language } }
+            releases = releases.filter { $0.languages?.contains { $0.label == sort.language } ?? false }
         }
 
         if sort.customFormat != ".all" {
@@ -146,7 +145,7 @@ struct SeriesReleasesView: View {
 
         if sort.originalLanguage {
             releases = releases.filter {
-                $0.languages.contains(where: { $0.id == series.originalLanguage?.id })
+                $0.languages?.contains { $0.id == series.originalLanguage?.id } ?? false
             }
         }
 
@@ -164,7 +163,7 @@ extension SeriesReleasesView {
             HStack {
                 toolbarSortingButton
                 toolbarFilterButton
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 

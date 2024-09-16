@@ -17,6 +17,9 @@ struct ContentView: View {
         )
         .displayToasts()
         .whatsNewSheet()
+        .onAppear {
+            dependencies.router.selectedTab = settings.tab
+        }
         .onChange(of: controlActiveState, handleScenePhaseChange)
     }
 
@@ -50,6 +53,8 @@ struct ContentView: View {
             MoviesView()
         case .series:
             SeriesView()
+        case .activity:
+            ActivityView()
         case .calendar:
             CalendarView()
         case .settings:
@@ -58,7 +63,6 @@ struct ContentView: View {
     }
 
     func handleScenePhaseChange() {
-        // TODO: [macOS] Test this
         if controlActiveState == .key {
             Notifications.shared.maybeUpdateWebhooks(settings)
             Telemetry.shared.maybeUploadTelemetry(settings)

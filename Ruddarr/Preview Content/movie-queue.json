@@ -1,0 +1,174 @@
+{
+    "page": 1,
+    "pageSize": 50,
+    "sortKey": "quality",
+    "sortDirection": "descending",
+    "totalRecords": 1,
+    "records": [
+        {
+            "movieId": 368,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 18,
+                    "name": "WEBDL-2160p",
+                    "source": "webdl",
+                    "resolution": 2160,
+                    "modifier": "none"
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 3,
+                    "name": "H.265"
+                }
+            ],
+            "customFormatScore": 0,
+            "size": 5882132578,
+            "title": "SOUTH.PARK.THE.END.OF.OBESITY.2024.2160p.WEB.H265-ThistleQuokkaOfScientificChampagne",
+            "sizeleft": 5870368312.844,
+            "timeleft": "00:25:53",
+            "estimatedCompletionTime": "2024-05-24T21:54:45Z",
+            "added": "2023-05-24T21:28:21Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1510",
+            "protocol": "torrent",
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "TorrentDay (Prowlarr)",
+            "id": 1914112981,
+            "movie": {
+                "title": "South Park: The End of Obesity",
+                "originalTitle": "South Park: The End of Obesity",
+                "originalLanguage": {
+                    "id": 1,
+                    "name": "English"
+                },
+                "alternateTitles": [],
+                "secondaryYearSourceId": 0,
+                "sortTitle": "south park end obesity",
+                "sizeOnDisk": 5882129440,
+                "status": "released",
+                "overview": "The advent of new weight loss drugs has a huge impact on everyone in South Park. When Cartman is denied access to the life-changing medicine, the kids jump into action.",
+                "digitalRelease": "2024-05-24T00:00:00Z",
+                "images": [
+                    {
+                        "coverType": "poster",
+                        "url": "/MediaCover/368/poster.jpg?lastWrite=638526692371747122",
+                        "remoteUrl": "https://image.tmdb.org/t/p/original/zxM1AIKBP83plf2buLR0cbGfvl2.jpg"
+                    },
+                    {
+                        "coverType": "fanart",
+                        "url": "/MediaCover/368/fanart.jpg?lastWrite=638523231986079589",
+                        "remoteUrl": "https://image.tmdb.org/t/p/original/2nqr42Dvh6GMVECYjVG82zzJL7N.jpg"
+                    }
+                ],
+                "website": "https://www.paramountplus.com/movies/video/Cd3Fse6Xve3v7e69nMKZmNchXwEHGvll",
+                "year": 2024,
+                "youTubeTrailerId": "",
+                "studio": "MTV Entertainment Studios",
+                "path": "/volume2/Media/Movies/South Park The End Of Obesity ()",
+                "qualityProfileId": 1,
+                "hasFile": true,
+                "monitored": true,
+                "minimumAvailability": "announced",
+                "isAvailable": true,
+                "folderName": "/volume2/Media/Movies/South Park The End Of Obesity ()",
+                "runtime": 51,
+                "cleanTitle": "southparkendobesity",
+                "imdbId": "tt32375562",
+                "tmdbId": 1290938,
+                "titleSlug": "1290938",
+                "rootFolderPath": "/volume2/Media/Movies/",
+                "certification": "R",
+                "genres": [],
+                "tags": [],
+                "added": "2024-05-15T19:47:45Z",
+                "ratings": {
+                    "imdb": {
+                        "votes": 2900,
+                        "value": 7.2,
+                        "type": "user"
+                    },
+                    "tmdb": {
+                        "votes": 49,
+                        "value": 8.051,
+                        "type": "user"
+                    }
+                },
+                "popularity": 399.908,
+                "statistics": {
+                    "movieFileCount": 1,
+                    "sizeOnDisk": 5882129440,
+                    "releaseGroups": [
+                        "ThistleQuokkaOfScientificChampagne"
+                    ]
+                },
+                "id": 368
+            },
+        },
+        {
+            "movieId": 368,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 18,
+                    "name": "WEBDL-2160p",
+                    "source": "webdl",
+                    "resolution": 2160,
+                    "modifier": "none"
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 3,
+                    "name": "H.265"
+                }
+            ],
+            "customFormatScore": 0,
+            "size": 5882132578,
+            "title": "SOUTH.PARK.THE.END.OF.OBESITY.2024.2160p.WEB.H265-ThistleQuokkaOfScientificChampagne",
+            "sizeleft": 0,
+            "added": "2024-05-24T21:28:21Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Found archive file, might need to be extracted",
+                    "messages": []
+                }
+            ],
+            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1510",
+            "protocol": "torrent",
+            "downloadClient": "Download Station",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "TorrentDay (Prowlarr)",
+            "outputPath": "/volume2/Media/#downloads/SOUTH.PARK.THE.END.OF.OBESITY.2024.2160p.WEB.H265-ThistleQuokkaOfScientificChampagne",
+            "id": 1914112982
+        }
+    ]
+}

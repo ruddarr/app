@@ -23,6 +23,10 @@ extension View {
     func viewPadding(_ edges: Edge.Set = .all) -> some View {
         self.modifier(ViewPadding(edges))
     }
+
+    func toolbarIdFix(_ id: UUID) -> some View {
+        self.modifier(ToolbarIdFixModifier(id))
+    }
 }
 
 private struct WithAppStateModifier: ViewModifier {
@@ -41,6 +45,9 @@ private struct WithAppStateModifier: ViewModifier {
             .environment(\.deviceType, Platform.deviceType())
             .environment(RadarrInstance(radarrInstance))
             .environment(SonarrInstance(sonarrInstance))
+            .onAppear {
+                Queue.shared.instances = settings.instances
+            }
     }
 }
 
@@ -62,6 +69,28 @@ private struct ViewPadding: ViewModifier {
     }
 }
 
+private struct ToolbarIdFixModifier: ViewModifier {
+    var id: UUID
+
+    @Environment(\.deviceType) private var deviceType
+
+    init(_ id: UUID) {
+        self.id = id
+    }
+
+    func body(content: Content) -> some View {
+        if deviceType == .pad {
+            if #available(iOS 18, *) {
+                content
+            } else {
+                content.id(id)
+            }
+        } else {
+            content
+        }
+    }
+}
+
 extension SearchFieldPlacement {
     static let drawerOrToolbar: SearchFieldPlacement = {
         #if os(macOS)
@@ -77,7 +106,7 @@ extension Image {
         #if os(macOS)
             self.init(nsImage: NSImage(named: appIcon) ?? NSImage())
         #else
-            self.init(uiImage: UIImage(named: appIcon)!)
+            self.init(uiImage: UIImage(named: appIcon) ?? UIImage(systemName: "app")!)
         #endif
     }
 }

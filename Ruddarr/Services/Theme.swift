@@ -17,16 +17,16 @@ enum Theme: String, Identifiable, CaseIterable {
 
     var id: Self { self }
 
-    var label: LocalizedStringKey {
+    var label: String {
         switch self {
-        case .blue: "Mail"
-        case .purple: "Podcasts"
-        case .green: "Fitness"
-        case .red: "Music"
-        case .orange: "Watch"
-        case .yellow: "Notes"
-        case .mono: "Books"
-        case .barbie: "Barbie"
+        case .blue: String(localized: "Mail", comment: "Localized name of Apple's Mail app")
+        case .purple: String(localized: "Podcasts", comment: "Localized name of Apple's Podcasts app")
+        case .green: String(localized: "Fitness", comment: "Localized name of Apple's Fitness app")
+        case .red: String(localized: "Music", comment: "Localized name of Apple's Music app")
+        case .orange: String(localized: "Watch", comment: "Localized name of Apple's Watch app")
+        case .yellow: String(localized: "Notes", comment: "Localized name of Apple's Notes app")
+        case .mono: String(localized: "Books", comment: "Localized name of Apple's Books app")
+        case .barbie: String(localized: "Barbie")
         case .brown: "Prologue"
         }
     }
@@ -108,7 +108,7 @@ enum AppIcon: String, Identifiable, CaseIterable {
 }
 
 struct AppIconData {
-    var label: LocalizedStringKey
+    var label: String
     var asset: String
     var locked: Bool
 
@@ -117,42 +117,42 @@ struct AppIconData {
     }
 
     static var factory: Self {
-        .init(label: "Default", asset: "AppIcon", locked: false)
+        .init(label: "Default", asset: "AppIconPreviewDefault", locked: false)
     }
 
     static var podcasts: Self {
-        .init(label: "Podcasts", asset: "AppIconPodcasts", locked: false)
+        .init(label: String(localized: "Podcasts"), asset: "AppIconPreviewPodcasts", locked: false)
     }
 
     static var music: Self {
-        .init(label: "Music", asset: "AppIconMusic", locked: false)
+        .init(label: String(localized: "Music"), asset: "AppIconPreviewMusic", locked: false)
     }
 
     static var books: Self {
-        .init(label: "Books", asset: "AppIconBooks", locked: false)
+        .init(label: String(localized: "Books"), asset: "AppIconPreviewBooks", locked: false)
     }
 
     static var mono: Self {
-        .init(label: "Monochrome", asset: "AppIconMono", locked: true)
+        .init(label: String(localized: "Monochrome", comment: "Name of the 'Monochrome' theme"), asset: "AppIconPreviewMono", locked: true)
     }
 
     static var barbie: Self {
-        .init(label: "Barbie", asset: "AppIconBarbie", locked: true)
+        .init(label: String(localized: "Barbie"), asset: "AppIconPreviewBarbie", locked: true)
     }
 
     static var plex: Self {
-        .init(label: "Plex", asset: "AppIconPlex", locked: true)
+        .init(label: "Plex", asset: "AppIconPreviewPlex", locked: true)
     }
 
     static var telegram: Self {
-        .init(label: "Telegram", asset: "AppIconTelegram", locked: true)
+        .init(label: "Telegram", asset: "AppIconPreviewTelegram", locked: true)
     }
 
     static var warp: Self {
-        .init(label: "Warp", asset: "AppIconWarp", locked: true)
+        .init(label: "Warp", asset: "AppIconPreviewWarp", locked: true)
     }
 
     static var atp: Self {
-        .init(label: "ATP", asset: "AppIconATP", locked: true)
+        .init(label: "ATP", asset: "AppIconPreviewATP", locked: true)
     }
 }

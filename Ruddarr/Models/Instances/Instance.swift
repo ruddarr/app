@@ -44,7 +44,7 @@ struct Instance: Identifiable, Equatable, Codable {
         switch call {
         case .normal: 10
         case .slow: mode == .large ? 300 : 10
-        case .releaseSearch: mode == .large ? 120 : 60
+        case .releaseSearch: mode == .large ? 180 : 60
         case .releaseDownload: 15
         }
     }
@@ -100,6 +100,40 @@ struct InstanceRootFolders: Identifiable, Equatable, Codable {
 struct InstanceQualityProfile: Identifiable, Equatable, Codable {
     let id: Int
     let name: String
+}
+
+struct DownloadReleaseCommand: Codable {
+    let guid: String
+    let indexerId: Int
+
+    // Radarr
+    var movieId: Int?
+
+    // Sonarr (season)
+    var seriesId: Int?
+    var seasonNumber: Int?
+
+    // Sonarr (episode)
+    var episodeId: Int?
+
+    init(guid: String, indexerId: Int, movieId: Int?) {
+        self.guid = guid
+        self.indexerId = indexerId
+        self.movieId = movieId
+    }
+
+    init(guid: String, indexerId: Int, seriesId: Int?, seasonId: Int?) {
+        self.guid = guid
+        self.indexerId = indexerId
+        self.seriesId = seriesId
+        self.seasonNumber = seasonId
+    }
+
+    init(guid: String, indexerId: Int, episodeId: Int?) {
+        self.guid = guid
+        self.indexerId = indexerId
+        self.episodeId = episodeId
+    }
 }
 
 enum RadarrCommand {

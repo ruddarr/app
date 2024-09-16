@@ -37,9 +37,9 @@ struct SeriesSort: Hashable {
             case .bySize:
                 lhs.statistics?.sizeOnDisk ?? 0 < rhs.statistics?.sizeOnDisk ?? 0
             case .byNextAiring:
-                lhs.nextAiring?.timeIntervalSince1970 ?? 0 < rhs.nextAiring?.timeIntervalSince1970 ?? 0
+                lhs.nextAiring ?? Date.distantFuture > rhs.nextAiring ?? Date.distantFuture
             case .byPreviousAiring:
-                lhs.previousAiring?.timeIntervalSince1970 ?? 0 < rhs.previousAiring?.timeIntervalSince1970 ?? 0
+                lhs.previousAiring ?? Date.distantPast < rhs.previousAiring ?? Date.distantPast
             }
         }
     }
@@ -92,8 +92,7 @@ extension SeriesSort: RawRepresentable {
     public init?(rawValue: String) {
         do {
             let compat = rawValue.replacingOccurrences(of: "byAiring", with: "byNextAiring")
-            guard let data = compat.data(using: .utf8)
-            else { return nil }
+            guard let data = compat.data(using: .utf8) else { return nil }
             let result = try JSONDecoder().decode(SeriesSort.self, from: data)
             self = result
         } catch {
@@ -123,6 +122,7 @@ extension SeriesSort: Codable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+
         try self.init(
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),

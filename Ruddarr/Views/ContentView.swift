@@ -44,6 +44,10 @@ struct ContentView: View {
         .displayToasts()
         .whatsNewSheet()
         .onAppear {
+            if !isRunningIn(.preview) {
+                dependencies.router.selectedTab = settings.tab
+            }
+
             isPortrait = UIDevice.current.orientation.isPortrait
             columnVisibility = isPortrait ? .automatic : .doubleColumn
         }
@@ -59,11 +63,19 @@ struct ContentView: View {
                 screen(for: tab)
                     .tint(settings.theme.tint) // restore tint for view
                     .tabItem { tab.label }
+                    .badge(tab == .activity ? Queue.shared.badgeCount : 0)
                     .displayToasts()
                     .tag(tab)
             }
         }
         .tint(.clear) // hide selected `tabItem` tint
+        .onAppear {
+            if !isRunningIn(.preview) {
+                dependencies.router.selectedTab = settings.tab
+            }
+
+            UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
+        }
         .overlay(alignment: .bottom) { // the default `tabItem`s are hidden, display our own
             let columns: [GridItem] = Array(repeating: .init(.flexible()), count: Tab.allCases.count)
 
@@ -122,6 +134,8 @@ struct ContentView: View {
             MoviesView()
         case .series:
             SeriesView()
+        case .activity:
+            ActivityView()
         case .calendar:
             CalendarView()
         case .settings:
@@ -140,7 +154,11 @@ struct ContentView: View {
 
             columnVisibility = isPortrait ? .automatic : .doubleColumn
         } label: {
-            tab.row
+            if tab == .activity {
+                tab.row.badge(Queue.shared.badgeCount).padding(.trailing, 6)
+            } else {
+                tab.row
+            }
         }
     }
 
@@ -179,6 +197,8 @@ struct ContentView: View {
             dependencies.router.seriesPath.isEmpty
                 ? dependencies.router.seriesScroll.send()
                 : (dependencies.router.seriesPath = .init())
+        case .activity:
+            break
         case .calendar:
             dependencies.router.calendarScroll.send()
         case .settings:

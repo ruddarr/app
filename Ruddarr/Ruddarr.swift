@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreSpotlight
 
 @main
 struct Ruddarr: App {
@@ -22,6 +23,7 @@ struct Ruddarr: App {
                 ContentView()
                     .withAppState()
                     .onOpenURL(perform: openDeeplink)
+                    .onContinueUserActivity(CSSearchableItemActionType, perform: openSearchableItem)
             }
             .defaultSize(width: 1_280, height: 768)
             .windowResizability(.contentSize)
@@ -30,6 +32,7 @@ struct Ruddarr: App {
                 ContentView()
                     .withAppState()
                     .onOpenURL(perform: openDeeplink)
+                    .onContinueUserActivity(CSSearchableItemActionType, perform: openSearchableItem)
             }
         #endif
     }
@@ -39,6 +42,18 @@ struct Ruddarr: App {
             try QuickActions.Deeplink(url: url)()
         } catch {
             dependencies.toast.show(.error(error.localizedDescription))
+        }
+    }
+
+    func openSearchableItem(_ userActivity: NSUserActivity) {
+        guard let identifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else { return }
+
+        let parts = identifier.split(separator: ":").map(String.init) // `movie:<id>:<instance>`
+
+        switch parts[0] {
+        case "movie": openDeeplink(url: URL(string: "ruddarr://movies/open/\(parts[1])?instance=\(parts[2])")!)
+        case "series": openDeeplink(url: URL(string: "ruddarr://series/open/\(parts[1])?instance=\(parts[2])")!)
+        default: leaveBreadcrumb(.error, category: "spotlight", message: "Invalid identifier", data: ["openSearchableItem": identifier])
         }
     }
 }
@@ -59,23 +74,23 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static var version: String = "1.1.0"
+    static var version: String = "1.2.0"
 
     static var features: [WhatsNewFeature] = [
         .init(
-            image: "tv",
-            title: "Sonarr Support",
-            subtitle: "Monitor and manage TV Series, seasons and episodes. Works best with Sonarr v4."
+            image: "waveform.path.ecg",
+            title: "Queue Support",
+            subtitle: "Keep an eye on your tasks queues across all instance in the new Activity tab."
         ),
         .init(
-            image: "line.3.horizontal.decrease",
-            title: "Filter by Original Language",
-            subtitle: "Releases can now be filtered by language when browsing interactive search results."
+            image: "sparkle.magnifyingglass",
+            title: "Spotlight Integration",
+            subtitle: "All movies and TV series are automatically indexed and searchable in Spotlight."
         ),
         .init(
             image: "ant",
             title: "Fixes & Improvements",
-            subtitle: "Tuned, fixed and polished dozens of parts, everything is a little better than before."
+            subtitle: "Over 30 other improvements and fixes, everything is a little better than before."
         ),
     ]
 }

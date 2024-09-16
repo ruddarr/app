@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import AppIntents
 
 @Observable
 final class Router {
@@ -26,19 +27,28 @@ final class Router {
     }
 }
 
-enum Tab: Hashable, CaseIterable, Identifiable {
+enum Tab: String, Hashable, CaseIterable, Identifiable {
     var id: Self { self }
 
     case movies
     case series
     case calendar
+    case activity
     case settings
+
+    enum Openable: String {
+        case movies
+        case series
+        case calendar
+        case activity
+    }
 
     var text: LocalizedStringKey {
         switch self {
         case .movies: "Movies"
         case .series: "Series"
         case .calendar: "Calendar"
+        case .activity: "Activity"
         case .settings: "Settings"
         }
     }
@@ -48,6 +58,7 @@ enum Tab: Hashable, CaseIterable, Identifiable {
         case .movies: "film"
         case .series: "tv"
         case .calendar: "calendar"
+        case .activity: "waveform.path.ecg"
         case .settings: "gear"
         }
     }
@@ -93,6 +104,12 @@ enum Tab: Hashable, CaseIterable, Identifiable {
 
                 Text(text).font(.system(size: 10, weight: .semibold))
                     .frame(height: 15).padding(.top, 8)
+            case .activity:
+                Image(systemName: icon).font(.system(size: 23))
+                    .frame(height: 15)
+
+                Text(text).font(.system(size: 10, weight: .semibold))
+                    .frame(height: 15).padding(.top, 8)
             case .settings:
                 Image(systemName: icon).font(.system(size: 23))
                     .frame(height: 15)
@@ -104,4 +121,40 @@ enum Tab: Hashable, CaseIterable, Identifiable {
         }
         .frame(height: 50)
     }
+}
+
+extension Tab.Openable: AppEnum {
+    var tab: Tab {
+        switch self {
+        case .movies: .movies
+        case .series: .series
+        case .calendar: .calendar
+        case .activity: .activity
+        }
+    }
+
+    static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Tab")
+
+    static var caseDisplayRepresentations: [Tab.Openable: DisplayRepresentation] {[
+        .movies: DisplayRepresentation(
+            title: "Movies",
+            subtitle: nil,
+            image: DisplayRepresentation.Image(systemName: "film")
+        ),
+        .series: DisplayRepresentation(
+            title: "Series",
+            subtitle: nil,
+            image: DisplayRepresentation.Image(systemName: "tv")
+        ),
+        .calendar: DisplayRepresentation(
+            title: "Calendar",
+            subtitle: nil,
+            image: DisplayRepresentation.Image(systemName: "calendar")
+        ),
+        .activity: DisplayRepresentation(
+            title: "Activity",
+            subtitle: nil,
+            image: DisplayRepresentation.Image(systemName: "waveform.path.ecg")
+        ),
+    ]}
 }

@@ -22,8 +22,8 @@ class SeriesModel {
         case add(Series)
         case push(Series)
         case update(Series, Bool)
-        case delete(Series)
-        case download(String, Int)
+        case delete(Series, Bool)
+        case download(String, Int, Int?, Int?, Int?)
         case command(SonarrCommand)
     }
 
@@ -38,7 +38,7 @@ class SeriesModel {
 
         if !query.isEmpty {
             cachedItems = cachedItems.filter { series in
-                series.sortTitle.localizedCaseInsensitiveContains(query) ||
+                series.title.localizedCaseInsensitiveContains(query) ||
                 series.network?.localizedCaseInsensitiveContains(query) ?? false ||
                 alternateTitles[series.id]?.localizedCaseInsensitiveContains(query) ?? false
             }
@@ -102,12 +102,12 @@ class SeriesModel {
         await request(.update(series, moveFiles))
     }
 
-    func delete(_ series: Series) async -> Bool {
-        await request(.delete(series))
+    func delete(_ series: Series, addExclusion: Bool = false) async -> Bool {
+        await request(.delete(series, addExclusion))
     }
 
-    func download(guid: String, indexerId: Int) async -> Bool {
-        await request(.download(guid, indexerId))
+    func download(guid: String, indexerId: Int, seriesId: Int?, seasonId: Int?, episodeId: Int?) async -> Bool {
+        await request(.download(guid, indexerId, seriesId, seasonId, episodeId))
     }
 
     func command(_ command: SonarrCommand) async -> Bool {
@@ -144,13 +144,16 @@ class SeriesModel {
         return error == nil
     }
 
+    @MainActor
     private func performOperation(_ operation: Operation) async throws {
         switch operation {
         case .fetch:
             items = try await dependencies.api.fetchSeries(instance)
             itemsCount = items.count
-            leaveBreadcrumb(.info, category: "series", message: "Fetched series", data: ["count": items.count])
+            Spotlight.of(instance).indexSeries(items)
             computeAlternateTitles()
+
+            leaveBreadcrumb(.info, category: "series", message: "Fetched series", data: ["count": items.count])
 
         case .get(let series):
             if let index = items.firstIndex(where: { $0.id == series.id }) {
@@ -170,12 +173,15 @@ class SeriesModel {
         case .update(let series, let moveFiles):
             _ = try await dependencies.api.updateSeries(series, moveFiles, instance)
 
-        case .delete(let series):
-            _ = try await dependencies.api.deleteSeries(series, instance)
+        case .delete(let series, let addExclusion):
+            _ = try await dependencies.api.deleteSeries(series, addExclusion, instance)
             items.removeAll(where: { $0.guid == series.guid })
 
-        case .download(let guid, let indexerId):
-            _ = try await dependencies.api.downloadRelease(guid, indexerId, instance)
+        case .download(let guid, let indexerId, let seriesId, let seasonId, let episodeId):
+            let payload = episodeId == nil
+                ? DownloadReleaseCommand(guid: guid, indexerId: indexerId, seriesId: seriesId, seasonId: seasonId)
+                : DownloadReleaseCommand(guid: guid, indexerId: indexerId, episodeId: episodeId)
+            _ = try await dependencies.api.downloadRelease(payload, instance)
 
         case .command(let command):
             _ = try await dependencies.api.sonarrCommand(command, instance)

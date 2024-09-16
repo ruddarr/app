@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryClient
 
 struct EpisodeRow: View {
     var episode: Episode
@@ -26,10 +25,13 @@ struct EpisodeRow: View {
                 }
 
                 HStack(spacing: 6) {
-                    Text(episode.statusLabel)
-                        .foregroundStyle(
-                            episodeIsMissing ? .red : .secondary
-                        )
+                    if let file = episodeFile {
+                        Text(file.quality.quality.normalizedName)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Text(episode.statusLabel)
+                            .foregroundStyle(episodeIsMissing ? .red : .secondary)
+                    }
 
                     Bullet()
 
@@ -58,6 +60,10 @@ struct EpisodeRow: View {
         series.seasonById(episode.seasonNumber)!
     }
 
+    var episodeFile: MediaFile? {
+        instance.files.items.first(where: { $0.id == episode.episodeFileId })
+    }
+
     var episodeIsMissing: Bool {
         episode.isMissing && series.monitored && season.monitored
     }
@@ -76,7 +82,7 @@ struct EpisodeRow: View {
         }
         .buttonStyle(.plain)
         .overlay(Rectangle().padding(18))
-        .allowsHitTesting(instance.episodes.isMonitoring != episode.id)
+        .allowsHitTesting(instance.episodes.isMonitoring != 0)
         .disabled(!series.monitored)
     }
 

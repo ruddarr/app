@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct SeasonView: View {
     @Binding var series: Series
@@ -36,6 +36,14 @@ struct SeasonView: View {
             error: instance.episodes.error
         ) { _ in
             Button("OK") { instance.episodes.error = nil }
+        } message: { error in
+            Text(error.recoverySuggestionFallback)
+        }
+        .alert(
+            isPresented: instance.files.errorBinding,
+            error: instance.files.error
+        ) { _ in
+            Button("OK") { instance.files.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
@@ -127,8 +135,12 @@ struct SeasonView: View {
 
     var episodesList: some View {
         Section {
-            if instance.episodes.isFetching {
-                ProgressView().tint(.secondary)
+            if instance.episodes.isFetching || instance.files.isFetching {
+                HStack {
+                    Spacer()
+                    ProgressView().tint(.secondary)
+                    Spacer()
+                }
             } else {
                 VStack(spacing: 12) {
                     ForEach(episodes) { episode in
@@ -161,7 +173,7 @@ struct SeasonView: View {
             .buttonStyle(.plain)
             .allowsHitTesting(!instance.series.isWorking)
             .disabled(!series.monitored)
-            .id(UUID())
+            .toolbarIdFix(UUID())
         }
     }
 }
@@ -198,7 +210,8 @@ extension SeasonView {
 
         dependencies.toast.show(.seasonSearchQueued)
 
-        TelemetryManager.send("automaticSearchDispatched", with: ["type": "season"])
+        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "season"])
+        maybeAskForReview()
     }
 }
 

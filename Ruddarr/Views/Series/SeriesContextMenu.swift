@@ -1,18 +1,43 @@
 import SwiftUI
+import TelemetryDeck
 
 struct SeriesContextMenu: View {
     var series: Series
+    @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
         link(name: "Trakt", url: traktUrl)
         link(name: "IMDb", url: imdbUrl)
         link(name: "TVDB", url: tvdbUrl)
+
+        if let callsheetUrl = callsheet {
+            link(name: "Callsheet", url: callsheetUrl)
+        }
+
+        Divider()
+
+        if series.monitored {
+            Button("Search Monitored", systemImage: "magnifyingglass") {
+                Task { await dispatchSearch() }
+            }
+        }
     }
 
     func link(name: String, url: String) -> some View {
         Link(destination: URL(string: url)!, label: {
             Label("Open in \(name)", systemImage: "arrow.up.right.square")
         })
+    }
+
+    @MainActor
+    func dispatchSearch() async {
+        guard await instance.series.command(.seriesSearch(series.id)) else {
+            return
+        }
+
+        dependencies.toast.show(.monitoredSearchQueued)
+
+        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
     }
 
     var encodedTitle: String {
@@ -45,5 +70,19 @@ struct SeriesContextMenu: View {
         }
 
         return "https://www.imdb.com/find/?s=tt&q=\(encodedTitle)"
+    }
+
+    var callsheet: String? {
+        #if os(iOS)
+        if let tmdbId = series.tmdbId {
+            let url = "callsheet://open/tv/\(tmdbId)"
+
+            if UIApplication.shared.canOpenURL(URL(string: url)!) {
+                return url
+            }
+        }
+        #endif
+
+        return nil
     }
 }

@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct MoviePreviewView: View {
     @State var movie: Movie
@@ -8,8 +8,10 @@ struct MoviePreviewView: View {
 
     @Environment(RadarrInstance.self) private var instance
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.deviceType) private var deviceType
 
     @AppStorage("movieSort", store: dependencies.store) var movieSort: MovieSort = .init()
+    @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
 
     var body: some View {
         ScrollView {
@@ -30,7 +32,7 @@ struct MoviePreviewView: View {
                         toolbarSaveButton
                     }
             }
-            .presentationDetents([.medium])
+            .presentationDetents([deviceType == .phone ? .medium : .large])
         }
         .alert(
             isPresented: instance.movies.errorBinding,
@@ -56,7 +58,7 @@ struct MoviePreviewView: View {
         ToolbarItem(placement: .primaryAction) {
             Button("Add Movie") {
                 presentingForm = true
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 
@@ -77,6 +79,8 @@ struct MoviePreviewView: View {
 
     @MainActor
     func addMovie() async {
+        movieDefaults = .init(from: movie)
+
         guard await instance.movies.add(movie) else {
             leaveBreadcrumb(.error, category: "view.movie.preview", message: "Failed to add movie", data: ["error": instance.movies.error ?? ""])
 
@@ -84,23 +88,24 @@ struct MoviePreviewView: View {
         }
 
         guard let addedMovie = instance.movies.byTmdbId(movie.tmdbId) else {
-            fatalError("Failed to locate added movie by tmdbId")
+            fatalError("Failed to locate added movie by TMDB id")
         }
 
         #if os(iOS)
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         #endif
 
-        instance.lookup.reset()
         presentingForm = false
+
+        instance.lookup.reset()
         movieSort.filter = .all
 
         let moviePath = MoviesPath.movie(addedMovie.id)
-
-        dependencies.router.moviesPath.removeLast(dependencies.router.moviesPath.count)
+        dependencies.router.moviesPath.removeLast()
         dependencies.router.moviesPath.append(moviePath)
 
-        TelemetryManager.send("movieAdded")
+        TelemetryDeck.signal("movieAdded")
+        maybeAskForReview()
     }
 }
 

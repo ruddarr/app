@@ -3,7 +3,6 @@ import SwiftUI
 @Observable
 class MediaCalendar {
     var instances: [Instance] = []
-    var series: [Series.ID: Series] = [:]
     var dates: [TimeInterval] = []
 
     var movies: [TimeInterval: [Movie]] = [:]
@@ -17,27 +16,17 @@ class MediaCalendar {
 
     let calendar: Calendar = Calendar.current
 
-    let futureCutoff: TimeInterval = {
-        Date().timeIntervalSince1970 + (365 * 86_400)
-    }()
-
-    let loadingOffset: Int = {
-        Platform.deviceType() == .phone ? 7 : 14
-    }()
+    let days: Int = 45
 
     @MainActor
-    func initialize() async {
+    func load() async {
         if isLoading {
             return
         }
 
         isLoading = true
 
-        await fetch(
-            start: addDays(-60, Date.now),
-            end: addDays(60, Date.now),
-            initial: true
-        )
+        await fetch(start: addDays(-days, Date.now), end: addDays(days, Date.now))
 
         isLoading = false
     }
@@ -46,12 +35,13 @@ class MediaCalendar {
         isLoadingFuture = true
 
         let date = Date(timeIntervalSince1970: timestamp)
-        await fetch(start: date, end: addDays(60, date))
+        await fetch(start: date, end: addDays(days, date))
 
         isLoadingFuture = false
     }
 
-    func fetch(start: Date, end: Date, initial: Bool = false) async {
+    @MainActor
+    private func fetch(start: Date, end: Date) async {
         error = nil
 
         let start = calendar.startOfDay(for: start)
@@ -63,7 +53,6 @@ class MediaCalendar {
             }
 
             for instance in instances where instance.type == .sonarr {
-                try await fetchSeries(instance)
                 try await fetchEpisodes(instance, start, end)
             }
 
@@ -102,9 +91,7 @@ class MediaCalendar {
     func fetchMovies(_ instance: Instance, _ start: Date, _ end: Date) async throws {
         let movies = try await dependencies.api.movieCalendar(start, end, instance)
 
-        for var movie in movies {
-            movie.instanceId = instance.id
-
+        for movie in movies {
             if let digitalRelease = movie.digitalRelease {
                 maybeInsertMovie(movie, digitalRelease)
             }
@@ -133,20 +120,10 @@ class MediaCalendar {
         movies[day]!.append(movie)
     }
 
-    func fetchSeries(_ instance: Instance) async throws {
-        let series = try await dependencies.api.fetchSeries(instance)
-
-        for item in series {
-            self.series[item.id] = item
-        }
-    }
-
     func fetchEpisodes(_ instance: Instance, _ start: Date, _ end: Date) async throws {
         let episodes = try await dependencies.api.episodeCalendar(start, end, instance)
 
-        for var episode in episodes {
-            episode.instanceId = instance.id
-
+        for episode in episodes {
             if let airDate = episode.airDateUtc {
                 maybeInsertEpisode(episode, airDate)
             }
@@ -181,27 +158,35 @@ class MediaCalendar {
         }
     }
 
-    func maybeLoadMoreDates(_ scrollPosition: TimeInterval?) {
-        if isLoadingFuture || dates.isEmpty {
-            return
-        }
+    // let futureCutoff: TimeInterval = {
+    //     Date().timeIntervalSince1970 + (365 * 86_400)
+    // }()
 
-        guard let timestamp = scrollPosition, timestamp < futureCutoff else {
-            return
-        }
+    // let loadingOffset: Int = {
+    //     Platform.deviceType() == .phone ? 7 : 14
+    // }()
 
-        let threshold = dates.count - loadingOffset
-
-        if !dates.indices.contains(threshold) {
-            return
-        }
-
-        if timestamp > dates[threshold] {
-            Task {
-                await loadFutureDates(dates.last!)
-            }
-        }
-    }
+    // func maybeLoadMoreDates(_ scrollPosition: TimeInterval?) {
+    //     if isLoadingFuture || dates.isEmpty {
+    //         return
+    //     }
+    //
+    //     guard let timestamp = scrollPosition, timestamp < futureCutoff else {
+    //         return
+    //     }
+    //
+    //     let threshold = dates.count - loadingOffset
+    //
+    //     if !dates.indices.contains(threshold) {
+    //         return
+    //     }
+    //
+    //     if timestamp > dates[threshold] {
+    //         Task {
+    //             await loadFutureDates(dates.last!)
+    //         }
+    //     }
+    // }
 }
 
 enum RelativeDate {

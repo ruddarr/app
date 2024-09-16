@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct MovieView: View {
     @Binding var movie: Movie
@@ -34,12 +34,11 @@ struct MovieView: View {
             "Are you sure?",
             isPresented: $showDeleteConfirmation
         ) {
-            Button("Delete Movie", role: .destructive) {
-                Task { await deleteMovie() }
-            }
+            Button("Delete Movie", role: .destructive) { Task { await deleteMovie() } }
+            Button("Delete and Exclude", role: .destructive) { Task { await deleteMovie(exclude: true) } }
             Button("Cancel", role: .cancel) { }
         } message: {
-            Text("This will delete the movie and permanently erase its folder and its contents.")
+            Text("This will remove the movie and permanently erase its folder and its contents.")
         }
     }
 
@@ -53,7 +52,7 @@ struct MovieView: View {
             }
             .buttonStyle(.plain)
             .allowsHitTesting(!instance.movies.isWorking)
-            .id(UUID())
+            .toolbarIdFix(UUID())
         }
     }
 
@@ -74,7 +73,7 @@ struct MovieView: View {
             } label: {
                 ToolbarActionButton()
             }
-            .id(UUID())
+            .toolbarIdFix(UUID())
         }
     }
 
@@ -149,12 +148,13 @@ extension MovieView {
 
         dependencies.toast.show(.movieSearchQueued)
 
-        TelemetryManager.send("automaticSearchDispatched", with: ["type": "movie"])
+        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "movie"])
+        maybeAskForReview()
     }
 
     @MainActor
-    func deleteMovie() async {
-        _ = await instance.movies.delete(movie)
+    func deleteMovie(exclude: Bool = false) async {
+        _ = await instance.movies.delete(movie, addExclusion: exclude)
 
         if !dependencies.router.moviesPath.isEmpty {
             dependencies.router.moviesPath.removeLast()

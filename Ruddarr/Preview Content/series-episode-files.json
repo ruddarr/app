@@ -128,7 +128,7 @@
         "customFormats": [],
         "customFormatScore": 0,
         "indexerFlags": 0,
-        "releaseType": "unknown",
+        "releaseType": 0,
         "mediaInfo": {
             "audioBitrate": 1536000,
             "audioChannels": 5.1,
@@ -228,7 +228,7 @@
         "customFormats": [],
         "customFormatScore": 0,
         "indexerFlags": 0,
-        "releaseType": "unknown",
+        "releaseType": 0,
         "mediaInfo": {
             "audioBitrate": 1536000,
             "audioChannels": 5.1,

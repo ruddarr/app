@@ -1,13 +1,13 @@
 {
-  "originHash" : "8574a4882e0d4cb4fa84e38fc6d560ec3bc8d9b8b608c925f92ed3150eb204b6",
+  "originHash" : "f8a84818498fded773a093d0d76f932848a72bdc678d7cd447609c169fc85520",
   "pins" : [
     {
       "identity" : "cloudstorage",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nonstrict-hq/CloudStorage.git",
       "state" : {
-        "revision" : "35700218d35579df091974b6e7765db94c83448b",
-        "version" : "0.4.0"
+        "revision" : "766a589bd1347dbf9c0f658dd6f35e82ba445392",
+        "version" : "0.5.0"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kean/Nuke",
       "state" : {
-        "revision" : "7395c7a9dcd390bbcfad17a731d8d529602702c6",
-        "version" : "12.7.0"
+        "revision" : "0ead44350d2737db384908569c012fe67c421e4d",
+        "version" : "12.8.0"
       }
     },
     {
@@ -24,17 +24,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa.git",
       "state" : {
-        "revision" : "7fc7ca43967e2980d8691a8e017c118a84133aac",
-        "version" : "8.26.0"
+        "revision" : "5575af93efb776414f243e93d6af9f6258dc539a",
+        "version" : "8.36.0"
       }
     },
     {
-      "identity" : "swiftclient",
+      "identity" : "swiftsdk",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/TelemetryDeck/SwiftClient",
+      "location" : "https://github.com/TelemetryDeck/SwiftSDK",
       "state" : {
-        "revision" : "d20ccc4b8266cf739eede58cdfc7e9c6ffb41cda",
-        "version" : "1.5.1"
+        "revision" : "13a26cf125b70d695913eb9bea9f9b9c29da5790",
+        "version" : "2.3.0"
       }
     }
   ],

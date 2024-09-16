@@ -3,8 +3,8 @@ import SwiftUI
 struct CalendarView: View {
     @State var calendar = MediaCalendar()
 
-    @State private var initialized: Bool = false
     @State private var scrollView: ScrollViewProxy?
+    @State private var initializationError: API.Error?
 
     @State private var onlyMonitored: Bool = false
     @State private var onlyPremieres: Bool = false
@@ -23,8 +23,8 @@ struct CalendarView: View {
         // swiftlint:disable closure_body_length
         NavigationStack(path: dependencies.$router.calendarPath) {
             Group {
-                if onlyVoidInstances {
-                    NoInstance(type: "Radarr")
+                if settings.configuredInstances.isEmpty {
+                    NoInstance()
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
@@ -77,10 +77,7 @@ struct CalendarView: View {
                 }
             }
             .task {
-                guard !initialized else { return }
-                await calendar.initialize()
-                initialized = (calendar.error == nil)
-                scrollTo(calendar.today())
+                await load()
             }
             .alert(
                 isPresented: calendar.errorBinding,
@@ -93,9 +90,9 @@ struct CalendarView: View {
             .overlay {
                 if notConnectedToInternet {
                     NoInternet()
-                } else if initialLoading {
+                } else if calendar.isLoading && calendar.dates.isEmpty {
                     Loading()
-                } else if initialLoadingFailed {
+                } else if initializationError != nil {
                     contentUnavailable
                 }
             }
@@ -109,16 +106,6 @@ struct CalendarView: View {
         return false
     }
 
-    var initialLoading: Bool {
-        if !calendar.dates.isEmpty { return false }
-        return calendar.isLoading
-    }
-
-    var initialLoadingFailed: Bool {
-        if !calendar.dates.isEmpty { return false }
-        return calendar.error != nil
-    }
-
     var displayMovies: Bool {
         [.all, .movies].contains(displayedMediaType)
     }
@@ -127,8 +114,24 @@ struct CalendarView: View {
         [.all, .series].contains(displayedMediaType)
     }
 
-    var onlyVoidInstances: Bool {
-        !settings.instances.contains { $0 != .radarrVoid && $0 != .sonarrVoid }
+    func load(force: Bool = false) async {
+        let lastFetch = Occurrence.since("calendarFetch")
+
+        if !force && !calendar.dates.isEmpty && lastFetch < 10 {
+            return
+        }
+
+        await calendar.load()
+
+        if calendar.dates.isEmpty {
+            initializationError = calendar.error
+        }
+
+        Occurrence.occurred("calendarFetch")
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            scrollTo(calendar.today())
+        }
     }
 
     func scrollTo(_ timestamp: TimeInterval) {
@@ -147,13 +150,10 @@ struct CalendarView: View {
 
             if displaySeries, let episodes = calendar.episodes[timestamp] {
                 ForEach(episodes) { episode in
-                    let series: String = calendar.series[episode.seriesId]?.title
-                        ?? String(localized: "Unknown")
-
                     if (!onlyMonitored || episode.monitored) &&
                        (!onlyPremieres || episode.isPremiere)
                     {
-                        CalendarEpisode(episode: episode, seriesTitle: series)
+                        CalendarEpisode(episode: episode)
                     }
                 }
             }
@@ -169,7 +169,7 @@ struct CalendarView: View {
                 withAnimation(.smooth) {
                     scrollTo(calendar.today())
                 }
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 
@@ -177,10 +177,10 @@ struct CalendarView: View {
         ContentUnavailableView {
             Label("Connection Failure", systemImage: "exclamationmark.triangle")
         } description: {
-            Text(calendar.error?.recoverySuggestionFallback ?? "")
+            Text(initializationError?.recoverySuggestionFallback ?? "")
         } actions: {
             Button("Retry") {
-                Task { await calendar.initialize() }
+                Task { await load(force: true) }
             }
         }
     }
@@ -210,7 +210,7 @@ struct CalendarView: View {
                 } else {
                     Image(systemName: "line.3.horizontal.decrease")
                 }
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 }

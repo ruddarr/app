@@ -11,7 +11,7 @@ class Notifications {
 
     private let center: UNUserNotificationCenter
 
-    init() {
+    private init() {
         center = UNUserNotificationCenter.current()
     }
 
@@ -64,8 +64,8 @@ class Notifications {
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = try JSONSerialization.data(withJSONObject: payload)
 
-            guard [.appstore, .testflight].contains(environment()) else {
-                leaveBreadcrumb(.info, category: "notifications", message: "Skip device token registration in \(environmentName())")
+            guard [.appstore, .testflight].contains(runningIn()) else {
+                leaveBreadcrumb(.info, category: "notifications", message: "Skip device token registration in \(runningIn().rawValue)")
 
                 return
             }
@@ -88,20 +88,14 @@ class Notifications {
     }
 
     func maybeUpdateWebhooks(_ settings: AppSettings) {
-        let instances = settings.instances
+        Task.detached { [settings] in
+            let instances = await settings.instances
 
-        let updateNeeded = instances.map {
-            Occurrence.hoursSince("webhookUpdated:\($0.id)") >= 24
-        }.contains(true)
+            let updateNeeded = instances.map {
+                Occurrence.hoursSince("webhookUpdated:\($0.id)") >= 24
+            }.contains(true)
 
-        if !updateNeeded {
-            return
-        }
-
-        Task.detached { [instances] in
-            let notificationStatus = await Notifications.shared.authorizationStatus()
-
-            if ![.authorized, .provisional].contains(notificationStatus) {
+            if !updateNeeded {
                 return
             }
 

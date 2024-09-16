@@ -2,9 +2,8 @@ import SwiftUI
 import Combine
 
 struct MovieSearchView: View {
-    @State var searchQuery = ""
-
-    @State private var presentingSearch = true
+    @State var searchQuery: String
+    @State private var searchPresented: Bool = true
 
     @Environment(RadarrInstance.self) private var instance
 
@@ -35,10 +34,11 @@ struct MovieSearchView: View {
         .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,
-            isPresented: $presentingSearch,
+            isPresented: $searchPresented,
             placement: .drawerOrToolbar
         )
         .disabled(instance.isVoid)
+        .autocorrectionDisabled(true)
         .searchScopes($movieLookup.sort) {
             ForEach(MovieLookup.SortOption.allCases) { option in
                 Text(option.label)
@@ -49,7 +49,7 @@ struct MovieSearchView: View {
         }
         .onChange(of: searchQuery, initial: true, handleSearchQueryChange)
         .onReceive(
-            searchTextPublisher.throttle(for: .milliseconds(750), scheduler: DispatchQueue.main, latest: true)
+            searchTextPublisher.debounce(for: .milliseconds(250), scheduler: DispatchQueue.main)
         ) { _ in
             performSearch()
         }
@@ -64,7 +64,7 @@ struct MovieSearchView: View {
         .overlay {
             if instance.lookup.isSearching && instance.lookup.isEmpty() {
                 Loading()
-            } else if !instance.lookup.isSearching && !searchQuery.isEmpty && instance.lookup.isEmpty() {
+            } else if instance.lookup.noResults(searchQuery) {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }

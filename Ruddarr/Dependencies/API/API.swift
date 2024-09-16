@@ -6,15 +6,13 @@ struct API {
     var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
     var lookupMovieReleases: (Movie.ID, Instance) async throws -> [MovieRelease]
 
-    var downloadRelease: (String, Int, Instance) async throws -> Empty
-
     var getMovie: (Movie.ID, Instance) async throws -> Movie
     var getMovieHistory: (Movie.ID, Instance) async throws -> [MediaHistoryEvent]
     var getMovieFiles: (Movie.ID, Instance) async throws -> [MediaFile]
     var getMovieExtraFiles: (Movie.ID, Instance) async throws -> [MovieExtraFile]
     var addMovie: (Movie, Instance) async throws -> Movie
     var updateMovie: (Movie, Bool, Instance) async throws -> Empty
-    var deleteMovie: (Movie, Instance) async throws -> Empty
+    var deleteMovie: (Movie, Bool, Instance) async throws -> Empty
     var deleteMovieFile: (MediaFile, Instance) async throws -> Empty
 
     var fetchSeries: (Instance) async throws -> [Series]
@@ -27,7 +25,7 @@ struct API {
     var addSeries: (Series, Instance) async throws -> Series
     var pushSeries: (Series, Instance) async throws -> Series
     var updateSeries: (Series, Bool, Instance) async throws -> Empty
-    var deleteSeries: (Series, Instance) async throws -> Empty
+    var deleteSeries: (Series, Bool, Instance) async throws -> Empty
 
     var monitorEpisode: ([Episode.ID], Bool, Instance) async throws -> Empty
     var getEpisodeHistory: (Episode.ID, Instance) async throws -> MediaHistory
@@ -38,10 +36,13 @@ struct API {
 
     var radarrCommand: (RadarrCommand, Instance) async throws -> Empty
     var sonarrCommand: (SonarrCommand, Instance) async throws -> Empty
+    var downloadRelease: (DownloadReleaseCommand, Instance) async throws -> Empty
 
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolders]
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
+
+    var fetchQueueTasks: (Instance) async throws -> QueueItems
 
     var fetchNotifications: (Instance) async throws -> [InstanceNotification]
     var createNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
@@ -56,7 +57,9 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            var movies: [Movie] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            for i in movies.indices { movies[i].instanceId = instance.id }
+            return movies
         }, lookupMovies: { instance, query in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie/lookup")
@@ -69,13 +72,6 @@ extension API {
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
             return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
-        }, downloadRelease: { guid, indexerId, instance in
-            let url = URL(string: instance.url)!
-                .appending(path: "/api/v3/release")
-
-            let body = DownloadMovieRelease(guid: guid, indexerId: indexerId)
-
-            return try await request(method: .post, url: url, headers: instance.auth, body: body, timeout: instance.timeout(.releaseDownload))
         }, getMovie: { movieId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
@@ -119,11 +115,14 @@ extension API {
             )
 
             return try await request(method: .put, url: url, headers: instance.auth, body: body)
-        }, deleteMovie: { movie, instance in
+        }, deleteMovie: { movie, addExclusion, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
                 .appending(path: String(movie.id))
-                .appending(queryItems: [.init(name: "deleteFiles", value: "true")])
+                .appending(queryItems: [
+                    .init(name: "deleteFiles", value: "true"),
+                    .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
+                ])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
         }, deleteMovieFile: { file, instance in
@@ -136,13 +135,17 @@ extension API {
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series")
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            var series: [Series] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            for i in series.indices { series[i].instanceId = instance.id }
+            return series
         }, fetchEpisodes: { seriesId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/episode")
                 .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
 
-            return try await request(url: url, headers: instance.auth)
+            var episodes: [Episode] = try await request(url: url, headers: instance.auth)
+            for i in episodes.indices { episodes[i].instanceId = instance.id }
+            return episodes
         }, fetchEpisodeFiles: { seriesId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/episodeFile")
@@ -199,11 +202,14 @@ extension API {
             )
 
             return try await request(method: .put, url: url, headers: instance.auth, body: body)
-        }, deleteSeries: { series, instance in
+        }, deleteSeries: { series, addExclusion, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series")
                 .appending(path: String(series.id))
-                .appending(queryItems: [.init(name: "deleteFiles", value: "true")])
+                .appending(queryItems: [
+                    .init(name: "deleteFiles", value: "true"),
+                    .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
+                ])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
         }, monitorEpisode: { ids, monitored, instance in
@@ -234,17 +240,22 @@ extension API {
                     .init(name: "end", value: end.formatted(.iso8601)),
                 ])
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            var movies: [Movie] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            for i in movies.indices { movies[i].instanceId = instance.id }
+            return movies
         }, episodeCalendar: { start, end, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/calendar")
                 .appending(queryItems: [
                     .init(name: "unmonitored", value: "true"),
+                    .init(name: "includeSeries", value: "true"),
                     .init(name: "start", value: start.formatted(.iso8601)),
                     .init(name: "end", value: end.formatted(.iso8601)),
                 ])
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            var episodes: [Episode] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            for i in episodes.indices { episodes[i].instanceId = instance.id }
+            return episodes
         }, radarrCommand: { command, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/command")
@@ -255,6 +266,11 @@ extension API {
                 .appending(path: "/api/v3/command")
 
             return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
+        }, downloadRelease: { payload, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/release")
+
+            return try await request(method: .post, url: url, headers: instance.auth, body: payload, timeout: instance.timeout(.releaseDownload))
         }, systemStatus: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/system/status")
@@ -270,6 +286,19 @@ extension API {
                 .appending(path: "/api/v3/qualityprofile")
 
             return try await request(url: url, headers: instance.auth)
+        }, fetchQueueTasks: { instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/queue")
+                .appending(queryItems: [
+                    .init(name: "includeMovie", value: "true"),
+                    .init(name: "includeSeries", value: "true"),
+                    .init(name: "includeEpisode", value: "true"),
+                    .init(name: "pageSize", value: "100"),
+                ])
+
+            var items: QueueItems = try await request(url: url, headers: instance.auth)
+            for i in items.records.indices { items.records[i].instanceId = instance.id }
+            return items
         }, fetchNotifications: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/notification")
@@ -333,8 +362,11 @@ extension API {
             "url": url,
             "method": method.rawValue,
             "timeout": timeout,
-            "body": body ?? "nil",
         ])
+
+        if let body {
+            leaveBreadcrumb(.debug, category: "api", message: "Request body", data: ["body": body])
+        }
 
         var json: Data?
         var response: URLResponse?
@@ -370,7 +402,10 @@ extension API {
             throw Error(from: AppError("Failed to unwrap JSON payload."))
         }
 
-        let statusCode: Int = (response as? HTTPURLResponse)?.statusCode ?? 599
+        let httpResponse: HTTPURLResponse? = response as? HTTPURLResponse
+        let statusCode: Int = httpResponse?.statusCode ?? 599
+
+        leaveBreadcrumb(.debug, category: "api", message: "Response headers (\(statusCode))", data: parseResponseHeaders(httpResponse))
 
         switch statusCode {
         case (200..<400):
@@ -381,6 +416,11 @@ extension API {
             do {
                 return try decoder.decode(Response.self, from: data)
             } catch let decodingError as DecodingError {
+                leaveBreadcrumb(.fatal, category: "api", message: decodingError.context.debugDescription, data: [
+                    "error": decodingError,
+                    "payload": String(data: data, encoding: .utf8) ?? "",
+                ])
+
                 throw Error.decodingError(decodingError)
             } catch {
                 throw Error(from: error)
@@ -421,6 +461,11 @@ extension API {
         session: URLSession = .shared
     ) async throws -> Response {
         try await request(method: method, url: url, headers: headers, body: Empty?.none, timeout: timeout, decoder: decoder, encoder: encoder, session: session)
+    }
+
+    fileprivate static func parseResponseHeaders(_ response: HTTPURLResponse?) -> [String: Any] {
+        guard let headerFields = response?.allHeaderFields else { return [:] }
+        return Dictionary(uniqueKeysWithValues: headerFields.compactMap { ($0 as? (String, Any)) })
     }
 }
 

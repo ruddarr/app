@@ -3,10 +3,12 @@ import CloudKit
 
 extension InstanceView {
     var enableNotifications: some View {
+        let app = "Ruddarr"
+
         #if os(macOS)
-            let link = String(format: "\"%@\"", String(localized: "System Settings > Notifications > Ruddarr", comment: "macOS path"))
+            let link = String(format: "\"%@\"", String(localized: "System Settings > Notifications > \(app)", comment: "macOS path"))
         #else
-            let link = String(format: "[%@](#link)", String(localized: "Settings > Notifications > Ruddarr", comment: "iOS path"))
+            let link = String(format: "[%@](#link)", String(localized: "Settings > Notifications > \(app)", comment: "iOS path"))
         #endif
 
         let text = String(
@@ -94,6 +96,12 @@ extension InstanceView {
             Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
                 .onChange(of: webhook.model.onHealthIssue, updateWebhook)
 
+            if webhook.model.onHealthIssue {
+                Toggle("Include Warnings", isOn: $webhook.model.includeHealthWarnings)
+                    .onChange(of: webhook.model.includeHealthWarnings, updateWebhook)
+                    .padding(.leading)
+            }
+
             Toggle("Health Restored", isOn: Binding(
                 get: { webhook.model.onHealthRestored ?? false },
                 set: { webhook.model.onHealthRestored = $0 }
@@ -124,6 +132,12 @@ extension InstanceView {
 
             Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
                 .onChange(of: webhook.model.onHealthIssue, updateWebhook)
+
+            if webhook.model.onHealthIssue {
+                Toggle("Include Warnings", isOn: $webhook.model.includeHealthWarnings)
+                    .onChange(of: webhook.model.includeHealthWarnings, updateWebhook)
+                    .padding(.leading)
+            }
 
             Toggle("Health Restored", isOn: Binding(
                 get: { webhook.model.onHealthRestored ?? false },

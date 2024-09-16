@@ -25,9 +25,9 @@ struct InstanceNotification: Identifiable, Codable {
 
     var onApplicationUpdate: Bool = false
 
-    var onHealthIssue: Bool = false { didSet { includeHealthWarnings = onHealthIssue } }
+    var onHealthIssue: Bool = false
     var onHealthRestored: Bool? = false
-    private(set) var includeHealthWarnings: Bool = false
+    var includeHealthWarnings: Bool = false
 
     var isEnabled: Bool {
         onGrab

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MovieReleaseRow: View {
     var release: MovieRelease
+    var movieId: Movie.ID
 
     @State private var isShowingPopover = false
 
@@ -15,7 +16,7 @@ struct MovieReleaseRow: View {
                 isShowingPopover = true
             }
             .sheet(isPresented: $isShowingPopover) {
-                 MovieReleaseSheet(release: release)
+                MovieReleaseSheet(release: release, movieId: movieId)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
                     .environment(instance)
@@ -25,12 +26,10 @@ struct MovieReleaseRow: View {
 
     var linesStack: some View {
         VStack(alignment: .leading) {
-            HStack(spacing: 4) {
-                Text(release.title)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .lineLimit(1)
-            }
+            Text(release.title)
+                .font(.headline)
+                .fontWeight(.semibold)
+                .lineLimit(1)
 
             secondRow
             thirdRow
@@ -56,6 +55,7 @@ struct MovieReleaseRow: View {
         HStack(spacing: 6) {
             Text(release.typeLabel)
                 .foregroundStyle(peerColor)
+                .truncationMode(.head)
 
             Group {
                 Bullet()
@@ -102,7 +102,13 @@ struct MovieReleaseRow: View {
     }
 
     var peerColor: any ShapeStyle {
-        guard release.isTorrent else { return .green }
+        if release.isUsenet {
+            return .green
+        }
+
+        if release.rejections.contains(where: { $0.contains("Not enough seeders") }) {
+            return .red
+        }
 
         return switch release.seeders ?? 0 {
         case 50...: .green

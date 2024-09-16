@@ -34,15 +34,21 @@ extension String {
     }
 }
 
-func formatRuntime(_ runtime: Int) -> String {
-    let hours = runtime / 60
-    let minutes = runtime % 60
+func formatRuntime(_ minutes: Int) -> String {
+    let formatter = DateComponentsFormatter()
+    formatter.allowedUnits = [.hour, .minute]
+    formatter.unitsStyle = .abbreviated
 
-    if hours == 0 {
-        return String(format: String(localized: "%dm", comment: "%d = minutes (13m)"), minutes)
-    }
+    return formatter.string(from: TimeInterval(minutes * 60)) ?? formatter.string(from: 0)!
+}
 
-    return String(format: String(localized: "%dh %dm", comment: "$1 = hours, $2 = minutes (1h 13m)"), hours, minutes)
+func formatRemainingTime(_ date: Date) -> String? {
+    let seconds = date.timeIntervalSince(Date.now)
+    let formatter = DateComponentsFormatter()
+    formatter.unitsStyle = .abbreviated
+    formatter.includesTimeRemainingPhrase = true
+    formatter.allowedUnits = seconds >= 3_600 ? [.hour, .minute] : [.minute, .second]
+    return formatter.string(from: seconds)
 }
 
 func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
@@ -84,8 +90,8 @@ func formatIndexer(_ name: String) -> String {
 }
 // swiftlint:enable cyclomatic_complexity
 
-func formatAge(_ age: Float) -> String {
-    let minutes: Int = Int(age)
+func formatAge(_ ageInMinutes: Float) -> String {
+    let minutes: Int = Int(ageInMinutes)
     let days: Int = minutes / 60 / 24
     let years: Float = Float(days) / 30 / 12
 

@@ -21,6 +21,7 @@ class Occurrence {
         case seconds = 1
         case minutes = 60
         case hours = 3_600
+        case days = 86_400
     }
 
     static func since(_ key: String, unit: Unit = .seconds) -> TimeInterval {
@@ -28,6 +29,10 @@ class Occurrence {
         let secondsSince = dependencies.store.double(forKey: key)
 
         return (now - secondsSince) / unit.rawValue
+    }
+
+    static func daysSince(_ key: String) -> TimeInterval {
+        since(key, unit: .days)
     }
 
     static func hoursSince(_ key: String) -> TimeInterval {

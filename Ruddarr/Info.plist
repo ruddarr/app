@@ -86,6 +86,15 @@
 			</array>
 		</dict>
 	</array>
+	<key>INAlternativeAppNames</key>
+	<array>
+		<dict>
+			<key>INAlternativeAppName</key>
+			<string>Rudder</string>
+			<key>INAlternativeAppNamePronunciationHint</key>
+			<string>ruh der</string>
+		</dict>
+	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -101,5 +110,14 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+    <key>INAlternativeAppNames</key>
+    <array>
+        <dict>
+            <key>INAlternativeAppName</key>
+            <string>Rudder</string>
+            <key>INAlternativeAppNamePronunciationHint</key>
+            <string>ruh der</string>
+        </dict>
+    </array>
 </dict>
 </plist>

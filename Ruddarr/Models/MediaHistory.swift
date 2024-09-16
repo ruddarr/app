@@ -19,20 +19,21 @@ struct MediaHistoryEvent: Identifiable, Codable {
     let seriesId: Int?
     let episodeId: Int?
 
-    let customFormats: [MediaCustomFormat]
-    let customFormatScore: Int
     let quality: MediaQuality
-    let languages: [MediaLanguage]
+    let languages: [MediaLanguage]?
+
+    let customFormats: [MediaCustomFormat]?
+    let customFormatScore: Int?
 
     let data: [String: String?]?
 
     var languageLabel: String {
-        languageSingleLabel(languages)
+        languageSingleLabel(languages ?? [])
     }
 
     var scoreLabel: String? {
-        guard !customFormats.isEmpty else { return nil }
-        return formatCustomScore(customFormatScore)
+        guard !(customFormats ?? []).isEmpty else { return nil }
+        return formatCustomScore(customFormatScore ?? 0)
     }
 
     var indexerLabel: String {
@@ -73,12 +74,21 @@ struct MediaHistoryEvent: Identifiable, Codable {
             data("message") ?? fallback
         case .downloadIgnored:
             data("message") ?? fallback
-        case .movieFileDeleted:
+        case .movieFileRenamed:
+            String(localized: "Movie file was renamed.")
+        case .episodeFileRenamed:
+            String(localized: "Episode file was renamed.")
+        case .movieFileDeleted, .episodeFileDeleted:
             switch data?["reason"] {
             case "Manual":
-                String(localized: "File was deleted manually.")
+                String(localized: "File was deleted either manually or by a client through the API.")
             case "MissingFromDisk":
-                String(localized: "File was not found on disk so it was unlinked from the movie in the database.")
+                String(
+                    format: String(localized: "File was not found on disk so it was unlinked from the %@ in the database."),
+                    eventType == .episodeFileDeleted
+                        ? String(localized: "episode", comment: "The word 'episode' used mid-sentence")
+                        : String(localized: "movie", comment: "The word 'movie' used mid-sentence")
+                )
             case "Upgrade":
                 String(localized: "File was deleted to import an upgrade.")
             default:
@@ -86,8 +96,8 @@ struct MediaHistoryEvent: Identifiable, Codable {
             }
         case .movieFolderImported:
             String(localized: "Movie imported from folder.")
-        case .movieFileRenamed:
-            String(localized: "Movie file was renamed.")
+        case .seriesFolderImported:
+            String(localized: "Series imported from folder.")
         }
     }
 
@@ -108,9 +118,14 @@ enum HistoryEventType: String, Codable {
     case downloadFolderImported
     case downloadFailed
     case downloadIgnored
+
+    case movieFileRenamed
     case movieFileDeleted
     case movieFolderImported // unused
-    case movieFileRenamed
+
+    case episodeFileRenamed
+    case episodeFileDeleted
+    case seriesFolderImported
 
     var label: LocalizedStringKey {
         switch self {
@@ -119,9 +134,9 @@ enum HistoryEventType: String, Codable {
         case .downloadFolderImported: "Imported"
         case .downloadFailed: "Failed"
         case .downloadIgnored: "Ignored"
-        case .movieFileDeleted: "Deleted"
-        case .movieFolderImported: "Imported" // unused
-        case .movieFileRenamed: "Renamed"
+        case .movieFileRenamed, .episodeFileRenamed: "Renamed"
+        case .movieFileDeleted, .episodeFileDeleted: "Deleted"
+        case .movieFolderImported, .seriesFolderImported: "Imported"
         }
     }
 
@@ -132,15 +147,18 @@ enum HistoryEventType: String, Codable {
         case .downloadFolderImported: "Movie Imported"
         case .downloadFailed: "Download Failed"
         case .downloadIgnored: "Download Ignored"
-        case .movieFileDeleted: "Movie Deleted"
-        case .movieFolderImported: "Folder Imported" // unused
         case .movieFileRenamed: "Movie Renamed"
+        case .movieFileDeleted: "Movie Deleted"
+        case .movieFolderImported: "Folder Imported"
+        case .episodeFileRenamed: "Movie Renamed"
+        case .episodeFileDeleted: "Movie Deleted"
+        case .seriesFolderImported: "Folder Imported"
         }
     }
 }
 
 func localizeReleaseSource(_ value: String?) -> String? {
-    if value == "Rss" { return String(localized: "RSS") }
+    if value == "Rss" { return String("RSS") }
     if value == "Search" { return String(localized: "Search") }
     if value == "UserInvokedSearch" { return String(localized: "User Invoked Search") }
     if value == "InteractiveSearch" { return String(localized: "Interactive Search") }

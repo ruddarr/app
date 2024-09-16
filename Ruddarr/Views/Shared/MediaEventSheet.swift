@@ -14,6 +14,7 @@ struct MediaEventSheet: View {
             VStack(alignment: .leading) {
                 Text(event.eventType.title)
                     .font(.title3.bold())
+                    .padding(.trailing, 25)
 
                 Text(formatDate(event.date))
                     .font(.footnote)
@@ -36,59 +37,62 @@ struct MediaEventSheet: View {
         }
     }
 
-    @ViewBuilder
     var grabbedDetails: some View {
-        if event.eventType == .grabbed {
-            VStack(spacing: 6) {
-                row("Source", event.data("releaseSource") ?? "--")
+        VStack(spacing: 6) {
+            row("Source", event.data("releaseSource") ?? "--")
+            Divider()
+            row("Match Type", event.data("movieMatchType") ?? "--")
+
+            if let string = event.data("publishedDate"), let date = parseDate(string) {
                 Divider()
-                row("Match Type", event.data("movieMatchType") ?? "--")
+                row("Published", formatDate(date))
+            }
 
-                if let string = event.data("publishedDate"), let date = parseDate(string) {
-                    Divider()
-                    row("Published", formatDate(date))
-                }
+            if let string = event.data("nzbInfoUrl"), let url = URL(string: string), let domain = url.host {
+                Divider()
+                renderRow("Link", Link(domain, destination: url))
+            }
 
-                if let string = event.data("nzbInfoUrl"), let url = URL(string: string), let domain = url.host {
-                    Divider()
-                    renderRow("Link", Link(domain, destination: url))
-                }
+            if let flags = event.indexerFlagsLabel {
+                Divider()
+                row("Flags", flags)
+            }
 
-                if let flags = event.indexerFlagsLabel {
-                    Divider()
-                    row("Flags", flags)
-                }
+            if let score = event.scoreLabel {
+                Divider()
+                row("Score", score)
+            }
 
-                if let score = event.scoreLabel {
-                    Divider()
-                    row("Score", score)
-                }
+            if let formats = event.customFormats, !formats.isEmpty {
+                Divider()
+                row("Custom Formats", formats.map { $0.label }.formattedList())
+            }
 
-                if !event.customFormats.isEmpty  {
-                    Divider()
-                    row("Custom Formats", event.customFormats.map { $0.label }.formattedList())
-                }
-
-                if let group = event.data("releaseGroup") {
-                    Divider()
-                    row("Release Group", group)
-                }
+            if let group = event.data("releaseGroup") {
+                Divider()
+                row("Release Group", group)
             }
         }
     }
 
     func row(_ label: LocalizedStringKey, _ value: String) -> some View {
-        renderRow(label, Text(value).foregroundStyle(.primary))
+        renderRow(
+            label,
+            Text(value).foregroundStyle(.primary)
+        )
     }
 
     func renderRow<V: View>(_ label: LocalizedStringKey, _ value: V) -> some View {
         HStack(alignment: .top) {
             Text(label)
                 .foregroundStyle(.secondary)
+
             Spacer()
             Spacer()
             Spacer()
+
             value
+                .multilineTextAlignment(.trailing)
         }
         .font(.subheadline)
     }

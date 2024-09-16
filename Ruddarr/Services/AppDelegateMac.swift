@@ -2,11 +2,10 @@ import Sentry
 import SwiftUI
 import CloudKit
 import MetricKit
-import TelemetryClient
+import TelemetryDeck
 
 #if os(macOS)
 class AppDelegateMac: NSObject, NSApplicationDelegate {
-    // TODO: [macOS] Needs work
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSWindow.allowsAutomaticWindowTabbing = false
 
@@ -18,7 +17,7 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
         SentrySDK.start { options in
             options.enabled = true
             options.debug = false
-            options.environment = environmentName()
+            options.environment = runningIn().rawValue
 
             options.dsn = Secrets.SentryDsn
             options.sendDefaultPii = false
@@ -54,13 +53,13 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
     }
 
     func configureTelemetryDeck() {
-        let configuration = TelemetryManagerConfiguration(
+        let configuration = TelemetryDeck.Config(
             appID: Secrets.TelemetryAppId
         )
 
         configuration.logHandler = LogHandler.stdout(.error)
 
-        TelemetryManager.initialize(with: configuration)
+        TelemetryDeck.initialize(config: configuration)
     }
 }
 #endif

@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreSpotlight
 
 struct Series: Identifiable, Equatable, Codable {
     // series only have an `id` after being added
@@ -7,15 +8,18 @@ struct Series: Identifiable, Equatable, Codable {
     // the remapped `id` field
     var guid: Int?
 
+    // used by deeplinks to switch instances
+    var instanceId: Instance.ID?
+
     let title: String
     let titleSlug: String?
     let sortTitle: String
-    let cleanTitle: String?
 
     let tvdbId: Int
     let tvRageId: Int?
     let tvMazeId: Int?
     let imdbId: String?
+    let tmdbId: Int?
 
     let status: SeriesStatus
     var seriesType: SeriesType
@@ -63,11 +67,11 @@ struct Series: Identifiable, Equatable, Codable {
         case title
         case titleSlug
         case sortTitle
-        case cleanTitle
         case tvdbId
         case tvRageId
         case tvMazeId
         case imdbId
+        case tmdbId
         case status
         case seriesType
         case path
@@ -106,8 +110,10 @@ struct Series: Identifiable, Equatable, Codable {
 
     var sortYear: TimeInterval {
         if let date = firstAired { return date.timeIntervalSince1970 }
-        if year <= 0 { return 2_942_956_800 }
-        return DateComponents(calendar: .current, year: year).date?.timeIntervalSince1970 ?? 2_942_956_800
+        if year <= 0 { return Date.distantFuture.timeIntervalSince1970 }
+
+        return DateComponents(calendar: .current, year: year).date?.timeIntervalSince1970
+            ?? Date.distantFuture.timeIntervalSince1970
     }
 
     var isDownloaded: Bool {
@@ -118,6 +124,8 @@ struct Series: Identifiable, Equatable, Codable {
         if let premiere = firstAired { return premiere > Date.now }
         return status == .upcoming || year == 0 || seasons.isEmpty
     }
+
+    var remotePosterCached: URL?
 
     var remotePoster: String? {
         if let remote = self.images.first(where: { $0.coverType == "poster" }) {
@@ -197,6 +205,34 @@ struct Series: Identifiable, Equatable, Codable {
 
     func alternateTitlesString() -> String? {
         alternateTitles?.map { $0.title }.joined(separator: " ")
+    }
+}
+
+extension Series {
+    var searchableItem: CSSearchableItem {
+        CSSearchableItem(
+            uniqueIdentifier: "series:\(id):\(instanceId?.uuidString ?? "")",
+            domainIdentifier: nil,
+            attributeSet: attributeSet
+        )
+    }
+
+    var spotlightHash: String {
+        "\(id):\(sortTitle):\(year):\(runtime):\(seasonCount)"
+    }
+
+    var attributeSet: CSSearchableItemAttributeSet {
+        let attributes = CSSearchableItemAttributeSet(contentType: UTType.movie)
+        attributes.title = title
+        attributes.genre = genres.first
+        attributes.addedDate = added
+        attributes.thumbnailURL = remotePosterCached
+
+        attributes.contentDescription = [yearLabel, runtimeLabel, String(localized: "\(seasonCount) Seasons")]
+            .compactMap { $0 }
+            .joined(separator: " · ")
+
+        return attributes
     }
 }
 
@@ -311,7 +347,7 @@ struct SeriesEditorResource: Codable {
 extension Series {
     static var void: Self {
         .init(
-            title: "", titleSlug: nil, sortTitle: "", cleanTitle: nil, tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, status: .deleted, seriesType: .standard,
+            title: "", titleSlug: nil, sortTitle: "", tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, tmdbId: nil, status: .deleted, seriesType: .standard,
             path: nil, folder: nil, certification: nil, year: 0, runtime: 0, airTime: nil, ended: false, seasonFolder: false, useSceneNumbering: false, added: Date.now,
             firstAired: nil, lastAired: nil, nextAiring: nil, previousAiring: nil, monitored: false, overview: nil, network: nil,
             originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], genres: [], images: [], statistics: nil

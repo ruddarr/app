@@ -7,7 +7,7 @@ extension SeriesView {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(value: SeriesPath.search()) {
                     Image(systemName: "plus")
-                }.id(UUID())
+                }.toolbarIdFix(UUID())
             }
         }
     }
@@ -18,7 +18,7 @@ extension SeriesView {
             HStack {
                 toolbarFilterButton
                 toolbarSortingButton
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 

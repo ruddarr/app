@@ -10,11 +10,7 @@ extension InstanceEditView {
             try await validateInstance()
 
             if instance.label.isEmpty {
-                guard let url = URL(string: instance.url), let label = url.host() else {
-                    throw InstanceError.labelEmpty
-                }
-
-                instance.label = label
+                instance.label = instance.type.rawValue
             }
 
             settings.saveInstance(instance)
@@ -37,28 +33,18 @@ extension InstanceEditView {
 
     @MainActor
     func deleteInstance() {
-        deleteInstanceWebhook(instance)
-
         if instance.id == settings.radarrInstanceId {
-            dependencies.router.reset()
             radarrInstance.switchTo(.radarrVoid)
+        }
+
+        if instance.id == settings.sonarrInstanceId {
             sonarrInstance.switchTo(.sonarrVoid)
         }
 
         settings.deleteInstance(instance)
 
+        dependencies.router.reset()
         dependencies.router.settingsPath = .init()
-    }
-
-    func deleteInstanceWebhook(_ deletedInstance: Instance) {
-        var instance = deletedInstance
-        instance.id = UUID()
-
-        let webhook = InstanceWebhook(instance)
-
-        Task.detached { [webhook] in
-            await webhook.delete()
-        }
     }
 
     func hasEmptyFields() -> Bool {
