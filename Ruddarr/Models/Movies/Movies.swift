@@ -37,7 +37,7 @@ class Movies {
 
         if !query.isEmpty {
             cachedItems = cachedItems.filter { movie in
-                movie.sortTitle.localizedCaseInsensitiveContains(query) ||
+                movie.title.localizedCaseInsensitiveContains(query) ||
                 movie.studio?.localizedCaseInsensitiveContains(query) ?? false ||
                 alternateTitles[movie.id]?.localizedCaseInsensitiveContains(query) ?? false
             }

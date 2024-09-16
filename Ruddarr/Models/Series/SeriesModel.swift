@@ -38,7 +38,7 @@ class SeriesModel {
 
         if !query.isEmpty {
             cachedItems = cachedItems.filter { series in
-                series.sortTitle.localizedCaseInsensitiveContains(query) ||
+                series.title.localizedCaseInsensitiveContains(query) ||
                 series.network?.localizedCaseInsensitiveContains(query) ?? false ||
                 alternateTitles[series.id]?.localizedCaseInsensitiveContains(query) ?? false
             }
