@@ -102,7 +102,7 @@ struct SettingsPreferencesSection: View {
 
     var tabPicker: some View {
         Picker(selection: $settings.tab) {
-            ForEach([Tab.movies, Tab.series, Tab.calendar]) { tab in
+            ForEach([Tab.movies, Tab.series, Tab.calendar, Tab.activity]) { tab in
                 Text(tab.text)
             }
         } label: {
