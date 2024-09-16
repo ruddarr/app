@@ -169,7 +169,7 @@ struct CalendarView: View {
                 withAnimation(.smooth) {
                     scrollTo(calendar.today())
                 }
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 
@@ -210,7 +210,7 @@ struct CalendarView: View {
                 } else {
                     Image(systemName: "line.3.horizontal.decrease")
                 }
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 }

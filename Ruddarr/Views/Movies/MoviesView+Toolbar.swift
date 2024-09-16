@@ -7,7 +7,7 @@ extension MoviesView {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(value: MoviesPath.search()) {
                     Image(systemName: "plus")
-                }.id(UUID())
+                }.toolbarIdFix(UUID())
             }
         }
     }
@@ -18,7 +18,7 @@ extension MoviesView {
             HStack {
                 toolbarFilterButton
                 toolbarSortingButton
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 

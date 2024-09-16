@@ -163,7 +163,7 @@ extension SeriesReleasesView {
             HStack {
                 toolbarSortingButton
                 toolbarFilterButton
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 

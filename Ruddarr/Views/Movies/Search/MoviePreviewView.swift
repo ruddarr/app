@@ -58,7 +58,7 @@ struct MoviePreviewView: View {
         ToolbarItem(placement: .primaryAction) {
             Button("Add Movie") {
                 presentingForm = true
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 

@@ -58,7 +58,7 @@ struct SeriesPreviewView: View {
         ToolbarItem(placement: .primaryAction) {
             Button("Add Series") {
                 presentingForm = true
-            }.id(UUID())
+            }.toolbarIdFix(UUID())
         }
     }
 

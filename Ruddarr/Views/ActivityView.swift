@@ -7,7 +7,10 @@ struct ActivityView: View {
     @State var items: [QueueItem] = []
     @State private var itemSheet: QueueItem?
 
+    @State var hotfixId = UUID()
+
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         // swiftlint:disable closure_body_length
@@ -46,6 +49,7 @@ struct ActivityView: View {
             }
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: sort, updateDisplayedItems)
+            .onChange(of: scenePhase) { hotfixId = UUID() }
             .onAppear {
                 queue.instances = settings.instances
             }

@@ -59,7 +59,7 @@ struct SeriesDetailView: View {
             }
             .buttonStyle(.plain)
             .allowsHitTesting(!instance.series.isWorking)
-            .id(UUID())
+            .toolbarIdFix(UUID())
         }
     }
 
@@ -81,7 +81,7 @@ struct SeriesDetailView: View {
             } label: {
                 ToolbarActionButton()
             }
-            .id(UUID())
+            .toolbarIdFix(UUID())
         }
     }
 

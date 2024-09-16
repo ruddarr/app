@@ -37,8 +37,7 @@ extension ActivityView {
                 toolbarFilterButton
                 toolbarSortingButton
             }
-            // TODO: check if this disappears on iPad
-            // .id(UUID())
+            .id(hotfixId)
         }
     }
 

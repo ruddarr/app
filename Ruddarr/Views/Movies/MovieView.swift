@@ -52,7 +52,7 @@ struct MovieView: View {
             }
             .buttonStyle(.plain)
             .allowsHitTesting(!instance.movies.isWorking)
-            .id(UUID())
+            .toolbarIdFix(UUID())
         }
     }
 
@@ -73,7 +73,7 @@ struct MovieView: View {
             } label: {
                 ToolbarActionButton()
             }
-            .id(UUID())
+            .toolbarIdFix(UUID())
         }
     }
 

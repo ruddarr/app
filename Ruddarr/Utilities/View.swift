@@ -23,6 +23,10 @@ extension View {
     func viewPadding(_ edges: Edge.Set = .all) -> some View {
         self.modifier(ViewPadding(edges))
     }
+
+    func toolbarIdFix(_ id: UUID) -> some View {
+        self.modifier(ToolbarIdFixModifier(id))
+    }
 }
 
 private struct WithAppStateModifier: ViewModifier {
@@ -61,6 +65,28 @@ private struct ViewPadding: ViewModifier {
             content.scenePadding(edges)
         } else {
             content.padding(edges, 22)
+        }
+    }
+}
+
+private struct ToolbarIdFixModifier: ViewModifier {
+    var id: UUID
+
+    @Environment(\.deviceType) private var deviceType
+
+    init(_ id: UUID) {
+        self.id = id
+    }
+
+    func body(content: Content) -> some View {
+        if deviceType == .pad {
+            if #available(iOS 18, *) {
+                content
+            } else {
+                content.id(id)
+            }
+        } else {
+            content
         }
     }
 }

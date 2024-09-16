@@ -173,7 +173,7 @@ struct SeasonView: View {
             .buttonStyle(.plain)
             .allowsHitTesting(!instance.series.isWorking)
             .disabled(!series.monitored)
-            .id(UUID())
+            .toolbarIdFix(UUID())
         }
     }
 }
