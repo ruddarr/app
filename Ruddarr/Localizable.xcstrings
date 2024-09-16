@@ -600,6 +600,16 @@
         }
       }
     },
+    "Automatic Search" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatic Search"
+          }
+        }
+      }
+    },
     "Availability" : {
       "localizations" : {
         "en" : {
