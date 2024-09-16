@@ -24,7 +24,7 @@ extension SeriesDetails {
                 detailsSubtitle
                     .padding(.bottom, 6)
 
-                if deviceType != .phone && !series.exists {
+                if deviceType != .phone {
                     Spacer()
                     actions
                 }

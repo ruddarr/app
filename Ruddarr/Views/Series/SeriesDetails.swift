@@ -1,4 +1,5 @@
 import SwiftUI
+import TelemetryClient
 
 struct SeriesDetails: View {
     @Binding var series: Series
@@ -87,6 +88,43 @@ struct SeriesDetails: View {
     @ViewBuilder
     var actions: some View {
         HStack(spacing: 24) {
+            if series.exists {
+                seriesActions
+            } else {
+                previewActions
+            }
+        }
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: 450)
+    }
+
+    var seriesActions: some View {
+        Group {
+            Button {
+                Task { @MainActor in
+                    guard await instance.series.command(.seriesSearch(series.id)) else {
+                        return
+                    }
+
+                    dependencies.toast.show(.monitoredSearchQueued)
+
+                    TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
+                }
+            } label: {
+                ButtonLabel(text: "Search Monitored", icon: "magnifyingglass")
+                    .modifier(MediaPreviewActionModifier())
+            }
+            .buttonStyle(.bordered)
+            .tint(.secondary)
+            .allowsHitTesting(!instance.series.isWorking)
+
+            Spacer()
+                .modifier(MediaPreviewActionSpacerModifier())
+        }
+    }
+
+    var previewActions: some View {
+        Group {
             Menu {
                 SeriesContextMenu(series: series)
             } label: {
@@ -99,8 +137,6 @@ struct SeriesDetails: View {
             Spacer()
                 .modifier(MediaPreviewActionSpacerModifier())
         }
-        .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: 450)
     }
 
     var qualityProfile: String {
