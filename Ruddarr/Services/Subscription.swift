@@ -110,7 +110,7 @@ struct RuddarrPlusSheetContent: View {
 
     var body: some View {
         VStack {
-            Image(appIcon: "AppIcon")
+            Image("AppIconPreviewDefault")
                 .resizable()
                 .frame(width: 75, height: 75)
                 .clipShape(.rect(cornerRadius: (10 / 57) * 75))

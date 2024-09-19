@@ -86,13 +86,7 @@ struct SettingsPreferencesSection: View {
                     Text("App Icon")
                 }
             } icon: {
-                #if os(macOS)
-                    let icon = "AppIcon"
-                #else
-                    let icon = UIApplication.shared.alternateIconName ?? "AppIcon"
-                #endif
-
-                Image(appIcon: icon)
+                Image(settings.icon.data.asset)
                     .resizable()
                     .frame(width: appIconSize, height: appIconSize)
                     .clipShape(.rect(cornerRadius: (10 / 57) * appIconSize))

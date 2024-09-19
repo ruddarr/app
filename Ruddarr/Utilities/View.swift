@@ -101,16 +101,6 @@ extension SearchFieldPlacement {
     }()
 }
 
-extension Image {
-    init(appIcon: String) {
-        #if os(macOS)
-            self.init(nsImage: NSImage(named: appIcon) ?? NSImage())
-        #else
-            self.init(uiImage: UIImage(named: appIcon) ?? UIImage(systemName: "app")!)
-        #endif
-    }
-}
-
 enum NavigationBarItemTitleDisplayMode {
     case automatic
     case inline
