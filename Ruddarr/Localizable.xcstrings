@@ -7333,7 +7333,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloading %2$@ Episode on %1$@"
+            "value" : "%2$@ Episode Downloading on %1$@"
           }
         },
         "es" : {
