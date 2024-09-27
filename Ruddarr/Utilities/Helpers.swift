@@ -34,6 +34,18 @@ extension String {
     }
 }
 
+func inferredInstallDate() -> Date? {
+    guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
+        return nil
+    }
+
+    guard let attributes = try? FileManager.default.attributesOfItem(atPath: documentsURL.path) else {
+        return nil
+    }
+
+    return attributes[.creationDate] as? Date
+}
+
 func formatRuntime(_ minutes: Int) -> String {
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.hour, .minute]
