@@ -99,6 +99,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             options.swiftAsyncStacktraces = true
 
             options.enableMetricKit = true
+            options.enableAppHangTracking = false
             options.enablePreWarmedAppStartTracing = true
             options.enableTimeToFullDisplayTracing = true
 
