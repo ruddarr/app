@@ -26,7 +26,7 @@ The code of the notification service is powered by a Cloudflare Worker and also 
 
 ## URL Schemes
 
-Ruddarr supports many URL Schemes to open specific tabs or perform actions. All supported schemes are listed in the [`QuickActions.swift`](https://github.com/ruddarr/app/blob/develop/Ruddarr/Dependencies/QuickActions.swift)
+Ruddarr supports the `ruddarr://` URL Scheme to open specific tabs, items or perform actions. All supported schemes are listed in the [`QuickActions.swift`](https://github.com/ruddarr/app/blob/develop/Ruddarr/Dependencies/QuickActions.swift)
 
 ## Development
 

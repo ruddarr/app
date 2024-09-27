@@ -4,6 +4,7 @@ import Combine
 /**
 [public] ruddarr://open
 [public] ruddarr://calendar
+[public] ruddarr://activity
 [public] ruddarr://movies
 [public] ruddarr://movies/search
 [public] ruddarr://movies/search/{query?}
@@ -29,6 +30,10 @@ struct QuickActions {
 
     var openCalendar: () -> Void = {
         dependencies.router.selectedTab = .calendar
+    }
+
+    var openActivity: () -> Void = {
+        dependencies.router.selectedTab = .activity
     }
 
     var openMovies: () -> Void = {
@@ -114,6 +119,7 @@ extension QuickActions {
     enum Deeplink {
         case openApp
         case openCalendar
+        case openActivity
         case openMovies
         case openMovie(_ id: Movie.ID, _ instance: Instance.ID?)
         case addMovie(_ query: String = "")
@@ -127,6 +133,8 @@ extension QuickActions {
             case .openApp:
                 break
             case .openCalendar:
+                dependencies.quickActions.openCalendar()
+            case .openActivity:
                 dependencies.quickActions.openCalendar()
             case .openMovies:
                 dependencies.quickActions.openMovies()
@@ -164,6 +172,8 @@ extension QuickActions.Deeplink {
             self = .openApp
         case "calendar":
             self = .openCalendar
+        case "activity":
+            self = .openActivity
         case "movies":
             self = .openMovies
         case "movies/search":
