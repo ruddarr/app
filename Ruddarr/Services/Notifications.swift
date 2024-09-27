@@ -160,17 +160,23 @@ class Notifications {
 
     let applicationUpdate = [
         String(format: localized("NOTIFICATION_APPLICATION_UPDATE"), "Synology"),
-        "{webhook-payload}",
+        "{payload.message}",
     ]
 
     let health = [
         String(format: localized("NOTIFICATION_HEALTH"), "Synology"),
-        "{webhook-payload}",
+        "{payload.message}",
     ]
 
     let healthRestored = [
         String(format: localized("NOTIFICATION_HEALTH_RESTORED"), "Synology"),
-        "{webhook-payload}",
+        "{payload.message}",
+    ]
+
+    let manualInteractionRequired = [
+        String(format: localized("NOTIFICATION_MANUAL_INTERACTION_REQUIRED"), "Synology"),
+        "{payload.downloadInfo.title}",
+        "{payload.downloadStatusMessages[0].title}",
     ]
 
     func localized(_ key: String) -> String {
@@ -199,7 +205,6 @@ class Notifications {
         VStack(alignment: .leading) {
             group("RuddarrTest")
             notification(ruddarrTest)
-            // ForEach(movieAdded, id: \.self) { string in Text(verbatim: string) }
             Divider().padding(.vertical)
 
             group("ApplicationUpdate")
@@ -212,6 +217,10 @@ class Notifications {
 
             group("HealthRestored")
             notification(healthRestored)
+            Divider().padding(.vertical)
+
+            group("ManualInteractionRequired")
+            notification(manualInteractionRequired)
             Divider().padding(.vertical)
         }
         .frame(maxWidth: .infinity, alignment: .leading)

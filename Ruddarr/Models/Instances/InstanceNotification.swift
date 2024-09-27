@@ -17,17 +17,18 @@ struct InstanceNotification: Identifiable, Codable {
     var onGrab: Bool = false
 
     // `Download`: Completed downloading release
-    var onDownload: Bool = false { didSet { onManualInteractionRequired = onHealthIssue } }
-    private(set) var onManualInteractionRequired: Bool? = false // Sends test emails only
+    var onDownload: Bool = false
 
     // `Download`: Completed downloading upgrade (`isUpgrade`)
     var onUpgrade: Bool = false
 
-    var onApplicationUpdate: Bool = false
-
     var onHealthIssue: Bool = false
     var onHealthRestored: Bool? = false
     var includeHealthWarnings: Bool = false
+
+    var onManualInteractionRequired: Bool? = false
+
+    var onApplicationUpdate: Bool = false
 
     var isEnabled: Bool {
         onGrab
@@ -37,6 +38,7 @@ struct InstanceNotification: Identifiable, Codable {
         || onSeriesAdd ?? false
         || onHealthIssue
         || onHealthRestored ?? false
+        || onManualInteractionRequired ?? false
         || onApplicationUpdate
     }
 
@@ -49,8 +51,8 @@ struct InstanceNotification: Identifiable, Codable {
         onHealthIssue = false
         onHealthRestored = false
         includeHealthWarnings = false
-        onApplicationUpdate = false
         onManualInteractionRequired = false
+        onApplicationUpdate = false
     }
 
     mutating func enable() {
@@ -62,8 +64,8 @@ struct InstanceNotification: Identifiable, Codable {
         onHealthIssue = false
         onHealthRestored = false
         includeHealthWarnings = false
+        onManualInteractionRequired = false
         onApplicationUpdate = false
-        onManualInteractionRequired = true
     }
 }
 

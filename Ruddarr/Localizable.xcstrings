@@ -5520,6 +5520,16 @@
         }
       }
     },
+    "Manual Interaction Required" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manual Interaction Required"
+          }
+        }
+      }
+    },
     "Match Type" : {
       "localizations" : {
         "de" : {
@@ -7607,6 +7617,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Problème de Santé Résolu  sur%@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_MANUAL_INTERACTION_REQUIRED" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manual Interaction Required on %@"
           }
         }
       }

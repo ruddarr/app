@@ -108,6 +108,12 @@ extension InstanceView {
             ))
                 .onChange(of: webhook.model.onHealthRestored, updateWebhook)
 
+            Toggle("Manual Interaction Required", isOn: Binding(
+                get: { webhook.model.onManualInteractionRequired ?? false },
+                set: { webhook.model.onManualInteractionRequired = $0 }
+            ))
+                .onChange(of: webhook.model.onManualInteractionRequired, updateWebhook)
+
             Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
                 .onChange(of: webhook.model.onApplicationUpdate, updateWebhook)
         }
@@ -144,6 +150,12 @@ extension InstanceView {
                 set: { webhook.model.onHealthRestored = $0 }
             ))
                 .onChange(of: webhook.model.onHealthRestored, updateWebhook)
+
+            Toggle("Manual Interaction Required", isOn: Binding(
+                get: { webhook.model.onManualInteractionRequired ?? false },
+                set: { webhook.model.onManualInteractionRequired = $0 }
+            ))
+                .onChange(of: webhook.model.onManualInteractionRequired, updateWebhook)
 
             Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
                 .onChange(of: webhook.model.onApplicationUpdate, updateWebhook)
