@@ -78,6 +78,7 @@ func formatIndexer(_ name: String) -> String {
     case "BeyondHD": "BHD"
     case "Blutopia": "BLU"
     case "FileList": "FL"
+    case "HDBits": "HDB"
     case "IPTorrents": "IPT"
     case "MyAnonaMouse": "MAM"
     case "PassThePopcorn": "PTP"
