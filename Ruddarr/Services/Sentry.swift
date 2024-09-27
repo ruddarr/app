@@ -1,5 +1,20 @@
 import Sentry
 
+func leaveAttachment(_ url: URL, _ json: Data) {
+    let basename = url.relativePath.replacingOccurrences(of: "/", with: "-")
+    let timestamp = Date().timeIntervalSince1970
+
+    let attachment = Attachment(
+        data: json,
+        filename: "\(basename)-\(timestamp).json",
+        contentType: "application/json"
+    )
+
+    SentrySDK.configureScope { scope in
+        scope.addAttachment(attachment)
+    }
+}
+
 func leaveBreadcrumb(
     _ level: SentryLevel,
     category: String,
@@ -16,7 +31,7 @@ func leaveBreadcrumb(
 
     SentrySDK.addBreadcrumb(crumb)
 
-    // TestFlight: report higher level breadcrumbs as events 
+    // TestFlight: report higher level breadcrumbs as events
     if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
         if ![.error, .fatal].contains(level) {
             return

@@ -416,10 +416,8 @@ extension API {
             do {
                 return try decoder.decode(Response.self, from: data)
             } catch let decodingError as DecodingError {
-                leaveBreadcrumb(.fatal, category: "api", message: decodingError.context.debugDescription, data: [
-                    "error": decodingError,
-                    "payload": String(data: data, encoding: .utf8) ?? "",
-                ])
+                leaveAttachment(url, data)
+                leaveBreadcrumb(.fatal, category: "api", message: decodingError.context.debugDescription, data: ["error": decodingError])
 
                 throw Error.decodingError(decodingError)
             } catch {
