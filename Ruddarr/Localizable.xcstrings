@@ -3452,12 +3452,12 @@
         }
       }
     },
-    "Season %lld" : {
+    "Season %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Season %lld"
+            "value" : "Season %@"
           }
         }
       }

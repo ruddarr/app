@@ -9,7 +9,7 @@ struct Season: Identifiable, Equatable, Codable {
     var label: String {
         seasonNumber == 0
             ? String(localized: "Specials")
-            : String(localized: "Season \(seasonNumber)")
+            : String(localized: "Season \(String(seasonNumber))")
     }
 
     var progressLabel: String? {
