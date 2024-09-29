@@ -26,14 +26,11 @@ class SeriesReleases {
         items = []
         error = nil
         isSearching = true
+        setFilterData()
 
         do {
             items = try await dependencies.api.lookupSeriesReleases(series.id, season, episode, instance)
-            setIndexers()
-            setQualities()
-            setProtocols()
-            setLanguages()
-            setCustomFormats()
+            setFilterData()
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
@@ -45,6 +42,14 @@ class SeriesReleases {
         }
 
         isSearching = false
+    }
+
+    func setFilterData() {
+        setIndexers()
+        setQualities()
+        setProtocols()
+        setLanguages()
+        setCustomFormats()
     }
 
     func setIndexers() {

@@ -26,14 +26,11 @@ class MovieReleases {
         items = []
         error = nil
         isSearching = true
+        setFilterData()
 
         do {
             items = try await dependencies.api.lookupMovieReleases(movie.id, instance)
-            setIndexers()
-            setQualities()
-            setProtocols()
-            setLanguages()
-            setCustomFormats()
+            setFilterData()
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
@@ -45,6 +42,14 @@ class MovieReleases {
         }
 
         isSearching = false
+    }
+
+    func setFilterData() {
+        setIndexers()
+        setQualities()
+        setProtocols()
+        setLanguages()
+        setCustomFormats()
     }
 
     func setIndexers() {
