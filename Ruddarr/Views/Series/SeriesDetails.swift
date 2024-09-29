@@ -5,6 +5,7 @@ struct SeriesDetails: View {
     @Binding var series: Series
 
     @State private var descriptionTruncated = true
+    @State private var monitoringSeason: Season.ID?
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) private var instance
@@ -167,9 +168,13 @@ struct SeriesDetails: View {
                                 Button {
                                     Task { await monitorSeason(season.id) }
                                 } label: {
-                                    Image(systemName: "bookmark")
-                                        .symbolVariant(season.monitored ? .fill : .none)
-                                        .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
+                                    if monitoringSeason == season.id {
+                                        ProgressView().tint(.secondary).offset(x: 1.5)
+                                    } else {
+                                        Image(systemName: "bookmark")
+                                            .symbolVariant(season.monitored ? .fill : .none)
+                                            .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
+                                    }
                                 }
                                 .buttonStyle(.plain)
                                 .overlay(Rectangle().padding(18))
@@ -200,9 +205,14 @@ struct SeriesDetails: View {
 
         series.seasons[index].monitored.toggle()
 
+        monitoringSeason = season
+
         guard await instance.series.push(series) else {
+            monitoringSeason = nil
             return
         }
+
+        monitoringSeason = nil
 
         dependencies.toast.show(series.seasons[index].monitored ? .monitored : .unmonitored)
     }
