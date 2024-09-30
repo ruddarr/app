@@ -32,7 +32,7 @@ struct SeriesGridItem: View {
             if series.exists {
                 posterIcons
             } else {
-                posterIconsPreview
+                previewIcons
             }
         }
         .font(.body)
@@ -79,7 +79,7 @@ struct SeriesGridItem: View {
             .imageScale(MovieGridItem.gridIconScale())
     }
 
-    var posterIconsPreview: some View {
+    var previewIcons: some View {
         Group {
             series.status.icon
                 .foregroundStyle(.white)

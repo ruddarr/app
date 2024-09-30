@@ -17,7 +17,7 @@ struct SeriesSearchView: View {
 
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-                ForEach(seriesLookup.items ?? []) { series in
+                ForEach(seriesLookup.sortedItems) { series in
                     NavigationLink(value: series.exists
                        ? SeriesPath.series(series.id)
                        : SeriesPath.preview(try? JSONEncoder().encode(series))
@@ -39,6 +39,11 @@ struct SeriesSearchView: View {
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
+        .searchScopes($seriesLookup.sort) {
+            ForEach(SeriesLookup.SortOption.allCases) { option in
+                Text(option.label)
+            }
+        }
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)
         }
