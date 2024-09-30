@@ -250,7 +250,7 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var languagesLabel: String {
-        guard let langs = languages, langs.isEmpty else {
+        guard let langs = languages, !langs.isEmpty else {
             return String(localized: "Unknown")
         }
 
