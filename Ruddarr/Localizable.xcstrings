@@ -721,6 +721,17 @@
         }
       }
     },
+    "Check out Sable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check out Sable"
+          }
+        }
+      }
+    },
     "Check the spelling or try [adding the movie](%@)." : {
       "localizations" : {
         "en" : {
