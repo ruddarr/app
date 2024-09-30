@@ -191,7 +191,8 @@ struct MovieRelease: Identifiable, Codable {
         guard let flags = indexerFlags else { return [] }
 
         return flags.map {
-            $0.hasPrefix("G_") ? String($0.dropFirst(2)) : $0
+            guard let range = $0.range(of: "_") else { return $0 }
+            return String($0[range.upperBound...])
         }
     }
 

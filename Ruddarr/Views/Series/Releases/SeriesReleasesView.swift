@@ -138,9 +138,7 @@ struct SeriesReleasesView: View {
         }
 
         if sort.freeleech {
-            releases = releases.filter {
-                $0.cleanIndexerFlags.contains(where: { $0.localizedStandardContains("freeleech") })
-            }
+            releases = releases.filter { $0.releaseFlags.contains(.freeleech) }
         }
 
         if sort.originalLanguage {
