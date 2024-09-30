@@ -127,6 +127,11 @@ struct Movie: Identifiable, Equatable, Codable {
         return formatRuntime(runtime)
     }
 
+    var sizeLabel: String? {
+        guard let bytes = sizeOnDisk, bytes > 0 else { return nil }
+        return formatBytes(bytes)
+    }
+
     var certificationLabel: String {
         guard let rating = certification else {
             return String(localized: "Unrated")

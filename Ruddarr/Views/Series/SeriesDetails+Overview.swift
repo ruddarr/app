@@ -68,6 +68,11 @@ extension SeriesDetails {
             }
 
             Text(series.certificationLabel).lineLimit(1)
+
+            if deviceType != .phone, let size = series.sizeLabel {
+                Bullet()
+                Text(size)
+            }
         }
         .font(.callout)
         .foregroundStyle(.secondary)
