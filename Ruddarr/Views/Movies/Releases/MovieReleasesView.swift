@@ -218,7 +218,10 @@ extension MovieReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Indexer", systemImage: "building.2")
+            Label(
+                sort.indexer == ".all" ? "Indexer" : sort.indexer,
+                systemImage: "building.2"
+            )
         }
     }
 
@@ -233,7 +236,10 @@ extension MovieReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Quality", systemImage: "film.stack")
+            Label(
+                sort.quality == ".all" ? "Quality" : sort.quality,
+                systemImage: "film.stack"
+            )
         }
     }
 
@@ -248,7 +254,10 @@ extension MovieReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Protocol", systemImage: "point.3.connected.trianglepath.dotted")
+            Label(
+                sort.type == ".all" ? "Protocol" : sort.type,
+                systemImage: "point.3.connected.trianglepath.dotted"
+            )
         }
     }
 
@@ -263,7 +272,10 @@ extension MovieReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Language", systemImage: "waveform")
+            Label(
+                sort.language == ".all" ? "Language" : sort.language,
+                systemImage: "waveform"
+            )
         }
     }
 
@@ -278,7 +290,10 @@ extension MovieReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Custom Format", systemImage: "person.badge.plus")
+            Label(
+                sort.customFormat == ".all" ? "Custom Format" : sort.customFormat,
+                systemImage: "person.badge.plus"
+            )
         }
     }
 }
