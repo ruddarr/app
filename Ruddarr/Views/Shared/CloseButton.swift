@@ -20,6 +20,7 @@ struct CloseButton: View {
                         : .secondarySystemBackground
                 )
         }
+        .buttonStyle(.plain)
         .padding(.top)
         .padding(.trailing)
         .zIndex(999)

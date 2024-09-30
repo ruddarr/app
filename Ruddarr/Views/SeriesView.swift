@@ -212,6 +212,9 @@ struct SeriesView: View {
                 .id(series.id)
             }
         }
+        #if os(macOS)
+            .padding(.vertical)
+        #endif
     }
 
     func updateSortDirection() {

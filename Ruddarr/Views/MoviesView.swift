@@ -205,6 +205,9 @@ struct MoviesView: View {
                 .id(movie.id)
             }
         }
+        #if os(macOS)
+            .padding(.vertical)
+        #endif
     }
 
     func updateSortDirection() {
