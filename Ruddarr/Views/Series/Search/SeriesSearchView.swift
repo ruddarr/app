@@ -23,7 +23,7 @@ struct SeriesSearchView: View {
                        : SeriesPath.preview(try? JSONEncoder().encode(series))
                     ) {
                         SeriesGridItem(series: series)
-                    }
+                    }.buttonStyle(.plain)
                 }
             }
             .padding(.top, 12)

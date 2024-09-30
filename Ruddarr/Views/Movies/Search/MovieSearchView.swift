@@ -23,7 +23,7 @@ struct MovieSearchView: View {
                        : MoviesPath.preview(try? JSONEncoder().encode(movie))
                     ) {
                         MovieGridItem(movie: movie)
-                    }
+                    }.buttonStyle(.plain)
                 }
             }
             .padding(.top, 12)
