@@ -3694,6 +3694,16 @@
         }
       }
     },
+    "Some releases are hidden by the selected filters." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Some releases are hidden by the selected filters."
+          }
+        }
+      }
+    },
     "Something Went Wrong" : {
       "localizations" : {
         "en" : {

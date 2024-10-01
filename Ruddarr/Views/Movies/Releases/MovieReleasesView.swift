@@ -19,6 +19,10 @@ struct MovieReleasesView: View {
                     .environment(instance)
                     .environmentObject(settings)
             }
+
+            if sort.hasFilter && !releases.isEmpty {
+                HiddenReleases()
+            }
         }
         .listStyle(.inset)
         .toolbar {

@@ -81,6 +81,7 @@
 		BB7DDF652B718DFB0001CDFC /* MovieReleaseSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7DDF642B718DFB0001CDFC /* MovieReleaseSheet.swift */; };
 		BB865E612B83C11E00ADCEFE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB865E602B83C11E00ADCEFE /* Error.swift */; };
 		BB89ABC62B756B91009FB62D /* MovieReleaseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */; };
+		BB89BCA82CAB853E006F8728 /* HiddenReleases.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB89BCA72CAB853E006F8728 /* HiddenReleases.swift */; };
 		BB8A56772BFFFDF500199DB7 /* TelemetryDeck in Frameworks */ = {isa = PBXBuildFile; productRef = BB8A56762BFFFDF500199DB7 /* TelemetryDeck */; };
 		BB8A56792C0004D500199DB7 /* Reviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A56782C0004D500199DB7 /* Reviews.swift */; };
 		BB8A60262B93DE020039CFF6 /* InstanceNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A60252B93DE020039CFF6 /* InstanceNotification.swift */; };
@@ -287,6 +288,7 @@
 		BB7DDF642B718DFB0001CDFC /* MovieReleaseSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseSheet.swift; sourceTree = "<group>"; };
 		BB865E602B83C11E00ADCEFE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseRow.swift; sourceTree = "<group>"; };
+		BB89BCA72CAB853E006F8728 /* HiddenReleases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenReleases.swift; sourceTree = "<group>"; };
 		BB8A56782C0004D500199DB7 /* Reviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviews.swift; sourceTree = "<group>"; };
 		BB8A60252B93DE020039CFF6 /* InstanceNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceNotification.swift; sourceTree = "<group>"; };
 		BB8A60272B952D710039CFF6 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
@@ -587,17 +589,18 @@
 			isa = PBXGroup;
 			children = (
 				BB456D222B58C71300C29B00 /* NoInternet.swift */,
+				BB0C3EC62BF90C5900632CB1 /* NoInstance.swift */,
+				BBBCA05B2BE958F300BAE374 /* Toolbar.swift */,
 				BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */,
 				BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */,
 				BBAFC7ED2BB8D3CE00245D10 /* CloseButton.swift */,
 				BBF583B12BABAE8C00AFA7FB /* Loading.swift */,
 				BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */,
 				BBF7BFDD2BE4971D00B485FA /* InformationList.swift */,
-				BBBCA05B2BE958F300BAE374 /* Toolbar.swift */,
+				BB89BCA72CAB853E006F8728 /* HiddenReleases.swift */,
 				BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */,
 				BBAFC7E62BB733E800245D10 /* MediaEventSheet.swift */,
 				BB50F2242C39BFDA005E14CA /* MediaHistoryItem.swift */,
-				BB0C3EC62BF90C5900632CB1 /* NoInstance.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1091,6 +1094,7 @@
 				BBF583BB2BAC9A0A00AFA7FB /* CalendarMedia.swift in Sources */,
 				BBD3F7DA2BE9E31F0050D9A0 /* SeriesReleaseSheet.swift in Sources */,
 				BB3CC7212C192C980024FA90 /* MovieDefaults.swift in Sources */,
+				BB89BCA82CAB853E006F8728 /* HiddenReleases.swift in Sources */,
 				BBC309DC2BED95DF004080FD /* AppDelegateMac.swift in Sources */,
 				BB8A60282B952D710039CFF6 /* Subscription.swift in Sources */,
 				790D1EC52B864EC700FCDB64 /* QuickActions.swift in Sources */,
