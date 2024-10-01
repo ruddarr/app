@@ -138,9 +138,7 @@ struct SeriesReleasesView: View {
         }
 
         if sort.freeleech {
-            releases = releases.filter {
-                $0.cleanIndexerFlags.contains(where: { $0.localizedStandardContains("freeleech") })
-            }
+            releases = releases.filter { $0.releaseFlags.contains(.freeleech) }
         }
 
         if sort.originalLanguage {
@@ -185,7 +183,9 @@ extension SeriesReleasesView {
                 customFormatPicker
             }
 
-            seasonPackPicker
+            Section {
+                seasonPackPicker
+            }
 
             Section {
                 Toggle("Approved", systemImage: "checkmark.seal", isOn: $sort.approved)
@@ -235,7 +235,10 @@ extension SeriesReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Indexer", systemImage: "building.2")
+            Label(
+                sort.indexer == ".all" ? "Indexer" : sort.indexer,
+                systemImage: "building.2"
+            )
         }
     }
 
@@ -250,7 +253,10 @@ extension SeriesReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Quality", systemImage: "film.stack")
+            Label(
+                sort.quality == ".all" ? "Quality" : sort.quality,
+                systemImage: "film.stack"
+            )
         }
     }
 
@@ -265,7 +271,10 @@ extension SeriesReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Protocol", systemImage: "point.3.connected.trianglepath.dotted")
+            Label(
+                sort.type == ".all" ? "Protocol" : sort.type,
+                systemImage: "point.3.connected.trianglepath.dotted"
+            )
         }
     }
 
@@ -280,7 +289,10 @@ extension SeriesReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Language", systemImage: "waveform")
+            Label(
+                sort.language == ".all" ? "Language" : sort.language,
+                systemImage: "waveform"
+            )
         }
     }
 
@@ -295,21 +307,20 @@ extension SeriesReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Custom Format", systemImage: "person.badge.plus")
+            Label(
+                sort.customFormat == ".all" ? "Custom Format" : sort.customFormat,
+                systemImage: "person.badge.plus"
+            )
         }
     }
 
     var seasonPackPicker: some View {
-        Menu {
-            Picker("Season Pack", selection: $sort.seasonPack) {
-                ForEach(SeriesReleaseSort.SeasonPack.allCases) { item in
-                    Text(item.label).tag(Optional.some(item))
-                }
+        Picker("Season Pack", selection: $sort.seasonPack) {
+            ForEach(SeriesReleaseSort.SeasonPack.allCases) { item in
+                Label(item.label, systemImage: item.icon).tag(Optional.some(item))
             }
-            .pickerStyle(.inline)
-        } label: {
-            Label("Season Pack", systemImage: "shippingbox")
         }
+        .pickerStyle(.inline)
     }
 }
 

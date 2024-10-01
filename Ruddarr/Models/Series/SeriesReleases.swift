@@ -196,7 +196,7 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var isFreeleech: Bool {
-        indexerFlags == 1
+        releaseFlags.contains(.freeleech)
     }
 
     var isProper: Bool {
@@ -216,21 +216,15 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var hasNonFreeleechFlags: Bool {
-        guard let flags = indexerFlags else { return false }
-        return flags > 1
+        releaseFlags.contains { $0 != .freeleech }
     }
 
-    var cleanIndexerFlags: [String] {
-        switch indexerFlags ?? 0 {
-        case 1: ["Freeleech"]
-        case 2: ["Halfleech"]
-        case 4: ["DoubleUpload"]
-        case 8: ["Internal"]
-        case 16: ["Scene"]
-        case 32: ["Freeleech75"]
-        case 64: ["Freeleech25"]
-        default: []
+    var releaseFlags: [SeriesReleaseFlag] {
+        guard let flags = indexerFlags, flags > 1 else {
+            return []
         }
+
+        return SeriesReleaseFlags.parse(flags)
     }
 
     var indexerLabel: String {
@@ -241,16 +235,12 @@ struct SeriesRelease: Identifiable, Codable {
         return formatIndexer(name)
     }
 
-    var indexerFlagsLabel: String? {
-        indexerFlags == 0 ? nil : cleanIndexerFlags[0]
-    }
-
     var languageLabel: String {
         languageSingleLabel(languages ?? [])
     }
 
     var languagesLabel: String {
-        guard let langs = languages, langs.isEmpty else {
+        guard let langs = languages, !langs.isEmpty else {
             return String(localized: "Unknown")
         }
 
@@ -307,4 +297,45 @@ struct SeriesReleaseEpisode: Codable {
     let seasonNumber: Season.ID
     let episodeNumber: Episode.ID
     let title: String?
+}
+
+struct SeriesReleaseFlags {
+    static var map: [Int: SeriesReleaseFlag] = [
+        1: .freeleech,
+        2: .halfleech,
+        4: .doubleUpload,
+        8: .internal,
+        16: .scene,
+        32: .freeleech75,
+        64: .freeleech25,
+        128: .nuked,
+    ]
+
+    static func parse(_ value: Int) -> [SeriesReleaseFlag] {
+        map.keys.filter { value & $0 != 0 }.compactMap { map[$0] }
+    }
+}
+
+enum SeriesReleaseFlag {
+    case freeleech
+    case halfleech
+    case doubleUpload
+    case `internal`
+    case scene
+    case freeleech75
+    case freeleech25
+    case nuked
+
+    var label: String {
+        switch self {
+        case .freeleech: "Freeleech"
+        case .halfleech: "Halfleech"
+        case .doubleUpload: "DoubleUpload"
+        case .internal: "Internal"
+        case .scene: "Scene"
+        case .freeleech75: "Freeleech75"
+        case .freeleech25: "Freeleech25"
+        case .nuked: "Nuked"
+        }
+    }
 }

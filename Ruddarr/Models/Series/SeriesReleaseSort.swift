@@ -68,6 +68,14 @@ struct SeriesReleaseSort: Equatable {
             case .episode: String(localized: "Single Episode")
             }
         }
+
+        var icon: String {
+            switch self {
+            case .any: "square.stack.3d.up"
+            case .season: "shippingbox"
+            case .episode: "numbersign"
+            }
+        }
     }
 
     var hasFilter: Bool {

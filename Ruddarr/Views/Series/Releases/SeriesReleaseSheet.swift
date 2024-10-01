@@ -200,8 +200,10 @@ struct SeriesReleaseSheet: View {
             flags.append(score)
         }
 
-        if let indexerFlags = release.indexerFlags, indexerFlags != 0 {
-            flags.append(contentsOf: release.cleanIndexerFlags)
+        let indexerFlags = release.releaseFlags
+
+        if !indexerFlags.isEmpty {
+            flags.append(contentsOf: indexerFlags.map { $0.label })
         }
 
         return flags
