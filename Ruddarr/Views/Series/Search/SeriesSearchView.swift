@@ -77,6 +77,11 @@ struct SeriesSearchView: View {
     }
 
     func handleSearchQueryChange(oldQuery: String, newQuery: String) {
+        if let imdb = extractImdbId(newQuery) {
+            searchQuery = "imdb:\(imdb)"
+            return
+        }
+
         if searchQuery.isEmpty {
             instance.lookup.reset()
         } else if oldQuery == newQuery {

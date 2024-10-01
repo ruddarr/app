@@ -41,8 +41,14 @@ struct QuickActions {
     }
 
     var openMovieSearch: (String) -> Void = { query in
+        var searchText: String = query
+
+        if let imdb = extractImdbId(query) {
+            searchText = "imdb:\(imdb)"
+        }
+
         dependencies.router.selectedTab = .movies
-        dependencies.router.moviesPath = .init([MoviesPath.search(query)])
+        dependencies.router.moviesPath = .init([MoviesPath.search(searchText)])
     }
 
     func openMovie(_ id: Movie.ID, _ instance: Instance.ID?) {
@@ -65,8 +71,14 @@ struct QuickActions {
     }
 
     var openSeriesSearch: (String) -> Void = { query in
+        var searchText: String = query
+
+        if let imdb = extractImdbId(query) {
+            searchText = "imdb:\(imdb)"
+        }
+
         dependencies.router.selectedTab = .series
-        dependencies.router.seriesPath = .init([SeriesPath.search(query)])
+        dependencies.router.seriesPath = .init([SeriesPath.search(searchText)])
     }
 
     func openSeriesItem(_ id: Series.ID, _ instance: Instance.ID?) {

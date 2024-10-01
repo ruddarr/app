@@ -104,6 +104,16 @@ func formatIndexer(_ name: String) -> String {
 }
 // swiftlint:enable cyclomatic_complexity
 
+func extractImdbId(_ text: String) -> String? {
+    let pattern = /imdb\.com\/title\/(tt\d+)/
+
+    if let matches = try? pattern.firstMatch(in: text) {
+        return String(matches.1)
+    }
+
+    return nil
+}
+
 func formatAge(_ ageInMinutes: Float) -> String {
     let minutes: Int = Int(ageInMinutes)
     let days: Int = minutes / 60 / 24
