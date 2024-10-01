@@ -2972,6 +2972,17 @@
         }
       }
     },
+    "Open Sable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Sable"
+          }
+        }
+      }
+    },
     "Optimize API calls for instances that load slowly." : {
       "localizations" : {
         "en" : {
