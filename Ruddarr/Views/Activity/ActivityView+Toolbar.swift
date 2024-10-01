@@ -105,14 +105,14 @@ extension ActivityView {
     }
     
     var sable: String {
-        #if os(iOS)
-            let url = "sable://open"
-
-            if UIApplication.shared.canOpenURL(URL(string: url)!) {
-                return url
-            }
-        #endif
-
+#if os(iOS)
+        let url = "sable://open"
+        
+        if UIApplication.shared.canOpenURL(URL(string: url)!) {
+            return url
+        }
+#endif
+        
         return ""
     }
 }
