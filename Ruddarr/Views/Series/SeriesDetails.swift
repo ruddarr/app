@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryClient
+import TelemetryDeck
 
 struct SeriesDetails: View {
     @Binding var series: Series
