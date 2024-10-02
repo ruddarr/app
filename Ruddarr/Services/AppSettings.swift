@@ -62,27 +62,20 @@ extension AppSettings {
         var deletedInstance = instance
         deletedInstance.id = UUID()
 
-        deleteInstanceWebhook(deletedInstance)
-        deleteInstanceIndex(deletedInstance)
+        let webhook = InstanceWebhook(instance)
+
+        Task.detached { [webhook] in
+            await webhook.delete()
+        }
+
+        Task {
+            await Spotlight.of(instance).deleteInstanceIndex()
+        }
 
         if let index = instances.firstIndex(where: { $0.id == instance.id }) {
             instances.remove(at: index)
         }
 
         Queue.shared.instances = instances
-    }
-
-    private func deleteInstanceWebhook(_ instance: Instance) {
-        let webhook = InstanceWebhook(instance)
-
-        Task.detached { [webhook] in
-            await webhook.delete()
-        }
-    }
-
-    private func deleteInstanceIndex(_ instance: Instance) {
-        Task.detached { [instance] in
-            await Spotlight.of(instance).deleteInstanceIndex()
-        }
     }
 }
