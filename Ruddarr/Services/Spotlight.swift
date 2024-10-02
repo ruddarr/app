@@ -108,9 +108,9 @@ class Spotlight {
 
                 dependencies.store.set(checksum, forKey: self.checksumKey)
 
-                leaveBreadcrumb(.info, category: "spotlight", message: "Indexed movies", data: ["count": entities.count, "instance": indexName])
+                leaveBreadcrumb(.info, category: "spotlight", message: "Indexed series", data: ["count": entities.count, "instance": indexName])
             } catch {
-                leaveBreadcrumb(.error, category: "spotlight", message: "Failed to index movies", data: ["error": error])
+                leaveBreadcrumb(.error, category: "spotlight", message: "Failed to index series", data: ["error": error])
             }
         }
     }
