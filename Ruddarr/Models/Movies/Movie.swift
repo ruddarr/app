@@ -213,7 +213,7 @@ extension Movie {
     var searchableItem: CSSearchableItem {
         CSSearchableItem(
             uniqueIdentifier: "movie:\(id):\(instanceId?.uuidString ?? "")",
-            domainIdentifier: nil,
+            domainIdentifier: instanceId?.uuidString,
             attributeSet: attributeSet
         )
     }

@@ -223,7 +223,7 @@ extension Series {
     var searchableItem: CSSearchableItem {
         CSSearchableItem(
             uniqueIdentifier: "series:\(id):\(instanceId?.uuidString ?? "")",
-            domainIdentifier: nil,
+            domainIdentifier: instanceId?.uuidString,
             attributeSet: attributeSet
         )
     }
