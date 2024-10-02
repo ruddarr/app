@@ -26,7 +26,6 @@ class Spotlight {
     }
 
     func indexMovies(_ movies: [Movie]) {
-        guard instance.mode == .normal else { return }
         guard CSSearchableIndex.isIndexingAvailable() else { return }
 
         Task.detached(priority: .background) {
@@ -72,7 +71,6 @@ class Spotlight {
     }
 
     func indexSeries(_ series: [Series]) {
-        guard instance.mode == .normal else { return }
         guard CSSearchableIndex.isIndexingAvailable() else { return }
 
         Task.detached(priority: .background) {
