@@ -238,10 +238,19 @@ extension Series {
         attributes.genre = genres.first
         attributes.addedDate = added
         attributes.thumbnailURL = remotePosterCached
+        attributes.contentRating = NSNumber(value: certification == "R")
+        attributes.userCurated = NSNumber(value: monitored)
+        attributes.userOwned = NSNumber(value: (statistics?.percentOfEpisodes ?? 0) > 0)
 
         attributes.contentDescription = [yearLabel, runtimeLabel, String(localized: "\(seasonCount) Seasons")]
             .compactMap { $0 }
             .joined(separator: " · ")
+
+        if let titles = alternateTitles {
+            attributes.keywords = titles
+                .filter { $0.title == title }
+                .map { $0.title }
+        }
 
         return attributes
     }

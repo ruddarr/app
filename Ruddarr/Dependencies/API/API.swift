@@ -410,7 +410,7 @@ extension API {
         switch statusCode {
         case (200..<400):
             if Response.self == Empty.self {
-                return try decoder.decode(Response.self, from: "{}".data(using: .utf8)!)
+                return try decoder.decode(Response.self, from: "{}".data(using: .utf8)!) // swiftlint:disable:this non_optional_string_data_conversion
             }
 
             do {
