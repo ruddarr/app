@@ -38,6 +38,7 @@ struct SeriesView: View {
                         ScrollView {
                             seriesItemGrid
                                 .padding(.top, searchPresented ? 10 : 0)
+                                .viewBottomPadding()
                                 .viewPadding(.horizontal)
                         }
                         .onAppear {

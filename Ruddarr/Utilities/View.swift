@@ -24,6 +24,10 @@ extension View {
         self.modifier(ViewPadding(edges))
     }
 
+    func viewBottomPadding() -> some View {
+        self.modifier(ViewBottomPadding())
+    }
+
     func toolbarIdFix(_ id: UUID) -> some View {
         self.modifier(ToolbarIdFixModifier(id))
     }
@@ -65,6 +69,18 @@ private struct ViewPadding: ViewModifier {
             content.scenePadding(edges)
         } else {
             content.padding(edges, 22)
+        }
+    }
+}
+
+private struct ViewBottomPadding: ViewModifier {
+    @Environment(\.deviceType) private var deviceType
+
+    func body(content: Content) -> some View {
+        if deviceType == .phone {
+            content.padding(.bottom)
+        } else {
+            content
         }
     }
 }

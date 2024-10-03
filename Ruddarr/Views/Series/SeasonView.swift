@@ -20,6 +20,7 @@ struct SeasonView: View {
                 episodesList
             }
             .viewPadding(.horizontal)
+            .viewBottomPadding()
         }
         .refreshable {
             await Task { await reload() }.value

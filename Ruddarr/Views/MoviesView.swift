@@ -37,6 +37,7 @@ struct MoviesView: View {
                         ScrollView {
                             movieItemGrid
                                 .padding(.top, searchPresented ? 10 : 0)
+                                .viewBottomPadding()
                                 .viewPadding(.horizontal)
                         }
                         .onAppear {

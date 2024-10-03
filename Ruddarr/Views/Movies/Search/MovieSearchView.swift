@@ -28,6 +28,7 @@ struct MovieSearchView: View {
             }
             .padding(.top, 12)
             .viewPadding(.horizontal)
+            .viewBottomPadding()
         }
         .navigationTitle("Search")
         .safeNavigationBarTitleDisplayMode(.large)
