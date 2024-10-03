@@ -59,10 +59,7 @@ class InstanceWebhook {
     }
 
     private func webhook() -> InstanceNotification? {
-        notifications.first(where: {
-            $0.implementation == "Webhook" &&
-            $0.fields.first(where: { $0.value.starts(with: Notifications.url) }) != nil
-        })
+        notifications.first { $0.isRuddarrWebhook }
     }
 
     private func fetchWebhooks() async throws {

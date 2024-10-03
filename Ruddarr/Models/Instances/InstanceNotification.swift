@@ -67,6 +67,20 @@ struct InstanceNotification: Identifiable, Codable {
         onManualInteractionRequired = false
         onApplicationUpdate = false
     }
+
+    var isRuddarrWebhook: Bool {
+        guard implementation == "Webhook" else {
+            return false
+        }
+
+        if let label = name, label.contains("Ruddarr") {
+            return true
+        }
+
+        return fields.contains {
+            $0.value.starts(with: Notifications.url)
+        }
+    }
 }
 
 struct InstanceNotificationField: Codable {
