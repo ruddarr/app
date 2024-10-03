@@ -6,6 +6,12 @@ func maybeAskForReview() {
     let days: Double = 14
     let delay: DispatchTime = .now() + 2
 
+    let sevenDaysAgo: Double = -7 * 24 * 60 * 60
+
+    if let installedOn = inferredInstallDate(), installedOn.timeIntervalSinceNow > sevenDaysAgo {
+        return
+    }
+
     if isRunningIn(.testflight) {
         return
     }

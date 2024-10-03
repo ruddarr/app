@@ -127,6 +127,11 @@ struct Movie: Identifiable, Equatable, Codable {
         return formatRuntime(runtime)
     }
 
+    var sizeLabel: String? {
+        guard let bytes = sizeOnDisk, bytes > 0 else { return nil }
+        return formatBytes(bytes)
+    }
+
     var certificationLabel: String {
         guard let rating = certification else {
             return String(localized: "Unrated")
@@ -208,7 +213,7 @@ extension Movie {
     var searchableItem: CSSearchableItem {
         CSSearchableItem(
             uniqueIdentifier: "movie:\(id):\(instanceId?.uuidString ?? "")",
-            domainIdentifier: nil,
+            domainIdentifier: instanceId?.uuidString,
             attributeSet: attributeSet
         )
     }
@@ -222,11 +227,19 @@ extension Movie {
         attributes.title = title
         attributes.genre = genres.first
         attributes.addedDate = added
+        attributes.downloadedDate = movieFile?.dateAdded
         attributes.thumbnailURL = remotePosterCached
+        attributes.contentRating = NSNumber(value: certification == "R")
+        attributes.userCurated = NSNumber(value: monitored)
+        attributes.userOwned = NSNumber(value: isDownloaded)
 
         attributes.contentDescription = [yearLabel, runtimeLabel, certificationLabel]
             .compactMap { $0 }
             .joined(separator: " · ")
+
+        attributes.keywords = alternateTitles
+            .filter { $0.title == title }
+            .map { $0.title }
 
         return attributes
     }

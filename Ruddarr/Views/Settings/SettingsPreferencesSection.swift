@@ -86,13 +86,7 @@ struct SettingsPreferencesSection: View {
                     Text("App Icon")
                 }
             } icon: {
-                #if os(macOS)
-                    let icon = "AppIcon"
-                #else
-                    let icon = UIApplication.shared.alternateIconName ?? "AppIcon"
-                #endif
-
-                Image(appIcon: icon)
+                Image(settings.icon.data.asset)
                     .resizable()
                     .frame(width: appIconSize, height: appIconSize)
                     .clipShape(.rect(cornerRadius: (10 / 57) * appIconSize))
@@ -102,7 +96,7 @@ struct SettingsPreferencesSection: View {
 
     var tabPicker: some View {
         Picker(selection: $settings.tab) {
-            ForEach([Tab.movies, Tab.series, Tab.calendar]) { tab in
+            ForEach([Tab.movies, Tab.series, Tab.calendar, Tab.activity]) { tab in
                 Text(tab.text)
             }
         } label: {

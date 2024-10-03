@@ -9,18 +9,12 @@ struct ContentView: View {
 
     @State private var isPortrait = false
     @State private var columnVisibility: NavigationSplitViewVisibility = .doubleColumn
-    @State private var showTabViewOverlay: Bool = true
 
     @ScaledMetric(relativeTo: .body) var safeAreaInsetHeight = 48
 
     private let orientationChangePublisher = NotificationCenter.default.publisher(
         for: UIDevice.orientationDidChangeNotification
     )
-
-    init() {
-        UITabBar.appearance().unselectedItemTintColor = .clear
-        UITabBar.appearance().tintColor = .clear // this does not work (see `.tint` below)
-    }
 
     var body: some View {
         if deviceType == .pad {
@@ -61,14 +55,12 @@ struct ContentView: View {
         }) {
             ForEach(Tab.allCases) { tab in
                 screen(for: tab)
-                    .tint(settings.theme.tint) // restore tint for view
                     .tabItem { tab.label }
                     .badge(tab == .activity ? Queue.shared.badgeCount : 0)
                     .displayToasts()
                     .tag(tab)
             }
         }
-        .tint(.clear) // hide selected `tabItem` tint
         .onAppear {
             if !isRunningIn(.preview) {
                 dependencies.router.selectedTab = settings.tab
@@ -76,30 +68,8 @@ struct ContentView: View {
 
             UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
         }
-        .overlay(alignment: .bottom) { // the default `tabItem`s are hidden, display our own
-            let columns: [GridItem] = Array(repeating: .init(.flexible()), count: Tab.allCases.count)
-
-            if showTabViewOverlay {
-                LazyVGrid(columns: columns) {
-                    ForEach(Tab.allCases) { tab in
-                        tab.stack
-                            .foregroundStyle(
-                                dependencies.router.selectedTab == tab ? settings.theme.tint : .gray
-                            )
-                    }
-                }
-                .allowsHitTesting(false)
-                .padding(.horizontal, 4)
-            }
-        }
         .whatsNewSheet()
         .onChange(of: scenePhase, handleScenePhaseChange)
-        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
-            showTabViewOverlay = false
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
-            showTabViewOverlay = true
-        }
     }
 
     var sidebar: some View {

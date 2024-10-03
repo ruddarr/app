@@ -24,7 +24,7 @@ extension SeriesDetails {
                 detailsSubtitle
                     .padding(.bottom, 6)
 
-                if deviceType != .phone && !series.exists {
+                if deviceType != .phone {
                     Spacer()
                     actions
                 }
@@ -68,6 +68,11 @@ extension SeriesDetails {
             }
 
             Text(series.certificationLabel).lineLimit(1)
+
+            if deviceType != .phone, let size = series.sizeLabel {
+                Bullet()
+                Text(size)
+            }
         }
         .font(.callout)
         .foregroundStyle(.secondary)

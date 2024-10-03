@@ -26,14 +26,11 @@ class MovieReleases {
         items = []
         error = nil
         isSearching = true
+        setFilterData()
 
         do {
             items = try await dependencies.api.lookupMovieReleases(movie.id, instance)
-            setIndexers()
-            setQualities()
-            setProtocols()
-            setLanguages()
-            setCustomFormats()
+            setFilterData()
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
@@ -45,6 +42,14 @@ class MovieReleases {
         }
 
         isSearching = false
+    }
+
+    func setFilterData() {
+        setIndexers()
+        setQualities()
+        setProtocols()
+        setLanguages()
+        setCustomFormats()
     }
 
     func setIndexers() {
@@ -186,7 +191,8 @@ struct MovieRelease: Identifiable, Codable {
         guard let flags = indexerFlags else { return [] }
 
         return flags.map {
-            $0.hasPrefix("G_") ? String($0.dropFirst(2)) : $0
+            guard let range = $0.range(of: "_") else { return $0 }
+            return String($0[range.upperBound...])
         }
     }
 

@@ -26,7 +26,7 @@ class Spotlight {
     }
 
     func indexMovies(_ movies: [Movie]) {
-        guard instance.mode == .normal else { return }
+        guard CSSearchableIndex.isIndexingAvailable() else { return }
 
         Task.detached(priority: .background) {
             let checksum = self.calculateChecksum(
@@ -51,7 +51,7 @@ class Spotlight {
             do {
                 let chunk = 1_000
                 let index = CSSearchableIndex(name: indexName)
-                try await index.deleteAllSearchableItems()
+                try await index.deleteSearchableItems(withDomainIdentifiers: [indexName])
 
                 for start in stride(from: 0, to: entities.count, by: chunk) {
                     let end = min(start + chunk, entities.count)
@@ -71,7 +71,7 @@ class Spotlight {
     }
 
     func indexSeries(_ series: [Series]) {
-        guard instance.mode == .normal else { return }
+        guard CSSearchableIndex.isIndexingAvailable() else { return }
 
         Task.detached(priority: .background) {
             let checksum = self.calculateChecksum(
@@ -96,7 +96,8 @@ class Spotlight {
             do {
                 let chunk = 1_000
                 let index = CSSearchableIndex(name: indexName)
-                try await index.deleteAllSearchableItems()
+
+                try await index.deleteSearchableItems(withDomainIdentifiers: [indexName])
 
                 for start in stride(from: 0, to: entities.count, by: chunk) {
                     let end = min(start + chunk, entities.count)
@@ -108,9 +109,9 @@ class Spotlight {
 
                 dependencies.store.set(checksum, forKey: self.checksumKey)
 
-                leaveBreadcrumb(.info, category: "spotlight", message: "Indexed movies", data: ["count": entities.count, "instance": indexName])
+                leaveBreadcrumb(.info, category: "spotlight", message: "Indexed series", data: ["count": entities.count, "instance": indexName])
             } catch {
-                leaveBreadcrumb(.error, category: "spotlight", message: "Failed to index movies", data: ["error": error])
+                leaveBreadcrumb(.error, category: "spotlight", message: "Failed to index series", data: ["error": error])
             }
         }
     }
@@ -118,8 +119,12 @@ class Spotlight {
     func deleteInstanceIndex() async {
         dependencies.store.removeObject(forKey: checksumKey)
 
-        let index = CSSearchableIndex(name: instance.id.uuidString)
-        try? await index.deleteAllSearchableItems()
+        do {
+            let index = CSSearchableIndex(name: instance.id.uuidString)
+            try await index.deleteSearchableItems(withDomainIdentifiers: [instance.id.uuidString])
+        } catch {
+            leaveBreadcrumb(.error, category: "spotlight", message: "Failed to delete index", data: ["error": error])
+        }
     }
 
     func calculateChecksum(_ string: String) -> String {

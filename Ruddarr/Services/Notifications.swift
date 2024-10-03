@@ -150,3 +150,243 @@ class Notifications {
         return Data(hmac).base64EncodedString()
     }
 }
+
+// swiftlint:disable closure_body_length
+#Preview {
+    let ruddarrTest = [
+        String(format: localized("NOTIFICATION_TEST")),
+        String(format: localized("NOTIFICATION_TEST_BODY")),
+    ]
+
+    let applicationUpdate = [
+        String(format: localized("NOTIFICATION_APPLICATION_UPDATE"), "Synology"),
+        "{payload.message}",
+    ]
+
+    let health = [
+        String(format: localized("NOTIFICATION_HEALTH"), "Synology"),
+        "{payload.message}",
+    ]
+
+    let healthRestored = [
+        String(format: localized("NOTIFICATION_HEALTH_RESTORED"), "Synology"),
+        "{payload.message}",
+    ]
+
+    let manualInteractionRequired = [
+        String(format: localized("NOTIFICATION_MANUAL_INTERACTION_REQUIRED"), "Synology"),
+        "{payload.downloadInfo.title}",
+        "{payload.downloadStatusMessages[0].title}",
+    ]
+
+    func localized(_ key: String) -> String {
+        NSLocalizedString(key, comment: "")
+    }
+
+    @ViewBuilder
+    func group(_ name: String) -> some View {
+        Text(verbatim: name)
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .center)
+    }
+
+    @ViewBuilder
+    func notification(_ strings: [String]) -> some View {
+        let cutoff = strings.count == 3 ? 2 : 1
+
+        ForEach(strings.indices, id: \.self) { index in
+            Text(verbatim: strings[index])
+                .fontWeight(index < cutoff ? .bold : .regular)
+        }
+    }
+
+    return ScrollView {
+        VStack(alignment: .leading) {
+            group("RuddarrTest")
+            notification(ruddarrTest)
+            Divider().padding(.vertical)
+
+            group("ApplicationUpdate")
+            notification(applicationUpdate)
+            Divider().padding(.vertical)
+
+            group("Health")
+            notification(health)
+            Divider().padding(.vertical)
+
+            group("HealthRestored")
+            notification(healthRestored)
+            Divider().padding(.vertical)
+
+            group("ManualInteractionRequired")
+            notification(manualInteractionRequired)
+            Divider().padding(.vertical)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    .padding()
+}
+
+#Preview("Movie") {
+    let movieAdded = [
+        String(format: localized("NOTIFICATION_MOVIE_ADDED"), "Synology"),
+        String(format: localized("NOTIFICATION_MOVIE_ADDED_BODY"), "Joker", "2024"),
+    ]
+
+    let movieGrab = [
+        String(format: localized("NOTIFICATION_MOVIE_GRAB"), "Synology"),
+        String(format: localized("NOTIFICATION_MOVIE_GRAB_SUBTITLE"), "Joker", "2024"),
+        String(format: localized("NOTIFICATION_MOVIE_GRAB_BODY"), "Joker WEBRIP 1080p DD5.1 H265 gr0up", "1337x"),
+    ]
+
+    let movieDownload = [
+        String(format: localized("NOTIFICATION_MOVIE_DOWNLOAD"), "Synology"),
+        String(format: localized("NOTIFICATION_MOVIE_DOWNLOAD_BODY"), "Joker", "2024"),
+    ]
+
+    let movieUpgrade = [
+        String(format: localized("NOTIFICATION_MOVIE_UPGRADE"), "Synology"),
+        String(format: localized("NOTIFICATION_MOVIE_UPGRADE_BODY"), "Joker", "2024"),
+    ]
+
+    func localized(_ key: String) -> String {
+        NSLocalizedString(key, comment: "")
+    }
+
+    @ViewBuilder
+    func group(_ name: String) -> some View {
+        Text(verbatim: name)
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .center)
+    }
+
+    @ViewBuilder
+    func notification(_ strings: [String]) -> some View {
+        let cutoff = strings.count == 3 ? 2 : 1
+
+        ForEach(strings.indices, id: \.self) { index in
+            Text(verbatim: strings[index])
+                .fontWeight(index < cutoff ? .bold : .regular)
+        }
+    }
+
+    return ScrollView {
+        VStack(alignment: .leading) {
+            group("MovieAdded")
+            notification(movieAdded)
+            Divider().padding(.vertical)
+
+            group("Grab")
+            notification(movieGrab)
+            Divider().padding(.vertical)
+
+            group("Download")
+            notification(movieDownload)
+            Divider().padding(.vertical)
+
+            group("Upgrade")
+            notification(movieUpgrade)
+            Divider().padding(.vertical)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    .padding()
+}
+
+#Preview("Series") {
+    let seriesAdd = [
+        String(format: localized("NOTIFICATION_SERIES_ADDED"), "Synology"),
+        String(format: localized("NOTIFICATION_SERIES_ADDED_BODY"), "Patriot", "2015"),
+    ]
+
+    let episodeGrab = [
+        String(format: localized("NOTIFICATION_EPISODE_GRAB"), "Synology", "1"),
+        String(format: localized("NOTIFICATION_EPISODES_GRAB_SUBTITLE"), "Patriot", "2"),
+        String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "Patriot S01 WEBRIP 1080p DD5.1 H265 gr0up", "1337x"),
+    ]
+
+    let episodesGrab = [
+        String(format: localized("NOTIFICATION_EPISODES_GRAB"), "Synology", "8"),
+        String(format: localized("NOTIFICATION_EPISODES_GRAB_SUBTITLE"), "Patriot", "2"),
+        String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "Patriot S01 WEBRIP 1080p DD5.1 H265 gr0up", "1337x"),
+    ]
+
+    let episodeDownload = [
+        String(format: localized("NOTIFICATION_EPISODE_DOWNLOAD"), "Synology"),
+        String(format: localized("NOTIFICATION_EPISODE_DOWNLOAD_BODY"), "Patriot", "2", "8"),
+    ]
+
+    let episodeUpgrade = [
+        String(format: localized("NOTIFICATION_EPISODE_UPGRADE"), "Synology"),
+        String(format: localized("NOTIFICATION_EPISODE_DOWNLOAD_BODY"), "Patriot", "2", "8"),
+    ]
+
+    let episodesDownload = [
+        String(format: localized("NOTIFICATION_EPISODES_DOWNLOAD"), "Synology", "8"),
+        String(format: localized("NOTIFICATION_EPISODES_DOWNLOAD_BODY"), "Patriot", "2"),
+    ]
+
+    let episodesUpgrade = [
+        String(format: localized("NOTIFICATION_EPISODES_UPGRADE"), "Synology", "8"),
+        String(format: localized("NOTIFICATION_EPISODES_DOWNLOAD_BODY"), "Patriot", "2"),
+    ]
+
+    func localized(_ key: String) -> String {
+        NSLocalizedString(key, comment: "")
+    }
+
+    @ViewBuilder
+    func group(_ name: String) -> some View {
+        Text(verbatim: name)
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .center)
+    }
+
+    @ViewBuilder
+    func notification(_ strings: [String]) -> some View {
+        let cutoff = strings.count == 3 ? 2 : 1
+
+        ForEach(strings.indices, id: \.self) { index in
+            Text(verbatim: strings[index])
+                .fontWeight(index < cutoff ? .bold : .regular)
+        }
+    }
+
+    return ScrollView {
+        VStack(alignment: .leading) {
+            group("SeriesAdd")
+            notification(seriesAdd)
+            Divider().padding(.vertical)
+
+            group("Grab (Episode)")
+            notification(episodeGrab)
+            Divider().padding(.vertical)
+
+            group("Grab (Episodes)")
+            notification(episodesGrab)
+            Divider().padding(.vertical)
+
+            group("Download (Episode)")
+            notification(episodeDownload)
+            Divider().padding(.vertical)
+
+            group("Download (Episodes)")
+            notification(episodesDownload)
+            Divider().padding(.vertical)
+
+            group("Upgrade (Episode)")
+            notification(episodeUpgrade)
+            Divider().padding(.vertical)
+
+            group("Upgrade (Episodes)")
+            notification(episodesUpgrade)
+            Divider().padding(.vertical)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    .padding()
+}
+// swiftlint:enable closure_body_length

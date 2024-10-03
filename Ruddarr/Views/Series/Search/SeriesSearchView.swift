@@ -17,13 +17,13 @@ struct SeriesSearchView: View {
 
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-                ForEach(seriesLookup.items ?? []) { series in
+                ForEach(seriesLookup.sortedItems) { series in
                     NavigationLink(value: series.exists
                        ? SeriesPath.series(series.id)
                        : SeriesPath.preview(try? JSONEncoder().encode(series))
                     ) {
                         SeriesGridItem(series: series)
-                    }
+                    }.buttonStyle(.plain)
                 }
             }
             .padding(.top, 12)
@@ -39,6 +39,11 @@ struct SeriesSearchView: View {
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
+        .searchScopes($seriesLookup.sort) {
+            ForEach(SeriesLookup.SortOption.allCases) { option in
+                Text(option.label)
+            }
+        }
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)
         }
@@ -72,6 +77,11 @@ struct SeriesSearchView: View {
     }
 
     func handleSearchQueryChange(oldQuery: String, newQuery: String) {
+        if let imdb = extractImdbId(newQuery) {
+            searchQuery = "imdb:\(imdb)"
+            return
+        }
+
         if searchQuery.isEmpty {
             instance.lookup.reset()
         } else if oldQuery == newQuery {

@@ -62,6 +62,7 @@ struct ActivityView: View {
             }
             .sheet(item: $itemSheet) { item in
                 QueueItemSheet(item: item)
+                    .environmentObject(settings)
                     .presentationDetents([.medium])
             }
         }

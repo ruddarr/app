@@ -1,5 +1,5 @@
 import SwiftUI
-import Foundation
+import CoreSpotlight
 import Nuke
 
 struct SettingsSystemSection: View {
@@ -21,7 +21,7 @@ struct SettingsSystemSection: View {
             }
 
             Button(role: .destructive, action: {
-                deleteSpotlightIndex()
+                deleteSpotlightIndexes()
             }, label: {
                 Text("Delete Spotlight Index")
             })
@@ -79,11 +79,16 @@ struct SettingsSystemSection: View {
         imageCacheSize = 0
     }
 
-    func deleteSpotlightIndex() {
+    func deleteSpotlightIndexes() {
         for instance in settings.instances {
             Task {
                 await Spotlight.of(instance).deleteInstanceIndex()
             }
+        }
+
+        Task {
+            // delete dangling items as well
+            try? await CSSearchableIndex.default().deleteAllSearchableItems()
         }
     }
 

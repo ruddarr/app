@@ -53,19 +53,19 @@ enum Tab: String, Hashable, CaseIterable, Identifiable {
         }
     }
 
-    var icon: String {
+    var icon: Image {
         switch self {
-        case .movies: "film"
-        case .series: "tv"
-        case .calendar: "calendar"
-        case .activity: "waveform.path.ecg"
-        case .settings: "gear"
+        case .movies: Image("movies")
+        case .series: Image("series")
+        case .calendar: Image(systemName: "calendar")
+        case .activity: Image(systemName: "waveform.path.ecg")
+        case .settings: Image(systemName: "gear")
         }
     }
 
     @ViewBuilder
     var label: some View {
-        Label(text, systemImage: icon)
+        Label { Text(text) } icon: { icon }
     }
 
     @ViewBuilder
@@ -76,50 +76,8 @@ enum Tab: String, Hashable, CaseIterable, Identifiable {
                 .font(.headline)
                 .fontWeight(.regular)
         } icon: {
-            Image(systemName: icon)
-                .imageScale(.large)
+            icon.imageScale(.large)
         }
-    }
-
-    @ViewBuilder
-    var stack: some View {
-        VStack(spacing: 0) {
-            Spacer()
-            switch self {
-            case .movies:
-                Image(systemName: icon).font(.system(size: 23))
-                    .frame(height: 15)
-
-                Text(text).font(.system(size: 10, weight: .semibold))
-                    .frame(height: 15).padding(.top, 8)
-            case .series:
-                Image(systemName: icon).font(.system(size: 23))
-                    .frame(height: 15)
-
-                Text(text).font(.system(size: 10, weight: .semibold))
-                    .frame(height: 15).padding(.top, 8)
-            case .calendar:
-                Image(systemName: icon).font(.system(size: 23))
-                    .frame(height: 15)
-
-                Text(text).font(.system(size: 10, weight: .semibold))
-                    .frame(height: 15).padding(.top, 8)
-            case .activity:
-                Image(systemName: icon).font(.system(size: 23))
-                    .frame(height: 15)
-
-                Text(text).font(.system(size: 10, weight: .semibold))
-                    .frame(height: 15).padding(.top, 8)
-            case .settings:
-                Image(systemName: icon).font(.system(size: 23))
-                    .frame(height: 15)
-
-                Text(text).font(.system(size: 10, weight: .semibold))
-                    .frame(height: 15).padding(.top, 8)
-
-            }
-        }
-        .frame(height: 50)
     }
 }
 

@@ -25,5 +25,6 @@ jobs:
         steps:
           - name: Checkout repository
             uses: actions/checkout@v4
+
           - name: Search for misspellings
             uses: crate-ci/typos@master

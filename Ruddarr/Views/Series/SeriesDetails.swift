@@ -1,9 +1,11 @@
 import SwiftUI
+import TelemetryDeck
 
 struct SeriesDetails: View {
     @Binding var series: Series
 
     @State private var descriptionTruncated = true
+    @State private var monitoringSeason: Season.ID?
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) private var instance
@@ -87,6 +89,43 @@ struct SeriesDetails: View {
     @ViewBuilder
     var actions: some View {
         HStack(spacing: 24) {
+            if series.exists {
+                seriesActions
+            } else {
+                previewActions
+            }
+        }
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: 450)
+    }
+
+    var seriesActions: some View {
+        Group {
+            Button {
+                Task { @MainActor in
+                    guard await instance.series.command(.seriesSearch(series.id)) else {
+                        return
+                    }
+
+                    dependencies.toast.show(.monitoredSearchQueued)
+
+                    TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
+                }
+            } label: {
+                ButtonLabel(text: "Search Monitored", icon: "magnifyingglass")
+                    .modifier(MediaPreviewActionModifier())
+            }
+            .buttonStyle(.bordered)
+            .tint(.secondary)
+            .allowsHitTesting(!instance.series.isWorking)
+
+            Spacer()
+                .modifier(MediaPreviewActionSpacerModifier())
+        }
+    }
+
+    var previewActions: some View {
+        Group {
             Menu {
                 SeriesContextMenu(series: series)
             } label: {
@@ -99,8 +138,6 @@ struct SeriesDetails: View {
             Spacer()
                 .modifier(MediaPreviewActionSpacerModifier())
         }
-        .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: 450)
     }
 
     var qualityProfile: String {
@@ -131,9 +168,13 @@ struct SeriesDetails: View {
                                 Button {
                                     Task { await monitorSeason(season.id) }
                                 } label: {
-                                    Image(systemName: "bookmark")
-                                        .symbolVariant(season.monitored ? .fill : .none)
-                                        .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
+                                    if monitoringSeason == season.id {
+                                        ProgressView().tint(.secondary).offset(x: 1.5)
+                                    } else {
+                                        Image(systemName: "bookmark")
+                                            .symbolVariant(season.monitored ? .fill : .none)
+                                            .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
+                                    }
                                 }
                                 .buttonStyle(.plain)
                                 .overlay(Rectangle().padding(18))
@@ -164,9 +205,14 @@ struct SeriesDetails: View {
 
         series.seasons[index].monitored.toggle()
 
+        monitoringSeason = season
+
         guard await instance.series.push(series) else {
+            monitoringSeason = nil
             return
         }
+
+        monitoringSeason = nil
 
         dependencies.toast.show(series.seasons[index].monitored ? .monitored : .unmonitored)
     }

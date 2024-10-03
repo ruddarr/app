@@ -171,7 +171,10 @@ extension SeriesDetailView {
     func deleteSeries(exclude: Bool = false) async {
         _ = await instance.series.delete(series, addExclusion: exclude)
 
-        dependencies.router.seriesPath.removeLast()
+        if !dependencies.router.seriesPath.isEmpty {
+            dependencies.router.seriesPath.removeLast()
+        }
+
         dependencies.toast.show(.seriesDeleted)
     }
 

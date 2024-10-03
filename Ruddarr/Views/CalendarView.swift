@@ -118,6 +118,7 @@ struct CalendarView: View {
         let lastFetch = Occurrence.since("calendarFetch")
 
         if !force && !calendar.dates.isEmpty && lastFetch < 10 {
+            initializationError = nil
             return
         }
 

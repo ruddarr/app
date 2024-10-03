@@ -146,13 +146,15 @@ func mediaDetailsSubtitles(_ file: MediaFile?) -> String? {
         return nil
     }
 
-    if codes.count > 2 {
-        var someCodes = Array(codes.prefix(2)).map {
+    let limit = Platform.deviceType() == .phone ? 2 : 5
+
+    if codes.count > limit {
+        var someCodes = Array(codes.prefix(limit)).map {
             $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
         }
 
         someCodes.append(
-            String(format: String(localized: "+%d more..."), codes.count - 2)
+            String(format: String(localized: "+%d more..."), codes.count - limit)
         )
 
         return someCodes.formattedList()

@@ -34,6 +34,18 @@ extension String {
     }
 }
 
+func inferredInstallDate() -> Date? {
+    guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
+        return nil
+    }
+
+    guard let attributes = try? FileManager.default.attributesOfItem(atPath: documentsURL.path) else {
+        return nil
+    }
+
+    return attributes[.creationDate] as? Date
+}
+
 func formatRuntime(_ minutes: Int) -> String {
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.hour, .minute]
@@ -77,7 +89,9 @@ func formatIndexer(_ name: String) -> String {
     return switch indexer {
     case "BeyondHD": "BHD"
     case "Blutopia": "BLU"
+    case "BroadcasTheNet": "BTN"
     case "FileList": "FL"
+    case "HDBits": "HDB"
     case "IPTorrents": "IPT"
     case "MyAnonaMouse": "MAM"
     case "PassThePopcorn": "PTP"
@@ -89,6 +103,16 @@ func formatIndexer(_ name: String) -> String {
     }
 }
 // swiftlint:enable cyclomatic_complexity
+
+func extractImdbId(_ text: String) -> String? {
+    let pattern = /imdb\.com\/title\/(tt\d+)/
+
+    if let matches = try? pattern.firstMatch(in: text) {
+        return String(matches.1)
+    }
+
+    return nil
+}
 
 func formatAge(_ ageInMinutes: Float) -> String {
     let minutes: Int = Int(ageInMinutes)

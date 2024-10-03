@@ -23,7 +23,7 @@ struct MovieSearchView: View {
                        : MoviesPath.preview(try? JSONEncoder().encode(movie))
                     ) {
                         MovieGridItem(movie: movie)
-                    }
+                    }.buttonStyle(.plain)
                 }
             }
             .padding(.top, 12)
@@ -77,6 +77,11 @@ struct MovieSearchView: View {
     }
 
     func handleSearchQueryChange(oldQuery: String, newQuery: String) {
+        if let imdb = extractImdbId(newQuery) {
+            searchQuery = "imdb:\(imdb)"
+            return
+        }
+
         if searchQuery.isEmpty {
             instance.lookup.reset()
         } else if oldQuery == newQuery {

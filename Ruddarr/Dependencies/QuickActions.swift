@@ -4,6 +4,7 @@ import Combine
 /**
 [public] ruddarr://open
 [public] ruddarr://calendar
+[public] ruddarr://activity
 [public] ruddarr://movies
 [public] ruddarr://movies/search
 [public] ruddarr://movies/search/{query?}
@@ -31,13 +32,23 @@ struct QuickActions {
         dependencies.router.selectedTab = .calendar
     }
 
+    var openActivity: () -> Void = {
+        dependencies.router.selectedTab = .activity
+    }
+
     var openMovies: () -> Void = {
         dependencies.router.selectedTab = .movies
     }
 
     var openMovieSearch: (String) -> Void = { query in
+        var searchText: String = query
+
+        if let imdb = extractImdbId(query) {
+            searchText = "imdb:\(imdb)"
+        }
+
         dependencies.router.selectedTab = .movies
-        dependencies.router.moviesPath = .init([MoviesPath.search(query)])
+        dependencies.router.moviesPath = .init([MoviesPath.search(searchText)])
     }
 
     func openMovie(_ id: Movie.ID, _ instance: Instance.ID?) {
@@ -60,8 +71,14 @@ struct QuickActions {
     }
 
     var openSeriesSearch: (String) -> Void = { query in
+        var searchText: String = query
+
+        if let imdb = extractImdbId(query) {
+            searchText = "imdb:\(imdb)"
+        }
+
         dependencies.router.selectedTab = .series
-        dependencies.router.seriesPath = .init([SeriesPath.search(query)])
+        dependencies.router.seriesPath = .init([SeriesPath.search(searchText)])
     }
 
     func openSeriesItem(_ id: Series.ID, _ instance: Instance.ID?) {
@@ -114,6 +131,7 @@ extension QuickActions {
     enum Deeplink {
         case openApp
         case openCalendar
+        case openActivity
         case openMovies
         case openMovie(_ id: Movie.ID, _ instance: Instance.ID?)
         case addMovie(_ query: String = "")
@@ -127,6 +145,8 @@ extension QuickActions {
             case .openApp:
                 break
             case .openCalendar:
+                dependencies.quickActions.openCalendar()
+            case .openActivity:
                 dependencies.quickActions.openCalendar()
             case .openMovies:
                 dependencies.quickActions.openMovies()
@@ -164,6 +184,8 @@ extension QuickActions.Deeplink {
             self = .openApp
         case "calendar":
             self = .openCalendar
+        case "activity":
+            self = .openActivity
         case "movies":
             self = .openMovies
         case "movies/search":

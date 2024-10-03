@@ -101,7 +101,7 @@ class MovieLookup {
         return items.sorted {
             switch sort {
             case .byRelevance:
-                $0.id < $1.id // see `.byRelevance guard above
+                false // see `.byRelevance` guard above
             case .byYear:
                 $0.sortYear > $1.sortYear
             case .byPopularity:
