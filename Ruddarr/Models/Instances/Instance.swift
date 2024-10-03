@@ -43,8 +43,8 @@ struct Instance: Identifiable, Equatable, Codable {
     func timeout(_ call: InstanceTimeout) -> Double {
         switch call {
         case .normal: 10
-        case .slow: mode == .large ? 300 : 10
-        case .releaseSearch: mode == .large ? 180 : 60
+        case .slow: mode.isSlow ? 300 : 10
+        case .releaseSearch: mode.isSlow ? 180 : 60
         case .releaseDownload: 15
         }
     }
@@ -58,7 +58,12 @@ enum InstanceType: String, Identifiable, CaseIterable, Codable {
 
 enum InstanceMode: Codable {
     case normal
-    case large
+    case slow
+    case large // backwards compatible alias of `slow`
+
+    var isSlow: Bool {
+        self == .slow || self == .large
+    }
 }
 
 enum InstanceTimeout: Codable {

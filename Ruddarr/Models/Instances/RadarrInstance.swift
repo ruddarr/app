@@ -41,8 +41,8 @@ class RadarrInstance {
         instance.id
     }
 
-    var isLarge: Bool {
-        instance.mode == .large
+    var isSlow: Bool {
+        instance.mode.isSlow
     }
 
     var rootFolders: [InstanceRootFolders] {

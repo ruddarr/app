@@ -230,7 +230,7 @@ struct MoviesView: View {
             updateDisplayedMovies()
 
             let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
-            let cacheInSeconds: Double = instance.isLarge ? 300 : 30
+            let cacheInSeconds: Double = instance.isSlow ? 300 : 30
 
             if Occurrence.since(lastMetadataFetch) > cacheInSeconds {
                 if let model = await instance.fetchMetadata() {

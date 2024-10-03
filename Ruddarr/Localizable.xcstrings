@@ -1865,16 +1865,6 @@
         }
       }
     },
-    "Large Instance" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Large Instance"
-          }
-        }
-      }
-    },
     "Last Season" : {
       "localizations" : {
         "en" : {
@@ -2961,12 +2951,12 @@
         }
       }
     },
-    "Optimize API calls for instances that load slowly." : {
+    "Optimizes API calls for instances that load unusually slowly and encounter timeouts frequently." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Optimize API calls for instances that load slowly."
+            "value" : "Optimizes API calls for instances that load unusually slowly and encounter timeouts frequently."
           }
         }
       }
@@ -3690,6 +3680,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Single Episode"
+          }
+        }
+      }
+    },
+    "Slow Instance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slow Instance"
           }
         }
       }
