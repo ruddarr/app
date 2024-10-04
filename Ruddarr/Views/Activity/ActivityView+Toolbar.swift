@@ -40,7 +40,9 @@ extension ActivityView {
             .id(hotfixId)
         }
         ToolbarItem(placement: .primaryAction) {
-            toolbarOpenSable
+            if let sableURL = sable {
+                toolbarOpenSable
+            }
         }
     }
 
@@ -101,18 +103,18 @@ extension ActivityView {
     }
     
     var toolbarOpenSable: some View {
-        Link("Open Sable", destination: URL(string: sable) ?? Links.Sable)
+        Link("Open Sable", destination: URL(string: "sable://open")!)
     }
     
-    var sable: String {
-#if os(iOS)
-        let url = "sable://open"
-        
-        if UIApplication.shared.canOpenURL(URL(string: url)!) {
-            return url
-        }
-#endif
-        
-        return ""
+    var sable: String? {
+        #if os(iOS)
+            let url = "sable://open"
+
+            if UIApplication.shared.canOpenURL(URL(string: url)!) {
+                return url
+            }
+        #endif
+
+        return nil
     }
 }
