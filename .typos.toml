@@ -16,4 +16,5 @@ extend-ignore-re = [
 [default.extend-words]
 
 [default.extend-identifiers]
+"BroadcasTheNet" = "BroadcasTheNet"
 "Github" = "GitHub"
