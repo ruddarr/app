@@ -1,6 +1,7 @@
 import SwiftUI
 
 @Observable
+@MainActor
 class MediaCalendar {
     var instances: [Instance] = []
     var dates: [TimeInterval] = []
