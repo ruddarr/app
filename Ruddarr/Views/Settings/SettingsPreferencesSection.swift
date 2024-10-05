@@ -81,12 +81,12 @@ struct SettingsPreferencesSection: View {
         NavigationLink(value: SettingsView.Path.icons) {
             Label {
                 LabeledContent {
-                    Text(settings.icon.data.label)
+                    Text(settings.icon.label)
                 } label: {
                     Text("App Icon")
                 }
             } icon: {
-                Image(settings.icon.data.asset)
+                Image(settings.icon.preview)
                     .resizable()
                     .frame(width: appIconSize, height: appIconSize)
                     .clipShape(.rect(cornerRadius: (10 / 57) * appIconSize))

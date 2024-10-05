@@ -36,7 +36,7 @@ struct IconsView: View {
 
     func renderIcon(_ icon: AppIcon) -> some View {
         VStack {
-            Image(icon.data.asset)
+            Image(icon.preview)
                 .resizable()
                 .frame(width: iconSize, height: iconSize)
                 .clipShape(.rect(cornerRadius: iconRadius))
@@ -48,21 +48,21 @@ struct IconsView: View {
                     }
                 }
                 .onTapGesture {
-                    if !icon.data.locked || entitledToService {
+                    if !icon.locked || entitledToService {
                         settings.icon = icon
 
                         #if os(macOS)
                             NSApplication.shared.applicationIconImage = NSImage(named: icon.data.asset)
                             // NSWorkspace.shared.setIcon(image, forFile: bundle.path, options: [])
                         #else
-                            UIApplication.shared.setAlternateIconName(icon.data.value)
+                            UIApplication.shared.setAlternateIconName(icon.asset)
                         #endif
                     } else {
                         showSubscription = true
                     }
                 }
 
-            Text(icon.data.label)
+            Text(icon.label)
                 .font(.caption)
                 .fontWeight(.medium)
                 .lineLimit(1)

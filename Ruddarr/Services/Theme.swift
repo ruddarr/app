@@ -105,6 +105,22 @@ enum AppIcon: String, Identifiable, CaseIterable {
         case .atp: AppIconData.atp
         }
     }
+
+    var label: String {
+        data.label
+    }
+
+    var locked: Bool {
+        data.locked
+    }
+
+    var preview: String {
+        "AppIconPreview\(data.asset)"
+    }
+
+    var asset: String {
+        self == .factory ? "AppIcon" : "AppIcon\(data.asset)"
+    }
 }
 
 struct AppIconData {
@@ -112,47 +128,43 @@ struct AppIconData {
     var asset: String
     var locked: Bool
 
-    var value: String? {
-        asset == "AppIcon" ? nil : asset
-    }
-
     static var factory: Self {
-        .init(label: "Default", asset: "AppIconPreviewDefault", locked: false)
+        .init(label: String(localized: "Default"), asset: "Default", locked: false)
     }
 
     static var podcasts: Self {
-        .init(label: String(localized: "Podcasts"), asset: "AppIconPreviewPodcasts", locked: false)
+        .init(label: String(localized: "Podcasts"), asset: "Podcasts", locked: false)
     }
 
     static var music: Self {
-        .init(label: String(localized: "Music"), asset: "AppIconPreviewMusic", locked: false)
+        .init(label: String(localized: "Music"), asset: "Music", locked: false)
     }
 
     static var books: Self {
-        .init(label: String(localized: "Books"), asset: "AppIconPreviewBooks", locked: false)
+        .init(label: String(localized: "Books"), asset: "Books", locked: false)
     }
 
     static var mono: Self {
-        .init(label: String(localized: "Monochrome", comment: "Name of the 'Monochrome' theme"), asset: "AppIconPreviewMono", locked: true)
+        .init(label: String(localized: "Monochrome", comment: "Name of the 'Monochrome' theme"), asset: "Mono", locked: true)
     }
 
     static var barbie: Self {
-        .init(label: String(localized: "Barbie"), asset: "AppIconPreviewBarbie", locked: true)
+        .init(label: String(localized: "Barbie"), asset: "Barbie", locked: true)
     }
 
     static var plex: Self {
-        .init(label: "Plex", asset: "AppIconPreviewPlex", locked: true)
+        .init(label: "Plex", asset: "Plex", locked: true)
     }
 
     static var telegram: Self {
-        .init(label: "Telegram", asset: "AppIconPreviewTelegram", locked: true)
+        .init(label: "Telegram", asset: "Telegram", locked: true)
     }
 
     static var warp: Self {
-        .init(label: "Warp", asset: "AppIconPreviewWarp", locked: true)
+        .init(label: "Warp", asset: "Warp", locked: true)
     }
 
     static var atp: Self {
-        .init(label: "ATP", asset: "AppIconPreviewATP", locked: true)
+        .init(label: "ATP", asset: "ATP", locked: true)
     }
 }
