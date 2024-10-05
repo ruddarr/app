@@ -1,4 +1,5 @@
 import SwiftUI
+import TipKit
 import TelemetryDeck
 
 struct SeasonView: View {
@@ -174,7 +175,13 @@ struct SeasonView: View {
             .buttonStyle(.plain)
             .allowsHitTesting(!instance.series.isWorking)
             .disabled(!series.monitored)
+            .popoverTip(SeriesMonitoringTip())
             .toolbarIdFix(UUID())
+            .task {
+                if !series.monitored {
+                    try? Tips.configure()
+                }
+            }
         }
     }
 }

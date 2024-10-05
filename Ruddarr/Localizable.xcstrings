@@ -3552,6 +3552,16 @@
         }
       }
     },
+    "Series Not Monitored" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Series Not Monitored"
+          }
+        }
+      }
+    },
     "Series Premiere" : {
       "localizations" : {
         "en" : {
@@ -3891,6 +3901,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The release for this %1$@ could not be determined and it may not import automatically. Do you want to grab \"%2$@\"?"
+          }
+        }
+      }
+    },
+    "The series itself must be monitored, in order to monitor a season or episode." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The series itself must be monitored, in order to monitor a season or episode."
           }
         }
       }
