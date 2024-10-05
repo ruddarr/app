@@ -1233,26 +1233,6 @@
         }
       }
     },
-    "Episode Downloaded" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Episode Downloaded"
-          }
-        }
-      }
-    },
-    "Episode Downloading" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Episode Downloading"
-          }
-        }
-      }
-    },
     "Episode file was renamed." : {
       "localizations" : {
         "en" : {
@@ -1269,16 +1249,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Episode Search Queued"
-          }
-        }
-      }
-    },
-    "Episode Upgraded" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Episode Upgraded"
           }
         }
       }
@@ -1363,12 +1333,32 @@
         }
       }
     },
+    "File Imported" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Imported"
+          }
+        }
+      }
+    },
     "File Size" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "File Size"
+          }
+        }
+      }
+    },
+    "File Upgraded" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Upgraded"
           }
         }
       }
@@ -1630,6 +1620,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Import Blocked"
+          }
+        }
+      }
+    },
+    "Import Completed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Completed"
           }
         }
       }
@@ -2144,16 +2144,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movie Deleted"
-          }
-        }
-      }
-    },
-    "Movie Downloaded" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movie Downloaded"
           }
         }
       }
@@ -3178,6 +3168,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Refresh Queued"
+          }
+        }
+      }
+    },
+    "Release Downloading" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release Downloading"
           }
         }
       }
