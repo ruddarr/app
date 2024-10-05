@@ -76,6 +76,7 @@ extension InstanceView {
         cloudKitStatus == .available
     }
 
+    // swiftlint:disable closure_body_length
     var radarrNotifications: some View {
         Group {
             if webhook.model.supportsOnMovieAdded ?? false {
@@ -201,6 +202,7 @@ extension InstanceView {
             }
         }
     }
+    // swiftlint:enable closure_body_length
 }
 
 extension InstanceView {
