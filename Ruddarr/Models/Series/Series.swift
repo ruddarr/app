@@ -1,7 +1,7 @@
 import SwiftUI
 import CoreSpotlight
 
-struct Series: Identifiable, Equatable, Codable {
+struct Series: Media, Identifiable, Equatable, Codable {
     // series only have an `id` after being added
     var id: Int { guid ?? (tvdbId + 100_000) }
 
@@ -136,8 +136,6 @@ struct Series: Identifiable, Equatable, Codable {
         return status == .upcoming || year == 0 || seasons.isEmpty
     }
 
-    var remotePosterCached: URL?
-
     var remotePoster: String? {
         if let remote = self.images.first(where: { $0.coverType == "poster" }) {
             return remote.remoteURL
@@ -220,24 +218,12 @@ struct Series: Identifiable, Equatable, Codable {
 }
 
 extension Series {
-    var searchableItem: CSSearchableItem {
-        CSSearchableItem(
-            uniqueIdentifier: "series:\(id):\(instanceId?.uuidString ?? "")",
-            domainIdentifier: instanceId?.uuidString,
-            attributeSet: attributeSet
-        )
-    }
-
-    var spotlightHash: String {
-        "\(id):\(sortTitle):\(year):\(runtime):\(seasonCount)"
-    }
-
-    var attributeSet: CSSearchableItemAttributeSet {
+    func searchableItem(poster: URL?) -> CSSearchableItem {
         let attributes = CSSearchableItemAttributeSet(contentType: UTType.movie)
         attributes.title = title
         attributes.genre = genres.first
         attributes.addedDate = added
-        attributes.thumbnailURL = remotePosterCached
+        attributes.thumbnailURL = poster
         attributes.contentRating = NSNumber(value: certification == "R")
         attributes.userCurated = NSNumber(value: monitored)
         attributes.userOwned = NSNumber(value: (statistics?.percentOfEpisodes ?? 0) > 0)
@@ -252,7 +238,15 @@ extension Series {
                 .map { $0.title }
         }
 
-        return attributes
+        return CSSearchableItem(
+            uniqueIdentifier: "series:\(id):\(instanceId?.uuidString ?? "")",
+            domainIdentifier: instanceId?.uuidString,
+            attributeSet: attributes
+        )
+    }
+
+    var searchableHash: String {
+        "\(id):\(sortTitle):\(year):\(runtime):\(seasonCount)"
     }
 }
 

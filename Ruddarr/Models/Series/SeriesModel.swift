@@ -150,8 +150,8 @@ class SeriesModel {
         case .fetch:
             items = try await dependencies.api.fetchSeries(instance)
             itemsCount = items.count
-            Spotlight.of(instance).indexSeries(items)
             computeAlternateTitles()
+            await Spotlight(instance.id).index(items, delay: .seconds(5))
 
             leaveBreadcrumb(.info, category: "series", message: "Fetched series", data: ["count": items.count])
 

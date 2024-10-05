@@ -69,7 +69,7 @@ extension AppSettings {
         }
 
         Task {
-            await Spotlight.of(instance).deleteInstanceIndex()
+            await Spotlight(instance.id).deleteInstanceIndex()
         }
 
         if let index = instances.firstIndex(where: { $0.id == instance.id }) {
