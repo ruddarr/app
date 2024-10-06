@@ -34,8 +34,7 @@ struct API {
     var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
     var episodeCalendar: (Date, Date, Instance) async throws -> [Episode]
 
-    var radarrCommand: (RadarrCommand, Instance) async throws -> Empty
-    var sonarrCommand: (SonarrCommand, Instance) async throws -> Empty
+    var command: (InstanceCommand, Instance) async throws -> Empty
     var downloadRelease: (DownloadReleaseCommand, Instance) async throws -> Empty
 
     var systemStatus: (Instance) async throws -> InstanceStatus
@@ -256,12 +255,7 @@ extension API {
             var episodes: [Episode] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
             for i in episodes.indices { episodes[i].instanceId = instance.id }
             return episodes
-        }, radarrCommand: { command, instance in
-            let url = URL(string: instance.url)!
-                .appending(path: "/api/v3/command")
-
-            return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
-        }, sonarrCommand: { command, instance in
+        }, command: { command, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/command")
 

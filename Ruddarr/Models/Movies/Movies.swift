@@ -23,7 +23,7 @@ class Movies {
         case update(Movie, Bool)
         case delete(Movie, Bool)
         case download(String, Int, Int?)
-        case command(RadarrCommand)
+        case command(InstanceCommand)
     }
 
     init(_ instance: Instance) {
@@ -105,7 +105,7 @@ class Movies {
         await request(.download(guid, indexerId, movieId))
     }
 
-    func command(_ command: RadarrCommand) async -> Bool {
+    func command(_ command: InstanceCommand) async -> Bool {
         await request(.command(command))
     }
 
@@ -165,7 +165,7 @@ class Movies {
             _ = try await dependencies.api.downloadRelease(payload, instance)
 
         case .command(let command):
-            _ = try await dependencies.api.radarrCommand(command, instance)
+            _ = try await dependencies.api.command(command, instance)
         }
     }
 

@@ -129,7 +129,7 @@ extension MovieView {
 
     @MainActor
     func refresh() async {
-        guard await instance.movies.command(.refresh([movie.id])) else {
+        guard await instance.movies.command(.refreshMovie([movie.id])) else {
             return
         }
 

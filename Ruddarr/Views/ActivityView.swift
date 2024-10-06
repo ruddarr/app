@@ -52,13 +52,18 @@ struct ActivityView: View {
             .onChange(of: scenePhase) { hotfixId = UUID() }
             .onAppear {
                 queue.instances = settings.instances
+                queue.performRefresh = true
+            }
+            .onDisappear {
+                queue.performRefresh = false
             }
             .task {
-                await queue.fetch()
+                await queue.fetchTasks()
                 updateDisplayedItems()
             }
             .refreshable {
-                await Task { await queue.fetch() }.value
+                Task { await queue.refreshDownloadClients() }
+                await Task { await queue.fetchTasks() }.value
             }
             .sheet(item: $itemSheet) { item in
                 QueueItemSheet(item: item)
