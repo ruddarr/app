@@ -16,7 +16,9 @@ extension ActivityView {
             .sorted(by: sort.option.isOrderedBefore)
 
         if sort.instance != ".all" {
-            items = items.filter { $0.instanceId?.rawValue ?? nil == sort.instance }
+            items = items.filter {
+                sort.instance.caseInsensitiveCompare($0.instanceId?.uuidString ?? "") == .orderedSame
+            }
         }
 
         if sort.errors {
