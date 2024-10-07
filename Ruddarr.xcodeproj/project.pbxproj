@@ -46,6 +46,7 @@
 		BB4140C62B71CA89007C7DA4 /* MovieReleaseSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */; };
 		BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D222B58C71300C29B00 /* NoInternet.swift */; };
 		BB456D272B58E4B900C29B00 /* system-status.json in Resources */ = {isa = PBXBuildFile; fileRef = BB456D262B58E4B900C29B00 /* system-status.json */; };
+		BB48FF4D2CADABA200DAA4A7 /* TelemetryDeck in Frameworks */ = {isa = PBXBuildFile; productRef = BB48FF4C2CADABA200DAA4A7 /* TelemetryDeck */; };
 		BB4B34F32B7BFE640063F2D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4B34F22B7BFE640063F2D3 /* AppDelegate.swift */; };
 		BB4E441E2B842C0A00E0BC73 /* MovieContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4E441D2B842C0A00E0BC73 /* MovieContextMenu.swift */; };
 		BB507D1B2BD96E0000EC4016 /* SeriesView+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB507D1A2BD96E0000EC4016 /* SeriesView+Overlay.swift */; };
@@ -78,10 +79,12 @@
 		BB77996D2BAE4757007D713B /* Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB77996C2BAE4757007D713B /* Shortcuts.swift */; };
 		BB77C2CC2C19F41800125852 /* SeriesDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB77C2CB2C19F41800125852 /* SeriesDefaults.swift */; };
 		BB77C2CE2C1A019B00125852 /* AppShortcuts.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BB77C2CD2C1A019B00125852 /* AppShortcuts.xcstrings */; };
+		BB79FB912CAF3C16002F8C0F /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB79FB902CAF3C16002F8C0F /* Tips.swift */; };
 		BB7DDF652B718DFB0001CDFC /* MovieReleaseSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7DDF642B718DFB0001CDFC /* MovieReleaseSheet.swift */; };
+		BB83AFA52CB2080E00349997 /* InstanceCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB83AFA42CB2080C00349997 /* InstanceCommand.swift */; };
 		BB865E612B83C11E00ADCEFE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB865E602B83C11E00ADCEFE /* Error.swift */; };
 		BB89ABC62B756B91009FB62D /* MovieReleaseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */; };
-		BB8A56772BFFFDF500199DB7 /* TelemetryDeck in Frameworks */ = {isa = PBXBuildFile; productRef = BB8A56762BFFFDF500199DB7 /* TelemetryDeck */; };
+		BB89BCA82CAB853E006F8728 /* HiddenReleases.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB89BCA72CAB853E006F8728 /* HiddenReleases.swift */; };
 		BB8A56792C0004D500199DB7 /* Reviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A56782C0004D500199DB7 /* Reviews.swift */; };
 		BB8A60262B93DE020039CFF6 /* InstanceNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A60252B93DE020039CFF6 /* InstanceNotification.swift */; };
 		BB8A60282B952D710039CFF6 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A60272B952D710039CFF6 /* Subscription.swift */; };
@@ -284,9 +287,12 @@
 		BB77996C2BAE4757007D713B /* Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcuts.swift; sourceTree = "<group>"; };
 		BB77C2CB2C19F41800125852 /* SeriesDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesDefaults.swift; sourceTree = "<group>"; };
 		BB77C2CD2C1A019B00125852 /* AppShortcuts.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = AppShortcuts.xcstrings; sourceTree = "<group>"; };
+		BB79FB902CAF3C16002F8C0F /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		BB7DDF642B718DFB0001CDFC /* MovieReleaseSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseSheet.swift; sourceTree = "<group>"; };
+		BB83AFA42CB2080C00349997 /* InstanceCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceCommand.swift; sourceTree = "<group>"; };
 		BB865E602B83C11E00ADCEFE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseRow.swift; sourceTree = "<group>"; };
+		BB89BCA72CAB853E006F8728 /* HiddenReleases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenReleases.swift; sourceTree = "<group>"; };
 		BB8A56782C0004D500199DB7 /* Reviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviews.swift; sourceTree = "<group>"; };
 		BB8A60252B93DE020039CFF6 /* InstanceNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceNotification.swift; sourceTree = "<group>"; };
 		BB8A60272B952D710039CFF6 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
@@ -398,7 +404,7 @@
 			files = (
 				BB0FE10F2BEC660500D1D847 /* CloudStorage in Frameworks */,
 				BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */,
-				BB8A56772BFFFDF500199DB7 /* TelemetryDeck in Frameworks */,
+				BB48FF4D2CADABA200DAA4A7 /* TelemetryDeck in Frameworks */,
 				BBDA77632BDACD6300568E64 /* SentrySwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -494,6 +500,13 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		BB48FF462CADAB7900DAA4A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BB507D192BD96DDC00EC4016 /* Series */ = {
 			isa = PBXGroup;
 			children = (
@@ -587,17 +600,19 @@
 			isa = PBXGroup;
 			children = (
 				BB456D222B58C71300C29B00 /* NoInternet.swift */,
+				BB0C3EC62BF90C5900632CB1 /* NoInstance.swift */,
+				BBBCA05B2BE958F300BAE374 /* Toolbar.swift */,
 				BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */,
 				BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */,
 				BBAFC7ED2BB8D3CE00245D10 /* CloseButton.swift */,
 				BBF583B12BABAE8C00AFA7FB /* Loading.swift */,
 				BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */,
 				BBF7BFDD2BE4971D00B485FA /* InformationList.swift */,
-				BBBCA05B2BE958F300BAE374 /* Toolbar.swift */,
+				BB89BCA72CAB853E006F8728 /* HiddenReleases.swift */,
 				BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */,
 				BBAFC7E62BB733E800245D10 /* MediaEventSheet.swift */,
 				BB50F2242C39BFDA005E14CA /* MediaHistoryItem.swift */,
-				BB0C3EC62BF90C5900632CB1 /* NoInstance.swift */,
+				BB79FB902CAF3C16002F8C0F /* Tips.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -618,6 +633,7 @@
 				BB644FCA2B8529C2007C7AD5 /* ci_scripts */,
 				BBE828552B4F2C7000C1E1D9 /* Ruddarr */,
 				BB40712E2C1CDD32006A3FA5 /* NotificationService */,
+				BB48FF462CADAB7900DAA4A7 /* Frameworks */,
 				BBE828542B4F2C7000C1E1D9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -730,6 +746,7 @@
 			isa = PBXGroup;
 			children = (
 				BBF94F642B50C88300300EBA /* Instance.swift */,
+				BB83AFA42CB2080C00349997 /* InstanceCommand.swift */,
 				BB94F1B82B7E7B870050F6A0 /* InstanceWebhook.swift */,
 				BB8A60252B93DE020039CFF6 /* InstanceNotification.swift */,
 				BBE7F8A82B6424350014DD57 /* RadarrInstance.swift */,
@@ -816,7 +833,7 @@
 				BBDA77602BDACD3C00568E64 /* NukeUI */,
 				BBDA77622BDACD6300568E64 /* SentrySwiftUI */,
 				BB0FE10E2BEC660500D1D847 /* CloudStorage */,
-				BB8A56762BFFFDF500199DB7 /* TelemetryDeck */,
+				BB48FF4C2CADABA200DAA4A7 /* TelemetryDeck */,
 			);
 			productName = Ruddarr;
 			productReference = BBE828532B4F2C7000C1E1D9 /* Ruddarr.app */;
@@ -853,7 +870,7 @@
 				BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */,
 				BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 				BB0FE10D2BEC660500D1D847 /* XCRemoteSwiftPackageReference "CloudStorage" */,
-				BB8A56732BFFFDF500199DB7 /* XCRemoteSwiftPackageReference "SwiftSDK" */,
+				BB48FF492CADABA200DAA4A7 /* XCRemoteSwiftPackageReference "SwiftSDK" */,
 			);
 			productRefGroup = BBE828542B4F2C7000C1E1D9 /* Products */;
 			projectDirPath = "";
@@ -1002,6 +1019,7 @@
 				BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */,
 				794BD7822B5ED48E003819AB /* Binding.swift in Sources */,
 				BBE640D32BE4554500B436CC /* SeasonView.swift in Sources */,
+				BB79FB912CAF3C16002F8C0F /* Tips.swift in Sources */,
 				BB507D242BD9709F00EC4016 /* SeriesSort.swift in Sources */,
 				BB581D1A2BA0ED5E0070DFFC /* CalendarView.swift in Sources */,
 				BBE828572B4F2C7000C1E1D9 /* Ruddarr.swift in Sources */,
@@ -1011,6 +1029,7 @@
 				BBC6CEF52BE69B1600F71839 /* Media.swift in Sources */,
 				BB77996D2BAE4757007D713B /* Shortcuts.swift in Sources */,
 				BBD5D80E2C0135F9008E3B3F /* ActivityView.swift in Sources */,
+				BB83AFA52CB2080E00349997 /* InstanceCommand.swift in Sources */,
 				798010BD2B6268D200BBC056 /* RawRepresentable.swift in Sources */,
 				BB25DC662B62EDC700FE55A0 /* MovieGridItem.swift in Sources */,
 				BB507D282BD9736600EC4016 /* SeriesGridItem.swift in Sources */,
@@ -1091,6 +1110,7 @@
 				BBF583BB2BAC9A0A00AFA7FB /* CalendarMedia.swift in Sources */,
 				BBD3F7DA2BE9E31F0050D9A0 /* SeriesReleaseSheet.swift in Sources */,
 				BB3CC7212C192C980024FA90 /* MovieDefaults.swift in Sources */,
+				BB89BCA82CAB853E006F8728 /* HiddenReleases.swift in Sources */,
 				BBC309DC2BED95DF004080FD /* AppDelegateMac.swift in Sources */,
 				BB8A60282B952D710039CFF6 /* Subscription.swift in Sources */,
 				790D1EC52B864EC700FCDB64 /* QuickActions.swift in Sources */,
@@ -1133,7 +1153,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1142,7 +1162,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1168,7 +1188,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1177,7 +1197,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1342,7 +1362,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1350,6 +1370,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1390,7 +1411,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1398,6 +1419,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1445,12 +1467,12 @@
 				minimumVersion = 0.4.0;
 			};
 		};
-		BB8A56732BFFFDF500199DB7 /* XCRemoteSwiftPackageReference "SwiftSDK" */ = {
+		BB48FF492CADABA200DAA4A7 /* XCRemoteSwiftPackageReference "SwiftSDK" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/TelemetryDeck/SwiftSDK";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 2.4.1;
 			};
 		};
 		BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */ = {
@@ -1477,9 +1499,9 @@
 			package = BB0FE10D2BEC660500D1D847 /* XCRemoteSwiftPackageReference "CloudStorage" */;
 			productName = CloudStorage;
 		};
-		BB8A56762BFFFDF500199DB7 /* TelemetryDeck */ = {
+		BB48FF4C2CADABA200DAA4A7 /* TelemetryDeck */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BB8A56732BFFFDF500199DB7 /* XCRemoteSwiftPackageReference "SwiftSDK" */;
+			package = BB48FF492CADABA200DAA4A7 /* XCRemoteSwiftPackageReference "SwiftSDK" */;
 			productName = TelemetryDeck;
 		};
 		BBDA77602BDACD3C00568E64 /* NukeUI */ = {

@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 @Observable
 class MediaCalendar {
     var instances: [Instance] = []
@@ -18,7 +19,6 @@ class MediaCalendar {
 
     let days: Int = 45
 
-    @MainActor
     func load() async {
         if isLoading {
             return
@@ -40,7 +40,6 @@ class MediaCalendar {
         isLoadingFuture = false
     }
 
-    @MainActor
     private func fetch(start: Date, end: Date) async {
         error = nil
 

@@ -1,4 +1,5 @@
 import SwiftUI
+import TipKit
 import TelemetryDeck
 
 struct SeasonView: View {
@@ -20,6 +21,7 @@ struct SeasonView: View {
                 episodesList
             }
             .viewPadding(.horizontal)
+            .viewBottomPadding()
         }
         .refreshable {
             await Task { await reload() }.value
@@ -173,7 +175,13 @@ struct SeasonView: View {
             .buttonStyle(.plain)
             .allowsHitTesting(!instance.series.isWorking)
             .disabled(!series.monitored)
+            .popoverTip(SeriesMonitoringTip())
             .toolbarIdFix(UUID())
+            .task {
+                if !series.monitored {
+                    try? Tips.configure()
+                }
+            }
         }
     }
 }

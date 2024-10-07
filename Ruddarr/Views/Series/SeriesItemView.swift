@@ -140,9 +140,7 @@ extension SeriesDetailView {
 
     @MainActor
     func refresh() async {
-        guard await instance.series.command(
-            .refresh(series.id)
-        ) else {
+        guard await instance.series.command(.refreshSeries(series.id)) else {
             return
         }
 
@@ -171,7 +169,10 @@ extension SeriesDetailView {
     func deleteSeries(exclude: Bool = false) async {
         _ = await instance.series.delete(series, addExclusion: exclude)
 
-        dependencies.router.seriesPath.removeLast()
+        if !dependencies.router.seriesPath.isEmpty {
+            dependencies.router.seriesPath.removeLast()
+        }
+
         dependencies.toast.show(.seriesDeleted)
     }
 

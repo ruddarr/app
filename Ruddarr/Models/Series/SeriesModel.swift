@@ -24,7 +24,7 @@ class SeriesModel {
         case update(Series, Bool)
         case delete(Series, Bool)
         case download(String, Int, Int?, Int?, Int?)
-        case command(SonarrCommand)
+        case command(InstanceCommand)
     }
 
     init(_ instance: Instance) {
@@ -110,7 +110,7 @@ class SeriesModel {
         await request(.download(guid, indexerId, seriesId, seasonId, episodeId))
     }
 
-    func command(_ command: SonarrCommand) async -> Bool {
+    func command(_ command: InstanceCommand) async -> Bool {
         await request(.command(command))
     }
 
@@ -150,8 +150,8 @@ class SeriesModel {
         case .fetch:
             items = try await dependencies.api.fetchSeries(instance)
             itemsCount = items.count
-            Spotlight.of(instance).indexSeries(items)
             computeAlternateTitles()
+            await Spotlight(instance.id).index(items, delay: .seconds(5))
 
             leaveBreadcrumb(.info, category: "series", message: "Fetched series", data: ["count": items.count])
 
@@ -184,7 +184,7 @@ class SeriesModel {
             _ = try await dependencies.api.downloadRelease(payload, instance)
 
         case .command(let command):
-            _ = try await dependencies.api.sonarrCommand(command, instance)
+            _ = try await dependencies.api.command(command, instance)
         }
     }
 

@@ -21,7 +21,12 @@ struct SeriesReleasesView: View {
                     .environment(instance)
                     .environmentObject(settings)
             }
+
+            if sort.hasFilter && !releases.isEmpty {
+                HiddenReleases()
+            }
         }
+        .viewBottomPadding()
         .listStyle(.inset)
         .toolbar {
             toolbarButtons

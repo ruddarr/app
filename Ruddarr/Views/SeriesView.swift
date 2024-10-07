@@ -38,6 +38,7 @@ struct SeriesView: View {
                         ScrollView {
                             seriesItemGrid
                                 .padding(.top, searchPresented ? 10 : 0)
+                                .viewBottomPadding()
                                 .viewPadding(.horizontal)
                         }
                         .onAppear {
@@ -212,6 +213,9 @@ struct SeriesView: View {
                 .id(series.id)
             }
         }
+        #if os(macOS)
+            .padding(.vertical)
+        #endif
     }
 
     func updateSortDirection() {
@@ -233,7 +237,7 @@ struct SeriesView: View {
             updateDisplayedSeries()
 
             let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
-            let cacheInSeconds: Double = instance.isLarge ? 300 : 30
+            let cacheInSeconds: Double = instance.isSlow ? 300 : 30
 
             if Occurrence.since(lastMetadataFetch) > cacheInSeconds {
                 if let model = await instance.fetchMetadata() {

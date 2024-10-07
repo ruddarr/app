@@ -119,11 +119,7 @@ extension API {
             let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
 
             return episodes
-        }, radarrCommand: { _, _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
-
-            return Empty()
-        }, sonarrCommand: { _, _ in
+        }, command: { _, _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()

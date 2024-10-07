@@ -21,16 +21,6 @@
         }
       }
     },
-    "%@ (%lld)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ (%2$lld)"
-          }
-        }
-      }
-    },
     "%@ at %@" : {
       "localizations" : {
         "en" : {
@@ -721,17 +711,6 @@
         }
       }
     },
-    "Check out Sable" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Check out Sable"
-          }
-        }
-      }
-    },
     "Check the spelling or try [adding the movie](%@)." : {
       "localizations" : {
         "en" : {
@@ -1264,26 +1243,6 @@
         }
       }
     },
-    "Episode Downloaded" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Episode Downloaded"
-          }
-        }
-      }
-    },
-    "Episode Downloading" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Episode Downloading"
-          }
-        }
-      }
-    },
     "Episode file was renamed." : {
       "localizations" : {
         "en" : {
@@ -1300,16 +1259,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Episode Search Queued"
-          }
-        }
-      }
-    },
-    "Episode Upgraded" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Episode Upgraded"
           }
         }
       }
@@ -1394,12 +1343,32 @@
         }
       }
     },
+    "File Imported" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Imported"
+          }
+        }
+      }
+    },
     "File Size" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "File Size"
+          }
+        }
+      }
+    },
+    "File Upgraded" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Upgraded"
           }
         }
       }
@@ -1665,6 +1634,16 @@
         }
       }
     },
+    "Import Completed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Completed"
+          }
+        }
+      }
+    },
     "Import Pending" : {
       "localizations" : {
         "en" : {
@@ -1872,16 +1851,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Languages"
-          }
-        }
-      }
-    },
-    "Large Instance" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Large Instance"
           }
         }
       }
@@ -2185,16 +2154,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movie Deleted"
-          }
-        }
-      }
-    },
-    "Movie Downloaded" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movie Downloaded"
           }
         }
       }
@@ -2972,23 +2931,12 @@
         }
       }
     },
-    "Open Sable" : {
-      "extractionState" : "manual",
+    "Optimizes API calls for instances that load unusually slowly and encounter timeouts frequently." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Sable"
-          }
-        }
-      }
-    },
-    "Optimize API calls for instances that load slowly." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Optimize API calls for instances that load slowly."
+            "value" : "Optimizes API calls for instances that load unusually slowly and encounter timeouts frequently."
           }
         }
       }
@@ -3230,6 +3178,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Refresh Queued"
+          }
+        }
+      }
+    },
+    "Release Downloading" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release Downloading"
           }
         }
       }
@@ -3604,6 +3562,16 @@
         }
       }
     },
+    "Series Not Monitored" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Series Not Monitored"
+          }
+        }
+      }
+    },
     "Series Premiere" : {
       "localizations" : {
         "en" : {
@@ -3712,6 +3680,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Single Episode"
+          }
+        }
+      }
+    },
+    "Slow Instance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slow Instance"
+          }
+        }
+      }
+    },
+    "Some releases are hidden by the selected filters." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Some releases are hidden by the selected filters."
           }
         }
       }
@@ -3927,6 +3915,16 @@
         }
       }
     },
+    "The series itself must be monitored, in order to monitor a season or episode." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The series itself must be monitored, in order to monitor a season or episode."
+          }
+        }
+      }
+    },
     "The URL used to access the %@ web interface. Must be prefixed with \"http://\" or \"https://\"." : {
       "localizations" : {
         "en" : {
@@ -4115,17 +4113,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unknown event."
-          }
-        }
-      }
-    },
-    "Unlocks unlimited instance notifications, all alternate app icons and supports the continued indie development of Ruddarr." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unlocks unlimited instance notifications, all alternate app icons and supports the continued indie development of Ruddarr."
           }
         }
       }

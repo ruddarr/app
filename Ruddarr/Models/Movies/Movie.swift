@@ -2,7 +2,15 @@ import SwiftUI
 import AppIntents
 import CoreSpotlight
 
-struct Movie: Identifiable, Equatable, Codable {
+protocol Media: Identifiable {
+    var title: String { get }
+    var remotePoster: String? { get }
+
+    var searchableHash: String { get }
+    func searchableItem(poster: URL?) -> CSSearchableItem
+}
+
+struct Movie: Media, Identifiable, Equatable, Codable {
     // movies only have an `id` after being added
     var id: Int { guid ?? (tmdbId + 100_000) }
 
@@ -127,6 +135,11 @@ struct Movie: Identifiable, Equatable, Codable {
         return formatRuntime(runtime)
     }
 
+    var sizeLabel: String? {
+        guard let bytes = sizeOnDisk, bytes > 0 else { return nil }
+        return formatBytes(bytes)
+    }
+
     var certificationLabel: String {
         guard let rating = certification else {
             return String(localized: "Unrated")
@@ -162,8 +175,6 @@ struct Movie: Identifiable, Equatable, Codable {
             .map { $0.replacingOccurrences(of: "Science Fiction", with: "Sci-Fi") }
             .formattedList()
     }
-
-    var remotePosterCached: URL?
 
     var remotePoster: String? {
         if let remote = self.images.first(where: { $0.coverType == "poster" }) {
@@ -205,30 +216,34 @@ struct Movie: Identifiable, Equatable, Codable {
 }
 
 extension Movie {
-    var searchableItem: CSSearchableItem {
-        CSSearchableItem(
-            uniqueIdentifier: "movie:\(id):\(instanceId?.uuidString ?? "")",
-            domainIdentifier: nil,
-            attributeSet: attributeSet
-        )
-    }
-
-    var spotlightHash: String {
-        "\(id):\(sortTitle):\(year):\(runtime)"
-    }
-
-    var attributeSet: CSSearchableItemAttributeSet {
+    func searchableItem(poster: URL?) -> CSSearchableItem {
         let attributes = CSSearchableItemAttributeSet(contentType: UTType.movie)
         attributes.title = title
         attributes.genre = genres.first
         attributes.addedDate = added
-        attributes.thumbnailURL = remotePosterCached
+        attributes.downloadedDate = movieFile?.dateAdded
+        attributes.thumbnailURL = poster
+        attributes.contentRating = NSNumber(value: certification == "R")
+        attributes.userCurated = NSNumber(value: monitored)
+        attributes.userOwned = NSNumber(value: isDownloaded)
 
         attributes.contentDescription = [yearLabel, runtimeLabel, certificationLabel]
             .compactMap { $0 }
             .joined(separator: " · ")
 
-        return attributes
+        attributes.keywords = alternateTitles
+            .filter { $0.title == title }
+            .map { $0.title }
+
+        return CSSearchableItem(
+            uniqueIdentifier: "movie:\(id):\(instanceId?.uuidString ?? "")",
+            domainIdentifier: instanceId?.uuidString,
+            attributeSet: attributes
+        )
+    }
+
+    var searchableHash: String {
+        "\(id):\(sortTitle):\(year):\(runtime)"
     }
 }
 

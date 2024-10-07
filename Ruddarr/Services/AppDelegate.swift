@@ -128,7 +128,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
 
     func configureTelemetryDeck() {
-        let configuration = TelemetryDeck.Config(
+        var configuration = TelemetryDeck.Config(
             appID: Secrets.TelemetryAppId
         )
 

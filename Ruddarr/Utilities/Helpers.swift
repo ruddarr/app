@@ -34,6 +34,16 @@ extension String {
     }
 }
 
+public func equals(_ lhs: Any?, _ rhs: Any?) -> Bool {
+    func open<A: Equatable>(_ lhs: A, _ rhs: Any?) -> Bool {
+        lhs == (rhs as? A)
+    }
+
+    guard let lhs = lhs as? any Equatable else { return false }
+
+    return open(lhs, rhs)
+}
+
 func inferredInstallDate() -> Date? {
     guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
         return nil
@@ -103,6 +113,16 @@ func formatIndexer(_ name: String) -> String {
     }
 }
 // swiftlint:enable cyclomatic_complexity
+
+func extractImdbId(_ text: String) -> String? {
+    let pattern = /imdb\.com\/title\/(tt\d+)/
+
+    if let matches = try? pattern.firstMatch(in: text) {
+        return String(matches.1)
+    }
+
+    return nil
+}
 
 func formatAge(_ ageInMinutes: Float) -> String {
     let minutes: Int = Int(ageInMinutes)

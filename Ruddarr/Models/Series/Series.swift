@@ -1,7 +1,7 @@
 import SwiftUI
 import CoreSpotlight
 
-struct Series: Identifiable, Equatable, Codable {
+struct Series: Media, Identifiable, Equatable, Codable {
     // series only have an `id` after being added
     var id: Int { guid ?? (tvdbId + 100_000) }
 
@@ -54,9 +54,12 @@ struct Series: Identifiable, Equatable, Codable {
     let alternateTitles: [MediaAlternateTitle]?
 
     var seasons: [Season]
+
     let genres: [String]
     let images: [MediaImage]
+    let ratings: SeriesRatings?
     let statistics: SeriesStatistics?
+
     var addOptions: SeriesAddOptions?
 
     // Sonarr v3
@@ -99,6 +102,7 @@ struct Series: Identifiable, Equatable, Codable {
         case seasons
         case genres
         case images
+        case ratings
         case statistics
         case addOptions
         case languageProfileId
@@ -106,6 +110,13 @@ struct Series: Identifiable, Equatable, Codable {
 
     var exists: Bool {
         guid != nil
+    }
+
+    var popularity: Float {
+        guard let votes = ratings?.votes, votes > 0 else { return 0 }
+        guard let rating = ratings?.value else { return 0 }
+
+        return rating * log(Float(votes) + 1)
     }
 
     var sortYear: TimeInterval {
@@ -124,8 +135,6 @@ struct Series: Identifiable, Equatable, Codable {
         if let premiere = firstAired { return premiere > Date.now }
         return status == .upcoming || year == 0 || seasons.isEmpty
     }
-
-    var remotePosterCached: URL?
 
     var remotePoster: String? {
         if let remote = self.images.first(where: { $0.coverType == "poster" }) {
@@ -209,30 +218,35 @@ struct Series: Identifiable, Equatable, Codable {
 }
 
 extension Series {
-    var searchableItem: CSSearchableItem {
-        CSSearchableItem(
-            uniqueIdentifier: "series:\(id):\(instanceId?.uuidString ?? "")",
-            domainIdentifier: nil,
-            attributeSet: attributeSet
-        )
-    }
-
-    var spotlightHash: String {
-        "\(id):\(sortTitle):\(year):\(runtime):\(seasonCount)"
-    }
-
-    var attributeSet: CSSearchableItemAttributeSet {
+    func searchableItem(poster: URL?) -> CSSearchableItem {
         let attributes = CSSearchableItemAttributeSet(contentType: UTType.movie)
         attributes.title = title
         attributes.genre = genres.first
         attributes.addedDate = added
-        attributes.thumbnailURL = remotePosterCached
+        attributes.thumbnailURL = poster
+        attributes.contentRating = NSNumber(value: certification == "R")
+        attributes.userCurated = NSNumber(value: monitored)
+        attributes.userOwned = NSNumber(value: (statistics?.percentOfEpisodes ?? 0) > 0)
 
         attributes.contentDescription = [yearLabel, runtimeLabel, String(localized: "\(seasonCount) Seasons")]
             .compactMap { $0 }
             .joined(separator: " · ")
 
-        return attributes
+        if let titles = alternateTitles {
+            attributes.keywords = titles
+                .filter { $0.title == title }
+                .map { $0.title }
+        }
+
+        return CSSearchableItem(
+            uniqueIdentifier: "series:\(id):\(instanceId?.uuidString ?? "")",
+            domainIdentifier: instanceId?.uuidString,
+            attributeSet: attributes
+        )
+    }
+
+    var searchableHash: String {
+        "\(id):\(sortTitle):\(year):\(runtime):\(seasonCount)"
     }
 }
 
@@ -275,6 +289,11 @@ enum SeriesType: String, Equatable, Codable, Identifiable, CaseIterable {
         case .anime: String(localized: "Anime")
         }
     }
+}
+
+struct SeriesRatings: Equatable, Codable {
+    let votes: Int
+    let value: Float
 }
 
 struct SeriesStatistics: Equatable, Codable {
@@ -350,7 +369,7 @@ extension Series {
             title: "", titleSlug: nil, sortTitle: "", tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, tmdbId: nil, status: .deleted, seriesType: .standard,
             path: nil, folder: nil, certification: nil, year: 0, runtime: 0, airTime: nil, ended: false, seasonFolder: false, useSceneNumbering: false, added: Date.now,
             firstAired: nil, lastAired: nil, nextAiring: nil, previousAiring: nil, monitored: false, overview: nil, network: nil,
-            originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], genres: [], images: [], statistics: nil
+            originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], genres: [], images: [], ratings: nil, statistics: nil
         )
     }
 }

@@ -58,7 +58,7 @@ struct InstanceEditView: View {
             toolbarButton
         }
         .onAppear {
-            showAdvanced = instance.mode != .normal || !instance.headers.isEmpty
+            showAdvanced = instance.mode.isSlow || !instance.headers.isEmpty
         }
         .onSubmit {
             guard !hasEmptyFields() else { return }
@@ -169,16 +169,16 @@ struct InstanceEditView: View {
 
     var modeSection: some View {
         Section {
-            Toggle("Large Instance", isOn: Binding(
+            Toggle("Slow Instance", isOn: Binding(
                 get: {
-                    instance.mode == .large
+                    instance.mode == .slow
                 },
                 set: { value in
-                    instance.mode = value ? .large : .normal
+                    instance.mode = value ? .slow : .normal
                 }
             ))
         } footer: {
-            Text("Optimize API calls for instances that load slowly.")
+            Text("Optimizes API calls for instances that load unusually slowly and encounter timeouts frequently.")
         }
     }
 

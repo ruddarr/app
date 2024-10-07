@@ -7,17 +7,21 @@ class Queue {
     private var timer: Timer?
 
     var error: API.Error?
+
     var isLoading: Bool = false
+    var performRefresh: Bool = false
 
     var instances: [Instance] = []
     var items: [Instance.ID: [QueueItem]] = [:]
 
     private init() {
-        let interval: TimeInterval = isRunningIn(.simulator) ? 120 : 5
+        let interval: TimeInterval = isRunningIn(.simulator) ? 30 : 5
 
         self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
-            Task {
-                await self.fetch()
+            Task { await self.fetchTasks() }
+
+            if self.performRefresh {
+                Task { await self.refreshDownloadClients() }
             }
         }
     }
@@ -27,7 +31,7 @@ class Queue {
     }
 
     @MainActor
-    func fetch() async {
+    func fetchTasks() async {
         guard !isLoading else { return }
 
         error = nil
@@ -41,13 +45,25 @@ class Queue {
             } catch let apiError as API.Error {
                 error = apiError
 
-                leaveBreadcrumb(.error, category: "calendar", message: "Request failed", data: ["error": apiError])
+                leaveBreadcrumb(.error, category: "queue", message: "Fetch failed", data: ["error": apiError])
             } catch {
                 self.error = API.Error(from: error)
             }
         }
 
         isLoading = false
+    }
+
+    func refreshDownloadClients() async {
+        for instance in instances {
+            do {
+                _ = try await dependencies.api.command(.refreshDownloads, instance)
+            } catch is CancellationError {
+                // do nothing
+            } catch {
+                leaveBreadcrumb(.error, category: "queue", message: "Refresh failed", data: ["error": error])
+            }
+        }
     }
 }
 

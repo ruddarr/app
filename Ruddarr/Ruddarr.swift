@@ -48,7 +48,7 @@ struct Ruddarr: App {
     func openSearchableItem(_ userActivity: NSUserActivity) {
         guard let identifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else { return }
 
-        let parts = identifier.split(separator: ":").map(String.init) // `movie:<id>:<instance>`
+        let parts = identifier.split(separator: ":").map(String.init) // `<type>:<id>:<instance>`
 
         switch parts[0] {
         case "movie": openDeeplink(url: URL(string: "ruddarr://movies/open/\(parts[1])?instance=\(parts[2])")!)
