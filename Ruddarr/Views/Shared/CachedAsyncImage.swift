@@ -17,7 +17,7 @@ struct CachedAsyncImage: View {
     var body: some View {
         if let url = url {
             LazyImage(
-                request: Images.request(url, type),
+                request: Images.request(url, type, .veryHigh),
                 transaction: .init(animation: .smooth)
             ) { state in
                 if let image = state.image {
