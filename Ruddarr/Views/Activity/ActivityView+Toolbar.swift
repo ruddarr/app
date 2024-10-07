@@ -41,11 +41,6 @@ extension ActivityView {
             }
             .id(hotfixId)
         }
-        ToolbarItem(placement: .primaryAction) {
-            if let sableURL = sable {
-                toolbarOpenSable
-            }
-        }
     }
 
     var toolbarFilterButton: some View {
@@ -102,21 +97,5 @@ extension ActivityView {
             Image(systemName: "arrow.up.arrow.down")
                 .imageScale(.medium)
         }
-    }
-    
-    var toolbarOpenSable: some View {
-        Link("Open Sable", destination: URL(string: "sable://open")!)
-    }
-    
-    var sable: String? {
-        #if os(iOS)
-            let url = "sable://open"
-
-            if UIApplication.shared.canOpenURL(URL(string: url)!) {
-                return url
-            }
-        #endif
-
-        return nil
     }
 }
