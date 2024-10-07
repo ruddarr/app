@@ -26,6 +26,7 @@ struct SeriesView: View {
     @State private var alertPresented = false
 
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         // swiftlint:disable closure_body_length
@@ -124,7 +125,7 @@ struct SeriesView: View {
             .toolbar {
                 toolbarViewOptions
 
-                if settings.sonarrInstances.count > 1 {
+                if settings.sonarrInstances.count > 1 && deviceType == .phone  {
                     toolbarInstancePicker
                 }
 
