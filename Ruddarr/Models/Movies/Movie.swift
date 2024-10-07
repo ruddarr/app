@@ -2,14 +2,6 @@ import SwiftUI
 import AppIntents
 import CoreSpotlight
 
-protocol Media: Identifiable {
-    var title: String { get }
-    var remotePoster: String? { get }
-
-    var searchableHash: String { get }
-    func searchableItem(poster: URL?) -> CSSearchableItem
-}
-
 struct Movie: Media, Identifiable, Equatable, Codable {
     // movies only have an `id` after being added
     var id: Int { guid ?? (tmdbId + 100_000) }

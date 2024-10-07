@@ -53,7 +53,7 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
     }
 
     func configureTelemetryDeck() {
-        let configuration = TelemetryDeck.Config(
+        var configuration = TelemetryDeck.Config(
             appID: Secrets.TelemetryAppId
         )
 
