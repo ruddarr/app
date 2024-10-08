@@ -34,6 +34,20 @@ extension String {
     }
 }
 
+extension Hashable {
+    func equals(_ other: any Hashable) -> Bool {
+        if type(of: self) != type(of: other) {
+            return false
+        }
+
+        if let other = other as? Self {
+            return self == other
+        }
+
+        return false
+    }
+}
+
 public func equals(_ lhs: Any?, _ rhs: Any?) -> Bool {
     func open<A: Equatable>(_ lhs: A, _ rhs: Any?) -> Bool {
         lhs == (rhs as? A)
