@@ -93,7 +93,7 @@ struct MovieView: View {
 
     var openInLinks: some View {
         Section {
-            if let trailerUrl = MovieContextMenu.youTubeTrailer(movie.youTubeTrailerId) {
+            if let trailerUrl = MovieLinks.youTubeTrailer(movie.youTubeTrailerId) {
                 Link(destination: URL(string: trailerUrl)!, label: {
                     Label("Watch Trailer", systemImage: "play")
                 })
