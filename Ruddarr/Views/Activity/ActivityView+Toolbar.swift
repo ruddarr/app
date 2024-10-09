@@ -72,7 +72,10 @@ extension ActivityView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Instance", systemImage: "internaldrive")
+            let label = queue.instances.first { $0.id.uuidString == sort.instance }?.label
+                ?? String(localized: "Instance")
+
+            Label(label, systemImage: "internaldrive")
         }
     }
 
