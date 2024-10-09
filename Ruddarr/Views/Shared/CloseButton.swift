@@ -14,7 +14,7 @@ struct CloseButton: View {
                 .scaleEffect(1.65)
                 .tint(.gray)
                 .foregroundStyle(
-                    .primary,
+                    .secondary,
                     colorScheme == .dark
                         ? .tertiarySystemBackground
                         : .secondarySystemBackground
