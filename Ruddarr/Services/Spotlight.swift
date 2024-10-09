@@ -62,7 +62,7 @@ actor Spotlight {
     func fetchImages<M: Media>(_ entities: [M]) async -> [M.ID: URL?] {
         await withTaskGroup(of: (M.ID, URL?).self, returning: [M.ID: URL?].self) { taskGroup in
             for entry in entities {
-                taskGroup.addTask {
+                taskGroup.addTask(priority: .background) {
                     await (entry.id, Images.thumbnail(entry.remotePoster, .veryLow))
                 }
             }
