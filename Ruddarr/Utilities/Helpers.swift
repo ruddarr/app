@@ -48,16 +48,6 @@ extension Hashable {
     }
 }
 
-public func equals(_ lhs: Any?, _ rhs: Any?) -> Bool {
-    func open<A: Equatable>(_ lhs: A, _ rhs: Any?) -> Bool {
-        lhs == (rhs as? A)
-    }
-
-    guard let lhs = lhs as? any Equatable else { return false }
-
-    return open(lhs, rhs)
-}
-
 func inferredInstallDate() -> Date? {
     guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
         return nil
