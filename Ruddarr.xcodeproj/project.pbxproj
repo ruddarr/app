@@ -146,7 +146,6 @@
 		BBD5D8102C013E30008E3B3F /* movie-queue.json in Resources */ = {isa = PBXBuildFile; fileRef = BBD5D80F2C013E30008E3B3F /* movie-queue.json */; };
 		BBD5D8122C014538008E3B3F /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD5D8112C014538008E3B3F /* Queue.swift */; };
 		BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA77602BDACD3C00568E64 /* NukeUI */; };
-		BBDA77632BDACD6300568E64 /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA77622BDACD6300568E64 /* SentrySwiftUI */; };
 		BBDBBC692C13A0600087C844 /* QueueSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDBBC682C13A0600087C844 /* QueueSort.swift */; };
 		BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1E43E2B51F61700946222 /* MovieLookup.swift */; };
 		BBE1E4412B51F9DC00946222 /* movies.json in Resources */ = {isa = PBXBuildFile; fileRef = BBE1E4402B51F9DC00946222 /* movies.json */; };
@@ -157,7 +156,6 @@
 		BBE7F8A72B6423A60014DD57 /* Movies.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE7F8A62B6423A60014DD57 /* Movies.swift */; };
 		BBE7F8A92B6424350014DD57 /* RadarrInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE7F8A82B6424350014DD57 /* RadarrInstance.swift */; };
 		BBE828572B4F2C7000C1E1D9 /* Ruddarr.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE828562B4F2C7000C1E1D9 /* Ruddarr.swift */; };
-		BBE828592B4F2C7000C1E1D9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE828582B4F2C7000C1E1D9 /* ContentView.swift */; };
 		BBE8285B2B4F2C7100C1E1D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBE8285A2B4F2C7100C1E1D9 /* Assets.xcassets */; };
 		BBE8285F2B4F2C7100C1E1D9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBE8285E2B4F2C7100C1E1D9 /* Preview Assets.xcassets */; };
 		BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE828672B4F320F00C1E1D9 /* MoviesView.swift */; };
@@ -241,7 +239,7 @@
 		BB0FE1122BED33A800D1D847 /* series-episode-files.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-episode-files.json"; sourceTree = "<group>"; };
 		BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFileSheet.swift; sourceTree = "<group>"; };
 		BB19BF862BE3E3E900F3E7AC /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		BB2250F12BEE87D7009EAA6B /* ContentViewMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewMac.swift; sourceTree = "<group>"; };
+		BB2250F12BEE87D7009EAA6B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BB25DC602B62ECF700FE55A0 /* InstanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceRow.swift; sourceTree = "<group>"; };
 		BB25DC652B62EDC700FE55A0 /* MovieGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGridItem.swift; sourceTree = "<group>"; };
 		BB25DC672B630B9000FE55A0 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
@@ -728,8 +726,7 @@
 				BBF583B72BAC99B700AFA7FB /* Calendar */,
 				BB25DC5F2B62ECC900FE55A0 /* Settings */,
 				BBC45B942B57078400AB258F /* Shared */,
-				BBE828582B4F2C7000C1E1D9 /* ContentView.swift */,
-				BB2250F12BEE87D7009EAA6B /* ContentViewMac.swift */,
+				BB2250F12BEE87D7009EAA6B /* ContentView.swift */,
 				BBE828672B4F320F00C1E1D9 /* MoviesView.swift */,
 				BBE828692B4F325400C1E1D9 /* SeriesView.swift */,
 				BBD5D80D2C0135F9008E3B3F /* ActivityView.swift */,
@@ -1010,7 +1007,6 @@
 				BBC94DE92B5F63A000504568 /* Telemetry.swift in Sources */,
 				BBBCA05C2BE958F300BAE374 /* Toolbar.swift in Sources */,
 				BB9DC2252BA920AF00459FFF /* API+Error.swift in Sources */,
-				BBE828592B4F2C7000C1E1D9 /* ContentView.swift in Sources */,
 				BB035A442C1D3B71005DFD45 /* Spotlight.swift in Sources */,
 				BB4B34F32B7BFE640063F2D3 /* AppDelegate.swift in Sources */,
 				BB9DC22B2BAA11C700459FFF /* MoviesView+Overlay.swift in Sources */,
@@ -1081,7 +1077,7 @@
 				BBBB08D42B77FBC700BADBA1 /* IconsView.swift in Sources */,
 				BBAFC7EE2BB8D3CE00245D10 /* CloseButton.swift in Sources */,
 				BBF583BD2BACA3B200AFA7FB /* Series.swift in Sources */,
-				BB2250F22BEE87D7009EAA6B /* ContentViewMac.swift in Sources */,
+				BB2250F22BEE87D7009EAA6B /* ContentView.swift in Sources */,
 				BB0BEA8D2BE593C2004DBFE6 /* SeriesEpisodes.swift in Sources */,
 				BB05C9092B86E272009B6444 /* MovieDetails+Overview.swift in Sources */,
 				BB6EB88B2BF00FA900066FB4 /* DateDecodingStrategy.swift in Sources */,
@@ -1154,7 +1150,7 @@
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1189,7 +1185,7 @@
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1366,7 +1362,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
@@ -1415,7 +1411,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;

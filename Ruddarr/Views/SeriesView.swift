@@ -54,9 +54,6 @@ struct SeriesView: View {
                         await Task { await fetchSeriesWithAlert() }.value
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
-                    .onReceive(dependencies.router.seriesScroll) {
-                        withAnimation(.smooth) { scrollToTop() }
-                    }
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
