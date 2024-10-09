@@ -30,14 +30,13 @@ func maybeAskForReview() {
     }
 }
 
+@MainActor
 private func askForReview() {
-    #if os(macOS)
-        SKStoreReviewController.requestReview()
-    #else
+    #if os(iOS)
         guard let scene = UIApplication.shared.connectedScenes.first(where: {
             $0.activationState == .foregroundActive
         }) as? UIWindowScene else { return }
 
-        SKStoreReviewController.requestReview(in: scene)
+        AppStore.requestReview(in: scene)
     #endif
 }
