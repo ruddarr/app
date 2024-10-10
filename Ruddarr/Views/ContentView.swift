@@ -44,12 +44,7 @@ struct ContentView: View {
             }
         #endif
         .tabViewSidebarBottomBar {
-            Button {
-                dependencies.router.seriesPath = .init()
-                dependencies.router.switchToSonarrInstance = UUID()
-            } label: {
-                Label("Switch Instance", systemImage: "shuffle")
-            }
+            instancePickers
         }
         .onAppear {
             if !isRunningIn(.preview) {
@@ -93,6 +88,65 @@ struct ContentView: View {
         }
     }
 #endif
+
+    @ViewBuilder
+    var instancePickers: some View {
+        if dependencies.router.selectedTab == .movies {
+            instancePicker(
+                instances: settings.radarrInstances,
+                selection: $settings.radarrInstanceId,
+                label: settings.radarrInstance?.label,
+                onChange: {
+                    dependencies.router.moviesPath = .init()
+                    dependencies.router.switchToRadarrInstance = settings.radarrInstanceId
+                }
+            )
+        }
+
+        if dependencies.router.selectedTab == .series {
+            instancePicker(
+                instances: settings.sonarrInstances,
+                selection: $settings.sonarrInstanceId,
+                label: settings.sonarrInstance?.label,
+                onChange: {
+                    dependencies.router.seriesPath = .init()
+                    dependencies.router.switchToSonarrInstance = settings.sonarrInstanceId
+                }
+            )
+        }
+    }
+
+    @ViewBuilder
+    func instancePicker(
+        instances: [Instance],
+        selection: Binding<Instance.ID?>,
+        label: String?,
+        onChange: @escaping () -> Void
+    ) -> some View {
+        if instances.count > 1 {
+            Menu {
+                Picker("Instances", selection: selection) {
+                    ForEach(instances) { instance in
+                        Text(instance.label).tag(Optional.some(instance.id))
+                    }
+                }
+                .onChange(of: selection.wrappedValue, onChange)
+            } label: {
+                HStack {
+                    Image(systemName: "internaldrive")
+                        .imageScale(.large)
+
+                    Text(label ?? "")
+                        .tint(.primary)
+                }
+                .contentShape(Rectangle())
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.vertical, 6)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 20)
+        }
+    }
 }
 
 #Preview {

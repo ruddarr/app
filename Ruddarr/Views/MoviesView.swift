@@ -128,6 +128,7 @@ struct MoviesView: View {
                 placement: .drawerOrToolbar
             )
             .autocorrectionDisabled(true)
+            .onChange(of: settings.sonarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
                 scrollToTop()

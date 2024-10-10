@@ -69,7 +69,6 @@ extension MoviesView {
                         Text(instance.label).tag(Optional.some(instance.id))
                     }
                 }
-                .onChange(of: settings.radarrInstanceId, changeInstance)
                 .pickerStyle(.inline)
             } label: {
                 HStack(alignment: .bottom, spacing: 6) {

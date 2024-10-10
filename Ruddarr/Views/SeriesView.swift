@@ -122,7 +122,7 @@ struct SeriesView: View {
             .toolbar {
                 toolbarViewOptions
 
-                if settings.sonarrInstances.count > 1 && deviceType == .phone  {
+                if settings.sonarrInstances.count > 1 && deviceType == .phone {
                     toolbarInstancePicker
                 }
 
@@ -135,6 +135,7 @@ struct SeriesView: View {
                 placement: .drawerOrToolbar
             )
             .autocorrectionDisabled(true)
+            .onChange(of: settings.sonarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
                 scrollToTop()
