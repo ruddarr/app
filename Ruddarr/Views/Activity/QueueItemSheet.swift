@@ -35,6 +35,12 @@ struct QueueItemSheet: View {
 
                     details
                         .padding(.top)
+                    
+                    if let sableURL = sable {
+                        if item.downloadClient == "SABnzbd" {
+                            openInSable
+                        }
+                    }
 
                     Spacer()
                 }
@@ -118,6 +124,20 @@ struct QueueItemSheet: View {
             }
         }
     }
+    
+    @ViewBuilder
+    var openInSable: some View {
+        Button {
+            if let url = URL(string: "sable://open") {
+                UIApplication.shared.open(url)
+            }
+        } label: {
+            ButtonLabel(text: "Open in Sable", icon: "arrowshape.down")
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.bordered)
+        .tint(.secondary)
+    }
 
     func row(_ label: LocalizedStringKey, _ value: String) -> some View {
         renderRow(
@@ -151,5 +171,17 @@ struct QueueItemSheet: View {
 
     func formatDate(_ date: Date) -> String {
         date.formatted(date: .long, time: .shortened)
+    }
+    
+    var sable: String? {
+        #if os(iOS)
+            let url = "sable://open"
+
+            if UIApplication.shared.canOpenURL(URL(string: url)!) {
+                return url
+            }
+        #endif
+
+        return nil
     }
 }
