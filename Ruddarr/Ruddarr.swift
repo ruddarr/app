@@ -74,23 +74,23 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static var version: String = "1.2.0"
+    static var version: String = "1.3.0"
 
     static var features: [WhatsNewFeature] = [
         .init(
             image: "waveform.path.ecg",
-            title: "Queue Support",
-            subtitle: "Keep an eye on your tasks queues across all instance in the new Activity tab."
+            title: "Faster Queue",
+            subtitle: "Queue tasks will refresh faster while displaying the Activity tab."
         ),
         .init(
             image: "sparkle.magnifyingglass",
-            title: "Spotlight Integration",
-            subtitle: "All movies and TV series are automatically indexed and searchable in Spotlight."
+            title: "Improved Spotlight Indexer",
+            subtitle: "The Spotlight integration is faster and more reliable."
         ),
         .init(
             image: "ant",
             title: "Fixes & Improvements",
-            subtitle: "Over 30 other improvements and fixes, everything is a little better than before."
+            subtitle: "Dozens of improvements and fixes, everything is a little better than before."
         ),
     ]
 }
