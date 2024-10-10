@@ -69,13 +69,6 @@ struct CalendarView: View {
             .onAppear {
                 calendar.instances = settings.instances
             }
-            .onReceive(dependencies.router.calendarScroll) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-                    withAnimation(.smooth) {
-                        scrollTo(calendar.today())
-                    }
-                }
-            }
             .task {
                 await load()
             }
