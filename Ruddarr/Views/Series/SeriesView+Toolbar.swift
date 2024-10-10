@@ -14,7 +14,7 @@ extension SeriesView {
 
     @ToolbarContentBuilder
     var toolbarViewOptions: some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
+        ToolbarItem(placement: .navigation) {
             HStack {
                 toolbarFilterButton
                 toolbarSortingButton

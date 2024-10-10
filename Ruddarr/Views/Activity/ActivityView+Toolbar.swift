@@ -34,7 +34,7 @@ extension ActivityView {
 
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
+        ToolbarItem(placement: .navigation) {
             HStack {
                 toolbarFilterButton
                 toolbarSortingButton

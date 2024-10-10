@@ -187,7 +187,7 @@ struct CalendarView: View {
     }
 
     var filtersMenu: some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
+        ToolbarItem(placement: .navigation) {
             Menu {
                 Picker(selection: $displayedMediaType, label: Text("Media Type")) {
                     ForEach(CalendarMediaType.allCases, id: \.self) { type in
