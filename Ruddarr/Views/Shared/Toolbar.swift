@@ -25,7 +25,6 @@ struct ToolbarMonitorButton: View {
     #if os(macOS)
         var body: some View {
             Image(systemName: "bookmark")
-                .font(.system(size: 11, weight: .bold))
                 .symbolVariant(monitored ? .fill : .none)
         }
     #else

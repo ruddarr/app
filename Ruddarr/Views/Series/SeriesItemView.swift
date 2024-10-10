@@ -57,8 +57,10 @@ struct SeriesDetailView: View {
             } label: {
                 ToolbarMonitorButton(monitored: $series.monitored)
             }
-            .buttonStyle(.plain)
             .allowsHitTesting(!instance.series.isWorking)
+            #if os(iOS)
+                .buttonStyle(.plain)
+            #endif
         }
     }
 

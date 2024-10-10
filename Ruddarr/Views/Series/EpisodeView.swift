@@ -150,9 +150,11 @@ struct EpisodeView: View {
             } label: {
                 ToolbarMonitorButton(monitored: .constant(episode.monitored))
             }
-            .buttonStyle(.plain)
             .allowsHitTesting(instance.episodes.isMonitoring == 0)
             .disabled(!series.monitored)
+            #if os(iOS)
+                .buttonStyle(.plain)
+            #endif
         }
     }
 

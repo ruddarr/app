@@ -50,8 +50,10 @@ struct MovieView: View {
             } label: {
                 ToolbarMonitorButton(monitored: $movie.monitored)
             }
-            .buttonStyle(.plain)
             .allowsHitTesting(!instance.movies.isWorking)
+            #if os(iOS)
+                .buttonStyle(.plain)
+            #endif
         }
     }
 
