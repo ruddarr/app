@@ -204,7 +204,7 @@ extension MovieReleasesView {
                 Picker("Direction", selection: $sort.isAscending) {
                     Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
                     Label("Descending", systemImage: "arrowtriangle.down").tag(false)
-                }
+                }.pickerStyle(.inline)
             }
         } label: {
             Image(systemName: "arrow.up.arrow.down")
