@@ -39,7 +39,6 @@ extension ActivityView {
                 toolbarFilterButton
                 toolbarSortingButton
             }
-            .id(hotfixId)
         }
     }
 

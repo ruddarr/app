@@ -176,7 +176,6 @@ struct SeasonView: View {
             .allowsHitTesting(!instance.series.isWorking)
             .disabled(!series.monitored)
             .popoverTip(SeriesMonitoringTip())
-            .toolbarIdFix(UUID())
             .task {
                 if !series.monitored {
                     try? Tips.configure()

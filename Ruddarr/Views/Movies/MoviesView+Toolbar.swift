@@ -7,18 +7,18 @@ extension MoviesView {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(value: MoviesPath.search()) {
                     Image(systemName: "plus")
-                }.toolbarIdFix(UUID())
+                }
             }
         }
     }
 
     @ToolbarContentBuilder
     var toolbarViewOptions: some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
+        ToolbarItem(placement: .navigation) {
             HStack {
                 toolbarFilterButton
                 toolbarSortingButton
-            }.toolbarIdFix(UUID())
+            }
         }
     }
 

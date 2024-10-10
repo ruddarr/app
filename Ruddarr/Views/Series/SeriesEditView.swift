@@ -64,7 +64,6 @@ struct SeriesEditView: View {
                         Task { await updateSeries() }
                     }
                 }
-                .toolbarIdFix(UUID())
             }
         }
     }

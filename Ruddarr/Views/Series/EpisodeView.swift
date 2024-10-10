@@ -153,7 +153,6 @@ struct EpisodeView: View {
             .buttonStyle(.plain)
             .allowsHitTesting(instance.episodes.isMonitoring == 0)
             .disabled(!series.monitored)
-            .toolbarIdFix(UUID())
         }
     }
 
@@ -173,7 +172,6 @@ struct EpisodeView: View {
             } label: {
                 ToolbarActionButton()
             }
-            .toolbarIdFix(UUID())
         }
     }
 

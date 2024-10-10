@@ -153,7 +153,7 @@ extension MovieReleasesView {
             HStack {
                 toolbarSortingButton
                 toolbarFilterButton
-            }.toolbarIdFix(UUID())
+            }
         }
     }
 

@@ -64,7 +64,6 @@ struct MovieEditView: View {
                         Task { await updateMovie() }
                     }
                 }
-                .toolbarIdFix(UUID())
             }
         }
     }
