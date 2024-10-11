@@ -14,6 +14,7 @@ struct MovieSort: Hashable {
         case byGrabbed
         case bySize
         case byRelease
+        case byPopularity
 
         var label: some View {
             switch self {
@@ -23,6 +24,7 @@ struct MovieSort: Hashable {
             case .byGrabbed: Label("Grabbed", systemImage: "arrow.down.circle")
             case .bySize: Label("File Size", systemImage: "internaldrive")
             case .byRelease: Label("Digital Release", systemImage: "play.tv")
+            case .byPopularity: Label("Popularity", systemImage: "star")
             }
         }
 
@@ -40,6 +42,8 @@ struct MovieSort: Hashable {
                 lhs.movieFile?.dateAdded ?? Date.distantPast < rhs.movieFile?.dateAdded ?? Date.distantPast
             case .byRelease:
                 lhs.digitalRelease ?? Date.distantPast < rhs.digitalRelease ?? Date.distantPast
+            case .byPopularity:
+                lhs.popularity ?? 0 < rhs.popularity ?? 0
             }
         }
     }
