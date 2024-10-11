@@ -137,7 +137,7 @@ struct MovieDetails: View {
     var previewActions: some View {
         Group {
             Menu {
-                MovieContextMenu(movie: movie)
+                MovieLinks(movie: movie)
             } label: {
                 ButtonLabel(text: "Open In...", icon: "arrow.up.right.square")
                     .modifier(MediaPreviewActionModifier())

@@ -99,7 +99,7 @@ struct MovieView: View {
                 })
             }
 
-            MovieContextMenu(movie: movie)
+            MovieLinks(movie: movie)
         }
     }
 

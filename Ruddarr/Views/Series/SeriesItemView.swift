@@ -73,7 +73,9 @@ struct SeriesDetailView: View {
                     searchMonitored
                 }
 
-                openInLinks
+                Section {
+                    SeriesLinks(series: series)
+                }
 
                 Section {
                     editAction
@@ -104,12 +106,6 @@ struct SeriesDetailView: View {
             Task { await dispatchSearch() }
         }
         .disabled(!series.monitored)
-    }
-
-    var openInLinks: some View {
-        Section {
-            SeriesContextMenu(series: series)
-        }
     }
 
     var deleteSeriesButton: some View {
