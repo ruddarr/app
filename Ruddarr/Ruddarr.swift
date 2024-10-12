@@ -19,7 +19,7 @@ struct Ruddarr: App {
 
     var body: some Scene {
         #if os(macOS)
-            Window(String("Ruddarr"), id: "ruddarr") {
+            Window(String(""), id: "ruddarr") {
                 ContentView()
                     .withAppState()
                     .onOpenURL(perform: openDeeplink)
