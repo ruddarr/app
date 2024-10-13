@@ -8,7 +8,19 @@ struct SettingsLinksSection: View {
             discord
             beta
             contribute
-            sable
+            translate
+        }
+
+        Section(header: Text("Apps")) {
+            appLink(
+                "Sable",
+                URL(string: "https://apps.apple.com/app/sable/id6630387095")!
+            )
+
+            appLink(
+                "DSLoad",
+                URL(string: "https://apps.apple.com/app/dsload-station/id1510628586")!
+            )
         }
     }
 
@@ -45,16 +57,31 @@ struct SettingsLinksSection: View {
             }
         })
     }
-    
-    var sable: some View {
-        Link(destination: Links.Sable, label: {
+
+    var translate: some View {
+        Link(destination: Links.Crowdin, label: {
             Label {
-                Text("Check out Sable").tint(.primary)
+                Text("Translate the App").tint(.primary)
             } icon: {
-                Image(systemName: "arrowshape.down")
+                Image(systemName: "character.bubble")
                     .foregroundStyle(settings.theme.tint)
             }
         })
+    }
+
+    func appLink(_ name: String, _ url: URL) -> some View {
+        Link(
+            destination: url,
+            label: {
+                Label {
+                    Text(verbatim: name)
+                        .tint(.primary)
+                } icon: {
+                    Image(systemName: "arrow.up.forward.square")
+                        .foregroundStyle(settings.theme.tint)
+                }
+            }
+        )
     }
 }
 

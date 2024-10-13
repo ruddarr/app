@@ -4051,6 +4051,16 @@
         }
       }
     },
+    "Translate the App" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Translate the App"
+          }
+        }
+      }
+    },
     "Try again later." : {
       "localizations" : {
         "en" : {

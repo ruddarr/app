@@ -65,6 +65,7 @@ struct Links {
     static let Discord = URL(string: "https://discord.gg/UksvtDQUBA")!
     static let Sable = URL(string: "https://apps.apple.com/app/sable/id6630387095")!
 
+    static let Crowdin = URL(string: "https://crowdin.com/project/ruddarr")!
     static let GitHub = URL(string: "https://github.com/ruddarr/app")!
     static let GitHubDiscussions = URL(string: "https://github.com/ruddarr/app/discussions")!
 }
