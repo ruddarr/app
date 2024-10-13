@@ -5,6 +5,8 @@ struct QueueSort: Equatable {
     var option: Option = .byAdded
 
     var instance: String = ".all"
+    var type: String = ".all"
+    var client: String = ".all"
 
     var errors: Bool = false
 
@@ -32,7 +34,9 @@ struct QueueSort: Equatable {
     }
 
     var hasFilter: Bool {
-        instance != ".all"
-        || errors
+        instance != ".all" ||
+        type != ".all" ||
+        client != ".all" ||
+        errors
     }
 }

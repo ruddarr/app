@@ -400,6 +400,16 @@
         }
       }
     },
+    "Any Client" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Client"
+          }
+        }
+      }
+    },
     "Any Format" : {
       "localizations" : {
         "en" : {
@@ -506,6 +516,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Approved"
+          }
+        }
+      }
+    },
+    "Apps" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps"
           }
         }
       }

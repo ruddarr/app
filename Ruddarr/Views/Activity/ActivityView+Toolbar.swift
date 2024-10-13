@@ -1,6 +1,24 @@
 import SwiftUI
 
 extension ActivityView {
+    var protocols: [String] {
+        var seen = Set<String>()
+
+        return queue.items.values
+            .flatMap { $0 }
+            .map { $0.type.label }
+            .filter { seen.insert($0).inserted }
+    }
+
+    var clients: [String] {
+        var seen = Set<String>()
+
+        return queue.items.values
+            .flatMap { $0 }
+            .compactMap { $0.downloadClient }
+            .filter { seen.insert($0).inserted }
+    }
+
     func updateSortDirection() {
         switch sort.option {
         case .byAdded:
@@ -19,6 +37,14 @@ extension ActivityView {
             items = items.filter {
                 sort.instance.caseInsensitiveCompare($0.instanceId?.uuidString ?? "") == .orderedSame
             }
+        }
+
+        if sort.type != ".all" {
+            items = items.filter { $0.type.label == sort.type }
+        }
+
+        if sort.client != ".all" {
+            items = items.filter { $0.downloadClient == sort.client }
         }
 
         if sort.errors {
@@ -48,6 +74,14 @@ extension ActivityView {
                 instancePicker
             }
 
+            if protocols.count > 1 {
+                protocolPicker
+            }
+
+            if clients.count > 1 {
+                clientPicker
+            }
+
             Section {
                 Toggle("Issues", systemImage: "exclamationmark.triangle", isOn: $sort.errors)
             }
@@ -75,6 +109,42 @@ extension ActivityView {
                 ?? String(localized: "Instance")
 
             Label(label, systemImage: "internaldrive")
+        }
+    }
+
+    var protocolPicker: some View {
+        Menu {
+            Picker("Protocol", selection: $sort.client) {
+                Text("Any Protocol").tag(".all")
+
+                ForEach(protocols, id: \.self) { type in
+                    Text(type)
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label(
+                sort.type == ".all" ? "Protocol" : sort.type,
+                systemImage: "point.3.connected.trianglepath.dotted"
+            )
+        }
+    }
+
+    var clientPicker: some View {
+        Menu {
+            Picker("Client", selection: $sort.client) {
+                Text("Any Client").tag(".all")
+
+                ForEach(clients, id: \.self) { client in
+                    Text(client)
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label(
+                sort.type == ".all" ? "Client" : sort.type,
+                systemImage: "apple.terminal"
+            )
         }
     }
 
