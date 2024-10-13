@@ -7,6 +7,7 @@ struct MovieReleaseRow: View {
     @State private var isShowingPopover = false
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
@@ -17,7 +18,7 @@ struct MovieReleaseRow: View {
             }
             .sheet(isPresented: $isShowingPopover) {
                 MovieReleaseSheet(release: release, movieId: movieId)
-                    .presentationDetents([.medium])
+                    .presentationDetents([deviceType == .phone ? .medium : .large])
                     .presentationDragIndicator(.hidden)
                     .environment(instance)
                     .environmentObject(settings)

@@ -8,6 +8,7 @@ struct ActivityView: View {
     @State private var itemSheet: QueueItem?
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         // swiftlint:disable closure_body_length
@@ -63,8 +64,8 @@ struct ActivityView: View {
             }
             .sheet(item: $itemSheet) { item in
                 QueueItemSheet(item: item)
+                    .presentationDetents([deviceType == .phone ? .medium : .large])
                     .environmentObject(settings)
-                    .presentationDetents([.medium])
             }
         }
         // swiftlint:enable closure_body_length
