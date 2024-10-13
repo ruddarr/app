@@ -31,6 +31,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     let popularity: Float?
 
     let status: MovieStatus
+    let isAvailable: Bool
     var minimumAvailability: MovieStatus
 
     var monitored: Bool
@@ -69,6 +70,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         case ratings
         case popularity
         case status
+        case isAvailable
         case minimumAvailability
         case monitored
         case qualityProfileId
@@ -111,7 +113,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
             return "Waiting"
         }
 
-        if monitored && isReleased {
+        if monitored && isAvailable {
             return "Missing"
         }
 
@@ -178,10 +180,6 @@ struct Movie: Media, Identifiable, Equatable, Codable {
 
     var isDownloaded: Bool {
         hasFile ?? false
-    }
-
-    var isReleased: Bool {
-        status == .released
     }
 
     var isWaiting: Bool {
