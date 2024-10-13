@@ -2894,6 +2894,16 @@
         }
       }
     },
+    "Open" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open"
+          }
+        }
+      }
+    },
     "Open ${target}" : {
       "localizations" : {
         "en" : {
@@ -2933,6 +2943,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open Ruddarr"
+          }
+        }
+      }
+    },
+    "Open Website" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Website"
           }
         }
       }
@@ -4290,26 +4310,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Video"
-          }
-        }
-      }
-    },
-    "Visit" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Visit"
-          }
-        }
-      }
-    },
-    "Visit Website" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Visit Website"
           }
         }
       }

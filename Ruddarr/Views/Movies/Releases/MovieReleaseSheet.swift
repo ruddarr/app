@@ -132,7 +132,7 @@ struct MovieReleaseSheet: View {
 
             if let url = release.infoUrl {
                 Link(destination: URL(string: url)!, label: {
-                    let label: LocalizedStringKey = deviceType == .phone ? "Visit" : "Visit Website"
+                    let label: LocalizedStringKey = deviceType == .phone ? "Open" : "Open Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .modifier(MediaPreviewActionModifier())

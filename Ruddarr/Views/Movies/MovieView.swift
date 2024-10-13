@@ -50,9 +50,10 @@ struct MovieView: View {
             } label: {
                 ToolbarMonitorButton(monitored: $movie.monitored)
             }
-            .buttonStyle(.plain)
             .allowsHitTesting(!instance.movies.isWorking)
-            .toolbarIdFix(UUID())
+            #if os(iOS)
+                .buttonStyle(.plain)
+            #endif
         }
     }
 
@@ -73,7 +74,6 @@ struct MovieView: View {
             } label: {
                 ToolbarActionButton()
             }
-            .toolbarIdFix(UUID())
         }
     }
 
@@ -93,13 +93,13 @@ struct MovieView: View {
 
     var openInLinks: some View {
         Section {
-            if let trailerUrl = MovieContextMenu.youTubeTrailer(movie.youTubeTrailerId) {
+            if let trailerUrl = MovieLinks.youTubeTrailer(movie.youTubeTrailerId) {
                 Link(destination: URL(string: trailerUrl)!, label: {
                     Label("Watch Trailer", systemImage: "play")
                 })
             }
 
-            MovieContextMenu(movie: movie)
+            MovieLinks(movie: movie)
         }
     }
 

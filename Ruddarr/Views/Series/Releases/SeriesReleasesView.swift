@@ -22,7 +22,7 @@ struct SeriesReleasesView: View {
                     .environmentObject(settings)
             }
 
-            if sort.hasFilter && !releases.isEmpty {
+            if hasHiddenReleases {
                 HiddenReleases()
             }
         }
@@ -59,6 +59,12 @@ struct SeriesReleasesView: View {
                 noMatchingReleases
             }
         }
+    }
+
+    var hasHiddenReleases: Bool {
+        sort.hasFilter &&
+        !releases.isEmpty &&
+        releases.count < instance.releases.items.count
     }
 
     var noReleasesFound: some View {
@@ -166,7 +172,7 @@ extension SeriesReleasesView {
             HStack {
                 toolbarSortingButton
                 toolbarFilterButton
-            }.toolbarIdFix(UUID())
+            }
         }
     }
 
@@ -221,7 +227,7 @@ extension SeriesReleasesView {
                 Picker("Direction", selection: $sort.isAscending) {
                     Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
                     Label("Descending", systemImage: "arrowtriangle.down").tag(false)
-                }
+                }.pickerStyle(.inline)
             }
         } label: {
             Image(systemName: "arrow.up.arrow.down")

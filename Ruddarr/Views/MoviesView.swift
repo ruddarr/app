@@ -25,6 +25,7 @@ struct MoviesView: View {
     @State private var alertPresented = false
 
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         // swiftlint:disable closure_body_length
@@ -52,9 +53,6 @@ struct MoviesView: View {
                         await Task { await fetchMoviesWithAlert() }.value
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
-                    .onReceive(dependencies.router.moviesScroll) {
-                        withAnimation(.smooth) { scrollToTop() }
-                    }
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
@@ -117,7 +115,7 @@ struct MoviesView: View {
             .toolbar {
                 toolbarViewOptions
 
-                if settings.radarrInstances.count > 1 {
+                if settings.radarrInstances.count > 1 && deviceType == .phone {
                     toolbarInstancePicker
                 }
 
@@ -130,6 +128,7 @@ struct MoviesView: View {
                 placement: .drawerOrToolbar
             )
             .autocorrectionDisabled(true)
+            .onChange(of: settings.sonarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
                 scrollToTop()

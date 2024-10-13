@@ -137,7 +137,7 @@ struct MovieDetails: View {
     var previewActions: some View {
         Group {
             Menu {
-                MovieContextMenu(movie: movie)
+                MovieLinks(movie: movie)
             } label: {
                 ButtonLabel(text: "Open In...", icon: "arrow.up.right.square")
                     .modifier(MediaPreviewActionModifier())
@@ -145,7 +145,7 @@ struct MovieDetails: View {
             .buttonStyle(.bordered)
             .tint(.secondary)
 
-            if let trailerUrl = MovieContextMenu.youTubeTrailer(movie.youTubeTrailerId) {
+            if let trailerUrl = MovieLinks.youTubeTrailer(movie.youTubeTrailerId) {
                 Button {
                     openURL(URL(string: trailerUrl)!)
                 } label: {

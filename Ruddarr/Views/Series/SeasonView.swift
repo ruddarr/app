@@ -172,16 +172,17 @@ struct SeasonView: View {
             } label: {
                 ToolbarMonitorButton(monitored: .constant(season.monitored))
             }
-            .buttonStyle(.plain)
             .allowsHitTesting(!instance.series.isWorking)
             .disabled(!series.monitored)
             .popoverTip(SeriesMonitoringTip())
-            .toolbarIdFix(UUID())
             .task {
                 if !series.monitored {
                     try? Tips.configure()
                 }
             }
+            #if os(iOS)
+                .buttonStyle(.plain)
+            #endif
         }
     }
 }

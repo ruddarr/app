@@ -150,10 +150,11 @@ struct EpisodeView: View {
             } label: {
                 ToolbarMonitorButton(monitored: .constant(episode.monitored))
             }
-            .buttonStyle(.plain)
             .allowsHitTesting(instance.episodes.isMonitoring == 0)
             .disabled(!series.monitored)
-            .toolbarIdFix(UUID())
+            #if os(iOS)
+                .buttonStyle(.plain)
+            #endif
         }
     }
 
@@ -173,7 +174,6 @@ struct EpisodeView: View {
             } label: {
                 ToolbarActionButton()
             }
-            .toolbarIdFix(UUID())
         }
     }
 

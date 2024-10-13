@@ -6,7 +6,7 @@ import AppIntents
 final class Router {
     static let shared = Router()
 
-    var selectedTab: Tab = .movies
+    var selectedTab: TabItem = .movies
 
     var switchToRadarrInstance: Instance.ID?
     var switchToSonarrInstance: Instance.ID?
@@ -16,10 +16,6 @@ final class Router {
     var calendarPath: NavigationPath = .init()
     var settingsPath: NavigationPath = .init()
 
-    let moviesScroll = PassthroughSubject<Void, Never>()
-    let seriesScroll = PassthroughSubject<Void, Never>()
-    let calendarScroll = PassthroughSubject<Void, Never>()
-
     func reset() {
         moviesPath = .init()
         seriesPath = .init()
@@ -27,7 +23,7 @@ final class Router {
     }
 }
 
-enum Tab: String, Hashable, CaseIterable, Identifiable {
+enum TabItem: String, Identifiable, Hashable {
     var id: Self { self }
 
     case movies
@@ -36,53 +32,36 @@ enum Tab: String, Hashable, CaseIterable, Identifiable {
     case activity
     case settings
 
-    enum Openable: String {
+    enum Openable: String, CaseIterable {
         case movies
         case series
         case calendar
         case activity
     }
 
-    var text: LocalizedStringKey {
+    var label: String {
         switch self {
-        case .movies: "Movies"
-        case .series: "Series"
-        case .calendar: "Calendar"
-        case .activity: "Activity"
-        case .settings: "Settings"
+        case .movies: String(localized: "Movies")
+        case .series: String(localized: "Series")
+        case .calendar: String(localized: "Calendar")
+        case .activity: String(localized: "Activity")
+        case .settings: String(localized: "Settings")
         }
     }
 
-    var icon: Image {
+    var icon: String {
         switch self {
-        case .movies: Image("movies")
-        case .series: Image("series")
-        case .calendar: Image(systemName: "calendar")
-        case .activity: Image(systemName: "waveform.path.ecg")
-        case .settings: Image(systemName: "gear")
-        }
-    }
-
-    @ViewBuilder
-    var label: some View {
-        Label { Text(text) } icon: { icon }
-    }
-
-    @ViewBuilder
-    var row: some View {
-        Label {
-            Text(text)
-                .tint(.primary)
-                .font(.headline)
-                .fontWeight(.regular)
-        } icon: {
-            icon.imageScale(.large)
+        case .movies: "movies"
+        case .series: "series"
+        case .calendar: "calendar"
+        case .activity: "waveform.path.ecg"
+        case .settings: "gear"
         }
     }
 }
 
-extension Tab.Openable: AppEnum {
-    var tab: Tab {
+extension TabItem.Openable: AppEnum {
+    var tab: TabItem {
         switch self {
         case .movies: .movies
         case .series: .series
@@ -93,7 +72,7 @@ extension Tab.Openable: AppEnum {
 
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Tab")
 
-    static var caseDisplayRepresentations: [Tab.Openable: DisplayRepresentation] {[
+    static var caseDisplayRepresentations: [TabItem.Openable: DisplayRepresentation] {[
         .movies: DisplayRepresentation(
             title: "Movies",
             subtitle: nil,

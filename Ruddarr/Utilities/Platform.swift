@@ -23,7 +23,7 @@ class Platform {
     }
 }
 
-enum DeviceType {
+enum DeviceType: String {
     case unspecified
     case phone
     case pad

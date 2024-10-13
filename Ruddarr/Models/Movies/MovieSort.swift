@@ -76,7 +76,7 @@ struct MovieSort: Hashable {
             case .unmonitored:
                 movies.filter { !$0.monitored }
             case .missing:
-                movies.filter { $0.monitored && !$0.isDownloaded && $0.isReleased }
+                movies.filter { $0.monitored && !$0.isDownloaded && $0.isAvailable }
             case .wanted:
                 movies.filter { $0.monitored && !$0.isDownloaded }
             case .downloaded:

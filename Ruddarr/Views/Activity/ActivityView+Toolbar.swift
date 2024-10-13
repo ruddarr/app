@@ -34,12 +34,11 @@ extension ActivityView {
 
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
+        ToolbarItem(placement: .navigation) {
             HStack {
                 toolbarFilterButton
                 toolbarSortingButton
             }
-            .id(hotfixId)
         }
     }
 
@@ -72,7 +71,10 @@ extension ActivityView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Instance", systemImage: "internaldrive")
+            let label = queue.instances.first { $0.id.uuidString == sort.instance }?.label
+                ?? String(localized: "Instance")
+
+            Label(label, systemImage: "internaldrive")
         }
     }
 
@@ -91,7 +93,7 @@ extension ActivityView {
                 Picker("Direction", selection: $sort.isAscending) {
                     Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
                     Label("Descending", systemImage: "arrowtriangle.down").tag(false)
-                }
+                }.pickerStyle(.inline)
             }
         } label: {
             Image(systemName: "arrow.up.arrow.down")

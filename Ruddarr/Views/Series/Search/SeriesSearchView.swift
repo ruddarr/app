@@ -84,6 +84,7 @@ struct SeriesSearchView: View {
         }
 
         if searchQuery.isEmpty {
+            if oldQuery.count > 3 { return }
             instance.lookup.reset()
         } else if oldQuery == newQuery {
             performSearch() // always perform initial search

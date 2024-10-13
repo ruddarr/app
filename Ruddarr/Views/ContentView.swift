@@ -1,137 +1,82 @@
 import SwiftUI
 
-#if os(iOS)
 struct ContentView: View {
     @EnvironmentObject var settings: AppSettings
 
-    @Environment(\.scenePhase) private var scenePhase
-    @Environment(\.deviceType) private var deviceType
-
-    @State private var isPortrait = false
-    @State private var columnVisibility: NavigationSplitViewVisibility = .doubleColumn
-
-    @ScaledMetric(relativeTo: .body) var safeAreaInsetHeight = 48
-
-    private let orientationChangePublisher = NotificationCenter.default.publisher(
-        for: UIDevice.orientationDidChangeNotification
-    )
+    #if os(macOS)
+        @Environment(\.controlActiveState) var controlActiveState
+        private var deviceType = nil as DeviceType?
+    #else
+        @Environment(\.scenePhase) private var scenePhase
+        @Environment(\.deviceType) private var deviceType
+    #endif
 
     var body: some View {
-        if deviceType == .pad {
-            padBody
-        } else {
-            phoneBody
-        }
-    }
-
-    var padBody: some View {
-        NavigationSplitView(
-            columnVisibility: $columnVisibility,
-            sidebar: {
-                sidebar
-                    .ignoresSafeArea(.all, edges: .bottom)
-            },
-            detail: {
-                screen(for: dependencies.router.selectedTab)
+        TabView(selection: dependencies.$router.selectedTab) {
+            Tab(movies.label, image: movies.icon, value: movies) {
+                MoviesView()
             }
-        )
+
+            Tab(series.label, image: series.icon, value: series) {
+                SeriesView()
+            }
+
+            Tab(calendar.label, systemImage: calendar.icon, value: calendar) {
+                CalendarView()
+            }
+
+            Tab(activity.label, systemImage: activity.icon, value: activity) {
+                ActivityView()
+            }
+            .badge(Queue.shared.badgeCount)
+
+            Tab(TabItem.settings.label, systemImage: TabItem.settings.icon, value: TabItem.settings) {
+                SettingsView()
+            }
+            .defaultVisibility(.hidden, for: .tabBar)
+        }
+        .tabViewStyle(.sidebarAdaptable)
+        #if os(iOS)
+            .tabViewSidebarHeader {
+                Text(verbatim: "Ruddarr")
+                    .font(.largeTitle.bold())
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        #endif
+        .tabViewSidebarBottomBar {
+            instancePickers
+        }
+        .onAppear {
+            if !isRunningIn(.preview) {
+                dependencies.router.selectedTab = settings.tab
+            }
+
+            #if os(iOS)
+                UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
+            #endif
+        }
+        #if os(macOS)
+            .onChange(of: controlActiveState, handleScenePhaseChange)
+        #else
+            .onChange(of: scenePhase, handleScenePhaseChange)
+        #endif
         .displayToasts()
         .whatsNewSheet()
-        .onAppear {
-            if !isRunningIn(.preview) {
-                dependencies.router.selectedTab = settings.tab
-            }
-
-            isPortrait = UIDevice.current.orientation.isPortrait
-            columnVisibility = isPortrait ? .automatic : .doubleColumn
-        }
-        .onChange(of: scenePhase, handleScenePhaseChange)
-        .onReceive(orientationChangePublisher, perform: handleOrientationChange)
     }
 
-    var phoneBody: some View {
-        TabView(selection: dependencies.$router.selectedTab.onSet {
-            if dependencies.router.selectedTab == $0 { goToRootOrTop(tab: $0) }
-        }) {
-            ForEach(Tab.allCases) { tab in
-                screen(for: tab)
-                    .tabItem { tab.label }
-                    .badge(tab == .activity ? Queue.shared.badgeCount : 0)
-                    .displayToasts()
-                    .tag(tab)
-            }
-        }
-        .onAppear {
-            if !isRunningIn(.preview) {
-                dependencies.router.selectedTab = settings.tab
-            }
+    var movies: TabItem { TabItem.movies }
+    var series: TabItem { TabItem.series }
+    var calendar: TabItem { TabItem.calendar }
+    var activity: TabItem { TabItem.activity }
 
-            UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
-        }
-        .whatsNewSheet()
-        .onChange(of: scenePhase, handleScenePhaseChange)
-    }
-
-    var sidebar: some View {
-        List(selection: dependencies.$router.selectedTab.optional) {
-            Text(verbatim: "Ruddarr")
-                .font(.largeTitle.bold())
-
-            ForEach(Tab.allCases) { tab in
-                if tab != .settings {
-                    rowButton(for: tab)
-                }
-            }
-        }
-        .safeAreaInset(edge: .bottom) {
-            List(selection: dependencies.$router.selectedTab.optional) {
-                ForEach(Tab.allCases) { tab in
-                    if tab == .settings {
-                        rowButton(for: tab)
-                    }
-                }
-            }
-            .frame(height: safeAreaInsetHeight)
-            .scrollDisabled(true)
-            .padding(.bottom, 24)
+#if os(macOS)
+    func handleScenePhaseChange() {
+        if controlActiveState == .key {
+            Notifications.shared.maybeUpdateWebhooks(settings)
+            Telemetry.shared.maybeUploadTelemetry(settings)
         }
     }
-
-    @ViewBuilder
-    func screen(for tab: Tab) -> some View {
-        switch tab {
-        case .movies:
-            MoviesView()
-        case .series:
-            SeriesView()
-        case .activity:
-            ActivityView()
-        case .calendar:
-            CalendarView()
-        case .settings:
-            SettingsView()
-        }
-    }
-
-    @ViewBuilder
-    func rowButton(for tab: Tab) -> some View {
-        Button {
-            if dependencies.router.selectedTab == tab {
-                goToRootOrTop(tab: tab)
-            } else {
-                dependencies.router.selectedTab = tab
-            }
-
-            columnVisibility = isPortrait ? .automatic : .doubleColumn
-        } label: {
-            if tab == .activity {
-                tab.row.badge(Queue.shared.badgeCount).padding(.trailing, 6)
-            } else {
-                tab.row
-            }
-        }
-    }
-
+#else
     func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
         if phase == .active {
             Notifications.shared.maybeUpdateWebhooks(settings)
@@ -139,45 +84,68 @@ struct ContentView: View {
         }
 
         if phase == .background {
-            addQuickActions()
+            QuickActions().registerShortcutItems()
+        }
+    }
+#endif
+
+    @ViewBuilder
+    var instancePickers: some View {
+        if dependencies.router.selectedTab == .movies {
+            instancePicker(
+                instances: settings.radarrInstances,
+                selection: $settings.radarrInstanceId,
+                label: settings.radarrInstance?.label,
+                onChange: {
+                    dependencies.router.moviesPath = .init()
+                    dependencies.router.switchToRadarrInstance = settings.radarrInstanceId
+                }
+            )
+        }
+
+        if dependencies.router.selectedTab == .series {
+            instancePicker(
+                instances: settings.sonarrInstances,
+                selection: $settings.sonarrInstanceId,
+                label: settings.sonarrInstance?.label,
+                onChange: {
+                    dependencies.router.seriesPath = .init()
+                    dependencies.router.switchToSonarrInstance = settings.sonarrInstanceId
+                }
+            )
         }
     }
 
-    func handleOrientationChange(_ notification: Notification) {
-        isPortrait = UIDevice.current.orientation.isPortrait
+    @ViewBuilder
+    func instancePicker(
+        instances: [Instance],
+        selection: Binding<Instance.ID?>,
+        label: String?,
+        onChange: @escaping () -> Void
+    ) -> some View {
+        if instances.count > 1 {
+            Menu {
+                Picker("Instances", selection: selection) {
+                    ForEach(instances) { instance in
+                        Text(instance.label).tag(Optional.some(instance.id))
+                    }
+                }
+                .onChange(of: selection.wrappedValue, onChange)
+            } label: {
+                HStack {
+                    Image(systemName: "internaldrive")
+                        .imageScale(.large)
 
-        if !isPortrait {
-            columnVisibility = .doubleColumn
-        }
-
-        if isPortrait {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                columnVisibility = .detailOnly
+                    Text(label ?? "")
+                        .tint(.primary)
+                }
+                .contentShape(Rectangle())
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.vertical, 6)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 20)
         }
-    }
-
-    func goToRootOrTop(tab: Tab) {
-        switch tab {
-        case .movies:
-            dependencies.router.moviesPath.isEmpty
-                ? dependencies.router.moviesScroll.send()
-                : (dependencies.router.moviesPath = .init())
-        case .series:
-            dependencies.router.seriesPath.isEmpty
-                ? dependencies.router.seriesScroll.send()
-                : (dependencies.router.seriesPath = .init())
-        case .activity:
-            break
-        case .calendar:
-            dependencies.router.calendarScroll.send()
-        case .settings:
-            dependencies.router.settingsPath = .init()
-        }
-    }
-
-    func addQuickActions() {
-        QuickActions().registerShortcutItems()
     }
 }
 
@@ -185,4 +153,3 @@ struct ContentView: View {
     ContentView()
         .withAppState()
 }
-#endif

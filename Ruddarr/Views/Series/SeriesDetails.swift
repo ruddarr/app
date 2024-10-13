@@ -127,7 +127,7 @@ struct SeriesDetails: View {
     var previewActions: some View {
         Group {
             Menu {
-                SeriesContextMenu(series: series)
+                SeriesLinks(series: series)
             } label: {
                 ButtonLabel(text: "Open In...", icon: "arrow.up.right.square")
                     .modifier(MediaPreviewActionModifier())

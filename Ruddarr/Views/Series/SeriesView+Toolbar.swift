@@ -7,18 +7,18 @@ extension SeriesView {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(value: SeriesPath.search()) {
                     Image(systemName: "plus")
-                }.toolbarIdFix(UUID())
+                }
             }
         }
     }
 
     @ToolbarContentBuilder
     var toolbarViewOptions: some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
+        ToolbarItem(placement: .navigation) {
             HStack {
                 toolbarFilterButton
                 toolbarSortingButton
-            }.toolbarIdFix(UUID())
+            }
         }
     }
 
@@ -52,7 +52,7 @@ extension SeriesView {
                 Picker("Direction", selection: $sort.isAscending) {
                     Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
                     Label("Descending", systemImage: "arrowtriangle.down").tag(false)
-                }
+                }.pickerStyle(.inline)
             }
         } label: {
             Image(systemName: "arrow.up.arrow.down")
@@ -69,7 +69,6 @@ extension SeriesView {
                         Text(instance.label).tag(Optional.some(instance.id))
                     }
                 }
-                .onChange(of: settings.sonarrInstanceId, changeInstance)
                 .pickerStyle(.inline)
             } label: {
                 HStack(alignment: .bottom, spacing: 6) {

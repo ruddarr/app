@@ -9,6 +9,7 @@ struct SeriesReleaseRow: View {
     @State private var isShowingPopover = false
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.deviceType) private var deviceType
     @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
@@ -19,7 +20,7 @@ struct SeriesReleaseRow: View {
             }
             .sheet(isPresented: $isShowingPopover) {
                 SeriesReleaseSheet(release: release, seriesId: seriesId, seasonId: seasonId, episodeId: episodeId)
-                    .presentationDetents([.medium])
+                    .presentationDetents([deviceType == .phone ? .medium : .large])
                     .presentationDragIndicator(.hidden)
                     .environment(instance)
                     .environmentObject(settings)

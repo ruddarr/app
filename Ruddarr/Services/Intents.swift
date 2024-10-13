@@ -5,7 +5,7 @@ struct OpenAppIntent: OpenIntent {
     static var openAppWhenRun: Bool = true
 
     @Parameter(title: "Tab", default: .movies)
-    var target: Tab.Openable
+    var target: TabItem.Openable
 
     static var parameterSummary: some ParameterSummary {
         Summary("Open \(\.$target)")

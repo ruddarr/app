@@ -12,7 +12,11 @@ class Images {
         return ImagePipeline(configuration: config)
     }
 
-    static func request(_ url: String, _ type: ImageType) -> ImageRequest {
+    static func request(
+        _ url: String,
+        _ type: ImageType,
+        _ priority: ImageRequest.Priority = .normal
+    ) -> ImageRequest {
         ImageRequest(
             urlRequest: URLRequest(
                 url: URL(string: url)!,
@@ -25,15 +29,16 @@ class Images {
                     crop: true,
                     upscale: true
                 )
-            ]
+            ],
+            priority: priority
         )
     }
 
-    static func thumbnail(_ poster: String?) async -> URL? {
+    static func thumbnail(_ poster: String?, _ priority: ImageRequest.Priority = .normal) async -> URL? {
         guard let poster = poster else { return nil }
 
         let pipeline = Images.pipeline()
-        let request = Images.request(poster, .poster)
+        let request = Images.request(poster, .poster, priority)
 
         let cacheKey = pipeline.cache.makeDataCacheKey(for: request)
         let thumbnail = thumbnailPath(cacheKey)
