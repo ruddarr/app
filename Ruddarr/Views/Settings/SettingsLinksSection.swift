@@ -8,6 +8,7 @@ struct SettingsLinksSection: View {
             discord
             beta
             contribute
+            sable
         }
     }
 
@@ -40,6 +41,17 @@ struct SettingsLinksSection: View {
                 Text("Contribute on GitHub").tint(.primary)
             } icon: {
                 Image(systemName: "curlybraces.square")
+                    .foregroundStyle(settings.theme.tint)
+            }
+        })
+    }
+    
+    var sable: some View {
+        Link(destination: Links.Sable, label: {
+            Label {
+                Text("Check out Sable").tint(.primary)
+            } icon: {
+                Image(systemName: "arrowshape.down")
                     .foregroundStyle(settings.theme.tint)
             }
         })

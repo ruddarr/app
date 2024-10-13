@@ -104,6 +104,7 @@
 		<string>imdb</string>
 		<string>letterboxd</string>
 		<string>callsheet</string>
+		<string>sable</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
