@@ -22,7 +22,7 @@ struct SeriesReleasesView: View {
                     .environmentObject(settings)
             }
 
-            if sort.hasFilter && !releases.isEmpty {
+            if hasHiddenReleases {
                 HiddenReleases()
             }
         }
@@ -59,6 +59,12 @@ struct SeriesReleasesView: View {
                 noMatchingReleases
             }
         }
+    }
+
+    var hasHiddenReleases: Bool {
+        sort.hasFilter &&
+        !releases.isEmpty &&
+        releases.count < instance.releases.items.count
     }
 
     var noReleasesFound: some View {
