@@ -30,6 +30,7 @@ class SeriesEpisodes {
         }
     }
 
+    @MainActor
     func fetch(_ series: Series) async {
         items = []
         error = nil
@@ -72,6 +73,7 @@ class SeriesEpisodes {
         return error == nil
     }
 
+    @MainActor
     func fetchHistory(_ episode: Episode) async {
         if !history.isEmpty && history[0].episodeId == episode.id {
             return
