@@ -89,7 +89,8 @@ actor Spotlight {
     }
 
     func calculateChecksum(_ string: String) -> String {
-        let data = string.data(using: .utf8) ?? Data()
+        let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+        let data = (buildVersion ?? "" + string).data(using: .utf8) ?? Data()
 
         let checksum = data.withUnsafeBytes {
             crc32(0, $0.bindMemory(to: Bytef.self).baseAddress, uInt(data.count))
