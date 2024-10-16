@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -32,6 +32,7 @@
 		BB0FE1132BED33A800D1D847 /* series-episode-files.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0FE1122BED33A800D1D847 /* series-episode-files.json */; };
 		BB0FE1152BED3E3700D1D847 /* MediaFileSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */; };
 		BB19BF872BE3E3E900F3E7AC /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BB19BF862BE3E3E900F3E7AC /* Settings.bundle */; };
+		BB204F592CBCE2CD00ACDC0B /* LinkContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB204F582CBCE2CA00ACDC0B /* LinkContextMenu.swift */; };
 		BB2250F22BEE87D7009EAA6B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2250F12BEE87D7009EAA6B /* ContentView.swift */; };
 		BB25DC612B62ECF700FE55A0 /* InstanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC602B62ECF700FE55A0 /* InstanceRow.swift */; };
 		BB25DC662B62EDC700FE55A0 /* MovieGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC652B62EDC700FE55A0 /* MovieGridItem.swift */; };
@@ -239,6 +240,7 @@
 		BB0FE1122BED33A800D1D847 /* series-episode-files.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-episode-files.json"; sourceTree = "<group>"; };
 		BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFileSheet.swift; sourceTree = "<group>"; };
 		BB19BF862BE3E3E900F3E7AC /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		BB204F582CBCE2CA00ACDC0B /* LinkContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkContextMenu.swift; sourceTree = "<group>"; };
 		BB2250F12BEE87D7009EAA6B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BB25DC602B62ECF700FE55A0 /* InstanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceRow.swift; sourceTree = "<group>"; };
 		BB25DC652B62EDC700FE55A0 /* MovieGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGridItem.swift; sourceTree = "<group>"; };
@@ -615,6 +617,7 @@
 				BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */,
 				BBAFC7E62BB733E800245D10 /* MediaEventSheet.swift */,
 				BB50F2242C39BFDA005E14CA /* MediaHistoryItem.swift */,
+				BB204F582CBCE2CA00ACDC0B /* LinkContextMenu.swift */,
 				BB79FB902CAF3C16002F8C0F /* Tips.swift */,
 			);
 			path = Shared;
@@ -1055,6 +1058,7 @@
 				BBAED12D2B72D444006C6CF2 /* ButtonLabel.swift in Sources */,
 				BBC6CEF72BE69BEE00F71839 /* MediaFile.swift in Sources */,
 				BB4140C62B71CA89007C7DA4 /* MovieReleaseSort.swift in Sources */,
+				BB204F592CBCE2CD00ACDC0B /* LinkContextMenu.swift in Sources */,
 				BBF7BFDE2BE4971D00B485FA /* InformationList.swift in Sources */,
 				BB94F1B92B7E7B870050F6A0 /* InstanceWebhook.swift in Sources */,
 				798010BF2B6268DE00BBC056 /* MovieSort.swift in Sources */,

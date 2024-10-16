@@ -77,7 +77,7 @@ struct SettingsLinksSection: View {
                     Text(verbatim: name)
                         .tint(.primary)
                 } icon: {
-                    Image(systemName: "arrow.up.forward.square")
+                    Image(systemName: "arrow.up.right.square")
                         .foregroundStyle(settings.theme.tint)
                 }
             }

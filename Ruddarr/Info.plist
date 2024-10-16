@@ -101,6 +101,8 @@
 	<array>
 		<string>mailto</string>
 		<string>youtube</string>
+        <string>googlechrome</string>
+        <string>firefox</string>
 		<string>imdb</string>
 		<string>letterboxd</string>
 		<string>callsheet</string>

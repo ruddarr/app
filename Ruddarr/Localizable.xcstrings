@@ -884,6 +884,16 @@
         }
       }
     },
+    "Copy URL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy URL"
+          }
+        }
+      }
+    },
     "Custom Format" : {
       "localizations" : {
         "en" : {

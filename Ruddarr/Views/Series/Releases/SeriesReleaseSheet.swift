@@ -132,8 +132,8 @@ struct SeriesReleaseSheet: View {
                 Spacer()
             }
 
-            if let url = release.infoUrl {
-                Link(destination: URL(string: url)!, label: {
+            if let url = URL(string: release.infoUrl ?? "") {
+                Link(destination: url, label: {
                     let label: LocalizedStringKey = deviceType == .phone ? "Open" : "Open Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
@@ -141,6 +141,9 @@ struct SeriesReleaseSheet: View {
                 })
                 .buttonStyle(.bordered)
                 .tint(.secondary)
+                .contextMenu {
+                    LinkContextMenu(url)
+                }
             }
 
             Button {

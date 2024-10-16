@@ -49,8 +49,14 @@ struct MediaEventSheet: View {
             }
 
             if let string = event.data("nzbInfoUrl"), let url = URL(string: string), let domain = url.host {
+                let link = Link(domain, destination: url).contextMenu {
+                    LinkContextMenu(url)
+                } preview: {
+                    Text(url.absoluteString).padding()
+                }
+
                 Divider()
-                renderRow("Link", Link(domain, destination: url))
+                renderRow("Link", link)
             }
 
             if let flags = event.indexerFlagsLabel {
