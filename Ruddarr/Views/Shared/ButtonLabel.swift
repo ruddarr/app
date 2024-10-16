@@ -1,10 +1,21 @@
 import SwiftUI
 
 struct ButtonLabel: View {
-    var text: LocalizedStringKey
-    var icon: String
+    private var label: Text
+    private var icon: String
+    private var isLoading: Bool = false
 
-    var isLoading: Bool = false
+    init(text: String, icon: String, isLoading: Bool = false) {
+        self.label = Text(text)
+        self.icon = icon
+        self.isLoading = isLoading
+    }
+
+    init(text: LocalizedStringKey, icon: String, isLoading: Bool = false) {
+        self.label = Text(text)
+        self.icon = icon
+        self.isLoading = isLoading
+    }
 
     @EnvironmentObject var settings: AppSettings
 
@@ -14,7 +25,7 @@ struct ButtonLabel: View {
                 ProgressView()
             } else {
                 Label {
-                    Text(text)
+                    label
                         .font(.callout)
                 } icon: {
                     Image(systemName: icon)

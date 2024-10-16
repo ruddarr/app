@@ -690,6 +690,26 @@
         }
       }
     },
+    "Blocklist Release" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocklist Release"
+          }
+        }
+      }
+    },
+    "Blocks this release from being redownloaded via Automatic Search or RSS." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocks this release from being redownloaded via Automatic Search or RSS."
+          }
+        }
+      }
+    },
     "Books" : {
       "comment" : "Localized name of Apple's Books app",
       "localizations" : {
@@ -3302,6 +3322,29 @@
         }
       }
     },
+    "Remove" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove"
+          }
+        }
+      }
+    },
+    "Remove from Client" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove from Client"
+          }
+        }
+      }
+    },
+    "Remove Task" : {
+
+    },
     "Renamed" : {
       "localizations" : {
         "en" : {
@@ -3448,6 +3491,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search for movie with ${name}"
+          }
+        }
+      }
+    },
+    "Search for Replacement" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for Replacement"
           }
         }
       }
@@ -4425,6 +4478,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Weight"
+          }
+        }
+      }
+    },
+    "Whether to ignore the download, or remove it and its file(s) from the download client." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Whether to ignore the download, or remove it and its file(s) from the download client."
           }
         }
       }

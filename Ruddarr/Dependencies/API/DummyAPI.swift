@@ -143,6 +143,10 @@ extension API {
             try await Task.sleep(nanoseconds: 500_000_000)
 
             return loadPreviewData(filename: instance.type == .sonarr ? "series-queue" : "movie-queue")
+        }, deleteQueueTask: { _, _, _, _, _ in
+            try await Task.sleep(nanoseconds: 3_000_000_000)
+
+            return Empty()
         }, fetchNotifications: { _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 

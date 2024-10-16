@@ -3,9 +3,13 @@ import SwiftUI
 struct QueueItemSheet: View {
     var item: QueueItem
 
+    @State private var showRemovalSheet = false
+
     @EnvironmentObject var settings: AppSettings
+
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         ScrollView {
@@ -37,10 +41,8 @@ struct QueueItemSheet: View {
                     details
                         .padding(.top)
 
-                    if item.downloadClient == "SABnzbd" && sableInstalled() {
-                        openInSable
-                            .padding(.top)
-                    }
+                    actions
+                        .padding(.top)
 
                     Spacer()
                 }
@@ -74,7 +76,6 @@ struct QueueItemSheet: View {
         .padding(.bottom, 8)
     }
 
-    @ViewBuilder
     var statusMessages: some View {
         VStack(alignment: .leading, spacing: 12) {
             ForEach(item.messages, id: \.self) { status in
@@ -92,7 +93,6 @@ struct QueueItemSheet: View {
         }
     }
 
-    @ViewBuilder
     var details: some View {
         VStack(spacing: 6) {
             row("Languages", item.languagesLabel)
@@ -125,17 +125,46 @@ struct QueueItemSheet: View {
         }
     }
 
-    @ViewBuilder
-    var openInSable: some View {
-        HStack(alignment: .center) {
-            Link(destination: URL(string: "sable://open")!, label: {
-                ButtonLabel(text: "Open \("Sable")", icon: "arrow.up.right.square")
-                    .frame(width: 175)
-            })
+    var actions: some View {
+        HStack(spacing: 24) {
+            Button {
+                showRemovalSheet = true
+            } label: {
+                let label: LocalizedStringKey = deviceType == .phone ? "Remove" : "Remove Task"
+
+                ButtonLabel(text: label, icon: "trash")
+                    .modifier(MediaPreviewActionModifier())
+            }
             .buttonStyle(.bordered)
             .tint(.secondary)
+            .sheet(isPresented: $showRemovalSheet) {
+                QueueTaskRemovalSheet(item: item) {
+                    dismiss()
+                }
+                    .presentationDetents([.medium])
+                    .environmentObject(settings)
+            }
+
+            if item.downloadClient == "SABnzbd" && sableInstalled() {
+                Link(destination: URL(string: "sable://open")!, label: {
+                    Group {
+                        if deviceType == .phone {
+                            ButtonLabel(text: String("Sable"), icon: "arrow.up.right.square")
+                        } else {
+                            ButtonLabel(text: LocalizedStringKey("Open \("Sable")"), icon: "arrow.up.right.square")
+                        }
+                    }
+                    .modifier(MediaPreviewActionModifier())
+                })
+                .buttonStyle(.bordered)
+                .tint(.secondary)
+            } else {
+                Spacer()
+                    .modifier(MediaPreviewActionSpacerModifier())
+            }
         }
-        .frame(maxWidth: .infinity, alignment: .center)
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: 450)
     }
 
     func row(_ label: LocalizedStringKey, _ value: String) -> some View {

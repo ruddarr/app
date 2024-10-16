@@ -42,6 +42,7 @@ struct API {
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
 
     var fetchQueueTasks: (Instance) async throws -> QueueItems
+    var deleteQueueTask: (QueueItem.ID, Bool, Bool, Bool, Instance) async throws -> Empty
 
     var fetchNotifications: (Instance) async throws -> [InstanceNotification]
     var createNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
@@ -293,6 +294,17 @@ extension API {
             var items: QueueItems = try await request(url: url, headers: instance.auth)
             for i in items.records.indices { items.records[i].instanceId = instance.id }
             return items
+        }, deleteQueueTask: { task, remove, block, redownload, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/queue")
+                .appending(path: String(task))
+                .appending(queryItems: [
+                    .init(name: "removeFromClient", value: remove ? "true" : "false"),
+                    .init(name: "blocklist", value: block ? "true" : "false"),
+                    .init(name: "skipRedownload", value: redownload ? "true" : "false"),
+                ])
+
+            return try await request(method: .delete, url: url, headers: instance.auth)
         }, fetchNotifications: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/notification")
