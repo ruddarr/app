@@ -33,6 +33,7 @@ class MovieMetadata {
         historyLoading = false
     }
 
+    @MainActor
     func fetchFiles(for movie: Movie) async {
         if movieId == movie.id && !files.isEmpty {
             return
@@ -53,6 +54,7 @@ class MovieMetadata {
         filesLoading = false
     }
 
+    @MainActor
     func fetchHistory(for movie: Movie) async {
         if movieId == movie.id && !history.isEmpty {
             return
@@ -72,6 +74,7 @@ class MovieMetadata {
         historyLoading = false
     }
 
+    @MainActor
     func refresh(for movie: Movie) async {
         do {
             files = try await dependencies.api.getMovieFiles(movie.id, instance)
@@ -95,6 +98,7 @@ class MovieMetadata {
         historyLoading = false
     }
 
+    @MainActor
     func delete(_ file: MediaFile) async -> Bool {
         do {
             _ = try await dependencies.api.deleteMovieFile(file, instance)
