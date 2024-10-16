@@ -11,22 +11,29 @@ struct LinkContextMenu: View {
 
     var body: some View {
         Button("Copy URL", systemImage: "document.on.document") {
-            UIPasteboard.general.string = url.absoluteString
+            #if os(macOS)
+                NSPasteboard.general.setString(url.absoluteString, forType: .URL)
+            #else
+                UIPasteboard.general.string = url.absoluteString
+            #endif
         }
 
-        if let url = chromeUrl {
-            Button("Open in \(String("Chrome"))", systemImage: "arrow.up.right.square") {
-                openURL(url)
+        #if os(iOS)
+            if let url = chromeUrl {
+                Button("Open in \(String("Chrome"))", systemImage: "arrow.up.right.square") {
+                    openURL(url)
+                }
             }
-        }
 
-        if let url = firefoxUrl {
-            Button("Open in \(String("Firefox"))", systemImage: "arrow.up.right.square") {
-                openURL(url)
+            if let url = firefoxUrl {
+                Button("Open in \(String("Firefox"))", systemImage: "arrow.up.right.square") {
+                    openURL(url)
+                }
             }
-        }
+        #endif
     }
 
+#if os(iOS)
     var chromeUrl: URL? {
         guard UIApplication.shared.canOpenURL(URL(string: "googlechrome://")!) else {
             return nil
@@ -55,4 +62,5 @@ struct LinkContextMenu: View {
 
         return URL(string: "firefox://open-url?url=\(escapedUrl ?? url.absoluteString)")
     }
+#endif
 }
