@@ -5,6 +5,7 @@ struct QueueItemSheet: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         ScrollView {
@@ -127,14 +128,10 @@ struct QueueItemSheet: View {
     @ViewBuilder
     var openInSable: some View {
         HStack(alignment: .center) {
-            Button {
-                if let url = URL(string: "sable://open") {
-                    UIApplication.shared.open(url)
-                }
-            } label: {
+            Link(destination: URL(string: "sable://open")!, label: {
                 ButtonLabel(text: "Open \("Sable")", icon: "arrow.up.right.square")
-                    .frame(width: 200)
-            }
+                    .frame(width: 175)
+            })
             .buttonStyle(.bordered)
             .tint(.secondary)
         }
@@ -177,9 +174,9 @@ struct QueueItemSheet: View {
 
     func sableInstalled() -> Bool {
         #if os(macOS)
-            return nil
+            return false
+        #else
+            return UIApplication.shared.canOpenURL(URL(string: "sable://open")!)
         #endif
-
-        return UIApplication.shared.canOpenURL(URL(string: "sable://open")!)
     }
 }
