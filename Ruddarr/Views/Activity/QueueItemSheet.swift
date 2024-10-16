@@ -35,11 +35,10 @@ struct QueueItemSheet: View {
 
                     details
                         .padding(.top)
-                    
-                    if let sableURL = sable {
-                        if item.downloadClient == "SABnzbd" {
-                            openInSable
-                        }
+
+                    if item.downloadClient == "SABnzbd" && sableInstalled() {
+                        openInSable
+                            .padding(.top)
                     }
 
                     Spacer()
@@ -124,19 +123,22 @@ struct QueueItemSheet: View {
             }
         }
     }
-    
+
     @ViewBuilder
     var openInSable: some View {
-        Button {
-            if let url = URL(string: "sable://open") {
-                UIApplication.shared.open(url)
+        HStack(alignment: .center) {
+            Button {
+                if let url = URL(string: "sable://open") {
+                    UIApplication.shared.open(url)
+                }
+            } label: {
+                ButtonLabel(text: "Open \("Sable")", icon: "arrow.up.right.square")
+                    .frame(width: 200)
             }
-        } label: {
-            ButtonLabel(text: "Open in Sable", icon: "arrowshape.down")
-                .frame(maxWidth: .infinity)
+            .buttonStyle(.bordered)
+            .tint(.secondary)
         }
-        .buttonStyle(.bordered)
-        .tint(.secondary)
+        .frame(maxWidth: .infinity, alignment: .center)
     }
 
     func row(_ label: LocalizedStringKey, _ value: String) -> some View {
@@ -172,16 +174,12 @@ struct QueueItemSheet: View {
     func formatDate(_ date: Date) -> String {
         date.formatted(date: .long, time: .shortened)
     }
-    
-    var sable: String? {
-        #if os(iOS)
-            let url = "sable://open"
 
-            if UIApplication.shared.canOpenURL(URL(string: url)!) {
-                return url
-            }
+    func sableInstalled() -> Bool {
+        #if os(macOS)
+            return nil
         #endif
 
-        return nil
+        return UIApplication.shared.canOpenURL(URL(string: "sable://open")!)
     }
 }

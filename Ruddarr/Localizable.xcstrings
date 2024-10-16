@@ -731,9 +731,6 @@
         }
       }
     },
-    "Check out Sable" : {
-
-    },
     "Check the spelling or try [adding the movie](%@)." : {
       "localizations" : {
         "en" : {
@@ -2934,6 +2931,16 @@
         }
       }
     },
+    "Open %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open %@"
+          }
+        }
+      }
+    },
     "Open ${target}" : {
       "localizations" : {
         "en" : {
@@ -2953,9 +2960,6 @@
           }
         }
       }
-    },
-    "Open in Sable" : {
-
     },
     "Open In..." : {
       "localizations" : {
