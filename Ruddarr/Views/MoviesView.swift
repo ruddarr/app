@@ -37,9 +37,11 @@ struct MoviesView: View {
                     ScrollViewReader { proxy in
                         ScrollView {
                             movieItemGrid
-                                .padding(.top, searchPresented ? 10 : 0)
                                 .viewBottomPadding()
                                 .viewPadding(.horizontal)
+                                #if os(iOS)
+                                    .padding(.top, searchPresented ? 7 : 0)
+                                #endif
                         }
                         .onAppear {
                             scrollView = proxy

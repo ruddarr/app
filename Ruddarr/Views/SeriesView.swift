@@ -38,9 +38,11 @@ struct SeriesView: View {
                     ScrollViewReader { proxy in
                         ScrollView {
                             seriesItemGrid
-                                .padding(.top, searchPresented ? 10 : 0)
                                 .viewBottomPadding()
                                 .viewPadding(.horizontal)
+                                #if os(isOS)
+                                    .padding(.top, searchPresented ? 7 : 0)
+                                #endif
                         }
                         .onAppear {
                             scrollView = proxy
