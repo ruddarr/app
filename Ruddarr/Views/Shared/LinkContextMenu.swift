@@ -41,11 +41,9 @@ struct LinkContextMenu: View {
             return nil
         }
 
-        let chromeUrl = url.absoluteString.replacingOccurrences(
-            of: "^https?://",
-            with: "googlechrome://",
-            options: .regularExpression
-        )
+        let chromeUrl = url.absoluteString
+            .replacingOccurrences(of: "^http://", with: "googlechrome://", options: .regularExpression)
+            .replacingOccurrences(of: "^https://", with: "googlechromes://", options: .regularExpression)
 
         return URL(string: chromeUrl)
     }
