@@ -1,4 +1,5 @@
 import SwiftUI
+import TipKit
 
 struct MovieMetadataView: View {
     @Binding var movie: Movie
@@ -42,16 +43,19 @@ struct MovieMetadataView: View {
             } else if instance.metadata.files.isEmpty && instance.metadata.extraFiles.isEmpty {
                 noContent("Movie has no files.")
             } else {
-                ForEach(instance.metadata.files) { file in
-                    MovieFilesFile(file: file)
-                        .padding(.bottom, 4)
-                        .onTapGesture { fileSheet = file }
-                }
+                VStack {
+                    ForEach(instance.metadata.files) { file in
+                        MovieFilesFile(file: file)
+                            .padding(.bottom, 4)
+                            .onTapGesture { fileSheet = file }
+                    }
 
-                ForEach(instance.metadata.extraFiles) { file in
-                    MovieFilesExtraFile(file: file)
-                        .padding(.bottom, 4)
+                    ForEach(instance.metadata.extraFiles) { file in
+                        MovieFilesExtraFile(file: file)
+                            .padding(.bottom, 4)
+                    }
                 }
+                .popoverTip(DeleteFileTip())
             }
         } header: {
             Text("Files")
