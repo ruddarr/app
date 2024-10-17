@@ -10,12 +10,14 @@ struct LinkContextMenu: View {
     }
 
     var body: some View {
-        Button("Copy URL", systemImage: "document.on.document") {
+        Button("Copy Link", systemImage: "document.on.document") {
             #if os(macOS)
                 NSPasteboard.general.setString(url.absoluteString, forType: .URL)
             #else
                 UIPasteboard.general.string = url.absoluteString
             #endif
+
+            dependencies.toast.show(.linkCopied)
         }
 
         #if os(iOS)

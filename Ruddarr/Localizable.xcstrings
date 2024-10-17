@@ -901,12 +901,12 @@
         }
       }
     },
-    "Copy URL" : {
+    "Copy Link" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copy URL"
+            "value" : "Copy Link"
           }
         }
       }
@@ -1951,6 +1951,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Link"
+          }
+        }
+      }
+    },
+    "Link Copied" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Link Copied"
           }
         }
       }
@@ -3343,7 +3353,14 @@
       }
     },
     "Remove Task" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove Task"
+          }
+        }
+      }
     },
     "Renamed" : {
       "localizations" : {
