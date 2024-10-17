@@ -63,8 +63,9 @@ struct QueueItemSheet: View {
 
         Text(item.title ?? "Unknown")
             .font(.title3.bold())
-            .lineLimit(2)
-            .padding(.trailing, 25)
+            .kerning(-0.5)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.trailing, 40)
 
         HStack(spacing: 6) {
             Text(item.quality.quality.label)

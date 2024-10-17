@@ -14,7 +14,7 @@ struct MediaEventSheet: View {
             VStack(alignment: .leading) {
                 Text(event.eventType.title)
                     .font(.title3.bold())
-                    .padding(.trailing, 25)
+                    .padding(.trailing, 40)
 
                 Text(formatDate(event.date))
                     .font(.footnote)

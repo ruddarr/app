@@ -126,9 +126,11 @@ struct MediaFileSheet: View {
         HStack(alignment: .top) {
             Text(label)
                 .foregroundStyle(.secondary)
+
             Spacer()
             Spacer()
             Spacer()
+
             Text(value)
                 .foregroundStyle(.primary)
 

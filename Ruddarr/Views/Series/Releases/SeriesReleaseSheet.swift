@@ -25,7 +25,7 @@ struct SeriesReleaseSheet: View {
                 VStack(alignment: .leading) {
                     header
                         .padding(.bottom)
-                        .padding(.trailing, 25)
+                        .padding(.trailing, 40)
 
                     if !release.rejections.isEmpty {
                         rejectionReasons
