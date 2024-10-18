@@ -78,6 +78,11 @@ extension WhatsNew {
 
     static var features: [WhatsNewFeature] = [
         .init(
+            image: "sidebar.left",
+            title: "iPadOS 18 TabView",
+            subtitle: "Modernized iPad sidebar and keep views alive when switching tabs."
+        ),
+        .init(
             image: "waveform.path.ecg",
             title: "Faster Queue",
             subtitle: "Queue tasks will refresh faster while displaying the Activity tab."
