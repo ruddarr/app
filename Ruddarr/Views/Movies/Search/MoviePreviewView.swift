@@ -95,9 +95,8 @@ struct MoviePreviewView: View {
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         #endif
 
-        presentingForm = false
 
-        instance.lookup.reset()
+        presentingForm = false
         movieSort.filter = .all
 
         let moviePath = MoviesPath.movie(addedMovie.id)

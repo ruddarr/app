@@ -96,8 +96,6 @@ struct SeriesPreviewView: View {
         #endif
 
         presentingForm = false
-
-        instance.lookup.reset()
         seriesSort.filter = .all
 
         let seriesPath = SeriesPath.series(addedSeries.id)
