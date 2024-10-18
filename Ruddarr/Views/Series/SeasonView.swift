@@ -173,7 +173,7 @@ struct SeasonView: View {
             }
             .allowsHitTesting(!instance.series.isWorking)
             .disabled(!series.monitored)
-            .popoverTip(SeriesMonitoringTip())
+            .popoverTip(SeriesMonitoringTip(series.monitored))
             #if os(iOS)
                 .buttonStyle(.plain)
             #endif
