@@ -1985,6 +1985,16 @@
         }
       }
     },
+    "Long tap to delete file" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long tap to delete file"
+          }
+        }
+      }
+    },
     "Mail" : {
       "comment" : "Localized name of Apple's Mail app",
       "localizations" : {
@@ -4363,6 +4373,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work."
+          }
+        }
+      }
+    },
+    "Use long tap to delete file from the device." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use long tap to delete file from the device."
           }
         }
       }
