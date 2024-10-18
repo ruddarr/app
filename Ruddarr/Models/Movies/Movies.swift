@@ -131,6 +131,7 @@ class Movies {
         return error == nil
     }
 
+    @MainActor
     private func performOperation(_ operation: Operation) async throws {
         switch operation {
         case .fetch:
