@@ -14,6 +14,7 @@ struct SeriesSort: Hashable {
         case bySize
         case byNextAiring
         case byPreviousAiring
+        case byPopularity
 
         var label: some View {
             switch self {
@@ -23,6 +24,7 @@ struct SeriesSort: Hashable {
             case .bySize: Label("File Size", systemImage: "internaldrive")
             case .byNextAiring: Label("Next Airing", systemImage: "clock")
             case .byPreviousAiring: Label("Previous Airing", systemImage: "clock.arrow.circlepath")
+            case .byPopularity: Label("Popularity", systemImage: "star")
             }
         }
 
@@ -40,6 +42,8 @@ struct SeriesSort: Hashable {
                 lhs.nextAiring ?? Date.distantFuture > rhs.nextAiring ?? Date.distantFuture
             case .byPreviousAiring:
                 lhs.previousAiring ?? Date.distantPast < rhs.previousAiring ?? Date.distantPast
+            case .byPopularity:
+                lhs.popularity < rhs.popularity
             }
         }
     }
