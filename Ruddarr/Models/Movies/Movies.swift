@@ -1,6 +1,7 @@
 import os
 import SwiftUI
 
+@MainActor
 @Observable
 class Movies {
     var instance: Instance
@@ -9,7 +10,6 @@ class Movies {
     var itemsCount: Int = 0
 
     var cachedItems: [Movie] = []
-    var alternateTitles: [Movie.ID: String] = [:]
 
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
@@ -39,7 +39,7 @@ class Movies {
             cachedItems = cachedItems.filter { movie in
                 movie.title.localizedCaseInsensitiveContains(query) ||
                 movie.studio?.localizedCaseInsensitiveContains(query) ?? false ||
-                alternateTitles[movie.id]?.localizedCaseInsensitiveContains(query) ?? false
+                movie.alternateTitles.map(\.title).contains(where: { $0.localizedCaseInsensitiveContains(query) })
             }
         }
 
@@ -137,7 +137,7 @@ class Movies {
         case .fetch:
             items = try await dependencies.api.fetchMovies(instance)
             itemsCount = items.count
-            computeAlternateTitles()
+//            computeAlternateTitles()
             await Spotlight(instance.id).index(items, delay: .seconds(5))
 
             leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
@@ -167,22 +167,6 @@ class Movies {
 
         case .command(let command):
             _ = try await dependencies.api.command(command, instance)
-        }
-    }
-
-    private func computeAlternateTitles() {
-        if alternateTitles.count == items.count {
-            return
-        }
-
-        Task.detached(priority: .medium) {
-            var titles: [Movie.ID: String] = [:]
-
-            for index in self.items.indices {
-                titles[self.items[index].id] = self.items[index].alternateTitlesString()
-            }
-
-            self.alternateTitles = titles
         }
     }
 }
