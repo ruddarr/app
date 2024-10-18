@@ -179,7 +179,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     }
 
     var isDownloaded: Bool {
-        hasFile ?? false
+        movieFile != nil
     }
 
     var isWaiting: Bool {
