@@ -33,12 +33,19 @@ func leaveBreadcrumb(
     SentrySDK.addBreadcrumb(crumb)
 
     if isRunningIn(.testflight) {
-        // report error/fatal breadcrumbs as events
+        // report only `.error` and `.fatal` breadcrumbs as events
         if ![.error, .fatal].contains(level) {
             return
         }
 
         if data["error"] is API.Error || data["error"] is URLError {
+            return
+        }
+
+        if message?.range(
+            of: "HTTP Client Error with status code: 50\\d",
+            options: .regularExpression
+        ) != nil {
             return
         }
 
