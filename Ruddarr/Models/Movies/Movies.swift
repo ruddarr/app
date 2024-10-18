@@ -137,7 +137,6 @@ class Movies {
         case .fetch:
             items = try await dependencies.api.fetchMovies(instance)
             itemsCount = items.count
-//            computeAlternateTitles()
             await Spotlight(instance.id).index(items, delay: .seconds(5))
 
             leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
