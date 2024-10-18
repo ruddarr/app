@@ -40,7 +40,7 @@ struct SeriesView: View {
                             seriesItemGrid
                                 .viewBottomPadding()
                                 .viewPadding(.horizontal)
-                                #if os(isOS)
+                                #if os(iOS)
                                     .padding(.top, searchPresented ? 7 : 0)
                                 #endif
                         }
