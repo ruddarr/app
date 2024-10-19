@@ -16,6 +16,7 @@ func leaveAttachment(_ url: URL, _ json: Data) {
     }
 }
 
+// swiftlint:disable cyclomatic_complexity
 func leaveBreadcrumb(
     _ level: SentryLevel,
     category: String,
@@ -74,6 +75,7 @@ func leaveBreadcrumb(
     print("[\(levelString)] #\(category): \(message ?? "") (\(dataString))")
 #endif
 }
+// swiftlint:enable cyclomatic_complexity
 
 enum EnvironmentType: String {
     case preview
@@ -112,7 +114,7 @@ func runningIn() -> EnvironmentType {
         switch shared {
         case .verified(let transaction):
             isTestFlight = transaction.environment == .sandbox
-        case .unverified(_, _), .none: break
+        case .unverified, .none: break
         }
 
         semaphore.signal()
