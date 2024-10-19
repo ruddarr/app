@@ -112,7 +112,7 @@ struct QueueItem: Codable, Identifiable {
     let customFormatScore: Int?
 
     let added: Date?
-    let estimatedCompletionTime: Date?
+    var estimatedCompletionTime: Date?
 
     let status: String?
     let statusMessages: [QueueStatusMessage]?
