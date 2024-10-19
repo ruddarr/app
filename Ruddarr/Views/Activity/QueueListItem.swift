@@ -17,7 +17,7 @@ struct QueueListItem: View {
             HStack(spacing: 6) {
                 Text(item.statusLabel)
 
-                if item.status != "completed" {
+                if item.trackedDownloadState == .downloading {
                     Bullet()
                     Text(item.progressLabel)
                         .monospacedDigit()
