@@ -47,6 +47,7 @@ struct ActivityView: View {
             }
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: sort, updateDisplayedItems)
+            .onChange(of: queue.items, updateDisplayedItems)
             .onAppear {
                 queue.instances = settings.instances
                 queue.performRefresh = true
@@ -56,7 +57,6 @@ struct ActivityView: View {
             }
             .task {
                 await queue.fetchTasks()
-                updateDisplayedItems()
             }
             .refreshable {
                 Task { await queue.refreshDownloadClients() }

@@ -75,7 +75,7 @@ struct QueueItems: Codable {
     var records: [QueueItem]
 }
 
-struct QueueItem: Codable, Identifiable {
+struct QueueItem: Codable, Identifiable, Equatable {
     let id: Int
 
     // used for filtering
@@ -152,6 +152,14 @@ struct QueueItem: Codable, Identifiable {
         case trackedDownloadStatus
         case trackedDownloadState
         case outputPath
+    }
+
+    static func == (lhs: QueueItem, rhs: QueueItem) -> Bool {
+        lhs.id == rhs.id &&
+        lhs.status == rhs.status &&
+        lhs.trackedDownloadStatus == rhs.trackedDownloadStatus &&
+        lhs.trackedDownloadState == rhs.trackedDownloadState &&
+        lhs.estimatedCompletionTime == rhs.estimatedCompletionTime
     }
 
     var messages: [QueueStatusMessage] {
