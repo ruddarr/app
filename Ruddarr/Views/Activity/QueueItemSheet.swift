@@ -26,7 +26,7 @@ struct QueueItemSheet: View {
                             statusMessages
                         }
                     } else if let remaining = item.remainingLabel {
-                        ProgressView(value: item.sizeleft, total: item.size) {
+                        ProgressView(value: item.size - item.sizeleft, total: item.size) {
                             HStack {
                                 Text(item.progressLabel)
                                 Spacer()
