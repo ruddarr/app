@@ -3152,6 +3152,16 @@
         }
       }
     },
+    "Popularity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Popularity"
+          }
+        }
+      }
+    },
     "Preferences" : {
       "localizations" : {
         "en" : {
