@@ -3142,26 +3142,6 @@
         }
       }
     },
-    "Popular" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Popular"
-          }
-        }
-      }
-    },
-    "Popularity" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Popularity"
-          }
-        }
-      }
-    },
     "Preferences" : {
       "localizations" : {
         "en" : {
@@ -3248,6 +3228,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Queued"
+          }
+        }
+      }
+    },
+    "Rating" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rating"
           }
         }
       }

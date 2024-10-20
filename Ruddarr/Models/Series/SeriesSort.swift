@@ -11,20 +11,20 @@ struct SeriesSort: Hashable {
         case byTitle
         case byYear
         case byAdded
+        case byRating
         case bySize
         case byNextAiring
         case byPreviousAiring
-        case byPopularity
 
         var label: some View {
             switch self {
             case .byTitle: Label("Title", systemImage: "textformat.abc")
             case .byYear: Label("Year", systemImage: "calendar")
             case .byAdded: Label("Added", systemImage: "calendar.badge.plus")
+            case .byRating: Label("Rating", systemImage: "star")
             case .bySize: Label("File Size", systemImage: "internaldrive")
             case .byNextAiring: Label("Next Airing", systemImage: "clock")
             case .byPreviousAiring: Label("Previous Airing", systemImage: "clock.arrow.circlepath")
-            case .byPopularity: Label("Popularity", systemImage: "star")
             }
         }
 
@@ -42,8 +42,8 @@ struct SeriesSort: Hashable {
                 lhs.nextAiring ?? Date.distantFuture > rhs.nextAiring ?? Date.distantFuture
             case .byPreviousAiring:
                 lhs.previousAiring ?? Date.distantPast < rhs.previousAiring ?? Date.distantPast
-            case .byPopularity:
-                lhs.popularity < rhs.popularity
+            case .byRating:
+                lhs.ratingScore < rhs.ratingScore
             }
         }
     }

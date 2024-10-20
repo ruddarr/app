@@ -100,6 +100,12 @@ struct Movie: Media, Identifiable, Equatable, Codable {
             ?? Date.distantFuture.timeIntervalSince1970
     }
 
+    var ratingScore: Float {
+        if let rt = ratings?.rottenTomatoes { return rt.value / 10 }
+        if let meta = ratings?.metacritic { return meta.value / 10 }
+        return 0
+    }
+
     var stateLabel: LocalizedStringKey {
         if isDownloaded {
             return "Downloaded"
