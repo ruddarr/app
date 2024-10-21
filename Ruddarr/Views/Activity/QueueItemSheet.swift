@@ -146,19 +146,10 @@ struct QueueItemSheet: View {
                     .environmentObject(settings)
             }
 
-            if item.downloadClient == "SABnzbd" && sableInstalled() {
-                Link(destination: URL(string: "sable://open")!, label: {
-                    Group {
-                        if deviceType == .phone {
-                            ButtonLabel(text: String("Sable"), icon: "arrow.up.right.square")
-                        } else {
-                            ButtonLabel(text: LocalizedStringKey("Open \("Sable")"), icon: "arrow.up.right.square")
-                        }
-                    }
-                    .modifier(MediaPreviewActionModifier())
-                })
-                .buttonStyle(.bordered)
-                .tint(.secondary)
+            if item.isSABnzbd && sableInstalled() {
+                sableLink
+            } else if item.isDownloadStation && dsloadInstalled() {
+                sableLink
             } else {
                 Spacer()
                     .modifier(MediaPreviewActionSpacerModifier())
@@ -208,5 +199,43 @@ struct QueueItemSheet: View {
         #else
             return UIApplication.shared.canOpenURL(URL(string: "sable://open")!)
         #endif
+    }
+
+    func dsloadInstalled() -> Bool {
+        #if os(macOS)
+            return false
+        #else
+            return UIApplication.shared.canOpenURL(URL(string: "dsdownload://")!)
+        #endif
+    }
+
+    var sableLink: some View {
+        Link(destination: URL(string: "sable://open")!, label: {
+            Group {
+                if deviceType == .phone {
+                    ButtonLabel(text: String("Sable"), icon: "arrow.up.right.square")
+                } else {
+                    ButtonLabel(text: LocalizedStringKey("Open \("Sable")"), icon: "arrow.up.right.square")
+                }
+            }
+            .modifier(MediaPreviewActionModifier())
+        })
+        .buttonStyle(.bordered)
+        .tint(.secondary)
+    }
+
+    var dsloadLink: some View {
+        Link(destination: URL(string: "dsdownload://")!, label: {
+            Group {
+                if deviceType == .phone {
+                    ButtonLabel(text: String("DSLoad"), icon: "arrow.up.right.square")
+                } else {
+                    ButtonLabel(text: LocalizedStringKey("Open \("DSLoad")"), icon: "arrow.up.right.square")
+                }
+            }
+            .modifier(MediaPreviewActionModifier())
+        })
+        .buttonStyle(.bordered)
+        .tint(.secondary)
     }
 }

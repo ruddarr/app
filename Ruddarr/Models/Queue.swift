@@ -162,6 +162,14 @@ struct QueueItem: Codable, Identifiable, Equatable {
         lhs.estimatedCompletionTime == rhs.estimatedCompletionTime
     }
 
+    var isSABnzbd: Bool {
+        downloadClient == "SABnzbd"
+    }
+
+    var isDownloadStation: Bool {
+        downloadClient == "Download Station"
+    }
+
     var messages: [QueueStatusMessage] {
         statusMessages ?? []
     }
