@@ -1,6 +1,6 @@
 # Ruddarr
 
-Ruddarr is a beautifully designed, open source, native companion app for Radarr and Sonarr instances written in SwiftUI.
+Ruddarr is a beautifully designed, open source, companion app for Radarr and Sonarr instances written in SwiftUI.
 
 - [Ruddarr on the App Store](https://apps.apple.com/app/ruddarr/id6476240130)
 - [Ruddarr TestFlight Beta](https://testflight.apple.com/join/WbWNuoos)
@@ -8,13 +8,16 @@ Ruddarr is a beautifully designed, open source, native companion app for Radarr 
 
 ## Features
 
+- Manage movies and TV series
 - Browse upcoming releases in the calendar
 - Receive fine-grained notifications
 - Switch between multiple instances
 - Customize the app color scheme and appearance
-- Use Custom Headers to connect to reverse proxies
-- Synchronize settings/instances between devices
-- Automate actions using Shortcuts
+- Synchronize settings/instances between devices (iCloud)
+- Automate actions using Siri Shortcuts
+- Connect to reverse proxies using custom HTTP headers
+- Use Spotlight search to quickly jump to media
+- Fully localized, ready to be translated
 
 ## Localization
 
