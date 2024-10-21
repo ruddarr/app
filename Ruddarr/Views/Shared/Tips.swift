@@ -32,4 +32,10 @@ struct DeleteFileTip: Tip {
     var message: Text? {
         Text("Use long tap to delete file from the device.")
     }
+
+    var options: [any Option] {
+        [
+            MaxDisplayCount(1)
+        ]
+    }
 }
