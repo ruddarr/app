@@ -43,12 +43,15 @@ struct MovieMetadataView: View {
             } else if instance.metadata.files.isEmpty && instance.metadata.extraFiles.isEmpty {
                 noContent("Movie has no files.")
             } else {
+                if !instance.metadata.files.isEmpty {
+                    TipView(DeleteFileTip(), arrowEdge: .bottom)
+                }
+
                 ForEach(instance.metadata.files) { file in
                     MovieFilesFile(file: file)
                         .padding(.bottom, 4)
                         .onTapGesture { fileSheet = file }
                 }
-                .popoverTip(DeleteFileTip())
 
                 ForEach(instance.metadata.extraFiles) { file in
                     MovieFilesExtraFile(file: file)
