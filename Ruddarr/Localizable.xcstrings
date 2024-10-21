@@ -2439,6 +2439,16 @@
         }
       }
     },
+    "No Automatic Search" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Automatic Search"
+          }
+        }
+      }
+    },
     "No Instance" : {
       "localizations" : {
         "en" : {
@@ -3458,6 +3468,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Root Folder"
+          }
+        }
+      }
+    },
+    "Ruddarr does not start an automatic search when adding media, but you can." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ruddarr does not start an automatic search when adding media, but you can."
           }
         }
       }

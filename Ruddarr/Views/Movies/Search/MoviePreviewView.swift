@@ -95,7 +95,6 @@ struct MoviePreviewView: View {
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         #endif
 
-
         presentingForm = false
         movieSort.filter = .all
 

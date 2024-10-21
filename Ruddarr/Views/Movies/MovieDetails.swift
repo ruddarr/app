@@ -124,6 +124,8 @@ struct MovieDetails: View {
             .buttonStyle(.bordered)
             .tint(.secondary)
             .allowsHitTesting(!instance.movies.isWorking)
+            .onAppear(perform: triggerTipIfJustAdded)
+            .popoverTip(NoAutomaticSearchTip())
 
             NavigationLink(value: MoviesPath.releases(movie.id)) {
                 ButtonLabel(text: "Interactive", icon: "person.fill")
@@ -167,6 +169,16 @@ struct MovieDetails: View {
         instance.qualityProfiles.first(
             where: { $0.id == movie.qualityProfileId }
         )?.name ?? String(localized: "Unknown")
+    }
+
+    func triggerTipIfJustAdded() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if movie.added.timeIntervalSinceNow > -30 {
+                Task {
+                    await NoAutomaticSearchTip.mediaAdded.donate()
+                }
+            }
+        }
     }
 }
 

@@ -1,11 +1,10 @@
 import TipKit
 
 struct SeriesMonitoringTip: Tip {
-    @Parameter
-    static var seriesMonitored: Bool = true
+    @Parameter static var monitored: Bool = true
 
-    init(_ seriesMonitored: Bool) {
-        Self.seriesMonitored = seriesMonitored
+    init(_ monitored: Bool) {
+        Self.monitored = monitored
     }
 
     var title: Text {
@@ -17,9 +16,9 @@ struct SeriesMonitoringTip: Tip {
     }
 
     var rules: [Rule] {
-        [
-            #Rule(Self.$seriesMonitored) { $0 == false }
-        ]
+        #Rule(Self.$monitored) {
+            $0 == false
+        }
     }
 }
 
@@ -30,5 +29,23 @@ struct DeleteFileTip: Tip {
 
     var message: Text? {
         Text("Long-press any file to delete it.")
+    }
+}
+
+struct NoAutomaticSearchTip: Tip {
+    static let mediaAdded = Event(id: "mediaAdded")
+
+    var title: Text {
+        Text("No Automatic Search")
+    }
+
+    var message: Text? {
+        Text("Ruddarr does not start an automatic search when adding media, but you can.")
+    }
+
+    var rules: [Rule] {
+        #Rule(Self.mediaAdded) {
+            $0.donations.count > 0
+        }
     }
 }

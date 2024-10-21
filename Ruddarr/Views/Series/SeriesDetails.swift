@@ -118,6 +118,8 @@ struct SeriesDetails: View {
             .buttonStyle(.bordered)
             .tint(.secondary)
             .allowsHitTesting(!instance.series.isWorking)
+            .onAppear(perform: triggerTipIfJustAdded)
+            .popoverTip(NoAutomaticSearchTip())
 
             Spacer()
                 .modifier(MediaPreviewActionSpacerModifier())
@@ -195,6 +197,16 @@ struct SeriesDetails: View {
     var nextEpisode: Episode? {
         guard let nextAiring = series.nextAiring else { return nil }
         return instance.episodes.items.first { $0.airDateUtc == nextAiring }
+    }
+
+    func triggerTipIfJustAdded() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if series.added.timeIntervalSinceNow > -30 {
+                Task {
+                    await NoAutomaticSearchTip.mediaAdded.donate()
+                }
+            }
+        }
     }
 
     @MainActor
