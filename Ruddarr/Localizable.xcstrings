@@ -1071,6 +1071,16 @@
         }
       }
     },
+    "Deleting Files" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deleting Files"
+          }
+        }
+      }
+    },
     "Descending" : {
       "localizations" : {
         "en" : {
@@ -1985,12 +1995,12 @@
         }
       }
     },
-    "Long tap to delete file" : {
+    "Long-press any file to delete it." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Long tap to delete file"
+            "value" : "Long-press any file to delete it."
           }
         }
       }
@@ -4373,16 +4383,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work."
-          }
-        }
-      }
-    },
-    "Use long tap to delete file from the device." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Use long tap to delete file from the device."
           }
         }
       }

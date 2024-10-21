@@ -26,16 +26,10 @@ struct SeriesMonitoringTip: Tip {
 
 struct DeleteFileTip: Tip {
     var title: Text {
-        Text("Long tap to delete file")
+        Text("Deleting Files")
     }
 
     var message: Text? {
-        Text("Use long tap to delete file from the device.")
-    }
-
-    var options: [any Option] {
-        [
-            MaxDisplayCount(1)
-        ]
+        Text("Long-press any file to delete it.")
     }
 }
