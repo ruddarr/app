@@ -209,6 +209,7 @@ struct EpisodeView: View {
                 EpisodeFileView(file: file)
                     .onTapGesture { fileSheet = file }
                     .contextMenu { deleteFileButton }
+                    .popoverTip(DeleteFileTip())
                     .padding(.bottom)
             } header: {
                 Text("File").font(.title2.bold()).padding(.bottom, 6)
