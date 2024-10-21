@@ -3,6 +3,7 @@ import SwiftUI
 import Foundation
 
 @Observable
+@MainActor
 class RadarrInstance {
     private var instance: Instance
 
