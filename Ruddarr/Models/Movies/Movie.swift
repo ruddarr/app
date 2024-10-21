@@ -101,8 +101,18 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     }
 
     var ratingScore: Float {
-        if let rt = ratings?.rottenTomatoes { return rt.value / 10 }
-        if let meta = ratings?.metacritic { return meta.value / 10 }
+        if let imdb = ratings?.imdb?.value, let rt = ratings?.rottenTomatoes?.value {
+            return (imdb + (rt / 10)) / 2
+        }
+
+        if let imdb = ratings?.imdb?.value {
+            return imdb
+        }
+
+        if let rt = ratings?.rottenTomatoes?.value {
+            return rt / 10
+        }
+
         return 0
     }
 
