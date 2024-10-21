@@ -1,5 +1,6 @@
 import SwiftUI
 import CoreSpotlight
+import TipKit
 
 @main
 struct Ruddarr: App {
@@ -12,7 +13,11 @@ struct Ruddarr: App {
     init() {
         #if DEBUG
         // dependencies = .mock
+        // Tips.showAllTipsForTesting()
         #endif
+
+        try? Tips.configure()
+        // try? Tips.resetDatastore()
 
         NetworkMonitor.shared.start()
     }

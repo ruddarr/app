@@ -1071,6 +1071,16 @@
         }
       }
     },
+    "Deleting Files" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deleting Files"
+          }
+        }
+      }
+    },
     "Descending" : {
       "localizations" : {
         "en" : {
@@ -1981,6 +1991,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Loading..."
+          }
+        }
+      }
+    },
+    "Long-press any file to delete it." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long-press any file to delete it."
           }
         }
       }
@@ -4045,16 +4065,6 @@
         }
       }
     },
-    "The series itself must be monitored, in order to monitor a season or episode." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The series itself must be monitored, in order to monitor a season or episode."
-          }
-        }
-      }
-    },
     "The URL used to access the %@ web interface. Must be prefixed with \"http://\" or \"https://\"." : {
       "localizations" : {
         "en" : {
@@ -4111,6 +4121,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Title"
+          }
+        }
+      }
+    },
+    "To monitor a season or episode, the series itself must be monitored." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To monitor a season or episode, the series itself must be monitored."
           }
         }
       }

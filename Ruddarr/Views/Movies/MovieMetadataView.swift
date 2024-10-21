@@ -1,4 +1,5 @@
 import SwiftUI
+import TipKit
 
 struct MovieMetadataView: View {
     @Binding var movie: Movie
@@ -47,6 +48,7 @@ struct MovieMetadataView: View {
                         .padding(.bottom, 4)
                         .onTapGesture { fileSheet = file }
                 }
+                .popoverTip(DeleteFileTip())
 
                 ForEach(instance.metadata.extraFiles) { file in
                     MovieFilesExtraFile(file: file)
