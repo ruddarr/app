@@ -90,12 +90,17 @@ extension WhatsNew {
         .init(
             image: "waveform.path.ecg",
             title: "Faster Queue",
-            subtitle: "Queue tasks will refresh faster while displaying the Activity tab."
+            subtitle: "Queue tasks will refresh faster while viewing the Activity tab."
+        ),
+        .init(
+            image: "line.3.horizontal.decrease",
+            title: "Filters & Sorting",
+            subtitle: "Added new and improved filters and sorting options."
         ),
         .init(
             image: "sparkle.magnifyingglass",
             title: "Improved Spotlight Indexer",
-            subtitle: "The Spotlight integration is faster and more reliable."
+            subtitle: "The Spotlight integration was overhauled and is faster and more reliable."
         ),
         .init(
             image: "ant",
