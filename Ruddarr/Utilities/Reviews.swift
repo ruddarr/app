@@ -4,7 +4,7 @@ import StoreKit
 func maybeAskForReview() {
     let chance: Int = 20
     let days: Double = 14
-    let delay: DispatchTime = .now() + 2
+    let delay: DispatchTime = .now() + 5
 
     let sevenDaysAgo: Double = -7 * 24 * 60 * 60
 
