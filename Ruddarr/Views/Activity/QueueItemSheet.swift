@@ -21,21 +21,20 @@ struct QueueItemSheet: View {
                 VStack(alignment: .leading) {
                     header
 
-                    if item.trackedDownloadStatus != .ok && !item.messages.isEmpty {
+                    if let error = item.errorMessage, !error.isEmpty {
+                        GroupBox {
+                            Text(error)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    } else if !item.messages.isEmpty {
                         GroupBox {
                             statusMessages
                         }
                     } else if let remaining = item.remainingLabel {
-                        ProgressView(value: item.size - item.sizeleft, total: item.size) {
-                            HStack {
-                                Text(item.progressLabel)
-                                Spacer()
-                                Text(remaining)
-                            }
-                            .font(.subheadline)
-                            .monospacedDigit()
-                            .foregroundStyle(.secondary)
-                        }
+                        progress(remaining)
                     }
 
                     details
@@ -91,6 +90,19 @@ struct QueueItemSheet: View {
                     }
                 }
             }
+        }
+    }
+
+    func progress(_ remaining: String) -> some View {
+        ProgressView(value: item.size - item.sizeleft, total: item.size) {
+            HStack {
+                Text(item.progressLabel)
+                Spacer()
+                Text(remaining)
+            }
+            .font(.subheadline)
+            .monospacedDigit()
+            .foregroundStyle(.secondary)
         }
     }
 

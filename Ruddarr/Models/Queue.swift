@@ -27,7 +27,7 @@ class Queue {
     }
 
     var badgeCount: Int {
-        items.flatMap { $0.value }.filter { $0.trackedDownloadStatus != .ok }.count
+        items.flatMap { $0.value }.filter { $0.hasIssue }.count
     }
 
     @MainActor
@@ -116,6 +116,8 @@ struct QueueItem: Codable, Identifiable, Equatable {
 
     let status: String?
     let statusMessages: [QueueStatusMessage]?
+    let errorMessage: String?
+
     let trackedDownloadStatus: QueueDownloadStatus?
     let trackedDownloadState: QueueDownloadState?
 
@@ -149,6 +151,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
         case downloadClientHasPostImportCategory
         case status
         case statusMessages
+        case errorMessage
         case trackedDownloadStatus
         case trackedDownloadState
         case outputPath
@@ -160,6 +163,11 @@ struct QueueItem: Codable, Identifiable, Equatable {
         lhs.trackedDownloadStatus == rhs.trackedDownloadStatus &&
         lhs.trackedDownloadState == rhs.trackedDownloadState &&
         lhs.estimatedCompletionTime == rhs.estimatedCompletionTime
+    }
+
+    var hasIssue: Bool {
+        trackedDownloadStatus != .ok ||
+        status == "warning"
     }
 
     var isSABnzbd: Bool {
@@ -231,7 +239,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
             case "downloading": String(localized: "Downloading")
             case "delay": String(localized: "Pending")
             case "downloadClientUnavailable": String(localized: "Pending")
-            case "warning": String(localized: "Error")
+            case "warning": String(localized: "Warning")
             default: String(localized: "Unknown")
             }
         }

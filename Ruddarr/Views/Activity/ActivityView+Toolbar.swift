@@ -47,8 +47,8 @@ extension ActivityView {
             items = items.filter { $0.downloadClient == sort.client }
         }
 
-        if sort.errors {
-            items = items.filter { $0.trackedDownloadStatus != .ok }
+        if sort.issues {
+            items = items.filter { $0.trackedDownloadStatus != .ok || $0.status == "warning" }
         }
 
         if !sort.isAscending {
@@ -83,7 +83,7 @@ extension ActivityView {
             }
 
             Section {
-                Toggle("Issues", systemImage: "exclamationmark.triangle", isOn: $sort.errors)
+                Toggle("Issues", systemImage: "exclamationmark.triangle", isOn: $sort.issues)
             }
         } label: {
             if sort.hasFilter {

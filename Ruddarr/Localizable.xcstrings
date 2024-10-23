@@ -4508,6 +4508,16 @@
         }
       }
     },
+    "Warning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warning"
+          }
+        }
+      }
+    },
     "Watch" : {
       "comment" : "Localized name of Apple's Watch app",
       "localizations" : {
