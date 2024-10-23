@@ -23,7 +23,7 @@ class Movies {
         case update(Movie, Bool)
         case delete(Movie, Bool)
         case download(String, Int, Int?)
-        case command(RadarrCommand)
+        case command(InstanceCommand)
     }
 
     init(_ instance: Instance) {
@@ -105,7 +105,7 @@ class Movies {
         await request(.download(guid, indexerId, movieId))
     }
 
-    func command(_ command: RadarrCommand) async -> Bool {
+    func command(_ command: InstanceCommand) async -> Bool {
         await request(.command(command))
     }
 
@@ -131,13 +131,14 @@ class Movies {
         return error == nil
     }
 
+    @MainActor
     private func performOperation(_ operation: Operation) async throws {
         switch operation {
         case .fetch:
             items = try await dependencies.api.fetchMovies(instance)
             itemsCount = items.count
             computeAlternateTitles()
-            Spotlight.of(instance).indexMovies(items)
+            await Spotlight(instance.id).index(items, delay: .seconds(5))
 
             leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
 
@@ -165,7 +166,7 @@ class Movies {
             _ = try await dependencies.api.downloadRelease(payload, instance)
 
         case .command(let command):
-            _ = try await dependencies.api.radarrCommand(command, instance)
+            _ = try await dependencies.api.command(command, instance)
         }
     }
 

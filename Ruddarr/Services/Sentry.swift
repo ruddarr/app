@@ -1,4 +1,5 @@
 import Sentry
+import StoreKit
 
 func leaveAttachment(_ url: URL, _ json: Data) {
     let basename = url.relativePath.replacingOccurrences(of: "/", with: "-")
@@ -15,6 +16,7 @@ func leaveAttachment(_ url: URL, _ json: Data) {
     }
 }
 
+// swiftlint:disable cyclomatic_complexity
 func leaveBreadcrumb(
     _ level: SentryLevel,
     category: String,
@@ -31,13 +33,20 @@ func leaveBreadcrumb(
 
     SentrySDK.addBreadcrumb(crumb)
 
-    // TestFlight: report higher level breadcrumbs as events
-    if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
+    if isRunningIn(.testflight) {
+        // report only `.error` and `.fatal` breadcrumbs as events
         if ![.error, .fatal].contains(level) {
             return
         }
 
         if data["error"] is API.Error || data["error"] is URLError {
+            return
+        }
+
+        if message?.range(
+            of: "HTTP Client Error with status code: 50\\d",
+            options: .regularExpression
+        ) != nil {
             return
         }
 
@@ -66,6 +75,7 @@ func leaveBreadcrumb(
     print("[\(levelString)] #\(category): \(message ?? "") (\(dataString))")
 #endif
 }
+// swiftlint:enable cyclomatic_complexity
 
 enum EnvironmentType: String {
     case preview
@@ -73,6 +83,8 @@ enum EnvironmentType: String {
     case debug
     case testflight
     case appstore
+
+    static var cache: EnvironmentType?
 }
 
 func isRunningIn(_ env: EnvironmentType) -> Bool {
@@ -81,18 +93,37 @@ func isRunningIn(_ env: EnvironmentType) -> Bool {
 
 func runningIn() -> EnvironmentType {
     if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
-        return EnvironmentType.preview
+        return .preview
     }
 
 #if targetEnvironment(simulator)
-    return EnvironmentType.simulator
+    return .simulator
 #elseif DEBUG
-    return EnvironmentType.debug
+    return .debug
 #else
-    if Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" {
-        return EnvironmentType.testflight
+    if let env = EnvironmentType.cache {
+        return env
     }
 
-    return EnvironmentType.appstore
+    let semaphore = DispatchSemaphore(value: 0)
+    var isTestFlight = false
+
+    Task {
+        let shared = try? await AppTransaction.shared
+
+        switch shared {
+        case .verified(let transaction):
+            isTestFlight = transaction.environment == .sandbox
+        case .unverified, .none: break
+        }
+
+        semaphore.signal()
+    }
+
+    semaphore.wait()
+
+    EnvironmentType.cache = isTestFlight ? .testflight : .appstore
+
+    return isTestFlight ? .testflight : .appstore
 #endif
 }

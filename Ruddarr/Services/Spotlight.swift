@@ -1,52 +1,39 @@
-import zlib
-import Nuke
 import CoreSpotlight
+import zlib
 
-class Spotlight {
-    private let instance: Instance
+actor Spotlight {
+    var instanceId: Instance.ID
 
-    static var instances: [Instance.ID: Spotlight] = [:]
-
-    init(_ instance: Instance) {
-        self.instance = instance
+    init(_ instanceId: Instance.ID) {
+        self.instanceId = instanceId
     }
 
     var checksumKey: String {
-        "spotlight:\(instance.id)"
+        "spotlight:\(instanceId)"
     }
 
-    static func of(_ instance: Instance) -> Spotlight {
-        if let singleton = instances[instance.id] {
-            return singleton
-        }
-
-        instances[instance.id] = Spotlight(instance)
-
-        return instances[instance.id]!
-    }
-
-    func indexMovies(_ movies: [Movie]) {
+    func index<M: Media>(_ entities: [M], delay: Duration? = nil) {
         guard CSSearchableIndex.isIndexingAvailable() else { return }
 
-        Task.detached(priority: .background) {
+        Task(priority: .background) {
             let checksum = self.calculateChecksum(
-                movies.map { $0.spotlightHash }.joined(separator: "+")
+                entities.map { $0.searchableHash }.joined(separator: "+")
             )
 
             if self.isIndexed(checksum) {
                 return
             }
 
-            var entities: [Movie] = movies
-            let indexName = self.instance.id.uuidString
-
-            leaveBreadcrumb(.info, category: "spotlight", message: "Indexing movies", data: ["count": entities.count, "instance": indexName])
-
-            for entity in entities.indices {
-                entities[entity].remotePosterCached = await Images.thumbnail(
-                    entities[entity].remotePoster
-                )
+            if let sleepDelay = delay {
+                try await Task.sleep(for: sleepDelay)
             }
+
+            let typeName = String(describing: M.self)
+            let indexName = instanceId.uuidString
+
+            leaveBreadcrumb(.info, category: "spotlight", message: "Indexing [\(typeName)]", data: ["count": entities.count, "instance": indexName])
+
+            let images = await fetchImages(entities)
 
             do {
                 let chunk = 1_000
@@ -57,62 +44,36 @@ class Spotlight {
                     let end = min(start + chunk, entities.count)
 
                     try await index.indexSearchableItems(
-                        entities[start..<end].map { $0.searchableItem }
+                        entities[start..<end].map {
+                            $0.searchableItem(poster: images[$0.id] ?? nil)
+                        }
                     )
                 }
 
                 dependencies.store.set(checksum, forKey: self.checksumKey)
 
-                leaveBreadcrumb(.info, category: "spotlight", message: "Indexed movies", data: ["count": entities.count, "instance": indexName])
+                leaveBreadcrumb(.info, category: "spotlight", message: "Indexed [\(typeName)]", data: ["count": entities.count, "instance": indexName])
             } catch {
-                leaveBreadcrumb(.error, category: "spotlight", message: "Failed to index movies", data: ["error": error])
+                leaveBreadcrumb(.error, category: "spotlight", message: "Failed to index [\(typeName)]", data: ["error": error])
             }
         }
     }
 
-    func indexSeries(_ series: [Series]) {
-        guard CSSearchableIndex.isIndexingAvailable() else { return }
-
-        Task.detached(priority: .background) {
-            let checksum = self.calculateChecksum(
-                series.map { $0.spotlightHash }.joined(separator: "+")
-            )
-
-            if self.isIndexed(checksum) {
-                return
-            }
-
-            var entities: [Series] = series
-            let indexName = self.instance.id.uuidString
-
-            leaveBreadcrumb(.info, category: "spotlight", message: "Indexing series", data: ["count": entities.count, "instance": indexName])
-
-            for entity in entities.indices {
-                entities[entity].remotePosterCached = await Images.thumbnail(
-                    entities[entity].remotePoster
-                )
-            }
-
-            do {
-                let chunk = 1_000
-                let index = CSSearchableIndex(name: indexName)
-
-                try await index.deleteSearchableItems(withDomainIdentifiers: [indexName])
-
-                for start in stride(from: 0, to: entities.count, by: chunk) {
-                    let end = min(start + chunk, entities.count)
-
-                    try await index.indexSearchableItems(
-                        entities[start..<end].map { $0.searchableItem }
-                    )
+    func fetchImages<M: Media>(_ entities: [M]) async -> [M.ID: URL?] {
+        await withTaskGroup(of: (M.ID, URL?).self, returning: [M.ID: URL?].self) { taskGroup in
+            for entry in entities {
+                taskGroup.addTask(priority: .background) {
+                    await (entry.id, Images.thumbnail(entry.remotePoster, .veryLow))
                 }
-
-                dependencies.store.set(checksum, forKey: self.checksumKey)
-
-                leaveBreadcrumb(.info, category: "spotlight", message: "Indexed series", data: ["count": entities.count, "instance": indexName])
-            } catch {
-                leaveBreadcrumb(.error, category: "spotlight", message: "Failed to index series", data: ["error": error])
             }
+
+            var images = [M.ID: URL?]()
+
+            for await (id, url) in taskGroup {
+                images[id] = url
+            }
+
+            return images
         }
     }
 
@@ -120,15 +81,16 @@ class Spotlight {
         dependencies.store.removeObject(forKey: checksumKey)
 
         do {
-            let index = CSSearchableIndex(name: instance.id.uuidString)
-            try await index.deleteSearchableItems(withDomainIdentifiers: [instance.id.uuidString])
+            let index = CSSearchableIndex(name: instanceId.uuidString)
+            try await index.deleteSearchableItems(withDomainIdentifiers: [instanceId.uuidString])
         } catch {
             leaveBreadcrumb(.error, category: "spotlight", message: "Failed to delete index", data: ["error": error])
         }
     }
 
     func calculateChecksum(_ string: String) -> String {
-        let data = string.data(using: .utf8) ?? Data()
+        let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "0"
+        let data = Data("\(build):\(string)".utf8)
 
         let checksum = data.withUnsafeBytes {
             crc32(0, $0.bindMemory(to: Bytef.self).baseAddress, uInt(data.count))

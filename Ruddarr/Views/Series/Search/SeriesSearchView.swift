@@ -28,6 +28,7 @@ struct SeriesSearchView: View {
             }
             .padding(.top, 12)
             .viewPadding(.horizontal)
+            .viewBottomPadding()
         }
         .navigationTitle("Search")
         .safeNavigationBarTitleDisplayMode(.large)
@@ -83,6 +84,7 @@ struct SeriesSearchView: View {
         }
 
         if searchQuery.isEmpty {
+            if oldQuery.count > 3 { return }
             instance.lookup.reset()
         } else if oldQuery == newQuery {
             performSearch() // always perform initial search

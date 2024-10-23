@@ -58,7 +58,7 @@ struct MoviePreviewView: View {
         ToolbarItem(placement: .primaryAction) {
             Button("Add Movie") {
                 presentingForm = true
-            }.toolbarIdFix(UUID())
+            }
         }
     }
 
@@ -96,8 +96,6 @@ struct MoviePreviewView: View {
         #endif
 
         presentingForm = false
-
-        instance.lookup.reset()
         movieSort.filter = .all
 
         let moviePath = MoviesPath.movie(addedMovie.id)

@@ -3,8 +3,13 @@ import SwiftUI
 struct QueueItemSheet: View {
     var item: QueueItem
 
+    @State private var showRemovalSheet = false
+
     @EnvironmentObject var settings: AppSettings
+
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         ScrollView {
@@ -21,7 +26,7 @@ struct QueueItemSheet: View {
                             statusMessages
                         }
                     } else if let remaining = item.remainingLabel {
-                        ProgressView(value: item.sizeleft, total: item.size) {
+                        ProgressView(value: item.size - item.sizeleft, total: item.size) {
                             HStack {
                                 Text(item.progressLabel)
                                 Spacer()
@@ -34,6 +39,9 @@ struct QueueItemSheet: View {
                     }
 
                     details
+                        .padding(.top)
+
+                    actions
                         .padding(.top)
 
                     Spacer()
@@ -55,8 +63,9 @@ struct QueueItemSheet: View {
 
         Text(item.title ?? "Unknown")
             .font(.title3.bold())
-            .lineLimit(2)
-            .padding(.trailing, 25)
+            .kerning(-0.5)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.trailing, 40)
 
         HStack(spacing: 6) {
             Text(item.quality.quality.label)
@@ -68,7 +77,6 @@ struct QueueItemSheet: View {
         .padding(.bottom, 8)
     }
 
-    @ViewBuilder
     var statusMessages: some View {
         VStack(alignment: .leading, spacing: 12) {
             ForEach(item.messages, id: \.self) { status in
@@ -86,7 +94,6 @@ struct QueueItemSheet: View {
         }
     }
 
-    @ViewBuilder
     var details: some View {
         VStack(spacing: 6) {
             row("Languages", item.languagesLabel)
@@ -117,6 +124,39 @@ struct QueueItemSheet: View {
                 row("Added", date.formatted(date: .long, time: .shortened))
             }
         }
+    }
+
+    var actions: some View {
+        HStack(spacing: 24) {
+            Button {
+                showRemovalSheet = true
+            } label: {
+                let label: LocalizedStringKey = deviceType == .phone ? "Remove" : "Remove Task"
+
+                ButtonLabel(text: label, icon: "trash")
+                    .modifier(MediaPreviewActionModifier())
+            }
+            .buttonStyle(.bordered)
+            .tint(.secondary)
+            .sheet(isPresented: $showRemovalSheet) {
+                QueueTaskRemovalSheet(item: item) {
+                    dismiss()
+                }
+                    .presentationDetents([.medium])
+                    .environmentObject(settings)
+            }
+
+            if item.isSABnzbd && sableInstalled() {
+                sableLink
+            } else if item.isDownloadStation && dsloadInstalled() {
+                sableLink
+            } else {
+                Spacer()
+                    .modifier(MediaPreviewActionSpacerModifier())
+            }
+        }
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: 450)
     }
 
     func row(_ label: LocalizedStringKey, _ value: String) -> some View {
@@ -151,5 +191,51 @@ struct QueueItemSheet: View {
 
     func formatDate(_ date: Date) -> String {
         date.formatted(date: .long, time: .shortened)
+    }
+
+    func sableInstalled() -> Bool {
+        #if os(macOS)
+            return false
+        #else
+            return UIApplication.shared.canOpenURL(URL(string: "sable://open")!)
+        #endif
+    }
+
+    func dsloadInstalled() -> Bool {
+        #if os(macOS)
+            return false
+        #else
+            return UIApplication.shared.canOpenURL(URL(string: "dsdownload://")!)
+        #endif
+    }
+
+    var sableLink: some View {
+        Link(destination: URL(string: "sable://open")!, label: {
+            Group {
+                if deviceType == .phone {
+                    ButtonLabel(text: String("Sable"), icon: "arrow.up.right.square")
+                } else {
+                    ButtonLabel(text: LocalizedStringKey("Open \("Sable")"), icon: "arrow.up.right.square")
+                }
+            }
+            .modifier(MediaPreviewActionModifier())
+        })
+        .buttonStyle(.bordered)
+        .tint(.secondary)
+    }
+
+    var dsloadLink: some View {
+        Link(destination: URL(string: "dsdownload://")!, label: {
+            Group {
+                if deviceType == .phone {
+                    ButtonLabel(text: String("DSLoad"), icon: "arrow.up.right.square")
+                } else {
+                    ButtonLabel(text: LocalizedStringKey("Open \("DSLoad")"), icon: "arrow.up.right.square")
+                }
+            }
+            .modifier(MediaPreviewActionModifier())
+        })
+        .buttonStyle(.bordered)
+        .tint(.secondary)
     }
 }

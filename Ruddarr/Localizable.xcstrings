@@ -21,16 +21,6 @@
         }
       }
     },
-    "%@ (%lld)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ (%2$lld)"
-          }
-        }
-      }
-    },
     "%@ at %@" : {
       "localizations" : {
         "en" : {
@@ -410,6 +400,16 @@
         }
       }
     },
+    "Any Client" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Client"
+          }
+        }
+      }
+    },
     "Any Format" : {
       "localizations" : {
         "en" : {
@@ -516,6 +516,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Approved"
+          }
+        }
+      }
+    },
+    "Apps" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps"
           }
         }
       }
@@ -676,6 +686,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bitrate"
+          }
+        }
+      }
+    },
+    "Blocklist Release" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocklist Release"
+          }
+        }
+      }
+    },
+    "Blocks this release from being redownloaded via Automatic Search or RSS." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocks this release from being redownloaded via Automatic Search or RSS."
           }
         }
       }
@@ -871,6 +901,16 @@
         }
       }
     },
+    "Copy Link" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy Link"
+          }
+        }
+      }
+    },
     "Custom Format" : {
       "localizations" : {
         "en" : {
@@ -1027,6 +1067,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deleted"
+          }
+        }
+      }
+    },
+    "Deleting Files" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deleting Files"
           }
         }
       }
@@ -1253,26 +1303,6 @@
         }
       }
     },
-    "Episode Downloaded" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Episode Downloaded"
-          }
-        }
-      }
-    },
-    "Episode Downloading" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Episode Downloading"
-          }
-        }
-      }
-    },
     "Episode file was renamed." : {
       "localizations" : {
         "en" : {
@@ -1289,16 +1319,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Episode Search Queued"
-          }
-        }
-      }
-    },
-    "Episode Upgraded" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Episode Upgraded"
           }
         }
       }
@@ -1383,12 +1403,32 @@
         }
       }
     },
+    "File Imported" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Imported"
+          }
+        }
+      }
+    },
     "File Size" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "File Size"
+          }
+        }
+      }
+    },
+    "File Upgraded" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Upgraded"
           }
         }
       }
@@ -1654,6 +1694,16 @@
         }
       }
     },
+    "Import Completed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Completed"
+          }
+        }
+      }
+    },
     "Import Pending" : {
       "localizations" : {
         "en" : {
@@ -1865,16 +1915,6 @@
         }
       }
     },
-    "Large Instance" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Large Instance"
-          }
-        }
-      }
-    },
     "Last Season" : {
       "localizations" : {
         "en" : {
@@ -1925,6 +1965,16 @@
         }
       }
     },
+    "Link Copied" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Link Copied"
+          }
+        }
+      }
+    },
     "Load More" : {
       "localizations" : {
         "en" : {
@@ -1941,6 +1991,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Loading..."
+          }
+        }
+      }
+    },
+    "Long-press any file to delete it." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long-press any file to delete it."
           }
         }
       }
@@ -2178,16 +2238,6 @@
         }
       }
     },
-    "Movie Downloaded" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movie Downloaded"
-          }
-        }
-      }
-    },
     "Movie downloaded successfully and imported from %@." : {
       "localizations" : {
         "en" : {
@@ -2385,6 +2435,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No %@ Instance"
+          }
+        }
+      }
+    },
+    "No Automatic Search" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Automatic Search"
           }
         }
       }
@@ -2921,6 +2981,26 @@
         }
       }
     },
+    "Open" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open"
+          }
+        }
+      }
+    },
+    "Open %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open %@"
+          }
+        }
+      }
+    },
     "Open ${target}" : {
       "localizations" : {
         "en" : {
@@ -2961,12 +3041,22 @@
         }
       }
     },
-    "Optimize API calls for instances that load slowly." : {
+    "Open Website" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Optimize API calls for instances that load slowly."
+            "value" : "Open Website"
+          }
+        }
+      }
+    },
+    "Optimizes API calls for instances that load unusually slowly and encounter timeouts frequently." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optimizes API calls for instances that load unusually slowly and encounter timeouts frequently."
           }
         }
       }
@@ -3082,16 +3172,6 @@
         }
       }
     },
-    "Popular" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Popular"
-          }
-        }
-      }
-    },
     "Preferences" : {
       "localizations" : {
         "en" : {
@@ -3182,6 +3262,16 @@
         }
       }
     },
+    "Rating" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rating"
+          }
+        }
+      }
+    },
     "Recent Episodes" : {
       "localizations" : {
         "en" : {
@@ -3208,6 +3298,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Refresh Queued"
+          }
+        }
+      }
+    },
+    "Release Downloading" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release Downloading"
           }
         }
       }
@@ -3258,6 +3358,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Relevant"
+          }
+        }
+      }
+    },
+    "Remove" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove"
+          }
+        }
+      }
+    },
+    "Remove from Client" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove from Client"
+          }
+        }
+      }
+    },
+    "Remove Task" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove Task"
           }
         }
       }
@@ -3342,6 +3472,16 @@
         }
       }
     },
+    "Ruddarr does not start an automatic search when adding media, but you can." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ruddarr does not start an automatic search when adding media, but you can."
+          }
+        }
+      }
+    },
     "Runtime" : {
       "localizations" : {
         "en" : {
@@ -3408,6 +3548,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search for movie with ${name}"
+          }
+        }
+      }
+    },
+    "Search for Replacement" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for Replacement"
           }
         }
       }
@@ -3582,6 +3732,16 @@
         }
       }
     },
+    "Series Not Monitored" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Series Not Monitored"
+          }
+        }
+      }
+    },
     "Series Premiere" : {
       "localizations" : {
         "en" : {
@@ -3690,6 +3850,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Single Episode"
+          }
+        }
+      }
+    },
+    "Slow Instance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slow Instance"
           }
         }
       }
@@ -3975,6 +4145,16 @@
         }
       }
     },
+    "To monitor a season or episode, the series itself must be monitored." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To monitor a season or episode, the series itself must be monitored."
+          }
+        }
+      }
+    },
     "Today" : {
       "localizations" : {
         "en" : {
@@ -4011,6 +4191,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trailer"
+          }
+        }
+      }
+    },
+    "Translate the App" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Translate the App"
           }
         }
       }
@@ -4103,17 +4293,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unknown event."
-          }
-        }
-      }
-    },
-    "Unlocks unlimited instance notifications, all alternate app icons and supports the continued indie development of Ruddarr." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unlocks unlimited instance notifications, all alternate app icons and supports the continued indie development of Ruddarr."
           }
         }
       }
@@ -4289,26 +4468,6 @@
         }
       }
     },
-    "Visit" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Visit"
-          }
-        }
-      }
-    },
-    "Visit Website" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Visit Website"
-          }
-        }
-      }
-    },
     "Waiting" : {
       "localizations" : {
         "en" : {
@@ -4376,6 +4535,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Weight"
+          }
+        }
+      }
+    },
+    "Whether to ignore the download, or remove it and its file(s) from the download client." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Whether to ignore the download, or remove it and its file(s) from the download client."
           }
         }
       }

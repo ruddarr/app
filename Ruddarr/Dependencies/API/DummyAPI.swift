@@ -119,11 +119,7 @@ extension API {
             let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
 
             return episodes
-        }, radarrCommand: { _, _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
-
-            return Empty()
-        }, sonarrCommand: { _, _ in
+        }, command: { _, _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
@@ -146,7 +142,15 @@ extension API {
         }, fetchQueueTasks: { instance in
             try await Task.sleep(nanoseconds: 500_000_000)
 
-            return loadPreviewData(filename: instance.type == .sonarr ? "series-queue" : "movie-queue")
+            let items: QueueItems = loadPreviewData(
+                filename: instance.type == .sonarr ? "series-queue" : "movie-queue"
+            )
+
+            return modifyQueueItems(items)
+        }, deleteQueueTask: { _, _, _, _, _ in
+            try await Task.sleep(nanoseconds: 3_000_000_000)
+
+            return Empty()
         }, fetchNotifications: { _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
@@ -186,4 +190,25 @@ fileprivate extension API {
 
         fatalError("Preview data `\(filename)` not found")
     }
+}
+
+private func modifyQueueItems(_ items: QueueItems) -> QueueItems {
+    var modifiedItems = items
+
+    modifiedItems.records = items.records.map { record in
+        var record = record
+
+        // set `estimatedCompletionTime` to be in the future for testing
+        if let timeLeft = record.timeleft {
+            record.estimatedCompletionTime = Date().addingTimeInterval(TimeInterval(
+                timeLeft.split(separator: ":").reversed().enumerated().reduce(0) {
+                    $0 + (Int($1.element) ?? 0) * Int(pow(60, Double($1.offset)))
+                }
+            ))
+        }
+
+        return record
+    }
+
+    return modifiedItems
 }

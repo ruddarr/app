@@ -25,6 +25,7 @@ struct MoviesView: View {
     @State private var alertPresented = false
 
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         // swiftlint:disable closure_body_length
@@ -36,8 +37,11 @@ struct MoviesView: View {
                     ScrollViewReader { proxy in
                         ScrollView {
                             movieItemGrid
-                                .padding(.top, searchPresented ? 10 : 0)
+                                .viewBottomPadding()
                                 .viewPadding(.horizontal)
+                                #if os(iOS)
+                                    .padding(.top, searchPresented ? 7 : 0)
+                                #endif
                         }
                         .onAppear {
                             scrollView = proxy
@@ -51,9 +55,6 @@ struct MoviesView: View {
                         await Task { await fetchMoviesWithAlert() }.value
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
-                    .onReceive(dependencies.router.moviesScroll) {
-                        withAnimation(.smooth) { scrollToTop() }
-                    }
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
@@ -116,7 +117,7 @@ struct MoviesView: View {
             .toolbar {
                 toolbarViewOptions
 
-                if settings.radarrInstances.count > 1 {
+                if settings.radarrInstances.count > 1 && deviceType == .phone {
                     toolbarInstancePicker
                 }
 
@@ -129,6 +130,7 @@ struct MoviesView: View {
                 placement: .drawerOrToolbar
             )
             .autocorrectionDisabled(true)
+            .onChange(of: settings.radarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
                 scrollToTop()
@@ -229,7 +231,7 @@ struct MoviesView: View {
             updateDisplayedMovies()
 
             let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
-            let cacheInSeconds: Double = instance.isLarge ? 300 : 30
+            let cacheInSeconds: Double = instance.isSlow ? 300 : 30
 
             if Occurrence.since(lastMetadataFetch) > cacheInSeconds {
                 if let model = await instance.fetchMetadata() {

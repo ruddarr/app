@@ -1,6 +1,24 @@
 import SwiftUI
 
 extension ActivityView {
+    var protocols: [String] {
+        var seen = Set<String>()
+
+        return queue.items.values
+            .flatMap { $0 }
+            .map { $0.type.label }
+            .filter { seen.insert($0).inserted }
+    }
+
+    var clients: [String] {
+        var seen = Set<String>()
+
+        return queue.items.values
+            .flatMap { $0 }
+            .compactMap { $0.downloadClient }
+            .filter { seen.insert($0).inserted }
+    }
+
     func updateSortDirection() {
         switch sort.option {
         case .byAdded:
@@ -16,7 +34,17 @@ extension ActivityView {
             .sorted(by: sort.option.isOrderedBefore)
 
         if sort.instance != ".all" {
-            items = items.filter { $0.instanceId?.rawValue ?? nil == sort.instance }
+            items = items.filter {
+                sort.instance.caseInsensitiveCompare($0.instanceId?.uuidString ?? "") == .orderedSame
+            }
+        }
+
+        if sort.type != ".all" {
+            items = items.filter { $0.type.label == sort.type }
+        }
+
+        if sort.client != ".all" {
+            items = items.filter { $0.downloadClient == sort.client }
         }
 
         if sort.errors {
@@ -32,12 +60,11 @@ extension ActivityView {
 
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
+        ToolbarItem(placement: .navigation) {
             HStack {
                 toolbarFilterButton
                 toolbarSortingButton
             }
-            .id(hotfixId)
         }
     }
 
@@ -45,6 +72,14 @@ extension ActivityView {
         Menu {
             if queue.instances.count > 1 {
                 instancePicker
+            }
+
+            if protocols.count > 1 {
+                protocolPicker
+            }
+
+            if clients.count > 1 {
+                clientPicker
             }
 
             Section {
@@ -70,7 +105,46 @@ extension ActivityView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label("Instance", systemImage: "internaldrive")
+            let label = queue.instances.first { $0.id.uuidString == sort.instance }?.label
+                ?? String(localized: "Instance")
+
+            Label(label, systemImage: "internaldrive")
+        }
+    }
+
+    var protocolPicker: some View {
+        Menu {
+            Picker("Protocol", selection: $sort.client) {
+                Text("Any Protocol").tag(".all")
+
+                ForEach(protocols, id: \.self) { type in
+                    Text(type)
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label(
+                sort.type == ".all" ? "Protocol" : sort.type,
+                systemImage: "point.3.connected.trianglepath.dotted"
+            )
+        }
+    }
+
+    var clientPicker: some View {
+        Menu {
+            Picker("Client", selection: $sort.client) {
+                Text("Any Client").tag(".all")
+
+                ForEach(clients, id: \.self) { client in
+                    Text(client)
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label(
+                sort.type == ".all" ? "Client" : sort.type,
+                systemImage: "apple.terminal"
+            )
         }
     }
 
@@ -89,7 +163,7 @@ extension ActivityView {
                 Picker("Direction", selection: $sort.isAscending) {
                     Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
                     Label("Descending", systemImage: "arrowtriangle.down").tag(false)
-                }
+                }.pickerStyle(.inline)
             }
         } label: {
             Image(systemName: "arrow.up.arrow.down")

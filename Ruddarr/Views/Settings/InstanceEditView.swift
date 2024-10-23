@@ -19,9 +19,6 @@ struct InstanceEditView: View {
     @State var username: String = ""
     @State var password: String = ""
 
-    @State var hotfixId = UUID()
-    @Environment(\.scenePhase) private var scenePhase
-
     enum Mode {
         case create
         case update
@@ -52,13 +49,18 @@ struct InstanceEditView: View {
                 instance.url = "http://10.0.1.5:8989/"
                 instance.apiKey = "f8e3682b3b984cddbaa00047a09d0fbd"
             } label: { Text(verbatim: "Sonarr") }
+
+            Button {
+                instance.url = "http://10.0.1.5:18988"
+                instance.apiKey = "8efa9412e9564d588cefadc4d4cd1b06"
+            } label: { Text(verbatim: "Sonarr v3") }
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarButton
         }
         .onAppear {
-            showAdvanced = instance.mode != .normal || !instance.headers.isEmpty
+            showAdvanced = instance.mode.isSlow || !instance.headers.isEmpty
         }
         .onSubmit {
             guard !hasEmptyFields() else { return }
@@ -67,7 +69,6 @@ struct InstanceEditView: View {
                 await createOrUpdateInstance()
             }
         }
-        .onChange(of: scenePhase) { hotfixId = UUID() }
         .alert(isPresented: $showingAlert, error: error) { _ in
             Button("OK") { error = nil }
         } message: { error in
@@ -169,16 +170,16 @@ struct InstanceEditView: View {
 
     var modeSection: some View {
         Section {
-            Toggle("Large Instance", isOn: Binding(
+            Toggle("Slow Instance", isOn: Binding(
                 get: {
-                    instance.mode == .large
+                    instance.mode == .slow
                 },
                 set: { value in
-                    instance.mode = value ? .large : .normal
+                    instance.mode = value ? .slow : .normal
                 }
             ))
         } footer: {
-            Text("Optimize API calls for instances that load slowly.")
+            Text("Optimizes API calls for instances that load unusually slowly and encounter timeouts frequently.")
         }
     }
 
@@ -255,7 +256,6 @@ struct InstanceEditView: View {
                 Button("Done") {
                     Task { await createOrUpdateInstance() }
                 }
-                .id(hotfixId) // somehow `.id(UUID())` doesn't work in this case
                 .disabled(hasEmptyFields())
             }
         }

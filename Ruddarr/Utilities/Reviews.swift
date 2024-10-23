@@ -4,7 +4,7 @@ import StoreKit
 func maybeAskForReview() {
     let chance: Int = 20
     let days: Double = 14
-    let delay: DispatchTime = .now() + 2
+    let delay: DispatchTime = .now() + 5
 
     let sevenDaysAgo: Double = -7 * 24 * 60 * 60
 
@@ -30,14 +30,13 @@ func maybeAskForReview() {
     }
 }
 
+@MainActor
 private func askForReview() {
-    #if os(macOS)
-        SKStoreReviewController.requestReview()
-    #else
+    #if os(iOS)
         guard let scene = UIApplication.shared.connectedScenes.first(where: {
             $0.activationState == .foregroundActive
         }) as? UIWindowScene else { return }
 
-        SKStoreReviewController.requestReview(in: scene)
+        AppStore.requestReview(in: scene)
     #endif
 }

@@ -1,5 +1,6 @@
 import SwiftUI
 import CoreSpotlight
+import TipKit
 
 @main
 struct Ruddarr: App {
@@ -12,14 +13,18 @@ struct Ruddarr: App {
     init() {
         #if DEBUG
         // dependencies = .mock
+        // Tips.showAllTipsForTesting()
         #endif
+
+        try? Tips.configure()
+        // try? Tips.resetDatastore()
 
         NetworkMonitor.shared.start()
     }
 
     var body: some Scene {
         #if os(macOS)
-            Window(String("Ruddarr"), id: "ruddarr") {
+            Window(String(""), id: "ruddarr") {
                 ContentView()
                     .withAppState()
                     .onOpenURL(perform: openDeeplink)
@@ -63,7 +68,7 @@ struct Links {
     static let AppStore = URL(string: "itms-apps://itunes.apple.com/app/id6476240130")!
     static let TestFlight = URL(string: "https://testflight.apple.com/join/WbWNuoos")!
     static let Discord = URL(string: "https://discord.gg/UksvtDQUBA")!
-
+    static let Crowdin = URL(string: "https://crowdin.com/project/ruddarr")!
     static let GitHub = URL(string: "https://github.com/ruddarr/app")!
     static let GitHubDiscussions = URL(string: "https://github.com/ruddarr/app/discussions")!
 }
@@ -74,23 +79,33 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static var version: String = "1.2.0"
+    static var version: String = "1.3.0"
 
     static var features: [WhatsNewFeature] = [
         .init(
+            image: "sidebar.left",
+            title: "iPadOS 18 TabView",
+            subtitle: "Modernized iPad sidebar and keep views alive when switching tabs."
+        ),
+        .init(
             image: "waveform.path.ecg",
-            title: "Queue Support",
-            subtitle: "Keep an eye on your tasks queues across all instance in the new Activity tab."
+            title: "Faster Queue",
+            subtitle: "Queue tasks will refresh faster while viewing the Activity tab."
+        ),
+        .init(
+            image: "line.3.horizontal.decrease",
+            title: "Filters & Sorting",
+            subtitle: "Added new and improved filters and sorting options."
         ),
         .init(
             image: "sparkle.magnifyingglass",
-            title: "Spotlight Integration",
-            subtitle: "All movies and TV series are automatically indexed and searchable in Spotlight."
+            title: "Improved Spotlight Indexer",
+            subtitle: "The Spotlight integration was overhauled and is faster and more reliable."
         ),
         .init(
             image: "ant",
             title: "Fixes & Improvements",
-            subtitle: "Over 30 other improvements and fixes, everything is a little better than before."
+            subtitle: "Dozens of improvements and fixes, everything is a little better than before."
         ),
     ]
 }

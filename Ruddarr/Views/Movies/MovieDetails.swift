@@ -124,6 +124,8 @@ struct MovieDetails: View {
             .buttonStyle(.bordered)
             .tint(.secondary)
             .allowsHitTesting(!instance.movies.isWorking)
+            .onAppear(perform: triggerTipIfJustAdded)
+            .popoverTip(NoAutomaticSearchTip())
 
             NavigationLink(value: MoviesPath.releases(movie.id)) {
                 ButtonLabel(text: "Interactive", icon: "person.fill")
@@ -137,7 +139,7 @@ struct MovieDetails: View {
     var previewActions: some View {
         Group {
             Menu {
-                MovieContextMenu(movie: movie)
+                MovieLinks(movie: movie)
             } label: {
                 ButtonLabel(text: "Open In...", icon: "arrow.up.right.square")
                     .modifier(MediaPreviewActionModifier())
@@ -145,7 +147,7 @@ struct MovieDetails: View {
             .buttonStyle(.bordered)
             .tint(.secondary)
 
-            if let trailerUrl = MovieContextMenu.youTubeTrailer(movie.youTubeTrailerId) {
+            if let trailerUrl = MovieLinks.youTubeTrailer(movie.youTubeTrailerId) {
                 Button {
                     openURL(URL(string: trailerUrl)!)
                 } label: {
@@ -167,6 +169,16 @@ struct MovieDetails: View {
         instance.qualityProfiles.first(
             where: { $0.id == movie.qualityProfileId }
         )?.name ?? String(localized: "Unknown")
+    }
+
+    func triggerTipIfJustAdded() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if movie.added.timeIntervalSinceNow > -30 {
+                Task {
+                    await NoAutomaticSearchTip.mediaAdded.donate()
+                }
+            }
+        }
     }
 }
 

@@ -23,7 +23,7 @@ struct MovieReleaseSheet: View {
                 VStack(alignment: .leading) {
                     header
                         .padding(.bottom)
-                        .padding(.trailing, 25)
+                        .padding(.trailing, 40)
 
                     if !release.rejections.isEmpty {
                         rejectionReasons
@@ -130,15 +130,18 @@ struct MovieReleaseSheet: View {
                 Spacer()
             }
 
-            if let url = release.infoUrl {
-                Link(destination: URL(string: url)!, label: {
-                    let label: LocalizedStringKey = deviceType == .phone ? "Visit" : "Visit Website"
+            if let url = URL(string: release.infoUrl ?? "") {
+                Link(destination: url, label: {
+                    let label: LocalizedStringKey = deviceType == .phone ? "Open" : "Open Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .modifier(MediaPreviewActionModifier())
                 })
                 .buttonStyle(.bordered)
                 .tint(.secondary)
+                .contextMenu {
+                    LinkContextMenu(url)
+                }
             }
 
             Button {

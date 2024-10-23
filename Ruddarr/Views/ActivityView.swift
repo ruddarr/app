@@ -7,10 +7,8 @@ struct ActivityView: View {
     @State var items: [QueueItem] = []
     @State private var itemSheet: QueueItem?
 
-    @State var hotfixId = UUID()
-
     @EnvironmentObject var settings: AppSettings
-    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         // swiftlint:disable closure_body_length
@@ -49,21 +47,25 @@ struct ActivityView: View {
             }
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: sort, updateDisplayedItems)
-            .onChange(of: scenePhase) { hotfixId = UUID() }
+            .onChange(of: queue.items, updateDisplayedItems)
             .onAppear {
                 queue.instances = settings.instances
+                queue.performRefresh = true
+            }
+            .onDisappear {
+                queue.performRefresh = false
             }
             .task {
-                await queue.fetch()
-                updateDisplayedItems()
+                await queue.fetchTasks()
             }
             .refreshable {
-                await Task { await queue.fetch() }.value
+                Task { await queue.refreshDownloadClients() }
+                await Task { await queue.fetchTasks() }.value
             }
             .sheet(item: $itemSheet) { item in
                 QueueItemSheet(item: item)
+                    .presentationDetents([deviceType == .phone ? .medium : .large])
                     .environmentObject(settings)
-                    .presentationDetents([.medium])
             }
         }
         // swiftlint:enable closure_body_length

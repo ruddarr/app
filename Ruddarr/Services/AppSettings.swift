@@ -10,7 +10,7 @@ class AppSettings: ObservableObject {
     @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
     @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
-    @AppStorage("tab", store: dependencies.store) var tab: Tab = .movies
+    @AppStorage("tab", store: dependencies.store) var tab: TabItem = .movies
     @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
     @AppStorage("sonarrInstanceId", store: dependencies.store) var sonarrInstanceId: Instance.ID?
 
@@ -64,12 +64,9 @@ extension AppSettings {
 
         let webhook = InstanceWebhook(instance)
 
-        Task.detached { [webhook] in
+        Task { @MainActor in
             await webhook.delete()
-        }
-
-        Task {
-            await Spotlight.of(instance).deleteInstanceIndex()
+            await Spotlight(instance.id).deleteInstanceIndex()
         }
 
         if let index = instances.firstIndex(where: { $0.id == instance.id }) {

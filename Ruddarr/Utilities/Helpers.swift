@@ -34,6 +34,20 @@ extension String {
     }
 }
 
+extension Hashable {
+    func equals(_ other: any Hashable) -> Bool {
+        if type(of: self) != type(of: other) {
+            return false
+        }
+
+        if let other = other as? Self {
+            return self == other
+        }
+
+        return false
+    }
+}
+
 func inferredInstallDate() -> Date? {
     guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
         return nil

@@ -43,8 +43,8 @@ struct Instance: Identifiable, Equatable, Codable {
     func timeout(_ call: InstanceTimeout) -> Double {
         switch call {
         case .normal: 10
-        case .slow: mode == .large ? 300 : 10
-        case .releaseSearch: mode == .large ? 180 : 60
+        case .slow: mode.isSlow ? 300 : 10
+        case .releaseSearch: mode.isSlow ? 180 : 60
         case .releaseDownload: 15
         }
     }
@@ -58,7 +58,12 @@ enum InstanceType: String, Identifiable, CaseIterable, Codable {
 
 enum InstanceMode: Codable {
     case normal
-    case large
+    case slow
+    case large // backwards compatible alias of `slow`
+
+    var isSlow: Bool {
+        self == .slow || self == .large
+    }
 }
 
 enum InstanceTimeout: Codable {
@@ -100,93 +105,6 @@ struct InstanceRootFolders: Identifiable, Equatable, Codable {
 struct InstanceQualityProfile: Identifiable, Equatable, Codable {
     let id: Int
     let name: String
-}
-
-struct DownloadReleaseCommand: Codable {
-    let guid: String
-    let indexerId: Int
-
-    // Radarr
-    var movieId: Int?
-
-    // Sonarr (season)
-    var seriesId: Int?
-    var seasonNumber: Int?
-
-    // Sonarr (episode)
-    var episodeId: Int?
-
-    init(guid: String, indexerId: Int, movieId: Int?) {
-        self.guid = guid
-        self.indexerId = indexerId
-        self.movieId = movieId
-    }
-
-    init(guid: String, indexerId: Int, seriesId: Int?, seasonId: Int?) {
-        self.guid = guid
-        self.indexerId = indexerId
-        self.seriesId = seriesId
-        self.seasonNumber = seasonId
-    }
-
-    init(guid: String, indexerId: Int, episodeId: Int?) {
-        self.guid = guid
-        self.indexerId = indexerId
-        self.episodeId = episodeId
-    }
-}
-
-enum RadarrCommand {
-    case refresh(_ ids: [Movie.ID])
-    case search(_ ids: [Movie.ID])
-
-    var payload: Payload {
-        switch self {
-        case .refresh(let ids):
-            Payload(name: "RefreshMovie", movieIds: ids)
-        case .search(let ids):
-            Payload(name: "MoviesSearch", movieIds: ids)
-        }
-    }
-
-    struct Payload: Encodable {
-        let name: String
-        let movieIds: [Int]
-    }
-}
-
-enum SonarrCommand {
-    case refresh(_ series: Series.ID)
-    case seriesSearch(_ series: Series.ID)
-    case seasonSearch(_ series: Series.ID, season: Season.ID)
-    case episodeSearch(_ ids: [Episode.ID])
-
-    var payload: Payload {
-        switch self {
-        case .refresh(let series):
-            Payload(name: "RefreshSeries", seriesId: series)
-        case .seriesSearch(let series):
-            Payload(name: "SeriesSearch", seriesId: series)
-        case .seasonSearch(let series, let season):
-            Payload(name: "SeasonSearch", seriesId: series, seasonNumber: season)
-        case .episodeSearch(let ids):
-            Payload(name: "EpisodeSearch", episodeIds: ids)
-        }
-    }
-
-    struct Payload: Encodable {
-        let name: String
-        let seriesId: Int?
-        let seasonNumber: Int?
-        let episodeIds: [Int]?
-
-        init(name: String, seriesId: Int? = nil, seasonNumber: Int? = nil, episodeIds: [Int]? = nil) {
-            self.name = name
-            self.seriesId = seriesId
-            self.seasonNumber = seasonNumber
-            self.episodeIds = episodeIds
-        }
-    }
 }
 
 extension Instance {

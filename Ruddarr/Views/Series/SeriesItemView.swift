@@ -57,9 +57,10 @@ struct SeriesDetailView: View {
             } label: {
                 ToolbarMonitorButton(monitored: $series.monitored)
             }
-            .buttonStyle(.plain)
             .allowsHitTesting(!instance.series.isWorking)
-            .toolbarIdFix(UUID())
+            #if os(iOS)
+                .buttonStyle(.plain)
+            #endif
         }
     }
 
@@ -72,7 +73,9 @@ struct SeriesDetailView: View {
                     searchMonitored
                 }
 
-                openInLinks
+                Section {
+                    SeriesLinks(series: series)
+                }
 
                 Section {
                     editAction
@@ -81,7 +84,6 @@ struct SeriesDetailView: View {
             } label: {
                 ToolbarActionButton()
             }
-            .toolbarIdFix(UUID())
         }
     }
 
@@ -104,12 +106,6 @@ struct SeriesDetailView: View {
             Task { await dispatchSearch() }
         }
         .disabled(!series.monitored)
-    }
-
-    var openInLinks: some View {
-        Section {
-            SeriesContextMenu(series: series)
-        }
     }
 
     var deleteSeriesButton: some View {
@@ -140,9 +136,7 @@ extension SeriesDetailView {
 
     @MainActor
     func refresh() async {
-        guard await instance.series.command(
-            .refresh(series.id)
-        ) else {
+        guard await instance.series.command(.refreshSeries(series.id)) else {
             return
         }
 

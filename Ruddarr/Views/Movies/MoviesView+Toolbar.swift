@@ -7,18 +7,18 @@ extension MoviesView {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(value: MoviesPath.search()) {
                     Image(systemName: "plus")
-                }.toolbarIdFix(UUID())
+                }
             }
         }
     }
 
     @ToolbarContentBuilder
     var toolbarViewOptions: some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
+        ToolbarItem(placement: .navigation) {
             HStack {
                 toolbarFilterButton
                 toolbarSortingButton
-            }.toolbarIdFix(UUID())
+            }
         }
     }
 
@@ -52,7 +52,7 @@ extension MoviesView {
                 Picker("Direction", selection: $sort.isAscending) {
                     Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
                     Label("Descending", systemImage: "arrowtriangle.down").tag(false)
-                }
+                }.pickerStyle(.inline)
             }
         } label: {
             Image(systemName: "arrow.up.arrow.down")
@@ -69,7 +69,6 @@ extension MoviesView {
                         Text(instance.label).tag(Optional.some(instance.id))
                     }
                 }
-                .onChange(of: settings.radarrInstanceId, changeInstance)
                 .pickerStyle(.inline)
             } label: {
                 HStack(alignment: .bottom, spacing: 6) {

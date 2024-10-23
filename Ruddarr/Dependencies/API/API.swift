@@ -34,8 +34,7 @@ struct API {
     var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
     var episodeCalendar: (Date, Date, Instance) async throws -> [Episode]
 
-    var radarrCommand: (RadarrCommand, Instance) async throws -> Empty
-    var sonarrCommand: (SonarrCommand, Instance) async throws -> Empty
+    var command: (InstanceCommand, Instance) async throws -> Empty
     var downloadRelease: (DownloadReleaseCommand, Instance) async throws -> Empty
 
     var systemStatus: (Instance) async throws -> InstanceStatus
@@ -43,6 +42,7 @@ struct API {
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
 
     var fetchQueueTasks: (Instance) async throws -> QueueItems
+    var deleteQueueTask: (QueueItem.ID, Bool, Bool, Bool, Instance) async throws -> Empty
 
     var fetchNotifications: (Instance) async throws -> [InstanceNotification]
     var createNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
@@ -256,12 +256,7 @@ extension API {
             var episodes: [Episode] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
             for i in episodes.indices { episodes[i].instanceId = instance.id }
             return episodes
-        }, radarrCommand: { command, instance in
-            let url = URL(string: instance.url)!
-                .appending(path: "/api/v3/command")
-
-            return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
-        }, sonarrCommand: { command, instance in
+        }, command: { command, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/command")
 
@@ -299,6 +294,17 @@ extension API {
             var items: QueueItems = try await request(url: url, headers: instance.auth)
             for i in items.records.indices { items.records[i].instanceId = instance.id }
             return items
+        }, deleteQueueTask: { task, remove, block, redownload, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/queue")
+                .appending(path: String(task))
+                .appending(queryItems: [
+                    .init(name: "removeFromClient", value: remove ? "true" : "false"),
+                    .init(name: "blocklist", value: block ? "true" : "false"),
+                    .init(name: "skipRedownload", value: redownload ? "true" : "false"),
+                ])
+
+            return try await request(method: .delete, url: url, headers: instance.auth)
         }, fetchNotifications: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/notification")
@@ -410,7 +416,7 @@ extension API {
         switch statusCode {
         case (200..<400):
             if Response.self == Empty.self {
-                return try decoder.decode(Response.self, from: "{}".data(using: .utf8)!) // swiftlint:disable:this non_optional_string_data_conversion
+                return try decoder.decode(Response.self, from: Data("{}".utf8))
             }
 
             do {

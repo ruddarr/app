@@ -67,7 +67,18 @@ struct InformationItem: Hashable {
     var link: (any Hashable)?
 
     static func == (lhs: InformationItem, rhs: InformationItem) -> Bool {
-        lhs.label == rhs.label && lhs.value == rhs.value
+        guard lhs.label == rhs.label, lhs.value == rhs.value else {
+            return false
+        }
+
+        switch (lhs.link, rhs.link) {
+        case (nil, nil):
+            return true
+        case let (lhsLink?, rhsLink?):
+            return lhsLink.equals(rhsLink)
+        default:
+            return false
+        }
     }
 
     func hash(into hasher: inout Hasher) {

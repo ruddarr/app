@@ -24,6 +24,7 @@ class SeriesFiles {
         if !fetched(series) { await fetch(series) }
     }
 
+    @MainActor
     func fetch(_ series: Series) async {
         items = []
         error = nil
@@ -44,6 +45,7 @@ class SeriesFiles {
         isFetching = false
     }
 
+    @MainActor
     func delete(_ file: MediaFile) async -> Bool {
         error = nil
 

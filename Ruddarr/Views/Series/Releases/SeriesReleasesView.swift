@@ -22,10 +22,11 @@ struct SeriesReleasesView: View {
                     .environmentObject(settings)
             }
 
-            if sort.hasFilter && !releases.isEmpty {
+            if hasHiddenReleases {
                 HiddenReleases()
             }
         }
+        .viewBottomPadding()
         .listStyle(.inset)
         .toolbar {
             toolbarButtons
@@ -58,6 +59,12 @@ struct SeriesReleasesView: View {
                 noMatchingReleases
             }
         }
+    }
+
+    var hasHiddenReleases: Bool {
+        sort.hasFilter &&
+        !releases.isEmpty &&
+        releases.count < instance.releases.items.count
     }
 
     var noReleasesFound: some View {
@@ -121,7 +128,11 @@ struct SeriesReleasesView: View {
             releases = releases.filter { $0.quality.quality.normalizedName == sort.quality }
         }
 
-        if sort.language != ".all" {
+        if sort.language == ".multi" {
+            releases = releases.filter {
+                ($0.languages?.count ?? 0) > 1 || $0.title.lowercased().contains("multi")
+            }
+        } else if sort.language != ".all" {
             releases = releases.filter { $0.languages?.contains { $0.label == sort.language } ?? false }
         }
 
@@ -165,7 +176,7 @@ extension SeriesReleasesView {
             HStack {
                 toolbarSortingButton
                 toolbarFilterButton
-            }.toolbarIdFix(UUID())
+            }
         }
     }
 
@@ -220,7 +231,7 @@ extension SeriesReleasesView {
                 Picker("Direction", selection: $sort.isAscending) {
                     Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
                     Label("Descending", systemImage: "arrowtriangle.down").tag(false)
-                }
+                }.pickerStyle(.inline)
             }
         } label: {
             Image(systemName: "arrow.up.arrow.down")
@@ -286,6 +297,7 @@ extension SeriesReleasesView {
         Menu {
             Picker("Language", selection: $sort.language) {
                 Text("Any Language").tag(".all")
+                Text("Multilingual").tag(".multi")
 
                 ForEach(instance.releases.languages, id: \.self) { language in
                     Text(language).tag(Optional.some(language))
@@ -293,10 +305,13 @@ extension SeriesReleasesView {
             }
             .pickerStyle(.inline)
         } label: {
-            Label(
-                sort.language == ".all" ? "Language" : sort.language,
-                systemImage: "waveform"
-            )
+            let label = switch sort.language {
+            case ".all": "Language"
+            case ".multi": "Multilingual"
+            default: sort.language
+            }
+
+            Label(label, systemImage: "waveform")
         }
     }
 

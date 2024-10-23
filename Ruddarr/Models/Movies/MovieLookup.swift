@@ -26,13 +26,13 @@ class MovieLookup {
 
         case byRelevance
         case byYear
-        case byPopularity
+        case byRating
 
         var label: LocalizedStringKey {
             switch self {
             case .byRelevance: "Relevant"
             case .byYear: "Latest"
-            case .byPopularity: "Popular"
+            case .byRating: "Rating"
             }
         }
     }
@@ -104,8 +104,8 @@ class MovieLookup {
                 false // see `.byRelevance` guard above
             case .byYear:
                 $0.sortYear > $1.sortYear
-            case .byPopularity:
-                $0.popularity ?? 0 > $1.popularity ?? 0
+            case .byRating:
+                $0.ratingScore > $1.ratingScore
             }
         }
     }

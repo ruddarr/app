@@ -69,13 +69,6 @@ struct CalendarView: View {
             .onAppear {
                 calendar.instances = settings.instances
             }
-            .onReceive(dependencies.router.calendarScroll) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-                    withAnimation(.smooth) {
-                        scrollTo(calendar.today())
-                    }
-                }
-            }
             .task {
                 await load()
             }
@@ -170,7 +163,7 @@ struct CalendarView: View {
                 withAnimation(.smooth) {
                     scrollTo(calendar.today())
                 }
-            }.toolbarIdFix(UUID())
+            }
         }
     }
 
@@ -187,7 +180,7 @@ struct CalendarView: View {
     }
 
     var filtersMenu: some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
+        ToolbarItem(placement: .navigation) {
             Menu {
                 Picker(selection: $displayedMediaType, label: Text("Media Type")) {
                     ForEach(CalendarMediaType.allCases, id: \.self) { type in
@@ -211,7 +204,7 @@ struct CalendarView: View {
                 } else {
                     Image(systemName: "line.3.horizontal.decrease")
                 }
-            }.toolbarIdFix(UUID())
+            }
         }
     }
 }

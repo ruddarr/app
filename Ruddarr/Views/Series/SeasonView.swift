@@ -20,6 +20,7 @@ struct SeasonView: View {
                 episodesList
             }
             .viewPadding(.horizontal)
+            .viewBottomPadding()
         }
         .refreshable {
             await Task { await reload() }.value
@@ -170,10 +171,12 @@ struct SeasonView: View {
             } label: {
                 ToolbarMonitorButton(monitored: .constant(season.monitored))
             }
-            .buttonStyle(.plain)
             .allowsHitTesting(!instance.series.isWorking)
             .disabled(!series.monitored)
-            .toolbarIdFix(UUID())
+            .popoverTip(SeriesMonitoringTip(series.monitored))
+            #if os(iOS)
+                .buttonStyle(.plain)
+            #endif
         }
     }
 }

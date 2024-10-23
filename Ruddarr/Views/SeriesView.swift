@@ -26,6 +26,7 @@ struct SeriesView: View {
     @State private var alertPresented = false
 
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         // swiftlint:disable closure_body_length
@@ -37,8 +38,11 @@ struct SeriesView: View {
                     ScrollViewReader { proxy in
                         ScrollView {
                             seriesItemGrid
-                                .padding(.top, searchPresented ? 10 : 0)
+                                .viewBottomPadding()
                                 .viewPadding(.horizontal)
+                                #if os(iOS)
+                                    .padding(.top, searchPresented ? 7 : 0)
+                                #endif
                         }
                         .onAppear {
                             scrollView = proxy
@@ -52,9 +56,6 @@ struct SeriesView: View {
                         await Task { await fetchSeriesWithAlert() }.value
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
-                    .onReceive(dependencies.router.seriesScroll) {
-                        withAnimation(.smooth) { scrollToTop() }
-                    }
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
@@ -123,7 +124,7 @@ struct SeriesView: View {
             .toolbar {
                 toolbarViewOptions
 
-                if settings.sonarrInstances.count > 1 {
+                if settings.sonarrInstances.count > 1 && deviceType == .phone {
                     toolbarInstancePicker
                 }
 
@@ -136,6 +137,7 @@ struct SeriesView: View {
                 placement: .drawerOrToolbar
             )
             .autocorrectionDisabled(true)
+            .onChange(of: settings.sonarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
                 scrollToTop()
@@ -236,7 +238,7 @@ struct SeriesView: View {
             updateDisplayedSeries()
 
             let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
-            let cacheInSeconds: Double = instance.isLarge ? 300 : 30
+            let cacheInSeconds: Double = instance.isSlow ? 300 : 30
 
             if Occurrence.since(lastMetadataFetch) > cacheInSeconds {
                 if let model = await instance.fetchMetadata() {

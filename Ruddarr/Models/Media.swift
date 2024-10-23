@@ -1,4 +1,13 @@
 import SwiftUI
+import CoreSpotlight
+
+protocol Media: Identifiable {
+    var title: String { get }
+    var remotePoster: String? { get }
+
+    var searchableHash: String { get }
+    func searchableItem(poster: URL?) -> CSSearchableItem
+}
 
 struct MediaLanguage: Equatable, Codable {
     let id: Int

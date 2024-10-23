@@ -82,7 +82,7 @@ struct SettingsSystemSection: View {
     func deleteSpotlightIndexes() {
         for instance in settings.instances {
             Task {
-                await Spotlight.of(instance).deleteInstanceIndex()
+                await Spotlight(instance.id).deleteInstanceIndex()
             }
         }
 

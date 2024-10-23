@@ -11,6 +11,7 @@ struct SeriesSort: Hashable {
         case byTitle
         case byYear
         case byAdded
+        case byRating
         case bySize
         case byNextAiring
         case byPreviousAiring
@@ -20,6 +21,7 @@ struct SeriesSort: Hashable {
             case .byTitle: Label("Title", systemImage: "textformat.abc")
             case .byYear: Label("Year", systemImage: "calendar")
             case .byAdded: Label("Added", systemImage: "calendar.badge.plus")
+            case .byRating: Label("Rating", systemImage: "star")
             case .bySize: Label("File Size", systemImage: "internaldrive")
             case .byNextAiring: Label("Next Airing", systemImage: "clock")
             case .byPreviousAiring: Label("Previous Airing", systemImage: "clock.arrow.circlepath")
@@ -40,6 +42,8 @@ struct SeriesSort: Hashable {
                 lhs.nextAiring ?? Date.distantFuture > rhs.nextAiring ?? Date.distantFuture
             case .byPreviousAiring:
                 lhs.previousAiring ?? Date.distantPast < rhs.previousAiring ?? Date.distantPast
+            case .byRating:
+                lhs.ratingScore < rhs.ratingScore
             }
         }
     }

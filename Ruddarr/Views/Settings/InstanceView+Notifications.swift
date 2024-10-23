@@ -76,91 +76,133 @@ extension InstanceView {
         cloudKitStatus == .available
     }
 
+    // swiftlint:disable closure_body_length
     var radarrNotifications: some View {
         Group {
-            Toggle("Movie Added", isOn: Binding<Bool>(
-                get: { self.webhook.model.onMovieAdded ?? false },
-                set: { newValue in self.webhook.model.onMovieAdded = newValue }
-            ))
-            .onChange(of: webhook.model.onMovieAdded, updateWebhook)
-
-            Toggle("Movie Downloading", isOn: $webhook.model.onGrab)
-                .onChange(of: webhook.model.onGrab, updateWebhook)
-
-            Toggle("Movie Downloaded", isOn: $webhook.model.onDownload)
-                .onChange(of: webhook.model.onDownload, updateWebhook)
-
-            Toggle("Movie Upgraded", isOn: $webhook.model.onUpgrade)
-                .onChange(of: webhook.model.onUpgrade, updateWebhook)
-
-            Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
-                .onChange(of: webhook.model.onHealthIssue, updateWebhook)
-
-            if webhook.model.onHealthIssue {
-                Toggle("Include Warnings", isOn: $webhook.model.includeHealthWarnings)
-                    .onChange(of: webhook.model.includeHealthWarnings, updateWebhook)
-                    .padding(.leading)
+            if webhook.model.supportsOnMovieAdded ?? false {
+                Toggle("Movie Added", isOn: Binding<Bool>(
+                    get: { self.webhook.model.onMovieAdded ?? false },
+                    set: { newValue in self.webhook.model.onMovieAdded = newValue }
+                ))
+                .onChange(of: webhook.model.onMovieAdded, updateWebhook)
             }
 
-            Toggle("Health Restored", isOn: Binding(
-                get: { webhook.model.onHealthRestored ?? false },
-                set: { webhook.model.onHealthRestored = $0 }
-            ))
-                .onChange(of: webhook.model.onHealthRestored, updateWebhook)
+            if webhook.model.supportsOnGrab ?? false {
+                Toggle("Movie Downloading", isOn: $webhook.model.onGrab)
+                    .onChange(of: webhook.model.onGrab, updateWebhook)
+            }
 
-            Toggle("Manual Interaction Required", isOn: Binding(
-                get: { webhook.model.onManualInteractionRequired ?? false },
-                set: { webhook.model.onManualInteractionRequired = $0 }
-            ))
+            if webhook.model.supportsOnDownload ?? false {
+                Toggle("Movie Imported", isOn: $webhook.model.onDownload)
+                    .onChange(of: webhook.model.onDownload, updateWebhook)
+            }
+
+            if webhook.model.onDownload && webhook.model.supportsOnUpgrade ?? false {
+                Toggle("Movie Upgraded", isOn: $webhook.model.onUpgrade)
+                    .onChange(of: webhook.model.onUpgrade, updateWebhook)
+            }
+
+            if webhook.model.supportsOnManualInteractionRequired ?? false {
+                Toggle("Manual Interaction Required", isOn: Binding(
+                    get: { webhook.model.onManualInteractionRequired ?? false },
+                    set: { webhook.model.onManualInteractionRequired = $0 }
+                ))
                 .onChange(of: webhook.model.onManualInteractionRequired, updateWebhook)
+            }
 
-            Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
-                .onChange(of: webhook.model.onApplicationUpdate, updateWebhook)
+            if webhook.model.supportsOnHealthIssue ?? false {
+                Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
+                    .onChange(of: webhook.model.onHealthIssue, updateWebhook)
+
+                if webhook.model.onHealthIssue {
+                    Toggle("Include Warnings", isOn: $webhook.model.includeHealthWarnings)
+                        .onChange(of: webhook.model.includeHealthWarnings, updateWebhook)
+                        .padding(.leading)
+                }
+            }
+
+            if webhook.model.supportsOnHealthRestored ?? false {
+                Toggle("Health Restored", isOn: Binding(
+                    get: { webhook.model.onHealthRestored ?? false },
+                    set: { webhook.model.onHealthRestored = $0 }
+                ))
+                .onChange(of: webhook.model.onHealthRestored, updateWebhook)
+            }
+
+            if webhook.model.supportsOnApplicationUpdate ?? false {
+                Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
+                    .onChange(of: webhook.model.onApplicationUpdate, updateWebhook)
+            }
         }
     }
 
     var sonarrNotifications: some View {
         Group {
-            Toggle("Series Added", isOn: Binding<Bool>(
-                get: { self.webhook.model.onSeriesAdd ?? false },
-                set: { newValue in self.webhook.model.onSeriesAdd = newValue }
-            ))
-            .onChange(of: webhook.model.onSeriesAdd, updateWebhook)
-
-            Toggle("Episode Downloading", isOn: $webhook.model.onGrab)
-                .onChange(of: webhook.model.onGrab, updateWebhook)
-
-            Toggle("Episode Downloaded", isOn: $webhook.model.onDownload)
-                .onChange(of: webhook.model.onDownload, updateWebhook)
-
-            Toggle("Episode Upgraded", isOn: $webhook.model.onUpgrade)
-                .onChange(of: webhook.model.onUpgrade, updateWebhook)
-
-            Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
-                .onChange(of: webhook.model.onHealthIssue, updateWebhook)
-
-            if webhook.model.onHealthIssue {
-                Toggle("Include Warnings", isOn: $webhook.model.includeHealthWarnings)
-                    .onChange(of: webhook.model.includeHealthWarnings, updateWebhook)
-                    .padding(.leading)
+            if webhook.model.supportsOnSeriesAdd ?? false {
+                Toggle("Series Added", isOn: Binding<Bool>(
+                    get: { self.webhook.model.onSeriesAdd ?? false },
+                    set: { newValue in self.webhook.model.onSeriesAdd = newValue }
+                ))
+                .onChange(of: webhook.model.onSeriesAdd, updateWebhook)
             }
 
-            Toggle("Health Restored", isOn: Binding(
-                get: { webhook.model.onHealthRestored ?? false },
-                set: { webhook.model.onHealthRestored = $0 }
-            ))
-                .onChange(of: webhook.model.onHealthRestored, updateWebhook)
+            if webhook.model.supportsOnGrab ?? false {
+                Toggle("Release Downloading", isOn: $webhook.model.onGrab)
+                    .onChange(of: webhook.model.onGrab, updateWebhook)
+            }
 
-            Toggle("Manual Interaction Required", isOn: Binding(
-                get: { webhook.model.onManualInteractionRequired ?? false },
-                set: { webhook.model.onManualInteractionRequired = $0 }
-            ))
+            if webhook.model.supportsOnDownload ?? false {
+                Toggle("File Imported", isOn: $webhook.model.onDownload)
+                    .onChange(of: webhook.model.onDownload, updateWebhook)
+            }
+
+            if webhook.model.onDownload && webhook.model.supportsOnUpgrade ?? false {
+                Toggle("File Upgraded", isOn: $webhook.model.onUpgrade)
+                    .onChange(of: webhook.model.onUpgrade, updateWebhook)
+            }
+
+            if webhook.model.supportsOnImportComplete ?? false {
+                Toggle("Import Completed", isOn: Binding<Bool>(
+                    get: { self.webhook.model.onImportComplete ?? false },
+                    set: { newValue in self.webhook.model.onImportComplete = newValue }
+                ))
+                .onChange(of: webhook.model.onImportComplete, updateWebhook)
+            }
+
+            if webhook.model.supportsOnManualInteractionRequired ?? false {
+                Toggle("Manual Interaction Required", isOn: Binding(
+                    get: { webhook.model.onManualInteractionRequired ?? false },
+                    set: { webhook.model.onManualInteractionRequired = $0 }
+                ))
                 .onChange(of: webhook.model.onManualInteractionRequired, updateWebhook)
+            }
 
-            Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
-                .onChange(of: webhook.model.onApplicationUpdate, updateWebhook)
+            if webhook.model.supportsOnHealthIssue ?? false {
+                Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
+                    .onChange(of: webhook.model.onHealthIssue, updateWebhook )
+
+                if webhook.model.onHealthIssue {
+                    Toggle("Include Warnings", isOn: $webhook.model.includeHealthWarnings)
+                        .onChange(of: webhook.model.includeHealthWarnings, updateWebhook)
+                        .padding(.leading)
+                }
+            }
+
+            if webhook.model.supportsOnHealthRestored ?? false {
+                Toggle("Health Restored", isOn: Binding(
+                    get: { webhook.model.onHealthRestored ?? false },
+                    set: { webhook.model.onHealthRestored = $0 }
+                ))
+                .onChange(of: webhook.model.onHealthRestored, updateWebhook)
+            }
+
+            if webhook.model.supportsOnApplicationUpdate ?? false {
+                Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
+                    .onChange(of: webhook.model.onApplicationUpdate, updateWebhook)
+            }
         }
     }
+    // swiftlint:enable closure_body_length
 }
 
 extension InstanceView {

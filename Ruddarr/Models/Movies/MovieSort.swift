@@ -11,6 +11,7 @@ struct MovieSort: Hashable {
         case byTitle
         case byYear
         case byAdded
+        case byRating
         case byGrabbed
         case bySize
         case byRelease
@@ -20,6 +21,7 @@ struct MovieSort: Hashable {
             case .byTitle: Label("Title", systemImage: "textformat.abc")
             case .byYear: Label("Year", systemImage: "calendar")
             case .byAdded: Label("Added", systemImage: "calendar.badge.plus")
+            case .byRating: Label("Rating", systemImage: "star")
             case .byGrabbed: Label("Grabbed", systemImage: "arrow.down.circle")
             case .bySize: Label("File Size", systemImage: "internaldrive")
             case .byRelease: Label("Digital Release", systemImage: "play.tv")
@@ -40,6 +42,8 @@ struct MovieSort: Hashable {
                 lhs.movieFile?.dateAdded ?? Date.distantPast < rhs.movieFile?.dateAdded ?? Date.distantPast
             case .byRelease:
                 lhs.digitalRelease ?? Date.distantPast < rhs.digitalRelease ?? Date.distantPast
+            case .byRating:
+                lhs.ratingScore < rhs.ratingScore
             }
         }
     }
@@ -76,7 +80,7 @@ struct MovieSort: Hashable {
             case .unmonitored:
                 movies.filter { !$0.monitored }
             case .missing:
-                movies.filter { $0.monitored && !$0.isDownloaded && $0.isReleased }
+                movies.filter { $0.monitored && !$0.isDownloaded && $0.isAvailable }
             case .wanted:
                 movies.filter { $0.monitored && !$0.isDownloaded }
             case .downloaded:
