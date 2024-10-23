@@ -73,7 +73,7 @@ func formatRemainingTime(_ date: Date) -> String? {
     let formatter = DateComponentsFormatter()
     formatter.unitsStyle = .abbreviated
     formatter.includesTimeRemainingPhrase = true
-    formatter.allowedUnits = seconds >= 3_600 ? [.hour, .minute] : [.minute, .second]
+    formatter.allowedUnits = seconds >= 3_600 ? [.hour] : [.minute, .second]
     return formatter.string(from: seconds)
 }
 

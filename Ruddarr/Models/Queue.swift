@@ -15,7 +15,7 @@ class Queue {
     var items: [Instance.ID: [QueueItem]] = [:]
 
     private init() {
-        let interval: TimeInterval = isRunningIn(.simulator) ? 30 : 5
+        let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
 
         self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
             Task { await self.fetchTasks() }
@@ -159,7 +159,10 @@ struct QueueItem: Codable, Identifiable, Equatable {
 
     static func == (lhs: QueueItem, rhs: QueueItem) -> Bool {
         lhs.id == rhs.id &&
+        lhs.instanceId == rhs.instanceId &&
         lhs.status == rhs.status &&
+        lhs.size == rhs.size &&
+        lhs.sizeleft == rhs.sizeleft &&
         lhs.trackedDownloadStatus == rhs.trackedDownloadStatus &&
         lhs.trackedDownloadState == rhs.trackedDownloadState &&
         lhs.estimatedCompletionTime == rhs.estimatedCompletionTime
