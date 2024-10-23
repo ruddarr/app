@@ -52,6 +52,7 @@ struct ActivityView: View {
             .onAppear {
                 queue.instances = settings.instances
                 queue.performRefresh = true
+                updateDisplayedItems()
             }
             .onDisappear {
                 queue.performRefresh = false
