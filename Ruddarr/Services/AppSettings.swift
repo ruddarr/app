@@ -44,8 +44,22 @@ extension AppSettings {
         instances.filter { !$0.id.uuidString.starts(with: "00000000") }
     }
 
+    func instanceBy(_ idOrName: String?) -> Instance? {
+        guard let idOrName else {
+            return nil
+        }
+
+        if let id = UUID(uuidString: idOrName) {
+            return instanceById(id)
+        }
+
+        return instances.first {
+            $0.name == idOrName || $0.label == idOrName
+        }
+    }
+
     func instanceById(_ id: UUID) -> Instance? {
-        instances.first(where: { $0.id == id })
+        instances.first { $0.id == id }
     }
 
     func saveInstance(_ instance: Instance) {

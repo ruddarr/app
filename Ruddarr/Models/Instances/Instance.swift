@@ -15,7 +15,8 @@ struct Instance: Identifiable, Equatable, Codable {
     var headers: [InstanceHeader] = []
     // WARNING: BE CAREFUL CHANGING
 
-    var version: String = ""
+    var name: String?
+    var version: String?
 
     var rootFolders: [InstanceRootFolders] = []
     var qualityProfiles: [InstanceQualityProfile] = []
@@ -87,8 +88,8 @@ struct InstanceHeader: Equatable, Identifiable, Codable {
 
 struct InstanceStatus: Codable {
     let appName: String
+    let instanceName: String
     let version: String
-    let authentication: String
 }
 
 struct InstanceRootFolders: Identifiable, Equatable, Codable {

@@ -105,11 +105,7 @@ struct MoviesView: View {
                 }
 
                 // if a deeplink set an instance, try to switch to it
-                if let id = dependencies.router.switchToRadarrInstance, id != instance.id {
-                    dependencies.router.switchToRadarrInstance = nil
-                    settings.radarrInstanceId = id
-                    changeInstance()
-                }
+                maybeSwitchToInstance()
 
                 dependencies.quickActions.pending()
             }
@@ -275,6 +271,17 @@ struct MoviesView: View {
         scrollView?.scrollTo(
             instance.movies.cachedItems.first?.id
         )
+    }
+
+    func maybeSwitchToInstance() {
+        guard let idOrName = dependencies.router.switchToRadarrInstance else { return }
+        guard let switchTo = settings.instanceBy(idOrName) else { return }
+
+        if switchTo.id != instance.id {
+            dependencies.router.switchToRadarrInstance = nil
+            settings.radarrInstanceId = switchTo.id
+            changeInstance()
+        }
     }
 
     func navigateToMovie(_ id: Movie.ID) {

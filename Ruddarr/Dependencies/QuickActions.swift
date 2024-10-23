@@ -8,12 +8,12 @@ import Combine
 [public] ruddarr://movies
 [public] ruddarr://movies/search
 [public] ruddarr://movies/search/{query?}
-[private] ruddarr://movies/open/{id}?instance={instance?}
+[private] ruddarr://movies/open/{id}?instance={instanceIdOrName?}
 [public] ruddarr://series
 [public] ruddarr://series/search
 [public] ruddarr://series/search/{query?}
-[private] ruddarr://series/open/{id}?instance={instance?}
-[private] ruddarr://series/open/{id}/?season={id}&instance={instance?}
+[private] ruddarr://series/open/{id}?instance={instanceIdOrName?}
+[private] ruddarr://series/open/{id}/?season={id}&instance={instanceIdOrName?}
 */
 struct QuickActions {
     let moviePublisher = PassthroughSubject<Movie.ID, Never>()
@@ -51,11 +51,8 @@ struct QuickActions {
         dependencies.router.moviesPath = .init([MoviesPath.search(searchText)])
     }
 
-    func openMovie(_ id: Movie.ID, _ instance: Instance.ID?) {
-        if let instanceId = instance {
-            dependencies.router.switchToRadarrInstance = instanceId
-        }
-
+    func openMovie(_ id: Movie.ID, _ instance: String?) {
+        dependencies.router.switchToRadarrInstance = instance
         dependencies.router.selectedTab = .movies
         dependencies.router.moviesPath = .init()
 
@@ -81,11 +78,8 @@ struct QuickActions {
         dependencies.router.seriesPath = .init([SeriesPath.search(searchText)])
     }
 
-    func openSeriesItem(_ id: Series.ID, _ instance: Instance.ID?) {
-        if let instanceId = instance {
-            dependencies.router.switchToSonarrInstance = instanceId
-        }
-
+    func openSeriesItem(_ id: Series.ID, _ instance: String?) {
+        dependencies.router.switchToSonarrInstance = instance
         dependencies.router.selectedTab = .series
         dependencies.router.seriesPath = .init()
 
@@ -96,11 +90,8 @@ struct QuickActions {
         }
     }
 
-    func openSeriesSeason(_ id: Series.ID, _ season: Season.ID, _ instance: Instance.ID?) {
-        if let instanceId = instance {
-            dependencies.router.switchToSonarrInstance = instanceId
-        }
-
+    func openSeriesSeason(_ id: Series.ID, _ season: Season.ID, _ instance: String?) {
+        dependencies.router.switchToSonarrInstance = instance
         dependencies.router.selectedTab = .series
         dependencies.router.seriesPath = .init()
 
@@ -133,11 +124,11 @@ extension QuickActions {
         case openCalendar
         case openActivity
         case openMovies
-        case openMovie(_ id: Movie.ID, _ instance: Instance.ID?)
+        case openMovie(_ id: Movie.ID, _ instance: String?)
         case addMovie(_ query: String = "")
         case openSeries
-        case openSeriesItem(_ id: Series.ID, _ instance: Instance.ID?)
-        case openSeriesSeason(_ id: Movie.ID, _ season: Season.ID, _ instance: Instance.ID?)
+        case openSeriesItem(_ id: Series.ID, _ instance: String?)
+        case openSeriesSeason(_ id: Movie.ID, _ season: Season.ID, _ instance: String?)
         case addSeries(_ query: String = "")
 
         func callAsFunction() {
@@ -194,8 +185,8 @@ extension QuickActions.Deeplink {
             self = .addMovie(value)
         case _ where action.hasPrefix("movies/open/"):
             guard let tmdbId = Movie.ID(value) else { throw unsupportedURL }
-            let instanceId = components.queryItems?.first(where: { $0.name == "instance" })?.value
-            self = .openMovie(tmdbId, instanceId == nil ? nil : UUID(uuidString: instanceId!))
+            let instance = components.queryItems?.first(where: { $0.name == "instance" })?.value
+            self = .openMovie(tmdbId, instance)
         case "series":
             self = .openMovies
         case "series/search":
@@ -205,12 +196,12 @@ extension QuickActions.Deeplink {
         case _ where action.hasPrefix("series/open/"):
             guard let tvdbId = Series.ID(value) else { throw unsupportedURL }
             let seasonId = components.queryItems?.first(where: { $0.name == "season" })?.value
-            let instanceId = components.queryItems?.first(where: { $0.name == "instance" })?.value
+            let instance = components.queryItems?.first(where: { $0.name == "instance" })?.value
 
             if let id = seasonId, let season = Int(id) {
-                self = .openSeriesSeason(tvdbId, season, instanceId == nil ? nil : UUID(uuidString: instanceId!))
+                self = .openSeriesSeason(tvdbId, season, instance)
             } else {
-                self = .openSeriesItem(tvdbId, instanceId == nil ? nil : UUID(uuidString: instanceId!))
+                self = .openSeriesItem(tvdbId, instance)
             }
         default:
             throw unsupportedURL
