@@ -133,7 +133,7 @@ struct MovieFilesFile: View {
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
         } label: {
-            Text(file.relativePath ?? "--")
+            Text(file.filenameLabel)
         }
         .contextMenu {
             Button("Delete File", systemImage: "trash", role: .destructive) {

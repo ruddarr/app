@@ -17,6 +17,10 @@ struct MediaFile: Identifiable, Equatable, Codable {
     let seriesId: Series.ID?
     let episodeReleaseType: EpisodeReleaseType?
 
+    var filenameLabel: String {
+        relativePath?.components(separatedBy: "/").last ?? "--"
+    }
+
     var sizeLabel: String {
         formatBytes(size)
     }

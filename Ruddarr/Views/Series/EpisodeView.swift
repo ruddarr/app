@@ -321,7 +321,7 @@ struct EpisodeFileView: View {
             .foregroundStyle(.secondary)
             .lineLimit(1)
         } label: {
-            Text(file.relativePath ?? "--")
+            Text(file.filenameLabel)
         }
     }
 }
