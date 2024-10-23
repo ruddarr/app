@@ -68,7 +68,7 @@ struct SeriesPreviewView: View {
             if instance.series.isWorking {
                 ProgressView().tint(.secondary)
             } else {
-                Button("Done") {
+                Button("Add Series") {
                     Task {
                         await addSeries()
                     }

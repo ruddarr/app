@@ -68,7 +68,7 @@ struct MoviePreviewView: View {
             if instance.movies.isWorking {
                 ProgressView().tint(.secondary)
             } else {
-                Button("Done") {
+                Button("Add Movie") {
                     Task {
                         await addMovie()
                     }
