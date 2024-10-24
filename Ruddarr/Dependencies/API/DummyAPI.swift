@@ -169,6 +169,11 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
+        }, fetchHistory: { page, instance in
+            let events: MediaHistory = loadPreviewData(filename: "history")
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+
+            return events
         })
     }
 }
