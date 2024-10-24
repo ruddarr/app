@@ -1,0 +1,117 @@
+{
+  "page": 1,
+  "pageSize": 10,
+  "sortKey": "date",
+  "sortDirection": "descending",
+  "totalRecords": 3,
+  "records": [
+    {
+      "movieId": 9,
+      "sourceTitle": "/volume2/Media/Movies/Harry Potter and the Deathly Hallows Part 2 (2011)/video2.mp4",
+      "languages": [
+        {
+          "id": 1,
+          "name": "English"
+        }
+      ],
+      "quality": {
+        "quality": {
+          "id": 1,
+          "name": "SDTV",
+          "source": "tv",
+          "resolution": 480,
+          "modifier": "none"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2024-10-17T14:07:08Z",
+      "eventType": "movieFileDeleted",
+      "data": {
+        "reason": "Manual",
+        "releaseGroup": null,
+        "size": "7766778",
+        "indexerFlags": "0"
+      },
+      "id": 3
+    },
+    {
+      "movieId": 3,
+      "sourceTitle": "/volume2/Media/Movies/The Lord of the Rings The Fellowship of the Ring (2001)/video2.mp4",
+      "languages": [
+        {
+          "id": 1,
+          "name": "English"
+        }
+      ],
+      "quality": {
+        "quality": {
+          "id": 1,
+          "name": "SDTV",
+          "source": "tv",
+          "resolution": 480,
+          "modifier": "none"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2024-10-15T14:27:53Z",
+      "eventType": "movieFileDeleted",
+      "data": {
+        "reason": "MissingFromDisk",
+        "releaseGroup": null,
+        "size": "17583148",
+        "indexerFlags": "0"
+      },
+      "id": 2
+    },
+    {
+      "movieId": 3,
+      "sourceTitle": "/volume2/Media/Movies/The Lord of the Rings The Fellowship of the Ring (2001)/video.mp4",
+      "languages": [
+        {
+          "id": 1,
+          "name": "English"
+        }
+      ],
+      "quality": {
+        "quality": {
+          "id": 1,
+          "name": "SDTV",
+          "source": "tv",
+          "resolution": 480,
+          "modifier": "none"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2024-10-15T14:27:53Z",
+      "eventType": "movieFileDeleted",
+      "data": {
+        "reason": "MissingFromDisk",
+        "releaseGroup": null,
+        "size": "8896112",
+        "indexerFlags": "0"
+      },
+      "id": 1
+    }
+  ]
+}

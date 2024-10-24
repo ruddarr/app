@@ -66,6 +66,13 @@ extension ActivityView {
                 toolbarSortingButton
             }
         }
+        if !settings.configuredInstances.isEmpty {
+            ToolbarItem(placement: .primaryAction) {
+                NavigationLink(destination: HistoryView()) {
+                    Text("History")
+                }
+            }
+        }
     }
 
     var toolbarFilterButton: some View {

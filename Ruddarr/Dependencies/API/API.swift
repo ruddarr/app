@@ -48,6 +48,8 @@ struct API {
     var createNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
     var updateNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
     var deleteNotification: (InstanceNotification, Instance) async throws -> Empty
+
+    var fetchHistory: (Int, Instance) async throws -> MediaHistory
 }
 
 // swiftlint:disable file_length
@@ -327,6 +329,15 @@ extension API {
                 .appending(path: String(model.id ?? 0))
 
             return try await request(method: .delete, url: url, headers: instance.auth)
+        }, fetchHistory: { page, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/history")
+                .appending(queryItems: [
+                    .init(name: "page", value: String(page)),
+                    .init(name: "pageSize", value: "100"),
+                ])
+
+            return try await request(url: url, headers: instance.auth)
         })
     }
 
