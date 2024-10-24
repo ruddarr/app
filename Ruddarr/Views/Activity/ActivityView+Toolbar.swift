@@ -35,7 +35,7 @@ extension ActivityView {
 
         if sort.instance != ".all" {
             items = items.filter {
-                sort.instance.caseInsensitiveCompare($0.instanceId?.uuidString ?? "") == .orderedSame
+                $0.instanceId?.isEqual(to: sort.instance) == true
             }
         }
 
@@ -105,8 +105,9 @@ extension ActivityView {
             }
             .pickerStyle(.inline)
         } label: {
-            let label = queue.instances.first { $0.id.uuidString == sort.instance }?.label
-                ?? String(localized: "Instance")
+            let label = queue.instances.first {
+                $0.id.uuidString == sort.instance
+            }?.label ?? String(localized: "Instance")
 
             Label(label, systemImage: "internaldrive")
         }

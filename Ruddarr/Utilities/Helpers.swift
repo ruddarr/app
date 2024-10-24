@@ -34,6 +34,12 @@ extension String {
     }
 }
 
+extension UUID {
+    func isEqual(to string: String) -> Bool {
+        self.uuidString.caseInsensitiveCompare(string) == .orderedSame
+    }
+}
+
 extension Hashable {
     func equals(_ other: any Hashable) -> Bool {
         if type(of: self) != type(of: other) {
