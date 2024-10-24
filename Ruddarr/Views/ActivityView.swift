@@ -103,6 +103,8 @@ struct ActivityView: View {
 
         if let item = queue.items[instanceId]?.first(where: { $0.id == taskId }) {
             selectedItem = item
+        } else {
+            selectedItem = nil
         }
     }
 }
