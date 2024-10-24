@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -78,6 +78,7 @@
 		BB6F23A92B6A039400A4347A /* MovieReleasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F23A82B6A039400A4347A /* MovieReleasesView.swift */; };
 		BB6F23AB2B6ABB8700A4347A /* SettingsAboutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F23AA2B6ABB8700A4347A /* SettingsAboutSection.swift */; };
 		BB6F23AD2B6ABBBD00A4347A /* SettingsSystemSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F23AC2B6ABBBD00A4347A /* SettingsSystemSection.swift */; };
+		BB715EBF2CCAA2AD003B12A0 /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BB715EBE2CCAA2AD003B12A0 /* SentrySwiftUI */; };
 		BB7602752B62027C006E5A1F /* quality-profiles.json in Resources */ = {isa = PBXBuildFile; fileRef = BB7602742B62027C006E5A1F /* quality-profiles.json */; };
 		BB7666CF2BA51F49009D4F68 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7666CE2BA51F49009D4F68 /* Calendar.swift */; };
 		BB77996D2BAE4757007D713B /* Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB77996C2BAE4757007D713B /* Shortcuts.swift */; };
@@ -408,9 +409,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB0FE10F2BEC660500D1D847 /* CloudStorage in Frameworks */,
+				BB715EBF2CCAA2AD003B12A0 /* SentrySwiftUI in Frameworks */,
 				BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */,
 				BB48FF4D2CADABA200DAA4A7 /* TelemetryDeck in Frameworks */,
-				BBDA77632BDACD6300568E64 /* SentrySwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -839,9 +840,9 @@
 			name = Ruddarr;
 			packageProductDependencies = (
 				BBDA77602BDACD3C00568E64 /* NukeUI */,
-				BBDA77622BDACD6300568E64 /* SentrySwiftUI */,
 				BB0FE10E2BEC660500D1D847 /* CloudStorage */,
 				BB48FF4C2CADABA200DAA4A7 /* TelemetryDeck */,
+				BB715EBE2CCAA2AD003B12A0 /* SentrySwiftUI */,
 			);
 			productName = Ruddarr;
 			productReference = BBE828532B4F2C7000C1E1D9 /* Ruddarr.app */;
@@ -857,9 +858,6 @@
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
-					BB1F33D22CB592DE00E1F74F = {
-						CreatedOnToolsVersion = 16.0;
-					};
 					BB40712C2C1CDD32006A3FA5 = {
 						CreatedOnToolsVersion = 16.0;
 					};
@@ -879,9 +877,9 @@
 			mainGroup = BBE8284A2B4F2C7000C1E1D9;
 			packageReferences = (
 				BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */,
-				BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 				BB0FE10D2BEC660500D1D847 /* XCRemoteSwiftPackageReference "CloudStorage" */,
 				BB48FF492CADABA200DAA4A7 /* XCRemoteSwiftPackageReference "SwiftSDK" */,
+				BB715EBD2CCAA2AD003B12A0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = BBE828542B4F2C7000C1E1D9 /* Products */;
 			projectDirPath = "";
@@ -1489,20 +1487,20 @@
 				minimumVersion = 2.4.1;
 			};
 		};
+		BB715EBD2CCAA2AD003B12A0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.38.0;
+			};
+		};
 		BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kean/Nuke";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 12.0.0;
-			};
-		};
-		BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.20.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1518,15 +1516,15 @@
 			package = BB48FF492CADABA200DAA4A7 /* XCRemoteSwiftPackageReference "SwiftSDK" */;
 			productName = TelemetryDeck;
 		};
+		BB715EBE2CCAA2AD003B12A0 /* SentrySwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BB715EBD2CCAA2AD003B12A0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = SentrySwiftUI;
+		};
 		BBDA77602BDACD3C00568E64 /* NukeUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = NukeUI;
-		};
-		BBDA77622BDACD6300568E64 /* SentrySwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BBEF2E402B802D6A00478E03 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
-			productName = SentrySwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
