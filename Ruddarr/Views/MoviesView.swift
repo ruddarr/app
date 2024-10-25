@@ -42,6 +42,10 @@ struct MoviesView: View {
                                 #if os(iOS)
                                     .padding(.top, searchPresented ? 7 : 0)
                                 #endif
+
+                            if searchPresented {
+                                MovieSearchSuggestion(query: $searchQuery)
+                            }
                         }
                         .onAppear {
                             scrollView = proxy

@@ -30,6 +30,27 @@ struct NoSeriesSearchResults: View {
     }
 }
 
+struct SeriesSearchSuggestion: View {
+    @Binding var query: String
+
+    var body: some View {
+        let description = String(
+            format: String(localized: "Looking to [add a new series](%@)?"),
+            "#view"
+        )
+
+        Text(description.toMarkdown())
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+            .environment(\.openURL, .init { _ in
+                dependencies.router.moviesPath.append(MoviesPath.search(query))
+                query = ""
+
+                return .handled
+            })
+    }
+}
+
 struct NoMatchingSeries: View {
     @Binding var sort: SeriesSort
 

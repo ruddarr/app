@@ -43,6 +43,10 @@ struct SeriesView: View {
                                 #if os(iOS)
                                     .padding(.top, searchPresented ? 7 : 0)
                                 #endif
+
+                            if searchPresented {
+                                SeriesSearchSuggestion(query: $searchQuery)
+                            }
                         }
                         .onAppear {
                             scrollView = proxy

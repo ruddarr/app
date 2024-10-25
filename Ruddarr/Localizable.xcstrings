@@ -1995,6 +1995,26 @@
         }
       }
     },
+    "Looking to [add a new movie](%@)?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Looking to [add a new movie](%@)?"
+          }
+        }
+      }
+    },
+    "Looking to [add a new series](%@)?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Looking to [add a new series](%@)?"
+          }
+        }
+      }
+    },
     "Mail" : {
       "comment" : "Localized name of Apple's Mail app",
       "localizations" : {
