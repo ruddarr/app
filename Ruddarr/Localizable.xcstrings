@@ -2961,6 +2961,16 @@
         }
       }
     },
+    "Notifications will not route reliably until each instance has been given a unique \"Instance Name\" in the web interface under \"Settings > General\"." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications will not route reliably until each instance has been given a unique \"Instance Name\" in the web interface under \"Settings > General\"."
+          }
+        }
+      }
+    },
     "OK" : {
       "localizations" : {
         "en" : {
