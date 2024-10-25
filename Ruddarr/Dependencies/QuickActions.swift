@@ -22,6 +22,8 @@ struct QuickActions {
     let seriesPublisher = PassthroughSubject<(Series.ID, Season.ID?), Never>()
     var seriesPublisherPending: (Series.ID, Season.ID?)?
 
+    private var timer: Timer?
+
     var registerShortcutItems: () -> Void = {
         #if os(iOS)
             UIApplication.shared.shortcutItems = ShortcutItem.allCases.map(\.shortcutItem)
@@ -56,10 +58,14 @@ struct QuickActions {
         dependencies.router.selectedTab = .movies
         dependencies.router.moviesPath = .init()
 
-        Task { @MainActor in
-            try await Task.sleep(nanoseconds: 100_000_000)
-            dependencies.quickActions.moviePublisherPending = id
-            dependencies.quickActions.moviePublisher.send(id)
+        dependencies.quickActions.moviePublisherPending = id
+
+        dependencies.quickActions.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+            if let id = dependencies.quickActions.moviePublisherPending {
+                dependencies.quickActions.moviePublisher.send(id)
+            } else {
+                dependencies.quickActions.clearTimer()
+            }
         }
     }
 
@@ -83,10 +89,14 @@ struct QuickActions {
         dependencies.router.selectedTab = .series
         dependencies.router.seriesPath = .init()
 
-        Task { @MainActor in
-            try await Task.sleep(nanoseconds: 100_000_000)
-            dependencies.quickActions.seriesPublisherPending = (id, nil)
-            dependencies.quickActions.seriesPublisher.send((id, nil))
+        dependencies.quickActions.seriesPublisherPending = (id, nil)
+
+        dependencies.quickActions.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+            if let id = dependencies.quickActions.seriesPublisherPending {
+                dependencies.quickActions.seriesPublisher.send(id)
+            } else {
+                dependencies.quickActions.clearTimer()
+            }
         }
     }
 
@@ -102,19 +112,12 @@ struct QuickActions {
         }
     }
 
-    func reset() {
+    func clearTimer() {
+        dependencies.quickActions.timer?.invalidate()
+        dependencies.quickActions.timer = nil
+
         dependencies.quickActions.moviePublisherPending = nil
         dependencies.quickActions.seriesPublisherPending = nil
-    }
-
-    func pending() {
-        if let movieId = dependencies.quickActions.moviePublisherPending {
-            dependencies.quickActions.moviePublisher.send(movieId)
-        }
-
-        if let seriesId = dependencies.quickActions.seriesPublisherPending {
-            dependencies.quickActions.seriesPublisher.send(seriesId)
-        }
     }
 }
 

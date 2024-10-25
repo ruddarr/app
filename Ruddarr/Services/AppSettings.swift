@@ -53,9 +53,7 @@ extension AppSettings {
             return instanceById(id)
         }
 
-        return instances.first {
-            $0.name == idOrName || $0.label == idOrName
-        }
+        return instances.first { $0.name == idOrName }
     }
 
     func instanceById(_ id: UUID) -> Instance? {

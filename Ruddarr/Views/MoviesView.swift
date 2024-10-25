@@ -97,17 +97,15 @@ struct MoviesView: View {
                 }
             }
             .onAppear {
+                // if a deeplink set an instance, try to switch to it
+                maybeSwitchToInstance()
+
                 // if no instance is selected, try to select one
                 // if the selected instance was deleted, try to select one
                 if instance.isVoid, let first = settings.radarrInstances.first {
                     settings.radarrInstanceId = first.id
                     changeInstance()
                 }
-
-                // if a deeplink set an instance, try to switch to it
-                maybeSwitchToInstance()
-
-                dependencies.quickActions.pending()
             }
             .onReceive(dependencies.quickActions.moviePublisher, perform: navigateToMovie)
             .toolbar {
@@ -285,18 +283,19 @@ struct MoviesView: View {
     }
 
     func navigateToMovie(_ id: Movie.ID) {
-        let startTime = Date()
+        dependencies.quickActions.clearTimer()
+        maybeSwitchToInstance()
 
-        dependencies.quickActions.reset()
+        let startTime = Date()
 
         func scheduleNextRun(time: DispatchTime, id: Movie.ID) {
             DispatchQueue.main.asyncAfter(deadline: time) {
-                if instance.movies.items.first(where: { $0.id == id }) != nil {
-                    dependencies.router.moviesPath = .init([MoviesPath.movie(id)])
+                if let movie = instance.movies.items.first(where: { $0.id == id }) {
+                    dependencies.router.moviesPath = .init([MoviesPath.movie(movie.id)])
                     return
                 }
 
-                if Date().timeIntervalSince(startTime) < 5 {
+                if Date().timeIntervalSince(startTime) < 10 {
                     scheduleNextRun(time: DispatchTime.now() + 0.1, id: id)
                 }
             }
