@@ -174,13 +174,13 @@ struct QueueItem: Codable, Identifiable, Equatable {
     }
 
     var isSABnzbd: Bool {
-        downloadId?.contains("SABnzbd_") != nil ||
-        downloadClient?.localizedCaseInsensitiveContains("SABnzbd") != nil
+        downloadId?.contains("SABnzbd_") == true ||
+        downloadClient?.localizedCaseInsensitiveContains("SABnzbd") == true
     }
 
     var isDownloadStation: Bool {
-        downloadId?.contains(":dbid_") != nil ||
-        downloadClient?.localizedCaseInsensitiveContains("Download Station") != nil
+        downloadId?.contains(":dbid_") == true ||
+        downloadClient?.localizedCaseInsensitiveContains("Download Station") == true
     }
 
     var messages: [QueueStatusMessage] {
