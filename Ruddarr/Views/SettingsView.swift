@@ -79,8 +79,6 @@ struct SettingsView: View {
         let status = await Notifications.shared.authorizationStatus()
         let uniqueNames = Set(settings.instances.map { $0.name })
 
-        showInstanceNameWarning = true
-
         if status == .authorized {
             showInstanceNameWarning = settings.instances.count != uniqueNames.count
         }
