@@ -3823,16 +3823,6 @@
         }
       }
     },
-    "Settings > Notifications" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings > Notifications"
-          }
-        }
-      }
-    },
     "Settings > Notifications > %@" : {
       "comment" : "iOS path",
       "localizations" : {
@@ -4020,16 +4010,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "System"
-          }
-        }
-      }
-    },
-    "System Settings > Notifications" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "System Settings > Notifications"
           }
         }
       }

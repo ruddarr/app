@@ -2,18 +2,20 @@ import SwiftUI
 import CloudKit
 
 extension InstanceView {
-    var enableNotifications: some View {
+    var notificationPath: String {
         let app = "Ruddarr"
 
         #if os(macOS)
-            let link = String(format: "\"%@\"", String(localized: "System Settings > Notifications > \(app)", comment: "macOS path"))
+            return String(format: "\"%@\"", String(localized: "System Settings > Notifications > \(app)", comment: "macOS path"))
         #else
-            let link = String(format: "[%@](#link)", String(localized: "Settings > Notifications > \(app)", comment: "iOS path"))
+            return String(format: "[%@](#link)", String(localized: "Settings > Notifications > \(app)", comment: "iOS path"))
         #endif
+    }
 
+    var enableNotifications: some View {
         let text = String(
             format: String(localized: "Notification are disabled, please enable them in %@."),
-            link
+            notificationPath
         )
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
@@ -28,15 +30,9 @@ extension InstanceView {
     }
 
     var disableNotifications: some View {
-        #if os(iOS)
-            let link = String(format: "\"%@\"", String(localized: "System Settings > Notifications"))
-        #else
-            let link = String(format: "[%@](#link)", String(localized: "Settings > Notifications"))
-        #endif
-
         let text = String(
             format: String(localized: "Notification settings for each instance are shared between devices. To disable notifications for a specific device go to %@."),
-            link
+            notificationPath
         )
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
