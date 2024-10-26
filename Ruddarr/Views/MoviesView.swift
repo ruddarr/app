@@ -43,8 +43,8 @@ struct MoviesView: View {
                                     .padding(.top, searchPresented ? 7 : 0)
                                 #endif
 
-                            if searchPresented {
-                                MovieSearchSuggestion(query: $searchQuery)
+                            if presentSearchSuggestion {
+                                MovieSearchSuggestion(query: $searchQuery, sort: $sort)
                             }
                         }
                         .onAppear {
@@ -168,6 +168,10 @@ struct MoviesView: View {
 
     var hasNoMatchingResults: Bool {
         instance.movies.cachedItems.isEmpty && instance.movies.itemsCount > 0
+    }
+
+    var presentSearchSuggestion: Bool {
+        searchPresented && !instance.movies.cachedItems.isEmpty
     }
 
     var isLoadingMovies: Bool {

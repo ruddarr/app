@@ -32,6 +32,7 @@ struct NoMovieSearchResults: View {
 
 struct MovieSearchSuggestion: View {
     @Binding var query: String
+    @Binding var sort: MovieSort
 
     var body: some View {
         let description = String(
@@ -48,6 +49,14 @@ struct MovieSearchSuggestion: View {
 
                 return .handled
             })
+
+        if sort.filter != .all {
+            Button("Clear Filters") {
+                sort.filter = .all
+            }
+            .font(.subheadline)
+            .padding(.top, 8)
+        }
     }
 }
 

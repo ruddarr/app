@@ -44,8 +44,8 @@ struct SeriesView: View {
                                     .padding(.top, searchPresented ? 7 : 0)
                                 #endif
 
-                            if searchPresented {
-                                SeriesSearchSuggestion(query: $searchQuery)
+                            if presentSearchSuggestion {
+                                SeriesSearchSuggestion(query: $searchQuery, sort: $sort)
                             }
                         }
                         .onAppear {
@@ -175,6 +175,10 @@ struct SeriesView: View {
 
     var hasNoMatchingResults: Bool {
         instance.series.cachedItems.isEmpty && instance.series.itemsCount > 0
+    }
+
+    var presentSearchSuggestion: Bool {
+        searchPresented && !instance.series.cachedItems.isEmpty
     }
 
     var isLoadingSeries: Bool {

@@ -32,6 +32,7 @@ struct NoSeriesSearchResults: View {
 
 struct SeriesSearchSuggestion: View {
     @Binding var query: String
+    @Binding var sort: SeriesSort
 
     var body: some View {
         let description = String(
@@ -48,6 +49,14 @@ struct SeriesSearchSuggestion: View {
 
                 return .handled
             })
+
+        if sort.filter != .all {
+            Button("Clear Filters") {
+                sort.filter = .all
+            }
+            .font(.subheadline)
+            .padding(.top, 8)
+        }
     }
 }
 
