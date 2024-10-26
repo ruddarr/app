@@ -22,6 +22,7 @@ class MovieReleases {
         self.instance = instance
     }
 
+    @MainActor
     func search(_ movie: Movie) async {
         items = []
         error = nil
