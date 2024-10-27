@@ -44,7 +44,7 @@ struct SeriesSearchSuggestion: View {
             .font(.subheadline)
             .foregroundStyle(.secondary)
             .environment(\.openURL, .init { _ in
-                dependencies.router.moviesPath.append(MoviesPath.search(query))
+                dependencies.router.seriesPath.append(SeriesPath.search(query))
                 query = ""
 
                 return .handled
