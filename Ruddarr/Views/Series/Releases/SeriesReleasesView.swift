@@ -17,7 +17,12 @@ struct SeriesReleasesView: View {
     var body: some View {
         List {
             ForEach(releases) { release in
-                SeriesReleaseRow(release: release, seriesId: series.id, seasonId: seasonId, episodeId: episodeId)
+                SeriesReleaseRow(
+                    release: release,
+                    seriesId: series.id,
+                    seasonId: seasonId,
+                    episodeId: episodeId
+                )
                     .environment(instance)
                     .environmentObject(settings)
             }

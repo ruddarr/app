@@ -103,11 +103,22 @@ func formatBitrate(_ bitrate: Int) -> String? {
         return String(format: "%d kbps", bitrate / 1_000)
     }
 
-    return String(format: "%d mbps", bitrate / 1_000_000)
+    let mbps = Double(bitrate) / 1_000_000.0
+
+    return String(format: "%.\(mbps < 10 ? 1 : 0)f mbps", mbps)
 }
 
-func calculateBitrate(_ seconds: Int, _ bytes: Int) -> Int {
-    (bytes * 8) / seconds
+func calculateBitrate(_ seconds: Int, _ bytes: Int) -> Int? {
+    guard seconds > 0 else { return nil }
+    return (bytes * 8) / seconds
+}
+
+func calculateRuntime(_ runtime: String?) -> Int? {
+    guard let runtime, !runtime.isEmpty else { return nil }
+
+    return runtime.split(separator: ":")
+        .compactMap { Int($0) }
+        .reduce(0) { $0 * 60 + $1 }
 }
 
 // swiftlint:disable cyclomatic_complexity

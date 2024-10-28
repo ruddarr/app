@@ -291,6 +291,15 @@ struct SeriesRelease: Identifiable, Codable {
         guard let score = customFormatScore else { return nil }
         return formatCustomScore(score)
     }
+
+    func bitrateLabel(_ runtime: Int) -> String? {
+        guard runtime > 0 else { return nil }
+
+        guard let bitrate = calculateBitrate(runtime * 60, size) else { return nil }
+        guard let label = formatBitrate(bitrate) else { return nil }
+
+        return String(format: "~%@", label)
+    }
 }
 
 struct SeriesReleaseEpisode: Codable {

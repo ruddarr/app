@@ -67,7 +67,7 @@ struct MovieMetadataView: View {
             await instance.metadata.fetchFiles(for: movie)
         }
         .sheet(item: $fileSheet) { file in
-            MediaFileSheet(file: file)
+            MediaFileSheet(file: file, runtime: movie.runtime)
                 .presentationDetents([.fraction(0.9)])
         }
     }

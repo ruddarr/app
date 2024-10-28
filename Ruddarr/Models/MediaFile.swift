@@ -52,6 +52,19 @@ struct MediaFile: Identifiable, Equatable, Codable {
 
         return nil
     }
+
+    func videoBitrateLabel(_ runtime: Int) -> String? {
+        if let bitrate = mediaInfo?.videoBitrate, bitrate > 0 {
+            return formatBitrate(bitrate)
+        }
+
+        let seconds = calculateRuntime(mediaInfo?.runTime) ?? (runtime * 60)
+
+        guard let bitrate = calculateBitrate(seconds, size) else { return nil }
+        guard let label = formatBitrate(bitrate) else { return nil }
+
+        return String(format: "~%@", label)
+    }
 }
 
 struct FileMediaInfo: Equatable, Codable {

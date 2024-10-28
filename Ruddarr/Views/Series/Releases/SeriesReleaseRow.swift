@@ -19,7 +19,12 @@ struct SeriesReleaseRow: View {
                 isShowingPopover = true
             }
             .sheet(isPresented: $isShowingPopover) {
-                SeriesReleaseSheet(release: release, seriesId: seriesId, seasonId: seasonId, episodeId: episodeId)
+                SeriesReleaseSheet(
+                    release: release,
+                    seriesId: seriesId,
+                    seasonId: seasonId,
+                    episodeId: episodeId
+                )
                     .presentationDetents([deviceType == .phone ? .medium : .large])
                     .presentationDragIndicator(.hidden)
                     .environment(instance)

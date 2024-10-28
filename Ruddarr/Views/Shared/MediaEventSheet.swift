@@ -120,7 +120,7 @@ struct MediaEventSheet: View {
     let movies: [Movie] = PreviewData.load(name: "movies")
     let movie = movies.first(where: { $0.id == 295 }) ?? movies[0]
 
-    return MediaFileSheet(file: movie.movieFile!)
+    return MediaFileSheet(file: movie.movieFile!, runtime: movie.runtime)
 }
 
 #Preview("Event") {

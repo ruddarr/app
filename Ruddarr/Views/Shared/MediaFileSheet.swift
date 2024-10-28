@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MediaFileSheet: View {
     var file: MediaFile
+    var runtime: Int
 
     @Environment(\.dismiss) private var dismiss
 
@@ -58,7 +59,7 @@ struct MediaFileSheet: View {
                         Divider()
                     }
 
-                    row("Bitrate", media.videoBitrateLabel ?? "--")
+                    row("Bitrate", file.videoBitrateLabel(runtime) ?? "--")
                     Divider()
                     row("Framerate", String(format: "%.0f fps", media.videoFps))
                     Divider()

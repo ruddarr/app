@@ -18,6 +18,10 @@ class SeriesEpisodes {
         self.instance = instance
     }
 
+    func byId(_ id: Episode.ID) -> Episode? {
+        items.first { $0.id == id }
+    }
+
     func fetched(_ series: Series) -> Bool {
         items.contains { $0.seriesId == series.id }
     }

@@ -15,7 +15,7 @@ struct MovieReleasesView: View {
     var body: some View {
         List {
             ForEach(releases) { release in
-                MovieReleaseRow(release: release, movieId: movie.id)
+                MovieReleaseRow(release: release, movie: movie)
                     .environment(instance)
                     .environmentObject(settings)
             }

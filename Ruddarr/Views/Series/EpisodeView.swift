@@ -215,7 +215,7 @@ struct EpisodeView: View {
                 Text("File").font(.title2.bold()).padding(.bottom, 6)
             }
             .sheet(item: $fileSheet) { file in
-                MediaFileSheet(file: file)
+                MediaFileSheet(file: file, runtime: episode.runtime ?? series.runtime)
                     .presentationDetents([.fraction(0.9)])
             }
             .alert(

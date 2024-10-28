@@ -86,7 +86,7 @@ struct MovieDetails: View {
             }
         }
         .sheet(item: $fileSheet) { file in
-            MediaFileSheet(file: file)
+            MediaFileSheet(file: file, runtime: movie.runtime)
                 .presentationDetents([.fraction(0.9)])
         }
     }

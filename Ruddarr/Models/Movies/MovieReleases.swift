@@ -268,9 +268,10 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     func bitrateLabel(_ runtime: Int) -> String? {
-        guard let label = formatBitrate(calculateBitrate(runtime, size)) else {
-            return nil
-        }
+        guard runtime > 0 else { return nil }
+
+        guard let bitrate = calculateBitrate(runtime * 60, size) else { return nil }
+        guard let label = formatBitrate(bitrate) else { return nil }
 
         return String(format: "~%@", label)
     }
