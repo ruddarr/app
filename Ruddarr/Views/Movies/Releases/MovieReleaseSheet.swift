@@ -245,7 +245,11 @@ struct MovieReleaseSheet: View {
         }
 
         dismiss()
-        dependencies.router.moviesPath.removeLast()
+
+        if !dependencies.router.moviesPath.isEmpty {
+            dependencies.router.moviesPath.removeLast()
+        }
+
         dependencies.toast.show(.downloadQueued)
 
         TelemetryDeck.signal("releaseDownloaded", parameters: ["type": "movie"])
