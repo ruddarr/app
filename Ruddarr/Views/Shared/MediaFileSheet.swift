@@ -55,7 +55,7 @@ struct MediaFileSheet: View {
                     Divider()
                     row("Frame Rate", String(format: "%.0f fps", media.videoFps))
                     Divider()
-                    row("Bitrate", bitrate(media.videoBitrate) ?? "--")
+                    row("Bitrate", media.videoBitrateLabel ?? "--")
                     Divider()
                     row("Bit Depth", "\(media.videoBitDepth)")
                     Divider()
@@ -91,7 +91,7 @@ struct MediaFileSheet: View {
                     Divider()
                     row("Channels", "\(media.audioChannels)")
                     Divider()
-                    row("Bitrate", bitrate(media.audioBitrate) ?? "--")
+                    row("Bitrate", formatBitrate(media.audioBitrate) ?? "--")
                     Divider()
                     row("Streams", "\(media.audioStreamCount)")
                     Divider()
@@ -136,17 +136,5 @@ struct MediaFileSheet: View {
 
         }
         .font(.subheadline)
-    }
-
-    func bitrate(_ bitrate: Int) -> String? {
-        if bitrate == 0 {
-            return nil
-        }
-
-        if bitrate < 1_000_000 {
-            return String(format: "%d kbps", bitrate / 1_000)
-        }
-
-        return String(format: "%d mbps", bitrate / 1_000_000)
     }
 }

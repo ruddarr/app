@@ -94,6 +94,22 @@ func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
     return formatter.string(fromByteCount: Int64(bytes))
 }
 
+func formatBitrate(_ bitrate: Int) -> String? {
+    if bitrate == 0 {
+        return nil
+    }
+
+    if bitrate < 1_000_000 {
+        return String(format: "%d kbps", bitrate / 1_000)
+    }
+
+    return String(format: "%d mbps", bitrate / 1_000_000)
+}
+
+func calculateBitrate(_ seconds: Int, _ bytes: Int) -> Int {
+    (bytes * 8) / seconds
+}
+
 // swiftlint:disable cyclomatic_complexity
 func formatIndexer(_ name: String) -> String {
     var indexer = name

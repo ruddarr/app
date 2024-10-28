@@ -266,4 +266,12 @@ struct MovieRelease: Identifiable, Codable {
     var scoreLabel: String {
         formatCustomScore(customFormatScore)
     }
+
+    func bitrateLabel(_ runtime: Int) -> String? {
+        guard let label = formatBitrate(calculateBitrate(runtime, size)) else {
+            return nil
+        }
+
+        return String(format: "~%@", label)
+    }
 }
