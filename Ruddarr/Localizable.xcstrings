@@ -670,16 +670,6 @@
         }
       }
     },
-    "Bit Depth" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bit Depth"
-          }
-        }
-      }
-    },
     "Bitrate" : {
       "localizations" : {
         "en" : {
@@ -807,6 +797,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Codec"
+          }
+        }
+      }
+    },
+    "Color Depth" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color Depth"
           }
         }
       }
@@ -1524,12 +1524,12 @@
         }
       }
     },
-    "Frame Rate" : {
+    "Framerate" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Frame Rate"
+            "value" : "Framerate"
           }
         }
       }

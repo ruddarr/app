@@ -78,10 +78,15 @@ struct FileMediaInfo: Equatable, Codable {
             return nil
         }
 
-        label = label.replacingOccurrences(of: "x264", with: "H264")
-        label = label.replacingOccurrences(of: "h264", with: "H264")
-        label = label.replacingOccurrences(of: "h265", with: "HEVC")
-        label = label.replacingOccurrences(of: "x265", with: "HEVC")
+        label = label.replacingOccurrences(of: "h264", with: "H.264")
+        label = label.replacingOccurrences(of: "x264", with: "H.264")
+        label = label.replacingOccurrences(of: "AVC", with: "H.264")
+
+        label = label.replacingOccurrences(of: "h265", with: "H.265")
+        label = label.replacingOccurrences(of: "x264", with: "H.265")
+        label = label.replacingOccurrences(of: "HEVC", with: "H.265")
+
+        label = label.replacingOccurrences(of: "AC1", with: "AC-1")
 
         return label
     }
