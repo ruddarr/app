@@ -45,10 +45,6 @@ func leaveBreadcrumb(
 
         let msg = message ?? ""
 
-        if msg.contains("HTTP Client Error with status code: 50\\d") {
-            return
-        }
-
         let event = Event(level: level)
         event.message = SentryMessage(formatted: msg)
 
