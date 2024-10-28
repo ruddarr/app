@@ -20,6 +20,10 @@ class Languages {
             return String(name.split(separator: "-")[0])
         }
 
+        if code.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return "und"
+        }
+
         leaveBreadcrumb(.fatal, category: "languages", message: "Missing language", data: ["code": code])
 
         return code
@@ -42,7 +46,7 @@ func languagesList(_ codes: [String]) -> String {
 }
 
 extension Array where Element: StringProtocol {
-    // Canada weirdly inserts `and` between only two elements
+    // Some regions weirdly insert `and` between only two elements
     // `.formatted(.list(type: .and, width: .narrow))`
     func formattedList() -> String {
         joined(separator: ", ")
