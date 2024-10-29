@@ -287,12 +287,12 @@ struct SeriesView: View {
     }
 
     func maybeSwitchToInstance() {
-        guard let idOrName = dependencies.router.switchToRadarrInstance else { return }
+        guard let idOrName = dependencies.router.switchToSonarrInstance else { return }
         guard let switchTo = settings.instanceBy(idOrName) else { return }
 
         if switchTo.id != instance.id {
-            dependencies.router.switchToRadarrInstance = nil
-            settings.radarrInstanceId = switchTo.id
+            dependencies.router.switchToSonarrInstance = nil
+            settings.sonarrInstanceId = switchTo.id
             changeInstance()
         }
     }
