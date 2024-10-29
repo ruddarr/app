@@ -30,7 +30,7 @@ struct MovieReleasesView: View {
             toolbarButtons
         }
         .task {
-            guard hasFetched else { return }
+            guard !hasFetched else { return }
             releases = []
             await instance.releases.search(movie)
             updateDisplayedReleases()
