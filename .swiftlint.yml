@@ -27,6 +27,7 @@ disabled_rules:
   - explicit_top_level_acl
   - identifier_name
   - no_magic_numbers
+  - large_tuple
   - sorted_enum_cases
   - switch_case_on_newline
 

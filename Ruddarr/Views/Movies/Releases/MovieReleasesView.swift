@@ -6,7 +6,7 @@ struct MovieReleasesView: View {
     @State private var releases: [MovieRelease] = []
     @State private var sort: MovieReleaseSort = .init()
 
-    @State private var fetched: Bool = false
+    @State private var fetched: Movie.ID?
     @State private var waitingTextOpacity: Double = 0
 
     @EnvironmentObject var settings: AppSettings
@@ -30,10 +30,11 @@ struct MovieReleasesView: View {
             toolbarButtons
         }
         .task {
+            guard hasFetched else { return }
             releases = []
             await instance.releases.search(movie)
             updateDisplayedReleases()
-            fetched = true
+            fetched = movie.id
         }
         .onChange(of: sort.option, updateSortDirection)
         .onChange(of: sort, updateDisplayedReleases)
@@ -48,12 +49,16 @@ struct MovieReleasesView: View {
         .overlay {
             if instance.releases.isSearching {
                 searchingIndicator
-            } else if instance.releases.items.isEmpty && fetched {
+            } else if instance.releases.items.isEmpty && hasFetched {
                 noReleasesFound
-            } else if releases.isEmpty && fetched {
+            } else if releases.isEmpty && hasFetched {
                 noMatchingReleases
             }
         }
+    }
+
+    var hasFetched: Bool {
+        fetched == movie.id
     }
 
     var hasHiddenReleases: Bool {
