@@ -105,10 +105,14 @@ struct QuickActions {
         dependencies.router.selectedTab = .series
         dependencies.router.seriesPath = .init()
 
-        Task { @MainActor in
-            try await Task.sleep(nanoseconds: 100_000_000)
-            dependencies.quickActions.seriesPublisherPending = (id, season)
-            dependencies.quickActions.seriesPublisher.send((id, season))
+        dependencies.quickActions.seriesPublisherPending = (id, season)
+
+        dependencies.quickActions.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+            if let ids = dependencies.quickActions.seriesPublisherPending {
+                dependencies.quickActions.seriesPublisher.send(ids)
+            } else {
+                dependencies.quickActions.clearTimer()
+            }
         }
     }
 
@@ -187,9 +191,9 @@ extension QuickActions.Deeplink {
         case _ where action.hasPrefix("movies/search/"):
             self = .addMovie(value)
         case _ where action.hasPrefix("movies/open/"):
-            guard let tmdbId = Movie.ID(value) else { throw unsupportedURL }
+            guard let id = Movie.ID(value) else { throw unsupportedURL }
             let instance = components.queryItems?.first(where: { $0.name == "instance" })?.value
-            self = .openMovie(tmdbId, instance)
+            self = .openMovie(id, instance)
         case "series":
             self = .openMovies
         case "series/search":
@@ -197,14 +201,14 @@ extension QuickActions.Deeplink {
         case _ where action.hasPrefix("series/search/"):
             self = .addSeries(value)
         case _ where action.hasPrefix("series/open/"):
-            guard let tvdbId = Series.ID(value) else { throw unsupportedURL }
+            guard let id = Series.ID(value) else { throw unsupportedURL }
             let seasonId = components.queryItems?.first(where: { $0.name == "season" })?.value
             let instance = components.queryItems?.first(where: { $0.name == "instance" })?.value
 
-            if let id = seasonId, let season = Int(id) {
-                self = .openSeriesSeason(tvdbId, season, instance)
+            if let seasonId, let season = Int(seasonId) {
+                self = .openSeriesSeason(id, season, instance)
             } else {
-                self = .openSeriesItem(tvdbId, instance)
+                self = .openSeriesItem(id, instance)
             }
         default:
             throw unsupportedURL
