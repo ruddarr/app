@@ -203,4 +203,23 @@ class PreviewData {
         print("Invalid preview data path: \(name)")
         fatalError("Invalid preview data path: \(name)")
     }
+
+    static func loadObject<T: Codable> (name: String) -> T {
+        if let path = Bundle.main.path(forResource: name, ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601extended
+
+                return try decoder.decode(T.self, from: data)
+            } catch {
+                print("Could not load preview data: \(error)")
+                fatalError("Could not load preview data: \(error)")
+            }
+        }
+
+        print("Invalid preview data path: \(name)")
+        fatalError("Invalid preview data path: \(name)")
+    }
 }

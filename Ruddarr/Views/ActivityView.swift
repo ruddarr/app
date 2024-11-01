@@ -65,9 +65,13 @@ struct ActivityView: View {
                 await Task { await queue.fetchTasks() }.value
             }
             .sheet(item: $selectedItem) { item in
-                QueueItemSheet(item: item)
-                    .presentationDetents([deviceType == .phone ? .medium : .large])
-                    .environmentObject(settings)
+                NavigationStack {
+                    QueueItemSheet(item: item)
+                        .presentationDetents([
+                            deviceType == .phone ? .fraction(0.7) : .large
+                        ])
+                        .environmentObject(settings)
+                }
             }
         }
         // swiftlint:enable closure_body_length

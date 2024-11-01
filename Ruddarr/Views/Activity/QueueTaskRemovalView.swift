@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct QueueTaskRemovalSheet: View {
+struct QueueTaskRemovalView: View {
     var item: QueueItem
     var onRemove: () -> Void
 
@@ -12,53 +12,40 @@ struct QueueTaskRemovalSheet: View {
     @State private var isWorking: Bool = false
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    Toggle("Remove from Client", isOn: $remove)
-                } footer: {
-                    Text("Whether to ignore the download, or remove it and its file(s) from the download client.")
-                }
-
-                Section {
-                    Toggle("Blocklist Release", isOn: $block)
-
-                    if block {
-                        Toggle("Search for Replacement", isOn: $search)
-                    }
-                } footer: {
-                    Text("Blocks this release from being redownloaded via Automatic Search or RSS.")
-                }
+        Form {
+            Section {
+                Toggle("Remove from Client", isOn: $remove)
+            } footer: {
+                Text("Whether to ignore the download, or remove it and its file(s) from the download client.")
             }
-            .padding(.top, -20)
-            .toolbarTitleDisplayMode(.inline)
-            .toolbar {
-                toolbarCloseButton
-                toolbarRemoveButton
-            }
-            .alert(
-                isPresented: Binding(
-                    get: { self.error != nil },
-                    set: { _ in }
-                ),
-                error: error
-            ) { _ in
-                Button("OK") { error = nil }
-            } message: { error in
-                Text(error.recoverySuggestionFallback)
+
+            Section {
+                Toggle("Blocklist Release", isOn: $block)
+
+                if block {
+                    Toggle("Search for Replacement", isOn: $search)
+                }
+            } footer: {
+                Text("Blocks this release from being redownloaded via Automatic Search or RSS.")
             }
         }
-    }
-
-    @ToolbarContentBuilder
-    var toolbarCloseButton: some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
-            Button("Cancel") {
-                dismiss()
-            }
+        .padding(.top, -20)
+        .toolbarTitleDisplayMode(.inline)
+        .toolbar {
+            toolbarRemoveButton
+        }
+        .alert(
+            isPresented: Binding(
+                get: { self.error != nil },
+                set: { _ in }
+            ),
+            error: error
+        ) { _ in
+            Button("OK") { error = nil }
+        } message: { error in
+            Text(error.recoverySuggestionFallback)
         }
     }
 
@@ -72,7 +59,6 @@ struct QueueTaskRemovalSheet: View {
                     Task {
                         await deleteTask()
                         await Queue.shared.fetchTasks()
-                        dismiss()
                         onRemove()
                     }
                 }

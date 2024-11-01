@@ -3,13 +3,15 @@ import SwiftUI
 struct QueueItemSheet: View {
     var item: QueueItem
 
-    @State private var showRemovalSheet = false
-
     @EnvironmentObject var settings: AppSettings
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     @Environment(\.deviceType) private var deviceType
+
+    @State private var timeRemaining: String?
+
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         ScrollView {
@@ -33,17 +35,15 @@ struct QueueItemSheet: View {
                         GroupBox {
                             statusMessages
                         }
-                    } else if let remaining = item.remainingLabel {
-                        progress(remaining)
+                    } else if item.remainingLabel != nil {
+                        progress
                     }
-
-                    details
-                        .padding(.top)
 
                     actions
                         .padding(.top)
 
-                    Spacer()
+                    details
+                        .padding(.top)
                 }
                 .viewPadding(.horizontal)
                 .padding(.top)
@@ -73,7 +73,7 @@ struct QueueItemSheet: View {
         }
         .font(.subheadline)
         .foregroundStyle(.secondary)
-        .padding(.bottom, 8)
+        .padding(.bottom)
     }
 
     var statusMessages: some View {
@@ -93,55 +93,57 @@ struct QueueItemSheet: View {
         }
     }
 
-    func progress(_ remaining: String) -> some View {
+    var progress: some View {
         ProgressView(value: item.size - item.sizeleft, total: item.size) {
             HStack {
                 Text(item.progressLabel)
                 Spacer()
-                Text(remaining)
+                Text(timeRemaining ?? "")
             }
             .font(.subheadline)
             .monospacedDigit()
             .foregroundStyle(.secondary)
         }
+        .onReceive(timer) { _ in
+            timeRemaining = item.remainingLabel
+        }
     }
 
     var details: some View {
-        VStack(spacing: 6) {
-            row("Languages", item.languagesLabel)
+        Section {
+            VStack(spacing: 6) {
+                row("Language", item.languagesLabel)
 
-            if let score = item.scoreLabel {
+                if let indexer = item.indexer {
+                    Divider()
+                    row("Indexer", formatIndexer(indexer))
+                }
+
                 Divider()
-                row("Score", score)
+                row("Protocol", item.type.label)
+
+                if let client = item.downloadClient {
+                    Divider()
+                    row("Client", client)
+                }
+
+                if let date = item.added {
+                    Divider()
+                    row("Added", date.formatted(date: .long, time: .shortened))
+                }
             }
-
-            if let formats = item.customFormatsLabel {
-                Divider()
-                row("Custom Formats", formats)
-            }
-
-            if let indexer = item.indexer {
-                Divider()
-                row("Indexer", formatIndexer(indexer))
-            }
-
-            Divider()
-            row("Protocol", item.type.label)
-
-            Divider()
-            row("Client", item.downloadClient ?? "--")
-
-            if let date = item.added {
-                Divider()
-                row("Added", date.formatted(date: .long, time: .shortened))
-            }
+            .offset(y: -15)
+        } header: {
+            Text("Information")
+                .font(.title2.bold())
         }
     }
 
     var actions: some View {
         HStack(spacing: 24) {
-            Button {
-                showRemovalSheet = true
+            NavigationLink {
+                QueueTaskRemovalView(item: item, onRemove: { dismiss() })
+                    .environmentObject(settings)
             } label: {
                 let label: LocalizedStringKey = deviceType == .phone ? "Remove" : "Remove Task"
 
@@ -150,13 +152,6 @@ struct QueueItemSheet: View {
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
-            .sheet(isPresented: $showRemovalSheet) {
-                QueueTaskRemovalSheet(item: item) {
-                    dismiss()
-                }
-                    .presentationDetents([.medium])
-                    .environmentObject(settings)
-            }
 
             if item.isSABnzbd && sableInstalled() {
                 sableLink
@@ -190,7 +185,8 @@ struct QueueItemSheet: View {
             value
                 .multilineTextAlignment(.trailing)
         }
-        .font(.subheadline)
+        .font(.callout)
+        .padding(.vertical, 6)
     }
 
     func parseDate(_ string: String) -> Date? {
@@ -250,4 +246,20 @@ struct QueueItemSheet: View {
         .buttonStyle(.bordered)
         .tint(.secondary)
     }
+}
+
+#Preview {
+    let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
+    let item: QueueItem = items.records[0]
+
+    QueueItemSheet(item: item)
+        .withAppState()
+}
+
+#Preview("Waiting + Error") {
+    let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
+    let item = items.records[1]
+
+    QueueItemSheet(item: item)
+        .withAppState()
 }
