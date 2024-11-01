@@ -23,6 +23,14 @@ struct QueueItemSheet: View {
                 VStack(alignment: .leading) {
                     header
 
+                    if item.remainingLabel != nil {
+                        progress
+                            .padding(.top)
+                    }
+
+                    actions
+                        .padding(.vertical)
+
                     if let error = item.errorMessage, !error.isEmpty {
                         GroupBox {
                             Text(error)
@@ -31,19 +39,15 @@ struct QueueItemSheet: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
+                        .padding(.bottom)
                     } else if !item.messages.isEmpty {
                         GroupBox {
                             statusMessages
-                        }
-                    } else if item.remainingLabel != nil {
-                        progress
+                        }.padding(.bottom)
                     }
 
-                    actions
-                        .padding(.top)
-
                     details
-                        .padding(.top)
+                        .padding(.bottom)
                 }
                 .viewPadding(.horizontal)
                 .padding(.top)
@@ -73,7 +77,8 @@ struct QueueItemSheet: View {
         }
         .font(.subheadline)
         .foregroundStyle(.secondary)
-        .padding(.bottom)
+
+        CustomFormats(tags)
     }
 
     var statusMessages: some View {
@@ -91,6 +96,7 @@ struct QueueItemSheet: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity)
     }
 
     var progress: some View {
@@ -164,6 +170,20 @@ struct QueueItemSheet: View {
         }
         .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 450)
+    }
+
+    var tags: [String] {
+        var tags: [String] = []
+
+        if let score = item.scoreLabel {
+            tags.append(score)
+        }
+
+        if let formats = item.customFormats, !formats.isEmpty {
+            tags.append(contentsOf: formats.map { $0.label })
+        }
+
+        return tags
     }
 
     func row(_ label: LocalizedStringKey, _ value: String) -> some View {
@@ -249,10 +269,20 @@ struct QueueItemSheet: View {
 }
 
 #Preview {
-    let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
-    let item: QueueItem = items.records[0]
+    let items: QueueItems = PreviewData.loadObject(name: "series-queue")
+    let item: QueueItem = items.records[2]
 
     QueueItemSheet(item: item)
+        .withAppState()
+}
+
+#Preview("Downloading") {
+    let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
+    var item: QueueItem = items.records[0]
+
+    item.estimatedCompletionTime = Date.now.addingTimeInterval(90)
+
+    return QueueItemSheet(item: item)
         .withAppState()
 }
 
