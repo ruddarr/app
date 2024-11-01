@@ -201,19 +201,19 @@ struct SeriesReleaseSheet: View {
     }
 
     var runtime: Int {
-        if let episodeId,
-           let episode = instance.episodes.byId(episodeId),
-           let runtime = episode.runtime,
-           runtime > 0
-        {
-            return runtime
+        guard let episodeNumbers = release.mappedEpisodeNumbers else {
+            return 0
         }
 
-        if let series = instance.series.byId(seriesId).wrappedValue {
-            return series.runtime
+        guard let series = instance.series.byId(seriesId).wrappedValue else {
+            return 0
         }
 
-        return 0
+        let episodes: [Int] = episodeNumbers.map { id in
+            instance.episodes.byId(id)?.runtime ?? series.runtime
+        }
+
+        return episodes.reduce(0, +)
     }
 
     func flags() -> [String] {
