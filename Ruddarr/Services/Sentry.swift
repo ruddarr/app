@@ -32,21 +32,9 @@ func leaveBreadcrumb(
 
     SentrySDK.addBreadcrumb(crumb)
 
-    if isRunningIn(.testflight) {
-        // report only `.error` and `.fatal` breadcrumbs as events
-        if ![.error, .fatal].contains(level) {
-            return
-        }
-
-        if data["error"] is API.Error || data["error"] is URLError {
-            return
-        }
-
-        let msg = message ?? ""
-
+    if isRunningIn(.testflight) && shouldReportEvent(crumb) {
         let event = Event(level: level)
-        event.message = SentryMessage(formatted: msg)
-
+        event.message = SentryMessage(formatted: message ?? "")
         SentrySDK.capture(event: event)
     }
 
@@ -68,6 +56,28 @@ func leaveBreadcrumb(
 
     print("[\(levelString)] #\(category): \(message ?? "") (\(dataString))")
 #endif
+}
+
+func shouldReportEvent( _ crumb: Breadcrumb) -> Bool {
+    // report only `.error` and `.fatal` breadcrumbs as events
+    if ![.error, .fatal].contains(crumb.level) {
+        return false
+    }
+
+    if crumb.data?["error"] is URLError {
+        return false
+    }
+
+    if crumb.data?["error"] is API.Error {
+        return false
+    }
+
+    // usually an authorization issue, not relevant
+    if crumb.message?.contains("data was not valid JSON") == true {
+        return false
+    }
+
+    return true
 }
 
 enum EnvironmentType: String {
