@@ -121,7 +121,7 @@ extension API {
                 .appending(path: String(movie.id))
                 .appending(queryItems: [
                     .init(name: "deleteFiles", value: "true"),
-                    .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
+                    .init(name: "addImportExclusion", value: addExclusion ? "true" : "false"),
                 ])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
