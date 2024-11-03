@@ -8,28 +8,29 @@ struct HistoryView: View {
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
-        Section {
-            if history.items.isEmpty {
-                if history.isLoading {
-                    ProgressView().tint(.secondary)
-                } else {
+        ScrollView {
+            Group {
+                if history.items.isEmpty {
+                    if history.isLoading {
+                        ProgressView().tint(.secondary)
+                    } else {
+                        ContentUnavailableView(
+                            "No Tasks",
+                            systemImage: "slash.circle"
+                        )
+                    }
+                } else if history.error != nil {
                     ContentUnavailableView(
-                        "No Tasks",
-                        systemImage: "slash.circle"
+                        "An error occurred.",
+                        systemImage: "exclamationmark.warninglight"
                     )
-                }
-            } else if history.error != nil {
-                ContentUnavailableView(
-                    "An error occurred.",
-                    systemImage: "exclamationmark.warninglight"
-                )
-            } else {
-                ScrollView {
+                } else {
                     ForEach(history.items) { event in
                         MediaHistoryItem(event: event)
                             .padding(.bottom, 4)
                             .onTapGesture { eventSheet = event }
                     }
+
                     if history.isLoading {
                         ProgressView()
                     } else if history.hasMore.values.contains(true) {
@@ -39,9 +40,9 @@ struct HistoryView: View {
                         }
                     }
                 }
-                .padding(.all)
-
             }
+            .padding(.vertical)
+            .viewPadding(.horizontal)
         }
         .navigationBarTitle("History", displayMode: .inline)
         .onAppear {
