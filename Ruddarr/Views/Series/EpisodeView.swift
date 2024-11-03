@@ -43,8 +43,11 @@ struct EpisodeView: View {
                     file
                 }
 
-                history
+                if !instance.episodes.history.isEmpty {
+                    history
+                }
             }
+            .onAppear(perform: setEpisodeState)
             .padding(.vertical)
             .viewPadding(.horizontal)
         }
@@ -56,12 +59,11 @@ struct EpisodeView: View {
             toolbarMonitorButton
             toolbarMenu
         }
-        .onAppear(perform: setEpisodeState)
-        .task {
-            await instance.episodes.fetchHistory(episode)
-        }
         .refreshable {
             await Task { await reload() }.value
+        }
+        .task {
+            await instance.episodes.fetchHistory(episode)
         }
     }
 
@@ -296,8 +298,9 @@ extension EpisodeView {
     func reload() async {
         async let fetchEpisodes: () = instance.episodes.fetch(series)
         async let fetchFiles: () = instance.files.fetch(series)
+        async let fetchHistory: () = instance.episodes.fetchHistory(episode)
 
-        (_, _) = await (fetchEpisodes, fetchFiles)
+        (_, _, _) = await (fetchEpisodes, fetchFiles, fetchHistory)
 
         setEpisodeState()
     }
