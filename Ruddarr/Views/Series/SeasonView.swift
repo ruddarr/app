@@ -145,7 +145,7 @@ struct SeasonView: View {
                     Spacer()
                 }
             } else {
-                VStack(spacing: 12) {
+                LazyVStack(spacing: 12) {
                     ForEach(episodes) { episode in
                         NavigationLink(
                             value: SeriesPath.episode(episode.seriesId, episode.id)

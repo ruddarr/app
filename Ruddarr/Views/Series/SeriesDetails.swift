@@ -150,7 +150,7 @@ struct SeriesDetails: View {
 
     var seasons: some View {
         Section {
-            VStack(alignment: .leading, spacing: 12) {
+            LazyVStack(alignment: .leading, spacing: 12) {
                 ForEach(series.seasons.reversed()) { season in
                     NavigationLink(value: SeriesPath.season(series.id, season.id)) {
                         GroupBox {
