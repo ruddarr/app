@@ -29,8 +29,10 @@ struct SeasonView: View {
             toolbarMonitorButton
         }
         .task {
-            await instance.episodes.maybeFetch(series)
-            await instance.files.maybeFetch(series)
+            async let maybeFetchEpisodes: () = instance.episodes.maybeFetch(series)
+            async let maybeFetchFiles: () = instance.files.maybeFetch(series)
+
+            (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
         }
         .alert(
             isPresented: instance.episodes.errorBinding,
