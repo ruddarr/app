@@ -45,6 +45,7 @@ class MovieReleases {
         isSearching = false
     }
 
+    @MainActor
     func setFilterData() {
         setIndexers()
         setQualities()
