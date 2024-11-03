@@ -45,7 +45,7 @@ struct Instance: Identifiable, Equatable, Codable {
         switch call {
         case .normal: 10
         case .slow: mode.isSlow ? 300 : 10
-        case .releaseSearch: mode.isSlow ? 180 : 60
+        case .releaseSearch: mode.isSlow ? 180 : 90
         case .releaseDownload: 15
         }
     }
