@@ -5,8 +5,12 @@ struct EpisodeView: View {
     @Binding var series: Series
     var episodeId: Episode.ID
 
+    @State private var episode: Episode = Episode.void
+    @State private var episodeFile: MediaFile?
+
     @State private var fileSheet: MediaFile?
     @State private var eventSheet: MediaHistoryEvent?
+
     @State private var descriptionTruncated = true
     @State private var showDeleteConfirmation = false
 
@@ -35,7 +39,9 @@ struct EpisodeView: View {
                 actions
                     .padding(.bottom)
 
-                file
+                if episodeFile != nil {
+                    file
+                }
 
                 history
             }
@@ -50,20 +56,13 @@ struct EpisodeView: View {
             toolbarMonitorButton
             toolbarMenu
         }
+        .onAppear(perform: setEpisodeState)
         .task {
             await instance.episodes.fetchHistory(episode)
         }
         .refreshable {
             await Task { await reload() }.value
         }
-    }
-
-    var episode: Episode {
-        instance.episodes.items.first(where: { $0.id == episodeId }) ?? Episode.void
-    }
-
-    var episodeFile: MediaFile? {
-        instance.files.items.first(where: { $0.id == episode.episodeFileId })
     }
 
     var header: some View {
@@ -202,65 +201,82 @@ struct EpisodeView: View {
         .frame(maxWidth: 450)
     }
 
-    @ViewBuilder
-    var file: some View {
-        if let file = episodeFile {
-            Section {
-                EpisodeFileView(file: file)
-                    .onTapGesture { fileSheet = file }
-                    .contextMenu { deleteFileButton }
-                    .popoverTip(DeleteFileTip())
-                    .padding(.bottom)
-            } header: {
-                Text("File").font(.title2.bold()).padding(.bottom, 6)
-            }
-            .sheet(item: $fileSheet) { file in
-                MediaFileSheet(file: file, runtime: episode.runtime ?? series.runtime)
-                    .presentationDetents([.fraction(0.9)])
-            }
-            .alert(
-                "Are you sure?",
-                isPresented: $showDeleteConfirmation
-            ) {
-                Button("Delete File", role: .destructive) {
-                    Task { await deleteEpisode() }
-                }
-                Button("Cancel", role: .cancel) { }
-            } message: {
-                Text("This will permanently erase the episode file.")
-            }
-        }
-    }
-
     var deleteFileButton: some View {
         Button("Delete File", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
         }
     }
 
-    @ViewBuilder
-    var history: some View {
-        if !instance.episodes.history.isEmpty {
-            Section {
-                ForEach(instance.episodes.history) { event in
-                    MediaHistoryItem(event: event)
-                        .padding(.bottom, 4)
-                        .onTapGesture { eventSheet = event }
+    var file: some View {
+        Section {
+            if let file = episodeFile {
+                GroupBox {
+                    HStack(spacing: 6) {
+                        Text(file.quality.quality.label)
+                        Bullet()
+                        Text(file.languageLabel)
+                        Bullet()
+                        Text(file.sizeLabel)
+                        Spacer()
+                    }
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                } label: {
+                    Text(file.filenameLabel)
                 }
-            } header: {
-                Text("History").font(.title2.bold()).padding(.bottom, 6)
+                .onTapGesture { fileSheet = file }
+                .contextMenu { deleteFileButton }
+                .popoverTip(DeleteFileTip())
+                .padding(.bottom)
             }
-            .sheet(item: $eventSheet) { event in
-                MediaEventSheet(event: event)
-                    .presentationDetents(
-                        event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
-                    )
+        } header: {
+            Text("File").font(.title2.bold()).padding(.bottom, 6)
+        }
+        .sheet(item: $fileSheet) { file in
+            MediaFileSheet(file: file, runtime: episode.runtime ?? series.runtime)
+                .presentationDetents([.fraction(0.9)])
+        }
+        .alert(
+            "Are you sure?",
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button("Delete File", role: .destructive) {
+                Task { await deleteEpisode() }
             }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("This will permanently erase the episode file.")
+        }
+    }
+
+    var history: some View {
+        Section {
+            ForEach(instance.episodes.history) { event in
+                MediaHistoryItem(event: event)
+                    .padding(.bottom, 4)
+                    .onTapGesture { eventSheet = event }
+            }
+        } header: {
+            Text("History").font(.title2.bold()).padding(.bottom, 6)
+        }
+        .sheet(item: $eventSheet) { event in
+            MediaEventSheet(event: event)
+                .presentationDetents(
+                    event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
+                )
         }
     }
 }
 
 extension EpisodeView {
+    func setEpisodeState() {
+        if let episode = instance.episodes.items.first(where: { $0.id == episodeId }) {
+            self.episode = episode
+            self.episodeFile = instance.files.items.first { $0.id == episode.episodeFileId }
+        }
+    }
+
     @MainActor
     func toggleMonitor() async {
         guard let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) else {
@@ -278,8 +294,12 @@ extension EpisodeView {
 
     @MainActor
     func reload() async {
-        await instance.episodes.fetch(series)
-        await instance.files.fetch(series)
+        async let fetchEpisodes: () = instance.episodes.fetch(series)
+        async let fetchFiles: () = instance.files.fetch(series)
+
+        (_, _) = await (fetchEpisodes, fetchFiles)
+
+        setEpisodeState()
     }
 
     @MainActor
@@ -300,28 +320,6 @@ extension EpisodeView {
         if await instance.files.delete(episodeFile!) {
             dependencies.toast.show(.fileDeleted)
             await reload()
-        }
-    }
-}
-
-struct EpisodeFileView: View {
-    var file: MediaFile
-
-    var body: some View {
-        GroupBox {
-            HStack(spacing: 6) {
-                Text(file.quality.quality.label)
-                Bullet()
-                Text(file.languageLabel)
-                Bullet()
-                Text(file.sizeLabel)
-                Spacer()
-            }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .lineLimit(1)
-        } label: {
-            Text(file.filenameLabel)
         }
     }
 }
