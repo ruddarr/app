@@ -151,6 +151,14 @@ extension API {
             try await Task.sleep(nanoseconds: 3_000_000_000)
 
             return Empty()
+        }, fetchHistory: { page, instance in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            let events: MediaHistory = loadPreviewData(
+                filename: instance.type == .sonarr ? "radarr-history" : "sonarr-history"
+            )
+
+            return events
         }, fetchNotifications: { _ in
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
@@ -169,11 +177,6 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
-        }, fetchHistory: { page, instance in
-            let events: MediaHistory = loadPreviewData(filename: "history")
-            try await Task.sleep(nanoseconds: 1_000_000_000)
-
-            return events
         })
     }
 }
