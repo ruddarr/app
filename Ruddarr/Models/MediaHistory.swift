@@ -5,13 +5,16 @@ struct MediaHistory: Codable {
     let pageSize: Int
     let totalRecords: Int
 
-    let records: [MediaHistoryEvent]
+    var records: [MediaHistoryEvent]
 }
 
 struct MediaHistoryEvent: Identifiable, Codable {
     let id: Int
     let eventType: HistoryEventType
     let date: Date
+
+    // used for filtering
+    var instanceId: Instance.ID?
 
     let sourceTitle: String?
 
