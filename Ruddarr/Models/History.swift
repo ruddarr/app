@@ -4,10 +4,12 @@ import SwiftUI
 class History {
     var instances: [Instance] = []
 
-    var items: [MediaHistoryEvent] = []
+    var events: [MediaHistoryEvent] = []
     var hasMore: [Instance.ID: Bool] = [:]
 
     var error: API.Error?
+    var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
+
     var isLoading: Bool = false
 
     @MainActor
@@ -16,14 +18,21 @@ class History {
         isLoading = true
 
         if page == 1 {
-            items.removeAll()
+            events.removeAll()
             hasMore.removeAll()
         }
+
+        var results: [MediaHistoryEvent] = []
+
         for instance in instances {
-            if !(hasMore[instance.id] ?? true) { continue }
+            if !(hasMore[instance.id] ?? true) {
+                continue
+            }
+
             do {
-                let result = try await dependencies.api.fetchHistory(page, instance)
-                items.append(contentsOf: result.records)
+                let result = try await dependencies.api.fetchHistory(page, 10, instance)
+
+                results.append(contentsOf: result.records)
                 hasMore[instance.id] = result.totalRecords > result.page * result.pageSize
             } catch is CancellationError {
                 // do nothing
@@ -35,6 +44,8 @@ class History {
                 self.error = API.Error(from: error)
             }
         }
+
+        events.append(contentsOf: results)
 
         isLoading = false
     }

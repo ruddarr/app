@@ -68,7 +68,9 @@ extension ActivityView {
         }
         if !settings.configuredInstances.isEmpty {
             ToolbarItem(placement: .primaryAction) {
-                NavigationLink(destination: HistoryView()) {
+                NavigationLink {
+                    HistoryView().environmentObject(settings)
+                } label: {
                     Text("History")
                 }
             }
