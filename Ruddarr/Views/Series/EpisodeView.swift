@@ -254,7 +254,7 @@ struct EpisodeView: View {
 
     var history: some View {
         Section {
-            ForEach(instance.episodes.history) { event in
+            ForEach(instance.episodes.history.filter { $0.episodeId == episode.id }) { event in
                 MediaHistoryItem(event: event)
                     .padding(.bottom, 4)
                     .onTapGesture { eventSheet = event }

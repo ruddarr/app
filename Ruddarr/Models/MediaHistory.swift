@@ -15,6 +15,9 @@ struct MediaHistoryEvent: Identifiable, Codable {
 
     let sourceTitle: String?
 
+    // Radarr
+    let movieId: Int?
+
     // Sonarr
     let seriesId: Int?
     let episodeId: Int?

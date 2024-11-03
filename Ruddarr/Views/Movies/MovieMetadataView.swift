@@ -81,7 +81,7 @@ struct MovieMetadataView: View {
             } else if instance.metadata.history.isEmpty {
                 noContent("Movie has no history.")
             } else {
-                ForEach(instance.metadata.history) { event in
+                ForEach(instance.metadata.history.filter { $0.movieId == movie.id }) { event in
                     MediaHistoryItem(event: event)
                         .padding(.bottom, 4)
                         .onTapGesture { eventSheet = event }
