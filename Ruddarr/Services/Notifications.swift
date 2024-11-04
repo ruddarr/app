@@ -237,7 +237,7 @@ class Notifications {
     let movieGrab = [
         String(format: localized("NOTIFICATION_MOVIE_GRAB"), "Synology"),
         String(format: localized("NOTIFICATION_MOVIE_GRAB_SUBTITLE"), "Joker", "2024"),
-        String(format: localized("NOTIFICATION_MOVIE_GRAB_BODY"), "Joker WEBRIP 1080p DD5.1 H265 gr0up", "1337x"),
+        String(format: localized("NOTIFICATION_MOVIE_GRAB_BODY"), "WEBDL-1080p", "BHD"),
     ]
 
     let movieDownload = [
@@ -304,13 +304,13 @@ class Notifications {
     let episodeGrab = [
         String(format: localized("NOTIFICATION_EPISODE_GRAB"), "Synology", "1"),
         String(format: localized("NOTIFICATION_EPISODES_GRAB_SUBTITLE"), "Patriot", "2"),
-        String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "Patriot S01 WEBRIP 1080p DD5.1 H265 gr0up", "1337x"),
+        String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "WEBDL-1080p", "BHD"),
     ]
 
     let episodesGrab = [
         String(format: localized("NOTIFICATION_EPISODES_GRAB"), "Synology", "8"),
         String(format: localized("NOTIFICATION_EPISODES_GRAB_SUBTITLE"), "Patriot", "2"),
-        String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "Patriot S01 WEBRIP 1080p DD5.1 H265 gr0up", "1337x"),
+        String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "WEBDL-1080p", "BHD"),
     ]
 
     let episodeDownload = [
