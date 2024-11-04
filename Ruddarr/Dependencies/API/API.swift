@@ -411,7 +411,7 @@ extension API {
         let httpResponse: HTTPURLResponse? = response as? HTTPURLResponse
         let statusCode: Int = httpResponse?.statusCode ?? 599
 
-        leaveBreadcrumb(.debug, category: "api", message: "Response headers (\(statusCode))", data: parseResponseHeaders(httpResponse))
+        // leaveBreadcrumb(.debug, category: "api", message: "Response headers (\(statusCode))", data: parseResponseHeaders(httpResponse))
 
         switch statusCode {
         case (200..<400):
