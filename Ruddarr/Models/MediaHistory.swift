@@ -133,6 +133,18 @@ enum HistoryEventType: String, Codable {
     case episodeFileDeleted
     case seriesFolderImported
 
+    var ref: String {
+        switch self {
+        case .unknown: ".unknown"
+        case .grabbed: ".grabbed"
+        case .downloadFolderImported, .movieFolderImported, .seriesFolderImported: ".imported"
+        case .downloadFailed: ".failed"
+        case .downloadIgnored: ".ignored"
+        case .movieFileRenamed, .episodeFileRenamed: ".renamed"
+        case .movieFileDeleted, .episodeFileDeleted: ".deleted"
+        }
+    }
+
     var label: LocalizedStringKey {
         switch self {
         case .unknown: "Unknown"

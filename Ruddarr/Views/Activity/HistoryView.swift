@@ -1,15 +1,22 @@
 import SwiftUI
 
+// TODO: show score, delete reason, ignored message
+// TODO: .refreshable()
+// TODO: show instance name on cards
+// TODO: shorter dates?
+
 struct HistoryView: View {
     @State private var page: Int = 1
     @State private var history: History = .init()
     @State private var selectedEvent: MediaHistoryEvent?
+    @State private var displayedInstance: String = ".all"
+    @State private var displayedEventType: String = ".all"
 
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 12) {
+            LazyVStack(spacing: 12) {
                 ForEach(events) { event in
                     MediaHistoryItem(event: event)
                         .onTapGesture { selectedEvent = event }
@@ -39,13 +46,16 @@ struct HistoryView: View {
                     )
             }
         }
+        .navigationBarTitle("History", displayMode: .inline)
         .onAppear {
             history.instances = settings.instances
         }
         .task {
             await history.fetch(page)
         }
-        .navigationBarTitle("History", displayMode: .inline)
+        .toolbar {
+            filtersMenu
+        }
         .alert(
             isPresented: history.errorBinding,
             error: history.error
@@ -66,13 +76,67 @@ struct HistoryView: View {
     var events: [MediaHistoryEvent] {
         var items = history.events
 
+        if displayedInstance != ".all" {
+            items = items.filter { $0.instanceId?.isEqual(to: displayedInstance) == true }
+        }
+
+        if displayedEventType != ".all" {
+            items = items.filter { $0.eventType.ref == displayedEventType }
+        }
+
         return items.sorted { $0.date > $1.date }
+    }
+
+    var filtersMenu: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Menu {
+                if history.instances.count > 1 {
+                    instancePicker
+                }
+
+//                Picker(selection: $displayedEventType, label: Text("Event Type")) {
+//                    Text("All Events").tag(".all")
+//                    Text("Grabbed").tag(".grabbed")
+//                    Text("Imported").tag(".imported")
+//                    Text("Failed").tag(".failed")
+//                    Text("Ignored").tag(".ignored")
+//                    Text("Renamed").tag(".renamed")
+//                    Text("Deleted").tag(".deleted")
+//                }
+//                .pickerStyle(.inline)
+            } label: {
+                if displayedInstance != ".all" {
+                    Image("filters.badge").offset(y: 3.2)
+                } else {
+                    Image(systemName: "line.3.horizontal.decrease")
+                }
+            }
+        }
+    }
+
+    var instancePicker: some View {
+        Menu {
+            Picker("Instance", selection: $displayedInstance) {
+                Text("Any Instance").tag(".all")
+
+                ForEach(history.instances) { instance in
+                    Text(instance.label).tag(instance.id.uuidString)
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            let label = history.instances.first {
+                $0.id.uuidString == displayedInstance
+            }?.label ?? String(localized: "Instance")
+
+            Label(label, systemImage: "internaldrive")
+        }
     }
 }
 
 #Preview {
-    dependencies.router.selectedTab = .activity
-
-    return ContentView()
-        .withAppState()
+    NavigationStack {
+        HistoryView()
+            .withAppState()
+    }
 }

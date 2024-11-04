@@ -30,7 +30,7 @@ class History {
             }
 
             do {
-                let result = try await dependencies.api.fetchHistory(page, 10, instance)
+                let result = try await dependencies.api.fetchHistory(page, 25, instance)
 
                 results.append(contentsOf: result.records)
                 hasMore[instance.id] = result.totalRecords > result.page * result.pageSize
