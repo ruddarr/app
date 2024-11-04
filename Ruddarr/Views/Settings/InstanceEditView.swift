@@ -253,7 +253,7 @@ struct InstanceEditView: View {
             if isLoading {
                 ProgressView().tint(.secondary)
             } else {
-                Button("Done") {
+                Button("Save") {
                     Task { await createOrUpdateInstance() }
                 }
                 .disabled(hasEmptyFields())

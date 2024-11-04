@@ -16,7 +16,6 @@ func leaveAttachment(_ url: URL, _ json: Data) {
     }
 }
 
-// swiftlint:disable cyclomatic_complexity
 func leaveBreadcrumb(
     _ level: SentryLevel,
     category: String,
@@ -33,26 +32,9 @@ func leaveBreadcrumb(
 
     SentrySDK.addBreadcrumb(crumb)
 
-    if isRunningIn(.testflight) {
-        // report only `.error` and `.fatal` breadcrumbs as events
-        if ![.error, .fatal].contains(level) {
-            return
-        }
-
-        if data["error"] is API.Error || data["error"] is URLError {
-            return
-        }
-
-        if message?.range(
-            of: "HTTP Client Error with status code: 50\\d",
-            options: .regularExpression
-        ) != nil {
-            return
-        }
-
+    if isRunningIn(.testflight) && shouldReportEvent(crumb) {
         let event = Event(level: level)
         event.message = SentryMessage(formatted: message ?? "")
-
         SentrySDK.capture(event: event)
     }
 
@@ -75,7 +57,28 @@ func leaveBreadcrumb(
     print("[\(levelString)] #\(category): \(message ?? "") (\(dataString))")
 #endif
 }
-// swiftlint:enable cyclomatic_complexity
+
+func shouldReportEvent( _ crumb: Breadcrumb) -> Bool {
+    // report only `.error` and `.fatal` breadcrumbs as events
+    if ![.error, .fatal].contains(crumb.level) {
+        return false
+    }
+
+    if crumb.data?["error"] is URLError {
+        return false
+    }
+
+    if crumb.data?["error"] is API.Error {
+        return false
+    }
+
+    // usually an authorization issue, not relevant
+    if crumb.message?.contains("data was not valid JSON") == true {
+        return false
+    }
+
+    return true
+}
 
 enum EnvironmentType: String {
     case preview

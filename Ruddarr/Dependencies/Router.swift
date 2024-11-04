@@ -8,8 +8,8 @@ final class Router {
 
     var selectedTab: TabItem = .movies
 
-    var switchToRadarrInstance: Instance.ID?
-    var switchToSonarrInstance: Instance.ID?
+    var switchToRadarrInstance: String?
+    var switchToSonarrInstance: String?
 
     var moviesPath: NavigationPath = .init()
     var seriesPath: NavigationPath = .init()

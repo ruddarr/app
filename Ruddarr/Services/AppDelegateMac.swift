@@ -25,6 +25,7 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
             options.swiftAsyncStacktraces = true
 
             options.enableMetricKit = true
+            options.enableCaptureFailedRequests = false
             // options.enablePreWarmedAppStartTracing = true
             options.enableTimeToFullDisplayTracing = true
 

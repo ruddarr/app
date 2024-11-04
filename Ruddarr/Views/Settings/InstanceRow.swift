@@ -67,6 +67,7 @@ struct InstanceRow: View {
 
             let data = try await dependencies.api.systemStatus(instance)
 
+            instance.name = data.instanceName
             instance.version = data.version
             instance.rootFolders = try await dependencies.api.rootFolders(instance)
             instance.qualityProfiles = try await dependencies.api.qualityProfiles(instance)

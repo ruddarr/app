@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MediaFileSheet: View {
     var file: MediaFile
+    var runtime: Int
 
     @Environment(\.dismiss) private var dismiss
 
@@ -11,6 +12,7 @@ struct MediaFileSheet: View {
                 generalMetadata
                 videoMetadata
                 audioMetadata
+                textMetadata
             }
             .viewPadding(.horizontal)
             .overlay(alignment: .topTrailing) {
@@ -45,35 +47,25 @@ struct MediaFileSheet: View {
         if let media = file.mediaInfo {
             Section {
                 VStack(spacing: 6) {
-                    row("Codec", media.videoCodecLabel ?? "--")
-                    Divider()
-                    row("Dynamic Range", media.videoDynamicRangeLabel ?? "--")
-                    Divider()
                     row("Runtime", media.runTime ?? "--")
                     Divider()
-                    row("Resolution", media.resolution?.replacingOccurrences(of: "x", with: " × ") ?? "--")
+                    row("Resolution", media.resolution?.replacingOccurrences(of: "x", with: "×") ?? "--")
                     Divider()
-                    row("Frame Rate", String(format: "%.0f fps", media.videoFps))
+                    row("Codec", media.videoCodecLabel ?? "--")
                     Divider()
-                    row("Bitrate", bitrate(media.videoBitrate) ?? "--")
+
+                    if let dynamicRange = media.videoDynamicRangeLabel {
+                        row("Dynamic Range", dynamicRange)
+                        Divider()
+                    }
+
+                    row("Bitrate", file.videoBitrateLabel(runtime) ?? "--")
                     Divider()
-                    row("Bit Depth", "\(media.videoBitDepth)")
+                    row("Framerate", String(format: "%.0f fps", media.videoFps))
+                    Divider()
+                    row("Color Depth", "\(media.videoBitDepth) bit")
                     Divider()
                     row("Scan Type", media.scanType ?? "--")
-                    Divider()
-
-                    if let codes = media.subtitleCodes {
-                        row("Subtitles", codes.count <= 3 ? languagesList(codes) : "")
-
-                        if codes.count > 3 {
-                            Text(languagesList(codes))
-                                .foregroundStyle(.primary)
-                                .font(.subheadline)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                    } else {
-                        row("Subtitles", "--")
-                    }
                 }
             } header: {
                 headline("Video")
@@ -91,7 +83,7 @@ struct MediaFileSheet: View {
                     Divider()
                     row("Channels", "\(media.audioChannels)")
                     Divider()
-                    row("Bitrate", bitrate(media.audioBitrate) ?? "--")
+                    row("Bitrate", formatBitrate(media.audioBitrate) ?? "--")
                     Divider()
                     row("Streams", "\(media.audioStreamCount)")
                     Divider()
@@ -110,6 +102,27 @@ struct MediaFileSheet: View {
                 }
             } header: {
                 headline("Audio")
+                    .padding(.bottom, 4)
+            }
+        }
+    }
+
+    @ViewBuilder
+    var textMetadata: some View {
+        if let media = file.mediaInfo, let codes = media.subtitleCodes {
+            Section {
+                VStack(spacing: 6) {
+                    row("Languages", codes.count <= 3 ? languagesList(codes) : "")
+
+                    if codes.count > 3 {
+                        Text(languagesList(codes))
+                            .foregroundStyle(.primary)
+                            .font(.subheadline)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
+            } header: {
+                headline("Subtitles")
                     .padding(.bottom, 4)
             }
         }
@@ -136,17 +149,5 @@ struct MediaFileSheet: View {
 
         }
         .font(.subheadline)
-    }
-
-    func bitrate(_ bitrate: Int) -> String? {
-        if bitrate == 0 {
-            return nil
-        }
-
-        if bitrate < 1_000_000 {
-            return String(format: "%d kbps", bitrate / 1_000)
-        }
-
-        return String(format: "%d mbps", bitrate / 1_000_000)
     }
 }

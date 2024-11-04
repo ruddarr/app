@@ -30,7 +30,7 @@ struct QueueListItem: View {
                     }
                 }
 
-                if item.trackedDownloadStatus != .ok {
+                if item.hasIssue {
                     Spacer()
                     Image(systemName: "exclamationmark.triangle")
                         .imageScale(.small)

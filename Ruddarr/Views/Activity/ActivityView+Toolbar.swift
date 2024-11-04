@@ -35,7 +35,7 @@ extension ActivityView {
 
         if sort.instance != ".all" {
             items = items.filter {
-                sort.instance.caseInsensitiveCompare($0.instanceId?.uuidString ?? "") == .orderedSame
+                $0.instanceId?.isEqual(to: sort.instance) == true
             }
         }
 
@@ -47,8 +47,8 @@ extension ActivityView {
             items = items.filter { $0.downloadClient == sort.client }
         }
 
-        if sort.errors {
-            items = items.filter { $0.trackedDownloadStatus != .ok }
+        if sort.issues {
+            items = items.filter { $0.trackedDownloadStatus != .ok || $0.status == "warning" }
         }
 
         if !sort.isAscending {
@@ -83,7 +83,7 @@ extension ActivityView {
             }
 
             Section {
-                Toggle("Issues", systemImage: "exclamationmark.triangle", isOn: $sort.errors)
+                Toggle("Issues", systemImage: "exclamationmark.triangle", isOn: $sort.issues)
             }
         } label: {
             if sort.hasFilter {
@@ -105,8 +105,9 @@ extension ActivityView {
             }
             .pickerStyle(.inline)
         } label: {
-            let label = queue.instances.first { $0.id.uuidString == sort.instance }?.label
-                ?? String(localized: "Instance")
+            let label = queue.instances.first {
+                $0.id.uuidString == sort.instance
+            }?.label ?? String(localized: "Instance")
 
             Label(label, systemImage: "internaldrive")
         }

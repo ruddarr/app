@@ -42,6 +42,10 @@ struct MoviesView: View {
                                 #if os(iOS)
                                     .padding(.top, searchPresented ? 7 : 0)
                                 #endif
+
+                            if presentSearchSuggestion {
+                                MovieSearchSuggestion(query: $searchQuery, sort: $sort)
+                            }
                         }
                         .onAppear {
                             scrollView = proxy
@@ -97,21 +101,15 @@ struct MoviesView: View {
                 }
             }
             .onAppear {
+                // if a deeplink set an instance, try to switch to it
+                maybeSwitchToInstance()
+
                 // if no instance is selected, try to select one
                 // if the selected instance was deleted, try to select one
                 if instance.isVoid, let first = settings.radarrInstances.first {
                     settings.radarrInstanceId = first.id
                     changeInstance()
                 }
-
-                // if a deeplink set an instance, try to switch to it
-                if let id = dependencies.router.switchToRadarrInstance, id != instance.id {
-                    dependencies.router.switchToRadarrInstance = nil
-                    settings.radarrInstanceId = id
-                    changeInstance()
-                }
-
-                dependencies.quickActions.pending()
             }
             .onReceive(dependencies.quickActions.moviePublisher, perform: navigateToMovie)
             .toolbar {
@@ -170,6 +168,10 @@ struct MoviesView: View {
 
     var hasNoMatchingResults: Bool {
         instance.movies.cachedItems.isEmpty && instance.movies.itemsCount > 0
+    }
+
+    var presentSearchSuggestion: Bool {
+        searchPresented && !instance.movies.cachedItems.isEmpty
     }
 
     var isLoadingMovies: Bool {
@@ -277,19 +279,31 @@ struct MoviesView: View {
         )
     }
 
-    func navigateToMovie(_ id: Movie.ID) {
-        let startTime = Date()
+    func maybeSwitchToInstance() {
+        guard let idOrName = dependencies.router.switchToRadarrInstance else { return }
+        guard let switchTo = settings.instanceBy(idOrName) else { return }
 
-        dependencies.quickActions.reset()
+        if switchTo.id != instance.id {
+            dependencies.router.switchToRadarrInstance = nil
+            settings.radarrInstanceId = switchTo.id
+            changeInstance()
+        }
+    }
+
+    func navigateToMovie(_ id: Movie.ID) {
+        dependencies.quickActions.clearTimer()
+        maybeSwitchToInstance()
+
+        let startTime = Date()
 
         func scheduleNextRun(time: DispatchTime, id: Movie.ID) {
             DispatchQueue.main.asyncAfter(deadline: time) {
-                if instance.movies.items.first(where: { $0.id == id }) != nil {
-                    dependencies.router.moviesPath = .init([MoviesPath.movie(id)])
+                if let movie = instance.movies.items.first(where: { $0.id == id }) {
+                    dependencies.router.moviesPath = .init([MoviesPath.movie(movie.id)])
                     return
                 }
 
-                if Date().timeIntervalSince(startTime) < 5 {
+                if Date().timeIntervalSince(startTime) < 10 {
                     scheduleNextRun(time: DispatchTime.now() + 0.1, id: id)
                 }
             }

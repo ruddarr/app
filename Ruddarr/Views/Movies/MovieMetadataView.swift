@@ -67,7 +67,7 @@ struct MovieMetadataView: View {
             await instance.metadata.fetchFiles(for: movie)
         }
         .sheet(item: $fileSheet) { file in
-            MediaFileSheet(file: file)
+            MediaFileSheet(file: file, runtime: movie.runtime)
                 .presentationDetents([.fraction(0.9)])
         }
     }
@@ -81,7 +81,7 @@ struct MovieMetadataView: View {
             } else if instance.metadata.history.isEmpty {
                 noContent("Movie has no history.")
             } else {
-                ForEach(instance.metadata.history) { event in
+                ForEach(instance.metadata.history.filter { $0.movieId == movie.id }) { event in
                     MediaHistoryItem(event: event)
                         .padding(.bottom, 4)
                         .onTapGesture { eventSheet = event }
@@ -133,7 +133,7 @@ struct MovieFilesFile: View {
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
         } label: {
-            Text(file.relativePath ?? "--")
+            Text(file.filenameLabel)
         }
         .contextMenu {
             Button("Delete File", systemImage: "trash", role: .destructive) {

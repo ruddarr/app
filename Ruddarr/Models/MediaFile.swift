@@ -17,6 +17,10 @@ struct MediaFile: Identifiable, Equatable, Codable {
     let seriesId: Series.ID?
     let episodeReleaseType: EpisodeReleaseType?
 
+    var filenameLabel: String {
+        relativePath?.components(separatedBy: "/").last ?? "--"
+    }
+
     var sizeLabel: String {
         formatBytes(size)
     }
@@ -48,6 +52,19 @@ struct MediaFile: Identifiable, Equatable, Codable {
 
         return nil
     }
+
+    func videoBitrateLabel(_ runtime: Int) -> String? {
+        if let bitrate = mediaInfo?.videoBitrate, bitrate > 0 {
+            return formatBitrate(bitrate)
+        }
+
+        let seconds = calculateRuntime(mediaInfo?.runTime) ?? (runtime * 60)
+
+        guard let bitrate = calculateBitrate(seconds, size) else { return nil }
+        guard let label = formatBitrate(bitrate) else { return nil }
+
+        return String(format: "~%@", label)
+    }
 }
 
 struct FileMediaInfo: Equatable, Codable {
@@ -74,10 +91,15 @@ struct FileMediaInfo: Equatable, Codable {
             return nil
         }
 
-        label = label.replacingOccurrences(of: "x264", with: "H264")
-        label = label.replacingOccurrences(of: "h264", with: "H264")
-        label = label.replacingOccurrences(of: "h265", with: "HEVC")
-        label = label.replacingOccurrences(of: "x265", with: "HEVC")
+        label = label.replacingOccurrences(of: "h264", with: "H.264")
+        label = label.replacingOccurrences(of: "x264", with: "H.264")
+        label = label.replacingOccurrences(of: "AVC", with: "H.264")
+
+        label = label.replacingOccurrences(of: "h265", with: "H.265")
+        label = label.replacingOccurrences(of: "x264", with: "H.265")
+        label = label.replacingOccurrences(of: "HEVC", with: "H.265")
+
+        label = label.replacingOccurrences(of: "AC1", with: "AC-1")
 
         return label
     }

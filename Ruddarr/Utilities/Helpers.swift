@@ -34,6 +34,12 @@ extension String {
     }
 }
 
+extension UUID {
+    func isEqual(to string: String) -> Bool {
+        self.uuidString.caseInsensitiveCompare(string) == .orderedSame
+    }
+}
+
 extension Hashable {
     func equals(_ other: any Hashable) -> Bool {
         if type(of: self) != type(of: other) {
@@ -73,7 +79,7 @@ func formatRemainingTime(_ date: Date) -> String? {
     let formatter = DateComponentsFormatter()
     formatter.unitsStyle = .abbreviated
     formatter.includesTimeRemainingPhrase = true
-    formatter.allowedUnits = seconds >= 3_600 ? [.hour, .minute] : [.minute, .second]
+    formatter.allowedUnits = seconds >= 3_600 ? [.hour] : [.minute, .second]
     return formatter.string(from: seconds)
 }
 
@@ -86,6 +92,33 @@ func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
     }
 
     return formatter.string(fromByteCount: Int64(bytes))
+}
+
+func formatBitrate(_ bitrate: Int) -> String? {
+    if bitrate == 0 {
+        return nil
+    }
+
+    if bitrate < 1_000_000 {
+        return String(format: "%d kbps", bitrate / 1_000)
+    }
+
+    let mbps = Double(bitrate) / 1_000_000.0
+
+    return String(format: "%.\(mbps < 10 ? 1 : 0)f mbps", mbps)
+}
+
+func calculateBitrate(_ seconds: Int, _ bytes: Int) -> Int? {
+    guard seconds > 0 else { return nil }
+    return (bytes * 8) / seconds
+}
+
+func calculateRuntime(_ runtime: String?) -> Int? {
+    guard let runtime, !runtime.isEmpty else { return nil }
+
+    return runtime.split(separator: ":")
+        .compactMap { Int($0) }
+        .reduce(0) { $0 * 60 + $1 }
 }
 
 // swiftlint:disable cyclomatic_complexity
@@ -161,6 +194,25 @@ class PreviewData {
                 decoder.dateDecodingStrategy = .iso8601extended
 
                 return try decoder.decode([T].self, from: data)
+            } catch {
+                print("Could not load preview data: \(error)")
+                fatalError("Could not load preview data: \(error)")
+            }
+        }
+
+        print("Invalid preview data path: \(name)")
+        fatalError("Invalid preview data path: \(name)")
+    }
+
+    static func loadObject<T: Codable> (name: String) -> T {
+        if let path = Bundle.main.path(forResource: name, ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601extended
+
+                return try decoder.decode(T.self, from: data)
             } catch {
                 print("Could not load preview data: \(error)")
                 fatalError("Could not load preview data: \(error)")

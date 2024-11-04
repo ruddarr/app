@@ -29,8 +29,10 @@ struct SeasonView: View {
             toolbarMonitorButton
         }
         .task {
-            await instance.episodes.maybeFetch(series)
-            await instance.files.maybeFetch(series)
+            async let maybeFetchEpisodes: () = instance.episodes.maybeFetch(series)
+            async let maybeFetchFiles: () = instance.files.maybeFetch(series)
+
+            (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
         }
         .alert(
             isPresented: instance.episodes.errorBinding,
@@ -143,7 +145,7 @@ struct SeasonView: View {
                     Spacer()
                 }
             } else {
-                VStack(spacing: 12) {
+                LazyVStack(spacing: 12) {
                     ForEach(episodes) { episode in
                         NavigationLink(
                             value: SeriesPath.episode(episode.seriesId, episode.id)

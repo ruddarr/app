@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @State private var showInstanceNameWarning: Bool = false
+
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
@@ -51,7 +53,7 @@ struct SettingsView: View {
     }
 
     var instanceSection: some View {
-        Section(header: Text("Instances")) {
+        Section {
             ForEach($settings.instances) { $instance in
                 NavigationLink(value: Path.viewInstance(instance.id)) {
                     InstanceRow(instance: $instance)
@@ -61,6 +63,24 @@ struct SettingsView: View {
             NavigationLink(value: Path.createInstance) {
                 Text("Add Instance")
             }
+        } header: {
+            Text("Instances")
+        } footer: {
+            if showInstanceNameWarning {
+                Text("Notifications will not route reliably until each instance has been given a unique \"Instance Name\" in the web interface under \"Settings > General\".")
+                    .foregroundStyle(.orange)
+            }
+        }.task {
+            await checkInstanceName()
+        }
+    }
+
+    func checkInstanceName() async {
+        let status = await Notifications.shared.authorizationStatus()
+        let uniqueNames = Set(settings.instances.map { $0.name })
+
+        if status == .authorized {
+            showInstanceNameWarning = settings.instances.count != uniqueNames.count
         }
     }
 }

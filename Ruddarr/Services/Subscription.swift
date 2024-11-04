@@ -124,6 +124,13 @@ struct RuddarrPlusSheetContent: View {
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
+                .padding(.bottom, 8)
+
+            Text("Sending push notifications to devices requires reliable server infrastructure, which incurs monthly operating expenses for this free, open-source project.")
+                .font(.footnote)
+                .foregroundStyle(.tertiary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
         }
         .padding()
     }

@@ -178,6 +178,10 @@ struct SeriesReleaseSheet: View {
             VStack(spacing: 12) {
                 row("Language", value: release.languagesLabel)
                 Divider()
+
+                row("Bitrate", value: release.bitrateLabel(runtime) ?? "--")
+                Divider()
+
                 row("Indexer", value: release.indexerLabel)
 
                 if release.isTorrent {
@@ -194,6 +198,22 @@ struct SeriesReleaseSheet: View {
             Text("Information")
                 .font(.title2.bold())
         }
+    }
+
+    var runtime: Int {
+        guard let episodeNumbers = release.mappedEpisodeNumbers else {
+            return 0
+        }
+
+        guard let series = instance.series.byId(seriesId).wrappedValue else {
+            return 0
+        }
+
+        let episodes: [Int] = episodeNumbers.map { id in
+            instance.episodes.byId(id)?.runtime ?? series.runtime
+        }
+
+        return episodes.reduce(0, +)
     }
 
     func flags() -> [String] {

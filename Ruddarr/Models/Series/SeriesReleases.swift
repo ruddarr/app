@@ -22,6 +22,7 @@ class SeriesReleases {
         self.instance = instance
     }
 
+    @MainActor
     func search(_ series: Series, _ season: Season.ID?, _ episode: Episode.ID?) async {
         items = []
         error = nil
@@ -289,6 +290,15 @@ struct SeriesRelease: Identifiable, Codable {
     var scoreLabel: String? {
         guard let score = customFormatScore else { return nil }
         return formatCustomScore(score)
+    }
+
+    func bitrateLabel(_ runtime: Int) -> String? {
+        guard runtime > 0 else { return nil }
+
+        guard let bitrate = calculateBitrate(runtime * 60, size) else { return nil }
+        guard let label = formatBitrate(bitrate) else { return nil }
+
+        return String(format: "~%@", label)
     }
 }
 

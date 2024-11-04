@@ -8,7 +8,7 @@ struct SeriesReleasesView: View {
     @State private var releases: [SeriesRelease] = []
     @State private var sort: SeriesReleaseSort = .init()
 
-    @State private var fetched: Bool = false
+    @State private var fetched: (Series.ID?, Season.ID?, Episode.ID?) = (nil, nil, nil)
     @State private var waitingTextOpacity: Double = 0
 
     @EnvironmentObject var settings: AppSettings
@@ -17,7 +17,12 @@ struct SeriesReleasesView: View {
     var body: some View {
         List {
             ForEach(releases) { release in
-                SeriesReleaseRow(release: release, seriesId: series.id, seasonId: seasonId, episodeId: episodeId)
+                SeriesReleaseRow(
+                    release: release,
+                    seriesId: series.id,
+                    seasonId: seasonId,
+                    episodeId: episodeId
+                )
                     .environment(instance)
                     .environmentObject(settings)
             }
@@ -31,14 +36,13 @@ struct SeriesReleasesView: View {
         .toolbar {
             toolbarButtons
         }
-        .onAppear {
-            releases = []
-        }
         .task {
+            guard !hasFetched else { return }
+            releases = []
             sort.seasonPack = seasonId == nil ? .episode : .season
             await instance.releases.search(series, seasonId, episodeId)
             updateDisplayedReleases()
-            fetched = true
+            fetched = (series.id, seasonId, episodeId)
         }
         .onChange(of: sort.option, updateSortDirection)
         .onChange(of: sort, updateDisplayedReleases)
@@ -53,12 +57,16 @@ struct SeriesReleasesView: View {
         .overlay {
             if instance.releases.isSearching {
                 searchingIndicator
-            } else if instance.releases.items.isEmpty && fetched {
+            } else if instance.releases.items.isEmpty && hasFetched {
                 noReleasesFound
-            } else if releases.isEmpty && fetched {
+            } else if releases.isEmpty && hasFetched {
                 noMatchingReleases
             }
         }
+    }
+
+    var hasFetched: Bool {
+        fetched == (series.id, seasonId, episodeId)
     }
 
     var hasHiddenReleases: Bool {

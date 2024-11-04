@@ -2,24 +2,26 @@ import SwiftUI
 import CloudKit
 
 extension InstanceView {
-    var enableNotifications: some View {
+    var notificationPath: String {
         let app = "Ruddarr"
 
         #if os(macOS)
-            let link = String(format: "\"%@\"", String(localized: "System Settings > Notifications > \(app)", comment: "macOS path"))
+            return String(format: "\"%@\"", String(localized: "System Settings > Notifications > \(app)", comment: "macOS path"))
         #else
-            let link = String(format: "[%@](#link)", String(localized: "Settings > Notifications > \(app)", comment: "iOS path"))
+            return String(format: "[%@](#link)", String(localized: "Settings > Notifications > \(app)", comment: "iOS path"))
         #endif
+    }
 
+    var enableNotifications: some View {
         let text = String(
-            format: String(localized: "Notification are disabled, please enable them in %@."),
-            link
+            format: String(localized: "Notifications are disabled, please enable them in %@."),
+            notificationPath
         )
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
             #if os(iOS)
                 if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    UIApplication.shared.open(url)
                 }
             #endif
 
@@ -28,21 +30,15 @@ extension InstanceView {
     }
 
     var disableNotifications: some View {
-        #if os(iOS)
-            let link = String(format: "\"%@\"", String(localized: "System Settings > Notifications"))
-        #else
-            let link = String(format: "[%@](#link)", String(localized: "Settings > Notifications"))
-        #endif
-
         let text = String(
             format: String(localized: "Notification settings for each instance are shared between devices. To disable notifications for a specific device go to %@."),
-            link
+            notificationPath
         )
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
             #if os(iOS)
                 if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    UIApplication.shared.open(url)
                 }
             #endif
 
@@ -52,11 +48,15 @@ extension InstanceView {
 
     var subscribeToService: some View {
         let text = String(
-            format: String(localized: "Notification require a subscription to %@."),
+            format: String(localized: "Notifications require a subscription to %@."),
             "[\(Subscription.name)](#link)"
         )
 
-        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
+        return VStack(alignment: .leading, spacing: 8) {
+            Text(text.toMarkdown())
+            Text("Sending push notifications to devices requires reliable server infrastructure, which incurs monthly operating expenses for this free, open-source project.")
+            Text("Alternatively, \(instance.type.rawValue) comes with many notification integrations that can be self-hosted.")
+        }.environment(\.openURL, .init { _ in
             showSubscription = true
 
             return .handled
@@ -64,12 +64,24 @@ extension InstanceView {
     }
 
     var enableCloudKit: some View {
-        let status = Telemetry.shared.cloudKitStatus(cloudKitStatus)
-
-        return Text(
-            "Notification require an iCloud account. Please sign into iCloud, or enable iCloud Drive in the iCloud settings (\(status)).",
-            comment: "Placeholder is CloudKit status"
+        let text = String(
+            format: String(
+                localized: "Notifications require an Apple Account. Please sign in, or enable %1$@ in the iCloud settings (%2$@).",
+                comment: "1 = iCloud Drive link, 2 = CloudKit status"
+            ),
+            "[iCloud Drive](#link)",
+            Telemetry.shared.cloudKitStatus(cloudKitStatus)
         )
+
+        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
+            #if os(iOS)
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            #endif
+
+            return .handled
+        })
     }
 
     var cloudKitEnabled: Bool {
@@ -228,6 +240,13 @@ extension InstanceView {
     }
 
     func setCloudKitAccountStatus() async {
+        if dependencies.cloudkit == .mock {
+            cloudKitStatus = .available
+            cloudKitUserId = CKRecord.ID(recordName: "_00000000000000000000000000000000")
+
+            return
+        }
+
         do {
             let container = CKContainer.default()
             cloudKitStatus = try await container.accountStatus()

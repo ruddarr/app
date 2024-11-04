@@ -100,6 +100,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
             options.enableMetricKit = true
             options.enableAppHangTracking = false
+            options.enableCaptureFailedRequests = false
             options.enablePreWarmedAppStartTracing = true
             options.enableTimeToFullDisplayTracing = true
 

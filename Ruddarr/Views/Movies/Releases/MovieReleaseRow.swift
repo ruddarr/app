@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MovieReleaseRow: View {
     var release: MovieRelease
-    var movieId: Movie.ID
+    var movie: Movie
 
     @State private var isShowingPopover = false
 
@@ -17,7 +17,7 @@ struct MovieReleaseRow: View {
                 isShowingPopover = true
             }
             .sheet(isPresented: $isShowingPopover) {
-                MovieReleaseSheet(release: release, movieId: movieId)
+                MovieReleaseSheet(release: release, movie: movie)
                     .presentationDetents([deviceType == .phone ? .medium : .large])
                     .presentationDragIndicator(.hidden)
                     .environment(instance)

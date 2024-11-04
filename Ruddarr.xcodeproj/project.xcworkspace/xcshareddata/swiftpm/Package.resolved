@@ -1,5 +1,5 @@
 {
-  "originHash" : "f8a84818498fded773a093d0d76f932848a72bdc678d7cd447609c169fc85520",
+  "originHash" : "992570033371f696cd666e6fc4814db5f6377f2a2da1cba786a1daa0a4df5a50",
   "pins" : [
     {
       "identity" : "cloudstorage",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa.git",
       "state" : {
-        "revision" : "5575af93efb776414f243e93d6af9f6258dc539a",
-        "version" : "8.36.0"
+        "revision" : "54cc2e3e4fcbf9d4c7708ce00d3b6eee29aecbb1",
+        "version" : "8.38.0"
       }
     },
     {

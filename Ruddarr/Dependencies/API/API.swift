@@ -121,7 +121,7 @@ extension API {
                 .appending(path: String(movie.id))
                 .appending(queryItems: [
                     .init(name: "deleteFiles", value: "true"),
-                    .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
+                    .init(name: "addImportExclusion", value: addExclusion ? "true" : "false"),
                 ])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
@@ -411,7 +411,7 @@ extension API {
         let httpResponse: HTTPURLResponse? = response as? HTTPURLResponse
         let statusCode: Int = httpResponse?.statusCode ?? 599
 
-        leaveBreadcrumb(.debug, category: "api", message: "Response headers (\(statusCode))", data: parseResponseHeaders(httpResponse))
+        // leaveBreadcrumb(.debug, category: "api", message: "Response headers (\(statusCode))", data: parseResponseHeaders(httpResponse))
 
         switch statusCode {
         case (200..<400):

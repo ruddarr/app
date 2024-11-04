@@ -43,6 +43,10 @@ struct SeriesView: View {
                                 #if os(iOS)
                                     .padding(.top, searchPresented ? 7 : 0)
                                 #endif
+
+                            if presentSearchSuggestion {
+                                SeriesSearchSuggestion(query: $searchQuery, sort: $sort)
+                            }
                         }
                         .onAppear {
                             scrollView = proxy
@@ -104,21 +108,15 @@ struct SeriesView: View {
                 }
             }
             .onAppear {
+                // if a deeplink set an instance, try to switch to it
+                maybeSwitchToInstance()
+
                 // if no instance is selected, try to select one
                 // if the selected instance was deleted, try to select one
                 if instance.isVoid, let first = settings.sonarrInstances.first {
                     settings.sonarrInstanceId = first.id
                     changeInstance()
                 }
-
-                // if a deeplink set an instance, try to switch to it
-                if let id = dependencies.router.switchToSonarrInstance, id != instance.id {
-                    dependencies.router.switchToSonarrInstance = nil
-                    settings.sonarrInstanceId = id
-                    changeInstance()
-                }
-
-                dependencies.quickActions.pending()
             }
             .onReceive(dependencies.quickActions.seriesPublisher, perform: navigateToSeries)
             .toolbar {
@@ -177,6 +175,10 @@ struct SeriesView: View {
 
     var hasNoMatchingResults: Bool {
         instance.series.cachedItems.isEmpty && instance.series.itemsCount > 0
+    }
+
+    var presentSearchSuggestion: Bool {
+        searchPresented && !instance.series.cachedItems.isEmpty
     }
 
     var isLoadingSeries: Bool {
@@ -284,15 +286,27 @@ struct SeriesView: View {
         )
     }
 
-    func navigateToSeries(_ id: Series.ID, season: Season.ID?) {
-        let startTime = Date()
+    func maybeSwitchToInstance() {
+        guard let idOrName = dependencies.router.switchToSonarrInstance else { return }
+        guard let switchTo = settings.instanceBy(idOrName) else { return }
 
-        dependencies.quickActions.reset()
+        if switchTo.id != instance.id {
+            dependencies.router.switchToSonarrInstance = nil
+            settings.sonarrInstanceId = switchTo.id
+            changeInstance()
+        }
+    }
+
+    func navigateToSeries(_ id: Series.ID, season: Season.ID?) {
+        dependencies.quickActions.clearTimer()
+        maybeSwitchToInstance()
+
+        let startTime = Date()
 
         func scheduleNextRun(time: DispatchTime, id: Series.ID) {
             DispatchQueue.main.asyncAfter(deadline: time) {
-                if instance.series.items.first(where: { $0.id == id }) != nil {
-                    dependencies.router.seriesPath = .init([SeriesPath.series(id)])
+                if let series = instance.series.items.first(where: { $0.id == id }) {
+                    dependencies.router.seriesPath = .init([SeriesPath.series(series.id)])
 
                     if let seasonId = season {
                         dependencies.router.seriesPath.append(SeriesPath.season(id, seasonId))
@@ -301,7 +315,7 @@ struct SeriesView: View {
                     return
                 }
 
-                if Date().timeIntervalSince(startTime) < 5 {
+                if Date().timeIntervalSince(startTime) < 10 {
                     scheduleNextRun(time: DispatchTime.now() + 0.1, id: id)
                 }
             }

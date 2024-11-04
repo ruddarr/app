@@ -15,7 +15,7 @@ class Queue {
     var items: [Instance.ID: [QueueItem]] = [:]
 
     private init() {
-        let interval: TimeInterval = isRunningIn(.simulator) ? 30 : 5
+        let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
 
         self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
             Task { await self.fetchTasks() }
@@ -27,7 +27,7 @@ class Queue {
     }
 
     var badgeCount: Int {
-        items.flatMap { $0.value }.filter { $0.trackedDownloadStatus != .ok }.count
+        items.flatMap { $0.value }.filter { $0.hasIssue }.count
     }
 
     @MainActor
@@ -116,6 +116,8 @@ struct QueueItem: Codable, Identifiable, Equatable {
 
     let status: String?
     let statusMessages: [QueueStatusMessage]?
+    let errorMessage: String?
+
     let trackedDownloadStatus: QueueDownloadStatus?
     let trackedDownloadState: QueueDownloadState?
 
@@ -149,6 +151,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
         case downloadClientHasPostImportCategory
         case status
         case statusMessages
+        case errorMessage
         case trackedDownloadStatus
         case trackedDownloadState
         case outputPath
@@ -156,18 +159,28 @@ struct QueueItem: Codable, Identifiable, Equatable {
 
     static func == (lhs: QueueItem, rhs: QueueItem) -> Bool {
         lhs.id == rhs.id &&
+        lhs.instanceId == rhs.instanceId &&
         lhs.status == rhs.status &&
+        lhs.size == rhs.size &&
+        lhs.sizeleft == rhs.sizeleft &&
         lhs.trackedDownloadStatus == rhs.trackedDownloadStatus &&
         lhs.trackedDownloadState == rhs.trackedDownloadState &&
         lhs.estimatedCompletionTime == rhs.estimatedCompletionTime
     }
 
+    var hasIssue: Bool {
+        trackedDownloadStatus != .ok ||
+        status == "warning"
+    }
+
     var isSABnzbd: Bool {
-        downloadClient == "SABnzbd"
+        downloadId?.contains("SABnzbd_") == true ||
+        downloadClient?.localizedCaseInsensitiveContains("SABnzbd") == true
     }
 
     var isDownloadStation: Bool {
-        downloadClient == "Download Station"
+        downloadId?.contains(":dbid_") == true ||
+        downloadClient?.localizedCaseInsensitiveContains("Download Station") == true
     }
 
     var messages: [QueueStatusMessage] {
@@ -231,7 +244,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
             case "downloading": String(localized: "Downloading")
             case "delay": String(localized: "Pending")
             case "downloadClientUnavailable": String(localized: "Pending")
-            case "warning": String(localized: "Error")
+            case "warning": String(localized: "Warning")
             default: String(localized: "Unknown")
             }
         }

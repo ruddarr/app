@@ -5,7 +5,7 @@ struct ActivityView: View {
 
     @State var sort: QueueSort = .init()
     @State var items: [QueueItem] = []
-    @State private var itemSheet: QueueItem?
+    @State private var selectedItem: QueueItem?
 
     @EnvironmentObject var settings: AppSettings
     @Environment(\.deviceType) private var deviceType
@@ -21,7 +21,7 @@ struct ActivityView: View {
                         Section {
                             ForEach(items) { item in
                                 Button {
-                                    itemSheet = item
+                                    selectedItem = item
                                 } label: {
                                     QueueListItem(item: item)
                                 }
@@ -48,9 +48,11 @@ struct ActivityView: View {
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: sort, updateDisplayedItems)
             .onChange(of: queue.items, updateDisplayedItems)
+            .onChange(of: queue.items, updateSelectedItem)
             .onAppear {
                 queue.instances = settings.instances
                 queue.performRefresh = true
+                updateDisplayedItems()
             }
             .onDisappear {
                 queue.performRefresh = false
@@ -62,10 +64,14 @@ struct ActivityView: View {
                 Task { await queue.refreshDownloadClients() }
                 await Task { await queue.fetchTasks() }.value
             }
-            .sheet(item: $itemSheet) { item in
-                QueueItemSheet(item: item)
-                    .presentationDetents([deviceType == .phone ? .medium : .large])
-                    .environmentObject(settings)
+            .sheet(item: $selectedItem) { item in
+                NavigationStack {
+                    QueueItemSheet(item: item)
+                        .presentationDetents([
+                            deviceType == .phone ? .fraction(0.7) : .large
+                        ])
+                        .environmentObject(settings)
+                }
             }
         }
         // swiftlint:enable closure_body_length
@@ -92,6 +98,17 @@ struct ActivityView: View {
                     .controlSize(.small)
                     .tint(.secondary)
             }
+        }
+    }
+
+    func updateSelectedItem() {
+        guard let taskId = selectedItem?.id else { return }
+        guard let instanceId = selectedItem?.instanceId else { return }
+
+        if let item = queue.items[instanceId]?.first(where: { $0.id == taskId }) {
+            selectedItem = item
+        } else {
+            selectedItem = nil
         }
     }
 }

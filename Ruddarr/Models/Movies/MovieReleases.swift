@@ -22,6 +22,7 @@ class MovieReleases {
         self.instance = instance
     }
 
+    @MainActor
     func search(_ movie: Movie) async {
         items = []
         error = nil
@@ -44,6 +45,7 @@ class MovieReleases {
         isSearching = false
     }
 
+    @MainActor
     func setFilterData() {
         setIndexers()
         setQualities()
@@ -264,5 +266,14 @@ struct MovieRelease: Identifiable, Codable {
 
     var scoreLabel: String {
         formatCustomScore(customFormatScore)
+    }
+
+    func bitrateLabel(_ runtime: Int) -> String? {
+        guard runtime > 0 else { return nil }
+
+        guard let bitrate = calculateBitrate(runtime * 60, size) else { return nil }
+        guard let label = formatBitrate(bitrate) else { return nil }
+
+        return String(format: "~%@", label)
     }
 }

@@ -5,8 +5,15 @@ struct Dependencies {
     var store: UserDefaults
     var quickActions: QuickActions = .init()
 
+    var cloudkit: State = .live
+
     @Bindable var router = Router.shared
     @Bindable var toast = Toast()
+
+    enum State {
+        case live
+        case mock
+    }
 }
 
 extension Dependencies {

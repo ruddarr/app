@@ -15,6 +15,9 @@ struct MediaHistoryEvent: Identifiable, Codable {
 
     let sourceTitle: String?
 
+    // Radarr
+    let movieId: Int?
+
     // Sonarr
     let seriesId: Int?
     let episodeId: Int?
@@ -144,14 +147,14 @@ enum HistoryEventType: String, Codable {
         switch self {
         case .unknown: "Unknown Event"
         case .grabbed: "Grabbed"
-        case .downloadFolderImported: "Movie Imported"
+        case .downloadFolderImported: "Folder Imported"
         case .downloadFailed: "Download Failed"
         case .downloadIgnored: "Download Ignored"
         case .movieFileRenamed: "Movie Renamed"
         case .movieFileDeleted: "Movie Deleted"
         case .movieFolderImported: "Folder Imported"
-        case .episodeFileRenamed: "Movie Renamed"
-        case .episodeFileDeleted: "Movie Deleted"
+        case .episodeFileRenamed: "Episode Renamed"
+        case .episodeFileDeleted: "Episode Deleted"
         case .seriesFolderImported: "Folder Imported"
         }
     }

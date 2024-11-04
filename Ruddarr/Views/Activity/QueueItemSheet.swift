@@ -3,13 +3,15 @@ import SwiftUI
 struct QueueItemSheet: View {
     var item: QueueItem
 
-    @State private var showRemovalSheet = false
-
     @EnvironmentObject var settings: AppSettings
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     @Environment(\.deviceType) private var deviceType
+
+    @State private var timeRemaining: String?
+
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         ScrollView {
@@ -21,30 +23,31 @@ struct QueueItemSheet: View {
                 VStack(alignment: .leading) {
                     header
 
-                    if item.trackedDownloadStatus != .ok && !item.messages.isEmpty {
+                    if item.remainingLabel != nil {
+                        progress
+                            .padding(.top)
+                    }
+
+                    actions
+                        .padding(.vertical)
+
+                    if let error = item.errorMessage, !error.isEmpty {
+                        GroupBox {
+                            Text(error)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .padding(.bottom)
+                    } else if !item.messages.isEmpty {
                         GroupBox {
                             statusMessages
-                        }
-                    } else if let remaining = item.remainingLabel {
-                        ProgressView(value: item.size - item.sizeleft, total: item.size) {
-                            HStack {
-                                Text(item.progressLabel)
-                                Spacer()
-                                Text(remaining)
-                            }
-                            .font(.subheadline)
-                            .monospacedDigit()
-                            .foregroundStyle(.secondary)
-                        }
+                        }.padding(.bottom)
                     }
 
                     details
-                        .padding(.top)
-
-                    actions
-                        .padding(.top)
-
-                    Spacer()
+                        .padding(.bottom)
                 }
                 .viewPadding(.horizontal)
                 .padding(.top)
@@ -74,7 +77,8 @@ struct QueueItemSheet: View {
         }
         .font(.subheadline)
         .foregroundStyle(.secondary)
-        .padding(.bottom, 8)
+
+        CustomFormats(tags)
     }
 
     var statusMessages: some View {
@@ -92,44 +96,60 @@ struct QueueItemSheet: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity)
+    }
+
+    var progress: some View {
+        ProgressView(value: item.size - item.sizeleft, total: item.size) {
+            HStack {
+                Text(item.progressLabel)
+                Spacer()
+                Text(timeRemaining ?? "")
+            }
+            .font(.subheadline)
+            .monospacedDigit()
+            .foregroundStyle(.secondary)
+        }
+        .onReceive(timer) { _ in
+            timeRemaining = item.remainingLabel
+        }
     }
 
     var details: some View {
-        VStack(spacing: 6) {
-            row("Languages", item.languagesLabel)
+        Section {
+            VStack(spacing: 6) {
+                row("Language", item.languagesLabel)
 
-            if let score = item.scoreLabel {
+                if let indexer = item.indexer {
+                    Divider()
+                    row("Indexer", formatIndexer(indexer))
+                }
+
                 Divider()
-                row("Score", score)
+                row("Protocol", item.type.label)
+
+                if let client = item.downloadClient {
+                    Divider()
+                    row("Client", client)
+                }
+
+                if let date = item.added {
+                    Divider()
+                    row("Added", date.formatted(date: .long, time: .shortened))
+                }
             }
-
-            if let formats = item.customFormatsLabel {
-                Divider()
-                row("Custom Formats", formats)
-            }
-
-            if let indexer = item.indexer {
-                Divider()
-                row("Indexer", formatIndexer(indexer))
-            }
-
-            Divider()
-            row("Protocol", item.type.label)
-
-            Divider()
-            row("Client", item.downloadClient ?? "--")
-
-            if let date = item.added {
-                Divider()
-                row("Added", date.formatted(date: .long, time: .shortened))
-            }
+            .offset(y: -15)
+        } header: {
+            Text("Information")
+                .font(.title2.bold())
         }
     }
 
     var actions: some View {
         HStack(spacing: 24) {
-            Button {
-                showRemovalSheet = true
+            NavigationLink {
+                QueueTaskRemovalView(item: item, onRemove: { dismiss() })
+                    .environmentObject(settings)
             } label: {
                 let label: LocalizedStringKey = deviceType == .phone ? "Remove" : "Remove Task"
 
@@ -138,13 +158,6 @@ struct QueueItemSheet: View {
             }
             .buttonStyle(.bordered)
             .tint(.secondary)
-            .sheet(isPresented: $showRemovalSheet) {
-                QueueTaskRemovalSheet(item: item) {
-                    dismiss()
-                }
-                    .presentationDetents([.medium])
-                    .environmentObject(settings)
-            }
 
             if item.isSABnzbd && sableInstalled() {
                 sableLink
@@ -157,6 +170,20 @@ struct QueueItemSheet: View {
         }
         .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 450)
+    }
+
+    var tags: [String] {
+        var tags: [String] = []
+
+        if let score = item.scoreLabel {
+            tags.append(score)
+        }
+
+        if let formats = item.customFormats, !formats.isEmpty {
+            tags.append(contentsOf: formats.map { $0.label })
+        }
+
+        return tags
     }
 
     func row(_ label: LocalizedStringKey, _ value: String) -> some View {
@@ -178,7 +205,8 @@ struct QueueItemSheet: View {
             value
                 .multilineTextAlignment(.trailing)
         }
-        .font(.subheadline)
+        .font(.callout)
+        .padding(.vertical, 6)
     }
 
     func parseDate(_ string: String) -> Date? {
@@ -238,4 +266,30 @@ struct QueueItemSheet: View {
         .buttonStyle(.bordered)
         .tint(.secondary)
     }
+}
+
+#Preview {
+    let items: QueueItems = PreviewData.loadObject(name: "series-queue")
+    let item: QueueItem = items.records[2]
+
+    QueueItemSheet(item: item)
+        .withAppState()
+}
+
+#Preview("Downloading") {
+    let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
+    var item: QueueItem = items.records[0]
+
+    item.estimatedCompletionTime = Date.now.addingTimeInterval(90)
+
+    return QueueItemSheet(item: item)
+        .withAppState()
+}
+
+#Preview("Waiting + Error") {
+    let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
+    let item = items.records[1]
+
+    QueueItemSheet(item: item)
+        .withAppState()
 }

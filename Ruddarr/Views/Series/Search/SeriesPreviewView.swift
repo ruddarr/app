@@ -68,7 +68,7 @@ struct SeriesPreviewView: View {
             if instance.series.isWorking {
                 ProgressView().tint(.secondary)
             } else {
-                Button("Done") {
+                Button("Add Series") {
                     Task {
                         await addSeries()
                     }
@@ -100,6 +100,7 @@ struct SeriesPreviewView: View {
 
         let seriesPath = SeriesPath.series(addedSeries.id)
         dependencies.router.seriesPath.removeLast()
+        try? await Task.sleep(nanoseconds: 50_000_000)
         dependencies.router.seriesPath.append(seriesPath)
 
         TelemetryDeck.signal("seriesAdded")

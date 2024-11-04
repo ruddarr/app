@@ -3,7 +3,7 @@ import TelemetryDeck
 
 struct MovieReleaseSheet: View {
     @State var release: MovieRelease
-    @State var movieId: Movie.ID
+    @State var movie: Movie
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
@@ -176,6 +176,10 @@ struct MovieReleaseSheet: View {
             VStack(spacing: 12) {
                 row("Language", value: release.languagesLabel)
                 Divider()
+
+                row("Bitrate", value: release.bitrateLabel(movie.runtime) ?? "--")
+                Divider()
+
                 row("Indexer", value: release.indexerLabel)
 
                 if release.isTorrent {
@@ -239,13 +243,17 @@ struct MovieReleaseSheet: View {
         guard await instance.movies.download(
             guid: release.guid,
             indexerId: release.indexerId,
-            movieId: force ? movieId : nil
+            movieId: force ? movie.id : nil
         ) else {
             return
         }
 
         dismiss()
-        dependencies.router.moviesPath.removeLast()
+
+        if !dependencies.router.moviesPath.isEmpty {
+            dependencies.router.moviesPath.removeLast()
+        }
+
         dependencies.toast.show(.downloadQueued)
 
         TelemetryDeck.signal("releaseDownloaded", parameters: ["type": "movie"])
@@ -254,10 +262,10 @@ struct MovieReleaseSheet: View {
 }
 
 #Preview {
-    let movieId = 145
+    let movies: [Movie] = PreviewData.load(name: "movies")
     let releases: [MovieRelease] = PreviewData.load(name: "movie-releases")
-    let release = releases[5]
+    let release = releases[87]
 
-    return MovieReleaseSheet(release: release, movieId: movieId)
+    MovieReleaseSheet(release: release, movie: movies[1])
         .withAppState()
 }

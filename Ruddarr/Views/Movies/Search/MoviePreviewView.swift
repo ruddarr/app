@@ -68,7 +68,7 @@ struct MoviePreviewView: View {
             if instance.movies.isWorking {
                 ProgressView().tint(.secondary)
             } else {
-                Button("Done") {
+                Button("Add Movie") {
                     Task {
                         await addMovie()
                     }
@@ -100,6 +100,7 @@ struct MoviePreviewView: View {
 
         let moviePath = MoviesPath.movie(addedMovie.id)
         dependencies.router.moviesPath.removeLast()
+        try? await Task.sleep(nanoseconds: 50_000_000)
         dependencies.router.moviesPath.append(moviePath)
 
         TelemetryDeck.signal("movieAdded")

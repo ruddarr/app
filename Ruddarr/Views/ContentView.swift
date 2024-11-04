@@ -98,7 +98,7 @@ struct ContentView: View {
                 label: settings.radarrInstance?.label,
                 onChange: {
                     dependencies.router.moviesPath = .init()
-                    dependencies.router.switchToRadarrInstance = settings.radarrInstanceId
+                    dependencies.router.switchToRadarrInstance = settings.radarrInstanceId?.uuidString
                 }
             )
         }
@@ -110,7 +110,7 @@ struct ContentView: View {
                 label: settings.sonarrInstance?.label,
                 onChange: {
                     dependencies.router.seriesPath = .init()
-                    dependencies.router.switchToSonarrInstance = settings.sonarrInstanceId
+                    dependencies.router.switchToSonarrInstance = settings.sonarrInstanceId?.uuidString
                 }
             )
         }

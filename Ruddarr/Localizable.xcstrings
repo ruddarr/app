@@ -340,6 +340,16 @@
         }
       }
     },
+    "Alternatively, %@ comes with many notification integrations that can be self-hosted." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternatively, %@ comes with many notification integrations that can be self-hosted."
+          }
+        }
+      }
+    },
     "An error occurred." : {
       "localizations" : {
         "en" : {
@@ -670,16 +680,6 @@
         }
       }
     },
-    "Bit Depth" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bit Depth"
-          }
-        }
-      }
-    },
     "Bitrate" : {
       "localizations" : {
         "en" : {
@@ -807,6 +807,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Codec"
+          }
+        }
+      }
+    },
+    "Color Depth" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color Depth"
           }
         }
       }
@@ -1111,16 +1121,6 @@
         }
       }
     },
-    "Done" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done"
-          }
-        }
-      }
-    },
     "Download" : {
       "localizations" : {
         "en" : {
@@ -1303,12 +1303,32 @@
         }
       }
     },
+    "Episode Deleted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Episode Deleted"
+          }
+        }
+      }
+    },
     "Episode file was renamed." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Episode file was renamed."
+          }
+        }
+      }
+    },
+    "Episode Renamed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Episode Renamed"
           }
         }
       }
@@ -1534,12 +1554,12 @@
         }
       }
     },
-    "Frame Rate" : {
+    "Framerate" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Frame Rate"
+            "value" : "Framerate"
           }
         }
       }
@@ -2001,6 +2021,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Long-press any file to delete it."
+          }
+        }
+      }
+    },
+    "Looking to [add a new movie](%@)?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Looking to [add a new movie](%@)?"
+          }
+        }
+      }
+    },
+    "Looking to [add a new series](%@)?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Looking to [add a new series](%@)?"
           }
         }
       }
@@ -2601,37 +2641,6 @@
         }
       }
     },
-    "Notification are disabled, please enable them in %@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notification are disabled, please enable them in %@."
-          }
-        }
-      }
-    },
-    "Notification require a subscription to %@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notification require a subscription to %@."
-          }
-        }
-      }
-    },
-    "Notification require an iCloud account. Please sign into iCloud, or enable iCloud Drive in the iCloud settings (%@)." : {
-      "comment" : "Placeholder is CloudKit status",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notification require an iCloud account. Please sign into iCloud, or enable iCloud Drive in the iCloud settings (%@)."
-          }
-        }
-      }
-    },
     "Notification settings for each instance are shared between devices. To disable notifications for a specific device go to %@." : {
       "localizations" : {
         "en" : {
@@ -2967,6 +2976,47 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "Notifications are disabled, please enable them in %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications are disabled, please enable them in %@."
+          }
+        }
+      }
+    },
+    "Notifications require a subscription to %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications require a subscription to %@."
+          }
+        }
+      }
+    },
+    "Notifications require an Apple Account. Please sign in, or enable %1$@ in the iCloud settings (%2$@)." : {
+      "comment" : "1 = iCloud Drive link, 2 = CloudKit status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications require an Apple Account. Please sign in, or enable %1$@ in the iCloud settings (%2$@)."
+          }
+        }
+      }
+    },
+    "Notifications will not route reliably until each instance has been given a unique \"Instance Name\" in the web interface under \"Settings > General\"." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications will not route reliably until each instance has been given a unique \"Instance Name\" in the web interface under \"Settings > General\"."
           }
         }
       }
@@ -3682,6 +3732,16 @@
         }
       }
     },
+    "Sending push notifications to devices requires reliable server infrastructure, which incurs monthly operating expenses for this free, open-source project." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sending push notifications to devices requires reliable server infrastructure, which incurs monthly operating expenses for this free, open-source project."
+          }
+        }
+      }
+    },
     "Series" : {
       "localizations" : {
         "en" : {
@@ -3799,16 +3859,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
-          }
-        }
-      }
-    },
-    "Settings > Notifications" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings > Notifications"
           }
         }
       }
@@ -4000,16 +4050,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "System"
-          }
-        }
-      }
-    },
-    "System Settings > Notifications" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "System Settings > Notifications"
           }
         }
       }
@@ -4504,6 +4544,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wanted"
+          }
+        }
+      }
+    },
+    "Warning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warning"
           }
         }
       }

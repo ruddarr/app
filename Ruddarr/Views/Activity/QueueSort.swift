@@ -8,7 +8,7 @@ struct QueueSort: Equatable {
     var type: String = ".all"
     var client: String = ".all"
 
-    var errors: Bool = false
+    var issues: Bool = false
 
     enum Option: CaseIterable, Hashable, Identifiable, Codable {
         var id: Self { self }
@@ -37,6 +37,6 @@ struct QueueSort: Equatable {
         instance != ".all" ||
         type != ".all" ||
         client != ".all" ||
-        errors
+        issues == true
     }
 }
