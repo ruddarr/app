@@ -1293,12 +1293,32 @@
         }
       }
     },
+    "Episode Deleted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Episode Deleted"
+          }
+        }
+      }
+    },
     "Episode file was renamed." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Episode file was renamed."
+          }
+        }
+      }
+    },
+    "Episode Renamed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Episode Renamed"
           }
         }
       }
