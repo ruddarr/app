@@ -340,6 +340,16 @@
         }
       }
     },
+    "Alternatively, %@ comes with many notification integrations that can be self-hosted." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternatively, %@ comes with many notification integrations that can be self-hosted."
+          }
+        }
+      }
+    },
     "An error occurred." : {
       "localizations" : {
         "en" : {
@@ -2631,37 +2641,6 @@
         }
       }
     },
-    "Notification are disabled, please enable them in %@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notification are disabled, please enable them in %@."
-          }
-        }
-      }
-    },
-    "Notification require a subscription to %@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notification require a subscription to %@."
-          }
-        }
-      }
-    },
-    "Notification require an iCloud account. Please sign into iCloud, or enable iCloud Drive in the iCloud settings (%@)." : {
-      "comment" : "Placeholder is CloudKit status",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Notification require an iCloud account. Please sign into iCloud, or enable iCloud Drive in the iCloud settings (%@)."
-          }
-        }
-      }
-    },
     "Notification settings for each instance are shared between devices. To disable notifications for a specific device go to %@." : {
       "localizations" : {
         "en" : {
@@ -2997,6 +2976,37 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "Notifications are disabled, please enable them in %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications are disabled, please enable them in %@."
+          }
+        }
+      }
+    },
+    "Notifications require a subscription to %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications require a subscription to %@."
+          }
+        }
+      }
+    },
+    "Notifications require an Apple Account. Please sign in, or enable %1$@ in the iCloud settings (%2$@)." : {
+      "comment" : "1 = iCloud Drive link, 2 = CloudKit status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications require an Apple Account. Please sign in, or enable %1$@ in the iCloud settings (%2$@)."
           }
         }
       }
@@ -3718,6 +3728,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seeders"
+          }
+        }
+      }
+    },
+    "Sending push notifications to devices requires reliable server infrastructure, which incurs monthly operating expenses for this free, open-source project." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sending push notifications to devices requires reliable server infrastructure, which incurs monthly operating expenses for this free, open-source project."
           }
         }
       }

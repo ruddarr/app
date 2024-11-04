@@ -14,14 +14,14 @@ extension InstanceView {
 
     var enableNotifications: some View {
         let text = String(
-            format: String(localized: "Notification are disabled, please enable them in %@."),
+            format: String(localized: "Notifications are disabled, please enable them in %@."),
             notificationPath
         )
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
             #if os(iOS)
                 if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    UIApplication.shared.open(url)
                 }
             #endif
 
@@ -38,7 +38,7 @@ extension InstanceView {
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
             #if os(iOS)
                 if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    UIApplication.shared.open(url)
                 }
             #endif
 
@@ -48,11 +48,15 @@ extension InstanceView {
 
     var subscribeToService: some View {
         let text = String(
-            format: String(localized: "Notification require a subscription to %@."),
+            format: String(localized: "Notifications require a subscription to %@."),
             "[\(Subscription.name)](#link)"
         )
 
-        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
+        return VStack(alignment: .leading, spacing: 8) {
+            Text(text.toMarkdown())
+            Text("Sending push notifications to devices requires reliable server infrastructure, which incurs monthly operating expenses for this free, open-source project.")
+            Text("Alternatively, \(instance.type.rawValue) comes with many notification integrations that can be self-hosted.")
+        }.environment(\.openURL, .init { _ in
             showSubscription = true
 
             return .handled
@@ -60,12 +64,24 @@ extension InstanceView {
     }
 
     var enableCloudKit: some View {
-        let status = Telemetry.shared.cloudKitStatus(cloudKitStatus)
-
-        return Text(
-            "Notification require an iCloud account. Please sign into iCloud, or enable iCloud Drive in the iCloud settings (\(status)).",
-            comment: "Placeholder is CloudKit status"
+        let text = String(
+            format: String(
+                localized: "Notifications require an Apple Account. Please sign in, or enable %1$@ in the iCloud settings (%2$@).",
+                comment: "1 = iCloud Drive link, 2 = CloudKit status"
+            ),
+            "[iCloud Drive](#link)",
+            Telemetry.shared.cloudKitStatus(cloudKitStatus)
         )
+
+        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
+            #if os(iOS)
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            #endif
+
+            return .handled
+        })
     }
 
     var cloudKitEnabled: Bool {
