@@ -7,7 +7,7 @@ enum SeriesPath: Hashable {
     case series(Series.ID)
     case edit(Series.ID)
     case releases(Series.ID, Season.ID?, Episode.ID?)
-    case season(Series.ID, Season.ID)
+    case season(Series.ID, Season.ID, Episode.ID? = nil)
     case episode(Series.ID, Episode.ID)
 }
 
@@ -93,9 +93,9 @@ struct SeriesView: View {
                             .environment(instance)
                             .environmentObject(settings)
                     }
-                case .season(let id, let season):
+                case .season(let id, let season, let episode):
                     if let series = instance.series.byId(id).unwrapped {
-                        SeasonView(series: series, seasonId: season)
+                        SeasonView(series: series, seasonId: season, episodeId: episode)
                             .environment(instance)
                             .environmentObject(settings)
                     }
@@ -297,31 +297,40 @@ struct SeriesView: View {
         }
     }
 
-    func navigateToSeries(_ id: Series.ID, season: Season.ID?) {
+    func navigateToSeries(_ seriesId: Series.ID, _ seasonId: Season.ID?, _ episodeId: Episode.ID?) {
         dependencies.quickActions.clearTimer()
         maybeSwitchToInstance()
 
         let startTime = Date()
 
-        func scheduleNextRun(time: DispatchTime, id: Series.ID) {
+        func scheduleNextRun(
+            time: DispatchTime,
+            _ seriesId: Series.ID,
+            _ seasonId: Season.ID?,
+            _ episodeId: Episode.ID?
+        ) {
             DispatchQueue.main.asyncAfter(deadline: time) {
-                if let series = instance.series.items.first(where: { $0.id == id }) {
-                    dependencies.router.seriesPath = .init([SeriesPath.series(series.id)])
+                if let series = instance.series.items.first(where: { $0.id == seriesId }) {
+                    dependencies.router.seriesPath = .init([
+                        SeriesPath.series(series.id)
+                    ])
 
-                    if let seasonId = season {
-                        dependencies.router.seriesPath.append(SeriesPath.season(id, seasonId))
+                    if let seasonId {
+                        dependencies.router.seriesPath.append(
+                            SeriesPath.season(seriesId, seasonId, episodeId)
+                        )
                     }
 
                     return
                 }
 
                 if Date().timeIntervalSince(startTime) < 10 {
-                    scheduleNextRun(time: DispatchTime.now() + 0.1, id: id)
+                    scheduleNextRun(time: DispatchTime.now() + 0.1, seriesId, seasonId, episodeId)
                 }
             }
         }
 
-        scheduleNextRun(time: DispatchTime.now(), id: id)
+        scheduleNextRun(time: DispatchTime.now(), seriesId, seasonId, episodeId)
     }
 }
 

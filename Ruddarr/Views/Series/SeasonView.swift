@@ -4,6 +4,7 @@ import TelemetryDeck
 struct SeasonView: View {
     @Binding var series: Series
     var seasonId: Season.ID
+    var episodeId: Episode.ID?
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
@@ -33,6 +34,7 @@ struct SeasonView: View {
             async let maybeFetchFiles: () = instance.files.maybeFetch(series)
 
             (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
+            maybeNavigateToEpisode()
         }
         .alert(
             isPresented: instance.episodes.errorBinding,
@@ -217,6 +219,15 @@ extension SeasonView {
 
         TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "season"])
         maybeAskForReview()
+    }
+
+    func maybeNavigateToEpisode() {
+        guard let episodeId else { return }
+        guard let episode = episodes.first(where: { $0.episodeNumber == episodeId }) else { return }
+
+        dependencies.router.seriesPath.append(
+            SeriesPath.episode(series.id, episode.id)
+        )
     }
 }
 

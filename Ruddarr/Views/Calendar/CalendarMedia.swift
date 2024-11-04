@@ -106,9 +106,10 @@ struct CalendarEpisode: View {
         .clipShape(RoundedRectangle(cornerRadius: 6))
         .onTapGesture {
             let deeplink = String(
-                format: "ruddarr://series/open/%d?season=%d&instance=%@",
+                format: "ruddarr://series/open/%d?season=%d&episode=%d&instance=%@",
                 episode.seriesId,
                 episode.seasonNumber,
+                episode.episodeNumber,
                 episode.instanceId!.uuidString
             )
 

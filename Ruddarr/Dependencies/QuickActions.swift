@@ -13,14 +13,14 @@ import Combine
 [public] ruddarr://series/search
 [public] ruddarr://series/search/{query?}
 [private] ruddarr://series/open/{id}?instance={instanceIdOrName?}
-[private] ruddarr://series/open/{id}/?season={id}&instance={instanceIdOrName?}
+[private] ruddarr://series/open/{id}/?season={seasonId}&episode={episodeId}&instance={instanceIdOrName?}
 */
 struct QuickActions {
     let moviePublisher = PassthroughSubject<Movie.ID, Never>()
     var moviePublisherPending: Movie.ID?
 
-    let seriesPublisher = PassthroughSubject<(Series.ID, Season.ID?), Never>()
-    var seriesPublisherPending: (Series.ID, Season.ID?)?
+    let seriesPublisher = PassthroughSubject<(Series.ID, Season.ID?, Episode.ID?), Never>()
+    var seriesPublisherPending: (Series.ID, Season.ID?, Episode.ID?)?
 
     private var timer: Timer?
 
@@ -84,28 +84,12 @@ struct QuickActions {
         dependencies.router.seriesPath = .init([SeriesPath.search(searchText)])
     }
 
-    func openSeriesItem(_ id: Series.ID, _ instance: String?) {
+    func openSeries(_ id: Series.ID, _ season: Season.ID?, _ episode: Episode.ID?, _ instance: String?) {
         dependencies.router.switchToSonarrInstance = instance
         dependencies.router.selectedTab = .series
         dependencies.router.seriesPath = .init()
 
-        dependencies.quickActions.seriesPublisherPending = (id, nil)
-
-        dependencies.quickActions.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-            if let id = dependencies.quickActions.seriesPublisherPending {
-                dependencies.quickActions.seriesPublisher.send(id)
-            } else {
-                dependencies.quickActions.clearTimer()
-            }
-        }
-    }
-
-    func openSeriesSeason(_ id: Series.ID, _ season: Season.ID, _ instance: String?) {
-        dependencies.router.switchToSonarrInstance = instance
-        dependencies.router.selectedTab = .series
-        dependencies.router.seriesPath = .init()
-
-        dependencies.quickActions.seriesPublisherPending = (id, season)
+        dependencies.quickActions.seriesPublisherPending = (id, season, episode)
 
         dependencies.quickActions.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
             if let ids = dependencies.quickActions.seriesPublisherPending {
@@ -134,8 +118,7 @@ extension QuickActions {
         case openMovie(_ id: Movie.ID, _ instance: String?)
         case addMovie(_ query: String = "")
         case openSeries
-        case openSeriesItem(_ id: Series.ID, _ instance: String?)
-        case openSeriesSeason(_ id: Movie.ID, _ season: Season.ID, _ instance: String?)
+        case openSeriesItem(_ id: Movie.ID, _ season: Season.ID?, _ episode: Episode.ID?, _ instance: String?)
         case addSeries(_ query: String = "")
 
         func callAsFunction() {
@@ -154,12 +137,10 @@ extension QuickActions {
                 dependencies.quickActions.openMovie(movie, instance)
             case .openSeries:
                 dependencies.quickActions.openSeries()
+            case .openSeriesItem(let series, let season, let episode, let instance):
+                dependencies.quickActions.openSeries(series, season, episode, instance)
             case .addSeries(let query):
                 dependencies.quickActions.openSeriesSearch(query)
-            case .openSeriesItem(let series, let instance):
-                dependencies.quickActions.openSeriesItem(series, instance)
-            case .openSeriesSeason(let series, let season, let instance):
-                dependencies.quickActions.openSeriesSeason(series, season, instance)
             }
         }
     }
@@ -192,7 +173,7 @@ extension QuickActions.Deeplink {
             self = .addMovie(value)
         case _ where action.hasPrefix("movies/open/"):
             guard let id = Movie.ID(value) else { throw unsupportedURL }
-            let instance = components.queryItems?.first(where: { $0.name == "instance" })?.value
+            let instance = components.queryItems?.first { $0.name == "instance" }?.value
             self = .openMovie(id, instance)
         case "series":
             self = .openMovies
@@ -202,14 +183,10 @@ extension QuickActions.Deeplink {
             self = .addSeries(value)
         case _ where action.hasPrefix("series/open/"):
             guard let id = Series.ID(value) else { throw unsupportedURL }
-            let seasonId = components.queryItems?.first(where: { $0.name == "season" })?.value
-            let instance = components.queryItems?.first(where: { $0.name == "instance" })?.value
-
-            if let seasonId, let season = Int(seasonId) {
-                self = .openSeriesSeason(id, season, instance)
-            } else {
-                self = .openSeriesItem(id, instance)
-            }
+            let seasonId = components.queryItems?.first { $0.name == "season" }?.value
+            let episodeId = components.queryItems?.first { $0.name == "episode" }?.value
+            let instance = components.queryItems?.first { $0.name == "instance" }?.value
+            self = .openSeriesItem(id, Int(seasonId ?? ""), Int(episodeId ?? ""), instance)
         default:
             throw unsupportedURL
         }
