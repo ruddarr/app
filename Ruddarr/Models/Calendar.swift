@@ -47,12 +47,20 @@ class MediaCalendar {
         let end = calendar.startOfDay(for: end)
 
         do {
-            for instance in instances where instance.type == .radarr {
-                try await fetchMovies(instance, start, end)
-            }
+            try await withThrowingTaskGroup(of: Void.self) { group in
+                for instance in instances {
+                    group.addTask {
+                        if instance.type == .radarr {
+                            try await self.fetchMovies(instance, start, end)
+                        }
 
-            for instance in instances where instance.type == .sonarr {
-                try await fetchEpisodes(instance, start, end)
+                        if instance.type == .sonarr {
+                            try await self.fetchEpisodes(instance, start, end)
+                        }
+                    }
+                }
+
+                try await group.waitForAll()
             }
 
             insertDates(start, end)
