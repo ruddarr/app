@@ -2,7 +2,7 @@ import SwiftUI
 
 struct HistoryView: View {
     @State private var page: Int = 1
-    @State private var history: History = .init()
+    @State private var history = History()
     @State private var selectedEvent: MediaHistoryEvent?
     @State private var displayedInstance: String = ".all"
     @State private var displayedEventType: String = ".all"
@@ -44,7 +44,8 @@ struct HistoryView: View {
                     )
             }
         }
-        .navigationBarTitle("History", displayMode: .inline)
+        .navigationTitle("History")
+        .safeNavigationBarTitleDisplayMode(.inline)
         .task {
             history.instances = settings.instances
             await history.fetch(page)
