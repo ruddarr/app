@@ -178,7 +178,7 @@ enum HistoryEventType: String, Codable {
     var title: LocalizedStringKey {
         switch self {
         case .unknown: "Unknown Event"
-        case .grabbed: "Grabbed"
+        case .grabbed: "Release Grabbed"
         case .downloadFolderImported: "Folder Imported"
         case .downloadFailed: "Download Failed"
         case .downloadIgnored: "Download Ignored"

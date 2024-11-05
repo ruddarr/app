@@ -2,6 +2,9 @@ import SwiftUI
 
 struct MediaEventSheet: View {
     var event: MediaHistoryEvent
+    var instanceId: Instance.ID?
+
+    @EnvironmentObject var settings: AppSettings
 
     @Environment(\.dismiss) private var dismiss
 
@@ -12,6 +15,15 @@ struct MediaEventSheet: View {
             }
 
             VStack(alignment: .leading) {
+                if let instanceId, let instance = settings.instanceById(instanceId) {
+                    Text(instance.label)
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .textCase(.uppercase)
+                        .tracking(1.1)
+                        .foregroundStyle(settings.theme.tint)
+                }
+
                 Text(event.eventType.title)
                     .font(.title2.bold())
                     .kerning(-0.5)

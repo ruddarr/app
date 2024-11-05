@@ -13,7 +13,8 @@ struct HistoryView: View {
         ScrollView {
             LazyVStack(spacing: 12) {
                 ForEach(events) { event in
-                    MediaHistoryItem(event: event, expanded: true)
+                    MediaHistoryItem(event: event)
+                        .environmentObject(settings)
                         .onTapGesture { selectedEvent = event }
                 }
 
@@ -36,7 +37,8 @@ struct HistoryView: View {
             .padding(.vertical)
             .viewPadding(.horizontal)
             .sheet(item: $selectedEvent) { event in
-                MediaEventSheet(event: event)
+                MediaEventSheet(event: event, instanceId: event.instanceId)
+                    .environmentObject(settings)
                     .presentationDetents(
                         event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                     )

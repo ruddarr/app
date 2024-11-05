@@ -2,7 +2,6 @@ import SwiftUI
 
 struct MediaHistoryItem: View {
     var event: MediaHistoryEvent
-    var expanded: Bool = false
 
     @EnvironmentObject var settings: AppSettings
 
@@ -39,23 +38,12 @@ struct MediaHistoryItem: View {
                 .lineLimit(1)
             }
         } label: {
-            HStack(alignment: .center) {
-                Text(event.eventType.label)
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .textCase(.uppercase)
-                    .tracking(1.1)
-                    .foregroundStyle(settings.theme.tint)
-
-                if expanded,
-                   let id = event.instanceId,
-                   let instance = settings.instanceById(id)
-                {
-                    Text(instance.label)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
+            Text(event.eventType.label)
+                .font(.caption)
+                .fontWeight(.semibold)
+                .textCase(.uppercase)
+                .tracking(1.1)
+                .foregroundStyle(settings.theme.tint)
 
             Text(title ?? "--")
         }

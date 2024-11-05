@@ -3422,6 +3422,16 @@
         }
       }
     },
+    "Release Grabbed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release Grabbed"
+          }
+        }
+      }
+    },
     "Release Group" : {
       "localizations" : {
         "en" : {
