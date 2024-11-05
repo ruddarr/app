@@ -31,7 +31,17 @@ class MediaCalendar {
         isLoading = false
     }
 
-    func loadFutureDates(_ timestamp: TimeInterval) async {
+    func loadMoreDates() {
+        if isLoadingFuture || dates.isEmpty {
+            return
+        }
+
+        Task {
+            await loadFutureDates(dates.last!)
+        }
+    }
+
+    private func loadFutureDates(_ timestamp: TimeInterval) async {
         isLoadingFuture = true
 
         let date = Date(timeIntervalSince1970: timestamp)
@@ -75,11 +85,11 @@ class MediaCalendar {
         }
     }
 
-    func addDays(_ days: Int, _ date: Date) -> Date {
+    private func addDays(_ days: Int, _ date: Date) -> Date {
         calendar.date(byAdding: .day, value: days, to: date)!
     }
 
-    func insertDates(_ start: Date, _ end: Date) {
+    private func insertDates(_ start: Date, _ end: Date) {
         guard start <= end else {
             fatalError("end < start")
         }
@@ -95,7 +105,7 @@ class MediaCalendar {
         }
     }
 
-    func fetchMovies(_ instance: Instance, _ start: Date, _ end: Date) async throws {
+    private func fetchMovies(_ instance: Instance, _ start: Date, _ end: Date) async throws {
         let movies = try await dependencies.api.movieCalendar(start, end, instance)
 
         for movie in movies {
@@ -113,7 +123,7 @@ class MediaCalendar {
         }
     }
 
-    func maybeInsertMovie(_ movie: Movie, _ date: Date) {
+    private func maybeInsertMovie(_ movie: Movie, _ date: Date) {
         let day = calendar.startOfDay(for: date).timeIntervalSince1970
 
         if movies[day] == nil {
@@ -127,7 +137,7 @@ class MediaCalendar {
         movies[day]!.append(movie)
     }
 
-    func fetchEpisodes(_ instance: Instance, _ start: Date, _ end: Date) async throws {
+    private func fetchEpisodes(_ instance: Instance, _ start: Date, _ end: Date) async throws {
         let episodes = try await dependencies.api.episodeCalendar(start, end, instance)
 
         for episode in episodes {
@@ -137,7 +147,7 @@ class MediaCalendar {
         }
     }
 
-    func maybeInsertEpisode(_ episode: Episode, _ date: Date) {
+    private func maybeInsertEpisode(_ episode: Episode, _ date: Date) {
         let day = calendar.startOfDay(for: date).timeIntervalSince1970
 
         if episodes[day] == nil {
@@ -155,14 +165,11 @@ class MediaCalendar {
         calendar.startOfDay(for: Date.now).timeIntervalSince1970
     }
 
-    func loadMoreDates() {
-        if isLoadingFuture || dates.isEmpty {
-            return
-        }
-
-        Task {
-            await loadFutureDates(dates.last!)
-        }
+    func reset() {
+        instances = []
+        dates = []
+        movies = [:]
+        episodes = [:]
     }
 
     // let futureCutoff: TimeInterval = {

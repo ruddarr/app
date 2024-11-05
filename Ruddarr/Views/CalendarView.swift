@@ -68,7 +68,10 @@ struct CalendarView: View {
                 todayButton
             }
             .onAppear {
-                calendar.instances = settings.instances
+                if calendar.instances != settings.instances {
+                    calendar.reset()
+                    calendar.instances = settings.instances
+                }
             }
             .task {
                 await load()
