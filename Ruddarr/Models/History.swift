@@ -17,11 +17,6 @@ class History {
         error = nil
         isLoading = true
 
-        if page == 1 {
-            events.removeAll()
-            hasMore.removeAll()
-        }
-
         var results: [MediaHistoryEvent] = []
 
         do {
@@ -49,6 +44,11 @@ class History {
             leaveBreadcrumb(.error, category: "history", message: "History fetch failed", data: ["error": apiError])
         } catch {
             self.error = API.Error(from: error)
+        }
+
+        if page == 1 {
+            events.removeAll()
+            hasMore.removeAll()
         }
 
         events.append(contentsOf: results)

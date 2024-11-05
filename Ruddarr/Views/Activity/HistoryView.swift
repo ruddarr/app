@@ -43,14 +43,15 @@ struct HistoryView: View {
             }
         }
         .navigationBarTitle("History", displayMode: .inline)
-        .onAppear {
-            history.instances = settings.instances
-        }
         .task {
+            history.instances = settings.instances
             await history.fetch(page)
         }
         .toolbar {
             filtersMenu
+        }
+        .refreshable {
+            await Task { await history.fetch(1) }.value
         }
         .alert(
             isPresented: history.errorBinding,
