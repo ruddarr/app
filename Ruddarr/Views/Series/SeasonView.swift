@@ -4,7 +4,7 @@ import TelemetryDeck
 struct SeasonView: View {
     @Binding var series: Series
     var seasonId: Season.ID
-    var episodeId: Episode.ID?
+    @State var jumpToEpisode: Episode.ID?
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
@@ -222,8 +222,15 @@ extension SeasonView {
     }
 
     func maybeNavigateToEpisode() {
-        guard let episodeId else { return }
-        guard let episode = episodes.first(where: { $0.episodeNumber == episodeId }) else { return }
+        guard let id = jumpToEpisode else {
+            return
+        }
+
+        guard let episode = episodes.first(where: { $0.episodeNumber == id }) else {
+            return
+        }
+
+        jumpToEpisode = nil
 
         dependencies.router.seriesPath.append(
             SeriesPath.episode(series.id, episode.id)
