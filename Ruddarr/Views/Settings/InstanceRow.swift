@@ -65,12 +65,16 @@ struct InstanceRow: View {
 
             connection = .pending
 
-            let data = try await dependencies.api.systemStatus(instance)
+            async let systemStatus = try dependencies.api.systemStatus(instance)
+            async let rootFolders = try dependencies.api.rootFolders(instance)
+            async let qualityProfiles = try dependencies.api.qualityProfiles(instance)
+
+            let data = try await systemStatus
 
             instance.name = data.instanceName
             instance.version = data.version
-            instance.rootFolders = try await dependencies.api.rootFolders(instance)
-            instance.qualityProfiles = try await dependencies.api.qualityProfiles(instance)
+            instance.rootFolders = try await rootFolders
+            instance.qualityProfiles = try await qualityProfiles
 
             settings.saveInstance(instance)
 

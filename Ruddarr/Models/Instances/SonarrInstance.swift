@@ -63,8 +63,11 @@ class SonarrInstance {
         }
 
         do {
-            instance.rootFolders = try await dependencies.api.rootFolders(instance)
-            instance.qualityProfiles = try await dependencies.api.qualityProfiles(instance)
+            async let rootFolders = dependencies.api.rootFolders(instance)
+            async let qualityProfiles = dependencies.api.qualityProfiles(instance)
+
+            instance.rootFolders = try await rootFolders
+            instance.qualityProfiles = try await qualityProfiles
         } catch {
             return nil
         }
