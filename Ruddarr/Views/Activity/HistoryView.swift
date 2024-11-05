@@ -13,7 +13,7 @@ struct HistoryView: View {
         ScrollView {
             LazyVStack(spacing: 12) {
                 ForEach(events) { event in
-                    MediaHistoryItem(event: event)
+                    MediaHistoryItem(event: event, expanded: true)
                         .onTapGesture { selectedEvent = event }
                 }
 

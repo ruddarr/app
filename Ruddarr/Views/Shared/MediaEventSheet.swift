@@ -13,17 +13,23 @@ struct MediaEventSheet: View {
 
             VStack(alignment: .leading) {
                 Text(event.eventType.title)
-                    .font(.title3.bold())
+                    .font(.title2.bold())
+                    .kerning(-0.5)
                     .padding(.trailing, 40)
 
                 Text(formatDate(event.date))
-                    .font(.footnote)
+                    .font(.subheadline)
                     .foregroundStyle(.secondary)
-                    .padding(.bottom, 12)
+
+                if event.eventType == .grabbed {
+                    CustomFormats(tags())
+                }
 
                 Text(event.description)
                     .font(.callout)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .textSelection(.enabled)
+                    .padding(.top, 12)
                     .padding(.bottom)
 
                 if event.eventType == .grabbed {
@@ -38,69 +44,109 @@ struct MediaEventSheet: View {
     }
 
     var grabbedDetails: some View {
-        VStack(spacing: 6) {
-            row("Source", event.data("releaseSource") ?? "--")
-            Divider()
-            row("Match Type", event.data("movieMatchType") ?? "--")
+        let rows: [AnyView] = grabbedData()
 
-            if let string = event.data("publishedDate"), let date = parseDate(string) {
-                Divider()
-                row("Published", formatDate(date))
-            }
+        return VStack(spacing: 6) {
+            ForEach(0..<rows.count, id: \.self) { index in
+                rows[index]
 
-            if let string = event.data("nzbInfoUrl"), let url = URL(string: string), let domain = url.host {
-                let link = Link(domain, destination: url).contextMenu {
-                    LinkContextMenu(url)
-                } preview: {
-                    Text(url.absoluteString).padding()
+                if index < rows.count - 1 {
+                    Divider()
                 }
-
-                Divider()
-                renderRow("Link", link)
-            }
-
-            if let flags = event.indexerFlagsLabel {
-                Divider()
-                row("Flags", flags)
-            }
-
-            if let score = event.scoreLabel {
-                Divider()
-                row("Score", score)
-            }
-
-            if let formats = event.customFormats, !formats.isEmpty {
-                Divider()
-                row("Custom Formats", formats.map { $0.label }.formattedList())
-            }
-
-            if let group = event.data("releaseGroup") {
-                Divider()
-                row("Release Group", group)
             }
         }
     }
 
-    func row(_ label: LocalizedStringKey, _ value: String) -> some View {
-        renderRow(
-            label,
-            Text(value).foregroundStyle(.primary)
+    func grabbedData() -> [AnyView] {
+        var data: [AnyView] = []
+
+        if let indexer = event.indexerLabel {
+            data.append(row("Indexer", indexer))
+        }
+
+        if let flags = event.indexerFlagsLabel {
+            data.append(row("Flags", flags))
+        }
+
+        if let releaseSource = event.data("releaseSource") {
+            data.append(row("Source", releaseSource))
+        }
+
+        if let movieMatchType = event.data("movieMatchType") {
+            data.append(row("Match Type", movieMatchType))
+        }
+
+        if let seriesMatchType = event.data("seriesMatchType") {
+            data.append(row("Match Type", seriesMatchType))
+        }
+
+        if let releaseType = event.data("releaseType") {
+            data.append(row("Release Type", releaseType))
+        }
+
+        if let group = event.data("releaseGroup") {
+            data.append(row("Release Group", group))
+        }
+
+        if let string = event.data("ageMinutes"),
+           let minutes = Float(string)
+        {
+            data.append(row("Age", formatAge(minutes)))
+        }
+
+        if let string = event.data("publishedDate"),
+           let date = parseDate(string)
+        {
+            data.append(row("Published", formatDate(date)))
+        }
+
+        if let string = event.data("nzbInfoUrl"),
+           let url = URL(string: string),
+           let domain = url.host
+        {
+            data.append(row("Link", Link(domain, destination: url).contextMenu {
+                LinkContextMenu(url)
+            } preview: {
+                Text(url.absoluteString).padding()
+            }))
+        }
+
+        return data
+    }
+
+    func tags() -> [String] {
+        var tags: [String] = []
+
+        if let score = event.scoreLabel {
+            tags.append(score)
+        }
+
+        if let formats = event.customFormats, !formats.isEmpty {
+            tags.append(contentsOf: formats.map { $0.label })
+        }
+
+        return tags
+    }
+
+    func row(_ label: LocalizedStringKey, _ value: String) -> AnyView {
+        row(label, Text(value).foregroundStyle(.primary))
+    }
+
+    func row<V: View>(_ label: LocalizedStringKey, _ value: V) -> AnyView {
+        AnyView(
+            HStack(alignment: .top) {
+                Text(label)
+                    .foregroundStyle(.secondary)
+
+                Spacer()
+                Spacer()
+                Spacer()
+
+                value
+                    .multilineTextAlignment(.trailing)
+            }
+            .font(.subheadline)
         )
-    }
-
-    func renderRow<V: View>(_ label: LocalizedStringKey, _ value: V) -> some View {
-        HStack(alignment: .top) {
-            Text(label)
-                .foregroundStyle(.secondary)
-
-            Spacer()
-            Spacer()
-            Spacer()
-
-            value
-                .multilineTextAlignment(.trailing)
-        }
-        .font(.subheadline)
     }
 
     func parseDate(_ string: String) -> Date? {
@@ -126,5 +172,5 @@ struct MediaEventSheet: View {
 #Preview("Event") {
     let events: [MediaHistoryEvent] = PreviewData.load(name: "movie-history")
 
-    return MediaEventSheet(event: events[1])
+    return MediaEventSheet(event: events[2])
 }

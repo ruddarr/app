@@ -42,9 +42,9 @@ struct MediaHistoryEvent: Identifiable, Codable {
         return formatCustomScore(customFormatScore ?? 0)
     }
 
-    var indexerLabel: String {
+    var indexerLabel: String? {
         guard let indexer = data("indexer"), !indexer.isEmpty else {
-            return String(localized: "indexer", comment: "Fallback for indexer name within mid-sentence")
+            return nil
         }
 
         return formatIndexer(indexer)
@@ -58,7 +58,15 @@ struct MediaHistoryEvent: Identifiable, Codable {
         return flags.replacing("G_", with: "")
     }
 
-    var downloadClientLabel: String {
+    var indexerFallbackLabel: String {
+        guard let indexer = indexerLabel else {
+            return String(localized: "indexer", comment: "Fallback for indexer name within mid-sentence")
+        }
+
+        return indexer
+    }
+
+    var downloadClientFallbackLabel: String {
         guard let client = data("downloadClient"), !client.isEmpty else {
             return String(localized: "download client", comment: "Fallback for download client name within mid-sentence")
         }
@@ -73,9 +81,9 @@ struct MediaHistoryEvent: Identifiable, Codable {
         case .unknown:
             fallback
         case .grabbed:
-            String(format: String(localized: "Movie grabbed from %1$@ and sent to %2$@."), indexerLabel, downloadClientLabel)
+            String(format: String(localized: "Movie grabbed from %1$@ and sent to %2$@."), indexerFallbackLabel, downloadClientFallbackLabel)
         case .downloadFolderImported:
-            String(format: String(localized: "Movie downloaded successfully and imported from %@."), downloadClientLabel)
+            String(format: String(localized: "Movie downloaded successfully and imported from %@."), downloadClientFallbackLabel)
         case .downloadFailed:
             data("message") ?? fallback
         case .downloadIgnored:
@@ -111,8 +119,17 @@ struct MediaHistoryEvent: Identifiable, Codable {
         guard let dict = data else { return nil }
         guard let value = dict[key] else { return nil }
 
-        if key == "releaseSource" { return localizeReleaseSource(value) }
-        if key == "movieMatchType" { return localizeMovieMatchType(value) }
+        if ["movieMatchType", "seriesMatchType"].contains(key) {
+            return localizeMatchType(value)
+        }
+
+        if key == "releaseType" {
+            return localizeReleaseType(value)
+        }
+
+        if key == "releaseSource" {
+            return localizeReleaseSource(value)
+        }
 
         return value
     }
@@ -175,6 +192,14 @@ enum HistoryEventType: String, Codable {
     }
 }
 
+func localizeReleaseType(_ value: String?) -> String? {
+    if value == "SingleEpisode" { return String(localized: "Single Episode") }
+    if value == "MultiEpisode" { return String(localized: "Multi-Episode") }
+    if value == "SeasonPack" { return String(localized: "Season Pack") }
+
+    return String(localized: "Unknown")
+}
+
 func localizeReleaseSource(_ value: String?) -> String? {
     if value == "Rss" { return String("RSS") }
     if value == "Search" { return String(localized: "Search") }
@@ -185,7 +210,7 @@ func localizeReleaseSource(_ value: String?) -> String? {
     return String(localized: "Unknown")
 }
 
-func localizeMovieMatchType(_ value: String?) -> String? {
+func localizeMatchType(_ value: String?) -> String? {
     if value == "Title" { return String(localized: "Title") }
     if value == "Alias" { return String(localized: "Alias") }
     if value == "Id" { return String(localized: "Identifier") }

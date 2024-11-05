@@ -2,34 +2,60 @@ import SwiftUI
 
 struct MediaHistoryItem: View {
     var event: MediaHistoryEvent
+    var expanded: Bool = false
 
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
         GroupBox {
-            HStack(spacing: 6) {
-                Text(event.quality.quality.label)
-                Bullet()
-                Text(event.languageLabel)
-
-                if event.eventType == .grabbed {
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 6) {
+                    Text(event.quality.quality.label)
                     Bullet()
-                    Text(event.indexerLabel)
-                }
+                    Text(event.languageLabel)
 
-                Spacer()
-                Text(date)
+                    if let indexer = event.indexerLabel {
+                        Bullet()
+                        Text(indexer)
+                    }
+
+                    Spacer()
+                    Text(date)
+                }
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+
+                HStack(spacing: 6) {
+                    Text(event.quality.quality.label)
+                    Bullet()
+                    Text(event.languageLabel)
+
+                    Spacer()
+                    Text(date)
+                }
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
             }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .lineLimit(1)
         } label: {
-            Text(event.eventType.label)
-                .font(.caption)
-                .fontWeight(.semibold)
-                .textCase(.uppercase)
-                .tracking(1.1)
-                .foregroundStyle(settings.theme.tint)
+            HStack(alignment: .center) {
+                Text(event.eventType.label)
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .textCase(.uppercase)
+                    .tracking(1.1)
+                    .foregroundStyle(settings.theme.tint)
+
+                if expanded,
+                   let id = event.instanceId,
+                   let instance = settings.instanceById(id)
+                {
+                    Text(instance.label)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
 
             Text(title ?? "--")
         }
@@ -61,5 +87,12 @@ struct MediaHistoryItem: View {
         }
 
         return event.date.formatted(date: .abbreviated, time: .omitted)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        HistoryView()
+            .withAppState()
     }
 }
