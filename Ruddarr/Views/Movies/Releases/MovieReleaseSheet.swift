@@ -201,12 +201,16 @@ struct MovieReleaseSheet: View {
     func flags() -> [String] {
         var flags: [String] = []
 
-        if release.customFormatScore != 0 {
-            flags.append(release.scoreLabel)
-        }
-
         if let indexerFlags = release.indexerFlags, !indexerFlags.isEmpty {
             flags.append(contentsOf: release.cleanIndexerFlags)
+        }
+
+        if release.isProper {
+            flags.append(String(localized: "Proper"))
+        }
+
+        if release.isRepack {
+            flags.append(String(localized: "Repack"))
         }
 
         return flags
@@ -215,12 +219,8 @@ struct MovieReleaseSheet: View {
     func tags() -> [String] {
         var tags: [String] = []
 
-        if release.isProper {
-            tags.append(String(localized: "Proper"))
-        }
-
-        if release.isRepack {
-            tags.append(String(localized: "Repack"))
+        if release.customFormatScore != 0 {
+            tags.append(release.scoreLabel)
         }
 
         if release.hasCustomFormats {

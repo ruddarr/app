@@ -426,7 +426,7 @@
             "revision": {
                 "version": 1,
                 "real": 0,
-                "isRepack": false
+                "isRepack": true
             }
         },
         "qualityWeight": 1201,
@@ -488,10 +488,14 @@
         "episodeRequested": true,
         "downloadAllowed": true,
         "releaseWeight": 5,
-        "customFormats": [],
-        "customFormatScore": 0,
+        "customFormats": [
+            {"id": 1, "name": "HEVC"},
+            {"id": 2, "name": "HD Spanish"},
+            {"id": 5, "name": "Tier 1"},
+        ],
+        "customFormatScore": 1234,
         "protocol": "usenet",
-        "indexerFlags": 0,
+        "indexerFlags": 2,
         "isDaily": false,
         "isAbsoluteNumbering": false,
         "isPossibleSpecialEpisode": false,

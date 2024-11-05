@@ -219,14 +219,18 @@ struct SeriesReleaseSheet: View {
     func flags() -> [String] {
         var flags: [String] = []
 
-        if let score = release.scoreLabel, release.customFormatScore != 0 {
-            flags.append(score)
-        }
-
         let indexerFlags = release.releaseFlags
 
         if !indexerFlags.isEmpty {
             flags.append(contentsOf: indexerFlags.map { $0.label })
+        }
+
+        if release.isProper {
+            flags.append(String(localized: "Proper"))
+        }
+
+        if release.isRepack {
+            flags.append(String(localized: "Repack"))
         }
 
         return flags
@@ -235,12 +239,8 @@ struct SeriesReleaseSheet: View {
     func tags() -> [String] {
         var tags: [String] = []
 
-        if release.isProper {
-            tags.append(String(localized: "Proper"))
-        }
-
-        if release.isRepack {
-            tags.append(String(localized: "Repack"))
+        if let score = release.scoreLabel, release.customFormatScore != 0 {
+            tags.append(score)
         }
 
         if release.hasCustomFormats {

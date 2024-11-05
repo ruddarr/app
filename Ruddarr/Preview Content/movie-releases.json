@@ -5322,11 +5322,15 @@
       "revision": {
         "version": 1,
         "real": 0,
-        "isRepack": false
+        "isRepack": true
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "x264"},
+        {"id": 2, "name": "HD Spanish"},
+        {"id": 5, "name": "Tier 1"},
+    ],
+    "customFormatScore": 1234,
     "qualityWeight": 1801,
     "age": 1152,
     "ageHours": 27663.467827815944,
