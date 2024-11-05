@@ -20,21 +20,21 @@ class History {
         var results: [MediaHistoryEvent] = []
 
         do {
-            try await withThrowingTaskGroup(of: Void.self) { group in
+            try await withThrowingTaskGroup(of: (Instance, MediaHistory).self) { group in
                 for instance in instances {
-                    if !(hasMore[instance.id] ?? true) {
+                    if hasMore[instance.id] == false {
                         continue
                     }
 
                     group.addTask {
-                        let result = try await dependencies.api.fetchHistory(page, 25, instance)
-
-                        results.append(contentsOf: result.records)
-                        self.hasMore[instance.id] = result.totalRecords > result.page * result.pageSize
+                        (instance, try await dependencies.api.fetchHistory(page, 25, instance))
                     }
                 }
 
-                try await group.waitForAll()
+                for try await (instance, history) in group {
+                    results.append(contentsOf: history.records)
+                    hasMore[instance.id] = history.totalRecords > history.page * history.pageSize
+                }
             }
         } catch is CancellationError {
             // do nothing
