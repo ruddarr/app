@@ -64,7 +64,7 @@ struct HistoryView: View {
             if history.events.isEmpty && history.isLoading {
                 Loading()
             } else if history.events.isEmpty {
-                ContentUnavailableView("No History", systemImage: "slash.circle")
+                ContentUnavailableView("No Events", systemImage: "slash.circle")
             } else if events.isEmpty {
                 noMatchingEvents
             }

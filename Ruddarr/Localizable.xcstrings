@@ -2418,6 +2418,16 @@
         }
       }
     },
+    "Multi-Episode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Multi-Episode"
+          }
+        }
+      }
+    },
     "Multilingual" : {
       "localizations" : {
         "en" : {
@@ -2509,6 +2519,16 @@
         }
       }
     },
+    "No Events" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Events"
+          }
+        }
+      }
+    },
     "No Events Match" : {
       "localizations" : {
         "en" : {
@@ -2525,16 +2545,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No events match the selected filters."
-          }
-        }
-      }
-    },
-    "No History" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No History"
           }
         }
       }
@@ -2646,16 +2656,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No series match the selected filters."
-          }
-        }
-      }
-    },
-    "No Tasks" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Tasks"
           }
         }
       }
@@ -3362,6 +3362,16 @@
         }
       }
     },
+    "Queues Empty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queues Empty"
+          }
+        }
+      }
+    },
     "Rating" : {
       "localizations" : {
         "en" : {
@@ -3438,6 +3448,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Release Rejected"
+          }
+        }
+      }
+    },
+    "Release Type" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release Type"
           }
         }
       }
