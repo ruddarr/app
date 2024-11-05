@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B949CE32CC926060088B1A8 /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA77622BDACD6300568E64 /* SentrySwiftUI */; };
+		2B949CE52CC92CA20088B1A8 /* sonarr-history.json in Resources */ = {isa = PBXBuildFile; fileRef = 2B949CE42CC92C970088B1A8 /* sonarr-history.json */; };
+		2B949CE72CC92F370088B1A8 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949CE62CC92F320088B1A8 /* History.swift */; };
+		2B949CEB2CCBC8690088B1A8 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949CEA2CCBC8600088B1A8 /* HistoryView.swift */; };
 		790D1EC52B864EC700FCDB64 /* QuickActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D1EC42B864EC700FCDB64 /* QuickActions.swift */; };
 		79159D6C2B5953D700F7F997 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D6B2B5953D700F7F997 /* Dependencies.swift */; };
 		79159D6E2B5953E800F7F997 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D6D2B5953E800F7F997 /* API.swift */; };
@@ -86,6 +90,7 @@
 		BB77C2CE2C1A019B00125852 /* AppShortcuts.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BB77C2CD2C1A019B00125852 /* AppShortcuts.xcstrings */; };
 		BB79FB912CAF3C16002F8C0F /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB79FB902CAF3C16002F8C0F /* Tips.swift */; };
 		BB7DDF652B718DFB0001CDFC /* MovieReleaseSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7DDF642B718DFB0001CDFC /* MovieReleaseSheet.swift */; };
+		BB81000A2CD5977600499666 /* radarr-history.json in Resources */ = {isa = PBXBuildFile; fileRef = BB8100092CD5976B00499666 /* radarr-history.json */; };
 		BB83AFA52CB2080E00349997 /* InstanceCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB83AFA42CB2080C00349997 /* InstanceCommand.swift */; };
 		BB865E612B83C11E00ADCEFE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB865E602B83C11E00ADCEFE /* Error.swift */; };
 		BB89ABC62B756B91009FB62D /* MovieReleaseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */; };
@@ -218,6 +223,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2B949CE42CC92C970088B1A8 /* sonarr-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sonarr-history.json"; sourceTree = "<group>"; };
+		2B949CE62CC92F320088B1A8 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
+		2B949CEA2CCBC8600088B1A8 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		790D1EC42B864EC700FCDB64 /* QuickActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActions.swift; sourceTree = "<group>"; };
 		79159D6B2B5953D700F7F997 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		79159D6D2B5953E800F7F997 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -296,6 +304,7 @@
 		BB77C2CD2C1A019B00125852 /* AppShortcuts.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = AppShortcuts.xcstrings; sourceTree = "<group>"; };
 		BB79FB902CAF3C16002F8C0F /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		BB7DDF642B718DFB0001CDFC /* MovieReleaseSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseSheet.swift; sourceTree = "<group>"; };
+		BB8100092CD5976B00499666 /* radarr-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "radarr-history.json"; sourceTree = "<group>"; };
 		BB83AFA42CB2080C00349997 /* InstanceCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceCommand.swift; sourceTree = "<group>"; };
 		BB865E602B83C11E00ADCEFE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseRow.swift; sourceTree = "<group>"; };
@@ -408,6 +417,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B949CE32CC926060088B1A8 /* SentrySwiftUI in Frameworks */,
 				BB0FE10F2BEC660500D1D847 /* CloudStorage in Frameworks */,
 				BB715EBF2CCAA2AD003B12A0 /* SentrySwiftUI in Frameworks */,
 				BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */,
@@ -596,6 +606,7 @@
 		BBB8AED22C10DA0F00AA2D9C /* Activity */ = {
 			isa = PBXGroup;
 			children = (
+				2B949CEA2CCBC8600088B1A8 /* HistoryView.swift */,
 				BB50F2282C3B3322005E14CA /* ActivityView+Toolbar.swift */,
 				BBDBBC682C13A0600087C844 /* QueueSort.swift */,
 				BB50F2262C3B06AD005E14CA /* QueueListItem.swift */,
@@ -703,6 +714,8 @@
 				BB94F1BA2B7E8A190050F6A0 /* notifications.json */,
 				BBF583C12BACBE1400AFA7FB /* calendar-movies.json */,
 				BBF583C32BACBE5000AFA7FB /* calendar-episodes.json */,
+				BB8100092CD5976B00499666 /* radarr-history.json */,
+				2B949CE42CC92C970088B1A8 /* sonarr-history.json */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -710,6 +723,7 @@
 		BBF477A62B4F8AA300C2DED3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2B949CE62CC92F320088B1A8 /* History.swift */,
 				BBF583C02BACA40D00AFA7FB /* Movies */,
 				BB507D202BD9702B00EC4016 /* Series */,
 				BBF583BF2BACA3FE00AFA7FB /* Instances */,
@@ -911,6 +925,7 @@
 				BBF583B62BABDB1300AFA7FB /* series.json in Resources */,
 				BB29BFE82BD024A700D00122 /* ci_post_clone.sh in Resources */,
 				BBE1E4432B51FA0200946222 /* movie-lookup.json in Resources */,
+				BB81000A2CD5977600499666 /* radarr-history.json in Resources */,
 				BBC0E6202C02458E009543E3 /* series-queue.json in Resources */,
 				BBA7336B2BB6261D00A5022B /* movie-files.json in Resources */,
 				BBB869212B6CB0AC009C1A54 /* movie-releases.json in Resources */,
@@ -925,6 +940,7 @@
 				BBA733672BB5278800A5022B /* movie-history.json in Resources */,
 				BB456D272B58E4B900C29B00 /* system-status.json in Resources */,
 				BB96C32D2BE8351800E24C1C /* series-releases.json in Resources */,
+				2B949CE52CC92CA20088B1A8 /* sonarr-history.json in Resources */,
 				BBE1E4412B51F9DC00946222 /* movies.json in Resources */,
 				BBE8285F2B4F2C7100C1E1D9 /* Preview Assets.xcassets in Resources */,
 				BB507D2A2BD9799300EC4016 /* series-lookup.json in Resources */,
@@ -998,6 +1014,7 @@
 				BB96C32F2BE8889E00E24C1C /* SeriesEditView.swift in Sources */,
 				BB96C3232BE7DEAF00E24C1C /* EpisodeView.swift in Sources */,
 				BBE7CE032B91745100431801 /* MovieDetails+Information.swift in Sources */,
+				2B949CEB2CCBC8690088B1A8 /* HistoryView.swift in Sources */,
 				79159D6E2B5953E800F7F997 /* API.swift in Sources */,
 				BB05C9052B86D0EC009B6444 /* Languages.swift in Sources */,
 				BBC136A42B62DD780074C7AA /* Network.swift in Sources */,
@@ -1057,6 +1074,7 @@
 				BB7666CF2BA51F49009D4F68 /* Calendar.swift in Sources */,
 				BBD3F2D82BFA578000DE5D8E /* MediaHistory.swift in Sources */,
 				BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */,
+				2B949CE72CC92F370088B1A8 /* History.swift in Sources */,
 				BBAED12D2B72D444006C6CF2 /* ButtonLabel.swift in Sources */,
 				BBC6CEF72BE69BEE00F71839 /* MediaFile.swift in Sources */,
 				BB4140C62B71CA89007C7DA4 /* MovieReleaseSort.swift in Sources */,
