@@ -38,6 +38,7 @@ struct QueueItemSheet: View {
                                 .fontWeight(.medium)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .fixedSize(horizontal: false, vertical: true)
+                                .textSelection(.enabled)
                         }
                         .padding(.bottom)
                     } else if !item.messages.isEmpty {
@@ -187,13 +188,10 @@ struct QueueItemSheet: View {
     }
 
     func row(_ label: LocalizedStringKey, _ value: String) -> some View {
-        renderRow(
-            label,
-            Text(value).foregroundStyle(.primary)
-        )
+        row(label, Text(value).foregroundStyle(.primary))
     }
 
-    func renderRow<V: View>(_ label: LocalizedStringKey, _ value: V) -> some View {
+    func row<V: View>(_ label: LocalizedStringKey, _ value: V) -> some View {
         HStack(alignment: .top) {
             Text(label)
                 .foregroundStyle(.secondary)
