@@ -1,10 +1,5 @@
 import SwiftUI
 
-// TODO: show score, delete reason, ignored message
-// TODO: .refreshable()
-// TODO: show instance name on cards
-// TODO: shorter dates?
-
 struct HistoryView: View {
     @State private var page: Int = 1
     @State private var history: History = .init()
@@ -33,7 +28,8 @@ struct HistoryView: View {
                             }
                             .buttonStyle(.bordered)
                         }
-                    }.padding(.bottom, 32)
+                    }
+                    .padding(.vertical, 12)
                 }
             }
             .frame(maxWidth: .infinity)
@@ -68,7 +64,9 @@ struct HistoryView: View {
             if history.events.isEmpty && history.isLoading {
                 Loading()
             } else if history.events.isEmpty {
-                ContentUnavailableView("No Tasks", systemImage: "slash.circle")
+                ContentUnavailableView("No History", systemImage: "slash.circle")
+            } else if events.isEmpty {
+                noMatchingEvents
             }
         }
     }
@@ -94,16 +92,16 @@ struct HistoryView: View {
                     instancePicker
                 }
 
-//                Picker(selection: $displayedEventType, label: Text("Event Type")) {
-//                    Text("All Events").tag(".all")
-//                    Text("Grabbed").tag(".grabbed")
-//                    Text("Imported").tag(".imported")
-//                    Text("Failed").tag(".failed")
-//                    Text("Ignored").tag(".ignored")
-//                    Text("Renamed").tag(".renamed")
-//                    Text("Deleted").tag(".deleted")
-//                }
-//                .pickerStyle(.inline)
+                Picker(selection: $displayedEventType, label: Text("Event Type")) {
+                    Text("All Events").tag(".all")
+                    Text("Grabbed").tag(".grabbed")
+                    Text("Imported").tag(".imported")
+                    Text("Failed").tag(".failed")
+                    Text("Ignored").tag(".ignored")
+                    Text("Renamed").tag(".renamed")
+                    Text("Deleted").tag(".deleted")
+                }
+                .pickerStyle(.inline)
             } label: {
                 if displayedInstance != ".all" {
                     Image("filters.badge").offset(y: 3.2)
@@ -130,6 +128,19 @@ struct HistoryView: View {
             }?.label ?? String(localized: "Instance")
 
             Label(label, systemImage: "internaldrive")
+        }
+    }
+
+    var noMatchingEvents: some View {
+        ContentUnavailableView {
+            Label("No Events Match", systemImage: "slash.circle")
+        } description: {
+            Text("No events match the selected filters.")
+        } actions: {
+            Button("Clear Filters") {
+                displayedInstance = ".all"
+                displayedEventType = ".all"
+            }
         }
     }
 }

@@ -310,6 +310,16 @@
         }
       }
     },
+    "All Events" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All Events"
+          }
+        }
+      }
+    },
     "All instance queues are empty." : {
       "localizations" : {
         "en" : {
@@ -1359,6 +1369,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error"
+          }
+        }
+      }
+    },
+    "Event Type" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Event Type"
           }
         }
       }
@@ -2485,6 +2505,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No Automatic Search"
+          }
+        }
+      }
+    },
+    "No Events Match" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Events Match"
+          }
+        }
+      }
+    },
+    "No events match the selected filters." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No events match the selected filters."
+          }
+        }
+      }
+    },
+    "No History" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No History"
           }
         }
       }
