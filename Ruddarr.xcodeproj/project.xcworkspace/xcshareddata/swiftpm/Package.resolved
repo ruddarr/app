@@ -1,13 +1,13 @@
 {
-  "originHash" : "992570033371f696cd666e6fc4814db5f6377f2a2da1cba786a1daa0a4df5a50",
+  "originHash" : "f8a84818498fded773a093d0d76f932848a72bdc678d7cd447609c169fc85520",
   "pins" : [
     {
       "identity" : "cloudstorage",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nonstrict-hq/CloudStorage.git",
       "state" : {
-        "revision" : "766a589bd1347dbf9c0f658dd6f35e82ba445392",
-        "version" : "0.5.0"
+        "revision" : "62db0c9e025430aae7caee899cc69cf15bc4579d",
+        "version" : "0.6.0"
       }
     },
     {
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa.git",
       "state" : {
-        "revision" : "54cc2e3e4fcbf9d4c7708ce00d3b6eee29aecbb1",
-        "version" : "8.38.0"
+        "revision" : "0ffc3c6287461962cb2a81e57fc0ee0335d8d56a",
+        "version" : "8.40.1"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/TelemetryDeck/SwiftSDK",
       "state" : {
-        "revision" : "b825e49b1e5d125191ac671f54402567b0a7a7f8",
-        "version" : "2.4.1"
+        "revision" : "1d9ac496ff02969c7b87cccac17e46ee7c148453",
+        "version" : "2.5.1"
       }
     }
   ],

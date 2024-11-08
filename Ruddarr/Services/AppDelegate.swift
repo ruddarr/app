@@ -134,7 +134,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         )
 
         configuration.defaultUser = UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
-        configuration.logHandler = LogHandler.stdout(.error)
 
         TelemetryDeck.initialize(config: configuration)
     }

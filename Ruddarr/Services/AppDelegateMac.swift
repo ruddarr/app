@@ -58,8 +58,6 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
             appID: Secrets.TelemetryAppId
         )
 
-        configuration.logHandler = LogHandler.stdout(.error)
-
         TelemetryDeck.initialize(config: configuration)
     }
 }
