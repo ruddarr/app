@@ -24,6 +24,9 @@ struct SettingsAboutSection: View {
                     .foregroundStyle(settings.theme.tint)
             }
         }
+        #if os(macOS)
+            .buttonStyle(.link)
+        #endif
     }
 
     var review: some View {
@@ -51,6 +54,9 @@ struct SettingsAboutSection: View {
                     .foregroundStyle(settings.theme.tint)
             }
         }
+        #if os(macOS)
+            .buttonStyle(.link)
+        #endif
     }
 
     @MainActor

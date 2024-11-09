@@ -811,6 +811,16 @@
         }
       }
     },
+    "Close" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
     "Codec" : {
       "localizations" : {
         "en" : {
