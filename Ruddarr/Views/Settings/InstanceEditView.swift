@@ -8,6 +8,7 @@ struct InstanceEditView: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
+    @Environment(\.dismiss) var dismiss
 
     @State var isLoading = false
     @State var showingAlert = false
@@ -251,7 +252,7 @@ struct InstanceEditView: View {
 
     @ToolbarContentBuilder
     var toolbarButton: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
+        ToolbarItem(placement: .confirmationAction) {
             if isLoading {
                 ProgressView().tint(.secondary)
             } else {

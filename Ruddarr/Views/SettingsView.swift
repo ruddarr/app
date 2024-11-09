@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @State private var showInstanceForm: Bool = false
     @State private var showInstanceNameWarning: Bool = false
 
     @EnvironmentObject var settings: AppSettings
@@ -60,9 +61,7 @@ struct SettingsView: View {
                 }
             }
 
-            NavigationLink(value: Path.createInstance) {
-                Text("Add Instance")
-            }
+            addInstance
         } header: {
             Text("Instances")
         } footer: {
@@ -73,6 +72,32 @@ struct SettingsView: View {
         }.task {
             await checkInstanceName()
         }
+    }
+
+    var addInstance: some View {
+        #if os(iOS)
+            NavigationLink(value: Path.createInstance) {
+                Text("Add Instance")
+            }
+        #else
+            Button("Add Instance") {
+                showInstanceForm = true
+            }
+            .sheet(isPresented: $showInstanceForm) {
+                InstanceEditView(mode: .create, instance: Instance())
+                    .environment(radarrInstance)
+                    .environment(sonarrInstance)
+                    .environmentObject(settings)
+                    .padding(.all)
+                    .toolbar {
+                        ToolbarItem(placement: .automatic) {
+                            Button("Close") {
+                                showInstanceForm = false
+                            }
+                        }
+                    }
+            }
+        #endif
     }
 
     func checkInstanceName() async {

@@ -17,11 +17,13 @@ extension InstanceEditView {
 
             #if os(iOS)
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
-            #endif
 
-            if !dependencies.router.settingsPath.isEmpty {
-                dependencies.router.settingsPath.removeLast()
-            }
+                if !dependencies.router.settingsPath.isEmpty {
+                    dependencies.router.settingsPath.removeLast()
+                }
+            #else
+                dismiss()
+            #endif
         } catch let error as InstanceError {
             isLoading = false
             showingAlert = true
