@@ -15,11 +15,14 @@ struct SettingsPreferencesSection: View {
             tabPicker
             appearancePicker
             themePicker
-            iconPicker
 
-            if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
-                manageSubscription
-            }
+            #if os(iOS)
+                iconPicker
+
+                if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
+                    manageSubscription
+                }
+            #endif
         } header: {
             Text("Preferences")
         }
