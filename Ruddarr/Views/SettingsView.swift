@@ -61,7 +61,7 @@ struct SettingsView: View {
                 }
             }
 
-            addInstance
+            addInstanceButton
         } header: {
             Text("Instances")
         } footer: {
@@ -74,7 +74,7 @@ struct SettingsView: View {
         }
     }
 
-    var addInstance: some View {
+    var addInstanceButton: some View {
         #if os(iOS)
             NavigationLink(value: Path.createInstance) {
                 Text("Add Instance")

@@ -97,6 +97,10 @@ struct InstanceEditView: View {
             urlField
         } footer: {
             Text("The URL used to access the \(instance.type.rawValue) web interface. Must be prefixed with \"http://\" or \"https://\".")
+                #if os(macOS)
+                .foregroundStyle(.secondary)
+                .font(.footnote)
+                #endif
         }
     }
 
@@ -105,9 +109,16 @@ struct InstanceEditView: View {
             apiKeyField
         } header: {
             Text("Authentication")
+                #if os(macOS)
+                .padding(.top)
+                #endif
         } footer: {
             VStack(alignment: .leading, spacing: 12) {
                 Text("The API Key can be found in the web interface under \"Settings > General > Security\".")
+                    #if os(macOS)
+                    .foregroundStyle(.secondary)
+                    .font(.footnote)
+                    #endif
 
                 if !showAdvanced {
                     Text("Show Advanced Settings")
@@ -181,8 +192,15 @@ struct InstanceEditView: View {
                     instance.mode = value ? .slow : .normal
                 }
             ))
+            #if os(macOS)
+            .padding(.top)
+            #endif
         } footer: {
             Text("Optimizes API calls for instances that load unusually slowly and encounter timeouts frequently.")
+                #if os(macOS)
+                .foregroundStyle(.secondary)
+                .font(.footnote)
+                #endif
         }
     }
 
@@ -211,11 +229,18 @@ struct InstanceEditView: View {
                 Spacer()
                 pasteButton(pasteHeader)
             }
+            #if os(macOS)
+            .padding(.top)
+            #endif
         } footer: {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Custom Headers can be used to access instances protected by Zero Trust services.")
                 Text("Basic Authentication is for advanced server management tools and will not work with the \(instance.type.rawValue) instance login.")
             }
+            #if os(macOS)
+            .foregroundStyle(.secondary)
+            .font(.footnote)
+            #endif
         }
     }
 
