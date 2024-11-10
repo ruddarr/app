@@ -11,7 +11,7 @@ struct HistoryView: View {
 
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 12) {
+            VStack(spacing: 12) {
                 ForEach(events) { event in
                     MediaHistoryItem(event: event)
                         .environmentObject(settings)
