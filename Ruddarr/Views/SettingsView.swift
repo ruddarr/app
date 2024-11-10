@@ -39,6 +39,8 @@ struct SettingsView: View {
                 case .viewInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
                         InstanceView(instance: instance)
+                            .environment(radarrInstance)
+                            .environment(sonarrInstance)
                             .environmentObject(settings)
                     }
                 case .editInstance(let instanceId):

@@ -294,20 +294,30 @@ struct InstanceHeaderRow: View {
     @Binding var header: InstanceHeader
 
     var body: some View {
-        LabeledContent {
-            TextField("Value", text: $header.value)
-                .multilineTextAlignment(.trailing)
-                .autocorrectionDisabled(true)
-                #if os(iOS)
-                .textInputAutocapitalization(.never)
-                #endif
-        } label: {
-            TextField("Name", text: $header.name)
-                .autocorrectionDisabled(true)
-                #if os(iOS)
-                .textInputAutocapitalization(.never)
-                #endif
-        }
+        #if os(iOS)
+            LabeledContent {
+                TextField("Value", text: $header.value)
+                    .multilineTextAlignment(.trailing)
+                    .autocorrectionDisabled(true)
+                    #if os(iOS)
+                    .textInputAutocapitalization(.never)
+                    #endif
+            } label: {
+                TextField("Name", text: $header.name)
+                    .autocorrectionDisabled(true)
+                    #if os(iOS)
+                    .textInputAutocapitalization(.never)
+                    #endif
+            }
+        #else
+            VStack {
+                TextField("Name", text: $header.name)
+                    .autocorrectionDisabled(true)
+
+                TextField("Value", text: $header.value)
+                    .autocorrectionDisabled(true)
+            }
+        #endif
     }
 }
 
