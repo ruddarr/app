@@ -52,6 +52,9 @@ struct SeasonView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
+        #if os(macOS)
+            .padding(.vertical)
+        #endif
     }
 
     var season: Season {
