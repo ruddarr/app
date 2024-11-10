@@ -102,7 +102,10 @@ class MovieMetadata {
     func delete(_ file: MediaFile) async -> Bool {
         do {
             _ = try await dependencies.api.deleteMovieFile(file, instance)
-            files.remove(at: files.firstIndex { $0.id == file.id } ?? 0)
+
+            if let index = files.firstIndex(where: { $0.id == file.id }) {
+                files.remove(at: index)
+            }
 
             return true
         } catch is CancellationError {
