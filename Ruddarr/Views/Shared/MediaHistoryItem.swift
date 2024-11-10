@@ -6,7 +6,7 @@ struct MediaHistoryItem: View {
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
-        GroupBox {
+        LabeledGroupBox {
             ViewThatFits(in: .horizontal) {
                 HStack(spacing: 6) {
                     Text(event.quality.quality.label)

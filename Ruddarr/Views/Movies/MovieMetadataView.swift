@@ -120,7 +120,7 @@ struct MovieFilesFile: View {
     @State private var showDeleteConfirmation = false
 
     var body: some View {
-        GroupBox {
+        LabeledGroupBox {
             HStack(spacing: 6) {
                 Text(file.quality.quality.label)
                 Bullet()
@@ -165,7 +165,7 @@ struct MovieFilesExtraFile: View {
     var file: MovieExtraFile
 
     var body: some View {
-        GroupBox {
+        LabeledGroupBox {
             HStack(spacing: 6) {
                 Text(file.type.label)
                 Spacer()

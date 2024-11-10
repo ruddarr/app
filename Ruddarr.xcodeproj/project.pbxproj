@@ -47,6 +47,7 @@
 		BB336F8A2B9A32FE000904FA /* MovieSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB336F892B9A32FE000904FA /* MovieSearchView.swift */; };
 		BB351D7C2CB4A330002AAEBF /* MovieLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB351D7B2CB4A330002AAEBF /* MovieLinks.swift */; };
 		BB351D7E2CB4A7CF002AAEBF /* SeriesLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB351D7D2CB4A7CF002AAEBF /* SeriesLinks.swift */; };
+		BB3B4BF92CE13437001A8896 /* LabeledGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B4BF82CE13435001A8896 /* LabeledGroupBox.swift */; };
 		BB3CC7212C192C980024FA90 /* MovieDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3CC7202C192C980024FA90 /* MovieDefaults.swift */; };
 		BB3EBC012CC052B700141868 /* QueueTaskRemovalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3EBC002CC052B700141868 /* QueueTaskRemovalView.swift */; };
 		BB4071302C1CDD32006A3FA5 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB40712F2C1CDD32006A3FA5 /* NotificationService.swift */; };
@@ -261,6 +262,7 @@
 		BB336F892B9A32FE000904FA /* MovieSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchView.swift; sourceTree = "<group>"; };
 		BB351D7B2CB4A330002AAEBF /* MovieLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieLinks.swift; sourceTree = "<group>"; };
 		BB351D7D2CB4A7CF002AAEBF /* SeriesLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesLinks.swift; sourceTree = "<group>"; };
+		BB3B4BF82CE13435001A8896 /* LabeledGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledGroupBox.swift; sourceTree = "<group>"; };
 		BB3CC7202C192C980024FA90 /* MovieDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDefaults.swift; sourceTree = "<group>"; };
 		BB3EBC002CC052B700141868 /* QueueTaskRemovalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTaskRemovalView.swift; sourceTree = "<group>"; };
 		BB40712D2C1CDD32006A3FA5 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -632,6 +634,7 @@
 				BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */,
 				BBAFC7E62BB733E800245D10 /* MediaEventSheet.swift */,
 				BB50F2242C39BFDA005E14CA /* MediaHistoryItem.swift */,
+				BB3B4BF82CE13435001A8896 /* LabeledGroupBox.swift */,
 				BB204F582CBCE2CA00ACDC0B /* LinkContextMenu.swift */,
 				BB79FB902CAF3C16002F8C0F /* Tips.swift */,
 			);
@@ -1028,6 +1031,7 @@
 				BB3EBC012CC052B700141868 /* QueueTaskRemovalView.swift in Sources */,
 				BBF706BC2B6220BF00B2B504 /* Sentry.swift in Sources */,
 				BB0C3EC72BF90C5900632CB1 /* NoInstance.swift in Sources */,
+				BB3B4BF92CE13437001A8896 /* LabeledGroupBox.swift in Sources */,
 				BBC94DE92B5F63A000504568 /* Telemetry.swift in Sources */,
 				BBBCA05C2BE958F300BAE374 /* Toolbar.swift in Sources */,
 				BB9DC2252BA920AF00459FFF /* API+Error.swift in Sources */,

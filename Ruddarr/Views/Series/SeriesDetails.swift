@@ -153,7 +153,7 @@ struct SeriesDetails: View {
             LazyVStack(alignment: .leading, spacing: 12) {
                 ForEach(series.seasons.reversed()) { season in
                     NavigationLink(value: SeriesPath.season(series.id, season.id)) {
-                        GroupBox {
+                        LabeledGroupBox {
                             HStack(spacing: 12) {
                                 Text(season.label)
                                     .fontWeight(.medium)

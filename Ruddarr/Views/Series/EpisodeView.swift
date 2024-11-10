@@ -212,7 +212,7 @@ struct EpisodeView: View {
     var file: some View {
         Section {
             if let file = episodeFile {
-                GroupBox {
+                LabeledGroupBox {
                     HStack(spacing: 6) {
                         Text(file.quality.quality.label)
                         Bullet()

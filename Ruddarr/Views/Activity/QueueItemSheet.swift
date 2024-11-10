@@ -32,7 +32,7 @@ struct QueueItemSheet: View {
                         .padding(.vertical)
 
                     if let error = item.errorMessage, !error.isEmpty {
-                        GroupBox {
+                        LabeledGroupBox {
                             Text(error)
                                 .font(.subheadline)
                                 .fontWeight(.medium)
@@ -42,7 +42,7 @@ struct QueueItemSheet: View {
                         }
                         .padding(.bottom)
                     } else if !item.messages.isEmpty {
-                        GroupBox {
+                        LabeledGroupBox {
                             statusMessages
                         }.padding(.bottom)
                     }
