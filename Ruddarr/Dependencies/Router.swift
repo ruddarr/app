@@ -3,7 +3,7 @@ import Combine
 import AppIntents
 
 @Observable
-final class Router {
+final class Router: Sendable {
     static let shared = Router()
 
     var selectedTab: TabItem = .movies
@@ -23,7 +23,7 @@ final class Router {
     }
 }
 
-enum TabItem: String, Identifiable, Hashable {
+enum TabItem: String, Identifiable, Hashable, Sendable {
     var id: Self { self }
 
     case movies

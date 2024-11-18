@@ -1,7 +1,7 @@
 import SwiftUI
 import CoreSpotlight
 
-protocol Media: Identifiable {
+protocol Media: Identifiable, Sendable {
     var title: String { get }
     var remotePoster: String? { get }
 

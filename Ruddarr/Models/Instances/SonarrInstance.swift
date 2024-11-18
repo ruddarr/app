@@ -2,6 +2,7 @@ import os
 import SwiftUI
 import Foundation
 
+@MainActor
 @Observable
 class SonarrInstance {
     private var instance: Instance

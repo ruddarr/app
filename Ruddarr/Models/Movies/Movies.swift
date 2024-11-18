@@ -1,6 +1,7 @@
 import os
 import SwiftUI
 
+@MainActor
 @Observable
 class Movies {
     var instance: Instance
@@ -109,7 +110,6 @@ class Movies {
         await request(.command(command))
     }
 
-    @MainActor
     func request(_ operation: Operation) async -> Bool {
         error = nil
         isWorking = true
@@ -131,7 +131,6 @@ class Movies {
         return error == nil
     }
 
-    @MainActor
     private func performOperation(_ operation: Operation) async throws {
         switch operation {
         case .fetch:

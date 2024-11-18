@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 @Observable
 class Queue {
     static let shared = Queue()
@@ -30,7 +31,6 @@ class Queue {
         items.flatMap { $0.value }.filter { $0.hasIssue }.count
     }
 
-    @MainActor
     func fetchTasks() async {
         guard !isLoading else { return }
 

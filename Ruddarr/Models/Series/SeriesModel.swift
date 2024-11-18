@@ -1,6 +1,7 @@
 import os
 import SwiftUI
 
+@MainActor
 @Observable
 class SeriesModel {
     var instance: Instance
@@ -114,7 +115,6 @@ class SeriesModel {
         await request(.command(command))
     }
 
-    @MainActor
     func request(_ operation: Operation, silent: Bool = false) async -> Bool {
         if !silent {
             error = nil
@@ -144,7 +144,6 @@ class SeriesModel {
         return error == nil
     }
 
-    @MainActor
     private func performOperation(_ operation: Operation) async throws {
         switch operation {
         case .fetch:

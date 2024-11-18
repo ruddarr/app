@@ -125,11 +125,11 @@ class Notifications {
                     continue
                 }
 
-                let webhook = InstanceWebhook(instance)
+                let webhook = await InstanceWebhook(instance)
 
                 await webhook.update(cloudKitUserId)
 
-                if webhook.error == nil {
+                if await webhook.error == nil {
                     Occurrence.occurred(lastUpdate)
                 }
             }

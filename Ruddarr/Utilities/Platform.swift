@@ -1,6 +1,7 @@
 import SwiftUI
 
 class Platform {
+    @MainActor
     static func deviceId() -> String {
         #if os(macOS)
             "unknown (macOS)"
@@ -9,6 +10,7 @@ class Platform {
         #endif
     }
 
+    @MainActor
     static func deviceType() -> DeviceType {
         #if os(macOS)
             .mac

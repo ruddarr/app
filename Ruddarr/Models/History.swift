@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 @Observable
 class History {
     var instances: [Instance] = []
@@ -12,7 +13,6 @@ class History {
 
     var isLoading: Bool = false
 
-    @MainActor
     func fetch(_ page: Int) async {
         error = nil
         isLoading = true

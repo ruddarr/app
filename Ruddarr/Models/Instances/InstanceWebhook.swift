@@ -2,6 +2,7 @@ import os
 import SwiftUI
 import CloudKit
 
+@MainActor
 @Observable
 class InstanceWebhook {
     var instance: Instance
@@ -66,7 +67,6 @@ class InstanceWebhook {
         notifications = try await dependencies.api.fetchNotifications(instance)
     }
 
-    @MainActor
     private func createWebook(_ accountId: CKRecord.ID?) async throws {
         try await fetchWebhooks()
 
@@ -89,7 +89,6 @@ class InstanceWebhook {
         notifications.append(model)
     }
 
-    @MainActor
     private func updateWebook(_ accountId: CKRecord.ID?) async throws {
         if model.id == nil {
             try await createWebook(accountId)
