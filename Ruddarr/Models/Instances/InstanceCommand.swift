@@ -11,7 +11,7 @@ enum InstanceCommand {
 
     case refreshDownloads
 
-    var payload: Payload {
+    var payload: any Payload {
         switch self {
         case .refreshMovie(let ids):
             RadarrPayload(name: "RefreshMovie", movieIds: ids)

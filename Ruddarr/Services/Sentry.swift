@@ -87,7 +87,7 @@ enum EnvironmentType: String {
     case testflight
     case appstore
 
-    static var cache: EnvironmentType?
+    nonisolated(unsafe) static var cache: EnvironmentType?
 }
 
 func isRunningIn(_ env: EnvironmentType) -> Bool {

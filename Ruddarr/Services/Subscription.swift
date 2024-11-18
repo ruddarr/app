@@ -2,8 +2,8 @@ import SwiftUI
 import StoreKit
 
 class Subscription {
-    static var group: String = "21452440"
-    static var name: String = "Ruddarr+"
+    static let group: String = "21452440"
+    static let name: String = "Ruddarr+"
 
     static func entitledToService() async -> Bool {
         do {

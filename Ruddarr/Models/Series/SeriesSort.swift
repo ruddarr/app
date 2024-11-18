@@ -124,7 +124,7 @@ extension SeriesSort: Codable {
         case filter
     }
 
-    init(from decoder: Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         try self.init(
@@ -134,7 +134,7 @@ extension SeriesSort: Codable {
         )
     }
 
-    func encode(to encoder: Encoder) throws {
+    func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(isAscending, forKey: .isAscending)
         try container.encode(option, forKey: .option)

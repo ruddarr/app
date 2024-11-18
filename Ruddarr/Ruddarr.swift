@@ -79,14 +79,14 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static var version: String = "1.3.0"
+    static let version: String = "1.3.1"
 
-    static var features: [WhatsNewFeature] = [
         .init(
             image: "sidebar.left",
             title: "iPadOS 18 TabView",
             subtitle: "Modernized iPad sidebar and keep views alive when switching tabs."
         ),
+    static let features: [WhatsNewFeature] = [
         .init(
             image: "waveform.path.ecg",
             title: "Faster Queue",

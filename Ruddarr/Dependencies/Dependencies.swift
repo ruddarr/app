@@ -28,4 +28,4 @@ extension Dependencies {
     }
 }
 
-var dependencies: Dependencies = .live
+nonisolated(unsafe) var dependencies: Dependencies = .live

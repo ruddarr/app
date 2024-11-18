@@ -17,16 +17,16 @@ extension API {
         case timeoutOnPrivateIp(_ error: URLError)
 
         case appError(_ error: AppError)
-        case localizedError(_ error: LocalizedError)
+        case localizedError(_ error: any LocalizedError)
         case urlError(_ error: URLError)
         case nsError(_ error: NSError)
-        case error(_ error: Swift.Error)
+        case error(_ error: any Swift.Error)
 
         init(_ value: Error) {
             self = value
         }
 
-        init(from error: Swift.Error) {
+        init(from error: any Swift.Error) {
             if let appError = error as? AppError {
                 self = .appError(appError)
             } else {

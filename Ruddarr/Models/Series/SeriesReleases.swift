@@ -310,7 +310,7 @@ struct SeriesReleaseEpisode: Codable {
 }
 
 struct SeriesReleaseFlags {
-    static var map: [Int: SeriesReleaseFlag] = [
+    static let map: [Int: SeriesReleaseFlag] = [
         1: .freeleech,
         2: .halfleech,
         4: .doubleUpload,

@@ -70,7 +70,7 @@ extension TabItem.Openable: AppEnum {
         }
     }
 
-    static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Tab")
+    static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Tab")
 
     static var caseDisplayRepresentations: [TabItem.Openable: DisplayRepresentation] {[
         .movies: DisplayRepresentation(

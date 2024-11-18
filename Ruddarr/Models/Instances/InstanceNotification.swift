@@ -123,7 +123,7 @@ struct InstanceNotificationField: Codable {
         self.value = value
     }
 
-    init(from decoder: Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         name = try container.decode(String.self, forKey: .name)

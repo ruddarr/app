@@ -1,5 +1,4 @@
-import Foundation
-import SwiftUI
+public import Foundation
 
 extension UUID: @retroactive RawRepresentable {
     public var rawValue: String {
