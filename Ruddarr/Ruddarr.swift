@@ -79,28 +79,33 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static let version: String = "1.3.1"
+    static let version: String = "1.3.2"
 
-        .init(
-            image: "sidebar.left",
-            title: "iPadOS 18 TabView",
-            subtitle: "Modernized iPad sidebar and keep views alive when switching tabs."
-        ),
     static let features: [WhatsNewFeature] = [
-        .init(
-            image: "waveform.path.ecg",
-            title: "Faster Queue",
-            subtitle: "Queue tasks will refresh faster while viewing the Activity tab."
+        .init( // 1.3.2
+            image: "clock.arrow.trianglehead.counterclockwise.rotate.90",
+            title: "History Module",
+            subtitle: "View the complete history of all instances in the Activity tab."
         ),
-        .init(
-            image: "line.3.horizontal.decrease",
-            title: "Filters & Sorting",
-            subtitle: "Added new and improved filters and sorting options."
+        .init( // 1.3.2
+            image: "6.square",
+            title: "Swift 6",
+            subtitle: "Switched to Swift 6 to reduce crashes and improve performance."
         ),
-        .init(
-            image: "sparkle.magnifyingglass",
-            title: "Improved Spotlight Indexer",
-            subtitle: "The Spotlight integration was overhauled and is faster and more reliable."
+        .init( // 1.3.1
+            image: "internaldrive",
+            title: "Bitrate Estimations",
+            subtitle: "Added approximate bitrate calculations for media files and releases."
+        ),
+        .init( // 1.3.1
+            image: "server.rack",
+            title: "Instance Switching",
+            subtitle: "Switch to the correct instance when opening notifications."
+        ),
+        .init( // 1.3.1
+            image: "arrow.down.circle",
+            title: "Faster Requests",
+            subtitle: "Parallelized various API requests to avoid unnecessary load times."
         ),
         .init(
             image: "ant",
