@@ -22,9 +22,13 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
             options.dsn = Secrets.SentryDsn
             options.sendDefaultPii = false
 
+            // options.attachViewHierarchy = false
             options.swiftAsyncStacktraces = true
 
+            options.enableSigtermReporting = true
+            options.enableWatchdogTerminationTracking = true
             options.enableMetricKit = true
+            options.enableAppHangTracking = false
             options.enableCaptureFailedRequests = false
             // options.enablePreWarmedAppStartTracing = true
             options.enableTimeToFullDisplayTracing = true
@@ -54,7 +58,7 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
     }
 
     func configureTelemetryDeck() {
-        var configuration = TelemetryDeck.Config(
+        let configuration = TelemetryDeck.Config(
             appID: Secrets.TelemetryAppId
         )
 

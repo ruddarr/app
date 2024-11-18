@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B949CE32CC926060088B1A8 /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA77622BDACD6300568E64 /* SentrySwiftUI */; };
 		2B949CE52CC92CA20088B1A8 /* sonarr-history.json in Resources */ = {isa = PBXBuildFile; fileRef = 2B949CE42CC92C970088B1A8 /* sonarr-history.json */; };
 		2B949CE72CC92F370088B1A8 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949CE62CC92F320088B1A8 /* History.swift */; };
 		2B949CEB2CCBC8690088B1A8 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949CEA2CCBC8600088B1A8 /* HistoryView.swift */; };
@@ -419,7 +418,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B949CE32CC926060088B1A8 /* SentrySwiftUI in Frameworks */,
 				BB0FE10F2BEC660500D1D847 /* CloudStorage in Frameworks */,
 				BB715EBF2CCAA2AD003B12A0 /* SentrySwiftUI in Frameworks */,
 				BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */,

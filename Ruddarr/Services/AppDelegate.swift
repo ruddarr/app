@@ -98,6 +98,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             options.attachViewHierarchy = false
             options.swiftAsyncStacktraces = true
 
+            options.enableSigtermReporting = true
+            options.enableWatchdogTerminationTracking = true
             options.enableMetricKit = true
             options.enableAppHangTracking = false
             options.enableCaptureFailedRequests = false
