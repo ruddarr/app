@@ -70,7 +70,7 @@ extension InstanceView {
                 comment: "1 = iCloud Drive link, 2 = CloudKit status"
             ),
             "[iCloud Drive](#link)",
-            Telemetry.shared.cloudKitStatus(cloudKitStatus)
+            cloudKitStatusString(cloudKitStatus)
         )
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in

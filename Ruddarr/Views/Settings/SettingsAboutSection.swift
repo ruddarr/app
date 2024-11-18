@@ -66,7 +66,7 @@ struct SettingsAboutSection: View {
 
         let cloudKitStatus = try? await CKContainer.default().accountStatus()
         let cloudKitUserId = try? await CKContainer.default().userRecordID().recordName
-        let ckStatus = Telemetry.shared.cloudKitStatus(cloudKitStatus)
+        let ckStatus = cloudKitStatusString(cloudKitStatus)
 
         let address = "ruddarr@icloud.com"
         let subject = "Support Request (\(uuid))"

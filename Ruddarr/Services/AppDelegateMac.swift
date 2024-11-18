@@ -47,7 +47,7 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
             SentrySDK.configureScope { scope in
                 scope.setContext(value: [
                     "user": cloudKitUserId?.recordName ?? "",
-                    "status": Telemetry.shared.cloudKitStatus(accountStatus),
+                    "status": cloudKitStatusString(accountStatus),
                 ], key: "cloudkit")
             }
         }
