@@ -174,14 +174,16 @@ class Movies {
             return
         }
 
-        Task.detached(priority: .medium) {
-            var titles: [Movie.ID: String] = [:]
+        Task.detached(priority: .background) {
+            let titles: [Movie.ID: String] = await Dictionary(
+                uniqueKeysWithValues: self.items.map { item in
+                    (item.id, item.alternateTitlesString())
+                }
+            )
 
-            for index in self.items.indices {
-                titles[self.items[index].id] = self.items[index].alternateTitlesString()
+            await MainActor.run {
+                self.alternateTitles = titles
             }
-
-            self.alternateTitles = titles
         }
     }
 }

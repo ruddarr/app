@@ -10,7 +10,6 @@ class Platform {
         #endif
     }
 
-    @MainActor
     static func deviceType() -> DeviceType {
         #if os(macOS)
             .mac

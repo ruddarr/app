@@ -191,15 +191,17 @@ class SeriesModel {
         if alternateTitles.count == items.count {
             return
         }
+        
+        Task.detached(priority: .background) {
+            let titles: [Series.ID: String] = await Dictionary(
+                uniqueKeysWithValues: self.items.map { item in
+                    (item.id, item.alternateTitlesString())
+                }
+            )
 
-        Task.detached(priority: .medium) {
-            var titles: [Series.ID: String] = [:]
-
-            for index in self.items.indices {
-                titles[self.items[index].id] = self.items[index].alternateTitlesString() ?? ""
+            await MainActor.run {
+                self.alternateTitles = titles
             }
-
-            self.alternateTitles = titles
         }
     }
 }
