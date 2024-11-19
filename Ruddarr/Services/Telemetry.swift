@@ -3,7 +3,7 @@ import SwiftUI
 import CloudKit
 import TelemetryDeck
 
-final class Telemetry: Sendable {
+actor Telemetry {
     static let shared: Telemetry = Telemetry()
 
     func maybeUploadTelemetry(_ settings: AppSettings) {

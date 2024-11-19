@@ -3,9 +3,9 @@ import SwiftUI
 import CloudKit
 import StoreKit
 import CryptoKit
-import UserNotifications
+@preconcurrency import UserNotifications
 
-class Notifications {
+actor Notifications {
     static let shared: Notifications = Notifications()
     static let url: String = "https://notify.ruddarr.com"
 
@@ -44,7 +44,7 @@ class Notifications {
                 "account": account,
                 "token": token,
                 "entitledAt": Int(entitledAt),
-                "signature": signature("\(account):\(token)")
+                "signature": Notifications.signature("\(account):\(token)")
             ]
 
             let lastTokenPing = "lastTokenPing:\(account):\(token)"
@@ -136,7 +136,7 @@ class Notifications {
         }
     }
 
-    func signature(_ message: String) -> String {
+    static func signature(_ message: String) -> String {
         guard let secret = Bundle.main.infoDictionary?["APNsKey"] as? String else {
             leaveBreadcrumb(.fatal, category: "notifications", message: "Failed to load APNs key")
 

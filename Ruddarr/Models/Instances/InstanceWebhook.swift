@@ -118,7 +118,7 @@ class InstanceWebhook {
         let today = time - (time % 86_400)
 
         let identifier = "\(today):\(accountId.recordName)"
-        let signature = Notifications.shared.signature(identifier)
+        let signature = Notifications.signature(identifier)
 
         let encoded = identifier.data(using: .utf8)?.base64EncodedString() ?? "noop"
 

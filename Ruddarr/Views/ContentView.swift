@@ -72,15 +72,19 @@ struct ContentView: View {
 #if os(macOS)
     func handleScenePhaseChange() {
         if controlActiveState == .key {
-            Notifications.shared.maybeUpdateWebhooks(settings)
-            Telemetry.shared.maybeUploadTelemetry(settings)
+            Task {
+                await Notifications.shared.maybeUpdateWebhooks(settings)
+                await Telemetry.shared.maybeUploadTelemetry(settings)
+            }
         }
     }
 #else
     func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
         if phase == .active {
-            Notifications.shared.maybeUpdateWebhooks(settings)
-            Telemetry.shared.maybeUploadTelemetry(settings)
+            Task {
+                await Notifications.shared.maybeUpdateWebhooks(settings)
+                await Telemetry.shared.maybeUploadTelemetry(settings)
+            }
         }
 
         if phase == .background {
