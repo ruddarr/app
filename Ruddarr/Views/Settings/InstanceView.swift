@@ -41,7 +41,7 @@ struct InstanceView: View {
 
             #if DEBUG
                 Button {
-                    Task { await Notifications.shared.requestAuthorization() }
+                    Task { await Notifications.requestAuthorization() }
                 } label: {
                     Text(verbatim: "Request Permissions")
                 }

@@ -4,9 +4,7 @@ import CloudKit
 import TelemetryDeck
 
 actor Telemetry {
-    static let shared: Telemetry = Telemetry()
-
-    func maybeUploadTelemetry(_ settings: AppSettings) {
+    static func maybePing(with settings: AppSettings) {
         let hoursSincePing = Occurrence.hoursSince("telemetryUploaded")
 
         #if DEBUG
@@ -19,10 +17,6 @@ actor Telemetry {
             return
         }
 
-        uploadTelemetryData(settings: settings)
-    }
-
-    private func uploadTelemetryData(settings: AppSettings) {
         Task(priority: .background) {
             let accountStatus = try? await CKContainer.default().accountStatus()
 

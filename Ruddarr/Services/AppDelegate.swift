@@ -48,7 +48,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
 
         Task {
-            await Notifications.shared.registerDevice(token)
+            await Notifications.registerDevice(token)
         }
     }
 

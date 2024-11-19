@@ -103,7 +103,7 @@ struct SettingsView: View {
     }
 
     func checkInstanceName() async {
-        let status = await Notifications.shared.authorizationStatus()
+        let status = await Notifications.authorizationStatus()
         let uniqueNames = Set(settings.instances.map { $0.name })
 
         if status == .authorized {

@@ -226,7 +226,7 @@ extension InstanceView {
     }
 
     func setAppNotificationsStatus() async {
-        let status = await Notifications.shared.authorizationStatus()
+        let status = await Notifications.authorizationStatus()
 
         switch status {
         case .denied:
@@ -289,7 +289,7 @@ extension InstanceView {
             return
         }
 
-        await Notifications.shared.requestAuthorization()
+        await Notifications.requestAuthorization()
 
         #if os(macOS)
             NSApplication.shared.registerForRemoteNotifications()

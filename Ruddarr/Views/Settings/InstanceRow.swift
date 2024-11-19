@@ -95,7 +95,7 @@ struct InstanceRow: View {
     }
 
     func checkNotificationsStatus() async {
-        let status = await Notifications.shared.authorizationStatus()
+        let status = await Notifications.authorizationStatus()
 
         notifications = status == .authorized
     }

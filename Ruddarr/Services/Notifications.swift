@@ -6,30 +6,23 @@ import CryptoKit
 @preconcurrency import UserNotifications
 
 actor Notifications {
-    static let shared: Notifications = Notifications()
     static let url: String = "https://notify.ruddarr.com"
 
-    private let center: UNUserNotificationCenter
-
-    private init() {
-        center = UNUserNotificationCenter.current()
-    }
-
-    func requestAuthorization() async {
+    static func requestAuthorization() async {
         do {
-            try await center.requestAuthorization(options: [.alert, .sound])
+            try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound])
         } catch {
             leaveBreadcrumb(.warning, category: "notifications", message: "Authorization request failed", data: ["status": error])
         }
     }
 
-    func authorizationStatus() async -> UNAuthorizationStatus {
-        let settings = await center.notificationSettings()
+    static func authorizationStatus() async -> UNAuthorizationStatus {
+        let settings = await UNUserNotificationCenter.current().notificationSettings()
 
         return settings.authorizationStatus
     }
 
-    func registerDevice(_ token: String) async {
+    static func registerDevice(_ token: String) async {
         do {
             let account = try await CKContainer.default().userRecordID().recordName
             let lastEntitledDate = await Subscription.lastEntitledDate()
@@ -87,7 +80,7 @@ actor Notifications {
         }
     }
 
-    func maybeUpdateWebhooks(_ settings: AppSettings) {
+    static func maybeUpdateWebhooks(_ settings: AppSettings) {
         Task.detached { [settings] in
             let instances = await settings.instances
 
