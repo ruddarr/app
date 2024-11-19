@@ -1,27 +1,37 @@
 import SwiftUI
 
-class Platform {
-    @MainActor
-    static func deviceId() -> String {
-        #if os(macOS)
-            "unknown (macOS)"
-        #else
-            UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
-        #endif
-    }
+final class Platform: Sendable {
+    static let current = Platform()
 
-    static func deviceType() -> DeviceType {
-        #if os(macOS)
-            .mac
-        #else
+    let deviceId: String
+    let deviceType: DeviceType
+
+#if os(macOS)
+    private init() {
+        deviceId = dependencies.store.string(forKey: "device:id") ?? {
+            let id = UUID().uuidString
+            dependencies.store.set(id, forKey: "device:id")
+            return id
+        }()
+
+        deviceType = .mac
+    }
+#else
+    private init() {
+        deviceId = DispatchQueue.main.sync {
+            UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
+        }
+
+        deviceType = DispatchQueue.main.sync {
             switch UIDevice.current.userInterfaceIdiom {
             case .phone: .phone
             case .pad: .pad
             case .vision: .vision
             default: .unspecified
             }
-        #endif
+        }
     }
+#endif
 }
 
 enum DeviceType: String {

@@ -42,7 +42,7 @@ private struct WithAppStateModifier: ViewModifier {
             .tint(theme.tint)
             .preferredColorScheme(appearance.preferredColorScheme)
             .environmentObject(settings)
-            .environment(\.deviceType, Platform.deviceType())
+            .environment(\.deviceType, Platform.current.deviceType)
             .environment(RadarrInstance(radarrInstance))
             .environment(SonarrInstance(sonarrInstance))
             .onAppear {

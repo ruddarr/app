@@ -119,7 +119,7 @@ struct WhatsNewView: View {
                 .foregroundStyle(.blue)
                 .frame(width: 40)
                 #if os(iOS)
-                    .offset(y: Platform.deviceType() == .phone ? 10 : 5)
+                    .offset(y: Platform.current.deviceType == .phone ? 10 : 5)
                 #endif
 
             VStack(alignment: .leading, spacing: 2) {

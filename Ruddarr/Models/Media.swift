@@ -155,7 +155,7 @@ func mediaDetailsSubtitles(_ file: MediaFile?) -> String? {
         return nil
     }
 
-    let limit = Platform.deviceType() == .phone ? 2 : 5
+    let limit = Platform.current.deviceType == .phone ? 2 : 5
 
     if codes.count > limit {
         var someCodes = Array(codes.prefix(limit)).map {
