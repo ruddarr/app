@@ -359,7 +359,7 @@ extension API {
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601extended
 
-        try NetworkMonitor.shared.checkReachability()
+        try await NetworkMonitor.shared.checkReachability()
 
         var request = URLRequest(url: url)
         request.timeoutInterval = timeout

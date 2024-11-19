@@ -19,7 +19,9 @@ struct Ruddarr: App {
 
         try? Tips.configure()
 
-        NetworkMonitor.shared.start()
+        Task {
+            await NetworkMonitor.shared.start()
+        }
     }
 
     var body: some Scene {

@@ -1,7 +1,7 @@
 import Network
 import Foundation
 
-class NetworkMonitor {
+actor NetworkMonitor {
     static let shared: NetworkMonitor = NetworkMonitor()
 
     let monitor = NWPathMonitor()
@@ -14,7 +14,9 @@ class NetworkMonitor {
 
     func start() {
         monitor.pathUpdateHandler = { path in
-            self.status = path.status
+            Task {
+                await self.updateStatus(path.status)
+            }
         }
 
         let queue = DispatchQueue(label: "Monitor")
@@ -25,11 +27,13 @@ class NetworkMonitor {
         monitor.cancel()
     }
 
+    private func updateStatus(_ status: NWPath.Status) {
+        self.status = status
+    }
+
     func checkReachability() throws {
         guard isReachable else {
             throw API.Error.notConnectedToInternet
-
-            // -1009 "The Internet connection appears to be offline."
         }
     }
 }
