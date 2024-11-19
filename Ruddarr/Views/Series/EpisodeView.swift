@@ -149,7 +149,10 @@ struct EpisodeView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: .constant(episode.monitored))
+                ToolbarMonitorButton(monitored: Binding<Bool>(
+                    get: { episode.monitored },
+                    set: { episode.monitored = $0 }
+                ))
             }
             .allowsHitTesting(instance.episodes.isMonitoring == 0)
             .disabled(!series.monitored)
@@ -285,6 +288,7 @@ extension EpisodeView {
             return
         }
 
+        episode.monitored.toggle()
         instance.episodes.items[index].monitored.toggle()
 
         guard await instance.episodes.monitor([episode.id], episode.monitored) else {
