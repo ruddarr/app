@@ -1,6 +1,7 @@
 import SwiftUI
 
 extension Binding where Value: OptionalProtocol {
+    @MainActor
     var unwrapped: Binding<Value.Wrapped>? {
         guard var wrappedValue = self.wrappedValue.wrappedValue else {
             return nil
