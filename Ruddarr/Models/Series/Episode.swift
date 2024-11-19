@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Episode: Identifiable, Codable {
+struct Episode: Identifiable, Codable, Equatable {
     let id: Int
 
     // used by deeplinks to switch instances

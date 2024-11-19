@@ -110,31 +110,34 @@ class MediaCalendar {
 
         for movie in movies {
             if let digitalRelease = movie.digitalRelease {
-                maybeInsertMovie(movie, digitalRelease)
+                maybeUpsertMovie(movie, digitalRelease)
             }
 
             if let physicalRelease = movie.physicalRelease {
-                maybeInsertMovie(movie, physicalRelease)
+                maybeUpsertMovie(movie, physicalRelease)
             }
 
             if let inCinemas = movie.inCinemas {
-                maybeInsertMovie(movie, inCinemas)
+                maybeUpsertMovie(movie, inCinemas)
             }
         }
     }
 
-    private func maybeInsertMovie(_ movie: Movie, _ date: Date) {
+    private func maybeUpsertMovie(_ movie: Movie, _ date: Date) {
         let day = calendar.startOfDay(for: date).timeIntervalSince1970
 
         if movies[day] == nil {
             movies[day] = []
         }
 
-        if movies[day]!.contains(where: { $0.id == movie.id }) {
+        guard let index = movies[day]!.firstIndex(where: { $0.id == movie.id }) else {
+            movies[day]!.append(movie)
             return
         }
 
-        movies[day]!.append(movie)
+        if movies[day]![index] != movie {
+            movies[day]![index] = movie
+        }
     }
 
     private func fetchEpisodes(_ instance: Instance, _ start: Date, _ end: Date) async throws {
@@ -142,23 +145,26 @@ class MediaCalendar {
 
         for episode in episodes {
             if let airDate = episode.airDateUtc {
-                maybeInsertEpisode(episode, airDate)
+                maybeUpsertEpisode(episode, airDate)
             }
         }
     }
 
-    private func maybeInsertEpisode(_ episode: Episode, _ date: Date) {
+    private func maybeUpsertEpisode(_ episode: Episode, _ date: Date) {
         let day = calendar.startOfDay(for: date).timeIntervalSince1970
 
         if episodes[day] == nil {
             episodes[day] = []
         }
 
-        if episodes[day]!.contains(where: { $0.id == episode.id }) {
+        guard let index = episodes[day]!.firstIndex(where: { $0.id == episode.id }) else {
+            episodes[day]!.append(episode)
             return
         }
 
-        episodes[day]!.append(episode)
+        if episodes[day]![index] != episode {
+            episodes[day]![index] = episode
+        }
     }
 
     func today() -> TimeInterval {
