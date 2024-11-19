@@ -24,7 +24,7 @@ struct QuickActions {
 
     private var timer: Timer?
 
-    var registerShortcutItems: () -> Void = {
+    var registerShortcutItems: @MainActor () -> Void = {
         #if os(iOS)
             UIApplication.shared.shortcutItems = ShortcutItem.allCases.map(\.shortcutItem)
         #endif
