@@ -7,7 +7,7 @@ struct Dependencies {
 
     var cloudkit: State = .live
 
-    @Bindable var router = Router.shared
+    @Bindable var router = Router()
     @Bindable var toast = Toast()
 
     enum State {

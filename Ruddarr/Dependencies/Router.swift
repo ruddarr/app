@@ -4,8 +4,6 @@ import AppIntents
 
 @Observable
 class Router {
-    @MainActor static let shared = Router()
-
     var selectedTab: TabItem = .movies
 
     var switchToRadarrInstance: String?
