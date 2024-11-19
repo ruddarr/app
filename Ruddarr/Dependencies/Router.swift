@@ -3,8 +3,8 @@ import Combine
 import AppIntents
 
 @Observable
-final class Router: Sendable {
-    static let shared = Router()
+class Router {
+    @MainActor static let shared = Router()
 
     var selectedTab: TabItem = .movies
 
