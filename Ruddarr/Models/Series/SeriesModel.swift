@@ -191,7 +191,7 @@ class SeriesModel {
         if alternateTitles.count == items.count {
             return
         }
-        
+
         Task.detached(priority: .background) {
             let titles: [Series.ID: String] = await Dictionary(
                 uniqueKeysWithValues: self.items.map { item in

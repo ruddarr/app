@@ -58,7 +58,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
     let genres: [String]
     let images: [MediaImage]
     let ratings: SeriesRatings?
-    let statistics: SeriesStatistics?
+    var statistics: SeriesStatistics?
 
     var addOptions: SeriesAddOptions?
 

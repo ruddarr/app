@@ -2,6 +2,15 @@ import SwiftUI
 
 struct SeriesGridItem: View {
     var series: Series
+    var model: Series?
+
+    init(series: Series, model: Series? = nil) {
+        self.series = series
+
+        if let model {
+            self.series.statistics = model.statistics
+        }
+    }
 
     var body: some View {
         poster

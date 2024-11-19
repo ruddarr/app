@@ -19,7 +19,6 @@ class Telemetry {
             return
         }
 
-        
         uploadTelemetryData(settings: settings)
     }
 
@@ -39,7 +38,7 @@ class Telemetry {
 
             TelemetryDeck.signal("ping", parameters: payload)
             Occurrence.occurred("telemetryUploaded")
-            
+
             leaveBreadcrumb(.info, category: "telemetry", message: "Sent ping", data: payload)
         }
     }
