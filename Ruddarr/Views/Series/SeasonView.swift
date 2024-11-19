@@ -201,7 +201,11 @@ extension SeasonView {
             return
         }
 
-        dependencies.toast.show(season.monitored ? .monitored : .unmonitored)
+        dependencies.toast.show(
+            season.monitored ? .monitored : .unmonitored
+        )
+
+        await instance.episodes.fetch(series)
     }
 
     @MainActor

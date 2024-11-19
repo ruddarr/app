@@ -226,7 +226,11 @@ struct SeriesDetails: View {
 
         monitoringSeason = nil
 
-        dependencies.toast.show(series.seasons[index].monitored ? .monitored : .unmonitored)
+        dependencies.toast.show(
+            series.seasons[index].monitored ? .monitored : .unmonitored
+        )
+
+        await instance.episodes.fetch(series)
     }
 }
 
