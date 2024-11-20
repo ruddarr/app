@@ -85,29 +85,29 @@ extension WhatsNew {
 
     static let features: [WhatsNewFeature] = [
         .init( // 1.3.2
-            image: "clock.arrow.trianglehead.counterclockwise.rotate.90",
-            title: "History Module",
-            subtitle: "View the complete history of all instances in the Activity tab."
-        ),
-        .init( // 1.3.2
             image: "6.square",
             title: "Swift 6",
-            subtitle: "Switched to Swift 6 to reduce crashes and improve performance."
+            subtitle: "Upgraded the codebase to Swift 6 to reduce potential crashes."
+        ),
+        .init( // 1.3.2
+            image: "clock.arrow.trianglehead.counterclockwise.rotate.90",
+            title: "History Module",
+            subtitle: "View the complete history from all instances in the Activity subtab."
         ),
         .init( // 1.3.1
             image: "internaldrive",
             title: "Bitrate Estimations",
-            subtitle: "Added approximate bitrate calculations for media files and releases."
+            subtitle: "Added bitrate estimations to releases and media files without a bitrate."
         ),
         .init( // 1.3.1
             image: "server.rack",
             title: "Instance Switching",
-            subtitle: "Switch to the correct instance when opening notifications."
+            subtitle: "Switch to the correct instance when tapping a notification."
         ),
         .init( // 1.3.1
-            image: "arrow.down.circle",
+            image: "network",
             title: "Faster Requests",
-            subtitle: "Parallelized various API requests to avoid unnecessary load times."
+            subtitle: "Parallelized various API requests to reduce unnecessary wait times."
         ),
         .init(
             image: "ant",

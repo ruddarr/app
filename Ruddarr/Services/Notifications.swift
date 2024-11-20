@@ -37,7 +37,7 @@ actor Notifications {
                 "account": account,
                 "token": token,
                 "entitledAt": Int(entitledAt),
-                "signature": Notifications.signature("\(account):\(token)")
+                "signature": Self.signature("\(account):\(token)")
             ]
 
             let lastTokenPing = "lastTokenPing:\(account):\(token)"

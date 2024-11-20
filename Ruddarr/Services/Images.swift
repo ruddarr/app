@@ -37,8 +37,8 @@ class Images {
     static func thumbnail(_ poster: String?, _ priority: ImageRequest.Priority = .normal) async -> URL? {
         guard let poster = poster else { return nil }
 
-        let pipeline = Images.pipeline()
-        let request = Images.request(poster, .poster, priority)
+        let pipeline = self.pipeline()
+        let request = self.request(poster, .poster, priority)
 
         let cacheKey = pipeline.cache.makeDataCacheKey(for: request)
         let thumbnail = thumbnailPath(cacheKey)

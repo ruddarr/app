@@ -5,7 +5,7 @@ import SwiftUI
 @MainActor
 final class Toast {
     nonisolated init() {}
-    
+
     var currentMessage: Message?
 
     @ObservationIgnored
