@@ -24,7 +24,7 @@ actor Telemetry {
                 "icon": settings.icon.rawValue,
                 "theme": settings.theme.rawValue,
                 "appearance": settings.appearance.rawValue,
-                "deviceType": Platform.current.deviceType.rawValue,
+                "deviceType": Platform.deviceType.rawValue,
                 "radarrInstances": String(settings.radarrInstances.count),
                 "sonarrInstances": String(settings.sonarrInstances.count),
                 "cloudkit": cloudKitStatusString(accountStatus),

@@ -150,12 +150,12 @@ func mediaDetailsAudioQuality(_ file: MediaFile?) -> String {
     return codec.isEmpty ? "\(languageList)" : "\(languageList) (\(codec))"
 }
 
-func mediaDetailsSubtitles(_ file: MediaFile?) -> String? {
+func mediaDetailsSubtitles(_ file: MediaFile?, _ deviceType: DeviceType) -> String? {
     guard let codes = file?.mediaInfo?.subtitleCodes else {
         return nil
     }
 
-    let limit = Platform.current.deviceType == .phone ? 2 : 5
+    let limit = deviceType == .phone ? 2 : 5
 
     if codes.count > limit {
         var someCodes = Array(codes.prefix(limit)).map {

@@ -1,36 +1,31 @@
 import SwiftUI
 
 final class Platform: Sendable {
-    static let current = Platform()
-
-    let deviceId: String
-    let deviceType: DeviceType
-
 #if os(macOS)
-    private init() {
-        deviceId = dependencies.store.string(forKey: "device:id") ?? {
+    static let deviceId: String = {
+        dependencies.store.string(forKey: "device:id") ?? {
             let id = UUID().uuidString
             dependencies.store.set(id, forKey: "device:id")
             return id
         }()
+    }()
 
-        deviceType = .mac
-    }
+    static let deviceType: DeviceType = .mac
 #else
-    private init() {
-        deviceId = DispatchQueue.main.sync {
-            UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
-        }
+    @MainActor
+    static let deviceId: String = {
+        UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
+    }()
 
-        deviceType = DispatchQueue.main.sync {
-            switch UIDevice.current.userInterfaceIdiom {
-            case .phone: .phone
-            case .pad: .pad
-            case .vision: .vision
-            default: .unspecified
-            }
+    @MainActor
+    static let deviceType: DeviceType = {
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone: .phone
+        case .pad: .pad
+        case .vision: .vision
+        default: .unspecified
         }
-    }
+    }()
 #endif
 }
 

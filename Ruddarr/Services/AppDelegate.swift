@@ -112,7 +112,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
 
         SentrySDK.configureScope { scope in
             scope.setContext(value: [
-                "identifier": UIDevice.current.identifierForVendor?.uuidString ?? "unknown",
+                "identifier": Platform.deviceId,
             ], key: "device")
         }
 
@@ -135,7 +135,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
             appID: Secrets.TelemetryAppId
         )
 
-        configuration.defaultUser = UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
+        configuration.defaultUser = Platform.deviceId
 
         TelemetryDeck.initialize(config: configuration)
     }

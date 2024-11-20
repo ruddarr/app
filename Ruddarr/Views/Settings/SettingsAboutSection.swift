@@ -62,7 +62,7 @@ struct SettingsAboutSection: View {
     @MainActor
     func openSupportEmail() async {
         let uuid = UUID().uuidString.prefix(8)
-        let deviceId = Platform.current.deviceId
+        let deviceId = Platform.deviceId
 
         let cloudKitStatus = try? await CKContainer.default().accountStatus()
         let cloudKitUserId = try? await CKContainer.default().userRecordID().recordName

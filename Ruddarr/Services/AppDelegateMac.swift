@@ -37,11 +37,11 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
             options.profilesSampleRate = 1
         }
 
-        // SentrySDK.configureScope { scope in
-        //     scope.setContext(value: [
-        //         "identifier": UIDevice.current.identifierForVendor?.uuidString ?? "unknown",
-        //     ], key: "device")
-        // }
+         SentrySDK.configureScope { scope in
+             scope.setContext(value: [
+                 "identifier": Platform.deviceId,
+             ], key: "device")
+         }
 
         Task.detached {
             let container = CKContainer.default()
@@ -58,9 +58,11 @@ class AppDelegateMac: NSObject, NSApplicationDelegate {
     }
 
     func configureTelemetryDeck() {
-        let configuration = TelemetryDeck.Config(
+        var configuration = TelemetryDeck.Config(
             appID: Secrets.TelemetryAppId
         )
+
+        configuration.defaultUser = Platform.deviceId
 
         TelemetryDeck.initialize(config: configuration)
     }
