@@ -28,7 +28,7 @@ struct SeriesSort: Hashable {
             }
         }
 
-        func isOrderedBefore(_ lhs: Series, _ rhs: Series) -> Bool {
+        func compare(_ lhs: Series, _ rhs: Series) -> Bool {
             switch self {
             case .byTitle:
                 lhs.sortTitle < rhs.sortTitle
@@ -71,22 +71,22 @@ struct SeriesSort: Hashable {
             }
         }
 
-        func filtered(_ series: [Series]) -> [Series] {
+        func filter(_ series: Series) -> Bool {
             switch self {
             case .all:
-                series
+                true
             case .monitored:
-                series.filter { $0.monitored }
+                series.monitored
             case .unmonitored:
-                series.filter { !$0.monitored }
+                !series.monitored
             case .continuing:
-                series.filter { $0.status == .continuing }
+                series.status == .continuing
             case .ended:
-                series.filter { $0.status == .ended }
+                series.status == .ended
             case .missing:
-                series.filter { $0.episodeCount > $0.episodeFileCount }
+                series.episodeCount > series.episodeFileCount
             case .dangling:
-                series.filter { !$0.monitored && $0.episodeCount == 0 }
+                !series.monitored && series.episodeCount == 0
             }
         }
     }

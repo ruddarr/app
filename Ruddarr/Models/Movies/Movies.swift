@@ -10,12 +10,14 @@ class Movies {
     var itemsCount: Int = 0
 
     var cachedItems: [Movie] = []
-    var alternateTitles: [Movie.ID: String] = [:]
 
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
     var isWorking: Bool = false
+
+    private var alternateTitles: [Movie.ID: String] = [:]
+    private var sortAndFilterTask: Task<Void, Never>?
 
     enum Operation {
         case fetch
@@ -31,23 +33,16 @@ class Movies {
         self.instance = instance
     }
 
-    func sortAndFilterItems(_ sort: MovieSort, _ searchQuery: String) {
-        cachedItems = sort.filter.filtered(items)
+    func updateCachedItems(_ sort: MovieSort, _ searchQuery: String) {
+        sortAndFilterTask?.cancel()
 
-        let query = searchQuery.trimmingCharacters(in: .whitespaces)
+        sortAndFilterTask = Task { @MainActor in
+            let items = self.items
+            let alternateTitles = self.alternateTitles
 
-        if !query.isEmpty {
-            cachedItems = cachedItems.filter { movie in
-                movie.title.localizedCaseInsensitiveContains(query) ||
-                movie.studio?.localizedCaseInsensitiveContains(query) ?? false ||
-                alternateTitles[movie.id]?.localizedCaseInsensitiveContains(query) ?? false
-            }
-        }
-
-        cachedItems = cachedItems.sorted(by: sort.option.isOrderedBefore)
-
-        if !sort.isAscending {
-            cachedItems = cachedItems.reversed()
+            cachedItems = await Task.detached(priority: .userInitiated) {
+                Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
+            }.result.get()
         }
     }
 
@@ -167,6 +162,28 @@ class Movies {
         case .command(let command):
             _ = try await dependencies.api.command(command, instance)
         }
+    }
+
+    nonisolated private static func filterAndSortItems(
+        _ items: [Movie],
+        _ alternateTitles: [Movie.ID: String],
+        _ sort: MovieSort,
+        _ searchQuery: String
+    ) -> [Movie] {
+        let query = searchQuery.trimmingCharacters(in: .whitespaces)
+        let comparator = sort.option.compare
+
+        return items
+            .filter(sort.filter.filter)
+            .filter {
+                guard !query.isEmpty else { return true }
+                return $0.title.localizedCaseInsensitiveContains(query)
+                    || $0.studio?.localizedCaseInsensitiveContains(query) ?? false
+                    || alternateTitles[$0.id]?.localizedCaseInsensitiveContains(query) ?? false
+            }
+            .sorted { lhs, rhs in
+                sort.isAscending ? comparator(lhs, rhs) : comparator(rhs, lhs)
+            }
     }
 
     private func computeAlternateTitles() {

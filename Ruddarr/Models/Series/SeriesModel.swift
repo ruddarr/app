@@ -10,12 +10,14 @@ class SeriesModel {
     var itemsCount: Int = 0
 
     var cachedItems: [Series] = []
-    var alternateTitles: [Series.ID: String] = [:]
 
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
     var isWorking: Bool = false
+
+    private var alternateTitles: [Series.ID: String] = [:]
+    private var sortAndFilterTask: Task<Void, Never>?
 
     enum Operation {
         case fetch
@@ -32,23 +34,16 @@ class SeriesModel {
         self.instance = instance
     }
 
-    func sortAndFilterItems(_ sort: SeriesSort, _ searchQuery: String) {
-        cachedItems = sort.filter.filtered(items)
+    func updateCachedItems(_ sort: SeriesSort, _ searchQuery: String) {
+        sortAndFilterTask?.cancel()
 
-        let query = searchQuery.trimmingCharacters(in: .whitespaces)
+        sortAndFilterTask = Task { @MainActor in
+            let items = self.items
+            let alternateTitles = self.alternateTitles
 
-        if !query.isEmpty {
-            cachedItems = cachedItems.filter { series in
-                series.title.localizedCaseInsensitiveContains(query) ||
-                series.network?.localizedCaseInsensitiveContains(query) ?? false ||
-                alternateTitles[series.id]?.localizedCaseInsensitiveContains(query) ?? false
-            }
-        }
-
-        cachedItems = cachedItems.sorted(by: sort.option.isOrderedBefore)
-
-        if !sort.isAscending {
-            cachedItems = cachedItems.reversed()
+            cachedItems = await Task.detached(priority: .userInitiated) {
+                Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
+            }.result.get()
         }
     }
 
@@ -185,6 +180,28 @@ class SeriesModel {
         case .command(let command):
             _ = try await dependencies.api.command(command, instance)
         }
+    }
+    
+    nonisolated private static func filterAndSortItems(
+        _ items: [Series],
+        _ alternateTitles: [Series.ID: String],
+        _ sort: SeriesSort,
+        _ searchQuery: String
+    ) -> [Series] {
+        let query = searchQuery.trimmingCharacters(in: .whitespaces)
+        let comparator = sort.option.compare
+
+        return items
+            .filter(sort.filter.filter)
+            .filter {
+                guard !query.isEmpty else { return true }
+                return $0.title.localizedCaseInsensitiveContains(query)
+                    || $0.network?.localizedCaseInsensitiveContains(query) ?? false
+                    || alternateTitles[$0.id]?.localizedCaseInsensitiveContains(query) ?? false
+            }
+            .sorted { lhs, rhs in
+                sort.isAscending ? comparator(lhs, rhs) : comparator(rhs, lhs)
+            }
     }
 
     private func computeAlternateTitles() {

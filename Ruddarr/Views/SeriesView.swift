@@ -231,7 +231,7 @@ struct SeriesView: View {
     }
 
     func updateDisplayedSeries() {
-        instance.series.sortAndFilterItems(sort, searchQuery)
+        instance.series.updateCachedItems(sort, searchQuery)
     }
 
     func fetchSeriesWithMetadata() {

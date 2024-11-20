@@ -224,7 +224,7 @@ struct MoviesView: View {
     }
 
     func updateDisplayedMovies() {
-        instance.movies.sortAndFilterItems(sort, searchQuery)
+        instance.movies.updateCachedItems(sort, searchQuery)
     }
 
     func fetchMoviesWithMetadata() {

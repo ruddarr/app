@@ -28,7 +28,7 @@ struct MovieSort: Hashable {
             }
         }
 
-        func isOrderedBefore(_ lhs: Movie, _ rhs: Movie) -> Bool {
+        func compare(_ lhs: Movie, _ rhs: Movie) -> Bool {
             switch self {
             case .byTitle:
                 lhs.sortTitle < rhs.sortTitle
@@ -71,22 +71,22 @@ struct MovieSort: Hashable {
             }
         }
 
-        func filtered(_ movies: [Movie]) -> [Movie] {
+        func filter(_ movie: Movie) -> Bool {
             switch self {
             case .all:
-                movies
+                true
             case .monitored:
-                movies.filter { $0.monitored }
+                movie.monitored
             case .unmonitored:
-                movies.filter { !$0.monitored }
+                !movie.monitored
             case .missing:
-                movies.filter { $0.monitored && !$0.isDownloaded && $0.isAvailable }
+                movie.monitored && !movie.isDownloaded && movie.isAvailable
             case .wanted:
-                movies.filter { $0.monitored && !$0.isDownloaded }
+                movie.monitored && !movie.isDownloaded
             case .downloaded:
-                movies.filter { $0.isDownloaded }
+                movie.isDownloaded
             case .dangling:
-                movies.filter { !$0.monitored && !$0.isDownloaded }
+                !movie.monitored && !movie.isDownloaded
             }
         }
     }
