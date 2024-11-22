@@ -5,7 +5,7 @@ struct ContentView: View {
 
     #if os(macOS)
         @Environment(\.controlActiveState) var controlActiveState
-        private var deviceType = nil as DeviceType?
+        private var deviceType: DeviceType = .mac
     #else
         @Environment(\.scenePhase) private var scenePhase
         @Environment(\.deviceType) private var deviceType
@@ -130,6 +130,7 @@ struct ContentView: View {
                         Text(instance.label).tag(Optional.some(instance.id))
                     }
                 }
+                .pickerStyle(.inline)
                 .onChange(of: selection.wrappedValue, onChange)
             } label: {
                 HStack {
@@ -144,7 +145,7 @@ struct ContentView: View {
                 .padding(.vertical, 6)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 20)
+            .padding(.horizontal, deviceType == .mac ? 6 : 20)
         }
     }
 }
