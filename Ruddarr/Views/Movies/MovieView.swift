@@ -6,6 +6,7 @@ struct MovieView: View {
 
     @Environment(RadarrInstance.self) private var instance
 
+    @State private var showEditForm: Bool = false
     @State private var showDeleteConfirmation = false
 
     var body: some View {
@@ -74,6 +75,19 @@ struct MovieView: View {
             } label: {
                 ToolbarActionButton()
             }
+            #if os(macOS)
+                .sheet(isPresented: $showEditForm) {
+                    MovieEditView(movie: $movie)
+                        .environment(instance)
+                        .padding(.top)
+                        .padding(.all)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Close") { showEditForm = false }
+                            }
+                        }
+                }
+            #endif
         }
     }
 
@@ -84,11 +98,17 @@ struct MovieView: View {
     }
 
     var editAction: some View {
-        NavigationLink(
-            value: MoviesPath.edit(movie.id)
-        ) {
-            Label("Edit", systemImage: "pencil")
-        }
+        #if os(macOS)
+            Button("Edit") {
+                showEditForm = true
+            }
+        #else
+            NavigationLink(
+                value: MoviesPath.edit(movie.id)
+            ) {
+                Label("Edit", systemImage: "pencil")
+            }
+        #endif
     }
 
     var openInLinks: some View {

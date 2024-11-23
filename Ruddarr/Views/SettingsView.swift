@@ -93,9 +93,7 @@ struct SettingsView: View {
                     .padding(.all)
                     .toolbar {
                         ToolbarItem(placement: .automatic) {
-                            Button("Close") {
-                                showInstanceForm = false
-                            }
+                            Button("Close") { showInstanceForm = false }
                         }
                     }
             }

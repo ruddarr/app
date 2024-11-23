@@ -4,7 +4,6 @@ import TipKit
 struct MovieMetadataView: View {
     @Binding var movie: Movie
 
-    @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
 
     @State private var videoExpanded: Bool = false

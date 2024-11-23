@@ -67,24 +67,20 @@ struct MoviesView: View {
                 case .search(let query):
                     MovieSearchView(searchQuery: query)
                         .environment(instance)
-                        .environmentObject(settings)
                 case .preview(let data):
                     if let movie = try? JSONDecoder().decode(Movie.self, from: data!) {
                         MoviePreviewView(movie: movie)
                             .environment(instance)
-                            .environmentObject(settings)
                     }
                 case .movie(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieView(movie: movie)
                             .environment(instance)
-                            .environmentObject(settings)
                     }
                 case .edit(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieEditView(movie: movie)
                             .environment(instance)
-                            .environmentObject(settings)
                     }
                 case .releases(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
@@ -96,7 +92,6 @@ struct MoviesView: View {
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieMetadataView(movie: movie)
                             .environment(instance)
-                            .environmentObject(settings)
                     }
                 }
             }

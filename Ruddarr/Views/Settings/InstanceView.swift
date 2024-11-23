@@ -77,9 +77,7 @@ struct InstanceView: View {
     @ToolbarContentBuilder
     var toolbarEditButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            #if os(iOS)
-                NavigationLink("Edit", value: SettingsView.Path.editInstance(instance.id))
-            #else
+            #if os(macOS)
                 Button("Edit") {
                     showEditForm = true
                 }
@@ -91,12 +89,12 @@ struct InstanceView: View {
                         .padding(.all)
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
-                                Button("Close") {
-                                    showEditForm = false
-                                }
+                                Button("Close") { showEditForm = false }
                             }
                         }
                 }
+            #else
+                NavigationLink("Edit", value: SettingsView.Path.editInstance(instance.id))
             #endif
         }
     }
