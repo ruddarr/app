@@ -6,6 +6,7 @@ struct SeriesDetailView: View {
 
     @Environment(SonarrInstance.self) private var instance
 
+    @State private var showEditForm = false
     @State private var showDeleteConfirmation = false
 
     var body: some View {
@@ -84,6 +85,19 @@ struct SeriesDetailView: View {
             } label: {
                 ToolbarActionButton()
             }
+            #if os(macOS)
+                .sheet(isPresented: $showEditForm) {
+                    SeriesEditView(series: $series)
+                        .environment(instance)
+                        .padding(.top)
+                        .padding(.all)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Close") { showEditForm = false }
+                            }
+                        }
+                }
+            #endif
         }
     }
 
@@ -94,11 +108,17 @@ struct SeriesDetailView: View {
     }
 
     var editAction: some View {
-        NavigationLink(
-            value: SeriesPath.edit(series.id)
-        ) {
-            Label("Edit", systemImage: "pencil")
-        }
+        #if os(macOS)
+            Button("Edit") {
+                showEditForm = true
+            }
+        #else
+            NavigationLink(
+                value: SeriesPath.edit(series.id)
+            ) {
+                Label("Edit", systemImage: "pencil")
+            }
+        #endif
     }
 
     var searchMonitored: some View {
