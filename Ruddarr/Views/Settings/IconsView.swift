@@ -51,10 +51,7 @@ struct IconsView: View {
                     if !icon.locked || entitledToService {
                         settings.icon = icon
 
-                        #if os(macOS)
-                            NSApplication.shared.applicationIconImage = NSImage(named: icon.data.asset)
-                            // NSWorkspace.shared.setIcon(image, forFile: bundle.path, options: [])
-                        #else
+                        #if os(iOS)
                             UIApplication.shared.setAlternateIconName(icon.asset)
                         #endif
                     } else {

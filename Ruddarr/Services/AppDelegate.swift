@@ -5,7 +5,12 @@ import MetricKit
 import TelemetryDeck
 
 #if os(iOS)
-class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotificationCenterDelegate, MXMetricManagerSubscriber {
+class AppDelegate:
+    NSObject,
+    UIApplicationDelegate,
+    MXMetricManagerSubscriber,
+    @preconcurrency UNUserNotificationCenterDelegate
+{
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
