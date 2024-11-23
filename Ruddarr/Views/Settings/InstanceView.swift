@@ -90,7 +90,7 @@ struct InstanceView: View {
                         .environmentObject(settings)
                         .padding(.all)
                         .toolbar {
-                            ToolbarItem(placement: .automatic) {
+                            ToolbarItem(placement: .cancellationAction) {
                                 Button("Close") {
                                     showEditForm = false
                                 }
