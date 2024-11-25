@@ -128,7 +128,7 @@ extension QuickActions {
             case .openCalendar:
                 dependencies.quickActions.openCalendar()
             case .openActivity:
-                dependencies.quickActions.openCalendar()
+                dependencies.quickActions.openActivity()
             case .openMovies:
                 dependencies.quickActions.openMovies()
             case .addMovie(let query):
