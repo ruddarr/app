@@ -126,6 +126,11 @@ struct MoviesView: View {
             .onChange(of: settings.radarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
+                if let imdb = extractImdbId(searchQuery) {
+                    searchQuery = "imdb:\(imdb)"
+                    return
+                }
+                
                 scrollToTop()
                 updateDisplayedMovies()
             }

@@ -134,6 +134,11 @@ struct SeriesView: View {
             .onChange(of: settings.sonarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
+                if let imdb = extractImdbId(searchQuery) {
+                    searchQuery = "imdb:\(imdb)"
+                    return
+                }
+
                 scrollToTop()
                 updateDisplayedSeries()
             }
