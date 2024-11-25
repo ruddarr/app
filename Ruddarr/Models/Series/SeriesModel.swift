@@ -181,7 +181,7 @@ class SeriesModel {
             _ = try await dependencies.api.command(command, instance)
         }
     }
-    
+
     nonisolated private static func filterAndSortItems(
         _ items: [Series],
         _ alternateTitles: [Series.ID: String],

@@ -130,7 +130,7 @@ struct MoviesView: View {
                     searchQuery = "imdb:\(imdb)"
                     return
                 }
-                
+
                 scrollToTop()
                 updateDisplayedMovies()
             }

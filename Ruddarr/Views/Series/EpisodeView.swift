@@ -19,6 +19,7 @@ struct EpisodeView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.scenePhase) private var scenePhase
 
     var startOfToday = Calendar.current.startOfDay(for: Date())
 
@@ -65,6 +66,7 @@ struct EpisodeView: View {
         .task {
             await instance.episodes.fetchHistory(episode)
         }
+        .onChange(of: scenePhase, handleScenePhaseChange)
     }
 
     var header: some View {
@@ -305,6 +307,12 @@ extension EpisodeView {
         (_, _, _) = await (fetchEpisodes, fetchFiles, fetchHistory)
 
         setEpisodeState()
+    }
+
+    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+        if phase == .inactive && oldPhase == .background {
+            Task { await reload() }
+        }
     }
 
     func dispatchSearch() async {

@@ -8,6 +8,7 @@ struct SeasonView: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         ScrollView {
@@ -36,6 +37,7 @@ struct SeasonView: View {
             (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
             maybeNavigateToEpisode()
         }
+        .onChange(of: scenePhase, handleScenePhaseChange)
         .alert(
             isPresented: instance.episodes.errorBinding,
             error: instance.episodes.error
@@ -210,6 +212,12 @@ extension SeasonView {
     func reload() async {
         _ = await instance.series.get(series)
         await instance.episodes.fetch(series)
+    }
+
+    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+        if phase == .inactive && oldPhase == .background {
+            Task { await reload() }
+        }
     }
 
     func dispatchSearch() async {
