@@ -173,7 +173,7 @@ struct MovieReleaseSheet: View {
 
     var details: some View {
         Section {
-            VStack(spacing: 12) {
+            VStack(spacing: 6) {
                 row("Language", value: release.languagesLabel)
                 Divider()
 
@@ -191,7 +191,6 @@ struct MovieReleaseSheet: View {
                     ))
                 }
             }
-            .font(.callout)
         } header: {
             Text("Information")
                 .font(.title2.bold())
@@ -231,11 +230,19 @@ struct MovieReleaseSheet: View {
     }
 
     func row(_ label: LocalizedStringKey, value: String) -> some View {
-        LabeledContent {
-            Text(value).foregroundStyle(.primary)
-        } label: {
-            Text(label).foregroundStyle(.secondary)
+        HStack(alignment: .top) {
+            Text(label)
+                .foregroundStyle(.secondary)
+
+            Spacer()
+            Spacer()
+            Spacer()
+
+            Text(value)
+                .foregroundStyle(.primary)
         }
+        .font(.subheadline)
+        .padding(.vertical, 6)
     }
 
     @MainActor
