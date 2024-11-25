@@ -84,7 +84,14 @@ class InstanceWebhook {
             fields: webhookFields(account)
         )
 
-        model = try await dependencies.api.createNotification(record, instance)
+        do {
+            model = try await dependencies.api.createNotification(record, instance)
+        } catch API.Error.badStatusCode(400) {
+            try await fetchWebhooks()
+            model = try await dependencies.api.createNotification(record, instance)
+        } catch {
+            throw error
+        }
 
         notifications.append(model)
     }
@@ -100,7 +107,14 @@ class InstanceWebhook {
 
         model.fields = webhookFields(account)
 
-        model = try await dependencies.api.updateNotification(model, instance)
+        do {
+            model = try await dependencies.api.updateNotification(model, instance)
+        } catch API.Error.badStatusCode(400) {
+            try await fetchWebhooks()
+            model = try await dependencies.api.updateNotification(model, instance)
+        } catch {
+            throw error
+        }
     }
 
     private func deleteWebook() async throws {
