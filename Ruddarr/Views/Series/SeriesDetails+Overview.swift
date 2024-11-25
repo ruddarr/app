@@ -24,6 +24,9 @@ extension SeriesDetails {
                 detailsSubtitle
                     .padding(.bottom, 6)
 
+                detailsRating
+                    .padding(.bottom, 6)
+
                 if deviceType != .phone {
                     Spacer()
                     actions
@@ -76,5 +79,24 @@ extension SeriesDetails {
         }
         .font(.callout)
         .foregroundStyle(.secondary)
+    }
+
+    @ViewBuilder
+    var detailsRating: some View {
+        if let rating = series.ratings?.value, rating > 0 {
+            HStack(spacing: 4) {
+                Image(systemName: "heart")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 14)
+                    .symbolVariant(.fill)
+                    .foregroundStyle(.red)
+
+                Text(String(format: "%.0f%%", rating * 10))
+                    .lineLimit(1)
+            }
+            .font(.callout)
+            .foregroundStyle(.secondary)
+        }
     }
 }
