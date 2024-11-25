@@ -209,7 +209,6 @@ struct SeriesDetails: View {
         }
     }
 
-    @MainActor
     func monitorSeason(_ season: Season.ID) async {
         guard let index = series.seasons.firstIndex(where: { $0.id == season }) else {
             return

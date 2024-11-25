@@ -136,7 +136,6 @@ struct SeriesDetailView: View {
 }
 
 extension SeriesDetailView {
-    @MainActor
     func toggleMonitor() async {
         series.monitored.toggle()
 
@@ -147,14 +146,12 @@ extension SeriesDetailView {
         dependencies.toast.show(series.monitored ? .monitored : .unmonitored)
     }
 
-    @MainActor
     func reload() async {
         _ = await instance.series.get(series)
         await instance.episodes.fetch(series)
         await instance.files.fetch(series)
     }
 
-    @MainActor
     func refresh() async {
         guard await instance.series.command(.refreshSeries(series.id)) else {
             return
@@ -167,7 +164,6 @@ extension SeriesDetailView {
         }
     }
 
-    @MainActor
     func dispatchSearch() async {
         guard await instance.series.command(
             .seriesSearch(series.id)
@@ -181,7 +177,6 @@ extension SeriesDetailView {
         maybeAskForReview()
     }
 
-    @MainActor
     func deleteSeries(exclude: Bool = false) async {
         _ = await instance.series.delete(series, addExclusion: exclude)
 

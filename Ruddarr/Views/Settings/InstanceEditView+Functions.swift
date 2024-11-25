@@ -1,7 +1,6 @@
 import SwiftUI
 
 extension InstanceEditView {
-    @MainActor
     func createOrUpdateInstance() async {
         do {
             isLoading = true
@@ -33,7 +32,6 @@ extension InstanceEditView {
         }
     }
 
-    @MainActor
     func deleteInstance() {
         if instance.id == settings.radarrInstanceId {
             radarrInstance.switchTo(.radarrVoid)

@@ -245,7 +245,6 @@ struct MovieReleaseSheet: View {
         .padding(.vertical, 6)
     }
 
-    @MainActor
     func downloadRelease(force: Bool = false) async {
         guard await instance.movies.download(
             guid: release.guid,

@@ -81,7 +81,6 @@ struct SeriesPreviewView: View {
         }
     }
 
-    @MainActor
     func addSeries() async {
         seriesDefaults = .init(from: series)
 

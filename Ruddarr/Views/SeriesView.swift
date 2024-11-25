@@ -252,7 +252,6 @@ struct SeriesView: View {
         }
     }
 
-    @MainActor
     func fetchSeriesWithAlert(ignoreOffline: Bool = false) async {
         alertPresented = false
         error = nil

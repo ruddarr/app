@@ -131,7 +131,6 @@ struct MovieView: View {
 }
 
 extension MovieView {
-    @MainActor
     func toggleMonitor() async {
         movie.monitored.toggle()
 
@@ -142,12 +141,10 @@ extension MovieView {
         dependencies.toast.show(movie.monitored ? .monitored : .unmonitored)
     }
 
-    @MainActor
     func reload() async {
         _ = await instance.movies.get(movie)
     }
 
-    @MainActor
     func refresh() async {
         guard await instance.movies.command(.refreshMovie([movie.id])) else {
             return
@@ -160,7 +157,6 @@ extension MovieView {
         }
     }
 
-    @MainActor
     func dispatchSearch() async {
         guard await instance.movies.command(.search([movie.id])) else {
             return
@@ -172,7 +168,6 @@ extension MovieView {
         maybeAskForReview()
     }
 
-    @MainActor
     func deleteMovie(exclude: Bool = false) async {
         _ = await instance.movies.delete(movie, addExclusion: exclude)
 

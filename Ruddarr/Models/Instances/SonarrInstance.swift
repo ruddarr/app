@@ -57,7 +57,6 @@ class SonarrInstance {
         instance.qualityProfiles
     }
 
-    @MainActor
     func fetchMetadata() async -> Instance? {
         if isVoid {
             return nil

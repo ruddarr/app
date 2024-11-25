@@ -244,7 +244,6 @@ struct MoviesView: View {
         }
     }
 
-    @MainActor
     func fetchMoviesWithAlert(ignoreOffline: Bool = false) async {
         alertPresented = false
         error = nil

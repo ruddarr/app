@@ -282,7 +282,6 @@ extension EpisodeView {
         }
     }
 
-    @MainActor
     func toggleMonitor() async {
         guard let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) else {
             return
@@ -298,7 +297,6 @@ extension EpisodeView {
         dependencies.toast.show(episode.monitored ? .monitored : .unmonitored)
     }
 
-    @MainActor
     func reload() async {
         async let fetchEpisodes: () = instance.episodes.fetch(series)
         async let fetchFiles: () = instance.files.fetch(series)
@@ -309,7 +307,6 @@ extension EpisodeView {
         setEpisodeState()
     }
 
-    @MainActor
     func dispatchSearch() async {
         guard await instance.series.command(
             .episodeSearch([episode.id])) else {
@@ -322,7 +319,6 @@ extension EpisodeView {
         maybeAskForReview()
     }
 
-    @MainActor
     func deleteEpisode() async {
         if await instance.files.delete(episodeFile!) {
             dependencies.toast.show(.fileDeleted)

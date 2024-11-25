@@ -81,7 +81,6 @@ struct MoviePreviewView: View {
         }
     }
 
-    @MainActor
     func addMovie() async {
         movieDefaults = .init(from: movie)
 

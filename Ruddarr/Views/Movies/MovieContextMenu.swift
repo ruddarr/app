@@ -16,7 +16,6 @@ struct MovieContextMenu: View {
         }
     }
 
-    @MainActor
     func dispatchSearch() async {
         guard await instance.movies.command(.search([movie.id])) else {
             return

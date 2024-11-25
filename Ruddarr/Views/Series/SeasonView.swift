@@ -189,7 +189,6 @@ struct SeasonView: View {
 }
 
 extension SeasonView {
-    @MainActor
     func toggleMonitor() async {
         guard let index = series.seasons.firstIndex(where: { $0.id == season.id }) else {
             return
@@ -208,13 +207,11 @@ extension SeasonView {
         await instance.episodes.fetch(series)
     }
 
-    @MainActor
     func reload() async {
         _ = await instance.series.get(series)
         await instance.episodes.fetch(series)
     }
 
-    @MainActor
     func dispatchSearch() async {
         guard await instance.series.command(
             .seasonSearch(series.id, season: season.id)

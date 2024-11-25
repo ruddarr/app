@@ -152,7 +152,6 @@ struct MovieFilesFile: View {
         }
     }
 
-    @MainActor
     func deleteFile() async {
         if await instance.metadata.delete(file) {
             dependencies.toast.show(.fileDeleted)

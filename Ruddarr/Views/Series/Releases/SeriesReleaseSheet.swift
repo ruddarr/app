@@ -265,7 +265,6 @@ struct SeriesReleaseSheet: View {
         .padding(.vertical, 6)
     }
 
-    @MainActor
     func downloadRelease(force: Bool = false) async {
         guard await instance.series.download(
             guid: release.guid,

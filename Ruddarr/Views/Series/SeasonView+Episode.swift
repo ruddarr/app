@@ -86,7 +86,6 @@ struct EpisodeRow: View {
         .disabled(!series.monitored)
     }
 
-    @MainActor
     func toggleMonitor() async {
         guard let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) else {
             return

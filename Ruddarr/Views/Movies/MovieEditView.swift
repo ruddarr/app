@@ -72,7 +72,6 @@ struct MovieEditView: View {
         movie.rootFolderPath?.untrailingSlashIt != unmodifiedMovie.rootFolderPath?.untrailingSlashIt
     }
 
-    @MainActor
     func updateMovie(moveFiles: Bool = false) async {
         _ = await instance.movies.update(movie, moveFiles: moveFiles)
 
