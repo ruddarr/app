@@ -4,6 +4,7 @@ import TelemetryDeck
 struct MovieView: View {
     @Binding var movie: Movie
 
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(RadarrInstance.self) private var instance
 
     @State private var showEditForm: Bool = false
@@ -18,6 +19,7 @@ struct MovieView: View {
         .refreshable {
             await Task { await reload() }.value
         }
+        .onChange(of: scenePhase, handleScenePhaseChange)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
              toolbarMonitorButton
@@ -154,6 +156,12 @@ extension MovieView {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             Task { await instance.movies.get(movie) }
+        }
+    }
+
+    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+        if phase == .inactive && oldPhase == .background {
+            Task { await reload() }
         }
     }
 

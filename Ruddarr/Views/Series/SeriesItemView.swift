@@ -4,6 +4,7 @@ import TelemetryDeck
 struct SeriesDetailView: View {
     @Binding var series: Series
 
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(SonarrInstance.self) private var instance
 
     @State private var showEditForm = false
@@ -18,6 +19,7 @@ struct SeriesDetailView: View {
         .refreshable {
             await Task { await reload() }.value
         }
+        .onChange(of: scenePhase, handleScenePhaseChange)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
@@ -161,6 +163,12 @@ extension SeriesDetailView {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             Task { await instance.series.get(series) }
+        }
+    }
+    
+    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+        if phase == .inactive && oldPhase == .background {
+            Task { await reload() }
         }
     }
 
