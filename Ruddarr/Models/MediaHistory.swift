@@ -77,13 +77,26 @@ struct MediaHistoryEvent: Identifiable, Codable {
     var description: String {
         let fallback = String(localized: "Unknown event.")
 
+        let mediaNoun = movieId != nil
+            ? String(localized: "Movie")
+            : String(localized: "Episode")
+
         return switch eventType {
         case .unknown:
             fallback
         case .grabbed:
-            String(format: String(localized: "Movie grabbed from %1$@ and sent to %2$@."), indexerFallbackLabel, downloadClientFallbackLabel)
+            String(format: String(
+                localized: "%1$@ grabbed from %2$@ and sent to %3$@."),
+                mediaNoun,
+                indexerFallbackLabel,
+                downloadClientFallbackLabel
+            )
         case .downloadFolderImported:
-            String(format: String(localized: "Movie downloaded successfully and imported from %@."), downloadClientFallbackLabel)
+            String(format: String(
+                localized: "%1$@ downloaded successfully and imported from %2$@."),
+                mediaNoun,
+                downloadClientFallbackLabel
+            )
         case .downloadFailed:
             data("message") ?? fallback
         case .downloadIgnored:

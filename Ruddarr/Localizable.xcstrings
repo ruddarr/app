@@ -42,6 +42,26 @@
         }
       }
     },
+    "%1$@ downloaded successfully and imported from %2$@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ downloaded successfully and imported from %2$@."
+          }
+        }
+      }
+    },
+    "%1$@ grabbed from %2$@ and sent to %3$@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ grabbed from %2$@ and sent to %3$@."
+          }
+        }
+      }
+    },
     "%d days" : {
       "localizations" : {
         "en" : {
@@ -1323,6 +1343,16 @@
         }
       }
     },
+    "Episode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Episode"
+          }
+        }
+      }
+    },
     "Episode Deleted" : {
       "localizations" : {
         "en" : {
@@ -2288,6 +2318,16 @@
         }
       }
     },
+    "Movie" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie"
+          }
+        }
+      }
+    },
     "Movie Added" : {
       "localizations" : {
         "en" : {
@@ -2308,16 +2348,6 @@
         }
       }
     },
-    "Movie downloaded successfully and imported from %@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movie downloaded successfully and imported from %@."
-          }
-        }
-      }
-    },
     "Movie Downloading" : {
       "localizations" : {
         "en" : {
@@ -2334,16 +2364,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movie file was renamed."
-          }
-        }
-      }
-    },
-    "Movie grabbed from %1$@ and sent to %2$@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movie grabbed from %1$@ and sent to %2$@."
           }
         }
       }
