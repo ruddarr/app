@@ -36,7 +36,7 @@ struct IconsView: View {
 
     func renderIcon(_ icon: AppIcon) -> some View {
         VStack {
-            Image(icon.preview)
+            Image(icon.image)
                 .resizable()
                 .frame(width: iconSize, height: iconSize)
                 .clipShape(.rect(cornerRadius: iconRadius))

@@ -114,12 +114,12 @@ enum AppIcon: String, Identifiable, CaseIterable {
         data.locked
     }
 
-    var preview: String {
+    var image: String {
         "AppIconPreview\(data.asset)"
     }
 
-    var asset: String {
-        self == .factory ? "AppIcon" : "AppIcon\(data.asset)"
+    var asset: String? {
+        self == .factory ? nil : "AppIcon\(data.asset)"
     }
 }
 

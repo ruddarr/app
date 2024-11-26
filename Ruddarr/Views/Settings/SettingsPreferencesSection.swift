@@ -89,7 +89,7 @@ struct SettingsPreferencesSection: View {
                     Text("App Icon")
                 }
             } icon: {
-                Image(settings.icon.preview)
+                Image(settings.icon.image)
                     .resizable()
                     .frame(width: appIconSize, height: appIconSize)
                     .clipShape(.rect(cornerRadius: (10 / 57) * appIconSize))
