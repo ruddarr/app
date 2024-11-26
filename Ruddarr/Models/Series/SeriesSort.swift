@@ -24,7 +24,7 @@ struct SeriesSort: Hashable {
             case .byRating: Label("Rating", systemImage: "star")
             case .bySize: Label("File Size", systemImage: "internaldrive")
             case .byNextAiring: Label("Next Airing", systemImage: "clock")
-            case .byPreviousAiring: Label("Previous Airing", systemImage: "clock.arrow.circlepath")
+            case .byPreviousAiring: Label("Previous Airing", systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90")
             }
         }
 

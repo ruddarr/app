@@ -71,7 +71,8 @@ extension ActivityView {
                 NavigationLink {
                     HistoryView().environmentObject(settings)
                 } label: {
-                    Text("History")
+                    Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
+                        .imageScale(.medium)
                 }
             }
         }
