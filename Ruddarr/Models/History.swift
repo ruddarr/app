@@ -19,6 +19,11 @@ class History {
 
         var results: [MediaHistoryEvent] = []
 
+        if page == 1 {
+            events.removeAll()
+            hasMore.removeAll()
+        }
+
         do {
             try await withThrowingTaskGroup(of: (Instance, MediaHistory).self) { group in
                 for instance in instances {
@@ -44,11 +49,6 @@ class History {
             leaveBreadcrumb(.error, category: "history", message: "History fetch failed", data: ["error": apiError])
         } catch {
             self.error = API.Error(from: error)
-        }
-
-        if page == 1 {
-            events.removeAll()
-            hasMore.removeAll()
         }
 
         events.append(contentsOf: results)
