@@ -40,9 +40,15 @@ class SeriesEpisodes {
     }
 
     func fetch(_ series: Series) async {
-        items = []
         error = nil
         isFetching = true
+
+        if let episode = items.first,
+           episode.seriesId != series.id,
+           episode.instanceId != series.instanceId
+        {
+            items = []
+        }
 
         do {
             items = try await dependencies.api.fetchEpisodes(series.id, instance)
