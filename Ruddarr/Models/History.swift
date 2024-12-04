@@ -6,6 +6,7 @@ class History {
     var instances: [Instance] = []
 
     var events: [MediaHistoryEvent] = []
+    var fetchedType: String?
     var hasMore: [Instance.ID: Bool] = [:]
 
     var error: API.Error?
@@ -13,16 +14,18 @@ class History {
 
     var isLoading: Bool = false
 
-    func fetch(_ page: Int) async {
+    func fetch(_ page: Int, _ type: String?) async {
         error = nil
         isLoading = true
 
         var results: [MediaHistoryEvent] = []
 
-        if page == 1 {
+        if page == 1 || type != fetchedType {
             events.removeAll()
             hasMore.removeAll()
         }
+
+        fetchedType = type
 
         do {
             try await withThrowingTaskGroup(of: (Instance, MediaHistory).self) { group in
@@ -31,9 +34,12 @@ class History {
                         continue
                     }
 
-                    group.addTask {
-                        (instance, try await dependencies.api.fetchHistory(page, 25, instance))
-                    }
+                    let eventType: Int? = eventType(type, for: instance)
+
+                    group.addTask {(
+                        instance,
+                        try await dependencies.api.fetchHistory(eventType, page, 25, instance)
+                    )}
                 }
 
                 for try await (instance, history) in group {
@@ -54,5 +60,33 @@ class History {
         events.append(contentsOf: results)
 
         isLoading = false
+    }
+
+    func eventType(_ type: String?, for instance: Instance) -> Int? {
+        if instance.type == .radarr {
+            return switch type {
+            case ".grabbed": 1
+            case ".imported": 3
+            case ".failed": 4
+            case ".deleted": 6
+            case ".renamed": 8
+            case ".ignored": 9
+            default: nil
+            }
+        }
+
+        if instance.type == .sonarr {
+            return switch type {
+            case ".grabbed": 1
+            case ".imported": 3
+            case ".failed": 4
+            case ".deleted": 5
+            case ".renamed": 6
+            case ".ignored": 7
+            default: nil
+            }
+        }
+
+        return nil
     }
 }

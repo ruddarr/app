@@ -25,7 +25,7 @@ struct HistoryView: View {
                         } else if history.hasMore.values.contains(true) {
                             Button("Load More") {
                                 page += 1
-                                Task { await history.fetch(page) }
+                                Task { await history.fetch(page, displayedEventType) }
                             }
                             .buttonStyle(.bordered)
                         }
@@ -48,13 +48,16 @@ struct HistoryView: View {
         .safeNavigationBarTitleDisplayMode(.inline)
         .task {
             history.instances = settings.instances
-            await history.fetch(page)
+            await history.fetch(page, displayedEventType)
         }
         .toolbar {
             filtersMenu
         }
         .refreshable {
-            await Task { await history.fetch(1) }.value
+            await Task { await history.fetch(1, displayedEventType) }.value
+        }
+        .onChange(of: displayedEventType) {
+            Task { await history.fetch(1, displayedEventType) }
         }
         .alert(
             isPresented: history.errorBinding,
