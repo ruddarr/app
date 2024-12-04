@@ -3,11 +3,11 @@ import SwiftUI
 struct CalendarDate: View {
     var date: Date
 
+    @State var isToday: Bool = false
+
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
-        let isToday: Bool = Calendar.current.isDateInToday(date)
-
         VStack(alignment: .center, spacing: 0) {
             Text(CalendarDate.dayOfWeek.string(from: date).uppercased())
                 .font(.caption2)
@@ -29,6 +29,9 @@ struct CalendarDate: View {
             Spacer()
         }
         .foregroundStyle(isToday ? settings.theme.tint : .primary)
+        .onAppear {
+            isToday = Calendar.current.isDateInToday(date)
+        }
         .transaction { transaction in
             transaction.animation = nil // disable animation
         }
