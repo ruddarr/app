@@ -161,6 +161,10 @@ struct CalendarView: View {
             return
         }
 
+        if force {
+            initializationError = nil
+        }
+
         await calendar.load()
 
         if calendar.dates.isEmpty {
