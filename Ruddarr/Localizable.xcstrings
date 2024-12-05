@@ -2196,16 +2196,6 @@
         }
       }
     },
-    "Missing CloudKit user identifier." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Missing CloudKit user identifier."
-          }
-        }
-      }
-    },
     "Missing Episodes" : {
       "localizations" : {
         "en" : {

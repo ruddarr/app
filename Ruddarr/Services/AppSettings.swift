@@ -77,7 +77,7 @@ extension AppSettings {
 
         let webhook = InstanceWebhook(instance)
 
-        Task { @MainActor in
+        Task {
             await webhook.delete()
             await Spotlight(instance.id).deleteInstanceIndex()
         }

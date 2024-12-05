@@ -260,7 +260,7 @@ extension InstanceView {
 
     func initialWebhookSync() async {
         if notificationsAllowed && cloudKitEnabled && entitledToService {
-            await webhook.synchronize(cloudKitUserId)
+            await webhook.synchronize()
 
             instanceNotifications = webhook.isEnabled
         }
@@ -279,7 +279,7 @@ extension InstanceView {
             webhook.model.disable()
         }
 
-         await webhook.update(cloudKitUserId)
+        await webhook.synchronize()
     }
 
     func maybeRequestNotificationAuthorization() async {
@@ -300,7 +300,7 @@ extension InstanceView {
 
     func updateWebhook() {
         Task {
-            await webhook.update(cloudKitUserId)
+            await webhook.synchronize()
         }
 
         Occurrence.forget("instanceCheck:\(instance.id)")

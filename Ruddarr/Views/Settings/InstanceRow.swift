@@ -81,7 +81,7 @@ struct InstanceRow: View {
             Occurrence.occurred(lastCheck)
 
             let webhook = InstanceWebhook(instance)
-            await webhook.synchronize(nil)
+            await webhook.synchronize()
             self.webhook = webhook.isEnabled ? .enabled : .disabled
 
             connection = .reachable

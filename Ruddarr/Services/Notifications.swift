@@ -99,12 +99,6 @@ actor Notifications {
                 return
             }
 
-            guard let cloudKitUserId = try? await cloudkit.userRecordID() else {
-                leaveBreadcrumb(.warning, category: "notifications", message: "CloudKit user record lookup failed")
-
-                return
-            }
-
             let entitledToService = await Subscription.entitledToService()
 
             if !entitledToService {
@@ -120,7 +114,7 @@ actor Notifications {
 
                 let webhook = await InstanceWebhook(instance)
 
-                await webhook.update(cloudKitUserId)
+                await webhook.synchronize()
 
                 if await webhook.error == nil {
                     Occurrence.occurred(lastUpdate)
