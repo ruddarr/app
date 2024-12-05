@@ -10,6 +10,8 @@ struct Ruddarr: App {
         @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     #endif
 
+    static let name: String = "Ruddarr"
+
     init() {
         #if DEBUG
         // dependencies = .mock

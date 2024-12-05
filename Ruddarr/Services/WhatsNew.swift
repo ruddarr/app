@@ -70,12 +70,12 @@ struct WhatsNewView: View {
             if deviceType == .phone {
                 VStack {
                     Text(verbatim: "What's New in")
-                    Text(verbatim: "Ruddarr").foregroundStyle(.blue)
+                    Text(verbatim: Ruddarr.name).foregroundStyle(.blue)
                 }
             } else {
                 Group {
                     Text(verbatim: "What's New in ") +
-                    Text(verbatim: "Ruddarr").foregroundStyle(.blue)
+                    Text(verbatim: Ruddarr.name).foregroundStyle(.blue)
                 }
             }
         }

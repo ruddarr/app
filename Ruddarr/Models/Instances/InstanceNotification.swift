@@ -94,12 +94,13 @@ struct InstanceNotification: Identifiable, Codable {
         onApplicationUpdate = supportsOnApplicationUpdate == true
     }
 
+    @MainActor
     var isRuddarrWebhook: Bool {
         guard implementation == "Webhook" else {
             return false
         }
 
-        if let label = name, label.contains("Ruddarr") {
+        if let label = name, label.contains(Ruddarr.name) {
             return true
         }
 

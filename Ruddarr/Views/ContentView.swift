@@ -38,7 +38,7 @@ struct ContentView: View {
         .tabViewStyle(.sidebarAdaptable)
         #if os(iOS)
             .tabViewSidebarHeader {
-                Text(verbatim: "Ruddarr")
+                Text(verbatim: Ruddarr.name)
                     .font(.largeTitle.bold())
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
