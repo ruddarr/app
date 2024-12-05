@@ -8,12 +8,6 @@ class Subscription {
     static func entitledToService() async -> Bool {
         do {
             let subscriptions = try await Product.SubscriptionInfo.status(for: group)
-
-            // testflight subscriptions expire fast, accept any state
-            if isRunningIn(.testflight) {
-                return !subscriptions.isEmpty
-            }
-
             return containsEntitledState(subscriptions)
         } catch {
             leaveBreadcrumb(.error, category: "subscription", message: "entitledToService check failed", data: ["error": error])
@@ -23,9 +17,17 @@ class Subscription {
     }
 
     static func containsEntitledState(_ statuses: [StoreKit.Product.SubscriptionInfo.Status]) -> Bool {
-        statuses.contains {
-            $0.state == .subscribed || $0.state == .inGracePeriod
+        var entitledStates: [Product.SubscriptionInfo.RenewalState] = [
+            .subscribed,
+            .inGracePeriod,
+        ]
+
+        // testflight subscriptions expire fast, accept `.expired` state
+        if isRunningIn(.testflight) {
+            entitledStates.append(.expired)
         }
+
+        return statuses.contains { entitledStates.contains($0.state) }
     }
 
     static func lastEntitledDate() async -> Date? {
