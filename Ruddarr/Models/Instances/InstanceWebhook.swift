@@ -40,9 +40,9 @@ class InstanceWebhook {
             }
 
             if model.id == nil {
-                try await createWebook(accountId)
+                try await createWebook()
             } else {
-                try await updateWebook(accountId)
+                try await updateWebook()
             }
         } catch is CancellationError {
             // do nothing
@@ -81,25 +81,25 @@ class InstanceWebhook {
         }
     }
 
-    private func createWebook(_ accountId: CKRecord.ID?) async throws {
+    private func createWebook() async throws {
         let record = InstanceNotification(
             name: Ruddarr.name,
-            fields: webhookFields(accountId)
+            fields: webhookFields()
         )
 
         do {
             model = try await dependencies.api.createNotification(record, instance)
-        } catch API.Error.badStatusCode(400) {
-            try? await fetchWebhooks()
-            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook creation failed (400)")
         } catch {
+            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook creation failed", data: ["error": error])
+
+            try? await fetchWebhooks()
             throw error
         }
     }
 
-    private func updateWebook(_ accountId: CKRecord.ID?) async throws {
+    private func updateWebook() async throws {
         model.name = Ruddarr.name
-        model.fields = webhookFields(accountId)
+        model.fields = webhookFields()
 
         do {
             model = try await dependencies.api.updateNotification(model, instance)
@@ -110,8 +110,9 @@ class InstanceWebhook {
         }
     }
 
-    private func webhookFields(_ accountId: CKRecord.ID?) -> [InstanceNotificationField] {
+    private func webhookFields() -> [InstanceNotificationField] {
         var url = URL(string: Notifications.url)!.appending(path: "/push")
+        var payload: String = "noop"
         var signature: String = ""
 
         // change timestamp once a day at most
@@ -120,13 +121,12 @@ class InstanceWebhook {
 
         if let account = accountId?.recordName {
             let identifier = "\(today):\(account)"
-            let payload = identifier.data(using: .utf8)!.base64EncodedString()
 
-            url = url.appending(path: payload)
+            payload = identifier.data(using: .utf8)!.base64EncodedString()
             signature = Notifications.signature(identifier)
-        } else {
-            url = url.appending(path: "noop")
         }
+
+        url = url.appending(path: payload)
 
         return [
             InstanceNotificationField(name: "url", value: url.absoluteString),
