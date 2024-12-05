@@ -106,11 +106,13 @@ class AppDelegate:
             options.enableSigtermReporting = true
             options.enableWatchdogTerminationTracking = true
             options.enableMetricKit = true
-            options.enableAppHangTracking = true
+            // options.enableAppHangTracking = true
+            options.enableAppHangTrackingV2 = true
             options.appHangTimeoutInterval = 3
             options.enableCaptureFailedRequests = false
             options.enablePreWarmedAppStartTracing = true
             options.enableTimeToFullDisplayTracing = true
+            options.enablePersistingTracesWhenCrashing = true
 
             options.tracesSampleRate = 1
             options.profilesSampleRate = 1
