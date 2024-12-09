@@ -139,7 +139,7 @@ class AppDelegate:
     }
 
     func configureTelemetryDeck() {
-        var configuration = TelemetryDeck.Config(
+        let configuration = TelemetryDeck.Config(
             appID: Secrets.TelemetryAppId
         )
 
