@@ -173,7 +173,7 @@ struct MovieReleaseSheet: View {
 
     var details: some View {
         Section {
-            VStack(spacing: 12) {
+            VStack(spacing: 6) {
                 row("Language", value: release.languagesLabel)
                 Divider()
 
@@ -191,7 +191,6 @@ struct MovieReleaseSheet: View {
                     ))
                 }
             }
-            .font(.callout)
         } header: {
             Text("Information")
                 .font(.title2.bold())
@@ -201,12 +200,16 @@ struct MovieReleaseSheet: View {
     func flags() -> [String] {
         var flags: [String] = []
 
-        if release.customFormatScore != 0 {
-            flags.append(release.scoreLabel)
-        }
-
         if let indexerFlags = release.indexerFlags, !indexerFlags.isEmpty {
             flags.append(contentsOf: release.cleanIndexerFlags)
+        }
+
+        if release.isProper {
+            flags.append(String(localized: "Proper"))
+        }
+
+        if release.isRepack {
+            flags.append(String(localized: "Repack"))
         }
 
         return flags
@@ -215,12 +218,8 @@ struct MovieReleaseSheet: View {
     func tags() -> [String] {
         var tags: [String] = []
 
-        if release.isProper {
-            tags.append(String(localized: "Proper"))
-        }
-
-        if release.isRepack {
-            tags.append(String(localized: "Repack"))
+        if release.customFormatScore != 0 {
+            tags.append(release.scoreLabel)
         }
 
         if release.hasCustomFormats {
@@ -231,14 +230,21 @@ struct MovieReleaseSheet: View {
     }
 
     func row(_ label: LocalizedStringKey, value: String) -> some View {
-        LabeledContent {
-            Text(value).foregroundStyle(.primary)
-        } label: {
-            Text(label).foregroundStyle(.secondary)
+        HStack(alignment: .top) {
+            Text(label)
+                .foregroundStyle(.secondary)
+
+            Spacer()
+            Spacer()
+            Spacer()
+
+            Text(value)
+                .foregroundStyle(.primary)
         }
+        .font(.subheadline)
+        .padding(.vertical, 6)
     }
 
-    @MainActor
     func downloadRelease(force: Bool = false) async {
         guard await instance.movies.download(
             guid: release.guid,

@@ -2,11 +2,14 @@ import Foundation
 import SwiftUI
 
 @Observable
+@MainActor
 final class Toast {
+    nonisolated init() {}
+
     var currentMessage: Message?
 
     @ObservationIgnored
-    lazy var show: (AnyView, MessageType) -> Void = { [weak self] view, type in
+    lazy var show: @MainActor (AnyView, MessageType) -> Void = { [weak self] view, type in
         guard let self else { return }
         let message = Message(view: view, type: type)
 
@@ -30,7 +33,7 @@ final class Toast {
     var animation: Animation? = .snappy
 
     @ObservationIgnored
-    lazy var dismissAfterTimeout: (Message.ID) async throws -> Void = { @MainActor [weak self] in
+    lazy var dismissAfterTimeout: @MainActor (Message.ID) async throws -> Void = { [weak self] in
         guard let self else { return }
         try await Task.sleep(until: .now + self.timeout)
 

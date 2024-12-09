@@ -34,7 +34,7 @@ extension MovieDefaults: Codable {
         case minimumAvailability
     }
 
-    init(from decoder: Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         monitored = try values.decode(Bool.self, forKey: .monitored)
         rootFolder = try values.decode(String.self, forKey: .rootFolder)
@@ -42,7 +42,7 @@ extension MovieDefaults: Codable {
         minimumAvailability = try values.decode(MovieStatus.self, forKey: .minimumAvailability)
     }
 
-    func encode(to encoder: Encoder) throws {
+    func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(monitored, forKey: .monitored)
         try container.encode(rootFolder, forKey: .rootFolder)

@@ -25,7 +25,6 @@ struct EpisodeContextMenu: View {
         })
     }
 
-    @MainActor
     func dispatchSearch() async {
         guard await instance.series.command(.episodeSearch([episode.id])) else {
             return

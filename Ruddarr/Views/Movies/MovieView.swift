@@ -4,8 +4,10 @@ import TelemetryDeck
 struct MovieView: View {
     @Binding var movie: Movie
 
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(RadarrInstance.self) private var instance
 
+    @State private var showEditForm: Bool = false
     @State private var showDeleteConfirmation = false
 
     var body: some View {
@@ -17,6 +19,7 @@ struct MovieView: View {
         .refreshable {
             await Task { await reload() }.value
         }
+        .onChange(of: scenePhase, handleScenePhaseChange)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
              toolbarMonitorButton
@@ -74,6 +77,19 @@ struct MovieView: View {
             } label: {
                 ToolbarActionButton()
             }
+            #if os(macOS)
+                .sheet(isPresented: $showEditForm) {
+                    MovieEditView(movie: $movie)
+                        .environment(instance)
+                        .padding(.top)
+                        .padding(.all)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Close") { showEditForm = false }
+                            }
+                        }
+                }
+            #endif
         }
     }
 
@@ -84,11 +100,17 @@ struct MovieView: View {
     }
 
     var editAction: some View {
-        NavigationLink(
-            value: MoviesPath.edit(movie.id)
-        ) {
-            Label("Edit", systemImage: "pencil")
-        }
+        #if os(macOS)
+            Button("Edit") {
+                showEditForm = true
+            }
+        #else
+            NavigationLink(
+                value: MoviesPath.edit(movie.id)
+            ) {
+                Label("Edit", systemImage: "pencil")
+            }
+        #endif
     }
 
     var openInLinks: some View {
@@ -111,7 +133,6 @@ struct MovieView: View {
 }
 
 extension MovieView {
-    @MainActor
     func toggleMonitor() async {
         movie.monitored.toggle()
 
@@ -122,12 +143,10 @@ extension MovieView {
         dependencies.toast.show(movie.monitored ? .monitored : .unmonitored)
     }
 
-    @MainActor
     func reload() async {
         _ = await instance.movies.get(movie)
     }
 
-    @MainActor
     func refresh() async {
         guard await instance.movies.command(.refreshMovie([movie.id])) else {
             return
@@ -140,7 +159,12 @@ extension MovieView {
         }
     }
 
-    @MainActor
+    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+        if phase == .inactive && oldPhase == .background {
+            Task { await reload() }
+        }
+    }
+
     func dispatchSearch() async {
         guard await instance.movies.command(.search([movie.id])) else {
             return
@@ -152,7 +176,6 @@ extension MovieView {
         maybeAskForReview()
     }
 
-    @MainActor
     func deleteMovie(exclude: Bool = false) async {
         _ = await instance.movies.delete(movie, addExclusion: exclude)
 

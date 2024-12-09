@@ -1,13 +1,13 @@
 import Foundation
 
 extension DateFormatter {
-    static var iso8601: ISO8601DateFormatter = {
+    nonisolated(unsafe) static let iso8601: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime]
         return formatter
     }()
 
-    static var iso8601withFractionalSeconds: ISO8601DateFormatter = {
+    nonisolated(unsafe) static let iso8601withFractionalSeconds: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         return formatter
@@ -15,7 +15,7 @@ extension DateFormatter {
 }
 
 extension JSONDecoder.DateDecodingStrategy {
-    static var iso8601extended = custom { decoder in
+    static let iso8601extended = custom { decoder in
         let string = try decoder.singleValueContainer().decode(String.self)
 
         if let date = DateFormatter.iso8601.date(from: string) {

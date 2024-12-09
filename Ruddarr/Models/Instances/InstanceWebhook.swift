@@ -2,9 +2,12 @@ import os
 import SwiftUI
 import CloudKit
 
+@MainActor
 @Observable
 class InstanceWebhook {
     var instance: Instance
+    var accountId: CKRecord.ID?
+
     var model: InstanceNotification = .init()
 
     var error: API.Error?
@@ -19,119 +22,140 @@ class InstanceWebhook {
         self.instance = instance
     }
 
-    enum Mode {
-        case create
-        case update
-        case delete
+    var webhook: InstanceNotification? {
+        notifications.first { $0.isRuddarrWebhook }
     }
 
-    func update(_ accountId: CKRecord.ID?) async {
-        await synchronize(accountId, mode: .update)
-    }
+    func synchronize() async {
+        guard !isSynchronizing else { return }
 
-    func delete() async {
-        await synchronize(nil, mode: .delete)
-    }
-
-    func synchronize(_ accountId: CKRecord.ID?, mode: Mode = .create) async {
         error = nil
+        isSynchronizing = true
 
         do {
-            isSynchronizing = true
+            await fetchCloudKitUser()
 
-            switch mode {
-            case .create: try await createWebook(accountId)
-            case .update: try await updateWebook(accountId)
-            case .delete: try await deleteWebook()
+            if notifications.isEmpty {
+                try await fetchWebhooks()
+            }
+
+            if model.id == nil {
+                try await createWebook()
+            } else {
+                try await updateWebook()
             }
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
             error = apiError
 
-            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook \(mode) failed", data: ["error": apiError])
+            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook sync failed", data: ["error": apiError])
         } catch {
             self.error = API.Error(from: error)
         }
 
-        isEnabled = model.isEnabled
         isSynchronizing = false
+        isEnabled = model.isEnabled
     }
 
-    private func webhook() -> InstanceNotification? {
-        notifications.first { $0.isRuddarrWebhook }
+    func delete() async {
+        do {
+            try await fetchWebhooks()
+
+            if let webhook {
+                _ = try await dependencies.api.deleteNotification(webhook, instance)
+            }
+        } catch {
+            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook delete failed", data: ["error": error])
+        }
+
+        model = .init()
+        notifications = []
     }
 
     private func fetchWebhooks() async throws {
         notifications = try await dependencies.api.fetchNotifications(instance)
+
+        if let webhook {
+            model = webhook
+        }
     }
 
-    @MainActor
-    private func createWebook(_ accountId: CKRecord.ID?) async throws {
-        try await fetchWebhooks()
-
-        if let webhook = webhook() {
-            model = webhook
-            return
-        }
-
-        guard let account = accountId else {
-            return
-        }
-
+    private func createWebook() async throws {
         let record = InstanceNotification(
-            name: "Ruddarr",
-            fields: webhookFields(account)
+            name: Ruddarr.name,
+            fields: webhookFields()
         )
 
-        model = try await dependencies.api.createNotification(record, instance)
+        do {
+            model = try await dependencies.api.createNotification(record, instance)
+        } catch {
+            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook creation failed", data: ["error": error])
 
-        notifications.append(model)
-    }
-
-    @MainActor
-    private func updateWebook(_ accountId: CKRecord.ID?) async throws {
-        if model.id == nil {
-            try await createWebook(accountId)
-        }
-
-        guard let account = accountId else {
-            throw AppError(String(localized: "Missing CloudKit user identifier."))
-        }
-
-        model.fields = webhookFields(account)
-
-        model = try await dependencies.api.updateNotification(model, instance)
-    }
-
-    private func deleteWebook() async throws {
-        try await fetchWebhooks()
-
-        if let webhook = webhook() {
-            _ = try await dependencies.api.deleteNotification(webhook, instance)
+            try? await fetchWebhooks()
+            throw error
         }
     }
 
-    private func webhookFields(_ accountId: CKRecord.ID) -> [InstanceNotificationField] {
-        let time = Int(Date().timeIntervalSince1970)
+    private func updateWebook() async throws {
+        model.name = Ruddarr.name
+        model.fields = webhookFields()
+
+        do {
+            model = try await dependencies.api.updateNotification(model, instance)
+        } catch {
+            leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook update failed", data: ["error": error])
+
+            throw error
+        }
+    }
+
+    private func webhookFields() -> [InstanceNotificationField] {
+        var url = URL(string: Notifications.url)!.appending(path: "/push")
+        var payload: String = "noop"
+        var signature: String = ""
 
         // change timestamp once a day at most
-        let today = time - (time % 86_400)
+        let time = Int(Date().timeIntervalSince1970)
+        let today: Int = time - (time % 86_400)
 
-        let identifier = "\(today):\(accountId.recordName)"
-        let signature = Notifications.shared.signature(identifier)
+        if let account = accountId?.recordName {
+            let identifier = "\(today):\(account)"
 
-        let encoded = identifier.data(using: .utf8)?.base64EncodedString() ?? "noop"
+            payload = identifier.data(using: .utf8)!.base64EncodedString()
+            signature = Notifications.signature(identifier)
+        }
 
-        let url = URL(string: Notifications.url)!
-            .appending(path: "/push/\(encoded)")
-            .absoluteString
+        url = url.appending(path: payload)
 
         return [
-            InstanceNotificationField(name: "url", value: url),
+            InstanceNotificationField(name: "url", value: url.absoluteString),
             InstanceNotificationField(name: "method", value: "1"),
             InstanceNotificationField(name: "username", value: ""),
             InstanceNotificationField(name: "password", value: signature),
         ]
+    }
+
+    private func fetchCloudKitUser() async {
+        if dependencies.cloudkit == .mock {
+            accountId = CKRecord.ID(recordName: "_00000000000000000000000000000000")
+
+            return
+        }
+
+        let cloudkit = CKContainer.default()
+        let cloudKitStatus = try? await cloudkit.accountStatus()
+
+        if cloudKitStatus != .available {
+            return
+        }
+
+        guard let record = try? await cloudkit.userRecordID() else {
+            leaveBreadcrumb(.error, category: "instance.webhook", message: "CloudKit user record lookup failed")
+
+            return
+        }
+
+        accountId = record
     }
 }

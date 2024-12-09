@@ -13,17 +13,22 @@ struct CloseButton: View {
                 .symbolVariant(.circle.fill)
                 .scaleEffect(1.65)
                 .tint(.gray)
-                .foregroundStyle(
-                    .secondary,
-                    colorScheme == .dark
-                        ? .tertiarySystemBackground
-                        : .secondarySystemBackground
-                )
+                .foregroundStyle(.secondary, secondaryForegroundStyle)
         }
         .buttonStyle(.plain)
         .padding(.top)
         .padding(.trailing)
         .zIndex(999)
+    }
+
+    var secondaryForegroundStyle: Color {
+        #if os(iOS)
+            colorScheme == .dark
+                ? .tertiarySystemBackground
+                : .secondarySystemBackground
+        #else
+            .systemFill
+        #endif
     }
 }
 

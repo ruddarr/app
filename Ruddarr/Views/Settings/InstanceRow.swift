@@ -65,19 +65,23 @@ struct InstanceRow: View {
 
             connection = .pending
 
-            let data = try await dependencies.api.systemStatus(instance)
+            async let systemStatus = try dependencies.api.systemStatus(instance)
+            async let rootFolders = try dependencies.api.rootFolders(instance)
+            async let qualityProfiles = try dependencies.api.qualityProfiles(instance)
+
+            let data = try await systemStatus
 
             instance.name = data.instanceName
             instance.version = data.version
-            instance.rootFolders = try await dependencies.api.rootFolders(instance)
-            instance.qualityProfiles = try await dependencies.api.qualityProfiles(instance)
+            instance.rootFolders = try await rootFolders
+            instance.qualityProfiles = try await qualityProfiles
 
             settings.saveInstance(instance)
 
             Occurrence.occurred(lastCheck)
 
             let webhook = InstanceWebhook(instance)
-            await webhook.synchronize(nil)
+            await webhook.synchronize()
             self.webhook = webhook.isEnabled ? .enabled : .disabled
 
             connection = .reachable
@@ -91,7 +95,7 @@ struct InstanceRow: View {
     }
 
     func checkNotificationsStatus() async {
-        let status = await Notifications.shared.authorizationStatus()
+        let status = await Notifications.authorizationStatus()
 
         notifications = status == .authorized
     }

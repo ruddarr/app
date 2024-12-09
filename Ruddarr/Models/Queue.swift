@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 @Observable
 class Queue {
     static let shared = Queue()
@@ -18,10 +19,14 @@ class Queue {
         let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
 
         self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
-            Task { await self.fetchTasks() }
+            Task {
+                await self.fetchTasks()
+            }
 
-            if self.performRefresh {
-                Task { await self.refreshDownloadClients() }
+            Task {
+                if await self.performRefresh {
+                    await self.refreshDownloadClients()
+                }
             }
         }
     }
@@ -30,7 +35,6 @@ class Queue {
         items.flatMap { $0.value }.filter { $0.hasIssue }.count
     }
 
-    @MainActor
     func fetchTasks() async {
         guard !isLoading else { return }
 

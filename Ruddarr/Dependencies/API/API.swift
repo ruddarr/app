@@ -44,6 +44,8 @@ struct API {
     var fetchQueueTasks: (Instance) async throws -> QueueItems
     var deleteQueueTask: (QueueItem.ID, Bool, Bool, Bool, Instance) async throws -> Empty
 
+    var fetchHistory: (Int?, Int, Int, Instance) async throws -> MediaHistory
+
     var fetchNotifications: (Instance) async throws -> [InstanceNotification]
     var createNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
     var updateNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
@@ -305,6 +307,21 @@ extension API {
                 ])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
+        }, fetchHistory: { type, page, limit, instance in
+            var url = URL(string: instance.url)!
+                .appending(path: "/api/v3/history")
+                .appending(queryItems: [
+                    .init(name: "page", value: String(page)),
+                    .init(name: "pageSize", value: String(limit)),
+                ])
+
+            if let type {
+                url = url.appending(queryItems: [.init(name: "eventType", value: String(type))])
+            }
+
+            var history: MediaHistory = try await request(url: url, headers: instance.auth)
+            for i in history.records.indices { history.records[i].instanceId = instance.id }
+            return history
         }, fetchNotifications: { instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/notification")
@@ -346,7 +363,7 @@ extension API {
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601extended
 
-        try NetworkMonitor.shared.checkReachability()
+        try await NetworkMonitor.shared.checkReachability()
 
         var request = URLRequest(url: url)
         request.timeoutInterval = timeout

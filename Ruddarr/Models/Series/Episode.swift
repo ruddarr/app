@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Episode: Identifiable, Codable {
+struct Episode: Identifiable, Codable, Equatable {
     let id: Int
 
     // used by deeplinks to switch instances
@@ -156,7 +156,7 @@ enum EpisodeReleaseType: String, Equatable, Codable {
     case multiEpisode // 2
     case seasonPack // 3
 
-    init(from decoder: Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
 
         do {

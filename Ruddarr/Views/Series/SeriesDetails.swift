@@ -153,7 +153,7 @@ struct SeriesDetails: View {
             LazyVStack(alignment: .leading, spacing: 12) {
                 ForEach(series.seasons.reversed()) { season in
                     NavigationLink(value: SeriesPath.season(series.id, season.id)) {
-                        GroupBox {
+                        LabeledGroupBox {
                             HStack(spacing: 12) {
                                 Text(season.label)
                                     .fontWeight(.medium)
@@ -209,7 +209,6 @@ struct SeriesDetails: View {
         }
     }
 
-    @MainActor
     func monitorSeason(_ season: Season.ID) async {
         guard let index = series.seasons.firstIndex(where: { $0.id == season }) else {
             return
@@ -226,7 +225,11 @@ struct SeriesDetails: View {
 
         monitoringSeason = nil
 
-        dependencies.toast.show(series.seasons[index].monitored ? .monitored : .unmonitored)
+        dependencies.toast.show(
+            series.seasons[index].monitored ? .monitored : .unmonitored
+        )
+
+        await instance.episodes.fetch(series)
     }
 }
 

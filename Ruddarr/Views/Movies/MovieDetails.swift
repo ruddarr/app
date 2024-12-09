@@ -77,7 +77,7 @@ struct MovieDetails: View {
                     MediaDetailsRow("Video", value: mediaDetailsVideoQuality(movie.movieFile))
                     MediaDetailsRow("Audio", value: mediaDetailsAudioQuality(movie.movieFile))
 
-                    if let subtitles = mediaDetailsSubtitles(movie.movieFile) {
+                    if let subtitles = mediaDetailsSubtitles(movie.movieFile, deviceType) {
                         MediaDetailsRow("Subtitles", value: subtitles)
                     }
                 }.onTapGesture {

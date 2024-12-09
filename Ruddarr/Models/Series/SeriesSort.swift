@@ -24,11 +24,11 @@ struct SeriesSort: Hashable {
             case .byRating: Label("Rating", systemImage: "star")
             case .bySize: Label("File Size", systemImage: "internaldrive")
             case .byNextAiring: Label("Next Airing", systemImage: "clock")
-            case .byPreviousAiring: Label("Previous Airing", systemImage: "clock.arrow.circlepath")
+            case .byPreviousAiring: Label("Previous Airing", systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90")
             }
         }
 
-        func isOrderedBefore(_ lhs: Series, _ rhs: Series) -> Bool {
+        func compare(_ lhs: Series, _ rhs: Series) -> Bool {
             switch self {
             case .byTitle:
                 lhs.sortTitle < rhs.sortTitle
@@ -71,22 +71,22 @@ struct SeriesSort: Hashable {
             }
         }
 
-        func filtered(_ series: [Series]) -> [Series] {
+        func filter(_ series: Series) -> Bool {
             switch self {
             case .all:
-                series
+                true
             case .monitored:
-                series.filter { $0.monitored }
+                series.monitored
             case .unmonitored:
-                series.filter { !$0.monitored }
+                !series.monitored
             case .continuing:
-                series.filter { $0.status == .continuing }
+                series.status == .continuing
             case .ended:
-                series.filter { $0.status == .ended }
+                series.status == .ended
             case .missing:
-                series.filter { $0.episodeCount > $0.episodeFileCount }
+                series.episodeCount > series.episodeFileCount
             case .dangling:
-                series.filter { !$0.monitored && $0.episodeCount == 0 }
+                !series.monitored && series.episodeCount == 0
             }
         }
     }
@@ -124,7 +124,7 @@ extension SeriesSort: Codable {
         case filter
     }
 
-    init(from decoder: Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         try self.init(
@@ -134,7 +134,7 @@ extension SeriesSort: Codable {
         )
     }
 
-    func encode(to encoder: Encoder) throws {
+    func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(isAscending, forKey: .isAscending)
         try container.encode(option, forKey: .option)

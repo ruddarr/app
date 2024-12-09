@@ -10,6 +10,8 @@ struct Ruddarr: App {
         @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     #endif
 
+    static let name: String = "Ruddarr"
+
     init() {
         #if DEBUG
         // dependencies = .mock
@@ -19,7 +21,9 @@ struct Ruddarr: App {
 
         try? Tips.configure()
 
-        NetworkMonitor.shared.start()
+        Task {
+            await NetworkMonitor.shared.start()
+        }
     }
 
     var body: some Scene {
@@ -79,28 +83,33 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static var version: String = "1.3.0"
+    static let version: String = "1.4.0"
 
-    static var features: [WhatsNewFeature] = [
-        .init(
-            image: "sidebar.left",
-            title: "iPadOS 18 TabView",
-            subtitle: "Modernized iPad sidebar and keep views alive when switching tabs."
+    static let features: [WhatsNewFeature] = [
+        .init( // 1.4.0
+            image: "6.square",
+            title: "Swift 6",
+            subtitle: "Upgraded the codebase to Swift 6 to reduce potential crashes."
         ),
-        .init(
-            image: "waveform.path.ecg",
-            title: "Faster Queue",
-            subtitle: "Queue tasks will refresh faster while viewing the Activity tab."
+        .init( // 1.4.0
+            image: "clock.arrow.trianglehead.counterclockwise.rotate.90",
+            title: "History Module",
+            subtitle: "View the complete history from all instances in the Activity subtab."
         ),
-        .init(
-            image: "line.3.horizontal.decrease",
-            title: "Filters & Sorting",
-            subtitle: "Added new and improved filters and sorting options."
+        .init( // 1.3.1
+            image: "internaldrive",
+            title: "Bitrate Estimations",
+            subtitle: "Added bitrate estimations to releases and media files without a bitrate."
         ),
-        .init(
-            image: "sparkle.magnifyingglass",
-            title: "Improved Spotlight Indexer",
-            subtitle: "The Spotlight integration was overhauled and is faster and more reliable."
+        .init( // 1.3.1
+            image: "server.rack",
+            title: "Instance Switching",
+            subtitle: "Switch to the correct instance when tapping a notification."
+        ),
+        .init( // 1.3.1
+            image: "network",
+            title: "Faster Requests",
+            subtitle: "Parallelized various API requests to reduce unnecessary wait times."
         ),
         .init(
             image: "ant",

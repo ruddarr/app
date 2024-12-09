@@ -4,8 +4,10 @@ import TelemetryDeck
 struct SeriesDetailView: View {
     @Binding var series: Series
 
+    @Environment(\.scenePhase) private var scenePhase
     @Environment(SonarrInstance.self) private var instance
 
+    @State private var showEditForm = false
     @State private var showDeleteConfirmation = false
 
     var body: some View {
@@ -17,6 +19,7 @@ struct SeriesDetailView: View {
         .refreshable {
             await Task { await reload() }.value
         }
+        .onChange(of: scenePhase, handleScenePhaseChange)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
@@ -84,6 +87,19 @@ struct SeriesDetailView: View {
             } label: {
                 ToolbarActionButton()
             }
+            #if os(macOS)
+                .sheet(isPresented: $showEditForm) {
+                    SeriesEditView(series: $series)
+                        .environment(instance)
+                        .padding(.top)
+                        .padding(.all)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Close") { showEditForm = false }
+                            }
+                        }
+                }
+            #endif
         }
     }
 
@@ -94,11 +110,17 @@ struct SeriesDetailView: View {
     }
 
     var editAction: some View {
-        NavigationLink(
-            value: SeriesPath.edit(series.id)
-        ) {
-            Label("Edit", systemImage: "pencil")
-        }
+        #if os(macOS)
+            Button("Edit") {
+                showEditForm = true
+            }
+        #else
+            NavigationLink(
+                value: SeriesPath.edit(series.id)
+            ) {
+                Label("Edit", systemImage: "pencil")
+            }
+        #endif
     }
 
     var searchMonitored: some View {
@@ -116,7 +138,6 @@ struct SeriesDetailView: View {
 }
 
 extension SeriesDetailView {
-    @MainActor
     func toggleMonitor() async {
         series.monitored.toggle()
 
@@ -127,14 +148,12 @@ extension SeriesDetailView {
         dependencies.toast.show(series.monitored ? .monitored : .unmonitored)
     }
 
-    @MainActor
     func reload() async {
         _ = await instance.series.get(series)
         await instance.episodes.fetch(series)
         await instance.files.fetch(series)
     }
 
-    @MainActor
     func refresh() async {
         guard await instance.series.command(.refreshSeries(series.id)) else {
             return
@@ -147,7 +166,12 @@ extension SeriesDetailView {
         }
     }
 
-    @MainActor
+    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+        if phase == .inactive && oldPhase == .background {
+            Task { await reload() }
+        }
+    }
+
     func dispatchSearch() async {
         guard await instance.series.command(
             .seriesSearch(series.id)
@@ -161,7 +185,6 @@ extension SeriesDetailView {
         maybeAskForReview()
     }
 
-    @MainActor
     func deleteSeries(exclude: Bool = false) async {
         _ = await instance.series.delete(series, addExclusion: exclude)
 

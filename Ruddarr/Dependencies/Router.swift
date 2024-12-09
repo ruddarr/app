@@ -3,9 +3,7 @@ import Combine
 import AppIntents
 
 @Observable
-final class Router {
-    static let shared = Router()
-
+class Router {
     var selectedTab: TabItem = .movies
 
     var switchToRadarrInstance: String?
@@ -23,7 +21,7 @@ final class Router {
     }
 }
 
-enum TabItem: String, Identifiable, Hashable {
+enum TabItem: String, Identifiable, Hashable, Sendable {
     var id: Self { self }
 
     case movies
@@ -70,7 +68,7 @@ extension TabItem.Openable: AppEnum {
         }
     }
 
-    static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Tab")
+    static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Tab")
 
     static var caseDisplayRepresentations: [TabItem.Openable: DisplayRepresentation] {[
         .movies: DisplayRepresentation(

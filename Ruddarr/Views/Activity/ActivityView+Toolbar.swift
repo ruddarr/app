@@ -66,6 +66,16 @@ extension ActivityView {
                 toolbarSortingButton
             }
         }
+        if !settings.configuredInstances.isEmpty {
+            ToolbarItem(placement: .primaryAction) {
+                NavigationLink {
+                    HistoryView().environmentObject(settings)
+                } label: {
+                    Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
+                        .imageScale(.medium)
+                }
+            }
+        }
     }
 
     var toolbarFilterButton: some View {

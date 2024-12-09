@@ -1,6 +1,7 @@
 import os
 import SwiftUI
 
+@MainActor
 @Observable
 class SeriesReleases {
     var instance: Instance
@@ -22,7 +23,6 @@ class SeriesReleases {
         self.instance = instance
     }
 
-    @MainActor
     func search(_ series: Series, _ season: Season.ID?, _ episode: Episode.ID?) async {
         items = []
         error = nil
@@ -310,7 +310,7 @@ struct SeriesReleaseEpisode: Codable {
 }
 
 struct SeriesReleaseFlags {
-    static var map: [Int: SeriesReleaseFlag] = [
+    static let map: [Int: SeriesReleaseFlag] = [
         1: .freeleech,
         2: .halfleech,
         4: .doubleUpload,

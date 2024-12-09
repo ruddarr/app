@@ -1,4 +1,5 @@
 import Foundation
+import CloudKit
 
 protocol OptionalProtocol {
     associatedtype Wrapped
@@ -181,6 +182,18 @@ func formatAge(_ ageInMinutes: Float) -> String {
         String(format: String(localized: "%.1f years"), years)
     default:
         String(format: String(localized: "%d years"), Int(years))
+    }
+}
+
+func cloudKitStatusString(_ status: CKAccountStatus?) -> String {
+    switch status {
+    case .couldNotDetermine: "could-not-determine"
+    case .available: "available"
+    case .restricted: "restricted"
+    case .noAccount: "no-account"
+    case .temporarilyUnavailable: "temporarily-unavailable"
+    case .none: "nil"
+    @unknown default: "unknown"
     }
 }
 

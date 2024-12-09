@@ -18,7 +18,6 @@ struct SeriesContextMenu: View {
         }
     }
 
-    @MainActor
     func dispatchSearch() async {
         guard await instance.series.command(.seriesSearch(series.id)) else {
             return

@@ -4,9 +4,11 @@ import TelemetryDeck
 struct SeasonView: View {
     @Binding var series: Series
     var seasonId: Season.ID
+    @State var jumpToEpisode: Episode.ID?
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         ScrollView {
@@ -33,7 +35,9 @@ struct SeasonView: View {
             async let maybeFetchFiles: () = instance.files.maybeFetch(series)
 
             (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
+            maybeNavigateToEpisode()
         }
+        .onChange(of: scenePhase, handleScenePhaseChange)
         .alert(
             isPresented: instance.episodes.errorBinding,
             error: instance.episodes.error
@@ -50,6 +54,9 @@ struct SeasonView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
+        #if os(macOS)
+            .padding(.vertical)
+        #endif
     }
 
     var season: Season {
@@ -184,7 +191,6 @@ struct SeasonView: View {
 }
 
 extension SeasonView {
-    @MainActor
     func toggleMonitor() async {
         guard let index = series.seasons.firstIndex(where: { $0.id == season.id }) else {
             return
@@ -196,16 +202,24 @@ extension SeasonView {
             return
         }
 
-        dependencies.toast.show(season.monitored ? .monitored : .unmonitored)
+        dependencies.toast.show(
+            season.monitored ? .monitored : .unmonitored
+        )
+
+        await instance.episodes.fetch(series)
     }
 
-    @MainActor
     func reload() async {
         _ = await instance.series.get(series)
         await instance.episodes.fetch(series)
     }
 
-    @MainActor
+    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+        if phase == .inactive && oldPhase == .background {
+            Task { await reload() }
+        }
+    }
+
     func dispatchSearch() async {
         guard await instance.series.command(
             .seasonSearch(series.id, season: season.id)
@@ -217,6 +231,22 @@ extension SeasonView {
 
         TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "season"])
         maybeAskForReview()
+    }
+
+    func maybeNavigateToEpisode() {
+        guard let id = jumpToEpisode else {
+            return
+        }
+
+        guard let episode = episodes.first(where: { $0.episodeNumber == id }) else {
+            return
+        }
+
+        jumpToEpisode = nil
+
+        dependencies.router.seriesPath.append(
+            SeriesPath.episode(series.id, episode.id)
+        )
     }
 }
 

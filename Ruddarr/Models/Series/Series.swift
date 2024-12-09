@@ -58,7 +58,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
     let genres: [String]
     let images: [MediaImage]
     let ratings: SeriesRatings?
-    let statistics: SeriesStatistics?
+    var statistics: SeriesStatistics?
 
     var addOptions: SeriesAddOptions?
 
@@ -212,8 +212,8 @@ struct Series: Media, Identifiable, Equatable, Codable {
         seasons.first { $0.id == id }
     }
 
-    func alternateTitlesString() -> String? {
-        alternateTitles?.map { $0.title }.joined(separator: " ")
+    func alternateTitlesString() -> String {
+        alternateTitles?.map { $0.title }.joined(separator: " ") ?? ""
     }
 }
 

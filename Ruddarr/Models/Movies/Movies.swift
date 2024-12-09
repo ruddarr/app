@@ -1,6 +1,7 @@
 import os
 import SwiftUI
 
+@MainActor
 @Observable
 class Movies {
     var instance: Instance
@@ -9,12 +10,14 @@ class Movies {
     var itemsCount: Int = 0
 
     var cachedItems: [Movie] = []
-    var alternateTitles: [Movie.ID: String] = [:]
 
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
     var isWorking: Bool = false
+
+    private var alternateTitles: [Movie.ID: String] = [:]
+    private var sortAndFilterTask: Task<Void, Never>?
 
     enum Operation {
         case fetch
@@ -30,23 +33,16 @@ class Movies {
         self.instance = instance
     }
 
-    func sortAndFilterItems(_ sort: MovieSort, _ searchQuery: String) {
-        cachedItems = sort.filter.filtered(items)
+    func updateCachedItems(_ sort: MovieSort, _ searchQuery: String) {
+        sortAndFilterTask?.cancel()
 
-        let query = searchQuery.trimmingCharacters(in: .whitespaces)
+        sortAndFilterTask = Task { @MainActor in
+            let items = self.items
+            let alternateTitles = self.alternateTitles
 
-        if !query.isEmpty {
-            cachedItems = cachedItems.filter { movie in
-                movie.title.localizedCaseInsensitiveContains(query) ||
-                movie.studio?.localizedCaseInsensitiveContains(query) ?? false ||
-                alternateTitles[movie.id]?.localizedCaseInsensitiveContains(query) ?? false
-            }
-        }
-
-        cachedItems = cachedItems.sorted(by: sort.option.isOrderedBefore)
-
-        if !sort.isAscending {
-            cachedItems = cachedItems.reversed()
+            cachedItems = await Task.detached(priority: .userInitiated) {
+                Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
+            }.result.get()
         }
     }
 
@@ -109,7 +105,6 @@ class Movies {
         await request(.command(command))
     }
 
-    @MainActor
     func request(_ operation: Operation) async -> Bool {
         error = nil
         isWorking = true
@@ -131,7 +126,6 @@ class Movies {
         return error == nil
     }
 
-    @MainActor
     private func performOperation(_ operation: Operation) async throws {
         switch operation {
         case .fetch:
@@ -170,19 +164,43 @@ class Movies {
         }
     }
 
+    nonisolated private static func filterAndSortItems(
+        _ items: [Movie],
+        _ alternateTitles: [Movie.ID: String],
+        _ sort: MovieSort,
+        _ searchQuery: String
+    ) -> [Movie] {
+        let query = searchQuery.trimmingCharacters(in: .whitespaces)
+        let comparator = sort.option.compare
+
+        return items
+            .filter(sort.filter.filter)
+            .filter {
+                guard !query.isEmpty else { return true }
+                return $0.title.localizedCaseInsensitiveContains(query)
+                    || $0.studio?.localizedCaseInsensitiveContains(query) ?? false
+                    || alternateTitles[$0.id]?.localizedCaseInsensitiveContains(query) ?? false
+            }
+            .sorted { lhs, rhs in
+                sort.isAscending ? comparator(lhs, rhs) : comparator(rhs, lhs)
+            }
+    }
+
     private func computeAlternateTitles() {
         if alternateTitles.count == items.count {
             return
         }
 
-        Task.detached(priority: .medium) {
-            var titles: [Movie.ID: String] = [:]
+        Task.detached(priority: .background) {
+            let titles: [Movie.ID: String] = await Dictionary(
+                uniqueKeysWithValues: self.items.map { item in
+                    (item.id, item.alternateTitlesString())
+                }
+            )
 
-            for index in self.items.indices {
-                titles[self.items[index].id] = self.items[index].alternateTitlesString()
+            await MainActor.run {
+                self.alternateTitles = titles
             }
-
-            self.alternateTitles = titles
         }
     }
 }

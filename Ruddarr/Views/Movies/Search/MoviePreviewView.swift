@@ -26,11 +26,15 @@ struct MoviePreviewView: View {
         .sheet(isPresented: $presentingForm) {
             NavigationStack {
                 MovieForm(movie: $movie)
-                    .padding(.top, -25)
                     .toolbar {
                         toolbarCancelButton
                         toolbarSaveButton
                     }
+                    #if os(macOS)
+                        .padding(.all)
+                    #else
+                        .padding(.top, -25)
+                    #endif
             }
             .presentationDetents([deviceType == .phone ? .medium : .large])
         }
@@ -77,7 +81,6 @@ struct MoviePreviewView: View {
         }
     }
 
-    @MainActor
     func addMovie() async {
         movieDefaults = .init(from: movie)
 

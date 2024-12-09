@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @State private var showInstanceForm: Bool = false
     @State private var showInstanceNameWarning: Bool = false
 
     @EnvironmentObject var settings: AppSettings
@@ -38,6 +39,8 @@ struct SettingsView: View {
                 case .viewInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
                         InstanceView(instance: instance)
+                            .environment(radarrInstance)
+                            .environment(sonarrInstance)
                             .environmentObject(settings)
                     }
                 case .editInstance(let instanceId):
@@ -60,9 +63,7 @@ struct SettingsView: View {
                 }
             }
 
-            NavigationLink(value: Path.createInstance) {
-                Text("Add Instance")
-            }
+            addInstanceButton
         } header: {
             Text("Instances")
         } footer: {
@@ -75,8 +76,32 @@ struct SettingsView: View {
         }
     }
 
+    var addInstanceButton: some View {
+        #if os(iOS)
+            NavigationLink(value: Path.createInstance) {
+                Text("Add Instance")
+            }
+        #else
+            Button("Add Instance") {
+                showInstanceForm = true
+            }
+            .sheet(isPresented: $showInstanceForm) {
+                InstanceEditView(mode: .create, instance: Instance())
+                    .environment(radarrInstance)
+                    .environment(sonarrInstance)
+                    .environmentObject(settings)
+                    .padding(.all)
+                    .toolbar {
+                        ToolbarItem(placement: .automatic) {
+                            Button("Close") { showInstanceForm = false }
+                        }
+                    }
+            }
+        #endif
+    }
+
     func checkInstanceName() async {
-        let status = await Notifications.shared.authorizationStatus()
+        let status = await Notifications.authorizationStatus()
         let uniqueNames = Set(settings.instances.map { $0.name })
 
         if status == .authorized {

@@ -3,33 +3,26 @@ import SwiftUI
 import CloudKit
 import StoreKit
 import CryptoKit
-import UserNotifications
+@preconcurrency import UserNotifications
 
-class Notifications {
-    static let shared: Notifications = Notifications()
+actor Notifications {
     static let url: String = "https://notify.ruddarr.com"
 
-    private let center: UNUserNotificationCenter
-
-    private init() {
-        center = UNUserNotificationCenter.current()
-    }
-
-    func requestAuthorization() async {
+    static func requestAuthorization() async {
         do {
-            try await center.requestAuthorization(options: [.alert, .sound])
+            try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound])
         } catch {
             leaveBreadcrumb(.warning, category: "notifications", message: "Authorization request failed", data: ["status": error])
         }
     }
 
-    func authorizationStatus() async -> UNAuthorizationStatus {
-        let settings = await center.notificationSettings()
+    static func authorizationStatus() async -> UNAuthorizationStatus {
+        let settings = await UNUserNotificationCenter.current().notificationSettings()
 
         return settings.authorizationStatus
     }
 
-    func registerDevice(_ token: String) async {
+    static func registerDevice(_ token: String) async {
         do {
             let account = try await CKContainer.default().userRecordID().recordName
             let lastEntitledDate = await Subscription.lastEntitledDate()
@@ -44,7 +37,7 @@ class Notifications {
                 "account": account,
                 "token": token,
                 "entitledAt": Int(entitledAt),
-                "signature": signature("\(account):\(token)")
+                "signature": Self.signature("\(account):\(token)")
             ]
 
             let lastTokenPing = "lastTokenPing:\(account):\(token)"
@@ -87,7 +80,7 @@ class Notifications {
         }
     }
 
-    func maybeUpdateWebhooks(_ settings: AppSettings) {
+    static func maybeUpdateWebhooks(_ settings: AppSettings) {
         Task.detached { [settings] in
             let instances = await settings.instances
 
@@ -106,12 +99,6 @@ class Notifications {
                 return
             }
 
-            guard let cloudKitUserId = try? await cloudkit.userRecordID() else {
-                leaveBreadcrumb(.warning, category: "notifications", message: "CloudKit user record lookup failed")
-
-                return
-            }
-
             let entitledToService = await Subscription.entitledToService()
 
             if !entitledToService {
@@ -125,18 +112,18 @@ class Notifications {
                     continue
                 }
 
-                let webhook = InstanceWebhook(instance)
+                let webhook = await InstanceWebhook(instance)
 
-                await webhook.update(cloudKitUserId)
+                await webhook.synchronize()
 
-                if webhook.error == nil {
+                if await webhook.error == nil {
                     Occurrence.occurred(lastUpdate)
                 }
             }
         }
     }
 
-    func signature(_ message: String) -> String {
+    static func signature(_ message: String) -> String {
         guard let secret = Bundle.main.infoDictionary?["APNsKey"] as? String else {
             leaveBreadcrumb(.fatal, category: "notifications", message: "Failed to load APNs key")
 
@@ -237,7 +224,7 @@ class Notifications {
     let movieGrab = [
         String(format: localized("NOTIFICATION_MOVIE_GRAB"), "Synology"),
         String(format: localized("NOTIFICATION_MOVIE_GRAB_SUBTITLE"), "Joker", "2024"),
-        String(format: localized("NOTIFICATION_MOVIE_GRAB_BODY"), "Joker WEBRIP 1080p DD5.1 H265 gr0up", "1337x"),
+        String(format: localized("NOTIFICATION_MOVIE_GRAB_BODY"), "WEBDL-1080p", "BHD"),
     ]
 
     let movieDownload = [
@@ -304,13 +291,13 @@ class Notifications {
     let episodeGrab = [
         String(format: localized("NOTIFICATION_EPISODE_GRAB"), "Synology", "1"),
         String(format: localized("NOTIFICATION_EPISODES_GRAB_SUBTITLE"), "Patriot", "2"),
-        String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "Patriot S01 WEBRIP 1080p DD5.1 H265 gr0up", "1337x"),
+        String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "WEBDL-1080p", "BHD"),
     ]
 
     let episodesGrab = [
         String(format: localized("NOTIFICATION_EPISODES_GRAB"), "Synology", "8"),
         String(format: localized("NOTIFICATION_EPISODES_GRAB_SUBTITLE"), "Patriot", "2"),
-        String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "Patriot S01 WEBRIP 1080p DD5.1 H265 gr0up", "1337x"),
+        String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "WEBDL-1080p", "BHD"),
     ]
 
     let episodeDownload = [

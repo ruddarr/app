@@ -79,7 +79,7 @@ struct ActivityView: View {
 
     var queueEmpty: some View {
         ContentUnavailableView(
-            "No Tasks",
+            "Queues Empty",
             systemImage: "slash.circle",
             description: Text("All instance queues are empty.")
         )

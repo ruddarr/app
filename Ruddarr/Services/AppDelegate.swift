@@ -5,7 +5,12 @@ import MetricKit
 import TelemetryDeck
 
 #if os(iOS)
-class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MXMetricManagerSubscriber {
+class AppDelegate:
+    NSObject,
+    UIApplicationDelegate,
+    MXMetricManagerSubscriber,
+    @preconcurrency UNUserNotificationCenterDelegate
+{
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
@@ -48,11 +53,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
 
         Task {
-            await Notifications.shared.registerDevice(token)
+            await Notifications.registerDevice(token)
         }
     }
 
-    // Called when the app receives a notification
+    // Called when the app receives a notification and is in foreground
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification
@@ -98,11 +103,16 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             options.attachViewHierarchy = false
             options.swiftAsyncStacktraces = true
 
+            options.enableSigtermReporting = true
+            options.enableWatchdogTerminationTracking = true
             options.enableMetricKit = true
-            options.enableAppHangTracking = false
+            // options.enableAppHangTracking = true
+            options.enableAppHangTrackingV2 = true
+            options.appHangTimeoutInterval = 3
             options.enableCaptureFailedRequests = false
             options.enablePreWarmedAppStartTracing = true
             options.enableTimeToFullDisplayTracing = true
+            options.enablePersistingTracesWhenCrashing = true
 
             options.tracesSampleRate = 1
             options.profilesSampleRate = 1
@@ -110,7 +120,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
         SentrySDK.configureScope { scope in
             scope.setContext(value: [
-                "identifier": UIDevice.current.identifierForVendor?.uuidString ?? "unknown",
+                "identifier": Platform.deviceId,
             ], key: "device")
         }
 
@@ -122,7 +132,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             SentrySDK.configureScope { scope in
                 scope.setContext(value: [
                     "user": cloudKitUserId?.recordName ?? "",
-                    "status": Telemetry.shared.cloudKitStatus(accountStatus),
+                    "status": cloudKitStatusString(accountStatus),
                 ], key: "cloudkit")
             }
         }
@@ -133,8 +143,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             appID: Secrets.TelemetryAppId
         )
 
-        configuration.defaultUser = UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
-        configuration.logHandler = LogHandler.stdout(.error)
+        configuration.defaultUser = Platform.deviceId
 
         TelemetryDeck.initialize(config: configuration)
     }

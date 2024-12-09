@@ -42,6 +42,26 @@
         }
       }
     },
+    "%1$@ downloaded successfully and imported from %2$@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ downloaded successfully and imported from %2$@."
+          }
+        }
+      }
+    },
+    "%1$@ grabbed from %2$@ and sent to %3$@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ grabbed from %2$@ and sent to %3$@."
+          }
+        }
+      }
+    },
     "%d days" : {
       "localizations" : {
         "en" : {
@@ -306,6 +326,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "All Episodes"
+          }
+        }
+      }
+    },
+    "All Events" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All Events"
           }
         }
       }
@@ -797,6 +827,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Client"
+          }
+        }
+      }
+    },
+    "Close" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
           }
         }
       }
@@ -1303,6 +1343,16 @@
         }
       }
     },
+    "Episode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Episode"
+          }
+        }
+      }
+    },
     "Episode Deleted" : {
       "localizations" : {
         "en" : {
@@ -1359,6 +1409,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error"
+          }
+        }
+      }
+    },
+    "Event Type" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Event Type"
           }
         }
       }
@@ -2136,16 +2196,6 @@
         }
       }
     },
-    "Missing CloudKit user identifier." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Missing CloudKit user identifier."
-          }
-        }
-      }
-    },
     "Missing Episodes" : {
       "localizations" : {
         "en" : {
@@ -2258,6 +2308,16 @@
         }
       }
     },
+    "Movie" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie"
+          }
+        }
+      }
+    },
     "Movie Added" : {
       "localizations" : {
         "en" : {
@@ -2278,16 +2338,6 @@
         }
       }
     },
-    "Movie downloaded successfully and imported from %@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movie downloaded successfully and imported from %@."
-          }
-        }
-      }
-    },
     "Movie Downloading" : {
       "localizations" : {
         "en" : {
@@ -2304,16 +2354,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movie file was renamed."
-          }
-        }
-      }
-    },
-    "Movie grabbed from %1$@ and sent to %2$@." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Movie grabbed from %1$@ and sent to %2$@."
           }
         }
       }
@@ -2394,6 +2434,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movies"
+          }
+        }
+      }
+    },
+    "Multi-Episode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Multi-Episode"
           }
         }
       }
@@ -2485,6 +2535,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No Automatic Search"
+          }
+        }
+      }
+    },
+    "No Events" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Events"
+          }
+        }
+      }
+    },
+    "No Events Match" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Events Match"
+          }
+        }
+      }
+    },
+    "No events match the selected filters." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No events match the selected filters."
           }
         }
       }
@@ -2596,16 +2676,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No series match the selected filters."
-          }
-        }
-      }
-    },
-    "No Tasks" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Tasks"
           }
         }
       }
@@ -3312,6 +3382,16 @@
         }
       }
     },
+    "Queues Empty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queues Empty"
+          }
+        }
+      }
+    },
     "Rating" : {
       "localizations" : {
         "en" : {
@@ -3362,6 +3442,16 @@
         }
       }
     },
+    "Release Grabbed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release Grabbed"
+          }
+        }
+      }
+    },
     "Release Group" : {
       "localizations" : {
         "en" : {
@@ -3388,6 +3478,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Release Rejected"
+          }
+        }
+      }
+    },
+    "Release Type" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release Type"
           }
         }
       }

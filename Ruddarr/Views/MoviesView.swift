@@ -67,24 +67,20 @@ struct MoviesView: View {
                 case .search(let query):
                     MovieSearchView(searchQuery: query)
                         .environment(instance)
-                        .environmentObject(settings)
                 case .preview(let data):
                     if let movie = try? JSONDecoder().decode(Movie.self, from: data!) {
                         MoviePreviewView(movie: movie)
                             .environment(instance)
-                            .environmentObject(settings)
                     }
                 case .movie(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieView(movie: movie)
                             .environment(instance)
-                            .environmentObject(settings)
                     }
                 case .edit(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieEditView(movie: movie)
                             .environment(instance)
-                            .environmentObject(settings)
                     }
                 case .releases(let id):
                     if let movie = instance.movies.byId(id).unwrapped {
@@ -96,7 +92,6 @@ struct MoviesView: View {
                     if let movie = instance.movies.byId(id).unwrapped {
                         MovieMetadataView(movie: movie)
                             .environment(instance)
-                            .environmentObject(settings)
                     }
                 }
             }
@@ -131,6 +126,11 @@ struct MoviesView: View {
             .onChange(of: settings.radarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: [sort, searchQuery] as [AnyHashable]) {
+                if let imdb = extractImdbId(searchQuery) {
+                    searchQuery = "imdb:\(imdb)"
+                    return
+                }
+
                 scrollToTop()
                 updateDisplayedMovies()
             }
@@ -224,7 +224,7 @@ struct MoviesView: View {
     }
 
     func updateDisplayedMovies() {
-        instance.movies.sortAndFilterItems(sort, searchQuery)
+        instance.movies.updateCachedItems(sort, searchQuery)
     }
 
     func fetchMoviesWithMetadata() {
@@ -244,7 +244,6 @@ struct MoviesView: View {
         }
     }
 
-    @MainActor
     func fetchMoviesWithAlert(ignoreOffline: Bool = false) async {
         alertPresented = false
         error = nil

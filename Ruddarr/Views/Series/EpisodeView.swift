@@ -19,6 +19,7 @@ struct EpisodeView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.scenePhase) private var scenePhase
 
     var startOfToday = Calendar.current.startOfDay(for: Date())
 
@@ -65,6 +66,7 @@ struct EpisodeView: View {
         .task {
             await instance.episodes.fetchHistory(episode)
         }
+        .onChange(of: scenePhase, handleScenePhaseChange)
     }
 
     var header: some View {
@@ -115,7 +117,7 @@ struct EpisodeView: View {
                     MediaDetailsRow("Video", value: mediaDetailsVideoQuality(episodeFile))
                     MediaDetailsRow("Audio", value: mediaDetailsAudioQuality(episodeFile))
 
-                    if let subtitles = mediaDetailsSubtitles(episodeFile) {
+                    if let subtitles = mediaDetailsSubtitles(episodeFile, deviceType) {
                         MediaDetailsRow("Subtitles", value: subtitles)
                     }
                 }.onTapGesture {
@@ -149,7 +151,10 @@ struct EpisodeView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: .constant(episode.monitored))
+                ToolbarMonitorButton(monitored: Binding<Bool>(
+                    get: { episode.monitored },
+                    set: { episode.monitored = $0 }
+                ))
             }
             .allowsHitTesting(instance.episodes.isMonitoring == 0)
             .disabled(!series.monitored)
@@ -212,7 +217,7 @@ struct EpisodeView: View {
     var file: some View {
         Section {
             if let file = episodeFile {
-                GroupBox {
+                LabeledGroupBox {
                     HStack(spacing: 6) {
                         Text(file.quality.quality.label)
                         Bullet()
@@ -279,12 +284,12 @@ extension EpisodeView {
         }
     }
 
-    @MainActor
     func toggleMonitor() async {
         guard let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) else {
             return
         }
 
+        episode.monitored.toggle()
         instance.episodes.items[index].monitored.toggle()
 
         guard await instance.episodes.monitor([episode.id], episode.monitored) else {
@@ -294,7 +299,6 @@ extension EpisodeView {
         dependencies.toast.show(episode.monitored ? .monitored : .unmonitored)
     }
 
-    @MainActor
     func reload() async {
         async let fetchEpisodes: () = instance.episodes.fetch(series)
         async let fetchFiles: () = instance.files.fetch(series)
@@ -305,7 +309,12 @@ extension EpisodeView {
         setEpisodeState()
     }
 
-    @MainActor
+    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+        if phase == .inactive && oldPhase == .background {
+            Task { await reload() }
+        }
+    }
+
     func dispatchSearch() async {
         guard await instance.series.command(
             .episodeSearch([episode.id])) else {
@@ -318,7 +327,6 @@ extension EpisodeView {
         maybeAskForReview()
     }
 
-    @MainActor
     func deleteEpisode() async {
         if await instance.files.delete(episodeFile!) {
             dependencies.toast.show(.fileDeleted)

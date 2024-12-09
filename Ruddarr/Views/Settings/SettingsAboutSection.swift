@@ -24,6 +24,9 @@ struct SettingsAboutSection: View {
                     .foregroundStyle(settings.theme.tint)
             }
         }
+        #if os(macOS)
+            .buttonStyle(.link)
+        #endif
     }
 
     var review: some View {
@@ -51,16 +54,19 @@ struct SettingsAboutSection: View {
                     .foregroundStyle(settings.theme.tint)
             }
         }
+        #if os(macOS)
+            .buttonStyle(.link)
+        #endif
     }
 
     @MainActor
     func openSupportEmail() async {
         let uuid = UUID().uuidString.prefix(8)
-        let deviceId = Platform.deviceId()
+        let deviceId = Platform.deviceId
 
         let cloudKitStatus = try? await CKContainer.default().accountStatus()
         let cloudKitUserId = try? await CKContainer.default().userRecordID().recordName
-        let ckStatus = Telemetry.shared.cloudKitStatus(cloudKitStatus)
+        let ckStatus = cloudKitStatusString(cloudKitStatus)
 
         let address = "ruddarr@icloud.com"
         let subject = "Support Request (\(uuid))"

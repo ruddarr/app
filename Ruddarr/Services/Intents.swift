@@ -1,8 +1,8 @@
 import AppIntents
 
 struct OpenAppIntent: OpenIntent {
-    static var title: LocalizedStringResource = "Open Ruddarr"
-    static var openAppWhenRun: Bool = true
+    static let title: LocalizedStringResource = "Open Ruddarr"
+    static let openAppWhenRun: Bool = true
 
     @Parameter(title: "Tab", default: .movies)
     var target: TabItem.Openable
@@ -23,8 +23,8 @@ struct OpenAppIntent: OpenIntent {
 }
 
 struct SearchMovieIntent: AppIntent {
-    static var title: LocalizedStringResource = "Search for Movie"
-    static var openAppWhenRun: Bool = true
+    static let title: LocalizedStringResource = "Search for Movie"
+    static let openAppWhenRun: Bool = true
 
     @Parameter(title: "Title")
     var name: String?
@@ -56,8 +56,8 @@ struct SearchMovieIntent: AppIntent {
 }
 
 struct SearchSeriesIntent: AppIntent {
-    static var title: LocalizedStringResource = "Search for TV Series"
-    static var openAppWhenRun: Bool = true
+    static let title: LocalizedStringResource = "Search for TV Series"
+    static let openAppWhenRun: Bool = true
 
     @Parameter(title: "Title")
     var name: String?

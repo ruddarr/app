@@ -22,7 +22,14 @@ struct SeriesSearchView: View {
                        ? SeriesPath.series(series.id)
                        : SeriesPath.preview(try? JSONEncoder().encode(series))
                     ) {
-                        SeriesGridItem(series: series)
+                        if let id = series.guid {
+                            SeriesGridItem(
+                                series: series,
+                                model: instance.series.byId(id).wrappedValue
+                            )
+                        } else {
+                            SeriesGridItem(series: series)
+                        }
                     }.buttonStyle(.plain)
                 }
             }

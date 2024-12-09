@@ -94,12 +94,13 @@ struct InstanceNotification: Identifiable, Codable {
         onApplicationUpdate = supportsOnApplicationUpdate == true
     }
 
+    @MainActor
     var isRuddarrWebhook: Bool {
         guard implementation == "Webhook" else {
             return false
         }
 
-        if let label = name, label.contains("Ruddarr") {
+        if let label = name, label.contains(Ruddarr.name) {
             return true
         }
 
@@ -123,7 +124,7 @@ struct InstanceNotificationField: Codable {
         self.value = value
     }
 
-    init(from decoder: Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         name = try container.decode(String.self, forKey: .name)

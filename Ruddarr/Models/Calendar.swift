@@ -31,7 +31,17 @@ class MediaCalendar {
         isLoading = false
     }
 
-    func loadFutureDates(_ timestamp: TimeInterval) async {
+    func loadMoreDates() {
+        if isLoadingFuture || dates.isEmpty {
+            return
+        }
+
+        Task {
+            await loadFutureDates(dates.last!)
+        }
+    }
+
+    private func loadFutureDates(_ timestamp: TimeInterval) async {
         isLoadingFuture = true
 
         let date = Date(timeIntervalSince1970: timestamp)
@@ -75,11 +85,11 @@ class MediaCalendar {
         }
     }
 
-    func addDays(_ days: Int, _ date: Date) -> Date {
+    private func addDays(_ days: Int, _ date: Date) -> Date {
         calendar.date(byAdding: .day, value: days, to: date)!
     }
 
-    func insertDates(_ start: Date, _ end: Date) {
+    private func insertDates(_ start: Date, _ end: Date) {
         guard start <= end else {
             fatalError("end < start")
         }
@@ -95,74 +105,77 @@ class MediaCalendar {
         }
     }
 
-    func fetchMovies(_ instance: Instance, _ start: Date, _ end: Date) async throws {
+    private func fetchMovies(_ instance: Instance, _ start: Date, _ end: Date) async throws {
         let movies = try await dependencies.api.movieCalendar(start, end, instance)
 
         for movie in movies {
             if let digitalRelease = movie.digitalRelease {
-                maybeInsertMovie(movie, digitalRelease)
+                maybeUpsertMovie(movie, digitalRelease)
             }
 
             if let physicalRelease = movie.physicalRelease {
-                maybeInsertMovie(movie, physicalRelease)
+                maybeUpsertMovie(movie, physicalRelease)
             }
 
             if let inCinemas = movie.inCinemas {
-                maybeInsertMovie(movie, inCinemas)
+                maybeUpsertMovie(movie, inCinemas)
             }
         }
     }
 
-    func maybeInsertMovie(_ movie: Movie, _ date: Date) {
+    private func maybeUpsertMovie(_ movie: Movie, _ date: Date) {
         let day = calendar.startOfDay(for: date).timeIntervalSince1970
 
         if movies[day] == nil {
             movies[day] = []
         }
 
-        if movies[day]!.contains(where: { $0.id == movie.id }) {
+        guard let index = movies[day]!.firstIndex(where: { $0.id == movie.id }) else {
+            movies[day]!.append(movie)
             return
         }
 
-        movies[day]!.append(movie)
+        if movies[day]![index] != movie {
+            movies[day]![index] = movie
+        }
     }
 
-    func fetchEpisodes(_ instance: Instance, _ start: Date, _ end: Date) async throws {
+    private func fetchEpisodes(_ instance: Instance, _ start: Date, _ end: Date) async throws {
         let episodes = try await dependencies.api.episodeCalendar(start, end, instance)
 
         for episode in episodes {
             if let airDate = episode.airDateUtc {
-                maybeInsertEpisode(episode, airDate)
+                maybeUpsertEpisode(episode, airDate)
             }
         }
     }
 
-    func maybeInsertEpisode(_ episode: Episode, _ date: Date) {
+    private func maybeUpsertEpisode(_ episode: Episode, _ date: Date) {
         let day = calendar.startOfDay(for: date).timeIntervalSince1970
 
         if episodes[day] == nil {
             episodes[day] = []
         }
 
-        if episodes[day]!.contains(where: { $0.id == episode.id }) {
+        guard let index = episodes[day]!.firstIndex(where: { $0.id == episode.id }) else {
+            episodes[day]!.append(episode)
             return
         }
 
-        episodes[day]!.append(episode)
+        if episodes[day]![index] != episode {
+            episodes[day]![index] = episode
+        }
     }
 
     func today() -> TimeInterval {
         calendar.startOfDay(for: Date.now).timeIntervalSince1970
     }
 
-    func loadMoreDates() {
-        if isLoadingFuture || dates.isEmpty {
-            return
-        }
-
-        Task {
-            await loadFutureDates(dates.last!)
-        }
+    func reset() {
+        instances = []
+        dates = []
+        movies = [:]
+        episodes = [:]
     }
 
     // let futureCutoff: TimeInterval = {

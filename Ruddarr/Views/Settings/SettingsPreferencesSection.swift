@@ -15,11 +15,14 @@ struct SettingsPreferencesSection: View {
             tabPicker
             appearancePicker
             themePicker
-            iconPicker
 
-            if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
-                manageSubscription
-            }
+            #if os(iOS)
+                iconPicker
+
+                if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
+                    manageSubscription
+                }
+            #endif
         } header: {
             Text("Preferences")
         }
@@ -86,7 +89,7 @@ struct SettingsPreferencesSection: View {
                     Text("App Icon")
                 }
             } icon: {
-                Image(settings.icon.preview)
+                Image(settings.icon.image)
                     .resizable()
                     .frame(width: appIconSize, height: appIconSize)
                     .clipShape(.rect(cornerRadius: (10 / 57) * appIconSize))

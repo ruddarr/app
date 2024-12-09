@@ -175,7 +175,7 @@ struct SeriesReleaseSheet: View {
 
     var details: some View {
         Section {
-            VStack(spacing: 12) {
+            VStack(spacing: 6) {
                 row("Language", value: release.languagesLabel)
                 Divider()
 
@@ -193,7 +193,6 @@ struct SeriesReleaseSheet: View {
                     ))
                 }
             }
-            .font(.callout)
         } header: {
             Text("Information")
                 .font(.title2.bold())
@@ -219,14 +218,18 @@ struct SeriesReleaseSheet: View {
     func flags() -> [String] {
         var flags: [String] = []
 
-        if let score = release.scoreLabel, release.customFormatScore != 0 {
-            flags.append(score)
-        }
-
         let indexerFlags = release.releaseFlags
 
         if !indexerFlags.isEmpty {
             flags.append(contentsOf: indexerFlags.map { $0.label })
+        }
+
+        if release.isProper {
+            flags.append(String(localized: "Proper"))
+        }
+
+        if release.isRepack {
+            flags.append(String(localized: "Repack"))
         }
 
         return flags
@@ -235,12 +238,8 @@ struct SeriesReleaseSheet: View {
     func tags() -> [String] {
         var tags: [String] = []
 
-        if release.isProper {
-            tags.append(String(localized: "Proper"))
-        }
-
-        if release.isRepack {
-            tags.append(String(localized: "Repack"))
+        if let score = release.scoreLabel, release.customFormatScore != 0 {
+            tags.append(score)
         }
 
         if release.hasCustomFormats {
@@ -251,14 +250,21 @@ struct SeriesReleaseSheet: View {
     }
 
     func row(_ label: LocalizedStringKey, value: String) -> some View {
-        LabeledContent {
-            Text(value).foregroundStyle(.primary)
-        } label: {
-            Text(label).foregroundStyle(.secondary)
+        HStack(alignment: .top) {
+            Text(label)
+                .foregroundStyle(.secondary)
+
+            Spacer()
+            Spacer()
+            Spacer()
+
+            Text(value)
+                .foregroundStyle(.primary)
         }
+        .font(.subheadline)
+        .padding(.vertical, 6)
     }
 
-    @MainActor
     func downloadRelease(force: Bool = false) async {
         guard await instance.series.download(
             guid: release.guid,

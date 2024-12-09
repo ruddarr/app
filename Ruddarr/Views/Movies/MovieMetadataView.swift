@@ -4,7 +4,6 @@ import TipKit
 struct MovieMetadataView: View {
     @Binding var movie: Movie
 
-    @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
 
     @State private var videoExpanded: Bool = false
@@ -120,7 +119,7 @@ struct MovieFilesFile: View {
     @State private var showDeleteConfirmation = false
 
     var body: some View {
-        GroupBox {
+        LabeledGroupBox {
             HStack(spacing: 6) {
                 Text(file.quality.quality.label)
                 Bullet()
@@ -153,7 +152,6 @@ struct MovieFilesFile: View {
         }
     }
 
-    @MainActor
     func deleteFile() async {
         if await instance.metadata.delete(file) {
             dependencies.toast.show(.fileDeleted)
@@ -165,7 +163,7 @@ struct MovieFilesExtraFile: View {
     var file: MovieExtraFile
 
     var body: some View {
-        GroupBox {
+        LabeledGroupBox {
             HStack(spacing: 6) {
                 Text(file.type.label)
                 Spacer()

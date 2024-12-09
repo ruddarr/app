@@ -1,6 +1,7 @@
 import os
 import SwiftUI
 
+@MainActor
 @Observable
 class SeriesEpisodes {
     var instance: Instance
@@ -38,11 +39,16 @@ class SeriesEpisodes {
         }
     }
 
-    @MainActor
     func fetch(_ series: Series) async {
-        items = []
         error = nil
         isFetching = true
+
+        if let episode = items.first,
+           episode.seriesId != series.id,
+           episode.instanceId != series.instanceId
+        {
+            items = []
+        }
 
         do {
             items = try await dependencies.api.fetchEpisodes(series.id, instance)
@@ -59,7 +65,6 @@ class SeriesEpisodes {
         isFetching = false
     }
 
-    @MainActor
     func monitor(_ episodes: [Episode.ID], _ monitored: Bool) async -> Bool {
         error = nil
         isMonitoring = episodes[0]
@@ -81,7 +86,6 @@ class SeriesEpisodes {
         return error == nil
     }
 
-    @MainActor
     func fetchHistory(_ episode: Episode) async {
         if !history.isEmpty && history[0].episodeId == episode.id {
             return

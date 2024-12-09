@@ -72,7 +72,6 @@ struct SeriesEditView: View {
         series.rootFolderPath?.untrailingSlashIt != unmodifiedSeries.rootFolderPath?.untrailingSlashIt
     }
 
-    @MainActor
     func updateSeries(moveFiles: Bool = false) async {
         _ = await instance.series.update(series, moveFiles: moveFiles)
 

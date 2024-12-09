@@ -2,6 +2,7 @@ import os
 import SwiftUI
 import Foundation
 
+@MainActor
 @Observable
 class SonarrInstance {
     private var instance: Instance
@@ -56,15 +57,17 @@ class SonarrInstance {
         instance.qualityProfiles
     }
 
-    @MainActor
     func fetchMetadata() async -> Instance? {
         if isVoid {
             return nil
         }
 
         do {
-            instance.rootFolders = try await dependencies.api.rootFolders(instance)
-            instance.qualityProfiles = try await dependencies.api.qualityProfiles(instance)
+            async let rootFolders = dependencies.api.rootFolders(instance)
+            async let qualityProfiles = dependencies.api.qualityProfiles(instance)
+
+            instance.rootFolders = try await rootFolders
+            instance.qualityProfiles = try await qualityProfiles
         } catch {
             return nil
         }

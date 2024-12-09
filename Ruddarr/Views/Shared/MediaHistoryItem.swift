@@ -6,23 +6,37 @@ struct MediaHistoryItem: View {
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
-        GroupBox {
-            HStack(spacing: 6) {
-                Text(event.quality.quality.label)
-                Bullet()
-                Text(event.languageLabel)
-
-                if event.eventType == .grabbed {
+        LabeledGroupBox {
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 6) {
+                    Text(event.quality.quality.label)
                     Bullet()
-                    Text(event.indexerLabel)
-                }
+                    Text(event.languageLabel)
 
-                Spacer()
-                Text(date)
+                    if let indexer = event.indexerLabel {
+                        Bullet()
+                        Text(indexer)
+                    }
+
+                    Spacer()
+                    Text(date)
+                }
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+
+                HStack(spacing: 6) {
+                    Text(event.quality.quality.label)
+                    Bullet()
+                    Text(event.languageLabel)
+
+                    Spacer()
+                    Text(date)
+                }
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
             }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .lineLimit(1)
         } label: {
             Text(event.eventType.label)
                 .font(.caption)
@@ -61,5 +75,12 @@ struct MediaHistoryItem: View {
         }
 
         return event.date.formatted(date: .abbreviated, time: .omitted)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        HistoryView()
+            .withAppState()
     }
 }

@@ -21,6 +21,9 @@ struct MediaFileSheet: View {
                 }
             }
         }
+        #if os(macOS)
+            .padding(.bottom)
+        #endif
     }
 
     @ViewBuilder

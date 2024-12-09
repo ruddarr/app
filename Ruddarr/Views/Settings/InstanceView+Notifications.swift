@@ -3,12 +3,10 @@ import CloudKit
 
 extension InstanceView {
     var notificationPath: String {
-        let app = "Ruddarr"
-
         #if os(macOS)
-            return String(format: "\"%@\"", String(localized: "System Settings > Notifications > \(app)", comment: "macOS path"))
+            return String(format: "\"%@\"", String(localized: "System Settings > Notifications > \(Ruddarr.name)", comment: "macOS path"))
         #else
-            return String(format: "[%@](#link)", String(localized: "Settings > Notifications > \(app)", comment: "iOS path"))
+            return String(format: "[%@](#link)", String(localized: "Settings > Notifications > \(Ruddarr.name)", comment: "iOS path"))
         #endif
     }
 
@@ -70,7 +68,7 @@ extension InstanceView {
                 comment: "1 = iCloud Drive link, 2 = CloudKit status"
             ),
             "[iCloud Drive](#link)",
-            Telemetry.shared.cloudKitStatus(cloudKitStatus)
+            cloudKitStatusString(cloudKitStatus)
         )
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
@@ -226,7 +224,7 @@ extension InstanceView {
     }
 
     func setAppNotificationsStatus() async {
-        let status = await Notifications.shared.authorizationStatus()
+        let status = await Notifications.authorizationStatus()
 
         switch status {
         case .denied:
@@ -262,7 +260,7 @@ extension InstanceView {
 
     func initialWebhookSync() async {
         if notificationsAllowed && cloudKitEnabled && entitledToService {
-            await webhook.synchronize(cloudKitUserId)
+            await webhook.synchronize()
 
             instanceNotifications = webhook.isEnabled
         }
@@ -281,7 +279,7 @@ extension InstanceView {
             webhook.model.disable()
         }
 
-         await webhook.update(cloudKitUserId)
+        await webhook.synchronize()
     }
 
     func maybeRequestNotificationAuthorization() async {
@@ -289,7 +287,7 @@ extension InstanceView {
             return
         }
 
-        await Notifications.shared.requestAuthorization()
+        await Notifications.requestAuthorization()
 
         #if os(macOS)
             NSApplication.shared.registerForRemoteNotifications()
@@ -302,7 +300,7 @@ extension InstanceView {
 
     func updateWebhook() {
         Task {
-            await webhook.update(cloudKitUserId)
+            await webhook.synchronize()
         }
 
         Occurrence.forget("instanceCheck:\(instance.id)")

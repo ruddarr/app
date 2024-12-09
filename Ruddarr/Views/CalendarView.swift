@@ -6,7 +6,8 @@ struct CalendarView: View {
     @State private var scrollView: ScrollViewProxy?
     @State private var initializationError: API.Error?
 
-    @State private var onlyMonitored: Bool = false
+    @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
+
     @State private var onlyPremieres: Bool = false
     @State private var displayedInstance: String = ".all"
     @State private var displayedMediaType: CalendarMediaType = .all
@@ -68,7 +69,10 @@ struct CalendarView: View {
                 todayButton
             }
             .onAppear {
-                calendar.instances = settings.instances
+                if calendar.instances != settings.instances {
+                    calendar.reset()
+                    calendar.instances = settings.instances
+                }
             }
             .task {
                 await load()
@@ -156,6 +160,10 @@ struct CalendarView: View {
         if !force && !calendar.dates.isEmpty && lastFetch < 10 {
             initializationError = nil
             return
+        }
+
+        if force {
+            initializationError = nil
         }
 
         await calendar.load()

@@ -41,14 +41,14 @@ struct MovieGridItem: View {
                 }
             }
                 .foregroundStyle(.white)
-                .imageScale(MovieGridItem.gridIconScale())
+                .imageScale(Self.gridIconScale())
 
             Spacer()
 
             Image(systemName: "bookmark")
                 .symbolVariant(movie.monitored ? .fill : .none)
                 .foregroundStyle(.white)
-                .imageScale(MovieGridItem.gridIconScale())
+                .imageScale(Self.gridIconScale())
         }
         .font(.body)
         .padding(.top, 36)

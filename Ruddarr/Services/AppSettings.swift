@@ -4,6 +4,7 @@ import CloudStorage
 
 // We can't migrate this to `@Observable` because `@AppStorage` isn't supported
 // We could use https://github.com/sindresorhus/Defaults instead maybe
+@MainActor
 class AppSettings: ObservableObject {
     @CloudStorage("instances") var instances: [Instance] = []
 
@@ -76,7 +77,7 @@ extension AppSettings {
 
         let webhook = InstanceWebhook(instance)
 
-        Task { @MainActor in
+        Task {
             await webhook.delete()
             await Spotlight(instance.id).deleteInstanceIndex()
         }

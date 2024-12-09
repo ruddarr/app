@@ -1,6 +1,7 @@
 import os
 import SwiftUI
 
+@MainActor
 @Observable
 class MovieReleases {
     var instance: Instance
@@ -22,7 +23,6 @@ class MovieReleases {
         self.instance = instance
     }
 
-    @MainActor
     func search(_ movie: Movie) async {
         items = []
         error = nil
@@ -45,7 +45,6 @@ class MovieReleases {
         isSearching = false
     }
 
-    @MainActor
     func setFilterData() {
         setIndexers()
         setQualities()

@@ -70,12 +70,12 @@ struct WhatsNewView: View {
             if deviceType == .phone {
                 VStack {
                     Text(verbatim: "What's New in")
-                    Text(verbatim: "Ruddarr").foregroundStyle(.blue)
+                    Text(verbatim: Ruddarr.name).foregroundStyle(.blue)
                 }
             } else {
                 Group {
                     Text(verbatim: "What's New in ") +
-                    Text(verbatim: "Ruddarr").foregroundStyle(.blue)
+                    Text(verbatim: Ruddarr.name).foregroundStyle(.blue)
                 }
             }
         }
@@ -119,7 +119,7 @@ struct WhatsNewView: View {
                 .foregroundStyle(.blue)
                 .frame(width: 40)
                 #if os(iOS)
-                    .offset(y: Platform.deviceType() == .phone ? 10 : 5)
+                    .offset(y: deviceType == .phone ? 10 : 5)
                 #endif
 
             VStack(alignment: .leading, spacing: 2) {
