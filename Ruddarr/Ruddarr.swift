@@ -83,15 +83,15 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static let version: String = "1.3.2"
+    static let version: String = "1.4.0"
 
     static let features: [WhatsNewFeature] = [
-        .init( // 1.3.2
+        .init( // 1.4.0
             image: "6.square",
             title: "Swift 6",
             subtitle: "Upgraded the codebase to Swift 6 to reduce potential crashes."
         ),
-        .init( // 1.3.2
+        .init( // 1.4.0
             image: "clock.arrow.trianglehead.counterclockwise.rotate.90",
             title: "History Module",
             subtitle: "View the complete history from all instances in the Activity subtab."
