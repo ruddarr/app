@@ -6,7 +6,7 @@ struct SettingsLinksSection: View {
     var body: some View {
         Section(header: Text("Community")) {
             discord
-            beta
+            // beta
             contribute
             translate
         }
