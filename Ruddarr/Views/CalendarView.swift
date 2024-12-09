@@ -6,7 +6,8 @@ struct CalendarView: View {
     @State private var scrollView: ScrollViewProxy?
     @State private var initializationError: API.Error?
 
-    @State private var onlyMonitored: Bool = false
+    @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
+
     @State private var onlyPremieres: Bool = false
     @State private var displayedInstance: String = ".all"
     @State private var displayedMediaType: CalendarMediaType = .all
