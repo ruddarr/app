@@ -11,7 +11,11 @@ struct SettingsAboutSection: View {
         Section(header: Text("About")) {
             share
             review
-            support
+            discord
+            // support
+            // beta
+            contribute
+            translate
         }
     }
 
@@ -43,6 +47,17 @@ struct SettingsAboutSection: View {
         }
     }
 
+    var discord: some View {
+        Link(destination: Links.Discord) {
+            Label {
+                Text("Join the Discord").tint(.primary)
+            } icon: {
+                Image(systemName: "text.bubble")
+                    .foregroundStyle(settings.theme.tint)
+            }
+        }
+    }
+
     var support: some View {
         Button {
             Task { await openSupportEmail() }
@@ -57,6 +72,28 @@ struct SettingsAboutSection: View {
         #if os(macOS)
             .buttonStyle(.link)
         #endif
+    }
+
+    var contribute: some View {
+        Link(destination: Links.GitHub, label: {
+            Label {
+                Text("Contribute on GitHub").tint(.primary)
+            } icon: {
+                Image(systemName: "curlybraces.square")
+                    .foregroundStyle(settings.theme.tint)
+            }
+        })
+    }
+
+    var translate: some View {
+        Link(destination: Links.Crowdin, label: {
+            Label {
+                Text("Translate the App").tint(.primary)
+            } icon: {
+                Image(systemName: "character.bubble")
+                    .foregroundStyle(settings.theme.tint)
+            }
+        })
     }
 
     @MainActor
