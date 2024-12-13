@@ -86,35 +86,10 @@ extension WhatsNew {
     static let version: String = "1.4.1"
 
     static let features: [WhatsNewFeature] = [
-        .init( // 1.4.0
-            image: "6.square",
-            title: "Swift 6",
-            subtitle: "Upgraded the codebase to Swift 6 to reduce potential crashes."
-        ),
-        .init( // 1.4.0
-            image: "clock.arrow.trianglehead.counterclockwise.rotate.90",
-            title: "History Module",
-            subtitle: "View the complete history from all instances in the Activity subtab."
-        ),
-        .init( // 1.3.1
-            image: "internaldrive",
-            title: "Bitrate Estimations",
-            subtitle: "Added bitrate estimations to releases and media files without a bitrate."
-        ),
-        .init( // 1.3.1
-            image: "server.rack",
-            title: "Instance Switching",
-            subtitle: "Switch to the correct instance when tapping a notification."
-        ),
-        .init( // 1.3.1
-            image: "network",
-            title: "Faster Requests",
-            subtitle: "Parallelized various API requests to reduce unnecessary wait times."
-        ),
-        .init(
-            image: "ant",
-            title: "Fixes & Improvements",
-            subtitle: "Dozens of improvements and fixes, everything is a little better than before."
+        .init( // 1.4.1
+            image: "exclamationmark.octagon",
+            title: "TestFlight Phaseout",
+            subtitle: "The public TestFlight group is being phased out. Switch to the App Store version, or join the discord."
         ),
     ]
 }

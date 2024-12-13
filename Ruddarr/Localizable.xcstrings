@@ -3121,6 +3121,16 @@
         }
       }
     },
+    "Open App Store" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open App Store"
+          }
+        }
+      }
+    },
     "Open in %@" : {
       "localizations" : {
         "en" : {

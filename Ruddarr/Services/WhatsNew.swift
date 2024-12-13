@@ -88,22 +88,28 @@ struct WhatsNewView: View {
             HStack {
                 Spacer()
 
-                Button {
-                    #if os(iOS)
-                        UINotificationFeedbackGenerator().notificationOccurred(.success)
-                    #endif
+                VStack {
+                    Link("Open App Store", destination: Links.AppStore)
+                        .foregroundStyle(.blue)
+                        .padding(.bottom, 10)
 
-                    dismiss()
-                } label: {
-                    Text("Continue")
-                        .font(.headline.weight(.semibold))
-                        .padding(.vertical)
-                        .frame(maxWidth: .infinity)
+                    Button {
                         #if os(iOS)
-                            .foregroundStyle(.white)
-                            .background(.blue)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            UINotificationFeedbackGenerator().notificationOccurred(.success)
                         #endif
+
+                        dismiss()
+                    } label: {
+                        Text("Continue")
+                            .font(.headline.weight(.semibold))
+                            .padding(.vertical)
+                            .frame(maxWidth: .infinity)
+                            #if os(iOS)
+                                .foregroundStyle(.white)
+                                .background(.blue)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            #endif
+                    }
                 }
 
                 Spacer()
