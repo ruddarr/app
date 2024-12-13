@@ -87,7 +87,7 @@ class AppDelegateMac:
             options.enableSigtermReporting = true
             options.enableWatchdogTerminationTracking = true
             options.enableMetricKit = true
-            options.enableAppHangTracking = true
+            options.enableAppHangTracking = false
             options.appHangTimeoutInterval = 3
             options.enableCaptureFailedRequests = false
             // options.enablePreWarmedAppStartTracing = true
@@ -118,7 +118,7 @@ class AppDelegateMac:
     }
 
     func configureTelemetryDeck() {
-        var configuration = TelemetryDeck.Config(
+        let configuration = TelemetryDeck.Config(
             appID: Secrets.TelemetryAppId
         )
 

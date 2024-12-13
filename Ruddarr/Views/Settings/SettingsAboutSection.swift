@@ -21,12 +21,8 @@ struct SettingsAboutSection: View {
 
     var share: some View {
         ShareLink(item: Links.AppShare) {
-            Label {
-                Text("Share App").tint(.primary)
-            } icon: {
-                Image(systemName: "square.and.arrow.up")
-                    .foregroundStyle(settings.theme.tint)
-            }
+            Label("Share App", systemImage: "square.and.arrow.up")
+                .labelStyle(SettingsIconLabelStyle(color: .blue))
         }
         #if os(macOS)
             .buttonStyle(.link)
@@ -37,24 +33,15 @@ struct SettingsAboutSection: View {
         Link(destination: Links.AppStore.appending(queryItems: [
             .init(name: "action", value: "write-review"),
         ])) {
-            Label {
-                Text("Leave a Review").tint(.primary)
-            } icon: {
-                Image(systemName: "star")
-                    .symbolVariant(.fill)
-                    .foregroundStyle(settings.theme.tint)
-            }
+            Label("Leave a Review", systemImage: "star.fill")
+                .labelStyle(SettingsIconLabelStyle(color: .orange))
         }
     }
 
     var discord: some View {
         Link(destination: Links.Discord) {
-            Label {
-                Text("Join the Discord").tint(.primary)
-            } icon: {
-                Image(systemName: "text.bubble")
-                    .foregroundStyle(settings.theme.tint)
-            }
+            Label("Join the Discord", systemImage: "text.bubble")
+                .labelStyle(SettingsIconLabelStyle(color: .systemPurple))
         }
     }
 
@@ -76,23 +63,15 @@ struct SettingsAboutSection: View {
 
     var contribute: some View {
         Link(destination: Links.GitHub, label: {
-            Label {
-                Text("Contribute on GitHub").tint(.primary)
-            } icon: {
-                Image(systemName: "curlybraces.square")
-                    .foregroundStyle(settings.theme.tint)
-            }
+            Label("Contribute on GitHub", systemImage: "curlybraces.square")
+                .labelStyle(SettingsIconLabelStyle(color: .gray))
         })
     }
 
     var translate: some View {
         Link(destination: Links.Crowdin, label: {
-            Label {
-                Text("Translate the App").tint(.primary)
-            } icon: {
-                Image(systemName: "character.bubble")
-                    .foregroundStyle(settings.theme.tint)
-            }
+            Label("Translate the App", systemImage: "character.bubble")
+                .labelStyle(SettingsIconLabelStyle(color: .gray))
         })
     }
 

@@ -21,13 +21,8 @@ struct SettingsLinksSection: View {
         Link(
             destination: url,
             label: {
-                Label {
-                    Text(verbatim: name)
-                        .tint(.primary)
-                } icon: {
-                    Image(systemName: "arrow.up.right.square")
-                        .foregroundStyle(settings.theme.tint)
-                }
+                Label(name, systemImage: "arrow.up.right.square")
+                    .labelStyle(SettingsIconLabelStyle(color: .gray))
             }
         )
     }
