@@ -4,7 +4,7 @@ struct SettingsLinksSection: View {
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
-        Section(header: Text("Links")) {
+        Section(header: Text("Integrations")) {
             appLink(
                 "Sable",
                 URL(string: "https://apps.apple.com/app/sable/id6630387095")!
