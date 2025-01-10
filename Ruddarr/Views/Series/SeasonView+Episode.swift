@@ -35,11 +35,12 @@ struct EpisodeRow: View {
 
                     Bullet()
 
-                    Text(
-                        episode.airingToday
-                            ? episode.airDateTimeLabel
-                            : episode.airDateLabel
-                    )
+                    if episode.airingToday {
+                        Text(episode.airDateTimeLabel)
+                            .foregroundStyle(settings.theme.tint)
+                    } else {
+                        Text(episode.airDateLabel)
+                    }
                 }
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
