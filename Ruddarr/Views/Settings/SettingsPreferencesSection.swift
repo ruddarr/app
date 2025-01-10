@@ -123,9 +123,8 @@ struct SettingsPreferencesSection: View {
                 } icon: {
                     Image(systemName: "crown")
                         .symbolVariant(.fill)
-                        .foregroundStyle(.yellow)
                 }
-                .offset(y: -1)
+                .labelStyle(SettingsIconLabelStyle(color: .orange))
             }
         }
         .foregroundStyle(.label)

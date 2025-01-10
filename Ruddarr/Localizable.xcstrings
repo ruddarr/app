@@ -1875,6 +1875,16 @@
         }
       }
     },
+    "Integrations" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Integrations"
+          }
+        }
+      }
+    },
     "Interactive" : {
       "localizations" : {
         "en" : {
@@ -2031,16 +2041,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Link Copied"
-          }
-        }
-      }
-    },
-    "Links" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Links"
           }
         }
       }
