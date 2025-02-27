@@ -54,7 +54,7 @@ struct EpisodeRow: View {
     }
 
     var series: Series {
-        instance.series.byId(episode.seriesId).wrappedValue ?? Series.void
+        instance.series.byId(episode.seriesId) ?? Series.void
     }
 
     var season: Season? {

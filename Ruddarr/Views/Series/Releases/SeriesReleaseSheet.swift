@@ -204,12 +204,10 @@ struct SeriesReleaseSheet: View {
             return 0
         }
 
-        guard let series = instance.series.byId(seriesId).wrappedValue else {
-            return 0
-        }
+        let seriesRuntime: Int = instance.series.byId(seriesId)?.runtime ?? 0
 
         let episodes: [Int] = episodeNumbers.map { id in
-            instance.episodes.byId(id)?.runtime ?? series.runtime
+            instance.episodes.byId(id)?.runtime ?? seriesRuntime
         }
 
         return episodes.reduce(0, +)

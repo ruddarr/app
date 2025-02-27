@@ -47,29 +47,31 @@ class SeriesModel {
         }
     }
 
-    func byId(_ id: Series.ID) -> Binding<Series?> {
+    func byId(_ id: Series.ID) -> Series? {
+        self.items.first(where: { $0.guid == id })
+    }
+
+    func byId(_ id: Series.ID) -> Binding<Series> {
         Binding(
             get: { [weak self] in
-                guard let index = self?.items.firstIndex(where: { $0.guid == id }) else {
-                    return nil
+                guard let self, let index = self.items.firstIndex(where: { $0.guid == id }) else {
+                    leaveBreadcrumb(.fatal, category: "bindings", message: "series disappeared", data: [
+                        "id": id,
+                        "items": self?.items as Any,
+                    ])
+
+                    return .void
                 }
 
-                return self?.items[index]
+                return self.items[index]
             },
-            set: { [weak self] in
+            set: { [weak self] newValue in
                 guard let index = self?.items.firstIndex(where: { $0.guid == id }) else {
-                    if let newValue = $0 {
-                        self?.items.append(newValue)
-                    }
-
+                    self?.items.append(newValue)
                     return
                 }
 
-                if let newValue = $0 {
-                    self?.items[index] = newValue
-                } else {
-                    self?.items.remove(at: index)
-                }
+                self?.items[index] = newValue
             }
         )
     }
