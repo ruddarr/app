@@ -12,7 +12,7 @@ struct SettingsAboutSection: View {
             share
             review
             discord
-            // support
+            support
             // beta
             contribute
             translate
