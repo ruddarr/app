@@ -50,7 +50,10 @@ class SeriesFiles {
 
         do {
             _ = try await dependencies.api.deleteEpisodeFile(file, instance)
-            items.remove(at: items.firstIndex { $0.id == file.id } ?? 0)
+
+            if let index = items.firstIndex(where: { $0.id == file.id }) {
+                items.remove(at: index)
+            }
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
