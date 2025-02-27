@@ -236,3 +236,31 @@ class PreviewData {
         fatalError("Invalid preview data path: \(name)")
     }
 }
+
+extension BinaryInteger {
+    /// Converts a byte count into a string with the unit (B, KB, MB, GB, TB, PB)
+    /// - Parameter decimalPlaces: Number of decimal places to round to (default: 1)
+    /// - Returns: A formatted string with the appropriate byte unit (5 TB)
+    func formatBytes(decimalPlaces: Int = 1) -> String {
+        let units = ["B", "KB", "MB", "GB", "TB", "PB"]
+        if self == 0 {
+            return "0 B"
+        }
+        
+        let bytes = abs(Int(self))
+        let exp = Int(log(Double(bytes)) / log(1024.0))
+        let unitIndex = min(exp, units.count - 1)
+        let value = Double(bytes) / pow(1024.0, Double(unitIndex))
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = decimalPlaces
+        formatter.minimumFractionDigits = value.truncatingRemainder(dividingBy: 1) == 0 ? 0 : decimalPlaces
+        
+        if let formattedValue = formatter.string(from: NSNumber(value: value)) {
+            return "\(formattedValue) \(units[unitIndex])"
+        } else {
+            return String(format: "%.\(decimalPlaces)f %@", value, units[unitIndex])
+        }
+    }
+}

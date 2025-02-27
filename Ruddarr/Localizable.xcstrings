@@ -1141,6 +1141,16 @@
         }
       }
     },
+    "Disk Space" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disk Space"
+          }
+        }
+      }
+    },
     "Download" : {
       "localizations" : {
         "en" : {
@@ -2575,6 +2585,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No Internet Connection"
+          }
+        }
+      }
+    },
+    "No locations found" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No locations found"
           }
         }
       }

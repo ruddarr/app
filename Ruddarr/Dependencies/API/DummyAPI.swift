@@ -177,6 +177,10 @@ extension API {
             try await Task.sleep(nanoseconds: 2_000_000_000)
 
             return Empty()
+        }, fetchLocationsDiskSpace: { _ in
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+
+            return loadPreviewData(filename: "locations-disk-space")
         })
     }
 }
