@@ -57,8 +57,8 @@ struct EpisodeRow: View {
         instance.series.byId(episode.seriesId).wrappedValue ?? Series.void
     }
 
-    var season: Season {
-        series.seasonById(episode.seasonNumber)!
+    var season: Season? {
+        series.seasonById(episode.seasonNumber)
     }
 
     var episodeFile: MediaFile? {
@@ -66,7 +66,7 @@ struct EpisodeRow: View {
     }
 
     var episodeIsMissing: Bool {
-        episode.isMissing && series.monitored && season.monitored
+        episode.isMissing && series.monitored && season?.monitored == true
     }
 
     var monitorButton: some View {
