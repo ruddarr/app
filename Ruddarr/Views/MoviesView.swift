@@ -68,7 +68,7 @@ struct MoviesView: View {
                     MovieSearchView(searchQuery: query)
                         .environment(instance)
                 case .preview(let data):
-                    if let movie = try? JSONDecoder().decode(Movie.self, from: data!) {
+                    if let data, let movie = try? JSONDecoder().decode(Movie.self, from: data) {
                         MoviePreviewView(movie: movie)
                             .environment(instance)
                     }

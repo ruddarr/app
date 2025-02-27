@@ -69,7 +69,7 @@ struct SeriesView: View {
                     SeriesSearchView(searchQuery: query)
                         .environment(instance)
                 case .preview(let data):
-                    if let series = try? JSONDecoder().decode(Series.self, from: data!) {
+                    if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
                         SeriesPreviewView(series: series)
                             .environment(instance)
                     }
