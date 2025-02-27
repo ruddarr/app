@@ -296,7 +296,7 @@ extension Movie {
             originalLanguage: nil, alternateTitles: [], genres: [], ratings: nil, popularity: 0, status: .deleted, isAvailable: false,
             minimumAvailability: .deleted, monitored: false, qualityProfileId: 0, sizeOnDisk: 0, hasFile: false, path: "",
             relativePath: "", folderName: "", rootFolderPath: "", added: .now, inCinemas: nil, physicalRelease: nil,
-            digitalRelease: nil, images: [], movieFile: nil,
+            digitalRelease: nil, images: [], movieFile: nil
         )
     }
 }
