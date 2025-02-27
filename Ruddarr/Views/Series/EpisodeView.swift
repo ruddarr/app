@@ -328,7 +328,9 @@ extension EpisodeView {
     }
 
     func deleteEpisode() async {
-        if await instance.files.delete(episodeFile!) {
+        guard let episodeFile else { return }
+
+        if await instance.files.delete(episodeFile) {
             dependencies.toast.show(.fileDeleted)
             await reload()
         }

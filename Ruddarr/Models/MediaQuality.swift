@@ -21,7 +21,7 @@ struct MediaQualityDetails: Equatable, Codable {
         }
 
         if let range = label.range(of: #"-(\d+p)"#, options: .regularExpression) {
-            return String(name![range].dropFirst())
+            return String(label[range].dropFirst())
         }
 
         return label

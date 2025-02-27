@@ -32,13 +32,9 @@ class MediaCalendar {
     }
 
     func loadMoreDates() {
-        if isLoadingFuture || dates.isEmpty {
-            return
-        }
-
-        Task {
-            await loadFutureDates(dates.last!)
-        }
+        if isLoadingFuture { return }
+        guard let lastDate = dates.last else { return }
+        Task { await loadFutureDates(lastDate) }
     }
 
     private func loadFutureDates(_ timestamp: TimeInterval) async {

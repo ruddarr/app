@@ -38,7 +38,7 @@ struct SeriesEditView: View {
                 Text(error.recoverySuggestionFallback)
             }
             .alert(
-                "Move the series files to \"\(series.rootFolderPath!)\"?",
+                "Move the series files to \"\(series.rootFolderPath ?? "")\"?",
                 isPresented: $showConfirmation
             ) {
                 Button("Move Files", role: .destructive) {

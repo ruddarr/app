@@ -54,16 +54,16 @@ class Images {
         return thumbnail
     }
 
-    private static func thumbnailPath(_ key: String) -> URL {
+    private static func thumbnailPath(_ key: String) -> URL? {
         let cacheKeyHash = Insecure.SHA1
-            .hash(data: key.data(using: .utf8)!)
+            .hash(data: Data(key.utf8))
             .prefix(Insecure.SHA1.byteCount)
             .map { String(format: "%02hhx", $0) }
             .joined()
 
         return FileManager.default
             .urls(for: .cachesDirectory, in: .userDomainMask)
-            .first!
+            .first?
             .appendingPathComponent("com.ruddarr.images/\(cacheKeyHash)")
     }
 }

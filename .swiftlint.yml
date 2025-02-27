@@ -12,6 +12,7 @@ analyzer_rules:
 opt_in_rules:
   # - all
   # - trailing_closure
+  # - force_unwrapping
   - implicit_return
   - closure_body_length
   - superfluous_else

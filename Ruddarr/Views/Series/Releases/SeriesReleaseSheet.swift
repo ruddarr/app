@@ -242,8 +242,8 @@ struct SeriesReleaseSheet: View {
             tags.append(score)
         }
 
-        if release.hasCustomFormats {
-            tags.append(contentsOf: release.customFormats!.map { $0.label })
+        if let formats = release.customFormats, !formats.isEmpty {
+            tags.append(contentsOf: formats.map { $0.label })
         }
 
         return tags

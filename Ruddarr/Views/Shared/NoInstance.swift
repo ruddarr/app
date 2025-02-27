@@ -31,7 +31,7 @@ struct NoInstance: View {
 
         return String(
             format: String(localized: "Connect a %@ instance under %@."),
-            type == nil ? fallback : type!,
+            type ?? fallback,
             String(format: "[%@](#view)", String(localized: "Settings"))
         )
     }

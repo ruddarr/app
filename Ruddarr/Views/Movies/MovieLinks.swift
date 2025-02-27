@@ -72,19 +72,19 @@ struct MovieLinks: View {
         return nil
     }
 
-    static func youTubeTrailer(_ trailerId: String?) -> String? {
+    static func youTubeTrailer(_ trailerId: String?) -> URL? {
         guard let trailer = trailerId, !trailer.isEmpty else {
             return nil
         }
 
         #if os(iOS)
-            let url = "youtube://\(trailer)"
+            let url = URL(string: "youtube://\(trailer)")
 
-            if UIApplication.shared.canOpenURL(URL(string: url)!) {
+            if let url, UIApplication.shared.canOpenURL(url) {
                 return url
             }
         #endif
 
-        return "https://www.youtube.com/watch?v=\(trailer)"
+        return URL(string: "https://www.youtube.com/watch?v=\(trailer)")
     }
 }
