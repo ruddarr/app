@@ -85,9 +85,9 @@ struct SeasonView: View {
             HStack(spacing: 6) {
                 Text(year)
 
-                if let minutes = runtime {
+                if let minutes = runtime, let runtime = formatRuntime(minutes) {
                     Bullet()
-                    Text(formatRuntime(minutes))
+                    Text(runtime)
                 }
 
                 if let bytes = season.statistics?.sizeOnDisk, bytes > 0 {

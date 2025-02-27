@@ -67,12 +67,13 @@ func inferredInstallDate() -> Date? {
     return attributes[.creationDate] as? Date
 }
 
-func formatRuntime(_ minutes: Int) -> String {
+func formatRuntime(_ minutes: Int) -> String? {
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.hour, .minute]
     formatter.unitsStyle = .abbreviated
 
-    return formatter.string(from: TimeInterval(minutes * 60)) ?? formatter.string(from: 0)!
+    return formatter.string(from: TimeInterval(minutes * 60))
+        ?? formatter.string(from: 0)
 }
 
 func formatRemainingTime(_ date: Date) -> String? {
