@@ -25,6 +25,8 @@ struct SeriesView: View {
     @State private var error: API.Error?
     @State private var alertPresented = false
 
+    @State private var lastFetch: Date = .distantPast
+
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.deviceType) private var deviceType
 
@@ -54,7 +56,7 @@ struct SeriesView: View {
                     }
                     .task {
                         guard !instance.isVoid else { return }
-                        await fetchSeriesWithAlert(ignoreOffline: true)
+                        await fetchSeriesWithAlertThrottled(ignoreOffline: true)
                     }
                     .refreshable {
                         await Task { await fetchSeriesWithAlert() }.value
@@ -249,6 +251,12 @@ struct SeriesView: View {
                 }
             }
         }
+    }
+
+    func fetchSeriesWithAlertThrottled(ignoreOffline: Bool = false) async {
+        guard Date.now.timeIntervalSince(lastFetch) >= 15 else { return }
+        await fetchSeriesWithAlert(ignoreOffline: ignoreOffline)
+        lastFetch = .now
     }
 
     func fetchSeriesWithAlert(ignoreOffline: Bool = false) async {

@@ -24,6 +24,8 @@ struct MoviesView: View {
     @State private var error: API.Error?
     @State private var alertPresented = false
 
+    @State private var lastFetch: Date = .distantPast
+
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.deviceType) private var deviceType
 
@@ -53,7 +55,7 @@ struct MoviesView: View {
                     }
                     .task {
                         guard !instance.isVoid else { return }
-                        await fetchMoviesWithAlert(ignoreOffline: true)
+                        await fetchMoviesWithAlertThrottled(ignoreOffline: true)
                     }
                     .refreshable {
                         await Task { await fetchMoviesWithAlert() }.value
@@ -239,6 +241,12 @@ struct MoviesView: View {
                 }
             }
         }
+    }
+
+    func fetchMoviesWithAlertThrottled(ignoreOffline: Bool = false) async {
+        guard Date.now.timeIntervalSince(lastFetch) >= 15 else { return }
+        await fetchMoviesWithAlert(ignoreOffline: ignoreOffline)
+        lastFetch = .now
     }
 
     func fetchMoviesWithAlert(ignoreOffline: Bool = false) async {
