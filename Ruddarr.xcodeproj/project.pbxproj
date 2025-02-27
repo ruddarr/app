@@ -356,6 +356,7 @@
 		BBC6CEF62BE69BEE00F71839 /* MediaFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFile.swift; sourceTree = "<group>"; };
 		BBC77E232B7AAD3300573EBD /* InstanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceView.swift; sourceTree = "<group>"; };
 		BBC77E252B7AB79100573EBD /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		BBC78DC02D70E2D700EA0AF5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BBC94DE82B5F63A000504568 /* Telemetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Telemetry.swift; sourceTree = "<group>"; };
 		BBCC2E5C2C1FA72000EF159F /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		BBD3F2D32BFA520700DE5D8E /* series-episode-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-episode-history.json"; sourceTree = "<group>"; };
@@ -652,6 +653,7 @@
 		BBE8284A2B4F2C7000C1E1D9 = {
 			isa = PBXGroup;
 			children = (
+				BBC78DC02D70E2D700EA0AF5 /* README.md */,
 				BB644FCA2B8529C2007C7AD5 /* ci_scripts */,
 				BBE828552B4F2C7000C1E1D9 /* Ruddarr */,
 				BB40712E2C1CDD32006A3FA5 /* NotificationService */,
