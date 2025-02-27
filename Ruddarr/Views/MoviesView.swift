@@ -63,37 +63,7 @@ struct MoviesView: View {
             }
             .safeNavigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: MoviesPath.self) {
-                switch $0 {
-                case .search(let query):
-                    MovieSearchView(searchQuery: query)
-                        .environment(instance)
-                case .preview(let data):
-                    if let data, let movie = try? JSONDecoder().decode(Movie.self, from: data) {
-                        MoviePreviewView(movie: movie)
-                            .environment(instance)
-                    }
-                case .movie(let id):
-                    if let movie = instance.movies.byId(id).unwrapped {
-                        MovieView(movie: movie)
-                            .environment(instance)
-                    }
-                case .edit(let id):
-                    if let movie = instance.movies.byId(id).unwrapped {
-                        MovieEditView(movie: movie)
-                            .environment(instance)
-                    }
-                case .releases(let id):
-                    if let movie = instance.movies.byId(id).unwrapped {
-                        MovieReleasesView(movie: movie)
-                            .environment(instance)
-                            .environmentObject(settings)
-                    }
-                case .metadata(let id):
-                    if let movie = instance.movies.byId(id).unwrapped {
-                        MovieMetadataView(movie: movie)
-                            .environment(instance)
-                    }
-                }
+                destination(for: $0)
             }
             .onAppear {
                 // if a deeplink set an instance, try to switch to it
@@ -154,6 +124,33 @@ struct MoviesView: View {
             }
         }
         // swiftlint:enable closure_body_length
+    }
+
+    @ViewBuilder
+    func destination(for path: MoviesPath) -> some View {
+        switch path {
+        case .search(let query):
+            MovieSearchView(searchQuery: query)
+                .environment(instance)
+        case .preview(let data):
+            if let data, let movie = try? JSONDecoder().decode(Movie.self, from: data) {
+                MoviePreviewView(movie: movie)
+                    .environment(instance)
+            }
+        case .movie(let id):
+            MovieView(movie: instance.movies.byId(id))
+                .environment(instance)
+        case .edit(let id):
+            MovieEditView(movie: instance.movies.byId(id))
+                .environment(instance)
+        case .releases(let id):
+            MovieReleasesView(movie: instance.movies.byId(id))
+                .environment(instance)
+                .environmentObject(settings)
+        case .metadata(let id):
+            MovieMetadataView(movie: instance.movies.byId(id))
+                .environment(instance)
+        }
     }
 
     var notConnectedToInternet: Bool {

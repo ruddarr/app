@@ -55,7 +55,7 @@ class SeriesModel {
         Binding(
             get: { [weak self] in
                 guard let self, let index = self.items.firstIndex(where: { $0.guid == id }) else {
-                    leaveBreadcrumb(.fatal, category: "bindings", message: "series disappeared", data: [
+                    leaveBreadcrumb(.fatal, category: "bindings", message: "Series disappeared", data: [
                         "id": id,
                         "items": self?.items as Any,
                     ])
