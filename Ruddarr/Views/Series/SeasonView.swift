@@ -102,15 +102,9 @@ struct SeasonView: View {
     }
 
     var year: String {
-        let episode = episodes
-            .filter { $0.airDateUtc != nil }
-            .min(by: { $0.airDateUtc! < $1.airDateUtc! })
-
-        if let date = episode?.airDateUtc {
-            return String(Calendar.current.component(.year, from: date))
-        }
-
-        return String(localized: "TBA")
+        episodes.compactMap(\.airDateUtc).min().map {
+            String(Calendar.current.component(.year, from: $0))
+        } ?? String(localized: "TBA")
     }
 
     var runtime: Int? {
