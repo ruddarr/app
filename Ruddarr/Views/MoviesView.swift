@@ -267,12 +267,12 @@ struct MoviesView: View {
         }
     }
 
-    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
         guard dependencies.router.moviesPath.isEmpty else {
             return
         }
 
-        if phase == .inactive && oldPhase == .background {
+        if from == .background, to == .inactive {
             fetchMoviesWithMetadata()
         }
     }

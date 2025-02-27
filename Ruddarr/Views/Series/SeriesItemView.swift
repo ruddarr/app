@@ -166,8 +166,8 @@ extension SeriesDetailView {
         }
     }
 
-    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
-        if phase == .inactive && oldPhase == .background {
+    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
+        if from == .background, to == .inactive {
             Task { await reload() }
         }
     }
