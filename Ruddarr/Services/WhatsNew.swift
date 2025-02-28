@@ -6,6 +6,10 @@ struct WhatsNew {
     }
 
     static func shouldPresent() -> Bool {
+        guard !WhatsNew.features.isEmpty else {
+            return false
+        }
+
         guard version == bundleVersion() else {
             return false
         }

@@ -77,7 +77,7 @@ struct ContentView: View {
         }
     }
 #else
-    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+    func handleScenePhaseChange(_ from: ScenePhase, _ phase: ScenePhase) {
         if phase == .active {
             Telemetry.maybePing(with: settings)
             Notifications.maybeUpdateWebhooks(settings)

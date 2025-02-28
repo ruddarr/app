@@ -83,13 +83,9 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static let version: String = "1.4.1"
+    static let version: String = "1.4.0"
 
     static let features: [WhatsNewFeature] = [
-        .init( // 1.4.1
-            image: "exclamationmark.octagon",
-            title: "TestFlight Phaseout",
-            subtitle: "The public TestFlight group is being phased out. Switch to the App Store version, or join the discord."
-        ),
+        //
     ]
 }
