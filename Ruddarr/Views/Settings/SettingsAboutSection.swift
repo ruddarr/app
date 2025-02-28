@@ -13,7 +13,6 @@ struct SettingsAboutSection: View {
             review
             discord
             support
-            // beta
             contribute
             translate
         }
@@ -49,12 +48,8 @@ struct SettingsAboutSection: View {
         Button {
             Task { await openSupportEmail() }
         } label: {
-            Label {
-                Text("Email Support").tint(.primary)
-            } icon: {
-                Image(systemName: "square.and.pencil")
-                    .foregroundStyle(settings.theme.tint)
-            }
+            Label("Email Support", systemImage: "at")
+                .labelStyle(SettingsIconLabelStyle(color: .systemPurple))
         }
         #if os(macOS)
             .buttonStyle(.link)
