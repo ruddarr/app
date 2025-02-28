@@ -60,9 +60,9 @@ struct MediaHistoryItem: View {
             return formatAge(0)
         }
 
-        let twoWeeksAgo = Calendar.current.date(byAdding: .day, value: -14, to: Date())!
+        let twoWeeksAgo = Calendar.current.date(byAdding: .day, value: -14, to: Date())
 
-        if event.date > twoWeeksAgo {
+        if let twoWeeksAgo, event.date > twoWeeksAgo {
             let formatter = RelativeDateTimeFormatter()
             formatter.dateTimeStyle = .numeric
             formatter.unitsStyle = .abbreviated

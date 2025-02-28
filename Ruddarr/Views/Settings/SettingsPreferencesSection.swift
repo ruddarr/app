@@ -44,18 +44,14 @@ struct SettingsPreferencesSection: View {
                 Text(colorScheme.label)
             }
         } label: {
-            Label {
-                Text("Appearance")
-            } icon: {
-                let icon = switch settings.appearance {
-                case .automatic: colorScheme == .dark ? "moon" : "sun.max"
-                case .light: "sun.max"
-                case .dark: "moon"
-                }
-
-                Image(systemName: icon)
-                    .foregroundStyle(Color(.monochrome))
+            let icon = switch settings.appearance {
+            case .automatic: colorScheme == .dark ? "moon" : "sun.max"
+            case .light: "sun.max"
+            case .dark: "moon"
             }
+
+            Label("Appearance", systemImage: icon)
+                .labelStyle(SettingsIconLabelStyle(color: .blue))
         }.tint(.secondary)
     }
 
@@ -65,12 +61,8 @@ struct SettingsPreferencesSection: View {
                 Text(verbatim: theme.label)
             }
         } label: {
-            Label {
-                Text("Accent Color")
-            } icon: {
-                Image(systemName: "paintpalette")
-                    .symbolRenderingMode(.multicolor)
-            }
+            Label("Accent Color", systemImage: "paintpalette")
+                .labelStyle(SettingsIconLabelStyle(color: .teal))
         }
         .tint(.secondary)
         .onChange(of: settings.theme) {
@@ -78,7 +70,7 @@ struct SettingsPreferencesSection: View {
         }
     }
 
-    @ScaledMetric(relativeTo: .body) var appIconSize = 24
+    @ScaledMetric(relativeTo: .body) var appIconSize = 28
 
     var iconPicker: some View {
         NavigationLink(value: SettingsView.Path.icons) {
@@ -108,12 +100,8 @@ struct SettingsPreferencesSection: View {
                 Text(tab.label)
             }
         } label: {
-            Label {
-                Text("Home")
-            } icon: {
-                Image(systemName: "house")
-                    .foregroundStyle(Color(.monochrome))
-            }
+            Label("Home", systemImage: "house")
+                .labelStyle(SettingsIconLabelStyle(color: .gray))
         }
         .tint(.secondary)
         .onChange(of: settings.theme) {
@@ -135,9 +123,8 @@ struct SettingsPreferencesSection: View {
                 } icon: {
                     Image(systemName: "crown")
                         .symbolVariant(.fill)
-                        .foregroundStyle(.yellow)
                 }
-                .offset(y: -1)
+                .labelStyle(SettingsIconLabelStyle(color: .orange))
             }
         }
         .foregroundStyle(.label)
@@ -162,6 +149,28 @@ struct SettingsPreferencesSection: View {
             break
         @unknown default:
             subscriptionStatus = .unknown
+        }
+    }
+}
+
+struct SettingsIconLabelStyle: LabelStyle {
+    var color: Color
+
+    @ScaledMetric(relativeTo: .body) var iconSize = 28
+
+    func makeBody(configuration: Configuration) -> some View {
+        Label {
+            configuration.title
+                .tint(.primary)
+        } icon: {
+            configuration.icon
+                .font(.system(size: 14))
+                .foregroundColor(.white)
+                .background(
+                    RoundedRectangle(cornerRadius: (10 / 57) * iconSize)
+                        .frame(width: iconSize, height: iconSize)
+                        .foregroundColor(color)
+                )
         }
     }
 }

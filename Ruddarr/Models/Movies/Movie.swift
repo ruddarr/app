@@ -288,3 +288,15 @@ struct MovieEditorResource: Codable {
 func formatCustomScore(_ score: Int) -> String {
     String(format: "%@%d", score < 0 ? "-" : "+", score)
 }
+
+extension Movie {
+    static var void: Self {
+        .init(
+            tmdbId: 0, imdbId: "", title: "", sortTitle: "", studio: "", year: 0, runtime: 0, overview: "", certification: "", youTubeTrailerId: "",
+            originalLanguage: nil, alternateTitles: [], genres: [], ratings: nil, popularity: 0, status: .deleted, isAvailable: false,
+            minimumAvailability: .deleted, monitored: false, qualityProfileId: 0, sizeOnDisk: 0, hasFile: false, path: "",
+            relativePath: "", folderName: "", rootFolderPath: "", added: .now, inCinemas: nil, physicalRelease: nil,
+            digitalRelease: nil, images: [], movieFile: nil
+        )
+    }
+}

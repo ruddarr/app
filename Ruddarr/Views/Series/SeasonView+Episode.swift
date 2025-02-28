@@ -35,11 +35,12 @@ struct EpisodeRow: View {
 
                     Bullet()
 
-                    Text(
-                        episode.airingToday
-                            ? episode.airDateTimeLabel
-                            : episode.airDateLabel
-                    )
+                    if episode.airingToday {
+                        Text(episode.airDateTimeLabel)
+                            .foregroundStyle(settings.theme.tint)
+                    } else {
+                        Text(episode.airDateLabel)
+                    }
                 }
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
@@ -53,11 +54,11 @@ struct EpisodeRow: View {
     }
 
     var series: Series {
-        instance.series.byId(episode.seriesId).wrappedValue ?? Series.void
+        instance.series.byId(episode.seriesId) ?? Series.void
     }
 
-    var season: Season {
-        series.seasonById(episode.seasonNumber)!
+    var season: Season? {
+        series.seasonById(episode.seasonNumber)
     }
 
     var episodeFile: MediaFile? {
@@ -65,7 +66,7 @@ struct EpisodeRow: View {
     }
 
     var episodeIsMissing: Bool {
-        episode.isMissing && series.monitored && season.monitored
+        episode.isMissing && series.monitored && season?.monitored == true
     }
 
     var monitorButton: some View {

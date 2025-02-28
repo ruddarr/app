@@ -25,7 +25,7 @@ struct SeriesSearchView: View {
                         if let id = series.guid {
                             SeriesGridItem(
                                 series: series,
-                                model: instance.series.byId(id).wrappedValue
+                                model: instance.series.byId(id)
                             )
                         } else {
                             SeriesGridItem(series: series)

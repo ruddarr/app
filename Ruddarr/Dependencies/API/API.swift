@@ -411,7 +411,7 @@ extension API {
             throw Error.timeoutOnPrivateIp(urlError)
         } catch let urlError as URLError {
             throw Error.urlError(urlError)
-        } catch let localizedError as LocalizedError {
+        } catch let localizedError as any LocalizedError {
             throw Error.localizedError(localizedError)
         } catch let nsError as NSError {
             throw Error.nsError(nsError)

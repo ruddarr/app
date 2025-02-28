@@ -122,7 +122,7 @@ class InstanceWebhook {
         if let account = accountId?.recordName {
             let identifier = "\(today):\(account)"
 
-            payload = identifier.data(using: .utf8)!.base64EncodedString()
+            payload = Data(identifier.utf8).base64EncodedString()
             signature = Notifications.signature(identifier)
         }
 

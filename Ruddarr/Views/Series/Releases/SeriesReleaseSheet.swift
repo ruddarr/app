@@ -204,12 +204,10 @@ struct SeriesReleaseSheet: View {
             return 0
         }
 
-        guard let series = instance.series.byId(seriesId).wrappedValue else {
-            return 0
-        }
+        let seriesRuntime: Int = instance.series.byId(seriesId)?.runtime ?? 0
 
         let episodes: [Int] = episodeNumbers.map { id in
-            instance.episodes.byId(id)?.runtime ?? series.runtime
+            instance.episodes.byId(id)?.runtime ?? seriesRuntime
         }
 
         return episodes.reduce(0, +)
@@ -242,8 +240,8 @@ struct SeriesReleaseSheet: View {
             tags.append(score)
         }
 
-        if release.hasCustomFormats {
-            tags.append(contentsOf: release.customFormats!.map { $0.label })
+        if let formats = release.customFormats, !formats.isEmpty {
+            tags.append(contentsOf: formats.map { $0.label })
         }
 
         return tags

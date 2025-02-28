@@ -113,8 +113,10 @@ extension InstanceEditView {
             throw InstanceError.badAppName(appName)
         }
 
-        instance.name = status!.instanceName
-        instance.version = status!.version
+        if let status {
+            instance.name = status.instanceName
+            instance.version = status.version
+        }
     }
 
     func detectInstanceType() {

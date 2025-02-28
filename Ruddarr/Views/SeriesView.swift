@@ -25,6 +25,8 @@ struct SeriesView: View {
     @State private var error: API.Error?
     @State private var alertPresented = false
 
+    @State private var lastFetch: Date = .distantPast
+
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.deviceType) private var deviceType
 
@@ -54,7 +56,7 @@ struct SeriesView: View {
                     }
                     .task {
                         guard !instance.isVoid else { return }
-                        await fetchSeriesWithAlert(ignoreOffline: true)
+                        await fetchSeriesWithAlertThrottled(ignoreOffline: true)
                     }
                     .refreshable {
                         await Task { await fetchSeriesWithAlert() }.value
@@ -64,44 +66,7 @@ struct SeriesView: View {
             }
             .safeNavigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: SeriesPath.self) {
-                switch $0 {
-                case .search(let query):
-                    SeriesSearchView(searchQuery: query)
-                        .environment(instance)
-                case .preview(let data):
-                    if let series = try? JSONDecoder().decode(Series.self, from: data!) {
-                        SeriesPreviewView(series: series)
-                            .environment(instance)
-                    }
-                case .series(let id):
-                    if let series = instance.series.byId(id).unwrapped {
-                        SeriesDetailView(series: series)
-                            .environment(instance)
-                    }
-                case .edit(let id):
-                    if let series = instance.series.byId(id).unwrapped {
-                        SeriesEditView(series: series)
-                            .environment(instance)
-                    }
-                case .releases(let id, let season, let episode):
-                    if let series = instance.series.byId(id).unwrapped {
-                        SeriesReleasesView(series: series, seasonId: season, episodeId: episode)
-                            .environment(instance)
-                            .environmentObject(settings)
-                    }
-                case .season(let id, let season, let episode):
-                    if let series = instance.series.byId(id).unwrapped {
-                        SeasonView(series: series, seasonId: season, jumpToEpisode: episode)
-                            .environment(instance)
-                            .environmentObject(settings)
-                    }
-                case .episode(let id, let episode):
-                    if let series = instance.series.byId(id).unwrapped {
-                        EpisodeView(series: series, episodeId: episode)
-                            .environment(instance)
-                            .environmentObject(settings)
-                    }
-                }
+                destination(for: $0)
             }
             .onAppear {
                 // if a deeplink set an instance, try to switch to it
@@ -162,6 +127,42 @@ struct SeriesView: View {
             }
         }
         // swiftlint:enable closure_body_length
+    }
+
+    @ViewBuilder
+    func destination(for path: SeriesPath) -> some View {
+        switch path {
+        case .search(let query):
+            SeriesSearchView(searchQuery: query)
+                .environment(instance)
+        case .preview(let data):
+            if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
+                SeriesPreviewView(series: series)
+                    .environment(instance)
+            }
+        case .series(let id):
+            SeriesDetailView(series: instance.series.byId(id))
+                .environment(instance)
+        case .edit(let id):
+            SeriesEditView(series: instance.series.byId(id))
+                .environment(instance)
+        case .releases(let id, let season, let episode):
+            SeriesReleasesView(
+                series: instance.series.byId(id),
+                seasonId: season,
+                episodeId: episode
+            )
+            .environment(instance)
+            .environmentObject(settings)
+        case .season(let id, let season, let episode):
+            SeasonView(series: instance.series.byId(id), seasonId: season, jumpToEpisode: episode)
+                .environment(instance)
+                .environmentObject(settings)
+        case .episode(let id, let episode):
+            EpisodeView(series: instance.series.byId(id), episodeId: episode)
+                .environment(instance)
+                .environmentObject(settings)
+        }
     }
 
     var notConnectedToInternet: Bool {
@@ -252,6 +253,12 @@ struct SeriesView: View {
         }
     }
 
+    func fetchSeriesWithAlertThrottled(ignoreOffline: Bool = false) async {
+        guard Date.now.timeIntervalSince(lastFetch) >= 15 else { return }
+        await fetchSeriesWithAlert(ignoreOffline: ignoreOffline)
+        lastFetch = .now
+    }
+
     func fetchSeriesWithAlert(ignoreOffline: Bool = false) async {
         alertPresented = false
         error = nil
@@ -270,12 +277,12 @@ struct SeriesView: View {
         }
     }
 
-    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
+    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
         guard dependencies.router.seriesPath.isEmpty else {
             return
         }
 
-        if phase == .inactive && oldPhase == .background {
+        if from == .background, to == .inactive {
             fetchSeriesWithMetadata()
         }
     }

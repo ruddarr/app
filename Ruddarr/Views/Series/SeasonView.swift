@@ -60,7 +60,8 @@ struct SeasonView: View {
     }
 
     var season: Season {
-        series.seasonById(seasonId)!
+        let fallback = Season(seasonNumber: seasonId, monitored: false, statistics: nil)
+        return series.seasonById(seasonId) ?? fallback
     }
 
     var episodes: [Episode] {
@@ -84,9 +85,9 @@ struct SeasonView: View {
             HStack(spacing: 6) {
                 Text(year)
 
-                if let minutes = runtime {
+                if let minutes = runtime, let runtime = formatRuntime(minutes) {
                     Bullet()
-                    Text(formatRuntime(minutes))
+                    Text(runtime)
                 }
 
                 if let bytes = season.statistics?.sizeOnDisk, bytes > 0 {
@@ -101,15 +102,9 @@ struct SeasonView: View {
     }
 
     var year: String {
-        let episode = episodes
-            .filter { $0.airDateUtc != nil }
-            .min(by: { $0.airDateUtc! < $1.airDateUtc! })
-
-        if let date = episode?.airDateUtc {
-            return String(Calendar.current.component(.year, from: date))
-        }
-
-        return String(localized: "TBA")
+        episodes.compactMap(\.airDateUtc).min().map {
+            String(Calendar.current.component(.year, from: $0))
+        } ?? String(localized: "TBA")
     }
 
     var runtime: Int? {
@@ -214,8 +209,8 @@ extension SeasonView {
         await instance.episodes.fetch(series)
     }
 
-    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
-        if phase == .inactive && oldPhase == .background {
+    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
+        if from == .background, to == .inactive {
             Task { await reload() }
         }
     }

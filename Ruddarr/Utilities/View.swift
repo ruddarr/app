@@ -122,6 +122,8 @@ extension View {
 }
 
 extension ShapeStyle where Self == Color {
+    static var systemPurple: Color { Color(red: 88 / 255, green: 86 / 255, blue: 215 / 255) }
+
 #if os(iOS)
     static var label: Color { Color(UIColor.label) }
 

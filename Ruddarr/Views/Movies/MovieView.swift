@@ -116,7 +116,7 @@ struct MovieView: View {
     var openInLinks: some View {
         Section {
             if let trailerUrl = MovieLinks.youTubeTrailer(movie.youTubeTrailerId) {
-                Link(destination: URL(string: trailerUrl)!, label: {
+                Link(destination: trailerUrl, label: {
                     Label("Watch Trailer", systemImage: "play")
                 })
             }
@@ -159,8 +159,8 @@ extension MovieView {
         }
     }
 
-    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
-        if phase == .inactive && oldPhase == .background {
+    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
+        if from == .background, to == .inactive {
             Task { await reload() }
         }
     }

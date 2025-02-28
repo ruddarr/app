@@ -13,6 +13,7 @@ struct CalendarView: View {
     @State private var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.scenePhase) private var scenePhase
 
     private let firstWeekday = Calendar.current.firstWeekday
 
@@ -55,6 +56,7 @@ struct CalendarView: View {
                                 }
                             }.padding(.bottom, 32)
                         }
+                        .onChange(of: scenePhase, handleScenePhaseChange)
                         .onAppear {
                             scrollView = proxy
                         }
@@ -176,6 +178,12 @@ struct CalendarView: View {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             scrollTo(calendar.today())
+        }
+    }
+
+    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
+        if from == .background, to == .inactive {
+            Task { await load() }
         }
     }
 

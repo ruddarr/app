@@ -38,7 +38,7 @@ struct MovieEditView: View {
                 Text(error.recoverySuggestionFallback)
             }
             .alert(
-                "Move the movie files to \"\(movie.rootFolderPath!)\"?",
+                "Move the movie files to \"\(movie.rootFolderPath ?? "")\"?",
                 isPresented: $showConfirmation
             ) {
                 Button("Move Files", role: .destructive) {

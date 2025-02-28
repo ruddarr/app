@@ -13,15 +13,12 @@ class Images {
     }
 
     static func request(
-        _ url: String,
+        _ url: URL,
         _ type: ImageType,
         _ priority: ImageRequest.Priority = .normal
     ) -> ImageRequest {
         ImageRequest(
-            urlRequest: URLRequest(
-                url: URL(string: url)!,
-                timeoutInterval: 5
-            ),
+            urlRequest: URLRequest(url: url, timeoutInterval: 5),
             processors: [
                 .resize(
                     size: type.size,
@@ -36,9 +33,10 @@ class Images {
 
     static func thumbnail(_ poster: String?, _ priority: ImageRequest.Priority = .normal) async -> URL? {
         guard let poster = poster else { return nil }
+        guard let url = URL(string: poster) else { return nil }
 
         let pipeline = self.pipeline()
-        let request = self.request(poster, .poster, priority)
+        let request = self.request(url, .poster, priority)
 
         let cacheKey = pipeline.cache.makeDataCacheKey(for: request)
         let thumbnail = thumbnailPath(cacheKey)
@@ -56,16 +54,16 @@ class Images {
         return thumbnail
     }
 
-    private static func thumbnailPath(_ key: String) -> URL {
+    private static func thumbnailPath(_ key: String) -> URL? {
         let cacheKeyHash = Insecure.SHA1
-            .hash(data: key.data(using: .utf8)!)
+            .hash(data: Data(key.utf8))
             .prefix(Insecure.SHA1.byteCount)
             .map { String(format: "%02hhx", $0) }
             .joined()
 
         return FileManager.default
             .urls(for: .cachesDirectory, in: .userDomainMask)
-            .first!
+            .first?
             .appendingPathComponent("com.ruddarr.images/\(cacheKeyHash)")
     }
 }

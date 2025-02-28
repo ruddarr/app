@@ -309,8 +309,8 @@ extension EpisodeView {
         setEpisodeState()
     }
 
-    func handleScenePhaseChange(_ oldPhase: ScenePhase, _ phase: ScenePhase) {
-        if phase == .inactive && oldPhase == .background {
+    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
+        if from == .background, to == .inactive {
             Task { await reload() }
         }
     }
@@ -328,7 +328,9 @@ extension EpisodeView {
     }
 
     func deleteEpisode() async {
-        if await instance.files.delete(episodeFile!) {
+        guard let episodeFile else { return }
+
+        if await instance.files.delete(episodeFile) {
             dependencies.toast.show(.fileDeleted)
             await reload()
         }

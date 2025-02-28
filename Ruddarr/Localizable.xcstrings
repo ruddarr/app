@@ -560,16 +560,6 @@
         }
       }
     },
-    "Apps" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apps"
-          }
-        }
-      }
-    },
     "Are you attempting to connect to a private IP address from outside its network?" : {
       "localizations" : {
         "en" : {
@@ -857,16 +847,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Color Depth"
-          }
-        }
-      }
-    },
-    "Community" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Community"
           }
         }
       }
@@ -1891,6 +1871,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instances"
+          }
+        }
+      }
+    },
+    "Integrations" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Integrations"
           }
         }
       }
@@ -3131,6 +3121,16 @@
         }
       }
     },
+    "Open App Store" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open App Store"
+          }
+        }
+      }
+    },
     "Open in %@" : {
       "localizations" : {
         "en" : {
@@ -4181,16 +4181,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "TBA"
-          }
-        }
-      }
-    },
-    "Test the Beta" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Test the Beta"
           }
         }
       }

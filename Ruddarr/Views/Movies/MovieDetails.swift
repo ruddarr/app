@@ -149,7 +149,7 @@ struct MovieDetails: View {
 
             if let trailerUrl = MovieLinks.youTubeTrailer(movie.youTubeTrailerId) {
                 Button {
-                    openURL(URL(string: trailerUrl)!)
+                    openURL(trailerUrl)
                 } label: {
                     let label: LocalizedStringKey = deviceType == .phone ? "Trailer" : "Watch Trailer"
 
