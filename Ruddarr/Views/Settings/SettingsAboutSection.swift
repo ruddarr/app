@@ -39,8 +39,8 @@ struct SettingsAboutSection: View {
 
     var discord: some View {
         Link(destination: Links.Discord) {
-            Label("Join the Discord", systemImage: "text.bubble")
-                .labelStyle(SettingsIconLabelStyle(color: .systemPurple))
+            Label("Join the Discord", systemImage: "ellipsis.bubble")
+                .labelStyle(SettingsIconLabelStyle(color: .systemPurple, size: 13))
         }
     }
 
@@ -49,7 +49,7 @@ struct SettingsAboutSection: View {
             Task { await openSupportEmail() }
         } label: {
             Label("Email Support", systemImage: "at")
-                .labelStyle(SettingsIconLabelStyle(color: .systemPurple))
+                .labelStyle(SettingsIconLabelStyle(color: .systemPurple, size: 13))
         }
         #if os(macOS)
             .buttonStyle(.link)
@@ -58,14 +58,14 @@ struct SettingsAboutSection: View {
 
     var contribute: some View {
         Link(destination: Links.GitHub, label: {
-            Label("Contribute on GitHub", systemImage: "curlybraces.square")
-                .labelStyle(SettingsIconLabelStyle(color: .gray))
+            Label("Contribute on GitHub", systemImage: "curlybraces")
+                .labelStyle(SettingsIconLabelStyle(color: .gray, size: 12))
         })
     }
 
     var translate: some View {
         Link(destination: Links.Crowdin, label: {
-            Label("Translate the App", systemImage: "character.bubble")
+            Label("Translate the App", systemImage: "globe.europe.africa")
                 .labelStyle(SettingsIconLabelStyle(color: .gray))
         })
     }

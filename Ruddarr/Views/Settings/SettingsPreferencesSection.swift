@@ -62,7 +62,7 @@ struct SettingsPreferencesSection: View {
             }
         } label: {
             Label("Accent Color", systemImage: "paintpalette")
-                .labelStyle(SettingsIconLabelStyle(color: .teal))
+                .labelStyle(SettingsIconLabelStyle(color: .teal, size: 13))
         }
         .tint(.secondary)
         .onChange(of: settings.theme) {
@@ -155,8 +155,8 @@ struct SettingsPreferencesSection: View {
 
 struct SettingsIconLabelStyle: LabelStyle {
     var color: Color
-
-    @ScaledMetric(relativeTo: .body) var iconSize = 28
+    @ScaledMetric(relativeTo: .body) var size: CGFloat = 14
+    @ScaledMetric(relativeTo: .body) private var iconSize = 28
 
     func makeBody(configuration: Configuration) -> some View {
         Label {
@@ -164,7 +164,7 @@ struct SettingsIconLabelStyle: LabelStyle {
                 .tint(.primary)
         } icon: {
             configuration.icon
-                .font(.system(size: 14))
+                .font(.system(size: size))
                 .foregroundColor(.white)
                 .background(
                     RoundedRectangle(cornerRadius: (10 / 57) * iconSize)
