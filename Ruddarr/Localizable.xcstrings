@@ -741,6 +741,16 @@
         }
       }
     },
+    "Bug Report Sent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bug Report Sent"
+          }
+        }
+      }
+    },
     "Calendar" : {
       "localizations" : {
         "en" : {

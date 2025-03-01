@@ -23,6 +23,7 @@ actor Telemetry {
             let payload: [String: String] = await [
                 "icon": settings.icon.rawValue,
                 "theme": settings.theme.rawValue,
+                "tab": settings.tab.rawValue,
                 "appearance": settings.appearance.rawValue,
                 "deviceType": Platform.deviceType.rawValue,
                 "radarrInstances": String(settings.radarrInstances.count),

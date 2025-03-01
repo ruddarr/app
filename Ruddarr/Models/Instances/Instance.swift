@@ -57,7 +57,7 @@ enum InstanceType: String, Identifiable, CaseIterable, Codable {
     var id: Self { self }
 }
 
-enum InstanceMode: Codable {
+enum InstanceMode: String, Codable {
     case normal
     case slow
     case large // backwards compatible alias of `slow`

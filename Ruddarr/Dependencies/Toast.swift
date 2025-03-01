@@ -77,6 +77,7 @@ extension Toast {
         case seriesDeleted
         case fileDeleted
         case linkCopied
+        case reportSent
         case error(String)
     }
 
@@ -107,6 +108,8 @@ extension Toast {
             custom(text: String(localized: "File Deleted"), icon: "checkmark.circle.fill")
         case .linkCopied:
             custom(text: String(localized: "Link Copied"), icon: "checkmark.circle.fill")
+        case .reportSent:
+            custom(text: String(localized: "Bug Report Sent"), icon: "checkmark.circle.fill")
         case .error(let message):
             custom(text: message, icon: "exclamationmark.circle.fill", type: .error)
         }

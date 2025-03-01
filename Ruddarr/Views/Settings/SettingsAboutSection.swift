@@ -47,7 +47,7 @@ struct SettingsAboutSection: View {
         Button {
             showBugSheet = true
         } label: {
-            Label("Report a Bug", systemImage: "at")
+            Label("Report a Bug", systemImage: "exclamationmark.bubble")
                 .labelStyle(SettingsIconLabelStyle(color: .systemPurple, size: 13))
         }
         #if os(macOS)

@@ -9,6 +9,7 @@ struct BugSheet: View {
     @State private var text: String = ""
 
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var settings: AppSettings
 
     var body: some View {
         NavigationStack {
@@ -17,6 +18,7 @@ struct BugSheet: View {
                     TextField("Email", text: $email, prompt: Text(verbatim: "salty.pete@shipwreck.org"))
                         .keyboardType(.emailAddress)
                         .textContentType(.emailAddress)
+                        .textInputAutocapitalization(.never)
                 } header: {
                     Text("Email")
                 }
@@ -57,21 +59,39 @@ struct BugSheet: View {
             let eventId = SentrySDK.capture(message: "Bug Report", scope: scope)
             let userFeedback = UserFeedback(eventId: eventId)
 
-            userFeedback.email = email
+            userFeedback.email = email.lowercased()
             userFeedback.comments = text.trimmingCharacters(in: .whitespacesAndNewlines)
             SentrySDK.capture(userFeedback: userFeedback)
         }
 
+        dependencies.toast.show(.reportSent)
         dismiss()
     }
 
     func eventScope() async -> Scope {
         let scope = Scope()
 
-        return scope
+        var context: [String: Any] = [
+            "icon": settings.icon.rawValue,
+            "theme": settings.theme.rawValue,
+            "tab": settings.tab.rawValue,
+            "appearance": settings.appearance.rawValue,
+        ]
 
-        // scope.setTag(value: "debug_mode", key: "log_level")
-        // scope.setExtra(value: "Button XYZ caused a crash", key: "error_context")
+        for instance in settings.configuredInstances {
+            let id = instance.id.uuidString.prefix(6).lowercased()
+            let type = instance.type.rawValue.lowercased()
+
+            context["\(type)-\(id)"] = [
+                "type": instance.type.rawValue,
+                "mode": instance.mode.rawValue,
+                "version": instance.version,
+            ]
+        }
+
+        scope.setContext(value: context, key: "configuration")
+
+        return scope
     }
 }
 
