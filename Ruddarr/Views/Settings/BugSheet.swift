@@ -57,8 +57,9 @@ struct BugSheet: View {
 
     func sendReport() {
         Task {
+            let id = UUID().uuidString.prefix(8).lowercased()
             let scope = await eventScope()
-            let eventId = SentrySDK.capture(message: "Bug Report", scope: scope)
+            let eventId = SentrySDK.capture(message: "Bug Report \(id)", scope: scope)
             let userFeedback = UserFeedback(eventId: eventId)
 
             userFeedback.email = email.lowercased()
