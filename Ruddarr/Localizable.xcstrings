@@ -1121,6 +1121,16 @@
         }
       }
     },
+    "Details" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Details"
+          }
+        }
+      }
+    },
     "Digital Release" : {
       "localizations" : {
         "en" : {
@@ -1262,12 +1272,12 @@
         }
       }
     },
-    "Email Support" : {
+    "Email" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Email Support"
+            "value" : "Email"
           }
         }
       }
@@ -3342,6 +3352,16 @@
         }
       }
     },
+    "Provide a detailed description of the issue along with the exact steps to reproduce it." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Provide a detailed description of the issue along with the exact steps to reproduce it."
+          }
+        }
+      }
+    },
     "Published" : {
       "localizations" : {
         "en" : {
@@ -3558,6 +3578,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Repack"
+          }
+        }
+      }
+    },
+    "Report a Bug" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report a Bug"
           }
         }
       }
@@ -4110,6 +4140,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Studio"
+          }
+        }
+      }
+    },
+    "Submit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Submit"
           }
         }
       }
@@ -4675,6 +4715,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Weight"
+          }
+        }
+      }
+    },
+    "What happened?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What happened?"
           }
         }
       }
