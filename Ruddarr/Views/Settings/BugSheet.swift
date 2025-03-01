@@ -16,9 +16,11 @@ struct BugSheet: View {
             Form {
                 Section {
                     TextField("Email", text: $email, prompt: Text(verbatim: "salty.pete@shipwreck.org"))
-                        .keyboardType(.emailAddress)
-                        .textContentType(.emailAddress)
-                        .textInputAutocapitalization(.never)
+                        #if os(iOS)
+                            .keyboardType(.emailAddress)
+                            .textContentType(.emailAddress)
+                            .textInputAutocapitalization(.never)
+                        #endif
                 } header: {
                     Text("Email")
                 }
@@ -39,7 +41,7 @@ struct BugSheet: View {
                 }
             }
             .navigationTitle("Report a Bug")
-            .navigationBarTitleDisplayMode(.inline)
+            .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", action: { dismiss() })
