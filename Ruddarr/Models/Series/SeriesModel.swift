@@ -37,13 +37,17 @@ class SeriesModel {
     func updateCachedItems(_ sort: SeriesSort, _ searchQuery: String) {
         sortAndFilterTask?.cancel()
 
-        sortAndFilterTask = Task { @MainActor in
+        sortAndFilterTask = Task {
             let items = self.items
             let alternateTitles = self.alternateTitles
 
-            cachedItems = await Task.detached(priority: .userInitiated) {
+            let sortedItems = await Task.detached(priority: .userInitiated) {
                 Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
-            }.result.get()
+            }.value
+
+            await MainActor.run {
+                cachedItems = sortedItems
+            }
         }
     }
 
