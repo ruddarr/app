@@ -54,7 +54,7 @@ struct SeriesDetails: View {
                 .lineLimit(descriptionTruncated ? 4 : nil)
                 .textSelection(.enabled)
                 .onTapGesture {
-                    withAnimation(.spring(duration: 0.35)) { descriptionTruncated = false }
+                    withAnimation { descriptionTruncated = false }
                 }
 
             Spacer()

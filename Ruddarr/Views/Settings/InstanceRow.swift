@@ -47,9 +47,11 @@ struct InstanceRow: View {
             }
             .font(.footnote)
             .foregroundStyle(.gray)
-        }.task {
+        }
+        .task {
             await checkInstanceConnection()
         }
+        .animation(.default, value: connection)
     }
 
     func checkInstanceConnection() async {
@@ -58,7 +60,7 @@ struct InstanceRow: View {
         do {
             let lastCheck = "instanceCheck:\(instance.id)"
 
-            if Occurrence.since(lastCheck) < 60 {
+            if connection == .reachable, Occurrence.since(lastCheck) < 60 {
                 connection = .reachable
                 return
             }
@@ -99,4 +101,11 @@ struct InstanceRow: View {
 
         notifications = status == .authorized
     }
+}
+
+#Preview {
+    dependencies.router.selectedTab = .settings
+
+    return ContentView()
+        .withAppState()
 }
