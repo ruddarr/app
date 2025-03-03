@@ -5,10 +5,8 @@ struct SettingsPreferencesSection: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(\.colorScheme) var colorScheme
 
-    @State private var entitledToService: Bool = false
-    @State private var subscriptionStatus: SubscriptionStatus = .unknown
     @State private var showSubscriptionSheet: Bool = false
-    @State private var showManageSubscriptionSheet: Bool = false
+    @State private var subscriptionStatus: SubscriptionStatus = .unknown
 
     var body: some View {
         Section {
@@ -32,7 +30,7 @@ struct SettingsPreferencesSection: View {
         )
         #if os(iOS)
         .manageSubscriptionsSheet(
-            isPresented: $showManageSubscriptionSheet,
+            isPresented: $showSubscriptionSheet,
             subscriptionGroupID: Subscription.group
         )
         #endif
@@ -111,7 +109,7 @@ struct SettingsPreferencesSection: View {
 
     var manageSubscription: some View {
         Button {
-            showManageSubscriptionSheet = true
+            showSubscriptionSheet = true
         } label: {
             NavigationLink(destination: EmptyView()) {
                 Label {
@@ -124,7 +122,7 @@ struct SettingsPreferencesSection: View {
                     Image(systemName: "crown")
                         .symbolVariant(.fill)
                 }
-                .labelStyle(SettingsIconLabelStyle(color: .orange))
+                .labelStyle(SettingsIconLabelStyle(color: .orange, size: 13))
             }
         }
         .foregroundStyle(.label)
@@ -133,44 +131,26 @@ struct SettingsPreferencesSection: View {
     func handleSubscriptionStatusChange(
         taskState: EntitlementTaskState<[Product.SubscriptionInfo.Status]>
     ) async {
+        print(taskState)
         switch taskState {
         case .success(let statuses):
-            entitledToService = Subscription.containsEntitledState(statuses)
-            subscriptionStatus = Subscription.status(from: statuses)
-            showSubscriptionSheet = false
+            withAnimation {
+                subscriptionStatus = Subscription.status(from: statuses)
+            }
 
             leaveBreadcrumb(.info, category: "subscription", message: "SubscriptionStatusTask success", data: ["statuses": statuses])
         case .failure(let error):
-            entitledToService = false
-            subscriptionStatus = .error
+            withAnimation {
+                subscriptionStatus = .error
+            }
 
             leaveBreadcrumb(.fatal, category: "subscription", message: "SubscriptionStatusTask failed", data: ["error": error])
         case .loading:
             break
         @unknown default:
-            subscriptionStatus = .unknown
-        }
-    }
-}
-
-struct SettingsIconLabelStyle: LabelStyle {
-    var color: Color
-    @ScaledMetric(relativeTo: .body) var size: CGFloat = 14
-    @ScaledMetric(relativeTo: .body) private var iconSize = 28
-
-    func makeBody(configuration: Configuration) -> some View {
-        Label {
-            configuration.title
-                .tint(.primary)
-        } icon: {
-            configuration.icon
-                .font(.system(size: size))
-                .foregroundColor(.white)
-                .background(
-                    RoundedRectangle(cornerRadius: (10 / 57) * iconSize)
-                        .frame(width: iconSize, height: iconSize)
-                        .foregroundColor(color)
-                )
+            withAnimation {
+                subscriptionStatus = .unknown
+            }
         }
     }
 }
