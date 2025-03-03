@@ -5,9 +5,7 @@ struct MovieReleasesView: View {
 
     @State private var releases: [MovieRelease] = []
     @State private var sort: MovieReleaseSort = .init()
-
     @State private var fetched: Movie.ID?
-    @State private var waitingTextOpacity: Double = 0
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
@@ -48,7 +46,7 @@ struct MovieReleasesView: View {
         }
         .overlay {
             if instance.releases.isSearching {
-                searchingIndicator
+                SearchingIndicator()
             } else if instance.releases.items.isEmpty && hasFetched {
                 noReleasesFound
             } else if releases.isEmpty && hasFetched {
@@ -85,22 +83,6 @@ struct MovieReleasesView: View {
                 sort.resetFilters()
             }
         }
-    }
-
-    var searchingIndicator: some View {
-        ProgressView {
-            VStack {
-                Text("Searching...")
-                Text("Hold on, this may take a moment.")
-                    .font(.footnote)
-                    .opacity(waitingTextOpacity)
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                            withAnimation(.spring) { waitingTextOpacity = 1 }
-                        }
-                    }
-            }
-        }.tint(.secondary)
     }
 
     func updateSortDirection() {

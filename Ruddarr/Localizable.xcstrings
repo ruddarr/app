@@ -610,6 +610,16 @@
         }
       }
     },
+    "At least you're not on hold." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At least you're not on hold."
+          }
+        }
+      }
+    },
     "Audio" : {
       "localizations" : {
         "en" : {
@@ -1157,6 +1167,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Direction"
+          }
+        }
+      }
+    },
+    "Discovering new ways of making you wait." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discovering new ways of making you wait."
           }
         }
       }
@@ -1945,6 +1965,16 @@
         }
       }
     },
+    "Is this running on Windows?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Is this running on Windows?"
+          }
+        }
+      }
+    },
     "Issues" : {
       "localizations" : {
         "en" : {
@@ -1971,6 +2001,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Just now"
+          }
+        }
+      }
+    },
+    "Just testing your patience." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just testing your patience."
           }
         }
       }
@@ -2031,6 +2071,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Leave a Review"
+          }
+        }
+      }
+    },
+    "Let's hope it's worth the wait." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let's hope it's worth the wait."
           }
         }
       }
@@ -4134,6 +4184,16 @@
         }
       }
     },
+    "Still searching for releases." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Still searching for releases."
+          }
+        }
+      }
+    },
     "Streams" : {
       "localizations" : {
         "en" : {
@@ -4315,6 +4375,16 @@
         }
       }
     },
+    "Time flies when you're having fun." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time flies when you're having fun."
+          }
+        }
+      }
+    },
     "Title" : {
       "localizations" : {
         "en" : {
@@ -4391,6 +4461,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Try again later."
+          }
+        }
+      }
+    },
+    "Try holding your breath." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try holding your breath."
           }
         }
       }
