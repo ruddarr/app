@@ -73,6 +73,7 @@ struct EpisodeRow: View {
         Button {
             Task { await toggleMonitor() }
         } label: {
+            
             if instance.episodes.isMonitoring == episode.id {
                 ProgressView().tint(.secondary)
             } else {

@@ -12,6 +12,10 @@ struct InstanceView: View {
     }
 
     @State var webhook: InstanceWebhook
+    
+    @State private var error: API.Error?
+    @State var isLoadingLocationsDiskSpace: Bool = true
+    @State var locationsDiskSpace: [InstanceLocationDiskSpace]?
 
     @State var notificationsAllowed: Bool = false
     @State var instanceNotifications: Bool = false
@@ -36,7 +40,8 @@ struct InstanceView: View {
             if !instance.headers.isEmpty {
                 instanceHeaders
             }
-
+            
+            diskSpace
             notifications
 
             #if DEBUG
@@ -53,6 +58,7 @@ struct InstanceView: View {
         .safeNavigationBarTitleDisplayMode(.inline)
         .task {
             await setup()
+            await fetchLocationsDiskSpace()
         }
         .onChange(of: instanceNotifications) {
             Task { await notificationsToggled() }
@@ -71,6 +77,29 @@ struct InstanceView: View {
             Button("OK") { webhook.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
+        }
+        .alert(
+            isPresented: Binding(
+                get: { self.error != nil },
+                set: { _ in }
+            ),
+            error: error
+        ) { _ in
+            Button("OK") { error = nil }
+        } message: { error in
+            Text(error.recoverySuggestionFallback)
+        }
+    }
+    
+    private func fetchLocationsDiskSpace() async {
+        defer {
+            isLoadingLocationsDiskSpace = false
+        }
+        do {
+            isLoadingLocationsDiskSpace = true
+            locationsDiskSpace = try await dependencies.api.fetchLocationsDiskSpace(instance)
+        } catch {
+            self.error = API.Error(from: error)
         }
     }
 
@@ -122,6 +151,35 @@ struct InstanceView: View {
                 .lineLimit(1)
                 .truncationMode(.middle)
                 .textSelection(.enabled)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var diskSpace: some View {
+        Section {
+            if let locationsDiskSpace {
+                ForEach(locationsDiskSpace) { location in
+                    LabeledContent(
+                        location.path,
+                        value: "\(location.freeSpace.formatBytes()) / \(location.totalSpace.formatBytes())"
+                    )
+                }
+            } else if !isLoadingLocationsDiskSpace {
+                LabeledContent("No locations found", value: "Tap to Reload")
+                    .onTapGesture {
+                        Task { await fetchLocationsDiskSpace() }
+                    }
+            }
+        } header: {
+            HStack(spacing: 4) {
+                Text("Disk Space")
+                
+                if isLoadingLocationsDiskSpace {
+                    ProgressView()
+                        .controlSize(.small)
+                        .tint(.secondary)
+                }
             }
         }
     }

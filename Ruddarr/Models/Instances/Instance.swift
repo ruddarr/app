@@ -108,6 +108,13 @@ struct InstanceQualityProfile: Identifiable, Equatable, Codable {
     let name: String
 }
 
+struct InstanceLocationDiskSpace: Identifiable, Equatable, Codable {
+    var id: String { path }
+    let path: String
+    let freeSpace: Int64
+    let totalSpace: Int64
+}
+
 extension Instance {
     static var radarrVoid: Self {
         .init(

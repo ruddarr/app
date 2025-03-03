@@ -50,6 +50,8 @@ struct API {
     var createNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
     var updateNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
     var deleteNotification: (InstanceNotification, Instance) async throws -> Empty
+    
+    var fetchLocationsDiskSpace: (Instance) async throws -> [InstanceLocationDiskSpace]
 }
 
 // swiftlint:disable file_length
@@ -344,6 +346,10 @@ extension API {
                 .appending(path: String(model.id ?? 0))
 
             return try await request(method: .delete, url: url, headers: instance.auth)
+        }, fetchLocationsDiskSpace: { instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/diskspace")
+            return try await request(method: .get, url: url, headers: instance.auth)
         })
     }
 
