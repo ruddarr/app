@@ -4,6 +4,8 @@ import TelemetryDeck
 struct SeriesDetailView: View {
     @Binding var series: Series
 
+    @EnvironmentObject var settings: AppSettings
+
     @Environment(\.scenePhase) private var scenePhase
     @Environment(SonarrInstance.self) private var instance
 
@@ -15,6 +17,7 @@ struct SeriesDetailView: View {
             SeriesDetails(series: $series)
                 .padding(.top)
                 .viewPadding(.horizontal)
+                .environmentObject(settings)
         }
         .refreshable {
             await Task { await reload() }.value

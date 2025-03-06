@@ -6,6 +6,8 @@ struct MoviePreviewView: View {
 
     @State private var presentingForm: Bool = false
 
+    @EnvironmentObject var settings: AppSettings
+
     @Environment(RadarrInstance.self) private var instance
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
@@ -18,6 +20,7 @@ struct MoviePreviewView: View {
             MovieDetails(movie: movie)
                 .padding(.top)
                 .viewPadding(.horizontal)
+                .environmentObject(settings)
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {

@@ -138,10 +138,12 @@ struct MoviesView: View {
             if let data, let movie = try? JSONDecoder().decode(Movie.self, from: data) {
                 MoviePreviewView(movie: movie)
                     .environment(instance)
+                    .environmentObject(settings)
             }
         case .movie(let id):
             MovieView(movie: instance.movies.byId(id))
                 .environment(instance)
+                .environmentObject(settings)
         case .edit(let id):
             MovieEditView(movie: instance.movies.byId(id))
                 .environment(instance)

@@ -8,8 +8,8 @@ struct MovieDetails: View {
     @State private var fileSheet: MediaFile?
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) private var instance
 
+    @Environment(RadarrInstance.self) private var instance
     @Environment(\.deviceType) var deviceType
     @Environment(\.openURL) var openURL
 
