@@ -3130,13 +3130,13 @@
         }
       }
     },
-    "Notifications require an Apple Account. Please sign in, or enable %1$@ in the iCloud settings (%2$@)." : {
-      "comment" : "1 = iCloud Drive link, 2 = CloudKit status",
+    "Notifications require an Apple Account. Please sign in, or enable iCloud Drive in the iCloud settings (%1$@)." : {
+      "comment" : "1 = CloudKit status",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications require an Apple Account. Please sign in, or enable %1$@ in the iCloud settings (%2$@)."
+            "value" : "Notifications require an Apple Account. Please sign in, or enable iCloud Drive in the iCloud settings (%1$@)."
           }
         }
       }

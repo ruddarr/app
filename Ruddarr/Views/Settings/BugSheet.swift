@@ -87,8 +87,8 @@ struct BugSheet: View {
 
             context["\(type)-\(id)"] = [
                 "type": instance.type.rawValue,
-                "mode": instance.mode.rawValue,
-                "version": instance.version,
+                "mode": instance.mode.value,
+                "version": instance.version as Any,
             ]
         }
 
