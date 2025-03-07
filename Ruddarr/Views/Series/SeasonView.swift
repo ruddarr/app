@@ -6,6 +6,8 @@ struct SeasonView: View {
     var seasonId: Season.ID
     @State var jumpToEpisode: Episode.ID?
 
+    @State private var dispatchingSearch: Bool = false
+
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
     @Environment(\.scenePhase) private var scenePhase
@@ -118,7 +120,11 @@ struct SeasonView: View {
             Button {
                 Task { await dispatchSearch() }
             } label: {
-                ButtonLabel(text: "Automatic", icon: "magnifyingglass")
+                ButtonLabel(
+                    text: "Automatic",
+                    icon: "magnifyingglass",
+                    isLoading: dispatchingSearch
+                )
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
@@ -216,6 +222,9 @@ extension SeasonView {
     }
 
     func dispatchSearch() async {
+        defer { dispatchingSearch = false }
+        dispatchingSearch = true
+
         guard await instance.series.command(
             .seasonSearch(series.id, season: season.id)
         ) else {

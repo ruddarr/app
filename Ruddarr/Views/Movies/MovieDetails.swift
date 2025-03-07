@@ -4,6 +4,7 @@ import TelemetryDeck
 struct MovieDetails: View {
     var movie: Movie
 
+    @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
     @State private var fileSheet: MediaFile?
 
@@ -50,7 +51,7 @@ struct MovieDetails: View {
                 .lineLimit(descriptionTruncated ? 4 : nil)
                 .textSelection(.enabled)
                 .onTapGesture {
-                    withAnimation { descriptionTruncated = false }
+                    withAnimation(.snappy) { descriptionTruncated = false }
                 }
 
             Spacer()
@@ -107,18 +108,13 @@ struct MovieDetails: View {
     var movieActions: some View {
         Group {
             Button {
-                Task { @MainActor in
-                    guard await instance.movies.command(.search([movie.id])) else {
-                        return
-                    }
-
-                    dependencies.toast.show(.movieSearchQueued)
-
-                    TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "movie"])
-                    maybeAskForReview()
-                }
+                Task { await dispatchSearch() }
             } label: {
-                ButtonLabel(text: "Automatic", icon: "magnifyingglass")
+                ButtonLabel(
+                    text: "Automatic",
+                    icon: "magnifyingglass",
+                    isLoading: dispatchingSearch
+                )
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
@@ -179,6 +175,22 @@ struct MovieDetails: View {
                 }
             }
         }
+    }
+
+    func dispatchSearch() async {
+        defer { dispatchingSearch = false }
+        dispatchingSearch = true
+
+        guard await instance.movies.command(
+            .search([movie.id])
+        ) else {
+            return
+        }
+
+        dependencies.toast.show(.movieSearchQueued)
+
+        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "movie"])
+        maybeAskForReview()
     }
 }
 

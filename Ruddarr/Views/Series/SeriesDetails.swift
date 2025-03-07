@@ -4,6 +4,7 @@ import TelemetryDeck
 struct SeriesDetails: View {
     @Binding var series: Series
 
+    @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
     @State private var monitoringSeason: Season.ID?
 
@@ -54,7 +55,7 @@ struct SeriesDetails: View {
                 .lineLimit(descriptionTruncated ? 4 : nil)
                 .textSelection(.enabled)
                 .onTapGesture {
-                    withAnimation { descriptionTruncated = false }
+                    withAnimation(.snappy) { descriptionTruncated = false }
                 }
 
             Spacer()
@@ -102,17 +103,13 @@ struct SeriesDetails: View {
     var seriesActions: some View {
         Group {
             Button {
-                Task { @MainActor in
-                    guard await instance.series.command(.seriesSearch(series.id)) else {
-                        return
-                    }
-
-                    dependencies.toast.show(.monitoredSearchQueued)
-
-                    TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
-                }
+                Task { await dispatchSearch() }
             } label: {
-                ButtonLabel(text: "Search Monitored", icon: "magnifyingglass")
+                ButtonLabel(
+                    text: "Search Monitored",
+                    icon: "magnifyingglass",
+                    isLoading: dispatchingSearch
+                )
                     .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
@@ -207,6 +204,22 @@ struct SeriesDetails: View {
                 }
             }
         }
+    }
+
+    func dispatchSearch() async {
+        defer { dispatchingSearch = false }
+        dispatchingSearch = true
+
+        guard await instance.series.command(
+            .seriesSearch(series.id)
+        ) else {
+            return
+        }
+
+        dependencies.toast.show(.monitoredSearchQueued)
+
+        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
+        maybeAskForReview()
     }
 
     func monitorSeason(_ season: Season.ID) async {
