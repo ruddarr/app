@@ -5,8 +5,8 @@ import Sentry
 struct BugSheet: View {
     private var minimumLength: Int = 50
 
-    @State private var email: String = ""
-    @State private var text: String = ""
+    @SceneStorage("reportEmail") private var email: String = ""
+    @SceneStorage("reportText") private var text: String = ""
 
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var settings: AppSettings
@@ -69,6 +69,7 @@ struct BugSheet: View {
 
         dependencies.toast.show(.reportSent)
         dismiss()
+        text = ""
     }
 
     func eventScope() async -> Scope {
