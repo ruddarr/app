@@ -39,6 +39,10 @@ extension UUID {
     func isEqual(to string: String) -> Bool {
         self.uuidString.caseInsensitiveCompare(string) == .orderedSame
     }
+
+    var shortened: String {
+        return self.uuidString.prefix(8).lowercased()
+    }
 }
 
 extension Hashable {

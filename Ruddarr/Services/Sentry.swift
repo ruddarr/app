@@ -1,5 +1,22 @@
 import Sentry
+import CloudKit
 import StoreKit
+
+func setSentryContext(from container: CKContainer) async {
+    let accountStatus = try? await container.accountStatus()
+    let cloudKitUserId = try? await container.userRecordID()
+
+    setSentryContext(for: "cloudkit", [
+        "status": cloudKitStatusString(accountStatus),
+        "identifier": cloudKitUserId?.recordName ?? "",
+    ])
+}
+
+func setSentryContext(for key: String, _ value: [String: Any]) {
+    SentrySDK.configureScope { scope in
+        scope.setContext(value: value, key: key)
+    }
+}
 
 func leaveAttachment(_ url: URL, _ json: Data) {
     let basename = url.relativePath.replacingOccurrences(of: "/", with: "-")

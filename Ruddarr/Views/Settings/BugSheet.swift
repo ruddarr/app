@@ -57,46 +57,29 @@ struct BugSheet: View {
 
     func sendReport() {
         Task {
-            let id = UUID().uuidString.prefix(8).lowercased()
-            let scope = await eventScope()
-            let eventId = SentrySDK.capture(message: "Bug Report \(id)", scope: scope)
-            let userFeedback = UserFeedback(eventId: eventId)
+            defer {
+                dependencies.toast.show(.reportSent)
+                dismiss()
+                text = ""
+            }
 
-            userFeedback.email = email.lowercased()
-            userFeedback.comments = text.trimmingCharacters(in: .whitespacesAndNewlines)
-            SentrySDK.capture(userFeedback: userFeedback)
+            setSentryContext(for: "configuration", settings.context())
+            await setSentryContext(from: CKContainer.default())
+
+            let eventId = SentrySDK.capture(message: "Bug Report (\(UUID().shortened))")
+
+            let feedback = SentryFeedback(
+                message: text.trimmingCharacters(in: .whitespacesAndNewlines),
+                name: nil,
+                email: email.lowercased(),
+                source: .custom,
+                associatedEventId: eventId
+            )
+
+            SentrySDK.capture(feedback: feedback)
         }
-
-        dependencies.toast.show(.reportSent)
-        dismiss()
-        text = ""
     }
 
-    func eventScope() async -> Scope {
-        let scope = Scope()
-
-        var context: [String: Any] = [
-            "icon": settings.icon.rawValue,
-            "theme": settings.theme.rawValue,
-            "tab": settings.tab.rawValue,
-            "appearance": settings.appearance.rawValue,
-        ]
-
-        for instance in settings.configuredInstances {
-            let id = instance.id.uuidString.prefix(6).lowercased()
-            let type = instance.type.rawValue.lowercased()
-
-            context["\(type)-\(id)"] = [
-                "type": instance.type.rawValue,
-                "mode": instance.mode.value,
-                "version": instance.version as Any,
-            ]
-        }
-
-        scope.setContext(value: context, key: "configuration")
-
-        return scope
-    }
 }
 
 #Preview {

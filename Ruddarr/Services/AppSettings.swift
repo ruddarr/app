@@ -89,3 +89,27 @@ extension AppSettings {
         Queue.shared.instances = instances
     }
 }
+
+extension AppSettings {
+    func context() -> [String: Any] {
+        var context: [String: Any] = [
+            "icon": icon.rawValue,
+            "theme": theme.rawValue,
+            "tab": tab.rawValue,
+            "appearance": appearance.rawValue,
+        ]
+
+        for instance in configuredInstances {
+            let id = instance.id.shortened
+            let type = instance.type.rawValue.lowercased()
+
+            context["\(type)-\(id)"] = [
+                "type": instance.type.rawValue,
+                "mode": instance.mode.value,
+                "version": instance.version as Any,
+            ]
+        }
+
+        return context
+    }
+}
