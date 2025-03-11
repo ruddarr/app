@@ -7,9 +7,7 @@ struct SeriesReleasesView: View {
 
     @State private var releases: [SeriesRelease] = []
     @State private var sort: SeriesReleaseSort = .init()
-
     @State private var fetched: (Series.ID?, Season.ID?, Episode.ID?) = (nil, nil, nil)
-    @State private var waitingTextOpacity: Double = 0
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) private var instance
@@ -56,7 +54,7 @@ struct SeriesReleasesView: View {
         }
         .overlay {
             if instance.releases.isSearching {
-                searchingIndicator
+                SearchingIndicator()
             } else if instance.releases.items.isEmpty && hasFetched {
                 noReleasesFound
             } else if releases.isEmpty && hasFetched {
@@ -93,22 +91,6 @@ struct SeriesReleasesView: View {
                 sort.resetFilters()
             }
         }
-    }
-
-    var searchingIndicator: some View {
-        ProgressView {
-            VStack {
-                Text("Searching...")
-                Text("Hold on, this may take a moment.")
-                    .font(.footnote)
-                    .opacity(waitingTextOpacity)
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                            withAnimation(.spring) { waitingTextOpacity = 1 }
-                        }
-                    }
-            }
-        }.tint(.secondary)
     }
 
     func updateSortDirection() {

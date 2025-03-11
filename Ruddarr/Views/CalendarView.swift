@@ -158,6 +158,7 @@ struct CalendarView: View {
 
     func load(force: Bool = false) async {
         let lastFetch = Occurrence.since("calendarFetch")
+        let firstLoad = calendar.dates.isEmpty
 
         if !force && !calendar.dates.isEmpty && lastFetch < 10 {
             initializationError = nil
@@ -176,8 +177,12 @@ struct CalendarView: View {
 
         Occurrence.occurred("calendarFetch")
 
+        guard firstLoad else { return }
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            scrollTo(calendar.today())
+            withAnimation(.interactiveSpring) {
+                scrollTo(calendar.today())
+            }
         }
     }
 

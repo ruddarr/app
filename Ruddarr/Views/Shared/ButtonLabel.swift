@@ -20,30 +20,35 @@ struct ButtonLabel: View {
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
-        Group {
+        Label {
+            label
+                .font(.callout)
+        } icon: {
+            Image(systemName: icon)
+                .imageScale(.medium)
+                .frame(maxHeight: 20)
+        }
+        .opacity(isLoading ? 0 : 1)
+        .overlay {
             if isLoading {
                 ProgressView()
-            } else {
-                Label {
-                    label
-                        .font(.callout)
-                } icon: {
-                    Image(systemName: icon)
-                        .imageScale(.medium)
-                        .frame(maxHeight: 20)
-                }
             }
         }
         .fontWeight(.semibold)
         .foregroundStyle(settings.theme.tint)
         .padding(.vertical, 6)
+        .animation(.spring(duration: 0.2), value: isLoading)
     }
 }
 
 #Preview {
+    @Previewable @State var isLoading: Bool = false
+
     VStack {
-        Button { } label: {
-            ButtonLabel(text: "Download", icon: "arrow.down.circle")
+        Button {
+            isLoading.toggle()
+        } label: {
+            ButtonLabel(text: "Download", icon: "arrow.down.circle", isLoading: isLoading)
         }
             .buttonStyle(.bordered)
             .tint(.secondary)

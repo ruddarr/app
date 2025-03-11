@@ -97,24 +97,7 @@ class AppDelegateMac:
             options.profilesSampleRate = 1
         }
 
-         SentrySDK.configureScope { scope in
-             scope.setContext(value: [
-                 "identifier": Platform.deviceId,
-             ], key: "device")
-         }
-
-        Task.detached {
-            let container = CKContainer.default()
-            let accountStatus = try? await container.accountStatus()
-            let cloudKitUserId = try? await container.userRecordID()
-
-            SentrySDK.configureScope { scope in
-                scope.setContext(value: [
-                    "user": cloudKitUserId?.recordName ?? "",
-                    "status": cloudKitStatusString(accountStatus),
-                ], key: "cloudkit")
-            }
-        }
+        setSentryContext(for: "device", ["identifier": Platform.deviceId])
     }
 
     func configureTelemetryDeck() {

@@ -64,22 +64,13 @@ extension InstanceView {
     var enableCloudKit: some View {
         let text = String(
             format: String(
-                localized: "Notifications require an Apple Account. Please sign in, or enable %1$@ in the iCloud settings (%2$@).",
-                comment: "1 = iCloud Drive link, 2 = CloudKit status"
+                localized: "Notifications require an Apple Account. Please sign in, or enable iCloud Drive in the iCloud settings (%1$@).",
+                comment: "1 = CloudKit status"
             ),
-            "[iCloud Drive](#link)",
             cloudKitStatusString(cloudKitStatus)
         )
 
-        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
-            #if os(iOS)
-                if let url = URL(string: UIApplication.openSettingsURLString) {
-                    UIApplication.shared.open(url)
-                }
-            #endif
-
-            return .handled
-        })
+        return Text(text)
     }
 
     var cloudKitEnabled: Bool {

@@ -56,7 +56,8 @@ class Movies {
                 guard let self, let index = self.items.firstIndex(where: { $0.guid == id }) else {
                     leaveBreadcrumb(.fatal, category: "bindings", message: "Movie disappeared", data: [
                         "id": id,
-                        "items": self?.items as Any,
+                        "count": self?.items.count ?? -1,
+                        "items": self?.items.compactMap(\.guid) as Any,
                     ])
 
                     return .void

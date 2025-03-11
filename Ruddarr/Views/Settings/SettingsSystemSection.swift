@@ -13,7 +13,9 @@ struct SettingsSystemSection: View {
     var body: some View {
         Section {
             Button(role: .destructive, action: {
-                withAnimation(.spring(duration: 0.35)) { clearImageCache() }
+                withAnimation(.interactiveSpring) {
+                    clearImageCache()
+                }
             }, label: {
                 LabeledContent("Clear Image Cache", value: formatBytes(imageCacheSize))
             }).onAppear {

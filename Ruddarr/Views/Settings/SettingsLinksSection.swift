@@ -21,8 +21,8 @@ struct SettingsLinksSection: View {
         Link(
             destination: url,
             label: {
-                Label(name, systemImage: "arrow.up.right.square")
-                    .labelStyle(SettingsIconLabelStyle(color: .gray))
+                Label(name, systemImage: "arrow.up.right")
+                    .labelStyle(SettingsIconLabelStyle(color: .gray, size: 13))
             }
         )
     }

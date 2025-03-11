@@ -65,6 +65,13 @@ enum InstanceMode: Codable {
     var isSlow: Bool {
         self == .slow || self == .large
     }
+
+    var value: String {
+        switch self {
+        case .normal: return "normal"
+        case .slow, .large: return "slow"
+        }
+    }
 }
 
 enum InstanceTimeout: Codable {

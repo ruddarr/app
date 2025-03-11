@@ -610,6 +610,16 @@
         }
       }
     },
+    "At least you're not on hold." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At least you're not on hold."
+          }
+        }
+      }
+    },
     "Audio" : {
       "localizations" : {
         "en" : {
@@ -737,6 +747,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Books"
+          }
+        }
+      }
+    },
+    "Bug Report Sent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bug Report Sent"
           }
         }
       }
@@ -1121,6 +1141,16 @@
         }
       }
     },
+    "Details" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Details"
+          }
+        }
+      }
+    },
     "Digital Release" : {
       "localizations" : {
         "en" : {
@@ -1137,6 +1167,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Direction"
+          }
+        }
+      }
+    },
+    "Discovering new ways of making you wait." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discovering new ways of making you wait."
           }
         }
       }
@@ -1262,12 +1302,12 @@
         }
       }
     },
-    "Email Support" : {
+    "Email" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Email Support"
+            "value" : "Email"
           }
         }
       }
@@ -1925,6 +1965,16 @@
         }
       }
     },
+    "Is this running on Windows?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Is this running on Windows?"
+          }
+        }
+      }
+    },
     "Issues" : {
       "localizations" : {
         "en" : {
@@ -1951,6 +2001,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Just now"
+          }
+        }
+      }
+    },
+    "Just testing your patience." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just testing your patience."
           }
         }
       }
@@ -2011,6 +2071,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Leave a Review"
+          }
+        }
+      }
+    },
+    "Let's hope it's worth the wait." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let's hope it's worth the wait."
           }
         }
       }
@@ -3060,13 +3130,13 @@
         }
       }
     },
-    "Notifications require an Apple Account. Please sign in, or enable %1$@ in the iCloud settings (%2$@)." : {
-      "comment" : "1 = iCloud Drive link, 2 = CloudKit status",
+    "Notifications require an Apple Account. Please sign in, or enable iCloud Drive in the iCloud settings (%1$@)." : {
+      "comment" : "1 = CloudKit status",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications require an Apple Account. Please sign in, or enable %1$@ in the iCloud settings (%2$@)."
+            "value" : "Notifications require an Apple Account. Please sign in, or enable iCloud Drive in the iCloud settings (%1$@)."
           }
         }
       }
@@ -3342,6 +3412,16 @@
         }
       }
     },
+    "Provide a detailed description of the issue along with the exact steps to reproduce it." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Provide a detailed description of the issue along with the exact steps to reproduce it."
+          }
+        }
+      }
+    },
     "Published" : {
       "localizations" : {
         "en" : {
@@ -3558,6 +3638,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Repack"
+          }
+        }
+      }
+    },
+    "Report a Bug" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report a Bug"
           }
         }
       }
@@ -4094,6 +4184,16 @@
         }
       }
     },
+    "Still searching for releases." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Still searching for releases."
+          }
+        }
+      }
+    },
     "Streams" : {
       "localizations" : {
         "en" : {
@@ -4110,6 +4210,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Studio"
+          }
+        }
+      }
+    },
+    "Submit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Submit"
           }
         }
       }
@@ -4265,6 +4375,16 @@
         }
       }
     },
+    "Time flies when you're having fun." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time flies when you're having fun."
+          }
+        }
+      }
+    },
     "Title" : {
       "localizations" : {
         "en" : {
@@ -4341,6 +4461,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Try again later."
+          }
+        }
+      }
+    },
+    "Try holding your breath." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try holding your breath."
           }
         }
       }
@@ -4675,6 +4805,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Weight"
+          }
+        }
+      }
+    },
+    "What happened?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What happened?"
           }
         }
       }

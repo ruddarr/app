@@ -11,6 +11,7 @@ struct EpisodeView: View {
     @State private var fileSheet: MediaFile?
     @State private var eventSheet: MediaHistoryEvent?
 
+    @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
     @State private var showDeleteConfirmation = false
 
@@ -135,7 +136,7 @@ struct EpisodeView: View {
                 .lineLimit(descriptionTruncated ? 4 : nil)
                 .textSelection(.enabled)
                 .onTapGesture {
-                    withAnimation(.spring(duration: 0.35)) { descriptionTruncated = false }
+                    withAnimation(.snappy) { descriptionTruncated = false }
                 }
 
             Spacer()
@@ -188,7 +189,11 @@ struct EpisodeView: View {
             Button {
                 Task { await dispatchSearch() }
             } label: {
-                ButtonLabel(text: "Automatic", icon: "magnifyingglass")
+                ButtonLabel(
+                    text: "Automatic",
+                    icon: "magnifyingglass",
+                    isLoading: dispatchingSearch
+                )
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
@@ -316,6 +321,9 @@ extension EpisodeView {
     }
 
     func dispatchSearch() async {
+        defer { dispatchingSearch = false }
+        dispatchingSearch = true
+
         guard await instance.series.command(
             .episodeSearch([episode.id])) else {
             return

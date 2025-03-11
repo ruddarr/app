@@ -106,7 +106,7 @@ class AppDelegate:
             options.enableSigtermReporting = true
             options.enableWatchdogTerminationTracking = true
             options.enableMetricKit = true
-            // options.enableAppHangTracking = true
+            options.enableAppHangTracking = false
             options.enableAppHangTrackingV2 = false
             options.appHangTimeoutInterval = 3
             options.enableCaptureFailedRequests = false
@@ -118,24 +118,7 @@ class AppDelegate:
             options.profilesSampleRate = 1
         }
 
-        SentrySDK.configureScope { scope in
-            scope.setContext(value: [
-                "identifier": Platform.deviceId,
-            ], key: "device")
-        }
-
-        Task.detached {
-            let container = CKContainer.default()
-            let accountStatus = try? await container.accountStatus()
-            let cloudKitUserId = try? await container.userRecordID()
-
-            SentrySDK.configureScope { scope in
-                scope.setContext(value: [
-                    "user": cloudKitUserId?.recordName ?? "",
-                    "status": cloudKitStatusString(accountStatus),
-                ], key: "cloudkit")
-            }
-        }
+        setSentryContext(for: "device", ["identifier": Platform.deviceId])
     }
 
     func configureTelemetryDeck() {

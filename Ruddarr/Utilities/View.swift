@@ -1,4 +1,5 @@
 import SwiftUI
+import CloudKit
 
 extension View {
     func withAppState() -> some View {
@@ -45,8 +46,10 @@ private struct WithAppStateModifier: ViewModifier {
             .environment(\.deviceType, Platform.deviceType)
             .environment(RadarrInstance(radarrInstance))
             .environment(SonarrInstance(sonarrInstance))
-            .onAppear {
+            .task {
                 Queue.shared.instances = settings.instances
+                setSentryContext(for: "configuration", settings.context())
+                await setSentryContext(from: CKContainer.default())
             }
     }
 }

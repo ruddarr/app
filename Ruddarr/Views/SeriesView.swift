@@ -139,10 +139,12 @@ struct SeriesView: View {
             if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
                 SeriesPreviewView(series: series)
                     .environment(instance)
+                    .environmentObject(settings)
             }
         case .series(let id):
             SeriesDetailView(series: instance.series.byId(id))
                 .environment(instance)
+                .environmentObject(settings)
         case .edit(let id):
             SeriesEditView(series: instance.series.byId(id))
                 .environment(instance)
