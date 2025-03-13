@@ -44,7 +44,7 @@ struct SeriesDetails: View {
     }
 
     var hasDescription: Bool {
-        !(series.overview ?? "").trimmingCharacters(in: .whitespaces).isEmpty
+        !(series.overview ?? "").trimmed().isEmpty
     }
 
     var description: some View {

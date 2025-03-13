@@ -33,6 +33,10 @@ extension String {
             return AttributedString(self)
         }
     }
+
+    func trimmed() -> String {
+        self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
 
 extension UUID {
@@ -41,7 +45,7 @@ extension UUID {
     }
 
     var shortened: String {
-        return self.uuidString.prefix(8).lowercased()
+        self.uuidString.prefix(8).lowercased()
     }
 }
 

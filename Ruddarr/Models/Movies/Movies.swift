@@ -173,7 +173,7 @@ class Movies {
         _ sort: MovieSort,
         _ searchQuery: String
     ) -> [Movie] {
-        let query = searchQuery.trimmingCharacters(in: .whitespaces)
+        let query = searchQuery.trimmed()
         let comparator = sort.option.compare
 
         return items

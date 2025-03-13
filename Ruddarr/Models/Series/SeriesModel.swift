@@ -195,7 +195,7 @@ class SeriesModel {
         _ sort: SeriesSort,
         _ searchQuery: String
     ) -> [Series] {
-        let query = searchQuery.trimmingCharacters(in: .whitespaces)
+        let query = searchQuery.trimmed()
         let comparator = sort.option.compare
 
         return items

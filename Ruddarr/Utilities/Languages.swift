@@ -20,7 +20,7 @@ class Languages {
             return String(name.split(separator: "-")[0])
         }
 
-        if code.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        if code.trimmed().isEmpty {
             return "und"
         }
 

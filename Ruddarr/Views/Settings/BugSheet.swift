@@ -69,9 +69,9 @@ struct BugSheet: View {
             let eventId = SentrySDK.capture(message: "Bug Report (\(UUID().shortened))")
 
             let feedback = SentryFeedback(
-                message: text.trimmingCharacters(in: .whitespacesAndNewlines),
+                message: text.trimmed(),
                 name: nil,
-                email: email.lowercased(),
+                email: email.lowercased().trimmed(),
                 source: .custom,
                 associatedEventId: eventId
             )
