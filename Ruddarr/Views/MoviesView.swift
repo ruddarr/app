@@ -77,6 +77,17 @@ struct MoviesView: View {
                     settings.radarrInstanceId = first.id
                     changeInstance()
                 }
+                
+                // Listen for tab activation
+                NotificationCenter.default.addObserver(
+                    forName: Notification.Name("ActivateMoviesSearch"),
+                    object: nil,
+                    queue: .main
+                ) { _ in
+                    Task { @MainActor in
+                        searchPresented = true
+                    }
+                }
             }
             .onReceive(dependencies.quickActions.moviePublisher, perform: navigateToMovie)
             .toolbar {

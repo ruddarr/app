@@ -78,6 +78,17 @@ struct SeriesView: View {
                     settings.sonarrInstanceId = first.id
                     changeInstance()
                 }
+                
+                // Listen for tab activation
+                NotificationCenter.default.addObserver(
+                    forName: Notification.Name("ActivateSeriesSearch"),
+                    object: nil,
+                    queue: .main
+                ) { _ in
+                    Task { @MainActor in
+                        searchPresented = true
+                    }
+                }
             }
             .onReceive(dependencies.quickActions.seriesPublisher, perform: navigateToSeries)
             .toolbar {

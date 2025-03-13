@@ -75,6 +75,19 @@ struct CalendarView: View {
                     calendar.reset()
                     calendar.instances = settings.instances
                 }
+                
+                // Listen for tab re-activation to scroll to today
+                NotificationCenter.default.addObserver(
+                    forName: Notification.Name("ScrollCalendarToToday"),
+                    object: nil,
+                    queue: .main
+                ) { _ in
+                    Task { @MainActor in
+                        withAnimation(.smooth) {
+                            scrollTo(calendar.today())
+                        }
+                    }
+                }
             }
             .task {
                 await load()

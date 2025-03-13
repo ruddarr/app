@@ -35,6 +35,9 @@ struct ContentView: View {
             }
             .defaultVisibility(.hidden, for: .tabBar)
         }
+        .onChange(of: dependencies.router.selectedTab) { oldTab, newTab in
+            handleTabChange(oldTab, newTab)
+        }
         .tabViewStyle(.sidebarAdaptable)
         #if os(iOS)
             .tabViewSidebarHeader {
@@ -76,6 +79,20 @@ struct ContentView: View {
             Notifications.maybeUpdateWebhooks(settings)
         }
     }
+    
+    func handleTabChange(_ oldTab: TabItem, _ newTab: TabItem) {
+        // If the user is tapping on the already active tab
+        if oldTab == newTab {
+            // Trigger the appropriate action immediately
+            if newTab == .movies {
+                NotificationCenter.default.post(name: Notification.Name("ActivateMoviesSearch"), object: nil)
+            } else if newTab == .series {
+                NotificationCenter.default.post(name: Notification.Name("ActivateSeriesSearch"), object: nil)
+            } else if newTab == .calendar {
+                NotificationCenter.default.post(name: Notification.Name("ScrollCalendarToToday"), object: nil)
+            }
+        }
+    }
 #else
     func handleScenePhaseChange(_ from: ScenePhase, _ phase: ScenePhase) {
         if phase == .active {
@@ -85,6 +102,20 @@ struct ContentView: View {
 
         if phase == .background {
             QuickActions().registerShortcutItems()
+        }
+    }
+    
+    func handleTabChange(_ oldTab: TabItem, _ newTab: TabItem) {
+        // If the user is tapping on the already active tab
+        if oldTab == newTab {
+            // Trigger the appropriate action immediately
+            if newTab == .movies {
+                NotificationCenter.default.post(name: Notification.Name("ActivateMoviesSearch"), object: nil)
+            } else if newTab == .series {
+                NotificationCenter.default.post(name: Notification.Name("ActivateSeriesSearch"), object: nil)
+            } else if newTab == .calendar {
+                NotificationCenter.default.post(name: Notification.Name("ScrollCalendarToToday"), object: nil)
+            }
         }
     }
 #endif
