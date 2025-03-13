@@ -49,10 +49,14 @@ struct BugSheet: View {
 
                 ToolbarItem(placement: .primaryAction) {
                     Button("Submit", action: sendReport)
-                        .disabled(text.count < minimumLength)
+                        .disabled(!canBeSent)
                 }
             }
         }
+    }
+
+    var canBeSent: Bool {
+        text.count >= minimumLength && email.trimmed().isValidEmail()
     }
 
     func sendReport() {

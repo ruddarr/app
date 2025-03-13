@@ -37,6 +37,10 @@ extension String {
     func trimmed() -> String {
         self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
+
+    func isValidEmail() -> Bool {
+        return self.wholeMatch(of: /(?i)^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/) != nil
+    }
 }
 
 extension UUID {
