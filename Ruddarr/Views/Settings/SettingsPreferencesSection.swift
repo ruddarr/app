@@ -131,7 +131,6 @@ struct SettingsPreferencesSection: View {
     func handleSubscriptionStatusChange(
         taskState: EntitlementTaskState<[Product.SubscriptionInfo.Status]>
     ) async {
-        print(taskState)
         switch taskState {
         case .success(let statuses):
             withAnimation {
