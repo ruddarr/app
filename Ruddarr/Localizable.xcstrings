@@ -1181,6 +1181,16 @@
         }
       }
     },
+    "Display" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display"
+          }
+        }
+      }
+    },
     "Download" : {
       "localizations" : {
         "en" : {
@@ -3382,6 +3392,16 @@
         }
       }
     },
+    "Preserve" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preserve"
+          }
+        }
+      }
+    },
     "Previous Airing" : {
       "localizations" : {
         "en" : {
@@ -3522,6 +3542,16 @@
         }
       }
     },
+    "Release Filters" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release Filters"
+          }
+        }
+      }
+    },
     "Release Grabbed" : {
       "localizations" : {
         "en" : {
@@ -3648,6 +3678,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Report a Bug"
+          }
+        }
+      }
+    },
+    "Reset" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset"
           }
         }
       }

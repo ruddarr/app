@@ -32,7 +32,7 @@ struct SettingsAboutSection: View {
             .init(name: "action", value: "write-review"),
         ])) {
             Label("Leave a Review", systemImage: "star.fill")
-                .labelStyle(SettingsIconLabelStyle(color: .orange))
+                .labelStyle(SettingsIconLabelStyle(color: .orange, size: 13))
         }
     }
 

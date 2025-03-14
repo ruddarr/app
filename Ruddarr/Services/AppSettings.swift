@@ -11,7 +11,10 @@ class AppSettings: ObservableObject {
     @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
     @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
+
     @AppStorage("tab", store: dependencies.store) var tab: TabItem = .movies
+    @AppStorage("releaseFilters", store: dependencies.store) var releaseFilters: ReleaseFilters = .reset
+
     @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
     @AppStorage("sonarrInstanceId", store: dependencies.store) var sonarrInstanceId: Instance.ID?
 
@@ -111,5 +114,19 @@ extension AppSettings {
         }
 
         return context
+    }
+}
+
+enum ReleaseFilters: String, Identifiable, CaseIterable {
+    var id: Self { self }
+
+    case reset
+    case preserve
+
+    var label: LocalizedStringKey {
+        switch self {
+        case .reset: return "Reset"
+        case .preserve: return "Preserve"
+        }
     }
 }
