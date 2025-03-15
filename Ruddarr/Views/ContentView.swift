@@ -12,7 +12,7 @@ struct ContentView: View {
     #endif
 
     var body: some View {
-        TabView(selection: dependencies.$router.selectedTab) {
+        TabView(selection: selectedTab) {
             Tab(movies.label, image: movies.icon, value: movies) {
                 MoviesView()
             }
@@ -69,6 +69,19 @@ struct ContentView: View {
     var calendar: TabItem { TabItem.calendar }
     var activity: TabItem { TabItem.activity }
 
+    var selectedTab: Binding<TabItem> {
+        Binding<TabItem>(
+            get: {
+                dependencies.router.selectedTab
+            },
+            set: {
+                let from = dependencies.router.selectedTab
+                dependencies.router.selectedTab = $0
+                handleTabChange(from, $0)
+            }
+        )
+    }
+
 #if os(macOS)
     func handleScenePhaseChange() {
         if controlActiveState == .key {
@@ -88,6 +101,15 @@ struct ContentView: View {
         }
     }
 #endif
+
+    func handleTabChange(_ from: TabItem, _ to: TabItem) {
+        guard from == to else { return }
+
+        switch to {
+        case .calendar: NotificationCenter.default.post(name: .scrollToToday)
+        default: break
+        }
+    }
 
     @ViewBuilder
     var instancePickers: some View {
