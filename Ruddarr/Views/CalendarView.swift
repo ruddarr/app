@@ -76,6 +76,9 @@ struct CalendarView: View {
                     calendar.instances = settings.instances
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: .scrollToToday)) { _ in
+                print("scroll to today...")
+            }
             .task {
                 await load()
             }

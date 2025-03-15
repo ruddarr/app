@@ -55,6 +55,7 @@ struct ContentView: View {
                 UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
             #endif
         }
+        .onChange(of: dependencies.router.selectedTab, handleTabChange)
         #if os(macOS)
             .onChange(of: controlActiveState, handleScenePhaseChange)
         #else
@@ -88,6 +89,16 @@ struct ContentView: View {
         }
     }
 #endif
+
+    func handleTabChange(_ oldTab: TabItem, _ newTab: TabItem) {
+        print(oldTab, newTab)
+        guard oldTab == newTab else { return }
+
+        switch newTab {
+        case .calendar: NotificationCenter.default.post(name: .scrollToToday, object: nil)
+        default: break
+        }
+    }
 
     @ViewBuilder
     var instancePickers: some View {
