@@ -12,11 +12,8 @@ struct ContentView: View {
     #endif
 
     var body: some View {
-        TabView(selection: Binding<TabItem> {
-            dependencies.router.selectedTab
-        } set: {
-            let oldTab = dependencies.router.selectedTab
-            dependencies.router.selectedTab = $0; handleTabChange(oldTab, $0)
+        TabView(selection: dependencies.$router.selectedTab.onSet { [oldValue = dependencies.router.selectedTab] newValue in
+            handleTabChange(oldValue, newValue)
         }) {
             Tab(movies.label, image: movies.icon, value: movies) {
                 MoviesView()
