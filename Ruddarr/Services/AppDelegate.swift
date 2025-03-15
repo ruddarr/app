@@ -127,6 +127,7 @@ class AppDelegate:
         )
 
         configuration.defaultUser = Platform.deviceId
+        configuration.sendNewSessionBeganSignal = false
 
         TelemetryDeck.initialize(config: configuration)
     }
