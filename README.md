@@ -33,6 +33,24 @@ Ruddarr supports the `ruddarr://` URL Scheme to open specific tabs, items or per
 
 ## Development
 
+To build the app locally Xcode must be signed into an Apple Account:
+
+```
+Xcode → Settings → Accounts
+```
+
+Next, select the Apple Account's team for the `Ruddarr` and `NotificationService` targets:
+
+```
+Ruddarr → Signing & Capabilities → Targets → {target} -> Signing -> Team
+```
+
+Lastly, remove the `iCloud` and `Push Notification` capabilities from:
+
+```
+Ruddarr → Signing & Capabilities → Targets → Ruddarr
+```
+
 ### Sentry Symbols
 
 Create a `.sentryclirc` file:
