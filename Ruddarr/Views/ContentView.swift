@@ -106,7 +106,7 @@ struct ContentView: View {
         guard from == to else { return }
 
         switch to {
-        case .calendar: NotificationCenter.default.post(name: .scrollToToday, object: nil)
+        case .calendar: NotificationCenter.default.post(name: .scrollToToday)
         default: break
         }
     }

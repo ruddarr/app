@@ -77,7 +77,7 @@ struct CalendarView: View {
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .scrollToToday)) { _ in
-                withAnimation(.interactiveSpring) {
+                withAnimation(.smooth) {
                     scrollTo(calendar.today())
                 }
             }
