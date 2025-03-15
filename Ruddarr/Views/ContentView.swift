@@ -12,7 +12,12 @@ struct ContentView: View {
     #endif
 
     var body: some View {
-        TabView(selection: dependencies.$router.selectedTab) {
+        TabView(selection: Binding<TabItem> {
+            dependencies.router.selectedTab
+        } set: {
+            let oldTab = dependencies.router.selectedTab
+            dependencies.router.selectedTab = $0; handleTabChange(oldTab, $0)
+        }) {
             Tab(movies.label, image: movies.icon, value: movies) {
                 MoviesView()
             }
@@ -55,7 +60,6 @@ struct ContentView: View {
                 UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
             #endif
         }
-        .onChange(of: dependencies.router.selectedTab, handleTabChange)
         #if os(macOS)
             .onChange(of: controlActiveState, handleScenePhaseChange)
         #else
