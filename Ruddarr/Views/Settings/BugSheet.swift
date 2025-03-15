@@ -68,7 +68,7 @@ struct BugSheet: View {
             }
 
             setSentryContext(for: "configuration", settings.context())
-            await setSentryContext(from: CKContainer.default())
+            await setSentryCloudKitContext()
 
             let eventId = SentrySDK.capture(message: "Bug Report (\(UUID().shortened))")
 

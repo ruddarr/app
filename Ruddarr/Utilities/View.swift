@@ -49,7 +49,7 @@ private struct WithAppStateModifier: ViewModifier {
             .task {
                 Queue.shared.instances = settings.instances
                 setSentryContext(for: "configuration", settings.context())
-                await setSentryContext(from: CKContainer.default())
+                await setSentryCloudKitContext()
             }
     }
 }

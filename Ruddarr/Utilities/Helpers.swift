@@ -67,6 +67,12 @@ extension Hashable {
     }
 }
 
+extension CKRecord.ID {
+    static var mock: Self {
+        .init(recordName: "_00000000000000000000000000000000")
+    }
+}
+
 func inferredInstallDate() -> Date? {
     guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
         return nil

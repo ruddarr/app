@@ -24,7 +24,10 @@ actor Notifications {
 
     static func registerDevice(_ token: String) async {
         do {
-            let account = try await CKContainer.default().userRecordID().recordName
+            let account = dependencies.cloudkit == .live
+                ? try await CKContainer.default().userRecordID().recordName
+                : CKRecord.ID.mock.recordName
+
             let lastEntitledDate = await Subscription.lastEntitledDate()
 
             guard let entitledAt = lastEntitledDate?.timeIntervalSince1970 else {
@@ -92,11 +95,13 @@ actor Notifications {
                 return
             }
 
-            let cloudkit = CKContainer.default()
-            let cloudKitStatus = try? await cloudkit.accountStatus()
+            if dependencies.cloudkit == .live {
+                let cloudkit = CKContainer.default()
+                let cloudKitStatus = try? await cloudkit.accountStatus()
 
-            if cloudKitStatus != .available {
-                return
+                if cloudKitStatus != .available {
+                    return
+                }
             }
 
             let entitledToService = await Subscription.entitledToService()

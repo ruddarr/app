@@ -45,11 +45,26 @@ Next, select the Apple Account's team for the `Ruddarr` and `NotificationService
 Ruddarr → Signing & Capabilities → Targets → {target} -> Signing -> Team
 ```
 
-Lastly, remove the `iCloud` and `Push Notification` capabilities from:
+Now choose between **a)** creating a provisioning profile on your account for the `iCloud` and `Push Notification` capabilities and skipping the next steps, or **b)** continuing on and removing the capabilities from:
 
 ```
 Ruddarr → Signing & Capabilities → Targets → Ruddarr
 ```
+
+Then uncomment the CloudKit mock in `Ruddarr::init()`:
+
+```swift
+dependencies.cloudkit = .mock
+```
+
+Lastly, change `@CloudStorage` to `@AppStorage` in `AppSettings`:
+
+```diff
+- @CloudStorage("instances") var instances: [Instance] = []
++ @AppStorage("instances") var instances: [Instance] = []
+```
+
+That's it. Select a run destination and build it. 
 
 ### Sentry Symbols
 

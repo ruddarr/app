@@ -2,7 +2,10 @@ import Sentry
 import CloudKit
 import StoreKit
 
-func setSentryContext(from container: CKContainer) async {
+func setSentryCloudKitContext() async {
+    guard dependencies.cloudkit == .live else { return }
+
+    let container = CKContainer.default()
     let accountStatus = try? await container.accountStatus()
     let cloudKitUserId = try? await container.userRecordID()
 
