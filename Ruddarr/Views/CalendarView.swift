@@ -77,7 +77,9 @@ struct CalendarView: View {
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .scrollToToday)) { _ in
-                print("scroll to today...")
+                withAnimation(.interactiveSpring) {
+                    scrollTo(calendar.today())
+                }
             }
             .task {
                 await load()

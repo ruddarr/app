@@ -15,7 +15,6 @@
 		79159D6E2B5953E800F7F997 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D6D2B5953E800F7F997 /* API.swift */; };
 		79159D712B5955A800F7F997 /* DummyAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D702B5955A800F7F997 /* DummyAPI.swift */; };
 		796C766D2B62A3B700EF3DB8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796C766C2B62A3B700EF3DB8 /* Store.swift */; };
-		797B2AF22D85FF94009BA39D /* Binding+OnSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B2AF12D85FF94009BA39D /* Binding+OnSet.swift */; };
 		798010BA2B61719C00BBC056 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798010B92B61719C00BBC056 /* Router.swift */; };
 		798010BD2B6268D200BBC056 /* RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798010BC2B6268D200BBC056 /* RawRepresentable.swift */; };
 		798010BF2B6268DE00BBC056 /* MovieSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798010BE2B6268DE00BBC056 /* MovieSort.swift */; };
@@ -237,7 +236,6 @@
 		79159D6D2B5953E800F7F997 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		79159D702B5955A800F7F997 /* DummyAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyAPI.swift; sourceTree = "<group>"; };
 		796C766C2B62A3B700EF3DB8 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
-		797B2AF12D85FF94009BA39D /* Binding+OnSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+OnSet.swift"; sourceTree = "<group>"; };
 		798010B92B61719C00BBC056 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		798010BC2B6268D200BBC056 /* RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawRepresentable.swift; sourceTree = "<group>"; };
 		798010BE2B6268DE00BBC056 /* MovieSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSort.swift; sourceTree = "<group>"; };
@@ -529,7 +527,6 @@
 				BB05C9042B86D0EC009B6444 /* Languages.swift */,
 				798010BC2B6268D200BBC056 /* RawRepresentable.swift */,
 				BB6EB88A2BF00FA900066FB4 /* DateDecodingStrategy.swift */,
-				797B2AF12D85FF94009BA39D /* Binding+OnSet.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1094,7 +1091,6 @@
 				BB507D1F2BD96EEB00EC4016 /* SonarrInstance.swift in Sources */,
 				798010BA2B61719C00BBC056 /* Router.swift in Sources */,
 				BB0FE1152BED3E3700D1D847 /* MediaFileSheet.swift in Sources */,
-				797B2AF22D85FF94009BA39D /* Binding+OnSet.swift in Sources */,
 				BB6F23AD2B6ABBBD00A4347A /* SettingsSystemSection.swift in Sources */,
 				BB0FE1112BED30D100D1D847 /* SeriesFiles.swift in Sources */,
 				BB8A56792C0004D500199DB7 /* Reviews.swift in Sources */,
