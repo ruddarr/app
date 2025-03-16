@@ -1,10 +1,9 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: Suggest an idea for this app
 title: ''
-labels: ''
-assignees: ''
-
+labels: feature
+assignees: tillkruss
 ---
 
 <!-- Issues NOT using this template will be closed and locked without comment. -->
