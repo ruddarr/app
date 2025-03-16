@@ -201,7 +201,7 @@ struct MediaDetailsPosterModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         if deviceType == .phone {
-            content.containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 0)
+            content.frame(width: UIScreen.main.bounds.width * 0.4)
         } else {
             content.frame(width: 200, height: 300)
         }
