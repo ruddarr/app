@@ -77,7 +77,7 @@ struct CalendarView: View {
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .scrollToToday)) { _ in
-                withAnimation(.smooth) {
+                withAnimation(.interactiveSpring) {
                     scrollTo(calendar.today())
                 }
             }
@@ -185,9 +185,7 @@ struct CalendarView: View {
         guard firstLoad else { return }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            withAnimation(.interactiveSpring) {
-                scrollTo(calendar.today())
-            }
+            scrollView?.scrollTo(calendar.today(), anchor: UnitPoint(x: 0, y: 0.02))
         }
     }
 
@@ -198,7 +196,8 @@ struct CalendarView: View {
     }
 
     func scrollTo(_ timestamp: TimeInterval) {
-        scrollView?.scrollTo(timestamp, anchor: .center)
+        let topPadding = UnitPoint(x: 0, y: 0.02)
+        scrollView?.scrollTo(timestamp, anchor: topPadding)
     }
 
     func media(for timestamp: TimeInterval, date: Date) -> some View {
@@ -223,8 +222,10 @@ struct CalendarView: View {
     var todayButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button("Today") {
-                withAnimation(.smooth) {
-                    scrollTo(calendar.today())
+                DispatchQueue.main.async {
+                    withAnimation(.interactiveSpring) {
+                        self.scrollTo(self.calendar.today())
+                    }
                 }
             }
         }
