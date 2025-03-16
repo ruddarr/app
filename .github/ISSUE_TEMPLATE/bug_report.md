@@ -1,13 +1,12 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Create a report to help improve the app
 title: ''
 labels: bug
 assignees: tillkruss
-
 ---
 
-<!-- Issues NOT using this template will be closed and locked without comment. -->
+<!-- Issues NOT using this template will be closed and locked without response. -->
 
 **Describe the bug**
 A clear and concise description of what the bug is.
