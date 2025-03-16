@@ -18,19 +18,8 @@ struct SeriesSearchView: View {
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
                 ForEach(seriesLookup.sortedItems) { series in
-                    NavigationLink(value: series.exists
-                       ? SeriesPath.series(series.id)
-                       : SeriesPath.preview(try? JSONEncoder().encode(series))
-                    ) {
-                        if let id = series.guid {
-                            SeriesGridItem(
-                                series: series,
-                                model: instance.series.byId(id)
-                            )
-                        } else {
-                            SeriesGridItem(series: series)
-                        }
-                    }.buttonStyle(.plain)
+                    SeriesSearchItem(series: series)
+                        .environment(instance)
                 }
             }
             .padding(.top, 12)
@@ -98,6 +87,39 @@ struct SeriesSearchView: View {
         } else {
             searchTextPublisher.send(searchQuery)
         }
+    }
+}
+
+struct SeriesSearchItem: View {
+    var series: Series
+
+    @Environment(SonarrInstance.self) private var instance
+
+    var body: some View {
+        NavigationLink(value: destination) {
+            SeriesGridItem(series: series, model: model)
+        }
+        .buttonStyle(.plain)
+    }
+
+    var destination: SeriesPath {
+        if series.exists {
+            return .series(series.id)
+        }
+
+        do {
+            let data = try JSONEncoder().encode(series)
+            return .preview(data)
+        } catch {
+            leaveBreadcrumb(.fatal, category: "series.search", message: "Failed to encode", data: ["error": error])
+        }
+
+        return .search()
+    }
+
+    var model: Series? {
+        guard let id = series.guid else { return nil }
+        return instance.series.byId(id)
     }
 }
 
