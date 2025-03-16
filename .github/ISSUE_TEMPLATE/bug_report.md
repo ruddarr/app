@@ -30,4 +30,5 @@ If applicable, add screenshots or a video to help explain your problem.
  - Device: [e.g. iPhone 16 Pro]
 
 **Additional context**
-Add any other context about the problem here.
+Do you use "Accessibility > Larger Text"?
+Add any other context about the problem here. 
