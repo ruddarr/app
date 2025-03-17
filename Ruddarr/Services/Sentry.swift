@@ -128,22 +128,13 @@ func runningIn() -> EnvironmentType {
         return env
     }
 
-    let semaphore = DispatchSemaphore(value: 0)
-    var isTestFlight = false
+    guard let branch = Bundle.main.infoDictionary?["CI_BRANCH"] as? String else {
+        leaveBreadcrumb(.fatal, category: "sentry", message: "Failed to read CI branch")
 
-    Task {
-        let shared = try? await AppTransaction.shared
-
-        switch shared {
-        case .verified(let transaction):
-            isTestFlight = transaction.environment == .sandbox
-        case .unverified, .none: break
-        }
-
-        semaphore.signal()
+        return .appstore
     }
 
-    semaphore.wait()
+    let isTestFlight = branch.contains("develop")
 
     EnvironmentType.cache = isTestFlight ? .testflight : .appstore
 
