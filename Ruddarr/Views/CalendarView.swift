@@ -5,6 +5,7 @@ struct CalendarView: View {
 
     @State private var scrollView: ScrollViewProxy?
     @State private var initializationError: API.Error?
+    @State private var isContentReady: Bool = false
 
     @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
 
@@ -44,6 +45,7 @@ struct CalendarView: View {
                                     media(for: timestamp, date: date)
                                 }
                             }
+                            .opacity(isContentReady ? 1 : 0)
 
                             Group {
                                 if calendar.isLoadingFuture {
@@ -74,6 +76,7 @@ struct CalendarView: View {
                 if calendar.instances != settings.instances {
                     calendar.reset()
                     calendar.instances = settings.instances
+                    isContentReady = false
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .scrollToToday)) { _ in
@@ -185,9 +188,11 @@ struct CalendarView: View {
         guard firstLoad else { return }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            withAnimation(.interactiveSpring) {
-                scrollTo(calendar.today())
-            }
+                    scrollTo(calendar.today())
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        isContentReady = true
+                    }
         }
     }
 
