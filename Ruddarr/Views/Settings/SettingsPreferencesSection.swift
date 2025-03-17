@@ -11,14 +11,13 @@ struct SettingsPreferencesSection: View {
     var body: some View {
         Section {
             tabPicker
+            releaseFiltersPicker
 
             #if os(iOS)
                 if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
                     manageSubscription
                 }
             #endif
-
-            releaseFiltersPicker
         } header: {
             Text("Preferences")
         }
