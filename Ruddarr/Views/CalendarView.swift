@@ -198,7 +198,7 @@ struct CalendarView: View {
     }
 
     func scrollTo(_ timestamp: TimeInterval) {
-        scrollView?.scrollTo(timestamp, anchor: .center)
+        scrollView?.scrollTo(timestamp, anchor: settings.calendarScrollPosition.anchor)
     }
 
     func media(for timestamp: TimeInterval, date: Date) -> some View {
