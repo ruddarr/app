@@ -6,7 +6,7 @@ import CloudStorage
 // We could use https://github.com/sindresorhus/Defaults instead maybe
 @MainActor
 class AppSettings: ObservableObject {
-    @AppStorage("instances") var instances: [Instance] = []
+    @CloudStorage("instances") var instances: [Instance] = []
 
     @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
