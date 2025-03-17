@@ -5,7 +5,7 @@ struct CalendarView: View {
 
     @State private var scrollView: ScrollViewProxy?
     @State private var initializationError: API.Error?
-    @State private var isContentReady: Bool = false
+    @State private var hideCalendarView: Bool = true
 
     @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
 
@@ -45,7 +45,6 @@ struct CalendarView: View {
                                     media(for: timestamp, date: date)
                                 }
                             }
-                            .opacity(isContentReady ? 1 : 0)
 
                             Group {
                                 if calendar.isLoadingFuture {
@@ -58,6 +57,7 @@ struct CalendarView: View {
                                 }
                             }.padding(.bottom, 32)
                         }
+                        .opacity(hideCalendarView ? 0 : 1)
                         .onChange(of: scenePhase, handleScenePhaseChange)
                         .onAppear {
                             scrollView = proxy
@@ -76,7 +76,7 @@ struct CalendarView: View {
                 if calendar.instances != settings.instances {
                     calendar.reset()
                     calendar.instances = settings.instances
-                    isContentReady = false
+                    hideCalendarView = true
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .scrollToToday)) { _ in
@@ -187,13 +187,10 @@ struct CalendarView: View {
 
         guard firstLoad else { return }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    scrollTo(calendar.today())
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        isContentReady = true
-                    }
-        }
+        try? await Task.sleep(for: .milliseconds(10))
+        scrollTo(calendar.today())
+        try? await Task.sleep(for: .milliseconds(10))
+        hideCalendarView = false
     }
 
     func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
