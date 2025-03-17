@@ -6,7 +6,7 @@ import CloudStorage
 // We could use https://github.com/sindresorhus/Defaults instead maybe
 @MainActor
 class AppSettings: ObservableObject {
-    @CloudStorage("instances") var instances: [Instance] = []
+    @AppStorage("instances") var instances: [Instance] = []
 
     @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
@@ -14,6 +14,7 @@ class AppSettings: ObservableObject {
 
     @AppStorage("tab", store: dependencies.store) var tab: TabItem = .movies
     @AppStorage("releaseFilters", store: dependencies.store) var releaseFilters: ReleaseFilters = .reset
+    @AppStorage("calendarScrollPosition", store: dependencies.store) var calendarScrollPosition: CalendarScrollPosition = .center
 
     @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
     @AppStorage("sonarrInstanceId", store: dependencies.store) var sonarrInstanceId: Instance.ID?
@@ -100,6 +101,7 @@ extension AppSettings {
             "theme": theme.rawValue,
             "tab": tab.rawValue,
             "appearance": appearance.rawValue,
+            "calendarScrollPosition": calendarScrollPosition.rawValue,
         ]
 
         for instance in configuredInstances {
@@ -128,5 +130,23 @@ enum ReleaseFilters: String, Identifiable, CaseIterable {
         case .reset: return "Reset"
         case .preserve: return "Preserve"
         }
+    }
+}
+
+enum CalendarScrollPosition: String, Identifiable, CaseIterable {
+    var id: Self { self }
+    
+    case center
+    case top
+    
+    var label: String {
+        switch self {
+        case .center: return "Scrolls to Center"
+        case .top: return "Scrolls to Top"
+        }
+    }
+    
+    var anchor: UnitPoint {
+        self == .center ? .center : UnitPoint(x: 0, y: 0.02)
     }
 }
