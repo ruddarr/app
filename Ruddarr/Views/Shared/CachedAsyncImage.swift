@@ -25,8 +25,6 @@ struct CachedAsyncImage: View {
                         (try? state.result?.get())?.cacheType != nil ? .identity : .opacity
                     )
                 } else if state.error != nil {
-                    let _: Void = print(state.error.debugDescription)
-
                     PlaceholderImage(icon: "network.slash", text: nil)
                 } else {
                     PlaceholderImage(icon: "text.below.photo", text: nil)

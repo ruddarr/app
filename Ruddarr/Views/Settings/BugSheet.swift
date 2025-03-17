@@ -49,10 +49,14 @@ struct BugSheet: View {
 
                 ToolbarItem(placement: .primaryAction) {
                     Button("Submit", action: sendReport)
-                        .disabled(text.count < minimumLength)
+                        .disabled(!canBeSent)
                 }
             }
         }
+    }
+
+    var canBeSent: Bool {
+        text.count >= minimumLength && email.trimmed().isValidEmail()
     }
 
     func sendReport() {
@@ -64,14 +68,14 @@ struct BugSheet: View {
             }
 
             setSentryContext(for: "configuration", settings.context())
-            await setSentryContext(from: CKContainer.default())
+            await setSentryCloudKitContext()
 
             let eventId = SentrySDK.capture(message: "Bug Report (\(UUID().shortened))")
 
             let feedback = SentryFeedback(
-                message: text.trimmingCharacters(in: .whitespacesAndNewlines),
+                message: text.trimmed(),
                 name: nil,
-                email: email.lowercased(),
+                email: email.lowercased().trimmed(),
                 source: .custom,
                 associatedEventId: eventId
             )

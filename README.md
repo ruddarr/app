@@ -33,6 +33,39 @@ Ruddarr supports the `ruddarr://` URL Scheme to open specific tabs, items or per
 
 ## Development
 
+To build the app locally Xcode must be signed into an Apple Account:
+
+```
+Xcode → Settings → Accounts
+```
+
+Next, select the Apple Account's team for the `Ruddarr` and `NotificationService` targets:
+
+```
+Ruddarr → Signing & Capabilities → Targets → {target} -> Signing -> Team
+```
+
+Now choose between **a)** creating a provisioning profile on your account for the `iCloud` and `Push Notification` capabilities and skipping the next steps, or **b)** continuing on and removing the capabilities from:
+
+```
+Ruddarr → Signing & Capabilities → Targets → Ruddarr
+```
+
+Then uncomment the CloudKit mock in `Ruddarr::init()`:
+
+```swift
+dependencies.cloudkit = .mock
+```
+
+Lastly, change `@CloudStorage` to `@AppStorage` in `AppSettings`:
+
+```diff
+- @CloudStorage("instances") var instances: [Instance] = []
++ @AppStorage("instances") var instances: [Instance] = []
+```
+
+That's it. Select a run destination and build it. 
+
 ### Sentry Symbols
 
 Create a `.sentryclirc` file:

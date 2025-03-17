@@ -59,12 +59,7 @@ class SeriesModel {
         Binding(
             get: { [weak self] in
                 guard let self, let index = self.items.firstIndex(where: { $0.guid == id }) else {
-                    leaveBreadcrumb(.fatal, category: "bindings", message: "Series disappeared", data: [
-                        "id": id,
-                        "count": self?.items.count ?? -1,
-                        "items": self?.items.compactMap(\.guid) as Any,
-                    ])
-
+                    // item will be removed while still displayed briefly before navigation occurs
                     return .void
                 }
 
@@ -195,7 +190,7 @@ class SeriesModel {
         _ sort: SeriesSort,
         _ searchQuery: String
     ) -> [Series] {
-        let query = searchQuery.trimmingCharacters(in: .whitespaces)
+        let query = searchQuery.trimmed()
         let comparator = sort.option.compare
 
         return items

@@ -200,10 +200,14 @@ struct MediaDetailsPosterModifier: ViewModifier {
     @Environment(\.deviceType) private var deviceType
 
     func body(content: Content) -> some View {
-        if deviceType == .phone {
-            content.containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 0)
-        } else {
+        #if os(iOS)
+            if deviceType == .phone {
+                content.frame(width: UIScreen.main.bounds.width * 0.4)
+            } else {
+                content.frame(width: 200, height: 300)
+            }
+        #else
             content.frame(width: 200, height: 300)
-        }
+        #endif
     }
 }

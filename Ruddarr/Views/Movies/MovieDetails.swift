@@ -40,7 +40,7 @@ struct MovieDetails: View {
     }
 
     var hasDescription: Bool {
-        !(movie.overview ?? "").trimmingCharacters(in: .whitespaces).isEmpty
+        !(movie.overview ?? "").trimmed().isEmpty
     }
 
     var description: some View {

@@ -6,8 +6,9 @@ struct SeriesReleasesView: View {
     var episodeId: Episode.ID?
 
     @State private var releases: [SeriesRelease] = []
-    @State private var sort: SeriesReleaseSort = .init()
     @State private var fetched: (Series.ID?, Season.ID?, Episode.ID?) = (nil, nil, nil)
+
+    @AppStorage("seriesReleaseSort", store: dependencies.store) private var sort: SeriesReleaseSort = .init()
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) private var instance
@@ -36,6 +37,7 @@ struct SeriesReleasesView: View {
         }
         .task {
             guard !hasFetched else { return }
+            if settings.releaseFilters == .reset { sort = .init() }
             releases = []
             sort.seasonPack = seasonId == nil ? .episode : .season
             await instance.releases.search(series, seasonId, episodeId)

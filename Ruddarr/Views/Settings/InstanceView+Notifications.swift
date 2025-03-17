@@ -231,7 +231,7 @@ extension InstanceView {
     func setCloudKitAccountStatus() async {
         if dependencies.cloudkit == .mock {
             cloudKitStatus = .available
-            cloudKitUserId = CKRecord.ID(recordName: "_00000000000000000000000000000000")
+            cloudKitUserId = CKRecord.ID.mock
 
             return
         }

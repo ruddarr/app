@@ -87,9 +87,8 @@ struct InstanceHeader: Equatable, Identifiable, Codable {
     var value: String
 
     init(name: String = "", value: String = "") {
-        self.name = name.replacingOccurrences(of: ":", with: "")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        self.value = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.name = name.replacingOccurrences(of: ":", with: "").trimmed()
+        self.value = value.trimmed()
     }
 }
 

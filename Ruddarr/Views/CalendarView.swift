@@ -76,6 +76,11 @@ struct CalendarView: View {
                     calendar.instances = settings.instances
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: .scrollToToday)) { _ in
+                withAnimation(.smooth) {
+                    scrollTo(calendar.today())
+                }
+            }
             .task {
                 await load()
             }

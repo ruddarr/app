@@ -4,8 +4,9 @@ struct MovieReleasesView: View {
     @Binding var movie: Movie
 
     @State private var releases: [MovieRelease] = []
-    @State private var sort: MovieReleaseSort = .init()
     @State private var fetched: Movie.ID?
+
+    @AppStorage("movieReleaseSort", store: dependencies.store) private var sort: MovieReleaseSort = .init()
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
@@ -29,6 +30,7 @@ struct MovieReleasesView: View {
         }
         .task {
             guard !hasFetched else { return }
+            if settings.releaseFilters == .reset { sort = .init() }
             releases = []
             await instance.releases.search(movie)
             updateDisplayedReleases()

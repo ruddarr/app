@@ -54,12 +54,7 @@ class Movies {
         Binding(
             get: { [weak self] in
                 guard let self, let index = self.items.firstIndex(where: { $0.guid == id }) else {
-                    leaveBreadcrumb(.fatal, category: "bindings", message: "Movie disappeared", data: [
-                        "id": id,
-                        "count": self?.items.count ?? -1,
-                        "items": self?.items.compactMap(\.guid) as Any,
-                    ])
-
+                    // item will be removed while still displayed briefly before navigation occurs
                     return .void
                 }
 
@@ -173,7 +168,7 @@ class Movies {
         _ sort: MovieSort,
         _ searchQuery: String
     ) -> [Movie] {
-        let query = searchQuery.trimmingCharacters(in: .whitespaces)
+        let query = searchQuery.trimmed()
         let comparator = sort.option.compare
 
         return items

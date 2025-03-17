@@ -38,7 +38,7 @@ struct SearchMovieIntent: AppIntent {
         var query: String = ""
 
         if let movieTitle = name, !movieTitle.isEmpty {
-            query = movieTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+            query = movieTitle.trimmed()
         }
 
         dependencies.router.moviesPath = .init()
@@ -71,7 +71,7 @@ struct SearchSeriesIntent: AppIntent {
         var query: String = ""
 
         if let seriesTitle = name, !seriesTitle.isEmpty {
-            query = seriesTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+            query = seriesTitle.trimmed()
         }
 
         dependencies.router.seriesPath = .init()

@@ -157,6 +157,8 @@
 		BBD5D8122C014538008E3B3F /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD5D8112C014538008E3B3F /* Queue.swift */; };
 		BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA77602BDACD3C00568E64 /* NukeUI */; };
 		BBDBBC692C13A0600087C844 /* QueueSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDBBC682C13A0600087C844 /* QueueSort.swift */; };
+		BBE1068B2D84F0E0007CB2D9 /* SettingsDisplaySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1068A2D84F0E0007CB2D9 /* SettingsDisplaySection.swift */; };
+		BBE1068D2D84FC8D007CB2D9 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1068C2D84FC8D007CB2D9 /* Events.swift */; };
 		BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1E43E2B51F61700946222 /* MovieLookup.swift */; };
 		BBE1E4412B51F9DC00946222 /* movies.json in Resources */ = {isa = PBXBuildFile; fileRef = BBE1E4402B51F9DC00946222 /* movies.json */; };
 		BBE1E4432B51FA0200946222 /* movie-lookup.json in Resources */ = {isa = PBXBuildFile; fileRef = BBE1E4422B51FA0200946222 /* movie-lookup.json */; };
@@ -376,6 +378,8 @@
 		BBD5D80F2C013E30008E3B3F /* movie-queue.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "movie-queue.json"; sourceTree = "<group>"; };
 		BBD5D8112C014538008E3B3F /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		BBDBBC682C13A0600087C844 /* QueueSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueSort.swift; sourceTree = "<group>"; };
+		BBE1068A2D84F0E0007CB2D9 /* SettingsDisplaySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplaySection.swift; sourceTree = "<group>"; };
+		BBE1068C2D84FC8D007CB2D9 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		BBE1E43E2B51F61700946222 /* MovieLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieLookup.swift; sourceTree = "<group>"; };
 		BBE1E4402B51F9DC00946222 /* movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = movies.json; sourceTree = "<group>"; };
 		BBE1E4422B51FA0200946222 /* movie-lookup.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "movie-lookup.json"; sourceTree = "<group>"; };
@@ -469,6 +473,7 @@
 				BBF583C52BAD0E0A00AFA7FB /* InstanceEditView+Functions.swift */,
 				BBBB08D32B77FBC700BADBA1 /* IconsView.swift */,
 				BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */,
+				BBE1068A2D84F0E0007CB2D9 /* SettingsDisplaySection.swift */,
 				BB6F23AA2B6ABB8700A4347A /* SettingsAboutSection.swift */,
 				BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */,
 				BB6F23AC2B6ABBBD00A4347A /* SettingsSystemSection.swift */,
@@ -516,6 +521,7 @@
 				BBC309D72BED584C004080FD /* Platform.swift */,
 				BB8A56782C0004D500199DB7 /* Reviews.swift */,
 				BB01B1F32B6465730025FAF4 /* View.swift */,
+				BBE1068C2D84FC8D007CB2D9 /* Events.swift */,
 				BB865E602B83C11E00ADCEFE /* Error.swift */,
 				BBAED12A2B7205A9006C6CF2 /* Helpers.swift */,
 				BB05C9042B86D0EC009B6444 /* Languages.swift */,
@@ -1067,6 +1073,7 @@
 				BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */,
 				BB351D7E2CB4A7CF002AAEBF /* SeriesLinks.swift in Sources */,
 				BBE640D32BE4554500B436CC /* SeasonView.swift in Sources */,
+				BBE1068D2D84FC8D007CB2D9 /* Events.swift in Sources */,
 				BB79FB912CAF3C16002F8C0F /* Tips.swift in Sources */,
 				BB507D242BD9709F00EC4016 /* SeriesSort.swift in Sources */,
 				BB581D1A2BA0ED5E0070DFFC /* CalendarView.swift in Sources */,
@@ -1141,6 +1148,7 @@
 				BB9255CE2B54657900967F84 /* InstanceEditView.swift in Sources */,
 				BBC77E262B7AB79100573EBD /* Notifications.swift in Sources */,
 				BBBE93162B68638400353216 /* Theme.swift in Sources */,
+				BBE1068B2D84F0E0007CB2D9 /* SettingsDisplaySection.swift in Sources */,
 				BBC77E242B7AAD3300573EBD /* InstanceView.swift in Sources */,
 				BBC309DA2BED7FE4004080FD /* Environment.swift in Sources */,
 				BBD3F7D22BE9A6320050D9A0 /* SeriesReleasesView.swift in Sources */,
@@ -1206,7 +1214,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.4.2;
+				MARKETING_VERSION = 1.4.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1240,7 +1248,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.4.2;
+				MARKETING_VERSION = 1.4.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1415,7 +1423,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.4.2;
+				MARKETING_VERSION = 1.4.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1476,7 +1484,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.4.2;
+				MARKETING_VERSION = 1.4.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

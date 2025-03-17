@@ -18,6 +18,11 @@ actor Telemetry {
         }
 
         Task(priority: .background) {
+            guard dependencies.cloudkit == .live else {
+                leaveBreadcrumb(.info, category: "telemetry", message: "Skipping ping (CloudKit mock)")
+                return
+            }
+
             let accountStatus = try? await CKContainer.default().accountStatus()
 
             let payload: [String: String] = await [

@@ -33,6 +33,14 @@ extension String {
             return AttributedString(self)
         }
     }
+
+    func trimmed() -> String {
+        self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    func isValidEmail() -> Bool {
+        self.wholeMatch(of: /(?i)^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/) != nil
+    }
 }
 
 extension UUID {
@@ -41,7 +49,7 @@ extension UUID {
     }
 
     var shortened: String {
-        return self.uuidString.prefix(8).lowercased()
+        self.uuidString.prefix(8).lowercased()
     }
 }
 
@@ -56,6 +64,12 @@ extension Hashable {
         }
 
         return false
+    }
+}
+
+extension CKRecord.ID {
+    static var mock: Self {
+        .init(recordName: "_00000000000000000000000000000000")
     }
 }
 

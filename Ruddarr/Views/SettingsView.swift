@@ -21,6 +21,7 @@ struct SettingsView: View {
                 instanceSection
 
                 SettingsPreferencesSection()
+                SettingsDisplaySection()
                 SettingsAboutSection()
                 SettingsLinksSection()
                 SettingsSystemSection()

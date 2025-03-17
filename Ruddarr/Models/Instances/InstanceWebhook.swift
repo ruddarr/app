@@ -103,6 +103,8 @@ class InstanceWebhook {
 
         do {
             model = try await dependencies.api.updateNotification(model, instance)
+        } catch is CancellationError {
+            // do nothing
         } catch {
             leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook update failed", data: ["error": error])
 
@@ -138,7 +140,7 @@ class InstanceWebhook {
 
     private func fetchCloudKitUser() async {
         if dependencies.cloudkit == .mock {
-            accountId = CKRecord.ID(recordName: "_00000000000000000000000000000000")
+            accountId = CKRecord.ID.mock
 
             return
         }
