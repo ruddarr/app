@@ -5,6 +5,7 @@ struct MovieReleasesView: View {
 
     @State private var releases: [MovieRelease] = []
     @State private var fetched: Movie.ID?
+    @State private var search: String = ""
 
     @AppStorage("movieReleaseSort", store: dependencies.store) private var sort: MovieReleaseSort = .init()
 
@@ -24,6 +25,7 @@ struct MovieReleasesView: View {
             }
         }
         .listStyle(.inset)
+        .searchable(text: $search, placement: .drawerOrToolbar)
         .toolbar {
             toolbarButtons
         }
@@ -37,6 +39,7 @@ struct MovieReleasesView: View {
         }
         .onChange(of: sort.option, updateSortDirection)
         .onChange(of: sort, updateDisplayedReleases)
+        .onChange(of: search, updateDisplayedReleases)
         .alert(
             isPresented: instance.releases.errorBinding,
             error: instance.releases.error
@@ -95,8 +98,15 @@ struct MovieReleasesView: View {
         }
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     func updateDisplayedReleases() {
         releases = instance.releases.items.sorted(by: sort.option.isOrderedBefore)
+
+        if !search.isEmpty {
+            releases = releases.filter {
+                $0.title.localizedCaseInsensitiveContains(search)
+            }
+        }
 
         if sort.type != ".all" {
             releases = releases.filter { $0.type.label == sort.type }

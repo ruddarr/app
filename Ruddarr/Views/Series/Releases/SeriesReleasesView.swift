@@ -7,6 +7,7 @@ struct SeriesReleasesView: View {
 
     @State private var releases: [SeriesRelease] = []
     @State private var fetched: (Series.ID?, Season.ID?, Episode.ID?) = (nil, nil, nil)
+    @State private var search: String = ""
 
     @AppStorage("seriesReleaseSort", store: dependencies.store) private var sort: SeriesReleaseSort = .init()
 
@@ -31,6 +32,7 @@ struct SeriesReleasesView: View {
             }
         }
         .listStyle(.inset)
+        .searchable(text: $search, placement: .drawerOrToolbar)
         .toolbar {
             toolbarButtons
         }
@@ -45,6 +47,7 @@ struct SeriesReleasesView: View {
         }
         .onChange(of: sort.option, updateSortDirection)
         .onChange(of: sort, updateDisplayedReleases)
+        .onChange(of: search, updateDisplayedReleases)
         .alert(
             isPresented: instance.releases.errorBinding,
             error: instance.releases.error
@@ -103,9 +106,15 @@ struct SeriesReleasesView: View {
         }
     }
 
-    // swiftlint:disable cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity
     func updateDisplayedReleases() {
         releases = instance.releases.items.sorted(by: sort.option.isOrderedBefore)
+
+        if !search.isEmpty {
+            releases = releases.filter {
+                $0.title.localizedCaseInsensitiveContains(search)
+            }
+        }
 
         if sort.type != ".all" {
             releases = releases.filter { $0.type.label == sort.type }
@@ -157,7 +166,6 @@ struct SeriesReleasesView: View {
             releases = releases.reversed()
         }
     }
-    // swiftlint:enable cyclomatic_complexity
 }
 
 extension SeriesReleasesView {
