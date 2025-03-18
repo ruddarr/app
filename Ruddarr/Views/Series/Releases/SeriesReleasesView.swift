@@ -30,7 +30,6 @@ struct SeriesReleasesView: View {
                 HiddenReleases()
             }
         }
-        .viewBottomPadding()
         .listStyle(.inset)
         .toolbar {
             toolbarButtons

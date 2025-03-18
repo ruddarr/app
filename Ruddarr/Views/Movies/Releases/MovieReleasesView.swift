@@ -24,7 +24,6 @@ struct MovieReleasesView: View {
             }
         }
         .listStyle(.inset)
-        .viewBottomPadding()
         .toolbar {
             toolbarButtons
         }
