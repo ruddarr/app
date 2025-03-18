@@ -32,10 +32,15 @@ struct ButtonLabel: View {
         .overlay {
             if isLoading {
                 ProgressView()
+                #if os(macOS)
+                    .controlSize(.small)
+                #endif
             }
         }
         .fontWeight(.semibold)
-        .foregroundStyle(settings.theme.tint)
+        #if os(iOS)
+            .foregroundStyle(settings.theme.tint)
+        #endif
         .padding(.vertical, 6)
         .animation(.spring(duration: 0.2), value: isLoading)
     }
