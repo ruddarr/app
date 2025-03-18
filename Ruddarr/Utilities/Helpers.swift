@@ -141,7 +141,7 @@ func calculateRuntime(_ runtime: String?) -> Int? {
         .reduce(0) { $0 * 60 + $1 }
 }
 
-// swiftlint:disable cyclomatic_complexity
+// swiftlint:disable:next cyclomatic_complexity
 func formatIndexer(_ name: String) -> String {
     var indexer = name
 
@@ -169,7 +169,6 @@ func formatIndexer(_ name: String) -> String {
     default: indexer
     }
 }
-// swiftlint:enable cyclomatic_complexity
 
 func extractImdbId(_ text: String) -> String? {
     let pattern = /imdb\.com\/title\/(tt\d+)/

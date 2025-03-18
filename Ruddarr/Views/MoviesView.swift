@@ -30,7 +30,7 @@ struct MoviesView: View {
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {
-        // swiftlint:disable closure_body_length
+        // swiftlint:disable:next closure_body_length
         NavigationStack(path: dependencies.$router.moviesPath) {
             Group {
                 if instance.isVoid {
@@ -125,7 +125,6 @@ struct MoviesView: View {
                 }
             }
         }
-        // swiftlint:enable closure_body_length
     }
 
     @ViewBuilder

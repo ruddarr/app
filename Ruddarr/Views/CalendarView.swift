@@ -24,7 +24,7 @@ struct CalendarView: View {
     ]
 
     var body: some View {
-        // swiftlint:disable closure_body_length
+        // swiftlint:disable:next closure_body_length
         NavigationStack(path: dependencies.$router.calendarPath) {
             Group {
                 if settings.configuredInstances.isEmpty {
@@ -105,7 +105,6 @@ struct CalendarView: View {
                 }
             }
         }
-        // swiftlint:enable closure_body_length
     }
 
     var notConnectedToInternet: Bool {

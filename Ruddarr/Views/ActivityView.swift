@@ -11,7 +11,7 @@ struct ActivityView: View {
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {
-        // swiftlint:disable closure_body_length
+        // swiftlint:disable:next closure_body_length
         NavigationStack {
             Group {
                 if settings.configuredInstances.isEmpty {
@@ -74,7 +74,6 @@ struct ActivityView: View {
                 }
             }
         }
-        // swiftlint:enable closure_body_length
     }
 
     var queueEmpty: some View {

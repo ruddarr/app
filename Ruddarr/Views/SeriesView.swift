@@ -31,7 +31,7 @@ struct SeriesView: View {
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {
-        // swiftlint:disable closure_body_length
+        // swiftlint:disable:next closure_body_length
         NavigationStack(path: dependencies.$router.seriesPath) {
             Group {
                 if instance.isVoid {
@@ -126,7 +126,6 @@ struct SeriesView: View {
                 }
             }
         }
-        // swiftlint:enable closure_body_length
     }
 
     @ViewBuilder
