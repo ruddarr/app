@@ -208,7 +208,7 @@ extension SeriesDetailView {
         Task {
             for _ in 0..<6 {
                 _ = await instance.series.get(series, silent: true)
-                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                try? await Task.sleep(for: .seconds(1))
             }
         }
     }

@@ -43,7 +43,7 @@ struct SearchMovieIntent: AppIntent {
 
         dependencies.router.moviesPath = .init()
 
-        try? await Task.sleep(nanoseconds: 50_000_000)
+        try? await Task.sleep(for: .milliseconds(50))
 
         dependencies.router.moviesPath.append(
             MoviesPath.search(query)
@@ -76,7 +76,7 @@ struct SearchSeriesIntent: AppIntent {
 
         dependencies.router.seriesPath = .init()
 
-        try? await Task.sleep(nanoseconds: 50_000_000)
+        try? await Task.sleep(for: .milliseconds(50))
 
         dependencies.router.seriesPath.append(
             SeriesPath.search(query)

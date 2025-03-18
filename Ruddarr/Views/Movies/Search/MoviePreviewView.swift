@@ -106,7 +106,7 @@ struct MoviePreviewView: View {
 
         let moviePath = MoviesPath.movie(addedMovie.id)
         dependencies.router.moviesPath.removeLast()
-        try? await Task.sleep(nanoseconds: 50_000_000)
+        try? await Task.sleep(for: .milliseconds(50))
         dependencies.router.moviesPath.append(moviePath)
 
         TelemetryDeck.signal("movieAdded")
