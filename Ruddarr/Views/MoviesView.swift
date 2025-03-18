@@ -61,6 +61,9 @@ struct MoviesView: View {
                         await Task { await fetchMoviesWithAlert() }.value
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
+                    .onReceive(NotificationCenter.default.publisher(for: .activateMoviesSearch)) { _ in
+                        searchPresented = true
+                    }
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)

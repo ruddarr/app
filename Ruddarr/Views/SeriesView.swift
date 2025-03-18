@@ -62,6 +62,9 @@ struct SeriesView: View {
                         await Task { await fetchSeriesWithAlert() }.value
                     }
                     .onChange(of: scenePhase, handleScenePhaseChange)
+                    .onReceive(NotificationCenter.default.publisher(for: .activateSeriesSearch)) { _ in
+                        searchPresented = true
+                    }
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
