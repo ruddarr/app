@@ -13,7 +13,7 @@
 		790D1EC52B864EC700FCDB64 /* QuickActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D1EC42B864EC700FCDB64 /* QuickActions.swift */; };
 		79159D6C2B5953D700F7F997 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D6B2B5953D700F7F997 /* Dependencies.swift */; };
 		79159D6E2B5953E800F7F997 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D6D2B5953E800F7F997 /* API.swift */; };
-		79159D712B5955A800F7F997 /* DummyAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D702B5955A800F7F997 /* DummyAPI.swift */; };
+		79159D712B5955A800F7F997 /* API+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D702B5955A800F7F997 /* API+Mock.swift */; };
 		796C766D2B62A3B700EF3DB8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796C766C2B62A3B700EF3DB8 /* Store.swift */; };
 		798010BA2B61719C00BBC056 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798010B92B61719C00BBC056 /* Router.swift */; };
 		798010BD2B6268D200BBC056 /* RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798010BC2B6268D200BBC056 /* RawRepresentable.swift */; };
@@ -76,6 +76,7 @@
 		BB585E892BF55EF400A9AF25 /* EpisodeContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */; };
 		BB63E1F02C17DE1A00BCCA94 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */; };
 		BB644FCF2B8538A3007C7AD5 /* ci_post_xcodebuild.sh in Resources */ = {isa = PBXBuildFile; fileRef = BB644FCE2B8538A3007C7AD5 /* ci_post_xcodebuild.sh */; };
+		BB6942EA2D8A0BBC00ED7288 /* API+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6942E92D8A0BB200ED7288 /* API+Live.swift */; };
 		BB6D96952B61E61D0017BFB3 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6D96942B61E61D0017BFB3 /* AppSettings.swift */; };
 		BB6EB88B2BF00FA900066FB4 /* DateDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EB88A2BF00FA900066FB4 /* DateDecodingStrategy.swift */; };
 		BB6F23A92B6A039400A4347A /* MovieReleasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F23A82B6A039400A4347A /* MovieReleasesView.swift */; };
@@ -234,7 +235,7 @@
 		790D1EC42B864EC700FCDB64 /* QuickActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActions.swift; sourceTree = "<group>"; };
 		79159D6B2B5953D700F7F997 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		79159D6D2B5953E800F7F997 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		79159D702B5955A800F7F997 /* DummyAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyAPI.swift; sourceTree = "<group>"; };
+		79159D702B5955A800F7F997 /* API+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+Mock.swift"; sourceTree = "<group>"; };
 		796C766C2B62A3B700EF3DB8 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		798010B92B61719C00BBC056 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		798010BC2B6268D200BBC056 /* RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawRepresentable.swift; sourceTree = "<group>"; };
@@ -297,6 +298,7 @@
 		BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeContextMenu.swift; sourceTree = "<group>"; };
 		BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intents.swift; sourceTree = "<group>"; };
 		BB644FCE2B8538A3007C7AD5 /* ci_post_xcodebuild.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = ci_post_xcodebuild.sh; sourceTree = "<group>"; };
+		BB6942E92D8A0BB200ED7288 /* API+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+Live.swift"; sourceTree = "<group>"; };
 		BB6D96942B61E61D0017BFB3 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		BB6EB88A2BF00FA900066FB4 /* DateDecodingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDecodingStrategy.swift; sourceTree = "<group>"; };
 		BB6F23A82B6A039400A4347A /* MovieReleasesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleasesView.swift; sourceTree = "<group>"; };
@@ -457,7 +459,8 @@
 			isa = PBXGroup;
 			children = (
 				79159D6D2B5953E800F7F997 /* API.swift */,
-				79159D702B5955A800F7F997 /* DummyAPI.swift */,
+				BB6942E92D8A0BB200ED7288 /* API+Live.swift */,
+				79159D702B5955A800F7F997 /* API+Mock.swift */,
 				BB9DC2242BA920AF00459FFF /* API+Error.swift */,
 			);
 			path = API;
@@ -1115,7 +1118,7 @@
 				BBAED12B2B7205A9006C6CF2 /* Helpers.swift in Sources */,
 				BB96C3292BE8337300E24C1C /* SeriesPreviewView.swift in Sources */,
 				BBD3F2D62BFA55FE00DE5D8E /* MediaQuality.swift in Sources */,
-				79159D712B5955A800F7F997 /* DummyAPI.swift in Sources */,
+				79159D712B5955A800F7F997 /* API+Mock.swift in Sources */,
 				BBE7F8A92B6424350014DD57 /* RadarrInstance.swift in Sources */,
 				BBE7F8A72B6423A60014DD57 /* Movies.swift in Sources */,
 				BB01B1F42B6465730025FAF4 /* View.swift in Sources */,
@@ -1180,6 +1183,7 @@
 				BBE640D12BE4259A00B436CC /* SeriesDetails+Information.swift in Sources */,
 				BBE8286C2B4F360700C1E1D9 /* Movie.swift in Sources */,
 				BBB8691F2B6CAE26009C1A54 /* MovieReleases.swift in Sources */,
+				BB6942EA2D8A0BBC00ED7288 /* API+Live.swift in Sources */,
 				BB6F23AB2B6ABB8700A4347A /* SettingsAboutSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
