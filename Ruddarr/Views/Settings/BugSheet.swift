@@ -14,32 +14,10 @@ struct BugSheet: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section {
-                    TextField("Email", text: $email, prompt: Text(verbatim: "salty.pete@shipwreck.org"))
-                        #if os(iOS)
-                            .keyboardType(.emailAddress)
-                            .textContentType(.emailAddress)
-                            .textInputAutocapitalization(.never)
-                        #endif
-                } header: {
-                    Text("Email")
-                }
-
-                Section {
-                    TextField("What happened?", text: $text, axis: .vertical)
-                        .lineLimit(5, reservesSpace: true)
-                        .overlay(alignment: .bottomTrailing) {
-                            Text(verbatim: "\(text.count) / \(minimumLength)")
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
-                                .opacity(text.count < minimumLength ? 1 : 0)
-                        }
-                } header: {
-                    Text("Details")
-                } footer: {
-                    Text("Provide a detailed description of the issue along with the exact steps to reproduce it.")
-                }
+                emailField
+                reportField
             }
+            .padding()
             .navigationTitle("Report a Bug")
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -52,6 +30,41 @@ struct BugSheet: View {
                         .disabled(!canBeSent)
                 }
             }
+        }
+    }
+
+    var emailField: some View {
+        Section {
+            TextField("Email", text: $email, prompt: Text(verbatim: "salty.pete@shipwreck.org"))
+                #if os(macOS)
+                    .labelsHidden()
+                #else
+                    .keyboardType(.emailAddress)
+                    .textContentType(.emailAddress)
+                    .textInputAutocapitalization(.never)
+                #endif
+        } header: {
+            Text("Email")
+        }
+    }
+
+    var reportField: some View {
+        Section {
+            TextField("What happened?", text: $text, axis: .vertical)
+                .lineLimit(5, reservesSpace: true)
+                .overlay(alignment: .bottomTrailing) {
+                    Text(verbatim: "\(text.count) / \(minimumLength)")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                        .opacity(text.count < minimumLength ? 1 : 0)
+                }
+                #if os(macOS)
+                    .labelsHidden()
+                #endif
+        } header: {
+            Text("Details")
+        } footer: {
+            Text("Provide a detailed description of the issue along with the exact steps to reproduce it.")
         }
     }
 
