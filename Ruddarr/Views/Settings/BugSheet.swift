@@ -5,8 +5,8 @@ import Sentry
 struct BugSheet: View {
     private var minimumLength: Int = 50
 
-    @SceneStorage("reportEmail") private var email: String = ""
-    @SceneStorage("reportText") private var text: String = ""
+    @State private var text: String = ""
+    @AppStorage("reportEmail") private var email: String = ""
 
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var settings: AppSettings
@@ -83,15 +83,32 @@ struct BugSheet: View {
             SentrySDK.capture(feedback: feedback)
         }
     }
+}
 
+extension View {
+    func reportBugSheet() -> some View {
+        self.modifier(BugSheetViewModifier())
+    }
+}
+
+private struct BugSheetViewModifier: ViewModifier {
+    @State private var isPresented: Bool = false
+
+    func body(content: Content) -> some View {
+        content
+            .environment(\.presentBugSheet, $isPresented)
+            .sheet(isPresented: $isPresented) {
+                BugSheet().presentationDetents([.medium])
+            }
+    }
 }
 
 #Preview {
-    @Previewable @State var showBugSheet: Bool = true
+    @Previewable @Environment(\.presentBugSheet) var presentBugSheet
 
-    Text(verbatim: "Hello")
-        .sheet(isPresented: $showBugSheet) {
-            BugSheet()
-                .presentationDetents([.medium])
-        }
+    Button {
+        presentBugSheet.wrappedValue = true
+    } label: {
+        Text(verbatim: "Open")
+    }
 }

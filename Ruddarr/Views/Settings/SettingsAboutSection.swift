@@ -1,10 +1,10 @@
 import SwiftUI
 
 struct SettingsAboutSection: View {
-    @State private var showBugSheet: Bool = false
-
     @EnvironmentObject var settings: AppSettings
+
     @Environment(\.openURL) var openURL
+    @Environment(\.presentBugSheet) var presentBugSheet
 
     var body: some View {
         Section(header: Text("About")) {
@@ -45,7 +45,7 @@ struct SettingsAboutSection: View {
 
     var bug: some View {
         Button {
-            showBugSheet = true
+            presentBugSheet.wrappedValue = true
         } label: {
             Label("Report a Bug", systemImage: "exclamationmark.bubble")
                 .labelStyle(SettingsIconLabelStyle(color: .systemPurple, size: 13))
@@ -53,9 +53,6 @@ struct SettingsAboutSection: View {
         #if os(macOS)
             .buttonStyle(.link)
         #endif
-        .sheet(isPresented: $showBugSheet) {
-            BugSheet().presentationDetents([.medium])
-        }
     }
 
     var contribute: some View {
