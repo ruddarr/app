@@ -27,12 +27,18 @@ struct ActivityView: View {
                                 }
                                 .buttonStyle(.plain)
                             }
-                            .listRowBackground(Color.secondarySystemBackground)
+                            #if os(macOS)
+                                .padding(.vertical, 4)
+                            #else
+                                .listRowBackground(Color.secondarySystemBackground)
+                            #endif
                         } header: {
                             if !items.isEmpty { sectionHeader }
                         }
                     }
-                    .background(.systemBackground)
+                    #if os(iOS)
+                        .background(.systemBackground)
+                    #endif
                     .scrollContentBackground(.hidden)
                     .overlay {
                         if items.isEmpty {

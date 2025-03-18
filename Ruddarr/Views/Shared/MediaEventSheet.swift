@@ -49,6 +49,7 @@ struct MediaEventSheet: View {
                 }
 
                 Spacer()
+                Spacer()
             }
             .viewPadding(.horizontal)
             .padding(.top)
