@@ -17,7 +17,7 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationStack(path: dependencies.$router.settingsPath) {
-            List {
+            Form {
                 instanceSection
 
                 SettingsPreferencesSection()
@@ -26,6 +26,7 @@ struct SettingsView: View {
                 SettingsLinksSection()
                 SettingsSystemSection()
             }
+            .formStyle(.grouped)
             .navigationTitle("Settings")
             .navigationDestination(for: Path.self) {
                 switch $0 {
