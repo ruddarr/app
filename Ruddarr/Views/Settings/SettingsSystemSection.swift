@@ -12,13 +12,13 @@ struct SettingsSystemSection: View {
 
     var body: some View {
         Section {
-            Button(role: .destructive, action: {
-                withAnimation(.interactiveSpring) {
+            LabeledContent {
+                Text(formatBytes(imageCacheSize))
+            } label: {
+                Button("Clear Image Cache", role: .destructive) {
                     clearImageCache()
                 }
-            }, label: {
-                LabeledContent("Clear Image Cache", value: formatBytes(imageCacheSize))
-            }).onAppear {
+            }.onAppear {
                 calculateImageCacheSize()
             }
 
@@ -78,7 +78,10 @@ struct SettingsSystemSection: View {
     func clearImageCache() {
         let dataCache = try? DataCache(name: "com.ruddarr.images")
         dataCache?.removeAll()
-        imageCacheSize = 0
+
+        withAnimation(.interactiveSpring) {
+            imageCacheSize = 0
+        }
     }
 
     func deleteSpotlightIndexes() {
