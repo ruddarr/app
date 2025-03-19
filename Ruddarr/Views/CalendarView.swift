@@ -224,8 +224,10 @@ struct CalendarView: View {
     var todayButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button("Today") {
-                withAnimation(.smooth) {
-                    scrollTo(calendar.today())
+                Task { @MainActor in
+                    withAnimation(.smooth) {
+                        self.scrollTo(self.calendar.today())
+                    }
                 }
             }
         }
