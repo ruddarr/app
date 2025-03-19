@@ -1,0 +1,4 @@
+files:
+  - source: Ruddarr/*.xcstrings
+    translation: '%original_file_name%'
+    multilingual: 1
