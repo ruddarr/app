@@ -4,13 +4,12 @@ struct Dependencies {
     var api: API
     var store: UserDefaults
     var quickActions: QuickActions = .init()
-
-    var cloudkit: State = .live
+    var cloudkit: CloudKit = .live
 
     @Bindable var router = Router()
     @Bindable var toast = Toast()
 
-    enum State {
+    enum CloudKit {
         case live
         case mock
     }
