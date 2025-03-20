@@ -273,7 +273,7 @@
 		BB40712F2C1CDD32006A3FA5 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		BB4071312C1CDD32006A3FA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseSort.swift; sourceTree = "<group>"; };
-		BB42618C2B6980760078B94E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		BB42618C2B6980760078B94E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB456D222B58C71300C29B00 /* NoInternet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternet.swift; sourceTree = "<group>"; };
 		BB456D262B58E4B900C29B00 /* system-status.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "system-status.json"; sourceTree = "<group>"; };
 		BB4B34F22B7BFE640063F2D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -411,6 +411,9 @@
 		BBF583C72BAD25F700AFA7FB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		BBF706BB2B6220BF00B2B504 /* Sentry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentry.swift; sourceTree = "<group>"; };
 		BBF7BFDD2BE4971D00B485FA /* InformationList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationList.swift; sourceTree = "<group>"; };
+		BBF8E11F2D8B9DA80018C5D7 /* crowdin.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = crowdin.yml; sourceTree = "<group>"; };
+		BBF8E1202D8B9DB70018C5D7 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		BBF8E1212D8B9DCD0018C5D7 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		BBF94F622B508F8B00300EBA /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
 		BBF94F642B50C88300300EBA /* Instance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instance.swift; sourceTree = "<group>"; };
 		BBFB1F8A2B782D1000181233 /* SettingsPreferencesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPreferencesSection.swift; sourceTree = "<group>"; };
@@ -532,13 +535,6 @@
 				BB6EB88A2BF00FA900066FB4 /* DateDecodingStrategy.swift */,
 			);
 			path = Utilities;
-			sourceTree = "<group>";
-		};
-		BB48FF462CADAB7900DAA4A7 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		BB507D192BD96DDC00EC4016 /* Series */ = {
@@ -679,11 +675,13 @@
 		BBE8284A2B4F2C7000C1E1D9 = {
 			isa = PBXGroup;
 			children = (
-				BBC78DC02D70E2D700EA0AF5 /* README.md */,
+				BBF8E1212D8B9DCD0018C5D7 /* .swiftlint.yml */,
+				BBF8E11F2D8B9DA80018C5D7 /* crowdin.yml */,
 				BB644FCA2B8529C2007C7AD5 /* ci_scripts */,
 				BBE828552B4F2C7000C1E1D9 /* Ruddarr */,
 				BB40712E2C1CDD32006A3FA5 /* NotificationService */,
-				BB48FF462CADAB7900DAA4A7 /* Frameworks */,
+				BBC78DC02D70E2D700EA0AF5 /* README.md */,
+				BBF8E1202D8B9DB70018C5D7 /* LICENSE */,
 				BBE828542B4F2C7000C1E1D9 /* Products */,
 			);
 			sourceTree = "<group>";
