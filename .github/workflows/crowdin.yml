@@ -1,0 +1,22 @@
+name: Translations
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload translations
+        uses: crowdin/github-action@v2
+        with:
+          upload_sources: true
+        env:          
+          CROWDIN_PROJECT_ID: 693153
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_TOKEN }}
