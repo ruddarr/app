@@ -1,5 +1,5 @@
 name: Support Request
-description: File a bug report.
+description: ...
 labels: ["question"]
 
 body:
@@ -8,12 +8,10 @@ body:
     attributes:
       label: Troubleshooting
       options:
-        - label: I read the FAQ
+        - label: I read the FAQ on Discord
           required: true
-        - label: The issue persists after restarting the device
-          required: true
-        - label: The issue persists after reinstalling the app
-          required: true
+        - label: I tried restarting the device
+        - label: I tried reinstalling the app
 
   - type: textarea
     id: request
