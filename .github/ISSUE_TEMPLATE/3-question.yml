@@ -1,21 +1,27 @@
-name: Support Request
-description: ...
+name: General Question
+description: Ask a question about the project.
 labels: ["question"]
 
 body:
+  - type: checkboxes
+    id: faq
+    attributes:
+      label: FAQ
+      options:
+        - label: I read the FAQ on Discord
+          required: true
+
   - type: checkboxes
     id: troubleshooting
     attributes:
       label: Troubleshooting
       options:
-        - label: I read the FAQ on Discord
-          required: true
         - label: I tried restarting the device
         - label: I tried reinstalling the app
 
   - type: textarea
     id: request
     attributes:
-      label: What's happening?
+      label: What's on your mind?
     validations:
       required: true
