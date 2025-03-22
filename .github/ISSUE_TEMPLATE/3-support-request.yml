@@ -1,0 +1,23 @@
+name: Support Request
+description: File a bug report.
+labels: ["question"]
+
+body:
+  - type: checkboxes
+    id: troubleshooting
+    attributes:
+      label: Troubleshooting
+      options:
+        - label: I read the FAQ
+          required: true
+        - label: The issue persists after restarting the device
+          required: true
+        - label: The issue persists after reinstalling the app
+          required: true
+
+  - type: textarea
+    id: request
+    attributes:
+      label: What's happening?
+    validations:
+      required: true
