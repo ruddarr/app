@@ -40,7 +40,6 @@
 		BB25DC662B62EDC700FE55A0 /* MovieGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC652B62EDC700FE55A0 /* MovieGridItem.swift */; };
 		BB25DC682B630B9000FE55A0 /* MovieDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC672B630B9000FE55A0 /* MovieDetails.swift */; };
 		BB25DC6A2B63161E00FE55A0 /* MovieForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25DC692B63161E00FE55A0 /* MovieForm.swift */; };
-		BB29BFE82BD024A700D00122 /* ci_post_clone.sh in Resources */ = {isa = PBXBuildFile; fileRef = BB29BFE72BD024A700D00122 /* ci_post_clone.sh */; };
 		BB336F882B98F61B000904FA /* Ruddarr.storekit in Resources */ = {isa = PBXBuildFile; fileRef = BB336F872B98F61B000904FA /* Ruddarr.storekit */; };
 		BB336F8A2B9A32FE000904FA /* MovieSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB336F892B9A32FE000904FA /* MovieSearchView.swift */; };
 		BB351D7C2CB4A330002AAEBF /* MovieLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB351D7B2CB4A330002AAEBF /* MovieLinks.swift */; };
@@ -54,6 +53,7 @@
 		BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D222B58C71300C29B00 /* NoInternet.swift */; };
 		BB456D272B58E4B900C29B00 /* system-status.json in Resources */ = {isa = PBXBuildFile; fileRef = BB456D262B58E4B900C29B00 /* system-status.json */; };
 		BB47E17F2D8F40AC00B8850A /* ci_pre_xcodebuild.sh in Resources */ = {isa = PBXBuildFile; fileRef = BB47E17E2D8F40AC00B8850A /* ci_pre_xcodebuild.sh */; };
+		BB47E1832D8F43F500B8850A /* ci_post_clone.sh in Resources */ = {isa = PBXBuildFile; fileRef = BB47E1822D8F43F500B8850A /* ci_post_clone.sh */; };
 		BB48FF4D2CADABA200DAA4A7 /* TelemetryDeck in Frameworks */ = {isa = PBXBuildFile; productRef = BB48FF4C2CADABA200DAA4A7 /* TelemetryDeck */; };
 		BB4B34F32B7BFE640063F2D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4B34F22B7BFE640063F2D3 /* AppDelegate.swift */; };
 		BB4E441E2B842C0A00E0BC73 /* MovieContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4E441D2B842C0A00E0BC73 /* MovieContextMenu.swift */; };
@@ -262,7 +262,6 @@
 		BB25DC652B62EDC700FE55A0 /* MovieGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGridItem.swift; sourceTree = "<group>"; };
 		BB25DC672B630B9000FE55A0 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
 		BB25DC692B63161E00FE55A0 /* MovieForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieForm.swift; sourceTree = "<group>"; };
-		BB29BFE72BD024A700D00122 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		BB336F872B98F61B000904FA /* Ruddarr.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Ruddarr.storekit; sourceTree = "<group>"; };
 		BB336F892B9A32FE000904FA /* MovieSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchView.swift; sourceTree = "<group>"; };
 		BB351D7B2CB4A330002AAEBF /* MovieLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieLinks.swift; sourceTree = "<group>"; };
@@ -278,6 +277,7 @@
 		BB456D222B58C71300C29B00 /* NoInternet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternet.swift; sourceTree = "<group>"; };
 		BB456D262B58E4B900C29B00 /* system-status.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "system-status.json"; sourceTree = "<group>"; };
 		BB47E17E2D8F40AC00B8850A /* ci_pre_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_pre_xcodebuild.sh; sourceTree = "<group>"; };
+		BB47E1822D8F43F500B8850A /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		BB4B34F22B7BFE640063F2D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB4E441D2B842C0A00E0BC73 /* MovieContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieContextMenu.swift; sourceTree = "<group>"; };
 		BB507D1A2BD96E0000EC4016 /* SeriesView+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SeriesView+Overlay.swift"; sourceTree = "<group>"; };

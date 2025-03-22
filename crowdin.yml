@@ -3,6 +3,12 @@ api_token_env: CROWDIN_TOKEN
 
 preserve_hierarchy: true
 
+# See `EXPORTED` variable in `ci_scripts/ci_post_clone.sh`
+export_languages:
+  - de
+  - fr
+  - es-ES
+
 files:
   - source: Ruddarr/*.xcstrings
     translation: Ruddarr/%original_file_name%
