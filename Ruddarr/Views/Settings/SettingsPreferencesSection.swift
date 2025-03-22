@@ -12,6 +12,7 @@ struct SettingsPreferencesSection: View {
         Section {
             tabPicker
             releaseFiltersPicker
+            calendarScrollPositionPicker
 
             #if os(iOS)
                 if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
@@ -60,6 +61,18 @@ struct SettingsPreferencesSection: View {
             }
         } label: {
             Label("Release Filters", systemImage: "line.3.horizontal.decrease")
+                .labelStyle(SettingsIconLabelStyle(color: .gray, size: 13))
+        }
+        .tint(.secondary)
+    }
+    
+    var calendarScrollPositionPicker: some View {
+        Picker(selection: $settings.calendarScrollPosition) {
+            ForEach(CalendarScrollPosition.allCases) { position in
+                Text(verbatim: position.label)
+            }
+        } label: {
+            Label("Today", systemImage: "calendar.day.timeline.leading")
                 .labelStyle(SettingsIconLabelStyle(color: .gray, size: 13))
         }
         .tint(.secondary)
