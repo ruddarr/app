@@ -1,0 +1,63 @@
+name: Bug Report
+description: File a bug report.
+title: ""
+labels: ["bug"]
+body:
+  - type: checkboxes
+    attributes:
+      label: Troubleshooting
+      options:
+        - label: The bug persist after restarting the device
+          required: true
+        - label: The bug persist after reinstalling the app
+          required: true
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: To Reproduce
+      description: Steps to reproduce the behavior.
+      value: |
+        1. Go to '...'
+        2. Tap on '....'
+        3. See error
+    validations:
+      required: true
+ - type: textarea
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+ - type: textarea
+    attributes:
+      label: Screenshots / Video
+      description: If applicable, add screenshots or a video to help explain your problem.
+      render: markdown
+  - type: input
+    attributes:
+      label: iOS version
+      placeholder: ex. 18.3.1
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Ruddar version
+      placeholder: ex. 1.2.1 build 201
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Device
+      placeholder: ex. iPhone 16 Pro
+    validations:
+      required: true
+ - type: textarea
+    id: media
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem. Do you use "Accessibility > Larger Text"?
