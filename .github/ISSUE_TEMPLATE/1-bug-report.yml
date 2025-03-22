@@ -1,23 +1,26 @@
 name: Bug Report
 description: File a bug report.
-title: ""
 labels: ["bug"]
+
 body:
   - type: checkboxes
+    id: troubleshooting
     attributes:
       label: Troubleshooting
       options:
-        - label: The bug persist after restarting the device
-          required: true
-        - label: The bug persist after reinstalling the app
-          required: true
+        - label: The bug persists after restarting the device
+        - label: The bug persists after reinstalling the app
+
   - type: textarea
+    id: description
     attributes:
       label: Describe the bug
       description: A clear and concise description of what the bug is.
     validations:
       required: true
+
   - type: textarea
+    id: reproduce
     attributes:
       label: To Reproduce
       description: Steps to reproduce the behavior.
@@ -27,37 +30,48 @@ body:
         3. See error
     validations:
       required: true
- - type: textarea
+
+  - type: textarea
+    id: expected
     attributes:
       label: Expected behavior
       description: A clear and concise description of what you expected to happen.
     validations:
       required: true
- - type: textarea
+
+  - type: textarea
+    id: media
     attributes:
       label: Screenshots / Video
       description: If applicable, add screenshots or a video to help explain your problem.
       render: markdown
+
   - type: input
+    id: ios-version
     attributes:
       label: iOS version
       placeholder: ex. 18.3.1
     validations:
       required: true
+
   - type: input
+    id: app-version
     attributes:
       label: Ruddar version
       placeholder: ex. 1.2.1 build 201
     validations:
       required: true
+
   - type: input
+    id: device
     attributes:
       label: Device
       placeholder: ex. iPhone 16 Pro
     validations:
       required: true
- - type: textarea
-    id: media
+
+  - type: textarea
+    id: context
     attributes:
       label: Additional context
       description: Add any other context about the problem. Do you use "Accessibility > Larger Text"?
