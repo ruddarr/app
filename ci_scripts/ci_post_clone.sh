@@ -2,7 +2,9 @@
 
 set -e
 
-cd ../Ruddarr/ || exit 1
+echo $PATH
 
-plutil -replace APNsKey -string "$APNS_SECRET" Info.plist
-plutil -insert CI_BRANCH -string "$CI_BRANCH" Info.plist
+curl https://github.com/mikefarah/yq/releases/latest/download/yq_darwin_arm64 -O /usr/bin/yq \
+  && chmod +x /usr/bin/yq
+
+yq '.project_id' crowdin.yml
