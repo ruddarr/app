@@ -75,6 +75,7 @@ struct Links {
     static let Crowdin = URL(string: "https://crowdin.com/project/ruddarr")!
     static let GitHub = URL(string: "https://github.com/ruddarr/app")!
     static let GitHubDiscussions = URL(string: "https://github.com/ruddarr/app/discussions")!
+    static let GitHubReleases = URL(string: "https://github.com/ruddarr/app/releases")!
 }
 
 struct Secrets {
@@ -83,9 +84,33 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static let version: String = "1.4.2"
+    static let version: String = "1.4.4"
 
     static let features: [WhatsNewFeature] = [
-        //
+        .init(
+            image: "globe",
+            title: "New Languages",
+            subtitle: "Ruddarr now supports German, French and Spanish."
+        ),
+        .init(
+            image: "line.3.horizontal.decrease",
+            title: "Sticky Release Filters",
+            subtitle: "Added a preference option to persist release search filters."
+        ),
+        .init(
+            image: "calendar",
+            title: "Calendar Scroll",
+            subtitle: "Several improvements of how the calendar scrolls and loads data."
+        ),
+        .init(
+            image: "gear",
+            title: "Settings Overhaul",
+            subtitle: "Various visual and usability improvements of the settings screen."
+        ),
+        .init(
+            image: "ant",
+            title: "Fixes & Improvements",
+            subtitle: "Dozens of improvements and fixes, everything is a little better."
+        ),
     ]
 }

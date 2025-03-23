@@ -921,16 +921,6 @@
         }
       }
     },
-    "Continue" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continue"
-          }
-        }
-      }
-    },
     "Continuing" : {
       "localizations" : {
         "en" : {
@@ -3197,16 +3187,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open ${target}"
-          }
-        }
-      }
-    },
-    "Open App Store" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open App Store"
           }
         }
       }

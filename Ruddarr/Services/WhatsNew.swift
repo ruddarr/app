@@ -93,7 +93,9 @@ struct WhatsNewView: View {
                 Spacer()
 
                 VStack {
-                    Link("Open App Store", destination: Links.AppStore)
+                    Link(destination: Links.AppStore) {
+                        Text(verbatim: "Release Notes")
+                    }
                         .foregroundStyle(.blue)
                         .padding(.bottom, 10)
 
@@ -104,7 +106,7 @@ struct WhatsNewView: View {
 
                         dismiss()
                     } label: {
-                        Text("Continue")
+                        Text(verbatim: "Continue")
                             .font(.headline.weight(.semibold))
                             .padding(.vertical)
                             .frame(maxWidth: .infinity)
