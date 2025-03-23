@@ -296,26 +296,34 @@ struct InstanceHeaderRow: View {
     var body: some View {
         #if os(iOS)
             LabeledContent {
-                TextField("Value", text: $header.value)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled(true)
-                    #if os(iOS)
+                TextField(text: $header.value) {
+                    Text("Value", comment: "Value of HTTP header")
+                }
+                .multilineTextAlignment(.trailing)
+                .autocorrectionDisabled(true)
+                #if os(iOS)
                     .textInputAutocapitalization(.never)
-                    #endif
+                #endif
             } label: {
-                TextField("Name", text: $header.name)
-                    .autocorrectionDisabled(true)
-                    #if os(iOS)
+                TextField(text: $header.name) {
+                    Text("Name", comment: "Name of HTTP header")
+                }
+                .autocorrectionDisabled(true)
+                #if os(iOS)
                     .textInputAutocapitalization(.never)
-                    #endif
+                #endif
             }
         #else
             VStack {
-                TextField("Name", text: $header.name)
-                    .autocorrectionDisabled(true)
+                TextField(text: $header.name) {
+                    Text("Name", comment: "Name of HTTP header")
+                }
+                .autocorrectionDisabled(true)
 
-                TextField("Value", text: $header.value)
-                    .autocorrectionDisabled(true)
+                TextField(text: $header.value) {
+                    Text("Value", comment: "Value of HTTP header")
+                }
+                .autocorrectionDisabled(true)
             }
         #endif
     }

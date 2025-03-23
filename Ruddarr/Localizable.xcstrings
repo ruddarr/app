@@ -2592,6 +2592,7 @@
       }
     },
     "Name" : {
+      "comment" : "Name of HTTP header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4780,6 +4781,7 @@
       }
     },
     "Value" : {
+      "comment" : "Value of HTTP header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
