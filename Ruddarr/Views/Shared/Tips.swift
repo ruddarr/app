@@ -24,7 +24,7 @@ struct SeriesMonitoringTip: Tip {
 
 struct DeleteFileTip: Tip {
     var title: Text {
-        Text("Deleting Files")
+        Text("Deleting Files", comment: "Title of a tip, not a status")
     }
 
     var message: Text? {

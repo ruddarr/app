@@ -54,8 +54,7 @@ struct MovieReleaseSheet: View {
                 Button("Grab Release") { Task { await downloadRelease(force: true) } }
                 Button("Cancel", role: .cancel) { }
             } message: {
-                let type = String(localized: "movie", comment: "The word 'movie' used mid-sentence")
-                Text("The release for this \(type) could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
+                Text("The release for this movie could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
             }
         }
     }

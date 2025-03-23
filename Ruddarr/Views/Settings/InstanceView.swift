@@ -101,7 +101,11 @@ struct InstanceView: View {
 
     var instanceDetails: some View {
         Section {
-            LabeledContent("Label", value: instance.label)
+            LabeledContent {
+                Text(instance.label)
+            } label: {
+                Text("Label", comment: "Instance label/name")
+            }
 
             LabeledContent("Type", value: instance.type.rawValue)
 
@@ -111,7 +115,7 @@ struct InstanceView: View {
     }
 
     var instanceHeaders: some View {
-        Section(header: Text("Headers")) {
+        Section(header: Text("Headers", comment: "HTTP Headers")) {
             ForEach(instance.headers) { header in
                 LabeledContent(header.name) {
                     Text(header.value)

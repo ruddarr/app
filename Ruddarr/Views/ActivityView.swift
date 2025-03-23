@@ -92,10 +92,10 @@ struct ActivityView: View {
 
     var sectionHeader: some View {
         HStack(spacing: 6) {
-            Text("\(items.count) Tasks")
+            Text("\(items.count) Task")
 
             if queue.badgeCount > 1 {
-                Text("(\(queue.badgeCount) Issues)")
+                Text("(\(queue.badgeCount) Issue)")
             }
 
             if queue.isLoading {

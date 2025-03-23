@@ -1,12 +1,24 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "(%lld Issues)" : {
+    "(%lld Issue)" : {
       "localizations" : {
         "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "(%lld Issues)"
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "(%lld Issue)"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "(%lld Issues)"
+                }
+              }
+            }
           }
         }
       }
@@ -160,22 +172,46 @@
         }
       }
     },
-    "%lld Seasons" : {
+    "%lld Season" : {
       "localizations" : {
         "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld Seasons"
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Season"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Seasons"
+                }
+              }
+            }
           }
         }
       }
     },
-    "%lld Tasks" : {
+    "%lld Task" : {
       "localizations" : {
         "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld Tasks"
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Task"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Tasks"
+                }
+              }
+            }
           }
         }
       }
@@ -183,9 +219,21 @@
     "+%d more..." : {
       "localizations" : {
         "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "+%d more..."
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "+%d more..."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "+%d more..."
+                }
+              }
+            }
           }
         }
       }
@@ -700,12 +748,12 @@
         }
       }
     },
-    "Basic Authentication is for advanced server management tools and will not work with the %@ instance login." : {
+    "Basic Authentication is for advanced server management tools and will not work with regular %@ login credentials." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Basic Authentication is for advanced server management tools and will not work with the %@ instance login."
+            "value" : "Basic Authentication is for advanced server management tools and will not work with regular %@ login credentials."
           }
         }
       }
@@ -1112,6 +1160,7 @@
       }
     },
     "Deleting Files" : {
+      "comment" : "Title of a tip, not a status",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1553,12 +1602,22 @@
         }
       }
     },
-    "File was not found on disk so it was unlinked from the %@ in the database." : {
+    "File was not found on disk so it was unlinked from the episode in the database." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "File was not found on disk so it was unlinked from the %@ in the database."
+            "value" : "File was not found on disk so it was unlinked from the episode in the database."
+          }
+        }
+      }
+    },
+    "File was not found on disk so it was unlinked from the movie in the database." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File was not found on disk so it was unlinked from the movie in the database."
           }
         }
       }
@@ -1695,6 +1754,7 @@
       }
     },
     "Headers" : {
+      "comment" : "HTTP Headers",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1945,12 +2005,12 @@
         }
       }
     },
-    "Invalid Label" : {
+    "Invalid Instance Label" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Invalid Label"
+            "value" : "Invalid Instance Label"
           }
         }
       }
@@ -2016,6 +2076,7 @@
       }
     },
     "Label" : {
+      "comment" : "Instance label/name",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2267,6 +2328,7 @@
       }
     },
     "Monitor" : {
+      "comment" : "(verb) picker-label of what to monitor (movie, collection, both)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4032,17 +4094,6 @@
         }
       }
     },
-    "series/episode" : {
-      "comment" : "The words 'series/episode' used mid-sentence",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "series/episode"
-          }
-        }
-      }
-    },
     "Server Error Response" : {
       "localizations" : {
         "en" : {
@@ -4335,12 +4386,22 @@
         }
       }
     },
-    "The release for this %@ could not be determined and it may not import automatically. Do you want to grab \"%@\"?" : {
+    "The release for this movie could not be determined and it may not import automatically. Do you want to grab \"%@\"?" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The release for this %1$@ could not be determined and it may not import automatically. Do you want to grab \"%2$@\"?"
+            "value" : "The release for this movie could not be determined and it may not import automatically. Do you want to grab \"%@\"?"
+          }
+        }
+      }
+    },
+    "The release for this series/episode could not be determined and it may not import automatically. Do you want to grab \"%@\"?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The release for this series/episode could not be determined and it may not import automatically. Do you want to grab \"%@\"?"
           }
         }
       }
@@ -4598,6 +4659,7 @@
       }
     },
     "Unrated" : {
+      "comment" : "No age/audience rating available",
       "localizations" : {
         "en" : {
           "stringUnit" : {

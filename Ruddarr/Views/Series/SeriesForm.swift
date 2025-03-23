@@ -46,12 +46,14 @@ struct SeriesForm: View {
     }
 
     var monitoringField: some View {
-        Picker("Monitor", selection: $addOptions.monitor) {
+        Picker(selection: $addOptions.monitor) {
             ForEach(SeriesMonitorType.allCases) { type in
                 if ![.unknown, .latestSeason, .skip].contains(type) {
                     Text(type.label)
                 }
             }
+        } label: {
+            Text("Monitor", comment: "(verb) picker-label of what to monitor (movie, collection, both)")
         }
         .tint(.secondary)
         .onChange(of: addOptions.monitor, initial: true) {

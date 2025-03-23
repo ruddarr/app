@@ -181,13 +181,10 @@ struct Series: Media, Identifiable, Equatable, Codable {
     }
 
     var certificationLabel: String {
-        guard let rating = certification else {
-            return String(localized: "Unrated")
-        }
+        let fallback = String(localized: "Unrated", comment: "No age/audience rating available")
 
-        if rating.isEmpty || rating == "0" {
-            return String(localized: "Unrated")
-        }
+        guard let rating = certification else { return fallback }
+        guard !rating.isEmpty, rating != "0" else { return fallback }
 
         return rating
     }
@@ -228,7 +225,7 @@ extension Series {
         attributes.userCurated = NSNumber(value: monitored)
         attributes.userOwned = NSNumber(value: (statistics?.percentOfEpisodes ?? 0) > 0)
 
-        attributes.contentDescription = [yearLabel, runtimeLabel, String(localized: "\(seasonCount) Seasons")]
+        attributes.contentDescription = [yearLabel, runtimeLabel, String(localized: "\(seasonCount) Season")]
             .compactMap { $0 }
             .joined(separator: " · ")
 

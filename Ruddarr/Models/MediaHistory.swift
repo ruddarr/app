@@ -110,12 +110,9 @@ struct MediaHistoryEvent: Identifiable, Codable {
             case "Manual":
                 String(localized: "File was deleted either manually or by a client through the API.")
             case "MissingFromDisk":
-                String(
-                    format: String(localized: "File was not found on disk so it was unlinked from the %@ in the database."),
-                    eventType == .episodeFileDeleted
-                        ? String(localized: "episode", comment: "The word 'episode' used mid-sentence")
-                        : String(localized: "movie", comment: "The word 'movie' used mid-sentence")
-                )
+                eventType == .episodeFileDeleted
+                    ? String(localized: "File was not found on disk so it was unlinked from the episode in the database.")
+                    : String(localized: "File was not found on disk so it was unlinked from the movie in the database.")
             case "Upgrade":
                 String(localized: "File was deleted to import an upgrade.")
             default:

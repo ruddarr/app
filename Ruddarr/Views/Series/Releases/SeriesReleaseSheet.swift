@@ -56,8 +56,7 @@ struct SeriesReleaseSheet: View {
                 Button("Grab Release") { Task { await downloadRelease(force: true) } }
                 Button("Cancel", role: .cancel) { }
             } message: {
-                let type = String(localized: "series/episode", comment: "The words 'series/episode' used mid-sentence")
-                Text("The release for this \(type) could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
+                Text("The release for this series/episode could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
             }
         }
     }

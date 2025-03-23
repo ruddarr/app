@@ -151,13 +151,10 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     }
 
     var certificationLabel: String {
-        guard let rating = certification else {
-            return String(localized: "Unrated")
-        }
+        let fallback = String(localized: "Unrated", comment: "No age/audience rating available")
 
-        if rating.isEmpty || rating == "0" {
-            return String(localized: "Unrated")
-        }
+        guard let rating = certification else { return fallback }
+        guard !rating.isEmpty, rating != "0" else { return fallback }
 
         return rating
     }

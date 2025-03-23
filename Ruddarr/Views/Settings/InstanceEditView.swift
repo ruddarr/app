@@ -148,7 +148,7 @@ struct InstanceEditView: View {
                 .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
         } label: {
-            Text("Label")
+            Text("Label", comment: "Instance label/name")
         }
     }
 
@@ -225,7 +225,7 @@ struct InstanceEditView: View {
             }
         } header: {
             HStack {
-                Text("Headers")
+                Text("Headers", comment: "HTTP Headers")
                 Spacer()
                 pasteButton(pasteHeader)
             }
@@ -235,7 +235,7 @@ struct InstanceEditView: View {
         } footer: {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Custom Headers can be used to access instances protected by Zero Trust services.")
-                Text("Basic Authentication is for advanced server management tools and will not work with the \(instance.type.rawValue) instance login.")
+                Text("Basic Authentication is for advanced server management tools and will not work with regular \(instance.type.rawValue) login credentials.")
             }
             #if os(macOS)
             .foregroundStyle(.secondary)
@@ -335,7 +335,7 @@ extension InstanceError: LocalizedError {
         case .urlIsLocal, .urlNotValid:
             return String(localized: "Invalid URL")
         case .labelEmpty:
-            return String(localized: "Invalid Label")
+            return String(localized: "Invalid Instance Label")
         case .badAppName:
             return String(localized: "Wrong Instance Type")
         case .apiError(let error):
