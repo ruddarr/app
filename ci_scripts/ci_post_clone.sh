@@ -4,6 +4,11 @@ set -e
 
 cd .. || exit 1
 
+if [[ ! -n "$CROWDIN_TOKEN" ]]; then
+  echo "CROWDIN_TOKEN not set or empty."
+  exit 1
+fi
+
 brew install crowdin yq
 
 EXPORTED=(en $(yq '.export_languages[]' crowdin.yml))

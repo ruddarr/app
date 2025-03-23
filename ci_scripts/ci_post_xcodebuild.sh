@@ -2,6 +2,11 @@
 
 set -e
 
+if [[ ! -n "$SENTRY_ORG" || ! -n "$SENTRY_PROJECT" || ! -n "$SENTRY_AUTH_TOKEN" ]]; then
+  echo "SENTRY_* not set or empty."
+  exit 1
+fi
+
 if [[ -n $CI_ARCHIVE_PATH ]]; then
     export INSTALL_DIR=$PWD # Set Sentry CLI directory
 
