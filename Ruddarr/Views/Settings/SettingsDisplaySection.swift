@@ -13,6 +13,8 @@ struct SettingsDisplaySection: View {
             #if os(iOS)
                 iconPicker
             #endif
+
+            languagePicker
         } header: {
             Text("Display")
         }
@@ -67,6 +69,17 @@ struct SettingsDisplaySection: View {
                     .clipShape(.rect(cornerRadius: (10 / 57) * appIconSize))
             }
         }
+    }
+
+    var languagePicker: some View {
+        Picker(selection: $settings.language) {
+            ForEach(Bundle.main.localizations, id: \.self) { code in
+                Text(Locale(identifier: code).localizedString(forLanguageCode: code) ?? code).tag(code)
+            }
+        } label: {
+            Label("Language", image: "language")
+                .labelStyle(SettingsIconLabelStyle(color: .cyan, size: 15))
+        }.tint(.secondary)
     }
 }
 

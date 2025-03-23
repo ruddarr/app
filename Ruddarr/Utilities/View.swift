@@ -33,6 +33,7 @@ extension View {
 private struct WithAppStateModifier: ViewModifier {
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
     @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
+    @AppStorage("language", store: dependencies.store) var language: String = defaultLanguage()
 
     func body(content: Content) -> some View {
         let settings = AppSettings()
@@ -43,6 +44,7 @@ private struct WithAppStateModifier: ViewModifier {
             .tint(theme.tint)
             .preferredColorScheme(appearance.preferredColorScheme)
             .environmentObject(settings)
+            .environment(\.locale, Locale(identifier: language))
             .environment(\.deviceType, Platform.deviceType)
             .environment(RadarrInstance(radarrInstance))
             .environment(SonarrInstance(sonarrInstance))

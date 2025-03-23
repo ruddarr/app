@@ -85,6 +85,23 @@ func inferredInstallDate() -> Date? {
     return attributes[.creationDate] as? Date
 }
 
+func defaultLanguage() -> String {
+    let available = Bundle.main.localizations
+    let preferred = Locale.preferredLanguages.map { Locale(identifier: $0) }
+
+    if let locale = preferred.first(where: { available.contains($0.identifier) }) {
+        return locale.language.languageCode?.identifier ?? "en"
+    }
+
+    if let locale = preferred.first(where: {
+        available.contains($0.language.languageCode?.identifier ?? "")
+    }) {
+        return locale.language.languageCode?.identifier ?? "en"
+    }
+
+    return "en"
+}
+
 func formatRuntime(_ minutes: Int) -> String? {
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.hour, .minute]
