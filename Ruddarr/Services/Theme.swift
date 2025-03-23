@@ -26,7 +26,7 @@ enum Theme: String, Identifiable, CaseIterable {
         case .orange: String(localized: "Watch", comment: "Localized name of Apple's Watch app")
         case .yellow: String(localized: "Notes", comment: "Localized name of Apple's Notes app")
         case .mono: String(localized: "Books", comment: "Localized name of Apple's Books app")
-        case .barbie: String(localized: "Barbie")
+        case .barbie: String(localized: "Barbie", comment: "Localized name of the Barbie brand")
         case .brown: "Prologue"
         }
     }
@@ -60,11 +60,11 @@ enum Appearance: String, Identifiable, CaseIterable {
 
     var id: Self { self }
 
-    var label: LocalizedStringKey {
+    var label: String {
         switch self {
-        case .automatic: "Automatic"
-        case .light: "Light"
-        case .dark: "Dark"
+        case .automatic: String(localized: "Automatic", comment: "Appearance that adapts to the system")
+        case .light: String(localized: "Light", comment: "Light appearance/mode")
+        case .dark: String(localized: "Dark", comment: "Dark appearance/mode")
         }
     }
 
@@ -129,7 +129,7 @@ struct AppIconData {
     var locked: Bool
 
     static var factory: Self {
-        .init(label: String(localized: "Default"), asset: "Default", locked: false)
+        .init(label: String(localized: "Default", comment: "Default app icon name"), asset: "Default", locked: false)
     }
 
     static var podcasts: Self {

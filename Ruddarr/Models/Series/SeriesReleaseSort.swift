@@ -63,7 +63,7 @@ struct SeriesReleaseSort: Equatable {
 
         var label: String {
             switch self {
-            case .any: String(localized: "Any")
+            case .any: String(localized: "Any", comment: "Season pack or single episode option")
             case .season: String(localized: "Season Pack")
             case .episode: String(localized: "Single Episode")
             }

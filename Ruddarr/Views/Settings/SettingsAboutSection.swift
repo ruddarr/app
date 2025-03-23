@@ -7,13 +7,15 @@ struct SettingsAboutSection: View {
     @Environment(\.presentBugSheet) var presentBugSheet
 
     var body: some View {
-        Section(header: Text("About")) {
+        Section {
             share
             review
             discord
             bug
             contribute
             translate
+        } header: {
+            Text("About", comment: "Preferences section title")
         }
     }
 

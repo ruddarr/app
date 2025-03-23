@@ -106,20 +106,26 @@ struct EpisodeView: View {
     var details: some View {
         Grid(alignment: .leading) {
             if let network = series.network, !network.isEmpty {
-                MediaDetailsRow("Network", value: network)
+                MediaDetailsRow(
+                    String(localized: "Network", comment: "The network that airs the show"),
+                    value: network
+                )
             }
 
             if !series.genres.isEmpty {
-                MediaDetailsRow("Genre", value: series.genreLabel)
+                MediaDetailsRow(
+                    String(localized: "Genre", comment: "Genres of the movie/series"),
+                    value: series.genreLabel
+                )
             }
 
             if episode.isDownloaded {
                 Group {
-                    MediaDetailsRow("Video", value: mediaDetailsVideoQuality(episodeFile))
-                    MediaDetailsRow("Audio", value: mediaDetailsAudioQuality(episodeFile))
+                    MediaDetailsRow(String(localized: "Video"), value: mediaDetailsVideoQuality(episodeFile))
+                    MediaDetailsRow(String(localized: "Audio"), value: mediaDetailsAudioQuality(episodeFile))
 
                     if let subtitles = mediaDetailsSubtitles(episodeFile, deviceType) {
-                        MediaDetailsRow("Subtitles", value: subtitles)
+                        MediaDetailsRow(String(localized: "Subtitles"), value: subtitles)
                     }
                 }.onTapGesture {
                     fileSheet = episodeFile

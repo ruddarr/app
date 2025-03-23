@@ -184,9 +184,21 @@ extension MovieReleasesView {
             }
 
             Section {
-                Toggle("Approved", systemImage: "checkmark.seal", isOn: $sort.approved)
-                Toggle("FreeLeech", systemImage: "f.square", isOn: $sort.freeleech)
-                Toggle("Original", systemImage: "character.bubble", isOn: $sort.originalLanguage)
+                Toggle(
+                    String(localized: "Approved", comment: "Release filter"),
+                    systemImage: "checkmark.seal",
+                    isOn: $sort.approved
+                )
+                Toggle(
+                    String(localized: "FreeLeech", comment: "Release filter"),
+                    systemImage: "f.square",
+                    isOn: $sort.freeleech
+                )
+                Toggle(
+                    String(localized: "Original", comment: "Release filter (original language)"),
+                    systemImage: "character.bubble",
+                    isOn: $sort.originalLanguage
+                )
             }
         } label: {
             if sort.hasFilter {

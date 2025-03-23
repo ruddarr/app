@@ -131,7 +131,9 @@ struct MovieReleaseSheet: View {
 
             if let url = URL(string: release.infoUrl ?? "") {
                 Link(destination: url, label: {
-                    let label: LocalizedStringKey = deviceType == .phone ? "Open" : "Open Website"
+                    let label: String = deviceType == .phone
+                        ? String(localized: "Open", comment: "Short version of Open Website")
+                        : String(localized: "Open Website")
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .modifier(MediaPreviewActionModifier())
@@ -150,7 +152,9 @@ struct MovieReleaseSheet: View {
                     showGrabConfirmation = true
                 }
             } label: {
-                let label: LocalizedStringKey = deviceType == .phone ? "Download" : "Download Release"
+                let label: String = deviceType == .phone
+                    ? String(localized: "Download", comment: "Short version of Download Release")
+                    : String(localized: "Download Release")
 
                 ButtonLabel(
                     text: label,

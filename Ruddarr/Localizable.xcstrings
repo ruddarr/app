@@ -34,6 +34,7 @@
       }
     },
     "%@ at %@" : {
+      "comment" : "(Today/Tomorrow/Yesterday) at (time)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -239,6 +240,7 @@
       }
     },
     "About" : {
+      "comment" : "Preferences section title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -259,6 +261,7 @@
       }
     },
     "Active" : {
+      "comment" : "Status of the app subscription",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -269,6 +272,7 @@
       }
     },
     "Activity" : {
+      "comment" : "Tab/sidebar menu item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -279,6 +283,7 @@
       }
     },
     "Add Authentication" : {
+      "comment" : "Add Basic HTTP Authentication to instance",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -289,6 +294,7 @@
       }
     },
     "Add Header" : {
+      "comment" : "Add HTTP Header to instance",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -329,6 +335,7 @@
       }
     },
     "Added" : {
+      "comment" : "Media grid sorting",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -339,6 +346,7 @@
       }
     },
     "Age" : {
+      "comment" : "Release filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -349,6 +357,7 @@
       }
     },
     "Airing" : {
+      "comment" : "The time the next episode airs",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -359,6 +368,7 @@
       }
     },
     "Alias" : {
+      "comment" : "Match type of the release",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -399,6 +409,7 @@
       }
     },
     "All Movies" : {
+      "comment" : "Media grid filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -459,6 +470,7 @@
       }
     },
     "Anime" : {
+      "comment" : "Series type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -469,6 +481,7 @@
       }
     },
     "Announced" : {
+      "comment" : "Media status label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -479,6 +492,7 @@
       }
     },
     "Any" : {
+      "comment" : "Season pack or single episode option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -599,6 +613,7 @@
       }
     },
     "Approved" : {
+      "comment" : "Release filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -659,6 +674,7 @@
       }
     },
     "At least you're not on hold." : {
+      "comment" : "Release search taunt",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -689,6 +705,7 @@
       }
     },
     "Automatic" : {
+      "comment" : "Appearance that adapts to the system",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -709,6 +726,7 @@
       }
     },
     "Availability" : {
+      "comment" : "Very short version of Minimum Availability",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -729,6 +747,7 @@
       }
     },
     "Barbie" : {
+      "comment" : "Localized name of the Barbie brand",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -759,6 +778,7 @@
       }
     },
     "Bitrate" : {
+      "comment" : "Audio/video bitrate",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -810,6 +830,7 @@
       }
     },
     "Calendar" : {
+      "comment" : "Tab/sidebar menu item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -830,6 +851,7 @@
       }
     },
     "Channels" : {
+      "comment" : "Audio channel count",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -900,6 +922,7 @@
       }
     },
     "Codec" : {
+      "comment" : "Audio/video codec",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -910,6 +933,7 @@
       }
     },
     "Color Depth" : {
+      "comment" : "Video color depth",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -970,6 +994,7 @@
       }
     },
     "Continuing" : {
+      "comment" : "(Single word) Series status",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1010,6 +1035,7 @@
       }
     },
     "Custom Formats" : {
+      "comment" : "Custom formats of media file",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1030,6 +1056,7 @@
       }
     },
     "Custom Score" : {
+      "comment" : "Release filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1040,6 +1067,7 @@
       }
     },
     "Daily" : {
+      "comment" : "Series type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1050,6 +1078,7 @@
       }
     },
     "Dangling" : {
+      "comment" : "Media grid filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1060,6 +1089,7 @@
       }
     },
     "Dark" : {
+      "comment" : "Dark appearance/mode",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1070,6 +1100,7 @@
       }
     },
     "Default" : {
+      "comment" : "Default app icon name",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1150,6 +1181,7 @@
       }
     },
     "Deleted" : {
+      "comment" : "(Single word) Series status\nMedia status label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1191,6 +1223,7 @@
       }
     },
     "Digital Release" : {
+      "comment" : "Media grid sorting",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1211,6 +1244,7 @@
       }
     },
     "Discovering new ways of making you wait." : {
+      "comment" : "Release search taunt",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1221,6 +1255,7 @@
       }
     },
     "Display" : {
+      "comment" : "Preferences section title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1231,6 +1266,7 @@
       }
     },
     "Download" : {
+      "comment" : "Short version of Download Release",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1252,6 +1288,7 @@
       }
     },
     "Download Client Unavailable" : {
+      "comment" : "Status of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1262,6 +1299,7 @@
       }
     },
     "Download Client Warning" : {
+      "comment" : "Status of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1272,6 +1310,7 @@
       }
     },
     "Download Failed" : {
+      "comment" : "Status of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1312,6 +1351,7 @@
       }
     },
     "Downloaded" : {
+      "comment" : "Episode status label\nMedia grid filter\nState of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1322,6 +1362,7 @@
       }
     },
     "Downloading" : {
+      "comment" : "(Short) State of task in queue\nState of task in queue\nStatus of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1332,6 +1373,7 @@
       }
     },
     "Dynamic Range" : {
+      "comment" : "Video file dynamic range",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1372,6 +1414,7 @@
       }
     },
     "Ended" : {
+      "comment" : "(Single word) Series status",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1473,6 +1516,7 @@
       }
     },
     "Error" : {
+      "comment" : "Status of the app subscription",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1513,6 +1557,7 @@
       }
     },
     "Expired" : {
+      "comment" : "Status of the app subscription",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1523,6 +1568,7 @@
       }
     },
     "Failed" : {
+      "comment" : "(Short) State of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1563,6 +1609,7 @@
       }
     },
     "File Size" : {
+      "comment" : "Media grid sorting\nRelease filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1694,6 +1741,7 @@
       }
     },
     "Framerate" : {
+      "comment" : "Video frame rate",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1704,6 +1752,7 @@
       }
     },
     "FreeLeech" : {
+      "comment" : "Release filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1724,6 +1773,7 @@
       }
     },
     "Genre" : {
+      "comment" : "Genres of the movie/series",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1744,6 +1794,7 @@
       }
     },
     "Grabbed" : {
+      "comment" : "Media grid sorting",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1825,6 +1876,7 @@
       }
     },
     "Identifier" : {
+      "comment" : "Match type of the release",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1845,6 +1897,7 @@
       }
     },
     "Import Blocked" : {
+      "comment" : "(Short) State of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1865,6 +1918,7 @@
       }
     },
     "Import Pending" : {
+      "comment" : "(Short) State of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1885,6 +1939,7 @@
       }
     },
     "Importing" : {
+      "comment" : "(Short) State of task in queue\nState of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1895,6 +1950,7 @@
       }
     },
     "In Cinemas" : {
+      "comment" : "Media status label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1905,6 +1961,7 @@
       }
     },
     "Inactive" : {
+      "comment" : "Status of the app subscription",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1996,6 +2053,7 @@
       }
     },
     "Interactive Search" : {
+      "comment" : "Source of the release",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2026,6 +2084,7 @@
       }
     },
     "Is this running on Windows?" : {
+      "comment" : "Release search taunt",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2066,6 +2125,7 @@
       }
     },
     "Just testing your patience." : {
+      "comment" : "Release search taunt",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2097,6 +2157,7 @@
       }
     },
     "Languages" : {
+      "comment" : "Metadata row label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2117,6 +2178,7 @@
       }
     },
     "Latest" : {
+      "comment" : "Media search scope",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2137,6 +2199,7 @@
       }
     },
     "Let's hope it's worth the wait." : {
+      "comment" : "Release search taunt",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2147,6 +2210,7 @@
       }
     },
     "Light" : {
+      "comment" : "Light appearance/mode",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2288,6 +2352,7 @@
       }
     },
     "Min. Availability" : {
+      "comment" : "Shorter version of Minimum Availability",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2308,6 +2373,7 @@
       }
     },
     "Missing" : {
+      "comment" : "Episode status label\nMedia grid filter\nState of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2328,7 +2394,7 @@
       }
     },
     "Monitor" : {
-      "comment" : "(verb) picker-label of what to monitor (movie, collection, both)",
+      "comment" : "Label of picker of what to monitor (movie, collection, etc.)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2359,6 +2425,7 @@
       }
     },
     "Monitored" : {
+      "comment" : "Media grid filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2551,6 +2618,7 @@
       }
     },
     "Movies" : {
+      "comment" : "Tab/sidebar menu item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2603,6 +2671,7 @@
       }
     },
     "Network" : {
+      "comment" : "The network that airs the show",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2814,6 +2883,7 @@
       }
     },
     "Not Subscribed" : {
+      "comment" : "Status of the app subscription",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2845,6 +2915,7 @@
       }
     },
     "NOTIFICATION_APPLICATION_UPDATE" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2856,6 +2927,7 @@
       }
     },
     "NOTIFICATION_EPISODE_DOWNLOAD" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2867,6 +2939,7 @@
       }
     },
     "NOTIFICATION_EPISODE_DOWNLOAD_BODY" : {
+      "comment" : "Notification body (series, season, episode)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2878,6 +2951,7 @@
       }
     },
     "NOTIFICATION_EPISODE_GRAB" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2889,6 +2963,7 @@
       }
     },
     "NOTIFICATION_EPISODE_UPGRADE" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2900,6 +2975,7 @@
       }
     },
     "NOTIFICATION_EPISODES_DOWNLOAD" : {
+      "comment" : "Notification title",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2911,6 +2987,7 @@
       }
     },
     "NOTIFICATION_EPISODES_DOWNLOAD_BODY" : {
+      "comment" : "Notification body (series, season)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2922,6 +2999,7 @@
       }
     },
     "NOTIFICATION_EPISODES_GRAB" : {
+      "comment" : "Notification title (episodes, instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2933,6 +3011,7 @@
       }
     },
     "NOTIFICATION_EPISODES_GRAB_BODY" : {
+      "comment" : "Notification body (quality, indexer)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2944,6 +3023,7 @@
       }
     },
     "NOTIFICATION_EPISODES_GRAB_SUBTITLE" : {
+      "comment" : "Notification subtitle (series, season)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2955,6 +3035,7 @@
       }
     },
     "NOTIFICATION_EPISODES_UPGRADE" : {
+      "comment" : "Notification title (episodes, instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2966,6 +3047,7 @@
       }
     },
     "NOTIFICATION_HEALTH" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2977,6 +3059,7 @@
       }
     },
     "NOTIFICATION_HEALTH_RESTORED" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2988,6 +3071,7 @@
       }
     },
     "NOTIFICATION_MANUAL_INTERACTION_REQUIRED" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2999,6 +3083,7 @@
       }
     },
     "NOTIFICATION_MOVIE_ADDED" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3010,6 +3095,7 @@
       }
     },
     "NOTIFICATION_MOVIE_ADDED_BODY" : {
+      "comment" : "Notification body (title, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3021,6 +3107,7 @@
       }
     },
     "NOTIFICATION_MOVIE_DOWNLOAD" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3032,6 +3119,7 @@
       }
     },
     "NOTIFICATION_MOVIE_DOWNLOAD_BODY" : {
+      "comment" : "Notification body (title, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3043,6 +3131,7 @@
       }
     },
     "NOTIFICATION_MOVIE_GRAB" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3054,6 +3143,7 @@
       }
     },
     "NOTIFICATION_MOVIE_GRAB_BODY" : {
+      "comment" : "Notification body (quality, indexer)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3065,6 +3155,7 @@
       }
     },
     "NOTIFICATION_MOVIE_GRAB_SUBTITLE" : {
+      "comment" : "Notification subtitle (movie, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3076,6 +3167,7 @@
       }
     },
     "NOTIFICATION_MOVIE_UPGRADE" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3087,6 +3179,7 @@
       }
     },
     "NOTIFICATION_MOVIE_UPGRADE_BODY" : {
+      "comment" : "Notification body (movie, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3098,6 +3191,7 @@
       }
     },
     "NOTIFICATION_SERIES_ADDED" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3109,6 +3203,7 @@
       }
     },
     "NOTIFICATION_SERIES_ADDED_BODY" : {
+      "comment" : "Notification body (movie, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3120,6 +3215,7 @@
       }
     },
     "NOTIFICATION_SERIES_UPGRADE" : {
+      "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3131,6 +3227,7 @@
       }
     },
     "NOTIFICATION_SERIES_UPGRADE_BODY" : {
+      "comment" : "Notification body (movie, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3225,6 +3322,7 @@
       }
     },
     "Open" : {
+      "comment" : "Short version of Open Website",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3305,6 +3403,7 @@
       }
     },
     "Original" : {
+      "comment" : "Release filter (original language)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3345,6 +3444,7 @@
       }
     },
     "Paused" : {
+      "comment" : "(Short) State of task in queue\nStatus of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3365,6 +3465,7 @@
       }
     },
     "Pending" : {
+      "comment" : "(Short) State of task in queue\nStatus of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3496,6 +3597,7 @@
       }
     },
     "Quality" : {
+      "comment" : "Release filter\nShort version of Quality Profile",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3516,6 +3618,7 @@
       }
     },
     "Queued" : {
+      "comment" : "(Short) State of task in queue\nStatus of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3536,6 +3639,7 @@
       }
     },
     "Rating" : {
+      "comment" : "Media grid sorting\nMedia search scope",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3616,6 +3720,7 @@
       }
     },
     "Release Push" : {
+      "comment" : "Source of the release",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3646,6 +3751,7 @@
       }
     },
     "Released" : {
+      "comment" : "Media status label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3656,6 +3762,7 @@
       }
     },
     "Relevant" : {
+      "comment" : "Media search scope",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3746,6 +3853,7 @@
       }
     },
     "Resolution" : {
+      "comment" : "Video file resolution",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3776,6 +3884,7 @@
       }
     },
     "Revoked" : {
+      "comment" : "Status of the app subscription",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3806,6 +3915,7 @@
       }
     },
     "Runtime" : {
+      "comment" : "Video runtime",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3826,6 +3936,7 @@
       }
     },
     "Scan Type" : {
+      "comment" : "Video scan Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3836,6 +3947,7 @@
       }
     },
     "Score" : {
+      "comment" : "Custom score of media file",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3846,6 +3958,7 @@
       }
     },
     "Search" : {
+      "comment" : "Source of the release",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3996,6 +4109,7 @@
       }
     },
     "Seeders" : {
+      "comment" : "Release filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4016,6 +4130,7 @@
       }
     },
     "Series" : {
+      "comment" : "Tab/sidebar menu item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4116,6 +4231,7 @@
       }
     },
     "Settings" : {
+      "comment" : "Tab/sidebar menu item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4237,6 +4353,7 @@
       }
     },
     "Standard" : {
+      "comment" : "Series type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4267,6 +4384,7 @@
       }
     },
     "Streams" : {
+      "comment" : "Audio stream count",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4277,6 +4395,7 @@
       }
     },
     "Studio" : {
+      "comment" : "The studio that produces the movie",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4327,6 +4446,7 @@
       }
     },
     "System" : {
+      "comment" : "Preferences section header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4358,6 +4478,7 @@
       }
     },
     "TBA" : {
+      "comment" : "(Short) Label if year of item is not available",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4458,6 +4579,7 @@
       }
     },
     "Time flies when you're having fun." : {
+      "comment" : "Release search taunt",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4468,6 +4590,7 @@
       }
     },
     "Title" : {
+      "comment" : "Match type of the release\nMedia grid sorting",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4548,6 +4671,7 @@
       }
     },
     "Try holding your breath." : {
+      "comment" : "Release search taunt",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4558,6 +4682,7 @@
       }
     },
     "Type" : {
+      "comment" : "Short version of Series Type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4568,6 +4693,7 @@
       }
     },
     "Unable to Import Automatically" : {
+      "comment" : "State of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4578,6 +4704,7 @@
       }
     },
     "Unaired" : {
+      "comment" : "Episode status label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4610,6 +4737,7 @@
       }
     },
     "Unknown" : {
+      "comment" : "(Short) State of task in queue\nStatus of task in queue\nStatus of the app subscription",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4650,6 +4778,7 @@
       }
     },
     "Unmonitored" : {
+      "comment" : "Media grid filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4671,6 +4800,7 @@
       }
     },
     "Unreleased" : {
+      "comment" : "State of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4691,6 +4821,7 @@
       }
     },
     "Unwanted" : {
+      "comment" : "State of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4701,6 +4832,7 @@
       }
     },
     "Upcoming" : {
+      "comment" : "(Single word) Series status",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4761,6 +4893,7 @@
       }
     },
     "User Invoked Search" : {
+      "comment" : "Source of the release",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4813,6 +4946,7 @@
       }
     },
     "Waiting" : {
+      "comment" : "(Short) State of task in queue\nState of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4823,6 +4957,7 @@
       }
     },
     "Waiting to Import" : {
+      "comment" : "State of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4833,6 +4968,7 @@
       }
     },
     "Waiting to Process" : {
+      "comment" : "State of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4843,6 +4979,7 @@
       }
     },
     "Wanted" : {
+      "comment" : "Media grid filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4853,6 +4990,7 @@
       }
     },
     "Warning" : {
+      "comment" : "(Short) State of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4884,6 +5022,7 @@
       }
     },
     "Weight" : {
+      "comment" : "Release filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4924,6 +5063,7 @@
       }
     },
     "Year" : {
+      "comment" : "Media grid sorting",
       "localizations" : {
         "en" : {
           "stringUnit" : {

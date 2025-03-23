@@ -16,7 +16,7 @@ struct SettingsDisplaySection: View {
 
             languagePicker
         } header: {
-            Text("Display")
+            Text("Display", comment: "Preferences section title")
         }
     }
 

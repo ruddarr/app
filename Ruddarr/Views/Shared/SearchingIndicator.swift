@@ -4,13 +4,13 @@ import AVFoundation
 
 struct SearchingIndicator: View {
     @State private var messages: [String] = [
-        String(localized: "At least you're not on hold."),
-        String(localized: "Let's hope it's worth the wait."),
-        String(localized: "Discovering new ways of making you wait."),
-        String(localized: "Just testing your patience."),
-        String(localized: "Time flies when you're having fun."),
-        String(localized: "Is this running on Windows?"),
-        String(localized: "Try holding your breath."),
+        String(localized: "At least you're not on hold.", comment: "Release search taunt"),
+        String(localized: "Let's hope it's worth the wait.", comment: "Release search taunt"),
+        String(localized: "Discovering new ways of making you wait.", comment: "Release search taunt"),
+        String(localized: "Just testing your patience.", comment: "Release search taunt"),
+        String(localized: "Time flies when you're having fun.", comment: "Release search taunt"),
+        String(localized: "Is this running on Windows?", comment: "Release search taunt"),
+        String(localized: "Try holding your breath.", comment: "Release search taunt"),
     ]
 
     @State private var opacity: Double = 0

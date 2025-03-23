@@ -26,12 +26,12 @@ struct MovieReleaseSort: Equatable {
 
         var label: some View {
             switch self {
-            case .byWeight: Label("Weight", systemImage: "scalemass")
-            case .byQuality: Label("Quality", systemImage: "slider.horizontal.3")
-            case .bySeeders: Label("Seeders", systemImage: "person.wave.2")
-            case .byFilesize: Label("File Size", systemImage: "internaldrive")
-            case .byAge: Label("Age", systemImage: "calendar")
-            case .byCustomScore: Label("Custom Score", systemImage: "person.badge.plus")
+            case .byWeight: Label(String(localized: "Weight", comment: "Release filter"), systemImage: "scalemass")
+            case .byQuality: Label(String(localized: "Quality", comment: "Release filter"), systemImage: "slider.horizontal.3")
+            case .bySeeders: Label(String(localized: "Seeders", comment: "Release filter"), systemImage: "person.wave.2")
+            case .byFilesize: Label(String(localized: "File Size", comment: "Release filter"), systemImage: "internaldrive")
+            case .byAge: Label(String(localized: "Age", comment: "Release filter"), systemImage: "calendar")
+            case .byCustomScore: Label(String(localized: "Custom Score", comment: "Release filter"), systemImage: "person.badge.plus")
             }
         }
 

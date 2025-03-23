@@ -70,10 +70,10 @@ func languageSingleLabel(_ languages: [MediaLanguage]) -> String {
 }
 
 struct MediaDetailsRow: View {
-    var label: LocalizedStringKey
+    var label: String
     var value: String
 
-    init(_ label: LocalizedStringKey, value: String) {
+    init(_ label: String, value: String) {
         self.label = label
         self.value = value
     }

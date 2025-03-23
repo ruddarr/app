@@ -212,18 +212,18 @@ func localizeReleaseType(_ value: String?) -> String? {
 
 func localizeReleaseSource(_ value: String?) -> String? {
     if value == "Rss" { return String("RSS") }
-    if value == "Search" { return String(localized: "Search") }
-    if value == "UserInvokedSearch" { return String(localized: "User Invoked Search") }
-    if value == "InteractiveSearch" { return String(localized: "Interactive Search") }
-    if value == "ReleasePush" { return String(localized: "Release Push") }
+    if value == "Search" { return String(localized: "Search", comment: "Source of the release") }
+    if value == "UserInvokedSearch" { return String(localized: "User Invoked Search", comment: "Source of the release") }
+    if value == "InteractiveSearch" { return String(localized: "Interactive Search", comment: "Source of the release") }
+    if value == "ReleasePush" { return String(localized: "Release Push", comment: "Source of the release") }
 
     return String(localized: "Unknown")
 }
 
 func localizeMatchType(_ value: String?) -> String? {
-    if value == "Title" { return String(localized: "Title") }
-    if value == "Alias" { return String(localized: "Alias") }
-    if value == "Id" { return String(localized: "Identifier") }
+    if value == "Title" { return String(localized: "Title", comment: "Match type of the release") }
+    if value == "Alias" { return String(localized: "Alias", comment: "Match type of the release") }
+    if value == "Id" { return String(localized: "Identifier", comment: "Match type of the release") }
 
     return String(localized: "Unknown")
 }

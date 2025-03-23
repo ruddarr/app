@@ -41,7 +41,7 @@ struct SettingsSystemSection: View {
                 Button("Cancel", role: .cancel) { }
             }
         } header: {
-            Text("System")
+            Text("System", comment: "Preferences section header")
         } footer: {
             if let version = buildVersion {
                 HStack {

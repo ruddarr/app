@@ -255,10 +255,10 @@ enum SeriesStatus: String, Equatable, Codable {
 
     var label: String {
         switch self {
-        case .continuing: String(localized: "Continuing")
-        case .ended: String(localized: "Ended")
-        case .upcoming: String(localized: "Upcoming")
-        case .deleted: String(localized: "Deleted")
+        case .continuing: String(localized: "Continuing", comment: "(Single word) Series status")
+        case .ended: String(localized: "Ended", comment: "(Single word) Series status")
+        case .upcoming: String(localized: "Upcoming", comment: "(Single word) Series status")
+        case .deleted: String(localized: "Deleted", comment: "(Single word) Series status")
         }
     }
 
@@ -281,9 +281,9 @@ enum SeriesType: String, Equatable, Codable, Identifiable, CaseIterable {
 
     var label: String {
         switch self {
-        case .standard: String(localized: "Standard")
-        case .daily: String(localized: "Daily")
-        case .anime: String(localized: "Anime")
+        case .standard: String(localized: "Standard", comment: "Series type")
+        case .daily: String(localized: "Daily", comment: "Series type")
+        case .anime: String(localized: "Anime", comment: "Series type")
         }
     }
 }

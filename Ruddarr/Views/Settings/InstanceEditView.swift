@@ -216,12 +216,16 @@ struct InstanceEditView: View {
                     }
             }
 
-            Button("Add Header") {
+            Button {
                 instance.headers.append(InstanceHeader())
+            } label: {
+                Text("Add Header", comment: "Add HTTP Header to instance")
             }
 
-            Button("Add Authentication") {
+            Button {
                 showBasicAuthentication = true
+            } label: {
+                Text("Add Authentication", comment: "Add Basic HTTP Authentication to instance")
             }
         } header: {
             HStack {

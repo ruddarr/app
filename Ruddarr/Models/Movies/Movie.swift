@@ -116,24 +116,24 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         return 0
     }
 
-    var stateLabel: LocalizedStringKey {
+    var stateLabel: String {
         if isDownloaded {
-            return "Downloaded"
+            return String(localized: "Downloaded", comment: "State of media item")
         }
 
         if isWaiting {
             if status == .tba || status == .announced {
-                return "Unreleased"
+                return String(localized: "Unreleased", comment: "State of media item")
             }
 
-            return "Waiting"
+            return String(localized: "Waiting", comment: "State of media item")
         }
 
         if monitored && isAvailable {
-            return "Missing"
+            return String(localized: "Missing", comment: "State of media item")
         }
 
-        return "Unwanted"
+        return String(localized: "Unwanted", comment: "State of media item")
     }
 
     var yearLabel: String {
@@ -259,11 +259,11 @@ enum MovieStatus: String, Equatable, Codable {
 
     var label: String {
         switch self {
-        case .tba: String(localized: "TBA")
-        case .announced: String(localized: "Announced")
-        case .inCinemas: String(localized: "In Cinemas")
-        case .released: String(localized: "Released")
-        case .deleted: String(localized: "Deleted")
+        case .tba: String(localized: "TBA", comment: "(Short) Label if year of item is not available")
+        case .announced: String(localized: "Announced", comment: "Media status label")
+        case .inCinemas: String(localized: "In Cinemas", comment: "Media status label")
+        case .released: String(localized: "Released", comment: "Media status label")
+        case .deleted: String(localized: "Deleted", comment: "Media status label")
         }
     }
 }

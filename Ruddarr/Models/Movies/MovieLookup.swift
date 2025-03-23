@@ -29,11 +29,11 @@ class MovieLookup {
         case byYear
         case byRating
 
-        var label: LocalizedStringKey {
+        var label: String {
             switch self {
-            case .byRelevance: "Relevant"
-            case .byYear: "Latest"
-            case .byRating: "Rating"
+            case .byRelevance: String(localized: "Relevant", comment: "Media search scope")
+            case .byYear: String(localized: "Latest", comment: "Media search scope")
+            case .byRating: String(localized: "Rating", comment: "Media search scope")
             }
         }
     }

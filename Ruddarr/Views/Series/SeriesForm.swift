@@ -53,7 +53,7 @@ struct SeriesForm: View {
                 }
             }
         } label: {
-            Text("Monitor", comment: "(verb) picker-label of what to monitor (movie, collection, both)")
+            Text("Monitor", comment: "Label of picker of what to monitor (movie, collection, etc.)")
         }
         .tint(.secondary)
         .onChange(of: addOptions.monitor, initial: true) {
@@ -69,7 +69,7 @@ struct SeriesForm: View {
         } label: {
             ViewThatFits(in: .horizontal) {
                 Text("Quality Profile")
-                Text("Quality")
+                Text("Quality", comment: "Short version of Quality Profile")
             }
         }
         .tint(.secondary)
@@ -83,7 +83,7 @@ struct SeriesForm: View {
         } label: {
             ViewThatFits(in: .horizontal) {
                 Text("Series Type")
-                Text("Type")
+                Text("Type", comment: "Short version of Series Type")
             }
         }
         .tint(.secondary)

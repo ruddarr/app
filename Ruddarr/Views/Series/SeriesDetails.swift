@@ -67,22 +67,25 @@ struct SeriesDetails: View {
 
     var details: some View {
         Grid(alignment: .leading) {
-            MediaDetailsRow("Status", value: "\(series.status.label)")
+            MediaDetailsRow(String(localized: "Status"), value: "\(series.status.label)")
 
             if !series.exists && series.seasonCount != 0 {
-                MediaDetailsRow("Seasons", value: series.seasonCount.formatted())
+                MediaDetailsRow(String(localized: "Seasons"), value: series.seasonCount.formatted())
             }
 
             if let network = series.network, !network.isEmpty {
-                MediaDetailsRow("Network", value: network)
+                MediaDetailsRow(String(localized: "Network"), value: network)
             }
 
             if !series.genres.isEmpty {
-                MediaDetailsRow("Genre", value: series.genreLabel)
+                MediaDetailsRow(String(localized: "Genre"), value: series.genreLabel)
             }
 
             if let episode = nextEpisode {
-                MediaDetailsRow("Airing", value: episode.airDateTimeShortLabel)
+                MediaDetailsRow(
+                    String(localized: "Airing", comment: "The time the next episode airs"),
+                    value: episode.airDateTimeShortLabel
+                )
             }
         }
     }

@@ -30,13 +30,22 @@ struct MediaFileSheet: View {
     var generalMetadata: some View {
         Section {
             VStack(spacing: 6) {
-                row("Added", file.dateAdded.formatted(date: .long, time: .shortened))
+                row(
+                    "Added",
+                    file.dateAdded.formatted(date: .long, time: .shortened)
+                )
                 Divider()
-                row("Score", file.scoreLabel)
+                row(
+                    String(localized: "Score", comment: "Custom score of media file"),
+                    file.scoreLabel
+                )
 
                 if let formats = file.customFormatsList {
                     Divider()
-                    row("Custom Formats", formats.formattedList())
+                    row(
+                        String(localized: "Custom Formats", comment: "Custom formats of media file"),
+                        formats.formattedList()
+                    )
                 }
             }
         } header: {
@@ -50,25 +59,49 @@ struct MediaFileSheet: View {
         if let media = file.mediaInfo {
             Section {
                 VStack(spacing: 6) {
-                    row("Runtime", media.runTime ?? "--")
+                    row(
+                        String(localized: "Runtime", comment: "Video runtime"),
+                        media.runTime ?? "--"
+                    )
                     Divider()
-                    row("Resolution", media.resolution?.replacingOccurrences(of: "x", with: "×") ?? "--")
+                    row(
+                        String(localized: "Resolution", comment: "Video file resolution"),
+                        media.resolution?.replacingOccurrences(of: "x", with: "×") ?? "--"
+                    )
                     Divider()
-                    row("Codec", media.videoCodecLabel ?? "--")
+                    row(
+                        String(localized: "Codec"),
+                        media.videoCodecLabel ?? "--"
+                    )
                     Divider()
 
                     if let dynamicRange = media.videoDynamicRangeLabel {
-                        row("Dynamic Range", dynamicRange)
+                        row(
+                            String(localized: "Dynamic Range", comment: "Video file dynamic range"),
+                            dynamicRange
+                        )
                         Divider()
                     }
 
-                    row("Bitrate", file.videoBitrateLabel(runtime) ?? "--")
+                    row(
+                        String(localized: "Bitrate"),
+                        file.videoBitrateLabel(runtime) ?? "--"
+                    )
                     Divider()
-                    row("Framerate", String(format: "%.0f fps", media.videoFps))
+                    row(
+                        String(localized: "Framerate", comment: "Video frame rate"),
+                        String(format: "%.0f fps", media.videoFps)
+                    )
                     Divider()
-                    row("Color Depth", "\(media.videoBitDepth) bit")
+                    row(
+                        String(localized: "Color Depth", comment: "Video color depth"),
+                        "\(media.videoBitDepth) bit"
+                    )
                     Divider()
-                    row("Scan Type", media.scanType ?? "--")
+                    row(
+                        String(localized: "Scan Type", comment: "Video scan Type"),
+                        media.scanType ?? "--"
+                    )
                 }
             } header: {
                 headline("Video")
@@ -82,16 +115,32 @@ struct MediaFileSheet: View {
         if let media = file.mediaInfo {
             Section {
                 VStack(spacing: 6) {
-                    row("Codec", media.audioCodec ?? "--")
+                    row(
+                        String(localized: "Codec", comment: "Audio/video codec"),
+                        media.audioCodec ?? "--"
+                    )
                     Divider()
-                    row("Channels", "\(media.audioChannels)")
+                    row(
+                        String(localized: "Channels", comment: "Audio channel count"),
+                        "\(media.audioChannels)"
+                    )
                     Divider()
-                    row("Bitrate", formatBitrate(media.audioBitrate) ?? "--")
+                    row(
+                        String(localized: "Bitrate", comment: "Audio/video bitrate"),
+                        formatBitrate(media.audioBitrate) ?? "--"
+                    )
                     Divider()
-                    row("Streams", "\(media.audioStreamCount)")
+                    row(
+                        String(localized: "Streams", comment: "Audio stream count"),
+                        "\(media.audioStreamCount)"
+                    )
                     Divider()
+
                     if let codes = media.audioLanguageCodes {
-                        row("Languages", codes.count <= 3 ? languagesList(codes) : "")
+                        row(
+                            String(localized: "Languages"),
+                            codes.count <= 3 ? languagesList(codes) : ""
+                        )
 
                         if codes.count > 3 {
                             Text(languagesList(codes))
@@ -100,7 +149,10 @@ struct MediaFileSheet: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     } else {
-                        row("Languages", "--")
+                        row(
+                            String(localized: "Languages"),
+                            "--"
+                        )
                     }
                 }
             } header: {
@@ -115,7 +167,10 @@ struct MediaFileSheet: View {
         if let media = file.mediaInfo, let codes = media.subtitleCodes {
             Section {
                 VStack(spacing: 6) {
-                    row("Languages", codes.count <= 3 ? languagesList(codes) : "")
+                    row(
+                        String(localized: "Languages", comment: "Metadata row label"),
+                        codes.count <= 3 ? languagesList(codes) : ""
+                    )
 
                     if codes.count > 3 {
                         Text(languagesList(codes))
@@ -138,7 +193,7 @@ struct MediaFileSheet: View {
             .padding(.top)
     }
 
-    func row(_ label: LocalizedStringKey, _ value: String) -> some View {
+    func row(_ label: String, _ value: String) -> some View {
         HStack(alignment: .top) {
             Text(label)
                 .foregroundStyle(.secondary)

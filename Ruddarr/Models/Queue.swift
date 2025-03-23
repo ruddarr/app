@@ -242,23 +242,23 @@ struct QueueItem: Codable, Identifiable, Equatable {
 
         if status != "completed" {
             return switch status {
-            case "queued": String(localized: "Queued")
-            case "paused": String(localized: "Paused")
-            case "failed": String(localized: "Failed")
-            case "downloading": String(localized: "Downloading")
-            case "delay": String(localized: "Pending")
-            case "downloadClientUnavailable": String(localized: "Pending")
-            case "warning": String(localized: "Warning")
-            default: String(localized: "Unknown")
+            case "queued": String(localized: "Queued", comment: "(Short) State of task in queue")
+            case "paused": String(localized: "Paused", comment: "(Short) State of task in queue")
+            case "failed": String(localized: "Failed", comment: "(Short) State of task in queue")
+            case "downloading": String(localized: "Downloading", comment: "(Short) State of task in queue")
+            case "delay": String(localized: "Pending", comment: "(Short) State of task in queue")
+            case "downloadClientUnavailable": String(localized: "Pending", comment: "(Short) State of task in queue")
+            case "warning": String(localized: "Warning", comment: "(Short) State of task in queue")
+            default: String(localized: "Unknown", comment: "(Short) State of task in queue")
             }
         }
 
         return switch trackedDownloadState {
-        case .importPending: String(localized: "Import Pending")
-        case .importBlocked: String(localized: "Import Blocked")
-        case .importing: String(localized: "Importing")
-        case .failedPending: String(localized: "Waiting")
-        default: String(localized: "Downloading")
+        case .importPending: String(localized: "Import Pending", comment: "(Short) State of task in queue")
+        case .importBlocked: String(localized: "Import Blocked", comment: "(Short) State of task in queue")
+        case .importing: String(localized: "Importing", comment: "(Short) State of task in queue")
+        case .failedPending: String(localized: "Waiting", comment: "(Short) State of task in queue")
+        default: String(localized: "Downloading", comment: "(Short) State of task in queue")
         }
     }
 
@@ -269,23 +269,23 @@ struct QueueItem: Codable, Identifiable, Equatable {
 
         if status != "completed" {
             return switch status {
-            case "queued": String(localized: "Queued")
-            case "paused": String(localized: "Paused")
-            case "failed": String(localized: "Download Failed")
-            case "downloading": String(localized: "Downloading")
-            case "delay": String(localized: "Pending")
-            case "downloadClientUnavailable": String(localized: "Download Client Unavailable")
-            case "warning": String(localized: "Download Client Warning")
-            default: String(localized: "Unknown")
+            case "queued": String(localized: "Queued", comment: "Status of task in queue")
+            case "paused": String(localized: "Paused", comment: "Status of task in queue")
+            case "failed": String(localized: "Download Failed", comment: "Status of task in queue")
+            case "downloading": String(localized: "Downloading", comment: "Status of task in queue")
+            case "delay": String(localized: "Pending", comment: "Status of task in queue")
+            case "downloadClientUnavailable": String(localized: "Download Client Unavailable", comment: "Status of task in queue")
+            case "warning": String(localized: "Download Client Warning", comment: "Status of task in queue")
+            default: String(localized: "Unknown", comment: "Status of task in queue")
             }
         }
 
         return switch trackedDownloadState {
-        case .importPending: String(localized: "Waiting to Import")
-        case .importBlocked: String(localized: "Unable to Import Automatically")
-        case .importing: String(localized: "Importing")
-        case .failedPending: String(localized: "Waiting to Process")
-        default: String(localized: "Downloading")
+        case .importPending: String(localized: "Waiting to Import", comment: "State of task in queue")
+        case .importBlocked: String(localized: "Unable to Import Automatically", comment: "State of task in queue")
+        case .importing: String(localized: "Importing", comment: "State of task in queue")
+        case .failedPending: String(localized: "Waiting to Process", comment: "State of task in queue")
+        default: String(localized: "Downloading", comment: "State of task in queue")
         }
     }
 }

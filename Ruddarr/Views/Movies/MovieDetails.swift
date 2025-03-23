@@ -63,23 +63,26 @@ struct MovieDetails: View {
 
     var details: some View {
         Grid(alignment: .leading) {
-            MediaDetailsRow("Status", value: "\(movie.status.label)")
+            MediaDetailsRow(String(localized: "Status"), value: "\(movie.status.label)")
 
             if let studio = movie.studio, !studio.isEmpty {
-                MediaDetailsRow("Studio", value: studio)
+                MediaDetailsRow(
+                    String(localized: "Studio", comment: "The studio that produces the movie"),
+                    value: studio
+                )
             }
 
             if !movie.genres.isEmpty {
-                MediaDetailsRow("Genre", value: movie.genreLabel)
+                MediaDetailsRow(String(localized: "Genre"), value: movie.genreLabel)
             }
 
             if movie.isDownloaded {
                 Group {
-                    MediaDetailsRow("Video", value: mediaDetailsVideoQuality(movie.movieFile))
-                    MediaDetailsRow("Audio", value: mediaDetailsAudioQuality(movie.movieFile))
+                    MediaDetailsRow(String(localized: "Video"), value: mediaDetailsVideoQuality(movie.movieFile))
+                    MediaDetailsRow(String(localized: "Audio"), value: mediaDetailsAudioQuality(movie.movieFile))
 
                     if let subtitles = mediaDetailsSubtitles(movie.movieFile, deviceType) {
-                        MediaDetailsRow("Subtitles", value: subtitles)
+                        MediaDetailsRow(String(localized: "Subtitles"), value: subtitles)
                     }
                 }.onTapGesture {
                     fileSheet = movie.movieFile

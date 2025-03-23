@@ -3,7 +3,9 @@ api_token_env: CROWDIN_TOKEN
 
 preserve_hierarchy: true
 
-# See `EXPORTED` variable in `ci_scripts/ci_post_clone.sh`
+# When adding a new language:
+#  1. Add the subscription description: https://appstoreconnect.apple.com/apps/6476240130/distribution/subscriptions
+#  2. Convert Crowdin code to Apple code using `EXPORTED` variable in `ci_scripts/ci_post_clone.sh`
 export_languages:
   - de
   - fr
