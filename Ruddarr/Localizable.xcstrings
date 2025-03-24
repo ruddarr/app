@@ -3551,6 +3551,16 @@
         }
       }
     },
+    "Preferred language and other app-related settings can be configured in [Settings > Apps > %@](#link)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferred language and other app-related settings can be configured in [Settings > Apps > %@](#link)."
+          }
+        }
+      }
+    },
     "Premieres" : {
       "localizations" : {
         "en" : {

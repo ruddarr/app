@@ -20,6 +20,10 @@ struct SettingsPreferencesSection: View {
             #endif
         } header: {
             Text("Preferences")
+        } footer: {
+            #if os(iOS)
+                footer
+            #endif
         }
         .subscriptionStatusTask(
             for: Subscription.group,
@@ -87,6 +91,20 @@ struct SettingsPreferencesSection: View {
             }
         }
         .foregroundStyle(.label)
+    }
+
+    var footer: some View {
+        let text = String(localized: "Preferred language and other app-related settings can be configured in [Settings > Apps > \(Ruddarr.name)](#link).")
+
+        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
+            #if os(iOS)
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            #endif
+
+            return .handled
+        })
     }
 
     func handleSubscriptionStatusChange(
