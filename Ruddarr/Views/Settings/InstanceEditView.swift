@@ -273,7 +273,7 @@ struct InstanceEditView: View {
         #if os(macOS)
             EmptyView()
         #else
-            Button("Paste", action: callback)
+            Button(String(localized: "Paste", comment: "Paste from clipboard"), action: callback)
                 .buttonStyle(PlainButtonStyle())
                 .foregroundStyle(settings.theme.tint)
         #endif
