@@ -18,8 +18,9 @@ struct SearchingIndicator: View {
 
     @State private var player: AVAudioPlayer?
     @State private var seconds: Int = 0
+    @State private var audioTimer: Timer?
 
-    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    private let textTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         ProgressView {
@@ -33,10 +34,10 @@ struct SearchingIndicator: View {
             }
         }
         .tint(.secondary)
-        .onReceive(timer, perform: tick)
+        .onReceive(textTimer, perform: tick)
         .onDisappear {
             stopAudio()
-            timer.upstream.connect().cancel()
+            textTimer.upstream.connect().cancel()
         }
         .onTapGesture {
             stopAudio()
@@ -75,12 +76,44 @@ struct SearchingIndicator: View {
         }
 
         player = try? AVAudioPlayer(contentsOf: sound)
-        player?.volume = 0.25
+        player?.volume = 0
         player?.play()
+
+        fadeVolume(to: 0.25)
     }
 
     private func stopAudio() {
-        player?.stop()
+        fadeVolume(to: 0)
+    }
+
+    @MainActor
+    private func fadeVolume(to endVolume: Float) {
+        audioTimer?.invalidate()
+
+        let startVolume = player?.volume ?? 0
+        let duration: TimeInterval = 2
+        let interval: TimeInterval = 0.1
+        let steps = duration / interval
+        let volumeStep = (endVolume - startVolume) / Float(steps)
+
+        audioTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
+            MainActor.assumeIsolated {
+                let currentVolume = player?.volume ?? 0
+                let newVolume = currentVolume + volumeStep
+
+                if (volumeStep > 0 && newVolume >= endVolume) || (volumeStep < 0 && newVolume <= endVolume) {
+                    player?.volume = endVolume
+
+                    if endVolume == 0 {
+                        player?.stop()
+                    }
+
+                    audioTimer?.invalidate()
+                } else {
+                    player?.volume = newVolume
+                }
+            }
+        }
     }
 }
 
