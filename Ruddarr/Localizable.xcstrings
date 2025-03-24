@@ -390,6 +390,7 @@
       }
     },
     "All Events" : {
+      "comment" : "(Short) History event filter",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1182,7 +1183,7 @@
       }
     },
     "Deleted" : {
-      "comment" : "(Single word) Series status\nMedia status label",
+      "comment" : "(Short) History event filter\n(Short) Title of history event\n(Single word) Series status\nMedia status label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1311,7 +1312,7 @@
       }
     },
     "Download Failed" : {
-      "comment" : "Status of task in queue",
+      "comment" : "Status of task in queue\nTitle of history event type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1322,6 +1323,7 @@
       }
     },
     "Download Ignored" : {
+      "comment" : "Title of history event type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1467,6 +1469,7 @@
       }
     },
     "Episode Deleted" : {
+      "comment" : "Title of history event type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1487,6 +1490,7 @@
       }
     },
     "Episode Renamed" : {
+      "comment" : "Title of history event type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1571,7 +1575,7 @@
       }
     },
     "Failed" : {
-      "comment" : "(Short) State of task in queue",
+      "comment" : "(Short) History event filter\n(Short) State of task in queue\n(Short) Title of history event",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1736,6 +1740,7 @@
       }
     },
     "Folder Imported" : {
+      "comment" : "Title of history event type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1800,7 +1805,7 @@
       }
     },
     "Grabbed" : {
-      "comment" : "Media grid sorting",
+      "comment" : "(Short) History event filter\n(Short) Title of history event\nMedia grid sorting",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1894,6 +1899,7 @@
       }
     },
     "Ignored" : {
+      "comment" : "(Short) History event filter\n(Short) Title of history event",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1936,6 +1942,7 @@
       }
     },
     "Imported" : {
+      "comment" : "(Short) History event filter\n(Short) Title of history event",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2530,6 +2537,7 @@
       }
     },
     "Movie Deleted" : {
+      "comment" : "Title of history event type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2600,6 +2608,7 @@
       }
     },
     "Movie Renamed" : {
+      "comment" : "Title of history event type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3334,18 +3343,8 @@
         }
       }
     },
-    "Open" : {
-      "comment" : "Short version of Open Website",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open"
-          }
-        }
-      }
-    },
     "Open %@" : {
+      "comment" : "Open (app name)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3719,6 +3718,7 @@
       }
     },
     "Release Grabbed" : {
+      "comment" : "Title of history event type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3792,6 +3792,7 @@
       }
     },
     "Remove" : {
+      "comment" : "(Short) Removing a queue task",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3822,6 +3823,7 @@
       }
     },
     "Renamed" : {
+      "comment" : "(Short) History event filter\n(Short) Title of history event",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4761,7 +4763,7 @@
       }
     },
     "Unknown" : {
-      "comment" : "(Short) State of task in queue\nStatus of task in queue\nStatus of the app subscription",
+      "comment" : "(Short) State of task in queue\n(Short) Title of history event\nStatus of task in queue\nStatus of the app subscription",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4772,6 +4774,7 @@
       }
     },
     "Unknown Event" : {
+      "comment" : "Title of history event type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4893,17 +4896,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "URL Not Reachable"
-          }
-        }
-      }
-    },
-    "URL returned is a %@ instance." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "URL returned is a %@ instance."
           }
         }
       }
@@ -5053,6 +5045,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Watch Trailer"
+          }
+        }
+      }
+    },
+    "Website" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Website"
           }
         }
       }

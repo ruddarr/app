@@ -172,32 +172,51 @@ enum HistoryEventType: String, Codable {
         }
     }
 
-    var label: LocalizedStringKey {
+    var label: String {
         switch self {
-        case .unknown: "Unknown"
-        case .grabbed: "Grabbed"
-        case .downloadFolderImported: "Imported"
-        case .downloadFailed: "Failed"
-        case .downloadIgnored: "Ignored"
-        case .movieFileRenamed, .episodeFileRenamed: "Renamed"
-        case .movieFileDeleted, .episodeFileDeleted: "Deleted"
-        case .movieFolderImported, .seriesFolderImported: "Imported"
+        case .unknown:
+            String(localized: "Unknown", comment: "(Short) Title of history event")
+        case .grabbed:
+            String(localized: "Grabbed", comment: "(Short) Title of history event")
+        case .downloadFolderImported:
+            String(localized: "Imported", comment: "(Short) Title of history event")
+        case .downloadFailed:
+            String(localized: "Failed", comment: "(Short) Title of history event")
+        case .downloadIgnored:
+            String(localized: "Ignored", comment: "(Short) Title of history event")
+        case .movieFileRenamed, .episodeFileRenamed:
+            String(localized: "Renamed", comment: "(Short) Title of history event")
+        case .movieFileDeleted, .episodeFileDeleted:
+            String(localized: "Deleted", comment: "(Short) Title of history event")
+        case .movieFolderImported, .seriesFolderImported:
+            String(localized: "Imported", comment: "(Short) Title of history event")
         }
     }
 
-    var title: LocalizedStringKey {
+    var title: String {
         switch self {
-        case .unknown: "Unknown Event"
-        case .grabbed: "Release Grabbed"
-        case .downloadFolderImported: "Folder Imported"
-        case .downloadFailed: "Download Failed"
-        case .downloadIgnored: "Download Ignored"
-        case .movieFileRenamed: "Movie Renamed"
-        case .movieFileDeleted: "Movie Deleted"
-        case .movieFolderImported: "Folder Imported"
-        case .episodeFileRenamed: "Episode Renamed"
-        case .episodeFileDeleted: "Episode Deleted"
-        case .seriesFolderImported: "Folder Imported"
+        case .unknown:
+            String(localized: "Unknown Event", comment: "Title of history event type")
+        case .grabbed:
+            String(localized: "Release Grabbed", comment: "Title of history event type")
+        case .downloadFolderImported:
+            String(localized: "Folder Imported", comment: "Title of history event type")
+        case .downloadFailed:
+            String(localized: "Download Failed", comment: "Title of history event type")
+        case .downloadIgnored:
+            String(localized: "Download Ignored", comment: "Title of history event type")
+        case .movieFileRenamed:
+            String(localized: "Movie Renamed", comment: "Title of history event type")
+        case .movieFileDeleted:
+            String(localized: "Movie Deleted", comment: "Title of history event type")
+        case .movieFolderImported:
+            String(localized: "Folder Imported", comment: "Title of history event type")
+        case .episodeFileRenamed:
+            String(localized: "Episode Renamed", comment: "Title of history event type")
+        case .episodeFileDeleted:
+            String(localized: "Episode Deleted", comment: "Title of history event type")
+        case .seriesFolderImported:
+            String(localized: "Folder Imported", comment: "Title of history event type")
         }
     }
 }
