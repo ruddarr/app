@@ -46,14 +46,14 @@ struct Episode: Identifiable, Codable, Equatable {
 
     var statusLabel: String {
         if hasFile {
-            return String(localized: "Downloaded", comment: "Episode status label")
+            return String(localized: "Downloaded", comment: "(Single word) Episode status label")
         }
 
         if !hasAired {
-            return String(localized: "Unaired", comment: "Episode status label")
+            return String(localized: "Unaired", comment: "(Single word) Episode status label")
         }
 
-        return String(localized: "Missing", comment: "Episode status label")
+        return String(localized: "Missing", comment: "(Single word) Episode status label")
     }
 
     var runtimeLabel: String? {

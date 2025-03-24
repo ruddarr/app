@@ -44,8 +44,11 @@ struct SettingsPreferencesSection: View {
                 Text(tab.label)
             }
         } label: {
-            Label("Home", systemImage: "house")
-                .labelStyle(SettingsIconLabelStyle(color: .gray, size: 13))
+            Label(
+                String(localized: "Home", comment: "(Preferences) Home tab"),
+                systemImage: "house"
+            )
+            .labelStyle(SettingsIconLabelStyle(color: .gray, size: 13))
         }
         .tint(.secondary)
         .onChange(of: settings.theme) {

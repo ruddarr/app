@@ -208,11 +208,11 @@ struct MovieReleaseSheet: View {
         }
 
         if release.isProper {
-            flags.append(String(localized: "Proper"))
+            flags.append(String(localized: "Proper", comment: "The PROPER flag"))
         }
 
         if release.isRepack {
-            flags.append(String(localized: "Repack"))
+            flags.append(String(localized: "Repack", comment: "The REPACK flag"))
         }
 
         return flags

@@ -337,7 +337,7 @@ enum InstanceError: Error {
     case urlIsLocal
     case urlNotValid
     case labelEmpty
-    case badAppName(_ name: String)
+    case badAppName(_ reported: String, _ expected: String)
     case apiError(_ error: API.Error)
 }
 
@@ -363,8 +363,8 @@ extension InstanceError: LocalizedError {
             return String(localized: "Enter a valid URL.")
         case .labelEmpty:
             return String(localized: "Enter an instance label.")
-        case .badAppName(let name):
-            return String(localized: "URL returned is a \(name) instance.")
+        case .badAppName(let reported, let expected):
+            return String(localized: "URL identified itself as a \(reported) instance, not a \(expected) instance.")
         case .apiError(let error):
             return error.recoverySuggestion
         }

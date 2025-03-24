@@ -26,7 +26,7 @@ struct BugSheet: View {
                 }
 
                 ToolbarItem(placement: .primaryAction) {
-                    Button("Submit", action: sendReport)
+                    Button(String(localized: "Submit", comment: "Send bug report"), action: sendReport)
                         .disabled(!canBeSent)
                 }
             }

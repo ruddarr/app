@@ -332,18 +332,18 @@ enum SeriesMonitorType: String, Codable, Identifiable, CaseIterable {
     var label: String {
         switch self {
         case .unknown: String(localized: "Unknown")
-        case .all: String(localized: "All Episodes")
-        case .future: String(localized: "Future Episodes")
-        case .missing: String(localized: "Missing Episodes")
-        case .existing: String(localized: "Existing Episodes")
-        case .recent: String(localized: "Recent Episodes")
-        case .pilot: String(localized: "Pilot Episode")
-        case .firstSeason: String(localized: "First Season")
-        case .lastSeason: String(localized: "Last Season")
+        case .all: String(localized: "All Episodes", comment: "Series monitoring option")
+        case .future: String(localized: "Future Episodes", comment: "Series monitoring option")
+        case .missing: String(localized: "Missing Episodes", comment: "Series monitoring option")
+        case .existing: String(localized: "Existing Episodes", comment: "Series monitoring option")
+        case .recent: String(localized: "Recent Episodes", comment: "Series monitoring option")
+        case .pilot: String(localized: "Pilot Episode", comment: "Series monitoring option")
+        case .firstSeason: String(localized: "First Season", comment: "Series monitoring option")
+        case .lastSeason: String(localized: "Last Season", comment: "Series monitoring option")
         case .latestSeason: ""
-        case .monitorSpecials: String(localized: "Monitor Specials")
-        case .unmonitorSpecials: String(localized: "Unmonitor Specials")
-        case .none: String(localized: "None")
+        case .monitorSpecials: String(localized: "Monitor Specials", comment: "Series monitoring option")
+        case .unmonitorSpecials: String(localized: "Unmonitor Specials", comment: "Series monitoring option")
+        case .none: String(localized: "None", comment: "Series monitoring option")
         case .skip: ""
         }
     }

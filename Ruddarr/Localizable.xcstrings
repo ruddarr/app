@@ -379,6 +379,7 @@
       }
     },
     "All Episodes" : {
+      "comment" : "Series monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1351,7 +1352,7 @@
       }
     },
     "Downloaded" : {
-      "comment" : "Episode status label\nMedia grid filter\nState of media item",
+      "comment" : "(Single word) Episode status label\nMedia grid filter\nState of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1537,6 +1538,7 @@
       }
     },
     "Everything" : {
+      "comment" : "Movies and series filter option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1547,6 +1549,7 @@
       }
     },
     "Existing Episodes" : {
+      "comment" : "Series monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1700,6 +1703,7 @@
       }
     },
     "First Season" : {
+      "comment" : "Series monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1721,6 +1725,7 @@
       }
     },
     "Flags" : {
+      "comment" : "Indexer flags",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1763,6 +1768,7 @@
       }
     },
     "Future Episodes" : {
+      "comment" : "Series monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1856,6 +1862,7 @@
       }
     },
     "Home" : {
+      "comment" : "(Preferences) Home tab",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2168,6 +2175,7 @@
       }
     },
     "Last Season" : {
+      "comment" : "Series monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2312,6 +2320,7 @@
       }
     },
     "Match Type" : {
+      "comment" : "Release match type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2332,6 +2341,7 @@
       }
     },
     "Metadata" : {
+      "comment" : "Type of the extra movie file",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2373,7 +2383,7 @@
       }
     },
     "Missing" : {
-      "comment" : "Episode status label\nMedia grid filter\nState of media item",
+      "comment" : "(Single word) Episode status label\nMedia grid filter\nState of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2384,6 +2394,7 @@
       }
     },
     "Missing Episodes" : {
+      "comment" : "Series monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2415,6 +2426,7 @@
       }
     },
     "Monitor Specials" : {
+      "comment" : "Series monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2618,7 +2630,7 @@
       }
     },
     "Movies" : {
-      "comment" : "Tab/sidebar menu item",
+      "comment" : "Plural. Tab/sidebar menu item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2873,6 +2885,7 @@
       }
     },
     "None" : {
+      "comment" : "Series monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3414,6 +3427,7 @@
       }
     },
     "Other" : {
+      "comment" : "Type of the extra movie file",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3486,6 +3500,7 @@
       }
     },
     "Pilot Episode" : {
+      "comment" : "Series monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3537,6 +3552,7 @@
       }
     },
     "Preserve" : {
+      "comment" : "(Preferences) Preserve release filters",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3557,6 +3573,7 @@
       }
     },
     "Proper" : {
+      "comment" : "The PROPER flag",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3587,6 +3604,7 @@
       }
     },
     "Published" : {
+      "comment" : "Release publish date",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3650,6 +3668,7 @@
       }
     },
     "Recent Episodes" : {
+      "comment" : "Series monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3813,6 +3832,7 @@
       }
     },
     "Repack" : {
+      "comment" : "The REPACK flag",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3833,6 +3853,7 @@
       }
     },
     "Reset" : {
+      "comment" : "(Preferences) Reset release filters",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4130,7 +4151,7 @@
       }
     },
     "Series" : {
-      "comment" : "Tab/sidebar menu item",
+      "comment" : "Plural. Tab/sidebar menu item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4323,6 +4344,7 @@
       }
     },
     "Source" : {
+      "comment" : "Release source",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4406,6 +4428,7 @@
       }
     },
     "Submit" : {
+      "comment" : "Send bug report",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4436,6 +4459,7 @@
       }
     },
     "Subtitles" : {
+      "comment" : "Type of the extra movie file",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4704,7 +4728,7 @@
       }
     },
     "Unaired" : {
-      "comment" : "Episode status label",
+      "comment" : "(Single word) Episode status label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4768,6 +4792,7 @@
       }
     },
     "Unmonitor Specials" : {
+      "comment" : "Series monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4852,6 +4877,16 @@
         }
       }
     },
+    "URL identified itself as a %@ instance, not a %@ instance." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "URL identified itself as a %1$@ instance, not a %2$@ instance."
+          }
+        }
+      }
+    },
     "URL Not Reachable" : {
       "localizations" : {
         "en" : {
@@ -4863,6 +4898,7 @@
       }
     },
     "URL returned is a %@ instance." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
