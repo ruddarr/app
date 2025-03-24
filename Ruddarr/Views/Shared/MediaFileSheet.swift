@@ -56,6 +56,7 @@ struct MediaFileSheet: View {
 
     @ViewBuilder
     var videoMetadata: some View {
+        // swiftlint:disable closure_body_length
         if let media = file.mediaInfo {
             Section {
                 VStack(spacing: 6) {
@@ -108,6 +109,7 @@ struct MediaFileSheet: View {
                     .padding(.bottom, 4)
             }
         }
+        // swiftlint:enable closure_body_length
     }
 
     @ViewBuilder

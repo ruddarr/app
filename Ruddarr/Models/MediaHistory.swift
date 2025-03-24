@@ -110,7 +110,7 @@ struct MediaHistoryEvent: Identifiable, Codable {
             case "Manual":
                 String(localized: "File was deleted either manually or by a client through the API.")
             case "MissingFromDisk":
-                eventType == .episodeFileDeleted
+                eventType == .episodeFileDeleted // swiftlint:disable:next void_function_in_ternary
                     ? String(localized: "File was not found on disk so it was unlinked from the episode in the database.")
                     : String(localized: "File was not found on disk so it was unlinked from the movie in the database.")
             case "Upgrade":
