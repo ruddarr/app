@@ -44,6 +44,16 @@
         }
       }
     },
+    "%@ does not start an automatic search when adding media, but you can." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ does not start an automatic search when adding media, but you can."
+          }
+        }
+      }
+    },
     "%@." : {
       "comment" : "Prefix for episode title (episode number)",
       "localizations" : {
@@ -3447,6 +3457,7 @@
       }
     },
     "Paste" : {
+      "comment" : "Paste from clipboard",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3923,16 +3934,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Root Folder"
-          }
-        }
-      }
-    },
-    "Ruddarr does not start an automatic search when adding media, but you can." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ruddarr does not start an automatic search when adding media, but you can."
           }
         }
       }
