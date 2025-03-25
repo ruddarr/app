@@ -114,7 +114,7 @@ struct MovieDetails: View {
                 Task { await dispatchSearch() }
             } label: {
                 ButtonLabel(
-                    text: "Automatic",
+                    text: String(localized: "Automatic"),
                     icon: "magnifyingglass",
                     isLoading: dispatchingSearch
                 )
@@ -127,7 +127,7 @@ struct MovieDetails: View {
             .popoverTip(NoAutomaticSearchTip())
 
             NavigationLink(value: MoviesPath.releases(movie.id)) {
-                ButtonLabel(text: "Interactive", icon: "person.fill")
+                ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
@@ -140,7 +140,7 @@ struct MovieDetails: View {
             Menu {
                 MovieLinks(movie: movie)
             } label: {
-                ButtonLabel(text: "Open In...", icon: "arrow.up.right.square")
+                ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.right.square")
                     .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)

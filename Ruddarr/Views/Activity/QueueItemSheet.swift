@@ -255,8 +255,8 @@ struct QueueItemSheet: View {
         Link(destination: URL(string: "dsdownload://")!, label: {
             ButtonLabel(
                 text: deviceType == .phone
-                ? String("DSLoad")
-                : String(localized: "Open \("DSLoad")", comment: "Open (app name)"),
+                    ? String("DSLoad")
+                    : String(localized: "Open \("DSLoad")", comment: "Open (app name)"),
                 icon: "arrow.up.right.square"
             )
             .modifier(MediaPreviewActionModifier())

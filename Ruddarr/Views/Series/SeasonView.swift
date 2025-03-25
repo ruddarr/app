@@ -121,7 +121,7 @@ struct SeasonView: View {
                 Task { await dispatchSearch() }
             } label: {
                 ButtonLabel(
-                    text: "Automatic",
+                    text: String(localized: "Automatic"),
                     icon: "magnifyingglass",
                     isLoading: dispatchingSearch
                 )
@@ -134,7 +134,7 @@ struct SeasonView: View {
             NavigationLink(
                 value: SeriesPath.releases(series.id, seasonId, nil)
             ) {
-                ButtonLabel(text: "Interactive", icon: "person.fill")
+                ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)

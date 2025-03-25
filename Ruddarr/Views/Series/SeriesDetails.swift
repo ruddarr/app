@@ -109,7 +109,7 @@ struct SeriesDetails: View {
                 Task { await dispatchSearch() }
             } label: {
                 ButtonLabel(
-                    text: "Search Monitored",
+                    text: String(localized: "Search Monitored"),
                     icon: "magnifyingglass",
                     isLoading: dispatchingSearch
                 )
@@ -131,7 +131,7 @@ struct SeriesDetails: View {
             Menu {
                 SeriesLinks(series: series)
             } label: {
-                ButtonLabel(text: "Open In...", icon: "arrow.up.right.square")
+                ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.right.square")
                     .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
