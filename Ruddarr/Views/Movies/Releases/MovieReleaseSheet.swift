@@ -86,6 +86,7 @@ struct MovieReleaseSheet: View {
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
+            .lineLimit(1)
 
             CustomFormats(tags())
         }

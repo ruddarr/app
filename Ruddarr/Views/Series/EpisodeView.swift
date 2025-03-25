@@ -281,9 +281,7 @@ struct EpisodeView: View {
         }
         .sheet(item: $eventSheet) { event in
             MediaEventSheet(event: event)
-                .presentationDetents(
-                    event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
-                )
+                .presentationDetents(for: event)
         }
     }
 }

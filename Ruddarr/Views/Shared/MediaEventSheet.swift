@@ -14,45 +14,47 @@ struct MediaEventSheet: View {
                 dismiss()
             }
 
-            VStack(alignment: .leading) {
-                if let instanceId, let instance = settings.instanceById(instanceId) {
-                    Text(instance.label)
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .textCase(.uppercase)
-                        .tracking(1.1)
-                        .foregroundStyle(settings.theme.tint)
+            ScrollView {
+                VStack(alignment: .leading) {
+                    if let instanceId, let instance = settings.instanceById(instanceId) {
+                        Text(instance.label)
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .textCase(.uppercase)
+                            .tracking(1.1)
+                            .foregroundStyle(settings.theme.tint)
+                    }
+
+                    Text(event.eventType.title)
+                        .font(.title2.bold())
+                        .kerning(-0.5)
+                        .padding(.trailing, 40)
+
+                    Text(formatDate(event.date))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+
+                    if event.eventType == .grabbed {
+                        CustomFormats(tags())
+                    }
+
+                    Text(event.description)
+                        .font(.callout)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .textSelection(.enabled)
+                        .padding(.top, 12)
+                        .padding(.bottom)
+
+                    if event.eventType == .grabbed {
+                        grabbedDetails
+                    }
+
+                    Spacer()
+                    Spacer()
                 }
-
-                Text(event.eventType.title)
-                    .font(.title2.bold())
-                    .kerning(-0.5)
-                    .padding(.trailing, 40)
-
-                Text(formatDate(event.date))
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-
-                if event.eventType == .grabbed {
-                    CustomFormats(tags())
-                }
-
-                Text(event.description)
-                    .font(.callout)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .textSelection(.enabled)
-                    .padding(.top, 12)
-                    .padding(.bottom)
-
-                if event.eventType == .grabbed {
-                    grabbedDetails
-                }
-
-                Spacer()
-                Spacer()
+                .padding(.top)
+                .viewPadding(.horizontal)
             }
-            .viewPadding(.horizontal)
-            .padding(.top)
         }
     }
 

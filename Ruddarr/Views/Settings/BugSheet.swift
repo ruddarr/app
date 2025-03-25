@@ -17,8 +17,6 @@ struct BugSheet: View {
                 emailField
                 reportField
             }
-            .padding()
-            .navigationTitle("Report a Bug")
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

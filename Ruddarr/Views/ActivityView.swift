@@ -73,7 +73,7 @@ struct ActivityView: View {
             .sheet(item: $selectedItem) { item in
                 NavigationStack {
                     QueueItemSheet(item: item)
-                        .presentationDetents([
+                        .presentationDetents(dynamic: [
                             deviceType == .phone ? .fraction(0.7) : .large
                         ])
                         .environmentObject(settings)
