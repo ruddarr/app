@@ -89,5 +89,6 @@ extension MovieDetails {
         }
         .font(.callout)
         .foregroundStyle(.secondary)
+        .lineLimit(1)
     }
 }

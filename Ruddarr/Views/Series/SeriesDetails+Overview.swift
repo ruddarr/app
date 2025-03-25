@@ -61,24 +61,41 @@ extension SeriesDetails {
     }
 
     var detailsSubtitle: some View {
-        HStack(spacing: 6) {
-            Text(series.yearLabel)
-            Bullet()
-
-            if let runtime = series.runtimeLabel {
-                Text(runtime)
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 6) {
+                Text(series.yearLabel)
                 Bullet()
+
+                if let runtime = series.runtimeLabel {
+                    Text(runtime)
+                    Bullet()
+                }
+
+                Text(series.certificationLabel).lineLimit(1)
+
+                if deviceType != .phone, let size = series.sizeLabel {
+                    Bullet()
+                    Text(size)
+                }
             }
 
-            Text(series.certificationLabel).lineLimit(1)
-
-            if deviceType != .phone, let size = series.sizeLabel {
+            HStack(spacing: 6) {
+                Text(series.yearLabel)
                 Bullet()
-                Text(size)
+
+                if let runtime = series.runtimeLabel {
+                    Text(runtime)
+                }
+
+                if deviceType != .phone, let size = series.sizeLabel {
+                    Bullet()
+                    Text(size)
+                }
             }
         }
         .font(.callout)
         .foregroundStyle(.secondary)
+        .lineLimit(1)
     }
 
     @ViewBuilder
