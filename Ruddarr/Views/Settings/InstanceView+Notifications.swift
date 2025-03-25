@@ -6,7 +6,7 @@ extension InstanceView {
         #if os(macOS)
             return String(format: "\"%@\"", String(localized: "System Settings > Notifications > \(Ruddarr.name)", comment: "macOS path"))
         #else
-            return String(format: "[%@](#link)", String(localized: "Settings > Notifications > \(Ruddarr.name)", comment: "iOS path"))
+            return String(format: "[%@](#link)", String(localized: "System Settings", comment: "iOS path"))
         #endif
     }
 

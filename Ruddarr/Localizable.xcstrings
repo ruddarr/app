@@ -3551,12 +3551,12 @@
         }
       }
     },
-    "Preferred language and other app-related settings can be configured in [Settings > Apps > %@](#link)." : {
+    "Preferred language and other app-related settings can be configured in the [System Settings](#link)." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Preferred language and other app-related settings can be configured in [Settings > Apps > %@](#link)."
+            "value" : "Preferred language and other app-related settings can be configured in the [System Settings](#link)."
           }
         }
       }
@@ -4275,17 +4275,6 @@
         }
       }
     },
-    "Settings > Notifications > %@" : {
-      "comment" : "iOS path",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings > Notifications > %@"
-          }
-        }
-      }
-    },
     "Share App" : {
       "localizations" : {
         "en" : {
@@ -4489,6 +4478,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "System"
+          }
+        }
+      }
+    },
+    "System Settings" : {
+      "comment" : "iOS path",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System Settings"
           }
         }
       }

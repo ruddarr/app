@@ -94,7 +94,7 @@ struct SettingsPreferencesSection: View {
     }
 
     var footer: some View {
-        let text = String(localized: "Preferred language and other app-related settings can be configured in [Settings > Apps > \(Ruddarr.name)](#link).")
+        let text = String(localized: "Preferred language and other app-related settings can be configured in the [System Settings](#link).")
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
             #if os(iOS)
