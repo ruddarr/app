@@ -4515,7 +4515,7 @@
       }
     },
     "TBA" : {
-      "comment" : "(Short) Label if year of item is not available",
+      "comment" : "(Short, 3-6 characters) Conveying unannounced",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4747,6 +4747,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unaired"
+          }
+        }
+      }
+    },
+    "Unannounced" : {
+      "comment" : "Media status label\nMissing media title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unannounced"
           }
         }
       }

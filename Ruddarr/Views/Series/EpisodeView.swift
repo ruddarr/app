@@ -80,6 +80,7 @@ struct EpisodeView: View {
 
             Text(episode.titleLabel)
                 .font(.largeTitle.bold())
+                .italic(episode.title == nil)
                 .kerning(-0.5)
 
             HStack(spacing: 6) {

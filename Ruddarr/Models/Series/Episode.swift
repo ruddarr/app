@@ -37,7 +37,7 @@ struct Episode: Identifiable, Codable, Equatable {
     let series: Series?
 
     var titleLabel: String {
-        title ?? String(localized: "TBA")
+        title ?? String(localized: "Unannounced", comment: "Missing media title")
     }
 
     var episodeLabel: String {
@@ -96,7 +96,10 @@ struct Episode: Identifiable, Codable, Equatable {
     }
 
     var airDateLabel: String {
-        guard let date = airDateUtc else { return String(localized: "TBA") }
+        guard let date = airDateUtc else {
+            return String(localized: "TBA")
+        }
+
         let calendar = Calendar.current
 
         if calendar.isDateInToday(date) { return RelativeDate.today.label }
@@ -130,7 +133,10 @@ struct Episode: Identifiable, Codable, Equatable {
     }
 
     var airDateTimeShortLabel: String {
-        guard let date = airDateUtc else { return String(localized: "TBA") }
+        guard let date = airDateUtc else {
+            return String(localized: "TBA")
+        }
+
         let calendar = Calendar.current
         let time = date.formatted(date: .omitted, time: .shortened)
         let weekday = date.formatted(.dateTime.weekday(.wide)).localizedCapitalized

@@ -137,7 +137,9 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     }
 
     var yearLabel: String {
-        year > 0 ? String(year) : String(localized: "TBA")
+        year > 0
+            ? String(year)
+            : String(localized: "TBA", comment: "(Short, 3-6 characters) Conveying unannounced")
     }
 
     var runtimeLabel: String? {
@@ -259,7 +261,7 @@ enum MovieStatus: String, Equatable, Codable {
 
     var label: String {
         switch self {
-        case .tba: String(localized: "TBA", comment: "(Short) Label if year of item is not available")
+        case .tba: String(localized: "Unannounced", comment: "Media status label")
         case .announced: String(localized: "Announced", comment: "Media status label")
         case .inCinemas: String(localized: "In Cinemas", comment: "Media status label")
         case .released: String(localized: "Released", comment: "Media status label")
