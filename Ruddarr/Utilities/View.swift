@@ -22,11 +22,15 @@ extension View {
     }
 
     func viewPadding(_ edges: Edge.Set = .all) -> some View {
-        self.modifier(ViewPadding(edges))
+        self.modifier(ViewPadding(edges: edges))
     }
 
     func viewBottomPadding() -> some View {
         self.modifier(ViewBottomPadding())
+    }
+
+    func presentationDetents(dynamic: Set<PresentationDetent>) -> some View {
+        self.modifier(DynamicPresentationDetents(detents: dynamic))
     }
 }
 
@@ -59,10 +63,6 @@ private struct ViewPadding: ViewModifier {
 
     @Environment(\.deviceType) private var deviceType
 
-    init(_ edges: Edge.Set) {
-        self.edges = edges
-    }
-
     func body(content: Content) -> some View {
         if deviceType == .phone {
             content.scenePadding(edges)
@@ -80,6 +80,50 @@ private struct ViewBottomPadding: ViewModifier {
             content.padding(.bottom)
         } else {
             content
+        }
+    }
+}
+
+private struct DynamicPresentationDetents: ViewModifier {
+    var detents: Set<PresentationDetent>
+
+    @Environment(\.sizeCategory) var sizeCategory
+
+    func body(content: Content) -> some View {
+        content.presentationDetents(adjustedDetents)
+    }
+
+    var adjustedDetents: Set<PresentationDetent> {
+        let foo: [PresentationDetent] = detents.map {
+            switch $0 {
+            case .medium: medium
+            case .fraction(0.25): quarter
+            case .fraction(0.7): seventy
+            default: $0
+            }
+        }
+
+        return Set(foo)
+    }
+
+    var medium: PresentationDetent {
+        switch sizeCategory {
+        case .extraSmall, .small, .medium, .large, .extraLarge: .medium
+        default: .fraction(0.8)
+        }
+    }
+
+    var quarter: PresentationDetent {
+        switch sizeCategory {
+        case .extraSmall, .small, .medium, .large, .extraLarge: .fraction(0.25)
+        default: .fraction(0.35)
+        }
+    }
+
+    var seventy: PresentationDetent {
+        switch sizeCategory {
+            case .extraSmall, .small, .medium, .large, .extraLarge: .fraction(0.7)
+            default: .fraction(0.9)
         }
     }
 }

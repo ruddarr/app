@@ -14,12 +14,12 @@ struct QueueItemSheet: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        ScrollView {
-            ZStack(alignment: .topTrailing) {
-                CloseButton {
-                    dismiss()
-                }
+        ZStack(alignment: .topTrailing) {
+            CloseButton {
+                dismiss()
+            }
 
+            ScrollView {
                 VStack(alignment: .leading) {
                     header
 

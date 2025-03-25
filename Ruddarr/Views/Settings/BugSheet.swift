@@ -17,8 +17,6 @@ struct BugSheet: View {
                 emailField
                 reportField
             }
-            .padding()
-            .navigationTitle("Report a Bug")
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -111,7 +109,7 @@ private struct BugSheetViewModifier: ViewModifier {
         content
             .environment(\.presentBugSheet, $isPresented)
             .sheet(isPresented: $isPresented) {
-                BugSheet().presentationDetents([.medium])
+                BugSheet().presentationDetents(dynamic: [.medium])
             }
     }
 }

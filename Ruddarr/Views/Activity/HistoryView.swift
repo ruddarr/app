@@ -40,7 +40,7 @@ struct HistoryView: View {
                 MediaEventSheet(event: event, instanceId: event.instanceId)
                     .environmentObject(settings)
                     .presentationDetents(
-                        event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
+                        dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                     )
             }
         }

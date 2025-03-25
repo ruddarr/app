@@ -28,6 +28,7 @@ struct ButtonLabel: View {
                 .imageScale(.medium)
                 .frame(maxHeight: 20)
         }
+        .lineLimit(1)
         .opacity(isLoading ? 0 : 1)
         .overlay {
             if isLoading {

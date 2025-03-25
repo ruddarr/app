@@ -39,7 +39,7 @@ struct SeriesPreviewView: View {
                         .padding(.top, -25)
                     #endif
             }
-            .presentationDetents([deviceType == .phone ? .medium : .large])
+            .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
         }
         .alert(
             isPresented: instance.series.errorBinding,
