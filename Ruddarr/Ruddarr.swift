@@ -90,17 +90,17 @@ extension WhatsNew {
         .init(
             image: "globe",
             title: "New Languages",
-            subtitle: "Ruddarr now supports German, French and Spanish."
+            subtitle: "Ruddarr now comes in German, French and Spanish."
         ),
         .init(
             image: "line.3.horizontal.decrease",
             title: "Sticky Release Filters",
-            subtitle: "Added a preference option to persist release search filters."
+            subtitle: "Releases can now be searched and filters can be persisted between searches."
         ),
         .init(
             image: "calendar",
             title: "Calendar Scroll",
-            subtitle: "Several improvements of how the calendar scrolls and loads data."
+            subtitle: "Several improvements of how the calendar scrolls and loads events."
         ),
         .init(
             image: "gear",
@@ -108,7 +108,12 @@ extension WhatsNew {
             subtitle: "Various visual and usability improvements of the settings screen."
         ),
         .init(
-            image: "ant",
+            image: "textformat.size.larger",
+            title: "Text Scalability",
+            subtitle: "The app now looks and works better when using larger text sizes."
+        ),
+        .init(
+            image: "ladybug",
             title: "Fixes & Improvements",
             subtitle: "Dozens of improvements and fixes, everything is a little better."
         ),
