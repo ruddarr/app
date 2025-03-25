@@ -5122,6 +5122,16 @@
         }
       }
     },
+    "Yes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yes"
+          }
+        }
+      }
+    },
     "Yesterday" : {
       "localizations" : {
         "en" : {
