@@ -133,7 +133,7 @@ struct Episode: Identifiable, Codable, Equatable {
         guard let date = airDateUtc else { return String(localized: "TBA") }
         let calendar = Calendar.current
         let time = date.formatted(date: .omitted, time: .shortened)
-        let weekday = date.formatted(.dateTime.weekday(.wide))
+        let weekday = date.formatted(.dateTime.weekday(.wide)).localizedCapitalized
 
         if calendar.isDateInToday(date) { return String(localized: "\(RelativeDate.today.label) at \(time)") }
         if calendar.isDateInTomorrow(date) { return String(localized: "\(RelativeDate.tomorrow.label) at \(time)") }
