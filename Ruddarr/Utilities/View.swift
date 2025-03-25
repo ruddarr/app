@@ -29,10 +29,6 @@ extension View {
         self.modifier(ViewBottomPadding())
     }
 
-    func presentationDetents(for event: MediaHistoryEvent) -> some View {
-        self.modifier(MediaHistoryEventPresentationDetents(event: event))
-    }
-
     func presentationDetents(dynamic: Set<PresentationDetent>) -> some View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
     }
@@ -88,15 +84,26 @@ private struct ViewBottomPadding: ViewModifier {
     }
 }
 
-private struct MediaHistoryEventPresentationDetents: ViewModifier {
-    var event: MediaHistoryEvent
+private struct DynamicPresentationDetents: ViewModifier {
+    var detents: Set<PresentationDetent>
 
     @Environment(\.sizeCategory) var sizeCategory
 
     func body(content: Content) -> some View {
-        content.presentationDetents(
-            event.eventType == .grabbed ? [medium] : [quarter]
-        )
+        content.presentationDetents(adjustedDetents)
+    }
+
+    var adjustedDetents: Set<PresentationDetent> {
+        let foo: [PresentationDetent] = detents.map {
+            switch $0 {
+            case .medium: medium
+            case .fraction(0.25): quarter
+            case .fraction(0.7): seventy
+            default: $0
+            }
+        }
+
+        return Set(foo)
     }
 
     var medium: PresentationDetent {
@@ -110,35 +117,6 @@ private struct MediaHistoryEventPresentationDetents: ViewModifier {
         switch sizeCategory {
         case .extraSmall, .small, .medium, .large, .extraLarge: .fraction(0.25)
         default: .fraction(0.35)
-        }
-    }
-}
-
-private struct DynamicPresentationDetents: ViewModifier {
-    var detents: Set<PresentationDetent>
-
-    @Environment(\.sizeCategory) var sizeCategory
-
-    func body(content: Content) -> some View {
-        content.presentationDetents(adjustedDetents)
-    }
-
-    var adjustedDetents: Set<PresentationDetent> {
-        let foo: [PresentationDetent] = detents.map {
-            switch $0 {
-                case .medium: medium
-                case .fraction(0.7): seventy
-                default: $0
-            }
-        }
-
-        return Set(foo)
-    }
-
-    var medium: PresentationDetent {
-        switch sizeCategory {
-            case .extraSmall, .small, .medium, .large, .extraLarge: .medium
-            default: .fraction(0.8)
         }
     }
 

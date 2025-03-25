@@ -39,7 +39,9 @@ struct HistoryView: View {
             .sheet(item: $selectedEvent) { event in
                 MediaEventSheet(event: event, instanceId: event.instanceId)
                     .environmentObject(settings)
-                    .presentationDetents(for: event)
+                    .presentationDetents(
+                        dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
+                    )
             }
         }
         .navigationTitle("History")
