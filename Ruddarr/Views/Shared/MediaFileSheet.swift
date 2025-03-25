@@ -31,7 +31,7 @@ struct MediaFileSheet: View {
         Section {
             VStack(spacing: 6) {
                 row(
-                    "Added",
+                    String(localized: "Added"),
                     file.dateAdded.formatted(date: .long, time: .shortened)
                 )
                 Divider()
