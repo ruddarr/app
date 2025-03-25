@@ -244,7 +244,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.indexer == ".all" ? "Indexer" : sort.indexer,
+                sort.indexer == ".all" ? String(localized: "Indexer") : sort.indexer,
                 systemImage: "building.2"
             )
         }
@@ -262,7 +262,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.quality == ".all" ? "Quality" : sort.quality,
+                sort.quality == ".all" ? String(localized: "Quality") : sort.quality,
                 systemImage: "film.stack"
             )
         }
@@ -280,7 +280,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.type == ".all" ? "Protocol" : sort.type,
+                sort.type == ".all" ? String(localized: "Protocol") : sort.type,
                 systemImage: "point.3.connected.trianglepath.dotted"
             )
         }
@@ -299,8 +299,8 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             let label = switch sort.language {
-            case ".all": "Language"
-            case ".multi": "Multilingual"
+            case ".all": String(localized: "Language")
+            case ".multi": String(localized: "Multilingual")
             default: sort.language
             }
 
@@ -320,7 +320,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.customFormat == ".all" ? "Custom Format" : sort.customFormat,
+                sort.customFormat == ".all" ? String(localized: "Custom Format") : sort.customFormat,
                 systemImage: "person.badge.plus"
             )
         }
