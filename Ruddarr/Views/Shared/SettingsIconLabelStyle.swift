@@ -21,5 +21,6 @@ struct SettingsIconLabelStyle: LabelStyle {
                     )
                 #endif
         }
+        .lineLimit(1)
     }
 }
