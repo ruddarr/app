@@ -122,8 +122,8 @@ private struct DynamicPresentationDetents: ViewModifier {
 
     var seventy: PresentationDetent {
         switch sizeCategory {
-            case .extraSmall, .small, .medium, .large, .extraLarge: .fraction(0.7)
-            default: .fraction(0.9)
+        case .extraSmall, .small, .medium, .large, .extraLarge: .fraction(0.7)
+        default: .fraction(0.9)
         }
     }
 }
