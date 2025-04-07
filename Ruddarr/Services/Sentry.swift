@@ -131,6 +131,7 @@ func runningIn() -> EnvironmentType {
     guard let branch = Bundle.main.infoDictionary?["CI_BRANCH"] as? String else {
         leaveBreadcrumb(.fatal, category: "sentry", message: "Failed to read CI branch")
 
+        EnvironmentType.cache = .appstore
         return .appstore
     }
 
