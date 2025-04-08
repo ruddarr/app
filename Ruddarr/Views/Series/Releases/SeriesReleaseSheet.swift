@@ -2,7 +2,7 @@ import SwiftUI
 import TelemetryDeck
 
 struct SeriesReleaseSheet: View {
-    @State var release: SeriesRelease
+    var release: SeriesRelease
     var seriesId: Series.ID
     var seasonId: Season.ID?
     var episodeId: Episode.ID?

@@ -19,7 +19,6 @@ struct MovieReleaseRow: View {
             .sheet(isPresented: $isShowingPopover) {
                 MovieReleaseSheet(release: release, movie: movie)
                     .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
-                    .presentationDragIndicator(.hidden)
                     .environment(instance)
                     .environmentObject(settings)
             }

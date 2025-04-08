@@ -2,8 +2,8 @@ import SwiftUI
 import TelemetryDeck
 
 struct MovieReleaseSheet: View {
-    @State var release: MovieRelease
-    @State var movie: Movie
+    var release: MovieRelease
+    var movie: Movie
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
