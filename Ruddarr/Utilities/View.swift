@@ -94,36 +94,40 @@ private struct DynamicPresentationDetents: ViewModifier {
     }
 
     var adjustedDetents: Set<PresentationDetent> {
-        let foo: [PresentationDetent] = detents.map {
+        Set(detents.map {
             switch $0 {
             case .medium: medium
             case .fraction(0.25): quarter
             case .fraction(0.7): seventy
             default: $0
             }
-        }
-
-        return Set(foo)
+        })
     }
 
     var medium: PresentationDetent {
         switch sizeCategory {
-        case .extraSmall, .small, .medium, .large, .extraLarge: .medium
-        default: .fraction(0.8)
+        case .extraSmall, .small, .medium, .large, .extraLarge:
+            .medium
+        default:
+            .fraction(0.8)
         }
     }
 
     var quarter: PresentationDetent {
         switch sizeCategory {
-        case .extraSmall, .small, .medium, .large, .extraLarge: .fraction(0.25)
-        default: .fraction(0.35)
+        case .extraSmall, .small, .medium, .large, .extraLarge:
+            .fraction(0.25)
+        default:
+            .fraction(0.35)
         }
     }
 
     var seventy: PresentationDetent {
         switch sizeCategory {
-        case .extraSmall, .small, .medium, .large, .extraLarge: .fraction(0.7)
-        default: .fraction(0.9)
+        case .extraSmall, .small, .medium, .large, .extraLarge:
+            .fraction(0.7)
+        default:
+            .fraction(0.9)
         }
     }
 }
