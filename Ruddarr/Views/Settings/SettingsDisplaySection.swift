@@ -14,7 +14,7 @@ struct SettingsDisplaySection: View {
                 iconPicker
             #endif
         } header: {
-            Text("Display")
+            Text("Display", comment: "Preferences section title")
         }
     }
 

@@ -26,7 +26,6 @@ struct SeriesReleaseRow: View {
                     episodeId: episodeId
                 )
                     .presentationDetents([deviceType == .phone ? .medium : .large])
-                    .presentationDragIndicator(.hidden)
                     .environment(instance)
                     .environmentObject(settings)
             }

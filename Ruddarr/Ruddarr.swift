@@ -10,7 +10,7 @@ struct Ruddarr: App {
         @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     #endif
 
-    static let name: String = "Ruddarr"
+    nonisolated static let name: String = "Ruddarr"
 
     init() {
         #if DEBUG
@@ -75,6 +75,7 @@ struct Links {
     static let Crowdin = URL(string: "https://crowdin.com/project/ruddarr")!
     static let GitHub = URL(string: "https://github.com/ruddarr/app")!
     static let GitHubDiscussions = URL(string: "https://github.com/ruddarr/app/discussions")!
+    static let GitHubReleases = URL(string: "https://github.com/ruddarr/app/releases")!
 }
 
 struct Secrets {
@@ -83,9 +84,38 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static let version: String = "1.4.2"
+    static let version: String = "1.5.0"
 
     static let features: [WhatsNewFeature] = [
-        //
+        .init(
+            image: "globe",
+            title: "New Languages",
+            subtitle: "Ruddarr now comes in German, French and Spanish."
+        ),
+        .init(
+            image: "line.3.horizontal.decrease",
+            title: "Sticky Release Filters",
+            subtitle: "Releases can now be searched and filters can be persisted between searches."
+        ),
+        .init(
+            image: "calendar",
+            title: "Calendar Scroll",
+            subtitle: "Several improvements of how the calendar scrolls and loads events."
+        ),
+        .init(
+            image: "gear",
+            title: "Settings Overhaul",
+            subtitle: "Various visual and usability improvements of the settings screen."
+        ),
+        .init(
+            image: "textformat.size.larger",
+            title: "Text Scalability",
+            subtitle: "The app now looks and works better when using larger text sizes."
+        ),
+        .init(
+            image: "ladybug",
+            title: "Fixes & Improvements",
+            subtitle: "Dozens of improvements and fixes, everything is a little better."
+        ),
     ]
 }

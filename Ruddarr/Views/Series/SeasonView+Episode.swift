@@ -16,6 +16,7 @@ struct EpisodeRow: View {
 
                     Text(episode.titleLabel)
                         .lineLimit(1)
+                        .italic(episode.title == nil)
 
                     if let finale = episode.finaleType {
                         Text(finale.label)

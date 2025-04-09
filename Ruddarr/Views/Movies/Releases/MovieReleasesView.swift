@@ -5,6 +5,7 @@ struct MovieReleasesView: View {
 
     @State private var releases: [MovieRelease] = []
     @State private var fetched: Movie.ID?
+    @State private var search: String = ""
 
     @AppStorage("movieReleaseSort", store: dependencies.store) private var sort: MovieReleaseSort = .init()
 
@@ -24,7 +25,7 @@ struct MovieReleasesView: View {
             }
         }
         .listStyle(.inset)
-        .viewBottomPadding()
+        .searchable(text: $search, placement: .drawerOrToolbar)
         .toolbar {
             toolbarButtons
         }
@@ -38,6 +39,7 @@ struct MovieReleasesView: View {
         }
         .onChange(of: sort.option, updateSortDirection)
         .onChange(of: sort, updateDisplayedReleases)
+        .onChange(of: search, updateDisplayedReleases)
         .alert(
             isPresented: instance.releases.errorBinding,
             error: instance.releases.error
@@ -96,8 +98,15 @@ struct MovieReleasesView: View {
         }
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     func updateDisplayedReleases() {
         releases = instance.releases.items.sorted(by: sort.option.isOrderedBefore)
+
+        if !search.isEmpty {
+            releases = releases.filter {
+                $0.title.localizedCaseInsensitiveContains(search)
+            }
+        }
 
         if sort.type != ".all" {
             releases = releases.filter { $0.type.label == sort.type }
@@ -175,9 +184,21 @@ extension MovieReleasesView {
             }
 
             Section {
-                Toggle("Approved", systemImage: "checkmark.seal", isOn: $sort.approved)
-                Toggle("FreeLeech", systemImage: "f.square", isOn: $sort.freeleech)
-                Toggle("Original", systemImage: "character.bubble", isOn: $sort.originalLanguage)
+                Toggle(
+                    String(localized: "Approved", comment: "Release filter"),
+                    systemImage: "checkmark.seal",
+                    isOn: $sort.approved
+                )
+                Toggle(
+                    String(localized: "FreeLeech", comment: "Release filter"),
+                    systemImage: "f.square",
+                    isOn: $sort.freeleech
+                )
+                Toggle(
+                    String(localized: "Original", comment: "Release filter (original language)"),
+                    systemImage: "character.bubble",
+                    isOn: $sort.originalLanguage
+                )
             }
         } label: {
             if sort.hasFilter {
@@ -223,7 +244,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.indexer == ".all" ? "Indexer" : sort.indexer,
+                sort.indexer == ".all" ? String(localized: "Indexer") : sort.indexer,
                 systemImage: "building.2"
             )
         }
@@ -241,7 +262,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.quality == ".all" ? "Quality" : sort.quality,
+                sort.quality == ".all" ? String(localized: "Quality") : sort.quality,
                 systemImage: "film.stack"
             )
         }
@@ -259,7 +280,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.type == ".all" ? "Protocol" : sort.type,
+                sort.type == ".all" ? String(localized: "Protocol") : sort.type,
                 systemImage: "point.3.connected.trianglepath.dotted"
             )
         }
@@ -278,8 +299,8 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             let label = switch sort.language {
-            case ".all": "Language"
-            case ".multi": "Multilingual"
+            case ".all": String(localized: "Language")
+            case ".multi": String(localized: "Multilingual")
             default: sort.language
             }
 
@@ -299,7 +320,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.customFormat == ".all" ? "Custom Format" : sort.customFormat,
+                sort.customFormat == ".all" ? String(localized: "Custom Format") : sort.customFormat,
                 systemImage: "person.badge.plus"
             )
         }

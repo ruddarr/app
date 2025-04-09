@@ -11,7 +11,7 @@ struct ActivityView: View {
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {
-        // swiftlint:disable closure_body_length
+        // swiftlint:disable:next closure_body_length
         NavigationStack {
             Group {
                 if settings.configuredInstances.isEmpty {
@@ -27,12 +27,18 @@ struct ActivityView: View {
                                 }
                                 .buttonStyle(.plain)
                             }
-                            .listRowBackground(Color.secondarySystemBackground)
+                            #if os(macOS)
+                                .padding(.vertical, 4)
+                            #else
+                                .listRowBackground(Color.secondarySystemBackground)
+                            #endif
                         } header: {
                             if !items.isEmpty { sectionHeader }
                         }
                     }
-                    .background(.systemBackground)
+                    #if os(iOS)
+                        .background(.systemBackground)
+                    #endif
                     .scrollContentBackground(.hidden)
                     .overlay {
                         if items.isEmpty {
@@ -67,14 +73,13 @@ struct ActivityView: View {
             .sheet(item: $selectedItem) { item in
                 NavigationStack {
                     QueueItemSheet(item: item)
-                        .presentationDetents([
+                        .presentationDetents(dynamic: [
                             deviceType == .phone ? .fraction(0.7) : .large
                         ])
                         .environmentObject(settings)
                 }
             }
         }
-        // swiftlint:enable closure_body_length
     }
 
     var queueEmpty: some View {
@@ -87,10 +92,10 @@ struct ActivityView: View {
 
     var sectionHeader: some View {
         HStack(spacing: 6) {
-            Text("\(items.count) Tasks")
+            Text("\(items.count) Task")
 
             if queue.badgeCount > 1 {
-                Text("(\(queue.badgeCount) Issues)")
+                Text("(\(queue.badgeCount) Issue)")
             }
 
             if queue.isLoading {

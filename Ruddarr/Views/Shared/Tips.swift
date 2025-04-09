@@ -24,7 +24,7 @@ struct SeriesMonitoringTip: Tip {
 
 struct DeleteFileTip: Tip {
     var title: Text {
-        Text("Deleting Files")
+        Text("Deleting Files", comment: "Title of a tip, not a status")
     }
 
     var message: Text? {
@@ -40,7 +40,7 @@ struct NoAutomaticSearchTip: Tip {
     }
 
     var message: Text? {
-        Text("Ruddarr does not start an automatic search when adding media, but you can.")
+        Text("\(Ruddarr.name) does not start an automatic search when adding media, but you can.")
     }
 
     var rules: [Rule] {

@@ -18,13 +18,13 @@ struct MovieSort: Hashable {
 
         var label: some View {
             switch self {
-            case .byTitle: Label("Title", systemImage: "textformat.abc")
-            case .byYear: Label("Year", systemImage: "calendar")
-            case .byAdded: Label("Added", systemImage: "calendar.badge.plus")
-            case .byRating: Label("Rating", systemImage: "star")
-            case .byGrabbed: Label("Grabbed", systemImage: "arrow.down.circle")
-            case .bySize: Label("File Size", systemImage: "internaldrive")
-            case .byRelease: Label("Digital Release", systemImage: "play.tv")
+            case .byTitle: Label(String(localized: "Title", comment: "Media grid sorting"), systemImage: "textformat.abc")
+            case .byYear: Label(String(localized: "Year", comment: "Media grid sorting"), systemImage: "calendar")
+            case .byAdded: Label(String(localized: "Added", comment: "Media grid sorting"), systemImage: "calendar.badge.plus")
+            case .byRating: Label(String(localized: "Rating", comment: "Media grid sorting"), systemImage: "star")
+            case .byGrabbed: Label(String(localized: "Grabbed", comment: "Media grid sorting"), systemImage: "arrow.down.circle")
+            case .bySize: Label(String(localized: "File Size", comment: "Media grid sorting"), systemImage: "internaldrive")
+            case .byRelease: Label(String(localized: "Digital Release", comment: "Media grid sorting"), systemImage: "play.tv")
             }
         }
 
@@ -61,13 +61,13 @@ struct MovieSort: Hashable {
 
         var label: some View {
             switch self {
-            case .all: Label("All Movies", systemImage: "rectangle.stack")
-            case .monitored: Label("Monitored", systemImage: "bookmark.fill")
-            case .unmonitored: Label("Unmonitored", systemImage: "bookmark")
-            case .missing: Label("Missing", systemImage: "exclamationmark.magnifyingglass")
-            case .wanted: Label("Wanted", systemImage: "sparkle.magnifyingglass")
-            case .downloaded: Label("Downloaded", systemImage: "internaldrive")
-            case .dangling: Label("Dangling", systemImage: "questionmark.square")
+            case .all: Label(String(localized: "All Movies", comment: "Media grid filter"), systemImage: "rectangle.stack")
+            case .monitored: Label(String(localized: "Monitored", comment: "Media grid filter"), systemImage: "bookmark.fill")
+            case .unmonitored: Label(String(localized: "Unmonitored", comment: "Media grid filter"), systemImage: "bookmark")
+            case .missing: Label(String(localized: "Missing", comment: "Media grid filter"), systemImage: "exclamationmark.magnifyingglass")
+            case .wanted: Label(String(localized: "Wanted", comment: "Media grid filter"), systemImage: "sparkle.magnifyingglass")
+            case .downloaded: Label(String(localized: "Downloaded", comment: "Media grid filter"), systemImage: "internaldrive")
+            case .dangling: Label(String(localized: "Dangling", comment: "Media grid filter"), systemImage: "questionmark.square")
             }
         }
 

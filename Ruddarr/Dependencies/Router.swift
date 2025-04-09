@@ -39,11 +39,11 @@ enum TabItem: String, Identifiable, Hashable, Sendable {
 
     var label: String {
         switch self {
-        case .movies: String(localized: "Movies")
-        case .series: String(localized: "Series")
-        case .calendar: String(localized: "Calendar")
-        case .activity: String(localized: "Activity")
-        case .settings: String(localized: "Settings")
+        case .movies: String(localized: "Movies", comment: "Plural. Tab/sidebar menu item")
+        case .series: String(localized: "Series", comment: "Plural. Tab/sidebar menu item")
+        case .calendar: String(localized: "Calendar", comment: "Tab/sidebar menu item")
+        case .activity: String(localized: "Activity", comment: "Tab/sidebar menu item")
+        case .settings: String(localized: "Settings", comment: "Tab/sidebar menu item")
         }
     }
 

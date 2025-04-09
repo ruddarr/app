@@ -2,7 +2,7 @@ import SwiftUI
 import TelemetryDeck
 
 struct SeriesReleaseSheet: View {
-    @State var release: SeriesRelease
+    var release: SeriesRelease
     var seriesId: Series.ID
     var seasonId: Season.ID?
     var episodeId: Episode.ID?
@@ -56,8 +56,7 @@ struct SeriesReleaseSheet: View {
                 Button("Grab Release") { Task { await downloadRelease(force: true) } }
                 Button("Cancel", role: .cancel) { }
             } message: {
-                let type = String(localized: "series/episode", comment: "The words 'series/episode' used mid-sentence")
-                Text("The release for this \(type) could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
+                Text("The release for this series/episode could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
             }
         }
     }
@@ -89,6 +88,7 @@ struct SeriesReleaseSheet: View {
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
+            .lineLimit(1)
 
             CustomFormats(tags())
         }
@@ -134,7 +134,7 @@ struct SeriesReleaseSheet: View {
 
             if let url = URL(string: release.infoUrl ?? "") {
                 Link(destination: url, label: {
-                    let label: LocalizedStringKey = deviceType == .phone ? "Open" : "Open Website"
+                    let label: LocalizedStringKey = deviceType == .phone ? "Website" : "Open Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .modifier(MediaPreviewActionModifier())

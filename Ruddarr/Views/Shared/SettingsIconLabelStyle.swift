@@ -13,11 +13,14 @@ struct SettingsIconLabelStyle: LabelStyle {
             configuration.icon
                 .font(.system(size: size))
                 .foregroundColor(.white)
-                .background(
-                    RoundedRectangle(cornerRadius: (10 / 57) * iconSize)
-                        .frame(width: iconSize, height: iconSize)
-                        .foregroundColor(color)
-                )
+                #if os(iOS)
+                    .background(
+                        RoundedRectangle(cornerRadius: (10 / 57) * iconSize)
+                            .frame(width: iconSize, height: iconSize)
+                            .foregroundColor(color)
+                    )
+                #endif
         }
+        .lineLimit(1)
     }
 }

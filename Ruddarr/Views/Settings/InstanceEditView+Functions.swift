@@ -110,7 +110,7 @@ extension InstanceEditView {
         }
 
         if appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
-            throw InstanceError.badAppName(appName)
+            throw InstanceError.badAppName(appName, instance.type.rawValue)
         }
 
         if let status {

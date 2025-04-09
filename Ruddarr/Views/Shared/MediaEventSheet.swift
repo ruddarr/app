@@ -14,44 +14,47 @@ struct MediaEventSheet: View {
                 dismiss()
             }
 
-            VStack(alignment: .leading) {
-                if let instanceId, let instance = settings.instanceById(instanceId) {
-                    Text(instance.label)
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .textCase(.uppercase)
-                        .tracking(1.1)
-                        .foregroundStyle(settings.theme.tint)
+            ScrollView {
+                VStack(alignment: .leading) {
+                    if let instanceId, let instance = settings.instanceById(instanceId) {
+                        Text(instance.label)
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .textCase(.uppercase)
+                            .tracking(1.1)
+                            .foregroundStyle(settings.theme.tint)
+                    }
+
+                    Text(event.eventType.title)
+                        .font(.title2.bold())
+                        .kerning(-0.5)
+                        .padding(.trailing, 40)
+
+                    Text(formatDate(event.date))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+
+                    if event.eventType == .grabbed {
+                        CustomFormats(tags())
+                    }
+
+                    Text(event.description)
+                        .font(.callout)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .textSelection(.enabled)
+                        .padding(.top, 12)
+                        .padding(.bottom)
+
+                    if event.eventType == .grabbed {
+                        grabbedDetails
+                    }
+
+                    Spacer()
+                    Spacer()
                 }
-
-                Text(event.eventType.title)
-                    .font(.title2.bold())
-                    .kerning(-0.5)
-                    .padding(.trailing, 40)
-
-                Text(formatDate(event.date))
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-
-                if event.eventType == .grabbed {
-                    CustomFormats(tags())
-                }
-
-                Text(event.description)
-                    .font(.callout)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .textSelection(.enabled)
-                    .padding(.top, 12)
-                    .padding(.bottom)
-
-                if event.eventType == .grabbed {
-                    grabbedDetails
-                }
-
-                Spacer()
+                .padding(.top)
+                .viewPadding(.horizontal)
             }
-            .viewPadding(.horizontal)
-            .padding(.top)
         }
     }
 
@@ -73,50 +76,50 @@ struct MediaEventSheet: View {
         var data: [AnyView] = []
 
         if let indexer = event.indexerLabel {
-            data.append(row("Indexer", indexer))
+            data.append(row(String(localized: "Indexer"), indexer))
         }
 
         if let flags = event.indexerFlagsLabel {
-            data.append(row("Flags", flags))
+            data.append(row(String(localized: "Flags", comment: "Indexer flags"), flags))
         }
 
         if let releaseSource = event.data("releaseSource") {
-            data.append(row("Source", releaseSource))
+            data.append(row(String(localized: "Source", comment: "Release source"), releaseSource))
         }
 
         if let movieMatchType = event.data("movieMatchType") {
-            data.append(row("Match Type", movieMatchType))
+            data.append(row(String(localized: "Match Type", comment: "Release match type"), movieMatchType))
         }
 
         if let seriesMatchType = event.data("seriesMatchType") {
-            data.append(row("Match Type", seriesMatchType))
+            data.append(row(String(localized: "Match Type", comment: "Release match type"), seriesMatchType))
         }
 
         if let releaseType = event.data("releaseType") {
-            data.append(row("Release Type", releaseType))
+            data.append(row(String(localized: "Release Type"), releaseType))
         }
 
         if let group = event.data("releaseGroup") {
-            data.append(row("Release Group", group))
+            data.append(row(String(localized: "Release Group"), group))
         }
 
         if let string = event.data("ageMinutes"),
            let minutes = Float(string)
         {
-            data.append(row("Age", formatAge(minutes)))
+            data.append(row(String(localized: "Age"), formatAge(minutes)))
         }
 
         if let string = event.data("publishedDate"),
            let date = parseDate(string)
         {
-            data.append(row("Published", formatDate(date)))
+            data.append(row(String(localized: "Published", comment: "Release publish date"), formatDate(date)))
         }
 
         if let string = event.data("nzbInfoUrl"),
            let url = URL(string: string),
            let domain = url.host
         {
-            data.append(row("Link", Link(domain, destination: url).contextMenu {
+            data.append(row(String(localized: "Link"), Link(domain, destination: url).contextMenu {
                 LinkContextMenu(url)
             } preview: {
                 Text(url.absoluteString).padding()
@@ -140,11 +143,11 @@ struct MediaEventSheet: View {
         return tags
     }
 
-    func row(_ label: LocalizedStringKey, _ value: String) -> AnyView {
+    func row(_ label: String, _ value: String) -> AnyView {
         row(label, Text(value).foregroundStyle(.primary))
     }
 
-    func row<V: View>(_ label: LocalizedStringKey, _ value: V) -> AnyView {
+    func row<V: View>(_ label: String, _ value: V) -> AnyView {
         AnyView(
             HStack(alignment: .top) {
                 Text(label)

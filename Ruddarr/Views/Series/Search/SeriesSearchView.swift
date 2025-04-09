@@ -13,11 +13,9 @@ struct SeriesSearchView: View {
     let gridItemSpacing = MovieGridItem.gridItemSpacing()
 
     var body: some View {
-        @Bindable var seriesLookup = instance.lookup
-
         ScrollView {
             LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-                ForEach(seriesLookup.sortedItems) { series in
+                ForEach(instance.lookup.sortedItems) { series in
                     SeriesSearchItem(series: series)
                         .environment(instance)
                 }
@@ -36,7 +34,10 @@ struct SeriesSearchView: View {
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
-        .searchScopes($seriesLookup.sort) {
+        .searchScopes(.init(
+            get: { instance.lookup.sort },
+            set: { sort in instance.lookup.sort = sort }
+        )) {
             ForEach(SeriesLookup.SortOption.allCases) { option in
                 Text(option.label)
             }

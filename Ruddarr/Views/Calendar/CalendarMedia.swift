@@ -159,9 +159,9 @@ enum CalendarMediaType: CaseIterable {
 
     var label: some View {
         switch self {
-        case .all: Label("Everything", systemImage: "rectangle.stack")
-        case .movies: Label("Movies", systemImage: "film")
-        case .series: Label("Series", systemImage: "tv")
+        case .all: Label(String(localized: "Everything", comment: "Movies and series filter option"), systemImage: "rectangle.stack")
+        case .movies: Label(String(localized: "Movies"), systemImage: "film")
+        case .series: Label(String(localized: "Series"), systemImage: "tv")
         }
     }
 }

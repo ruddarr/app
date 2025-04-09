@@ -62,7 +62,7 @@ class History {
         isLoading = false
     }
 
-    // swiftlint:disable cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity
     func eventType(_ type: String?, for instance: Instance) -> Int? {
         if instance.type == .radarr {
             return switch type {
@@ -90,5 +90,4 @@ class History {
 
         return nil
     }
-    // swiftlint:enable cyclomatic_complexity
 }

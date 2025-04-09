@@ -39,7 +39,7 @@ struct SeriesPreviewView: View {
                         .padding(.top, -25)
                     #endif
             }
-            .presentationDetents([deviceType == .phone ? .medium : .large])
+            .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
         }
         .alert(
             isPresented: instance.series.errorBinding,
@@ -106,7 +106,7 @@ struct SeriesPreviewView: View {
 
         let seriesPath = SeriesPath.series(addedSeries.id)
         dependencies.router.seriesPath.removeLast()
-        try? await Task.sleep(nanoseconds: 50_000_000)
+        try? await Task.sleep(for: .milliseconds(50))
         dependencies.router.seriesPath.append(seriesPath)
 
         TelemetryDeck.signal("seriesAdded")

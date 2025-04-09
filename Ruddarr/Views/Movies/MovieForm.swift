@@ -45,8 +45,8 @@ struct MovieForm: View {
         } label: {
             ViewThatFits(in: .horizontal) {
                 Text("Minimum Availability")
-                Text("Min. Availability")
-                Text("Availability")
+                Text("Min. Availability", comment: "Shorter version of Minimum Availability")
+                Text("Availability", comment: "Very short version of Minimum Availability")
             }
         }
         .tint(.secondary)

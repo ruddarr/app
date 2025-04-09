@@ -5,6 +5,7 @@ struct CalendarView: View {
 
     @State private var scrollView: ScrollViewProxy?
     @State private var initializationError: API.Error?
+    @State private var hideCalendarView: Bool = true
 
     @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
 
@@ -23,7 +24,7 @@ struct CalendarView: View {
     ]
 
     var body: some View {
-        // swiftlint:disable closure_body_length
+        // swiftlint:disable:next closure_body_length
         NavigationStack(path: dependencies.$router.calendarPath) {
             Group {
                 if settings.configuredInstances.isEmpty {
@@ -56,6 +57,7 @@ struct CalendarView: View {
                                 }
                             }.padding(.bottom, 32)
                         }
+                        .opacity(hideCalendarView ? 0 : 1)
                         .onChange(of: scenePhase, handleScenePhaseChange)
                         .onAppear {
                             scrollView = proxy
@@ -74,6 +76,7 @@ struct CalendarView: View {
                 if calendar.instances != settings.instances {
                     calendar.reset()
                     calendar.instances = settings.instances
+                    hideCalendarView = true
                 }
             }
             .onReceive(NotificationCenter.default.publisher(for: .scrollToToday)) { _ in
@@ -102,7 +105,6 @@ struct CalendarView: View {
                 }
             }
         }
-        // swiftlint:enable closure_body_length
     }
 
     var notConnectedToInternet: Bool {
@@ -184,11 +186,10 @@ struct CalendarView: View {
 
         guard firstLoad else { return }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            withAnimation(.interactiveSpring) {
-                scrollTo(calendar.today())
-            }
-        }
+        try? await Task.sleep(for: .milliseconds(10))
+        scrollTo(calendar.today())
+        try? await Task.sleep(for: .milliseconds(10))
+        hideCalendarView = false
     }
 
     func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
@@ -223,8 +224,10 @@ struct CalendarView: View {
     var todayButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button("Today") {
-                withAnimation(.smooth) {
-                    scrollTo(calendar.today())
+                Task { @MainActor in
+                    withAnimation(.smooth) {
+                        self.scrollTo(self.calendar.today())
+                    }
                 }
             }
         }

@@ -14,7 +14,22 @@ struct MediaLanguage: Equatable, Codable {
     let name: String?
 
     var label: String {
-        name ?? String(localized: "Unknown")
+        guard let name else {
+            return String(localized: "Unknown")
+        }
+
+        let english = Locale(identifier: "en")
+
+        let code = Locale.LanguageCode.isoLanguageCodes.first(where: {
+            guard let language = english.localizedString(forLanguageCode: $0.identifier) else { return false }
+            return language.compare(name, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
+        })
+
+        guard let code, let label = Locale.current.localizedString(forLanguageCode: code.identifier) else {
+            return String(localized: "Unknown")
+        }
+
+        return label
     }
 }
 
@@ -70,10 +85,10 @@ func languageSingleLabel(_ languages: [MediaLanguage]) -> String {
 }
 
 struct MediaDetailsRow: View {
-    var label: LocalizedStringKey
+    var label: String
     var value: String
 
-    init(_ label: LocalizedStringKey, value: String) {
+    init(_ label: String, value: String) {
         self.label = label
         self.value = value
     }

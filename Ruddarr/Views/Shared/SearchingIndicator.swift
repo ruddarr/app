@@ -4,13 +4,13 @@ import AVFoundation
 
 struct SearchingIndicator: View {
     @State private var messages: [String] = [
-        String(localized: "At least you're not on hold."),
-        String(localized: "Let's hope it's worth the wait."),
-        String(localized: "Discovering new ways of making you wait."),
-        String(localized: "Just testing your patience."),
-        String(localized: "Time flies when you're having fun."),
-        String(localized: "Is this running on Windows?"),
-        String(localized: "Try holding your breath."),
+        String(localized: "At least you're not on hold.", comment: "Release search taunt"),
+        String(localized: "Let's hope it's worth the wait.", comment: "Release search taunt"),
+        String(localized: "Discovering new ways of making you wait.", comment: "Release search taunt"),
+        String(localized: "Just testing your patience.", comment: "Release search taunt"),
+        String(localized: "Time flies when you're having fun.", comment: "Release search taunt"),
+        String(localized: "Is this running on Windows?", comment: "Release search taunt"),
+        String(localized: "Try holding your breath.", comment: "Release search taunt"),
     ]
 
     @State private var opacity: Double = 0
@@ -18,8 +18,9 @@ struct SearchingIndicator: View {
 
     @State private var player: AVAudioPlayer?
     @State private var seconds: Int = 0
+    @State private var audioTimer: Timer?
 
-    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    private let textTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         ProgressView {
@@ -33,10 +34,10 @@ struct SearchingIndicator: View {
             }
         }
         .tint(.secondary)
-        .onReceive(timer, perform: tick)
+        .onReceive(textTimer, perform: tick)
         .onDisappear {
             stopAudio()
-            timer.upstream.connect().cancel()
+            textTimer.upstream.connect().cancel()
         }
         .onTapGesture {
             stopAudio()
@@ -75,12 +76,44 @@ struct SearchingIndicator: View {
         }
 
         player = try? AVAudioPlayer(contentsOf: sound)
-        player?.volume = 0.25
+        player?.volume = 0
         player?.play()
+
+        fadeVolume(to: 0.25)
     }
 
     private func stopAudio() {
-        player?.stop()
+        fadeVolume(to: 0)
+    }
+
+    @MainActor
+    private func fadeVolume(to endVolume: Float) {
+        audioTimer?.invalidate()
+
+        let startVolume = player?.volume ?? 0
+        let duration: TimeInterval = 2
+        let interval: TimeInterval = 0.1
+        let steps = duration / interval
+        let volumeStep = (endVolume - startVolume) / Float(steps)
+
+        audioTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
+            MainActor.assumeIsolated {
+                let currentVolume = player?.volume ?? 0
+                let newVolume = currentVolume + volumeStep
+
+                if (volumeStep > 0 && newVolume >= endVolume) || (volumeStep < 0 && newVolume <= endVolume) {
+                    player?.volume = endVolume
+
+                    if endVolume == 0 {
+                        player?.stop()
+                    }
+
+                    audioTimer?.invalidate()
+                } else {
+                    player?.volume = newVolume
+                }
+            }
+        }
     }
 }
 

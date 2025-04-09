@@ -39,7 +39,7 @@ struct MoviePreviewView: View {
                         .padding(.top, -25)
                     #endif
             }
-            .presentationDetents([deviceType == .phone ? .medium : .large])
+            .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
         }
         .alert(
             isPresented: instance.movies.errorBinding,
@@ -106,7 +106,7 @@ struct MoviePreviewView: View {
 
         let moviePath = MoviesPath.movie(addedMovie.id)
         dependencies.router.moviesPath.removeLast()
-        try? await Task.sleep(nanoseconds: 50_000_000)
+        try? await Task.sleep(for: .milliseconds(50))
         dependencies.router.moviesPath.append(moviePath)
 
         TelemetryDeck.signal("movieAdded")

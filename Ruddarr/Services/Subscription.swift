@@ -76,16 +76,16 @@ enum SubscriptionStatus {
     case error
     case unknown
 
-    var label: LocalizedStringKey {
+    var label: String {
         switch self {
-        case .subscribed: "Active"
-        case .notSubscribed: "Not Subscribed"
-        case .expired: "Expired"
-        case .inBillingRetryPeriod: "Inactive"
-        case .inGracePeriod: "Active"
-        case .revoked: "Revoked"
-        case .error: "Error"
-        case .unknown: "Unknown"
+        case .subscribed: String(localized: "Active", comment: "Status of the app subscription")
+        case .notSubscribed: String(localized: "Not Subscribed", comment: "Status of the app subscription")
+        case .expired: String(localized: "Expired", comment: "Status of the app subscription")
+        case .inBillingRetryPeriod: String(localized: "Inactive", comment: "Status of the app subscription")
+        case .inGracePeriod: String(localized: "Active", comment: "Status of the app subscription")
+        case .revoked: String(localized: "Revoked", comment: "Status of the app subscription")
+        case .error: String(localized: "Error", comment: "Status of the app subscription")
+        case .unknown: String(localized: "Unknown", comment: "Status of the app subscription")
         }
     }
 }

@@ -47,9 +47,13 @@ struct Information: View {
                     let label = Text(item.value).lineLimit(1).truncationMode(.head)
 
                     if let link = item.link {
-                        NavigationLink(value: link, label: { label })
-                            .foregroundStyle(.primary)
-                            .buttonStyle(.plain)
+                        #if os(macOS)
+                            label
+                        #else
+                            NavigationLink(value: link, label: { label })
+                                .foregroundStyle(.primary)
+                                .buttonStyle(.plain)
+                        #endif
                     } else {
                         label
                     }

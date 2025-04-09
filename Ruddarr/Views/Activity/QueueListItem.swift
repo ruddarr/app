@@ -38,6 +38,7 @@ struct QueueListItem: View {
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
+            .lineLimit(1)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .contentShape(Rectangle())

@@ -29,12 +29,16 @@ extension SeriesDetails {
             ),
             InformationItem(
                 label: String(localized: "New Seasons"),
-                value: series.monitorNewItems == .all ? "Monitored" : "Unmonitored",
+                value: series.monitorNewItems == .all
+                    ? String(localized: "Monitored")
+                    : String(localized: "Unmonitored"),
                 link: SeriesPath.edit(series.id)
             ),
             InformationItem(
                 label: String(localized: "Season Folders"),
-                value: series.seasonFolder ? "Yes" : "No",
+                value: series.seasonFolder
+                    ? String(localized: "Yes")
+                    : String(localized: "No"),
                 link: SeriesPath.edit(series.id)
             ),
         ]

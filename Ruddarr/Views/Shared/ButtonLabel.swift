@@ -28,14 +28,20 @@ struct ButtonLabel: View {
                 .imageScale(.medium)
                 .frame(maxHeight: 20)
         }
+        .lineLimit(1)
         .opacity(isLoading ? 0 : 1)
         .overlay {
             if isLoading {
                 ProgressView()
+                #if os(macOS)
+                    .controlSize(.small)
+                #endif
             }
         }
         .fontWeight(.semibold)
-        .foregroundStyle(settings.theme.tint)
+        #if os(iOS)
+            .foregroundStyle(settings.theme.tint)
+        #endif
         .padding(.vertical, 6)
         .animation(.spring(duration: 0.2), value: isLoading)
     }

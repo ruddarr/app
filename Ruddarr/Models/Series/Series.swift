@@ -181,13 +181,10 @@ struct Series: Media, Identifiable, Equatable, Codable {
     }
 
     var certificationLabel: String {
-        guard let rating = certification else {
-            return String(localized: "Unrated")
-        }
+        let fallback = String(localized: "Unrated", comment: "No age/audience rating available")
 
-        if rating.isEmpty || rating == "0" {
-            return String(localized: "Unrated")
-        }
+        guard let rating = certification else { return fallback }
+        guard !rating.isEmpty, rating != "0" else { return fallback }
 
         return rating
     }
@@ -228,7 +225,7 @@ extension Series {
         attributes.userCurated = NSNumber(value: monitored)
         attributes.userOwned = NSNumber(value: (statistics?.percentOfEpisodes ?? 0) > 0)
 
-        attributes.contentDescription = [yearLabel, runtimeLabel, String(localized: "\(seasonCount) Seasons")]
+        attributes.contentDescription = [yearLabel, runtimeLabel, String(localized: "\(seasonCount) Season")]
             .compactMap { $0 }
             .joined(separator: " · ")
 
@@ -258,10 +255,10 @@ enum SeriesStatus: String, Equatable, Codable {
 
     var label: String {
         switch self {
-        case .continuing: String(localized: "Continuing")
-        case .ended: String(localized: "Ended")
-        case .upcoming: String(localized: "Upcoming")
-        case .deleted: String(localized: "Deleted")
+        case .continuing: String(localized: "Continuing", comment: "(Single word) Series status")
+        case .ended: String(localized: "Ended", comment: "(Single word) Series status")
+        case .upcoming: String(localized: "Upcoming", comment: "(Single word) Series status")
+        case .deleted: String(localized: "Deleted", comment: "(Single word) Series status")
         }
     }
 
@@ -284,9 +281,9 @@ enum SeriesType: String, Equatable, Codable, Identifiable, CaseIterable {
 
     var label: String {
         switch self {
-        case .standard: String(localized: "Standard")
-        case .daily: String(localized: "Daily")
-        case .anime: String(localized: "Anime")
+        case .standard: String(localized: "Standard", comment: "Series type")
+        case .daily: String(localized: "Daily", comment: "Series type")
+        case .anime: String(localized: "Anime", comment: "Series type")
         }
     }
 }
@@ -335,18 +332,18 @@ enum SeriesMonitorType: String, Codable, Identifiable, CaseIterable {
     var label: String {
         switch self {
         case .unknown: String(localized: "Unknown")
-        case .all: String(localized: "All Episodes")
-        case .future: String(localized: "Future Episodes")
-        case .missing: String(localized: "Missing Episodes")
-        case .existing: String(localized: "Existing Episodes")
-        case .recent: String(localized: "Recent Episodes")
-        case .pilot: String(localized: "Pilot Episode")
-        case .firstSeason: String(localized: "First Season")
-        case .lastSeason: String(localized: "Last Season")
+        case .all: String(localized: "All Episodes", comment: "Series monitoring option")
+        case .future: String(localized: "Future Episodes", comment: "Series monitoring option")
+        case .missing: String(localized: "Missing Episodes", comment: "Series monitoring option")
+        case .existing: String(localized: "Existing Episodes", comment: "Series monitoring option")
+        case .recent: String(localized: "Recent Episodes", comment: "Series monitoring option")
+        case .pilot: String(localized: "Pilot Episode", comment: "Series monitoring option")
+        case .firstSeason: String(localized: "First Season", comment: "Series monitoring option")
+        case .lastSeason: String(localized: "Last Season", comment: "Series monitoring option")
         case .latestSeason: ""
-        case .monitorSpecials: String(localized: "Monitor Specials")
-        case .unmonitorSpecials: String(localized: "Unmonitor Specials")
-        case .none: String(localized: "None")
+        case .monitorSpecials: String(localized: "Monitor Specials", comment: "Series monitoring option")
+        case .unmonitorSpecials: String(localized: "Unmonitor Specials", comment: "Series monitoring option")
+        case .none: String(localized: "None", comment: "Series monitoring option")
         case .skip: ""
         }
     }

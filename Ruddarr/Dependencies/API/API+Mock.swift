@@ -3,111 +3,111 @@ import Foundation
 extension API {
     static var mock: Self {
         .init(fetchMovies: { _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "movies")
         }, lookupMovies: { _, query in
             let movies: [Movie] = loadPreviewData(filename: "movie-lookup")
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return movies.filter {
                 $0.title.localizedCaseInsensitiveContains(query)
             }
         }, lookupMovieReleases: { _, _ in
-            try await Task.sleep(nanoseconds: 500_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "movie-releases")
         }, getMovie: { movieId, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return movies.first(where: { $0.guid == movieId })!
         }, getMovieHistory: { _, _ in
             let events: [MediaHistoryEvent] = loadPreviewData(filename: "movie-history")
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return events
         }, getMovieFiles: { _, _ in
             let files: [MediaFile] = loadPreviewData(filename: "movie-files")
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return files
         }, getMovieExtraFiles: { _, _ in
             let files: [MovieExtraFile] = loadPreviewData(filename: "movie-extra-files")
-            // try await Task.sleep(nanoseconds: 500_000_000)
+            // try await Task.sleep(for: .seconds(1))
 
             return files
         }, addMovie: { _, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return movies[0]
         }, updateMovie: { _, _, _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return Empty()
         }, deleteMovie: { _, _, _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return Empty()
         }, deleteMovieFile: { _, _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return Empty()
         }, fetchSeries: { _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "series")
         }, fetchEpisodes: { _, _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return loadPreviewData(filename: "series-episodes")
         }, fetchEpisodeFiles: { _, _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "series-episode-files")
         }, lookupSeries: { _, _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "series-lookup")
         }, lookupSeriesReleases: { _, _, _, _ in
-            try await Task.sleep(nanoseconds: 500_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "series-releases")
         }, getSeries: { _, _ in
             let series: [Series] = loadPreviewData(filename: "series")
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return series[0]
         }, addSeries: { _, _ in
             let series: [Series] = loadPreviewData(filename: "series")
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return series[0]
         }, pushSeries: { _, _ in
             let series: [Series] = loadPreviewData(filename: "series")
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return series[0]
         }, updateSeries: { _, _, _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return Empty()
         }, deleteSeries: { _, _, _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return Empty()
         }, monitorEpisode: { _, _, _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return Empty()
         }, getEpisodeHistory: { _, _ in
             let events: MediaHistory = loadPreviewData(filename: "series-episode-history")
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return events
         }, deleteEpisodeFile: { _, _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return Empty()
         }, movieCalendar: { _, _, _ in
@@ -115,32 +115,32 @@ extension API {
 
             return movies
         }, episodeCalendar: { _, _, _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(for: .seconds(1))
             let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
 
             return episodes
         }, command: { _, _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return Empty()
         }, downloadRelease: { _, _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return Empty()
         }, systemStatus: { _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return loadPreviewData(filename: "system-status")
         }, rootFolders: { _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "root-folders")
         }, qualityProfiles: { _ in
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "quality-profiles")
         }, fetchQueueTasks: { instance in
-            try await Task.sleep(nanoseconds: 500_000_000)
+            try await Task.sleep(for: .seconds(1))
 
             let items: QueueItems = loadPreviewData(
                 filename: instance.type == .sonarr ? "series-queue" : "movie-queue"
@@ -148,11 +148,11 @@ extension API {
 
             return modifyQueueItems(items)
         }, deleteQueueTask: { _, _, _, _, _ in
-            try await Task.sleep(nanoseconds: 3_000_000_000)
+            try await Task.sleep(for: .seconds(3))
 
             return Empty()
         }, fetchHistory: { _, _, _, instance in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             let events: MediaHistory = loadPreviewData(
                 filename: instance.type == .sonarr ? "radarr-history" : "sonarr-history"
@@ -160,21 +160,21 @@ extension API {
 
             return events
         }, fetchNotifications: { _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return loadPreviewData(filename: "notifications")
         }, createNotification: { _, _ in
             let notifications: [InstanceNotification] = loadPreviewData(filename: "notifications")
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return notifications[0]
         }, updateNotification: { _, _ in
             let notifications: [InstanceNotification] = loadPreviewData(filename: "notifications")
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return notifications[0]
         }, deleteNotification: { _, _ in
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(for: .seconds(2))
 
             return Empty()
         })

@@ -80,6 +80,7 @@ struct EpisodeView: View {
 
             Text(episode.titleLabel)
                 .font(.largeTitle.bold())
+                .italic(episode.title == nil)
                 .kerning(-0.5)
 
             HStack(spacing: 6) {
@@ -106,20 +107,26 @@ struct EpisodeView: View {
     var details: some View {
         Grid(alignment: .leading) {
             if let network = series.network, !network.isEmpty {
-                MediaDetailsRow("Network", value: network)
+                MediaDetailsRow(
+                    String(localized: "Network", comment: "The network that airs the show"),
+                    value: network
+                )
             }
 
             if !series.genres.isEmpty {
-                MediaDetailsRow("Genre", value: series.genreLabel)
+                MediaDetailsRow(
+                    String(localized: "Genre", comment: "Genres of the movie/series"),
+                    value: series.genreLabel
+                )
             }
 
             if episode.isDownloaded {
                 Group {
-                    MediaDetailsRow("Video", value: mediaDetailsVideoQuality(episodeFile))
-                    MediaDetailsRow("Audio", value: mediaDetailsAudioQuality(episodeFile))
+                    MediaDetailsRow(String(localized: "Video"), value: mediaDetailsVideoQuality(episodeFile))
+                    MediaDetailsRow(String(localized: "Audio"), value: mediaDetailsAudioQuality(episodeFile))
 
                     if let subtitles = mediaDetailsSubtitles(episodeFile, deviceType) {
-                        MediaDetailsRow("Subtitles", value: subtitles)
+                        MediaDetailsRow(String(localized: "Subtitles"), value: subtitles)
                     }
                 }.onTapGesture {
                     fileSheet = episodeFile
@@ -190,7 +197,7 @@ struct EpisodeView: View {
                 Task { await dispatchSearch() }
             } label: {
                 ButtonLabel(
-                    text: "Automatic",
+                    text: String(localized: "Automatic"),
                     icon: "magnifyingglass",
                     isLoading: dispatchingSearch
                 )
@@ -203,7 +210,7 @@ struct EpisodeView: View {
             NavigationLink(
                 value: SeriesPath.releases(series.id, nil, episodeId)
             ) {
-                ButtonLabel(text: "Interactive", icon: "person.fill")
+                ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
@@ -275,7 +282,7 @@ struct EpisodeView: View {
         .sheet(item: $eventSheet) { event in
             MediaEventSheet(event: event)
                 .presentationDetents(
-                    event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
+                    dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )
         }
     }

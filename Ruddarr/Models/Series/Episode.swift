@@ -37,17 +37,23 @@ struct Episode: Identifiable, Codable, Equatable {
     let series: Series?
 
     var titleLabel: String {
-        title ?? String(localized: "TBA")
+        title ?? String(localized: "Unannounced", comment: "Missing media title")
     }
 
     var episodeLabel: String {
         String(format: "%dx%02d", seasonNumber, episodeNumber)
     }
 
-    var statusLabel: LocalizedStringKey {
-        if hasFile { return "Downloaded" }
-        if !hasAired { return "Unaired" }
-        return "Missing"
+    var statusLabel: String {
+        if hasFile {
+            return String(localized: "Downloaded", comment: "(Single word) Episode status label")
+        }
+
+        if !hasAired {
+            return String(localized: "Unaired", comment: "(Single word) Episode status label")
+        }
+
+        return String(localized: "Missing", comment: "(Single word) Episode status label")
     }
 
     var runtimeLabel: String? {
@@ -90,7 +96,10 @@ struct Episode: Identifiable, Codable, Equatable {
     }
 
     var airDateLabel: String {
-        guard let date = airDateUtc else { return String(localized: "TBA") }
+        guard let date = airDateUtc else {
+            return String(localized: "TBA")
+        }
+
         let calendar = Calendar.current
 
         if calendar.isDateInToday(date) { return RelativeDate.today.label }
@@ -101,22 +110,36 @@ struct Episode: Identifiable, Codable, Equatable {
     }
 
     var airDateTimeLabel: String {
-        guard let date = airDateUtc else { return String(localized: "TBA") }
+        guard let date = airDateUtc else {
+            return String(localized: "TBA")
+        }
+
         let calendar = Calendar.current
         let time = date.formatted(date: .omitted, time: .shortened)
 
-        if calendar.isDateInToday(date) { return String(localized: "\(RelativeDate.today.label) at \(time)") }
-        if calendar.isDateInTomorrow(date) { return String(localized: "\(RelativeDate.tomorrow.label) at \(time)") }
-        if calendar.isDateInYesterday(date) { return String(localized: "\(RelativeDate.yesterday.label) at \(time)") }
+        if calendar.isDateInToday(date) {
+            return String(localized: "\(RelativeDate.today.label) at \(time)", comment: "(Today/Tomorrow/Yesterday) at (time)")
+        }
+
+        if calendar.isDateInTomorrow(date) {
+            return String(localized: "\(RelativeDate.tomorrow.label) at \(time)", comment: "(Today/Tomorrow/Yesterday) at (time)")
+        }
+
+        if calendar.isDateInYesterday(date) {
+            return String(localized: "\(RelativeDate.yesterday.label) at \(time)", comment: "(Today/Tomorrow/Yesterday) at (time)")
+        }
 
         return date.formatted(date: .abbreviated, time: .shortened)
     }
 
     var airDateTimeShortLabel: String {
-        guard let date = airDateUtc else { return String(localized: "TBA") }
+        guard let date = airDateUtc else {
+            return String(localized: "TBA")
+        }
+
         let calendar = Calendar.current
         let time = date.formatted(date: .omitted, time: .shortened)
-        let weekday = date.formatted(.dateTime.weekday(.wide))
+        let weekday = date.formatted(.dateTime.weekday(.wide)).localizedCapitalized
 
         if calendar.isDateInToday(date) { return String(localized: "\(RelativeDate.today.label) at \(time)") }
         if calendar.isDateInTomorrow(date) { return String(localized: "\(RelativeDate.tomorrow.label) at \(time)") }

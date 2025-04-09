@@ -21,7 +21,7 @@ Ruddarr is a beautifully designed, open source, companion app for Radarr and Son
 
 ## Localization
 
-Help [translate Ruddarr](https://crowdin.com/project/ruddarr) into other languages. Check the `#translators` channel [on Discord](https://discord.gg/UksvtDQUBA)
+Help [translate Ruddarr](https://crowdin.com/project/ruddarr) into any language. Check the `#translators` channel [on Discord](https://discord.gg/UksvtDQUBA). Unfortunately, [some messages](https://github.com/ruddarr/app/issues/433) cannot be translated by Ruddarr.
 
 ## Notifications
 

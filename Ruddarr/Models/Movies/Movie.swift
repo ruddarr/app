@@ -116,28 +116,30 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         return 0
     }
 
-    var stateLabel: LocalizedStringKey {
+    var stateLabel: String {
         if isDownloaded {
-            return "Downloaded"
+            return String(localized: "Downloaded", comment: "State of media item")
         }
 
         if isWaiting {
             if status == .tba || status == .announced {
-                return "Unreleased"
+                return String(localized: "Unreleased", comment: "State of media item")
             }
 
-            return "Waiting"
+            return String(localized: "Waiting", comment: "State of media item")
         }
 
         if monitored && isAvailable {
-            return "Missing"
+            return String(localized: "Missing", comment: "State of media item")
         }
 
-        return "Unwanted"
+        return String(localized: "Unwanted", comment: "State of media item")
     }
 
     var yearLabel: String {
-        year > 0 ? String(year) : String(localized: "TBA")
+        year > 0
+            ? String(year)
+            : String(localized: "TBA", comment: "(Short, 3-6 characters) Conveying unannounced")
     }
 
     var runtimeLabel: String? {
@@ -151,13 +153,10 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     }
 
     var certificationLabel: String {
-        guard let rating = certification else {
-            return String(localized: "Unrated")
-        }
+        let fallback = String(localized: "Unrated", comment: "No age/audience rating available")
 
-        if rating.isEmpty || rating == "0" {
-            return String(localized: "Unrated")
-        }
+        guard let rating = certification else { return fallback }
+        guard !rating.isEmpty, rating != "0" else { return fallback }
 
         return rating
     }
@@ -262,11 +261,11 @@ enum MovieStatus: String, Equatable, Codable {
 
     var label: String {
         switch self {
-        case .tba: String(localized: "TBA")
-        case .announced: String(localized: "Announced")
-        case .inCinemas: String(localized: "In Cinemas")
-        case .released: String(localized: "Released")
-        case .deleted: String(localized: "Deleted")
+        case .tba: String(localized: "Unannounced", comment: "Media status label")
+        case .announced: String(localized: "Announced", comment: "Media status label")
+        case .inCinemas: String(localized: "In Cinemas", comment: "Media status label")
+        case .released: String(localized: "Released", comment: "Media status label")
+        case .deleted: String(localized: "Deleted", comment: "Media status label")
         }
     }
 }

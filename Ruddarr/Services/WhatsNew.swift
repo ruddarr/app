@@ -93,9 +93,13 @@ struct WhatsNewView: View {
                 Spacer()
 
                 VStack {
-                    Link("Open App Store", destination: Links.AppStore)
+                    if isRunningIn(.appstore) {
+                        Link(destination: Links.AppStore) {
+                            Text(verbatim: "Release Notes")
+                        }
                         .foregroundStyle(.blue)
                         .padding(.bottom, 10)
+                    }
 
                     Button {
                         #if os(iOS)
@@ -104,7 +108,7 @@ struct WhatsNewView: View {
 
                         dismiss()
                     } label: {
-                        Text("Continue")
+                        Text(verbatim: "Continue")
                             .font(.headline.weight(.semibold))
                             .padding(.vertical)
                             .frame(maxWidth: .infinity)
@@ -225,5 +229,6 @@ private struct WhatsNewSheetViewModifier: ViewModifier {
 
     return NavigationView { }.sheet(isPresented: $show, content: {
         WhatsNewView()
+            // .environment(\.sizeCategory, .extraExtraLarge)
     })
 }

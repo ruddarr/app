@@ -2,8 +2,8 @@ import SwiftUI
 import TelemetryDeck
 
 struct MovieReleaseSheet: View {
-    @State var release: MovieRelease
-    @State var movie: Movie
+    var release: MovieRelease
+    var movie: Movie
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
@@ -54,8 +54,7 @@ struct MovieReleaseSheet: View {
                 Button("Grab Release") { Task { await downloadRelease(force: true) } }
                 Button("Cancel", role: .cancel) { }
             } message: {
-                let type = String(localized: "movie", comment: "The word 'movie' used mid-sentence")
-                Text("The release for this \(type) could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
+                Text("The release for this movie could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
             }
         }
     }
@@ -87,6 +86,7 @@ struct MovieReleaseSheet: View {
             }
             .font(.subheadline)
             .foregroundStyle(.secondary)
+            .lineLimit(1)
 
             CustomFormats(tags())
         }
@@ -132,7 +132,7 @@ struct MovieReleaseSheet: View {
 
             if let url = URL(string: release.infoUrl ?? "") {
                 Link(destination: url, label: {
-                    let label: LocalizedStringKey = deviceType == .phone ? "Open" : "Open Website"
+                    let label: LocalizedStringKey = deviceType == .phone ? "Website" : "Open Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .modifier(MediaPreviewActionModifier())
@@ -151,7 +151,9 @@ struct MovieReleaseSheet: View {
                     showGrabConfirmation = true
                 }
             } label: {
-                let label: LocalizedStringKey = deviceType == .phone ? "Download" : "Download Release"
+                let label: String = deviceType == .phone
+                    ? String(localized: "Download", comment: "Short version of Download Release")
+                    : String(localized: "Download Release")
 
                 ButtonLabel(
                     text: label,
@@ -205,11 +207,11 @@ struct MovieReleaseSheet: View {
         }
 
         if release.isProper {
-            flags.append(String(localized: "Proper"))
+            flags.append(String(localized: "Proper", comment: "The PROPER flag"))
         }
 
         if release.isRepack {
-            flags.append(String(localized: "Repack"))
+            flags.append(String(localized: "Repack", comment: "The REPACK flag"))
         }
 
         return flags

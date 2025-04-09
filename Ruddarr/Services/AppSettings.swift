@@ -123,10 +123,10 @@ enum ReleaseFilters: String, Identifiable, CaseIterable {
     case reset
     case preserve
 
-    var label: LocalizedStringKey {
+    var label: String {
         switch self {
-        case .reset: return "Reset"
-        case .preserve: return "Preserve"
+        case .reset: return String(localized: "Reset", comment: "(Preferences) Reset release filters")
+        case .preserve: return String(localized: "Preserve", comment: "(Preferences) Preserve release filters")
         }
     }
 }

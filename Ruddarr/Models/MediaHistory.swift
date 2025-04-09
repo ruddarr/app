@@ -110,12 +110,9 @@ struct MediaHistoryEvent: Identifiable, Codable {
             case "Manual":
                 String(localized: "File was deleted either manually or by a client through the API.")
             case "MissingFromDisk":
-                String(
-                    format: String(localized: "File was not found on disk so it was unlinked from the %@ in the database."),
-                    eventType == .episodeFileDeleted
-                        ? String(localized: "episode", comment: "The word 'episode' used mid-sentence")
-                        : String(localized: "movie", comment: "The word 'movie' used mid-sentence")
-                )
+                eventType == .episodeFileDeleted // swiftlint:disable:next void_function_in_ternary
+                    ? String(localized: "File was not found on disk so it was unlinked from the episode in the database.")
+                    : String(localized: "File was not found on disk so it was unlinked from the movie in the database.")
             case "Upgrade":
                 String(localized: "File was deleted to import an upgrade.")
             default:
@@ -175,32 +172,51 @@ enum HistoryEventType: String, Codable {
         }
     }
 
-    var label: LocalizedStringKey {
+    var label: String {
         switch self {
-        case .unknown: "Unknown"
-        case .grabbed: "Grabbed"
-        case .downloadFolderImported: "Imported"
-        case .downloadFailed: "Failed"
-        case .downloadIgnored: "Ignored"
-        case .movieFileRenamed, .episodeFileRenamed: "Renamed"
-        case .movieFileDeleted, .episodeFileDeleted: "Deleted"
-        case .movieFolderImported, .seriesFolderImported: "Imported"
+        case .unknown:
+            String(localized: "Unknown", comment: "(Short) Title of history event")
+        case .grabbed:
+            String(localized: "Grabbed", comment: "(Short) Title of history event")
+        case .downloadFolderImported:
+            String(localized: "Imported", comment: "(Short) Title of history event")
+        case .downloadFailed:
+            String(localized: "Failed", comment: "(Short) Title of history event")
+        case .downloadIgnored:
+            String(localized: "Ignored", comment: "(Short) Title of history event")
+        case .movieFileRenamed, .episodeFileRenamed:
+            String(localized: "Renamed", comment: "(Short) Title of history event")
+        case .movieFileDeleted, .episodeFileDeleted:
+            String(localized: "Deleted", comment: "(Short) Title of history event")
+        case .movieFolderImported, .seriesFolderImported:
+            String(localized: "Imported", comment: "(Short) Title of history event")
         }
     }
 
-    var title: LocalizedStringKey {
+    var title: String {
         switch self {
-        case .unknown: "Unknown Event"
-        case .grabbed: "Release Grabbed"
-        case .downloadFolderImported: "Folder Imported"
-        case .downloadFailed: "Download Failed"
-        case .downloadIgnored: "Download Ignored"
-        case .movieFileRenamed: "Movie Renamed"
-        case .movieFileDeleted: "Movie Deleted"
-        case .movieFolderImported: "Folder Imported"
-        case .episodeFileRenamed: "Episode Renamed"
-        case .episodeFileDeleted: "Episode Deleted"
-        case .seriesFolderImported: "Folder Imported"
+        case .unknown:
+            String(localized: "Unknown Event", comment: "Title of history event type")
+        case .grabbed:
+            String(localized: "Release Grabbed", comment: "Title of history event type")
+        case .downloadFolderImported:
+            String(localized: "Folder Imported", comment: "Title of history event type")
+        case .downloadFailed:
+            String(localized: "Download Failed", comment: "Title of history event type")
+        case .downloadIgnored:
+            String(localized: "Download Ignored", comment: "Title of history event type")
+        case .movieFileRenamed:
+            String(localized: "Movie Renamed", comment: "Title of history event type")
+        case .movieFileDeleted:
+            String(localized: "Movie Deleted", comment: "Title of history event type")
+        case .movieFolderImported:
+            String(localized: "Folder Imported", comment: "Title of history event type")
+        case .episodeFileRenamed:
+            String(localized: "Episode Renamed", comment: "Title of history event type")
+        case .episodeFileDeleted:
+            String(localized: "Episode Deleted", comment: "Title of history event type")
+        case .seriesFolderImported:
+            String(localized: "Folder Imported", comment: "Title of history event type")
         }
     }
 }
@@ -215,18 +231,18 @@ func localizeReleaseType(_ value: String?) -> String? {
 
 func localizeReleaseSource(_ value: String?) -> String? {
     if value == "Rss" { return String("RSS") }
-    if value == "Search" { return String(localized: "Search") }
-    if value == "UserInvokedSearch" { return String(localized: "User Invoked Search") }
-    if value == "InteractiveSearch" { return String(localized: "Interactive Search") }
-    if value == "ReleasePush" { return String(localized: "Release Push") }
+    if value == "Search" { return String(localized: "Search", comment: "Source of the release") }
+    if value == "UserInvokedSearch" { return String(localized: "User Invoked Search", comment: "Source of the release") }
+    if value == "InteractiveSearch" { return String(localized: "Interactive Search", comment: "Source of the release") }
+    if value == "ReleasePush" { return String(localized: "Release Push", comment: "Source of the release") }
 
     return String(localized: "Unknown")
 }
 
 func localizeMatchType(_ value: String?) -> String? {
-    if value == "Title" { return String(localized: "Title") }
-    if value == "Alias" { return String(localized: "Alias") }
-    if value == "Id" { return String(localized: "Identifier") }
+    if value == "Title" { return String(localized: "Title", comment: "Match type of the release") }
+    if value == "Alias" { return String(localized: "Alias", comment: "Match type of the release") }
+    if value == "Id" { return String(localized: "Identifier", comment: "Match type of the release") }
 
     return String(localized: "Unknown")
 }

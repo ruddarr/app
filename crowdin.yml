@@ -1,0 +1,19 @@
+project_id: 693153
+api_token_env: CROWDIN_TOKEN
+
+preserve_hierarchy: true
+
+# When adding a new language:
+#  1. Add the subscription description: https://appstoreconnect.apple.com/apps/6476240130/distribution/subscriptions
+#  2. Convert Crowdin code to Apple code using `EXPORTED` variable in `ci_scripts/ci_post_clone.sh`
+export_languages:
+  - de
+  - fr
+  - es-ES
+
+files:
+  - source: Ruddarr/*.xcstrings
+    translation: Ruddarr/%original_file_name%
+    multilingual: 1
+  - source: Ruddarr/Settings.bundle/en.lproj/*.strings
+    translation: Ruddarr/Settings.bundle/%two_letters_code%.lproj/%original_file_name%

@@ -40,7 +40,7 @@ struct HistoryView: View {
                 MediaEventSheet(event: event, instanceId: event.instanceId)
                     .environmentObject(settings)
                     .presentationDetents(
-                        event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
+                        dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                     )
             }
         }
@@ -100,13 +100,13 @@ struct HistoryView: View {
                 }
 
                 Picker(selection: $displayedEventType, label: Text("Event Type")) {
-                    Text("All Events").tag(".all")
-                    Text("Grabbed").tag(".grabbed")
-                    Text("Imported").tag(".imported")
-                    Text("Failed").tag(".failed")
-                    Text("Ignored").tag(".ignored")
-                    Text("Renamed").tag(".renamed")
-                    Text("Deleted").tag(".deleted")
+                    Text("All Events", comment: "(Short) History event filter").tag(".all")
+                    Text("Grabbed", comment: "(Short) History event filter").tag(".grabbed")
+                    Text("Imported", comment: "(Short) History event filter").tag(".imported")
+                    Text("Failed", comment: "(Short) History event filter").tag(".failed")
+                    Text("Ignored", comment: "(Short) History event filter").tag(".ignored")
+                    Text("Renamed", comment: "(Short) History event filter").tag(".renamed")
+                    Text("Deleted", comment: "(Short) History event filter").tag(".deleted")
                 }
                 .pickerStyle(.inline)
             } label: {

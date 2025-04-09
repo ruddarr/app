@@ -14,12 +14,12 @@ struct QueueItemSheet: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        ScrollView {
-            ZStack(alignment: .topTrailing) {
-                CloseButton {
-                    dismiss()
-                }
+        ZStack(alignment: .topTrailing) {
+            CloseButton {
+                dismiss()
+            }
 
+            ScrollView {
                 VStack(alignment: .leading) {
                     header
 
@@ -152,7 +152,9 @@ struct QueueItemSheet: View {
                 QueueTaskRemovalView(item: item, onRemove: { dismiss() })
                     .environmentObject(settings)
             } label: {
-                let label: LocalizedStringKey = deviceType == .phone ? "Remove" : "Remove Task"
+                let label: String = deviceType == .phone
+                    ? String(localized: "Remove", comment: "(Short) Removing a queue task")
+                    : String(localized: "Remove Task")
 
                 ButtonLabel(text: label, icon: "trash")
                     .modifier(MediaPreviewActionModifier())
@@ -237,13 +239,12 @@ struct QueueItemSheet: View {
 
     var sableLink: some View {
         Link(destination: URL(string: "sable://open")!, label: {
-            Group {
-                if deviceType == .phone {
-                    ButtonLabel(text: String("Sable"), icon: "arrow.up.right.square")
-                } else {
-                    ButtonLabel(text: LocalizedStringKey("Open \("Sable")"), icon: "arrow.up.right.square")
-                }
-            }
+            ButtonLabel(
+                text: deviceType == .phone
+                    ? String("Sable")
+                    : String(localized: "Open \("Sable")", comment: "Open (app name)"),
+                icon: "arrow.up.right.square"
+            )
             .modifier(MediaPreviewActionModifier())
         })
         .buttonStyle(.bordered)
@@ -252,13 +253,12 @@ struct QueueItemSheet: View {
 
     var dsloadLink: some View {
         Link(destination: URL(string: "dsdownload://")!, label: {
-            Group {
-                if deviceType == .phone {
-                    ButtonLabel(text: String("DSLoad"), icon: "arrow.up.right.square")
-                } else {
-                    ButtonLabel(text: LocalizedStringKey("Open \("DSLoad")"), icon: "arrow.up.right.square")
-                }
-            }
+            ButtonLabel(
+                text: deviceType == .phone
+                    ? String("DSLoad")
+                    : String(localized: "Open \("DSLoad")", comment: "Open (app name)"),
+                icon: "arrow.up.right.square"
+            )
             .modifier(MediaPreviewActionModifier())
         })
         .buttonStyle(.bordered)

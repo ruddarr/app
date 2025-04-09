@@ -125,11 +125,11 @@ struct MovieExtraFile: Identifiable, Codable {
         case metadata
         case other
 
-        var label: LocalizedStringKey {
+        var label: String {
             switch self {
-            case .subtitle: "Subtitles"
-            case .metadata: "Metadata"
-            case .other: "Other"
+            case .subtitle: String(localized: "Subtitles", comment: "Type of the extra movie file")
+            case .metadata: String(localized: "Metadata", comment: "Type of the extra movie file")
+            case .other: String(localized: "Other", comment: "Type of the extra movie file")
             }
         }
     }

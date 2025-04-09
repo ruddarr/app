@@ -11,16 +11,19 @@ struct SettingsPreferencesSection: View {
     var body: some View {
         Section {
             tabPicker
+            releaseFiltersPicker
 
             #if os(iOS)
                 if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
                     manageSubscription
                 }
             #endif
-
-            releaseFiltersPicker
         } header: {
             Text("Preferences")
+        } footer: {
+            #if os(iOS)
+                footer
+            #endif
         }
         .subscriptionStatusTask(
             for: Subscription.group,
@@ -45,8 +48,11 @@ struct SettingsPreferencesSection: View {
                 Text(tab.label)
             }
         } label: {
-            Label("Home", systemImage: "house")
-                .labelStyle(SettingsIconLabelStyle(color: .gray, size: 13))
+            Label(
+                String(localized: "Home", comment: "(Preferences) Home tab"),
+                systemImage: "house"
+            )
+            .labelStyle(SettingsIconLabelStyle(color: .gray, size: 13))
         }
         .tint(.secondary)
         .onChange(of: settings.theme) {
@@ -85,6 +91,20 @@ struct SettingsPreferencesSection: View {
             }
         }
         .foregroundStyle(.label)
+    }
+
+    var footer: some View {
+        let text = String(localized: "Preferred language and other app-related settings can be configured in the [System Settings](#link).")
+
+        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
+            #if os(iOS)
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            #endif
+
+            return .handled
+        })
     }
 
     func handleSubscriptionStatusChange(

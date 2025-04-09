@@ -148,7 +148,7 @@ struct InstanceEditView: View {
                 .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
         } label: {
-            Text("Label")
+            Text("Label", comment: "Instance label/name")
         }
     }
 
@@ -216,16 +216,20 @@ struct InstanceEditView: View {
                     }
             }
 
-            Button("Add Header") {
+            Button {
                 instance.headers.append(InstanceHeader())
+            } label: {
+                Text("Add Header", comment: "Add HTTP Header to instance")
             }
 
-            Button("Add Authentication") {
+            Button {
                 showBasicAuthentication = true
+            } label: {
+                Text("Add Authentication", comment: "Add Basic HTTP Authentication to instance")
             }
         } header: {
             HStack {
-                Text("Headers")
+                Text("Headers", comment: "HTTP Headers")
                 Spacer()
                 pasteButton(pasteHeader)
             }
@@ -235,7 +239,7 @@ struct InstanceEditView: View {
         } footer: {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Custom Headers can be used to access instances protected by Zero Trust services.")
-                Text("Basic Authentication is for advanced server management tools and will not work with the \(instance.type.rawValue) instance login.")
+                Text("Basic Authentication is for advanced server management tools and will not work with regular \(instance.type.rawValue) login credentials.")
             }
             #if os(macOS)
             .foregroundStyle(.secondary)
@@ -269,7 +273,7 @@ struct InstanceEditView: View {
         #if os(macOS)
             EmptyView()
         #else
-            Button("Paste", action: callback)
+            Button(String(localized: "Paste", comment: "Paste from clipboard"), action: callback)
                 .buttonStyle(PlainButtonStyle())
                 .foregroundStyle(settings.theme.tint)
         #endif
@@ -296,26 +300,34 @@ struct InstanceHeaderRow: View {
     var body: some View {
         #if os(iOS)
             LabeledContent {
-                TextField("Value", text: $header.value)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled(true)
-                    #if os(iOS)
+                TextField(text: $header.value) {
+                    Text("Value", comment: "Value of HTTP header")
+                }
+                .multilineTextAlignment(.trailing)
+                .autocorrectionDisabled(true)
+                #if os(iOS)
                     .textInputAutocapitalization(.never)
-                    #endif
+                #endif
             } label: {
-                TextField("Name", text: $header.name)
-                    .autocorrectionDisabled(true)
-                    #if os(iOS)
+                TextField(text: $header.name) {
+                    Text("Name", comment: "Name of HTTP header")
+                }
+                .autocorrectionDisabled(true)
+                #if os(iOS)
                     .textInputAutocapitalization(.never)
-                    #endif
+                #endif
             }
         #else
             VStack {
-                TextField("Name", text: $header.name)
-                    .autocorrectionDisabled(true)
+                TextField(text: $header.name) {
+                    Text("Name", comment: "Name of HTTP header")
+                }
+                .autocorrectionDisabled(true)
 
-                TextField("Value", text: $header.value)
-                    .autocorrectionDisabled(true)
+                TextField(text: $header.value) {
+                    Text("Value", comment: "Value of HTTP header")
+                }
+                .autocorrectionDisabled(true)
             }
         #endif
     }
@@ -325,7 +337,7 @@ enum InstanceError: Error {
     case urlIsLocal
     case urlNotValid
     case labelEmpty
-    case badAppName(_ name: String)
+    case badAppName(_ reported: String, _ expected: String)
     case apiError(_ error: API.Error)
 }
 
@@ -335,7 +347,7 @@ extension InstanceError: LocalizedError {
         case .urlIsLocal, .urlNotValid:
             return String(localized: "Invalid URL")
         case .labelEmpty:
-            return String(localized: "Invalid Label")
+            return String(localized: "Invalid Instance Label")
         case .badAppName:
             return String(localized: "Wrong Instance Type")
         case .apiError(let error):
@@ -351,8 +363,8 @@ extension InstanceError: LocalizedError {
             return String(localized: "Enter a valid URL.")
         case .labelEmpty:
             return String(localized: "Enter an instance label.")
-        case .badAppName(let name):
-            return String(localized: "URL returned is a \(name) instance.")
+        case .badAppName(let reported, let expected):
+            return String(localized: "URL identified itself as a \(reported) instance, not a \(expected) instance.")
         case .apiError(let error):
             return error.recoverySuggestion
         }
