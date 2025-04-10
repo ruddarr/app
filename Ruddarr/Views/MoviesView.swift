@@ -97,7 +97,7 @@ struct MoviesView: View {
             .autocorrectionDisabled(true)
             .onChange(of: settings.radarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
-            .onChange(of: [sort, searchQuery] as [AnyHashable]) {
+            .onChange(of: [sort.isAscending, sort.option, sort.filter, searchQuery] as [AnyHashable]) {
                 if let imdb = extractImdbId(searchQuery) {
                     searchQuery = "imdb:\(imdb)"
                     return

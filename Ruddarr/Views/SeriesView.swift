@@ -98,7 +98,7 @@ struct SeriesView: View {
             .autocorrectionDisabled(true)
             .onChange(of: settings.sonarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
-            .onChange(of: [sort, searchQuery] as [AnyHashable]) {
+            .onChange(of: [sort.isAscending, sort.option, sort.filter, searchQuery] as [AnyHashable]) {
                 if let imdb = extractImdbId(searchQuery) {
                     searchQuery = "imdb:\(imdb)"
                     return
