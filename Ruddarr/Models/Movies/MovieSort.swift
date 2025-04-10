@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MovieSort: Hashable {
+struct MovieSort: Equatable, Hashable {
     var isAscending: Bool = false
     var option: Option = .byAdded
     var filter: Filter = .all

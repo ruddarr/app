@@ -97,15 +97,8 @@ struct MoviesView: View {
             .autocorrectionDisabled(true)
             .onChange(of: settings.radarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
-            .onChange(of: [sort, searchQuery] as [AnyHashable]) {
-                if let imdb = extractImdbId(searchQuery) {
-                    searchQuery = "imdb:\(imdb)"
-                    return
-                }
-
-                scrollToTop()
-                updateDisplayedMovies()
-            }
+            .onChange(of: sort, handleFilterChange)
+            .onChange(of: searchQuery, handleQueryChange)
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
@@ -266,6 +259,21 @@ struct MoviesView: View {
 
             alertPresented = true
         }
+    }
+
+    func handleFilterChange() {
+        scrollToTop()
+        updateDisplayedMovies()
+    }
+
+    func handleQueryChange() {
+        if let imdb = extractImdbId(searchQuery) {
+            searchQuery = "imdb:\(imdb)"
+            return
+        }
+
+        scrollToTop()
+        updateDisplayedMovies()
     }
 
     func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
