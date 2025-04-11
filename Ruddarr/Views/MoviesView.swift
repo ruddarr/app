@@ -97,7 +97,15 @@ struct MoviesView: View {
             .autocorrectionDisabled(true)
             .onChange(of: settings.radarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
-            .onChange(of: sort, handleFilterChange)
+            .onChange(of: sort) { oldValue, newValue in
+                print("SORT HASH", oldValue.hashValue, newValue.hashValue)
+
+                if oldValue != newValue {
+                    print("NOT EQUAL", oldValue, newValue)
+                }
+
+                handleFilterChange()
+            }
             .onChange(of: searchQuery, handleQueryChange)
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
