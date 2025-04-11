@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SeriesSort: Equatable, Hashable {
+struct SeriesSort: Hashable {
     var isAscending: Bool = false
     var option: Option = .byAdded
     var filter: Filter = .all
