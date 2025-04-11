@@ -287,9 +287,11 @@ struct MoviesView: View {
     }
 
     func scrollToTop() {
-        scrollView?.scrollTo(
-            instance.movies.cachedItems.first?.id
-        )
+        withAnimation(.smooth) {
+            scrollView?.scrollTo(
+                instance.movies.cachedItems.first?.id
+            )
+        }
     }
 
     func maybeSwitchToInstance() {

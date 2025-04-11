@@ -297,9 +297,11 @@ struct SeriesView: View {
     }
 
     func scrollToTop() {
-        scrollView?.scrollTo(
-            instance.series.cachedItems.first?.id
-        )
+        withAnimation(.smooth) {
+            scrollView?.scrollTo(
+                instance.series.cachedItems.first?.id
+            )
+        }
     }
 
     func maybeSwitchToInstance() {
