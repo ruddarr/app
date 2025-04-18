@@ -108,6 +108,8 @@ struct ContentView: View {
 
         switch to {
         case .calendar: NotificationCenter.default.post(name: .scrollToToday)
+        case .movies: NotificationCenter.default.post(name: .activateMoviesSearch)
+        case .series: NotificationCenter.default.post(name: .activateSeriesSearch)
         default: break
         }
     }
