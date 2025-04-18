@@ -2,36 +2,8 @@ import SwiftUI
 
 struct SeriesReleaseRow: View {
     var release: SeriesRelease
-    var seriesId: Series.ID
-    var seasonId: Season.ID?
-    var episodeId: Episode.ID?
-
-    @State private var isShowingPopover = false
-
-    @EnvironmentObject var settings: AppSettings
-    @Environment(\.deviceType) private var deviceType
-    @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
-        linesStack
-            .contentShape(Rectangle())
-            .onTapGesture {
-                isShowingPopover = true
-            }
-            .sheet(isPresented: $isShowingPopover) {
-                SeriesReleaseSheet(
-                    release: release,
-                    seriesId: seriesId,
-                    seasonId: seasonId,
-                    episodeId: episodeId
-                )
-                    .presentationDetents([deviceType == .phone ? .medium : .large])
-                    .environment(instance)
-                    .environmentObject(settings)
-            }
-    }
-
-    var linesStack: some View {
         VStack(alignment: .leading) {
             HStack(spacing: 4) {
                 Text(release.title)
@@ -43,6 +15,7 @@ struct SeriesReleaseRow: View {
             secondRow
             thirdRow
         }
+        .contentShape(Rectangle())
     }
 
     var secondRow: some View {

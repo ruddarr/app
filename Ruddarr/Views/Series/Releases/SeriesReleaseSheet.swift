@@ -11,7 +11,7 @@ struct SeriesReleaseSheet: View {
     @Environment(SonarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.deviceType) private var deviceType
+    // @Environment(\.deviceType) private var deviceType
 
     @State private var showGrabConfirmation: Bool = false
 
@@ -58,7 +58,7 @@ struct SeriesReleaseSheet: View {
             } message: {
                 Text("The release for this series/episode could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
             }
-        }
+         }
     }
 
     var header: some View {
@@ -128,13 +128,14 @@ struct SeriesReleaseSheet: View {
 
     var actions: some View {
         HStack(spacing: 24) {
-            if deviceType != .phone {
-                Spacer()
-            }
+//            if deviceType != .phone {
+//                Spacer()
+//            }
 
             if let url = URL(string: release.infoUrl ?? "") {
                 Link(destination: url, label: {
-                    let label: LocalizedStringKey = deviceType == .phone ? "Website" : "Open Website"
+                    // let label: LocalizedStringKey = deviceType == .phone ? "Website" : "Open Website"
+                    let label: LocalizedStringKey = "Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .modifier(MediaPreviewActionModifier())
@@ -153,7 +154,8 @@ struct SeriesReleaseSheet: View {
                     showGrabConfirmation = true
                 }
             } label: {
-                let label: LocalizedStringKey = deviceType == .phone ? "Download" : "Download Release"
+                // let label: LocalizedStringKey = deviceType == .phone ? "Download" : "Download Release"
+                let label: LocalizedStringKey = "Download"
 
                 ButtonLabel(
                     text: label,
@@ -166,9 +168,9 @@ struct SeriesReleaseSheet: View {
             .tint(.secondary)
             .allowsHitTesting(!instance.series.isWorking)
 
-            if deviceType != .phone {
-                Spacer()
-            }
+//            if deviceType != .phone {
+//                Spacer()
+//            }
         }
         .fixedSize(horizontal: false, vertical: true)
     }

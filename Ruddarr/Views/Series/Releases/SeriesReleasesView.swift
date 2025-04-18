@@ -9,22 +9,25 @@ struct SeriesReleasesView: View {
     @State private var fetched: (Series.ID?, Season.ID?, Episode.ID?) = (nil, nil, nil)
     @State private var search: String = ""
 
+    @State private var selectedRelease: SeriesRelease?
+
     @AppStorage("seriesReleaseSort", store: dependencies.store) private var sort: SeriesReleaseSort = .init()
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.deviceType) private var deviceType
     @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
         List {
             ForEach(releases) { release in
-                SeriesReleaseRow(
-                    release: release,
-                    seriesId: series.id,
-                    seasonId: seasonId,
-                    episodeId: episodeId
-                )
-                    .environment(instance)
-                    .environmentObject(settings)
+                Button {
+                    selectedRelease = release
+                } label: {
+                    SeriesReleaseRow(release: release)
+                        .environment(instance)
+                        .environmentObject(settings)
+                }
+                .buttonStyle(.plain)
             }
 
             if hasHiddenReleases {
@@ -64,6 +67,20 @@ struct SeriesReleasesView: View {
             } else if releases.isEmpty && hasFetched {
                 noMatchingReleases
             }
+        }
+        .sheet(item: $selectedRelease) { release in
+//            Text(release.title)
+                // .presentationDetents([deviceType == .phone ? .medium : .large])
+
+            SeriesReleaseSheet(
+                release: release,
+                seriesId: series.id,
+                seasonId: seasonId,
+                episodeId: episodeId
+            )
+            .environment(instance)
+            .environmentObject(settings)
+            // .presentationDetents([deviceType == .phone ? .medium : .large])
         }
     }
 
