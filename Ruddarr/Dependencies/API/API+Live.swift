@@ -243,14 +243,14 @@ extension API {
             var items: QueueItems = try await request(url: url, headers: instance.auth)
             for i in items.records.indices { items.records[i].instanceId = instance.id }
             return items
-        }, deleteQueueTask: { task, remove, block, redownload, instance in
+        }, deleteQueueTask: { task, remove, block, search, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/queue")
                 .appending(path: String(task))
                 .appending(queryItems: [
                     .init(name: "removeFromClient", value: remove ? "true" : "false"),
                     .init(name: "blocklist", value: block ? "true" : "false"),
-                    .init(name: "skipRedownload", value: redownload ? "true" : "false"),
+                    .init(name: "skipRedownload", value: search ? "false" : "true"),
                 ])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
