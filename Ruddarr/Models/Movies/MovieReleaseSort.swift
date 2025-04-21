@@ -3,6 +3,7 @@ import SwiftUI
 struct MovieReleaseSort: Equatable {
     var isAscending: Bool = true
     var option: Option = .byWeight
+    var search: String = ""
 
     var indexer: String = ".all"
     var quality: String = ".all"
@@ -104,6 +105,7 @@ extension MovieReleaseSort: RawRepresentable {
     enum CodingKeys: String, CodingKey {
         case isAscending
         case option
+        case search
 
         case indexer
         case quality
@@ -122,6 +124,7 @@ extension MovieReleaseSort: RawRepresentable {
         try self.init(
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),
+            search: container.decode(String.self, forKey: .search),
             indexer: container.decode(String.self, forKey: .indexer),
             quality: container.decode(String.self, forKey: .quality),
             language: container.decode(String.self, forKey: .language),
@@ -137,6 +140,7 @@ extension MovieReleaseSort: RawRepresentable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(isAscending, forKey: .isAscending)
         try container.encode(option, forKey: .option)
+        try container.encode(search, forKey: .search)
         try container.encode(indexer, forKey: .indexer)
         try container.encode(quality, forKey: .quality)
         try container.encode(language, forKey: .language)
