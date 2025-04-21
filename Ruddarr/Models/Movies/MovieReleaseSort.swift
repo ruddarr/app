@@ -3,6 +3,7 @@ import SwiftUI
 struct MovieReleaseSort: Equatable {
     var isAscending: Bool = true
     var option: Option = .byWeight
+    var query: String = ""
 
     var indexer: String = ".all"
     var quality: String = ".all"

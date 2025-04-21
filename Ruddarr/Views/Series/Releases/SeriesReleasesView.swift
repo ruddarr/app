@@ -35,7 +35,7 @@ struct SeriesReleasesView: View {
             }
         }
         .listStyle(.inset)
-        .searchable(text: $search, placement: .drawerOrToolbar)
+        .searchable(text: $sort.search, placement: .drawerOrToolbar)
         .toolbar {
             toolbarButtons
         }
@@ -50,7 +50,6 @@ struct SeriesReleasesView: View {
         }
         .onChange(of: sort.option, updateSortDirection)
         .onChange(of: sort, updateDisplayedReleases)
-        .onChange(of: search, updateDisplayedReleases)
         .alert(
             isPresented: instance.releases.errorBinding,
             error: instance.releases.error
@@ -69,9 +68,6 @@ struct SeriesReleasesView: View {
             }
         }
         .sheet(item: $selectedRelease) { release in
-//            Text(release.title)
-                // .presentationDetents([deviceType == .phone ? .medium : .large])
-
             SeriesReleaseSheet(
                 release: release,
                 seriesId: series.id,
@@ -80,7 +76,7 @@ struct SeriesReleasesView: View {
             )
             .environment(instance)
             .environmentObject(settings)
-            // .presentationDetents([deviceType == .phone ? .medium : .large])
+            .presentationDetents([deviceType == .phone ? .medium : .large])
         }
     }
 
@@ -125,63 +121,67 @@ struct SeriesReleasesView: View {
 
     // swiftlint:disable:next cyclomatic_complexity
     func updateDisplayedReleases() {
-        releases = instance.releases.items.sorted(by: sort.option.isOrderedBefore)
+        let releases = instance.releases.items
 
-        if !search.isEmpty {
-            releases = releases.filter {
-                $0.title.localizedCaseInsensitiveContains(search)
-            }
-        }
+//        var releases = instance.releases.items.sorted(by: sort.option.isOrderedBefore)
 
-        if sort.type != ".all" {
-            releases = releases.filter { $0.type.label == sort.type }
-        }
+//        if !search.isEmpty {
+//            releases = releases.filter {
+//                $0.title.localizedCaseInsensitiveContains(search)
+//            }
+//        }
+//
+//        if sort.type != ".all" {
+//            releases = releases.filter { $0.type.label == sort.type }
+//        }
+//
+//        if sort.indexer != ".all" {
+//            releases = releases.filter { $0.indexerLabel == sort.indexer }
+//        }
+//
+//        if sort.quality != ".all" {
+//            releases = releases.filter { $0.quality.quality.normalizedName == sort.quality }
+//        }
+//
+//        if sort.language == ".multi" {
+//            releases = releases.filter {
+//                ($0.languages?.count ?? 0) > 1 || $0.title.lowercased().contains("multi")
+//            }
+//        } else if sort.language != ".all" {
+//            releases = releases.filter { $0.languages?.contains { $0.label == sort.language } ?? false }
+//        }
+//
+//        if sort.customFormat != ".all" {
+//            releases = releases.filter { $0.customFormats?.contains { $0.name == sort.customFormat } ?? false }
+//        }
+//
+//        if sort.seasonPack == .season {
+//            releases = releases.filter { $0.fullSeason }
+//        }
+//
+//        if sort.seasonPack == .episode {
+//            releases = releases.filter { !$0.fullSeason }
+//        }
+//
+//        if sort.approved {
+//            releases = releases.filter { !$0.rejected }
+//        }
+//
+//        if sort.freeleech {
+//            releases = releases.filter { $0.releaseFlags.contains(.freeleech) }
+//        }
+//
+//        if sort.originalLanguage {
+//            releases = releases.filter {
+//                $0.languages?.contains { $0.id == series.originalLanguage?.id } ?? false
+//            }
+//        }
+//
+//        if sort.isAscending {
+//            releases = releases.reversed()
+//        }
 
-        if sort.indexer != ".all" {
-            releases = releases.filter { $0.indexerLabel == sort.indexer }
-        }
-
-        if sort.quality != ".all" {
-            releases = releases.filter { $0.quality.quality.normalizedName == sort.quality }
-        }
-
-        if sort.language == ".multi" {
-            releases = releases.filter {
-                ($0.languages?.count ?? 0) > 1 || $0.title.lowercased().contains("multi")
-            }
-        } else if sort.language != ".all" {
-            releases = releases.filter { $0.languages?.contains { $0.label == sort.language } ?? false }
-        }
-
-        if sort.customFormat != ".all" {
-            releases = releases.filter { $0.customFormats?.contains { $0.name == sort.customFormat } ?? false }
-        }
-
-        if sort.seasonPack == .season {
-            releases = releases.filter { $0.fullSeason }
-        }
-
-        if sort.seasonPack == .episode {
-            releases = releases.filter { !$0.fullSeason }
-        }
-
-        if sort.approved {
-            releases = releases.filter { !$0.rejected }
-        }
-
-        if sort.freeleech {
-            releases = releases.filter { $0.releaseFlags.contains(.freeleech) }
-        }
-
-        if sort.originalLanguage {
-            releases = releases.filter {
-                $0.languages?.contains { $0.id == series.originalLanguage?.id } ?? false
-            }
-        }
-
-        if sort.isAscending {
-            releases = releases.reversed()
-        }
+        self.releases = releases
     }
 }
 
