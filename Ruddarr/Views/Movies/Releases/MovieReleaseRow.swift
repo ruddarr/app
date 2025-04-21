@@ -4,27 +4,10 @@ struct MovieReleaseRow: View {
     var release: MovieRelease
     var movie: Movie
 
-    @State private var isShowingPopover = false
-
     @EnvironmentObject var settings: AppSettings
-    @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
-        linesStack
-            .contentShape(Rectangle())
-            .onTapGesture {
-                isShowingPopover = true
-            }
-            .sheet(isPresented: $isShowingPopover) {
-                MovieReleaseSheet(release: release, movie: movie)
-                    .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
-                    .environment(instance)
-                    .environmentObject(settings)
-            }
-    }
-
-    var linesStack: some View {
         VStack(alignment: .leading) {
             Text(release.title)
                 .font(.headline)
@@ -34,6 +17,7 @@ struct MovieReleaseRow: View {
             secondRow
             thirdRow
         }
+        .contentShape(Rectangle())
     }
 
     var secondRow: some View {

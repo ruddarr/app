@@ -58,7 +58,7 @@ struct SeriesReleaseSheet: View {
             } message: {
                 Text("The release for this series/episode could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
             }
-         }
+        }
     }
 
     var header: some View {

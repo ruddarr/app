@@ -7,8 +7,6 @@ struct SeriesReleasesView: View {
 
     @State private var releases: [SeriesRelease] = []
     @State private var fetched: (Series.ID?, Season.ID?, Episode.ID?) = (nil, nil, nil)
-    @State private var search: String = ""
-
     @State private var selectedRelease: SeriesRelease?
 
     @AppStorage("seriesReleaseSort", store: dependencies.store) private var sort: SeriesReleaseSort = .init()
