@@ -8,7 +8,7 @@ struct MovieReleaseSort: Equatable {
     var indexer: String = ".all"
     var quality: String = ".all"
     var language: String = ".all"
-    var type: String = ".all"
+    var network: String = ".all"
     var customFormat: String = ".all"
 
     var approved: Bool = false
@@ -55,7 +55,7 @@ struct MovieReleaseSort: Equatable {
     }
 
     var hasFilter: Bool {
-        type != ".all"
+        network != ".all"
         || indexer != ".all"
         || quality != ".all"
         || language != ".all"
@@ -66,7 +66,7 @@ struct MovieReleaseSort: Equatable {
     }
 
     mutating func resetFilters() {
-        type = ".all"
+        network = ".all"
         indexer = ".all"
         quality = ".all"
         language = ".all"
@@ -110,7 +110,7 @@ extension MovieReleaseSort: RawRepresentable {
         case indexer
         case quality
         case language
-        case type
+        case network
         case customFormat
 
         case approved
@@ -128,7 +128,7 @@ extension MovieReleaseSort: RawRepresentable {
             indexer: container.decode(String.self, forKey: .indexer),
             quality: container.decode(String.self, forKey: .quality),
             language: container.decode(String.self, forKey: .language),
-            type: container.decode(String.self, forKey: .type),
+            network: container.decode(String.self, forKey: .network),
             customFormat: container.decode(String.self, forKey: .customFormat),
             approved: container.decode(Bool.self, forKey: .approved),
             freeleech: container.decode(Bool.self, forKey: .freeleech),
@@ -144,7 +144,7 @@ extension MovieReleaseSort: RawRepresentable {
         try container.encode(indexer, forKey: .indexer)
         try container.encode(quality, forKey: .quality)
         try container.encode(language, forKey: .language)
-        try container.encode(type, forKey: .type)
+        try container.encode(network, forKey: .network)
         try container.encode(customFormat, forKey: .customFormat)
         try container.encode(approved, forKey: .approved)
         try container.encode(freeleech, forKey: .freeleech)

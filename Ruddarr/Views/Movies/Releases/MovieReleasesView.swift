@@ -283,7 +283,7 @@ extension MovieReleasesView {
 
     var protocolPicker: some View {
         Menu {
-            Picker("Protocol", selection: $sort.type) {
+            Picker("Protocol", selection: $sort.network) {
                 Text("Any Protocol").tag(".all")
 
                 ForEach(instance.releases.protocols, id: \.self) { type in
@@ -293,7 +293,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.type == ".all" ? String(localized: "Protocol") : sort.type,
+                sort.network == ".all" ? String(localized: "Protocol") : sort.network,
                 systemImage: "point.3.connected.trianglepath.dotted"
             )
         }

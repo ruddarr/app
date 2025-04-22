@@ -75,7 +75,7 @@ class MovieReleases {
         var seen: Set<String> = []
 
         protocols = items
-            .map { $0.type.label }
+            .map { $0.network.label }
             .filter { seen.insert($0).inserted }
     }
 
@@ -101,7 +101,6 @@ struct MovieRelease: Identifiable, Codable {
     var id: String { guid }
 
     let guid: String
-    let type: MediaReleaseType
     let title: String
     let size: Int
     let age: Int
@@ -112,6 +111,7 @@ struct MovieRelease: Identifiable, Codable {
     let customFormats: [MediaCustomFormat]?
     let customFormatScore: Int
 
+    let network: ReleaseProtocol
     let indexerId: Int
     let indexer: String?
     let indexerFlags: [String]?
@@ -129,7 +129,6 @@ struct MovieRelease: Identifiable, Codable {
 
     enum CodingKeys: String, CodingKey {
         case guid
-        case type = "protocol"
         case title
         case size
         case age
@@ -138,6 +137,7 @@ struct MovieRelease: Identifiable, Codable {
         case downloadAllowed
         case customFormats
         case customFormatScore
+        case network = "protocol"
         case indexerId
         case indexer
         case indexerFlags
@@ -152,11 +152,11 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var isTorrent: Bool {
-        type == .torrent
+        network == .torrent
     }
 
     var isUsenet: Bool {
-        type == .usenet
+        network == .usenet
     }
 
     var isFreeleech: Bool {
@@ -225,11 +225,11 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var typeLabel: String {
-        if type == .torrent {
-            return "\(type.label) (\(seeders ?? 0)/\(leechers ?? 0))"
+        if network == .torrent {
+            return "\(network.label) (\(seeders ?? 0)/\(leechers ?? 0))"
         }
 
-        return type.label
+        return network.label
     }
 
     var sizeLabel: String {

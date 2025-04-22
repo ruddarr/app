@@ -8,7 +8,7 @@ struct SeriesReleaseSort: Equatable {
     var indexer: String = ".all"
     var quality: String = ".all"
     var language: String = ".all"
-    var type: String = ".all"
+    var network: String = ".all"
     var customFormat: String = ".all"
     var seasonPack: SeasonPack = .any
 
@@ -80,7 +80,7 @@ struct SeriesReleaseSort: Equatable {
     }
 
     var hasFilter: Bool {
-        type != ".all"
+        network != ".all"
         || indexer != ".all"
         || quality != ".all"
         || language != ".all"
@@ -92,7 +92,7 @@ struct SeriesReleaseSort: Equatable {
     }
 
     mutating func resetFilters() {
-        type = ".all"
+        network = ".all"
         indexer = ".all"
         quality = ".all"
         language = ".all"
@@ -138,7 +138,7 @@ extension SeriesReleaseSort: Codable {
         case indexer
         case quality
         case language
-        case type
+        case network
         case customFormat
         case seasonPack
 
@@ -157,7 +157,7 @@ extension SeriesReleaseSort: Codable {
             indexer: container.decode(String.self, forKey: .indexer),
             quality: container.decode(String.self, forKey: .quality),
             language: container.decode(String.self, forKey: .language),
-            type: container.decode(String.self, forKey: .type),
+            network: container.decode(String.self, forKey: .network),
             customFormat: container.decode(String.self, forKey: .customFormat),
             seasonPack: container.decode(SeasonPack.self, forKey: .seasonPack),
             approved: container.decode(Bool.self, forKey: .approved),
@@ -174,7 +174,7 @@ extension SeriesReleaseSort: Codable {
         try container.encode(indexer, forKey: .indexer)
         try container.encode(quality, forKey: .quality)
         try container.encode(language, forKey: .language)
-        try container.encode(type, forKey: .type)
+        try container.encode(network, forKey: .network)
         try container.encode(customFormat, forKey: .customFormat)
         try container.encode(seasonPack, forKey: .seasonPack)
         try container.encode(approved, forKey: .approved)
