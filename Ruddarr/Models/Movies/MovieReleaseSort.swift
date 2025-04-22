@@ -75,6 +75,28 @@ struct MovieReleaseSort: Equatable {
         freeleech = false
         originalLanguage = false
     }
+
+    func filterAndSortItems(_ items: [MovieRelease], _ movie: Movie) -> [MovieRelease] {
+        let query = search.trimmed()
+        let comparator = option.isOrderedBefore
+
+        return items
+            .filter { release in
+                (search.isEmpty || release.title.localizedCaseInsensitiveContains(query)) &&
+                [release.network.label, ".all"].contains(network) &&
+                [release.indexerLabel, ".all"].contains(indexer) &&
+                [release.quality.quality.normalizedName, ".all"].contains(quality) &&
+                (language != ".multi" || (release.languages.count > 1 || release.title.lowercased().contains("multi"))) &&
+                ([".all", ".multi"].contains(language) || release.languages.contains { $0.label == language }) &&
+                (customFormat == ".all" || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
+                (!approved || !release.rejected) &&
+                (!freeleech || release.cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }) &&
+                (!originalLanguage || release.languages.contains { $0.id == movie.originalLanguage?.id })
+            }
+            .sorted {
+                isAscending ? comparator($1, $0) : comparator($0, $1)
+            }
+    }
 }
 
 extension MovieReleaseSort: RawRepresentable {

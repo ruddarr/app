@@ -117,69 +117,11 @@ struct SeriesReleasesView: View {
         }
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
     func updateDisplayedReleases() {
-        let releases = instance.releases.items
-
-//        var releases = instance.releases.items.sorted(by: sort.option.isOrderedBefore)
-
-//        if !search.isEmpty {
-//            releases = releases.filter {
-//                $0.title.localizedCaseInsensitiveContains(search)
-//            }
-//        }
-//
-//        if sort.type != ".all" {
-//            releases = releases.filter { $0.type.label == sort.type }
-//        }
-//
-//        if sort.indexer != ".all" {
-//            releases = releases.filter { $0.indexerLabel == sort.indexer }
-//        }
-//
-//        if sort.quality != ".all" {
-//            releases = releases.filter { $0.quality.quality.normalizedName == sort.quality }
-//        }
-//
-//        if sort.language == ".multi" {
-//            releases = releases.filter {
-//                ($0.languages?.count ?? 0) > 1 || $0.title.lowercased().contains("multi")
-//            }
-//        } else if sort.language != ".all" {
-//            releases = releases.filter { $0.languages?.contains { $0.label == sort.language } ?? false }
-//        }
-//
-//        if sort.customFormat != ".all" {
-//            releases = releases.filter { $0.customFormats?.contains { $0.name == sort.customFormat } ?? false }
-//        }
-//
-//        if sort.seasonPack == .season {
-//            releases = releases.filter { $0.fullSeason }
-//        }
-//
-//        if sort.seasonPack == .episode {
-//            releases = releases.filter { !$0.fullSeason }
-//        }
-//
-//        if sort.approved {
-//            releases = releases.filter { !$0.rejected }
-//        }
-//
-//        if sort.freeleech {
-//            releases = releases.filter { $0.releaseFlags.contains(.freeleech) }
-//        }
-//
-//        if sort.originalLanguage {
-//            releases = releases.filter {
-//                $0.languages?.contains { $0.id == series.originalLanguage?.id } ?? false
-//            }
-//        }
-//
-//        if sort.isAscending {
-//            releases = releases.reversed()
-//        }
-
-        self.releases = releases
+        Task {
+            try? await Task.sleep(for: .milliseconds(10))
+            releases = sort.filterAndSortItems(instance.releases.items, series)
+        }
     }
 }
 

@@ -102,6 +102,30 @@ struct SeriesReleaseSort: Equatable {
         freeleech = false
         originalLanguage = false
     }
+
+    func filterAndSortItems(_ items: [SeriesRelease], _ series: Series) -> [SeriesRelease] {
+        let query = search.trimmed()
+        let comparator = option.isOrderedBefore
+
+        return items
+            .filter { release in
+                (search.isEmpty || release.title.localizedCaseInsensitiveContains(query)) &&
+                [release.network.label, ".all"].contains(network) &&
+                [release.indexerLabel, ".all"].contains(indexer) &&
+                [release.quality.quality.normalizedName, ".all"].contains(quality) &&
+                (language != ".multi" || ((release.languages?.count ?? 0) > 1 || release.title.lowercased().contains("multi"))) &&
+                ([".all", ".multi"].contains(language) || release.languages?.contains { $0.label == language } ?? false) &&
+                (customFormat == ".all" || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
+                (seasonPack != .season || release.fullSeason) &&
+                (seasonPack != .episode || !release.fullSeason) &&
+                (!approved || !release.rejected) &&
+                (!freeleech || release.releaseFlags.contains(.freeleech)) &&
+                (!originalLanguage || release.languages?.contains { $0.id == series.originalLanguage?.id } ?? false)
+            }
+            .sorted {
+                isAscending ? comparator($1, $0) : comparator($0, $1)
+            }
+    }
 }
 
 extension SeriesReleaseSort: RawRepresentable {
