@@ -66,6 +66,7 @@ struct SeriesPreviewView: View {
             Button("Add Series") {
                 presentingForm = true
             }
+            .disabled(presentingForm)
         }
     }
 

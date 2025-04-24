@@ -5,19 +5,25 @@ struct MovieReleasesView: View {
 
     @State private var releases: [MovieRelease] = []
     @State private var fetched: Movie.ID?
-    @State private var search: String = ""
+    @State private var selectedRelease: MovieRelease?
 
     @AppStorage("movieReleaseSort", store: dependencies.store) private var sort: MovieReleaseSort = .init()
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
         List {
             ForEach(releases) { release in
-                MovieReleaseRow(release: release, movie: movie)
-                    .environment(instance)
-                    .environmentObject(settings)
+                Button {
+                    selectedRelease = release
+                } label: {
+                    MovieReleaseRow(release: release, movie: movie)
+                        .environment(instance)
+                        .environmentObject(settings)
+                }
+                .buttonStyle(.plain)
             }
 
             if hasHiddenReleases {
@@ -25,7 +31,7 @@ struct MovieReleasesView: View {
             }
         }
         .listStyle(.inset)
-        .searchable(text: $search, placement: .drawerOrToolbar)
+        .searchable(text: $sort.search, placement: .drawerOrToolbar)
         .toolbar {
             toolbarButtons
         }
@@ -39,7 +45,6 @@ struct MovieReleasesView: View {
         }
         .onChange(of: sort.option, updateSortDirection)
         .onChange(of: sort, updateDisplayedReleases)
-        .onChange(of: search, updateDisplayedReleases)
         .alert(
             isPresented: instance.releases.errorBinding,
             error: instance.releases.error
@@ -56,6 +61,12 @@ struct MovieReleasesView: View {
             } else if releases.isEmpty && hasFetched {
                 noMatchingReleases
             }
+        }
+        .sheet(item: $selectedRelease) { release in
+            MovieReleaseSheet(release: release, movie: movie)
+                .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
+                .environment(instance)
+                .environmentObject(settings)
         }
     }
 
@@ -98,58 +109,10 @@ struct MovieReleasesView: View {
         }
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
     func updateDisplayedReleases() {
-        releases = instance.releases.items.sorted(by: sort.option.isOrderedBefore)
-
-        if !search.isEmpty {
-            releases = releases.filter {
-                $0.title.localizedCaseInsensitiveContains(search)
-            }
-        }
-
-        if sort.type != ".all" {
-            releases = releases.filter { $0.type.label == sort.type }
-        }
-
-        if sort.indexer != ".all" {
-            releases = releases.filter { $0.indexerLabel == sort.indexer }
-        }
-
-        if sort.quality != ".all" {
-            releases = releases.filter { $0.quality.quality.normalizedName == sort.quality }
-        }
-
-        if sort.language == ".multi" {
-            releases = releases.filter {
-                $0.languages.count > 1 || $0.title.lowercased().contains("multi")
-            }
-        } else if sort.language != ".all" {
-            releases = releases.filter { $0.languages.contains { $0.label == sort.language } }
-        }
-
-        if sort.customFormat != ".all" {
-            releases = releases.filter { $0.customFormats?.contains { $0.name == sort.customFormat } ?? false }
-        }
-
-        if sort.approved {
-            releases = releases.filter { !$0.rejected }
-        }
-
-        if sort.freeleech {
-            releases = releases.filter {
-                $0.cleanIndexerFlags.contains(where: { $0.localizedStandardContains("freeleech") })
-            }
-        }
-
-        if sort.originalLanguage {
-            releases = releases.filter {
-                $0.languages.contains(where: { $0.id == movie.originalLanguage?.id })
-            }
-        }
-
-        if sort.isAscending {
-            releases = releases.reversed()
+        Task {
+            try? await Task.sleep(for: .milliseconds(10))
+            releases = sort.filterAndSortItems(instance.releases.items, movie)
         }
     }
 }
@@ -270,7 +233,7 @@ extension MovieReleasesView {
 
     var protocolPicker: some View {
         Menu {
-            Picker("Protocol", selection: $sort.type) {
+            Picker("Protocol", selection: $sort.network) {
                 Text("Any Protocol").tag(".all")
 
                 ForEach(instance.releases.protocols, id: \.self) { type in
@@ -280,7 +243,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.type == ".all" ? String(localized: "Protocol") : sort.type,
+                sort.network == ".all" ? String(localized: "Protocol") : sort.network,
                 systemImage: "point.3.connected.trianglepath.dotted"
             )
         }

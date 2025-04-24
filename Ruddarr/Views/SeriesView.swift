@@ -98,15 +98,8 @@ struct SeriesView: View {
             .autocorrectionDisabled(true)
             .onChange(of: settings.sonarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
-            .onChange(of: [sort, searchQuery] as [AnyHashable]) {
-                if let imdb = extractImdbId(searchQuery) {
-                    searchQuery = "imdb:\(imdb)"
-                    return
-                }
-
-                scrollToTop()
-                updateDisplayedSeries()
-            }
+            .onChange(of: sort, handleFilterChange)
+            .onChange(of: searchQuery, handleQueryChange)
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
@@ -278,6 +271,21 @@ struct SeriesView: View {
         }
     }
 
+    func handleFilterChange() {
+        scrollToTop()
+        updateDisplayedSeries()
+    }
+
+    func handleQueryChange() {
+        if let imdb = extractImdbId(searchQuery) {
+            searchQuery = "imdb:\(imdb)"
+            return
+        }
+
+        scrollToTop()
+        updateDisplayedSeries()
+    }
+
     func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
         guard dependencies.router.seriesPath.isEmpty else {
             return
@@ -289,9 +297,11 @@ struct SeriesView: View {
     }
 
     func scrollToTop() {
-        scrollView?.scrollTo(
-            instance.series.cachedItems.first?.id
-        )
+        withAnimation(.smooth) {
+            scrollView?.scrollTo(
+                instance.series.cachedItems.first?.id
+            )
+        }
     }
 
     func maybeSwitchToInstance() {

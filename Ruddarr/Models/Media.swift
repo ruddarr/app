@@ -46,7 +46,7 @@ struct MediaCustomFormat: Identifiable, Equatable, Codable {
     }
 }
 
-enum MediaReleaseType: String, Codable {
+enum ReleaseProtocol: String, Codable {
     case usenet
     case torrent
     case unknown

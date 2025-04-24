@@ -103,7 +103,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let title: String?
     let indexer: String?
 
-    let type: MediaReleaseType
+    let type: ReleaseProtocol
 
     let size: Float
     let sizeleft: Float

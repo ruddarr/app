@@ -129,7 +129,7 @@ actor Notifications {
     }
 
     static func signature(_ message: String) -> String {
-        guard let secret = Bundle.main.infoDictionary?["APNsKey"] as? String else {
+        guard let secret = Bundle.main.object(forInfoDictionaryKey: "APNsKey") as? String else {
             leaveBreadcrumb(.fatal, category: "notifications", message: "Failed to load APNs key")
 
             return "TESTING"
