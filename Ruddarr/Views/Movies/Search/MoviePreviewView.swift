@@ -66,6 +66,7 @@ struct MoviePreviewView: View {
             Button("Add Movie") {
                 presentingForm = true
             }
+            .disabled(presentingForm)
         }
     }
 

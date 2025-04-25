@@ -3,11 +3,12 @@ import SwiftUI
 struct MovieReleaseSort: Equatable {
     var isAscending: Bool = true
     var option: Option = .byWeight
+    var search: String = ""
 
     var indexer: String = ".all"
     var quality: String = ".all"
     var language: String = ".all"
-    var type: String = ".all"
+    var network: String = ".all"
     var customFormat: String = ".all"
 
     var approved: Bool = false
@@ -54,7 +55,7 @@ struct MovieReleaseSort: Equatable {
     }
 
     var hasFilter: Bool {
-        type != ".all"
+        network != ".all"
         || indexer != ".all"
         || quality != ".all"
         || language != ".all"
@@ -65,7 +66,7 @@ struct MovieReleaseSort: Equatable {
     }
 
     mutating func resetFilters() {
-        type = ".all"
+        network = ".all"
         indexer = ".all"
         quality = ".all"
         language = ".all"
@@ -73,6 +74,28 @@ struct MovieReleaseSort: Equatable {
         approved = false
         freeleech = false
         originalLanguage = false
+    }
+
+    func filterAndSortItems(_ items: [MovieRelease], _ movie: Movie) -> [MovieRelease] {
+        let query = search.trimmed()
+        let comparator = option.isOrderedBefore
+
+        return items
+            .filter { release in
+                (search.isEmpty || release.title.localizedCaseInsensitiveContains(query)) &&
+                [release.network.label, ".all"].contains(network) &&
+                [release.indexerLabel, ".all"].contains(indexer) &&
+                [release.quality.quality.normalizedName, ".all"].contains(quality) &&
+                (language != ".multi" || (release.languages.count > 1 || release.title.lowercased().contains("multi"))) &&
+                ([".all", ".multi"].contains(language) || release.languages.contains { $0.label == language }) &&
+                (customFormat == ".all" || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
+                (!approved || !release.rejected) &&
+                (!freeleech || release.cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }) &&
+                (!originalLanguage || release.languages.contains { $0.id == movie.originalLanguage?.id })
+            }
+            .sorted {
+                isAscending ? comparator($1, $0) : comparator($0, $1)
+            }
     }
 }
 
@@ -104,11 +127,12 @@ extension MovieReleaseSort: RawRepresentable {
     enum CodingKeys: String, CodingKey {
         case isAscending
         case option
+        case search
 
         case indexer
         case quality
         case language
-        case type
+        case network
         case customFormat
 
         case approved
@@ -122,10 +146,11 @@ extension MovieReleaseSort: RawRepresentable {
         try self.init(
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),
+            search: container.decode(String.self, forKey: .search),
             indexer: container.decode(String.self, forKey: .indexer),
             quality: container.decode(String.self, forKey: .quality),
             language: container.decode(String.self, forKey: .language),
-            type: container.decode(String.self, forKey: .type),
+            network: container.decode(String.self, forKey: .network),
             customFormat: container.decode(String.self, forKey: .customFormat),
             approved: container.decode(Bool.self, forKey: .approved),
             freeleech: container.decode(Bool.self, forKey: .freeleech),
@@ -137,10 +162,11 @@ extension MovieReleaseSort: RawRepresentable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(isAscending, forKey: .isAscending)
         try container.encode(option, forKey: .option)
+        try container.encode(search, forKey: .search)
         try container.encode(indexer, forKey: .indexer)
         try container.encode(quality, forKey: .quality)
         try container.encode(language, forKey: .language)
-        try container.encode(type, forKey: .type)
+        try container.encode(network, forKey: .network)
         try container.encode(customFormat, forKey: .customFormat)
         try container.encode(approved, forKey: .approved)
         try container.encode(freeleech, forKey: .freeleech)

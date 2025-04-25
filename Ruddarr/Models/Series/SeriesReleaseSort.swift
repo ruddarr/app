@@ -3,11 +3,12 @@ import SwiftUI
 struct SeriesReleaseSort: Equatable {
     var isAscending: Bool = true
     var option: Option = .byWeight
+    var search: String = ""
 
     var indexer: String = ".all"
     var quality: String = ".all"
     var language: String = ".all"
-    var type: String = ".all"
+    var network: String = ".all"
     var customFormat: String = ".all"
     var seasonPack: SeasonPack = .any
 
@@ -79,7 +80,7 @@ struct SeriesReleaseSort: Equatable {
     }
 
     var hasFilter: Bool {
-        type != ".all"
+        network != ".all"
         || indexer != ".all"
         || quality != ".all"
         || language != ".all"
@@ -91,7 +92,7 @@ struct SeriesReleaseSort: Equatable {
     }
 
     mutating func resetFilters() {
-        type = ".all"
+        network = ".all"
         indexer = ".all"
         quality = ".all"
         language = ".all"
@@ -100,6 +101,30 @@ struct SeriesReleaseSort: Equatable {
         approved = false
         freeleech = false
         originalLanguage = false
+    }
+
+    func filterAndSortItems(_ items: [SeriesRelease], _ series: Series) -> [SeriesRelease] {
+        let query = search.trimmed()
+        let comparator = option.isOrderedBefore
+
+        return items
+            .filter { release in
+                (search.isEmpty || release.title.localizedCaseInsensitiveContains(query)) &&
+                [release.network.label, ".all"].contains(network) &&
+                [release.indexerLabel, ".all"].contains(indexer) &&
+                [release.quality.quality.normalizedName, ".all"].contains(quality) &&
+                (language != ".multi" || ((release.languages?.count ?? 0) > 1 || release.title.lowercased().contains("multi"))) &&
+                ([".all", ".multi"].contains(language) || release.languages?.contains { $0.label == language } ?? false) &&
+                (customFormat == ".all" || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
+                (seasonPack != .season || release.fullSeason) &&
+                (seasonPack != .episode || !release.fullSeason) &&
+                (!approved || !release.rejected) &&
+                (!freeleech || release.releaseFlags.contains(.freeleech)) &&
+                (!originalLanguage || release.languages?.contains { $0.id == series.originalLanguage?.id } ?? false)
+            }
+            .sorted {
+                isAscending ? comparator($1, $0) : comparator($0, $1)
+            }
     }
 }
 
@@ -132,11 +157,12 @@ extension SeriesReleaseSort: Codable {
     enum CodingKeys: String, CodingKey {
         case isAscending
         case option
+        case search
 
         case indexer
         case quality
         case language
-        case type
+        case network
         case customFormat
         case seasonPack
 
@@ -151,10 +177,11 @@ extension SeriesReleaseSort: Codable {
         try self.init(
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),
+            search: container.decode(String.self, forKey: .search),
             indexer: container.decode(String.self, forKey: .indexer),
             quality: container.decode(String.self, forKey: .quality),
             language: container.decode(String.self, forKey: .language),
-            type: container.decode(String.self, forKey: .type),
+            network: container.decode(String.self, forKey: .network),
             customFormat: container.decode(String.self, forKey: .customFormat),
             seasonPack: container.decode(SeasonPack.self, forKey: .seasonPack),
             approved: container.decode(Bool.self, forKey: .approved),
@@ -167,10 +194,11 @@ extension SeriesReleaseSort: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(isAscending, forKey: .isAscending)
         try container.encode(option, forKey: .option)
+        try container.encode(search, forKey: .search)
         try container.encode(indexer, forKey: .indexer)
         try container.encode(quality, forKey: .quality)
         try container.encode(language, forKey: .language)
-        try container.encode(type, forKey: .type)
+        try container.encode(network, forKey: .network)
         try container.encode(customFormat, forKey: .customFormat)
         try container.encode(seasonPack, forKey: .seasonPack)
         try container.encode(approved, forKey: .approved)
