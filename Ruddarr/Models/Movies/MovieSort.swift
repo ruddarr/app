@@ -5,6 +5,12 @@ struct MovieSort: Hashable {
     var option: Option = .byAdded
     var filter: Filter = .all
 
+    static func == (lhs: MovieSort, rhs: MovieSort) -> Bool {
+        lhs.isAscending == rhs.isAscending &&
+        lhs.option == rhs.option &&
+        lhs.filter == rhs.filter
+    }
+
     enum Option: CaseIterable, Hashable, Identifiable, Codable {
         var id: Self { self }
 
