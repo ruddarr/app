@@ -86,7 +86,7 @@ class AppDelegateMac:
 
             options.enableSigtermReporting = true
             options.enableWatchdogTerminationTracking = true
-            options.enableMetricKit = true
+            options.enableMetricKit = false
             options.enableAppHangTracking = false
             options.appHangTimeoutInterval = 3
             options.enableCaptureFailedRequests = false
