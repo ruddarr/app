@@ -6,6 +6,7 @@ struct SeriesDetailView: View {
 
     @EnvironmentObject var settings: AppSettings
 
+    @Environment(\.deviceType) private var deviceType
     @Environment(\.scenePhase) private var scenePhase
     @Environment(SonarrInstance.self) private var instance
 
@@ -43,15 +44,14 @@ struct SeriesDetailView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
-        .alert(
-            "Are you sure?",
-            isPresented: $showDeleteConfirmation
-        ) {
-            Button("Delete Series", role: .destructive) { Task { await deleteSeries() } }
-            Button("Delete and Exclude", role: .destructive) { Task { await deleteSeries(exclude: true) } }
-            Button("Cancel", role: .cancel) { }
-        } message: {
-            Text("This will remove the series and permanently erase its folder and its contents.")
+        .sheet(isPresented: $showDeleteConfirmation) {
+            MediaDeleteSheet(label: "Delete Series") { exclude, delete in
+                Task {
+                    await deleteSeries(exclude: exclude, delete: delete)
+                    showDeleteConfirmation = false
+                }
+            }
+            .presentationDetents(dynamic: [deviceType == .phone ? .fraction(0.33) : .medium])
         }
     }
 
@@ -188,8 +188,8 @@ extension SeriesDetailView {
         maybeAskForReview()
     }
 
-    func deleteSeries(exclude: Bool = false) async {
-        _ = await instance.series.delete(series, addExclusion: exclude)
+    func deleteSeries(exclude: Bool, delete: Bool) async {
+        _ = await instance.series.delete(series, addExclusion: exclude, deleteFiles: delete)
 
         if !dependencies.router.seriesPath.isEmpty {
             dependencies.router.seriesPath.removeLast()

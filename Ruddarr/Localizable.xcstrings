@@ -303,6 +303,16 @@
         }
       }
     },
+    "Add Exclusion" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Exclusion"
+          }
+        }
+      }
+    },
     "Add Header" : {
       "comment" : "Add HTTP Header to instance",
       "localizations" : {
@@ -1132,22 +1142,22 @@
         }
       }
     },
-    "Delete and Exclude" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete and Exclude"
-          }
-        }
-      }
-    },
     "Delete File" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Delete File"
+          }
+        }
+      }
+    },
+    "Delete Files" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Files"
           }
         }
       }
@@ -3499,6 +3509,16 @@
         }
       }
     },
+    "Permanently erase the folder and its contents." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permanently erase the folder and its contents."
+          }
+        }
+      }
+    },
     "Physical Release" : {
       "localizations" : {
         "en" : {
@@ -3578,6 +3598,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preserve"
+          }
+        }
+      }
+    },
+    "Prevent from being readded to library by lists." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prevent from being readded to library by lists."
           }
         }
       }
@@ -4591,26 +4621,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This will permanently erase the movie file."
-          }
-        }
-      }
-    },
-    "This will remove the movie and permanently erase its folder and its contents." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This will remove the movie and permanently erase its folder and its contents."
-          }
-        }
-      }
-    },
-    "This will remove the series and permanently erase its folder and its contents." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This will remove the series and permanently erase its folder and its contents."
           }
         }
       }

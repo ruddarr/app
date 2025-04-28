@@ -6,6 +6,7 @@ struct MovieView: View {
 
     @EnvironmentObject var settings: AppSettings
 
+    @Environment(\.deviceType) private var deviceType
     @Environment(\.scenePhase) private var scenePhase
     @Environment(RadarrInstance.self) private var instance
 
@@ -36,15 +37,14 @@ struct MovieView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
-        .alert(
-            "Are you sure?",
-            isPresented: $showDeleteConfirmation
-        ) {
-            Button("Delete Movie", role: .destructive) { Task { await deleteMovie() } }
-            Button("Delete and Exclude", role: .destructive) { Task { await deleteMovie(exclude: true) } }
-            Button("Cancel", role: .cancel) { }
-        } message: {
-            Text("This will remove the movie and permanently erase its folder and its contents.")
+        .sheet(isPresented: $showDeleteConfirmation) {
+            MediaDeleteSheet(label: "Delete Movie") { exclude, delete in
+                Task {
+                    await deleteMovie(exclude: exclude, delete: delete)
+                    showDeleteConfirmation = false
+                }
+            }
+            .presentationDetents(dynamic: [deviceType == .phone ? .fraction(0.33) : .medium])
         }
     }
 
@@ -179,8 +179,8 @@ extension MovieView {
         maybeAskForReview()
     }
 
-    func deleteMovie(exclude: Bool = false) async {
-        _ = await instance.movies.delete(movie, addExclusion: exclude)
+    func deleteMovie(exclude: Bool, delete: Bool) async {
+        _ = await instance.movies.delete(movie, addExclusion: exclude, deleteFiles: delete)
 
         if !dependencies.router.moviesPath.isEmpty {
             dependencies.router.moviesPath.removeLast()

@@ -12,7 +12,7 @@ struct API {
     var getMovieExtraFiles: (Movie.ID, Instance) async throws -> [MovieExtraFile]
     var addMovie: (Movie, Instance) async throws -> Movie
     var updateMovie: (Movie, Bool, Instance) async throws -> Empty
-    var deleteMovie: (Movie, Bool, Instance) async throws -> Empty
+    var deleteMovie: (Movie, Bool, Bool, Instance) async throws -> Empty
     var deleteMovieFile: (MediaFile, Instance) async throws -> Empty
 
     var fetchSeries: (Instance) async throws -> [Series]
@@ -25,7 +25,7 @@ struct API {
     var addSeries: (Series, Instance) async throws -> Series
     var pushSeries: (Series, Instance) async throws -> Series
     var updateSeries: (Series, Bool, Instance) async throws -> Empty
-    var deleteSeries: (Series, Bool, Instance) async throws -> Empty
+    var deleteSeries: (Series, Bool, Bool, Instance) async throws -> Empty
 
     var monitorEpisode: ([Episode.ID], Bool, Instance) async throws -> Empty
     var getEpisodeHistory: (Episode.ID, Instance) async throws -> MediaHistory

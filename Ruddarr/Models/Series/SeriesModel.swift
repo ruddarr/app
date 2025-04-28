@@ -25,7 +25,7 @@ class SeriesModel {
         case add(Series)
         case push(Series)
         case update(Series, Bool)
-        case delete(Series, Bool)
+        case delete(Series, Bool, Bool)
         case download(String, Int, Int?, Int?, Int?)
         case command(InstanceCommand)
     }
@@ -100,8 +100,8 @@ class SeriesModel {
         await request(.update(series, moveFiles))
     }
 
-    func delete(_ series: Series, addExclusion: Bool = false) async -> Bool {
-        await request(.delete(series, addExclusion))
+    func delete(_ series: Series, addExclusion: Bool, deleteFiles: Bool) async -> Bool {
+        await request(.delete(series, addExclusion, deleteFiles))
     }
 
     func download(guid: String, indexerId: Int, seriesId: Int?, seasonId: Int?, episodeId: Int?) async -> Bool {
@@ -169,8 +169,8 @@ class SeriesModel {
         case .update(let series, let moveFiles):
             _ = try await dependencies.api.updateSeries(series, moveFiles, instance)
 
-        case .delete(let series, let addExclusion):
-            _ = try await dependencies.api.deleteSeries(series, addExclusion, instance)
+        case .delete(let series, let addExclusion, let deleteFiles):
+            _ = try await dependencies.api.deleteSeries(series, addExclusion, deleteFiles, instance)
             items.removeAll(where: { $0.guid == series.guid })
 
         case .download(let guid, let indexerId, let seriesId, let seasonId, let episodeId):

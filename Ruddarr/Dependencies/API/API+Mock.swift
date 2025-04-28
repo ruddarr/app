@@ -46,7 +46,7 @@ extension API {
             try await Task.sleep(for: .seconds(2))
 
             return Empty()
-        }, deleteMovie: { _, _, _ in
+        }, deleteMovie: { _, _, _, _ in
             try await Task.sleep(for: .seconds(2))
 
             return Empty()
@@ -93,7 +93,7 @@ extension API {
             try await Task.sleep(for: .seconds(2))
 
             return Empty()
-        }, deleteSeries: { _, _, _ in
+        }, deleteSeries: { _, _, _, _ in
             try await Task.sleep(for: .seconds(2))
 
             return Empty()

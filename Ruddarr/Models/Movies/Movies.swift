@@ -24,7 +24,7 @@ class Movies {
         case get(Movie)
         case add(Movie)
         case update(Movie, Bool)
-        case delete(Movie, Bool)
+        case delete(Movie, Bool, Bool)
         case download(String, Int, Int?)
         case command(InstanceCommand)
     }
@@ -91,8 +91,8 @@ class Movies {
         await request(.update(movie, moveFiles))
     }
 
-    func delete(_ movie: Movie, addExclusion: Bool = false) async -> Bool {
-        await request(.delete(movie, addExclusion))
+    func delete(_ movie: Movie, addExclusion: Bool, deleteFiles: Bool) async -> Bool {
+        await request(.delete(movie, addExclusion, deleteFiles))
     }
 
     func download(guid: String, indexerId: Int, movieId: Int?) async -> Bool {
@@ -149,8 +149,8 @@ class Movies {
         case .update(let movie, let moveFiles):
             _ = try await dependencies.api.updateMovie(movie, moveFiles, instance)
 
-        case .delete(let movie, let addExclusion):
-            _ = try await dependencies.api.deleteMovie(movie, addExclusion, instance)
+        case .delete(let movie, let addExclusion, let deleteFiles):
+            _ = try await dependencies.api.deleteMovie(movie, addExclusion, deleteFiles, instance)
             items.removeAll(where: { $0.guid == movie.guid })
 
         case .download(let guid, let indexerId, let movieId):
