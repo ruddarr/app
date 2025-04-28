@@ -64,12 +64,12 @@ extension API {
             )
 
             return try await request(method: .put, url: url, headers: instance.auth, body: body)
-        }, deleteMovie: { movie, addExclusion, instance in
+        }, deleteMovie: { movie, addExclusion, deleteFildes, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/movie")
                 .appending(path: String(movie.id))
                 .appending(queryItems: [
-                    .init(name: "deleteFiles", value: "true"),
+                    .init(name: "deleteFiles", value: deleteFildes ? "true" : "false"),
                     .init(name: "addImportExclusion", value: addExclusion ? "true" : "false"),
                 ])
 
@@ -151,12 +151,12 @@ extension API {
             )
 
             return try await request(method: .put, url: url, headers: instance.auth, body: body)
-        }, deleteSeries: { series, addExclusion, instance in
+        }, deleteSeries: { series, addExclusion, deleteFiles, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/series")
                 .appending(path: String(series.id))
                 .appending(queryItems: [
-                    .init(name: "deleteFiles", value: "true"),
+                    .init(name: "deleteFiles", value: deleteFiles ? "true" : "false"),
                     .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
                 ])
 

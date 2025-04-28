@@ -98,6 +98,7 @@ private struct DynamicPresentationDetents: ViewModifier {
             switch $0 {
             case .medium: medium
             case .fraction(0.25): quarter
+            case .fraction(0.33): third
             case .fraction(0.7): seventy
             default: $0
             }
@@ -119,6 +120,15 @@ private struct DynamicPresentationDetents: ViewModifier {
             .fraction(0.25)
         default:
             .fraction(0.35)
+        }
+    }
+
+    var third: PresentationDetent {
+        switch sizeCategory {
+        case .extraSmall, .small, .medium, .large, .extraLarge:
+            .fraction(0.33)
+        default:
+            .fraction(0.45)
         }
     }
 
