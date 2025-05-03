@@ -28,7 +28,7 @@ struct ContentView: View {
             Tab(activity.label, systemImage: activity.icon, value: activity) {
                 ActivityView()
             }
-            .badge(Queue.shared.badgeCount)
+            .badge(Queue.shared.itemsWithIssues)
 
             Tab(TabItem.settings.label, systemImage: TabItem.settings.icon, value: TabItem.settings) {
                 SettingsView()

@@ -94,8 +94,8 @@ struct ActivityView: View {
         HStack(spacing: 6) {
             Text("\(items.count) Task")
 
-            if queue.badgeCount > 1 {
-                Text("(\(queue.badgeCount) Issue)")
+            if queue.itemsWithIssues > 1 {
+                Text("(\(queue.itemsWithIssues) Issue)")
             }
 
             if queue.isLoading {

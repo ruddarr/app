@@ -14,6 +14,7 @@ class Queue {
 
     var instances: [Instance] = []
     var items: [Instance.ID: [QueueItem]] = [:]
+    var itemsWithIssues: Int = 0
 
     private init() {
         let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
@@ -29,10 +30,6 @@ class Queue {
                 }
             }
         }
-    }
-
-    var badgeCount: Int {
-        items.flatMap { $0.value }.filter { $0.hasIssue }.count
     }
 
     func fetchTasks() async {
@@ -53,6 +50,12 @@ class Queue {
             } catch {
                 self.error = API.Error(from: error)
             }
+        }
+
+        let issues = items.flatMap { $0.value }.filter { $0.hasIssue }.count
+
+        if itemsWithIssues != issues {
+            itemsWithIssues = issues
         }
 
         isLoading = false
