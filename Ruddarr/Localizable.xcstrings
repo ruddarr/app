@@ -3160,6 +3160,30 @@
         }
       }
     },
+    "NOTIFICATION_MOVIE_DELETED" : {
+      "comment" : "Notification title (instance name)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie Deleted on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_MOVIE_DELETED_BODY" : {
+      "comment" : "Notification body (title, year)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
     "NOTIFICATION_MOVIE_DOWNLOAD" : {
       "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
@@ -3257,6 +3281,30 @@
       }
     },
     "NOTIFICATION_SERIES_ADDED_BODY" : {
+      "comment" : "Notification body (movie, year)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_SERIES_DELETED" : {
+      "comment" : "Notification title (instance name)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Series Deleted on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_SERIES_DELETED_BODY" : {
       "comment" : "Notification body (movie, year)",
       "extractionState" : "manual",
       "localizations" : {

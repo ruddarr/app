@@ -103,6 +103,14 @@ extension InstanceView {
                     .onChange(of: webhook.model.onUpgrade, updateWebhook)
             }
 
+            if webhook.model.supportsOnMovieDelete ?? false {
+                Toggle("Movie Deleted", isOn: Binding<Bool>(
+                    get: { self.webhook.model.onMovieDelete ?? false },
+                    set: { newValue in self.webhook.model.onMovieDelete = newValue }
+                ))
+                .onChange(of: webhook.model.onMovieDelete, updateWebhook)
+            }
+
             if webhook.model.supportsOnManualInteractionRequired ?? false {
                 Toggle("Manual Interaction Required", isOn: Binding(
                     get: { webhook.model.onManualInteractionRequired ?? false },
@@ -145,6 +153,14 @@ extension InstanceView {
                     set: { newValue in self.webhook.model.onSeriesAdd = newValue }
                 ))
                 .onChange(of: webhook.model.onSeriesAdd, updateWebhook)
+            }
+
+            if webhook.model.supportsOnSeriesDelete ?? false {
+                Toggle("Series Deleted", isOn: Binding<Bool>(
+                    get: { self.webhook.model.onSeriesDelete ?? false },
+                    set: { newValue in self.webhook.model.onSeriesDelete = newValue }
+                ))
+                .onChange(of: webhook.model.onSeriesDelete, updateWebhook)
             }
 
             if webhook.model.supportsOnGrab ?? false {
