@@ -186,9 +186,9 @@ struct CalendarView: View {
 
         guard firstLoad else { return }
 
-        try? await Task.sleep(for: .milliseconds(10))
+        try? await Task.sleep(for: .milliseconds(15))
         scrollTo(calendar.today())
-        try? await Task.sleep(for: .milliseconds(10))
+        try? await Task.sleep(for: .milliseconds(15))
         hideCalendarView = false
     }
 
