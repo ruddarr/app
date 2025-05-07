@@ -38,11 +38,13 @@ struct MoviesView: View {
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
-                            movieItemGrid
+                            movieItemList
                                 .viewBottomPadding()
                                 .viewPadding(.horizontal)
                                 #if os(iOS)
                                     .padding(.top, searchPresented ? 7 : 0)
+                                #elseif os(macOS)
+                                    .padding(.vertical)
                                 #endif
 
                             if presentSearchSuggestion {
@@ -202,9 +204,22 @@ struct MoviesView: View {
                 .id(movie.id)
             }
         }
-        #if os(macOS)
-            .padding(.vertical)
-        #endif
+    }
+
+    @ViewBuilder
+    var movieItemList: some View {
+        let gridItemLayout = MovieListItem.gridItemLayout()
+        let gridItemSpacing = MovieListItem.gridItemSpacing()
+
+        LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
+            ForEach(instance.movies.cachedItems) { movie in
+                NavigationLink(value: MoviesPath.movie(movie.id)) {
+                    MovieGridItem(movie: movie)
+                }
+                .buttonStyle(.plain)
+                .id(movie.id)
+            }
+        }
     }
 
     func updateSortDirection() {

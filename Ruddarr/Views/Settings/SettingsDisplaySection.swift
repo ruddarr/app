@@ -7,6 +7,7 @@ struct SettingsDisplaySection: View {
 
     var body: some View {
         Section {
+            gridPicker
             appearancePicker
             themePicker
 
@@ -16,6 +17,23 @@ struct SettingsDisplaySection: View {
         } header: {
             Text("Display", comment: "Preferences section title")
         }
+    }
+
+    var gridPicker: some View {
+        Picker(selection: $settings.grid) {
+            ForEach(GridType.allCases) { colorScheme in
+                Text(colorScheme.label)
+            }
+        } label: {
+            let icon = switch settings.grid {
+            case .automatic: colorScheme == .dark ? "moon" : "sun.max"
+            case .light: "sun.max"
+            case .dark: "moon"
+            }
+
+            Label("Appearance", systemImage: icon)
+                .labelStyle(SettingsIconLabelStyle(color: .blue))
+        }.tint(.secondary)
     }
 
     var appearancePicker: some View {
