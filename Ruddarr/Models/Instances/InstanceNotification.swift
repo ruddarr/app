@@ -19,12 +19,12 @@ struct InstanceNotification: Identifiable, Codable {
     // Radarr only
     var onMovieAdded: Bool? = false
     var onMovieDelete: Bool? = false
-    // var onMovieFileDelete: Bool? = false
+    var onMovieFileDelete: Bool? = false
 
     // Sonarr only
     var onSeriesAdd: Bool? = false
     var onSeriesDelete: Bool? = false
-    // var onEpisodeFileDelete: Bool? = false
+    var onEpisodeFileDelete: Bool? = false
     var onImportComplete: Bool? = false
 
     var onManualInteractionRequired: Bool? = false

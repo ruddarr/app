@@ -111,6 +111,14 @@ extension InstanceView {
                 .onChange(of: webhook.model.onMovieDelete, updateWebhook)
             }
 
+            if webhook.model.supportsOnMovieFileDelete ?? false {
+                Toggle("Movie File Deleted", isOn: Binding<Bool>(
+                    get: { self.webhook.model.onMovieFileDelete ?? false },
+                    set: { newValue in self.webhook.model.onMovieFileDelete = newValue }
+                ))
+                .onChange(of: webhook.model.onMovieFileDelete, updateWebhook)
+            }
+
             if webhook.model.supportsOnManualInteractionRequired ?? false {
                 Toggle("Manual Interaction Required", isOn: Binding(
                     get: { webhook.model.onManualInteractionRequired ?? false },
@@ -176,6 +184,14 @@ extension InstanceView {
             if webhook.model.onDownload && webhook.model.supportsOnUpgrade ?? false {
                 Toggle("File Upgraded", isOn: $webhook.model.onUpgrade)
                     .onChange(of: webhook.model.onUpgrade, updateWebhook)
+            }
+
+            if webhook.model.supportsOnEpisodeFileDelete ?? false {
+                Toggle("File Deleted", isOn: Binding<Bool>(
+                    get: { self.webhook.model.onEpisodeFileDelete ?? false },
+                    set: { newValue in self.webhook.model.onEpisodeFileDelete = newValue }
+                ))
+                .onChange(of: webhook.model.onEpisodeFileDelete, updateWebhook)
             }
 
             if webhook.model.supportsOnImportComplete ?? false {
