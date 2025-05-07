@@ -143,7 +143,7 @@ actor Notifications {
     }
 }
 
-// swiftlint:disable closure_body_length
+// swiftlint:disable closure_body_length file_length
 #Preview {
     let ruddarrTest = [
         String(format: localized("NOTIFICATION_TEST")),
@@ -242,6 +242,11 @@ actor Notifications {
         String(format: localized("NOTIFICATION_MOVIE_UPGRADE_BODY"), "Joker", "2024"),
     ]
 
+    let movieDeleted = [
+        String(format: localized("NOTIFICATION_MOVIE_DELETED"), "Synology"),
+        String(format: localized("NOTIFICATION_MOVIE_DELETED_BODY"), "Joker", "2024"),
+    ]
+
     func localized(_ key: String) -> String {
         NSLocalizedString(key, comment: "")
     }
@@ -281,6 +286,10 @@ actor Notifications {
             group("Upgrade")
             notification(movieUpgrade)
             Divider().padding(.vertical)
+
+            group("Deleted")
+            notification(movieDeleted)
+            Divider().padding(.vertical)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -291,6 +300,11 @@ actor Notifications {
     let seriesAdd = [
         String(format: localized("NOTIFICATION_SERIES_ADDED"), "Synology"),
         String(format: localized("NOTIFICATION_SERIES_ADDED_BODY"), "Patriot", "2015"),
+    ]
+
+    let seriesDelete = [
+        String(format: localized("NOTIFICATION_SERIES_DELETED"), "Synology"),
+        String(format: localized("NOTIFICATION_SERIES_DELETED_BODY"), "Patriot", "2015"),
     ]
 
     let episodeGrab = [
@@ -353,6 +367,10 @@ actor Notifications {
             notification(seriesAdd)
             Divider().padding(.vertical)
 
+            group("SeriesDeleted")
+            notification(seriesDelete)
+            Divider().padding(.vertical)
+
             group("Grab (Episode)")
             notification(episodeGrab)
             Divider().padding(.vertical)
@@ -381,4 +399,4 @@ actor Notifications {
     }
     .padding()
 }
-// swiftlint:enable closure_body_length
+// swiftlint:enable closure_body_length file_length
