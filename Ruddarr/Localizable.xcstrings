@@ -2999,7 +2999,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%2$@ Episode Downloading on %1$@"
+            "value" : "Episode Downloading on %1$@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODE_GRAB_SUBTITLE" : {
+      "comment" : "Notification body (series, season, episode)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (S%@ E%@)"
           }
         }
       }
@@ -3041,7 +3053,7 @@
       }
     },
     "NOTIFICATION_EPISODES_GRAB" : {
-      "comment" : "Notification title (episodes, instance name)",
+      "comment" : "Notification title (instance name, episode count)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {

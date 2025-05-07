@@ -295,7 +295,7 @@ actor Notifications {
 
     let episodeGrab = [
         String(format: localized("NOTIFICATION_EPISODE_GRAB"), "Synology", "1"),
-        String(format: localized("NOTIFICATION_EPISODES_GRAB_SUBTITLE"), "Patriot", "2"),
+        String(format: localized("NOTIFICATION_EPISODE_GRAB_SUBTITLE"), "Patriot", "2", "8"),
         String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "WEBDL-1080p", "BHD"),
     ]
 
