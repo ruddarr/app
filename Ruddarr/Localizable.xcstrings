@@ -3005,13 +3005,13 @@
       }
     },
     "NOTIFICATION_EPISODE_FILE_DELETED_BODY" : {
-      "comment" : "Notification body (series, year)",
+      "comment" : "Notification body (series, season, episode)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ (%@)"
+            "value" : "%@ (S%@ E%@)"
           }
         }
       }

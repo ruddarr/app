@@ -247,6 +247,11 @@ actor Notifications {
         String(format: localized("NOTIFICATION_MOVIE_DELETED_BODY"), "Joker", "2024"),
     ]
 
+    let movieFileDeleted = [
+        String(format: localized("NOTIFICATION_MOVIE_FILE_DELETED"), "Synology"),
+        String(format: localized("NOTIFICATION_MOVIE_FILE_DELETED_BODY"), "Joker", "2024"),
+    ]
+
     func localized(_ key: String) -> String {
         NSLocalizedString(key, comment: "")
     }
@@ -290,6 +295,10 @@ actor Notifications {
             group("Deleted")
             notification(movieDeleted)
             Divider().padding(.vertical)
+
+            group("FileDeleted")
+            notification(movieFileDeleted)
+
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -327,6 +336,11 @@ actor Notifications {
     let episodeUpgrade = [
         String(format: localized("NOTIFICATION_EPISODE_UPGRADE"), "Synology"),
         String(format: localized("NOTIFICATION_EPISODE_DOWNLOAD_BODY"), "Patriot", "2", "8"),
+    ]
+
+    let episodeFileDelete = [
+        String(format: localized("NOTIFICATION_EPISODE_FILE_DELETED"), "Synology"),
+        String(format: localized("NOTIFICATION_EPISODE_FILE_DELETED_BODY"), "Patriot", "2", "8"),
     ]
 
     let episodesDownload = [
@@ -389,6 +403,10 @@ actor Notifications {
 
             group("Upgrade (Episode)")
             notification(episodeUpgrade)
+            Divider().padding(.vertical)
+
+            group("Deleted (Episode File)")
+            notification(episodeFileDelete)
             Divider().padding(.vertical)
 
             group("Upgrade (Episodes)")
