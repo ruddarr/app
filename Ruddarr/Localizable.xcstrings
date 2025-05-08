@@ -3392,7 +3392,19 @@
       }
     },
     "NOTIFICATION_MOVIE_UPGRADE_BODY" : {
-      "comment" : "Notification body (movie, year)",
+      "comment" : "Notification body (old quality, new quality)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgraded from %@ to %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_MOVIE_UPGRADE_SUBTITLE" : {
+      "comment" : "Notification subtitle (movie, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3441,30 +3453,6 @@
     },
     "NOTIFICATION_SERIES_DELETED_BODY" : {
       "comment" : "Notification body (series, year)",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ (%@)"
-          }
-        }
-      }
-    },
-    "NOTIFICATION_SERIES_UPGRADE" : {
-      "comment" : "Notification title (instance name)",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Series Upgraded on %@"
-          }
-        }
-      }
-    },
-    "NOTIFICATION_SERIES_UPGRADE_BODY" : {
-      "comment" : "Notification body (movie, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {

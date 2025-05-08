@@ -239,7 +239,8 @@ actor Notifications {
 
     let movieUpgrade = [
         String(format: localized("NOTIFICATION_MOVIE_UPGRADE"), "Synology"),
-        String(format: localized("NOTIFICATION_MOVIE_UPGRADE_BODY"), "Joker", "2024"),
+        String(format: localized("NOTIFICATION_MOVIE_UPGRADE_SUBTITLE"), "Joker", "2024"),
+        String(format: localized("NOTIFICATION_MOVIE_UPGRADE_BODY"), "SDTV", "WEBDL-2160p"),
     ]
 
     let movieDeleted = [
