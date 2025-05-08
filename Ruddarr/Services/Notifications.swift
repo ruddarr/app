@@ -405,7 +405,7 @@ actor Notifications {
             notification(episodeUpgrade)
             Divider().padding(.vertical)
 
-            group("Deleted (Episode)")
+            group("Deleted (Episode File)")
             notification(episodeFileDelete)
             Divider().padding(.vertical)
 
