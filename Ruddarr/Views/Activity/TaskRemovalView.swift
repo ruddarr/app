@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct QueueTaskRemovalView: View {
+struct TaskRemovalView: View {
     var item: QueueItem
     var onRemove: () -> Void
 

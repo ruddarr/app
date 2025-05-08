@@ -82,6 +82,23 @@ struct QueueItems: Codable {
     var records: [QueueItem]
 }
 
+struct ImportItem: Codable {
+    let id: Int
+    let name: String?
+    let relativePath: String?
+    let size: Int
+    let rejections: [ImportItemRejection]
+
+    // movie
+    // series
+    // episodes
+}
+
+struct ImportItemRejection: Codable {
+    let reason: String?
+    let type: String // permanent, temporary
+}
+
 struct QueueItem: Codable, Identifiable, Equatable {
     let id: Int
 
@@ -178,6 +195,11 @@ struct QueueItem: Codable, Identifiable, Equatable {
     var hasIssue: Bool {
         trackedDownloadStatus != .ok ||
         status == "warning"
+    }
+
+    var needsManualImport: Bool {
+        trackedDownloadStatus == .warning &&
+        trackedDownloadState == .importPending
     }
 
     var isSABnzbd: Bool {

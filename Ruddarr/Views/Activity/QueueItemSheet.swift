@@ -149,7 +149,7 @@ struct QueueItemSheet: View {
     var actions: some View {
         HStack(spacing: 24) {
             NavigationLink {
-                QueueTaskRemovalView(item: item, onRemove: { dismiss() })
+                TaskRemovalView(item: item, onRemove: { dismiss() })
                     .environmentObject(settings)
             } label: {
                 let label: String = deviceType == .phone
@@ -162,7 +162,22 @@ struct QueueItemSheet: View {
             .buttonStyle(.bordered)
             .tint(.secondary)
 
-            if item.isSABnzbd && sableInstalled() {
+            if item.needsManualImport {
+                NavigationLink {
+                    TaskImportView(item: item, onRemove: { dismiss() })
+                        .environmentObject(settings)
+                } label: {
+                    let label: String = deviceType == .phone
+                        ? String(localized: "Import", comment: "(Short) Importing a queue task")
+                        : String(localized: "Manual Import")
+
+                    ButtonLabel(text: label, icon: "square.and.arrow.down")
+                        .modifier(MediaPreviewActionModifier())
+                }
+                .buttonStyle(.bordered)
+                .tint(.secondary)
+
+            } else if item.isSABnzbd && sableInstalled() {
                 sableLink
             } else if item.isDownloadStation && dsloadInstalled() {
                 sableLink
