@@ -67,6 +67,7 @@ extension Toast {
     enum PresetMessage {
         case monitored
         case unmonitored
+        case importQueued
         case refreshQueued
         case downloadQueued
         case movieSearchQueued
@@ -90,6 +91,8 @@ extension Toast {
             custom(text: String(localized: "Unmonitored"), icon: "bookmark")
         case .refreshQueued:
             custom(text: String(localized: "Refresh Queued"), icon: "checkmark.circle.fill")
+        case .importQueued:
+            custom(text: String(localized: "Import Queued"), icon: "checkmark.circle.fill")
         case .downloadQueued:
             custom(text: String(localized: "Download Queued"), icon: "checkmark.circle.fill")
         case .movieSearchQueued:

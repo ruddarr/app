@@ -3,6 +3,7 @@ import Foundation
 struct ImportableFile: Identifiable, Codable {
     let id: Int
 
+    let name: String?
     let path: String?
     let relativePath: String?
     let size: Int
@@ -40,7 +41,7 @@ struct ImportableFile: Identifiable, Codable {
     }
 
     func toResource() -> ImportableResource {
-        var resource = ImportableResource(
+        .init(
             path: path ?? "",
             downloadId: downloadId ?? "",
             quality: quality,

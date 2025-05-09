@@ -55,8 +55,6 @@ struct TaskImportView: View {
                 Button("Import") {
                     Task {
                         await importFiles()
-                        await Queue.shared.fetchTasks()
-                        onRemove()
                     }
                 }
                 .disabled(selectedFiles.isEmpty)
@@ -69,6 +67,9 @@ struct TaskImportView: View {
     }
 
     func loadFiles() async {
+        error = nil
+        isLoading = true
+
         guard let instanceId = item.instanceId else {
             leaveBreadcrumb(.fatal, category: "queue.import", message: "Missing instance identifier")
             return
@@ -100,6 +101,9 @@ struct TaskImportView: View {
     }
 
     func importFiles() async {
+        error = nil
+        isWorking = true
+
         guard let instanceId = item.instanceId else {
             leaveBreadcrumb(.fatal, category: "queue.import", message: "Missing instance identifier")
             return
@@ -111,7 +115,8 @@ struct TaskImportView: View {
         }
 
         do {
-            _ = try await dependencies.api.importFiles(selectedFiles, instance)
+            _ = try await dependencies.api.command(.manualImport(selectedFiles), instance)
+            dependencies.toast.show(.refreshQueued)
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
@@ -121,6 +126,12 @@ struct TaskImportView: View {
         } catch {
             self.error = API.Error(from: error)
         }
+
+        isWorking = false
+
+        if error == nil {
+            onRemove()
+        }
     }
 }
 
@@ -129,7 +140,7 @@ private struct FileImportRow: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(file.relativePath ?? "???")
+            Text(file.name ?? file.relativePath ?? "Unknown")
                 .font(.headline)
                 .fontWeight(.semibold)
                 .lineLimit(1)

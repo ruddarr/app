@@ -1929,6 +1929,17 @@
         }
       }
     },
+    "Import" : {
+      "comment" : "(Short) Importing a queue task",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import"
+          }
+        }
+      }
+    },
     "Import Blocked" : {
       "comment" : "(Short) State of task in queue",
       "localizations" : {
@@ -1957,6 +1968,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Import Pending"
+          }
+        }
+      }
+    },
+    "Import Queued" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Queued"
           }
         }
       }
@@ -2336,6 +2357,16 @@
         }
       }
     },
+    "Manual Import" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manual Import"
+          }
+        }
+      }
+    },
     "Manual Interaction Required" : {
       "localizations" : {
         "en" : {
@@ -2577,6 +2608,9 @@
         }
       }
     },
+    "Movie File Deleted" : {
+
+    },
     "Movie file was renamed." : {
       "localizations" : {
         "en" : {
@@ -2798,6 +2832,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No events match the selected filters."
+          }
+        }
+      }
+    },
+    "No importable files found." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No importable files found."
           }
         }
       }
