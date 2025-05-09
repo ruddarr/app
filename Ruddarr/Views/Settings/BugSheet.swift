@@ -28,6 +28,9 @@ struct BugSheet: View {
                         .disabled(!canBeSent)
                 }
             }
+            #if os(macOS)
+                .padding(.all)
+            #endif
         }
     }
 

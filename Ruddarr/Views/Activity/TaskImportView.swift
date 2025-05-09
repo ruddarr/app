@@ -48,7 +48,7 @@ struct TaskImportView: View {
 
     @ToolbarContentBuilder
     var toolbarImportButton: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
+        ToolbarItem(placement: .confirmationAction) {
             if isWorking {
                 ProgressView().tint(.secondary)
             } else {

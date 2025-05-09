@@ -14,44 +14,46 @@ struct QueueItemSheet: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            CloseButton {
-                dismiss()
-            }
-
-            ScrollView {
-                VStack(alignment: .leading) {
-                    header
-
-                    if item.remainingLabel != nil {
-                        progress
-                            .padding(.top)
-                    }
-
-                    actions
-                        .padding(.vertical)
-
-                    if let error = item.errorMessage, !error.isEmpty {
-                        LabeledGroupBox {
-                            Text(error)
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .textSelection(.enabled)
-                        }
-                        .padding(.bottom)
-                    } else if !item.messages.isEmpty {
-                        LabeledGroupBox {
-                            statusMessages
-                        }.padding(.bottom)
-                    }
-
-                    details
-                        .padding(.bottom)
+        NavigationStack {
+            ZStack(alignment: .topTrailing) {
+                CloseButton {
+                    dismiss()
                 }
-                .viewPadding(.horizontal)
-                .padding(.top)
+
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        header
+
+                        if item.remainingLabel != nil {
+                            progress
+                                .padding(.top)
+                        }
+
+                        actions
+                            .padding(.vertical)
+
+                        if let error = item.errorMessage, !error.isEmpty {
+                            LabeledGroupBox {
+                                Text(error)
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .textSelection(.enabled)
+                            }
+                            .padding(.bottom)
+                        } else if !item.messages.isEmpty {
+                            LabeledGroupBox {
+                                statusMessages
+                            }.padding(.bottom)
+                        }
+
+                        details
+                            .padding(.bottom)
+                    }
+                    .viewPadding(.horizontal)
+                    .padding(.top)
+                }
             }
         }
     }
