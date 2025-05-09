@@ -1,6 +1,5 @@
 import SwiftUI
 
-// TODO: perform import
 // TODO: display errors
 
 struct TaskImportView: View {
@@ -10,6 +9,7 @@ struct TaskImportView: View {
     @State private var isLoading: Bool = true
     @State private var isWorking: Bool = false
 
+    @State private var error: API.Error?
     @State private var files: [ImportableFile] = []
     @State private var selected = Set<ImportableFile.ID>()
 
@@ -45,13 +45,18 @@ struct TaskImportView: View {
             } else {
                 Button("Import") {
                     Task {
-//                        await deleteTask()
-//                        await Queue.shared.fetchTasks()
-//                        onRemove()
+                        await importFiles()
+                        await Queue.shared.fetchTasks()
+                        onRemove()
                     }
                 }
+                .disabled(selectedFiles.isEmpty)
             }
         }
+    }
+
+    var selectedFiles: [ImportableFile] {
+        files.filter { selected.contains($0.id) }
     }
 
     func loadFiles() async {
@@ -75,18 +80,38 @@ struct TaskImportView: View {
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
-            // error = apiError
+            error = apiError
 
-            leaveBreadcrumb(.error, category: "queue.import", message: "Task deletion failed", data: ["error": apiError])
+            leaveBreadcrumb(.error, category: "queue.import", message: "Failed to fetch file", data: ["error": apiError])
         } catch {
-            // self.error = API.Error(from: error)
+            self.error = API.Error(from: error)
         }
 
         isLoading = false
     }
 
-    func deleteTask() async {
-        // files = try await dependencies.api.importFiles(selectedFiles, instance)
+    func importFiles() async {
+        guard let instanceId = item.instanceId else {
+            leaveBreadcrumb(.fatal, category: "queue.import", message: "Missing instance identifier")
+            return
+        }
+
+        guard let instance = settings.instanceById(instanceId) else {
+            leaveBreadcrumb(.fatal, category: "queue.import", message: "Instance not found")
+            return
+        }
+
+        do {
+            _ = try await dependencies.api.importFiles(selectedFiles, instance)
+        } catch is CancellationError {
+            // do nothing
+        } catch let apiError as API.Error {
+            error = apiError
+
+            leaveBreadcrumb(.error, category: "queue.import", message: "Manual import failed", data: ["error": apiError])
+        } catch {
+            self.error = API.Error(from: error)
+        }
     }
 }
 
