@@ -1,7 +1,5 @@
 import SwiftUI
 
-// TODO: display errors
-
 struct TaskImportView: View {
     var item: QueueItem
     var onRemove: () -> Void
@@ -34,6 +32,17 @@ struct TaskImportView: View {
             } else if files.count == 0 {
                 Text("No importable files found.")
             }
+        }
+        .alert(
+            isPresented: Binding(
+                get: { self.error != nil },
+                set: { _ in }
+            ),
+            error: error
+        ) { _ in
+            Button("OK") { error = nil }
+        } message: { error in
+            Text(error.recoverySuggestionFallback)
         }
     }
 
