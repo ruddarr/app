@@ -9,16 +9,11 @@ struct SeriesSearchView: View {
 
     let searchTextPublisher = PassthroughSubject<String, Never>()
 
-    let gridItemLayout = MovieGridItem.gridItemLayout()
-    let gridItemSpacing = MovieGridItem.gridItemSpacing()
-
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-                ForEach(instance.lookup.sortedItems) { series in
-                    SeriesSearchItem(series: series)
-                        .environment(instance)
-                }
+            MediaGrid(items: instance.lookup.sortedItems) { series in
+                SeriesSearchItem(series: series)
+                    .environment(instance)
             }
             .padding(.top, 12)
             .viewPadding(.horizontal)

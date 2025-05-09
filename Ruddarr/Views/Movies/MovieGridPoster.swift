@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MovieGridItem: View {
+struct MovieGridPoster: View {
     var movie: Movie
 
     var body: some View {
@@ -109,17 +109,10 @@ struct MovieGridItem: View {
     let movies: [Movie] = PreviewData.load(name: "movies")
         .sorted { $0.year > $1.year }
 
-    let gridItemLayout = [
-        GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)
-    ]
-
     return ScrollView {
-        LazyVGrid(columns: gridItemLayout, spacing: 12) {
-            ForEach(movies) { movie in
-                MovieGridItem(movie: movie)
-            }
+        MediaGrid(items: movies) { movie in
+            MovieGridPoster(movie: movie)
         }
-        .padding(.top, 0)
         .viewPadding(.horizontal)
     }
     .withAppState()

@@ -38,12 +38,26 @@ struct MoviesView: View {
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
-                            movieItemGrid
-                                .viewBottomPadding()
-                                .viewPadding(.horizontal)
-                                #if os(iOS)
-                                    .padding(.top, searchPresented ? 7 : 0)
-                                #endif
+                            MediaGrid(
+                                items: instance.movies.cachedItems,
+                                style: settings.grid
+                            ) { movie in
+                                NavigationLink(value: MoviesPath.movie(movie.id)) {
+                                    switch settings.grid {
+                                    case .posters: MovieGridPoster(movie: movie)
+                                    case .cards: MovieGridCard(movie: movie)
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                                .id(movie.id)
+                            }
+                            .viewBottomPadding()
+                            .viewPadding(.horizontal)
+                            #if os(iOS)
+                                .padding(.top, searchPresented ? 7 : 0)
+                            #elseif os(macOS)
+                                .padding(.vertical)
+                            #endif
 
                             if presentSearchSuggestion {
                                 MovieSearchSuggestion(query: $searchQuery, sort: $sort)
@@ -186,25 +200,6 @@ struct MoviesView: View {
                 Task { await fetchMoviesWithAlert(ignoreOffline: true) }
             }
         }
-    }
-
-    @ViewBuilder
-    var movieItemGrid: some View {
-        let gridItemLayout = MovieGridItem.gridItemLayout()
-        let gridItemSpacing = MovieGridItem.gridItemSpacing()
-
-        LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-            ForEach(instance.movies.cachedItems) { movie in
-                NavigationLink(value: MoviesPath.movie(movie.id)) {
-                    MovieGridItem(movie: movie)
-                }
-                .buttonStyle(.plain)
-                .id(movie.id)
-            }
-        }
-        #if os(macOS)
-            .padding(.vertical)
-        #endif
     }
 
     func updateSortDirection() {

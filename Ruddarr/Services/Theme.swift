@@ -53,6 +53,20 @@ enum Theme: String, Identifiable, CaseIterable {
     }
 }
 
+enum GridStyle: String, Identifiable, CaseIterable {
+    case posters
+    case cards
+
+    var id: Self { self }
+
+    var label: String {
+        switch self {
+        case .posters: String(localized: "Posters", comment: "Grid item display style")
+        case .cards: String(localized: "Cards", comment: "Grid item display style")
+        }
+    }
+}
+
 enum Appearance: String, Identifiable, CaseIterable {
     case automatic
     case light
