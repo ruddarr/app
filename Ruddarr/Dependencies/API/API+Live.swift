@@ -254,7 +254,7 @@ extension API {
                 ])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
-        }, importableFiles: { downloadId, instance in
+        }, fetchImportableFiles: { downloadId, instance in
             let url = URL(string: instance.url)!
                 .appending(path: "/api/v3/manualimport")
                 .appending(queryItems: [
@@ -263,11 +263,6 @@ extension API {
                 ])
 
             return try await request(url: url, headers: instance.auth)
-        }, importFiles: { files, instance in
-            let url = URL(string: instance.url)!
-                .appending(path: "/api/v3/manualimport")
-
-            return try await request(method: .post, url: url, headers: instance.auth, body: files)
         }, fetchHistory: { type, page, limit, instance in
             var url = URL(string: instance.url)!
                 .appending(path: "/api/v3/history")

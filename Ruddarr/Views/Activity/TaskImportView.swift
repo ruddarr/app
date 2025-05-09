@@ -85,7 +85,7 @@ struct TaskImportView: View {
         }
 
         do {
-            files = try await dependencies.api.importableFiles(downloadId, instance)
+            files = try await dependencies.api.fetchImportableFiles(downloadId, instance)
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {

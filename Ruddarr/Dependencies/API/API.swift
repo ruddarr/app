@@ -44,8 +44,7 @@ struct API {
     var fetchQueueTasks: (Instance) async throws -> QueueItems
     var deleteQueueTask: (QueueItem.ID, Bool, Bool, Bool, Instance) async throws -> Empty
 
-    var importableFiles: (String, Instance) async throws -> [ImportableFile]
-    var importFiles: ([ImportableFile], Instance) async throws -> Empty
+    var fetchImportableFiles: (String, Instance) async throws -> [ImportableFile]
 
     var fetchHistory: (Int?, Int, Int, Instance) async throws -> MediaHistory
 

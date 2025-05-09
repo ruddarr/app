@@ -151,7 +151,7 @@ extension API {
             try await Task.sleep(for: .seconds(3))
 
             return Empty()
-        }, importableFiles: { _, instance in
+        }, fetchImportableFiles: { _, instance in
             try await Task.sleep(for: .seconds(1))
 
             let files: [ImportableFile] = loadPreviewData(
@@ -159,10 +159,6 @@ extension API {
             )
 
             return files
-        }, importFiles: { _, _ in
-            try await Task.sleep(for: .seconds(2))
-
-            return Empty()
         }, fetchHistory: { _, _, _, instance in
             try await Task.sleep(for: .seconds(2))
 
