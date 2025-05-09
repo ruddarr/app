@@ -146,16 +146,28 @@ extension API {
                 filename: instance.type == .sonarr ? "series-queue" : "movie-queue"
             )
 
-            return modifyQueueItems(items)
+            return modifyQueueItems(items, instance)
         }, deleteQueueTask: { _, _, _, _, _ in
             try await Task.sleep(for: .seconds(3))
+
+            return Empty()
+        }, importableFiles: { _, instance in
+            try await Task.sleep(for: .seconds(1))
+
+            let files: [ImportableFile] = loadPreviewData(
+                filename: instance.type == .sonarr ? "sonarr-manual-import" : "radarr-manual-import"
+            )
+
+            return files
+        }, importFiles: { _, _ in
+            try await Task.sleep(for: .seconds(2))
 
             return Empty()
         }, fetchHistory: { _, _, _, instance in
             try await Task.sleep(for: .seconds(2))
 
             let events: MediaHistory = loadPreviewData(
-                filename: instance.type == .sonarr ? "radarr-history" : "sonarr-history"
+                filename: instance.type == .sonarr ? "sonarr-history" : "radarr-history"
             )
 
             return events
@@ -200,11 +212,14 @@ fileprivate extension API {
     }
 }
 
-private func modifyQueueItems(_ items: QueueItems) -> QueueItems {
+private func modifyQueueItems(_ items: QueueItems, _ instance: Instance) -> QueueItems {
     var modifiedItems = items
 
     modifiedItems.records = items.records.map { record in
         var record = record
+
+        // ...
+        record.instanceId = instance.id
 
         // set `estimatedCompletionTime` to be in the future for testing
         if let timeLeft = record.timeleft {

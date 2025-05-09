@@ -1,5 +1,8 @@
 import SwiftUI
 
+// TODO: perform import
+// TODO: display errors
+
 struct TaskImportView: View {
     var item: QueueItem
     var onRemove: () -> Void
@@ -7,14 +10,17 @@ struct TaskImportView: View {
     @State private var isLoading: Bool = true
     @State private var isWorking: Bool = false
 
-    @State private var items: [ImportItem] = []
+    @State private var files: [ImportableFile] = []
+    @State private var selected = Set<ImportableFile.ID>()
 
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
-        ScrollView {
-            // 3. Display files or message...
+        List(files, selection: $selected) { file in
+            FileImportRow(file: file)
         }
+        .environment(\.editMode, .constant(EditMode.active))
+        .listStyle(.plain)
         .toolbarTitleDisplayMode(.inline)
         .toolbar {
             toolbarImportButton
@@ -25,6 +31,8 @@ struct TaskImportView: View {
         .overlay {
             if isLoading {
                 Loading()
+            } else if files.count == 0 {
+                Text("No importable files found.")
             }
         }
     }
@@ -48,42 +56,104 @@ struct TaskImportView: View {
 
     func loadFiles() async {
         guard let instanceId = item.instanceId else {
-            leaveBreadcrumb(.fatal, category: "queue", message: "Missing instance identifier")
+            leaveBreadcrumb(.fatal, category: "queue.import", message: "Missing instance identifier")
             return
         }
 
         guard let instance = settings.instanceById(instanceId) else {
-            leaveBreadcrumb(.fatal, category: "queue", message: "Instance not found")
+            leaveBreadcrumb(.fatal, category: "queue.import", message: "Instance not found")
+            return
+        }
+
+        guard let downloadId = item.downloadId else {
+            leaveBreadcrumb(.fatal, category: "queue.import", message: "Missing download identifier")
             return
         }
 
         do {
-            _ = try await dependencies.api.deleteQueueTask(
-                item.id, remove, block, search, instance
-            )
+            files = try await dependencies.api.importableFiles(downloadId, instance)
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
-            error = apiError
+            // error = apiError
 
-            leaveBreadcrumb(.error, category: "queue", message: "Task deletion failed", data: ["error": apiError])
+            leaveBreadcrumb(.error, category: "queue.import", message: "Task deletion failed", data: ["error": apiError])
         } catch {
-            self.error = API.Error(from: error)
+            // self.error = API.Error(from: error)
         }
 
-        isWorking = false
+        isLoading = false
     }
 
     func deleteTask() async {
-        //
+        // files = try await dependencies.api.importFiles(selectedFiles, instance)
+    }
+}
+
+private struct FileImportRow: View {
+    var file: ImportableFile
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(file.relativePath ?? "???")
+                .font(.headline)
+                .fontWeight(.semibold)
+                .lineLimit(1)
+
+            HStack(spacing: 6) {
+                Text(file.qualityLabel)
+
+                Bullet()
+                Text(file.sizeLabel)
+
+                Bullet()
+                Text(file.languageLabel)
+            }
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .font(.subheadline)
+
+            VStack {
+                ForEach(file.reasons, id: \.self) { reason in
+                    Text(reason)
+                }
+            }
+            .font(.footnote)
+            .foregroundStyle(.orange)
+        }
     }
 }
 
 #Preview {
+    let settings = AppSettings()
+    let instanceId = settings.radarrInstance?.id
+
     let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
-    let item = items.records[2]
+
+    var item = {
+        var item = items.records[2]
+        item.instanceId = instanceId
+        return item
+    }()
 
     NavigationStack {
-        QueueItemSheet(item: item)
+        TaskImportView(item: item, onRemove: {})
+    }.withAppState()
+}
+
+#Preview("No Files") {
+    let settings = AppSettings()
+    let instanceId = settings.sonarrInstance?.id
+
+    let items: QueueItems = PreviewData.loadObject(name: "series-queue")
+
+    var item = {
+        var item = items.records.first!
+        item.instanceId = instanceId
+        return item
+    }()
+
+    NavigationStack {
+        TaskImportView(item: item, onRemove: {})
     }.withAppState()
 }
