@@ -21,18 +21,12 @@ struct SettingsDisplaySection: View {
 
     var gridPicker: some View {
         Picker(selection: $settings.grid) {
-            ForEach(GridType.allCases) { colorScheme in
-                Text(colorScheme.label)
+            ForEach(GridStyle.allCases) { style in
+                Text(style.label)
             }
         } label: {
-            let icon = switch settings.grid {
-            case .automatic: colorScheme == .dark ? "moon" : "sun.max"
-            case .light: "sun.max"
-            case .dark: "moon"
-            }
-
-            Label("Appearance", systemImage: icon)
-                .labelStyle(SettingsIconLabelStyle(color: .blue))
+            Label("Grid", systemImage: "square.grid.2x2")
+                .labelStyle(SettingsIconLabelStyle(color: .indigo))
         }.tint(.secondary)
     }
 

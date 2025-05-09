@@ -78,21 +78,21 @@ struct SeriesGridItem: View {
             }
         }
         .foregroundStyle(.white)
-        .imageScale(MovieGridItem.gridIconScale())
+        .imageScale(MovieGridPoster.gridIconScale())
 
         Spacer()
 
         Image(systemName: "bookmark")
             .symbolVariant(series.monitored ? .fill : .none)
             .foregroundStyle(.white)
-            .imageScale(MovieGridItem.gridIconScale())
+            .imageScale(MovieGridPoster.gridIconScale())
     }
 
     var previewIcons: some View {
         Group {
             series.status.icon
                 .foregroundStyle(.white)
-                .imageScale(MovieGridItem.gridIconScale())
+                .imageScale(MovieGridPoster.gridIconScale())
 
             Spacer()
         }

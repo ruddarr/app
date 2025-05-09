@@ -9,22 +9,17 @@ struct MovieSearchView: View {
 
     let searchTextPublisher = PassthroughSubject<String, Never>()
 
-    let gridItemLayout = MovieGridItem.gridItemLayout()
-    let gridItemSpacing = MovieGridItem.gridItemSpacing()
-
     var body: some View {
         @Bindable var movieLookup = instance.lookup
 
         ScrollView {
-            LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-                ForEach(movieLookup.sortedItems) { movie in
-                    NavigationLink(value: movie.exists
-                       ? MoviesPath.movie(movie.id)
-                       : MoviesPath.preview(try? JSONEncoder().encode(movie))
-                    ) {
-                        MovieGridItem(movie: movie)
-                    }.buttonStyle(.plain)
-                }
+            MediaGrid(items: movieLookup.sortedItems) { movie in
+                NavigationLink(value: movie.exists
+                   ? MoviesPath.movie(movie.id)
+                   : MoviesPath.preview(try? JSONEncoder().encode(movie))
+                ) {
+                    MovieGridPoster(movie: movie)
+                }.buttonStyle(.plain)
             }
             .padding(.top, 12)
             .viewPadding(.horizontal)

@@ -872,6 +872,17 @@
         }
       }
     },
+    "Cards" : {
+      "comment" : "Grid item display style",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cards"
+          }
+        }
+      }
+    },
     "Channels" : {
       "comment" : "Audio channel count",
       "localizations" : {
@@ -1835,6 +1846,16 @@
         }
       }
     },
+    "Grid" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grid"
+          }
+        }
+      }
+    },
     "Headers" : {
       "comment" : "HTTP Headers",
       "localizations" : {
@@ -2576,6 +2597,9 @@
           }
         }
       }
+    },
+    "Movie File Deleted" : {
+
     },
     "Movie file was renamed." : {
       "localizations" : {
@@ -3665,6 +3689,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Podcasts"
+          }
+        }
+      }
+    },
+    "Posters" : {
+      "comment" : "Grid item display style",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posters"
           }
         }
       }

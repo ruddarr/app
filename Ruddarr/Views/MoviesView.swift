@@ -38,14 +38,26 @@ struct MoviesView: View {
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
-                            movieItemList
-                                .viewBottomPadding()
-                                .viewPadding(.horizontal)
-                                #if os(iOS)
-                                    .padding(.top, searchPresented ? 7 : 0)
-                                #elseif os(macOS)
-                                    .padding(.vertical)
-                                #endif
+                            MediaGrid(
+                                items: instance.movies.cachedItems,
+                                style: settings.grid
+                            ) { movie in
+                                NavigationLink(value: MoviesPath.movie(movie.id)) {
+                                    switch settings.grid {
+                                    case .posters: MovieGridPoster(movie: movie)
+                                    case .cards: MovieGridCard(movie: movie)
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                                .id(movie.id)
+                            }
+                            .viewBottomPadding()
+                            .viewPadding(.horizontal)
+                            #if os(iOS)
+                                .padding(.top, searchPresented ? 7 : 0)
+                            #elseif os(macOS)
+                                .padding(.vertical)
+                            #endif
 
                             if presentSearchSuggestion {
                                 MovieSearchSuggestion(query: $searchQuery, sort: $sort)
@@ -186,38 +198,6 @@ struct MoviesView: View {
         } actions: {
             Button("Retry") {
                 Task { await fetchMoviesWithAlert(ignoreOffline: true) }
-            }
-        }
-    }
-
-    @ViewBuilder
-    var movieItemGrid: some View {
-        let gridItemLayout = MovieGridItem.gridItemLayout()
-        let gridItemSpacing = MovieGridItem.gridItemSpacing()
-
-        LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-            ForEach(instance.movies.cachedItems) { movie in
-                NavigationLink(value: MoviesPath.movie(movie.id)) {
-                    MovieGridItem(movie: movie)
-                }
-                .buttonStyle(.plain)
-                .id(movie.id)
-            }
-        }
-    }
-
-    @ViewBuilder
-    var movieItemList: some View {
-        let gridItemLayout = MovieListItem.gridItemLayout()
-        let gridItemSpacing = MovieListItem.gridItemSpacing()
-
-        LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-            ForEach(instance.movies.cachedItems) { movie in
-                NavigationLink(value: MoviesPath.movie(movie.id)) {
-                    MovieGridItem(movie: movie)
-                }
-                .buttonStyle(.plain)
-                .id(movie.id)
             }
         }
     }

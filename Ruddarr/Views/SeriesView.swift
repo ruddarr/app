@@ -200,8 +200,8 @@ struct SeriesView: View {
 
     @ViewBuilder
     var seriesItemGrid: some View {
-        let gridItemLayout = MovieGridItem.gridItemLayout()
-        let gridItemSpacing = MovieGridItem.gridItemSpacing()
+        let gridItemLayout = MovieGridPoster.gridItemLayout()
+        let gridItemSpacing = MovieGridPoster.gridItemSpacing()
 
         LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
             ForEach(instance.series.cachedItems) { series in
