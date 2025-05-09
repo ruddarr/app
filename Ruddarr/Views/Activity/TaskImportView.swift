@@ -15,9 +15,16 @@ struct TaskImportView: View {
 
     var body: some View {
         List(files, selection: $selected) { file in
-            FileImportRow(file: file)
+            FileImportRow(file: file, selected: Binding<Bool>(
+                get: { selected.contains(file.id) },
+                set: { if $0 { selected.insert(file.id) } else { selected.remove(file.id) } }
+            ))
         }
-        .environment(\.editMode, .constant(EditMode.active))
+        #if os(macOS)
+            .frame(minHeight: 200)
+        #else
+            .environment(\.editMode, .constant(EditMode.active))
+        #endif
         .listStyle(.plain)
         .toolbarTitleDisplayMode(.inline)
         .toolbar {
@@ -137,35 +144,44 @@ struct TaskImportView: View {
 
 private struct FileImportRow: View {
     var file: ImportableFile
+    @Binding var selected: Bool
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(file.name ?? file.relativePath ?? "Unknown")
-                .font(.headline)
-                .fontWeight(.semibold)
-                .lineLimit(1)
+        HStack {
+            #if os(macOS)
+                Toggle(isOn: $selected) { }
+                    .padding(.trailing, 8)
+            #endif
 
-            HStack(spacing: 6) {
-                Text(file.qualityLabel)
+            VStack(alignment: .leading) {
+                Text(file.name ?? file.relativePath ?? "Unknown")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .lineLimit(1)
 
-                Bullet()
-                Text(file.sizeLabel)
+                HStack(spacing: 6) {
+                    Text(file.qualityLabel)
 
-                Bullet()
-                Text(file.languageLabel)
-            }
-            .foregroundStyle(.secondary)
-            .lineLimit(1)
-            .font(.subheadline)
+                    Bullet()
+                    Text(file.sizeLabel)
 
-            VStack {
-                ForEach(file.reasons, id: \.self) { reason in
-                    Text(reason)
+                    Bullet()
+                    Text(file.languageLabel)
                 }
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .font(.subheadline)
+
+                VStack {
+                    ForEach(file.reasons, id: \.self) { reason in
+                        Text(reason)
+                    }
+                }
+                .font(.footnote)
+                .foregroundStyle(.orange)
             }
-            .font(.footnote)
-            .foregroundStyle(.orange)
         }
+        .listRowBackground(Color.clear)
     }
 }
 
