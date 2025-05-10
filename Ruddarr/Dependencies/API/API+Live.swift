@@ -254,6 +254,15 @@ extension API {
                 ])
 
             return try await request(method: .delete, url: url, headers: instance.auth)
+        }, fetchImportableFiles: { downloadId, instance in
+            let url = URL(string: instance.url)!
+                .appending(path: "/api/v3/manualimport")
+                .appending(queryItems: [
+                    .init(name: "downloadId", value: downloadId),
+                    .init(name: "filterExistingFiles", value: "false"),
+                ])
+
+            return try await request(url: url, headers: instance.auth)
         }, fetchHistory: { type, page, limit, instance in
             var url = URL(string: instance.url)!
                 .appending(path: "/api/v3/history")

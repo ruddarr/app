@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct QueueTaskRemovalView: View {
+struct TaskRemovalView: View {
     var item: QueueItem
     var onRemove: () -> Void
 
@@ -31,7 +31,11 @@ struct QueueTaskRemovalView: View {
                 Text("Blocks this release from being redownloaded via Automatic Search or RSS.")
             }
         }
-        .padding(.top, -20)
+        #if os(macOS)
+            .padding(.all)
+        #else
+            .padding(.top, -20)
+        #endif
         .toolbarTitleDisplayMode(.inline)
         .toolbar {
             toolbarRemoveButton
@@ -51,15 +55,13 @@ struct QueueTaskRemovalView: View {
 
     @ToolbarContentBuilder
     var toolbarRemoveButton: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
+        ToolbarItem(placement: .confirmationAction) {
             if isWorking {
                 ProgressView().tint(.secondary)
             } else {
                 Button("Remove") {
                     Task {
                         await deleteTask()
-                        await Queue.shared.fetchTasks()
-                        onRemove()
                     }
                 }
             }
@@ -94,6 +96,14 @@ struct QueueTaskRemovalView: View {
             self.error = API.Error(from: error)
         }
 
+        if error == nil {
+            await Queue.shared.fetchTasks()
+        }
+
         isWorking = false
+
+        if error == nil {
+            onRemove()
+        }
     }
 }

@@ -11,6 +11,8 @@ enum InstanceCommand {
 
     case refreshDownloads
 
+    case manualImport(_ files: [ImportableFile])
+
     var payload: any Payload {
         switch self {
         case .refreshMovie(let ids):
@@ -27,6 +29,8 @@ enum InstanceCommand {
             SonarrPayload(name: "EpisodeSearch", episodeIds: ids)
         case .refreshDownloads:
             GenericPayload(name: "RefreshMonitoredDownloads")
+        case .manualImport(let files):
+            ImportPayload(files: files.map { ImportableResource.from($0) })
         }
     }
 
@@ -60,6 +64,12 @@ enum InstanceCommand {
             self.seasonNumber = seasonNumber
             self.episodeIds = episodeIds
         }
+    }
+
+    struct ImportPayload: Payload {
+        let name: String = "ManualImport"
+        let files: [ImportableResource]
+        let importMode: String = "auto"
     }
 }
 
