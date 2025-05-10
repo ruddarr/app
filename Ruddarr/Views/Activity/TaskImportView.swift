@@ -121,7 +121,10 @@ struct TaskImportView: View {
 
         do {
             _ = try await dependencies.api.command(.manualImport(selectedFiles), instance)
-            dependencies.toast.show(.refreshQueued)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                dependencies.toast.show(.importQueued)
+            }
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
