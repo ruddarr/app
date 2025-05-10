@@ -3,18 +3,18 @@ import SwiftUI
 struct MovieGridCard: View {
     var movie: Movie
 
+    @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .top, spacing: deviceType == .phone ? 10 : 14) {
             poster
-                .frame(width: 80)
+                .frame(width: deviceType == .phone ? 80 : 95)
 
             VStack(alignment: .leading) {
                 Text(movie.title)
                     .lineLimit(1)
                     .font(.headline)
-                    .padding(.top, 6)
 
                 HStack(spacing: 6) {
                     Text(movie.yearLabel)
@@ -45,8 +45,8 @@ struct MovieGridCard: View {
                 Spacer()
 
                 icons
-                    .padding(.bottom, 6)
             }
+            .padding(.vertical, deviceType == .phone ? 8 : 10)
 
             Spacer()
         }
@@ -70,9 +70,11 @@ struct MovieGridCard: View {
 
     var icons: some View {
         HStack {
+            let iconScale: Image.Scale = deviceType == .phone ? .small : .medium
+
             Image(systemName: "bookmark")
                 .symbolVariant(movie.monitored ? .fill : .none)
-                .imageScale(Self.gridIconScale())
+                .imageScale(iconScale)
 
             Group {
                 if movie.isDownloaded {
@@ -83,7 +85,7 @@ struct MovieGridCard: View {
                     Image(systemName: "xmark").symbolVariant(.circle)
                 }
             }
-            .imageScale(Self.gridIconScale())
+            .imageScale(iconScale)
         }
         .font(.body)
     }
@@ -94,24 +96,12 @@ struct MovieGridCard: View {
         )?.name ?? String(localized: "Unknown")
     }
 
-    static func gridIconScale() -> Image.Scale {
-        #if os(macOS)
-            return .large
-        #else
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return .small
-            }
-
-            return .medium
-        #endif
-    }
-
     static func gridItemLayout() -> [GridItem] {
         #if os(macOS)
             return [GridItem(.adaptive(minimum: 300, maximum: 400), spacing: 20)]
         #else
             if UIDevice.current.userInterfaceIdiom == .phone {
-                return [GridItem(.adaptive(minimum: 300, maximum: 400), spacing: 12)]
+                return [GridItem(.adaptive(minimum: 250, maximum: 400), spacing: 12)]
             }
 
             return [GridItem(.adaptive(minimum: 300, maximum: 400), spacing: 20)]

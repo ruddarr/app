@@ -4,6 +4,7 @@ struct SeriesGridCard: View {
     var series: Series
     var model: Series?
 
+    @Environment(\.deviceType) private var deviceType
     @Environment(SonarrInstance.self) private var instance
 
     init(series: Series, model: Series? = nil) {
@@ -15,15 +16,14 @@ struct SeriesGridCard: View {
     }
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .top, spacing: deviceType == .phone ? 10 : 14) {
             poster
-                .frame(width: 80)
+                .frame(width: deviceType == .phone ? 80 : 95)
 
             VStack(alignment: .leading) {
                 Text(series.title)
                     .lineLimit(1)
                     .font(.headline)
-                    .padding(.top, 6)
 
                 HStack(spacing: 6) {
                     Text("\(series.seasonCount) Seasons")
@@ -49,8 +49,8 @@ struct SeriesGridCard: View {
                 Spacer()
 
                 icons
-                    .padding(.bottom, 6)
             }
+            .padding(.vertical, deviceType == .phone ? 8 : 10)
 
             Spacer()
         }
@@ -74,10 +74,12 @@ struct SeriesGridCard: View {
 
     var icons: some View {
         HStack {
+            let iconScale: Image.Scale = deviceType == .phone ? .small : .medium
+
             Image(systemName: "bookmark")
                 .symbolVariant(series.monitored ? .fill : .none)
                 .foregroundStyle(.white)
-                .imageScale(MovieGridPoster.gridIconScale())
+                .imageScale(iconScale)
 
             Group {
                 if series.isDownloaded {
@@ -93,7 +95,7 @@ struct SeriesGridCard: View {
                 }
             }
             .foregroundStyle(.white)
-            .imageScale(MovieGridPoster.gridIconScale())
+            .imageScale(iconScale)
         }
         .font(.body)
     }

@@ -205,6 +205,28 @@
         }
       }
     },
+    "%lld Seasons" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Season"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "%lld Seasons"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld Task" : {
       "localizations" : {
         "en" : {
