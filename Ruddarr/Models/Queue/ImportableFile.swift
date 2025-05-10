@@ -39,20 +39,6 @@ struct ImportableFile: Identifiable, Codable {
             .filter { $0.reason != nil }
             .map(\.reason!)
     }
-
-    func toResource() -> ImportableResource {
-        .init(
-            path: path ?? "",
-            downloadId: downloadId ?? "",
-            quality: quality,
-            languages: languages,
-            releaseGroup: releaseGroup,
-            movieId: movie == nil ? nil : movie?.id,
-            seriesId: series == nil ? nil : series?.id,
-            episodeIds: series == nil ? nil : episodes?.map(\.id),
-            releaseType: releaseType
-        )
-    }
 }
 
 struct ImportableFileRejection: Codable {
@@ -73,4 +59,28 @@ struct ImportableResource: Codable {
     let seriesId: Int?
     let episodeIds: [Int]?
     let releaseType: EpisodeReleaseType?
+
+    static func from(_ file: ImportableFile) -> Self {
+        .init(
+            path: file.path ?? "",
+            downloadId: file.downloadId ?? "",
+            quality: file.quality,
+            languages: file.languages,
+            releaseGroup: file.releaseGroup,
+            movieId: file.movie == nil ? nil : file.movie?.id,
+            seriesId: file.series == nil ? nil : file.series?.id,
+            episodeIds: file.series == nil ? nil : file.episodes?.map(\.id),
+            releaseType: file.releaseType
+        )
+    }
+}
+
+extension Array where Element == ImportableFile {
+    func acceptable() -> [ImportableFile] {
+        self.filter {
+            $0.rejections.contains {
+                $0.reason?.caseInsensitiveCompare("sample") != .orderedSame
+            }
+        }
+    }
 }

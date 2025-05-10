@@ -15,10 +15,7 @@ struct TaskImportView: View {
 
     var body: some View {
         List(files, selection: $selected) { file in
-            FileImportRow(file: file, selected: Binding<Bool>(
-                get: { selected.contains(file.id) },
-                set: { if $0 { selected.insert(file.id) } else { selected.remove(file.id) } }
-            ))
+            FileImportRow(file: file, selected: binding(for: file.id))
         }
         #if os(macOS)
             .frame(minHeight: 200)
@@ -73,7 +70,7 @@ struct TaskImportView: View {
         files.filter { selected.contains($0.id) }
     }
 
-    func loadFiles() async {
+    private func loadFiles() async {
         error = nil
         isLoading = true
 
@@ -94,6 +91,7 @@ struct TaskImportView: View {
 
         do {
             files = try await dependencies.api.fetchImportableFiles(downloadId, instance)
+            selected = Set(files.acceptable().map(\.id))
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
@@ -107,7 +105,7 @@ struct TaskImportView: View {
         isLoading = false
     }
 
-    func importFiles() async {
+    private func importFiles() async {
         error = nil
         isWorking = true
 
@@ -139,6 +137,21 @@ struct TaskImportView: View {
         if error == nil {
             onRemove()
         }
+    }
+
+    private func binding(for id: ImportableFile.ID) -> Binding<Bool> {
+        Binding<Bool>(
+            get: {
+                selected.contains(id)
+            },
+            set: {
+                if $0 {
+                    selected.insert(id)
+                } else {
+                    selected.remove(id)
+                }
+            }
+        )
     }
 }
 
@@ -172,7 +185,7 @@ private struct FileImportRow: View {
                 .lineLimit(1)
                 .font(.subheadline)
 
-                VStack {
+                VStack(alignment: .leading) {
                     ForEach(file.reasons, id: \.self) { reason in
                         Text(reason)
                     }

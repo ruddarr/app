@@ -30,7 +30,7 @@ enum InstanceCommand {
         case .refreshDownloads:
             GenericPayload(name: "RefreshMonitoredDownloads")
         case .manualImport(let files):
-            ImportPayload(files: files.map { $0.toResource() })
+            ImportPayload(files: files.map { ImportableResource.from($0) })
         }
     }
 

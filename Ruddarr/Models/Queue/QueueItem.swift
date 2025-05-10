@@ -107,9 +107,9 @@ struct QueueItem: Codable, Identifiable, Equatable {
     }
 
     var needsManualImport: Bool {
+        downloadId != nil &&
         trackedDownloadStatus == .warning &&
-        trackedDownloadState == .importPending &&
-        downloadId != nil
+        [.importPending, .importBlocked].contains(trackedDownloadState)
     }
 
     var isSABnzbd: Bool {
