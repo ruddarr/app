@@ -14,44 +14,46 @@ struct QueueItemSheet: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            CloseButton {
-                dismiss()
-            }
-
-            ScrollView {
-                VStack(alignment: .leading) {
-                    header
-
-                    if item.remainingLabel != nil {
-                        progress
-                            .padding(.top)
-                    }
-
-                    actions
-                        .padding(.vertical)
-
-                    if let error = item.errorMessage, !error.isEmpty {
-                        LabeledGroupBox {
-                            Text(error)
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .textSelection(.enabled)
-                        }
-                        .padding(.bottom)
-                    } else if !item.messages.isEmpty {
-                        LabeledGroupBox {
-                            statusMessages
-                        }.padding(.bottom)
-                    }
-
-                    details
-                        .padding(.bottom)
+        NavigationStack {
+            ZStack(alignment: .topTrailing) {
+                CloseButton {
+                    dismiss()
                 }
-                .viewPadding(.horizontal)
-                .padding(.top)
+
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        header
+
+                        if item.remainingLabel != nil {
+                            progress
+                                .padding(.top)
+                        }
+
+                        actions
+                            .padding(.vertical)
+
+                        if let error = item.errorMessage, !error.isEmpty {
+                            LabeledGroupBox {
+                                Text(error)
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .textSelection(.enabled)
+                            }
+                            .padding(.bottom)
+                        } else if !item.messages.isEmpty {
+                            LabeledGroupBox {
+                                statusMessages
+                            }.padding(.bottom)
+                        }
+
+                        details
+                            .padding(.bottom)
+                    }
+                    .viewPadding(.horizontal)
+                    .padding(.top)
+                }
             }
         }
     }
@@ -149,7 +151,7 @@ struct QueueItemSheet: View {
     var actions: some View {
         HStack(spacing: 24) {
             NavigationLink {
-                QueueTaskRemovalView(item: item, onRemove: { dismiss() })
+                TaskRemovalView(item: item, onRemove: { dismiss() })
                     .environmentObject(settings)
             } label: {
                 let label: String = deviceType == .phone
@@ -162,7 +164,22 @@ struct QueueItemSheet: View {
             .buttonStyle(.bordered)
             .tint(.secondary)
 
-            if item.isSABnzbd && sableInstalled() {
+            if item.needsManualImport {
+                NavigationLink {
+                    TaskImportView(item: item, onRemove: { dismiss() })
+                        .environmentObject(settings)
+                } label: {
+                    let label: String = deviceType == .phone
+                        ? String(localized: "Import", comment: "(Short) Importing a queue task")
+                        : String(localized: "Manual Import")
+
+                    ButtonLabel(text: label, icon: "square.and.arrow.down")
+                        .modifier(MediaPreviewActionModifier())
+                }
+                .buttonStyle(.bordered)
+                .tint(.secondary)
+
+            } else if item.isSABnzbd && sableInstalled() {
                 sableLink
             } else if item.isDownloadStation && dsloadInstalled() {
                 sableLink

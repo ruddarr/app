@@ -71,13 +71,11 @@ struct ActivityView: View {
                 await Task { await queue.fetchTasks() }.value
             }
             .sheet(item: $selectedItem) { item in
-                NavigationStack {
-                    QueueItemSheet(item: item)
-                        .presentationDetents(dynamic: [
-                            deviceType == .phone ? .fraction(0.7) : .large
-                        ])
-                        .environmentObject(settings)
-                }
+                QueueItemSheet(item: item)
+                    .presentationDetents(dynamic: [
+                        deviceType == .phone ? .fraction(0.7) : .large
+                    ])
+                    .environmentObject(settings)
             }
         }
     }
