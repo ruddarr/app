@@ -23,9 +23,14 @@ struct MediaGrid<Item: Identifiable, Content: View>: View {
     }
 
     var gridItemSpacing: CGFloat {
-        switch settings.grid {
-        case .posters: MovieGridPoster.gridItemSpacing()
-        case .cards: MovieGridCard.gridItemSpacing()
-        }
+        #if os(macOS)
+            return 20
+        #else
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                return 12
+            }
+
+            return 20
+        #endif
     }
 }

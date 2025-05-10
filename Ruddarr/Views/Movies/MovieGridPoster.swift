@@ -80,18 +80,6 @@ struct MovieGridPoster: View {
         #endif
     }
 
-    static func gridItemSpacing() -> CGFloat {
-        #if os(macOS)
-            return 20
-        #else
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return 12
-            }
-
-            return 20
-        #endif
-    }
-
     static func gridItemLayout() -> [GridItem] {
         #if os(macOS)
             return [GridItem(.adaptive(minimum: 160, maximum: 200), spacing: 20)]
