@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SeriesGridItem: View {
+struct SeriesGridCard: View {
     var series: Series
     var model: Series?
 
@@ -110,7 +110,7 @@ struct SeriesGridItem: View {
     return ScrollView {
         LazyVGrid(columns: gridItemLayout, spacing: 12) {
             ForEach(series) { series in
-                SeriesGridItem(series: series)
+                SeriesGridPoster(series: series)
             }
         }
         .padding(.top, 0)

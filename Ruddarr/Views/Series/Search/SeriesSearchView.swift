@@ -93,7 +93,7 @@ struct SeriesSearchItem: View {
 
     var body: some View {
         NavigationLink(value: destination) {
-            SeriesGridItem(series: series, model: model)
+            SeriesGridPoster(series: series, model: model)
         }
         .buttonStyle(.plain)
     }

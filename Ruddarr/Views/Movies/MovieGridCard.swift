@@ -3,7 +3,7 @@ import SwiftUI
 struct MovieGridCard: View {
     var movie: Movie
 
-    // content.frame(width: UIScreen.main.bounds.width * 0.4)
+    @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -16,7 +16,7 @@ struct MovieGridCard: View {
                     .font(.headline)
                     .padding(.top, 6)
 
-                HStack {
+                HStack(spacing: 6) {
                     Text(movie.yearLabel)
 
                     if let runtime = movie.runtimeLabel {
@@ -24,11 +24,23 @@ struct MovieGridCard: View {
                         Text(runtime)
                     }
 
-                    Bullet()
-                    Text(movie.certificationLabel)
+                    if let size = movie.sizeLabel {
+                        Bullet()
+                        Text(size)
+                    }
                 }
                 .lineLimit(1)
                 .font(.subheadline)
+                .foregroundStyle(.secondary)
+
+                HStack(spacing: 6) {
+                    Text(qualityProfile)
+                    Bullet()
+                    Text(movie.minimumAvailability.label)
+                }
+                .lineLimit(1)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
 
                 Spacer()
 
@@ -74,6 +86,12 @@ struct MovieGridCard: View {
             .imageScale(Self.gridIconScale())
         }
         .font(.body)
+    }
+
+    var qualityProfile: String {
+        instance.qualityProfiles.first(
+            where: { $0.id == movie.qualityProfileId }
+        )?.name ?? String(localized: "Unknown")
     }
 
     static func gridIconScale() -> Image.Scale {
