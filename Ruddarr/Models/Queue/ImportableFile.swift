@@ -39,6 +39,10 @@ struct ImportableFile: Identifiable, Codable {
             .filter { $0.reason != nil }
             .map(\.reason!)
     }
+
+    var isSample: Bool {
+        reasons.contains { $0.caseInsensitiveCompare("sample") == .orderedSame }
+    }
 }
 
 struct ImportableFileRejection: Codable {
@@ -78,9 +82,7 @@ struct ImportableResource: Codable {
 extension Array where Element == ImportableFile {
     func acceptable() -> [ImportableFile] {
         self.filter {
-            $0.rejections.contains {
-                $0.reason?.caseInsensitiveCompare("sample") != .orderedSame
-            }
+            !$0.isSample
         }
     }
 }

@@ -167,10 +167,11 @@ private struct FileImportRow: View {
             #endif
 
             VStack(alignment: .leading) {
-                Text(file.name ?? file.relativePath ?? "Unknown")
+                Text(file.relativePath ?? file.name ?? "Unknown")
                     .font(.headline)
                     .fontWeight(.semibold)
                     .lineLimit(1)
+                    .truncationMode(.middle)
 
                 HStack(spacing: 6) {
                     Text(file.qualityLabel)
