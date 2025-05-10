@@ -109,10 +109,6 @@ struct SeriesGridCard: View {
     let series: [Series] = PreviewData.load(name: "series")
         .sorted { $0.year > $1.year }
 
-    let gridItemLayout = [
-        GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)
-    ]
-
     ScrollView {
         MediaGrid(items: series, style: .cards) { series in
             SeriesGridCard(series: series)

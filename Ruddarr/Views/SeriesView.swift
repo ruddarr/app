@@ -39,26 +39,7 @@ struct SeriesView: View {
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
-                            MediaGrid(
-                                items: instance.series.cachedItems,
-                                style: settings.grid
-                            ) { series in
-                                NavigationLink(value: SeriesPath.series(series.id)) {
-                                    switch settings.grid {
-                                    case .posters: SeriesGridPoster(series: series)
-                                    case .cards: SeriesGridCard(series: series)
-                                    }
-                                }
-                                .buttonStyle(.plain)
-                                .id(series.id)
-                            }
-                                .viewBottomPadding()
-                                .viewPadding(.horizontal)
-                                #if os(iOS)
-                                    .padding(.top, searchPresented ? 7 : 0)
-                                #elseif os(macOS)
-                                    .padding(.vertical)
-                                #endif
+                            mediaGrid
 
                             if presentSearchSuggestion {
                                 SeriesSearchSuggestion(query: $searchQuery, sort: $sort)
@@ -171,6 +152,29 @@ struct SeriesView: View {
                 .environment(instance)
                 .environmentObject(settings)
         }
+    }
+
+    var mediaGrid: some View {
+        MediaGrid(
+            items: instance.series.cachedItems,
+            style: settings.grid
+        ) { series in
+            NavigationLink(value: SeriesPath.series(series.id)) {
+                switch settings.grid {
+                    case .posters: SeriesGridPoster(series: series)
+                    case .cards: SeriesGridCard(series: series)
+                }
+            }
+            .buttonStyle(.plain)
+            .id(series.id)
+        }
+        .viewBottomPadding()
+        .viewPadding(.horizontal)
+        #if os(iOS)
+            .padding(.top, searchPresented ? 7 : 0)
+        #elseif os(macOS)
+            .padding(.vertical)
+        #endif
     }
 
     var notConnectedToInternet: Bool {

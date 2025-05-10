@@ -208,10 +208,10 @@ private struct FileImportRow: View {
 
     let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
 
-    var item = {
-        var item = items.records[2]
-        item.instanceId = instanceId
-        return item
+    let item = {
+        var record = items.records[2]
+        record.instanceId = instanceId
+        return record
     }()
 
     NavigationStack {
@@ -225,10 +225,10 @@ private struct FileImportRow: View {
 
     let items: QueueItems = PreviewData.loadObject(name: "series-queue")
 
-    var item = {
-        var item = items.records.first!
-        item.instanceId = instanceId
-        return item
+    let item = {
+        var record = items.records.first!
+        record.instanceId = instanceId
+        return record
     }()
 
     NavigationStack {

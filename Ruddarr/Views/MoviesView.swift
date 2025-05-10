@@ -38,26 +38,7 @@ struct MoviesView: View {
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
-                            MediaGrid(
-                                items: instance.movies.cachedItems,
-                                style: settings.grid
-                            ) { movie in
-                                NavigationLink(value: MoviesPath.movie(movie.id)) {
-                                    switch settings.grid {
-                                    case .posters: MovieGridPoster(movie: movie)
-                                    case .cards: MovieGridCard(movie: movie)
-                                    }
-                                }
-                                .buttonStyle(.plain)
-                                .id(movie.id)
-                            }
-                            .viewBottomPadding()
-                            .viewPadding(.horizontal)
-                            #if os(iOS)
-                                .padding(.top, searchPresented ? 7 : 0)
-                            #elseif os(macOS)
-                                .padding(.vertical)
-                            #endif
+                            mediaGrid
 
                             if presentSearchSuggestion {
                                 MovieSearchSuggestion(query: $searchQuery, sort: $sort)
@@ -161,6 +142,29 @@ struct MoviesView: View {
             MovieMetadataView(movie: instance.movies.byId(id))
                 .environment(instance)
         }
+    }
+
+    var mediaGrid: some View {
+        MediaGrid(
+            items: instance.movies.cachedItems,
+            style: settings.grid
+        ) { movie in
+            NavigationLink(value: MoviesPath.movie(movie.id)) {
+                switch settings.grid {
+                case .posters: MovieGridPoster(movie: movie)
+                case .cards: MovieGridCard(movie: movie)
+                }
+            }
+            .buttonStyle(.plain)
+            .id(movie.id)
+        }
+        .viewBottomPadding()
+        .viewPadding(.horizontal)
+        #if os(iOS)
+            .padding(.top, searchPresented ? 7 : 0)
+        #elseif os(macOS)
+            .padding(.vertical)
+        #endif
     }
 
     var notConnectedToInternet: Bool {
