@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SeriesGridItem: View {
+struct SeriesGridPoster: View {
     var series: Series
     var model: Series?
 
@@ -78,21 +78,21 @@ struct SeriesGridItem: View {
             }
         }
         .foregroundStyle(.white)
-        .imageScale(MovieGridItem.gridIconScale())
+        .imageScale(MovieGridPoster.gridIconScale())
 
         Spacer()
 
         Image(systemName: "bookmark")
             .symbolVariant(series.monitored ? .fill : .none)
             .foregroundStyle(.white)
-            .imageScale(MovieGridItem.gridIconScale())
+            .imageScale(MovieGridPoster.gridIconScale())
     }
 
     var previewIcons: some View {
         Group {
             series.status.icon
                 .foregroundStyle(.white)
-                .imageScale(MovieGridItem.gridIconScale())
+                .imageScale(MovieGridPoster.gridIconScale())
 
             Spacer()
         }
@@ -110,7 +110,7 @@ struct SeriesGridItem: View {
     return ScrollView {
         LazyVGrid(columns: gridItemLayout, spacing: 12) {
             ForEach(series) { series in
-                SeriesGridItem(series: series)
+                SeriesGridPoster(series: series)
             }
         }
         .padding(.top, 0)

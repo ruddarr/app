@@ -39,11 +39,25 @@ struct SeriesView: View {
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
-                            seriesItemGrid
+                            MediaGrid(
+                                items: instance.series.cachedItems,
+                                style: settings.grid
+                            ) { series in
+                                NavigationLink(value: SeriesPath.series(series.id)) {
+                                    switch settings.grid {
+                                    case .posters: SeriesGridPoster(series: series)
+                                    case .cards: SeriesGridCard(series: series)
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                                .id(series.id)
+                            }
                                 .viewBottomPadding()
                                 .viewPadding(.horizontal)
                                 #if os(iOS)
                                     .padding(.top, searchPresented ? 7 : 0)
+                                #elseif os(macOS)
+                                    .padding(.vertical)
                                 #endif
 
                             if presentSearchSuggestion {
@@ -196,25 +210,6 @@ struct SeriesView: View {
                 Task { await fetchSeriesWithAlert(ignoreOffline: true) }
             }
         }
-    }
-
-    @ViewBuilder
-    var seriesItemGrid: some View {
-        let gridItemLayout = MovieGridItem.gridItemLayout()
-        let gridItemSpacing = MovieGridItem.gridItemSpacing()
-
-        LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-            ForEach(instance.series.cachedItems) { series in
-                NavigationLink(value: SeriesPath.series(series.id)) {
-                    SeriesGridItem(series: series)
-                }
-                .buttonStyle(.plain)
-                .id(series.id)
-            }
-        }
-        #if os(macOS)
-            .padding(.vertical)
-        #endif
     }
 
     func updateSortDirection() {

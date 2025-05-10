@@ -205,6 +205,28 @@
         }
       }
     },
+    "%lld Seasons" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Season"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "%lld Seasons"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld Task" : {
       "localizations" : {
         "en" : {
@@ -868,6 +890,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "Cards" : {
+      "comment" : "Grid item display style",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cards"
           }
         }
       }
@@ -1831,6 +1864,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grabbed"
+          }
+        }
+      }
+    },
+    "Grid" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grid"
           }
         }
       }
@@ -3709,6 +3752,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Podcasts"
+          }
+        }
+      }
+    },
+    "Posters" : {
+      "comment" : "Grid item display style",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posters"
           }
         }
       }

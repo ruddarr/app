@@ -7,6 +7,7 @@ struct SettingsDisplaySection: View {
 
     var body: some View {
         Section {
+            gridPicker
             appearancePicker
             themePicker
 
@@ -16,6 +17,17 @@ struct SettingsDisplaySection: View {
         } header: {
             Text("Display", comment: "Preferences section title")
         }
+    }
+
+    var gridPicker: some View {
+        Picker(selection: $settings.grid) {
+            ForEach(GridStyle.allCases) { style in
+                Text(style.label)
+            }
+        } label: {
+            Label("Grid", systemImage: "square.grid.2x2")
+                .labelStyle(SettingsIconLabelStyle(color: .indigo))
+        }.tint(.secondary)
     }
 
     var appearancePicker: some View {
