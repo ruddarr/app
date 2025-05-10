@@ -4,6 +4,8 @@ struct SeriesGridCard: View {
     var series: Series
     var model: Series?
 
+    @Environment(SonarrInstance.self) private var instance
+
     init(series: Series, model: Series? = nil) {
         self.series = series
 
@@ -13,18 +15,53 @@ struct SeriesGridCard: View {
     }
 
     var body: some View {
-        poster
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .contextMenu {
-                SeriesContextMenu(series: series)
-            } preview: {
-                poster.frame(width: 300, height: 450)
+        HStack(alignment: .top, spacing: 12) {
+            poster
+                .frame(width: 80)
+
+            VStack(alignment: .leading) {
+                Text(series.title)
+                    .lineLimit(1)
+                    .font(.headline)
+                    .padding(.top, 6)
+
+                HStack(spacing: 6) {
+                    Text("\(series.seasonCount) Seasons")
+
+                    if let size = series.sizeLabel {
+                        Bullet()
+                        Text(size)
+                    }
+                }
+                .lineLimit(1)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+
+                HStack(spacing: 6) {
+                    Text(qualityProfile)
+                    Bullet()
+                    Text(series.seriesType.label)
+                }
+                .lineLimit(1)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+
+                Spacer()
+
+                icons
+                    .padding(.bottom, 6)
             }
-            .background(.secondarySystemBackground)
-            .overlay(alignment: .bottom) {
-                posterOverlay
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+        .background(.secondarySystemBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .contextMenu {
+            SeriesContextMenu(series: series)
+        } preview: {
+            poster.frame(width: 300, height: 450)
+        }
     }
 
     var poster: some View {
@@ -36,66 +73,36 @@ struct SeriesGridCard: View {
             )
     }
 
-    var posterOverlay: some View {
+    var icons: some View {
         HStack {
-            if series.exists {
-                posterIcons
-            } else {
-                previewIcons
-            }
-        }
-        .font(.body)
-        .padding(.top, 36)
-        .padding(.bottom, 8)
-        .padding(.horizontal, 8)
-        .background {
-            LinearGradient(
-                colors: [
-                    Color.black.opacity(0.0),
-                    Color.black.opacity(0.2),
-                    Color.black.opacity(0.4),
-                    Color.black.opacity(0.9),
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        }
-    }
-
-    @ViewBuilder
-    var posterIcons: some View {
-        Group {
-            if series.isDownloaded {
-                Image(systemName: "checkmark").symbolVariant(.circle.fill)
-            } else if series.isWaiting {
-                Image(systemName: "clock")
-            } else if series.percentOfEpisodes < 100 {
-                if series.episodeFileCount > 0 {
-                    Image(systemName: "checkmark.circle.trianglebadge.exclamationmark")
-                } else if series.monitored {
-                    Image(systemName: "xmark").symbolVariant(.circle)
-                }
-            }
-        }
-        .foregroundStyle(.white)
-        .imageScale(MovieGridPoster.gridIconScale())
-
-        Spacer()
-
-        Image(systemName: "bookmark")
-            .symbolVariant(series.monitored ? .fill : .none)
-            .foregroundStyle(.white)
-            .imageScale(MovieGridPoster.gridIconScale())
-    }
-
-    var previewIcons: some View {
-        Group {
-            series.status.icon
+            Image(systemName: "bookmark")
+                .symbolVariant(series.monitored ? .fill : .none)
                 .foregroundStyle(.white)
                 .imageScale(MovieGridPoster.gridIconScale())
 
-            Spacer()
+            Group {
+                if series.isDownloaded {
+                    Image(systemName: "checkmark").symbolVariant(.circle.fill)
+                } else if series.isWaiting {
+                    Image(systemName: "clock")
+                } else if series.percentOfEpisodes < 100 {
+                    if series.episodeFileCount > 0 {
+                        Image(systemName: "checkmark.circle.trianglebadge.exclamationmark")
+                    } else if series.monitored {
+                        Image(systemName: "xmark").symbolVariant(.circle)
+                    }
+                }
+            }
+            .foregroundStyle(.white)
+            .imageScale(MovieGridPoster.gridIconScale())
         }
+        .font(.body)
+    }
+
+    var qualityProfile: String {
+        instance.qualityProfiles.first(
+            where: { $0.id == series.qualityProfileId }
+        )?.name ?? String(localized: "Unknown")
     }
 }
 
@@ -108,12 +115,9 @@ struct SeriesGridCard: View {
     ]
 
     return ScrollView {
-        LazyVGrid(columns: gridItemLayout, spacing: 12) {
-            ForEach(series) { series in
-                SeriesGridPoster(series: series)
-            }
+        MediaGrid(items: series, style: .cards) { series in
+            SeriesGridCard(series: series)
         }
-        .padding(.top, 0)
         .viewPadding(.horizontal)
     }
     .withAppState()

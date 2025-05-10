@@ -46,7 +46,7 @@ struct SeriesView: View {
                                 NavigationLink(value: SeriesPath.series(series.id)) {
                                     switch settings.grid {
                                     case .posters: SeriesGridPoster(series: series)
-                                    case .cards: SeriesGridPoster(series: series)
+                                    case .cards: SeriesGridCard(series: series)
                                     }
                                 }
                                 .buttonStyle(.plain)
