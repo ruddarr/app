@@ -78,7 +78,6 @@ struct SeriesGridCard: View {
 
             Image(systemName: "bookmark")
                 .symbolVariant(series.monitored ? .fill : .none)
-                .foregroundStyle(.white)
                 .imageScale(iconScale)
 
             Group {
@@ -94,7 +93,6 @@ struct SeriesGridCard: View {
                     }
                 }
             }
-            .foregroundStyle(.white)
             .imageScale(iconScale)
         }
         .font(.body)
@@ -115,7 +113,7 @@ struct SeriesGridCard: View {
         GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)
     ]
 
-    return ScrollView {
+    ScrollView {
         MediaGrid(items: series, style: .cards) { series in
             SeriesGridCard(series: series)
         }

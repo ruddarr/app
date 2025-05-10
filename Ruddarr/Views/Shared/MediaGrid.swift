@@ -6,6 +6,7 @@ struct MediaGrid<Item: Identifiable, Content: View>: View {
     var content: (Item) -> Content
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
@@ -23,14 +24,6 @@ struct MediaGrid<Item: Identifiable, Content: View>: View {
     }
 
     var gridItemSpacing: CGFloat {
-        #if os(macOS)
-            return 20
-        #else
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return 12
-            }
-
-            return 20
-        #endif
+        deviceType == .phone ? 12 : 20
     }
 }

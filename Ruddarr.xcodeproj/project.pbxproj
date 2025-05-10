@@ -57,7 +57,6 @@
 		BB4071302C1CDD32006A3FA5 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB40712F2C1CDD32006A3FA5 /* NotificationService.swift */; };
 		BB4071342C1CDD32006A3FA5 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BB40712D2C1CDD32006A3FA5 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BB4140C62B71CA89007C7DA4 /* MovieReleaseSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */; };
-		BB42B7CD2DCEA4D100DA73A4 /* MediaGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB42B7CC2DCEA4D100DA73A4 /* MediaGrid.swift */; };
 		BB42B7CB2DCD26AB00DA73A3 /* TaskImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB42B7CA2DCD26AB00DA73A3 /* TaskImportView.swift */; };
 		BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D222B58C71300C29B00 /* NoInternet.swift */; };
 		BB456D272B58E4B900C29B00 /* system-status.json in Resources */ = {isa = PBXBuildFile; fileRef = BB456D262B58E4B900C29B00 /* system-status.json */; };
@@ -120,6 +119,7 @@
 		BB96C32B2BE833AD00E24C1C /* SeriesForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB96C32A2BE833AD00E24C1C /* SeriesForm.swift */; };
 		BB96C32D2BE8351800E24C1C /* series-releases.json in Resources */ = {isa = PBXBuildFile; fileRef = BB96C32C2BE8351800E24C1C /* series-releases.json */; };
 		BB96C32F2BE8889E00E24C1C /* SeriesEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB96C32E2BE8889E00E24C1C /* SeriesEditView.swift */; };
+		BB9BF4182DCFFE2D00488FCA /* MediaGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9BF4172DCFFE2D00488FCA /* MediaGrid.swift */; };
 		BB9DC2252BA920AF00459FFF /* API+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9DC2242BA920AF00459FFF /* API+Error.swift */; };
 		BB9DC22B2BAA11C700459FFF /* MoviesView+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9DC22A2BAA11C700459FFF /* MoviesView+Overlay.swift */; };
 		BBA50F4F2D760CAA008A16FA /* SettingsIconLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA50F4E2D760CA6008A16FA /* SettingsIconLabelStyle.swift */; };
@@ -291,7 +291,6 @@
 		BB4071312C1CDD32006A3FA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseSort.swift; sourceTree = "<group>"; };
 		BB42618C2B6980760078B94E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BB42B7CC2DCEA4D100DA73A4 /* MediaGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGrid.swift; sourceTree = "<group>"; };
 		BB42B7CA2DCD26AB00DA73A3 /* TaskImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskImportView.swift; sourceTree = "<group>"; };
 		BB456D222B58C71300C29B00 /* NoInternet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternet.swift; sourceTree = "<group>"; };
 		BB456D262B58E4B900C29B00 /* system-status.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "system-status.json"; sourceTree = "<group>"; };
@@ -353,6 +352,7 @@
 		BB96C32C2BE8351800E24C1C /* series-releases.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-releases.json"; sourceTree = "<group>"; };
 		BB96C32E2BE8889E00E24C1C /* SeriesEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesEditView.swift; sourceTree = "<group>"; };
 		BB97DCC82C31E0E3002E12E6 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
+		BB9BF4172DCFFE2D00488FCA /* MediaGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGrid.swift; sourceTree = "<group>"; };
 		BB9DC2242BA920AF00459FFF /* API+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+Error.swift"; sourceTree = "<group>"; };
 		BB9DC22A2BAA11C700459FFF /* MoviesView+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoviesView+Overlay.swift"; sourceTree = "<group>"; };
 		BBA50F4E2D760CA6008A16FA /* SettingsIconLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsIconLabelStyle.swift; sourceTree = "<group>"; };
@@ -687,7 +687,7 @@
 				BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */,
 				BBF7BFDD2BE4971D00B485FA /* InformationList.swift */,
 				BB89BCA72CAB853E006F8728 /* HiddenReleases.swift */,
-				BB42B7CC2DCEA4D100DA73A4 /* MediaGrid.swift */,
+				BB9BF4172DCFFE2D00488FCA /* MediaGrid.swift */,
 				BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */,
 				BBAFC7E62BB733E800245D10 /* MediaEventSheet.swift */,
 				BB35E7102DBFDD6200A8A735 /* MediaDeleteSheet.swift */,
@@ -1146,7 +1146,6 @@
 				BBF583B22BABAE8C00AFA7FB /* Loading.swift in Sources */,
 				BB6F23A92B6A039400A4347A /* MovieReleasesView.swift in Sources */,
 				BB7666CF2BA51F49009D4F68 /* Calendar.swift in Sources */,
-				BB42B7CD2DCEA4D100DA73A3 /* MediaGrid.swift in Sources */,
 				BBD3F2D82BFA578000DE5D8E /* MediaHistory.swift in Sources */,
 				BBA50F4F2D760CAA008A16FA /* SettingsIconLabelStyle.swift in Sources */,
 				BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */,
@@ -1196,6 +1195,7 @@
 				BB8A602A2B97840F0039CFF6 /* InstanceView+Notifications.swift in Sources */,
 				BBBCA0582BE936F300BAE374 /* Season.swift in Sources */,
 				BB507D322BD99C0300EC4016 /* SeriesDetails+Overview.swift in Sources */,
+				BB9BF4182DCFFE2D00488FCA /* MediaGrid.swift in Sources */,
 				BB9255CE2B54657900967F84 /* InstanceEditView.swift in Sources */,
 				BBC77E262B7AB79100573EBD /* Notifications.swift in Sources */,
 				BBBE93162B68638400353216 /* Theme.swift in Sources */,

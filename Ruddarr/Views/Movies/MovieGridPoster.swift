@@ -97,7 +97,7 @@ struct MovieGridPoster: View {
     let movies: [Movie] = PreviewData.load(name: "movies")
         .sorted { $0.year > $1.year }
 
-    return ScrollView {
+    ScrollView {
         MediaGrid(items: movies) { movie in
             MovieGridPoster(movie: movie)
         }
