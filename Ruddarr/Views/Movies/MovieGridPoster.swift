@@ -83,7 +83,6 @@ struct MovieGridPoster: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
-        .sorted { $0.year > $1.year }
 
     ScrollView {
         MediaGrid(items: movies) { movie in

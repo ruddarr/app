@@ -109,7 +109,6 @@ struct MovieGridCard: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
-        .sorted { $0.year > $1.year }
 
     NavigationStack {
         ScrollView {
