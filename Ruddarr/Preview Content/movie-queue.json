@@ -121,56 +121,6 @@
             },
         },
         {
-            "movieId": 368,
-            "languages": [
-                {
-                    "id": 1,
-                    "name": "English"
-                }
-            ],
-            "quality": {
-                "quality": {
-                    "id": 18,
-                    "name": "WEBDL-2160p",
-                    "source": "webdl",
-                    "resolution": 2160,
-                    "modifier": "none"
-                },
-                "revision": {
-                    "version": 1,
-                    "real": 0,
-                    "isRepack": false
-                }
-            },
-            "customFormats": [
-                {
-                    "id": 3,
-                    "name": "H.265"
-                }
-            ],
-            "customFormatScore": 0,
-            "size": 5882132578,
-            "title": "SOUTH.PARK.THE.END.OF.OBESITY.2024.2160p.WEB.H265-ThistleQuokkaOfScientificChampagne",
-            "sizeleft": 0,
-            "added": "2024-05-24T21:28:21Z",
-            "status": "completed",
-            "trackedDownloadStatus": "warning",
-            "trackedDownloadState": "importPending",
-            "statusMessages": [
-                {
-                    "title": "Found archive file, might need to be extracted",
-                    "messages": []
-                }
-            ],
-            "downloadId": "7FCF20EEAACD0F7810C11FD62E90076E9A25B76F:dbid_1510",
-            "protocol": "torrent",
-            "downloadClient": "Download Station",
-            "downloadClientHasPostImportCategory": false,
-            "indexer": "TorrentDay (Prowlarr)",
-            "outputPath": "/volume2/Media/#downloads/SOUTH.PARK.THE.END.OF.OBESITY.2024.2160p.WEB.H265-ThistleQuokkaOfScientificChampagne",
-            "id": 1914112982
-        },
-        {
             "movieId": 722,
             "languages": [
                 {

@@ -1221,6 +1221,350 @@
             "title": "Couples.Therapy.2019.S04.1080p.WEB.h264-EDITH",
             "trackedDownloadState": "downloading",
             "trackedDownloadStatus": "ok"
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3387,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 434077569
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3388,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 2073639556
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3389,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 646913496
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3390,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 485325138
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3391,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 1081814913
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3392,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 1773558956
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3393,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 1099126243
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3394,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 959380497
         }
     ]
 }

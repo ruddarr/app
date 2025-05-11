@@ -114,6 +114,44 @@ struct ActivityView: View {
             selectedItem = nil
         }
     }
+
+    func updateDisplayedItems() {
+        let grouped: [String: [QueueItem]] = Dictionary(
+            grouping: queue.items.flatMap { $0.value },
+            by: { $0.grouping }
+        ).mapValues { items -> [QueueItem] in
+            guard items.count > 1 else { return items }
+            return [items.first!]
+        }
+
+        var items: [QueueItem] = grouped
+            .flatMap { $0.value }
+            .sorted(by: sort.option.isOrderedBefore)
+
+        if sort.instance != ".all" {
+            items = items.filter {
+                $0.instanceId?.isEqual(to: sort.instance) == true
+            }
+        }
+
+        if sort.type != ".all" {
+            items = items.filter { $0.type.label == sort.type }
+        }
+
+        if sort.client != ".all" {
+            items = items.filter { $0.downloadClient == sort.client }
+        }
+
+        if sort.issues {
+            items = items.filter { $0.trackedDownloadStatus != .ok || $0.status == "warning" }
+        }
+
+        if !sort.isAscending {
+            items = items.reversed()
+        }
+
+        self.items = items
+    }
 }
 
 #Preview {

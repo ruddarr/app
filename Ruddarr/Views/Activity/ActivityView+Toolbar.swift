@@ -28,36 +28,6 @@ extension ActivityView {
         }
     }
 
-    func updateDisplayedItems() {
-        var items: [QueueItem] = queue.items
-            .flatMap { $0.value }
-            .sorted(by: sort.option.isOrderedBefore)
-
-        if sort.instance != ".all" {
-            items = items.filter {
-                $0.instanceId?.isEqual(to: sort.instance) == true
-            }
-        }
-
-        if sort.type != ".all" {
-            items = items.filter { $0.type.label == sort.type }
-        }
-
-        if sort.client != ".all" {
-            items = items.filter { $0.downloadClient == sort.client }
-        }
-
-        if sort.issues {
-            items = items.filter { $0.trackedDownloadStatus != .ok || $0.status == "warning" }
-        }
-
-        if !sort.isAscending {
-            items = items.reversed()
-        }
-
-        self.items = items
-    }
-
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
         ToolbarItem(placement: .navigation) {

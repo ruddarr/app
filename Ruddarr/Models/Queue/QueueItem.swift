@@ -126,6 +126,11 @@ struct QueueItem: Codable, Identifiable, Equatable {
         statusMessages ?? []
     }
 
+    var grouping: String {
+        // group season pack task in queue
+        (downloadId ?? "") + (title ?? "") + String(seasonNumber ?? id) + String(size)
+    }
+
     var titleLabel: String {
         if let title = movie?.title {
             return title
