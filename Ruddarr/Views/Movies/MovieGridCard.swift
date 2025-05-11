@@ -9,7 +9,7 @@ struct MovieGridCard: View {
     var body: some View {
         HStack(alignment: .top, spacing: deviceType == .phone ? 10 : 14) {
             poster
-                .frame(width: deviceType == .phone ? 80 : 95)
+                .frame(width: posterWidth)
 
             VStack(alignment: .leading) {
                 Text(movie.title)
@@ -68,6 +68,16 @@ struct MovieGridCard: View {
             )
     }
 
+    var posterWidth: CGFloat {
+        #if os(iOS)
+            if deviceType == .phone {
+                return (UIScreen.main.bounds.width - 20) * 0.25
+            }
+        #endif
+
+        return 95
+    }
+
     var icons: some View {
         HStack {
             let iconScale: Image.Scale = deviceType == .phone ? .small : .medium
@@ -95,29 +105,19 @@ struct MovieGridCard: View {
             where: { $0.id == movie.qualityProfileId }
         )?.name ?? String(localized: "Unknown")
     }
-
-    static func gridItemLayout() -> [GridItem] {
-        #if os(macOS)
-            return [GridItem(.adaptive(minimum: 300, maximum: 400), spacing: 20)]
-        #else
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return [GridItem(.adaptive(minimum: 250, maximum: 400), spacing: 12)]
-            }
-
-            return [GridItem(.adaptive(minimum: 300, maximum: 400), spacing: 20)]
-        #endif
-    }
 }
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
         .sorted { $0.year > $1.year }
 
-    return ScrollView {
-        MediaGrid(items: movies, style: .cards) { movie in
-            MovieGridCard(movie: movie)
+    NavigationStack {
+        ScrollView {
+            MediaGrid(items: movies, style: .cards) { movie in
+                MovieGridCard(movie: movie)
+            }
+            .viewPadding(.horizontal)
         }
-        .viewPadding(.horizontal)
+        .withAppState()
     }
-    .withAppState()
 }

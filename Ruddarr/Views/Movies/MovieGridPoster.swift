@@ -79,18 +79,6 @@ struct MovieGridPoster: View {
             return .medium
         #endif
     }
-
-    static func gridItemLayout() -> [GridItem] {
-        #if os(macOS)
-            return [GridItem(.adaptive(minimum: 160, maximum: 200), spacing: 20)]
-        #else
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return [GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)]
-            }
-
-            return [GridItem(.adaptive(minimum: 145, maximum: 180), spacing: 20)]
-        #endif
-    }
 }
 
 #Preview {

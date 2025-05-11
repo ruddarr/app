@@ -18,7 +18,7 @@ struct SeriesGridCard: View {
     var body: some View {
         HStack(alignment: .top, spacing: deviceType == .phone ? 10 : 14) {
             poster
-                .frame(width: deviceType == .phone ? 80 : 95)
+                .frame(width: posterWidth)
 
             VStack(alignment: .leading) {
                 Text(series.title)
@@ -72,6 +72,16 @@ struct SeriesGridCard: View {
             )
     }
 
+    var posterWidth: CGFloat {
+        #if os(iOS)
+            if deviceType == .phone {
+                return (UIScreen.main.bounds.width - 20) * 0.25
+            }
+        #endif
+
+        return 95
+    }
+
     var icons: some View {
         HStack {
             let iconScale: Image.Scale = deviceType == .phone ? .small : .medium
@@ -107,7 +117,6 @@ struct SeriesGridCard: View {
 
 #Preview {
     let series: [Series] = PreviewData.load(name: "series")
-        .sorted { $0.year > $1.year }
 
     ScrollView {
         MediaGrid(items: series, style: .cards) { series in

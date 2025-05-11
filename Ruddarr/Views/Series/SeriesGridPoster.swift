@@ -101,19 +101,11 @@ struct SeriesGridPoster: View {
 
 #Preview {
     let series: [Series] = PreviewData.load(name: "series")
-        .sorted { $0.year > $1.year }
 
-    let gridItemLayout = [
-        GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)
-    ]
-
-    return ScrollView {
-        LazyVGrid(columns: gridItemLayout, spacing: 12) {
-            ForEach(series) { series in
-                SeriesGridPoster(series: series)
-            }
+    ScrollView {
+        MediaGrid(items: series) { series in
+            SeriesGridPoster(series: series)
         }
-        .padding(.top, 0)
         .viewPadding(.horizontal)
     }
     .withAppState()
