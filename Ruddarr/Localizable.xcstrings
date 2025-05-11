@@ -3116,7 +3116,7 @@
       }
     },
     "NOTIFICATION_EPISODE_GRAB_SUBTITLE" : {
-      "comment" : "Notification body (series, season, episode)",
+      "comment" : "Notification subtitle (series, season, episode)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3139,8 +3139,32 @@
         }
       }
     },
+    "NOTIFICATION_EPISODE_UPGRADE_BODY" : {
+      "comment" : "Notification body (old quality, new quality)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgraded from %1$@ to %2$@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODE_UPGRADE_SUBTITLE" : {
+      "comment" : "Notification subtitle (series, season, episode)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (S%@ E%@)"
+          }
+        }
+      }
+    },
     "NOTIFICATION_EPISODES_DOWNLOAD" : {
-      "comment" : "Notification title",
+      "comment" : "Notification title (instance name, episode count)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3195,18 +3219,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ (Season %@)"
-          }
-        }
-      }
-    },
-    "NOTIFICATION_EPISODES_UPGRADE" : {
-      "comment" : "Notification title (episodes, instance name)",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%2$@ Episodes Upgraded on %1$@"
           }
         }
       }
@@ -3392,7 +3404,19 @@
       }
     },
     "NOTIFICATION_MOVIE_UPGRADE_BODY" : {
-      "comment" : "Notification body (movie, year)",
+      "comment" : "Notification body (old quality, new quality)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgraded from %@ to %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_MOVIE_UPGRADE_SUBTITLE" : {
+      "comment" : "Notification subtitle (movie, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3441,30 +3465,6 @@
     },
     "NOTIFICATION_SERIES_DELETED_BODY" : {
       "comment" : "Notification body (series, year)",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ (%@)"
-          }
-        }
-      }
-    },
-    "NOTIFICATION_SERIES_UPGRADE" : {
-      "comment" : "Notification title (instance name)",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Series Upgraded on %@"
-          }
-        }
-      }
-    },
-    "NOTIFICATION_SERIES_UPGRADE_BODY" : {
-      "comment" : "Notification body (movie, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
