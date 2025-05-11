@@ -3140,7 +3140,7 @@
       }
     },
     "NOTIFICATION_EPISODES_DOWNLOAD" : {
-      "comment" : "Notification title",
+      "comment" : "Notification title (instance name, episode count)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3195,18 +3195,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ (Season %@)"
-          }
-        }
-      }
-    },
-    "NOTIFICATION_EPISODES_UPGRADE" : {
-      "comment" : "Notification title (episodes, instance name)",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%2$@ Episodes Upgraded on %1$@"
           }
         }
       }
