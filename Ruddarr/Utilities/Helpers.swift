@@ -38,6 +38,10 @@ extension String {
         self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
+    func breakable() -> String {
+        self.replacingOccurrences(of: ".", with: ".\u{200B}")
+    }
+
     func isValidEmail() -> Bool {
         self.wholeMatch(of: /(?i)^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/) != nil
     }

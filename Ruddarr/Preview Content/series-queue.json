@@ -1565,6 +1565,422 @@
             "sizeleft": 2287772631,
             "timeleft": "00:00:15",
             "id": 959380497
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34678,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1490814168
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34679,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 8940784
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34680,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1990568083
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34681,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 99017986
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34682,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1383848620
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34683,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1602395020
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34684,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1529334784
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34685,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 420242891
         }
     ]
 }

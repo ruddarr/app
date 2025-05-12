@@ -45,7 +45,7 @@ struct MediaHistoryItem: View {
                 .tracking(1.1)
                 .foregroundStyle(settings.theme.tint)
 
-            Text(title ?? "--")
+            Text(title?.breakable() ?? "--")
         }
     }
 

@@ -67,7 +67,7 @@ struct QueueItemSheet: View {
             .textCase(.uppercase)
             .tracking(1.1)
 
-        Text(item.title ?? "Unknown")
+        Text(item.title?.breakable() ?? "Unknown")
             .font(.title3.bold())
             .kerning(-0.5)
             .fixedSize(horizontal: false, vertical: true)
