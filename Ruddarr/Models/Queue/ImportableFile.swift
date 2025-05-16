@@ -7,7 +7,7 @@ struct ImportableFile: Identifiable, Codable {
     let path: String?
     let relativePath: String?
     let size: Int
-    let quality: MediaQuality
+    let quality: MediaQuality?
     let languages: [MediaLanguage]?
     let releaseGroup: String?
     let downloadId: String?
@@ -23,7 +23,7 @@ struct ImportableFile: Identifiable, Codable {
     let releaseType: EpisodeReleaseType?
 
     var qualityLabel: String {
-        quality.quality.label
+        quality?.quality.label ?? String(localized: "Unknown")
     }
 
     var sizeLabel: String {
@@ -52,7 +52,7 @@ struct ImportableFileRejection: Codable {
 struct ImportableResource: Codable {
     let path: String
     let downloadId: String
-    let quality: MediaQuality
+    let quality: MediaQuality?
     let languages: [MediaLanguage]?
     let releaseGroup: String?
 
