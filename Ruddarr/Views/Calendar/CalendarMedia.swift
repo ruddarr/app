@@ -105,13 +105,16 @@ struct CalendarEpisode: View {
         .background(.secondarySystemBackground)
         .clipShape(RoundedRectangle(cornerRadius: 6))
         .onTapGesture {
-            let deeplink = String(
-                format: "ruddarr://series/open/%d?season=%d&episode=%d&instance=%@",
+            var deeplink = String(
+                format: "ruddarr://series/open/%d?season=%d&instance=%@",
                 episode.seriesId,
                 episode.seasonNumber,
-                episode.episodeNumber,
                 episode.instanceId!.uuidString
             )
+
+            if !isGrouped {
+                deeplink.append("&episode=\(episode.episodeNumber)")
+            }
 
             try? QuickActions.Deeplink(url: URL(string: deeplink)!)()
         }
@@ -119,26 +122,20 @@ struct CalendarEpisode: View {
 
     @ViewBuilder
     var tag: some View {
-        if episode.isSpecial {
+        if isGrouped, let hidden = episode.calendarGroupCount {
+            Text(String(localized: "+\(hidden - 1) more..."))
+                .font(.caption)
+                .foregroundStyle(settings.theme.tint)
+        } else if episode.isSpecial {
             Text(episode.specialLabel)
                 .font(.caption)
                 .foregroundStyle(settings.theme.tint)
-        }
-
-        if let finale = episode.finaleType {
+        } else if let finale = episode.finaleType {
             Text(finale.label)
                 .font(.caption)
                 .foregroundStyle(settings.theme.tint)
-        }
-
-        if episode.isPremiere {
+        } else if episode.isPremiere {
             Text(episode.premiereLabel)
-                .font(.caption)
-                .foregroundStyle(settings.theme.tint)
-        }
-
-        if let hidden = episode.calendarGroupCount, hidden > 1 {
-            Text(String(localized: "+\(hidden - 1) more..."))
                 .font(.caption)
                 .foregroundStyle(settings.theme.tint)
         }
@@ -155,6 +152,10 @@ struct CalendarEpisode: View {
         } else if episode.monitored {
             Image(systemName: "xmark").symbolVariant(.circle)
         }
+    }
+
+    var isGrouped: Bool {
+        (episode.calendarGroupCount ?? 0) > 2
     }
 }
 
