@@ -3110,7 +3110,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Episode Downloading on %1$@"
+            "value" : "Episode Downloading on %@"
           }
         }
       }
@@ -3410,7 +3410,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upgraded from %@ to %@"
+            "value" : "Upgraded from %1$@ to %2$@"
           }
         }
       }
