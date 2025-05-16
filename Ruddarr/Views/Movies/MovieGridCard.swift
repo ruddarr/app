@@ -69,13 +69,7 @@ struct MovieGridCard: View {
     }
 
     var posterWidth: CGFloat {
-        #if os(iOS)
-            if deviceType == .phone {
-                return (UIScreen.main.bounds.width - 20) * 0.25
-            }
-        #endif
-
-        return 95
+        deviceType == .phone ? 80 : 90
     }
 
     var icons: some View {
@@ -88,7 +82,7 @@ struct MovieGridCard: View {
 
             Group {
                 if movie.isDownloaded {
-                    Image(systemName: "checkmark").symbolVariant(.circle.fill)
+                    Image(systemName: "checkmark").symbolVariant(.circle)
                 } else if movie.isWaiting {
                     Image(systemName: "clock")
                 } else if movie.monitored {
@@ -98,6 +92,7 @@ struct MovieGridCard: View {
             .imageScale(iconScale)
         }
         .font(.body)
+        .foregroundStyle(.darkGray)
     }
 
     var qualityProfile: String {

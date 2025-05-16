@@ -73,13 +73,7 @@ struct SeriesGridCard: View {
     }
 
     var posterWidth: CGFloat {
-        #if os(iOS)
-            if deviceType == .phone {
-                return (UIScreen.main.bounds.width - 20) * 0.25
-            }
-        #endif
-
-        return 95
+        deviceType == .phone ? 80 : 95
     }
 
     var icons: some View {
@@ -92,7 +86,7 @@ struct SeriesGridCard: View {
 
             Group {
                 if series.isDownloaded {
-                    Image(systemName: "checkmark").symbolVariant(.circle.fill)
+                    Image(systemName: "checkmark").symbolVariant(.circle)
                 } else if series.isWaiting {
                     Image(systemName: "clock")
                 } else if series.percentOfEpisodes < 100 {
@@ -106,6 +100,7 @@ struct SeriesGridCard: View {
             .imageScale(iconScale)
         }
         .font(.body)
+        .foregroundStyle(.darkGray)
     }
 
     var qualityProfile: String {
