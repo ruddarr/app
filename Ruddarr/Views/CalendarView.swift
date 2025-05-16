@@ -142,6 +142,16 @@ struct CalendarView: View {
     var filteredEpisodes: [TimeInterval: [Episode]] {
         var episodes = calendar.episodes
 
+        episodes = episodes.mapValues { items in
+            let grouped = Dictionary(grouping: items, by: \.calendarGroup)
+
+            return grouped.values.compactMap { group in
+                guard var dummy = group.first else { return group[0] }
+                dummy.calendarGroupCount = group.count
+                return dummy
+            }
+        }
+
         if displayedInstance != ".all" {
             episodes = episodes.mapValues { items in
                 items.filter { $0.instanceId?.isEqual(to: displayedInstance) == true }

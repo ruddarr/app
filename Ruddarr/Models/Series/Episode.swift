@@ -36,6 +36,12 @@ struct Episode: Identifiable, Codable, Equatable {
 
     let series: Series?
 
+    var calendarGroupCount: Int?
+
+    var calendarGroup: String {
+        "\(seriesId):\(seasonNumber):\(airDateUtc?.formatted(.iso8601) ?? "")"
+    }
+
     var titleLabel: String {
         title ?? String(localized: "Unannounced", comment: "Missing media title")
     }

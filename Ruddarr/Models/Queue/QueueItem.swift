@@ -126,8 +126,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
         statusMessages ?? []
     }
 
-    var grouping: String {
-        // group season pack task in queue
+    var taskGroup: String {
         (downloadId ?? "") + (title ?? "") + String(seasonNumber ?? id) + String(size)
     }
 

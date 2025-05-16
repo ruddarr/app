@@ -249,7 +249,7 @@
         }
       }
     },
-    "+%d more..." : {
+    "+%lld more..." : {
       "localizations" : {
         "en" : {
           "variations" : {
@@ -257,13 +257,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "+%d more..."
+                  "value" : "+%lld more..."
                 }
               },
               "other" : {
                 "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "+%d more..."
+                  "state" : "new",
+                  "value" : "+%lld more..."
                 }
               }
             }

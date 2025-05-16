@@ -178,7 +178,7 @@ func mediaDetailsSubtitles(_ file: MediaFile?, _ deviceType: DeviceType) -> Stri
         }
 
         someCodes.append(
-            String(format: String(localized: "+%d more..."), codes.count - limit)
+            String(localized: "+\(codes.count - limit) more...")
         )
 
         return someCodes.formattedList()

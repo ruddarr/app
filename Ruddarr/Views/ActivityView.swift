@@ -118,7 +118,7 @@ struct ActivityView: View {
     func updateDisplayedItems() {
         let grouped: [String: [QueueItem]] = Dictionary(
             grouping: queue.items.flatMap { $0.value },
-            by: { $0.grouping }
+            by: \.taskGroup
         ).mapValues { items -> [QueueItem] in
             guard items.count > 1 else { return items }
             return [items.first!]

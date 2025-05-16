@@ -136,6 +136,12 @@ struct CalendarEpisode: View {
                 .font(.caption)
                 .foregroundStyle(settings.theme.tint)
         }
+
+        if let hidden = episode.calendarGroupCount, hidden > 1 {
+            Text(String(localized: "+\(hidden - 1) more..."))
+                .font(.caption)
+                .foregroundStyle(settings.theme.tint)
+        }
     }
 
     @ViewBuilder
