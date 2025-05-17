@@ -100,7 +100,7 @@ struct SeriesGridCard: View {
             .imageScale(iconScale)
         }
         .font(.body)
-        .foregroundStyle(.darkGray)
+        .foregroundStyle(.secondary)
     }
 
     var qualityProfile: String {

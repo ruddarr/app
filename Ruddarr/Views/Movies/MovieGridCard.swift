@@ -92,7 +92,7 @@ struct MovieGridCard: View {
             .imageScale(iconScale)
         }
         .font(.body)
-        .foregroundStyle(.darkGray)
+        .foregroundStyle(.secondary)
     }
 
     var qualityProfile: String {
