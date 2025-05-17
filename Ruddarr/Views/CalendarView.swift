@@ -8,6 +8,7 @@ struct CalendarView: View {
     @State private var hideCalendarView: Bool = true
 
     @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
+    @AppStorage("calendarSpecials", store: dependencies.store) private var hideSpecials: Bool = false
 
     @State private var onlyPremieres: Bool = false
     @State private var displayedInstance: String = ".all"
@@ -173,6 +174,12 @@ struct CalendarView: View {
             }
         }
 
+        if hideSpecials {
+            episodes = episodes.mapValues { items in
+                items.filter { !$0.isSpecial }
+            }
+        }
+
         return episodes
     }
 
@@ -272,17 +279,24 @@ struct CalendarView: View {
                 }
                 .pickerStyle(.inline)
 
+                Toggle(isOn: $onlyMonitored) {
+                    Label("Monitored", systemImage: "bookmark")
+                        .symbolVariant(onlyMonitored ? .fill : .none)
+                }
+
                 Toggle(isOn: $onlyPremieres) {
                     Label("Premieres", systemImage: "play")
                         .symbolVariant(onlyPremieres ? .fill : .none)
                 }
 
-                Toggle(isOn: $onlyMonitored) {
-                    Label("Monitored", systemImage: "bookmark")
-                        .symbolVariant(onlyMonitored ? .fill : .none)
+                Section {
+                    Toggle(isOn: $hideSpecials) {
+                        Label("Hide Specials", systemImage: "star")
+                            .symbolVariant(hideSpecials ? .slash.fill : .slash)
+                    }
                 }
             } label: {
-                if displayedMediaType != .all || onlyPremieres || onlyMonitored {
+                if displayedMediaType != .all || onlyPremieres || onlyMonitored || hideSpecials {
                     Image("filters.badge").offset(y: 3.2)
                 } else {
                     Image(systemName: "line.3.horizontal.decrease")
