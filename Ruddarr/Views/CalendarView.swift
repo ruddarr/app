@@ -149,6 +149,9 @@ struct CalendarView: View {
                 guard var dummy = group.first else { return group[0] }
                 dummy.calendarGroupCount = group.count
                 return dummy
+            }.sorted {
+                ($0.airDateUtc ?? Date.distantPast, $0.episodeNumber) <
+                ($1.airDateUtc ?? Date.distantPast, $1.episodeNumber)
             }
         }
 
