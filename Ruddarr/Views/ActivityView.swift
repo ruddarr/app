@@ -120,8 +120,10 @@ struct ActivityView: View {
             grouping: queue.items.flatMap { $0.value },
             by: \.taskGroup
         ).mapValues { items -> [QueueItem] in
+            guard var dummy = items.first else { return items }
             guard items.count > 1 else { return items }
-            return [items.first!]
+            dummy.taskGroupCount = items.count
+            return [dummy]
         }
 
         var items: [QueueItem] = grouped

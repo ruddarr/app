@@ -57,6 +57,8 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let outputPath: String?
     let downloadClientHasPostImportCategory: Bool?
 
+    var taskGroupCount: Int?
+
     enum CodingKeys: String, CodingKey {
         case id
         case downloadId
@@ -136,8 +138,15 @@ struct QueueItem: Codable, Identifiable, Equatable {
         }
 
         if let title = series?.title {
-            guard let label = episode?.episodeLabel else { return title }
-            return "\(title) \(label)"
+            if let count = taskGroupCount, count > 1 {
+                return String(format: "%@ (%@)", title, String(localized: "Season \(1)"))
+            }
+
+            guard let episodeLabel = episode?.episodeLabel else {
+                return title
+            }
+
+            return "\(title) \(episodeLabel)"
         }
 
         return title ?? String(localized: "Unknown")
