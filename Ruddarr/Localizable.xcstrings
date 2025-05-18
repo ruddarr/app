@@ -1909,6 +1909,16 @@
         }
       }
     },
+    "Hide Specials" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Specials"
+          }
+        }
+      }
+    },
     "History" : {
       "localizations" : {
         "en" : {
@@ -2652,7 +2662,14 @@
       }
     },
     "Movie File Deleted" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie File Deleted"
+          }
+        }
+      }
     },
     "Movie file was renamed." : {
       "localizations" : {
