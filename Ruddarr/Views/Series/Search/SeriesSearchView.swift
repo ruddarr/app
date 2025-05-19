@@ -43,7 +43,7 @@ struct SeriesSearchView: View {
         .onReceive(
             searchTextPublisher.debounce(for: .milliseconds(250), scheduler: DispatchQueue.main)
         ) { _ in
-            performSearch()
+            Task { @MainActor in performSearch() }
         }
         .alert(
             isPresented: instance.lookup.errorBinding,
