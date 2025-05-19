@@ -94,6 +94,7 @@ struct MoviesView: View {
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
+            .onChange(of: instance.movies.items, updateDisplayedMovies)
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
