@@ -82,7 +82,7 @@ struct MovieGridCard: View {
 
             Group {
                 if movie.isDownloaded {
-                    Image(systemName: "checkmark").symbolVariant(.circle)
+                    Image(systemName: "checkmark").symbolVariant(.circle.fill)
                 } else if movie.isWaiting {
                     Image(systemName: "clock")
                 } else if movie.monitored {

@@ -86,7 +86,7 @@ struct SeriesGridCard: View {
 
             Group {
                 if series.isDownloaded {
-                    Image(systemName: "checkmark").symbolVariant(.circle)
+                    Image(systemName: "checkmark").symbolVariant(.circle.fill)
                 } else if series.isWaiting {
                     Image(systemName: "clock")
                 } else if series.percentOfEpisodes < 100 {
