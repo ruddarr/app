@@ -43,7 +43,7 @@ struct SeriesSearchView: View {
         .onReceive(
             searchTextPublisher.debounce(for: .milliseconds(250), scheduler: DispatchQueue.main)
         ) { _ in
-            Task { @MainActor in performSearch() }
+            performSearch()
         }
         .alert(
             isPresented: instance.lookup.errorBinding,
@@ -63,7 +63,7 @@ struct SeriesSearchView: View {
     }
 
     func performSearch() {
-        Task {
+        Task { @MainActor in
             await instance.lookup.search(query: searchQuery)
         }
     }
