@@ -10,6 +10,8 @@ struct SeriesSearchView: View {
     let searchTextPublisher = PassthroughSubject<String, Never>()
 
     var body: some View {
+        @Bindable var seriesLookup = instance.lookup
+
         ScrollView {
             MediaGrid(items: instance.lookup.sortedItems) { series in
                 SeriesSearchItem(series: series)
@@ -29,10 +31,7 @@ struct SeriesSearchView: View {
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
-        .searchScopes(.init(
-            get: { instance.lookup.sort },
-            set: { sort in instance.lookup.sort = sort }
-        )) {
+        .searchScopes($seriesLookup.sort) {
             ForEach(SeriesLookup.SortOption.allCases) { option in
                 Text(option.label)
             }
