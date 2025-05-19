@@ -10,6 +10,7 @@ extension API {
     enum Error: Swift.Error {
         case void
 
+        case invalidUrl(_ url: String)
         case badStatusCode(code: Int)
         case decodingError(_ error: DecodingError)
         case errorResponse(code: Int, message: String)
@@ -43,6 +44,8 @@ extension API.Error: LocalizedError {
         return switch self {
         case .void:
             fallback
+        case .invalidUrl:
+            String(localized: "Invalid URL")
         case .badStatusCode:
             String(localized: "Server Error Response")
         case .errorResponse:
@@ -72,6 +75,8 @@ extension API.Error: LocalizedError {
         return switch self {
         case .void:
             fallback
+        case .invalidUrl(let url):
+            String(localized: "Instance URL is not valid: \(url)")
         case .badStatusCode(code: let code):
             String(localized: "Server returned \(code) status code.")
         case .decodingError(let error):

@@ -2130,6 +2130,16 @@
         }
       }
     },
+    "Instance URL is not valid: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instance URL is not valid: %@"
+          }
+        }
+      }
+    },
     "Instances" : {
       "localizations" : {
         "en" : {
