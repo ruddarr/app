@@ -98,6 +98,14 @@ struct SeriesGridCard: View {
                 }
             }
             .imageScale(iconScale)
+
+            Spacer()
+
+            if let status = statusIcon {
+                Image(systemName: status)
+                    .symbolVariant(.fill)
+                    .imageScale(iconScale)
+            }
         }
         .font(.body)
         .foregroundStyle(.secondary)
@@ -107,6 +115,14 @@ struct SeriesGridCard: View {
         instance.qualityProfiles.first(
             where: { $0.id == series.qualityProfileId }
         )?.name ?? String(localized: "Unknown")
+    }
+
+    var statusIcon: String? {
+        switch series.status {
+        case .continuing: "play"
+        case .ended: "stop"
+        default: nil
+        }
     }
 }
 
