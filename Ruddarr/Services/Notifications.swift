@@ -410,3 +410,4 @@ actor Notifications {
     }
     .padding()
 }
+// swiftlint:enable closure_body_length file_length
