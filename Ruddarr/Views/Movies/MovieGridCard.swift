@@ -23,20 +23,24 @@ struct MovieGridCard: View {
                         Bullet()
                         Text(runtime)
                     }
-
-                    if let size = movie.sizeLabel {
-                        Bullet()
-                        Text(size)
-                    }
                 }
                 .lineLimit(1)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
                 HStack(spacing: 6) {
-                    Text(qualityProfile)
-                    Bullet()
-                    Text(movie.minimumAvailability.label)
+                    if let file = movie.movieFile {
+                        Text(file.quality.quality.label)
+
+                        if let size = movie.sizeLabel {
+                            Bullet()
+                            Text(size)
+                        }
+                    } else {
+                        Text(qualityProfile)
+                        Bullet()
+                        Text(movie.minimumAvailability.label)
+                    }
                 }
                 .lineLimit(1)
                 .font(.subheadline)
