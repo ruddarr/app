@@ -139,7 +139,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
 
         if let title = series?.title {
             if let count = taskGroupCount, count > 1 {
-                return String(format: "%@ (%@)", title, String(localized: "Season \(1)"))
+                return String(format: "%@ (%@)", title, String(localized: "Season \(seasonNumber)"))
             }
 
             guard let episodeLabel = episode?.episodeLabel else {
