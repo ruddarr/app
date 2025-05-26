@@ -93,7 +93,7 @@ struct SeriesGridCard: View {
                     if series.episodeFileCount > 0 {
                         Image(systemName: "checkmark.circle.trianglebadge.exclamationmark")
                             .offset(y: 1)
-                        Text("\(series.episodeFileCount)/\(series.episodeCount)")
+                        Text(verbatim: "\(series.episodeFileCount)/\(series.episodeCount)")
                             .font(.caption)
                     } else if series.monitored {
                         Image(systemName: "xmark").symbolVariant(.circle)
