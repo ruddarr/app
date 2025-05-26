@@ -5,6 +5,7 @@ struct CalendarDate: View {
 
     @State var isToday: Bool = false
 
+    @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
@@ -29,7 +30,7 @@ struct CalendarDate: View {
             Spacer()
         }
         .foregroundStyle(isToday ? settings.theme.tint : .primary)
-        .onAppear {
+        .task(id: scenePhase) {
             isToday = Calendar.current.isDateInToday(date)
         }
         .transaction { transaction in

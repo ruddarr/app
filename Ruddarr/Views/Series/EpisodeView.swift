@@ -67,7 +67,10 @@ struct EpisodeView: View {
         .task {
             await instance.episodes.fetchHistory(episode)
         }
-        .onChange(of: scenePhase, handleScenePhaseChange)
+        .task(id: scenePhase) {
+            guard scenePhase == .active else { return }
+            await reload()
+        }
     }
 
     var header: some View {
@@ -319,12 +322,6 @@ extension EpisodeView {
         (_, _, _) = await (fetchEpisodes, fetchFiles, fetchHistory)
 
         setEpisodeState()
-    }
-
-    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
-        if from == .background, to == .inactive {
-            Task { await reload() }
-        }
     }
 
     func dispatchSearch() async {

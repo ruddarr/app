@@ -39,7 +39,10 @@ struct SeasonView: View {
             (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
             maybeNavigateToEpisode()
         }
-        .onChange(of: scenePhase, handleScenePhaseChange)
+        .task(id: scenePhase) {
+            guard scenePhase == .active else { return }
+            await reload()
+        }
         .alert(
             isPresented: instance.episodes.errorBinding,
             error: instance.episodes.error
@@ -213,12 +216,6 @@ extension SeasonView {
     func reload() async {
         _ = await instance.series.get(series)
         await instance.episodes.fetch(series)
-    }
-
-    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
-        if from == .background, to == .inactive {
-            Task { await reload() }
-        }
     }
 
     func dispatchSearch() async {

@@ -53,10 +53,13 @@ struct SeriesView: View {
                         guard !instance.isVoid else { return }
                         await fetchSeriesWithAlertThrottled(ignoreOffline: true)
                     }
+                    .task(id: scenePhase) {
+                        guard scenePhase == .active else { return }
+                        becameActive()
+                    }
                     .refreshable {
                         await Task { await fetchSeriesWithAlert() }.value
                     }
-                    .onChange(of: scenePhase, handleScenePhaseChange)
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
@@ -286,14 +289,9 @@ struct SeriesView: View {
         updateDisplayedSeries()
     }
 
-    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
-        guard dependencies.router.seriesPath.isEmpty else {
-            return
-        }
-
-        if from == .background, to == .inactive {
-            fetchSeriesWithMetadata()
-        }
+    func becameActive() {
+        guard dependencies.router.seriesPath.isEmpty else { return }
+        fetchSeriesWithMetadata()
     }
 
     func scrollToTop() {

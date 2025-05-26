@@ -59,9 +59,12 @@ struct CalendarView: View {
                             }.padding(.bottom, 32)
                         }
                         .opacity(hideCalendarView ? 0 : 1)
-                        .onChange(of: scenePhase, handleScenePhaseChange)
                         .onAppear {
                             scrollView = proxy
+                        }
+                        .task(id: scenePhase) {
+                            guard scenePhase == .active else { return }
+                            await load()
                         }
                     }
                 }
@@ -210,12 +213,6 @@ struct CalendarView: View {
         scrollTo(calendar.today())
         try? await Task.sleep(for: .milliseconds(15))
         hideCalendarView = false
-    }
-
-    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
-        if from == .background, to == .inactive {
-            Task { await load() }
-        }
     }
 
     func scrollTo(_ timestamp: TimeInterval) {

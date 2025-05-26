@@ -52,10 +52,13 @@ struct MoviesView: View {
                         guard !instance.isVoid else { return }
                         await fetchMoviesWithAlertThrottled(ignoreOffline: true)
                     }
+                    .task(id: scenePhase) {
+                        guard scenePhase == .active else { return }
+                        becameActive()
+                    }
                     .refreshable {
                         await Task { await fetchMoviesWithAlert() }.value
                     }
-                    .onChange(of: scenePhase, handleScenePhaseChange)
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
@@ -276,14 +279,9 @@ struct MoviesView: View {
         updateDisplayedMovies()
     }
 
-    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
-        guard dependencies.router.moviesPath.isEmpty else {
-            return
-        }
-
-        if from == .background, to == .inactive {
-            fetchMoviesWithMetadata()
-        }
+    func becameActive() {
+        guard dependencies.router.moviesPath.isEmpty else { return }
+        fetchMoviesWithMetadata()
     }
 
     func scrollToTop() {
