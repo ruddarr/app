@@ -52,10 +52,11 @@ class Queue {
             }
         }
 
-        let issues = items.flatMap { $0.value }.filter { $0.hasIssue }.count
+        let issues = items.flatMap { $0.value }.filter { $0.hasIssue }
+        let uniqueIssues = Set(issues.map { $0.taskGroup }).count
 
-        if itemsWithIssues != issues {
-            itemsWithIssues = issues
+        if itemsWithIssues != uniqueIssues {
+            itemsWithIssues = uniqueIssues
         }
 
         isLoading = false
