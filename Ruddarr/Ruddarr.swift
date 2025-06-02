@@ -100,12 +100,12 @@ extension WhatsNew {
         .init(
             image: "bell.badge",
             title: "Improved Notifications",
-            subtitle: "Get notified when something is deleted, see the upgrade quality, and more."
+            subtitle: "Get notified upon deletions, see the upgrade quality, and more."
         ),
         .init(
             image: "ladybug",
             title: "Fixes & Improvements",
-            subtitle: "Some improvements and fixes, everything is a little better."
+            subtitle: "Dozens of improvements and fixes, everything is a little better."
         ),
     ]
 }
