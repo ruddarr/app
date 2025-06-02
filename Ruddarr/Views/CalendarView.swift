@@ -77,7 +77,7 @@ struct CalendarView: View {
                 todayButton
             }
             .onAppear {
-                if calendar.instances != settings.instances {
+                if Set(calendar.instances.map(\.id)) != Set(settings.instances.map(\.id)) {
                     calendar.reset()
                     calendar.instances = settings.instances
                     hideCalendarView = true
@@ -187,6 +187,10 @@ struct CalendarView: View {
     }
 
     func load(force: Bool = false) async {
+        if calendar.isLoading {
+            return
+        }
+
         let lastFetch = Occurrence.since("calendarFetch")
         let firstLoad = calendar.dates.isEmpty
 
