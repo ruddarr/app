@@ -84,7 +84,7 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static let version: String = "1.5.3"
+    static let version: String = "1.6.0"
 
     static let features: [WhatsNewFeature] = [
         .init(
