@@ -143,7 +143,7 @@ actor Notifications {
     }
 }
 
-// swiftlint:disable closure_body_length
+// swiftlint:disable closure_body_length file_length
 #Preview {
     let ruddarrTest = [
         String(format: localized("NOTIFICATION_TEST")),
@@ -180,7 +180,7 @@ actor Notifications {
         Text(verbatim: name)
             .font(.caption2)
             .foregroundStyle(.secondary)
-            .frame(maxWidth: .infinity, alignment: .center)
+            .frame(maxWidth: .infinity, alignment: .trailing)
     }
 
     @ViewBuilder
@@ -197,23 +197,23 @@ actor Notifications {
         VStack(alignment: .leading) {
             group("RuddarrTest")
             notification(ruddarrTest)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
 
             group("ApplicationUpdate")
             notification(applicationUpdate)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
 
             group("Health")
             notification(health)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
 
             group("HealthRestored")
             notification(healthRestored)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
 
             group("ManualInteractionRequired")
             notification(manualInteractionRequired)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -239,7 +239,18 @@ actor Notifications {
 
     let movieUpgrade = [
         String(format: localized("NOTIFICATION_MOVIE_UPGRADE"), "Synology"),
-        String(format: localized("NOTIFICATION_MOVIE_UPGRADE_BODY"), "Joker", "2024"),
+        String(format: localized("NOTIFICATION_MOVIE_UPGRADE_SUBTITLE"), "Joker", "2024"),
+        String(format: localized("NOTIFICATION_MOVIE_UPGRADE_BODY"), "SDTV", "WEBDL-2160p"),
+    ]
+
+    let movieDeleted = [
+        String(format: localized("NOTIFICATION_MOVIE_DELETED"), "Synology"),
+        String(format: localized("NOTIFICATION_MOVIE_DELETED_BODY"), "Joker", "2024"),
+    ]
+
+    let movieFileDeleted = [
+        String(format: localized("NOTIFICATION_MOVIE_FILE_DELETED"), "Synology"),
+        String(format: localized("NOTIFICATION_MOVIE_FILE_DELETED_BODY"), "Joker", "2024"),
     ]
 
     func localized(_ key: String) -> String {
@@ -251,7 +262,7 @@ actor Notifications {
         Text(verbatim: name)
             .font(.caption2)
             .foregroundStyle(.secondary)
-            .frame(maxWidth: .infinity, alignment: .center)
+            .frame(maxWidth: .infinity, alignment: .trailing)
     }
 
     @ViewBuilder
@@ -268,19 +279,27 @@ actor Notifications {
         VStack(alignment: .leading) {
             group("MovieAdded")
             notification(movieAdded)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
 
             group("Grab")
             notification(movieGrab)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
 
             group("Download")
             notification(movieDownload)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
 
             group("Upgrade")
             notification(movieUpgrade)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
+
+            group("Deleted")
+            notification(movieDeleted)
+            Divider().padding(.top, 6)
+
+            group("FileDeleted")
+            notification(movieFileDeleted)
+
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -293,9 +312,14 @@ actor Notifications {
         String(format: localized("NOTIFICATION_SERIES_ADDED_BODY"), "Patriot", "2015"),
     ]
 
+    let seriesDelete = [
+        String(format: localized("NOTIFICATION_SERIES_DELETED"), "Synology"),
+        String(format: localized("NOTIFICATION_SERIES_DELETED_BODY"), "Patriot", "2015"),
+    ]
+
     let episodeGrab = [
         String(format: localized("NOTIFICATION_EPISODE_GRAB"), "Synology", "1"),
-        String(format: localized("NOTIFICATION_EPISODES_GRAB_SUBTITLE"), "Patriot", "2"),
+        String(format: localized("NOTIFICATION_EPISODE_GRAB_SUBTITLE"), "Patriot", "2", "8"),
         String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "WEBDL-1080p", "BHD"),
     ]
 
@@ -310,19 +334,20 @@ actor Notifications {
         String(format: localized("NOTIFICATION_EPISODE_DOWNLOAD_BODY"), "Patriot", "2", "8"),
     ]
 
-    let episodeUpgrade = [
-        String(format: localized("NOTIFICATION_EPISODE_UPGRADE"), "Synology"),
-        String(format: localized("NOTIFICATION_EPISODE_DOWNLOAD_BODY"), "Patriot", "2", "8"),
-    ]
-
     let episodesDownload = [
         String(format: localized("NOTIFICATION_EPISODES_DOWNLOAD"), "Synology", "8"),
         String(format: localized("NOTIFICATION_EPISODES_DOWNLOAD_BODY"), "Patriot", "2"),
     ]
 
-    let episodesUpgrade = [
-        String(format: localized("NOTIFICATION_EPISODES_UPGRADE"), "Synology", "8"),
-        String(format: localized("NOTIFICATION_EPISODES_DOWNLOAD_BODY"), "Patriot", "2"),
+    let episodeUpgrade = [
+        String(format: localized("NOTIFICATION_EPISODE_UPGRADE"), "Synology"),
+        String(format: localized("NOTIFICATION_EPISODE_UPGRADE_SUBTITLE"), "Patriot", "2", "8"),
+        String(format: localized("NOTIFICATION_EPISODE_UPGRADE_BODY"), "SDTV", "WEBDL-2160p"),
+    ]
+
+    let episodeFileDelete = [
+        String(format: localized("NOTIFICATION_EPISODE_FILE_DELETED"), "Synology"),
+        String(format: localized("NOTIFICATION_EPISODE_FILE_DELETED_BODY"), "Patriot", "2", "8"),
     ]
 
     func localized(_ key: String) -> String {
@@ -334,7 +359,7 @@ actor Notifications {
         Text(verbatim: name)
             .font(.caption2)
             .foregroundStyle(.secondary)
-            .frame(maxWidth: .infinity, alignment: .center)
+            .frame(maxWidth: .infinity, alignment: .trailing)
     }
 
     @ViewBuilder
@@ -351,34 +376,38 @@ actor Notifications {
         VStack(alignment: .leading) {
             group("SeriesAdd")
             notification(seriesAdd)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
+
+            group("SeriesDeleted")
+            notification(seriesDelete)
+            Divider().padding(.top, 6)
 
             group("Grab (Episode)")
             notification(episodeGrab)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
 
             group("Grab (Episodes)")
             notification(episodesGrab)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
 
             group("Download (Episode)")
             notification(episodeDownload)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
 
             group("Download (Episodes)")
             notification(episodesDownload)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
 
             group("Upgrade (Episode)")
             notification(episodeUpgrade)
-            Divider().padding(.vertical)
+            Divider().padding(.top, 6)
 
-            group("Upgrade (Episodes)")
-            notification(episodesUpgrade)
-            Divider().padding(.vertical)
+            group("Deleted (Episode File)")
+            notification(episodeFileDelete)
+            Divider().padding(.top, 6)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     .padding()
 }
-// swiftlint:enable closure_body_length
+// swiftlint:enable closure_body_length file_length

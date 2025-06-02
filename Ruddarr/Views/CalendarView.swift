@@ -8,6 +8,7 @@ struct CalendarView: View {
     @State private var hideCalendarView: Bool = true
 
     @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
+    @AppStorage("calendarSpecials", store: dependencies.store) private var hideSpecials: Bool = false
 
     @State private var onlyPremieres: Bool = false
     @State private var displayedInstance: String = ".all"
@@ -58,9 +59,12 @@ struct CalendarView: View {
                             }.padding(.bottom, 32)
                         }
                         .opacity(hideCalendarView ? 0 : 1)
-                        .onChange(of: scenePhase, handleScenePhaseChange)
                         .onAppear {
                             scrollView = proxy
+                        }
+                        .task(id: scenePhase) {
+                            guard scenePhase == .active else { return }
+                            await load()
                         }
                     }
                 }
@@ -73,7 +77,7 @@ struct CalendarView: View {
                 todayButton
             }
             .onAppear {
-                if calendar.instances != settings.instances {
+                if Set(calendar.instances.map(\.id)) != Set(settings.instances.map(\.id)) {
                     calendar.reset()
                     calendar.instances = settings.instances
                     hideCalendarView = true
@@ -142,6 +146,19 @@ struct CalendarView: View {
     var filteredEpisodes: [TimeInterval: [Episode]] {
         var episodes = calendar.episodes
 
+        episodes = episodes.mapValues { items in
+            let grouped = Dictionary(grouping: items, by: \.calendarGroup)
+
+            return grouped.values.compactMap { group in
+                guard var dummy = group.first else { return group[0] }
+                dummy.calendarGroupCount = group.count
+                return dummy
+            }.sorted {
+                ($0.airDateUtc ?? Date.distantPast, $0.episodeNumber) <
+                ($1.airDateUtc ?? Date.distantPast, $1.episodeNumber)
+            }
+        }
+
         if displayedInstance != ".all" {
             episodes = episodes.mapValues { items in
                 items.filter { $0.instanceId?.isEqual(to: displayedInstance) == true }
@@ -160,10 +177,20 @@ struct CalendarView: View {
             }
         }
 
+        if hideSpecials {
+            episodes = episodes.mapValues { items in
+                items.filter { !$0.isSpecial }
+            }
+        }
+
         return episodes
     }
 
     func load(force: Bool = false) async {
+        if calendar.isLoading {
+            return
+        }
+
         let lastFetch = Occurrence.since("calendarFetch")
         let firstLoad = calendar.dates.isEmpty
 
@@ -186,16 +213,10 @@ struct CalendarView: View {
 
         guard firstLoad else { return }
 
-        try? await Task.sleep(for: .milliseconds(10))
+        try? await Task.sleep(for: .milliseconds(15))
         scrollTo(calendar.today())
-        try? await Task.sleep(for: .milliseconds(10))
+        try? await Task.sleep(for: .milliseconds(15))
         hideCalendarView = false
-    }
-
-    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
-        if from == .background, to == .inactive {
-            Task { await load() }
-        }
     }
 
     func scrollTo(_ timestamp: TimeInterval) {
@@ -259,17 +280,24 @@ struct CalendarView: View {
                 }
                 .pickerStyle(.inline)
 
+                Toggle(isOn: $onlyMonitored) {
+                    Label("Monitored", systemImage: "bookmark")
+                        .symbolVariant(onlyMonitored ? .fill : .none)
+                }
+
                 Toggle(isOn: $onlyPremieres) {
                     Label("Premieres", systemImage: "play")
                         .symbolVariant(onlyPremieres ? .fill : .none)
                 }
 
-                Toggle(isOn: $onlyMonitored) {
-                    Label("Monitored", systemImage: "bookmark")
-                        .symbolVariant(onlyMonitored ? .fill : .none)
+                Section {
+                    Toggle(isOn: $hideSpecials) {
+                        Label("Hide Specials", systemImage: "star")
+                            .symbolVariant(hideSpecials ? .slash.fill : .slash)
+                    }
                 }
             } label: {
-                if displayedMediaType != .all || onlyPremieres || onlyMonitored {
+                if displayedMediaType != .all || onlyPremieres || onlyMonitored || hideSpecials {
                     Image("filters.badge").offset(y: 3.2)
                 } else {
                     Image(systemName: "line.3.horizontal.decrease")

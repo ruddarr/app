@@ -168,6 +168,7 @@ struct SeriesDetails: View {
                                 Spacer()
 
                                 Button {
+                                    guard series.monitored else { return }
                                     Task { await monitorSeason(season.id) }
                                 } label: {
                                     if monitoringSeason == season.id {
@@ -181,7 +182,6 @@ struct SeriesDetails: View {
                                 .buttonStyle(.plain)
                                 .overlay(Rectangle().padding(18))
                                 .allowsHitTesting(!instance.series.isWorking)
-                                .disabled(!series.monitored)
                             }
                         }
                     }.buttonStyle(.plain)

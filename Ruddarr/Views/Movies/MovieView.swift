@@ -23,11 +23,14 @@ struct MovieView: View {
         .refreshable {
             await Task { await reload() }.value
         }
-        .onChange(of: scenePhase, handleScenePhaseChange)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
              toolbarMonitorButton
              toolbarMenu
+        }
+        .task(id: scenePhase) {
+            guard scenePhase == .active else { return }
+            await reload()
         }
         .alert(
             isPresented: instance.movies.errorBinding,
@@ -159,12 +162,6 @@ extension MovieView {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             Task { await instance.movies.get(movie) }
-        }
-    }
-
-    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
-        if from == .background, to == .inactive {
-            Task { await reload() }
         }
     }
 

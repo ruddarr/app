@@ -84,33 +84,23 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static let version: String = "1.5.2"
+    static let version: String = "1.6.0"
 
     static let features: [WhatsNewFeature] = [
         .init(
-            image: "globe",
-            title: "New Languages",
-            subtitle: "Ruddarr now comes in German, French and Spanish."
+            image: "square.grid.2x2",
+            title: "Media Cards",
+            subtitle: "See more information at a glace using the new card-style media grid."
         ),
         .init(
-            image: "line.3.horizontal.decrease",
-            title: "Sticky Release Filters",
-            subtitle: "Releases can now be searched and filters can be persisted between searches."
+            image: "square.and.arrow.down",
+            title: "Manual Import",
+            subtitle: "Import files from pending queue tasks directly from the Activity tab."
         ),
         .init(
-            image: "calendar",
-            title: "Calendar Scroll",
-            subtitle: "Several improvements of how the calendar scrolls and loads events."
-        ),
-        .init(
-            image: "gear",
-            title: "Settings Overhaul",
-            subtitle: "Various visual and usability improvements of the settings screen."
-        ),
-        .init(
-            image: "textformat.size.larger",
-            title: "Text Scalability",
-            subtitle: "The app now looks and works better when using larger text sizes."
+            image: "bell.badge",
+            title: "Improved Notifications",
+            subtitle: "Get notified upon deletions, see the upgrade quality, and more."
         ),
         .init(
             image: "ladybug",

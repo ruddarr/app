@@ -33,6 +33,14 @@ struct Instance: Identifiable, Equatable, Codable {
         return map
     }
 
+    func baseURL() throws -> URL {
+        guard let url = URL(string: url) else {
+            throw API.Error.invalidUrl(url)
+        }
+
+        return url
+    }
+
     func isPrivateIp() -> Bool {
         guard let instanceUrl = URL(string: url) else {
             return false

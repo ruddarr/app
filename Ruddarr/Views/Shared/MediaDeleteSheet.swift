@@ -6,6 +6,7 @@ struct MediaDeleteSheet: View {
 
     @State private var delete: Bool = false
     @State private var exclude: Bool = false
+    @State private var isWorking: Bool = false
 
     @EnvironmentObject var settings: AppSettings
     @Environment(\.dismiss) private var dismiss
@@ -35,10 +36,17 @@ struct MediaDeleteSheet: View {
                 }
 
                 ToolbarItem(placement: .primaryAction) {
-                    Button(label, role: .destructive) {
-                        confirm(exclude, delete)
+                    if isWorking {
+                        ProgressView().tint(.secondary)
+                    } else {
+                        Button(role: .destructive) {
+                            isWorking = true
+                            confirm(exclude, delete)
+                        } label: {
+                            Text(label)
+                        }
+                        .foregroundStyle(.red)
                     }
-                    .foregroundStyle(.red)
                 }
             }
             #if os(macOS)

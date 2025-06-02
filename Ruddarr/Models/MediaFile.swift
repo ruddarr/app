@@ -18,7 +18,7 @@ struct MediaFile: Identifiable, Equatable, Codable {
     let episodeReleaseType: EpisodeReleaseType?
 
     var filenameLabel: String {
-        relativePath?.components(separatedBy: "/").last ?? "--"
+        relativePath?.components(separatedBy: "/").last?.breakable() ?? "--"
     }
 
     var sizeLabel: String {

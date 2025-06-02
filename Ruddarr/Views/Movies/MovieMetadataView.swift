@@ -171,7 +171,7 @@ struct MovieFilesExtraFile: View {
             .font(.subheadline)
             .foregroundStyle(.secondary)
         } label: {
-            Text(file.relativePath ?? "--")
+            Text(file.relativePath?.breakable() ?? "--")
         }
     }
 }

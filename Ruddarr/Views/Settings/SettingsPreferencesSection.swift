@@ -11,6 +11,7 @@ struct SettingsPreferencesSection: View {
     var body: some View {
         Section {
             tabPicker
+            gridPicker
             releaseFiltersPicker
 
             #if os(iOS)
@@ -58,6 +59,17 @@ struct SettingsPreferencesSection: View {
         .onChange(of: settings.theme) {
             dependencies.router.reset()
         }
+    }
+
+    var gridPicker: some View {
+        Picker(selection: $settings.grid) {
+            ForEach(GridStyle.allCases) { style in
+                Text(style.label)
+            }
+        } label: {
+            Label("Grid", systemImage: "square.grid.2x2")
+                .labelStyle(SettingsIconLabelStyle(color: .gray))
+        }.tint(.secondary)
     }
 
     var releaseFiltersPicker: some View {

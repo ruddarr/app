@@ -9,16 +9,13 @@ struct SeriesSearchView: View {
 
     let searchTextPublisher = PassthroughSubject<String, Never>()
 
-    let gridItemLayout = MovieGridItem.gridItemLayout()
-    let gridItemSpacing = MovieGridItem.gridItemSpacing()
-
     var body: some View {
+        @Bindable var seriesLookup = instance.lookup
+
         ScrollView {
-            LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-                ForEach(instance.lookup.sortedItems) { series in
-                    SeriesSearchItem(series: series)
-                        .environment(instance)
-                }
+            MediaGrid(items: instance.lookup.sortedItems) { series in
+                SeriesSearchItem(series: series)
+                    .environment(instance)
             }
             .padding(.top, 12)
             .viewPadding(.horizontal)
@@ -34,10 +31,7 @@ struct SeriesSearchView: View {
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
-        .searchScopes(.init(
-            get: { instance.lookup.sort },
-            set: { sort in instance.lookup.sort = sort }
-        )) {
+        .searchScopes($seriesLookup.sort) {
             ForEach(SeriesLookup.SortOption.allCases) { option in
                 Text(option.label)
             }
@@ -69,7 +63,7 @@ struct SeriesSearchView: View {
     }
 
     func performSearch() {
-        Task {
+        Task { @MainActor in
             await instance.lookup.search(query: searchQuery)
         }
     }
@@ -98,7 +92,7 @@ struct SeriesSearchItem: View {
 
     var body: some View {
         NavigationLink(value: destination) {
-            SeriesGridItem(series: series, model: model)
+            SeriesGridPoster(series: series, model: model)
         }
         .buttonStyle(.plain)
     }

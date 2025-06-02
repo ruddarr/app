@@ -205,6 +205,28 @@
         }
       }
     },
+    "%lld Seasons" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Season"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "%lld Seasons"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld Task" : {
       "localizations" : {
         "en" : {
@@ -227,7 +249,7 @@
         }
       }
     },
-    "+%d more..." : {
+    "+%lld more..." : {
       "localizations" : {
         "en" : {
           "variations" : {
@@ -235,13 +257,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "+%d more..."
+                  "value" : "+%lld more..."
                 }
               },
               "other" : {
                 "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "+%d more..."
+                  "state" : "new",
+                  "value" : "+%lld more..."
                 }
               }
             }
@@ -868,6 +890,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "Cards" : {
+      "comment" : "Grid item display style",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cards"
           }
         }
       }
@@ -1835,6 +1868,16 @@
         }
       }
     },
+    "Grid" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grid"
+          }
+        }
+      }
+    },
     "Headers" : {
       "comment" : "HTTP Headers",
       "localizations" : {
@@ -1862,6 +1905,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Health Restored"
+          }
+        }
+      }
+    },
+    "Hide Specials" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Specials"
           }
         }
       }
@@ -1929,6 +1982,17 @@
         }
       }
     },
+    "Import" : {
+      "comment" : "(Short) Importing a queue task",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import"
+          }
+        }
+      }
+    },
     "Import Blocked" : {
       "comment" : "(Short) State of task in queue",
       "localizations" : {
@@ -1957,6 +2021,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Import Pending"
+          }
+        }
+      }
+    },
+    "Import Queued" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Queued"
           }
         }
       }
@@ -2052,6 +2126,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instance"
+          }
+        }
+      }
+    },
+    "Instance URL is not valid: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instance URL is not valid: %@"
           }
         }
       }
@@ -2336,6 +2420,16 @@
         }
       }
     },
+    "Manual Import" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manual Import"
+          }
+        }
+      }
+    },
     "Manual Interaction Required" : {
       "localizations" : {
         "en" : {
@@ -2577,6 +2671,16 @@
         }
       }
     },
+    "Movie File Deleted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie File Deleted"
+          }
+        }
+      }
+    },
     "Movie file was renamed." : {
       "localizations" : {
         "en" : {
@@ -2802,6 +2906,16 @@
         }
       }
     },
+    "No importable files found." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No importable files found."
+          }
+        }
+      }
+    },
     "No Instance" : {
       "localizations" : {
         "en" : {
@@ -2992,6 +3106,30 @@
         }
       }
     },
+    "NOTIFICATION_EPISODE_FILE_DELETED" : {
+      "comment" : "Notification title (instance name)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Episode File Deleted on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODE_FILE_DELETED_BODY" : {
+      "comment" : "Notification body (series, season, episode)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (S%@ E%@)"
+          }
+        }
+      }
+    },
     "NOTIFICATION_EPISODE_GRAB" : {
       "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
@@ -2999,7 +3137,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%2$@ Episode Downloading on %1$@"
+            "value" : "Episode Downloading on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODE_GRAB_SUBTITLE" : {
+      "comment" : "Notification subtitle (series, season, episode)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (S%@ E%@)"
           }
         }
       }
@@ -3016,8 +3166,32 @@
         }
       }
     },
+    "NOTIFICATION_EPISODE_UPGRADE_BODY" : {
+      "comment" : "Notification body (old quality, new quality)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgraded from %1$@ to %2$@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_EPISODE_UPGRADE_SUBTITLE" : {
+      "comment" : "Notification subtitle (series, season, episode)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (S%@ E%@)"
+          }
+        }
+      }
+    },
     "NOTIFICATION_EPISODES_DOWNLOAD" : {
-      "comment" : "Notification title",
+      "comment" : "Notification title (instance name, episode count)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3041,7 +3215,7 @@
       }
     },
     "NOTIFICATION_EPISODES_GRAB" : {
-      "comment" : "Notification title (episodes, instance name)",
+      "comment" : "Notification title (instance name, episode count)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3072,18 +3246,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ (Season %@)"
-          }
-        }
-      }
-    },
-    "NOTIFICATION_EPISODES_UPGRADE" : {
-      "comment" : "Notification title (episodes, instance name)",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%2$@ Episodes Upgraded on %1$@"
           }
         }
       }
@@ -3148,6 +3310,30 @@
         }
       }
     },
+    "NOTIFICATION_MOVIE_DELETED" : {
+      "comment" : "Notification title (instance name)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie Deleted on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_MOVIE_DELETED_BODY" : {
+      "comment" : "Notification body (title, year)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
     "NOTIFICATION_MOVIE_DOWNLOAD" : {
       "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
@@ -3162,6 +3348,30 @@
     },
     "NOTIFICATION_MOVIE_DOWNLOAD_BODY" : {
       "comment" : "Notification body (title, year)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_MOVIE_FILE_DELETED" : {
+      "comment" : "Notification title (instance name)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie File Deleted on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_MOVIE_FILE_DELETED_BODY" : {
+      "comment" : "Notification body (movie, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3221,7 +3431,19 @@
       }
     },
     "NOTIFICATION_MOVIE_UPGRADE_BODY" : {
-      "comment" : "Notification body (movie, year)",
+      "comment" : "Notification body (old quality, new quality)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgraded from %1$@ to %2$@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_MOVIE_UPGRADE_SUBTITLE" : {
+      "comment" : "Notification subtitle (movie, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3256,20 +3478,20 @@
         }
       }
     },
-    "NOTIFICATION_SERIES_UPGRADE" : {
+    "NOTIFICATION_SERIES_DELETED" : {
       "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Series Upgraded on %@"
+            "value" : "Series Deleted on %@"
           }
         }
       }
     },
-    "NOTIFICATION_SERIES_UPGRADE_BODY" : {
-      "comment" : "Notification body (movie, year)",
+    "NOTIFICATION_SERIES_DELETED_BODY" : {
+      "comment" : "Notification body (series, year)",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3557,6 +3779,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Podcasts"
+          }
+        }
+      }
+    },
+    "Posters" : {
+      "comment" : "Grid item display style",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posters"
           }
         }
       }
@@ -4102,12 +4335,24 @@
         }
       }
     },
-    "Season %@" : {
+    "Season %lld" : {
       "localizations" : {
         "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Season %@"
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Season %lld"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Season %lld"
+                }
+              }
+            }
           }
         }
       }

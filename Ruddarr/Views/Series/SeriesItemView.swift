@@ -23,7 +23,6 @@ struct SeriesDetailView: View {
         .refreshable {
             await Task { await reload() }.value
         }
-        .onChange(of: scenePhase, handleScenePhaseChange)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
@@ -35,6 +34,10 @@ struct SeriesDetailView: View {
         .task {
             await instance.episodes.maybeFetch(series)
             await instance.files.maybeFetch(series)
+        }
+        .task(id: scenePhase) {
+            guard scenePhase == .active else { return }
+            await reload()
         }
         .alert(
             isPresented: instance.series.errorBinding,
@@ -166,12 +169,6 @@ extension SeriesDetailView {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             Task { await instance.series.get(series) }
-        }
-    }
-
-    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
-        if from == .background, to == .inactive {
-            Task { await reload() }
         }
     }
 

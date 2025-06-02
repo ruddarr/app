@@ -1,76 +1,5 @@
 import Foundation
 
-@MainActor
-@Observable
-class Queue {
-    static let shared = Queue()
-
-    private var timer: Timer?
-
-    var error: API.Error?
-
-    var isLoading: Bool = false
-    var performRefresh: Bool = false
-
-    var instances: [Instance] = []
-    var items: [Instance.ID: [QueueItem]] = [:]
-
-    private init() {
-        let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
-
-        self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
-            Task {
-                await self.fetchTasks()
-            }
-
-            Task {
-                if await self.performRefresh {
-                    await self.refreshDownloadClients()
-                }
-            }
-        }
-    }
-
-    var badgeCount: Int {
-        items.flatMap { $0.value }.filter { $0.hasIssue }.count
-    }
-
-    func fetchTasks() async {
-        guard !isLoading else { return }
-
-        error = nil
-        isLoading = true
-
-        for instance in instances {
-            do {
-                items[instance.id] = try await dependencies.api.fetchQueueTasks(instance).records
-            } catch is CancellationError {
-                // do nothing
-            } catch let apiError as API.Error {
-                error = apiError
-
-                leaveBreadcrumb(.error, category: "queue", message: "Fetch failed", data: ["error": apiError])
-            } catch {
-                self.error = API.Error(from: error)
-            }
-        }
-
-        isLoading = false
-    }
-
-    func refreshDownloadClients() async {
-        for instance in instances {
-            do {
-                _ = try await dependencies.api.command(.refreshDownloads, instance)
-            } catch is CancellationError {
-                // do nothing
-            } catch {
-                leaveBreadcrumb(.error, category: "queue", message: "Refresh failed", data: ["error": error])
-            }
-        }
-    }
-}
-
 struct QueueItems: Codable {
     let page: Int
     let pageSize: Int
@@ -128,6 +57,8 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let outputPath: String?
     let downloadClientHasPostImportCategory: Bool?
 
+    var taskGroupCount: Int?
+
     enum CodingKeys: String, CodingKey {
         case id
         case downloadId
@@ -177,6 +108,12 @@ struct QueueItem: Codable, Identifiable, Equatable {
         status == "warning"
     }
 
+    var needsManualImport: Bool {
+        downloadId != nil &&
+        trackedDownloadStatus == .warning &&
+        [.importPending, .importBlocked].contains(trackedDownloadState)
+    }
+
     var isSABnzbd: Bool {
         downloadId?.contains("SABnzbd_") == true ||
         downloadClient?.localizedCaseInsensitiveContains("SABnzbd") == true
@@ -191,14 +128,25 @@ struct QueueItem: Codable, Identifiable, Equatable {
         statusMessages ?? []
     }
 
+    var taskGroup: String {
+        (downloadId ?? "") + (title ?? "") + String(seasonNumber ?? id) + String(size)
+    }
+
     var titleLabel: String {
         if let title = movie?.title {
             return title
         }
 
         if let title = series?.title {
-            guard let label = episode?.episodeLabel else { return title }
-            return "\(title) \(label)"
+            if let count = taskGroupCount, count > 1, let season = seasonNumber {
+                return String(format: "%@ (%@)", title, String(localized: "Season \(season)"))
+            }
+
+            guard let episodeLabel = episode?.episodeLabel else {
+                return title
+            }
+
+            return "\(title) \(episodeLabel)"
         }
 
         return title ?? String(localized: "Unknown")

@@ -57,10 +57,9 @@ struct InstanceView: View {
         .onChange(of: instanceNotifications) {
             Task { await notificationsToggled() }
         }
-        .onChange(of: scenePhase) { _, phase in
-            if phase == .active {
-                Task { await setup() }
-            }
+        .task(id: scenePhase) {
+            guard scenePhase == .active else { return }
+            await setup()
         }
         .subscriptionStatusTask(for: Subscription.group, action: handleSubscriptionStatusChange)
         .sheet(isPresented: $showSubscription) { RuddarrPlusSheet() }

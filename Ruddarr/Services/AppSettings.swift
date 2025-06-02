@@ -11,6 +11,7 @@ class AppSettings: ObservableObject {
     @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
     @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
+    @AppStorage("grid", store: dependencies.store) var grid: GridStyle = .posters
 
     @AppStorage("tab", store: dependencies.store) var tab: TabItem = .movies
     @AppStorage("releaseFilters", store: dependencies.store) var releaseFilters: ReleaseFilters = .reset

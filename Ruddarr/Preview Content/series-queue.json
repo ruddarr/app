@@ -1221,6 +1221,1746 @@
             "title": "Couples.Therapy.2019.S04.1080p.WEB.h264-EDITH",
             "trackedDownloadState": "downloading",
             "trackedDownloadStatus": "ok"
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3387,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 434077569
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3388,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 2073639556
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3389,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 646913496
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3390,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 485325138
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3391,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 1081814913
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3392,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 1773558956
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3393,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 1099126243
+        },
+        {
+            "seriesId": 36,
+            "episodeId": 3394,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 8,
+                    "name": "WEBDL-480p",
+                    "source": "web",
+                    "resolution": 480
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 3373510164,
+            "title": "Jury.Duty.S01.WEB-DL.DDP2.0.h264-BTN",
+            "estimatedCompletionTime": "2025-05-11T16:16:07Z",
+            "added": "2025-05-11T16:15:46Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "downloadId": "SABnzbd_nzo_2ct8kna_",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": true,
+            "sizeleft": 2287772631,
+            "timeleft": "00:00:15",
+            "id": 959380497
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34678,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1490814168
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34679,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 8940784
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34680,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1990568083
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34681,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 99017986
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34682,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1383848620
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34683,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1602395020
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34684,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1529334784
+        },
+        {
+            "seriesId": 447,
+            "episodeId": 34685,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "size": 22287496486,
+            "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "estimatedCompletionTime": "2025-05-08T17:29:05Z",
+            "added": "2025-05-08T03:45:07Z",
+            "status": "completed",
+            "trackedDownloadStatus": "warning",
+            "trackedDownloadState": "importPending",
+            "statusMessages": [
+                {
+                    "title": "Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+                    "messages": [
+                        "No files found are eligible for import in /volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES"
+                    ]
+                }
+            ],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_727xble6",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "OMGWTFNZBs (Prowlarr)",
+            "outputPath": "/volume2/Media/#nzb/complete/Devs.S01.1080p.AMZN.WEB-DL.DDP5.1.H.264-TEPES",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 420242891
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34811,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 341558053
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34812,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 532349223
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34813,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1143647283
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34814,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 805732180
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34815,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 320894872
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34816,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1491605072
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34817,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1852929009
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34818,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1909287757
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34819,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 341133499
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34820,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1111484711
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34821,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 454580229
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34822,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 238018328
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34823,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 837510229
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34824,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 608139562
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34825,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 595558267
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34826,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 905692438
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34827,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1437564350
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34828,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1662638418
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34829,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 713478693
+        },
+        {
+            "seriesId": 454,
+            "episodeId": 34830,
+            "seasonNumber": 1,
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [
+                {
+                    "id": 5,
+                    "name": "x265"
+                }
+            ],
+            "customFormatScore": 100,
+            "size": 10271619446,
+            "title": "Puffin.Rock.2015.S01-02.1080p.NF.WEB-DL.x265.HEVC.10bit.AAC2.0-BYTESHARE",
+            "estimatedCompletionTime": "2025-05-16T00:13:53Z",
+            "added": "2025-05-16T00:12:45Z",
+            "status": "downloading",
+            "trackedDownloadStatus": "ok",
+            "trackedDownloadState": "downloading",
+            "statusMessages": [],
+            "errorMessage": "",
+            "downloadId": "SABnzbd_nzo_pyippncl",
+            "protocol": "usenet",
+            "downloadClient": "SABnzbd",
+            "downloadClientHasPostImportCategory": false,
+            "indexer": "NinjaCentral (Prowlarr)",
+            "episodeHasFile": false,
+            "sizeleft": 0,
+            "timeleft": "00:00:00",
+            "id": 1284421469
         }
     ]
 }

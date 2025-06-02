@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MovieGridItem: View {
+struct MovieGridPoster: View {
     var movie: Movie
 
     var body: some View {
@@ -79,47 +79,15 @@ struct MovieGridItem: View {
             return .medium
         #endif
     }
-
-    static func gridItemSpacing() -> CGFloat {
-        #if os(macOS)
-            return 20
-        #else
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return 12
-            }
-
-            return 20
-        #endif
-    }
-
-    static func gridItemLayout() -> [GridItem] {
-        #if os(macOS)
-            return [GridItem(.adaptive(minimum: 160, maximum: 200), spacing: 20)]
-        #else
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return [GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)]
-            }
-
-            return [GridItem(.adaptive(minimum: 145, maximum: 180), spacing: 20)]
-        #endif
-    }
 }
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
-        .sorted { $0.year > $1.year }
 
-    let gridItemLayout = [
-        GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)
-    ]
-
-    return ScrollView {
-        LazyVGrid(columns: gridItemLayout, spacing: 12) {
-            ForEach(movies) { movie in
-                MovieGridItem(movie: movie)
-            }
+    ScrollView {
+        MediaGrid(items: movies) { movie in
+            MovieGridPoster(movie: movie)
         }
-        .padding(.top, 0)
         .viewPadding(.horizontal)
     }
     .withAppState()

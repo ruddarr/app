@@ -75,7 +75,7 @@ struct SeriesReleaseSheet: View {
                 .foregroundStyle(settings.theme.tint)
             }
 
-            Text(release.title)
+            Text(release.title.breakable())
                 .font(.title2.bold())
                 .kerning(-0.5)
 

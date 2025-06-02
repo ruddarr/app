@@ -39,12 +39,7 @@ struct SeriesView: View {
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
-                            seriesItemGrid
-                                .viewBottomPadding()
-                                .viewPadding(.horizontal)
-                                #if os(iOS)
-                                    .padding(.top, searchPresented ? 7 : 0)
-                                #endif
+                            mediaGrid
 
                             if presentSearchSuggestion {
                                 SeriesSearchSuggestion(query: $searchQuery, sort: $sort)
@@ -58,10 +53,13 @@ struct SeriesView: View {
                         guard !instance.isVoid else { return }
                         await fetchSeriesWithAlertThrottled(ignoreOffline: true)
                     }
+                    .task(id: scenePhase) {
+                        guard scenePhase == .active else { return }
+                        becameActive()
+                    }
                     .refreshable {
                         await Task { await fetchSeriesWithAlert() }.value
                     }
-                    .onChange(of: scenePhase, handleScenePhaseChange)
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
@@ -100,6 +98,7 @@ struct SeriesView: View {
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
+            .onChange(of: instance.series.items, updateDisplayedSeries)
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
@@ -159,6 +158,29 @@ struct SeriesView: View {
         }
     }
 
+    var mediaGrid: some View {
+        MediaGrid(
+            items: instance.series.cachedItems,
+            style: settings.grid
+        ) { series in
+            NavigationLink(value: SeriesPath.series(series.id)) {
+                switch settings.grid {
+                case .posters: SeriesGridPoster(series: series)
+                case .cards: SeriesGridCard(series: series)
+                }
+            }
+            .buttonStyle(.plain)
+            .id(series.id)
+        }
+        .viewBottomPadding()
+        .viewPadding(.horizontal)
+        #if os(iOS)
+            .padding(.top, searchPresented ? 7 : 0)
+        #elseif os(macOS)
+            .padding(.vertical)
+        #endif
+    }
+
     var notConnectedToInternet: Bool {
         if !instance.series.cachedItems.isEmpty { return false }
         if case .notConnectedToInternet = error { return true }
@@ -196,25 +218,6 @@ struct SeriesView: View {
                 Task { await fetchSeriesWithAlert(ignoreOffline: true) }
             }
         }
-    }
-
-    @ViewBuilder
-    var seriesItemGrid: some View {
-        let gridItemLayout = MovieGridItem.gridItemLayout()
-        let gridItemSpacing = MovieGridItem.gridItemSpacing()
-
-        LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-            ForEach(instance.series.cachedItems) { series in
-                NavigationLink(value: SeriesPath.series(series.id)) {
-                    SeriesGridItem(series: series)
-                }
-                .buttonStyle(.plain)
-                .id(series.id)
-            }
-        }
-        #if os(macOS)
-            .padding(.vertical)
-        #endif
     }
 
     func updateSortDirection() {
@@ -286,14 +289,9 @@ struct SeriesView: View {
         updateDisplayedSeries()
     }
 
-    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
-        guard dependencies.router.seriesPath.isEmpty else {
-            return
-        }
-
-        if from == .background, to == .inactive {
-            fetchSeriesWithMetadata()
-        }
+    func becameActive() {
+        guard dependencies.router.seriesPath.isEmpty else { return }
+        fetchSeriesWithMetadata()
     }
 
     func scrollToTop() {

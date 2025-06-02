@@ -38,12 +38,7 @@ struct MoviesView: View {
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
-                            movieItemGrid
-                                .viewBottomPadding()
-                                .viewPadding(.horizontal)
-                                #if os(iOS)
-                                    .padding(.top, searchPresented ? 7 : 0)
-                                #endif
+                            mediaGrid
 
                             if presentSearchSuggestion {
                                 MovieSearchSuggestion(query: $searchQuery, sort: $sort)
@@ -57,10 +52,13 @@ struct MoviesView: View {
                         guard !instance.isVoid else { return }
                         await fetchMoviesWithAlertThrottled(ignoreOffline: true)
                     }
+                    .task(id: scenePhase) {
+                        guard scenePhase == .active else { return }
+                        becameActive()
+                    }
                     .refreshable {
                         await Task { await fetchMoviesWithAlert() }.value
                     }
-                    .onChange(of: scenePhase, handleScenePhaseChange)
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
@@ -99,6 +97,7 @@ struct MoviesView: View {
             .onChange(of: sort.option, updateSortDirection)
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
+            .onChange(of: instance.movies.items, updateDisplayedMovies)
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
@@ -149,6 +148,29 @@ struct MoviesView: View {
         }
     }
 
+    var mediaGrid: some View {
+        MediaGrid(
+            items: instance.movies.cachedItems,
+            style: settings.grid
+        ) { movie in
+            NavigationLink(value: MoviesPath.movie(movie.id)) {
+                switch settings.grid {
+                case .posters: MovieGridPoster(movie: movie)
+                case .cards: MovieGridCard(movie: movie)
+                }
+            }
+            .buttonStyle(.plain)
+            .id(movie.id)
+        }
+        .viewBottomPadding()
+        .viewPadding(.horizontal)
+        #if os(iOS)
+            .padding(.top, searchPresented ? 7 : 0)
+        #elseif os(macOS)
+            .padding(.vertical)
+        #endif
+    }
+
     var notConnectedToInternet: Bool {
         if !instance.movies.cachedItems.isEmpty { return false }
         if case .notConnectedToInternet = error { return true }
@@ -186,25 +208,6 @@ struct MoviesView: View {
                 Task { await fetchMoviesWithAlert(ignoreOffline: true) }
             }
         }
-    }
-
-    @ViewBuilder
-    var movieItemGrid: some View {
-        let gridItemLayout = MovieGridItem.gridItemLayout()
-        let gridItemSpacing = MovieGridItem.gridItemSpacing()
-
-        LazyVGrid(columns: gridItemLayout, spacing: gridItemSpacing) {
-            ForEach(instance.movies.cachedItems) { movie in
-                NavigationLink(value: MoviesPath.movie(movie.id)) {
-                    MovieGridItem(movie: movie)
-                }
-                .buttonStyle(.plain)
-                .id(movie.id)
-            }
-        }
-        #if os(macOS)
-            .padding(.vertical)
-        #endif
     }
 
     func updateSortDirection() {
@@ -276,14 +279,9 @@ struct MoviesView: View {
         updateDisplayedMovies()
     }
 
-    func handleScenePhaseChange(_ from: ScenePhase, _ to: ScenePhase) {
-        guard dependencies.router.moviesPath.isEmpty else {
-            return
-        }
-
-        if from == .background, to == .inactive {
-            fetchMoviesWithMetadata()
-        }
+    func becameActive() {
+        guard dependencies.router.moviesPath.isEmpty else { return }
+        fetchMoviesWithMetadata()
     }
 
     func scrollToTop() {

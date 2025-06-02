@@ -58,8 +58,10 @@ struct SearchingIndicator: View {
 
             if let last = messages.popLast() {
                 message = last
-                guard Int.random(in: 1...100) <= 20 else { break }
-                playAudio()
+
+                if Int.random(in: 1...100) <= 20 {
+                    playAudio()
+                }
             }
         default:
             break
