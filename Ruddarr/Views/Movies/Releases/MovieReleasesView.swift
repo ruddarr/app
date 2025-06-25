@@ -39,6 +39,7 @@ struct MovieReleasesView: View {
             guard !hasFetched else { return }
             if settings.releaseFilters == .reset { sort = .init() }
             releases = []
+            sort.search = ""
             await instance.releases.search(movie)
             updateDisplayedReleases()
             fetched = movie.id

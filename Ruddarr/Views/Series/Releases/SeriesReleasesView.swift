@@ -41,6 +41,7 @@ struct SeriesReleasesView: View {
             guard !hasFetched else { return }
             if settings.releaseFilters == .reset { sort = .init() }
             releases = []
+            sort.search = ""
             sort.seasonPack = seasonId == nil ? .episode : .season
             await instance.releases.search(series, seasonId, episodeId)
             updateDisplayedReleases()
