@@ -137,7 +137,7 @@ extension SeriesReleaseSort: RawRepresentable {
         } catch {
             leaveBreadcrumb(.fatal, category: "series.releases.sort", message: "init failed", data: ["error": error])
 
-            return nil
+            self = .init()
         }
     }
 
@@ -145,7 +145,6 @@ extension SeriesReleaseSort: RawRepresentable {
         guard let data = try? JSONEncoder().encode(self),
               let result = String(data: data, encoding: .utf8)
         else {
-            print("FATAL...")
             return "{}"
         }
 

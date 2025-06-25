@@ -108,7 +108,7 @@ extension MovieReleaseSort: RawRepresentable {
         } catch {
             leaveBreadcrumb(.fatal, category: "movie.releases.sort", message: "init failed", data: ["error": error])
 
-            return nil
+            self = .init()
         }
     }
 
