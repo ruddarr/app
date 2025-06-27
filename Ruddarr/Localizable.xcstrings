@@ -2986,6 +2986,26 @@
         }
       }
     },
+    "No releases match \"%@\"." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No releases match \"%@\"."
+          }
+        }
+      }
+    },
+    "No releases match the selected filters and \"%@\"." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No releases match the selected filters and \"%@\"."
+          }
+        }
+      }
+    },
     "No releases match the selected filters." : {
       "localizations" : {
         "en" : {
