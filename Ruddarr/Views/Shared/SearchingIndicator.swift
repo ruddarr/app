@@ -20,6 +20,8 @@ struct SearchingIndicator: View {
     @State private var seconds: Int = 0
     @State private var audioTimer: Timer?
 
+    @AppStorage("elevator", store: dependencies.store) var elevator: Bool = true
+
     private let textTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
@@ -34,14 +36,21 @@ struct SearchingIndicator: View {
             }
         }
         .tint(.secondary)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .contentShape(Rectangle())
         .onReceive(textTimer, perform: tick)
         .onDisappear {
             stopAudio()
             textTimer.upstream.connect().cancel()
         }
-        .onTapGesture {
-            stopAudio()
-        }
+        .gesture(
+            TapGesture(count: 3).onEnded {
+                elevator = false
+                stopAudio()
+            }.exclusively(before: TapGesture(count: 1).onEnded {
+                stopAudio()
+            })
+        )
     }
 
     private func tick(_ date: Date) {
@@ -69,6 +78,10 @@ struct SearchingIndicator: View {
     }
 
     private func playAudio() {
+        guard elevator else {
+            return
+        }
+
         guard player == nil else {
             return
         }
@@ -120,5 +133,10 @@ struct SearchingIndicator: View {
 }
 
 #Preview {
-    SearchingIndicator()
+    List {
+        //
+    }
+    .overlay {
+        SearchingIndicator()
+    }
 }
