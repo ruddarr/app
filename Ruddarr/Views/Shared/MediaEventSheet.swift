@@ -103,15 +103,15 @@ struct MediaEventSheet: View {
             data.append(row(String(localized: "Release Group"), group))
         }
 
-        if let string = event.data("ageMinutes"),
-           let minutes = Float(string)
-        {
+        if let string = event.data("ageMinutes"), let minutes = Float(string) {
             data.append(row(String(localized: "Age"), formatAge(minutes)))
         }
 
-        if let string = event.data("publishedDate"),
-           let date = parseDate(string)
-        {
+        if let size = event.data("size"), let bytes = Int(size) {
+            data.append(row(String(localized: "Size"), formatBytes(bytes)))
+        }
+
+        if let string = event.data("publishedDate"), let date = parseDate(string) {
             data.append(row(String(localized: "Published", comment: "Release publish date"), formatDate(date)))
         }
 
