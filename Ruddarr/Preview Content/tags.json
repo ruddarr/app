@@ -1,5 +1,5 @@
 [
-    {id: 0, label: "TV"},
-    {id: 1, label: "Movies"},
-    {id: 3, label: "Kids"}
+    {"id": 1, "label": "anime" },
+    {"id": 2, "label": "trash" },
+    {"id": 42, "label": "hevc" }
 ]
