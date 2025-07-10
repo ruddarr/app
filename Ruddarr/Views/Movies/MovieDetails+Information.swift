@@ -20,7 +20,7 @@ extension MovieDetails {
             }
         }
     }
-    
+
     var informationItems: [InformationItem] {
         let tagLabels = movie.tags.compactMap { tagId in
                     instance.tags.first { $0.id == tagId }?.label
