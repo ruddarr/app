@@ -54,7 +54,7 @@ class RadarrInstance {
         instance.qualityProfiles
     }
     
-    var tags: [InstanceTags] {
+    var tags: [Tag] {
         instance.tags
     }
 

@@ -20,7 +20,7 @@ struct Instance: Identifiable, Equatable, Codable {
 
     var rootFolders: [InstanceRootFolders] = []
     var qualityProfiles: [InstanceQualityProfile] = []
-    var tags: [InstanceTags] = []
+    var tags: [Tag] = []
 
     var auth: [String: String] {
         var map: [String: String] = [:]
@@ -123,7 +123,7 @@ struct InstanceQualityProfile: Identifiable, Equatable, Codable {
     let name: String
 }
 
-struct InstanceTags: Identifiable, Equatable, Codable {
+struct Tag: Identifiable, Equatable, Codable {
     let id: Int
     var label: String
 }

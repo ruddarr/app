@@ -24,6 +24,9 @@ struct MovieForm: View {
                 rootFolderField
             }
         }
+        .onAppear {
+            selectDefaultValues()
+        }
     }
     
     var availabilities: [MovieStatus] = [.announced, .inCinemas, .released]

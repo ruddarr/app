@@ -141,7 +141,7 @@ extension API {
             return loadPreviewData(filename: "quality-profiles")
         }, getTags: { _ in
             try await Task.sleep(for: .seconds(1))
-            let tags: [InstanceTags] = loadPreviewData(filename: "tags")
+            let tags: [Tag] = loadPreviewData(filename: "tags")
             return tags
         }, fetchQueueTasks: { instance in
             try await Task.sleep(for: .seconds(1))
