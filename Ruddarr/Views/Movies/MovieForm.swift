@@ -2,9 +2,12 @@ import SwiftUI
 
 struct MovieForm: View {
     @Binding var movie: Movie
+
     @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) private var instance
+
     @Environment(\.deviceType) private var deviceType
+    @Environment(RadarrInstance.self) private var instance
+
     @State private var showingConfirmation = false
 
     @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
@@ -14,6 +17,7 @@ struct MovieForm: View {
             Section {
                 Toggle("Monitored", isOn: $movie.monitored)
                     .tint(settings.theme.safeTint)
+
                 minimumAvailabilityField
                 qualityProfileField
             }
@@ -28,8 +32,12 @@ struct MovieForm: View {
             selectDefaultValues()
         }
     }
-    
-    var availabilities: [MovieStatus] = [.announced, .inCinemas, .released]
+
+    var availabilities: [MovieStatus] = [
+        .announced,
+        .inCinemas,
+        .released,
+    ]
 
     var minimumAvailabilityField: some View {
         Picker(selection: $movie.minimumAvailability) {
@@ -95,7 +103,7 @@ struct MovieForm: View {
         }
         .pickerStyle(InlinePickerStyle())
         .tint(settings.theme.tint)
-        .accentColor(settings.theme.tint)
+        .accentColor(settings.theme.tint) // `.tint()` is broken on inline pickers
     }
 
     func selectDefaultValues() {
@@ -111,13 +119,17 @@ struct MovieForm: View {
             movie.minimumAvailability = .announced
         }
 
-        if !instance.qualityProfiles.contains(where: { $0.id == movie.qualityProfileId }) {
+        if !instance.qualityProfiles.contains(where: {
+            $0.id == movie.qualityProfileId
+        }) {
             movie.qualityProfileId = instance.qualityProfiles.first?.id ?? 0
         }
 
         movie.rootFolderPath = movie.rootFolderPath?.untrailingSlashIt
 
-        if !instance.rootFolders.contains(where: { $0.path?.untrailingSlashIt == movie.rootFolderPath }) {
+        if !instance.rootFolders.contains(where: {
+            $0.path?.untrailingSlashIt == movie.rootFolderPath
+        }) {
             movie.rootFolderPath = instance.rootFolders.first?.path ?? ""
         }
     }
