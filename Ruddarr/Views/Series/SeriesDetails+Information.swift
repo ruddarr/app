@@ -29,7 +29,7 @@ extension SeriesDetails {
             InformationItem(
                 label: String(localized: "Tags"),
                 value: series.tags.isEmpty ? "None" : tagLabels,
-                link: MoviesPath.edit(series.id)
+                link: SeriesPath.edit(series.id)
             ),
             InformationItem(
                 label: String(localized: "Root Folder"),
