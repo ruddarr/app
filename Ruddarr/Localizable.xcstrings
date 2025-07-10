@@ -4600,6 +4600,9 @@
         }
       }
     },
+    "Size" : {
+
+    },
     "Slow Instance" : {
       "localizations" : {
         "en" : {
@@ -4809,7 +4812,16 @@
         }
       }
     },
-    "TBA" : {
+    "Tags" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
+          }
+        }
+      }
+    },    "TBA" : {
       "comment" : "(Short, 3-6 characters) Conveying unannounced",
       "localizations" : {
         "en" : {
