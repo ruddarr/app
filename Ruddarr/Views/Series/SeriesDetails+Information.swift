@@ -11,9 +11,9 @@ extension SeriesDetails {
     }
 
     var informationItems: [InformationItem] {
-        let tagLabels = series.tags.compactMap { tagId in
-                    instance.tags.first { $0.id == tagId }?.label
-                }.joined(separator: ", ")
+        let tagLabels = series.tags.map { tagId in
+            instance.tags.first { $0.id == tagId }?.label ?? "tag:\(tagId)"
+        }.joined(separator: ", ")
         
         let items = [
             InformationItem(
@@ -28,10 +28,9 @@ extension SeriesDetails {
             ),
             InformationItem(
                 label: String(localized: "Tags"),
-                value: series.tags.isEmpty ? "None" : tagLabels,
+                value: series.tags.isEmpty ? String(localized: "None") : tagLabels,
                 link: SeriesPath.edit(series.id)
-            ),
-            InformationItem(
+            ),            InformationItem(
                 label: String(localized: "Root Folder"),
                 value: series.rootFolderPath ?? "Unknown",
                 link: SeriesPath.edit(series.id)
