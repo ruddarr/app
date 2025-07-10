@@ -30,7 +30,8 @@ extension SeriesDetails {
                 label: String(localized: "Tags"),
                 value: series.tags.isEmpty ? String(localized: "None") : tagLabels,
                 link: SeriesPath.edit(series.id)
-            ),            InformationItem(
+            ),
+            InformationItem(
                 label: String(localized: "Root Folder"),
                 value: series.rootFolderPath ?? "Unknown",
                 link: SeriesPath.edit(series.id)
