@@ -2,12 +2,9 @@ import SwiftUI
 
 struct MovieForm: View {
     @Binding var movie: Movie
-
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var instance
-
     @Environment(\.deviceType) private var deviceType
-
     @State private var showingConfirmation = false
 
     @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
@@ -17,25 +14,19 @@ struct MovieForm: View {
             Section {
                 Toggle("Monitored", isOn: $movie.monitored)
                     .tint(settings.theme.safeTint)
-
                 minimumAvailabilityField
                 qualityProfileField
             }
+
+            tagsField
 
             if instance.rootFolders.count > 1 {
                 rootFolderField
             }
         }
-        .onAppear {
-            selectDefaultValues()
-        }
     }
-
-    var availabilities: [MovieStatus] = [
-        .announced,
-        .inCinemas,
-        .released,
-    ]
+    
+    var availabilities: [MovieStatus] = [.announced, .inCinemas, .released]
 
     var minimumAvailabilityField: some View {
         Picker(selection: $movie.minimumAvailability) {
@@ -66,6 +57,33 @@ struct MovieForm: View {
         .tint(.secondary)
     }
 
+    var tagsField: some View {
+        Menu {
+            ForEach(instance.tags) { tag in
+                Button {
+                    if movie.tags.contains(tag.id) {
+                        movie.tags.removeAll { $0 == tag.id }
+                    } else {
+                        movie.tags.append(tag.id)
+                    }
+                } label: {
+                    HStack {
+                        Text(tag.label)
+                        if movie.tags.contains(tag.id) {
+                            Image(systemName: "checkmark")
+                        }
+                    }
+                }
+            }
+        } label: {
+            Text(movie.tags.isEmpty ? "Optional Tags".localizedCapitalized : instance.tags.filter { movie.tags.contains($0.id) }.map { $0.label }.joined(separator: ", "))
+                .padding()
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(8)
+        }
+        .tint(.secondary)
+    }
+
     var rootFolderField: some View {
         Picker("Root Folder", selection: $movie.rootFolderPath) {
             ForEach(instance.rootFolders) { folder in
@@ -74,7 +92,7 @@ struct MovieForm: View {
         }
         .pickerStyle(InlinePickerStyle())
         .tint(settings.theme.tint)
-        .accentColor(settings.theme.tint) // `.tint()` is broken on inline pickers
+        .accentColor(settings.theme.tint)
     }
 
     func selectDefaultValues() {
@@ -83,24 +101,20 @@ struct MovieForm: View {
             movie.rootFolderPath = movieDefaults.rootFolder
             movie.qualityProfileId = movieDefaults.qualityProfile
             movie.minimumAvailability = movieDefaults.minimumAvailability
+            movie.tags = movieDefaults.tags
         }
 
         if !availabilities.contains(movie.minimumAvailability) {
             movie.minimumAvailability = .announced
         }
 
-        if !instance.qualityProfiles.contains(where: {
-            $0.id == movie.qualityProfileId
-        }) {
+        if !instance.qualityProfiles.contains(where: { $0.id == movie.qualityProfileId }) {
             movie.qualityProfileId = instance.qualityProfiles.first?.id ?? 0
         }
 
-        // remove trailing slashes
         movie.rootFolderPath = movie.rootFolderPath?.untrailingSlashIt
 
-        if !instance.rootFolders.contains(where: {
-            $0.path?.untrailingSlashIt == movie.rootFolderPath
-        }) {
+        if !instance.rootFolders.contains(where: { $0.path?.untrailingSlashIt == movie.rootFolderPath }) {
             movie.rootFolderPath = instance.rootFolders.first?.path ?? ""
         }
     }

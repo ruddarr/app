@@ -27,6 +27,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
     let path: String?
     let folder: String?
     var qualityProfileId: Int?
+    var tags: [Int]
     var rootFolderPath: String?
     let certification: String?
 
@@ -106,6 +107,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
         case statistics
         case addOptions
         case languageProfileId
+        case tags
     }
 
     var exists: Bool {
@@ -364,7 +366,7 @@ extension Series {
     static var void: Self {
         .init(
             title: "", titleSlug: nil, sortTitle: "", tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, tmdbId: nil, status: .deleted, seriesType: .standard,
-            path: nil, folder: nil, certification: nil, year: 0, runtime: 0, airTime: nil, ended: false, seasonFolder: false, useSceneNumbering: false, added: Date.now,
+            path: nil, folder: nil, tags: [], certification: nil, year: 0, runtime: 0, airTime: nil, ended: false, seasonFolder: false, useSceneNumbering: false, added: Date.now,
             firstAired: nil, lastAired: nil, nextAiring: nil, previousAiring: nil, monitored: false, overview: nil, network: nil,
             originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], genres: [], images: [], ratings: nil, statistics: nil
         )

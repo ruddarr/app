@@ -31,6 +31,7 @@ struct SeriesForm: View {
 
                 qualityProfileField
                 typeField
+                tagsField
 
                 Toggle("Season Folders", isOn: $series.seasonFolder)
                     .tint(settings.theme.safeTint)
@@ -85,6 +86,33 @@ struct SeriesForm: View {
                 Text("Series Type")
                 Text("Type", comment: "Short version of Series Type")
             }
+        }
+        .tint(.secondary)
+    }
+    
+    var tagsField: some View {
+        Menu {
+            ForEach(instance.tags) { tag in
+                Button {
+                    if series.tags.contains(tag.id) {
+                        series.tags.removeAll { $0 == tag.id }
+                    } else {
+                        series.tags.append(tag.id)
+                    }
+                } label: {
+                    HStack {
+                        Text(tag.label)
+                        if series.tags.contains(tag.id) {
+                            Image(systemName: "checkmark")
+                        }
+                    }
+                }
+            }
+        } label: {
+            Text(series.tags.isEmpty ? "Optional Tags".localizedCapitalized : instance.tags.filter { series.tags.contains($0.id) }.map { $0.label }.joined(separator: ", "))
+                .padding()
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(8)
         }
         .tint(.secondary)
     }

@@ -53,6 +53,10 @@ class RadarrInstance {
     var qualityProfiles: [InstanceQualityProfile] {
         instance.qualityProfiles
     }
+    
+    var tags: [InstanceTags] {
+        instance.tags
+    }
 
     func fetchMetadata() async -> Instance? {
         if isVoid {
@@ -62,9 +66,11 @@ class RadarrInstance {
         do {
             async let rootFolders = dependencies.api.rootFolders(instance)
             async let qualityProfiles = dependencies.api.qualityProfiles(instance)
+            async let tags = dependencies.api.getTags(instance)
 
             instance.rootFolders = try await rootFolders
             instance.qualityProfiles = try await qualityProfiles
+            instance.tags = try await tags
         } catch {
             return nil
         }

@@ -20,8 +20,12 @@ extension MovieDetails {
             }
         }
     }
-
+    
     var informationItems: [InformationItem] {
+        let tagLabels = movie.tags.compactMap { tagId in
+                    instance.tags.first { $0.id == tagId }?.label
+                }.joined(separator: ", ")
+        
         var items = [
             InformationItem(
                 label: String(localized: "Quality Profile"),
@@ -31,6 +35,11 @@ extension MovieDetails {
             InformationItem(
                 label: String(localized: "Minimum Availability"),
                 value: movie.minimumAvailability.label,
+                link: MoviesPath.edit(movie.id)
+            ),
+            InformationItem(
+                label: String(localized: "Tags"),
+                value: movie.tags.isEmpty ? "None" : tagLabels,
                 link: MoviesPath.edit(movie.id)
             ),
             InformationItem(

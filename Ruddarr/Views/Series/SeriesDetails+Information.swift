@@ -11,6 +11,10 @@ extension SeriesDetails {
     }
 
     var informationItems: [InformationItem] {
+        let tagLabels = series.tags.compactMap { tagId in
+                    instance.tags.first { $0.id == tagId }?.label
+                }.joined(separator: ", ")
+        
         let items = [
             InformationItem(
                 label: String(localized: "Quality Profile"),
@@ -21,6 +25,11 @@ extension SeriesDetails {
                 label: String(localized: "Series Type"),
                 value: series.seriesType.label,
                 link: SeriesPath.edit(series.id)
+            ),
+            InformationItem(
+                label: String(localized: "Tags"),
+                value: series.tags.isEmpty ? "None" : tagLabels,
+                link: MoviesPath.edit(series.id)
             ),
             InformationItem(
                 label: String(localized: "Root Folder"),
