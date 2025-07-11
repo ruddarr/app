@@ -1,5 +1,5 @@
 [
-    {"id": 1, "label": "anime" },
-    {"id": 2, "label": "trash" },
-    {"id": 42, "label": "hevc" }
+    { "id": 1, "label": "anime" },
+    { "id": 2, "label": "trash" },
+    { "id": 42, "label": "hevc" }
 ]
