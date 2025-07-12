@@ -5,7 +5,6 @@ struct SeriesDefaults {
     let rootFolder: String
     let seasonFolder: Bool
     let qualityProfile: Int
-    let tags: [Int]
 
     init(
         monitor: SeriesMonitorType = .none,
@@ -17,7 +16,6 @@ struct SeriesDefaults {
         self.rootFolder = rootFolder
         self.seasonFolder = seasonFolder
         self.qualityProfile = qualityProfile
-        self.tags = []
     }
 
     init(from series: Series) {
@@ -25,7 +23,6 @@ struct SeriesDefaults {
         rootFolder = series.rootFolderPath ?? ""
         seasonFolder = series.seasonFolder
         qualityProfile = series.qualityProfileId ?? -1
-        tags = series.tags
     }
 }
 
@@ -35,7 +32,6 @@ extension SeriesDefaults: Codable {
         case rootFolder
         case seasonFolder
         case qualityProfile
-        case tags
     }
 
     init(from decoder: any Decoder) throws {
@@ -44,7 +40,6 @@ extension SeriesDefaults: Codable {
         rootFolder = try values.decode(String.self, forKey: .rootFolder)
         seasonFolder = try values.decode(Bool.self, forKey: .seasonFolder)
         qualityProfile = try values.decode(Int.self, forKey: .qualityProfile)
-        tags = try values.decode([Int].self, forKey: .tags)
     }
 
     func encode(to encoder: any Encoder) throws {
@@ -53,7 +48,6 @@ extension SeriesDefaults: Codable {
         try container.encode(rootFolder, forKey: .rootFolder)
         try container.encode(seasonFolder, forKey: .seasonFolder)
         try container.encode(qualityProfile, forKey: .qualityProfile)
-        try container.encode(tags, forKey: .tags)
     }
 }
 

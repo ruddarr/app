@@ -8,6 +8,7 @@ struct SeriesForm: View {
 
     @Environment(\.deviceType) private var deviceType
 
+    @State private var tags = Set<Tag.ID>()
     @State private var showingConfirmation = false
     @State private var addOptions = SeriesAddOptions(monitor: .none)
 
@@ -31,10 +32,11 @@ struct SeriesForm: View {
 
                 qualityProfileField
                 typeField
-                tagsField
 
                 Toggle("Season Folders", isOn: $series.seasonFolder)
                     .tint(settings.theme.safeTint)
+
+                tagsField
             }
 
             if instance.rootFolders.count > 1 {
@@ -91,30 +93,18 @@ struct SeriesForm: View {
     }
 
     var tagsField: some View {
-        Menu {
-            ForEach(instance.tags) { tag in
-                Button {
-                    if series.tags.contains(tag.id) {
-                        series.tags.removeAll { $0 == tag.id }
-                    } else {
-                        series.tags.append(tag.id)
-                    }
-                } label: {
-                    HStack {
-                        Text(tag.label)
-                        if series.tags.contains(tag.id) {
-                            Image(systemName: "checkmark")
-                        }
-                    }
+        NavigationLink {
+            TagList(selected: $tags)
+                .onChange(of: tags) {
+                    series.tags = Array(tags)
                 }
-            }
         } label: {
-            Text(series.tags.isEmpty ? "Optional Tags".localizedCapitalized : instance.tags.filter { series.tags.contains($0.id) }.map { $0.label }.joined(separator: ", "))
-                .padding()
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(8)
+            LabeledContent {
+                Text(tags.isEmpty ? "None" : "\(tags.count) Tag")
+            } label: {
+                Text("Tags")
+            }
         }
-        .tint(.secondary)
     }
 
     var rootFolderField: some View {
@@ -160,20 +150,24 @@ struct SeriesForm: View {
     let series: [Series] = PreviewData.load(name: "series-lookup")
     let item = series.first(where: { $0.id == 67 }) ?? series[0]
 
-    return SeriesForm(
-        series: Binding(get: { item }, set: { _ in })
-    )
-        .withSonarrInstance(series: series)
-        .withAppState()
+    return NavigationStack {
+        SeriesForm(
+            series: Binding(get: { item }, set: { _ in })
+        )
+    }
+    .withSonarrInstance(series: series)
+    .withAppState()
 }
 
 #Preview("Existing") {
     let series: [Series] = PreviewData.load(name: "series")
     let item = series.first(where: { $0.id == 67 }) ?? series[0]
 
-    return SeriesForm(
-        series: Binding(get: { item }, set: { _ in })
-    )
-        .withSonarrInstance(series: series)
-        .withAppState()
+    return NavigationStack {
+        SeriesForm(
+            series: Binding(get: { item }, set: { _ in })
+        )
+    }
+    .withSonarrInstance(series: series)
+    .withAppState()
 }
