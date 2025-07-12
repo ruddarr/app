@@ -233,7 +233,7 @@ extension API {
         }, getTags: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/tag")
-            
+
             return try await request(url: url, headers: instance.auth)
         }, fetchQueueTasks: { instance in
             let url = try instance.baseURL()

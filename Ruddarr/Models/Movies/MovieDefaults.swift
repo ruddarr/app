@@ -4,7 +4,6 @@ struct MovieDefaults {
     let monitored: Bool
     let rootFolder: String
     let qualityProfile: Int
-    let tags: [Int]
     let minimumAvailability: MovieStatus
 
     init(
@@ -17,14 +16,12 @@ struct MovieDefaults {
         self.monitored = monitored
         self.rootFolder = rootFolder
         self.qualityProfile = qualityProfile
-        self.tags = tags
         self.minimumAvailability = minimumAvailability
     }
 
     init(from movie: Movie) {
         monitored = movie.monitored
         rootFolder = movie.rootFolderPath ?? ""
-        tags = movie.tags
         qualityProfile = movie.qualityProfileId
         minimumAvailability = movie.minimumAvailability
     }
@@ -35,7 +32,6 @@ extension MovieDefaults: Codable {
         case monitored
         case rootFolder
         case qualityProfile
-        case tags
         case minimumAvailability
     }
 
@@ -44,7 +40,6 @@ extension MovieDefaults: Codable {
         monitored = try values.decode(Bool.self, forKey: .monitored)
         rootFolder = try values.decode(String.self, forKey: .rootFolder)
         qualityProfile = try values.decode(Int.self, forKey: .qualityProfile)
-        tags = try values.decode([Int].self, forKey: .tags)
         minimumAvailability = try values.decode(MovieStatus.self, forKey: .minimumAvailability)
     }
 
@@ -53,7 +48,6 @@ extension MovieDefaults: Codable {
         try container.encode(monitored, forKey: .monitored)
         try container.encode(rootFolder, forKey: .rootFolder)
         try container.encode(qualityProfile, forKey: .qualityProfile)
-        try container.encode(tags, forKey: .tags)
         try container.encode(minimumAvailability, forKey: .minimumAvailability)
     }
 }

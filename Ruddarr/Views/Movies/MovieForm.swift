@@ -8,6 +8,7 @@ struct MovieForm: View {
     @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance
 
+    @State private var tags = Set<Tag.ID>()
     @State private var showingConfirmation = false
 
     @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
@@ -20,9 +21,8 @@ struct MovieForm: View {
 
                 minimumAvailabilityField
                 qualityProfileField
+                tagsField
             }
-
-            tagsField
 
             if instance.rootFolders.count > 1 {
                 rootFolderField
@@ -69,30 +69,18 @@ struct MovieForm: View {
     }
 
     var tagsField: some View {
-        Menu {
-            ForEach(instance.tags) { tag in
-                Button {
-                    if movie.tags.contains(tag.id) {
-                        movie.tags.removeAll { $0 == tag.id }
-                    } else {
-                        movie.tags.append(tag.id)
-                    }
-                } label: {
-                    HStack {
-                        Text(tag.label)
-                        if movie.tags.contains(tag.id) {
-                            Image(systemName: "checkmark")
-                        }
-                    }
+        NavigationLink {
+            TagList(selected: $tags)
+                .onChange(of: tags) {
+                    movie.tags = Array(tags)
                 }
-            }
         } label: {
-            Text(movie.tags.isEmpty ? "Optional Tags".localizedCapitalized : instance.tags.filter { movie.tags.contains($0.id) }.map { $0.label }.joined(separator: ", "))
-                .padding()
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(8)
+            LabeledContent {
+                Text(tags.isEmpty ? "None" : "\(tags.count) Tag")
+            } label: {
+                Text("Tags")
+            }
         }
-        .tint(.secondary)
     }
 
     var rootFolderField: some View {
@@ -112,7 +100,6 @@ struct MovieForm: View {
             movie.rootFolderPath = movieDefaults.rootFolder
             movie.qualityProfileId = movieDefaults.qualityProfile
             movie.minimumAvailability = movieDefaults.minimumAvailability
-            movie.tags = movieDefaults.tags
         }
 
         if !availabilities.contains(movie.minimumAvailability) {
@@ -139,16 +126,20 @@ struct MovieForm: View {
     let movies: [Movie] = PreviewData.load(name: "movie-lookup")
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
-    return MovieForm(movie: Binding(get: { movie }, set: { _ in }))
-        .withRadarrInstance(movies: movies)
-        .withAppState()
+    return NavigationStack {
+        MovieForm(movie: Binding(get: { movie }, set: { _ in }))
+    }
+    .withRadarrInstance(movies: movies)
+    .withAppState()
 }
 
 #Preview("Existing") {
     let movies: [Movie] = PreviewData.load(name: "movies")
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
-    return MovieForm(movie: Binding(get: { movie }, set: { _ in }))
-        .withRadarrInstance(movies: movies)
-        .withAppState()
+    return NavigationStack {
+        MovieForm(movie: Binding(get: { movie }, set: { _ in }))
+    }
+    .withRadarrInstance(movies: movies)
+    .withAppState()
 }

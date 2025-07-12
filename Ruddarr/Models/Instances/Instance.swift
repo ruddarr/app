@@ -156,6 +156,10 @@ extension Instance {
             qualityProfiles: [
                 InstanceQualityProfile(id: 1, name: "Any"),
                 InstanceQualityProfile(id: 2, name: "4K"),
+            ],
+            tags: [
+                Tag(id: 1, label: "Anime"),
+                Tag(id: 2, label: "Reality Trash"),
             ]
         )
     }
@@ -177,6 +181,10 @@ extension Instance {
                 InstanceQualityProfile(id: 3, name: "720p"),
                 InstanceQualityProfile(id: 4, name: "1080p"),
                 InstanceQualityProfile(id: 5, name: "4K"),
+            ],
+            tags: [
+                Tag(id: 1, label: "Anime"),
+                Tag(id: 2, label: "Reality Trash"),
             ]
         )
     }

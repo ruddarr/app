@@ -14,7 +14,7 @@ extension SeriesDetails {
         let tagLabels = series.tags.map { tagId in
             instance.tags.first { $0.id == tagId }?.label ?? "tag:\(tagId)"
         }.joined(separator: ", ")
-        
+
         let items = [
             InformationItem(
                 label: String(localized: "Quality Profile"),

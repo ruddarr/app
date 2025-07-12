@@ -89,7 +89,7 @@ struct SeriesForm: View {
         }
         .tint(.secondary)
     }
-    
+
     var tagsField: some View {
         Menu {
             ForEach(instance.tags) { tag in

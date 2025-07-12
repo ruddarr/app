@@ -25,7 +25,7 @@ extension MovieDetails {
         let tagLabels = movie.tags.map { tagId in
             instance.tags.first { $0.id == tagId }?.label ?? "tag:\(tagId)"
         }.joined(separator: ", ")
-        
+
         var items = [
             InformationItem(
                 label: String(localized: "Quality Profile"),
