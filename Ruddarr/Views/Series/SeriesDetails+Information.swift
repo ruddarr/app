@@ -11,10 +11,6 @@ extension SeriesDetails {
     }
 
     var informationItems: [InformationItem] {
-        let tagLabels = series.tags.map { tagId in
-            instance.tags.first { $0.id == tagId }?.label ?? "tag:\(tagId)"
-        }.joined(separator: ", ")
-
         let items = [
             InformationItem(
                 label: String(localized: "Quality Profile"),
@@ -26,9 +22,11 @@ extension SeriesDetails {
                 value: series.seriesType.label,
                 link: SeriesPath.edit(series.id)
             ),
-            InformationItem(
+            series.tags.isEmpty ? nil : InformationItem(
                 label: String(localized: "Tags"),
-                value: series.tags.isEmpty ? String(localized: "None") : tagLabels,
+                value: series.tags.map { tag in
+                    instance.tags.first { $0.id == tag }?.label ?? String(tag)
+                }.joined(separator: ", "),
                 link: SeriesPath.edit(series.id)
             ),
             InformationItem(
@@ -52,6 +50,6 @@ extension SeriesDetails {
             ),
         ]
 
-        return items
+        return items.compactMap { $0 }
     }
 }
