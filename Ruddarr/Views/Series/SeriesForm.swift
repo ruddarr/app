@@ -92,12 +92,18 @@ struct SeriesForm: View {
         .tint(.secondary)
     }
 
+#if os(macOS)
+    var tagsField: some View {
+        LabeledContent("Tags") {
+            TagMenu(selected: $tags, tags: instance.tags)
+                .onChange(of: tags) { series.tags = Array(tags) }
+        }
+    }
+#else
     var tagsField: some View {
         NavigationLink {
-            TagList(selected: $tags)
-                .onChange(of: tags) {
-                    series.tags = Array(tags)
-                }
+            TagList(selected: $tags, tags: instance.tags)
+                .onChange(of: tags) { series.tags = Array(tags) }
         } label: {
             LabeledContent {
                 Text(tags.isEmpty ? "None" : "\(tags.count) Tag")
@@ -106,6 +112,7 @@ struct SeriesForm: View {
             }
         }
     }
+#endif
 
     var rootFolderField: some View {
         Picker("Root Folder", selection: $series.rootFolderPath) {

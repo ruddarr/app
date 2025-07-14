@@ -35,7 +35,15 @@ func formatRuntime(_ minutes: Int) -> String? {
     formatter.unitsStyle = .abbreviated
 
     return formatter.string(from: TimeInterval(minutes * 60))
-    ?? formatter.string(from: 0)
+        ?? formatter.string(from: 0)
+}
+
+func formatTags(_ ids: [Int], tags: [Tag]) -> String {
+    guard !ids.isEmpty else { return String(localized: "None") }
+
+    return ids.map { id in
+        tags.first { $0.id == id }?.label ?? String(id)
+    }.joined(separator: ", ")
 }
 
 func formatRemainingTime(_ date: Date) -> String? {

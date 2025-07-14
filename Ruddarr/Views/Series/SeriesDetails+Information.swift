@@ -24,9 +24,7 @@ extension SeriesDetails {
             ),
             series.tags.isEmpty ? nil : InformationItem(
                 label: String(localized: "Tags"),
-                value: series.tags.map { tag in
-                    instance.tags.first { $0.id == tag }?.label ?? String(tag)
-                }.joined(separator: ", "),
+                value: formatTags(series.tags, tags: instance.tags),
                 link: SeriesPath.edit(series.id)
             ),
             InformationItem(

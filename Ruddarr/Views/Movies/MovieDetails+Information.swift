@@ -35,9 +35,7 @@ extension MovieDetails {
             ),
             movie.tags.isEmpty ? nil : InformationItem(
                 label: String(localized: "Tags"),
-                value: movie.tags.map { tag in
-                    instance.tags.first { $0.id == tag }?.label ?? String(tag)
-                }.joined(separator: ", "),
+                value: formatTags(movie.tags, tags: instance.tags),
                 link: MoviesPath.edit(movie.id)
             ),
             InformationItem(
