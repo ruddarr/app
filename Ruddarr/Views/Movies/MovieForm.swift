@@ -72,7 +72,9 @@ struct MovieForm: View {
     var tagsField: some View {
         LabeledContent("Tags") {
             TagMenu(selected: $tags, tags: instance.tags)
-                .onChange(of: tags) { movie.tags = Array(tags) }
+                .onChange(of: tags) { oldValue, newValue in
+                    movie.tags = Array(newValue)
+                }
         }
     }
 #else

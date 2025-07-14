@@ -43,16 +43,17 @@ struct TagMenu: View {
                         selected.insert(tag.id)
                     }
                 } label: {
-                    Text(tag.label)
-
-                    if selected.contains(tag.id) {
-                        Image(systemName: "checkmark")
-                            .foregroundStyle(.tint)
+                    HStack {
+                        Text(tag.label)
+                        if selected.contains(tag.id) {
+                            Image(systemName: "checkmark")
+                                .foregroundStyle(.tint)
+                        }
                     }
                 }
             }
         } label: {
-            Text(formatTags(Array(selected), tags: instance.tags))
+            Text(formatTags(Array(selected), tags: tags))
         }
         .tint(.secondary)
     }

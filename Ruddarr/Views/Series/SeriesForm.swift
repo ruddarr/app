@@ -29,10 +29,10 @@ struct SeriesForm: View {
                 } else {
                     monitoringField
                 }
-
+                
                 qualityProfileField
                 typeField
-
+                
                 Toggle("Season Folders", isOn: $series.seasonFolder)
                     .tint(settings.theme.safeTint)
 
@@ -96,7 +96,9 @@ struct SeriesForm: View {
     var tagsField: some View {
         LabeledContent("Tags") {
             TagMenu(selected: $tags, tags: instance.tags)
-                .onChange(of: tags) { series.tags = Array(tags) }
+                .onChange(of: tags) { oldValue, newValue in
+                    series.tags = Array(newValue)
+                }
         }
     }
 #else
