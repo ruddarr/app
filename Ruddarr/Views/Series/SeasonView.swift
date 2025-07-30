@@ -10,7 +10,6 @@ struct SeasonView: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
-    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         ScrollView {
@@ -39,8 +38,7 @@ struct SeasonView: View {
             (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
             maybeNavigateToEpisode()
         }
-        .task(id: scenePhase) {
-            guard scenePhase == .active else { return }
+        .onBecomeActive {
             await reload()
         }
         .alert(

@@ -7,7 +7,6 @@ struct ContentView: View {
         @Environment(\.controlActiveState) var controlActiveState
         private var deviceType: DeviceType = .mac
     #else
-        @Environment(\.scenePhase) private var scenePhase
         @Environment(\.deviceType) private var deviceType
     #endif
 
@@ -58,7 +57,7 @@ struct ContentView: View {
         #if os(macOS)
             .onChange(of: controlActiveState, handleScenePhaseChange)
         #else
-            .onChange(of: scenePhase, handleScenePhaseChange)
+            .onBecomeActive(perform: handleScenePhaseChange)
         #endif
         .displayToasts()
         .whatsNewSheet()
@@ -91,15 +90,9 @@ struct ContentView: View {
         }
     }
 #else
-    func handleScenePhaseChange(_ from: ScenePhase, _ phase: ScenePhase) {
-        if phase == .active {
-            Telemetry.maybePing(with: settings)
-            Notifications.maybeUpdateWebhooks(settings)
-        }
-
-        if phase == .background {
-            QuickActions().registerShortcutItems()
-        }
+    func handleScenePhaseChange() async {
+        Telemetry.maybePing(with: settings)
+        Notifications.maybeUpdateWebhooks(settings)
     }
 #endif
 

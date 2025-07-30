@@ -26,7 +26,6 @@ struct MoviesView: View {
 
     @State private var lastFetch: Date = .distantPast
 
-    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {
@@ -52,13 +51,10 @@ struct MoviesView: View {
                         guard !instance.isVoid else { return }
                         await fetchMoviesWithAlertThrottled(ignoreOffline: true)
                     }
-                    .task(id: scenePhase) {
-                        guard scenePhase == .active else { return }
-                        becameActive()
-                    }
                     .refreshable {
                         await Task { await fetchMoviesWithAlert() }.value
                     }
+                    .onBecomeActive(perform: becameActive)
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)

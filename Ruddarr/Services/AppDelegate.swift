@@ -23,6 +23,8 @@ class AppDelegate:
         configureSentry()
         configureTelemetryDeck()
 
+        QuickActions().registerShortcutItems()
+
         return true
     }
 
