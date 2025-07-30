@@ -86,6 +86,7 @@
 		BB63E1F02C17DE1A00BCCA94 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */; };
 		BB644FCF2B8538A3007C7AD5 /* ci_post_xcodebuild.sh in Resources */ = {isa = PBXBuildFile; fileRef = BB644FCE2B8538A3007C7AD5 /* ci_post_xcodebuild.sh */; };
 		BB6942EA2D8A0BBC00ED7288 /* API+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6942E92D8A0BB200ED7288 /* API+Live.swift */; };
+		BB6A5D382E3ABB23002E036D /* tags.json in Resources */ = {isa = PBXBuildFile; fileRef = BB6A5D372E3ABB23002E036D /* tags.json */; };
 		BB6D96952B61E61D0017BFB3 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6D96942B61E61D0017BFB3 /* AppSettings.swift */; };
 		BB6EB88B2BF00FA900066FB4 /* DateDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EB88A2BF00FA900066FB4 /* DateDecodingStrategy.swift */; };
 		BB6F23A92B6A039400A4347A /* MovieReleasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F23A82B6A039400A4347A /* MovieReleasesView.swift */; };
@@ -320,6 +321,7 @@
 		BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intents.swift; sourceTree = "<group>"; };
 		BB644FCE2B8538A3007C7AD5 /* ci_post_xcodebuild.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = ci_post_xcodebuild.sh; sourceTree = "<group>"; };
 		BB6942E92D8A0BB200ED7288 /* API+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+Live.swift"; sourceTree = "<group>"; };
+		BB6A5D372E3ABB23002E036D /* tags.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = tags.json; sourceTree = "<group>"; };
 		BB6D96942B61E61D0017BFB3 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		BB6EB88A2BF00FA900066FB4 /* DateDecodingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDecodingStrategy.swift; sourceTree = "<group>"; };
 		BB6F23A82B6A039400A4347A /* MovieReleasesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleasesView.swift; sourceTree = "<group>"; };
@@ -778,6 +780,7 @@
 				BBD3F2D32BFA520700DE5D8E /* series-episode-history.json */,
 				BB96C32C2BE8351800E24C1C /* series-releases.json */,
 				BB456D262B58E4B900C29B00 /* system-status.json */,
+				BB6A5D372E3ABB23002E036D /* tags.json */,
 				BB8B3DF32B617FE800B80E2D /* root-folders.json */,
 				BB7602742B62027C006E5A1F /* quality-profiles.json */,
 				BB94F1BA2B7E8A190050F6A0 /* notifications.json */,
@@ -1000,6 +1003,7 @@
 				BB81000A2CD5977600499666 /* radarr-history.json in Resources */,
 				BBC0E6202C02458E009543E3 /* series-queue.json in Resources */,
 				BBA7336B2BB6261D00A5022B /* movie-files.json in Resources */,
+				BB6A5D382E3ABB23002E036D /* tags.json in Resources */,
 				BBB869212B6CB0AC009C1A54 /* movie-releases.json in Resources */,
 				BB0FE1132BED33A800D1D847 /* series-episode-files.json in Resources */,
 				BB47E17F2D8F40AC00B8850A /* ci_pre_xcodebuild.sh in Resources */,
