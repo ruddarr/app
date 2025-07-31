@@ -108,7 +108,7 @@ struct MediaEventSheet: View {
         }
 
         if let size = event.data("size"), let bytes = Int(size) {
-            data.append(row(String(localized: "Size"), formatBytes(bytes)))
+            data.append(row(String(localized: "File Size"), formatBytes(bytes)))
         }
 
         if let string = event.data("publishedDate"), let date = parseDate(string) {
