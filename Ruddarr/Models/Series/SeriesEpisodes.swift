@@ -87,10 +87,6 @@ class SeriesEpisodes {
     }
 
     func fetchHistory(_ episode: Episode) async {
-        if !history.isEmpty && history[0].episodeId == episode.id {
-            return
-        }
-
         do {
             history = try await dependencies.api.getEpisodeHistory(episode.id, instance).records
         } catch is CancellationError {
