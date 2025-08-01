@@ -72,6 +72,7 @@ struct MediaEventSheet: View {
         }
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     func grabbedData() -> [AnyView] {
         var data: [AnyView] = []
 
