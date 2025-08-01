@@ -117,7 +117,6 @@ class AppDelegate:
             options.enablePersistingTracesWhenCrashing = true
 
             options.tracesSampleRate = 1
-            options.profilesSampleRate = 1
         }
 
         setSentryContext(for: "device", ["identifier": Platform.deviceId])
