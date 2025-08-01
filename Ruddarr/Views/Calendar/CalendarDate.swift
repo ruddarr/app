@@ -29,7 +29,7 @@ struct CalendarDate: View {
             Spacer()
         }
         .foregroundStyle(isToday ? settings.theme.tint : .primary)
-        .onBecomeActive {
+        .onAppear {
             isToday = Calendar.current.isDateInToday(date)
         }
         .transaction { transaction in
