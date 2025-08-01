@@ -87,21 +87,11 @@ extension WhatsNew {
     static let version: String = "1.6.1"
 
     static let features: [WhatsNewFeature] = [
-        .init(
-            image: "square.grid.2x2",
-            title: "Media Cards",
-            subtitle: "See more information at a glace using the new card-style media grid."
-        ),
-        .init(
-            image: "square.and.arrow.down",
-            title: "Manual Import",
-            subtitle: "Import files from pending queue tasks directly from the Activity tab."
-        ),
-        .init(
-            image: "bell.badge",
-            title: "Improved Notifications",
-            subtitle: "Get notified upon deletions, see the upgrade quality, and more."
-        ),
+        // chinese translation
+        // disable elevator music with tripple tap
+        // improve phase change handling
+        // Delete files for season?
+        // Basic support for tags?
         .init(
             image: "ladybug",
             title: "Fixes & Improvements",
