@@ -2350,6 +2350,16 @@
         }
       }
     },
+    "Library Refresh Queued" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library Refresh Queued"
+          }
+        }
+      }
+    },
     "Light" : {
       "comment" : "Light appearance/mode",
       "localizations" : {
@@ -2543,6 +2553,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Missing Episodes"
+          }
+        }
+      }
+    },
+    "Missing Episodes Search Queued" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missing Episodes Search Queued"
+          }
+        }
+      }
+    },
+    "Missing Movies Search Queued" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missing Movies Search Queued"
           }
         }
       }
@@ -4307,6 +4337,16 @@
         }
       }
     },
+    "Search All Missing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search All Missing"
+          }
+        }
+      }
+    },
     "Search for Movie" : {
       "localizations" : {
         "en" : {
@@ -5195,6 +5235,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Upcoming"
+          }
+        }
+      }
+    },
+    "Update Library" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update Library"
           }
         }
       }

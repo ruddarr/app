@@ -81,7 +81,7 @@ struct SeriesView: View {
                     toolbarInstancePicker
                 }
 
-                toolbarSearchButton
+                toolbarLibraryOptions
             }
             .scrollDismissesKeyboard(.immediately)
             .searchable(
@@ -343,6 +343,22 @@ struct SeriesView: View {
         }
 
         scheduleNextRun(time: DispatchTime.now(), seriesId, seasonId, episodeId)
+    }
+
+    func refreshLibrary() async {
+        guard await instance.series.command(.refreshSeriesLibrary) else {
+            return
+        }
+
+        dependencies.toast.show(.libraryRefreshQueued)
+    }
+
+    func searchAllMissing() async {
+        guard await instance.series.command(.missingEpisodeSearch) else {
+            return
+        }
+
+        dependencies.toast.show(.missingEpisodesSearchQueued)
     }
 }
 
