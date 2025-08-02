@@ -76,6 +76,7 @@ extension Toast {
         case monitoredSearchQueued
         case movieDeleted
         case seriesDeleted
+        case seasonDeleted
         case fileDeleted
         case linkCopied
         case reportSent
@@ -107,6 +108,8 @@ extension Toast {
             custom(text: String(localized: "Movie Deleted"), icon: "checkmark.circle.fill")
         case .seriesDeleted:
             custom(text: String(localized: "Series Deleted"), icon: "checkmark.circle.fill")
+        case .seasonDeleted:
+            custom(text: String(localized: "Season Files Deleted"), icon: "checkmark.circle.fill")
         case .fileDeleted:
             custom(text: String(localized: "File Deleted"), icon: "checkmark.circle.fill")
         case .linkCopied:

@@ -30,6 +30,7 @@ struct API {
     var monitorEpisode: ([Episode.ID], Bool, Instance) async throws -> Empty
     var getEpisodeHistory: (Episode.ID, Instance) async throws -> MediaHistory
     var deleteEpisodeFile: (MediaFile, Instance) async throws -> Empty
+    var deleteEpisodeFiles: ([MediaFile], Instance) async throws -> Empty
 
     var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
     var episodeCalendar: (Date, Date, Instance) async throws -> [Episode]

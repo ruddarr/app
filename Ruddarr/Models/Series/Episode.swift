@@ -199,6 +199,10 @@ enum EpisodeReleaseType: String, Equatable, Codable {
     }
 }
 
+struct EpisodeDeleteResource: Codable {
+    let episodeFileIds: [Int]
+}
+
 extension Episode {
     static var void: Self {
         .init(
