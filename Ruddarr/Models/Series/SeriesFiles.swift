@@ -60,7 +60,7 @@ class SeriesFiles {
         } catch let apiError as API.Error {
             error = apiError
 
-            leaveBreadcrumb(.error, category: "series.episodes", message: "Episode deletion failed", data: ["error": apiError])
+            leaveBreadcrumb(.error, category: "series.files", message: "Episode deletion failed", data: ["error": apiError])
         } catch {
             self.error = API.Error(from: error)
         }
@@ -81,7 +81,7 @@ class SeriesFiles {
         } catch let apiError as API.Error {
             error = apiError
 
-            leaveBreadcrumb(.error, category: "series.episodes", message: "Episode deletion failed", data: ["error": apiError])
+            leaveBreadcrumb(.error, category: "series.files", message: "Episode deletion failed", data: ["error": apiError])
         } catch {
             self.error = API.Error(from: error)
         }

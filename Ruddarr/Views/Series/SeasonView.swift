@@ -304,7 +304,7 @@ extension SeasonView {
         guard await instance.files.delete(seasonFiles) else { return }
 
         if unmonitor {
-            let episodeIds = seasonEpisodes.filter({ $0.hasFile }).map(\.id)
+            let episodeIds = seasonEpisodes.compactMap({ $0.hasFile ? $0.id : nil })
             _ = await instance.episodes.monitor(episodeIds, false)
         }
 

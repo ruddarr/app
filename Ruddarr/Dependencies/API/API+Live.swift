@@ -188,7 +188,7 @@ extension API {
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/episodefile/bulk")
 
-            let body = EpisodeDeleteResource(episodeFileIds: files.map { $0.id })
+            let body = EpisodeDeleteResource(episodeFileIds: files.map(\.id))
 
             return try await request(method: .delete, url: url, headers: instance.auth, body: body)
         }, movieCalendar: { start, end, instance in
