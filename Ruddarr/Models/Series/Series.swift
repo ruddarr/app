@@ -359,6 +359,8 @@ struct SeriesEditorResource: Codable {
     let seasonFolder: Bool?
     let qualityProfileId: Int?
     let rootFolderPath: String?
+    let tags: [Int]
+    let applyTags: String
     let moveFiles: Bool?
 }
 

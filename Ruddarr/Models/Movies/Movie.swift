@@ -280,10 +280,11 @@ struct MovieRating: Equatable, Codable {
 struct MovieEditorResource: Codable {
     let movieIds: [Int]
     let monitored: Bool?
-    let tags: [Int]
     let qualityProfileId: Int?
     let minimumAvailability: MovieStatus?
     let rootFolderPath: String?
+    let tags: [Int]
+    let applyTags: String
     let moveFiles: Bool?
 }
 

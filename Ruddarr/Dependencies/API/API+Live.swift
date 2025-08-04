@@ -57,10 +57,11 @@ extension API {
             let body = MovieEditorResource(
                 movieIds: [movie.id],
                 monitored: movie.monitored,
-                tags: movie.tags,
                 qualityProfileId: movie.qualityProfileId,
                 minimumAvailability: movie.minimumAvailability,
                 rootFolderPath: movie.rootFolderPath,
+                tags: movie.tags,
+                applyTags: "replace",
                 moveFiles: moveFiles ? true : nil
             )
 
@@ -148,6 +149,8 @@ extension API {
                 seasonFolder: series.seasonFolder,
                 qualityProfileId: series.qualityProfileId,
                 rootFolderPath: series.rootFolderPath,
+                tags: series.tags,
+                applyTags: "replace",
                 moveFiles: moveFiles ? true : nil
             )
 
