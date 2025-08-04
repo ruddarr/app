@@ -103,6 +103,7 @@
 		BB81000A2CD5977600499666 /* radarr-history.json in Resources */ = {isa = PBXBuildFile; fileRef = BB8100092CD5976B00499666 /* radarr-history.json */; };
 		BB83AFA52CB2080E00349997 /* InstanceCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB83AFA42CB2080C00349997 /* InstanceCommand.swift */; };
 		BB865E612B83C11E00ADCEFE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB865E602B83C11E00ADCEFE /* Error.swift */; };
+		BB89058B2E41359E0057C62B /* SeasonCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB89058A2E41359E0057C62B /* SeasonCard.swift */; };
 		BB89ABC62B756B91009FB62D /* MovieReleaseRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */; };
 		BB89BCA82CAB853E006F8728 /* HiddenReleases.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB89BCA72CAB853E006F8728 /* HiddenReleases.swift */; };
 		BB8A56792C0004D500199DB7 /* Reviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A56782C0004D500199DB7 /* Reviews.swift */; };
@@ -337,6 +338,7 @@
 		BB8100092CD5976B00499666 /* radarr-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "radarr-history.json"; sourceTree = "<group>"; };
 		BB83AFA42CB2080C00349997 /* InstanceCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceCommand.swift; sourceTree = "<group>"; };
 		BB865E602B83C11E00ADCEFE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		BB89058A2E41359E0057C62B /* SeasonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonCard.swift; sourceTree = "<group>"; };
 		BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseRow.swift; sourceTree = "<group>"; };
 		BB89BCA72CAB853E006F8728 /* HiddenReleases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenReleases.swift; sourceTree = "<group>"; };
 		BB8A56782C0004D500199DB7 /* Reviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviews.swift; sourceTree = "<group>"; };
@@ -592,6 +594,7 @@
 				BBE640D02BE4259A00B436CC /* SeriesDetails+Information.swift */,
 				BB507D1A2BD96E0000EC4016 /* SeriesView+Overlay.swift */,
 				BB507D1C2BD96E3000EC4016 /* SeriesView+Toolbar.swift */,
+				BB89058A2E41359E0057C62B /* SeasonCard.swift */,
 				BBE640D22BE4554500B436CC /* SeasonView.swift */,
 				BBBCA0592BE93FDF00BAE374 /* SeasonView+Episode.swift */,
 				BB96C3222BE7DEAF00E24C1C /* EpisodeView.swift */,
@@ -1193,6 +1196,7 @@
 				BB2250F22BEE87D7009EAA6B /* ContentView.swift in Sources */,
 				BB0BEA8D2BE593C2004DBFE6 /* SeriesEpisodes.swift in Sources */,
 				BB05C9092B86E272009B6444 /* MovieDetails+Overview.swift in Sources */,
+				BB89058B2E41359E0057C62B /* SeasonCard.swift in Sources */,
 				BB2370E22DCE76F500261710 /* QueueItem.swift in Sources */,
 				BB6EB88B2BF00FA900066FB4 /* DateDecodingStrategy.swift in Sources */,
 				79159D6C2B5953D700F7F997 /* Dependencies.swift in Sources */,
