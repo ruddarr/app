@@ -139,6 +139,10 @@ extension API {
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "quality-profiles")
+        }, getTags: { _ in
+            try await Task.sleep(for: .seconds(1))
+            let tags: [Tag] = loadPreviewData(filename: "tags")
+            return tags
         }, fetchQueueTasks: { instance in
             try await Task.sleep(for: .seconds(1))
 

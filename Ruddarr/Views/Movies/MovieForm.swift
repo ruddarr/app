@@ -4,9 +4,9 @@ struct MovieForm: View {
     @Binding var movie: Movie
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.deviceType) private var deviceType
+    @Environment(RadarrInstance.self) private var instance
 
     @State private var showingConfirmation = false
 
@@ -20,6 +20,7 @@ struct MovieForm: View {
 
                 minimumAvailabilityField
                 qualityProfileField
+                tagsField
             }
 
             if instance.rootFolders.count > 1 {
@@ -66,6 +67,26 @@ struct MovieForm: View {
         .tint(.secondary)
     }
 
+#if os(macOS)
+    var tagsField: some View {
+        LabeledContent("Tags") {
+            TagMenu(selected: tags(), tags: instance.tags)
+        }
+    }
+#else
+    var tagsField: some View {
+        NavigationLink {
+            TagList(selected: tags(), tags: instance.tags)
+        } label: {
+            LabeledContent {
+                Text(movie.tags.isEmpty ? "None" : "\(movie.tags.count) Tag")
+            } label: {
+                Text("Tags")
+            }
+        }
+    }
+#endif
+
     var rootFolderField: some View {
         Picker("Root Folder", selection: $movie.rootFolderPath) {
             ForEach(instance.rootFolders) { folder in
@@ -95,7 +116,6 @@ struct MovieForm: View {
             movie.qualityProfileId = instance.qualityProfiles.first?.id ?? 0
         }
 
-        // remove trailing slashes
         movie.rootFolderPath = movie.rootFolderPath?.untrailingSlashIt
 
         if !instance.rootFolders.contains(where: {
@@ -104,22 +124,33 @@ struct MovieForm: View {
             movie.rootFolderPath = instance.rootFolders.first?.path ?? ""
         }
     }
+
+    func tags() -> Binding<Set<Tag.ID>> {
+        Binding(
+            get: { Set(movie.tags) },
+            set: { movie.tags = Array($0) }
+        )
+    }
 }
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movie-lookup")
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
-    return MovieForm(movie: Binding(get: { movie }, set: { _ in }))
-        .withRadarrInstance(movies: movies)
-        .withAppState()
+    return NavigationStack {
+        MovieForm(movie: Binding(get: { movie }, set: { _ in }))
+    }
+    .withRadarrInstance(movies: movies)
+    .withAppState()
 }
 
 #Preview("Existing") {
     let movies: [Movie] = PreviewData.load(name: "movies")
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
-    return MovieForm(movie: Binding(get: { movie }, set: { _ in }))
-        .withRadarrInstance(movies: movies)
-        .withAppState()
+    return NavigationStack {
+        MovieForm(movie: Binding(get: { movie }, set: { _ in }))
+    }
+    .withRadarrInstance(movies: movies)
+    .withAppState()
 }

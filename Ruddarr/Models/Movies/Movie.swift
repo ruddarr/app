@@ -49,6 +49,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     let physicalRelease: Date?
     let digitalRelease: Date?
 
+    var tags: [Int]
     let images: [MediaImage]
     let movieFile: MediaFile?
 
@@ -83,6 +84,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         case inCinemas
         case physicalRelease
         case digitalRelease
+        case tags
         case images
         case movieFile
     }
@@ -281,6 +283,8 @@ struct MovieEditorResource: Codable {
     let qualityProfileId: Int?
     let minimumAvailability: MovieStatus?
     let rootFolderPath: String?
+    let tags: [Int]
+    let applyTags: String
     let moveFiles: Bool?
 }
 
@@ -295,7 +299,7 @@ extension Movie {
             originalLanguage: nil, alternateTitles: [], genres: [], ratings: nil, popularity: 0, status: .deleted, isAvailable: false,
             minimumAvailability: .deleted, monitored: false, qualityProfileId: 0, sizeOnDisk: 0, hasFile: false, path: "",
             relativePath: "", folderName: "", rootFolderPath: "", added: .now, inCinemas: nil, physicalRelease: nil,
-            digitalRelease: nil, images: [], movieFile: nil
+            digitalRelease: nil, tags: [], images: [], movieFile: nil
         )
     }
 }

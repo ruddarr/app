@@ -60,6 +60,8 @@ extension API {
                 qualityProfileId: movie.qualityProfileId,
                 minimumAvailability: movie.minimumAvailability,
                 rootFolderPath: movie.rootFolderPath,
+                tags: movie.tags,
+                applyTags: "replace",
                 moveFiles: moveFiles ? true : nil
             )
 
@@ -147,6 +149,8 @@ extension API {
                 seasonFolder: series.seasonFolder,
                 qualityProfileId: series.qualityProfileId,
                 rootFolderPath: series.rootFolderPath,
+                tags: series.tags,
+                applyTags: "replace",
                 moveFiles: moveFiles ? true : nil
             )
 
@@ -228,6 +232,10 @@ extension API {
         }, qualityProfiles: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/qualityprofile")
+            return try await request(url: url, headers: instance.auth)
+        }, getTags: { instance in
+            let url = try instance.baseURL()
+                .appending(path: "/api/v3/tag")
 
             return try await request(url: url, headers: instance.auth)
         }, fetchQueueTasks: { instance in

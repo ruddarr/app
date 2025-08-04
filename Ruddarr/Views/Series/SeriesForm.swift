@@ -34,6 +34,8 @@ struct SeriesForm: View {
 
                 Toggle("Season Folders", isOn: $series.seasonFolder)
                     .tint(settings.theme.safeTint)
+
+                tagsField
             }
 
             if instance.rootFolders.count > 1 {
@@ -89,6 +91,26 @@ struct SeriesForm: View {
         .tint(.secondary)
     }
 
+#if os(macOS)
+    var tagsField: some View {
+        LabeledContent("Tags") {
+            TagMenu(selected: tags(), tags: instance.tags)
+        }
+    }
+#else
+    var tagsField: some View {
+        NavigationLink {
+            TagList(selected: tags(), tags: instance.tags)
+        } label: {
+            LabeledContent {
+                Text(series.tags.isEmpty ? "None" : "\(series.tags.count) Tag")
+            } label: {
+                Text("Tags")
+            }
+        }
+    }
+#endif
+
     var rootFolderField: some View {
         Picker("Root Folder", selection: $series.rootFolderPath) {
             ForEach(instance.rootFolders) { folder in
@@ -126,26 +148,37 @@ struct SeriesForm: View {
             series.rootFolderPath = instance.rootFolders.first?.path ?? ""
         }
     }
+
+    func tags() -> Binding<Set<Tag.ID>> {
+        Binding(
+            get: { Set(series.tags) },
+            set: { series.tags = Array($0) }
+        )
+    }
 }
 
 #Preview {
     let series: [Series] = PreviewData.load(name: "series-lookup")
     let item = series.first(where: { $0.id == 67 }) ?? series[0]
 
-    return SeriesForm(
-        series: Binding(get: { item }, set: { _ in })
-    )
-        .withSonarrInstance(series: series)
-        .withAppState()
+    return NavigationStack {
+        SeriesForm(
+            series: Binding(get: { item }, set: { _ in })
+        )
+    }
+    .withSonarrInstance(series: series)
+    .withAppState()
 }
 
 #Preview("Existing") {
     let series: [Series] = PreviewData.load(name: "series")
     let item = series.first(where: { $0.id == 67 }) ?? series[0]
 
-    return SeriesForm(
-        series: Binding(get: { item }, set: { _ in })
-    )
-        .withSonarrInstance(series: series)
-        .withAppState()
+    return NavigationStack {
+        SeriesForm(
+            series: Binding(get: { item }, set: { _ in })
+        )
+    }
+    .withSonarrInstance(series: series)
+    .withAppState()
 }

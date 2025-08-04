@@ -10,7 +10,7 @@ struct MovieDetails: View {
 
     @EnvironmentObject var settings: AppSettings
 
-    @Environment(RadarrInstance.self) private var instance
+    @Environment(RadarrInstance.self) var instance
     @Environment(\.deviceType) var deviceType
     @Environment(\.openURL) var openURL
 

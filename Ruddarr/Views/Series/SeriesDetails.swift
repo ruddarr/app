@@ -9,7 +9,7 @@ struct SeriesDetails: View {
     @State private var monitoringSeason: Season.ID?
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(SonarrInstance.self) private var instance
+    @Environment(SonarrInstance.self) var instance
 
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.deviceType) var deviceType
