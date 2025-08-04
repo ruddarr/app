@@ -137,7 +137,7 @@ struct MovieForm: View {
     let movies: [Movie] = PreviewData.load(name: "movie-lookup")
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
-    return NavigationStack {
+    NavigationStack {
         MovieForm(movie: Binding(get: { movie }, set: { _ in }))
     }
     .withRadarrInstance(movies: movies)
@@ -148,7 +148,7 @@ struct MovieForm: View {
     let movies: [Movie] = PreviewData.load(name: "movies")
     let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
 
-    return NavigationStack {
+    NavigationStack {
         MovieForm(movie: Binding(get: { movie }, set: { _ in }))
     }
     .withRadarrInstance(movies: movies)

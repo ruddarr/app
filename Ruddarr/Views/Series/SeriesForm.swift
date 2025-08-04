@@ -161,7 +161,7 @@ struct SeriesForm: View {
     let series: [Series] = PreviewData.load(name: "series-lookup")
     let item = series.first(where: { $0.id == 67 }) ?? series[0]
 
-    return NavigationStack {
+    NavigationStack {
         SeriesForm(
             series: Binding(get: { item }, set: { _ in })
         )
@@ -174,7 +174,7 @@ struct SeriesForm: View {
     let series: [Series] = PreviewData.load(name: "series")
     let item = series.first(where: { $0.id == 67 }) ?? series[0]
 
-    return NavigationStack {
+    NavigationStack {
         SeriesForm(
             series: Binding(get: { item }, set: { _ in })
         )
