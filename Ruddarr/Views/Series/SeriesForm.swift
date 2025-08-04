@@ -8,7 +8,6 @@ struct SeriesForm: View {
 
     @Environment(\.deviceType) private var deviceType
 
-    @State private var tags = Set<Tag.ID>()
     @State private var showingConfirmation = false
     @State private var addOptions = SeriesAddOptions(monitor: .none)
 
@@ -29,10 +28,10 @@ struct SeriesForm: View {
                 } else {
                     monitoringField
                 }
-                
+
                 qualityProfileField
                 typeField
-                
+
                 Toggle("Season Folders", isOn: $series.seasonFolder)
                     .tint(settings.theme.safeTint)
 
@@ -95,20 +94,16 @@ struct SeriesForm: View {
 #if os(macOS)
     var tagsField: some View {
         LabeledContent("Tags") {
-            TagMenu(selected: $tags, tags: instance.tags)
-                .onChange(of: tags) { oldValue, newValue in
-                    series.tags = Array(newValue)
-                }
+            TagMenu(selected: tags(), tags: instance.tags)
         }
     }
 #else
     var tagsField: some View {
         NavigationLink {
-            TagList(selected: $tags, tags: instance.tags)
-                .onChange(of: tags) { series.tags = Array(tags) }
+            TagList(selected: tags(), tags: instance.tags)
         } label: {
             LabeledContent {
-                Text(tags.isEmpty ? "None" : "\(tags.count) Tag")
+                Text(series.tags.isEmpty ? "None" : "\(series.tags.count) Tag")
             } label: {
                 Text("Tags")
             }
@@ -152,6 +147,13 @@ struct SeriesForm: View {
         }) {
             series.rootFolderPath = instance.rootFolders.first?.path ?? ""
         }
+    }
+
+    func tags() -> Binding<Set<Tag.ID>> {
+        Binding(
+            get: { Set(series.tags) },
+            set: { series.tags = Array($0) }
+        )
     }
 }
 

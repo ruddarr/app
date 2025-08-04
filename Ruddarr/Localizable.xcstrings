@@ -4622,16 +4622,6 @@
         }
       }
     },
-    "Size" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Size"
-          }
-        }
-      }
-    },
     "Slow Instance" : {
       "localizations" : {
         "en" : {

@@ -8,7 +8,6 @@ struct MovieForm: View {
     @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance
 
-    @State private var tags = Set<Tag.ID>()
     @State private var showingConfirmation = false
 
     @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
@@ -71,20 +70,16 @@ struct MovieForm: View {
 #if os(macOS)
     var tagsField: some View {
         LabeledContent("Tags") {
-            TagMenu(selected: $tags, tags: instance.tags)
-                .onChange(of: tags) { oldValue, newValue in
-                    movie.tags = Array(newValue)
-                }
+            TagMenu(selected: tags(), tags: instance.tags)
         }
     }
 #else
     var tagsField: some View {
         NavigationLink {
-            TagList(selected: $tags, tags: instance.tags)
-                .onChange(of: tags) { movie.tags = Array(tags) }
+            TagList(selected: tags(), tags: instance.tags)
         } label: {
             LabeledContent {
-                Text(tags.isEmpty ? "None" : "\(tags.count) Tag")
+                Text(movie.tags.isEmpty ? "None" : "\(movie.tags.count) Tag")
             } label: {
                 Text("Tags")
             }
@@ -128,6 +123,13 @@ struct MovieForm: View {
         }) {
             movie.rootFolderPath = instance.rootFolders.first?.path ?? ""
         }
+    }
+
+    func tags() -> Binding<Set<Tag.ID>> {
+        Binding(
+            get: { Set(movie.tags) },
+            set: { movie.tags = Array($0) }
+        )
     }
 }
 
