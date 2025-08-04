@@ -87,11 +87,16 @@ extension WhatsNew {
     static let version: String = "1.6.1"
 
     static let features: [WhatsNewFeature] = [
-        // chinese translation
-        // disable elevator music with tripple tap
-        // improve phase change handling
-        // Delete files for season?
-        // Basic support for tags?
+        .init(
+            image: "tag",
+            title: "Tags",
+            subtitle: "Basic support for managing movie and series tags."
+        ),
+        .init(
+            image: "sparkles",
+            title: "Elevator Music",
+            subtitle: "Permanently disable elevator music with a triple tap."
+        ),
         .init(
             image: "ladybug",
             title: "Fixes & Improvements",
