@@ -10,7 +10,6 @@ struct MovieDefaults {
         monitored: Bool = false,
         rootFolder: String = "",
         qualityProfile: Int = -1,
-        tags: [Int] = [],
         minimumAvailability: MovieStatus = .announced
     ) {
         self.monitored = monitored

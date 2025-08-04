@@ -123,11 +123,6 @@ struct InstanceQualityProfile: Identifiable, Equatable, Codable {
     let name: String
 }
 
-struct Tag: Identifiable, Equatable, Codable {
-    let id: Int
-    var label: String
-}
-
 extension Instance {
     static var radarrVoid: Self {
         .init(
@@ -159,7 +154,7 @@ extension Instance {
             ],
             tags: [
                 Tag(id: 1, label: "Anime"),
-                Tag(id: 2, label: "Reality Trash"),
+                Tag(id: 2, label: "Trash"),
             ]
         )
     }
@@ -184,7 +179,7 @@ extension Instance {
             ],
             tags: [
                 Tag(id: 1, label: "Anime"),
-                Tag(id: 2, label: "Reality Trash"),
+                Tag(id: 2, label: "Trash"),
             ]
         )
     }

@@ -39,7 +39,9 @@ func formatRuntime(_ minutes: Int) -> String? {
 }
 
 func formatTags(_ ids: [Int], tags: [Tag]) -> String {
-    guard !ids.isEmpty else { return String(localized: "None") }
+    guard !ids.isEmpty else {
+        return String(localized: "None")
+    }
 
     return ids.map { id in
         tags.first { $0.id == id }?.label ?? String(id)

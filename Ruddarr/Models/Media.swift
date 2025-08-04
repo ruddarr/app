@@ -9,6 +9,11 @@ protocol Media: Identifiable, Sendable where ID: Sendable {
     func searchableItem(poster: URL?) -> CSSearchableItem
 }
 
+struct Tag: Identifiable, Equatable, Codable {
+    let id: Int
+    var label: String
+}
+
 struct MediaLanguage: Equatable, Codable {
     let id: Int
     let name: String?

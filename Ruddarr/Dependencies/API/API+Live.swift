@@ -57,9 +57,9 @@ extension API {
             let body = MovieEditorResource(
                 movieIds: [movie.id],
                 monitored: movie.monitored,
+                tags: movie.tags,
                 qualityProfileId: movie.qualityProfileId,
                 minimumAvailability: movie.minimumAvailability,
-                tags: movie.tags,
                 rootFolderPath: movie.rootFolderPath,
                 moveFiles: moveFiles ? true : nil
             )
