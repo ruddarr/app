@@ -1,8 +1,7 @@
 import SwiftUI
 import Foundation
 
-// Changing instance properties is risky and can break cloud
-// synchronization, extensively changes don't wipe instance data.
+// Changing instance properties is risky and can wipe saved cloud data
 struct Instance: Identifiable, Equatable, Codable {
     var id = UUID()
 
@@ -13,14 +12,30 @@ struct Instance: Identifiable, Equatable, Codable {
     var url: String = ""
     var apiKey: String = ""
     var headers: [InstanceHeader] = []
+    var rootFolders: [InstanceRootFolders] = []
+    var qualityProfiles: [InstanceQualityProfile] = []
+    var tags: [Tag] = []
     // WARNING: BE CAREFUL CHANGING
 
     var name: String?
     var version: String?
 
-    var rootFolders: [InstanceRootFolders] = []
-    var qualityProfiles: [InstanceQualityProfile] = []
-    var tags: [Tag] = []
+    init(from decoder: any Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try values.decode(UUID.self, forKey: .id)
+        type = try values.decode(InstanceType.self, forKey: .type)
+        mode = try values.decode(InstanceMode.self, forKey: .mode)
+        label = try values.decode(String.self, forKey: .label)
+        url = try values.decode(String.self, forKey: .url)
+        apiKey = try values.decode(String.self, forKey: .apiKey)
+        headers = try values.decode([InstanceHeader].self, forKey: .headers)
+        rootFolders = try values.decode([InstanceRootFolders].self, forKey: .rootFolders)
+        qualityProfiles = try values.decode([InstanceQualityProfile].self, forKey: .qualityProfiles)
+        tags = try values.decodeIfPresent([Tag].self, forKey: .tags) ?? []
+        name = try values.decodeIfPresent(String.self, forKey: .name)
+        version = try values.decodeIfPresent(String.self, forKey: .version)
+    }
 
     var auth: [String: String] {
         var map: [String: String] = [:]
