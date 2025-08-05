@@ -20,7 +20,7 @@ struct Instance: Identifiable, Equatable, Codable {
     var name: String?
     var version: String?
 
-    init(id: UUID) {
+    init(id: UUID = UUID()) {
         self.id = id
     }
 
