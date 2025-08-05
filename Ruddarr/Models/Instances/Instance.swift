@@ -1,8 +1,7 @@
 import SwiftUI
 import Foundation
 
-// Changing instance properties is risky and can break cloud
-// synchronization, extensively changes don't wipe instance data.
+// Changing instance properties is risky and can wipe saved cloud data
 struct Instance: Identifiable, Equatable, Codable {
     var id = UUID()
 
@@ -13,14 +12,34 @@ struct Instance: Identifiable, Equatable, Codable {
     var url: String = ""
     var apiKey: String = ""
     var headers: [InstanceHeader] = []
+    var rootFolders: [InstanceRootFolders] = []
+    var qualityProfiles: [InstanceQualityProfile] = []
+    var tags: [Tag] = []
     // WARNING: BE CAREFUL CHANGING
 
     var name: String?
     var version: String?
 
-    var rootFolders: [InstanceRootFolders] = []
-    var qualityProfiles: [InstanceQualityProfile] = []
-    var tags: [Tag] = []
+    init(id: UUID = UUID()) {
+        self.id = id
+    }
+
+    init(from decoder: any Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try values.decode(UUID.self, forKey: .id)
+        type = try values.decode(InstanceType.self, forKey: .type)
+        mode = try values.decode(InstanceMode.self, forKey: .mode)
+        label = try values.decode(String.self, forKey: .label)
+        url = try values.decode(String.self, forKey: .url)
+        apiKey = try values.decode(String.self, forKey: .apiKey)
+        headers = try values.decode([InstanceHeader].self, forKey: .headers)
+        rootFolders = try values.decode([InstanceRootFolders].self, forKey: .rootFolders)
+        qualityProfiles = try values.decode([InstanceQualityProfile].self, forKey: .qualityProfiles)
+        tags = try values.decodeIfPresent([Tag].self, forKey: .tags) ?? []
+        name = try values.decodeIfPresent(String.self, forKey: .name)
+        version = try values.decodeIfPresent(String.self, forKey: .version)
+    }
 
     var auth: [String: String] {
         var map: [String: String] = [:]
@@ -125,62 +144,62 @@ struct InstanceQualityProfile: Identifiable, Equatable, Codable {
 
 extension Instance {
     static var radarrVoid: Self {
-        .init(
-            id: UUID(uuidString: "00000000-1000-0000-0000-000000000000")!,
-            type: .radarr
-        )
+        var instance = Instance(id: UUID(uuidString: "00000000-1000-0000-0000-000000000000")!)
+        instance.type = .radarr
+        return instance
     }
 
     static var sonarrVoid: Self {
-        .init(
-            id: UUID(uuidString: "00000000-2000-0000-0000-000000000000")!,
-            type: .sonarr
-        )
+        var instance = Instance(id: UUID(uuidString: "00000000-2000-0000-0000-000000000000")!)
+        instance.type = .sonarr
+        return instance
     }
 
     static var radarrDummy: Self {
-        .init(
-            id: UUID(uuidString: "00000000-2000-0000-0000-000000000000")!,
-            type: .radarr,
-            label: ".radarr",
-            url: "http://10.0.1.5:8310",
-            apiKey: "3b0600c1b3aa42bfb0222f4e13a81f39",
-            rootFolders: [
-                InstanceRootFolders(id: 1, accessible: true, path: "/volume1/Media/Movies", freeSpace: 1_000_000_000),
-            ],
-            qualityProfiles: [
-                InstanceQualityProfile(id: 1, name: "Any"),
-                InstanceQualityProfile(id: 2, name: "4K"),
-            ],
-            tags: [
-                Tag(id: 1, label: "Anime"),
-                Tag(id: 2, label: "Trash"),
-            ]
-        )
+        var instance = Instance(id: UUID(uuidString: "00000000-3000-0000-0000-000000000000")!)
+
+        instance.type = .radarr
+        instance.label = ".radarr"
+        instance.url = "http://10.0.1.5:8310"
+        instance.apiKey = "3b0600c1b3aa42bfb0222f4e13a81f39"
+        instance.rootFolders = [
+            InstanceRootFolders(id: 1, accessible: true, path: "/volume1/Media/Movies", freeSpace: 1_000_000_000),
+        ]
+        instance.qualityProfiles = [
+            InstanceQualityProfile(id: 1, name: "Any"),
+            InstanceQualityProfile(id: 2, name: "4K"),
+        ]
+        instance.tags = [
+            Tag(id: 1, label: "Anime"),
+            Tag(id: 2, label: "Trash"),
+        ]
+
+        return instance
     }
 
     static var sonarrDummy: Self {
-        .init(
-            id: UUID(uuidString: "00000000-4000-0000-0000-000000000000")!,
-            type: .sonarr,
-            label: ".sonarr",
-            url: "http://10.0.1.5:8989",
-            apiKey: "f8e3682b3b984cddbaa00047a09d0fbd",
-            rootFolders: [
-                InstanceRootFolders(id: 1, accessible: true, path: "/volume1/Media/TV Series", freeSpace: 2_000_000_000),
-                InstanceRootFolders(id: 2, accessible: true, path: "/volume2/Media/Docuseries", freeSpace: 2_000_000_000),
-            ],
-            qualityProfiles: [
-                InstanceQualityProfile(id: 1, name: "Any"),
-                InstanceQualityProfile(id: 2, name: "SD"),
-                InstanceQualityProfile(id: 3, name: "720p"),
-                InstanceQualityProfile(id: 4, name: "1080p"),
-                InstanceQualityProfile(id: 5, name: "4K"),
-            ],
-            tags: [
-                Tag(id: 1, label: "Anime"),
-                Tag(id: 2, label: "Trash"),
-            ]
-        )
+        var instance = Instance(id: UUID(uuidString: "00000000-4000-0000-0000-000000000000")!)
+
+        instance.type = .sonarr
+        instance.label = ".sonarr"
+        instance.url = "http://10.0.1.5:8989"
+        instance.apiKey = "f8e3682b3b984cddbaa00047a09d0fbd"
+        instance.rootFolders = [
+            InstanceRootFolders(id: 1, accessible: true, path: "/volume1/Media/TV Series", freeSpace: 2_000_000_000),
+            InstanceRootFolders(id: 2, accessible: true, path: "/volume2/Media/Docuseries", freeSpace: 2_000_000_000),
+        ]
+        instance.qualityProfiles = [
+            InstanceQualityProfile(id: 1, name: "Any"),
+            InstanceQualityProfile(id: 2, name: "SD"),
+            InstanceQualityProfile(id: 3, name: "720p"),
+            InstanceQualityProfile(id: 4, name: "1080p"),
+            InstanceQualityProfile(id: 5, name: "4K"),
+        ]
+        instance.tags = [
+            Tag(id: 1, label: "Anime"),
+            Tag(id: 2, label: "Trash"),
+        ]
+
+        return instance
     }
 }
