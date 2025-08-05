@@ -35,7 +35,9 @@ struct SeriesForm: View {
                 Toggle("Season Folders", isOn: $series.seasonFolder)
                     .tint(settings.theme.safeTint)
 
-                tagsField
+                if !instance.tags.isEmpty {
+                    tagsField
+                }
             }
 
             if instance.rootFolders.count > 1 {

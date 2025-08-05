@@ -20,7 +20,10 @@ struct MovieForm: View {
 
                 minimumAvailabilityField
                 qualityProfileField
-                tagsField
+
+                if !instance.tags.isEmpty {
+                    tagsField
+                }
             }
 
             if instance.rootFolders.count > 1 {

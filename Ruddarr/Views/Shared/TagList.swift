@@ -45,6 +45,7 @@ struct TagMenu: View {
                 } label: {
                     HStack {
                         Text(tag.label)
+
                         if selected.contains(tag.id) {
                             Image(systemName: "checkmark")
                                 .foregroundStyle(.tint)
