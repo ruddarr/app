@@ -14,32 +14,11 @@ struct Instance: Identifiable, Equatable, Codable {
     var headers: [InstanceHeader] = []
     var rootFolders: [InstanceRootFolders] = []
     var qualityProfiles: [InstanceQualityProfile] = []
-    var tags: [Tag] = []
+    @WithSimpleDefault var tags: [Tag] = []
     // WARNING: BE CAREFUL CHANGING
 
     var name: String?
     var version: String?
-
-    init(id: UUID = UUID()) {
-        self.id = id
-    }
-
-    init(from decoder: any Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-
-        id = try values.decode(UUID.self, forKey: .id)
-        type = try values.decode(InstanceType.self, forKey: .type)
-        mode = try values.decode(InstanceMode.self, forKey: .mode)
-        label = try values.decode(String.self, forKey: .label)
-        url = try values.decode(String.self, forKey: .url)
-        apiKey = try values.decode(String.self, forKey: .apiKey)
-        headers = try values.decode([InstanceHeader].self, forKey: .headers)
-        rootFolders = try values.decode([InstanceRootFolders].self, forKey: .rootFolders)
-        qualityProfiles = try values.decode([InstanceQualityProfile].self, forKey: .qualityProfiles)
-        tags = try values.decodeIfPresent([Tag].self, forKey: .tags) ?? []
-        name = try values.decodeIfPresent(String.self, forKey: .name)
-        version = try values.decodeIfPresent(String.self, forKey: .version)
-    }
 
     var auth: [String: String] {
         var map: [String: String] = [:]

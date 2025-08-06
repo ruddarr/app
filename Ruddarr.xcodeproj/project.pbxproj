@@ -14,6 +14,7 @@
 		79159D6C2B5953D700F7F997 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D6B2B5953D700F7F997 /* Dependencies.swift */; };
 		79159D6E2B5953E800F7F997 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D6D2B5953E800F7F997 /* API.swift */; };
 		79159D712B5955A800F7F997 /* API+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79159D702B5955A800F7F997 /* API+Mock.swift */; };
+		7957949E2E439C5300A9682E /* WithDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957949D2E439C5300A9682E /* WithDefault.swift */; };
 		796C766D2B62A3B700EF3DB8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796C766C2B62A3B700EF3DB8 /* Store.swift */; };
 		798010BA2B61719C00BBC056 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798010B92B61719C00BBC056 /* Router.swift */; };
 		798010BD2B6268D200BBC056 /* RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798010BC2B6268D200BBC056 /* RawRepresentable.swift */; };
@@ -250,6 +251,7 @@
 		79159D6B2B5953D700F7F997 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		79159D6D2B5953E800F7F997 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		79159D702B5955A800F7F997 /* API+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+Mock.swift"; sourceTree = "<group>"; };
+		7957949D2E439C5300A9682E /* WithDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithDefault.swift; sourceTree = "<group>"; };
 		796C766C2B62A3B700EF3DB8 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		798010B92B61719C00BBC056 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		798010BC2B6268D200BBC056 /* RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawRepresentable.swift; sourceTree = "<group>"; };
@@ -573,6 +575,7 @@
 				BB05C9042B86D0EC009B6444 /* Languages.swift */,
 				798010BC2B6268D200BBC056 /* RawRepresentable.swift */,
 				BB6EB88A2BF00FA900066FB4 /* DateDecodingStrategy.swift */,
+				7957949D2E439C5300A9682E /* WithDefault.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1244,6 +1247,7 @@
 				BBE640D12BE4259A00B436CC /* SeriesDetails+Information.swift in Sources */,
 				BBE8286C2B4F360700C1E1D9 /* Movie.swift in Sources */,
 				BBB8691F2B6CAE26009C1A54 /* MovieReleases.swift in Sources */,
+				7957949E2E439C5300A9682E /* WithDefault.swift in Sources */,
 				BB6942EA2D8A0BBC00ED7288 /* API+Live.swift in Sources */,
 				BB6F23AB2B6ABB8700A4347A /* SettingsAboutSection.swift in Sources */,
 				BB42B7CB2DCD26AB00DA73A3 /* TaskImportView.swift in Sources */,
