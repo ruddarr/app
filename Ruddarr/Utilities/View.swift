@@ -2,6 +2,10 @@ import SwiftUI
 import CloudKit
 
 extension View {
+    func onBecomeActive(perform action: @escaping () async -> Void) -> some View {
+        self.modifier(OnBecomeActiveModifier(action: action))
+    }
+
     func withAppState() -> some View {
         modifier(WithAppStateModifier())
     }
@@ -31,6 +35,20 @@ extension View {
 
     func presentationDetents(dynamic: Set<PresentationDetent>) -> some View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
+    }
+}
+
+private struct OnBecomeActiveModifier: ViewModifier {
+    @Environment(\.scenePhase) private var scenePhase
+
+    let action: () async -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .onChange(of: scenePhase) { from, to in
+                guard from == .inactive && to == .active else { return }
+                Task { await action() }
+            }
     }
 }
 

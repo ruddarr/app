@@ -94,7 +94,6 @@ class AppDelegateMac:
             options.enableTimeToFullDisplayTracing = true
 
             options.tracesSampleRate = 1
-            options.profilesSampleRate = 1
         }
 
         setSentryContext(for: "device", ["identifier": Platform.deviceId])

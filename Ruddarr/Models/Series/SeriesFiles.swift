@@ -22,7 +22,8 @@ class SeriesFiles {
     }
 
     func maybeFetch(_ series: Series) async {
-        if !fetched(series) { await fetch(series) }
+        guard !fetched(series) else { return }
+        await fetch(series)
     }
 
     func fetch(_ series: Series) async {

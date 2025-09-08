@@ -55,6 +55,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
 
     var seasons: [Season]
 
+    var tags: [Int]
     let genres: [String]
     let images: [MediaImage]
     let ratings: SeriesRatings?
@@ -100,6 +101,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
         case originalLanguage
         case alternateTitles
         case seasons
+        case tags
         case genres
         case images
         case ratings
@@ -357,6 +359,8 @@ struct SeriesEditorResource: Codable {
     let seasonFolder: Bool?
     let qualityProfileId: Int?
     let rootFolderPath: String?
+    let tags: [Int]
+    let applyTags: String
     let moveFiles: Bool?
 }
 
@@ -366,7 +370,7 @@ extension Series {
             title: "", titleSlug: nil, sortTitle: "", tvdbId: 0, tvRageId: nil, tvMazeId: nil, imdbId: nil, tmdbId: nil, status: .deleted, seriesType: .standard,
             path: nil, folder: nil, certification: nil, year: 0, runtime: 0, airTime: nil, ended: false, seasonFolder: false, useSceneNumbering: false, added: Date.now,
             firstAired: nil, lastAired: nil, nextAiring: nil, previousAiring: nil, monitored: false, overview: nil, network: nil,
-            originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], genres: [], images: [], ratings: nil, statistics: nil
+            originalLanguage: MediaLanguage(id: 0, name: nil), alternateTitles: nil, seasons: [], tags: [], genres: [], images: [], ratings: nil, statistics: nil
         )
     }
 }

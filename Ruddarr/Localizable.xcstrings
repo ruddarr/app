@@ -227,6 +227,28 @@
         }
       }
     },
+    "%lld Tag" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Tag"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Tags"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld Task" : {
       "localizations" : {
         "en" : {
@@ -2986,6 +3008,26 @@
         }
       }
     },
+    "No releases match \"%@\"." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No releases match \"%@\"."
+          }
+        }
+      }
+    },
+    "No releases match the selected filters and \"%@\"." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No releases match the selected filters and \"%@\"."
+          }
+        }
+      }
+    },
     "No releases match the selected filters." : {
       "localizations" : {
         "en" : {
@@ -4785,6 +4827,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tab"
+          }
+        }
+      }
+    },
+    "Tags" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
           }
         }
       }

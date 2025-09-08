@@ -39,6 +39,7 @@ struct MovieReleasesView: View {
             guard !hasFetched else { return }
             if settings.releaseFilters == .reset { sort = .init() }
             releases = []
+            sort.search = ""
             await instance.releases.search(movie)
             updateDisplayedReleases()
             fetched = movie.id
@@ -92,11 +93,17 @@ struct MovieReleasesView: View {
         ContentUnavailableView {
             Label("No Releases Match", systemImage: "slash.circle")
         } description: {
-            Text("No releases match the selected filters.")
+            if sort.search.trimmed().isEmpty {
+                Text("No releases match the selected filters.")
+            } else if sort.hasFilter {
+                Text("No releases match the selected filters and \"\(sort.search.trimmed())\".")
+            } else {
+                Text("No releases match \"\(sort.search.trimmed())\".")
+            }
         } actions: {
             Button("Clear Filters") {
                 sort.resetFilters()
-            }
+            }.opacity(sort.hasFilter ? 1 : 0)
         }
     }
 

@@ -23,6 +23,8 @@ class AppDelegate:
         configureSentry()
         configureTelemetryDeck()
 
+        QuickActions().registerShortcutItems()
+
         return true
     }
 
@@ -115,7 +117,6 @@ class AppDelegate:
             options.enablePersistingTracesWhenCrashing = true
 
             options.tracesSampleRate = 1
-            options.profilesSampleRate = 1
         }
 
         setSentryContext(for: "device", ["identifier": Platform.deviceId])

@@ -27,7 +27,6 @@ struct SeriesView: View {
 
     @State private var lastFetch: Date = .distantPast
 
-    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {
@@ -53,13 +52,10 @@ struct SeriesView: View {
                         guard !instance.isVoid else { return }
                         await fetchSeriesWithAlertThrottled(ignoreOffline: true)
                     }
-                    .task(id: scenePhase) {
-                        guard scenePhase == .active else { return }
-                        becameActive()
-                    }
                     .refreshable {
                         await Task { await fetchSeriesWithAlert() }.value
                     }
+                    .onBecomeActive(perform: becameActive)
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)

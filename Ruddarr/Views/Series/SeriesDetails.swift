@@ -6,12 +6,10 @@ struct SeriesDetails: View {
 
     @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
-    @State private var monitoringSeason: Season.ID?
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(SonarrInstance.self) private var instance
+    @Environment(SonarrInstance.self) var instance
 
-    @Environment(\.colorScheme) var colorScheme
     @Environment(\.deviceType) var deviceType
 
     var body: some View {
@@ -153,37 +151,7 @@ struct SeriesDetails: View {
             LazyVStack(alignment: .leading, spacing: 12) {
                 ForEach(series.seasons.reversed()) { season in
                     NavigationLink(value: SeriesPath.season(series.id, season.id)) {
-                        LabeledGroupBox {
-                            HStack(spacing: 12) {
-                                Text(season.label)
-                                    .fontWeight(.medium)
-
-                                if let progress = season.progressLabel {
-                                    Text(progress)
-                                        .font(.footnote)
-                                        .monospacedDigit()
-                                        .foregroundStyle(.secondary)
-                                }
-
-                                Spacer()
-
-                                Button {
-                                    guard series.monitored else { return }
-                                    Task { await monitorSeason(season.id) }
-                                } label: {
-                                    if monitoringSeason == season.id {
-                                        ProgressView().tint(.secondary).offset(x: 1.5)
-                                    } else {
-                                        Image(systemName: "bookmark")
-                                            .symbolVariant(season.monitored ? .fill : .none)
-                                            .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
-                                    }
-                                }
-                                .buttonStyle(.plain)
-                                .overlay(Rectangle().padding(18))
-                                .allowsHitTesting(!instance.series.isWorking)
-                            }
-                        }
+                        SeasonCard(series: $series, season: season)
                     }.buttonStyle(.plain)
                 }
             }
@@ -223,29 +191,6 @@ struct SeriesDetails: View {
 
         TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
         maybeAskForReview()
-    }
-
-    func monitorSeason(_ season: Season.ID) async {
-        guard let index = series.seasons.firstIndex(where: { $0.id == season }) else {
-            return
-        }
-
-        series.seasons[index].monitored.toggle()
-
-        monitoringSeason = season
-
-        guard await instance.series.push(series) else {
-            monitoringSeason = nil
-            return
-        }
-
-        monitoringSeason = nil
-
-        dependencies.toast.show(
-            series.seasons[index].monitored ? .monitored : .unmonitored
-        )
-
-        await instance.episodes.fetch(series)
     }
 }
 

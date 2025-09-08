@@ -84,23 +84,18 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static let version: String = "1.6.0"
+    static let version: String = "1.6.1"
 
     static let features: [WhatsNewFeature] = [
         .init(
-            image: "square.grid.2x2",
-            title: "Media Cards",
-            subtitle: "See more information at a glace using the new card-style media grid."
+            image: "tag",
+            title: "Tags",
+            subtitle: "Basic support for managing movie and series tags."
         ),
         .init(
-            image: "square.and.arrow.down",
-            title: "Manual Import",
-            subtitle: "Import files from pending queue tasks directly from the Activity tab."
-        ),
-        .init(
-            image: "bell.badge",
-            title: "Improved Notifications",
-            subtitle: "Get notified upon deletions, see the upgrade quality, and more."
+            image: "sparkles",
+            title: "Elevator Music",
+            subtitle: "Permanently disable elevator music with a triple tap."
         ),
         .init(
             image: "ladybug",

@@ -7,7 +7,6 @@ struct MovieView: View {
     @EnvironmentObject var settings: AppSettings
 
     @Environment(\.deviceType) private var deviceType
-    @Environment(\.scenePhase) private var scenePhase
     @Environment(RadarrInstance.self) private var instance
 
     @State private var showEditForm: Bool = false
@@ -28,8 +27,7 @@ struct MovieView: View {
              toolbarMonitorButton
              toolbarMenu
         }
-        .task(id: scenePhase) {
-            guard scenePhase == .active else { return }
+        .onBecomeActive {
             await reload()
         }
         .alert(

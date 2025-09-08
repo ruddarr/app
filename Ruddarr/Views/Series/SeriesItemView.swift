@@ -7,7 +7,6 @@ struct SeriesDetailView: View {
     @EnvironmentObject var settings: AppSettings
 
     @Environment(\.deviceType) private var deviceType
-    @Environment(\.scenePhase) private var scenePhase
     @Environment(SonarrInstance.self) private var instance
 
     @State private var showEditForm = false
@@ -35,8 +34,7 @@ struct SeriesDetailView: View {
             await instance.episodes.maybeFetch(series)
             await instance.files.maybeFetch(series)
         }
-        .task(id: scenePhase) {
-            guard scenePhase == .active else { return }
+        .onBecomeActive {
             await reload()
         }
         .alert(

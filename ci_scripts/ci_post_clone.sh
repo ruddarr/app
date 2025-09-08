@@ -15,6 +15,7 @@ EXPORTED=(en $(yq '.export_languages[]' crowdin.yml))
 
 # Convert to Apple language codes
 EXPORTED=("${EXPORTED[@]/es-ES/es}")
+EXPORTED=("${EXPORTED[@]/zh-CN/zh-Hans}")
 
 # Download translations
 FLAGS=$(yq '.export_languages[]' crowdin.yml | awk '{printf "--language=%s ", $0}')

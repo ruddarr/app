@@ -15,7 +15,6 @@ struct CalendarView: View {
     @State private var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(\.scenePhase) private var scenePhase
 
     private let firstWeekday = Calendar.current.firstWeekday
 
@@ -62,8 +61,7 @@ struct CalendarView: View {
                         .onAppear {
                             scrollView = proxy
                         }
-                        .task(id: scenePhase) {
-                            guard scenePhase == .active else { return }
+                        .onBecomeActive {
                             await load()
                         }
                     }

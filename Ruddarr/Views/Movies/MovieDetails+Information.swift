@@ -33,6 +33,11 @@ extension MovieDetails {
                 value: movie.minimumAvailability.label,
                 link: MoviesPath.edit(movie.id)
             ),
+            movie.tags.isEmpty ? nil : InformationItem(
+                label: String(localized: "Tags"),
+                value: formatTags(movie.tags, tags: instance.tags),
+                link: MoviesPath.edit(movie.id)
+            ),
             InformationItem(
                 label: String(localized: "Root Folder"),
                 value: movie.rootFolderPath ?? "Unknown",
@@ -61,6 +66,6 @@ extension MovieDetails {
             ))
         }
 
-        return items
+        return items.compactMap { $0 }
     }
 }

@@ -27,8 +27,6 @@ struct InstanceView: View {
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
 
-    @Environment(\.scenePhase) private var scenePhase
-
     var body: some View {
         List {
             instanceDetails
@@ -57,8 +55,7 @@ struct InstanceView: View {
         .onChange(of: instanceNotifications) {
             Task { await notificationsToggled() }
         }
-        .task(id: scenePhase) {
-            guard scenePhase == .active else { return }
+        .onBecomeActive {
             await setup()
         }
         .subscriptionStatusTask(for: Subscription.group, action: handleSubscriptionStatusChange)

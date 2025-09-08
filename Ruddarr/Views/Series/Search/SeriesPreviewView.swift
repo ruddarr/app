@@ -106,7 +106,11 @@ struct SeriesPreviewView: View {
         seriesSort.filter = .all
 
         let seriesPath = SeriesPath.series(addedSeries.id)
-        dependencies.router.seriesPath.removeLast()
+
+        if !dependencies.router.seriesPath.isEmpty {
+            dependencies.router.seriesPath.removeLast()
+        }
+
         try? await Task.sleep(for: .milliseconds(50))
         dependencies.router.seriesPath.append(seriesPath)
 

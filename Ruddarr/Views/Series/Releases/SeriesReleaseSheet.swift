@@ -275,7 +275,11 @@ struct SeriesReleaseSheet: View {
         }
 
         dismiss()
-        dependencies.router.seriesPath.removeLast()
+
+        if !dependencies.router.seriesPath.isEmpty {
+            dependencies.router.seriesPath.removeLast()
+        }
+
         dependencies.toast.show(.downloadQueued)
 
         TelemetryDeck.signal("releaseDownloaded", parameters: ["type": release.fullSeason ? "season" : "episode"])

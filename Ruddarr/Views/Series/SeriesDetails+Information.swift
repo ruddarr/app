@@ -22,6 +22,11 @@ extension SeriesDetails {
                 value: series.seriesType.label,
                 link: SeriesPath.edit(series.id)
             ),
+            series.tags.isEmpty ? nil : InformationItem(
+                label: String(localized: "Tags"),
+                value: formatTags(series.tags, tags: instance.tags),
+                link: SeriesPath.edit(series.id)
+            ),
             InformationItem(
                 label: String(localized: "Root Folder"),
                 value: series.rootFolderPath ?? "Unknown",
@@ -43,6 +48,6 @@ extension SeriesDetails {
             ),
         ]
 
-        return items
+        return items.compactMap { $0 }
     }
 }

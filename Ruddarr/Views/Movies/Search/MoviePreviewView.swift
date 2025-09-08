@@ -106,7 +106,11 @@ struct MoviePreviewView: View {
         movieSort.filter = .all
 
         let moviePath = MoviesPath.movie(addedMovie.id)
-        dependencies.router.moviesPath.removeLast()
+
+        if !dependencies.router.moviesPath.isEmpty {
+            dependencies.router.moviesPath.removeLast()
+        }
+
         try? await Task.sleep(for: .milliseconds(50))
         dependencies.router.moviesPath.append(moviePath)
 
