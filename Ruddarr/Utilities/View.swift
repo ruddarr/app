@@ -45,8 +45,8 @@ private struct OnBecomeActiveModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .onChange(of: scenePhase) { from, to in
-                guard from == .inactive && to == .active else { return }
+            .onChange(of: scenePhase) {
+                guard scenePhase == .active else { return }
                 Task { await action() }
             }
     }
