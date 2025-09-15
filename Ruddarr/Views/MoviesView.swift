@@ -80,7 +80,7 @@ struct MoviesView: View {
                     toolbarInstancePicker
                 }
 
-                toolbarSearchButton
+                toolbarLibraryOptions
             }
             .scrollDismissesKeyboard(.immediately)
             .searchable(
@@ -319,6 +319,22 @@ struct MoviesView: View {
         }
 
         scheduleNextRun(time: DispatchTime.now(), id: id)
+    }
+
+    func refreshLibrary() async {
+        guard await instance.movies.command(.refreshMoviesLibrary) else {
+            return
+        }
+
+        dependencies.toast.show(.libraryRefreshQueued)
+    }
+
+    func searchAllMissing() async {
+        guard await instance.movies.command(.missingMoviesSearch) else {
+            return
+        }
+
+        dependencies.toast.show(.missingMoviesSearchQueued)
     }
 }
 

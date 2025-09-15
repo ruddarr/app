@@ -1,9 +1,13 @@
 import SwiftUI
 
 enum InstanceCommand {
+    case refreshMoviesLibrary
+    case missingMoviesSearch
     case refreshMovie(_ ids: [Movie.ID])
     case search(_ ids: [Movie.ID])
 
+    case refreshSeriesLibrary
+    case missingEpisodeSearch
     case refreshSeries(_ series: Series.ID)
     case seriesSearch(_ series: Series.ID)
     case seasonSearch(_ series: Series.ID, season: Season.ID)
@@ -15,10 +19,18 @@ enum InstanceCommand {
 
     var payload: any Payload {
         switch self {
+        case .refreshMoviesLibrary:
+            RadarrPayload(name: "RefreshMovie")
+        case .missingMoviesSearch:
+            RadarrPayload(name: "MissingMoviesSearch")
         case .refreshMovie(let ids):
             RadarrPayload(name: "RefreshMovie", movieIds: ids)
         case .search(let ids):
             RadarrPayload(name: "MoviesSearch", movieIds: ids)
+        case .refreshSeriesLibrary:
+            SonarrPayload(name: "RefreshSeries")
+        case .missingEpisodeSearch:
+            SonarrPayload(name: "MissingEpisodeSearch")
         case .refreshSeries(let series):
             SonarrPayload(name: "RefreshSeries", seriesId: series)
         case .seriesSearch(let series):

@@ -2,12 +2,46 @@ import SwiftUI
 
 extension MoviesView {
     @ToolbarContentBuilder
-    var toolbarSearchButton: some ToolbarContent {
+    var toolbarLibraryOptions: some ToolbarContent {
         if !instance.isVoid {
             ToolbarItem(placement: .primaryAction) {
-                NavigationLink(value: MoviesPath.search()) {
-                    Image(systemName: "plus")
+                HStack {
+                    toolbarContextMenu
+                    toolbarSearchButton
                 }
+            }
+        }
+    }
+
+    var toolbarSearchButton: some View {
+        NavigationLink(value: MoviesPath.search()) {
+            Image(systemName: "plus")
+        }
+    }
+
+    var toolbarContextMenu: some View {
+        Menu {
+            Section {
+                refreshLibraryButton
+                searchAllMissingButton
+            }
+        } label: {
+            ToolbarActionButton()
+        }
+    }
+
+    var refreshLibraryButton: some View {
+        Button("Update Library", systemImage: "arrow.clockwise") {
+            Task {
+                await refreshLibrary()
+            }
+        }
+    }
+
+    var searchAllMissingButton: some View {
+        Button("Search All Missing", systemImage: "magnifyingglass") {
+            Task {
+                await searchAllMissing()
             }
         }
     }

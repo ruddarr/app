@@ -74,6 +74,9 @@ extension Toast {
         case seasonSearchQueued
         case episodeSearchQueued
         case monitoredSearchQueued
+        case missingMoviesSearchQueued
+        case missingEpisodesSearchQueued
+        case libraryRefreshQueued
         case movieDeleted
         case seriesDeleted
         case fileDeleted
@@ -103,6 +106,12 @@ extension Toast {
             custom(text: String(localized: "Episode Search Queued"), icon: "checkmark.circle.fill")
         case .monitoredSearchQueued:
             custom(text: String(localized: "Monitored Search Queued"), icon: "checkmark.circle.fill")
+        case .missingMoviesSearchQueued:
+            custom(text: String(localized: "Missing Movies Search Queued"), icon: "checkmark.circle.fill")
+        case .missingEpisodesSearchQueued:
+            custom(text: String(localized: "Missing Episodes Search Queued"), icon: "checkmark.circle.fill")
+        case .libraryRefreshQueued:
+            custom(text: String(localized: "Library Refresh Queued"), icon: "checkmark.circle.fill")
         case .movieDeleted:
             custom(text: String(localized: "Movie Deleted"), icon: "checkmark.circle.fill")
         case .seriesDeleted:
