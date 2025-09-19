@@ -90,8 +90,10 @@ struct SearchingIndicator: View {
             return
         }
 
+        #if os(iOS)
         try? AVAudioSession.sharedInstance().setCategory(.ambient, options: [.duckOthers])
         try? AVAudioSession.sharedInstance().setActive(true)
+        #endif
 
         player = try? AVAudioPlayer(contentsOf: sound)
         player?.volume = 0
@@ -124,7 +126,10 @@ struct SearchingIndicator: View {
 
                     if endVolume == 0 {
                         player?.stop()
+
+                        #if os(iOS)
                         try? AVAudioSession.sharedInstance().setActive(false)
+                        #endif
                     }
 
                     audioTimer?.invalidate()
