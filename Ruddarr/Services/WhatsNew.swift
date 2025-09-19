@@ -218,7 +218,7 @@ private struct WhatsNewSheetViewModifier: ViewModifier {
     @Previewable @State var show: Bool = true
 
     return NavigationView {
-        Text(verbatim: "Cupidatat adipisicing elit dolor cillum. Fugiat dolor mollit pariatur sint voluptate nostrud aute Lorem qui aliquip ipsum eiusmod consectetur. Ullamco sint cillum velit est magna cillum do. Lorem excepteur commodo ex veniam ad in irure voluptate nulla deserunt laborum adipisicing.")
+        Text(verbatim: "Cupidatat adipisicing elit dolor cillum.")
     }.sheet(isPresented: $show, content: {
         WhatsNewView()
             // .environment(\.sizeCategory, .extraExtraLarge)

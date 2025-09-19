@@ -91,8 +91,9 @@ struct InstanceView: View {
                         }
                 }
             #else
-                NavigationLink("Edit", value: SettingsView.Path.editInstance(instance.id))
-                    .tint(.primary)
+                NavigationLink(value: SettingsView.Path.editInstance(instance.id)) {
+                    Label("Edit", systemImage: "pencil")
+                }.tint(.primary)
             #endif
         }
     }

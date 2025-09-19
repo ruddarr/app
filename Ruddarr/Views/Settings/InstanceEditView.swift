@@ -285,10 +285,17 @@ struct InstanceEditView: View {
             if isLoading {
                 ProgressView().tint(.secondary)
             } else {
-                Button("Save") {
+                Button{
                     Task { await createOrUpdateInstance() }
+                } label: {
+                    #if os(macOS)
+                        Text("Save")
+                    #else
+                        Label("Save", systemImage: "checkmark")
+                    #endif
                 }
-                .tint(.primary)
+                .buttonStyle(.glassProminent)
+                .tint(settings.theme.tint)
                 .disabled(hasEmptyFields())
             }
         }

@@ -57,13 +57,20 @@ struct MovieEditView: View {
             if instance.movies.isWorking {
                 ProgressView().tint(.secondary)
             } else {
-                Button("Save") {
+                Button {
                     if movie.exists && hasRootFolderChanged() {
                         showConfirmation = true
                     } else {
                         Task { await updateMovie() }
                     }
+                } label: {
+                    #if os(macOS)
+                        Text("Save")
+                    #else
+                        Label("Save", systemImage: "checkmark")
+                    #endif
                 }
+                .buttonStyle(.glassProminent)
             }
         }
     }

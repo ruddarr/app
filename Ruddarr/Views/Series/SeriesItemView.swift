@@ -25,6 +25,7 @@ struct SeriesDetailView: View {
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
+            ToolbarSpacer(.fixed)
             toolbarMenu
         }
         .onAppear {
@@ -91,6 +92,7 @@ struct SeriesDetailView: View {
             } label: {
                 ToolbarActionButton()
             }
+            .tint(.primary)
             #if os(macOS)
                 .sheet(isPresented: $showEditForm) {
                     SeriesEditView(series: $series)

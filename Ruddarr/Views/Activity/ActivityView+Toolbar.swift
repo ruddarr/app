@@ -31,11 +31,13 @@ extension ActivityView {
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
-            HStack {
-                toolbarFilterButton
-                toolbarSortingButton
-            }
-            .tint(.primary)
+            toolbarFilterButton.tint(.primary)
+        }
+
+        ToolbarSpacer(.fixed, placement: .navigation)
+
+        ToolbarItem(placement: .navigation) {
+            toolbarSortingButton.tint(.primary)
         }
 
         if !settings.configuredInstances.isEmpty {

@@ -57,13 +57,20 @@ struct SeriesEditView: View {
             if instance.series.isWorking {
                 ProgressView().tint(.secondary)
             } else {
-                Button("Save") {
+                Button {
                     if series.exists && hasRootFolderChanged() {
                         showConfirmation = true
                     } else {
                         Task { await updateSeries() }
                     }
+                } label: {
+                    #if os(macOS)
+                        Text("Save")
+                    #else
+                        Label("Save", systemImage: "checkmark")
+                    #endif
                 }
+                .buttonStyle(.glassProminent)
             }
         }
     }
