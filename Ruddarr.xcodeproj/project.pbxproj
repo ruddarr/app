@@ -921,7 +921,6 @@
 				BB4071142C1CD2DD006A3FA5 /* Embed Foundation Extensions */,
 				BB4071282C1CD46B006A3FA5 /* Embed ExtensionKit Extensions */,
 				BB9D7AFA2B58A675001C5E3C /* Run SwiftLint */,
-				BB5187AA2B804C5F0015F036 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -1035,26 +1034,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		BB5187AA2B804C5F0015F036 /* Upload Debug Symbols to Sentry */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-			);
-			name = "Upload Debug Symbols to Sentry";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which sentry-cli >/dev/null; then\n  export SENTRY_ORG=ruddarr\n  export SENTRY_PROJECT=app\n\n  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\nfi\n";
-		};
 		BB9D7AFA2B58A675001C5E3C /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
