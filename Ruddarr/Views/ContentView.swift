@@ -35,16 +35,20 @@ struct ContentView: View {
             .defaultVisibility(.hidden, for: .tabBar)
         }
         .tabViewStyle(.sidebarAdaptable)
-        #if os(iOS)
+        #if os(macOS)
+            .tabViewSidebarBottomBar {
+                instancePickers
+            }
+        #else
             .tabViewSidebarHeader {
                 Text(verbatim: Ruddarr.name)
                     .font(.largeTitle.bold())
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .tabViewBottomAccessory {
+                instancePickers
+            }
         #endif
-        .tabViewSidebarBottomBar {
-            instancePickers
-        }
         .onAppear {
             if !isRunningIn(.preview) {
                 dependencies.router.selectedTab = settings.tab
@@ -151,17 +155,13 @@ struct ContentView: View {
             } label: {
                 HStack {
                     Image(systemName: "internaldrive")
-                        .imageScale(.large)
 
                     Text(label ?? "")
+                        .fontWeight(.medium)
                         .tint(.primary)
                 }
-                .contentShape(Rectangle())
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.vertical, 6)
+                .padding(.horizontal)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, deviceType == .mac ? 10 : 20)
             #if os(macOS)
                 .padding(.vertical, 6)
                 .menuIndicator(.hidden)

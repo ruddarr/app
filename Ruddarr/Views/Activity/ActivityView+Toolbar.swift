@@ -36,8 +36,6 @@ extension ActivityView {
                 .menuIndicator(.hidden)
         }
 
-        ToolbarSpacer(.fixed, placement: .navigation)
-
         ToolbarItem(placement: .navigation) {
             toolbarSortingButton
                 .tint(.primary)

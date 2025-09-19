@@ -21,8 +21,6 @@ extension MoviesView {
                 .menuIndicator(.hidden)
         }
 
-        ToolbarSpacer(.fixed, placement: .navigation)
-
         ToolbarItem(placement: .navigation) {
             toolbarSortingButton
                 .tint(.primary)
@@ -65,31 +63,6 @@ extension MoviesView {
         } label: {
             Image(systemName: "arrow.up.arrow.down")
                 .imageScale(.medium)
-        }
-    }
-
-    @ToolbarContentBuilder
-    var toolbarInstancePicker: some ToolbarContent {
-        ToolbarItem(placement: .principal) {
-            Menu {
-                Picker(selection: $settings.radarrInstanceId, label: Text("Instances")) {
-                    ForEach(settings.radarrInstances) { instance in
-                        Text(instance.label).tag(Optional.some(instance.id))
-                    }
-                }
-                .pickerStyle(.inline)
-            } label: {
-                HStack(alignment: .bottom, spacing: 6) {
-                    Text(settings.radarrInstance?.label ?? "Instance")
-                        .fontWeight(.semibold)
-                        .tint(.primary)
-
-                    Image(systemName: "chevron.down")
-                        .symbolVariant(.circle.fill)
-                        .foregroundStyle(.secondary, .secondarySystemFill)
-                        .font(.system(size: 13, weight: .bold))
-                }.tint(.primary)
-            }
         }
     }
 

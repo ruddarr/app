@@ -75,11 +75,6 @@ struct MoviesView: View {
             .onReceive(dependencies.quickActions.moviePublisher, perform: navigateToMovie)
             .toolbar {
                 toolbarViewOptions
-
-                if settings.radarrInstances.count > 1 && deviceType == .phone {
-                    toolbarInstancePicker
-                }
-
                 toolbarSearchButton
             }
             .scrollDismissesKeyboard(.immediately)
