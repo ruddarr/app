@@ -130,20 +130,18 @@ extension Toast {
                 Image(systemName: icon)
             }
         }
-            .font(.callout)
-            .fontWeight(.semibold)
+        .font(.callout)
+        .fontWeight(.semibold)
     }
 
     func render(_ message: Toast.Message) -> some View {
         message.view
             .padding()
-            #if os(macOS)
-                .background(.systemFill)
-            #else
-                .background(.ultraThinMaterial)
-            #endif
+            .glassEffect()
+            .overlay(
+                Capsule().stroke(.ultraThinMaterial, lineWidth: 1)
+            )
             .foregroundStyle(message.textColor)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding()
             .transition(.opacity)
             .id(message.id)
@@ -180,6 +178,7 @@ extension View {
     return VStack {
         Text(verbatim: "Headline")
             .font(.largeTitle.bold())
+            .frame(maxWidth: .infinity)
             .overlay { toast.render(notice) }
 
         toast.render(error)
