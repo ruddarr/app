@@ -16,11 +16,13 @@ extension MoviesView {
     @ToolbarContentBuilder
     var toolbarViewOptions: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
-            HStack {
-                toolbarFilterButton
-                toolbarSortingButton
-            }
-            .tint(.primary)
+            toolbarFilterButton.tint(.primary)
+        }
+
+        ToolbarSpacer(.fixed, placement: .navigation)
+
+        ToolbarItem(placement: .navigation) {
+            toolbarSortingButton.tint(.primary)
         }
     }
 

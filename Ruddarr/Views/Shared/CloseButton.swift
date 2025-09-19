@@ -11,6 +11,7 @@ struct CloseButton: View {
         } label: {
             Image(systemName: "xmark")
                 .padding(3)
+                .fontWeight(.bold)
         }
         .buttonStyle(.glass)
         .buttonBorderShape(.circle)

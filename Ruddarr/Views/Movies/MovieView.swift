@@ -24,8 +24,9 @@ struct MovieView: View {
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
-             toolbarMonitorButton
-             toolbarMenu
+            toolbarMonitorButton
+            ToolbarSpacer(.fixed)
+            toolbarMenu
         }
         .onBecomeActive {
             await reload()
