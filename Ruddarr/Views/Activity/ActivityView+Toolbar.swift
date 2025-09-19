@@ -31,13 +31,17 @@ extension ActivityView {
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
-            toolbarFilterButton.tint(.primary)
+            toolbarFilterButton
+                .tint(.primary)
+                .menuIndicator(.hidden)
         }
 
         ToolbarSpacer(.fixed, placement: .navigation)
 
         ToolbarItem(placement: .navigation) {
-            toolbarSortingButton.tint(.primary)
+            toolbarSortingButton
+                .tint(.primary)
+                .menuIndicator(.hidden)
         }
 
         if !settings.configuredInstances.isEmpty {

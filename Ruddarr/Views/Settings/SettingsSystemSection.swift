@@ -18,6 +18,9 @@ struct SettingsSystemSection: View {
                 Button("Clear Image Cache", role: .destructive) {
                     clearImageCache()
                 }
+                #if os(macOS)
+                    .buttonStyle(.link).foregroundStyle(.red)
+                #endif
             }.onAppear {
                 calculateImageCacheSize()
             }
@@ -27,6 +30,9 @@ struct SettingsSystemSection: View {
             }, label: {
                 Text("Delete Spotlight Index")
             })
+            #if os(macOS)
+                .buttonStyle(.link).foregroundStyle(.red)
+            #endif
 
             Button("Reset All Settings", role: .destructive) {
                 showingEraseConfirmation = true
@@ -40,6 +46,9 @@ struct SettingsSystemSection: View {
                 }
                 Button("Cancel", role: .cancel) { }
             }
+            #if os(macOS)
+                .buttonStyle(.link).foregroundStyle(.red)
+            #endif
         } header: {
             Text("System", comment: "Preferences section header")
         } footer: {
