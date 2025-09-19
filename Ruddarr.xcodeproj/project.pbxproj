@@ -920,7 +920,6 @@
 				BBE828512B4F2C7000C1E1D9 /* Resources */,
 				BB4071142C1CD2DD006A3FA5 /* Embed Foundation Extensions */,
 				BB4071282C1CD46B006A3FA5 /* Embed ExtensionKit Extensions */,
-				BB9D7AFA2B58A675001C5E3C /* Run SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -970,6 +969,7 @@
 				BB0FE10D2BEC660500D1D847 /* XCRemoteSwiftPackageReference "CloudStorage" */,
 				BB48FF492CADABA200DAA4A7 /* XCRemoteSwiftPackageReference "SwiftSDK" */,
 				BB715EBD2CCAA2AD003B12A0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+				BB846F2B2E7DE0C700E0A367 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			productRefGroup = BBE828542B4F2C7000C1E1D9 /* Products */;
 			projectDirPath = "";
@@ -1032,28 +1032,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		BB9D7AFA2B58A675001C5E3C /* Run SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Run SwiftLint";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  #swiftlint --fix && swiftlint\n  swiftlint\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BB4071292C1CDD32006A3FA5 /* Sources */ = {
@@ -1236,6 +1214,10 @@
 			isa = PBXTargetDependency;
 			target = BB40712C2C1CDD32006A3FA5 /* NotificationService */;
 			targetProxy = BB4071322C1CDD32006A3FA5 /* PBXContainerItemProxy */;
+		};
+		BB846F2D2E7DE0CB00E0A367 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = BB846F2C2E7DE0CB00E0A367 /* SwiftLintBuildToolPlugin */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1614,6 +1596,14 @@
 				minimumVersion = 8.38.0;
 			};
 		};
+		BB846F2B2E7DE0C700E0A367 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.61.0;
+			};
+		};
 		BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kean/Nuke";
@@ -1639,6 +1629,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BB715EBD2CCAA2AD003B12A0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
 			productName = SentrySwiftUI;
+		};
+		BB846F2C2E7DE0CB00E0A367 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BB846F2B2E7DE0C700E0A367 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
 		BBDA77602BDACD3C00568E64 /* NukeUI */ = {
 			isa = XCSwiftPackageProductDependency;
