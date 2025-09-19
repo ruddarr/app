@@ -77,6 +77,7 @@ struct InstanceView: View {
                 Button("Edit") {
                     showEditForm = true
                 }
+                .tint(.primary)
                 .sheet(isPresented: $showEditForm) {
                     InstanceEditView(mode: .update, instance: instance)
                         .environment(radarrInstance)
@@ -91,6 +92,7 @@ struct InstanceView: View {
                 }
             #else
                 NavigationLink("Edit", value: SettingsView.Path.editInstance(instance.id))
+                    .tint(.primary)
             #endif
         }
     }

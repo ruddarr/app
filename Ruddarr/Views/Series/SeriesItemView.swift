@@ -138,6 +138,7 @@ struct SeriesDetailView: View {
         Button("Delete", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
         }
+        .tint(.red)
     }
 }
 

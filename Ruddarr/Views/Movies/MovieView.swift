@@ -81,6 +81,7 @@ struct MovieView: View {
             } label: {
                 ToolbarActionButton()
             }
+            .tint(.primary)
             #if os(macOS)
                 .sheet(isPresented: $showEditForm) {
                     MovieEditView(movie: $movie)
@@ -133,6 +134,7 @@ struct MovieView: View {
         Button("Delete", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
         }
+        .tint(.red)
     }
 }
 

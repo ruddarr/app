@@ -35,7 +35,9 @@ extension ActivityView {
                 toolbarFilterButton
                 toolbarSortingButton
             }
+            .tint(.primary)
         }
+
         if !settings.configuredInstances.isEmpty {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink {
@@ -43,7 +45,7 @@ extension ActivityView {
                 } label: {
                     Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
                         .imageScale(.medium)
-                }
+                }.tint(.primary)
             }
         }
     }

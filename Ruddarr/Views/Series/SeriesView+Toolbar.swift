@@ -8,6 +8,7 @@ extension SeriesView {
                 NavigationLink(value: SeriesPath.search()) {
                     Image(systemName: "plus")
                 }
+                .tint(.primary)
             }
         }
     }
@@ -19,6 +20,7 @@ extension SeriesView {
                 toolbarFilterButton
                 toolbarSortingButton
             }
+            .tint(.primary)
         }
     }
 

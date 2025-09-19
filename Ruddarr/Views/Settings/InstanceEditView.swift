@@ -288,6 +288,7 @@ struct InstanceEditView: View {
                 Button("Save") {
                     Task { await createOrUpdateInstance() }
                 }
+                .tint(.primary)
                 .disabled(hasEmptyFields())
             }
         }

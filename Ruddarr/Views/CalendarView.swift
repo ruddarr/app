@@ -242,13 +242,14 @@ struct CalendarView: View {
 
     var todayButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Button("Today") {
+            Button("Today", systemImage: "calendar") {
                 Task { @MainActor in
                     withAnimation(.smooth) {
                         self.scrollTo(self.calendar.today())
                     }
                 }
             }
+            .tint(.primary)
         }
     }
 
@@ -301,6 +302,7 @@ struct CalendarView: View {
                     Image(systemName: "line.3.horizontal.decrease")
                 }
             }
+            .tint(.primary)
         }
     }
 

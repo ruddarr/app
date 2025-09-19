@@ -22,36 +22,16 @@ struct ToolbarFilterBadge: View {
 struct ToolbarMonitorButton: View {
     @Binding var monitored: Bool
 
-    #if os(macOS)
-        var body: some View {
-            Image(systemName: "bookmark")
-                .symbolVariant(monitored ? .fill : .none)
-        }
-    #else
-        var body: some View {
-            Circle()
-                .fill(.secondarySystemBackground)
-                .frame(width: 28, height: 28)
-                .overlay {
-                    Image(systemName: "bookmark")
-                        .font(.system(size: 11, weight: .bold))
-                        .symbolVariant(monitored ? .fill : .none)
-                        .foregroundStyle(.tint)
-                }
-        }
-    #endif
+    var body: some View {
+        Image(systemName: "bookmark")
+            .symbolVariant(monitored ? .fill : .none)
+            .font(.subheadline)
+            .tint(.primary)
+    }
 }
 
 struct ToolbarActionButton: View {
     var body: some View {
-        Circle()
-            .fill(.secondarySystemBackground)
-            .frame(width: 28, height: 28)
-            .overlay {
-                Image(systemName: "ellipsis")
-                    .symbolVariant(.fill)
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundStyle(.tint)
-            }
+        Image(systemName: "ellipsis")
     }
 }

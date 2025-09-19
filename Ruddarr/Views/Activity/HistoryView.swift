@@ -116,6 +116,7 @@ struct HistoryView: View {
                     Image(systemName: "line.3.horizontal.decrease")
                 }
             }
+            .tint(.primary)
         }
     }
 

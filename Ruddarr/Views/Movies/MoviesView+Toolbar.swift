@@ -8,6 +8,7 @@ extension MoviesView {
                 NavigationLink(value: MoviesPath.search()) {
                     Image(systemName: "plus")
                 }
+                .tint(.primary)
             }
         }
     }
@@ -19,6 +20,7 @@ extension MoviesView {
                 toolbarFilterButton
                 toolbarSortingButton
             }
+            .tint(.primary)
         }
     }
 
