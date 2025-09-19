@@ -22,7 +22,7 @@ struct SettingsAboutSection: View {
     var share: some View {
         ShareLink(item: Links.AppShare) {
             Label("Share App", systemImage: "square.and.arrow.up")
-                .labelStyle(SettingsIconLabelStyle(color: .blue))
+                .labelStyle(SettingsIconLabelStyle())
         }
         #if os(macOS)
             .buttonStyle(.link)
@@ -34,14 +34,14 @@ struct SettingsAboutSection: View {
             .init(name: "action", value: "write-review"),
         ])) {
             Label("Leave a Review", systemImage: "star.fill")
-                .labelStyle(SettingsIconLabelStyle(color: .orange, size: 13))
+                .labelStyle(SettingsIconLabelStyle())
         }
     }
 
     var discord: some View {
         Link(destination: Links.Discord) {
             Label("Join the Discord", systemImage: "ellipsis.bubble")
-                .labelStyle(SettingsIconLabelStyle(color: .systemPurple, size: 13))
+                .labelStyle(SettingsIconLabelStyle())
         }
     }
 
@@ -50,7 +50,7 @@ struct SettingsAboutSection: View {
             presentBugSheet.wrappedValue = true
         } label: {
             Label("Report a Bug", systemImage: "exclamationmark.bubble")
-                .labelStyle(SettingsIconLabelStyle(color: .systemPurple, size: 13))
+                .labelStyle(SettingsIconLabelStyle())
         }
         #if os(macOS)
             .buttonStyle(.link)
@@ -60,14 +60,14 @@ struct SettingsAboutSection: View {
     var contribute: some View {
         Link(destination: Links.GitHub, label: {
             Label("Contribute on GitHub", systemImage: "curlybraces")
-                .labelStyle(SettingsIconLabelStyle(color: .gray, size: 12))
+                .labelStyle(SettingsIconLabelStyle(font: .footnote))
         })
     }
 
     var translate: some View {
         Link(destination: Links.Crowdin, label: {
             Label("Translate the App", systemImage: "globe.europe.africa")
-                .labelStyle(SettingsIconLabelStyle(color: .gray))
+                .labelStyle(SettingsIconLabelStyle())
         })
     }
 }
