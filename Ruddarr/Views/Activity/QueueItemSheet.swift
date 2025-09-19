@@ -53,6 +53,7 @@ struct QueueItemSheet: View {
                     }
                     .viewPadding(.horizontal)
                     .padding(.top)
+                    .padding(.top)
                 }
             }
         }

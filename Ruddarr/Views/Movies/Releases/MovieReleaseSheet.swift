@@ -37,6 +37,7 @@ struct MovieReleaseSheet: View {
                         .padding(.bottom)
                 }
                 .padding(.top)
+                .padding(.top)
                 .viewPadding(.horizontal)
             }
             .alert(
