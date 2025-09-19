@@ -70,19 +70,9 @@ struct WhatsNewView: View {
     }
 
     var title: some View {
-        Group {
-            if deviceType == .phone {
-                VStack {
-                    Text(verbatim: "What's New in")
-                    Text(verbatim: Ruddarr.name).foregroundStyle(.blue)
-                }
-            } else {
-                Group {
-                    Text(verbatim: "What's New in ") +
-                    Text(verbatim: Ruddarr.name).foregroundStyle(.blue)
-                }
-            }
-        }
+        let appName = Text(verbatim: Ruddarr.name).foregroundStyle(.tint)
+
+        return Text("What's New in \(appName)")
             .font(.largeTitle.bold())
             .multilineTextAlignment(.center)
     }
@@ -97,7 +87,7 @@ struct WhatsNewView: View {
                         Link(destination: Links.AppStore) {
                             Text(verbatim: "Release Notes")
                         }
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(.tint)
                         .padding(.bottom, 10)
                     }
 
@@ -114,7 +104,7 @@ struct WhatsNewView: View {
                             .frame(maxWidth: .infinity)
                             #if os(iOS)
                                 .foregroundStyle(.white)
-                                .background(.blue)
+                                .background(.tint)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             #endif
                     }
@@ -130,7 +120,7 @@ struct WhatsNewView: View {
             Image(systemName: feature.image)
                 .font(.title)
                 .imageScale(.large)
-                .foregroundStyle(.blue)
+                .foregroundStyle(.tint)
                 .frame(width: 40)
                 #if os(iOS)
                     .offset(y: deviceType == .phone ? 10 : 5)
@@ -227,7 +217,9 @@ private struct WhatsNewSheetViewModifier: ViewModifier {
 #Preview {
     @Previewable @State var show: Bool = true
 
-    return NavigationView { }.sheet(isPresented: $show, content: {
+    return NavigationView {
+        Text(verbatim: "Cupidatat adipisicing elit dolor cillum. Fugiat dolor mollit pariatur sint voluptate nostrud aute Lorem qui aliquip ipsum eiusmod consectetur. Ullamco sint cillum velit est magna cillum do. Lorem excepteur commodo ex veniam ad in irure voluptate nulla deserunt laborum adipisicing.")
+    }.sheet(isPresented: $show, content: {
         WhatsNewView()
             // .environment(\.sizeCategory, .extraExtraLarge)
     })
