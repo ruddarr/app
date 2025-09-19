@@ -83,6 +83,7 @@ struct MovieView: View {
                 ToolbarActionButton()
             }
             .tint(.primary)
+            .menuIndicator(.hidden)
             #if os(macOS)
                 .sheet(isPresented: $showEditForm) {
                     MovieEditView(movie: $movie)

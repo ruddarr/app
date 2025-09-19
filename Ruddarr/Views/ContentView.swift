@@ -161,7 +161,11 @@ struct ContentView: View {
                 .padding(.vertical, 6)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, deviceType == .mac ? 6 : 20)
+            .padding(.horizontal, deviceType == .mac ? 10 : 20)
+            #if os(macOS)
+                .padding(.vertical, 6)
+                .menuIndicator(.hidden)
+            #endif
         }
     }
 }

@@ -117,6 +117,7 @@ struct HistoryView: View {
                 }
             }
             .tint(.primary)
+            .menuIndicator(.hidden)
         }
     }
 

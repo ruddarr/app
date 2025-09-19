@@ -303,6 +303,7 @@ struct CalendarView: View {
                 }
             }
             .tint(.primary)
+            .menuIndicator(.hidden)
         }
     }
 

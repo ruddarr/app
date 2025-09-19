@@ -93,6 +93,7 @@ struct SeriesDetailView: View {
                 ToolbarActionButton()
             }
             .tint(.primary)
+            .menuIndicator(.hidden)
             #if os(macOS)
                 .sheet(isPresented: $showEditForm) {
                     SeriesEditView(series: $series)
