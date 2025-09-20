@@ -54,9 +54,12 @@ struct MoviePreviewView: View {
     @ToolbarContentBuilder
     var toolbarCancelButton: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
-            Button("Cancel") {
+            Button {
                 presentingForm = false
+            } label: {
+                Label("Cancel", systemImage: "xmark")
             }
+            .tint(.primary)
         }
     }
 
@@ -66,6 +69,7 @@ struct MoviePreviewView: View {
             Button("Add Movie") {
                 presentingForm = true
             }
+            .buttonStyle(.glassProminent)
             .disabled(presentingForm)
         }
     }
@@ -73,15 +77,19 @@ struct MoviePreviewView: View {
     @ToolbarContentBuilder
     var toolbarSaveButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            if instance.movies.isWorking {
-                ProgressView().tint(.secondary)
-            } else {
-                Button("Add Movie") {
-                    Task {
-                        await addMovie()
-                    }
+            Button {
+                Task {
+                    await addMovie()
+                }
+            } label: {
+                if instance.movies.isWorking {
+                    ProgressView().tint(.secondary)
+                } else {
+                    Label("Add Series", systemImage: "checkmark")
                 }
             }
+            .buttonStyle(.glassProminent)
+            .disabled(instance.movies.isWorking)
         }
     }
 
