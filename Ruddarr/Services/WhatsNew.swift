@@ -100,14 +100,10 @@ struct WhatsNewView: View {
                     } label: {
                         Text(verbatim: "Continue")
                             .font(.headline.weight(.semibold))
-                            .padding(.vertical)
+                            .padding(.vertical, 8)
                             .frame(maxWidth: .infinity)
-                            #if os(iOS)
-                                .foregroundStyle(.white)
-                                .background(.tint)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            #endif
                     }
+                    .buttonStyle(.glassProminent)
                 }
 
                 Spacer()
