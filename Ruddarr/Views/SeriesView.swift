@@ -76,12 +76,12 @@ struct SeriesView: View {
             .onReceive(dependencies.quickActions.seriesPublisher, perform: navigateToSeries)
             .toolbar {
                 toolbarViewOptions
-
-                if settings.sonarrInstances.count > 1 && deviceType == .phone {
-                    toolbarInstancePicker
-                }
-
                 toolbarSearchButton
+
+                if settings.sonarrInstances.count > 1 {
+                    if deviceType == .phone { toolbarInstancePicker }
+                    if deviceType == .pad { bottomBarInstancePicker }
+                }
             }
             .scrollDismissesKeyboard(.immediately)
             .searchable(

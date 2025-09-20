@@ -39,6 +39,7 @@ struct SeriesReleaseSheet: View {
                         .padding(.bottom)
                 }
                 .padding(.top)
+                .padding(.top)
                 .viewPadding(.horizontal)
             }
             .alert(
@@ -139,8 +140,7 @@ struct SeriesReleaseSheet: View {
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .modifier(MediaPreviewActionModifier())
                 })
-                .buttonStyle(.bordered)
-                .tint(.secondary)
+                .buttonStyle(.glass)
                 .contextMenu {
                     LinkContextMenu(url)
                 }
@@ -162,8 +162,7 @@ struct SeriesReleaseSheet: View {
                 )
                 .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.bordered)
-            .tint(.secondary)
+            .buttonStyle(.glass)
             .allowsHitTesting(!instance.series.isWorking)
 
             if deviceType != .phone {

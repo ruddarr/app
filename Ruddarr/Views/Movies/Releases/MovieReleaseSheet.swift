@@ -37,6 +37,7 @@ struct MovieReleaseSheet: View {
                         .padding(.bottom)
                 }
                 .padding(.top)
+                .padding(.top)
                 .viewPadding(.horizontal)
             }
             .alert(
@@ -137,8 +138,7 @@ struct MovieReleaseSheet: View {
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .modifier(MediaPreviewActionModifier())
                 })
-                .buttonStyle(.bordered)
-                .tint(.secondary)
+                .buttonStyle(.glass)
                 .contextMenu {
                     LinkContextMenu(url)
                 }
@@ -162,8 +162,7 @@ struct MovieReleaseSheet: View {
                 )
                 .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.bordered)
-            .tint(.secondary)
+            .buttonStyle(.glass)
             .allowsHitTesting(!instance.movies.isWorking)
 
             if deviceType != .phone {

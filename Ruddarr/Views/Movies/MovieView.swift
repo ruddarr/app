@@ -24,8 +24,8 @@ struct MovieView: View {
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
-             toolbarMonitorButton
-             toolbarMenu
+            toolbarMonitorButton
+            toolbarMenu
         }
         .onBecomeActive {
             await reload()
@@ -81,6 +81,8 @@ struct MovieView: View {
             } label: {
                 ToolbarActionButton()
             }
+            .tint(.primary)
+            .menuIndicator(.hidden)
             #if os(macOS)
                 .sheet(isPresented: $showEditForm) {
                     MovieEditView(movie: $movie)
@@ -133,6 +135,7 @@ struct MovieView: View {
         Button("Delete", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
         }
+        .tint(.red)
     }
 }
 

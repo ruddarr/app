@@ -10,28 +10,21 @@ struct CloseButton: View {
             callback()
         } label: {
             Image(systemName: "xmark")
-                .symbolVariant(.circle.fill)
-                .scaleEffect(1.65)
-                .tint(.gray)
-                .foregroundStyle(.secondary, secondaryForegroundStyle)
+                .padding(3)
+                .fontWeight(.bold)
         }
-        .buttonStyle(.plain)
-        .padding(.top)
-        .padding(.trailing)
+        .tint(.primary)
+        .buttonStyle(.glass)
+        .buttonBorderShape(.circle)
+        .padding(.top, 12)
+        .padding(.trailing, 8)
         .zIndex(999)
-    }
-
-    var secondaryForegroundStyle: Color {
-        #if os(iOS)
-            colorScheme == .dark
-                ? .tertiarySystemBackground
-                : .secondarySystemBackground
-        #else
-            .systemFill
-        #endif
     }
 }
 
 #Preview {
-    CloseButton { }
+    Group {
+        CloseButton { }
+    }
+    .tint(.red)
 }

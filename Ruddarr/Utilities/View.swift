@@ -165,7 +165,7 @@ extension SearchFieldPlacement {
         #if os(macOS)
             .toolbar
         #else
-            .navigationBarDrawer(displayMode: .always)
+            .navigationBarDrawer(displayMode: .automatic)
         #endif
     }()
 }

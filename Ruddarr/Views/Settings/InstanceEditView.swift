@@ -143,18 +143,23 @@ struct InstanceEditView: View {
     }
 
     var labelField: some View {
-        LabeledContent {
+        HStack(spacing: 24) {
+            Text("Label", comment: "Instance label/name")
+                .layoutPriority(2)
+
             TextField(text: $instance.label, prompt: Text(verbatim: instance.type.rawValue)) { EmptyView() }
                 .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
-        } label: {
-            Text("Label", comment: "Instance label/name")
         }
     }
 
     var urlField: some View {
-        LabeledContent {
+        HStack(spacing: 24) {
+            Text("URL")
+                .layoutPriority(2)
+
             TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
+                .truncationMode(.head)
                 .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)
@@ -163,22 +168,23 @@ struct InstanceEditView: View {
                 .textInputAutocapitalization(.never)
                 .keyboardType(.URL)
                 #endif
-        } label: {
-            Text("URL")
+
         }
     }
 
     var apiKeyField: some View {
-        LabeledContent {
+        HStack(spacing: 24) {
+            Text("API Key")
+                .layoutPriority(2)
+
             TextField(text: $instance.apiKey, prompt: Text(verbatim: "0a1b2c3d...")) { EmptyView() }
+                .truncationMode(.head)
                 .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
                 #endif
-        } label: {
-            Text("API Key")
         }
     }
 
@@ -274,7 +280,7 @@ struct InstanceEditView: View {
             EmptyView()
         #else
             Button(String(localized: "Paste", comment: "Paste from clipboard"), action: callback)
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.plain)
                 .foregroundStyle(settings.theme.tint)
         #endif
     }
@@ -285,9 +291,17 @@ struct InstanceEditView: View {
             if isLoading {
                 ProgressView().tint(.secondary)
             } else {
-                Button("Save") {
+                Button{
                     Task { await createOrUpdateInstance() }
+                } label: {
+                    #if os(macOS)
+                        Text("Save")
+                    #else
+                        Label("Save", systemImage: "checkmark")
+                    #endif
                 }
+                .buttonStyle(.glassProminent)
+                .tint(settings.theme.tint)
                 .disabled(hasEmptyFields())
             }
         }
@@ -298,38 +312,19 @@ struct InstanceHeaderRow: View {
     @Binding var header: InstanceHeader
 
     var body: some View {
-        #if os(iOS)
-            LabeledContent {
-                TextField(text: $header.value) {
-                    Text("Value", comment: "Value of HTTP header")
-                }
-                .multilineTextAlignment(.trailing)
-                .autocorrectionDisabled(true)
-                #if os(iOS)
-                    .textInputAutocapitalization(.never)
-                #endif
-            } label: {
-                TextField(text: $header.name) {
-                    Text("Name", comment: "Name of HTTP header")
-                }
-                .autocorrectionDisabled(true)
-                #if os(iOS)
-                    .textInputAutocapitalization(.never)
-                #endif
-            }
-        #else
-            VStack {
-                TextField(text: $header.name) {
-                    Text("Name", comment: "Name of HTTP header")
-                }
-                .autocorrectionDisabled(true)
+        VStack {
+            TextField("Header name", text: $header.name)
+            .autocorrectionDisabled(true)
+            #if os(iOS)
+                .textInputAutocapitalization(.never)
+            #endif
 
-                TextField(text: $header.value) {
-                    Text("Value", comment: "Value of HTTP header")
-                }
-                .autocorrectionDisabled(true)
-            }
-        #endif
+            TextField("Header value", text: $header.value)
+            .autocorrectionDisabled(true)
+            #if os(iOS)
+                .textInputAutocapitalization(.never)
+            #endif
+        }
     }
 }
 

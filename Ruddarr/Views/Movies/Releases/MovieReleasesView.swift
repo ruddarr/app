@@ -128,10 +128,11 @@ extension MovieReleasesView {
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            HStack {
-                toolbarSortingButton
-                toolbarFilterButton
-            }
+            toolbarSortingButton
+        }
+
+        ToolbarItem(placement: .primaryAction) {
+            toolbarFilterButton
         }
     }
 
@@ -177,6 +178,7 @@ extension MovieReleasesView {
                 Image(systemName: "line.3.horizontal.decrease")
             }
         }
+        .tint(.primary)
     }
 
     var toolbarSortingButton: some View {
@@ -200,6 +202,7 @@ extension MovieReleasesView {
             Image(systemName: "arrow.up.arrow.down")
                 .imageScale(.medium)
         }
+        .tint(.primary)
     }
 
     var indexersPicker: some View {

@@ -91,6 +91,8 @@ struct SeriesDetailView: View {
             } label: {
                 ToolbarActionButton()
             }
+            .tint(.primary)
+            .menuIndicator(.hidden)
             #if os(macOS)
                 .sheet(isPresented: $showEditForm) {
                     SeriesEditView(series: $series)
@@ -138,6 +140,7 @@ struct SeriesDetailView: View {
         Button("Delete", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
         }
+        .tint(.red)
     }
 }
 

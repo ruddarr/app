@@ -70,19 +70,9 @@ struct WhatsNewView: View {
     }
 
     var title: some View {
-        Group {
-            if deviceType == .phone {
-                VStack {
-                    Text(verbatim: "What's New in")
-                    Text(verbatim: Ruddarr.name).foregroundStyle(.blue)
-                }
-            } else {
-                Group {
-                    Text(verbatim: "What's New in ") +
-                    Text(verbatim: Ruddarr.name).foregroundStyle(.blue)
-                }
-            }
-        }
+        let appName = Text(verbatim: Ruddarr.name).foregroundStyle(.tint)
+
+        return Text("What's New in \(appName)")
             .font(.largeTitle.bold())
             .multilineTextAlignment(.center)
     }
@@ -95,9 +85,9 @@ struct WhatsNewView: View {
                 VStack {
                     if isRunningIn(.appstore) {
                         Link(destination: Links.AppStore) {
-                            Text(verbatim: "Release Notes")
+                            Text("Release Notes", comment: "Also know as changelog")
                         }
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(.tint)
                         .padding(.bottom, 10)
                     }
 
@@ -108,16 +98,12 @@ struct WhatsNewView: View {
 
                         dismiss()
                     } label: {
-                        Text(verbatim: "Continue")
+                        Text("Continue", comment: "Button to close whats new sheet")
                             .font(.headline.weight(.semibold))
-                            .padding(.vertical)
+                            .padding(.vertical, 8)
                             .frame(maxWidth: .infinity)
-                            #if os(iOS)
-                                .foregroundStyle(.white)
-                                .background(.blue)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            #endif
                     }
+                    .buttonStyle(.glassProminent)
                 }
 
                 Spacer()
@@ -130,7 +116,7 @@ struct WhatsNewView: View {
             Image(systemName: feature.image)
                 .font(.title)
                 .imageScale(.large)
-                .foregroundStyle(.blue)
+                .foregroundStyle(.tint)
                 .frame(width: 40)
                 #if os(iOS)
                     .offset(y: deviceType == .phone ? 10 : 5)
@@ -227,7 +213,9 @@ private struct WhatsNewSheetViewModifier: ViewModifier {
 #Preview {
     @Previewable @State var show: Bool = true
 
-    return NavigationView { }.sheet(isPresented: $show, content: {
+    return NavigationView {
+        Text(verbatim: "Cupidatat adipisicing elit dolor cillum.")
+    }.sheet(isPresented: $show, content: {
         WhatsNewView()
             // .environment(\.sizeCategory, .extraExtraLarge)
     })

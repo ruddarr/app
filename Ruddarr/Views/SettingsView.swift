@@ -87,6 +87,7 @@ struct SettingsView: View {
             Button("Add Instance") {
                 showInstanceForm = true
             }
+            .buttonStyle(.link)
             .sheet(isPresented: $showInstanceForm) {
                 InstanceEditView(mode: .create, instance: Instance())
                     .environment(radarrInstance)

@@ -35,16 +35,18 @@ struct ContentView: View {
             .defaultVisibility(.hidden, for: .tabBar)
         }
         .tabViewStyle(.sidebarAdaptable)
-        #if os(iOS)
+        #if os(macOS)
+            .tabViewSidebarBottomBar {
+                instancePickers
+            }
+        #else
+            .tabBarMinimizeBehavior(.onScrollDown)
             .tabViewSidebarHeader {
                 Text(verbatim: Ruddarr.name)
                     .font(.largeTitle.bold())
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         #endif
-        .tabViewSidebarBottomBar {
-            instancePickers
-        }
         .onAppear {
             if !isRunningIn(.preview) {
                 dependencies.router.selectedTab = settings.tab
@@ -107,7 +109,7 @@ struct ContentView: View {
 
     @ViewBuilder
     var instancePickers: some View {
-        if dependencies.router.selectedTab == .movies {
+        if dependencies.router.selectedTab == .movies, settings.radarrInstances.count > 1 {
             instancePicker(
                 instances: settings.radarrInstances,
                 selection: $settings.radarrInstanceId,
@@ -119,7 +121,7 @@ struct ContentView: View {
             )
         }
 
-        if dependencies.router.selectedTab == .series {
+        if dependencies.router.selectedTab == .series, settings.sonarrInstances.count > 1 {
             instancePicker(
                 instances: settings.sonarrInstances,
                 selection: $settings.sonarrInstanceId,
@@ -139,30 +141,25 @@ struct ContentView: View {
         label: String?,
         onChange: @escaping () -> Void
     ) -> some View {
-        if instances.count > 1 {
-            Menu {
-                Picker("Instances", selection: selection) {
-                    ForEach(instances) { instance in
-                        Text(instance.label).tag(Optional.some(instance.id))
-                    }
+        Menu {
+            Picker("Instances", selection: selection) {
+                ForEach(instances) { instance in
+                    Text(instance.label).tag(Optional.some(instance.id))
                 }
-                .pickerStyle(.inline)
-                .onChange(of: selection.wrappedValue, onChange)
-            } label: {
-                HStack {
-                    Image(systemName: "internaldrive")
-                        .imageScale(.large)
-
-                    Text(label ?? "")
-                        .tint(.primary)
-                }
-                .contentShape(Rectangle())
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.vertical, 6)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, deviceType == .mac ? 6 : 20)
+            .pickerStyle(.inline)
+            .onChange(of: selection.wrappedValue, onChange)
+        } label: {
+            HStack {
+                Image(systemName: "internaldrive")
+
+                Text(label ?? "Instance")
+                    .fontWeight(.medium)
+            }
         }
+        .padding(8)
+        .tint(.primary)
+        .menuIndicator(.hidden)
     }
 }
 

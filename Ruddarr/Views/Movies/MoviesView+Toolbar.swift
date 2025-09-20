@@ -8,6 +8,7 @@ extension MoviesView {
                 NavigationLink(value: MoviesPath.search()) {
                     Image(systemName: "plus")
                 }
+                .tint(.primary)
             }
         }
     }
@@ -15,10 +16,15 @@ extension MoviesView {
     @ToolbarContentBuilder
     var toolbarViewOptions: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
-            HStack {
-                toolbarFilterButton
-                toolbarSortingButton
-            }
+            toolbarFilterButton
+                .tint(.primary)
+                .menuIndicator(.hidden)
+        }
+
+        ToolbarItem(placement: .navigation) {
+            toolbarSortingButton
+                .tint(.primary)
+                .menuIndicator(.hidden)
         }
     }
 
@@ -61,27 +67,48 @@ extension MoviesView {
     }
 
     @ToolbarContentBuilder
+    var bottomBarInstancePicker: some ToolbarContent {
+        #if os(iOS)
+            ToolbarSpacer(.flexible, placement: .bottomBar)
+
+            ToolbarItem(placement: .bottomBar) {
+                Menu {
+                    Picker(selection: $settings.radarrInstanceId, label: Text("Instances")) {
+                        ForEach(settings.radarrInstances) { instance in
+                            Text(instance.label).tag(Optional.some(instance.id))
+                        }
+                    }
+                    .pickerStyle(.inline)
+                } label: {
+                    HStack {
+                        Image(systemName: "internaldrive")
+                        Text(settings.radarrInstance?.label ?? "Instance")
+                            .fontWeight(.medium)
+                    }
+                }
+                .tint(.primary)
+            }
+        #else
+            ToolbarSpacer(.flexible, placement: .principal)
+        #endif
+    }
+
+    @ToolbarContentBuilder
     var toolbarInstancePicker: some ToolbarContent {
-        ToolbarItem(placement: .principal) {
+        ToolbarSpacer(.fixed, placement: .navigation)
+
+        ToolbarItem(placement: .navigation) {
             Menu {
-                Picker(selection: $settings.radarrInstanceId, label: Text("Instances")) {
-                    ForEach(settings.radarrInstances) { instance in
+                Picker(selection: $settings.sonarrInstanceId, label: Text("Instances")) {
+                    ForEach(settings.sonarrInstances) { instance in
                         Text(instance.label).tag(Optional.some(instance.id))
                     }
                 }
                 .pickerStyle(.inline)
             } label: {
-                HStack(alignment: .bottom, spacing: 6) {
-                    Text(settings.radarrInstance?.label ?? "Instance")
-                        .fontWeight(.semibold)
-                        .tint(.primary)
-
-                    Image(systemName: "chevron.down")
-                        .symbolVariant(.circle.fill)
-                        .foregroundStyle(.secondary, .secondarySystemFill)
-                        .font(.system(size: 13, weight: .bold))
-                }.tint(.primary)
+                Image(systemName: "internaldrive")
             }
+            .tint(.primary)
         }
     }
 

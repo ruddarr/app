@@ -27,7 +27,7 @@ struct HistoryView: View {
                                 page += 1
                                 Task { await history.fetch(page, displayedEventType) }
                             }
-                            .buttonStyle(.bordered)
+                            .buttonStyle(.glass)
                         }
                     }
                     .padding(.vertical, 12)
@@ -116,6 +116,8 @@ struct HistoryView: View {
                     Image(systemName: "line.3.horizontal.decrease")
                 }
             }
+            .tint(.primary)
+            .menuIndicator(.hidden)
         }
     }
 

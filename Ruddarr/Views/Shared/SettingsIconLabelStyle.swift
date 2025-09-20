@@ -1,9 +1,7 @@
 import SwiftUI
 
 struct SettingsIconLabelStyle: LabelStyle {
-    var color: Color
-    @ScaledMetric(relativeTo: .body) var size: CGFloat = 14
-    @ScaledMetric(relativeTo: .body) private var iconSize = 28
+    var iconScale: CGFloat = 0.9
 
     func makeBody(configuration: Configuration) -> some View {
         Label {
@@ -11,16 +9,16 @@ struct SettingsIconLabelStyle: LabelStyle {
                 .tint(.primary)
         } icon: {
             configuration.icon
-                .font(.system(size: size))
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
                 #if os(iOS)
-                    .background(
-                        RoundedRectangle(cornerRadius: (10 / 57) * iconSize)
-                            .frame(width: iconSize, height: iconSize)
-                            .foregroundColor(color)
-                    )
+                    .scaleEffect(iconScale)
                 #endif
         }
         .lineLimit(1)
     }
+}
+
+#Preview {
+    Label(String("Home"), systemImage: "house")
+        .labelStyle(SettingsIconLabelStyle(iconScale: 0.8))
 }

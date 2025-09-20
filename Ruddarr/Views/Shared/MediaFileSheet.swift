@@ -14,6 +14,7 @@ struct MediaFileSheet: View {
                 audioMetadata
                 textMetadata
             }
+            .padding(.top)
             .viewPadding(.horizontal)
             .overlay(alignment: .topTrailing) {
                 CloseButton {

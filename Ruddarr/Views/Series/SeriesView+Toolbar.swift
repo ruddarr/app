@@ -8,6 +8,7 @@ extension SeriesView {
                 NavigationLink(value: SeriesPath.search()) {
                     Image(systemName: "plus")
                 }
+                .tint(.primary)
             }
         }
     }
@@ -15,10 +16,15 @@ extension SeriesView {
     @ToolbarContentBuilder
     var toolbarViewOptions: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
-            HStack {
-                toolbarFilterButton
-                toolbarSortingButton
-            }
+            toolbarFilterButton
+                .tint(.primary)
+                .menuIndicator(.hidden)
+        }
+
+        ToolbarItem(placement: .navigation) {
+            toolbarSortingButton
+                .tint(.primary)
+                .menuIndicator(.hidden)
         }
     }
 
@@ -61,8 +67,37 @@ extension SeriesView {
     }
 
     @ToolbarContentBuilder
+    var bottomBarInstancePicker: some ToolbarContent {
+        #if os(iOS)
+            ToolbarSpacer(.flexible, placement: .bottomBar)
+
+            ToolbarItem(placement: .bottomBar) {
+                Menu {
+                    Picker(selection: $settings.sonarrInstanceId, label: Text("Instances")) {
+                        ForEach(settings.sonarrInstances) { instance in
+                            Text(instance.label).tag(Optional.some(instance.id))
+                        }
+                    }
+                    .pickerStyle(.inline)
+                } label: {
+                    HStack {
+                        Image(systemName: "internaldrive")
+                        Text(settings.sonarrInstance?.label ?? "Instance")
+                            .fontWeight(.medium)
+                    }
+                }
+                .tint(.primary)
+            }
+        #else
+            ToolbarSpacer(.flexible, placement: .principal)
+        #endif
+    }
+
+    @ToolbarContentBuilder
     var toolbarInstancePicker: some ToolbarContent {
-        ToolbarItem(placement: .principal) {
+        ToolbarSpacer(.fixed, placement: .navigation)
+
+        ToolbarItem(placement: .navigation) {
             Menu {
                 Picker(selection: $settings.sonarrInstanceId, label: Text("Instances")) {
                     ForEach(settings.sonarrInstances) { instance in
@@ -71,17 +106,9 @@ extension SeriesView {
                 }
                 .pickerStyle(.inline)
             } label: {
-                HStack(alignment: .bottom, spacing: 6) {
-                    Text(settings.sonarrInstance?.label ?? "Instance")
-                        .fontWeight(.semibold)
-                        .tint(.primary)
-
-                    Image(systemName: "chevron.down")
-                        .symbolVariant(.circle.fill)
-                        .foregroundStyle(.secondary, .secondarySystemFill)
-                        .font(.system(size: 13, weight: .bold))
-                }.tint(.primary)
+                Image(systemName: "internaldrive")
             }
+            .tint(.primary)
         }
     }
 

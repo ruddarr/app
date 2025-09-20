@@ -2,6 +2,10 @@
 
 set -e
 
+# SwiftLint
+defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidation -bool YES
+defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+
 cd ../Ruddarr/ || exit 1
 
 if [[ ! -n "$APNS_SECRET" ]]; then
