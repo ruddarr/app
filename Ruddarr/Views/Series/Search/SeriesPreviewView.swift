@@ -54,9 +54,12 @@ struct SeriesPreviewView: View {
     @ToolbarContentBuilder
     var toolbarCancelButton: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
-            Button("Cancel") {
+            Button {
                 presentingForm = false
+            } label: {
+                Label("Cancel", systemImage: "xmark")
             }
+            .tint(.primary)
         }
     }
 
@@ -66,6 +69,7 @@ struct SeriesPreviewView: View {
             Button("Add Series") {
                 presentingForm = true
             }
+            .buttonStyle(.glassProminent)
             .disabled(presentingForm)
         }
     }
@@ -73,15 +77,19 @@ struct SeriesPreviewView: View {
     @ToolbarContentBuilder
     var toolbarSaveButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            if instance.series.isWorking {
-                ProgressView().tint(.secondary)
-            } else {
-                Button("Add Series") {
-                    Task {
-                        await addSeries()
-                    }
+            Button {
+                Task {
+                    await addSeries()
+                }
+            } label: {
+                if instance.series.isWorking {
+                    ProgressView().tint(.primary)
+                } else {
+                    Label("Add Series", systemImage: "checkmark")
                 }
             }
+            .buttonStyle(.glassProminent)
+            .disabled(instance.series.isWorking)
         }
     }
 

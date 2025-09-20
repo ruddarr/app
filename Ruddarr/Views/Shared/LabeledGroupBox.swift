@@ -21,6 +21,7 @@ struct LabeledGroupBox<Content: View, Label: View>: View {
             } label: {
                 label()
             }
+            .groupBoxStyle(RoundedGroupBox())
         #else
             GroupBox {
                 VStack(alignment: .leading) {
@@ -31,4 +32,34 @@ struct LabeledGroupBox<Content: View, Label: View>: View {
             }
         #endif
     }
+}
+
+struct RoundedGroupBox: GroupBoxStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        VStack {
+            configuration.label
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            configuration.content
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 12, style: .continuous).fill(.ultraThinMaterial)
+        )
+    }
+}
+
+#Preview {
+    LabeledGroupBox {
+        Text(verbatim: "Consequat voluptate culpa eu enim voluptate amet cillum est do esse irure sit laborum.")
+            .font(.subheadline)
+            .fontWeight(.medium)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .fixedSize(horizontal: false, vertical: true)
+            .textSelection(.enabled)
+    } label: {
+        Text(verbatim: "Label")
+    }
+    .padding(.bottom)
 }

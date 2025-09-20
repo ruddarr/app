@@ -20,12 +20,21 @@ struct BugSheet: View {
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel", action: { dismiss() })
+                    Button {
+                        dismiss()
+                    } label: {
+                        Label("Cancel", systemImage: "xmark")
+                    }
                 }
 
                 ToolbarItem(placement: .primaryAction) {
-                    Button(String(localized: "Submit", comment: "Send bug report"), action: sendReport)
-                        .disabled(!canBeSent)
+                    Button {
+                        sendReport()
+                    } label: {
+                        Label("Submit", systemImage: "paperplane")
+                    }
+                    .buttonStyle(.glassProminent)
+                    .disabled(!canBeSent)
                 }
             }
             #if os(macOS)

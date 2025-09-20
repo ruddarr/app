@@ -10,12 +10,11 @@ struct CloseButton: View {
             callback()
         } label: {
             Image(systemName: "xmark")
-                .padding(3)
-                .fontWeight(.bold)
+                .padding(10)
+                .fontWeight(.semibold)
+                .glassEffect()
         }
         .tint(.primary)
-        .buttonStyle(.glass)
-        .buttonBorderShape(.circle)
         .padding(.top, 12)
         .padding(.trailing, 8)
         .zIndex(999)

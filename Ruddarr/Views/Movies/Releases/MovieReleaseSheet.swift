@@ -34,7 +34,6 @@ struct MovieReleaseSheet: View {
                         .padding(.bottom)
 
                     details
-                        .padding(.bottom)
                 }
                 .padding(.top)
                 .padding(.top)
@@ -192,6 +191,7 @@ struct MovieReleaseSheet: View {
                     ))
                 }
             }
+            .padding(.bottom)
         } header: {
             Text("Information")
                 .font(.title2.bold())
@@ -243,7 +243,7 @@ struct MovieReleaseSheet: View {
                 .foregroundStyle(.primary)
         }
         .font(.subheadline)
-        .padding(.vertical, 6)
+        .padding(.vertical, 4)
     }
 
     func downloadRelease(force: Bool = false) async {

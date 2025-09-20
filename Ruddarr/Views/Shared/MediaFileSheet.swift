@@ -210,5 +210,6 @@ struct MediaFileSheet: View {
 
         }
         .font(.subheadline)
+        .padding(.vertical, 4)
     }
 }

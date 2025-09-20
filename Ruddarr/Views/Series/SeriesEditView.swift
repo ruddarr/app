@@ -54,24 +54,24 @@ struct SeriesEditView: View {
     @ToolbarContentBuilder
     var toolbarSaveButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            if instance.series.isWorking {
-                ProgressView().tint(.secondary)
-            } else {
-                Button {
-                    if series.exists && hasRootFolderChanged() {
-                        showConfirmation = true
-                    } else {
-                        Task { await updateSeries() }
-                    }
-                } label: {
+            Button {
+                if series.exists && hasRootFolderChanged() {
+                    showConfirmation = true
+                } else {
+                    Task { await updateSeries() }
+                }
+            } label: {
+                if instance.series.isWorking {
+                    ProgressView().tint(.primary)
+                } else {
                     #if os(macOS)
                         Text("Save")
                     #else
                         Label("Save", systemImage: "checkmark")
                     #endif
                 }
-                .buttonStyle(.glassProminent)
             }
+            .buttonStyle(.glassProminent)
         }
     }
 
