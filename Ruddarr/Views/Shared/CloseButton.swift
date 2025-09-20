@@ -13,6 +13,7 @@ struct CloseButton: View {
                 .padding(3)
                 .fontWeight(.bold)
         }
+        .tint(.primary)
         .buttonStyle(.glass)
         .buttonBorderShape(.circle)
         .padding(.top, 12)
@@ -22,5 +23,8 @@ struct CloseButton: View {
 }
 
 #Preview {
-    CloseButton { }
+    Group {
+        CloseButton { }
+    }
+    .tint(.red)
 }
