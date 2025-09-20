@@ -66,6 +66,33 @@ extension SeriesView {
         }
     }
 
+    @ToolbarContentBuilder
+    var toolbarInstancePicker: some ToolbarContent {
+        #if os(iOS)
+            ToolbarSpacer(.flexible, placement: .bottomBar)
+
+            ToolbarItem(placement: .bottomBar) {
+                Menu {
+                    Picker(selection: $settings.sonarrInstanceId, label: Text("Instances")) {
+                        ForEach(settings.sonarrInstances) { instance in
+                            Text(instance.label).tag(Optional.some(instance.id))
+                        }
+                    }
+                    .pickerStyle(.inline)
+                } label: {
+                    HStack {
+                        Image(systemName: "internaldrive")
+                        Text(settings.sonarrInstance?.label ?? "Instance")
+                            .fontWeight(.medium)
+                    }
+                }
+                .tint(.primary)
+            }
+        #else
+            ToolbarSpacer(.flexible, placement: .principal)
+        #endif
+    }
+
     func changeInstance() {
         Task { @MainActor in
             guard let newInstanceId = settings.sonarrInstanceId else {

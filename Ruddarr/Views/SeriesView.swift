@@ -77,6 +77,10 @@ struct SeriesView: View {
             .toolbar {
                 toolbarViewOptions
                 toolbarSearchButton
+
+                if settings.sonarrInstances.count > 1, deviceType == .pad {
+                    toolbarInstancePicker
+                }
             }
             .scrollDismissesKeyboard(.immediately)
             .searchable(

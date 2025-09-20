@@ -66,6 +66,33 @@ extension MoviesView {
         }
     }
 
+    @ToolbarContentBuilder
+    var toolbarInstancePicker: some ToolbarContent {
+        #if os(iOS)
+            ToolbarSpacer(.flexible, placement: .bottomBar)
+
+            ToolbarItem(placement: .bottomBar) {
+                Menu {
+                    Picker(selection: $settings.radarrInstanceId, label: Text("Instances")) {
+                        ForEach(settings.radarrInstances) { instance in
+                            Text(instance.label).tag(Optional.some(instance.id))
+                        }
+                    }
+                    .pickerStyle(.inline)
+                } label: {
+                    HStack {
+                        Image(systemName: "internaldrive")
+                        Text(settings.radarrInstance?.label ?? "Instance")
+                            .fontWeight(.medium)
+                    }
+                }
+                .tint(.primary)
+            }
+        #else
+            ToolbarSpacer(.flexible, placement: .principal)
+        #endif
+    }
+
     func changeInstance() {
         Task { @MainActor in
             guard let newInstanceId = settings.radarrInstanceId else {

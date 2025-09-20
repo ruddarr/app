@@ -40,13 +40,11 @@ struct ContentView: View {
                 instancePickers
             }
         #else
+            .tabBarMinimizeBehavior(.onScrollDown)
             .tabViewSidebarHeader {
                 Text(verbatim: Ruddarr.name)
                     .font(.largeTitle.bold())
                     .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .tabViewBottomAccessory {
-                instancePickers
             }
         #endif
         .onAppear {
