@@ -88,7 +88,7 @@ struct PlaceholderImage: View {
             .frame(width: 200, height: 200)
         }
         .border(.yellow)
-        .background(.secondarySystemBackground)
+        .background(.card)
 
         NavigationStack {
             Section {
@@ -102,7 +102,7 @@ struct PlaceholderImage: View {
                 .frame(width: 200, height: 200)
             }
             .border(.yellow)
-            .background(.secondarySystemBackground)
+            .background(.card)
         }
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)

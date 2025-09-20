@@ -122,7 +122,7 @@ struct SeriesReleaseSheet: View {
             .padding(.top, 4)
             .padding(.bottom, 12)
         }
-        .background(.secondarySystemBackground)
+        .background(.card)
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 

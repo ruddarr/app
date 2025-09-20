@@ -11,7 +11,7 @@ struct MovieGridPoster: View {
             } preview: {
                 poster.frame(width: 300, height: 450)
             }
-            .background(.secondarySystemBackground)
+            .background(.card)
             .overlay(alignment: .bottom) {
                 if movie.exists {
                     posterOverlay

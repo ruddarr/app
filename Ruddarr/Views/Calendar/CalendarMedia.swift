@@ -32,7 +32,7 @@ struct CalendarMovie: View {
             .padding(.vertical, 8)
             .padding(.horizontal, 12)
             .frame(maxWidth: .infinity)
-            .background(.secondarySystemBackground)
+            .background(.card)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .onTapGesture {
                 let deeplink = String(
@@ -102,7 +102,7 @@ struct CalendarEpisode: View {
         .padding(.vertical, 8)
         .padding(.horizontal, 12)
         .frame(maxWidth: .infinity)
-        .background(.secondarySystemBackground)
+        .background(.card)
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
             var deeplink = String(
