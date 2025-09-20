@@ -78,8 +78,9 @@ struct SeriesView: View {
                 toolbarViewOptions
                 toolbarSearchButton
 
-                if settings.sonarrInstances.count > 1, deviceType == .pad {
-                    toolbarInstancePicker
+                if settings.sonarrInstances.count > 1 {
+                    if deviceType == .phone { toolbarInstancePicker }
+                    if deviceType == .pad { bottomBarInstancePicker }
                 }
             }
             .scrollDismissesKeyboard(.immediately)

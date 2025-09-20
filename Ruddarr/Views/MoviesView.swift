@@ -77,8 +77,9 @@ struct MoviesView: View {
                 toolbarViewOptions
                 toolbarSearchButton
 
-                if settings.radarrInstances.count > 1, deviceType == .pad {
-                    toolbarInstancePicker
+                if settings.radarrInstances.count > 1 {
+                    if deviceType == .phone { toolbarInstancePicker }
+                    if deviceType == .pad { bottomBarInstancePicker }
                 }
             }
             .scrollDismissesKeyboard(.immediately)

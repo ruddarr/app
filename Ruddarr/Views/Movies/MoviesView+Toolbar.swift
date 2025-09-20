@@ -67,7 +67,7 @@ extension MoviesView {
     }
 
     @ToolbarContentBuilder
-    var toolbarInstancePicker: some ToolbarContent {
+    var bottomBarInstancePicker: some ToolbarContent {
         #if os(iOS)
             ToolbarSpacer(.flexible, placement: .bottomBar)
 
@@ -91,6 +91,25 @@ extension MoviesView {
         #else
             ToolbarSpacer(.flexible, placement: .principal)
         #endif
+    }
+
+    @ToolbarContentBuilder
+    var toolbarInstancePicker: some ToolbarContent {
+        ToolbarSpacer(.fixed, placement: .navigation)
+
+        ToolbarItem(placement: .navigation) {
+            Menu {
+                Picker(selection: $settings.sonarrInstanceId, label: Text("Instances")) {
+                    ForEach(settings.sonarrInstances) { instance in
+                        Text(instance.label).tag(Optional.some(instance.id))
+                    }
+                }
+                .pickerStyle(.inline)
+            } label: {
+                Image(systemName: "internaldrive")
+            }
+            .tint(.primary)
+        }
     }
 
     func changeInstance() {
