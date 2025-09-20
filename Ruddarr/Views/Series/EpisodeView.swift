@@ -189,6 +189,7 @@ struct EpisodeView: View {
             } label: {
                 ToolbarActionButton()
             }
+            .tint(.primary)
             .menuIndicator(.hidden)
         }
     }

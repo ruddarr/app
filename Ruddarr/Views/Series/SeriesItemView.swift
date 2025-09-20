@@ -25,7 +25,6 @@ struct SeriesDetailView: View {
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
-            ToolbarSpacer(.fixed)
             toolbarMenu
         }
         .onAppear {

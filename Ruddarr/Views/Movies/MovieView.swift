@@ -25,7 +25,6 @@ struct MovieView: View {
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
-            ToolbarSpacer(.fixed)
             toolbarMenu
         }
         .onBecomeActive {
