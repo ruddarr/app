@@ -163,6 +163,7 @@ struct MediaEventSheet: View {
                     .multilineTextAlignment(.trailing)
             }
             .font(.subheadline)
+            .padding(.vertical, 4)
         )
     }
 
