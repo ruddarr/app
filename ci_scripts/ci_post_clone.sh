@@ -18,7 +18,7 @@ EXPORTED=("${EXPORTED[@]/es-ES/es}")
 EXPORTED=("${EXPORTED[@]/zh-CN/zh-Hans}")
 
 # Download translations
-FLAGS=$(yq '.export_languages[]' crowdin.yml | awk '{printf "--language=%s ", $0}')
+FLAGS=$(yq -r '[.export_languages[] | "--language="+.] | join(" ")' crowdin.yml)
 crowdin download translations --plain ${FLAGS}
 
 cd Ruddarr
