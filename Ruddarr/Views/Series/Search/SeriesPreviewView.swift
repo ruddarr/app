@@ -83,7 +83,7 @@ struct SeriesPreviewView: View {
                 }
             } label: {
                 if instance.series.isWorking {
-                    ProgressView().tint(.secondary)
+                    ProgressView().tint(.primary)
                 } else {
                     Label("Add Series", systemImage: "checkmark")
                 }

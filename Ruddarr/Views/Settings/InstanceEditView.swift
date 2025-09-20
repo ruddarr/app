@@ -288,22 +288,22 @@ struct InstanceEditView: View {
     @ToolbarContentBuilder
     var toolbarButton: some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
-            if isLoading {
-                ProgressView().tint(.secondary)
-            } else {
-                Button{
-                    Task { await createOrUpdateInstance() }
-                } label: {
+            Button{
+                Task { await createOrUpdateInstance() }
+            } label: {
+                if isLoading {
+                    ProgressView().tint(.primary)
+                } else {
                     #if os(macOS)
                         Text("Save")
                     #else
                         Label("Save", systemImage: "checkmark")
                     #endif
                 }
-                .buttonStyle(.glassProminent)
-                .tint(settings.theme.tint)
-                .disabled(hasEmptyFields())
             }
+            .buttonStyle(.glassProminent)
+            .tint(settings.theme.tint)
+            .disabled(hasEmptyFields())
         }
     }
 }

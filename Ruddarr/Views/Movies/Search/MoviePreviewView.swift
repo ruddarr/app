@@ -83,7 +83,7 @@ struct MoviePreviewView: View {
                 }
             } label: {
                 if instance.movies.isWorking {
-                    ProgressView().tint(.secondary)
+                    ProgressView().tint(.primary)
                 } else {
                     Label("Add Series", systemImage: "checkmark")
                 }
