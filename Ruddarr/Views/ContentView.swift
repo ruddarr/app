@@ -111,7 +111,7 @@ struct ContentView: View {
 
     @ViewBuilder
     var instancePickers: some View {
-        if dependencies.router.selectedTab == .movies {
+        if dependencies.router.selectedTab == .movies, settings.radarrInstances.count > 1 {
             instancePicker(
                 instances: settings.radarrInstances,
                 selection: $settings.radarrInstanceId,
@@ -123,7 +123,7 @@ struct ContentView: View {
             )
         }
 
-        if dependencies.router.selectedTab == .series {
+        if dependencies.router.selectedTab == .series, settings.sonarrInstances.count > 1 {
             instancePicker(
                 instances: settings.sonarrInstances,
                 selection: $settings.sonarrInstanceId,
@@ -143,30 +143,25 @@ struct ContentView: View {
         label: String?,
         onChange: @escaping () -> Void
     ) -> some View {
-        if instances.count > 1 {
-            Menu {
-                Picker("Instances", selection: selection) {
-                    ForEach(instances) { instance in
-                        Text(instance.label).tag(Optional.some(instance.id))
-                    }
+        Menu {
+            Picker("Instances", selection: selection) {
+                ForEach(instances) { instance in
+                    Text(instance.label).tag(Optional.some(instance.id))
                 }
-                .pickerStyle(.inline)
-                .onChange(of: selection.wrappedValue, onChange)
-            } label: {
-                HStack {
-                    Image(systemName: "internaldrive")
-
-                    Text(label ?? "")
-                        .fontWeight(.medium)
-                        .tint(.primary)
-                }
-                .padding(.horizontal)
             }
-            #if os(macOS)
-                .padding(.vertical, 6)
-                .menuIndicator(.hidden)
-            #endif
+            .pickerStyle(.inline)
+            .onChange(of: selection.wrappedValue, onChange)
+        } label: {
+            HStack {
+                Image(systemName: "internaldrive")
+
+                Text(label ?? "Instance")
+                    .fontWeight(.medium)
+            }
         }
+        .padding(8)
+        .tint(.primary)
+        .menuIndicator(.hidden)
     }
 }
 

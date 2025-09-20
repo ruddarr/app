@@ -27,7 +27,7 @@ struct LabeledGroupBox<Content: View, Label: View>: View {
                     label()
                     content()
                 }
-                .padding(4)
+                .padding(6)
             }
         #endif
     }
