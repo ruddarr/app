@@ -30,23 +30,27 @@ struct MediaDeleteSheet: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
+                    Button {
                         dismiss()
+                    } label: {
+                        Label("Cancel", systemImage: "xmark")
                     }
+                    .tint(.primary)
                 }
 
                 ToolbarItem(placement: .primaryAction) {
-                    if isWorking {
-                        ProgressView().tint(.secondary)
-                    } else {
-                        Button(role: .destructive) {
-                            isWorking = true
-                            confirm(exclude, delete)
-                        } label: {
-                            Text(label)
+                    Button(role: .destructive) {
+                        isWorking = true
+                        confirm(exclude, delete)
+                    } label: {
+                        if isWorking {
+                            ProgressView().tint(.white)
+                        } else {
+                            Label("Delete", systemImage: "trash")
                         }
-                        .foregroundStyle(.red)
                     }
+                    .tint(.red)
+                    .buttonStyle(.glassProminent)
                 }
             }
             #if os(macOS)
