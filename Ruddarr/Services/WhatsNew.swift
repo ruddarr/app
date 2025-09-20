@@ -85,7 +85,7 @@ struct WhatsNewView: View {
                 VStack {
                     if isRunningIn(.appstore) {
                         Link(destination: Links.AppStore) {
-                            Text(verbatim: "Release Notes")
+                            Text("Release Notes", comment: "Also know as changelog")
                         }
                         .foregroundStyle(.tint)
                         .padding(.bottom, 10)
@@ -98,7 +98,7 @@ struct WhatsNewView: View {
 
                         dismiss()
                     } label: {
-                        Text(verbatim: "Continue")
+                        Text("Continue", comment: "Button to close whats new sheet")
                             .font(.headline.weight(.semibold))
                             .padding(.vertical, 8)
                             .frame(maxWidth: .infinity)
