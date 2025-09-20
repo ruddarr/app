@@ -259,7 +259,7 @@ struct SeriesReleaseSheet: View {
                 .foregroundStyle(.primary)
         }
         .font(.subheadline)
-        .padding(.vertical, 6)
+        .padding(.vertical, 4)
     }
 
     func downloadRelease(force: Bool = false) async {

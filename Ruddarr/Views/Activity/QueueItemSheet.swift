@@ -49,7 +49,6 @@ struct QueueItemSheet: View {
                         }
 
                         details
-                            .padding(.bottom)
                     }
                     .viewPadding(.horizontal)
                     .padding(.top)
@@ -142,7 +141,7 @@ struct QueueItemSheet: View {
                     row("Added", date.formatted(date: .long, time: .shortened))
                 }
             }
-            .offset(y: -15)
+            .padding(.bottom)
         } header: {
             Text("Information")
                 .font(.title2.bold())
@@ -221,7 +220,7 @@ struct QueueItemSheet: View {
                 .multilineTextAlignment(.trailing)
         }
         .font(.callout)
-        .padding(.vertical, 6)
+        .padding(.vertical, 4)
     }
 
     func parseDate(_ string: String) -> Date? {
