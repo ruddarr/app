@@ -60,7 +60,7 @@ struct SettingsAboutSection: View {
     var contribute: some View {
         Link(destination: Links.GitHub, label: {
             Label("Contribute on GitHub", systemImage: "curlybraces")
-                .labelStyle(SettingsIconLabelStyle(font: .footnote))
+                .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
         })
     }
 

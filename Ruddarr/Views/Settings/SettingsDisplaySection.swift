@@ -42,7 +42,7 @@ struct SettingsDisplaySection: View {
             }
         } label: {
             Label("Accent Color", systemImage: "paintpalette")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
         }
         .tint(.secondary)
         .onChange(of: settings.theme) {
@@ -56,7 +56,7 @@ struct SettingsDisplaySection: View {
                 Text(settings.icon.label)
             } label: {
                 Label("App Icon", systemImage: "app.grid")
-                    .labelStyle(SettingsIconLabelStyle(font: .body))
+                    .labelStyle(SettingsIconLabelStyle(iconScale: 1.05))
             }
         }
     }

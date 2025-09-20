@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SettingsIconLabelStyle: LabelStyle {
-    var font: Font = .subheadline
+    var iconScale: CGFloat = 0.9
 
     func makeBody(configuration: Configuration) -> some View {
         Label {
@@ -9,9 +9,16 @@ struct SettingsIconLabelStyle: LabelStyle {
                 .tint(.primary)
         } icon: {
             configuration.icon
-                .font(font)
                 .foregroundColor(.primary)
+                #if os(iOS)
+                    .scaleEffect(iconScale)
+                #endif
         }
         .lineLimit(1)
     }
+}
+
+#Preview {
+    Label(String("Home"), systemImage: "house")
+        .labelStyle(SettingsIconLabelStyle(iconScale: 0.8))
 }
