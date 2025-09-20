@@ -280,7 +280,7 @@ struct InstanceEditView: View {
             EmptyView()
         #else
             Button(String(localized: "Paste", comment: "Paste from clipboard"), action: callback)
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.plain)
                 .foregroundStyle(settings.theme.tint)
         #endif
     }

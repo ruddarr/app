@@ -26,7 +26,6 @@ struct ButtonLabel: View {
         } icon: {
             Image(systemName: icon)
                 .imageScale(.medium)
-                .frame(maxHeight: 20)
         }
         .lineLimit(1)
         .opacity(isLoading ? 0 : 1)
@@ -56,13 +55,11 @@ struct ButtonLabel: View {
         } label: {
             ButtonLabel(text: "Download", icon: "arrow.down.circle", isLoading: isLoading)
         }
-            .buttonStyle(.bordered)
-            .tint(.secondary)
+        .buttonStyle(.glass)
 
         Button { } label: {
             ButtonLabel(text: "Download", icon: "arrow.down.circle", isLoading: true)
         }
-            .buttonStyle(.bordered)
-            .tint(.secondary)
+        .buttonStyle(.glass)
     }.withAppState()
 }
