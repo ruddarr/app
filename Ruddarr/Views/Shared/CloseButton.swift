@@ -15,8 +15,8 @@ struct CloseButton: View {
                 .glassEffect()
         }
         .tint(.primary)
-        .padding(.top, 12)
-        .padding(.trailing, 8)
+        .padding(.top)
+        .padding(.trailing)
         .zIndex(999)
     }
 }
