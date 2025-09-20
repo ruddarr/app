@@ -51,6 +51,9 @@ struct WhatsNewView: View {
 
                 Color.clear.padding(.bottom, 150)
             }
+            #if os(iOS)
+                .background(.systemBackground)
+            #endif
 
             VStack {
                 Spacer()
@@ -62,7 +65,6 @@ struct WhatsNewView: View {
                     #endif
             }
             .edgesIgnoringSafeArea(.bottom)
-
         }
         .onDisappear {
             WhatsNew.markAsPresented()
@@ -114,12 +116,12 @@ struct WhatsNewView: View {
     func feature(_ feature: WhatsNewFeature) -> some View {
         HStack(alignment: .top, spacing: 20) {
             Image(systemName: feature.image)
-                .font(.title)
+                .font(.title2)
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-                .frame(width: 40)
+                .frame(width: 28)
                 #if os(iOS)
-                    .offset(y: deviceType == .phone ? 10 : 5)
+                    .offset(y: 5)
                 #endif
 
             VStack(alignment: .leading, spacing: 2) {
@@ -127,6 +129,7 @@ struct WhatsNewView: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
+
                 Text(feature.subtitle)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
@@ -164,7 +167,7 @@ struct WhatsNewFooterPadding: ViewModifier {
                 )
             } else {
                 content.padding(
-                    .init(top: 0, leading: 20, bottom: 80, trailing: 20)
+                    .init(top: 0, leading: 20, bottom: 50, trailing: 20)
                 )
             }
         #endif
@@ -219,4 +222,5 @@ private struct WhatsNewSheetViewModifier: ViewModifier {
         WhatsNewView()
             // .environment(\.sizeCategory, .extraExtraLarge)
     })
+    .tint(.brown)
 }
