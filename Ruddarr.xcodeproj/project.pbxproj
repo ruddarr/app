@@ -112,6 +112,7 @@
 		BB8A602A2B97840F0039CFF6 /* InstanceView+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8A60292B97840F0039CFF6 /* InstanceView+Notifications.swift */; };
 		BB8B3DF22B61713500B80E2D /* MovieEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8B3DF12B61713500B80E2D /* MovieEditView.swift */; };
 		BB8B3DF42B617FE800B80E2D /* root-folders.json in Resources */ = {isa = PBXBuildFile; fileRef = BB8B3DF32B617FE800B80E2D /* root-folders.json */; };
+		BB8D17182E7F725700376971 /* AppIconBarbie.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB8D17172E7F725700376971 /* AppIconBarbie.icon */; };
 		BB9255CE2B54657900967F84 /* InstanceEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9255CD2B54657900967F84 /* InstanceEditView.swift */; };
 		BB94F1B92B7E7B870050F6A0 /* InstanceWebhook.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB94F1B82B7E7B870050F6A0 /* InstanceWebhook.swift */; };
 		BB94F1BB2B7E8A190050F6A0 /* notifications.json in Resources */ = {isa = PBXBuildFile; fileRef = BB94F1BA2B7E8A190050F6A0 /* notifications.json */; };
@@ -349,6 +350,7 @@
 		BB8A60292B97840F0039CFF6 /* InstanceView+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InstanceView+Notifications.swift"; sourceTree = "<group>"; };
 		BB8B3DF12B61713500B80E2D /* MovieEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieEditView.swift; sourceTree = "<group>"; };
 		BB8B3DF32B617FE800B80E2D /* root-folders.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "root-folders.json"; sourceTree = "<group>"; };
+		BB8D17172E7F725700376971 /* AppIconBarbie.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconBarbie.icon; sourceTree = "<group>"; };
 		BB9255CD2B54657900967F84 /* InstanceEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceEditView.swift; sourceTree = "<group>"; };
 		BB94F1B82B7E7B870050F6A0 /* InstanceWebhook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceWebhook.swift; sourceTree = "<group>"; };
 		BB94F1BA2B7E8A190050F6A0 /* notifications.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = notifications.json; sourceTree = "<group>"; };
@@ -730,6 +732,7 @@
 				BBE828552B4F2C7000C1E1D9 /* Ruddarr */,
 				BB40712E2C1CDD32006A3FA5 /* NotificationService */,
 				BBDEEAAC2E7F04BD00DB4E9D /* AppIcon.icon */,
+				BB8D17172E7F725700376971 /* AppIconBarbie.icon */,
 				BBC78DC02D70E2D700EA0AF5 /* README.md */,
 				BBF8E1202D8B9DB70018C5D7 /* LICENSE */,
 				BBE828542B4F2C7000C1E1D9 /* Products */,
@@ -1003,6 +1006,7 @@
 				BB94F1BB2B7E8A190050F6A0 /* notifications.json in Resources */,
 				BBA733692BB6070900A5022B /* movie-extra-files.json in Resources */,
 				BBF583C42BACBE5000AFA7FB /* calendar-episodes.json in Resources */,
+				BB8D17182E7F725700376971 /* AppIconBarbie.icon in Resources */,
 				BBF583B62BABDB1300AFA7FB /* series.json in Resources */,
 				BBE1E4432B51FA0200946222 /* movie-lookup.json in Resources */,
 				BB2370D82DCE657700261710 /* radarr-manual-import.json in Resources */,
