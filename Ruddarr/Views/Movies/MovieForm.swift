@@ -8,6 +8,7 @@ struct MovieForm: View {
     @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance
 
+    @State private var defaultsSet = false
     @State private var showingConfirmation = false
 
     @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
@@ -102,6 +103,9 @@ struct MovieForm: View {
     }
 
     func selectDefaultValues() {
+        guard !defaultsSet else { return }
+        defaultsSet = true
+
         if !movie.exists {
             movie.monitored = movieDefaults.monitored
             movie.rootFolderPath = movieDefaults.rootFolder

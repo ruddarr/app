@@ -8,6 +8,7 @@ struct SeriesForm: View {
 
     @Environment(\.deviceType) private var deviceType
 
+    @State private var defaultsSet = false
     @State private var showingConfirmation = false
     @State private var addOptions = SeriesAddOptions(monitor: .none)
 
@@ -125,6 +126,9 @@ struct SeriesForm: View {
     }
 
     func selectDefaultValues() {
+        guard !defaultsSet else { return }
+        defaultsSet = true
+
         if !series.exists {
             addOptions.monitor = seriesDefaults.monitor
 
