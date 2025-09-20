@@ -34,7 +34,6 @@ struct MovieReleaseSheet: View {
                         .padding(.bottom)
 
                     details
-                        .padding(.bottom)
                 }
                 .padding(.top)
                 .padding(.top)
@@ -192,6 +191,7 @@ struct MovieReleaseSheet: View {
                     ))
                 }
             }
+            .padding(.bottom)
         } header: {
             Text("Information")
                 .font(.title2.bold())

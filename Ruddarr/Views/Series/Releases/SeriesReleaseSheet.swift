@@ -36,7 +36,6 @@ struct SeriesReleaseSheet: View {
                         .padding(.bottom)
 
                     details
-                        .padding(.bottom)
                 }
                 .padding(.top)
                 .padding(.top)
@@ -192,6 +191,7 @@ struct SeriesReleaseSheet: View {
                     ))
                 }
             }
+            .padding(.bottom)
         } header: {
             Text("Information")
                 .font(.title2.bold())
