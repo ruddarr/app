@@ -29,35 +29,42 @@ struct MediaDeleteSheet: View {
                 }
             }
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Label("Cancel", systemImage: "xmark")
-                    }
-                    .tint(.primary)
-                }
-
-                ToolbarItem(placement: .primaryAction) {
-                    Button(role: .destructive) {
-                        isWorking = true
-                        confirm(exclude, delete)
-                    } label: {
-                        if isWorking {
-                            ProgressView().tint(.white)
-                        } else {
-                            Label("Delete", systemImage: "trash")
-                        }
-                    }
-                    .tint(.red)
-                    .buttonStyle(.glassProminent)
-                }
+                toolbarCloseButton
+                toolbarDeleteButton
             }
             #if os(macOS)
                 .padding(.all)
             #else
                 .padding(.top, -25)
             #endif
+        }
+    }
+
+    var toolbarCloseButton: some ToolbarContent {
+        ToolbarItem(placement: .cancellationAction) {
+            Button {
+                dismiss()
+            } label: {
+                Label("Cancel", systemImage: "xmark")
+            }
+            .tint(.primary)
+        }
+    }
+
+    var toolbarDeleteButton: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Button(role: .destructive) {
+                isWorking = true
+                confirm(exclude, delete)
+            } label: {
+                if isWorking {
+                    ProgressView().tint(.white)
+                } else {
+                    Label("Delete", systemImage: "trash")
+                }
+            }
+            .tint(.red)
+            .buttonStyle(.glassProminent)
         }
     }
 }
