@@ -18,3 +18,4 @@ extend-ignore-re = [
 [default.extend-identifiers]
 "BroadcasTheNet" = "BroadcasTheNet"
 "Github" = "GitHub"
+"IDESkipPackagePluginFingerprintValidatation" = "IDESkipPackagePluginFingerprintValidatation"
