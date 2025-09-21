@@ -152,7 +152,9 @@ struct ActivityView: View {
             items = items.reversed()
         }
 
-        self.items = items
+        withAnimation {
+            self.items = items
+        }
     }
 }
 

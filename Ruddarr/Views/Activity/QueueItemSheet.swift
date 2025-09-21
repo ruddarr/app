@@ -113,7 +113,9 @@ struct QueueItemSheet: View {
             .foregroundStyle(.secondary)
         }
         .onReceive(timer) { _ in
-            timeRemaining = item.remainingLabel
+            withAnimation {
+                timeRemaining = item.remainingLabel
+            }
         }
     }
 

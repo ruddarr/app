@@ -34,6 +34,7 @@ struct QueueListItem: View {
                     Spacer()
                     Image(systemName: "exclamationmark.triangle")
                         .imageScale(.small)
+                        .foregroundStyle(.tint)
                 }
             }
             .font(.subheadline)
@@ -44,7 +45,9 @@ struct QueueListItem: View {
         .contentShape(Rectangle())
         .onReceive(timer) { _ in
             if item.trackedDownloadState == .downloading {
-                time = Date()
+                withAnimation {
+                    time = Date()
+                }
             }
         }
     }
