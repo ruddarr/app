@@ -29,6 +29,9 @@ struct SeasonView: View {
         .refreshable {
             await Task { await reload() }.value
         }
+        #if os(macOS)
+            .padding(.vertical)
+        #endif
         .toolbar {
             toolbarMonitorButton
             toolbarMenu
@@ -70,9 +73,6 @@ struct SeasonView: View {
         } message: {
             Text("This will permanently erase all episode files of this season.")
         }.tint(nil)
-        #if os(macOS)
-            .padding(.vertical)
-        #endif
     }
 
     var season: Season {
@@ -84,6 +84,16 @@ struct SeasonView: View {
         instance.episodes.items
             .filter { $0.seasonNumber == seasonId }
             .sorted { $0.episodeNumber > $1.episodeNumber }
+    }
+
+    var seasonFiles: [MediaFile] {
+        episodes.filter {
+            $0.hasFile
+        }.compactMap { episode in
+            instance.files.items.first { file in
+                file.id == episode.episodeFileId
+            }
+        }
     }
 
     var header: some View {
@@ -287,22 +297,14 @@ extension SeasonView {
         )
     }
 
-    var episodeIds: [Episode.ID] {
-        episodes.compactMap { $0.hasFile ? $0.id : nil }
-    }
-
-    var seasonFiles: [MediaFile] {
-        let episodeFileIds = Set(episodeIds)
-
-        return instance.files.items
-            .filter { episodeFileIds.contains($0.episodeId) }
-    }
-
     func deleteSeason() async {
         guard !seasonFiles.isEmpty else { return }
 
-        guard await instance.files.delete(seasonFiles) else { return }
+        let episodeIds = seasonFiles.compactMap { file in
+            episodes.first { $0.episodeFileId == file.id }?.id
+        }
 
+        guard await instance.files.delete(seasonFiles) else { return }
         _ = await instance.episodes.monitor(episodeIds, false)
 
         dependencies.toast.show(.seasonDeleted)

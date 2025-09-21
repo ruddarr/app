@@ -1248,16 +1248,6 @@
         }
       }
     },
-    "Delete Season Files" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete Season Files"
-          }
-        }
-      }
-    },
     "Delete Series" : {
       "localizations" : {
         "en" : {
@@ -3657,16 +3647,6 @@
         }
       }
     },
-    "Only episodes with downloaded files will be unmonitored" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Only episodes with downloaded files will be unmonitored"
-          }
-        }
-      }
-    },
     "Open %@" : {
       "comment" : "Open (app name)",
       "localizations" : {
@@ -4953,6 +4933,16 @@
         }
       }
     },
+    "This will permanently erase all episode files of this season." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This will permanently erase all episode files of this season."
+          }
+        }
+      }
+    },
     "This will permanently erase the episode file." : {
       "localizations" : {
         "en" : {
@@ -5170,16 +5160,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unknown event."
-          }
-        }
-      }
-    },
-    "Unmonitor downloaded episodes" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unmonitor downloaded episodes"
           }
         }
       }
