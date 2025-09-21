@@ -149,7 +149,7 @@ struct MovieFilesFile: View {
             Button("Cancel", role: .cancel) { }
         } message: {
             Text("This will permanently erase the movie file.")
-        }
+        }.tint(nil)
     }
 
     func deleteFile() async {

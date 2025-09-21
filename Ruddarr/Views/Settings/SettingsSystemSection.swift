@@ -37,6 +37,9 @@ struct SettingsSystemSection: View {
             Button("Reset All Settings", role: .destructive) {
                 showingEraseConfirmation = true
             }
+            #if os(macOS)
+                .buttonStyle(.link).foregroundStyle(.red)
+            #endif
             .alert(
                 "Are you sure you want to erase all settings?",
                 isPresented: $showingEraseConfirmation
@@ -46,9 +49,7 @@ struct SettingsSystemSection: View {
                 }
                 Button("Cancel", role: .cancel) { }
             }
-            #if os(macOS)
-                .buttonStyle(.link).foregroundStyle(.red)
-            #endif
+            .tint(nil)
         } header: {
             Text("System", comment: "Preferences section header")
         } footer: {

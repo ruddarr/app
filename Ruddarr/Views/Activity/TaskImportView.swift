@@ -47,7 +47,7 @@ struct TaskImportView: View {
             Button("OK") { error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
     }
 
     @ToolbarContentBuilder
