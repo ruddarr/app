@@ -295,7 +295,7 @@ extension SeasonView {
         let episodeFileIds = Set(episodeIds)
 
         return instance.files.items
-            .filter { episodeFileIds.contains($0.id) }
+            .filter { episodeFileIds.contains($0.episodeId) }
     }
 
     func deleteSeason() async {
