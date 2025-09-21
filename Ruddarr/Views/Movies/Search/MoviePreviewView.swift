@@ -66,7 +66,7 @@ struct MoviePreviewView: View {
     @ToolbarContentBuilder
     var toolbarNextButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Button("Add Movie") {
+            Button("Add Movie", systemImage: "plus") {
                 presentingForm = true
             }
             .buttonStyle(.glassProminent)
@@ -85,7 +85,7 @@ struct MoviePreviewView: View {
                 if instance.movies.isWorking {
                     ProgressView().tint(.primary)
                 } else {
-                    Label("Add Series", systemImage: "checkmark")
+                    Label("Add Movie", systemImage: "checkmark")
                 }
             }
             .buttonStyle(.glassProminent)
