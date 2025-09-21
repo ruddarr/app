@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -450,6 +450,10 @@
 		BBFFB50F2D72717000AB5EFD /* BugSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		BB8D17192E7F730200376971 /* Icons */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Icons; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		BB40712A2C1CDD32006A3FA5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -745,6 +749,7 @@
 		BBE828552B4F2C7000C1E1D9 /* Ruddarr */ = {
 			isa = PBXGroup;
 			children = (
+				BB8D17192E7F730200376971 /* Icons */,
 				BBF477AA2B505C5D00C2DED3 /* Views */,
 				BBF477A62B4F8AA300C2DED3 /* Models */,
 				BBF706BA2B62209700B2B504 /* Services */,
@@ -926,6 +931,9 @@
 			dependencies = (
 				BB846F2D2E7DE0CB00E0A367 /* PBXTargetDependency */,
 				BB4071332C1CDD32006A3FA5 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BB8D17192E7F730200376971 /* Icons */,
 			);
 			name = Ruddarr;
 			packageProductDependencies = (
