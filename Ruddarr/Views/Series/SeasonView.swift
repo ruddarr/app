@@ -5,8 +5,6 @@ struct SeasonView: View {
     @Binding var series: Series
     var seasonId: Season.ID
     @State var jumpToEpisode: Episode.ID?
-    @State private var seasonEpisodes: [Episode]?
-    @State private var seasonFiles: [MediaFile]?
 
     @State private var dispatchingSearch: Bool = false
     @State private var showDeleteConfirmation = false
@@ -40,7 +38,6 @@ struct SeasonView: View {
             async let maybeFetchFiles: () = instance.files.maybeFetch(series)
 
             (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
-            setSeasonState()
             maybeNavigateToEpisode()
         }
         .onBecomeActive {
@@ -229,25 +226,11 @@ struct SeasonView: View {
     var deleteSeasonButton: some View {
         Button("Delete", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
-        }
+        }.disabled(seasonFiles.isEmpty)
     }
 }
 
 extension SeasonView {
-    func setSeasonState() {
-        let seasonEpisodes = instance.episodes.items.filter({ $0.seasonNumber == seasonId })
-
-        guard !seasonEpisodes.isEmpty else {
-            self.seasonEpisodes = []
-            self.seasonFiles = []
-            return
-        }
-
-        self.seasonEpisodes = seasonEpisodes
-        let episodeFileIds = Set(seasonEpisodes.compactMap(\.episodeFileId))
-        self.seasonFiles = instance.files.items.filter { episodeFileIds.contains($0.id) }
-    }
-
     func toggleMonitor() async {
         guard let index = series.seasons.firstIndex(where: { $0.id == season.id }) else {
             return
@@ -270,8 +253,6 @@ extension SeasonView {
         _ = await instance.series.get(series)
         await instance.episodes.fetch(series)
         await instance.files.fetch(series)
-
-        setSeasonState()
     }
 
     func dispatchSearch() async {
@@ -306,13 +287,22 @@ extension SeasonView {
         )
     }
 
+    var episodeIds: [Episode.ID] {
+        episodes.compactMap { $0.hasFile ? $0.id : nil }
+    }
+
+    var seasonFiles: [MediaFile] {
+        let episodeFileIds = Set(episodeIds)
+
+        return instance.files.items
+            .filter { episodeFileIds.contains($0.id) }
+    }
+
     func deleteSeason() async {
-        guard let seasonFiles, !seasonFiles.isEmpty else { return }
-        guard let seasonEpisodes else { return }
+        guard !seasonFiles.isEmpty else { return }
 
         guard await instance.files.delete(seasonFiles) else { return }
 
-        let episodeIds = seasonEpisodes.compactMap({ $0.hasFile ? $0.id : nil })
         _ = await instance.episodes.monitor(episodeIds, false)
 
         dependencies.toast.show(.seasonDeleted)
