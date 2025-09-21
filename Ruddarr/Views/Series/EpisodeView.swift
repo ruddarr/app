@@ -224,7 +224,7 @@ struct EpisodeView: View {
     var deleteFileButton: some View {
         Button("Delete File", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
-        }
+        }.tint(.red)
     }
 
     var file: some View {

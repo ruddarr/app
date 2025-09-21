@@ -134,8 +134,7 @@ struct MovieView: View {
     var deleteMovieButton: some View {
         Button("Delete", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
-        }
-        .tint(.red)
+        }.tint(.red)
     }
 }
 

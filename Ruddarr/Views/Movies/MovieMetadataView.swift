@@ -137,7 +137,7 @@ struct MovieFilesFile: View {
         .contextMenu {
             Button("Delete File", systemImage: "trash", role: .destructive) {
                 showDeleteConfirmation = true
-            }
+            }.tint(.red)
         }
         .alert(
             "Are you sure?",
