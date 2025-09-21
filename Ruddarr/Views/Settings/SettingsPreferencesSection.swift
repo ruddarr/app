@@ -96,9 +96,9 @@ struct SettingsPreferencesSection: View {
                         Text("Subscription")
                     }
                 } icon: {
-                    Image(systemName: "crown").symbolVariant(.fill)
+                    Image(systemName: "bubbles.and.sparkles")
                 }
-                .labelStyle(SettingsIconLabelStyle(iconScale: 0.9))
+                .labelStyle(SettingsIconLabelStyle())
             }
         }
         .foregroundStyle(.label)
