@@ -242,7 +242,7 @@ struct CalendarView: View {
 
     var todayButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Button("Today", systemImage: "calendar") {
+            Button("Today", systemImage: "calendar.day.timeline.left") {
                 Task { @MainActor in
                     withAnimation(.smooth) {
                         self.scrollTo(self.calendar.today())
