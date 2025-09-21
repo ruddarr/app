@@ -110,6 +110,10 @@ extension API {
             try await Task.sleep(for: .seconds(2))
 
             return Empty()
+        }, deleteEpisodeFiles: { _, _ in
+            try await Task.sleep(for: .seconds(2))
+
+            return Empty()
         }, movieCalendar: { _, _, _ in
             let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
 

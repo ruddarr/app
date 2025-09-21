@@ -4420,6 +4420,16 @@
         }
       }
     },
+    "Season Files Deleted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season Files Deleted"
+          }
+        }
+      }
+    },
     "Season Finale" : {
       "localizations" : {
         "en" : {
@@ -4919,6 +4929,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The URL used to access the %@ web interface. Must be prefixed with \"http://\" or \"https://\"."
+          }
+        }
+      }
+    },
+    "This will permanently erase all episode files of this season." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This will permanently erase all episode files of this season."
           }
         }
       }

@@ -7,6 +7,7 @@ struct SeasonView: View {
     @State var jumpToEpisode: Episode.ID?
 
     @State private var dispatchingSearch: Bool = false
+    @State private var showDeleteConfirmation = false
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
@@ -28,8 +29,12 @@ struct SeasonView: View {
         .refreshable {
             await Task { await reload() }.value
         }
+        #if os(macOS)
+            .padding(.vertical)
+        #endif
         .toolbar {
             toolbarMonitorButton
+            toolbarMenu
         }
         .task {
             async let maybeFetchEpisodes: () = instance.episodes.maybeFetch(series)
@@ -56,10 +61,18 @@ struct SeasonView: View {
             Button("OK") { instance.files.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
+        }
+        .alert(
+            "Are you sure?",
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button("Delete Files", role: .destructive) {
+                Task { await deleteSeason() }
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("This will permanently erase all episode files of this season.")
         }.tint(nil)
-        #if os(macOS)
-            .padding(.vertical)
-        #endif
     }
 
     var season: Season {
@@ -71,6 +84,16 @@ struct SeasonView: View {
         instance.episodes.items
             .filter { $0.seasonNumber == seasonId }
             .sorted { $0.episodeNumber > $1.episodeNumber }
+    }
+
+    var seasonFiles: [MediaFile] {
+        episodes.filter {
+            $0.hasFile
+        }.compactMap { episode in
+            instance.files.items.first { file in
+                file.id == episode.episodeFileId
+            }
+        }
     }
 
     var header: some View {
@@ -188,6 +211,33 @@ struct SeasonView: View {
             #endif
         }
     }
+
+    @ToolbarContentBuilder
+    var toolbarMenu: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Menu {
+                Button("Refresh", systemImage: "arrow.triangle.2.circlepath") {
+                    Task { await reload() }
+                }
+
+                Button("Automatic Search", systemImage: "magnifyingglass") {
+                    Task { await dispatchSearch() }
+                }
+
+                Section {
+                    deleteSeasonButton
+                }
+            } label: {
+                ToolbarActionButton()
+            }
+        }
+    }
+
+    var deleteSeasonButton: some View {
+        Button("Delete", systemImage: "trash", role: .destructive) {
+            showDeleteConfirmation = true
+        }.disabled(seasonFiles.isEmpty)
+    }
 }
 
 extension SeasonView {
@@ -212,6 +262,7 @@ extension SeasonView {
     func reload() async {
         _ = await instance.series.get(series)
         await instance.episodes.fetch(series)
+        await instance.files.fetch(series)
     }
 
     func dispatchSearch() async {
@@ -244,6 +295,20 @@ extension SeasonView {
         dependencies.router.seriesPath.append(
             SeriesPath.episode(series.id, episode.id)
         )
+    }
+
+    func deleteSeason() async {
+        guard !seasonFiles.isEmpty else { return }
+
+        let episodeIds = seasonFiles.compactMap { file in
+            episodes.first { $0.episodeFileId == file.id }?.id
+        }
+
+        guard await instance.files.delete(seasonFiles) else { return }
+        _ = await instance.episodes.monitor(episodeIds, false)
+
+        dependencies.toast.show(.seasonDeleted)
+        await reload()
     }
 }
 
