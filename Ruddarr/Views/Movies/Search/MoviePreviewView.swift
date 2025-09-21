@@ -83,12 +83,12 @@ struct MoviePreviewView: View {
                 }
             } label: {
                 if instance.movies.isWorking {
-                    ProgressView().tint(.primary)
+                    ProgressView().tint(nil)
                 } else {
                     Label("Add Movie", systemImage: "checkmark")
                 }
             }
-            .buttonStyle(.glassProminent)
+            .prominentGlassButtonStyle(!instance.movies.isWorking)
             .disabled(instance.movies.isWorking)
         }
     }

@@ -63,7 +63,7 @@ struct SeriesEditView: View {
                 }
             } label: {
                 if instance.series.isWorking {
-                    ProgressView().tint(.primary)
+                    ProgressView().tint(nil)
                 } else {
                     #if os(macOS)
                         Text("Save")
@@ -72,7 +72,7 @@ struct SeriesEditView: View {
                     #endif
                 }
             }
-            .buttonStyle(.glassProminent)
+            .prominentGlassButtonStyle(!instance.series.isWorking)
         }
     }
 

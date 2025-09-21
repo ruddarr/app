@@ -84,12 +84,12 @@ struct SeriesPreviewView: View {
                 }
             } label: {
                 if instance.series.isWorking {
-                    ProgressView().tint(.primary)
+                    ProgressView().tint(nil)
                 } else {
                     Label("Add Series", systemImage: "checkmark")
                 }
             }
-            .buttonStyle(.glassProminent)
+            .prominentGlassButtonStyle(!instance.series.isWorking)
             .disabled(instance.series.isWorking)
         }
     }

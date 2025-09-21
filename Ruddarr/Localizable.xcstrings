@@ -4201,16 +4201,6 @@
         }
       }
     },
-    "Report a Bug" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Report a Bug"
-          }
-        }
-      }
-    },
     "Reset" : {
       "comment" : "(Preferences) Reset release filters",
       "localizations" : {

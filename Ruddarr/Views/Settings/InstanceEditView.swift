@@ -294,7 +294,7 @@ struct InstanceEditView: View {
                 Task { await createOrUpdateInstance() }
             } label: {
                 if isLoading {
-                    ProgressView().tint(.primary)
+                    ProgressView().tint(nil)
                 } else {
                     #if os(macOS)
                         Text("Save")
@@ -303,7 +303,7 @@ struct InstanceEditView: View {
                     #endif
                 }
             }
-            .buttonStyle(.glassProminent)
+            .prominentGlassButtonStyle(!isLoading)
             .tint(settings.theme.tint)
             .disabled(hasEmptyFields())
         }

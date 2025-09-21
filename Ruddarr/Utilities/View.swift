@@ -33,6 +33,10 @@ extension View {
         self.modifier(ViewBottomPadding())
     }
 
+    func prominentGlassButtonStyle(_ condition: Bool) -> some View {
+        modifier(ProminentGlassButtonStyle(condition: condition))
+    }
+
     func presentationDetents(dynamic: Set<PresentationDetent>) -> some View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
     }
@@ -96,6 +100,18 @@ private struct ViewBottomPadding: ViewModifier {
     func body(content: Content) -> some View {
         if deviceType == .phone {
             content.padding(.bottom)
+        } else {
+            content
+        }
+    }
+}
+
+struct ProminentGlassButtonStyle: ViewModifier {
+    let condition: Bool
+
+    func body(content: Content) -> some View {
+        if condition {
+            content.buttonStyle(.glassProminent)
         } else {
             content
         }
