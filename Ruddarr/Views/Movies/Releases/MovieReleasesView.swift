@@ -53,7 +53,7 @@ struct MovieReleasesView: View {
             Button("OK") { instance.releases.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
         .overlay {
             if instance.releases.isSearching {
                 SearchingIndicator()

@@ -37,7 +37,7 @@ struct MovieView: View {
             Button("OK") { instance.movies.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
         .sheet(isPresented: $showDeleteConfirmation) {
             MediaDeleteSheet(label: "Delete Movie") { exclude, delete in
                 Task {

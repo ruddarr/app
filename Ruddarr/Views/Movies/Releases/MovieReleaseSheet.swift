@@ -54,7 +54,7 @@ struct MovieReleaseSheet: View {
                 Button("Cancel", role: .cancel) { }
             } message: {
                 Text("The release for this movie could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
-            }
+            }.tint(nil)
         }
     }
 

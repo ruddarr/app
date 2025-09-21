@@ -48,7 +48,7 @@ struct MovieEditView: View {
                     Task { await updateMovie() }
                 }
                 Button("Cancel", role: .cancel) {}
-            }
+            }.tint(nil)
     }
 
     @ToolbarContentBuilder

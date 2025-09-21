@@ -67,6 +67,7 @@ struct HistoryView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
+        .tint(nil)
         .overlay {
             if history.events.isEmpty && history.isLoading {
                 Loading()

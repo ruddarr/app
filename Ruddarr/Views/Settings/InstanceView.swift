@@ -58,8 +58,6 @@ struct InstanceView: View {
         .onBecomeActive {
             await setup()
         }
-        .subscriptionStatusTask(for: Subscription.group, action: handleSubscriptionStatusChange)
-        .sheet(isPresented: $showSubscription) { RuddarrPlusSheet() }
         .alert(
             isPresented: webhook.errorBinding,
             error: webhook.error
@@ -68,6 +66,9 @@ struct InstanceView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
+        .tint(nil)
+        .subscriptionStatusTask(for: Subscription.group, action: handleSubscriptionStatusChange)
+        .sheet(isPresented: $showSubscription) { RuddarrPlusSheet() }
     }
 
     @ToolbarContentBuilder

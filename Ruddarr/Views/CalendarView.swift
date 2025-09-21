@@ -96,7 +96,7 @@ struct CalendarView: View {
                 Button("OK") { calendar.error = nil }
             } message: { error in
                 Text(error.recoverySuggestionFallback)
-            }
+            }.tint(nil)
             .overlay {
                 if notConnectedToInternet {
                     NoInternet()

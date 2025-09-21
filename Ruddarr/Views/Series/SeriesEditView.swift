@@ -44,11 +44,12 @@ struct SeriesEditView: View {
                 Button("Move Files", role: .destructive) {
                     Task { await updateSeries(moveFiles: true) }
                 }
-                Button("No") {
+                Button("No", role: .confirm) {
                     Task { await updateSeries() }
                 }
                 Button("Cancel", role: .cancel) {}
             }
+            .tint(nil)
     }
 
     @ToolbarContentBuilder

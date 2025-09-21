@@ -267,7 +267,7 @@ struct EpisodeView: View {
             Button("Cancel", role: .cancel) { }
         } message: {
             Text("This will permanently erase the episode file.")
-        }
+        }.tint(nil)
     }
 
     var history: some View {

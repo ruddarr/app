@@ -56,7 +56,7 @@ struct SeasonView: View {
             Button("OK") { instance.files.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
         #if os(macOS)
             .padding(.vertical)
         #endif

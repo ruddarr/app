@@ -26,6 +26,15 @@ struct SeriesPreviewView: View {
         .toolbar {
             toolbarNextButton
         }
+        .alert(
+            isPresented: instance.series.errorBinding,
+            error: instance.series.error
+        ) { _ in
+            Button("OK") { instance.series.error = nil }
+        } message: { error in
+            Text(error.recoverySuggestionFallback)
+        }.tint(nil)
+        .tint(nil)
         .sheet(isPresented: $presentingForm) {
             NavigationStack {
                 SeriesForm(series: $series)
@@ -40,14 +49,6 @@ struct SeriesPreviewView: View {
                     #endif
             }
             .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
-        }
-        .alert(
-            isPresented: instance.series.errorBinding,
-            error: instance.series.error
-        ) { _ in
-            Button("OK") { instance.series.error = nil }
-        } message: { error in
-            Text(error.recoverySuggestionFallback)
         }
     }
 

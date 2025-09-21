@@ -48,7 +48,7 @@ struct MoviePreviewView: View {
             Button("OK") { instance.movies.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
     }
 
     @ToolbarContentBuilder

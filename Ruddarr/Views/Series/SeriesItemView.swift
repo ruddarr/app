@@ -44,7 +44,7 @@ struct SeriesDetailView: View {
             Button("OK") { instance.series.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
         .sheet(isPresented: $showDeleteConfirmation) {
             MediaDeleteSheet(label: "Delete Series") { exclude, delete in
                 Task {
