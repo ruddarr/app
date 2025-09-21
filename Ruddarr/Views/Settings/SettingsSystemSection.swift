@@ -6,6 +6,7 @@ struct SettingsSystemSection: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
+    @Environment(\.presentBugSheet) var presentBugSheet
 
     @State private var imageCacheSize: Int = 0
     @State private var showingEraseConfirmation: Bool = false
@@ -60,6 +61,9 @@ struct SettingsSystemSection: View {
                     Spacer()
                 }
                 .padding(.vertical)
+                .onTapGesture {
+                    presentBugSheet.wrappedValue = true
+                }
             }
         }
     }

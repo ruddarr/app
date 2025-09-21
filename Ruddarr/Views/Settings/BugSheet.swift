@@ -24,7 +24,7 @@ struct BugSheet: View {
                         dismiss()
                     } label: {
                         Label("Cancel", systemImage: "xmark")
-                    }
+                    }.tint(.primary)
                 }
 
                 ToolbarItem(placement: .primaryAction) {
