@@ -12,7 +12,6 @@ struct SeasonView: View {
     @State private var showDeleteConfirmation = false
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(\.deviceType) private var deviceType
     @Environment(SonarrInstance.self) var instance
 
     var body: some View {
@@ -62,19 +61,21 @@ struct SeasonView: View {
             Button("OK") { instance.files.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
+        }
+        .alert(
+            "Are you sure?",
+            isPresented: $showDeleteConfirmation
+        ) {
+            Button("Delete Files", role: .destructive) {
+                Task { await deleteSeason() }
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("This will permanently erase all episode files of this season.")
         }.tint(nil)
         #if os(macOS)
             .padding(.vertical)
         #endif
-        .sheet(isPresented: $showDeleteConfirmation) {
-            SeasonDeleteSheet(label: "Delete Season Files") { unmonitor in
-                Task {
-                    await deleteSeason(unmonitor: unmonitor)
-                    showDeleteConfirmation = false
-                }
-            }
-            .presentationDetents(dynamic: [deviceType == .phone ? .fraction(0.33) : .medium])
-        }
     }
 
     var season: Season {
@@ -208,6 +209,14 @@ struct SeasonView: View {
     var toolbarMenu: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Menu {
+                Button("Refresh", systemImage: "arrow.triangle.2.circlepath") {
+                    Task { await reload() }
+                }
+
+                Button("Automatic Search", systemImage: "magnifyingglass") {
+                    Task { await dispatchSearch() }
+                }
+
                 Section {
                     deleteSeasonButton
                 }
@@ -218,7 +227,7 @@ struct SeasonView: View {
     }
 
     var deleteSeasonButton: some View {
-        Button("Delete Season Files", systemImage: "trash", role: .destructive) {
+        Button("Delete", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
         }
     }
@@ -297,16 +306,14 @@ extension SeasonView {
         )
     }
 
-    func deleteSeason(unmonitor: Bool) async {
-        guard let seasonFiles, !seasonFiles.isEmpty,
-              let seasonEpisodes else { return }
+    func deleteSeason() async {
+        guard let seasonFiles, !seasonFiles.isEmpty else { return }
+        guard let seasonEpisodes else { return }
 
         guard await instance.files.delete(seasonFiles) else { return }
 
-        if unmonitor {
-            let episodeIds = seasonEpisodes.compactMap({ $0.hasFile ? $0.id : nil })
-            _ = await instance.episodes.monitor(episodeIds, false)
-        }
+        let episodeIds = seasonEpisodes.compactMap({ $0.hasFile ? $0.id : nil })
+        _ = await instance.episodes.monitor(episodeIds, false)
 
         dependencies.toast.show(.seasonDeleted)
         await reload()
