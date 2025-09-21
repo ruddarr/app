@@ -67,7 +67,7 @@ struct SeriesPreviewView: View {
     @ToolbarContentBuilder
     var toolbarNextButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Button("Add Series") {
+            Button("Add Series", systemImage: "plus") {
                 presentingForm = true
             }
             .buttonStyle(.glassProminent)
