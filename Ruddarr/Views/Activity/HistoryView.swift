@@ -36,13 +36,6 @@ struct HistoryView: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical)
             .viewPadding(.horizontal)
-            .sheet(item: $selectedEvent) { event in
-                MediaEventSheet(event: event, instanceId: event.instanceId)
-                    .environmentObject(settings)
-                    .presentationDetents(
-                        dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
-                    )
-            }
         }
         .navigationTitle("History")
         .safeNavigationBarTitleDisplayMode(.inline)
@@ -68,6 +61,13 @@ struct HistoryView: View {
             Text(error.recoverySuggestionFallback)
         }
         .tint(nil)
+        .sheet(item: $selectedEvent) { event in
+            MediaEventSheet(event: event, instanceId: event.instanceId)
+                .environmentObject(settings)
+                .presentationDetents(
+                    dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
+                )
+        }
         .overlay {
             if history.events.isEmpty && history.isLoading {
                 Loading()
