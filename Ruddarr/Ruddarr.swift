@@ -90,12 +90,17 @@ extension WhatsNew {
         .init(
             image: "paintpalette",
             title: "Liquid Glass",
-            subtitle: "Switched to the new Liquid Glass style."
+            subtitle: "Migrated app design to the delightful and elegant Liquid Glass design."
+        ),
+        .init(
+            image: "trash",
+            title: "Season Deletion",
+            subtitle: "Episode files belonging to a season can now be deleted in one go."
         ),
         .init(
             image: "ladybug",
             title: "Fixes & Improvements",
-            subtitle: "A couple of small improvements and fixes, everything is a little better."
+            subtitle: "Several small improvements and fixes, everything is a little better."
         ),
     ]
 }
