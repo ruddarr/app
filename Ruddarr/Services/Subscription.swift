@@ -113,7 +113,7 @@ struct RuddarrPlusSheetContent: View {
             Image("AppIconPreviewDefault")
                 .resizable()
                 .frame(width: 75, height: 75)
-                .clipShape(.rect(cornerRadius: (10 / 57) * 75))
+                .clipShape(.rect(cornerRadius: (15 / 57) * 75))
                 .padding(.bottom, 8)
 
             Text(verbatim: Subscription.name)

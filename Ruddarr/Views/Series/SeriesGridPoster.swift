@@ -24,12 +24,12 @@ struct SeriesGridPoster: View {
             .overlay(alignment: .bottom) {
                 posterOverlay
             }
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
     var poster: some View {
         CachedAsyncImage(.poster, series.remotePoster, placeholder: series.title)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
             .aspectRatio(
                 CGSize(width: 150, height: 225),
                 contentMode: .fill
