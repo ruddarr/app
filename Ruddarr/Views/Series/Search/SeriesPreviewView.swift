@@ -33,7 +33,7 @@ struct SeriesPreviewView: View {
             Button("OK") { instance.series.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }.tint(nil)
+        }
         .tint(nil)
         .sheet(isPresented: $presentingForm) {
             NavigationStack {

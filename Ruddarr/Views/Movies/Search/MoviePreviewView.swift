@@ -26,6 +26,14 @@ struct MoviePreviewView: View {
         .toolbar {
             toolbarNextButton
         }
+        .alert(
+            isPresented: instance.movies.errorBinding,
+            error: instance.movies.error
+        ) { _ in
+            Button("OK") { instance.movies.error = nil }
+        } message: { error in
+            Text(error.recoverySuggestionFallback)
+        }.tint(nil)
         .sheet(isPresented: $presentingForm) {
             NavigationStack {
                 MovieForm(movie: $movie)
@@ -41,14 +49,6 @@ struct MoviePreviewView: View {
             }
             .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
         }
-        .alert(
-            isPresented: instance.movies.errorBinding,
-            error: instance.movies.error
-        ) { _ in
-            Button("OK") { instance.movies.error = nil }
-        } message: { error in
-            Text(error.recoverySuggestionFallback)
-        }.tint(nil)
     }
 
     @ToolbarContentBuilder
