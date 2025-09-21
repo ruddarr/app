@@ -111,13 +111,15 @@ struct HistoryView: View {
                 }
                 .pickerStyle(.inline)
             } label: {
-                if displayedInstance != ".all" {
-                    Image("filters.badge").offset(y: 3.2)
+                if displayedInstance != ".all" || displayedEventType != ".all" {
+                    Image("filters.badge")
+                        .offset(y: 3)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(settings.theme.tint, .primary)
                 } else {
                     Image(systemName: "line.3.horizontal.decrease")
                 }
             }
-            .tint(.primary)
             .menuIndicator(.hidden)
         }
     }

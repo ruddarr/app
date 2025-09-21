@@ -17,13 +17,11 @@ extension MoviesView {
     var toolbarViewOptions: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
             toolbarFilterButton
-                .tint(.primary)
                 .menuIndicator(.hidden)
         }
 
         ToolbarItem(placement: .navigation) {
             toolbarSortingButton
-                .tint(.primary)
                 .menuIndicator(.hidden)
         }
     }
@@ -38,7 +36,10 @@ extension MoviesView {
             .pickerStyle(.inline)
         } label: {
             if sort.filter != .all {
-                Image("filters.badge").offset(y: 3.2)
+                Image("filters.badge")
+                    .offset(y: 3)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.tint, .primary)
             } else {
                 Image(systemName: "line.3.horizontal.decrease")
             }

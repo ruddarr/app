@@ -297,12 +297,14 @@ struct CalendarView: View {
                 }
             } label: {
                 if displayedMediaType != .all || onlyPremieres || onlyMonitored || hideSpecials {
-                    Image("filters.badge").offset(y: 3.2)
+                    Image("filters.badge")
+                        .offset(y: 3)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.tint, .primary)
                 } else {
                     Image(systemName: "line.3.horizontal.decrease")
                 }
             }
-            .tint(.primary)
             .menuIndicator(.hidden)
         }
     }

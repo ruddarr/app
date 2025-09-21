@@ -173,12 +173,14 @@ extension MovieReleasesView {
             }
         } label: {
             if sort.hasFilter {
-                Image("filters.badge").offset(y: 3.2)
+                Image("filters.badge")
+                    .offset(y: 3)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.tint, .primary)
             } else{
                 Image(systemName: "line.3.horizontal.decrease")
             }
         }
-        .tint(.primary)
     }
 
     var toolbarSortingButton: some View {

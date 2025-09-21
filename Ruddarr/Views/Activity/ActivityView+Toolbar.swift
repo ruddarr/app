@@ -73,8 +73,11 @@ extension ActivityView {
             }
         } label: {
             if sort.hasFilter {
-                Image("filters.badge").offset(y: 3.2)
-            } else{
+                Image("filters.badge")
+                    .offset(y: 3)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(settings.theme.tint, .primary)
+            } else {
                 Image(systemName: "line.3.horizontal.decrease")
             }
         }
