@@ -142,6 +142,7 @@ struct MovieDetails: View {
                     .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.glass)
+            .tint(.primary)
 
             if let trailerUrl = MovieLinks.youTubeTrailer(movie.youTubeTrailerId) {
                 Button {

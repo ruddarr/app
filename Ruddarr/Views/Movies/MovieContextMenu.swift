@@ -7,13 +7,15 @@ struct MovieContextMenu: View {
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
-        MovieLinks(movie: movie)
-
-        Divider()
-
-        Button("Automatic Search", systemImage: "magnifyingglass") {
-            Task { await dispatchSearch() }
-        }
+        Group {
+            MovieLinks(movie: movie)
+            
+            Divider()
+            
+            Button("Automatic Search", systemImage: "magnifyingglass") {
+                Task { await dispatchSearch() }
+            }
+        }.tint(.primary)
     }
 
     func dispatchSearch() async {
