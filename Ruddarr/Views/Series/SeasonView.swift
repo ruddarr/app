@@ -67,7 +67,7 @@ struct SeasonView: View {
             .padding(.vertical)
         #endif
         .sheet(isPresented: $showDeleteConfirmation) {
-            SeasonMediaDeleteSheet(label: "Delete Season Files") { unmonitor in
+            SeasonDeleteSheet(label: "Delete Season Files") { unmonitor in
                 Task {
                     await deleteSeason(unmonitor: unmonitor)
                     showDeleteConfirmation = false

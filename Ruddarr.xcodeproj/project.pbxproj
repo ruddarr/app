@@ -206,7 +206,7 @@
 		BBFBAD5C2BDFF5A4007B70BC /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFBAD5B2BDFF5A4007B70BC /* WhatsNew.swift */; };
 		BBFDEB842BD5B78B009F002F /* SettingsLinksSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */; };
 		BBFFB5102D72717000AB5EFD /* BugSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFFB50F2D72717000AB5EFD /* BugSheet.swift */; };
-		F72BB5542E3D1D9400E7EA86 /* SeasonMediaDeleteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72BB5532E3D1D9400E7EA86 /* SeasonMediaDeleteSheet.swift */; };
+		F72BB5542E3D1D9400E7EA86 /* SeasonDeleteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72BB5532E3D1D9400E7EA86 /* SeasonDeleteSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -449,7 +449,7 @@
 		BBFBAD5B2BDFF5A4007B70BC /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLinksSection.swift; sourceTree = "<group>"; };
 		BBFFB50F2D72717000AB5EFD /* BugSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugSheet.swift; sourceTree = "<group>"; };
-		F72BB5532E3D1D9400E7EA86 /* SeasonMediaDeleteSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonMediaDeleteSheet.swift; sourceTree = "<group>"; };
+		F72BB5532E3D1D9400E7EA86 /* SeasonDeleteSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonDeleteSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -603,7 +603,7 @@
 				BB89058A2E41359E0057C62B /* SeasonCard.swift */,
 				BBE640D22BE4554500B436CC /* SeasonView.swift */,
 				BBBCA0592BE93FDF00BAE374 /* SeasonView+Episode.swift */,
-				F72BB5532E3D1D9400E7EA86 /* SeasonMediaDeleteSheet.swift */,
+				F72BB5532E3D1D9400E7EA86 /* SeasonDeleteSheet.swift */,
 				BB96C3222BE7DEAF00E24C1C /* EpisodeView.swift */,
 				BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */,
 			);
@@ -1065,7 +1065,7 @@
 				BB96C32F2BE8889E00E24C1C /* SeriesEditView.swift in Sources */,
 				BB96C3232BE7DEAF00E24C1C /* EpisodeView.swift in Sources */,
 				BBE7CE032B91745100431801 /* MovieDetails+Information.swift in Sources */,
-				F72BB5542E3D1D9400E7EA86 /* SeasonMediaDeleteSheet.swift in Sources */,
+				F72BB5542E3D1D9400E7EA86 /* SeasonDeleteSheet.swift in Sources */,
 				2B949CEB2CCBC8690088B1A8 /* HistoryView.swift in Sources */,
 				79159D6E2B5953E800F7F997 /* API.swift in Sources */,
 				BB05C9052B86D0EC009B6444 /* Languages.swift in Sources */,

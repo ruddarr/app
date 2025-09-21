@@ -179,6 +179,10 @@ struct EpisodesMonitorResource: Codable {
     let monitored: Bool
 }
 
+struct EpisodeDeleteResource: Codable {
+    let episodeFileIds: [Int]
+}
+
 enum EpisodeReleaseType: String, Equatable, Codable {
     case unknown // 0
     case singleEpisode // 1
@@ -197,10 +201,6 @@ enum EpisodeReleaseType: String, Equatable, Codable {
             self = .unknown
         }
     }
-}
-
-struct EpisodeDeleteResource: Codable {
-    let episodeFileIds: [Int]
 }
 
 extension Episode {

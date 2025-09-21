@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SeasonMediaDeleteSheet: View {
+struct SeasonDeleteSheet: View {
     var label: LocalizedStringKey
     var confirm: (_ unmonitor: Bool) -> Void
 
@@ -51,9 +51,9 @@ struct SeasonMediaDeleteSheet: View {
 }
 
 #Preview {
-    Text("Preview")
+    Text(verbatim: "Preview")
         .sheet(isPresented: .constant(true)) {
-            SeasonMediaDeleteSheet(label: "Delete Season Files") { _ in
+            SeasonDeleteSheet(label: "Delete Season Files") { _ in
                 //
             }
             .presentationDetents(

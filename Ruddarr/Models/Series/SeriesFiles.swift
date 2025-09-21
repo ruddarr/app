@@ -74,8 +74,8 @@ class SeriesFiles {
         do {
             _ = try await dependencies.api.deleteEpisodeFiles(files, instance)
 
-            let deletedIDs = Set(files.map(\.id))
-            items.removeAll(where: { deletedIDs.contains($0.id) })
+            let deleted = Set(files.map(\.id))
+            items.removeAll { deleted.contains($0.id) }
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
