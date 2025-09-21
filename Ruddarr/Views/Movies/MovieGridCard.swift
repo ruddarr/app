@@ -56,7 +56,7 @@ struct MovieGridCard: View {
         }
         .frame(maxWidth: .infinity)
         .background(.card)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
         .contextMenu {
             MovieContextMenu(movie: movie)
         } preview: {

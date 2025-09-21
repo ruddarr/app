@@ -56,7 +56,7 @@ struct SeriesGridCard: View {
         }
         .frame(maxWidth: .infinity)
         .background(.card)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
         .contextMenu {
             SeriesContextMenu(series: series)
         } preview: {

@@ -10,7 +10,7 @@ extension MovieDetails {
                 )
                 .modifier(MediaDetailsPosterModifier())
                 .clipped()
-                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .clipShape(RoundedRectangle(cornerRadius: 14))
                 .padding(.trailing, deviceType == .phone ? 8 : 16)
 
             VStack(alignment: .leading, spacing: 0) {

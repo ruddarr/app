@@ -17,12 +17,12 @@ struct MovieGridPoster: View {
                     posterOverlay
                 }
             }
-            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     var poster: some View {
         CachedAsyncImage(.poster, movie.remotePoster, placeholder: movie.title)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
             .aspectRatio(
                 CGSize(width: 150, height: 225),
                 contentMode: .fill

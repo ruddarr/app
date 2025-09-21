@@ -120,7 +120,7 @@ struct MovieReleaseSheet: View {
             .padding(.bottom, 12)
         }
         .background(.card)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     var actions: some View {
