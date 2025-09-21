@@ -50,9 +50,8 @@ struct QueueItemSheet: View {
 
                         details
                     }
+                    .padding(.top, 24)
                     .viewPadding(.horizontal)
-                    .padding(.top)
-                    .padding(.top)
                 }
             }
         }

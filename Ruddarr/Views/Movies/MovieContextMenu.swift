@@ -9,9 +9,9 @@ struct MovieContextMenu: View {
     var body: some View {
         Group {
             MovieLinks(movie: movie)
-            
+
             Divider()
-            
+
             Button("Automatic Search", systemImage: "magnifyingglass") {
                 Task { await dispatchSearch() }
             }

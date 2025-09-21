@@ -8,13 +8,13 @@ struct EpisodeContextMenu: View {
     var body: some View {
         Group {
             link(name: "Trakt", url: traktUrl)
-            
+
             if encodedTitle != nil {
                 link(name: "IMDb", url: imdbUrl)
             }
-            
+
             Divider()
-            
+
             Button("Automatic Search", systemImage: "magnifyingglass") {
                 Task { await dispatchSearch() }
             }
