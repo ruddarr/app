@@ -44,7 +44,7 @@ struct WhatsNewView: View {
                         ForEach(WhatsNew.features, id: \.title, content: feature)
                     }
                     .modifier(WhatsNewFeaturesPadding())
-                    .padding(.leading, 15)
+                    .padding(.horizontal, 15)
                 }
                 .padding(.horizontal)
                 .padding(.top, 65)

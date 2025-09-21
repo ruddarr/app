@@ -37,8 +37,7 @@ struct SeriesReleaseSheet: View {
 
                     details
                 }
-                .padding(.top)
-                .padding(.top)
+                .padding(.top, 24)
                 .viewPadding(.horizontal)
             }
             .alert(
@@ -122,7 +121,7 @@ struct SeriesReleaseSheet: View {
             .padding(.top, 4)
             .padding(.bottom, 12)
         }
-        .background(.secondarySystemBackground)
+        .background(.card)
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 

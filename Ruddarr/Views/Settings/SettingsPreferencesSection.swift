@@ -96,10 +96,9 @@ struct SettingsPreferencesSection: View {
                         Text("Subscription")
                     }
                 } icon: {
-                    Image(systemName: "crown")
-                        .symbolVariant(.fill)
+                    Image(systemName: "crown").symbolVariant(.fill)
                 }
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(SettingsIconLabelStyle(iconScale: 0.9))
             }
         }
         .foregroundStyle(.label)

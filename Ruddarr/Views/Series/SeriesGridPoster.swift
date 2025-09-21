@@ -20,7 +20,7 @@ struct SeriesGridPoster: View {
             } preview: {
                 poster.frame(width: 300, height: 450)
             }
-            .background(.secondarySystemBackground)
+            .background(.card)
             .overlay(alignment: .bottom) {
                 posterOverlay
             }

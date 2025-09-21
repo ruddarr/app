@@ -202,6 +202,7 @@ extension View {
 
 extension ShapeStyle where Self == Color {
     static var systemPurple: Color { Color(red: 88 / 255, green: 86 / 255, blue: 215 / 255) }
+    static var card: Color { .quaternarySystemFill }
 
 #if os(iOS)
     static var label: Color { Color(UIColor.label) }
@@ -214,6 +215,8 @@ extension ShapeStyle where Self == Color {
 
     static var systemFill: Color { Color(UIColor.systemFill) }
     static var secondarySystemFill: Color { Color(UIColor.secondarySystemFill) }
+    static var tertiarySystemFill: Color { Color(UIColor.tertiarySystemFill) }
+    static var quaternarySystemFill: Color { Color(UIColor.quaternarySystemFill) }
 
     static var systemBackground: Color { Color(UIColor.systemBackground) }
     static var secondarySystemBackground: Color { Color(UIColor.secondarySystemBackground) }
@@ -229,6 +232,8 @@ extension ShapeStyle where Self == Color {
 
     static var systemFill: Color { Color(NSColor.systemFill) }
     static var secondarySystemFill: Color { Color(NSColor.secondarySystemFill) }
+    static var tertiarySystemFill: Color { Color(NSColor.tertiarySystemFill) }
+    static var quaternarySystemFill: Color { Color(NSColor.quaternarySystemFill) }
 
     static var systemBackground: Color { Color(NSColor.windowBackgroundColor) }
     static var secondarySystemBackground: Color { Color(NSColor.controlBackgroundColor) }

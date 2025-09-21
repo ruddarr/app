@@ -26,6 +26,7 @@ struct TagList: View {
             }
             .buttonStyle(.plain)
         }
+        .navigationTitle("Tags")
     }
 }
 

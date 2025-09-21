@@ -35,8 +35,7 @@ struct MovieReleaseSheet: View {
 
                     details
                 }
-                .padding(.top)
-                .padding(.top)
+                .padding(.top, 24)
                 .viewPadding(.horizontal)
             }
             .alert(
@@ -120,7 +119,7 @@ struct MovieReleaseSheet: View {
             .padding(.top, 4)
             .padding(.bottom, 12)
         }
-        .background(.secondarySystemBackground)
+        .background(.card)
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
@@ -271,7 +270,7 @@ struct MovieReleaseSheet: View {
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
     let releases: [MovieRelease] = PreviewData.load(name: "movie-releases")
-    let release = releases[87]
+    let release = releases[10]
 
     MovieReleaseSheet(release: release, movie: movies[1])
         .withAppState()

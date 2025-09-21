@@ -132,6 +132,7 @@ struct SeriesDetails: View {
                     .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.glass)
+            .tint(.primary)
 
             Spacer()
                 .modifier(MediaPreviewActionSpacerModifier())

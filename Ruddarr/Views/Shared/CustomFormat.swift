@@ -40,14 +40,10 @@ struct CustomFormat: View {
         Text(label)
             .font(.caption2)
             .fontWeight(.semibold)
-            .foregroundStyle(colorScheme == .dark ? .lightText : .secondary)
+            .foregroundStyle(colorScheme == .dark ? .lightText : .darkGray)
             .padding(.vertical, 4)
             .padding(.horizontal, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 4).fill(
-                    style == .primary ? .secondarySystemBackground : .tertiarySystemBackground
-                )
-            )
+            .glassEffect()
     }
 }
 

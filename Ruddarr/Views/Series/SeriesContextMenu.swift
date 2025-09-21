@@ -7,15 +7,17 @@ struct SeriesContextMenu: View {
     @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
-        SeriesLinks(series: series)
+        Group {
+            SeriesLinks(series: series)
 
-        Divider()
+            Divider()
 
-        if series.monitored {
-            Button("Search Monitored", systemImage: "magnifyingglass") {
-                Task { await dispatchSearch() }
+            if series.monitored {
+                Button("Search Monitored", systemImage: "magnifyingglass") {
+                    Task { await dispatchSearch() }
+                }
             }
-        }
+        }.tint(.primary)
     }
 
     func dispatchSearch() async {
