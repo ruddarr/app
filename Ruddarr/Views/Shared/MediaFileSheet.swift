@@ -37,6 +37,11 @@ struct MediaFileSheet: View {
                 )
                 Divider()
                 row(
+                    String(localized: "File Size"),
+                    file.sizeLabel
+                )
+                Divider()
+                row(
                     String(localized: "Score", comment: "Custom score of media file"),
                     file.scoreLabel
                 )
