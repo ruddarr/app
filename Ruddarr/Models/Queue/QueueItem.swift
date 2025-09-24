@@ -35,7 +35,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let type: ReleaseProtocol
 
     let size: Float
-    let sizeleft: Float
+    var sizeleft: Float
     let timeleft: String?
 
     let languages: [MediaLanguage]?

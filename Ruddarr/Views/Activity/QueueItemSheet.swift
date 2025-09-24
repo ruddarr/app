@@ -9,7 +9,7 @@ struct QueueItemSheet: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.deviceType) private var deviceType
 
-    @State private var timeRemaining: String?
+    @State private var downloadProgress: Float = 0
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -102,19 +102,26 @@ struct QueueItemSheet: View {
     }
 
     var progress: some View {
-        ProgressView(value: item.size - item.sizeleft, total: item.size) {
+        ProgressView(value: downloadProgress, total: item.size) {
             HStack {
                 Text(item.progressLabel)
+                    .animation(.default, value: item.progressLabel)
+
                 Spacer()
-                Text(timeRemaining ?? "")
+
+                Text(item.remainingLabel ?? "")
+                    .animation(.default, value: item.remainingLabel)
             }
             .font(.subheadline)
             .monospacedDigit()
             .foregroundStyle(.secondary)
         }
+        .onAppear {
+            downloadProgress = item.size - item.sizeleft
+        }
         .onReceive(timer) { _ in
             withAnimation {
-                timeRemaining = item.remainingLabel
+                downloadProgress = item.size - item.sizeleft
             }
         }
     }
