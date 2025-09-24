@@ -115,10 +115,19 @@ struct QueueItemSheet: View {
             .foregroundStyle(.secondary)
         }
         .onReceive(timer) { _ in
-            withAnimation(.easeInOut(duration: 0.5)) {
-                timeRemaining = item.remainingLabel
-                animatedProgressValue = item.size - item.sizeleft
-                animatedProgressPercentage = item.progressLabel
+            let newProgressValue = item.size - item.sizeleft
+            let newProgressPercentage = item.progressLabel
+            let newTimeRemaining = item.remainingLabel
+            
+            // Only animate if values have actually changed
+            if newProgressValue != animatedProgressValue || 
+               newProgressPercentage != animatedProgressPercentage ||
+               newTimeRemaining != timeRemaining {
+                withAnimation(.smooth) {
+                    timeRemaining = newTimeRemaining
+                    animatedProgressValue = newProgressValue
+                    animatedProgressPercentage = newProgressPercentage
+                }
             }
         }
         .onAppear {
