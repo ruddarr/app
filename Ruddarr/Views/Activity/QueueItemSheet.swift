@@ -10,6 +10,8 @@ struct QueueItemSheet: View {
     @Environment(\.deviceType) private var deviceType
 
     @State private var timeRemaining: String?
+    @State private var animatedProgressValue: Float = 0
+    @State private var animatedProgressPercentage: String = ""
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -102,9 +104,9 @@ struct QueueItemSheet: View {
     }
 
     var progress: some View {
-        ProgressView(value: item.size - item.sizeleft, total: item.size) {
+        ProgressView(value: animatedProgressValue, total: item.size) {
             HStack {
-                Text(item.progressLabel)
+                Text(animatedProgressPercentage)
                 Spacer()
                 Text(timeRemaining ?? "")
             }
@@ -113,9 +115,16 @@ struct QueueItemSheet: View {
             .foregroundStyle(.secondary)
         }
         .onReceive(timer) { _ in
-            withAnimation {
+            withAnimation(.easeInOut(duration: 0.5)) {
                 timeRemaining = item.remainingLabel
+                animatedProgressValue = item.size - item.sizeleft
+                animatedProgressPercentage = item.progressLabel
             }
+        }
+        .onAppear {
+            // Initialize animated values without animation
+            animatedProgressValue = item.size - item.sizeleft
+            animatedProgressPercentage = item.progressLabel
         }
     }
 
