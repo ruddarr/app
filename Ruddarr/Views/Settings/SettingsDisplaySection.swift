@@ -38,7 +38,13 @@ struct SettingsDisplaySection: View {
     var themePicker: some View {
         Picker(selection: $settings.theme) {
             ForEach(Theme.allCases) { theme in
-                Text(verbatim: theme.label)
+                HStack {
+                    Circle()
+                        .fill(theme.tint)
+                        .frame(width: 16, height: 16)
+                    Text(verbatim: theme.label)
+                }
+                .tag(theme)
             }
         } label: {
             Label("Accent Color", systemImage: "paintpalette")
