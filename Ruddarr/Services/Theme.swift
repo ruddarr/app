@@ -13,6 +13,7 @@ enum Theme: String, Identifiable, CaseIterable {
     case mono
     case brown
     case barbie
+    case plex
     // cyan (Translate)
 
     var id: Self { self }
@@ -28,6 +29,7 @@ enum Theme: String, Identifiable, CaseIterable {
         case .mono: String(localized: "Books", comment: "Localized name of Apple's Books app")
         case .barbie: String(localized: "Barbie", comment: "Localized name of the Barbie brand")
         case .brown: "Prologue"
+        case .plex: "Plex"
         }
     }
 
@@ -42,6 +44,7 @@ enum Theme: String, Identifiable, CaseIterable {
         case .yellow: Color.yellow
         case .mono: Color(.monochrome)
         case .barbie: Color(.barbie)
+        case .plex: Color(.plex)
         }
     }
 
