@@ -14,23 +14,23 @@ struct Ruddarr: App {
 
     init() {
         #if DEBUG
-        // dependencies = .mock
+        dependencies = .mock
         // dependencies.cloudkit = .mock
         // Tips.showAllTipsForTesting()
         #endif
 
-        try? Tips.configure()
-
-        Task {
-            await NetworkMonitor.shared.start()
-        }
+//        try? Tips.configure()
+//
+//        Task {
+//            await NetworkMonitor.shared.start()
+//        }
     }
 
     var body: some Scene {
         #if os(macOS)
             Window(String(""), id: "ruddarr") {
                 ContentView()
-                    .withAppState()
+                    //.withAppState()
                     .onOpenURL(perform: openDeeplink)
                     .onContinueUserActivity(CSSearchableItemActionType, perform: openSearchableItem)
             }

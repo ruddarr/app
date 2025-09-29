@@ -31,87 +31,76 @@ struct MoviesView: View {
     var body: some View {
         // swiftlint:disable:next closure_body_length
         NavigationStack(path: dependencies.$router.moviesPath) {
-            Group {
-                if instance.isVoid {
-                    NoInstance(type: "Radarr")
-                } else {
-                    ScrollViewReader { proxy in
-                        ScrollView {
-                            mediaGrid
+            ScrollView {
+                mediaGrid
 
-                            if presentSearchSuggestion {
-                                MovieSearchSuggestion(query: $searchQuery, sort: $sort)
-                            }
-                        }
-                        .onAppear {
-                            scrollView = proxy
-                        }
-                    }
-                    .task {
-                        guard !instance.isVoid else { return }
-                        await fetchMoviesWithAlertThrottled(ignoreOffline: true)
-                    }
-                    .refreshable {
-                        await Task { await fetchMoviesWithAlert() }.value
-                    }
-                    .onBecomeActive(perform: becameActive)
-                }
+                //                if presentSearchSuggestion {
+                //                    MovieSearchSuggestion(query: $searchQuery, sort: $sort)
+                //                }
             }
+            .task {
+                guard !instance.isVoid else { return }
+                await fetchMoviesWithAlertThrottled(ignoreOffline: true)
+            }
+            .refreshable {
+                await Task { await fetchMoviesWithAlert() }.value
+            }
+            .onBecomeActive(perform: becameActive)
             .safeNavigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: MoviesPath.self) {
                 destination(for: $0)
             }
             .onAppear {
                 // if a deeplink set an instance, try to switch to it
-                maybeSwitchToInstance()
+                //maybeSwitchToInstance()
 
                 // if no instance is selected, try to select one
                 // if the selected instance was deleted, try to select one
                 if instance.isVoid, let first = settings.radarrInstances.first {
-                    settings.radarrInstanceId = first.id
-                    changeInstance()
+                    // settings.radarrInstanceId = first.id
+                    //changeInstance()
                 }
             }
-            .onReceive(dependencies.quickActions.moviePublisher, perform: navigateToMovie)
-            .toolbar {
-                toolbarViewOptions
-                toolbarSearchButton
-
-                if settings.radarrInstances.count > 1 {
-                    if deviceType == .phone { toolbarInstancePicker }
-                    if deviceType == .pad { bottomBarInstancePicker }
-                }
-            }
-            .scrollDismissesKeyboard(.immediately)
-            .searchable(
-                text: $searchQuery,
-                isPresented: $searchPresented,
-                placement: .drawerOrToolbar
-            )
-            .autocorrectionDisabled(true)
-            .onChange(of: settings.radarrInstanceId, changeInstance)
-            .onChange(of: sort.option, updateSortDirection)
-            .onChange(of: sort, handleFilterChange)
-            .onChange(of: searchQuery, handleQueryChange)
+//            .onReceive(dependencies.quickActions.moviePublisher, perform: navigateToMovie)
+//            .toolbar {
+//                toolbarViewOptions
+//                toolbarSearchButton
+//
+//                if settings.radarrInstances.count > 1 {
+//                    if deviceType == .phone { toolbarInstancePicker }
+//                    if deviceType == .pad { bottomBarInstancePicker }
+//                }
+//            }
+//            .scrollDismissesKeyboard(.immediately)
+//            .searchable(
+//                text: $searchQuery,
+//                isPresented: $searchPresented,
+//                placement: .drawerOrToolbar
+//            )
+//            .autocorrectionDisabled(true)
+//            .onChange(of: settings.radarrInstanceId, changeInstance)
+//            .onChange(of: sort.option, updateSortDirection)
+//            .onChange(of: sort, handleFilterChange)
+//            .onChange(of: searchQuery, handleQueryChange)
             .onChange(of: instance.movies.items, updateDisplayedMovies)
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
                 Text(error.recoverySuggestionFallback)
             }.tint(nil)
-            .overlay {
-                if notConnectedToInternet {
-                    NoInternet()
-                } else if hasNoSearchResults {
-                    NoMovieSearchResults(query: $searchQuery, sort: $sort)
-                } else if isLoadingMovies {
-                    Loading()
-                } else if hasNoMatchingResults {
-                    NoMatchingMovies(sort: $sort)
-                } else if initialLoadingFailed {
-                    contentUnavailable
-                }
-            }
+//            .overlay {
+//                if notConnectedToInternet {
+//                    NoInternet()
+//                } else if hasNoSearchResults {
+//                    NoMovieSearchResults(query: $searchQuery, sort: $sort)
+//                } else if isLoadingMovies {
+//                    Loading()
+//                } else if hasNoMatchingResults {
+//                    NoMatchingMovies(sort: $sort)
+//                } else if initialLoadingFailed {
+//                    contentUnavailable
+//                }
+//            }
         }
     }
 

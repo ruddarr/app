@@ -72,11 +72,11 @@ private struct WithAppStateModifier: ViewModifier {
             .environment(\.deviceType, Platform.deviceType)
             .environment(RadarrInstance(radarrInstance))
             .environment(SonarrInstance(sonarrInstance))
-            .task {
-                Queue.shared.instances = settings.instances
-                setSentryContext(for: "configuration", settings.context())
-                await setSentryCloudKitContext()
-            }
+//            .task {
+//                Queue.shared.instances = settings.instances
+//                setSentryContext(for: "configuration", settings.context())
+//                await setSentryCloudKitContext()
+//            }
     }
 }
 

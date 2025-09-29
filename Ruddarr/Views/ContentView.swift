@@ -10,60 +10,96 @@ struct ContentView: View {
         @Environment(\.deviceType) private var deviceType
     #endif
 
+    @State private var moviesPath: NavigationPath = .init()
+    @State private var seriesPath: NavigationPath = .init()
+    @State private var selectedTab: TabItem = .movies
+
     var body: some View {
-        TabView(selection: selectedTab) {
-            Tab(movies.label, image: movies.icon, value: movies) {
-                MoviesView()
+        TabView(selection: $selectedTab) {
+//            Tab(movies.label, image: movies.icon, value: movies) {
+//                MoviesView()
+//            }
+
+//            Tab(series.label, image: series.icon, value: series) {
+//                SeriesView()
+//            }
+
+            Tab("Test 1", image: "circle", value: movies) {
+                VStack {
+                    Text("Test")
+                    NavigationStack(path: $moviesPath) {
+                        HStack {
+                            NavigationLink(value: MoviesPath.movie(1)) {
+                                Text("Movies!")
+                            }
+                        }
+                        .navigationDestination(for: MoviesPath.self) { _ in
+                            Text("2nd page")
+                        }
+                    }
+                }
             }
 
-            Tab(series.label, image: series.icon, value: series) {
-                SeriesView()
+            Tab("Test 2", image: "app", value: series) {
+                VStack {
+                    Text("Test 2")
+                    NavigationStack(path: $seriesPath) {
+                        HStack {
+                            NavigationLink(value: SeriesPath.series(1)) {
+                                Text("Hello, world!")
+                            }
+                        }
+                        .navigationDestination(for: SeriesPath.self) { _ in
+                            Text("2nd page")
+                        }
+                    }
+                }
             }
 
-            Tab(calendar.label, systemImage: calendar.icon, value: calendar) {
-                CalendarView()
-            }
-
-            Tab(activity.label, systemImage: activity.icon, value: activity) {
-                ActivityView()
-            }
-            .badge(Queue.shared.itemsWithIssues)
-
-            Tab(TabItem.settings.label, systemImage: TabItem.settings.icon, value: TabItem.settings) {
-                SettingsView()
-            }
-            .defaultVisibility(.hidden, for: .tabBar)
+//            Tab(calendar.label, systemImage: calendar.icon, value: calendar) {
+//                CalendarView()
+//            }
+//
+//            Tab(activity.label, systemImage: activity.icon, value: activity) {
+//                ActivityView()
+//            }
+//            .badge(Queue.shared.itemsWithIssues)
+//
+//            Tab(TabItem.settings.label, systemImage: TabItem.settings.icon, value: TabItem.settings) {
+//                SettingsView()
+//            }
+//            .defaultVisibility(.hidden, for: .tabBar)
         }
         .tabViewStyle(.sidebarAdaptable)
-        #if os(macOS)
-            .tabViewSidebarBottomBar {
-                instancePickers
-            }
-        #else
-            .tabBarMinimizeBehavior(.onScrollDown)
-            .tabViewSidebarHeader {
-                Text(verbatim: Ruddarr.name)
-                    .font(.largeTitle.bold())
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-        #endif
-        .onAppear {
-            if !isRunningIn(.preview) {
-                dependencies.router.selectedTab = settings.tab
-            }
-
-            #if os(iOS)
-                UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
-            #endif
-        }
-        #if os(macOS)
-            .onChange(of: controlActiveState, handleScenePhaseChange)
-        #else
-            .onBecomeActive(perform: handleScenePhaseChange)
-        #endif
-        .displayToasts()
-        .whatsNewSheet()
-        .reportBugSheet()
+//        #if os(macOS)
+//            .tabViewSidebarBottomBar {
+//                instancePickers
+//            }
+//        #else
+//            .tabBarMinimizeBehavior(.onScrollDown)
+//            .tabViewSidebarHeader {
+//                Text(verbatim: Ruddarr.name)
+//                    .font(.largeTitle.bold())
+//                    .frame(maxWidth: .infinity, alignment: .leading)
+//            }
+//        #endif
+//        .onAppear {
+//            if !isRunningIn(.preview) {
+//                dependencies.router.selectedTab = settings.tab
+//            }
+//
+//            #if os(iOS)
+//                UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
+//            #endif
+//        }
+//        #if os(macOS)
+//            .onChange(of: controlActiveState, handleScenePhaseChange)
+//        #else
+//            .onBecomeActive(perform: handleScenePhaseChange)
+//        #endif
+//        .displayToasts()
+//        .whatsNewSheet()
+//        .reportBugSheet()
     }
 
     var movies: TabItem { TabItem.movies }
@@ -71,7 +107,7 @@ struct ContentView: View {
     var calendar: TabItem { TabItem.calendar }
     var activity: TabItem { TabItem.activity }
 
-    var selectedTab: Binding<TabItem> {
+    var selectedTab2: Binding<TabItem> {
         Binding<TabItem>(
             get: {
                 dependencies.router.selectedTab
