@@ -127,7 +127,7 @@ struct SettingsPreferencesSection: View {
                 subscriptionStatus = Subscription.status(from: statuses)
             }
 
-            leaveBreadcrumb(.info, category: "subscription", message: "SubscriptionStatusTask success", data: ["statuses": statuses])
+            // leaveBreadcrumb(.info, category: "subscription", message: "SubscriptionStatusTask success", data: ["statuses": statuses])
         case .failure(let error):
             withAnimation {
                 subscriptionStatus = .error
