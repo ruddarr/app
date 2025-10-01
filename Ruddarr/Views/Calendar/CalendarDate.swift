@@ -32,6 +32,9 @@ struct CalendarDate: View {
         .onAppear {
             isToday = Calendar.current.isDateInToday(date)
         }
+        .onBecomeActive {
+            isToday = Calendar.current.isDateInToday(date)
+        }
         .transaction { transaction in
             transaction.animation = nil // disable animation
         }
