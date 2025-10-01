@@ -70,6 +70,7 @@ struct InstanceRow: View {
             async let systemStatus = try dependencies.api.systemStatus(instance)
             async let rootFolders = try dependencies.api.rootFolders(instance)
             async let qualityProfiles = try dependencies.api.qualityProfiles(instance)
+            async let tags = dependencies.api.getTags(instance)
 
             let data = try await systemStatus
 
@@ -77,6 +78,7 @@ struct InstanceRow: View {
             instance.version = data.version
             instance.rootFolders = try await rootFolders
             instance.qualityProfiles = try await qualityProfiles
+            instance.tags = try await tags
 
             settings.saveInstance(instance)
 
