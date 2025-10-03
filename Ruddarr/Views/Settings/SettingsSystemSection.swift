@@ -13,24 +13,27 @@ struct SettingsSystemSection: View {
 
     var body: some View {
         Section {
-            LabeledContent {
-                Text(formatBytes(imageCacheSize))
-            } label: {
+            HStack {
                 Button("Clear Image Cache", role: .destructive) {
                     clearImageCache()
+                }.onAppear {
+                    calculateImageCacheSize()
                 }
                 #if os(macOS)
                     .buttonStyle(.link).foregroundStyle(.red)
                 #endif
-            }.onAppear {
-                calculateImageCacheSize()
+
+                Spacer()
+
+                Text(formatBytes(imageCacheSize))
+                    .foregroundStyle(.secondary)
             }
 
-            Button(role: .destructive, action: {
+            Button(role: .destructive) {
                 deleteSpotlightIndexes()
-            }, label: {
+            } label: {
                 Text("Delete Spotlight Index")
-            })
+            }
             #if os(macOS)
                 .buttonStyle(.link).foregroundStyle(.red)
             #endif
