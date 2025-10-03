@@ -25,6 +25,9 @@ struct SettingsLinksSection: View {
                     .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
             }
         )
+        #if os(macOS)
+            .buttonStyle(.plain)
+        #endif
     }
 }
 

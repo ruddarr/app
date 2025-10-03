@@ -15,6 +15,9 @@ struct SettingsAboutSection: View {
         } header: {
             Text("About", comment: "Preferences section title")
         }
+        #if os(macOS)
+            .buttonStyle(.plain)
+        #endif
     }
 
     var share: some View {
@@ -22,9 +25,6 @@ struct SettingsAboutSection: View {
             Label("Share App", systemImage: "square.and.arrow.up")
                 .labelStyle(SettingsIconLabelStyle())
         }
-        #if os(macOS)
-            .buttonStyle(.link)
-        #endif
     }
 
     var review: some View {
