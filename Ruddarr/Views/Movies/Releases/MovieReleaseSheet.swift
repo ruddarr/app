@@ -14,11 +14,7 @@ struct MovieReleaseSheet: View {
     @State private var showGrabConfirmation: Bool = false
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            CloseButton {
-                dismiss()
-            }
-
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
                     header
@@ -35,8 +31,15 @@ struct MovieReleaseSheet: View {
 
                     details
                 }
-                .padding(.top, 24)
                 .viewPadding(.horizontal)
+                .offset(y: -45)
+            }
+            .toolbar {
+                ToolbarItem(placement: .destructiveAction) {
+                    Button("Close", systemImage: "xmark") {
+                        dismiss()
+                    }.tint(.primary)
+                }
             }
             .alert(
                 isPresented: instance.movies.errorBinding,

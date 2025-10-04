@@ -7,24 +7,28 @@ struct MediaFileSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        ScrollView {
-            Group {
-                generalMetadata
-                videoMetadata
-                audioMetadata
-                textMetadata
+        NavigationStack {
+            ScrollView {
+                Group {
+                    generalMetadata
+                    videoMetadata
+                    audioMetadata
+                    textMetadata
+                }
+                .viewPadding(.horizontal)
             }
-            .padding(.top, 8)
-            .viewPadding(.horizontal)
-            .overlay(alignment: .topTrailing) {
-                CloseButton {
-                    dismiss()
+            .offset(y: -30)
+            #if os(macOS)
+                .padding(.bottom)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .destructiveAction) {
+                    Button("Close", systemImage: "xmark") {
+                        dismiss()
+                    }.tint(.primary)
                 }
             }
         }
-        #if os(macOS)
-            .padding(.bottom)
-        #endif
     }
 
     @ViewBuilder

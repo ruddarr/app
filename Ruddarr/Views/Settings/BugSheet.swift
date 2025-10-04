@@ -20,18 +20,14 @@ struct BugSheet: View {
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button {
+                    Button("Cancel", systemImage: "xmark") {
                         dismiss()
-                    } label: {
-                        Label("Cancel", systemImage: "xmark")
                     }.tint(.primary)
                 }
 
                 ToolbarItem(placement: .primaryAction) {
-                    Button {
+                    Button("Submit", systemImage: "paperplane") {
                         sendReport()
-                    } label: {
-                        Label("Submit", systemImage: "paperplane")
                     }
                     .buttonStyle(.glassProminent)
                     .disabled(!canBeSent)

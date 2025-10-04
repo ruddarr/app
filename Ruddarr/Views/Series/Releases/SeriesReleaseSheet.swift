@@ -16,11 +16,8 @@ struct SeriesReleaseSheet: View {
     @State private var showGrabConfirmation: Bool = false
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            CloseButton {
-                dismiss()
-            }
-
+        // swiftlint:disable:next closure_body_length
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
                     header
@@ -37,8 +34,15 @@ struct SeriesReleaseSheet: View {
 
                     details
                 }
-                .padding(.top, 24)
                 .viewPadding(.horizontal)
+                .offset(y: -45)
+            }
+            .toolbar {
+                ToolbarItem(placement: .destructiveAction) {
+                    Button("Close", systemImage: "xmark") {
+                        dismiss()
+                    }.tint(.primary)
+                }
             }
             .alert(
                 isPresented: instance.series.errorBinding,

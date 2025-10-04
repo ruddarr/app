@@ -137,7 +137,6 @@
 		BBAED12D2B72D444006C6CF2 /* ButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */; };
 		BBAFC7E72BB733E800245D10 /* MediaEventSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFC7E62BB733E800245D10 /* MediaEventSheet.swift */; };
 		BBAFC7EC2BB8704000245D10 /* CustomFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */; };
-		BBAFC7EE2BB8D3CE00245D10 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFC7ED2BB8D3CE00245D10 /* CloseButton.swift */; };
 		BBB1A4C42E21DD7C000ADA39 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB1A4C32E21DD7C000ADA39 /* TagList.swift */; };
 		BBB8691F2B6CAE26009C1A54 /* MovieReleases.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB8691E2B6CAE26009C1A54 /* MovieReleases.swift */; };
 		BBB869212B6CB0AC009C1A54 /* movie-releases.json in Resources */ = {isa = PBXBuildFile; fileRef = BBB869202B6CB0AC009C1A54 /* movie-releases.json */; };
@@ -373,7 +372,6 @@
 		BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLabel.swift; sourceTree = "<group>"; };
 		BBAFC7E62BB733E800245D10 /* MediaEventSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaEventSheet.swift; sourceTree = "<group>"; };
 		BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormat.swift; sourceTree = "<group>"; };
-		BBAFC7ED2BB8D3CE00245D10 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		BBB1A4C32E21DD7C000ADA39 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
 		BBB8691E2B6CAE26009C1A54 /* MovieReleases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleases.swift; sourceTree = "<group>"; };
 		BBB869202B6CB0AC009C1A54 /* movie-releases.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "movie-releases.json"; sourceTree = "<group>"; };
@@ -694,7 +692,6 @@
 				BBBCA05B2BE958F300BAE374 /* Toolbar.swift */,
 				BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */,
 				BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */,
-				BBAFC7ED2BB8D3CE00245D10 /* CloseButton.swift */,
 				BBF583B12BABAE8C00AFA7FB /* Loading.swift */,
 				BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */,
 				BBF7BFDD2BE4971D00B485FA /* InformationList.swift */,
@@ -1157,7 +1154,6 @@
 				BB50F2292C3B3322005E14CA /* ActivityView+Toolbar.swift in Sources */,
 				BBA733632BB4C1F400A5022B /* MovieMetadataView.swift in Sources */,
 				BBBB08D42B77FBC700BADBA1 /* IconsView.swift in Sources */,
-				BBAFC7EE2BB8D3CE00245D10 /* CloseButton.swift in Sources */,
 				BBF583BD2BACA3B200AFA7FB /* Series.swift in Sources */,
 				BB2250F22BEE87D7009EAA6B /* ContentView.swift in Sources */,
 				BB0BEA8D2BE593C2004DBFE6 /* SeriesEpisodes.swift in Sources */,

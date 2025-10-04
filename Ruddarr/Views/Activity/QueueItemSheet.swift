@@ -15,43 +15,44 @@ struct QueueItemSheet: View {
 
     var body: some View {
         NavigationStack {
-            ZStack(alignment: .topTrailing) {
-                CloseButton {
-                    dismiss()
-                }
+            ScrollView {
+                VStack(alignment: .leading) {
+                    header
 
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        header
-
-                        if item.remainingLabel != nil {
-                            progress
-                                .padding(.top)
-                        }
-
-                        actions
-                            .padding(.vertical)
-
-                        if let error = item.errorMessage, !error.isEmpty {
-                            LabeledGroupBox {
-                                Text(error)
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                    .textSelection(.enabled)
-                            }
-                            .padding(.bottom)
-                        } else if !item.messages.isEmpty {
-                            LabeledGroupBox {
-                                statusMessages
-                            }.padding(.bottom)
-                        }
-
-                        details
+                    if item.remainingLabel != nil {
+                        progress
+                            .padding(.top)
                     }
-                    .padding(.top, 24)
-                    .viewPadding(.horizontal)
+
+                    actions
+                        .padding(.vertical)
+
+                    if let error = item.errorMessage, !error.isEmpty {
+                        LabeledGroupBox {
+                            Text(error)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .textSelection(.enabled)
+                        }
+                        .padding(.bottom)
+                    } else if !item.messages.isEmpty {
+                        LabeledGroupBox {
+                            statusMessages
+                        }.padding(.bottom)
+                    }
+
+                    details
+                }
+                .viewPadding(.horizontal)
+                .offset(y: -45)
+            }
+            .toolbar {
+                ToolbarItem(placement: .destructiveAction) {
+                    Button("Close", systemImage: "xmark") {
+                        dismiss()
+                    }.tint(.primary)
                 }
             }
         }
