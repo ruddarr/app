@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -81,6 +81,14 @@
 		BB50F2272C3B06AD005E14CA /* QueueListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB50F2262C3B06AD005E14CA /* QueueListItem.swift */; };
 		BB50F2292C3B3322005E14CA /* ActivityView+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB50F2282C3B3322005E14CA /* ActivityView+Toolbar.swift */; };
 		BB5379D02C3DD38500B65E95 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BB5379CF2C3DD38500B65E95 /* Localizable.xcstrings */; };
+		BB54D0232E90932400F5CF42 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01A2E90932400F5CF42 /* AppIcon.icon */; };
+		BB54D0242E90932400F5CF42 /* AppIconBarbie.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01B2E90932400F5CF42 /* AppIconBarbie.icon */; };
+		BB54D0252E90932400F5CF42 /* AppIconBooks.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01C2E90932400F5CF42 /* AppIconBooks.icon */; };
+		BB54D0262E90932400F5CF42 /* AppIconMono.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01D2E90932400F5CF42 /* AppIconMono.icon */; };
+		BB54D0272E90932400F5CF42 /* AppIconMusic.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01E2E90932400F5CF42 /* AppIconMusic.icon */; };
+		BB54D0282E90932400F5CF42 /* AppIconPlex.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01F2E90932400F5CF42 /* AppIconPlex.icon */; };
+		BB54D0292E90932400F5CF42 /* AppIconPodcasts.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D0202E90932400F5CF42 /* AppIconPodcasts.icon */; };
+		BB54D02A2E90932400F5CF42 /* AppIconWarp.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D0212E90932400F5CF42 /* AppIconWarp.icon */; };
 		BB581D1A2BA0ED5E0070DFFC /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB581D192BA0ED5E0070DFFC /* CalendarView.swift */; };
 		BB585E892BF55EF400A9AF25 /* EpisodeContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */; };
 		BB63E1F02C17DE1A00BCCA94 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */; };
@@ -316,6 +324,14 @@
 		BB50F2262C3B06AD005E14CA /* QueueListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueListItem.swift; sourceTree = "<group>"; };
 		BB50F2282C3B3322005E14CA /* ActivityView+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActivityView+Toolbar.swift"; sourceTree = "<group>"; };
 		BB5379CF2C3DD38500B65E95 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		BB54D01A2E90932400F5CF42 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		BB54D01B2E90932400F5CF42 /* AppIconBarbie.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconBarbie.icon; sourceTree = "<group>"; };
+		BB54D01C2E90932400F5CF42 /* AppIconBooks.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconBooks.icon; sourceTree = "<group>"; };
+		BB54D01D2E90932400F5CF42 /* AppIconMono.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconMono.icon; sourceTree = "<group>"; };
+		BB54D01E2E90932400F5CF42 /* AppIconMusic.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconMusic.icon; sourceTree = "<group>"; };
+		BB54D01F2E90932400F5CF42 /* AppIconPlex.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconPlex.icon; sourceTree = "<group>"; };
+		BB54D0202E90932400F5CF42 /* AppIconPodcasts.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconPodcasts.icon; sourceTree = "<group>"; };
+		BB54D0212E90932400F5CF42 /* AppIconWarp.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconWarp.icon; sourceTree = "<group>"; };
 		BB581D192BA0ED5E0070DFFC /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeContextMenu.swift; sourceTree = "<group>"; };
 		BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intents.swift; sourceTree = "<group>"; };
@@ -447,10 +463,6 @@
 		BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLinksSection.swift; sourceTree = "<group>"; };
 		BBFFB50F2D72717000AB5EFD /* BugSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		BB8D17192E7F730200376971 /* Icons */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Icons; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		BB40712A2C1CDD32006A3FA5 /* Frameworks */ = {
@@ -623,6 +635,21 @@
 			path = Series;
 			sourceTree = "<group>";
 		};
+		BB54D0222E90932400F5CF42 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				BB54D01A2E90932400F5CF42 /* AppIcon.icon */,
+				BB54D01B2E90932400F5CF42 /* AppIconBarbie.icon */,
+				BB54D01C2E90932400F5CF42 /* AppIconBooks.icon */,
+				BB54D01D2E90932400F5CF42 /* AppIconMono.icon */,
+				BB54D01E2E90932400F5CF42 /* AppIconMusic.icon */,
+				BB54D01F2E90932400F5CF42 /* AppIconPlex.icon */,
+				BB54D0202E90932400F5CF42 /* AppIconPodcasts.icon */,
+				BB54D0212E90932400F5CF42 /* AppIconWarp.icon */,
+			);
+			path = Icons;
+			sourceTree = "<group>";
+		};
 		BB644FCA2B8529C2007C7AD5 /* ci_scripts */ = {
 			isa = PBXGroup;
 			children = (
@@ -746,7 +773,7 @@
 		BBE828552B4F2C7000C1E1D9 /* Ruddarr */ = {
 			isa = PBXGroup;
 			children = (
-				BB8D17192E7F730200376971 /* Icons */,
+				BB54D0222E90932400F5CF42 /* Icons */,
 				BBF477AA2B505C5D00C2DED3 /* Views */,
 				BBF477A62B4F8AA300C2DED3 /* Models */,
 				BBF706BA2B62209700B2B504 /* Services */,
@@ -929,9 +956,6 @@
 				BB846F2D2E7DE0CB00E0A367 /* PBXTargetDependency */,
 				BB4071332C1CDD32006A3FA5 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				BB8D17192E7F730200376971 /* Icons */,
-			);
 			name = Ruddarr;
 			packageProductDependencies = (
 				BBDA77602BDACD3C00568E64 /* NukeUI */,
@@ -1020,6 +1044,14 @@
 				BB8B3DF42B617FE800B80E2D /* root-folders.json in Resources */,
 				BB19BF872BE3E3E900F3E7AC /* Settings.bundle in Resources */,
 				BBD3F2D42BFA520700DE5D8E /* series-episode-history.json in Resources */,
+				BB54D0232E90932400F5CF42 /* AppIcon.icon in Resources */,
+				BB54D0242E90932400F5CF42 /* AppIconBarbie.icon in Resources */,
+				BB54D0252E90932400F5CF42 /* AppIconBooks.icon in Resources */,
+				BB54D0262E90932400F5CF42 /* AppIconMono.icon in Resources */,
+				BB54D0272E90932400F5CF42 /* AppIconMusic.icon in Resources */,
+				BB54D0282E90932400F5CF42 /* AppIconPlex.icon in Resources */,
+				BB54D0292E90932400F5CF42 /* AppIconPodcasts.icon in Resources */,
+				BB54D02A2E90932400F5CF42 /* AppIconWarp.icon in Resources */,
 				BB77C2CE2C1A019B00125852 /* AppShortcuts.xcstrings in Resources */,
 				BBD5D8102C013E30008E3B3F /* movie-queue.json in Resources */,
 				BBA733672BB5278800A5022B /* movie-history.json in Resources */,
