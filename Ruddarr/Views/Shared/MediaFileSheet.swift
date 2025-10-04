@@ -15,9 +15,9 @@ struct MediaFileSheet: View {
                     audioMetadata
                     textMetadata
                 }
+                .padding(.top, -60)
                 .viewPadding(.horizontal)
             }
-            .offset(y: -30)
             #if os(macOS)
                 .padding(.bottom)
             #endif
@@ -28,6 +28,7 @@ struct MediaFileSheet: View {
                     }.tint(.primary)
                 }
             }
+            .ignoresSafeArea(edges: .bottom)
         }
     }
 
