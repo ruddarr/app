@@ -61,7 +61,7 @@ struct TaskImportView: View {
                 if isWorking {
                     ProgressView().tint(nil)
                 } else {
-                    Label("Import", systemImage: "square.and.arrow.down")
+                    Label("Import", systemImage: "arrow.down.to.line")
                 }
             }
             .prominentGlassButtonStyle(!isWorking)
