@@ -88,19 +88,19 @@ extension WhatsNew {
 
     static let features: [WhatsNewFeature] = [
         .init(
-            image: "paintpalette",
+            image: "swatchpalette",
             title: "Liquid Glass",
-            subtitle: "Migrated app design to the delightful and elegant Liquid Glass design."
+            subtitle: "Migrated app design to the unbelievably courageous Liquid Glass design."
         ),
         .init(
-            image: "trash",
+            image: "folder.badge.minus",
             title: "Season Deletion",
             subtitle: "Episode files belonging to a season can now be deleted in one go."
         ),
         .init(
             image: "ladybug",
             title: "Fixes & Improvements",
-            subtitle: "Several small improvements and fixes, everything is a little better."
+            subtitle: "Various small improvements and fixes, everything is a little better."
         ),
     ]
 }
