@@ -71,7 +71,7 @@ struct QueueItemSheet: View {
             .font(.title3.bold())
             .kerning(-0.5)
             .fixedSize(horizontal: false, vertical: true)
-            .padding(.trailing, 40)
+            .padding(.trailing, 56)
 
         HStack(spacing: 6) {
             Text(item.quality.quality.label)

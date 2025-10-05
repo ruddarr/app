@@ -25,7 +25,7 @@ struct MediaEventSheet: View {
                     Text(event.eventType.title)
                         .font(.title2.bold())
                         .kerning(-0.5)
-                        .padding(.trailing, 40)
+                        .padding(.trailing, 56)
 
                     Text(formatDate(event.date))
                         .font(.subheadline)

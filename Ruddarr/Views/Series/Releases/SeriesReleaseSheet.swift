@@ -22,7 +22,6 @@ struct SeriesReleaseSheet: View {
                 VStack(alignment: .leading) {
                     header
                         .padding(.bottom)
-                        .padding(.trailing, 40)
 
                     if !release.rejections.isEmpty {
                         rejectionReasons
@@ -82,6 +81,7 @@ struct SeriesReleaseSheet: View {
             Text(release.title.breakable())
                 .font(.title2.bold())
                 .kerning(-0.5)
+                .padding(.trailing, 56)
 
             HStack(spacing: 6) {
                 Text(release.qualityLabel)
