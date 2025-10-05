@@ -24,8 +24,8 @@ struct MovieView: View {
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
-             toolbarMonitorButton
-             toolbarMenu
+            toolbarMonitorButton
+            toolbarMenu
         }
         .onBecomeActive {
             await reload()
@@ -37,7 +37,7 @@ struct MovieView: View {
             Button("OK") { instance.movies.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
         .sheet(isPresented: $showDeleteConfirmation) {
             MediaDeleteSheet(label: "Delete Movie") { exclude, delete in
                 Task {
@@ -81,6 +81,8 @@ struct MovieView: View {
             } label: {
                 ToolbarActionButton()
             }
+            .tint(.primary)
+            .menuIndicator(.hidden)
             #if os(macOS)
                 .sheet(isPresented: $showEditForm) {
                     MovieEditView(movie: $movie)
@@ -132,7 +134,7 @@ struct MovieView: View {
     var deleteMovieButton: some View {
         Button("Delete", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
-        }
+        }.tint(.red)
     }
 }
 

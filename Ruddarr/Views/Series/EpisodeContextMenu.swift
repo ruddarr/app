@@ -6,17 +6,19 @@ struct EpisodeContextMenu: View {
     @Environment(SonarrInstance.self) var instance
 
     var body: some View {
-        link(name: "Trakt", url: traktUrl)
+        Group {
+            link(name: "Trakt", url: traktUrl)
 
-        if encodedTitle != nil {
-            link(name: "IMDb", url: imdbUrl)
-        }
+            if encodedTitle != nil {
+                link(name: "IMDb", url: imdbUrl)
+            }
 
-        Divider()
+            Divider()
 
-        Button("Automatic Search", systemImage: "magnifyingglass") {
-            Task { await dispatchSearch() }
-        }
+            Button("Automatic Search", systemImage: "magnifyingglass") {
+                Task { await dispatchSearch() }
+            }
+        }.tint(.primary)
     }
 
     func link(name: String, url: String) -> some View {

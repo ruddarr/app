@@ -10,29 +10,31 @@ struct LinkContextMenu: View {
     }
 
     var body: some View {
-        Button("Copy Link", systemImage: "document.on.document") {
-            #if os(macOS)
-                NSPasteboard.general.setString(url.absoluteString, forType: .URL)
-            #else
-                UIPasteboard.general.string = url.absoluteString
+        Group {
+            Button("Copy Link", systemImage: "document.on.document") {
+                #if os(macOS)
+                    NSPasteboard.general.setString(url.absoluteString, forType: .URL)
+                #else
+                    UIPasteboard.general.string = url.absoluteString
+                #endif
+
+                dependencies.toast.show(.linkCopied)
+            }
+
+            #if os(iOS)
+                if let url = chromeUrl {
+                    Button("Open in \(String("Chrome"))", systemImage: "arrow.up.right.square") {
+                        openURL(url)
+                    }
+                }
+
+                if let url = firefoxUrl {
+                    Button("Open in \(String("Firefox"))", systemImage: "arrow.up.right.square") {
+                        openURL(url)
+                    }
+                }
             #endif
-
-            dependencies.toast.show(.linkCopied)
-        }
-
-        #if os(iOS)
-            if let url = chromeUrl {
-                Button("Open in \(String("Chrome"))", systemImage: "arrow.up.right.square") {
-                    openURL(url)
-                }
-            }
-
-            if let url = firefoxUrl {
-                Button("Open in \(String("Firefox"))", systemImage: "arrow.up.right.square") {
-                    openURL(url)
-                }
-            }
-        #endif
+        }.tint(.primary)
     }
 
 #if os(iOS)

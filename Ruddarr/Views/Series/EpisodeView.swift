@@ -189,6 +189,8 @@ struct EpisodeView: View {
             } label: {
                 ToolbarActionButton()
             }
+            .tint(.primary)
+            .menuIndicator(.hidden)
         }
     }
 
@@ -204,8 +206,7 @@ struct EpisodeView: View {
                 )
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.bordered)
-            .tint(.secondary)
+            .buttonStyle(.glass)
             .allowsHitTesting(!instance.series.isWorking)
 
             NavigationLink(
@@ -214,8 +215,7 @@ struct EpisodeView: View {
                 ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.bordered)
-            .tint(.secondary)
+            .buttonStyle(.glass)
         }
         .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 450)
@@ -224,7 +224,7 @@ struct EpisodeView: View {
     var deleteFileButton: some View {
         Button("Delete File", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
-        }
+        }.tint(.red)
     }
 
     var file: some View {
@@ -255,7 +255,7 @@ struct EpisodeView: View {
         }
         .sheet(item: $fileSheet) { file in
             MediaFileSheet(file: file, runtime: episode.runtime ?? series.runtime)
-                .presentationDetents([.fraction(0.9)])
+                .presentationDetents([.fraction(0.8)])
         }
         .alert(
             "Are you sure?",
@@ -267,7 +267,7 @@ struct EpisodeView: View {
             Button("Cancel", role: .cancel) { }
         } message: {
             Text("This will permanently erase the episode file.")
-        }
+        }.tint(nil)
     }
 
     var history: some View {

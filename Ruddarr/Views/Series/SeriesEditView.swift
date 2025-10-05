@@ -44,27 +44,35 @@ struct SeriesEditView: View {
                 Button("Move Files", role: .destructive) {
                     Task { await updateSeries(moveFiles: true) }
                 }
-                Button("No") {
+                Button("No", role: .confirm) {
                     Task { await updateSeries() }
                 }
                 Button("Cancel", role: .cancel) {}
             }
+            .tint(nil)
     }
 
     @ToolbarContentBuilder
     var toolbarSaveButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            if instance.series.isWorking {
-                ProgressView().tint(.secondary)
-            } else {
-                Button("Save") {
-                    if series.exists && hasRootFolderChanged() {
-                        showConfirmation = true
-                    } else {
-                        Task { await updateSeries() }
-                    }
+            Button {
+                if series.exists && hasRootFolderChanged() {
+                    showConfirmation = true
+                } else {
+                    Task { await updateSeries() }
+                }
+            } label: {
+                if instance.series.isWorking {
+                    ProgressView().tint(nil)
+                } else {
+                    #if os(macOS)
+                        Text("Save")
+                    #else
+                        Label("Save", systemImage: "checkmark")
+                    #endif
                 }
             }
+            .prominentGlassButtonStyle(!instance.series.isWorking)
         }
     }
 

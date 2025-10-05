@@ -50,21 +50,26 @@ struct TaskRemovalView: View {
             Button("OK") { error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
     }
 
     @ToolbarContentBuilder
     var toolbarRemoveButton: some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
-            if isWorking {
-                ProgressView().tint(.secondary)
-            } else {
-                Button("Remove") {
-                    Task {
-                        await deleteTask()
-                    }
+            Button {
+                Task {
+                    await deleteTask()
+                }
+            } label: {
+                if isWorking {
+                    ProgressView().tint(.white)
+                } else {
+                    Label("Delete", systemImage: "trash")
+                        .foregroundStyle(.white)
                 }
             }
+            .buttonStyle(.glassProminent)
+            .tint(.red)
         }
     }
 

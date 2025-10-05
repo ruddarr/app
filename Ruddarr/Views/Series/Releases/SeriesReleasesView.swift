@@ -56,7 +56,7 @@ struct SeriesReleasesView: View {
             Button("OK") { instance.releases.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
         .overlay {
             if instance.releases.isSearching {
                 SearchingIndicator()
@@ -136,10 +136,11 @@ extension SeriesReleasesView {
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            HStack {
-                toolbarSortingButton
-                toolbarFilterButton
-            }
+            toolbarSortingButton
+        }
+
+        ToolbarItem(placement: .primaryAction) {
+            toolbarFilterButton
         }
     }
 
@@ -172,7 +173,10 @@ extension SeriesReleasesView {
             }
         } label: {
             if sort.hasFilter {
-                Image("filters.badge").offset(y: 3.2)
+                Image("filters.badge")
+                    .offset(y: 3)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.tint, .primary)
             } else {
                 Image(systemName: "line.3.horizontal.decrease")
             }
@@ -200,6 +204,7 @@ extension SeriesReleasesView {
             Image(systemName: "arrow.up.arrow.down")
                 .imageScale(.medium)
         }
+        .tint(.primary)
     }
 
     var indexersPicker: some View {

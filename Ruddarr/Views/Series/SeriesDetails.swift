@@ -113,8 +113,7 @@ struct SeriesDetails: View {
                 )
                     .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.bordered)
-            .tint(.secondary)
+            .buttonStyle(.glass)
             .allowsHitTesting(!instance.series.isWorking)
             .onAppear(perform: triggerTipIfJustAdded)
             .popoverTip(NoAutomaticSearchTip())
@@ -132,8 +131,8 @@ struct SeriesDetails: View {
                 ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.right.square")
                     .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.bordered)
-            .tint(.secondary)
+            .buttonStyle(.glass)
+            .tint(.primary)
 
             Spacer()
                 .modifier(MediaPreviewActionSpacerModifier())

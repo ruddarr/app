@@ -32,7 +32,7 @@ struct IconsView: View {
 
     let strokeWidth: CGFloat = 2
     let iconSize: CGFloat = 64
-    var iconRadius: CGFloat { (10 / 57) * iconSize }
+    var iconRadius: CGFloat { (15 / 57) * iconSize }
 
     func renderIcon(_ icon: AppIcon) -> some View {
         VStack {

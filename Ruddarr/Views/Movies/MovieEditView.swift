@@ -48,23 +48,30 @@ struct MovieEditView: View {
                     Task { await updateMovie() }
                 }
                 Button("Cancel", role: .cancel) {}
-            }
+            }.tint(nil)
     }
 
     @ToolbarContentBuilder
     var toolbarSaveButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            if instance.movies.isWorking {
-                ProgressView().tint(.secondary)
-            } else {
-                Button("Save") {
-                    if movie.exists && hasRootFolderChanged() {
-                        showConfirmation = true
-                    } else {
-                        Task { await updateMovie() }
-                    }
+            Button {
+                if movie.exists && hasRootFolderChanged() {
+                    showConfirmation = true
+                } else {
+                    Task { await updateMovie() }
+                }
+            } label: {
+                if instance.movies.isWorking {
+                    ProgressView().tint(nil)
+                } else {
+                    #if os(macOS)
+                        Text("Save")
+                    #else
+                        Label("Save", systemImage: "checkmark")
+                    #endif
                 }
             }
+            .prominentGlassButtonStyle(!instance.movies.isWorking)
         }
     }
 

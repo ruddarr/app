@@ -44,7 +44,7 @@ struct SeriesDetailView: View {
             Button("OK") { instance.series.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
         .sheet(isPresented: $showDeleteConfirmation) {
             MediaDeleteSheet(label: "Delete Series") { exclude, delete in
                 Task {
@@ -91,6 +91,8 @@ struct SeriesDetailView: View {
             } label: {
                 ToolbarActionButton()
             }
+            .tint(.primary)
+            .menuIndicator(.hidden)
             #if os(macOS)
                 .sheet(isPresented: $showEditForm) {
                     SeriesEditView(series: $series)
@@ -137,7 +139,7 @@ struct SeriesDetailView: View {
     var deleteSeriesButton: some View {
         Button("Delete", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
-        }
+        }.tint(.red)
     }
 }
 

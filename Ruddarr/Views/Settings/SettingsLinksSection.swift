@@ -22,9 +22,12 @@ struct SettingsLinksSection: View {
             destination: url,
             label: {
                 Label(name, systemImage: "arrow.up.right")
-                    .labelStyle(SettingsIconLabelStyle(color: .gray, size: 13))
+                    .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
             }
         )
+        #if os(macOS)
+            .buttonStyle(.plain)
+        #endif
     }
 }
 

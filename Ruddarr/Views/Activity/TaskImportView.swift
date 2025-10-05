@@ -47,22 +47,25 @@ struct TaskImportView: View {
             Button("OK") { error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
     }
 
     @ToolbarContentBuilder
     var toolbarImportButton: some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
-            if isWorking {
-                ProgressView().tint(.secondary)
-            } else {
-                Button("Import") {
-                    Task {
-                        await importFiles()
-                    }
+            Button {
+                Task {
+                    await importFiles()
                 }
-                .disabled(selectedFiles.isEmpty)
+            } label: {
+                if isWorking {
+                    ProgressView().tint(nil)
+                } else {
+                    Label("Import", systemImage: "arrow.down.to.line")
+                }
             }
+            .prominentGlassButtonStyle(!isWorking)
+            .disabled(selectedFiles.isEmpty)
         }
     }
 
@@ -209,7 +212,7 @@ private struct FileImportRow: View {
     let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
 
     let item = {
-        var record = items.records[2]
+        var record = items.records[0]
         record.instanceId = instanceId
         return record
     }()

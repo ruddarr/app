@@ -9,50 +9,50 @@ struct QueueItemSheet: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.deviceType) private var deviceType
 
-    @State private var timeRemaining: String?
+    @State private var downloadProgress: Float = 0
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         NavigationStack {
-            ZStack(alignment: .topTrailing) {
-                CloseButton {
-                    dismiss()
-                }
+            ScrollView {
+                VStack(alignment: .leading) {
+                    header
 
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        header
-
-                        if item.remainingLabel != nil {
-                            progress
-                                .padding(.top)
-                        }
-
-                        actions
-                            .padding(.vertical)
-
-                        if let error = item.errorMessage, !error.isEmpty {
-                            LabeledGroupBox {
-                                Text(error)
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                    .textSelection(.enabled)
-                            }
-                            .padding(.bottom)
-                        } else if !item.messages.isEmpty {
-                            LabeledGroupBox {
-                                statusMessages
-                            }.padding(.bottom)
-                        }
-
-                        details
-                            .padding(.bottom)
+                    if item.remainingLabel != nil {
+                        progress
+                            .padding(.top)
                     }
-                    .viewPadding(.horizontal)
-                    .padding(.top)
+
+                    actions
+                        .padding(.vertical)
+
+                    if let error = item.errorMessage, !error.isEmpty {
+                        LabeledGroupBox {
+                            Text(error)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .textSelection(.enabled)
+                        }
+                        .padding(.bottom)
+                    } else if !item.messages.isEmpty {
+                        LabeledGroupBox {
+                            statusMessages
+                        }.padding(.bottom)
+                    }
+
+                    details
+                }
+                .viewPadding(.horizontal)
+                .offset(y: -45)
+            }
+            .toolbar {
+                ToolbarItem(placement: .destructiveAction) {
+                    Button("Close", systemImage: "xmark") {
+                        dismiss()
+                    }.tint(.primary)
                 }
             }
         }
@@ -71,7 +71,7 @@ struct QueueItemSheet: View {
             .font(.title3.bold())
             .kerning(-0.5)
             .fixedSize(horizontal: false, vertical: true)
-            .padding(.trailing, 40)
+            .padding(.trailing, 56)
 
         HStack(spacing: 6) {
             Text(item.quality.quality.label)
@@ -103,18 +103,27 @@ struct QueueItemSheet: View {
     }
 
     var progress: some View {
-        ProgressView(value: item.size - item.sizeleft, total: item.size) {
+        ProgressView(value: downloadProgress, total: item.size) {
             HStack {
                 Text(item.progressLabel)
+                    .animation(.default, value: item.progressLabel)
+
                 Spacer()
-                Text(timeRemaining ?? "")
+
+                Text(item.remainingLabel ?? "")
+                    .animation(.default, value: item.remainingLabel)
             }
             .font(.subheadline)
             .monospacedDigit()
             .foregroundStyle(.secondary)
         }
+        .onAppear {
+            downloadProgress = item.size - item.sizeleft
+        }
         .onReceive(timer) { _ in
-            timeRemaining = item.remainingLabel
+            withAnimation {
+                downloadProgress = item.size - item.sizeleft
+            }
         }
     }
 
@@ -141,7 +150,7 @@ struct QueueItemSheet: View {
                     row("Added", date.formatted(date: .long, time: .shortened))
                 }
             }
-            .offset(y: -15)
+            .padding(.bottom)
         } header: {
             Text("Information")
                 .font(.title2.bold())
@@ -161,8 +170,7 @@ struct QueueItemSheet: View {
                 ButtonLabel(text: label, icon: "trash")
                     .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.bordered)
-            .tint(.secondary)
+            .buttonStyle(.glass)
 
             if item.needsManualImport {
                 NavigationLink {
@@ -176,9 +184,7 @@ struct QueueItemSheet: View {
                     ButtonLabel(text: label, icon: "square.and.arrow.down")
                         .modifier(MediaPreviewActionModifier())
                 }
-                .buttonStyle(.bordered)
-                .tint(.secondary)
-
+                .buttonStyle(.glass)
             } else if item.isSABnzbd && sableInstalled() {
                 sableLink
             } else if item.isDownloadStation && dsloadInstalled() {
@@ -223,7 +229,7 @@ struct QueueItemSheet: View {
                 .multilineTextAlignment(.trailing)
         }
         .font(.callout)
-        .padding(.vertical, 6)
+        .padding(.vertical, 4)
     }
 
     func parseDate(_ string: String) -> Date? {
@@ -264,8 +270,7 @@ struct QueueItemSheet: View {
             )
             .modifier(MediaPreviewActionModifier())
         })
-        .buttonStyle(.bordered)
-        .tint(.secondary)
+        .buttonStyle(.glass)
     }
 
     var dsloadLink: some View {
@@ -278,8 +283,7 @@ struct QueueItemSheet: View {
             )
             .modifier(MediaPreviewActionModifier())
         })
-        .buttonStyle(.bordered)
-        .tint(.secondary)
+        .buttonStyle(.glass)
     }
 }
 

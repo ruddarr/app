@@ -52,7 +52,7 @@ struct SeriesSearchView: View {
             Button("OK") { instance.lookup.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
         .overlay {
             if instance.lookup.isSearching && instance.lookup.isEmpty() {
                 Loading()

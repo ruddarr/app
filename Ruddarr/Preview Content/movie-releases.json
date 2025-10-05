@@ -628,8 +628,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "HDR+"},
+        {"id": 1, "name": "Trash"}
+    ],
+    "customFormatScore": 1234,
     "qualityWeight": 2401,
     "age": 1141,
     "ageHours": 27394.693105510418,

@@ -53,7 +53,7 @@ struct CalendarView: View {
                                     Button("Load More") {
                                         calendar.loadMoreDates()
                                     }
-                                    .buttonStyle(.bordered)
+                                    .buttonStyle(.glass)
                                 }
                             }.padding(.bottom, 32)
                         }
@@ -96,7 +96,7 @@ struct CalendarView: View {
                 Button("OK") { calendar.error = nil }
             } message: { error in
                 Text(error.recoverySuggestionFallback)
-            }
+            }.tint(nil)
             .overlay {
                 if notConnectedToInternet {
                     NoInternet()
@@ -242,13 +242,14 @@ struct CalendarView: View {
 
     var todayButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Button("Today") {
+            Button("Today", systemImage: "calendar.day.timeline.left") {
                 Task { @MainActor in
                     withAnimation(.smooth) {
                         self.scrollTo(self.calendar.today())
                     }
                 }
             }
+            .tint(.primary)
         }
     }
 
@@ -296,11 +297,15 @@ struct CalendarView: View {
                 }
             } label: {
                 if displayedMediaType != .all || onlyPremieres || onlyMonitored || hideSpecials {
-                    Image("filters.badge").offset(y: 3.2)
+                    Image("filters.badge")
+                        .offset(y: 3)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.tint, .primary)
                 } else {
                     Image(systemName: "line.3.horizontal.decrease")
                 }
             }
+            .menuIndicator(.hidden)
         }
     }
 

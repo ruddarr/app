@@ -6,31 +6,44 @@ struct SettingsSystemSection: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
+    @Environment(\.presentBugSheet) var presentBugSheet
 
     @State private var imageCacheSize: Int = 0
     @State private var showingEraseConfirmation: Bool = false
 
     var body: some View {
         Section {
-            LabeledContent {
-                Text(formatBytes(imageCacheSize))
-            } label: {
+            HStack {
                 Button("Clear Image Cache", role: .destructive) {
                     clearImageCache()
+                }.onAppear {
+                    calculateImageCacheSize()
                 }
-            }.onAppear {
-                calculateImageCacheSize()
+                #if os(macOS)
+                    .buttonStyle(.link).foregroundStyle(.red)
+                #endif
+
+                Spacer()
+
+                Text(formatBytes(imageCacheSize))
+                    .foregroundStyle(.secondary)
             }
 
-            Button(role: .destructive, action: {
+            Button(role: .destructive) {
                 deleteSpotlightIndexes()
-            }, label: {
+            } label: {
                 Text("Delete Spotlight Index")
-            })
+            }
+            #if os(macOS)
+                .buttonStyle(.link).foregroundStyle(.red)
+            #endif
 
             Button("Reset All Settings", role: .destructive) {
                 showingEraseConfirmation = true
             }
+            #if os(macOS)
+                .buttonStyle(.link).foregroundStyle(.red)
+            #endif
             .alert(
                 "Are you sure you want to erase all settings?",
                 isPresented: $showingEraseConfirmation
@@ -40,6 +53,7 @@ struct SettingsSystemSection: View {
                 }
                 Button("Cancel", role: .cancel) { }
             }
+            .tint(nil)
         } header: {
             Text("System", comment: "Preferences section header")
         } footer: {
@@ -50,6 +64,9 @@ struct SettingsSystemSection: View {
                     Spacer()
                 }
                 .padding(.vertical)
+                .onTapGesture {
+                    presentBugSheet.wrappedValue = true
+                }
             }
         }
     }

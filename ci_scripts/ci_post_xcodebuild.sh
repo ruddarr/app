@@ -15,7 +15,7 @@ if [[ -n $CI_ARCHIVE_PATH ]]; then
     fi
 
     $CI_PRIMARY_REPOSITORY_PATH/ci_scripts/sentry-cli \
-      upload-dif \
+      debug-files upload \
       --org $SENTRY_ORG \
       --project $SENTRY_PROJECT \
       --auth-token $SENTRY_AUTH_TOKEN \

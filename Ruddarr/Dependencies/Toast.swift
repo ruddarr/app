@@ -76,6 +76,7 @@ extension Toast {
         case monitoredSearchQueued
         case movieDeleted
         case seriesDeleted
+        case seasonDeleted
         case fileDeleted
         case linkCopied
         case reportSent
@@ -107,6 +108,8 @@ extension Toast {
             custom(text: String(localized: "Movie Deleted"), icon: "checkmark.circle.fill")
         case .seriesDeleted:
             custom(text: String(localized: "Series Deleted"), icon: "checkmark.circle.fill")
+        case .seasonDeleted:
+            custom(text: String(localized: "Season Files Deleted"), icon: "checkmark.circle.fill")
         case .fileDeleted:
             custom(text: String(localized: "File Deleted"), icon: "checkmark.circle.fill")
         case .linkCopied:
@@ -130,20 +133,18 @@ extension Toast {
                 Image(systemName: icon)
             }
         }
-            .font(.callout)
-            .fontWeight(.semibold)
+        .font(.callout)
+        .fontWeight(.semibold)
     }
 
     func render(_ message: Toast.Message) -> some View {
         message.view
             .padding()
-            #if os(macOS)
-                .background(.systemFill)
-            #else
-                .background(.ultraThinMaterial)
-            #endif
+            .glassEffect()
+            .overlay(
+                Capsule().stroke(.ultraThinMaterial, lineWidth: 1)
+            )
             .foregroundStyle(message.textColor)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding()
             .transition(.opacity)
             .id(message.id)
@@ -180,6 +181,7 @@ extension View {
     return VStack {
         Text(verbatim: "Headline")
             .font(.largeTitle.bold())
+            .frame(maxWidth: .infinity)
             .overlay { toast.render(notice) }
 
         toast.render(error)

@@ -84,23 +84,23 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static let version: String = "1.6.1"
+    static let version: String = "1.7.0"
 
     static let features: [WhatsNewFeature] = [
         .init(
-            image: "tag",
-            title: "Tags",
-            subtitle: "Basic support for managing movie and series tags."
+            image: "swatchpalette",
+            title: "Liquid Glass",
+            subtitle: "Migrated app design to the unbelievably courageous Liquid Glass design."
         ),
         .init(
-            image: "sparkles",
-            title: "Elevator Music",
-            subtitle: "Permanently disable elevator music with a triple tap."
+            image: "folder.badge.minus",
+            title: "Season Deletion",
+            subtitle: "Episode files belonging to a season can now be deleted in one go."
         ),
         .init(
             image: "ladybug",
             title: "Fixes & Improvements",
-            subtitle: "Dozens of improvements and fixes, everything is a little better."
+            subtitle: "Various small improvements and fixes, everything is a little better."
         ),
     ]
 }

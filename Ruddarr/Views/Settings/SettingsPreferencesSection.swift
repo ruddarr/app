@@ -53,7 +53,7 @@ struct SettingsPreferencesSection: View {
                 String(localized: "Home", comment: "(Preferences) Home tab"),
                 systemImage: "house"
             )
-            .labelStyle(SettingsIconLabelStyle(color: .gray, size: 13))
+            .labelStyle(SettingsIconLabelStyle())
         }
         .tint(.secondary)
         .onChange(of: settings.theme) {
@@ -68,7 +68,7 @@ struct SettingsPreferencesSection: View {
             }
         } label: {
             Label("Grid", systemImage: "square.grid.2x2")
-                .labelStyle(SettingsIconLabelStyle(color: .gray))
+                .labelStyle(SettingsIconLabelStyle())
         }.tint(.secondary)
     }
 
@@ -79,7 +79,7 @@ struct SettingsPreferencesSection: View {
             }
         } label: {
             Label("Release Filters", systemImage: "line.3.horizontal.decrease")
-                .labelStyle(SettingsIconLabelStyle(color: .gray, size: 13))
+                .labelStyle(SettingsIconLabelStyle())
         }
         .tint(.secondary)
     }
@@ -96,10 +96,9 @@ struct SettingsPreferencesSection: View {
                         Text("Subscription")
                     }
                 } icon: {
-                    Image(systemName: "crown")
-                        .symbolVariant(.fill)
+                    Image(systemName: "bubbles.and.sparkles")
                 }
-                .labelStyle(SettingsIconLabelStyle(color: .orange, size: 13))
+                .labelStyle(SettingsIconLabelStyle())
             }
         }
         .foregroundStyle(.label)
@@ -128,7 +127,7 @@ struct SettingsPreferencesSection: View {
                 subscriptionStatus = Subscription.status(from: statuses)
             }
 
-            leaveBreadcrumb(.info, category: "subscription", message: "SubscriptionStatusTask success", data: ["statuses": statuses])
+            // leaveBreadcrumb(.info, category: "subscription", message: "SubscriptionStatusTask success", data: ["statuses": statuses])
         case .failure(let error):
             withAnimation {
                 subscriptionStatus = .error

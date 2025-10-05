@@ -30,6 +30,7 @@ struct API {
     var monitorEpisode: ([Episode.ID], Bool, Instance) async throws -> Empty
     var getEpisodeHistory: (Episode.ID, Instance) async throws -> MediaHistory
     var deleteEpisodeFile: (MediaFile, Instance) async throws -> Empty
+    var deleteEpisodeFiles: ([MediaFile], Instance) async throws -> Empty
 
     var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
     var episodeCalendar: (Date, Date, Instance) async throws -> [Episode]
@@ -137,6 +138,7 @@ extension API {
         let httpResponse: HTTPURLResponse? = response as? HTTPURLResponse
         let statusCode: Int = httpResponse?.statusCode ?? 599
 
+        // print(String(data: data, encoding: .utf8) ?? "non-utf8 response")
         // leaveBreadcrumb(.debug, category: "api", message: "Response headers (\(statusCode))", data: parseResponseHeaders(httpResponse))
 
         switch statusCode {

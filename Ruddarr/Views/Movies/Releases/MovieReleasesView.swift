@@ -53,7 +53,7 @@ struct MovieReleasesView: View {
             Button("OK") { instance.releases.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
-        }
+        }.tint(nil)
         .overlay {
             if instance.releases.isSearching {
                 SearchingIndicator()
@@ -128,10 +128,11 @@ extension MovieReleasesView {
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            HStack {
-                toolbarSortingButton
-                toolbarFilterButton
-            }
+            toolbarSortingButton
+        }
+
+        ToolbarItem(placement: .primaryAction) {
+            toolbarFilterButton
         }
     }
 
@@ -172,7 +173,10 @@ extension MovieReleasesView {
             }
         } label: {
             if sort.hasFilter {
-                Image("filters.badge").offset(y: 3.2)
+                Image("filters.badge")
+                    .offset(y: 3)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.tint, .primary)
             } else{
                 Image(systemName: "line.3.horizontal.decrease")
             }
@@ -200,6 +204,7 @@ extension MovieReleasesView {
             Image(systemName: "arrow.up.arrow.down")
                 .imageScale(.medium)
         }
+        .tint(.primary)
     }
 
     var indexersPicker: some View {

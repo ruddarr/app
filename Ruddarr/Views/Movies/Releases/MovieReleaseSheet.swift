@@ -14,16 +14,11 @@ struct MovieReleaseSheet: View {
     @State private var showGrabConfirmation: Bool = false
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            CloseButton {
-                dismiss()
-            }
-
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
                     header
                         .padding(.bottom)
-                        .padding(.trailing, 40)
 
                     if !release.rejections.isEmpty {
                         rejectionReasons
@@ -34,10 +29,16 @@ struct MovieReleaseSheet: View {
                         .padding(.bottom)
 
                     details
-                        .padding(.bottom)
                 }
-                .padding(.top)
                 .viewPadding(.horizontal)
+                .offset(y: -45)
+            }
+            .toolbar {
+                ToolbarItem(placement: .destructiveAction) {
+                    Button("Close", systemImage: "xmark") {
+                        dismiss()
+                    }.tint(.primary)
+                }
             }
             .alert(
                 isPresented: instance.movies.errorBinding,
@@ -55,7 +56,7 @@ struct MovieReleaseSheet: View {
                 Button("Cancel", role: .cancel) { }
             } message: {
                 Text("The release for this movie could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
-            }
+            }.tint(nil)
         }
     }
 
@@ -76,6 +77,7 @@ struct MovieReleaseSheet: View {
             Text(release.title.breakable())
                 .font(.title2.bold())
                 .kerning(-0.5)
+                .padding(.trailing, 56)
 
             HStack(spacing: 6) {
                 Text(release.qualityLabel)
@@ -120,8 +122,8 @@ struct MovieReleaseSheet: View {
             .padding(.top, 4)
             .padding(.bottom, 12)
         }
-        .background(.secondarySystemBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .background(.card)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     var actions: some View {
@@ -137,8 +139,7 @@ struct MovieReleaseSheet: View {
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .modifier(MediaPreviewActionModifier())
                 })
-                .buttonStyle(.bordered)
-                .tint(.secondary)
+                .buttonStyle(.glass)
                 .contextMenu {
                     LinkContextMenu(url)
                 }
@@ -162,8 +163,7 @@ struct MovieReleaseSheet: View {
                 )
                 .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.bordered)
-            .tint(.secondary)
+            .buttonStyle(.glass)
             .allowsHitTesting(!instance.movies.isWorking)
 
             if deviceType != .phone {
@@ -193,6 +193,7 @@ struct MovieReleaseSheet: View {
                     ))
                 }
             }
+            .padding(.bottom)
         } header: {
             Text("Information")
                 .font(.title2.bold())
@@ -244,7 +245,7 @@ struct MovieReleaseSheet: View {
                 .foregroundStyle(.primary)
         }
         .font(.subheadline)
-        .padding(.vertical, 6)
+        .padding(.vertical, 4)
     }
 
     func downloadRelease(force: Bool = false) async {
@@ -272,7 +273,7 @@ struct MovieReleaseSheet: View {
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
     let releases: [MovieRelease] = PreviewData.load(name: "movie-releases")
-    let release = releases[87]
+    let release = releases[10]
 
     MovieReleaseSheet(release: release, movie: movies[1])
         .withAppState()

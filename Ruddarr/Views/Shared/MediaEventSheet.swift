@@ -9,11 +9,8 @@ struct MediaEventSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            CloseButton {
-                dismiss()
-            }
-
+        // swiftlint:disable:next closure_body_length
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
                     if let instanceId, let instance = settings.instanceById(instanceId) {
@@ -28,7 +25,7 @@ struct MediaEventSheet: View {
                     Text(event.eventType.title)
                         .font(.title2.bold())
                         .kerning(-0.5)
-                        .padding(.trailing, 40)
+                        .padding(.trailing, 56)
 
                     Text(formatDate(event.date))
                         .font(.subheadline)
@@ -52,8 +49,15 @@ struct MediaEventSheet: View {
                     Spacer()
                     Spacer()
                 }
-                .padding(.top)
                 .viewPadding(.horizontal)
+                .offset(y: -45)
+            }
+            .toolbar {
+                ToolbarItem(placement: .destructiveAction) {
+                    Button("Close", systemImage: "xmark") {
+                        dismiss()
+                    }.tint(.primary)
+                }
             }
         }
     }
@@ -162,6 +166,7 @@ struct MediaEventSheet: View {
                     .multilineTextAlignment(.trailing)
             }
             .font(.subheadline)
+            .padding(.vertical, 4)
         )
     }
 

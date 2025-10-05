@@ -7,23 +7,29 @@ struct MediaFileSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        ScrollView {
-            Group {
-                generalMetadata
-                videoMetadata
-                audioMetadata
-                textMetadata
+        NavigationStack {
+            ScrollView {
+                Group {
+                    generalMetadata
+                    videoMetadata
+                    audioMetadata
+                    textMetadata
+                }
+                .padding(.top, -60)
+                .viewPadding(.horizontal)
             }
-            .viewPadding(.horizontal)
-            .overlay(alignment: .topTrailing) {
-                CloseButton {
-                    dismiss()
+            #if os(macOS)
+                .padding(.bottom)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .destructiveAction) {
+                    Button("Close", systemImage: "xmark") {
+                        dismiss()
+                    }.tint(.primary)
                 }
             }
+            .ignoresSafeArea(edges: .bottom)
         }
-        #if os(macOS)
-            .padding(.bottom)
-        #endif
     }
 
     @ViewBuilder
@@ -33,6 +39,11 @@ struct MediaFileSheet: View {
                 row(
                     String(localized: "Added"),
                     file.dateAdded.formatted(date: .long, time: .shortened)
+                )
+                Divider()
+                row(
+                    String(localized: "File Size"),
+                    file.sizeLabel
                 )
                 Divider()
                 row(
@@ -209,5 +220,6 @@ struct MediaFileSheet: View {
 
         }
         .font(.subheadline)
+        .padding(.vertical, 4)
     }
 }

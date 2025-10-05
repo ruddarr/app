@@ -20,16 +20,16 @@ struct SeriesGridPoster: View {
             } preview: {
                 poster.frame(width: 300, height: 450)
             }
-            .background(.secondarySystemBackground)
+            .background(.card)
             .overlay(alignment: .bottom) {
                 posterOverlay
             }
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     var poster: some View {
         CachedAsyncImage(.poster, series.remotePoster, placeholder: series.title)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
             .aspectRatio(
                 CGSize(width: 150, height: 225),
                 contentMode: .fill

@@ -31,11 +31,17 @@ extension ActivityView {
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
         ToolbarItem(placement: .navigation) {
-            HStack {
-                toolbarFilterButton
-                toolbarSortingButton
-            }
+            toolbarFilterButton
+                .tint(.primary)
+                .menuIndicator(.hidden)
         }
+
+        ToolbarItem(placement: .navigation) {
+            toolbarSortingButton
+                .tint(.primary)
+                .menuIndicator(.hidden)
+        }
+
         if !settings.configuredInstances.isEmpty {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink {
@@ -43,7 +49,7 @@ extension ActivityView {
                 } label: {
                     Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
                         .imageScale(.medium)
-                }
+                }.tint(.primary)
             }
         }
     }
@@ -67,8 +73,11 @@ extension ActivityView {
             }
         } label: {
             if sort.hasFilter {
-                Image("filters.badge").offset(y: 3.2)
-            } else{
+                Image("filters.badge")
+                    .offset(y: 3)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(settings.theme.tint, .primary)
+            } else {
                 Image(systemName: "line.3.horizontal.decrease")
             }
         }

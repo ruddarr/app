@@ -30,7 +30,7 @@ struct ActivityView: View {
                             #if os(macOS)
                                 .padding(.vertical, 4)
                             #else
-                                .listRowBackground(Color.secondarySystemBackground)
+                                .listRowBackground(Color.card)
                             #endif
                         } header: {
                             if !items.isEmpty { sectionHeader }
@@ -152,7 +152,9 @@ struct ActivityView: View {
             items = items.reversed()
         }
 
-        self.items = items
+        withAnimation {
+            self.items = items
+        }
     }
 }
 

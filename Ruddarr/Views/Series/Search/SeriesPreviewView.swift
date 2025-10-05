@@ -26,6 +26,15 @@ struct SeriesPreviewView: View {
         .toolbar {
             toolbarNextButton
         }
+        .alert(
+            isPresented: instance.series.errorBinding,
+            error: instance.series.error
+        ) { _ in
+            Button("OK") { instance.series.error = nil }
+        } message: { error in
+            Text(error.recoverySuggestionFallback)
+        }
+        .tint(nil)
         .sheet(isPresented: $presentingForm) {
             NavigationStack {
                 SeriesForm(series: $series)
@@ -41,31 +50,27 @@ struct SeriesPreviewView: View {
             }
             .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
         }
-        .alert(
-            isPresented: instance.series.errorBinding,
-            error: instance.series.error
-        ) { _ in
-            Button("OK") { instance.series.error = nil }
-        } message: { error in
-            Text(error.recoverySuggestionFallback)
-        }
     }
 
     @ToolbarContentBuilder
     var toolbarCancelButton: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
-            Button("Cancel") {
+            Button {
                 presentingForm = false
+            } label: {
+                Label("Cancel", systemImage: "xmark")
             }
+            .tint(.primary)
         }
     }
 
     @ToolbarContentBuilder
     var toolbarNextButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Button("Add Series") {
+            Button("Add Series", systemImage: "plus") {
                 presentingForm = true
             }
+            .buttonStyle(.glassProminent)
             .disabled(presentingForm)
         }
     }
@@ -73,15 +78,19 @@ struct SeriesPreviewView: View {
     @ToolbarContentBuilder
     var toolbarSaveButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            if instance.series.isWorking {
-                ProgressView().tint(.secondary)
-            } else {
-                Button("Add Series") {
-                    Task {
-                        await addSeries()
-                    }
+            Button {
+                Task {
+                    await addSeries()
+                }
+            } label: {
+                if instance.series.isWorking {
+                    ProgressView().tint(nil)
+                } else {
+                    Label("Add Series", systemImage: "checkmark")
                 }
             }
+            .prominentGlassButtonStyle(!instance.series.isWorking)
+            .disabled(instance.series.isWorking)
         }
     }
 

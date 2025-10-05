@@ -1,5 +1,5 @@
 {
-  "originHash" : "f8a84818498fded773a093d0d76f932848a72bdc678d7cd447609c169fc85520",
+  "originHash" : "40b8fc338d27cfc1bc2e56c2ed90e7323af12a824fcaad498347c0c7e28166b1",
   "pins" : [
     {
       "identity" : "cloudstorage",
@@ -24,8 +24,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa.git",
       "state" : {
-        "revision" : "156495496cb101e2f0a6b059f12dafcff1912197",
-        "version" : "8.54.0"
+        "revision" : "3365d74b0ac74a10c87f41a1229526b3ba97a460",
+        "version" : "8.56.0"
+      }
+    },
+    {
+      "identity" : "swiftlintplugins",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SimplyDanny/SwiftLintPlugins",
+      "state" : {
+        "revision" : "6166499ede0efe43c3809f101d2c3cd409e2b77a",
+        "version" : "0.61.0"
       }
     },
     {

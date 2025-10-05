@@ -81,6 +81,14 @@
 		BB50F2272C3B06AD005E14CA /* QueueListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB50F2262C3B06AD005E14CA /* QueueListItem.swift */; };
 		BB50F2292C3B3322005E14CA /* ActivityView+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB50F2282C3B3322005E14CA /* ActivityView+Toolbar.swift */; };
 		BB5379D02C3DD38500B65E95 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BB5379CF2C3DD38500B65E95 /* Localizable.xcstrings */; };
+		BB54D0232E90932400F5CF42 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01A2E90932400F5CF42 /* AppIcon.icon */; };
+		BB54D0242E90932400F5CF42 /* AppIconBarbie.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01B2E90932400F5CF42 /* AppIconBarbie.icon */; };
+		BB54D0252E90932400F5CF42 /* AppIconBooks.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01C2E90932400F5CF42 /* AppIconBooks.icon */; };
+		BB54D0262E90932400F5CF42 /* AppIconMono.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01D2E90932400F5CF42 /* AppIconMono.icon */; };
+		BB54D0272E90932400F5CF42 /* AppIconMusic.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01E2E90932400F5CF42 /* AppIconMusic.icon */; };
+		BB54D0282E90932400F5CF42 /* AppIconPlex.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01F2E90932400F5CF42 /* AppIconPlex.icon */; };
+		BB54D0292E90932400F5CF42 /* AppIconPodcasts.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D0202E90932400F5CF42 /* AppIconPodcasts.icon */; };
+		BB54D02A2E90932400F5CF42 /* AppIconWarp.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D0212E90932400F5CF42 /* AppIconWarp.icon */; };
 		BB581D1A2BA0ED5E0070DFFC /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB581D192BA0ED5E0070DFFC /* CalendarView.swift */; };
 		BB585E892BF55EF400A9AF25 /* EpisodeContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */; };
 		BB63E1F02C17DE1A00BCCA94 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */; };
@@ -137,7 +145,6 @@
 		BBAED12D2B72D444006C6CF2 /* ButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */; };
 		BBAFC7E72BB733E800245D10 /* MediaEventSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFC7E62BB733E800245D10 /* MediaEventSheet.swift */; };
 		BBAFC7EC2BB8704000245D10 /* CustomFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */; };
-		BBAFC7EE2BB8D3CE00245D10 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAFC7ED2BB8D3CE00245D10 /* CloseButton.swift */; };
 		BBB1A4C42E21DD7C000ADA39 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB1A4C32E21DD7C000ADA39 /* TagList.swift */; };
 		BBB8691F2B6CAE26009C1A54 /* MovieReleases.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB8691E2B6CAE26009C1A54 /* MovieReleases.swift */; };
 		BBB869212B6CB0AC009C1A54 /* movie-releases.json in Resources */ = {isa = PBXBuildFile; fileRef = BBB869202B6CB0AC009C1A54 /* movie-releases.json */; };
@@ -317,6 +324,14 @@
 		BB50F2262C3B06AD005E14CA /* QueueListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueListItem.swift; sourceTree = "<group>"; };
 		BB50F2282C3B3322005E14CA /* ActivityView+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActivityView+Toolbar.swift"; sourceTree = "<group>"; };
 		BB5379CF2C3DD38500B65E95 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		BB54D01A2E90932400F5CF42 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		BB54D01B2E90932400F5CF42 /* AppIconBarbie.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconBarbie.icon; sourceTree = "<group>"; };
+		BB54D01C2E90932400F5CF42 /* AppIconBooks.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconBooks.icon; sourceTree = "<group>"; };
+		BB54D01D2E90932400F5CF42 /* AppIconMono.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconMono.icon; sourceTree = "<group>"; };
+		BB54D01E2E90932400F5CF42 /* AppIconMusic.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconMusic.icon; sourceTree = "<group>"; };
+		BB54D01F2E90932400F5CF42 /* AppIconPlex.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconPlex.icon; sourceTree = "<group>"; };
+		BB54D0202E90932400F5CF42 /* AppIconPodcasts.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconPodcasts.icon; sourceTree = "<group>"; };
+		BB54D0212E90932400F5CF42 /* AppIconWarp.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconWarp.icon; sourceTree = "<group>"; };
 		BB581D192BA0ED5E0070DFFC /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeContextMenu.swift; sourceTree = "<group>"; };
 		BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intents.swift; sourceTree = "<group>"; };
@@ -337,6 +352,7 @@
 		BB7DDF642B718DFB0001CDFC /* MovieReleaseSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseSheet.swift; sourceTree = "<group>"; };
 		BB8100092CD5976B00499666 /* radarr-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "radarr-history.json"; sourceTree = "<group>"; };
 		BB83AFA42CB2080C00349997 /* InstanceCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceCommand.swift; sourceTree = "<group>"; };
+		BB846F2E2E7DE1BC00E0A367 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
 		BB865E602B83C11E00ADCEFE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		BB89058A2E41359E0057C62B /* SeasonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonCard.swift; sourceTree = "<group>"; };
 		BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseRow.swift; sourceTree = "<group>"; };
@@ -356,7 +372,6 @@
 		BB96C32A2BE833AD00E24C1C /* SeriesForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesForm.swift; sourceTree = "<group>"; };
 		BB96C32C2BE8351800E24C1C /* series-releases.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-releases.json"; sourceTree = "<group>"; };
 		BB96C32E2BE8889E00E24C1C /* SeriesEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesEditView.swift; sourceTree = "<group>"; };
-		BB97DCC82C31E0E3002E12E6 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
 		BB9BF4172DCFFE2D00488FCA /* MediaGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGrid.swift; sourceTree = "<group>"; };
 		BB9DC2242BA920AF00459FFF /* API+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+Error.swift"; sourceTree = "<group>"; };
 		BB9DC22A2BAA11C700459FFF /* MoviesView+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoviesView+Overlay.swift"; sourceTree = "<group>"; };
@@ -373,7 +388,6 @@
 		BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLabel.swift; sourceTree = "<group>"; };
 		BBAFC7E62BB733E800245D10 /* MediaEventSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaEventSheet.swift; sourceTree = "<group>"; };
 		BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormat.swift; sourceTree = "<group>"; };
-		BBAFC7ED2BB8D3CE00245D10 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		BBB1A4C32E21DD7C000ADA39 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
 		BBB8691E2B6CAE26009C1A54 /* MovieReleases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleases.swift; sourceTree = "<group>"; };
 		BBB869202B6CB0AC009C1A54 /* movie-releases.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "movie-releases.json"; sourceTree = "<group>"; };
@@ -552,7 +566,7 @@
 		BB40712E2C1CDD32006A3FA5 /* NotificationService */ = {
 			isa = PBXGroup;
 			children = (
-				BB97DCC82C31E0E3002E12E6 /* NotificationService.entitlements */,
+				BB846F2E2E7DE1BC00E0A367 /* NotificationService.entitlements */,
 				BB40712F2C1CDD32006A3FA5 /* NotificationService.swift */,
 				BB4071312C1CDD32006A3FA5 /* Info.plist */,
 			);
@@ -619,6 +633,21 @@
 				BB77C2CB2C19F41800125852 /* SeriesDefaults.swift */,
 			);
 			path = Series;
+			sourceTree = "<group>";
+		};
+		BB54D0222E90932400F5CF42 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				BB54D01A2E90932400F5CF42 /* AppIcon.icon */,
+				BB54D01B2E90932400F5CF42 /* AppIconBarbie.icon */,
+				BB54D01C2E90932400F5CF42 /* AppIconBooks.icon */,
+				BB54D01D2E90932400F5CF42 /* AppIconMono.icon */,
+				BB54D01E2E90932400F5CF42 /* AppIconMusic.icon */,
+				BB54D01F2E90932400F5CF42 /* AppIconPlex.icon */,
+				BB54D0202E90932400F5CF42 /* AppIconPodcasts.icon */,
+				BB54D0212E90932400F5CF42 /* AppIconWarp.icon */,
+			);
+			path = Icons;
 			sourceTree = "<group>";
 		};
 		BB644FCA2B8529C2007C7AD5 /* ci_scripts */ = {
@@ -690,7 +719,6 @@
 				BBBCA05B2BE958F300BAE374 /* Toolbar.swift */,
 				BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */,
 				BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */,
-				BBAFC7ED2BB8D3CE00245D10 /* CloseButton.swift */,
 				BBF583B12BABAE8C00AFA7FB /* Loading.swift */,
 				BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */,
 				BBF7BFDD2BE4971D00B485FA /* InformationList.swift */,
@@ -745,6 +773,7 @@
 		BBE828552B4F2C7000C1E1D9 /* Ruddarr */ = {
 			isa = PBXGroup;
 			children = (
+				BB54D0222E90932400F5CF42 /* Icons */,
 				BBF477AA2B505C5D00C2DED3 /* Views */,
 				BBF477A62B4F8AA300C2DED3 /* Models */,
 				BBF706BA2B62209700B2B504 /* Services */,
@@ -920,12 +949,11 @@
 				BBE828512B4F2C7000C1E1D9 /* Resources */,
 				BB4071142C1CD2DD006A3FA5 /* Embed Foundation Extensions */,
 				BB4071282C1CD46B006A3FA5 /* Embed ExtensionKit Extensions */,
-				BB9D7AFA2B58A675001C5E3C /* Run SwiftLint */,
-				BB5187AA2B804C5F0015F036 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BB846F2D2E7DE0CB00E0A367 /* PBXTargetDependency */,
 				BB4071332C1CDD32006A3FA5 /* PBXTargetDependency */,
 			);
 			name = Ruddarr;
@@ -947,7 +975,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					BB40712C2C1CDD32006A3FA5 = {
 						CreatedOnToolsVersion = 16.0;
@@ -971,6 +999,7 @@
 				BB0FE10D2BEC660500D1D847 /* XCRemoteSwiftPackageReference "CloudStorage" */,
 				BB48FF492CADABA200DAA4A7 /* XCRemoteSwiftPackageReference "SwiftSDK" */,
 				BB715EBD2CCAA2AD003B12A0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+				BB846F2B2E7DE0C700E0A367 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			productRefGroup = BBE828542B4F2C7000C1E1D9 /* Products */;
 			projectDirPath = "";
@@ -1015,6 +1044,14 @@
 				BB8B3DF42B617FE800B80E2D /* root-folders.json in Resources */,
 				BB19BF872BE3E3E900F3E7AC /* Settings.bundle in Resources */,
 				BBD3F2D42BFA520700DE5D8E /* series-episode-history.json in Resources */,
+				BB54D0232E90932400F5CF42 /* AppIcon.icon in Resources */,
+				BB54D0242E90932400F5CF42 /* AppIconBarbie.icon in Resources */,
+				BB54D0252E90932400F5CF42 /* AppIconBooks.icon in Resources */,
+				BB54D0262E90932400F5CF42 /* AppIconMono.icon in Resources */,
+				BB54D0272E90932400F5CF42 /* AppIconMusic.icon in Resources */,
+				BB54D0282E90932400F5CF42 /* AppIconPlex.icon in Resources */,
+				BB54D0292E90932400F5CF42 /* AppIconPodcasts.icon in Resources */,
+				BB54D02A2E90932400F5CF42 /* AppIconWarp.icon in Resources */,
 				BB77C2CE2C1A019B00125852 /* AppShortcuts.xcstrings in Resources */,
 				BBD5D8102C013E30008E3B3F /* movie-queue.json in Resources */,
 				BBA733672BB5278800A5022B /* movie-history.json in Resources */,
@@ -1033,48 +1070,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		BB5187AA2B804C5F0015F036 /* Upload Debug Symbols to Sentry */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-			);
-			name = "Upload Debug Symbols to Sentry";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which sentry-cli >/dev/null; then\n  export SENTRY_ORG=ruddarr\n  export SENTRY_PROJECT=app\n\n  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\nfi\n";
-		};
-		BB9D7AFA2B58A675001C5E3C /* Run SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Run SwiftLint";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  #swiftlint --fix && swiftlint\n  swiftlint\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BB4071292C1CDD32006A3FA5 /* Sources */ = {
@@ -1191,7 +1186,6 @@
 				BB50F2292C3B3322005E14CA /* ActivityView+Toolbar.swift in Sources */,
 				BBA733632BB4C1F400A5022B /* MovieMetadataView.swift in Sources */,
 				BBBB08D42B77FBC700BADBA1 /* IconsView.swift in Sources */,
-				BBAFC7EE2BB8D3CE00245D10 /* CloseButton.swift in Sources */,
 				BBF583BD2BACA3B200AFA7FB /* Series.swift in Sources */,
 				BB2250F22BEE87D7009EAA6B /* ContentView.swift in Sources */,
 				BB0BEA8D2BE593C2004DBFE6 /* SeriesEpisodes.swift in Sources */,
@@ -1258,6 +1252,10 @@
 			target = BB40712C2C1CDD32006A3FA5 /* NotificationService */;
 			targetProxy = BB4071322C1CDD32006A3FA5 /* PBXContainerItemProxy */;
 		};
+		BB846F2D2E7DE0CB00E0A367 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = BB846F2C2E7DE0CB00E0A367 /* SwiftLintBuildToolPlugin */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -1269,18 +1267,20 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.6.1;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1303,18 +1303,20 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.6.1;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1392,6 +1394,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1451,6 +1454,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -1468,9 +1472,12 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Ruddarr/Preview Content\"";
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Ruddarr/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Ruddarr;
@@ -1485,11 +1492,11 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.6.1;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1529,9 +1536,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Ruddarr/Preview Content\"";
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Ruddarr/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Ruddarr;
@@ -1546,11 +1556,11 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.6.1;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1635,6 +1645,14 @@
 				minimumVersion = 8.38.0;
 			};
 		};
+		BB846F2B2E7DE0C700E0A367 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.61.0;
+			};
+		};
 		BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kean/Nuke";
@@ -1660,6 +1678,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BB715EBD2CCAA2AD003B12A0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
 			productName = SentrySwiftUI;
+		};
+		BB846F2C2E7DE0CB00E0A367 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BB846F2B2E7DE0C700E0A367 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
 		BBDA77602BDACD3C00568E64 /* NukeUI */ = {
 			isa = XCSwiftPackageProductDependency;

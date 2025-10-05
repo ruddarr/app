@@ -11,18 +11,18 @@ struct MovieGridPoster: View {
             } preview: {
                 poster.frame(width: 300, height: 450)
             }
-            .background(.secondarySystemBackground)
+            .background(.card)
             .overlay(alignment: .bottom) {
                 if movie.exists {
                     posterOverlay
                 }
             }
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
     var poster: some View {
         CachedAsyncImage(.poster, movie.remotePoster, placeholder: movie.title)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
             .aspectRatio(
                 CGSize(width: 150, height: 225),
                 contentMode: .fill

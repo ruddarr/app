@@ -1070,6 +1070,17 @@
         }
       }
     },
+    "Continue" : {
+      "comment" : "Button to close whats new sheet",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        }
+      }
+    },
     "Continuing" : {
       "comment" : "(Single word) Series status",
       "localizations" : {
@@ -1896,6 +1907,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grid"
+          }
+        }
+      }
+    },
+    "Header name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Header name"
+          }
+        }
+      }
+    },
+    "Header value" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Header value"
           }
         }
       }
@@ -2822,17 +2853,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Music"
-          }
-        }
-      }
-    },
-    "Name" : {
-      "comment" : "Name of HTTP header",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Name"
           }
         }
       }
@@ -4064,6 +4084,17 @@
         }
       }
     },
+    "Release Notes" : {
+      "comment" : "Also know as changelog",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release Notes"
+          }
+        }
+      }
+    },
     "Release Push" : {
       "comment" : "Source of the release",
       "localizations" : {
@@ -4166,16 +4197,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Repack"
-          }
-        }
-      }
-    },
-    "Report a Bug" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Report a Bug"
           }
         }
       }
@@ -4395,6 +4416,16 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "Season Files Deleted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Season Files Deleted"
           }
         }
       }
@@ -4902,6 +4933,16 @@
         }
       }
     },
+    "This will permanently erase all episode files of this season." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This will permanently erase all episode files of this season."
+          }
+        }
+      }
+    },
     "This will permanently erase the episode file." : {
       "localizations" : {
         "en" : {
@@ -5270,17 +5311,6 @@
         }
       }
     },
-    "Value" : {
-      "comment" : "Value of HTTP header",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Value"
-          }
-        }
-      }
-    },
     "Version %@ (%@)" : {
       "comment" : "$1 = version, $2 = build",
       "localizations" : {
@@ -5405,6 +5435,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "What happened?"
+          }
+        }
+      }
+    },
+    "What's New in %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What's New in %@"
           }
         }
       }

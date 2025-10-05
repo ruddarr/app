@@ -44,13 +44,16 @@ struct WhatsNewView: View {
                         ForEach(WhatsNew.features, id: \.title, content: feature)
                     }
                     .modifier(WhatsNewFeaturesPadding())
-                    .padding(.leading, 15)
+                    .padding(.horizontal, 15)
                 }
                 .padding(.horizontal)
                 .padding(.top, 65)
 
                 Color.clear.padding(.bottom, 150)
             }
+            #if os(iOS)
+                .background(.systemBackground)
+            #endif
 
             VStack {
                 Spacer()
@@ -62,7 +65,6 @@ struct WhatsNewView: View {
                     #endif
             }
             .edgesIgnoringSafeArea(.bottom)
-
         }
         .onDisappear {
             WhatsNew.markAsPresented()
@@ -70,19 +72,9 @@ struct WhatsNewView: View {
     }
 
     var title: some View {
-        Group {
-            if deviceType == .phone {
-                VStack {
-                    Text(verbatim: "What's New in")
-                    Text(verbatim: Ruddarr.name).foregroundStyle(.blue)
-                }
-            } else {
-                Group {
-                    Text(verbatim: "What's New in ") +
-                    Text(verbatim: Ruddarr.name).foregroundStyle(.blue)
-                }
-            }
-        }
+        let appName = Text(verbatim: Ruddarr.name).foregroundStyle(.tint)
+
+        return Text("What's New in \(appName)")
             .font(.largeTitle.bold())
             .multilineTextAlignment(.center)
     }
@@ -95,9 +87,9 @@ struct WhatsNewView: View {
                 VStack {
                     if isRunningIn(.appstore) {
                         Link(destination: Links.AppStore) {
-                            Text(verbatim: "Release Notes")
+                            Text("Release Notes", comment: "Also know as changelog")
                         }
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(.tint)
                         .padding(.bottom, 10)
                     }
 
@@ -108,16 +100,12 @@ struct WhatsNewView: View {
 
                         dismiss()
                     } label: {
-                        Text(verbatim: "Continue")
+                        Text("Continue", comment: "Button to close whats new sheet")
                             .font(.headline.weight(.semibold))
-                            .padding(.vertical)
+                            .padding(.vertical, 8)
                             .frame(maxWidth: .infinity)
-                            #if os(iOS)
-                                .foregroundStyle(.white)
-                                .background(.blue)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            #endif
                     }
+                    .buttonStyle(.glassProminent)
                 }
 
                 Spacer()
@@ -128,12 +116,12 @@ struct WhatsNewView: View {
     func feature(_ feature: WhatsNewFeature) -> some View {
         HStack(alignment: .top, spacing: 20) {
             Image(systemName: feature.image)
-                .font(.title)
+                .font(.title2)
                 .imageScale(.large)
-                .foregroundStyle(.blue)
-                .frame(width: 40)
+                .foregroundStyle(.tint)
+                .frame(width: 28)
                 #if os(iOS)
-                    .offset(y: deviceType == .phone ? 10 : 5)
+                    .offset(y: 5)
                 #endif
 
             VStack(alignment: .leading, spacing: 2) {
@@ -141,6 +129,7 @@ struct WhatsNewView: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
+
                 Text(feature.subtitle)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
@@ -178,7 +167,7 @@ struct WhatsNewFooterPadding: ViewModifier {
                 )
             } else {
                 content.padding(
-                    .init(top: 0, leading: 20, bottom: 80, trailing: 20)
+                    .init(top: 0, leading: 20, bottom: 50, trailing: 20)
                 )
             }
         #endif
@@ -227,8 +216,11 @@ private struct WhatsNewSheetViewModifier: ViewModifier {
 #Preview {
     @Previewable @State var show: Bool = true
 
-    return NavigationView { }.sheet(isPresented: $show, content: {
+    return NavigationView {
+        Text(verbatim: "Cupidatat adipisicing elit dolor cillum.")
+    }.sheet(isPresented: $show, content: {
         WhatsNewView()
             // .environment(\.sizeCategory, .extraExtraLarge)
     })
+    .tint(.brown)
 }

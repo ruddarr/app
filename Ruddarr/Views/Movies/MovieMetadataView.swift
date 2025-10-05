@@ -67,7 +67,7 @@ struct MovieMetadataView: View {
         }
         .sheet(item: $fileSheet) { file in
             MediaFileSheet(file: file, runtime: movie.runtime)
-                .presentationDetents([.fraction(0.9)])
+                .presentationDetents([.fraction(0.8)])
         }
     }
 
@@ -137,7 +137,7 @@ struct MovieFilesFile: View {
         .contextMenu {
             Button("Delete File", systemImage: "trash", role: .destructive) {
                 showDeleteConfirmation = true
-            }
+            }.tint(.red)
         }
         .alert(
             "Are you sure?",
@@ -149,7 +149,7 @@ struct MovieFilesFile: View {
             Button("Cancel", role: .cancel) { }
         } message: {
             Text("This will permanently erase the movie file.")
-        }
+        }.tint(nil)
     }
 
     func deleteFile() async {

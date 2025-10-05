@@ -27,7 +27,7 @@ struct HistoryView: View {
                                 page += 1
                                 Task { await history.fetch(page, displayedEventType) }
                             }
-                            .buttonStyle(.bordered)
+                            .buttonStyle(.glass)
                         }
                     }
                     .padding(.vertical, 12)
@@ -36,13 +36,6 @@ struct HistoryView: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical)
             .viewPadding(.horizontal)
-            .sheet(item: $selectedEvent) { event in
-                MediaEventSheet(event: event, instanceId: event.instanceId)
-                    .environmentObject(settings)
-                    .presentationDetents(
-                        dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
-                    )
-            }
         }
         .navigationTitle("History")
         .safeNavigationBarTitleDisplayMode(.inline)
@@ -66,6 +59,14 @@ struct HistoryView: View {
             Button("OK") { history.error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
+        }
+        .tint(nil)
+        .sheet(item: $selectedEvent) { event in
+            MediaEventSheet(event: event, instanceId: event.instanceId)
+                .environmentObject(settings)
+                .presentationDetents(
+                    dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
+                )
         }
         .overlay {
             if history.events.isEmpty && history.isLoading {
@@ -110,12 +111,16 @@ struct HistoryView: View {
                 }
                 .pickerStyle(.inline)
             } label: {
-                if displayedInstance != ".all" {
-                    Image("filters.badge").offset(y: 3.2)
+                if displayedInstance != ".all" || displayedEventType != ".all" {
+                    Image("filters.badge")
+                        .offset(y: 3)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(settings.theme.tint, .primary)
                 } else {
                     Image(systemName: "line.3.horizontal.decrease")
                 }
             }
+            .menuIndicator(.hidden)
         }
     }
 

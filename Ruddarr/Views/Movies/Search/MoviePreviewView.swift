@@ -26,6 +26,14 @@ struct MoviePreviewView: View {
         .toolbar {
             toolbarNextButton
         }
+        .alert(
+            isPresented: instance.movies.errorBinding,
+            error: instance.movies.error
+        ) { _ in
+            Button("OK") { instance.movies.error = nil }
+        } message: { error in
+            Text(error.recoverySuggestionFallback)
+        }.tint(nil)
         .sheet(isPresented: $presentingForm) {
             NavigationStack {
                 MovieForm(movie: $movie)
@@ -41,31 +49,27 @@ struct MoviePreviewView: View {
             }
             .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
         }
-        .alert(
-            isPresented: instance.movies.errorBinding,
-            error: instance.movies.error
-        ) { _ in
-            Button("OK") { instance.movies.error = nil }
-        } message: { error in
-            Text(error.recoverySuggestionFallback)
-        }
     }
 
     @ToolbarContentBuilder
     var toolbarCancelButton: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
-            Button("Cancel") {
+            Button {
                 presentingForm = false
+            } label: {
+                Label("Cancel", systemImage: "xmark")
             }
+            .tint(.primary)
         }
     }
 
     @ToolbarContentBuilder
     var toolbarNextButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Button("Add Movie") {
+            Button("Add Movie", systemImage: "plus") {
                 presentingForm = true
             }
+            .buttonStyle(.glassProminent)
             .disabled(presentingForm)
         }
     }
@@ -73,15 +77,19 @@ struct MoviePreviewView: View {
     @ToolbarContentBuilder
     var toolbarSaveButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            if instance.movies.isWorking {
-                ProgressView().tint(.secondary)
-            } else {
-                Button("Add Movie") {
-                    Task {
-                        await addMovie()
-                    }
+            Button {
+                Task {
+                    await addMovie()
+                }
+            } label: {
+                if instance.movies.isWorking {
+                    ProgressView().tint(nil)
+                } else {
+                    Label("Add Movie", systemImage: "checkmark")
                 }
             }
+            .prominentGlassButtonStyle(!instance.movies.isWorking)
+            .disabled(instance.movies.isWorking)
         }
     }
 

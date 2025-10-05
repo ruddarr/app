@@ -31,7 +31,7 @@ struct SettingsDisplaySection: View {
             }
 
             Label("Appearance", systemImage: icon)
-                .labelStyle(SettingsIconLabelStyle(color: .blue))
+                .labelStyle(SettingsIconLabelStyle())
         }.tint(.secondary)
     }
 
@@ -42,7 +42,7 @@ struct SettingsDisplaySection: View {
             }
         } label: {
             Label("Accent Color", systemImage: "paintpalette")
-                .labelStyle(SettingsIconLabelStyle(color: .teal, size: 13))
+                .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
         }
         .tint(.secondary)
         .onChange(of: settings.theme) {
@@ -50,21 +50,13 @@ struct SettingsDisplaySection: View {
         }
     }
 
-    @ScaledMetric(relativeTo: .body) var appIconSize = 28
-
     var iconPicker: some View {
         NavigationLink(value: SettingsView.Path.icons) {
-            Label {
-                LabeledContent {
-                    Text(settings.icon.label)
-                } label: {
-                    Text("App Icon")
-                }
-            } icon: {
-                Image(settings.icon.image)
-                    .resizable()
-                    .frame(width: appIconSize, height: appIconSize)
-                    .clipShape(.rect(cornerRadius: (10 / 57) * appIconSize))
+            LabeledContent {
+                Text(settings.icon.label)
+            } label: {
+                Label("App Icon", systemImage: "app.grid")
+                    .labelStyle(SettingsIconLabelStyle(iconScale: 1.05))
             }
         }
     }

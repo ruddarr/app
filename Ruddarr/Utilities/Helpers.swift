@@ -125,7 +125,7 @@ func cloudKitStatusString(_ status: CKAccountStatus?) -> String {
 }
 
 class PreviewData {
-    static func load<T: Codable> (name: String) -> [T] {
+    static func load<T: Codable>(name: String) -> [T] {
         if let path = Bundle.main.path(forResource: name, ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))
@@ -144,7 +144,7 @@ class PreviewData {
         fatalError("Invalid preview data path: \(name)")
     }
 
-    static func loadObject<T: Codable> (name: String) -> T {
+    static func loadObject<T: Codable>(name: String) -> T {
         if let path = Bundle.main.path(forResource: name, ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path))

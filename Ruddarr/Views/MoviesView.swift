@@ -75,12 +75,12 @@ struct MoviesView: View {
             .onReceive(dependencies.quickActions.moviePublisher, perform: navigateToMovie)
             .toolbar {
                 toolbarViewOptions
-
-                if settings.radarrInstances.count > 1 && deviceType == .phone {
-                    toolbarInstancePicker
-                }
-
                 toolbarSearchButton
+
+                if settings.radarrInstances.count > 1 {
+                    if deviceType == .phone { toolbarInstancePicker }
+                    if deviceType == .pad { bottomBarInstancePicker }
+                }
             }
             .scrollDismissesKeyboard(.immediately)
             .searchable(
@@ -98,7 +98,7 @@ struct MoviesView: View {
                 Button("OK") { error = nil }
             } message: { error in
                 Text(error.recoverySuggestionFallback)
-            }
+            }.tint(nil)
             .overlay {
                 if notConnectedToInternet {
                     NoInternet()
