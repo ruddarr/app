@@ -15,7 +15,7 @@ struct MediaFileSheet: View {
                     audioMetadata
                     textMetadata
                 }
-                .padding(.top, -60)
+                .padding(.top, -52)
                 .viewPadding(.horizontal)
             }
             #if os(macOS)
@@ -191,6 +191,10 @@ struct MediaFileSheet: View {
                             .font(.subheadline)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
+
+                    Spacer()
+                    Spacer()
+                    Spacer()
                 }
             } header: {
                 headline("Subtitles")
@@ -221,5 +225,22 @@ struct MediaFileSheet: View {
         }
         .font(.subheadline)
         .padding(.vertical, 4)
+    }
+}
+
+#Preview {
+    @Previewable @State var show: Bool = false
+
+    let movies: [Movie] = PreviewData.load(name: "movies")
+    let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
+
+    Button {
+        show.toggle()
+    } label: {
+        Text(verbatim: "Hello")
+    }
+    .sheet(isPresented: $show) {
+        MediaFileSheet(file: movie.movieFile!, runtime: 42)
+            .presentationDetents([.fraction(0.8)])
     }
 }
