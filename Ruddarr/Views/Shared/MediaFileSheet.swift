@@ -14,6 +14,8 @@ struct MediaFileSheet: View {
                     videoMetadata
                     audioMetadata
                     textMetadata
+
+                    Spacer().frame(height: 42)
                 }
                 .padding(.top, -52)
                 .viewPadding(.horizontal)
@@ -191,10 +193,6 @@ struct MediaFileSheet: View {
                             .font(.subheadline)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
-
-                    Spacer()
-                    Spacer()
-                    Spacer()
                 }
             } header: {
                 headline("Subtitles")
