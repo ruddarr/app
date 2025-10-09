@@ -100,8 +100,8 @@ extension MoviesView {
 
         ToolbarItem(placement: .navigation) {
             Menu {
-                Picker(selection: $settings.sonarrInstanceId, label: Text("Instances")) {
-                    ForEach(settings.sonarrInstances) { instance in
+                Picker(selection: $settings.radarrInstanceId, label: Text("Instances")) {
+                    ForEach(settings.radarrInstances) { instance in
                         Text(instance.label).tag(Optional.some(instance.id))
                     }
                 }
