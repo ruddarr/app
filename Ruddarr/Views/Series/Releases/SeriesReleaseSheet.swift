@@ -16,7 +16,6 @@ struct SeriesReleaseSheet: View {
     @State private var showGrabConfirmation: Bool = false
 
     var body: some View {
-        // swiftlint:disable:next closure_body_length
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
