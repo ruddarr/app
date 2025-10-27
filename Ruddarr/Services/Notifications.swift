@@ -113,7 +113,7 @@ actor Notifications {
             for instance in instances {
                 let lastUpdate = "webhookUpdated:\(instance.id)"
 
-                if Occurrence.hoursSince(lastUpdate) < 24 {
+                if Occurrence.hoursSince(lastUpdate) < 6 {
                     continue
                 }
 
