@@ -25,7 +25,7 @@ Help [translate Ruddarr](https://crowdin.com/project/ruddarr) into any language.
 
 ## Notifications
 
-The code of the notification service is powered by a Cloudflare Worker and also [open source](https://github.com/ruddarr/apns-worker).
+The code of the notification service is and also [open source](https://github.com/ruddarr/apns-worker).
 
 ## URL Schemes
 
