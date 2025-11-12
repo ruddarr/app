@@ -6,6 +6,7 @@ struct SeasonView: View {
     var seasonId: Season.ID
     @State var jumpToEpisode: Episode.ID?
 
+    @State private var hasFetched: Bool = false
     @State private var dispatchingSearch: Bool = false
     @State private var showDeleteConfirmation = false
 
@@ -41,6 +42,7 @@ struct SeasonView: View {
             async let maybeFetchFiles: () = instance.files.maybeFetch(series)
 
             (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
+            hasFetched = true
             maybeNavigateToEpisode()
         }
         .onBecomeActive {
@@ -168,7 +170,7 @@ struct SeasonView: View {
 
     var episodesList: some View {
         Section {
-            if instance.episodes.isFetching || instance.files.isFetching {
+            if !hasFetched && (instance.episodes.isFetching || instance.files.isFetching) {
                 HStack {
                     Spacer()
                     ProgressView().tint(.secondary)
