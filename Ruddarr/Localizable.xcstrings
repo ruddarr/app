@@ -1092,16 +1092,6 @@
         }
       }
     },
-    "Contribute on GitHub" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contribute on GitHub"
-          }
-        }
-      }
-    },
     "Copy Link" : {
       "localizations" : {
         "en" : {
@@ -4197,6 +4187,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Repack"
+          }
+        }
+      }
+    },
+    "Report an Issue" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report an Issue"
           }
         }
       }
