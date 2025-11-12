@@ -275,6 +275,11 @@ struct MovieReleaseSheet: View {
     let releases: [MovieRelease] = PreviewData.load(name: "movie-releases")
     let release = releases[10]
 
-    MovieReleaseSheet(release: release, movie: movies[1])
+    Text(verbatim: "Sheet")
+        .sheet(isPresented: .constant(true)) {
+            MovieReleaseSheet(release: release, movie: movies[1])
+                .presentationDetents([.medium])
+                .presentationBackground(.ultraThinMaterial)
+        }
         .withAppState()
 }

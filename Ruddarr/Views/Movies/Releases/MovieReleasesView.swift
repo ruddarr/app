@@ -66,6 +66,7 @@ struct MovieReleasesView: View {
         .sheet(item: $selectedRelease) { release in
             MovieReleaseSheet(release: release, movie: movie)
                 .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
+                .presentationBackground(.ultraThinMaterial)
                 .environment(instance)
                 .environmentObject(settings)
         }
