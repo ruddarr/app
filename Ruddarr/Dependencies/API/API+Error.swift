@@ -76,7 +76,7 @@ extension API.Error: LocalizedError {
         case .void:
             fallback
         case .invalidUrl(let url):
-            String(localized: "Instance URL is not valid: \(url)")
+            String(localized: "Instance URL is not valid or restricted by Screen Time: \(url)")
         case .badStatusCode(code: let code):
             String(localized: "Server returned \(code) status code.")
         case .decodingError(let error):
