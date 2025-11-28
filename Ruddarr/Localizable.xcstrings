@@ -1523,17 +1523,6 @@
         }
       }
     },
-    "episode" : {
-      "comment" : "The word 'episode' used mid-sentence",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "episode"
-          }
-        }
-      }
-    },
     "Episode" : {
       "localizations" : {
         "en" : {
@@ -2173,12 +2162,12 @@
         }
       }
     },
-    "Instance URL is not valid: %@" : {
+    "Instance URL is not valid or restricted by Screen Time: %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instance URL is not valid: %@"
+            "value" : "Instance URL is not valid or restricted by Screen Time: %@"
           }
         }
       }
@@ -2658,17 +2647,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Move the series files to \"%@\"?"
-          }
-        }
-      }
-    },
-    "movie" : {
-      "comment" : "The word 'movie' used mid-sentence",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "movie"
           }
         }
       }
@@ -4837,17 +4815,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "System Settings"
-          }
-        }
-      }
-    },
-    "System Settings > Notifications > %@" : {
-      "comment" : "macOS path",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "System Settings > Notifications > %@"
           }
         }
       }
