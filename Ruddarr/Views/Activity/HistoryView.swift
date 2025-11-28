@@ -27,7 +27,7 @@ struct HistoryView: View {
                                 page += 1
                                 Task { await history.fetch(page, displayedEventType) }
                             }
-                            .buttonStyle(.glass)
+                            .buttonStyle(.bordered)
                         }
                     }
                     .padding(.vertical, 12)

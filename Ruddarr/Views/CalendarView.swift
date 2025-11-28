@@ -53,7 +53,7 @@ struct CalendarView: View {
                                     Button("Load More") {
                                         calendar.loadMoreDates()
                                     }
-                                    .buttonStyle(.glass)
+                                    .buttonStyle(.bordered)
                                 }
                             }.padding(.bottom, 32)
                         }

@@ -206,7 +206,7 @@ struct EpisodeView: View {
                 )
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.bordered)
             .allowsHitTesting(!instance.series.isWorking)
 
             NavigationLink(
@@ -215,7 +215,7 @@ struct EpisodeView: View {
                 ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.bordered)
         }
         .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 450)
