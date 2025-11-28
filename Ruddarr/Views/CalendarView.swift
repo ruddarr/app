@@ -102,7 +102,7 @@ struct CalendarView: View {
                     NoInternet()
                 } else if calendar.isLoading && calendar.dates.isEmpty {
                     Loading()
-                } else if initializationError != nil {
+                } else if initialLoadingFailed {
                     contentUnavailable
                 }
             }
@@ -113,6 +113,11 @@ struct CalendarView: View {
         if !calendar.dates.isEmpty { return false }
         if case .notConnectedToInternet = calendar.error { return true }
         return false
+    }
+
+    var initialLoadingFailed: Bool {
+        if initializationError == nil { return false }
+        return calendar.dates.isEmpty && (calendar.movies.isEmpty || calendar.episodes.isEmpty)
     }
 
     var displayMovies: Bool {
