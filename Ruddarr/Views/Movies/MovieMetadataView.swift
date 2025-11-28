@@ -68,6 +68,7 @@ struct MovieMetadataView: View {
         .sheet(item: $fileSheet) { file in
             MediaFileSheet(file: file, runtime: movie.runtime)
                 .presentationDetents([.fraction(0.8)])
+                .presentationBackground(.ultraThinMaterial)
         }
     }
 

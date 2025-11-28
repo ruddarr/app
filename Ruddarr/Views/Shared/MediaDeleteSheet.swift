@@ -78,6 +78,7 @@ struct MediaDeleteSheet: View {
             .presentationDetents(
                 dynamic: [.fraction(0.33)]
             )
+            .presentationBackground(.ultraThinMaterial)
         }
         .withAppState()
 }

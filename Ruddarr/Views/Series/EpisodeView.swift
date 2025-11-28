@@ -256,6 +256,7 @@ struct EpisodeView: View {
         .sheet(item: $fileSheet) { file in
             MediaFileSheet(file: file, runtime: episode.runtime ?? series.runtime)
                 .presentationDetents([.fraction(0.8)])
+                .presentationBackground(.ultraThinMaterial)
         }
         .alert(
             "Are you sure?",
