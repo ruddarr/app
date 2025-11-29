@@ -279,7 +279,7 @@ struct MovieReleaseSheet: View {
         .sheet(isPresented: .constant(true)) {
             MovieReleaseSheet(release: release, movie: movies[1])
                 .presentationDetents([.medium])
-                .presentationBackground(.ultraThinMaterial)
+                .presentationBackground(.sheetBackground)
         }
         .withAppState()
 }

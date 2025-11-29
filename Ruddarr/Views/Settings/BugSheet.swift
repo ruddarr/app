@@ -119,7 +119,7 @@ private struct BugSheetViewModifier: ViewModifier {
             .sheet(isPresented: $isPresented) {
                 BugSheet()
                     .presentationDetents(dynamic: [.medium])
-                    .presentationBackground(.ultraThinMaterial)
+                    .presentationBackground(.sheetBackground)
             }
     }
 }

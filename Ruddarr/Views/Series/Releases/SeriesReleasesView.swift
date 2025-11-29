@@ -76,7 +76,7 @@ struct SeriesReleasesView: View {
             .environment(instance)
             .environmentObject(settings)
             .presentationDetents([deviceType == .phone ? .medium : .large])
-            .presentationBackground(.ultraThinMaterial)
+            .presentationBackground(.sheetBackground)
         }
     }
 

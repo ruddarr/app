@@ -48,7 +48,7 @@ struct MoviePreviewView: View {
                     #endif
             }
             .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
-            .presentationBackground(.ultraThinMaterial)
+            .presentationBackground(.sheetBackground)
         }
     }
 

@@ -216,6 +216,20 @@ extension View {
     }
 }
 
+struct SheetBackgroundStyle: ShapeStyle {
+    func resolve(in env: EnvironmentValues) -> some ShapeStyle {
+        if env.colorScheme == .dark {
+            AnyShapeStyle(Color(uiColor: .systemBackground))
+        } else {
+            AnyShapeStyle(.ultraThinMaterial)
+        }
+    }
+}
+
+extension ShapeStyle where Self == SheetBackgroundStyle {
+    static var sheetBackground: SheetBackgroundStyle { .init() }
+}
+
 extension ShapeStyle where Self == Color {
     static var systemPurple: Color { Color(red: 88 / 255, green: 86 / 255, blue: 215 / 255) }
     static var card: Color { .quaternarySystemFill }

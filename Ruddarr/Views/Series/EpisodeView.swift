@@ -256,7 +256,7 @@ struct EpisodeView: View {
         .sheet(item: $fileSheet) { file in
             MediaFileSheet(file: file, runtime: episode.runtime ?? series.runtime)
                 .presentationDetents([.fraction(0.8)])
-                .presentationBackground(.ultraThinMaterial)
+                .presentationBackground(.sheetBackground)
         }
         .alert(
             "Are you sure?",
@@ -286,7 +286,7 @@ struct EpisodeView: View {
                 .presentationDetents(
                     dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )
-                .presentationBackground(.ultraThinMaterial)
+                .presentationBackground(.sheetBackground)
         }
     }
 }

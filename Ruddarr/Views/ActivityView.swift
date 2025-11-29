@@ -75,7 +75,7 @@ struct ActivityView: View {
                     .presentationDetents(dynamic: [
                         deviceType == .phone ? .fraction(0.7) : .large
                     ])
-                    .presentationBackground(.ultraThinMaterial)
+                    .presentationBackground(.sheetBackground)
                     .environmentObject(settings)
             }
         }

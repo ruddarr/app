@@ -67,7 +67,7 @@ struct HistoryView: View {
                 .presentationDetents(
                     dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )
-                .presentationBackground(.ultraThinMaterial)
+                .presentationBackground(.sheetBackground)
         }
         .overlay {
             if history.events.isEmpty && history.isLoading {
