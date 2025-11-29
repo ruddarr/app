@@ -171,7 +171,7 @@ struct QueueItemSheet: View {
                     .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
-            .tint(.secondary)
+            .tint(.buttonTint)
 
             if item.needsManualImport {
                 NavigationLink {
@@ -186,7 +186,7 @@ struct QueueItemSheet: View {
                         .modifier(MediaPreviewActionModifier())
                 }
                 .buttonStyle(.bordered)
-                .tint(.secondary)
+                .tint(.buttonTint)
             } else if item.isSABnzbd && sableInstalled() {
                 sableLink
             } else if item.isDownloadStation && dsloadInstalled() {
@@ -273,7 +273,7 @@ struct QueueItemSheet: View {
             .modifier(MediaPreviewActionModifier())
         })
         .buttonStyle(.bordered)
-        .tint(.secondary)
+        .tint(.buttonTint)
     }
 
     var dsloadLink: some View {
@@ -287,7 +287,7 @@ struct QueueItemSheet: View {
             .modifier(MediaPreviewActionModifier())
         })
         .buttonStyle(.bordered)
-        .tint(.secondary)
+        .tint(.buttonTint)
     }
 }
 

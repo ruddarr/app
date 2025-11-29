@@ -61,6 +61,6 @@ struct ButtonLabel: View {
             ButtonLabel(text: "Download", icon: "arrow.down.circle", isLoading: true)
         }
         .buttonStyle(.bordered)
-        .tint(.secondary)
+        .tint(.buttonTint)
     }.withAppState()
 }

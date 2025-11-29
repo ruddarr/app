@@ -251,6 +251,8 @@ extension ShapeStyle where Self == Color {
     static var systemBackground: Color { Color(UIColor.systemBackground) }
     static var secondarySystemBackground: Color { Color(UIColor.secondarySystemBackground) }
     static var tertiarySystemBackground: Color { Color(UIColor.tertiarySystemBackground) }
+
+    static var buttonTint: Color { Color(UIColor.systemGray2) }
 #else
     static var label: Color { Color(nsColor: .labelColor) }
 
@@ -268,5 +270,7 @@ extension ShapeStyle where Self == Color {
     static var systemBackground: Color { Color(NSColor.windowBackgroundColor) }
     static var secondarySystemBackground: Color { Color(NSColor.controlBackgroundColor) }
     static var tertiarySystemBackground: Color { Color(NSColor.underPageBackgroundColor) }
+
+    static var buttonTint: Color { Color(NSColor.systemGray2) }
 #endif
 }

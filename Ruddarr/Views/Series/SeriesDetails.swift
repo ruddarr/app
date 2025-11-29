@@ -114,6 +114,7 @@ struct SeriesDetails: View {
                     .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
+            .tint(.buttonTint)
             .allowsHitTesting(!instance.series.isWorking)
             .onAppear(perform: triggerTipIfJustAdded)
             .popoverTip(NoAutomaticSearchTip())
@@ -132,6 +133,7 @@ struct SeriesDetails: View {
                     .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
+            .tint(.buttonTint)
 
             Spacer()
                 .modifier(MediaPreviewActionSpacerModifier())

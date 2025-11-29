@@ -207,6 +207,7 @@ struct EpisodeView: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
+            .tint(.buttonTint)
             .allowsHitTesting(!instance.series.isWorking)
 
             NavigationLink(
@@ -216,6 +217,7 @@ struct EpisodeView: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
+            .tint(.buttonTint)
         }
         .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 450)

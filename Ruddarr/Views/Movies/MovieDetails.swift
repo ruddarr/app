@@ -122,6 +122,7 @@ struct MovieDetails: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
+            .tint(.buttonTint)
             .allowsHitTesting(!instance.movies.isWorking)
             .onAppear(perform: triggerTipIfJustAdded)
             .popoverTip(NoAutomaticSearchTip())
@@ -131,6 +132,7 @@ struct MovieDetails: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
+            .tint(.buttonTint)
         }
     }
 
@@ -143,6 +145,7 @@ struct MovieDetails: View {
                     .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
+            .tint(.buttonTint)
 
             if let trailerUrl = MovieLinks.youTubeTrailer(movie.youTubeTrailerId) {
                 Button {
@@ -154,6 +157,7 @@ struct MovieDetails: View {
                         .modifier(MediaPreviewActionModifier())
                 }
                 .buttonStyle(.bordered)
+                .tint(.buttonTint)
             } else {
                 Spacer()
                     .modifier(MediaPreviewActionSpacerModifier())

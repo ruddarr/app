@@ -140,6 +140,7 @@ struct MovieReleaseSheet: View {
                         .modifier(MediaPreviewActionModifier())
                 })
                 .buttonStyle(.bordered)
+                .tint(.buttonTint)
                 .contextMenu {
                     LinkContextMenu(url)
                 }
@@ -164,6 +165,7 @@ struct MovieReleaseSheet: View {
                 .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
+            .tint(.buttonTint)
             .allowsHitTesting(!instance.movies.isWorking)
 
             if deviceType != .phone {

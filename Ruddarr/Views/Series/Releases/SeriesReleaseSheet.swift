@@ -143,6 +143,7 @@ struct SeriesReleaseSheet: View {
                         .modifier(MediaPreviewActionModifier())
                 })
                 .buttonStyle(.bordered)
+                .tint(.buttonTint)
                 .contextMenu {
                     LinkContextMenu(url)
                 }
@@ -165,6 +166,7 @@ struct SeriesReleaseSheet: View {
                 .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
+            .tint(.buttonTint)
             .allowsHitTesting(!instance.series.isWorking)
 
             if deviceType != .phone {
