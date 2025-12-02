@@ -2,23 +2,20 @@ import SwiftUI
 
 struct CustomFormats: View {
     var formats: [String]
-    var style: CustomFormatStyle
 
-    init(_ formats: [String], style: CustomFormatStyle = .primary) {
+    init(_ formats: [String]) {
         self.formats = formats
-        self.style = style
     }
 
-    init(_ formats: [MediaCustomFormat], style: CustomFormatStyle = .primary) {
+    init(_ formats: [MediaCustomFormat]) {
         self.formats = formats.map { $0.label }
-        self.style = style
     }
 
     var body: some View {
         if !formats.isEmpty {
             OverflowLayout {
                 ForEach(formats, id: \.self) { tag in
-                    CustomFormat(tag, style: style)
+                    CustomFormat(tag)
                 }
             }
         }
@@ -29,7 +26,7 @@ struct CustomFormat: View {
     var label: String
     var style: CustomFormatStyle
 
-    init(_ label: String, style: CustomFormatStyle = .primary) {
+    init(_ label: String, style: CustomFormatStyle = .secondary) {
         self.label = label
         self.style = style
     }
@@ -43,7 +40,9 @@ struct CustomFormat: View {
             .foregroundStyle(colorScheme == .dark ? .lightText : .darkGray)
             .padding(.vertical, 4)
             .padding(.horizontal, 8)
-            .glassEffect()
+            .background(
+                RoundedRectangle(cornerRadius: 4).fill(.card)
+            )
     }
 }
 
@@ -98,7 +97,5 @@ struct OverflowLayout: Layout {
 #Preview {
     Group {
         CustomFormats(["Test Foo, BAZ", "Test"])
-
-        CustomFormats(["Test Foo, BAZ", "Test"], style: .secondary)
     }
 }

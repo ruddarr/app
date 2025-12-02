@@ -142,7 +142,8 @@ struct SeriesReleaseSheet: View {
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .modifier(MediaPreviewActionModifier())
                 })
-                .buttonStyle(.glass)
+                .buttonStyle(.bordered)
+                .tint(.buttonTint)
                 .contextMenu {
                     LinkContextMenu(url)
                 }
@@ -164,7 +165,8 @@ struct SeriesReleaseSheet: View {
                 )
                 .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.bordered)
+            .tint(.buttonTint)
             .allowsHitTesting(!instance.series.isWorking)
 
             if deviceType != .phone {

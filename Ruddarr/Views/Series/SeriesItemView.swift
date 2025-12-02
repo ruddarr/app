@@ -53,6 +53,7 @@ struct SeriesDetailView: View {
                 }
             }
             .presentationDetents(dynamic: [deviceType == .phone ? .fraction(0.33) : .medium])
+            .presentationBackground(.sheetBackground)
         }
     }
 

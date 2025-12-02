@@ -206,7 +206,8 @@ struct EpisodeView: View {
                 )
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.bordered)
+            .tint(.buttonTint)
             .allowsHitTesting(!instance.series.isWorking)
 
             NavigationLink(
@@ -215,7 +216,8 @@ struct EpisodeView: View {
                 ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.bordered)
+            .tint(.buttonTint)
         }
         .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 450)
@@ -256,6 +258,7 @@ struct EpisodeView: View {
         .sheet(item: $fileSheet) { file in
             MediaFileSheet(file: file, runtime: episode.runtime ?? series.runtime)
                 .presentationDetents([.fraction(0.8)])
+                .presentationBackground(.sheetBackground)
         }
         .alert(
             "Are you sure?",
@@ -285,6 +288,7 @@ struct EpisodeView: View {
                 .presentationDetents(
                     dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )
+                .presentationBackground(.sheetBackground)
         }
     }
 }

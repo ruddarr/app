@@ -86,7 +86,7 @@ struct WhatsNewView: View {
 
                 VStack {
                     if isRunningIn(.appstore) {
-                        Link(destination: Links.AppStore) {
+                        Link(destination: Links.GitHubReleases) {
                             Text("Release Notes", comment: "Also know as changelog")
                         }
                         .foregroundStyle(.tint)

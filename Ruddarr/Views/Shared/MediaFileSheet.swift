@@ -240,5 +240,6 @@ struct MediaFileSheet: View {
     .sheet(isPresented: $show) {
         MediaFileSheet(file: movie.movieFile!, runtime: 42)
             .presentationDetents([.fraction(0.8)])
+            .presentationBackground(.sheetBackground)
     }
 }

@@ -25,7 +25,7 @@ struct MediaGrid<Item: Identifiable, Content: View>: View {
         case .cards: switch deviceType {
         case .phone: [GridItem(.adaptive(minimum: 300, maximum: 800), spacing: 12)]
         case .mac: [GridItem(.adaptive(minimum: 280, maximum: 450), spacing: 20)]
-        default: [GridItem(.adaptive(minimum: 300, maximum: 400), spacing: 20)]
+        default: [GridItem(.adaptive(minimum: 300, maximum: 450), spacing: 20)]
         }
         }
     }

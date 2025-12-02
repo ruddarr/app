@@ -68,6 +68,7 @@ struct MovieMetadataView: View {
         .sheet(item: $fileSheet) { file in
             MediaFileSheet(file: file, runtime: movie.runtime)
                 .presentationDetents([.fraction(0.8)])
+                .presentationBackground(.sheetBackground)
         }
     }
 
@@ -99,6 +100,7 @@ struct MovieMetadataView: View {
                 .presentationDetents(
                     dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )
+                .presentationBackground(.sheetBackground)
         }
     }
 

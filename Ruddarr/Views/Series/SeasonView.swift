@@ -6,6 +6,7 @@ struct SeasonView: View {
     var seasonId: Season.ID
     @State var jumpToEpisode: Episode.ID?
 
+    @State private var hasFetched: Bool = false
     @State private var dispatchingSearch: Bool = false
     @State private var showDeleteConfirmation = false
 
@@ -41,6 +42,7 @@ struct SeasonView: View {
             async let maybeFetchFiles: () = instance.files.maybeFetch(series)
 
             (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
+            hasFetched = true
             maybeNavigateToEpisode()
         }
         .onBecomeActive {
@@ -151,7 +153,8 @@ struct SeasonView: View {
                 )
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.bordered)
+            .tint(.buttonTint)
             .allowsHitTesting(!instance.series.isWorking)
 
             NavigationLink(
@@ -160,7 +163,8 @@ struct SeasonView: View {
                 ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.bordered)
+            .tint(.buttonTint)
         }
         .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: 450)
@@ -168,7 +172,7 @@ struct SeasonView: View {
 
     var episodesList: some View {
         Section {
-            if instance.episodes.isFetching || instance.files.isFetching {
+            if !hasFetched && (instance.episodes.isFetching || instance.files.isFetching) {
                 HStack {
                     Spacer()
                     ProgressView().tint(.secondary)

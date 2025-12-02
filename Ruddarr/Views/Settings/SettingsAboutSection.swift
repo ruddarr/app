@@ -38,15 +38,15 @@ struct SettingsAboutSection: View {
 
     var discord: some View {
         Link(destination: Links.Discord) {
-            Label("Join the Discord", systemImage: "ellipsis.bubble")
+            Label("Join the Discord", systemImage: "text.bubble")
                 .labelStyle(SettingsIconLabelStyle())
         }
     }
 
     var contribute: some View {
-        Link(destination: Links.GitHub, label: {
-            Label("Contribute on GitHub", systemImage: "curlybraces")
-                .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
+        Link(destination: Links.GitHubIssues, label: {
+            Label("Report an Issue", systemImage: "exclamationmark.bubble")
+                .labelStyle(SettingsIconLabelStyle())
         })
     }
 

@@ -92,6 +92,7 @@ struct MovieDetails: View {
         .sheet(item: $fileSheet) { file in
             MediaFileSheet(file: file, runtime: movie.runtime)
                 .presentationDetents([.fraction(0.8)])
+                .presentationBackground(.sheetBackground)
         }
     }
 
@@ -120,7 +121,8 @@ struct MovieDetails: View {
                 )
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.bordered)
+            .tint(.buttonTint)
             .allowsHitTesting(!instance.movies.isWorking)
             .onAppear(perform: triggerTipIfJustAdded)
             .popoverTip(NoAutomaticSearchTip())
@@ -129,7 +131,8 @@ struct MovieDetails: View {
                 ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.bordered)
+            .tint(.buttonTint)
         }
     }
 
@@ -141,8 +144,8 @@ struct MovieDetails: View {
                 ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.right.square")
                     .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.glass)
-            .tint(.primary)
+            .buttonStyle(.bordered)
+            .tint(.buttonTint)
 
             if let trailerUrl = MovieLinks.youTubeTrailer(movie.youTubeTrailerId) {
                 Button {
@@ -153,7 +156,8 @@ struct MovieDetails: View {
                     ButtonLabel(text: label, icon: "play.fill")
                         .modifier(MediaPreviewActionModifier())
                 }
-                .buttonStyle(.glass)
+                .buttonStyle(.bordered)
+                .tint(.buttonTint)
             } else {
                 Spacer()
                     .modifier(MediaPreviewActionSpacerModifier())

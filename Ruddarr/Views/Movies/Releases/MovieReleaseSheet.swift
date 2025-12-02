@@ -139,7 +139,8 @@ struct MovieReleaseSheet: View {
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
                         .modifier(MediaPreviewActionModifier())
                 })
-                .buttonStyle(.glass)
+                .buttonStyle(.bordered)
+                .tint(.buttonTint)
                 .contextMenu {
                     LinkContextMenu(url)
                 }
@@ -163,7 +164,8 @@ struct MovieReleaseSheet: View {
                 )
                 .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.bordered)
+            .tint(.buttonTint)
             .allowsHitTesting(!instance.movies.isWorking)
 
             if deviceType != .phone {
@@ -275,6 +277,11 @@ struct MovieReleaseSheet: View {
     let releases: [MovieRelease] = PreviewData.load(name: "movie-releases")
     let release = releases[10]
 
-    MovieReleaseSheet(release: release, movie: movies[1])
+    Text(verbatim: "Sheet")
+        .sheet(isPresented: .constant(true)) {
+            MovieReleaseSheet(release: release, movie: movies[1])
+                .presentationDetents([.medium])
+                .presentationBackground(.sheetBackground)
+        }
         .withAppState()
 }

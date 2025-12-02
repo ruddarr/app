@@ -27,7 +27,8 @@ struct HistoryView: View {
                                 page += 1
                                 Task { await history.fetch(page, displayedEventType) }
                             }
-                            .buttonStyle(.glass)
+                            .buttonStyle(.bordered)
+                            .tint(.buttonTint)
                         }
                     }
                     .padding(.vertical, 12)
@@ -67,6 +68,7 @@ struct HistoryView: View {
                 .presentationDetents(
                     dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )
+                .presentationBackground(.sheetBackground)
         }
         .overlay {
             if history.events.isEmpty && history.isLoading {

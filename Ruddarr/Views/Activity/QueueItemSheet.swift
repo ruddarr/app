@@ -170,7 +170,8 @@ struct QueueItemSheet: View {
                 ButtonLabel(text: label, icon: "trash")
                     .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.glass)
+            .buttonStyle(.bordered)
+            .tint(.buttonTint)
 
             if item.needsManualImport {
                 NavigationLink {
@@ -184,7 +185,8 @@ struct QueueItemSheet: View {
                     ButtonLabel(text: label, icon: "square.and.arrow.down")
                         .modifier(MediaPreviewActionModifier())
                 }
-                .buttonStyle(.glass)
+                .buttonStyle(.bordered)
+                .tint(.buttonTint)
             } else if item.isSABnzbd && sableInstalled() {
                 sableLink
             } else if item.isDownloadStation && dsloadInstalled() {
@@ -270,7 +272,8 @@ struct QueueItemSheet: View {
             )
             .modifier(MediaPreviewActionModifier())
         })
-        .buttonStyle(.glass)
+        .buttonStyle(.bordered)
+        .tint(.buttonTint)
     }
 
     var dsloadLink: some View {
@@ -283,7 +286,8 @@ struct QueueItemSheet: View {
             )
             .modifier(MediaPreviewActionModifier())
         })
-        .buttonStyle(.glass)
+        .buttonStyle(.bordered)
+        .tint(.buttonTint)
     }
 }
 
