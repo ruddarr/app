@@ -23,6 +23,8 @@ class AppSettings: ObservableObject {
     @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
     @AppStorage("sonarrInstanceId", store: dependencies.store) var sonarrInstanceId: Instance.ID?
 
+    @AppStorage("tmdbApiKey", store: dependencies.store) var tmdbApiKey: String = ""
+
     func resetAll() {
         instances.removeAll()
 

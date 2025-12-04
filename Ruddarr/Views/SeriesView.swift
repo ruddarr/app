@@ -4,6 +4,7 @@ import Combine
 enum SeriesPath: Hashable {
     case search(String = "")
     case preview(Data?)
+    case discovery
     case series(Series.ID)
     case edit(Series.ID)
     case releases(Series.ID, Season.ID?, Episode.ID?)
@@ -77,6 +78,7 @@ struct SeriesView: View {
             .toolbar {
                 toolbarViewOptions
                 toolbarSearchButton
+                toolbarDiscoveryButton
 
                 if settings.sonarrInstances.count > 1 {
                     if deviceType == .phone { toolbarInstancePicker }
@@ -128,6 +130,10 @@ struct SeriesView: View {
                     .environment(instance)
                     .environmentObject(settings)
             }
+        case .discovery: // <--- Add this block
+            SeriesDiscoveryView()
+                .environment(instance)
+                .environmentObject(settings)
         case .series(let id):
             SeriesDetailView(series: instance.series.byId(id))
                 .environment(instance)

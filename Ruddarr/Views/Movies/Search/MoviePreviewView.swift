@@ -5,6 +5,7 @@ struct MoviePreviewView: View {
     @State var movie: Movie
 
     @State private var presentingForm: Bool = false
+    @State private var isHydrating: Bool = false
 
     @EnvironmentObject var settings: AppSettings
 
@@ -34,6 +35,9 @@ struct MoviePreviewView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }.tint(nil)
+        .task {
+            await hydrateFromRadarrIfNeeded()
+        }
         .sheet(isPresented: $presentingForm) {
             NavigationStack {
                 MovieForm(movie: $movie)
@@ -91,6 +95,26 @@ struct MoviePreviewView: View {
             }
             .prominentGlassButtonStyle(!instance.movies.isWorking)
             .disabled(instance.movies.isWorking)
+        }
+    }
+
+    /// Hydrate only when the preview is opened to avoid bulk API calls
+    func hydrateFromRadarrIfNeeded() async {
+        guard !instance.isVoid,
+              !isHydrating,
+              !movie.exists,
+              movie.tmdbId > 0 else { return }
+
+        isHydrating = true
+        defer { isHydrating = false }
+
+        do {
+            let results = try await dependencies.api.lookupMovies(instance.lookup.instance, "tmdbid:\(movie.tmdbId)")
+            if let enriched = results.first(where: { $0.tmdbId == movie.tmdbId }) {
+                movie = enriched
+            }
+        } catch {
+            leaveBreadcrumb(.error, category: "movie.preview", message: "Hydrate failed", data: ["error": error.localizedDescription])
         }
     }
 

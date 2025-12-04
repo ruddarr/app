@@ -5,6 +5,7 @@ struct SeriesPreviewView: View {
     @State var series: Series
 
     @State private var presentingForm: Bool = false
+    @State private var isHydrating: Bool = false
 
     @EnvironmentObject var settings: AppSettings
 
@@ -35,6 +36,9 @@ struct SeriesPreviewView: View {
             Text(error.recoverySuggestionFallback)
         }
         .tint(nil)
+        .task {
+            await hydrateFromSonarrIfNeeded()
+        }
         .sheet(isPresented: $presentingForm) {
             NavigationStack {
                 SeriesForm(series: $series)
@@ -92,6 +96,26 @@ struct SeriesPreviewView: View {
             }
             .prominentGlassButtonStyle(!instance.series.isWorking)
             .disabled(instance.series.isWorking)
+        }
+    }
+
+    /// Hydrate only when the preview is opened to avoid bulk API calls
+    func hydrateFromSonarrIfNeeded() async {
+        guard !instance.isVoid,
+              !isHydrating,
+              !series.exists,
+              let tmdbId = series.tmdbId else { return }
+
+        isHydrating = true
+        defer { isHydrating = false }
+
+        do {
+            let results = try await dependencies.api.lookupSeries(instance.lookup.instance, "tmdbid:\(tmdbId)")
+            if let enriched = results.first(where: { $0.tmdbId == tmdbId }) {
+                series = enriched
+            }
+        } catch {
+            leaveBreadcrumb(.error, category: "series.preview", message: "Hydrate failed", data: ["error": error.localizedDescription])
         }
     }
 
