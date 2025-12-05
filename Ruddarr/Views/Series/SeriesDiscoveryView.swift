@@ -4,13 +4,14 @@ struct SeriesDiscoveryView: View {
     @State private var series: [Series] = []
     @State private var isLoading = true
     @State private var error: (any Error)?
-
     @State private var page = 1
     @State private var isLoadingMore = false
     @State private var hasMore = true
     @State private var filter: DiscoveryFilter = .all
     @State private var category: TMDB.Category = .trending // NEW STATE
     @State private var libraryLookup: [Int: Series] = [:]
+    @State private var hydratedLookup: [Int: Series] = [:]
+    @State private var openingId: Int?
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) private var instance
@@ -72,10 +73,13 @@ struct SeriesDiscoveryView: View {
     var grid: some View {
         LazyVGrid(columns: columns, spacing: 12) {
             ForEach(displayedSeries) { item in
-                NavigationLink(value: destination(for: item)) {
+                Button {
+                    Task { await openSeries(item) }
+                } label: {
                     SeriesGridPoster(series: item)
                 }
                 .buttonStyle(.plain)
+                .disabled(openingId == item.id)
                 .onAppear {
                     // Trigger pagination when reaching near the end
                     if let index = displayedSeries.firstIndex(where: { $0.id == item.id }),
@@ -241,5 +245,46 @@ struct SeriesDiscoveryView: View {
         } catch {
             return .search(series.title)
         }
+    }
+
+    /// Hydrate before navigating so it does not flicker. (adds like .3 seconds of lag but ce la vie).
+    func openSeries(_ series: Series) async {
+        await MainActor.run { openingId = series.id }
+        defer { Task { @MainActor in openingId = nil } }
+
+        if series.exists {
+            await MainActor.run {
+                dependencies.router.seriesPath.append(SeriesPath.series(series.id))
+            }
+            return
+        }
+
+        let hydrated = await hydrateSeries(series)
+
+        await MainActor.run {
+            dependencies.router.seriesPath.append(destination(for: hydrated))
+        }
+    }
+
+    func hydrateSeries(_ series: Series) async -> Series {
+        guard let tmdbId = series.tmdbId else { return series }
+
+        if let cached = hydratedLookup[tmdbId] {
+            return cached
+        }
+
+        do {
+            let results = try await dependencies.api.lookupSeries(instance.lookup.instance, "tmdbid:\(tmdbId)")
+            if let enriched = results.first(where: { $0.tmdbId == tmdbId }) {
+                await MainActor.run {
+                    hydratedLookup[tmdbId] = enriched
+                }
+                return enriched
+            }
+        } catch {
+            leaveBreadcrumb(.error, category: "series.discovery", message: "Preview hydrate failed", data: ["error": error.localizedDescription])
+        }
+
+        return series
     }
 }
