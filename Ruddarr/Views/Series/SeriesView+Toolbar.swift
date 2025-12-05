@@ -2,9 +2,21 @@ import SwiftUI
 
 extension SeriesView {
     @ToolbarContentBuilder
-    var toolbarSearchButton: some ToolbarContent {
+    var toolbarDiscoveryButton: some ToolbarContent {
         if !instance.isVoid {
             ToolbarItem(placement: .primaryAction) {
+                NavigationLink(value: SeriesPath.discovery) {
+                    Image(systemName: "flame")
+                }
+                .tint(.primary)
+            }
+        }
+    }
+
+    @ToolbarContentBuilder
+    var toolbarSearchButton: some ToolbarContent {
+        if !instance.isVoid {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink(value: SeriesPath.search()) {
                     Image(systemName: "plus")
                 }

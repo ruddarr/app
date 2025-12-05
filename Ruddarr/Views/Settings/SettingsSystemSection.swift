@@ -14,6 +14,25 @@ struct SettingsSystemSection: View {
     var body: some View {
         Section {
             HStack {
+                Text("TMDB API KEY")
+                    .foregroundStyle(.secondary)
+                    .font(.subheadline)
+
+                Spacer()
+
+                SecureField("", text: $settings.tmdbApiKey)
+                    .textContentType(.password)
+                    .autocorrectionDisabled(true)
+                    .multilineTextAlignment(.trailing)
+                    #if os(iOS)
+                    .textInputAutocapitalization(.never)
+                    .keyboardType(.asciiCapable)
+                    #endif
+            }
+        }
+
+        Section {
+            HStack {
                 Button("Clear Image Cache", role: .destructive) {
                     clearImageCache()
                 }.onAppear {

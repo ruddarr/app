@@ -14,6 +14,11 @@ struct SettingsLinksSection: View {
                 "DSLoad",
                 URL(string: "https://apps.apple.com/app/dsload-station/id1510628586")!
             )
+
+            appLink(
+                "TMDB",
+                URL(string: "https://www.themoviedb.org/")!
+            )
         }
     }
 

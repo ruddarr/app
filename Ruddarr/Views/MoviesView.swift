@@ -4,6 +4,7 @@ import Combine
 enum MoviesPath: Hashable {
     case search(String = "")
     case preview(Data?)
+    case discovery
     case movie(Movie.ID)
     case edit(Movie.ID)
     case releases(Movie.ID)
@@ -76,6 +77,7 @@ struct MoviesView: View {
             .toolbar {
                 toolbarViewOptions
                 toolbarSearchButton
+                toolbarDiscoveryButton
 
                 if settings.radarrInstances.count > 1 {
                     if deviceType == .phone { toolbarInstancePicker }
@@ -127,6 +129,10 @@ struct MoviesView: View {
                     .environment(instance)
                     .environmentObject(settings)
             }
+        case .discovery: // <--- Add this block
+            MovieDiscoveryView()
+                .environment(instance)
+                .environmentObject(settings)
         case .movie(let id):
             MovieView(movie: instance.movies.byId(id))
                 .environment(instance)

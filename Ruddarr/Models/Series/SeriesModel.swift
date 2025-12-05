@@ -79,6 +79,9 @@ class SeriesModel {
     func byTvdbId(_ tvdbId: Int) -> Series? {
         items.first(where: { $0.tvdbId == tvdbId })
     }
+    func byTmdbId(_ tmdbId: Int) -> Series? {
+        items.first(where: { $0.tmdbId == tmdbId })
+    }
 
     func fetch() async -> Bool {
         await request(.fetch)
