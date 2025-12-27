@@ -91,7 +91,8 @@ extension InstanceEditView {
 
         #if os(iOS)
             if !UIApplication.shared.canOpenURL(url) {
-                throw InstanceError.urlNotOpenable
+                // TODO: restore check???
+                // throw InstanceError.urlNotOpenable
             }
         #endif
 
