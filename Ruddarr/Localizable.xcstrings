@@ -1300,6 +1300,16 @@
         }
       }
     },
+    "Device cannot open URL." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device cannot open URL."
+          }
+        }
+      }
+    },
     "Digital Release" : {
       "comment" : "Media grid sorting",
       "localizations" : {

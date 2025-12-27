@@ -333,6 +333,7 @@ struct InstanceHeaderRow: View {
 enum InstanceError: Error {
     case urlIsLocal
     case urlNotValid
+    case urlNotOpenable
     case labelEmpty
     case badAppName(_ reported: String, _ expected: String)
     case apiError(_ error: API.Error)
@@ -341,7 +342,7 @@ enum InstanceError: Error {
 extension InstanceError: LocalizedError {
     var errorDescription: String? {
         switch self {
-        case .urlIsLocal, .urlNotValid:
+        case .urlIsLocal, .urlNotValid, .urlNotOpenable:
             return String(localized: "Invalid URL")
         case .labelEmpty:
             return String(localized: "Invalid Instance Label")
@@ -358,6 +359,8 @@ extension InstanceError: LocalizedError {
             return String(localized: "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work.")
         case .urlNotValid:
             return String(localized: "Enter a valid URL.")
+        case .urlNotOpenable:
+            return String(localized: "Device cannot open URL.")
         case .labelEmpty:
             return String(localized: "Enter an instance label.")
         case .badAppName(let reported, let expected):
