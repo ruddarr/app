@@ -97,7 +97,7 @@ struct InstanceEditView: View {
             labelField
             urlField
         } footer: {
-            Text("The URL used to access the \(instance.type.rawValue) web interface. Must be prefixed with \"http://\" or \"https://\".")
+            Text("The URL used to access the \(instance.type.rawValue) web interface.")
                 #if os(macOS)
                 .foregroundStyle(.secondary)
                 .font(.footnote)
@@ -334,6 +334,7 @@ enum InstanceError: Error {
     case urlIsLocal
     case urlNotValid
     case urlNotOpenable
+    case urlSchemeMissing
     case labelEmpty
     case badAppName(_ reported: String, _ expected: String)
     case apiError(_ error: API.Error)
@@ -342,7 +343,7 @@ enum InstanceError: Error {
 extension InstanceError: LocalizedError {
     var errorDescription: String? {
         switch self {
-        case .urlIsLocal, .urlNotValid, .urlNotOpenable:
+        case .urlIsLocal, .urlNotValid, .urlNotOpenable, .urlSchemeMissing:
             return String(localized: "Invalid URL")
         case .labelEmpty:
             return String(localized: "Invalid Instance Label")
@@ -360,7 +361,9 @@ extension InstanceError: LocalizedError {
         case .urlNotValid:
             return String(localized: "Enter a valid URL.")
         case .urlNotOpenable:
-            return String(localized: "Device cannot open URL.")
+            return String(localized: "Device cannot open URL, possibly restricted by Screen Time.")
+        case .urlSchemeMissing:
+            return String(localized: "URL must start with \"http://\" or \"https://\".")
         case .labelEmpty:
             return String(localized: "Enter an instance label.")
         case .badAppName(let reported, let expected):

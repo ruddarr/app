@@ -81,6 +81,10 @@ extension InstanceEditView {
     }
 
     func validateInstance() async throws {
+        guard instance.url.starts(with: /https?:\/\//) else {
+            throw InstanceError.urlSchemeMissing
+        }
+
         guard let url = URL(string: instance.url) else {
             throw InstanceError.urlNotValid
         }

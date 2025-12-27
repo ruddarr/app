@@ -1300,12 +1300,12 @@
         }
       }
     },
-    "Device cannot open URL." : {
+    "Device cannot open URL, possibly restricted by Screen Time." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Device cannot open URL."
+            "value" : "Device cannot open URL, possibly restricted by Screen Time."
           }
         }
       }
@@ -2172,12 +2172,12 @@
         }
       }
     },
-    "Instance URL is not valid or restricted by Screen Time: %@" : {
+    "Instance URL is not valid: %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instance URL is not valid or restricted by Screen Time: %@"
+            "value" : "Instance URL is not valid: %@"
           }
         }
       }
@@ -4900,12 +4900,12 @@
         }
       }
     },
-    "The URL used to access the %@ web interface. Must be prefixed with \"http://\" or \"https://\"." : {
+    "The URL used to access the %@ web interface." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The URL used to access the %@ web interface. Must be prefixed with \"http://\" or \"https://\"."
+            "value" : "The URL used to access the %@ web interface."
           }
         }
       }
@@ -5233,6 +5233,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "URL identified itself as a %1$@ instance, not a %2$@ instance."
+          }
+        }
+      }
+    },
+    "URL must start with \"http://\" or \"https://\"." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL must start with \"http://\" or \"https://\"."
           }
         }
       }
