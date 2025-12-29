@@ -89,13 +89,6 @@ extension InstanceEditView {
             throw InstanceError.urlNotValid
         }
 
-        #if os(iOS)
-            if !UIApplication.shared.canOpenURL(url) {
-                // TODO: restore check???
-                // throw InstanceError.urlNotOpenable
-            }
-        #endif
-
         if ["localhost", "127.0.0.1"].contains(url.host()) {
             throw InstanceError.urlIsLocal
         }
