@@ -1300,16 +1300,6 @@
         }
       }
     },
-    "Device cannot open URL, possibly restricted by Screen Time." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Device cannot open URL, possibly restricted by Screen Time."
-          }
-        }
-      }
-    },
     "Digital Release" : {
       "comment" : "Media grid sorting",
       "localizations" : {
