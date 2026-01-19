@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa.git",
       "state" : {
-        "revision" : "8627bbc0e663238d516b541d8fc7edd62a627fde",
-        "version" : "8.57.3"
+        "revision" : "16cd512711375fa73f25ae5e373f596bdf4251ae",
+        "version" : "8.58.0"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SimplyDanny/SwiftLintPlugins",
       "state" : {
-        "revision" : "ecafb5b056cb7995324f0d310a61f30661d00cad",
-        "version" : "0.62.2"
+        "revision" : "c099f18417c53548134830b11669b96ed9801971",
+        "version" : "0.63.1"
       }
     },
     {
