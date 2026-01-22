@@ -219,7 +219,7 @@ extension View {
 struct SheetBackgroundStyle: ShapeStyle {
     func resolve(in env: EnvironmentValues) -> some ShapeStyle {
         if env.colorScheme == .dark {
-            AnyShapeStyle(Color(uiColor: .systemBackground))
+            AnyShapeStyle(.systemBackground)
         } else {
             AnyShapeStyle(.ultraThinMaterial)
         }
@@ -271,6 +271,6 @@ extension ShapeStyle where Self == Color {
     static var secondarySystemBackground: Color { Color(NSColor.controlBackgroundColor) }
     static var tertiarySystemBackground: Color { Color(NSColor.underPageBackgroundColor) }
 
-    static var buttonTint: Color { Color(NSColor.systemGray2) }
+    static var buttonTint: Color { Color.primary }
 #endif
 }
