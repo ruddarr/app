@@ -1,14 +1,8 @@
 import SwiftUI
 
+#if os(iOS)
 struct ContentView: View {
     @EnvironmentObject var settings: AppSettings
-
-    #if os(macOS)
-        @Environment(\.controlActiveState) var controlActiveState
-        private var deviceType: DeviceType = .mac
-    #else
-        @Environment(\.deviceType) private var deviceType
-    #endif
 
     var body: some View {
         TabView(selection: selectedTab) {
@@ -35,41 +29,29 @@ struct ContentView: View {
             .defaultVisibility(.hidden, for: .tabBar)
         }
         .tabViewStyle(.sidebarAdaptable)
-        #if os(macOS)
-            .tabViewSidebarBottomBar {
-                instancePickers
-            }
-        #else
-            .tabBarMinimizeBehavior(.never)
-            .tabViewSidebarHeader {
-                Text(verbatim: Ruddarr.name)
-                    .font(.largeTitle.bold())
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-        #endif
+        .tabBarMinimizeBehavior(.never)
+        .tabViewSidebarHeader {
+            Text(verbatim: Ruddarr.name)
+                .font(.largeTitle.bold())
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
         .onAppear {
             if !isRunningIn(.preview) {
                 dependencies.router.selectedTab = settings.tab
             }
 
-            #if os(iOS)
-                UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
-            #endif
+            UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
         }
-        #if os(macOS)
-            .onChange(of: controlActiveState, handleScenePhaseChange)
-        #else
-            .onBecomeActive(perform: handleScenePhaseChange)
-        #endif
+        .onBecomeActive(perform: handleScenePhaseChange)
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
     }
 
-    var movies: TabItem { TabItem.movies }
-    var series: TabItem { TabItem.series }
-    var calendar: TabItem { TabItem.calendar }
-    var activity: TabItem { TabItem.activity }
+    var movies: TabItem { .movies }
+    var series: TabItem { .series }
+    var calendar: TabItem { .calendar }
+    var activity: TabItem { .activity }
 
     var selectedTab: Binding<TabItem> {
         Binding<TabItem>(
@@ -84,19 +66,10 @@ struct ContentView: View {
         )
     }
 
-#if os(macOS)
-    func handleScenePhaseChange() {
-        if controlActiveState == .key {
-            Telemetry.maybePing(with: settings)
-            Notifications.maybeUpdateWebhooks(settings)
-        }
-    }
-#else
     func handleScenePhaseChange() async {
         Telemetry.maybePing(with: settings)
         Notifications.maybeUpdateWebhooks(settings)
     }
-#endif
 
     func handleTabChange(_ from: TabItem, _ to: TabItem) {
         guard from == to else { return }
@@ -162,6 +135,7 @@ struct ContentView: View {
         .menuIndicator(.hidden)
     }
 }
+#endif
 
 #Preview {
     ContentView()
