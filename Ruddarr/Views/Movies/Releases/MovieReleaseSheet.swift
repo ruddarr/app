@@ -31,7 +31,11 @@ struct MovieReleaseSheet: View {
                     details
                 }
                 .viewPadding(.horizontal)
-                .offset(y: -45)
+                #if os(macOS)
+                    .padding(.top, 24)
+                #else
+                    .offset(y: -45)
+                #endif
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
