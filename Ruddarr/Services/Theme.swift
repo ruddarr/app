@@ -36,7 +36,7 @@ enum Theme: String, Identifiable, CaseIterable {
     var tint: Color {
         switch self {
         case .blue: Color.blue
-        case .purple: Color.purple
+        case .purple: Color(.podcasts)
         case .green: Color(.fitness)
         case .brown: Color.brown
         case .red: Color.red
