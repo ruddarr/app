@@ -8,13 +8,13 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             List {
-                sidebarRow(movies, iconKind: .asset)
-                sidebarRow(series, iconKind: .asset)
+                sidebarRow(movies)
+                sidebarRow(series)
 
-                sidebarRow(calendar, iconKind: .system)
-                sidebarRow(activity, iconKind: .system, badge: Queue.shared.itemsWithIssues)
+                sidebarRow(calendar)
+                sidebarRow(activity, badge: Queue.shared.itemsWithIssues)
 
-                sidebarRow(TabItem.settings, iconKind: .system)
+                sidebarRow(TabItem.settings)
             }
             .listStyle(.sidebar)
             .frame(minWidth: 220)
@@ -61,12 +61,6 @@ struct ContentView: View {
         }
     }
 
-    private func selectTab(_ tab: TabItem) {
-        let from = dependencies.router.selectedTab
-        dependencies.router.selectedTab = tab
-        handleTabChange(from, tab)
-    }
-
     func handleTabChange(_ from: TabItem, _ to: TabItem) {
         guard from == to else { return }
 
@@ -76,45 +70,35 @@ struct ContentView: View {
         }
     }
 
-    private enum IconKind { case asset, system }
-
     @ViewBuilder
-    private func sidebarRow(_ tab: TabItem, iconKind: IconKind, badge: Int? = nil) -> some View {
+    func sidebarRow(_ tab: TabItem, badge: Int? = nil) -> some View {
         Button {
-            selectTab(tab)
+            let from = dependencies.router.selectedTab
+            dependencies.router.selectedTab = tab
+            handleTabChange(from, tab)
         } label: {
-            HStack(spacing: 10) {
-                Label {
-                    Text(tab.label)
-                } icon: {
-                    switch iconKind {
-                    case .asset:
-                        Image(tab.icon)
-                    case .system:
-                        Image(systemName: tab.icon)
-                    }
-                }
-
-                Spacer()
-
-                if let badge, badge > 0 {
-                    Text(verbatim: "\(badge)")
-                        .font(.caption2)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(settings.theme.tint, in: Capsule())
-                }
+            Label {
+                Text(tab.label)
+            } icon: {
+                tab.image.font(.title2)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .labelIconToTitleSpacing(8)
+            .badge(badge == nil ? nil : renderBadge(badge))
             .padding(6)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .listRowInsets(.init(top: 2, leading: 6, bottom: 2, trailing: 6))
+        .listRowInsets(.init(top: 1, leading: -5, bottom: 1, trailing: -5))
         .background(
-            selectedTabValue == tab ? Color.accentColor.opacity(0.18) : Color.clear,
-            in: RoundedRectangle(cornerRadius: 6)
+            selectedTabValue == tab ? settings.theme.tint : Color.clear,
+            in: RoundedRectangle(cornerRadius: 8)
         )
+    }
+
+    func renderBadge(_ count: Int? = nil) -> Text? {
+        guard let count, count > 0 else { return nil }
+        return Text(verbatim: "\(count)")
     }
 
     @ViewBuilder
