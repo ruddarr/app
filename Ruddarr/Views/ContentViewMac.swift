@@ -18,6 +18,9 @@ struct ContentView: View {
             }
             .listStyle(.sidebar)
             .frame(minWidth: 220)
+            .safeAreaInset(edge: .bottom, alignment: .leading) {
+                instancePickers
+            }
         } detail: {
             ZStack {
                 switch selectedTabValue {
@@ -41,9 +44,6 @@ struct ContentView: View {
         .reportBugSheet()
         .onChange(of: controlActiveState, handleScenePhaseChange)
     }
-
-    // TODO: instance pickers in bottom area
-    // https://github.com/ruddarr/app/blob/152169429d21f4c5dbb4522b8ce1e55db7e68256/Ruddarr/Views/ContentViewMac.swift#L36-L46
 
     var movies: TabItem { .movies }
     var series: TabItem { .series }
@@ -115,6 +115,61 @@ struct ContentView: View {
             selectedTabValue == tab ? Color.accentColor.opacity(0.18) : Color.clear,
             in: RoundedRectangle(cornerRadius: 6)
         )
+    }
+
+    @ViewBuilder
+    var instancePickers: some View {
+        if dependencies.router.selectedTab == .movies, settings.radarrInstances.count > 1 {
+            instancePicker(
+                instances: settings.radarrInstances,
+                selection: $settings.radarrInstanceId,
+                label: settings.radarrInstance?.label,
+                onChange: {
+                    dependencies.router.moviesPath = .init()
+                    dependencies.router.switchToRadarrInstance = settings.radarrInstanceId?.uuidString
+                }
+            )
+        }
+
+        if dependencies.router.selectedTab == .series, settings.sonarrInstances.count > 1 {
+            instancePicker(
+                instances: settings.sonarrInstances,
+                selection: $settings.sonarrInstanceId,
+                label: settings.sonarrInstance?.label,
+                onChange: {
+                    dependencies.router.seriesPath = .init()
+                    dependencies.router.switchToSonarrInstance = settings.sonarrInstanceId?.uuidString
+                }
+            )
+        }
+    }
+
+    @ViewBuilder
+    func instancePicker(
+        instances: [Instance],
+        selection: Binding<Instance.ID?>,
+        label: String?,
+        onChange: @escaping () -> Void
+    ) -> some View {
+        Menu {
+            Picker("Instances", selection: selection) {
+                ForEach(instances) { instance in
+                    Text(instance.label).tag(Optional.some(instance.id))
+                }
+            }
+            .pickerStyle(.inline)
+            .onChange(of: selection.wrappedValue, onChange)
+        } label: {
+            HStack {
+                Image(systemName: "internaldrive")
+
+                Text(label ?? "Instance")
+                    .fontWeight(.medium)
+            }
+        }
+        .padding(8)
+        .tint(.primary)
+        .menuIndicator(.hidden)
     }
 }
 #endif
