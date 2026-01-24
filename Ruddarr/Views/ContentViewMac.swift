@@ -8,22 +8,19 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             List {
-                sidebarRow(movies)
-                sidebarRow(series)
+                sidebarItem(movies)
+                sidebarItem(series)
+                sidebarItem(calendar)
+                sidebarItem(activity, badge: Queue.shared.itemsWithIssues)
+                sidebarItem(TabItem.settings)
 
-                sidebarRow(calendar)
-                sidebarRow(activity, badge: Queue.shared.itemsWithIssues)
-
-                sidebarRow(TabItem.settings)
+                instancesSection
             }
             .listStyle(.sidebar)
             .frame(minWidth: 220)
-            .safeAreaInset(edge: .bottom, alignment: .leading) {
-                instancePickers
-            }
         } detail: {
             ZStack {
-                switch selectedTabValue {
+                switch dependencies.router.selectedTab {
                 case .movies:
                     MoviesView()
                 case .series:
@@ -50,10 +47,6 @@ struct ContentView: View {
     var calendar: TabItem { .calendar }
     var activity: TabItem { .activity }
 
-    private var selectedTabValue: TabItem {
-        dependencies.router.selectedTab
-    }
-
     func handleScenePhaseChange() {
         if controlActiveState == .key {
             Telemetry.maybePing(with: settings)
@@ -71,7 +64,7 @@ struct ContentView: View {
     }
 
     @ViewBuilder
-    func sidebarRow(_ tab: TabItem, badge: Int? = nil) -> some View {
+    func sidebarItem(_ tab: TabItem, badge: Int? = nil) -> some View {
         Button {
             let from = dependencies.router.selectedTab
             dependencies.router.selectedTab = tab
@@ -80,18 +73,20 @@ struct ContentView: View {
             Label {
                 Text(tab.label)
             } icon: {
-                tab.image.font(.title2)
+                tab.image
+                    .imageScale(.large)
+                    .frame(width: 22, height: 22, alignment: .center)
             }
             .labelIconToTitleSpacing(8)
             .badge(badge == nil ? nil : renderBadge(badge))
-            .padding(6)
+            .padding(5)
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .listRowInsets(.init(top: 1, leading: -5, bottom: 1, trailing: -5))
+        .listRowInsets(.init(top: 0, leading: -5, bottom: 0, trailing: -5))
         .background(
-            selectedTabValue == tab ? settings.theme.tint : Color.clear,
+            dependencies.router.selectedTab == tab ? settings.theme.tint : Color.clear,
             in: RoundedRectangle(cornerRadius: 8)
         )
     }
@@ -102,58 +97,67 @@ struct ContentView: View {
     }
 
     @ViewBuilder
-    var instancePickers: some View {
+    var instancesSection: some View {
         if dependencies.router.selectedTab == .movies, settings.radarrInstances.count > 1 {
-            instancePicker(
-                instances: settings.radarrInstances,
-                selection: $settings.radarrInstanceId,
-                label: settings.radarrInstance?.label,
-                onChange: {
-                    dependencies.router.moviesPath = .init()
-                    dependencies.router.switchToRadarrInstance = settings.radarrInstanceId?.uuidString
-                }
-            )
+            Section("Instances") {
+                instanceRow(
+                    instances: settings.radarrInstances,
+                    selection: $settings.radarrInstanceId,
+                    switchTo: { instance in
+                        settings.radarrInstanceId = instance
+                        dependencies.router.moviesPath = .init()
+                        dependencies.router.switchToRadarrInstance = instance.uuidString
+                    }
+                )
+            }
         }
 
         if dependencies.router.selectedTab == .series, settings.sonarrInstances.count > 1 {
-            instancePicker(
-                instances: settings.sonarrInstances,
-                selection: $settings.sonarrInstanceId,
-                label: settings.sonarrInstance?.label,
-                onChange: {
-                    dependencies.router.seriesPath = .init()
-                    dependencies.router.switchToSonarrInstance = settings.sonarrInstanceId?.uuidString
-                }
-            )
+            Section("Instances") {
+                instanceRow(
+                    instances: settings.sonarrInstances,
+                    selection: $settings.sonarrInstanceId,
+                    switchTo: { instance in
+                        settings.sonarrInstanceId = instance
+                        dependencies.router.seriesPath = .init()
+                        dependencies.router.switchToSonarrInstance = instance.uuidString
+                    }
+                )
+            }
         }
     }
 
     @ViewBuilder
-    func instancePicker(
+    func instanceRow(
         instances: [Instance],
         selection: Binding<Instance.ID?>,
-        label: String?,
-        onChange: @escaping () -> Void
+        switchTo: @escaping (Instance.ID) -> Void
     ) -> some View {
-        Menu {
-            Picker("Instances", selection: selection) {
-                ForEach(instances) { instance in
-                    Text(instance.label).tag(Optional.some(instance.id))
+        ForEach(instances) { instance in
+            Button {
+                switchTo(instance.id)
+            } label: {
+                Label {
+                    Text(instance.label)
+                } icon: {
+                    Image(systemName: "internaldrive")
+                        .imageScale(.large)
+                        .frame(width: 22, height: 22, alignment: .center)
+                        .foregroundStyle(instance.id == selection.wrappedValue ? settings.theme.tint : .primary)
                 }
+                .labelIconToTitleSpacing(8)
+                .padding(5)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(Rectangle())
+                .foregroundStyle(instance.id == selection.wrappedValue ? settings.theme.tint : .primary)
             }
-            .pickerStyle(.inline)
-            .onChange(of: selection.wrappedValue, onChange)
-        } label: {
-            HStack {
-                Image(systemName: "internaldrive")
-
-                Text(label ?? "Instance")
-                    .fontWeight(.medium)
-            }
+            .buttonStyle(.plain)
+            .listRowInsets(.init(top: 0, leading: -5, bottom: 0, trailing: -5))
+            .background(
+                instance.id == selection.wrappedValue ? .tertiarySystemFill : Color.clear,
+                in: RoundedRectangle(cornerRadius: 8)
+            )
         }
-        .padding(8)
-        .tint(.primary)
-        .menuIndicator(.hidden)
     }
 }
 #endif
