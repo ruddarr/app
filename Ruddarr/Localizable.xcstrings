@@ -4819,6 +4819,17 @@
         }
       }
     },
+    "System Settings > Notifications > %@" : {
+      "comment" : "macOS path",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System Settings > Notifications > %@"
+          }
+        }
+      }
+    },
     "Tab" : {
       "localizations" : {
         "en" : {

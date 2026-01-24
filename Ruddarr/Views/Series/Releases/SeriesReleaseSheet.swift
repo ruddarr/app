@@ -16,6 +16,7 @@ struct SeriesReleaseSheet: View {
     @State private var showGrabConfirmation: Bool = false
 
     var body: some View {
+        // swiftlint:disable:next closure_body_length
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
@@ -33,7 +34,11 @@ struct SeriesReleaseSheet: View {
                     details
                 }
                 .viewPadding(.horizontal)
-                .offset(y: -45)
+                #if os(macOS)
+                    .padding(.top, 24)
+                #else
+                    .offset(y: -45)
+                #endif
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
