@@ -123,8 +123,8 @@ struct SeasonView: View {
                     Text(formatBytes(bytes))
                 }
             }
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -234,6 +234,7 @@ struct SeasonView: View {
             } label: {
                 ToolbarActionButton()
             }
+            .menuIndicator(.hidden)
         }
     }
 

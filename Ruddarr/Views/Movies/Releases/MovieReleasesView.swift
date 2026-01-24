@@ -182,6 +182,7 @@ extension MovieReleasesView {
                 Image(systemName: "line.3.horizontal.decrease")
             }
         }
+        .menuIndicator(.hidden)
     }
 
     var toolbarSortingButton: some View {
@@ -206,6 +207,7 @@ extension MovieReleasesView {
                 .imageScale(.medium)
         }
         .tint(.primary)
+        .menuIndicator(.hidden)
     }
 
     var indexersPicker: some View {
