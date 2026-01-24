@@ -14,6 +14,7 @@ struct QueueItemSheet: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
+        // swiftlint:disable:next closure_body_length
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {

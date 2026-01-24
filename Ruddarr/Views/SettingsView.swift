@@ -88,6 +88,7 @@ struct SettingsView: View {
                 showInstanceForm = true
             }
             .buttonStyle(.link)
+            .foregroundStyle(settings.theme.tint)
             .sheet(isPresented: $showInstanceForm) {
                 InstanceEditView(mode: .create, instance: Instance())
                     .environment(radarrInstance)
