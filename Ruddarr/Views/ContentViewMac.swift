@@ -11,8 +11,11 @@ struct ContentView: View {
                 sidebarItem(movies)
                 sidebarItem(series)
                 sidebarItem(calendar)
+
                 sidebarItem(activity, badge: Queue.shared.itemsWithIssues)
+
                 sidebarItem(TabItem.settings)
+                    .keyboardShortcut(",", modifiers: .command)
 
                 instancesSection
             }

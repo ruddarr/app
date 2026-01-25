@@ -9,6 +9,7 @@ extension SeriesView {
                     Image(systemName: "plus")
                 }
                 .tint(.primary)
+                .keyboardShortcut("n", modifiers: .command)
             }
         }
     }

@@ -9,6 +9,7 @@ extension MoviesView {
                     Image(systemName: "plus")
                 }
                 .tint(.primary)
+                .keyboardShortcut("n", modifiers: .command)
             }
         }
     }
