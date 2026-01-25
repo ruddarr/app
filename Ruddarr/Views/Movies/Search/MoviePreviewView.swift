@@ -59,6 +59,7 @@ struct MoviePreviewView: View {
                 presentingForm = false
             } label: {
                 Label("Cancel", systemImage: "xmark")
+                    .hideIconOnMac()
             }
             .tint(.primary)
         }
@@ -70,6 +71,7 @@ struct MoviePreviewView: View {
             Button("Add Movie", systemImage: "plus") {
                 presentingForm = true
             }
+            .hideIconOnMac()
             .buttonStyle(.glassProminent)
             .disabled(presentingForm)
         }
@@ -87,6 +89,7 @@ struct MoviePreviewView: View {
                     ProgressView().tint(nil)
                 } else {
                     Label("Add Movie", systemImage: "checkmark")
+                        .hideIconOnMac()
                 }
             }
             .prominentGlassButtonStyle(!instance.movies.isWorking)

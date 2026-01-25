@@ -95,9 +95,12 @@ struct SettingsView: View {
                     .environment(sonarrInstance)
                     .environmentObject(settings)
                     .padding(.all)
+                    .padding(.all)
                     .toolbar {
                         ToolbarItem(placement: .automatic) {
-                            Button("Close") { showInstanceForm = false }
+                            Button("Close") {
+                                showInstanceForm = false
+                            }.tint(nil)
                         }
                     }
             }

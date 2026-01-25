@@ -27,13 +27,14 @@ struct ContentView: View {
                     SeriesView()
                 case .calendar:
                     CalendarView()
+                        .frame(maxWidth: 700)
                 case .activity:
                     ActivityView()
                 case .settings:
                     SettingsView()
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         }
         .navigationSplitViewColumnWidth(min: 220, ideal: 240, max: 260)
         .displayToasts()

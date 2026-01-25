@@ -35,11 +35,13 @@ struct InstanceEditView: View {
                 modeSection
             }
 
-            if mode == .update {
-                Section {
-                    deleteButton
+            #if !os(macOS)
+                if mode == .update {
+                    Section {
+                        deleteButton
+                    }
                 }
-            }
+            #endif
 
             #if DEBUG
                 Button {
@@ -290,23 +292,28 @@ struct InstanceEditView: View {
     @ToolbarContentBuilder
     var toolbarButton: some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
-            Button{
+            Button {
                 Task { await createOrUpdateInstance() }
             } label: {
                 if isLoading {
                     ProgressView().tint(nil)
                 } else {
-                    #if os(macOS)
-                        Text("Save")
-                    #else
-                        Label("Save", systemImage: "checkmark")
-                    #endif
+                    Label("Save", systemImage: "checkmark")
+                        .hideIconOnMac()
                 }
             }
             .prominentGlassButtonStyle(!isLoading)
             .tint(settings.theme.tint)
             .disabled(hasEmptyFields())
         }
+
+        #if os(macOS)
+            if mode == .update {
+                ToolbarItem(placement: .destructiveAction) {
+                    deleteButton
+                }
+            }
+        #endif
     }
 }
 

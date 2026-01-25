@@ -49,6 +49,9 @@ struct InstanceView: View {
             toolbarEditButton
         }
         .safeNavigationBarTitleDisplayMode(.inline)
+        #if os(macOS)
+            .frame(maxWidth: 700, alignment: .center)
+        #endif
         .task {
             await setup()
         }
@@ -84,6 +87,7 @@ struct InstanceView: View {
                         .environment(radarrInstance)
                         .environment(sonarrInstance)
                         .environmentObject(settings)
+                        .padding(.all)
                         .padding(.all)
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {

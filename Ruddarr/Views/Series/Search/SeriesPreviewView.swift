@@ -60,6 +60,7 @@ struct SeriesPreviewView: View {
                 presentingForm = false
             } label: {
                 Label("Cancel", systemImage: "xmark")
+                    .hideIconOnMac()
             }
             .tint(.primary)
         }
@@ -71,6 +72,7 @@ struct SeriesPreviewView: View {
             Button("Add Series", systemImage: "plus") {
                 presentingForm = true
             }
+            .hideIconOnMac()
             .buttonStyle(.glassProminent)
             .disabled(presentingForm)
         }
@@ -88,6 +90,7 @@ struct SeriesPreviewView: View {
                     ProgressView().tint(nil)
                 } else {
                     Label("Add Series", systemImage: "checkmark")
+                        .hideIconOnMac()
                 }
             }
             .prominentGlassButtonStyle(!instance.series.isWorking)
