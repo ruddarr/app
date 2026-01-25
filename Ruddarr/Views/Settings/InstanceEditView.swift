@@ -35,11 +35,13 @@ struct InstanceEditView: View {
                 modeSection
             }
 
-            if mode == .update {
-                Section {
-                    deleteButton
+            #if !os(macOS)
+                if mode == .update {
+                    Section {
+                        deleteButton
+                    }
                 }
-            }
+            #endif
 
             #if DEBUG
                 Button {
@@ -290,7 +292,7 @@ struct InstanceEditView: View {
     @ToolbarContentBuilder
     var toolbarButton: some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
-            Button{
+            Button {
                 Task { await createOrUpdateInstance() }
             } label: {
                 if isLoading {
@@ -304,6 +306,14 @@ struct InstanceEditView: View {
             .tint(settings.theme.tint)
             .disabled(hasEmptyFields())
         }
+
+        #if os(macOS)
+            if mode == .update {
+                ToolbarItem(placement: .destructiveAction) {
+                    deleteButton
+                }
+            }
+        #endif
     }
 }
 
