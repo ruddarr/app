@@ -9,6 +9,7 @@ struct SettingsAboutSection: View {
         Section {
             share
             review
+            testFlight
             discord
             contribute
             translate
@@ -32,6 +33,13 @@ struct SettingsAboutSection: View {
             .init(name: "action", value: "write-review"),
         ])) {
             Label("Leave a Review", systemImage: "star.fill")
+                .labelStyle(SettingsIconLabelStyle())
+        }
+    }
+
+    var testFlight: some View {
+        Link(destination: Links.TestFlight) {
+            Label("Try the macOS App", systemImage: "macwindow")
                 .labelStyle(SettingsIconLabelStyle())
         }
     }

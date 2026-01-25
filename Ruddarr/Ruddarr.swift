@@ -99,6 +99,11 @@ extension WhatsNew {
             subtitle: "Episode files belonging to a season can now be deleted in one go."
         ),
         .init(
+            image: "macwindow",
+            title: "macOS App Available",
+            subtitle: "Try Ruddarr on your Mac! Join the TestFlight beta from Settings."
+        ),
+        .init(
             image: "ladybug",
             title: "Fixes & Improvements",
             subtitle: "Various small improvements and fixes, everything is a little better."
