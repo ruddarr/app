@@ -108,7 +108,7 @@ struct MovieView: View {
 
     var editAction: some View {
         #if os(macOS)
-            Button("Edit") {
+            Button("Edit", systemImage: "pencil") {
                 showEditForm = true
             }
         #else
