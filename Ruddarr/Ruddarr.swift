@@ -30,6 +30,7 @@ struct Ruddarr: App {
         #if os(macOS)
             Window(String(""), id: "ruddarr") {
                 ContentView()
+                    .frame(minWidth: 1_024, minHeight: 600)
                     .withAppState()
                     .onOpenURL(perform: openDeeplink)
                     .onContinueUserActivity(CSSearchableItemActionType, perform: openSearchableItem)
