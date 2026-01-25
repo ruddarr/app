@@ -64,11 +64,8 @@ struct MovieEditView: View {
                 if instance.movies.isWorking {
                     ProgressView().tint(nil)
                 } else {
-                    #if os(macOS)
-                        Text("Save")
-                    #else
-                        Label("Save", systemImage: "checkmark")
-                    #endif
+                    Label("Save", systemImage: "checkmark")
+                        .hideIconOnMac()
                 }
             }
             .prominentGlassButtonStyle(!instance.movies.isWorking)

@@ -37,6 +37,10 @@ extension View {
         modifier(ProminentGlassButtonStyle(condition: condition))
     }
 
+    func hideIconOnMac() -> some View {
+        modifier(HideIconOnMac())
+    }
+
     func presentationDetents(dynamic: Set<PresentationDetent>) -> some View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
     }
@@ -115,6 +119,16 @@ struct ProminentGlassButtonStyle: ViewModifier {
         } else {
             content
         }
+    }
+}
+
+struct HideIconOnMac: ViewModifier {
+    func body(content: Content) -> some View {
+        #if os(macOS)
+            content.labelStyle(.titleOnly)
+        #else
+            content
+        #endif
     }
 }
 

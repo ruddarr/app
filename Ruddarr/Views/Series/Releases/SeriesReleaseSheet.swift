@@ -44,7 +44,9 @@ struct SeriesReleaseSheet: View {
                 ToolbarItem(placement: .destructiveAction) {
                     Button("Close", systemImage: "xmark") {
                         dismiss()
-                    }.tint(.primary)
+                    }
+                    .hideIconOnMac()
+                    .tint(.primary)
                 }
             }
             .alert(
