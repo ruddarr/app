@@ -59,6 +59,8 @@ struct ContentView: View {
         guard from == to else { return }
 
         switch to {
+        case .movies: dependencies.router.moviesPath = .init()
+        case .series: dependencies.router.seriesPath = .init()
         case .calendar: NotificationCenter.default.post(name: .scrollToToday)
         default: break
         }
