@@ -4861,6 +4861,16 @@
         }
       }
     },
+    "TestFlight for macOS" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TestFlight for macOS"
+          }
+        }
+      }
+    },
     "The API Key can be found in the web interface under \"Settings > General > Security\"." : {
       "localizations" : {
         "en" : {

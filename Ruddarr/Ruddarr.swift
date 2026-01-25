@@ -71,7 +71,7 @@ struct Ruddarr: App {
 struct Links {
     static let AppShare = URL(string: "https://apps.apple.com/app/ruddarr/id6476240130")!
     static let AppStore = URL(string: "itms-apps://itunes.apple.com/app/id6476240130")!
-    static let TestFlight = URL(string: "https://testflight.apple.com/join/WbWNuoos")!
+    static let TestFlight = URL(string: "https://testflight.apple.com/join/N2YE9J9A")!
     static let Discord = URL(string: "https://discord.gg/UksvtDQUBA")!
     static let Crowdin = URL(string: "https://crowdin.com/project/ruddarr")!
     static let GitHub = URL(string: "https://github.com/ruddarr/app")!
@@ -85,18 +85,18 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static let version: String = "1.7.0"
+    static let version: String = "1.7.3"
 
     static let features: [WhatsNewFeature] = [
         .init(
-            image: "swatchpalette",
-            title: "Liquid Glass",
-            subtitle: "Migrated app design to the unbelievably courageous Liquid Glass design."
+            image: "macwindow.and.pointer.arrow",
+            title: "macOS Beta",
+            subtitle: "Join the TestFlight for macOS from Settings and report any issues on Discord."
         ),
         .init(
-            image: "folder.badge.minus",
-            title: "Season Deletion",
-            subtitle: "Episode files belonging to a season can now be deleted in one go."
+            image: "network",
+            title: "Improved Networking",
+            subtitle: "Support connecting to insecure instances previously blocked by App Transport Security."
         ),
         .init(
             image: "ladybug",
