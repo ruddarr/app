@@ -55,6 +55,23 @@ struct ButtonProgressView: View {
     }
 }
 
+struct MacMenuButtonLabelModifier: ViewModifier {
+    @Environment(\.deviceType) private var deviceType
+
+    func body(content: Content) -> some View {
+        #if os(macOS)
+            content
+                .padding(.vertical, 4)
+                .background(
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(.tertiarySystemFill)
+                )
+        #else
+            content
+        #endif
+    }
+}
+
 #Preview {
     @Previewable @State var isLoading: Bool = false
 

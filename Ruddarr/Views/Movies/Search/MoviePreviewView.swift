@@ -133,7 +133,7 @@ struct MoviePreviewView: View {
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movie-lookup")
-    let movie = movies.first(where: { $0.tmdbId == 736_308 }) ?? movies[0]
+    let movie = movies.first(where: { $0.tmdbId == 432_383 }) ?? movies[0]
 
     dependencies.router.selectedTab = .movies
 
@@ -146,4 +146,5 @@ struct MoviePreviewView: View {
     return ContentView()
         .withRadarrInstance(movies: movies)
         .withAppState()
+        .frame(minWidth: 900, minHeight: 600)
 }
