@@ -75,7 +75,7 @@ struct EpisodeRow: View {
             Task { await toggleMonitor() }
         } label: {
             if instance.episodes.isMonitoring == episode.id {
-                ProgressView().tint(.secondary)
+                ButtonProgressView(tint: .secondary)
             } else {
                 Image(systemName: "bookmark")
                     .symbolVariant(episode.monitored ? .fill : .none)

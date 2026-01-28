@@ -62,7 +62,7 @@ struct TaskRemovalView: View {
                 }
             } label: {
                 if isWorking {
-                    ProgressView().tint(.white)
+                    ButtonProgressView(tint: .white)
                 } else {
                     Label("Delete", systemImage: "trash")
                         .foregroundStyle(.white)

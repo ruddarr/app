@@ -30,7 +30,7 @@ struct SeasonCard: View {
                     }
                 } label: {
                     if isWorking {
-                        ProgressView().tint(.secondary).offset(x: 1.5)
+                        ButtonProgressView(tint: .secondary).offset(x: 1.5)
                     } else {
                         Image(systemName: "bookmark")
                             .symbolVariant(season.monitored ? .fill : .none)

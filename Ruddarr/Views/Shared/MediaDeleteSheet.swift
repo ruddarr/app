@@ -58,7 +58,7 @@ struct MediaDeleteSheet: View {
                 confirm(exclude, delete)
             } label: {
                 if isWorking {
-                    ProgressView().tint(.white)
+                    ButtonProgressView(tint: .white)
                 } else {
                     Label("Delete", systemImage: "trash")
                 }

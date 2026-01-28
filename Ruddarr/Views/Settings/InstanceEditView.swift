@@ -296,7 +296,7 @@ struct InstanceEditView: View {
                 Task { await createOrUpdateInstance() }
             } label: {
                 if isLoading {
-                    ProgressView().tint(nil)
+                    ButtonProgressView()
                 } else {
                     Label("Save", systemImage: "checkmark")
                         .hideIconOnMac()

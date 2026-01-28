@@ -87,7 +87,7 @@ struct SeriesPreviewView: View {
                 }
             } label: {
                 if instance.series.isWorking {
-                    ProgressView().tint(nil)
+                    ButtonProgressView()
                 } else {
                     Label("Add Series", systemImage: "checkmark")
                         .hideIconOnMac()

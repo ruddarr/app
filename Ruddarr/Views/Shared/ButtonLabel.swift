@@ -31,10 +31,7 @@ struct ButtonLabel: View {
         .opacity(isLoading ? 0 : 1)
         .overlay {
             if isLoading {
-                ProgressView()
-                #if os(macOS)
-                    .controlSize(.small)
-                #endif
+                ButtonProgressView()
             }
         }
         .fontWeight(.semibold)
@@ -43,6 +40,18 @@ struct ButtonLabel: View {
         #endif
         .padding(.vertical, 6)
         .animation(.spring(duration: 0.2), value: isLoading)
+    }
+}
+
+struct ButtonProgressView: View {
+    var tint: Color?
+
+    var body: some View {
+        ProgressView()
+            .tint(tint)
+            #if os(macOS)
+                .controlSize(.small)
+            #endif
     }
 }
 

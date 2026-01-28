@@ -86,7 +86,7 @@ struct MoviePreviewView: View {
                 }
             } label: {
                 if instance.movies.isWorking {
-                    ProgressView().tint(nil)
+                    ButtonProgressView()
                 } else {
                     Label("Add Movie", systemImage: "checkmark")
                         .hideIconOnMac()

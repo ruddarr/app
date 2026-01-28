@@ -63,7 +63,7 @@ struct SeriesEditView: View {
                 }
             } label: {
                 if instance.series.isWorking {
-                    ProgressView().tint(nil)
+                    ButtonProgressView()
                 } else {
                     Label("Save", systemImage: "checkmark")
                         .hideIconOnMac()
