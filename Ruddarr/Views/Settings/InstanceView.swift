@@ -28,7 +28,7 @@ struct InstanceView: View {
     @Environment(SonarrInstance.self) private var sonarrInstance
 
     var body: some View {
-        List {
+        Form {
             instanceDetails
 
             if !instance.headers.isEmpty {
@@ -45,6 +45,7 @@ struct InstanceView: View {
                 }
             #endif
         }
+        .formStyle(.grouped)
         .toolbar {
             toolbarEditButton
         }
