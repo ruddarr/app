@@ -27,6 +27,9 @@ struct SettingsView: View {
                 SettingsSystemSection()
             }
             .formStyle(.grouped)
+            #if os(macOS)
+                .labelReservedIconWidth(20)
+            #endif
             .navigationTitle("Settings")
             .navigationDestination(for: Path.self) {
                 switch $0 {
