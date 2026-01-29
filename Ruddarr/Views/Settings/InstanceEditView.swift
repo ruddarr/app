@@ -5,10 +5,11 @@ struct InstanceEditView: View {
 
     @State var instance: Instance
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.deviceType) var deviceType
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
-    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var settings: AppSettings
 
     @State var isLoading = false
     @State var showingAlert = false
@@ -60,6 +61,7 @@ struct InstanceEditView: View {
                 } label: { Text(verbatim: "Sonarr v3") }
             #endif
         }
+        .formStyle(.grouped)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarButton
@@ -112,9 +114,6 @@ struct InstanceEditView: View {
             apiKeyField
         } header: {
             Text("Authentication")
-                #if os(macOS)
-                .padding(.top)
-                #endif
         } footer: {
             VStack(alignment: .leading, spacing: 12) {
                 Text("The API Key can be found in the web interface under \"Settings > General > Security\".")
@@ -203,9 +202,6 @@ struct InstanceEditView: View {
                     instance.mode = value ? .slow : .normal
                 }
             ))
-            #if os(macOS)
-            .padding(.top)
-            #endif
         } footer: {
             Text("Optimizes API calls for instances that load unusually slowly and encounter timeouts frequently.")
                 #if os(macOS)
@@ -232,21 +228,26 @@ struct InstanceEditView: View {
             } label: {
                 Text("Add Header", comment: "Add HTTP Header to instance")
             }
+            #if os(macOS)
+                .buttonStyle(.link)
+                .foregroundStyle(settings.theme.tint)
+            #endif
 
             Button {
                 showBasicAuthentication = true
             } label: {
                 Text("Add Authentication", comment: "Add Basic HTTP Authentication to instance")
             }
+            #if os(macOS)
+                .buttonStyle(.link)
+                .foregroundStyle(settings.theme.tint)
+            #endif
         } header: {
             HStack {
                 Text("Headers", comment: "HTTP Headers")
                 Spacer()
                 pasteButton(pasteHeader)
             }
-            #if os(macOS)
-            .padding(.top)
-            #endif
         } footer: {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Custom Headers can be used to access instances protected by Zero Trust services.")
@@ -267,7 +268,7 @@ struct InstanceEditView: View {
     }
 
     var deleteButton: some View {
-        Button("Delete Instance", role: .destructive) {
+        Button(deviceType == .mac ? "Delete" : "Delete Instance", role: .destructive) {
             showingConfirmation = true
         }
         .frame(maxWidth: .infinity, alignment: .center)
@@ -389,4 +390,5 @@ extension InstanceError: LocalizedError {
 
     return ContentView()
         .withAppState()
+        .frame(minWidth: 900, minHeight: 600)
 }

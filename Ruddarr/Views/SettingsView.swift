@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var showInstanceForm: Bool = false
     @State private var showInstanceNameWarning: Bool = false
 
     @EnvironmentObject var settings: AppSettings
@@ -82,31 +81,12 @@ struct SettingsView: View {
     }
 
     var addInstanceButton: some View {
-        #if os(iOS)
-            NavigationLink(value: Path.createInstance) {
-                Text("Add Instance")
-            }
-        #else
-            Button("Add Instance") {
-                showInstanceForm = true
-            }
+        NavigationLink(value: Path.createInstance) {
+            Text("Add Instance")
+        }
+        #if os(macOS)
             .buttonStyle(.link)
             .foregroundStyle(settings.theme.tint)
-            .sheet(isPresented: $showInstanceForm) {
-                InstanceEditView(mode: .create, instance: Instance())
-                    .environment(radarrInstance)
-                    .environment(sonarrInstance)
-                    .environmentObject(settings)
-                    .padding(.all)
-                    .padding(.all)
-                    .toolbar {
-                        ToolbarItem(placement: .automatic) {
-                            Button("Close") {
-                                showInstanceForm = false
-                            }.tint(nil)
-                        }
-                    }
-            }
         #endif
     }
 
