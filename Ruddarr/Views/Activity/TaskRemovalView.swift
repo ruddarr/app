@@ -32,7 +32,7 @@ struct TaskRemovalView: View {
             }
         }
         #if os(macOS)
-            .padding(.all)
+            .padding(.all, 24)
         #else
             .padding(.top, -20)
         #endif
@@ -66,6 +66,7 @@ struct TaskRemovalView: View {
                 } else {
                     Label("Delete", systemImage: "trash")
                         .foregroundStyle(.white)
+                        .hideIconOnMac()
                 }
             }
             .buttonStyle(.glassProminent)

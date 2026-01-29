@@ -33,7 +33,7 @@ struct MediaDeleteSheet: View {
                 toolbarDeleteButton
             }
             #if os(macOS)
-                .padding(.all)
+                .padding(.all, 24)
             #else
                 .padding(.top, -25)
             #endif
@@ -46,6 +46,7 @@ struct MediaDeleteSheet: View {
                 dismiss()
             } label: {
                 Label("Cancel", systemImage: "xmark")
+                    .hideIconOnMac()
             }
             .tint(.primary)
         }
@@ -61,6 +62,7 @@ struct MediaDeleteSheet: View {
                     ButtonProgressView(tint: .white)
                 } else {
                     Label("Delete", systemImage: "trash")
+                        .hideIconOnMac()
                 }
             }
             .tint(.red)

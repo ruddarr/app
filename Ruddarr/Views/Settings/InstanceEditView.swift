@@ -151,8 +151,10 @@ struct InstanceEditView: View {
                 .layoutPriority(2)
 
             TextField(text: $instance.label, prompt: Text(verbatim: instance.type.rawValue)) { EmptyView() }
-                .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
+                #if os(iOS)
+                .multilineTextAlignment(.trailing)
+                #endif
         }
     }
 
@@ -163,11 +165,11 @@ struct InstanceEditView: View {
 
             TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
                 .truncationMode(.head)
-                .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)
                 .onChange(of: instance.url, detectInstanceType)
                 #if os(iOS)
+                .multilineTextAlignment(.trailing)
                 .textInputAutocapitalization(.never)
                 .keyboardType(.URL)
                 #endif
@@ -182,10 +184,10 @@ struct InstanceEditView: View {
 
             TextField(text: $instance.apiKey, prompt: Text(verbatim: "0a1b2c3d...")) { EmptyView() }
                 .truncationMode(.head)
-                .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)
                 #if os(iOS)
+                .multilineTextAlignment(.trailing)
                 .textInputAutocapitalization(.never)
                 #endif
         }

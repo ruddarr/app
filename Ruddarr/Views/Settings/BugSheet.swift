@@ -22,7 +22,9 @@ struct BugSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", systemImage: "xmark") {
                         dismiss()
-                    }.tint(.primary)
+                    }
+                    .tint(.primary)
+                    .hideIconOnMac()
                 }
 
                 ToolbarItem(placement: .primaryAction) {
@@ -30,11 +32,12 @@ struct BugSheet: View {
                         sendReport()
                     }
                     .buttonStyle(.glassProminent)
+                    .hideIconOnMac()
                     .disabled(!canBeSent)
                 }
             }
             #if os(macOS)
-                .padding(.all)
+                .padding(.all, 24)
             #endif
         }
     }
