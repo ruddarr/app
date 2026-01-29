@@ -28,13 +28,12 @@ struct MediaDeleteSheet: View {
                     Text("Permanently erase the folder and its contents.")
                 }
             }
+            .formStyle(.grouped)
             .toolbar {
                 toolbarCloseButton
                 toolbarDeleteButton
             }
-            #if os(macOS)
-                .padding(.all, 24)
-            #else
+            #if os(iOS)
                 .padding(.top, -25)
             #endif
         }

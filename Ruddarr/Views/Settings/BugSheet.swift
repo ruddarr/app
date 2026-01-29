@@ -17,6 +17,7 @@ struct BugSheet: View {
                 emailField
                 reportField
             }
+            .formStyle(.grouped)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -36,9 +37,6 @@ struct BugSheet: View {
                     .disabled(!canBeSent)
                 }
             }
-            #if os(macOS)
-                .padding(.all, 24)
-            #endif
         }
     }
 

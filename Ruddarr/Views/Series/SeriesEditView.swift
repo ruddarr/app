@@ -18,7 +18,9 @@ struct SeriesEditView: View {
 
     var body: some View {
         SeriesForm(series: $series)
-            .padding(.top, -20)
+            #if os(iOS)
+                .padding(.top, -20)
+            #endif
             .navigationTitle(series.title)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {

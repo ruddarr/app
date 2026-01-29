@@ -88,8 +88,6 @@ struct MovieView: View {
                 .sheet(isPresented: $showEditForm) {
                     MovieEditView(movie: $movie)
                         .environment(instance)
-                        .padding(.top)
-                        .padding(.all)
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Close") { showEditForm = false }

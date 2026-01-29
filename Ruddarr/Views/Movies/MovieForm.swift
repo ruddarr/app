@@ -31,6 +31,7 @@ struct MovieForm: View {
                 rootFolderField
             }
         }
+        .formStyle(.grouped)
         .onAppear {
             selectDefaultValues()
         }

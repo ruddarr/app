@@ -31,9 +31,8 @@ struct TaskRemovalView: View {
                 Text("Blocks this release from being redownloaded via Automatic Search or RSS.")
             }
         }
-        #if os(macOS)
-            .padding(.all, 24)
-        #else
+        .formStyle(.grouped)
+        #if os(iOS)
             .padding(.top, -20)
         #endif
         .toolbarTitleDisplayMode(.inline)

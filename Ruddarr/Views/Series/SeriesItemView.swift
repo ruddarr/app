@@ -98,8 +98,6 @@ struct SeriesDetailView: View {
                 .sheet(isPresented: $showEditForm) {
                     SeriesEditView(series: $series)
                         .environment(instance)
-                        .padding(.top)
-                        .padding(.all)
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Close") { showEditForm = false }

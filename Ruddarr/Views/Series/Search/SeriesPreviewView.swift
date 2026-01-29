@@ -42,9 +42,7 @@ struct SeriesPreviewView: View {
                         toolbarCancelButton
                         toolbarSaveButton
                     }
-                    #if os(macOS)
-                        .padding(.all)
-                    #else
+                    #if os(iOS)
                         .padding(.top, -25)
                     #endif
             }

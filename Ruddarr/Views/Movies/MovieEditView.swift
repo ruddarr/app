@@ -18,7 +18,9 @@ struct MovieEditView: View {
 
     var body: some View {
         MovieForm(movie: $movie)
-            .padding(.top, -20)
+            #if os(iOS)
+                .padding(.top, -20)
+            #endif
             .navigationTitle(movie.title)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
