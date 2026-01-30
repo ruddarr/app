@@ -105,10 +105,8 @@ struct SeriesForm: View {
         NavigationLink {
             TagList(selected: tags(), tags: instance.tags)
         } label: {
-            LabeledContent {
+            LabeledContent("Tags") {
                 Text(series.tags.isEmpty ? "None" : "\(series.tags.count) Tag")
-            } label: {
-                Text("Tags")
             }
         }
     }

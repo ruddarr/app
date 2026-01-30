@@ -14,11 +14,9 @@ struct SettingsPreferencesSection: View {
             gridPicker
             releaseFiltersPicker
 
-            #if os(iOS)
-                if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
-                    manageSubscription
-                }
-            #endif
+            if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
+                manageSubscription
+            }
         } header: {
             Text("Preferences")
         } footer: {
@@ -85,23 +83,35 @@ struct SettingsPreferencesSection: View {
     }
 
     var manageSubscription: some View {
-        Button {
-            showSubscriptionSheet = true
-        } label: {
-            NavigationLink(destination: EmptyView()) {
+        #if os(macOS)
+            Link(destination: URL(string: "itms-apps://apps.apple.com/account/subscriptions")!) {
                 Label {
-                    LabeledContent {
-                        Text(subscriptionStatus.label).foregroundStyle(.secondary)
-                    } label: {
-                        Text("Subscription")
+                    LabeledContent("Subscription") {
+                        Text(subscriptionStatus.label)
                     }
                 } icon: {
                     Image(systemName: "bubbles.and.sparkles")
                 }
                 .labelStyle(SettingsIconLabelStyle())
             }
-        }
-        .foregroundStyle(.label)
+            .buttonStyle(.plain)
+        #else
+            Button {
+                showSubscriptionSheet = true
+            } label: {
+                NavigationLink(destination: EmptyView()) {
+                    Label {
+                        LabeledContent("Subscription") {
+                            Text(subscriptionStatus.label).foregroundStyle(.secondary)
+                        }
+                    } icon: {
+                        Image(systemName: "bubbles.and.sparkles")
+                    }
+                    .labelStyle(SettingsIconLabelStyle())
+                }
+            }
+            .foregroundStyle(.label)
+        #endif
     }
 
     var footer: some View {

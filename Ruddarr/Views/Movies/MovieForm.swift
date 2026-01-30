@@ -83,10 +83,8 @@ struct MovieForm: View {
         NavigationLink {
             TagList(selected: tags(), tags: instance.tags)
         } label: {
-            LabeledContent {
+            LabeledContent("Tags") {
                 Text(movie.tags.isEmpty ? "None" : "\(movie.tags.count) Tag")
-            } label: {
-                Text("Tags")
             }
         }
     }
