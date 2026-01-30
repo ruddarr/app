@@ -87,7 +87,8 @@ struct BugSheet: View {
                 text = ""
             }
 
-            setSentryContext(for: "configuration", settings.context())
+            setSentryContext(for: "Configuration", settings.context())
+            setSentryContext(for: "Subscription", await Subscription.context())
             await setSentryCloudKitContext()
 
             let eventId = SentrySDK.capture(message: "Bug Report (\(UUID().shortened))")

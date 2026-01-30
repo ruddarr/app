@@ -88,7 +88,7 @@ actor Notifications {
             let instances = await settings.instances
 
             let updateNeeded = instances.map {
-                Occurrence.hoursSince("webhookUpdated:\($0.id)") >= 24
+                Occurrence.hoursSince("webhookUpdated:\($0.id)") >= 6
             }.contains(true)
 
             if !updateNeeded {

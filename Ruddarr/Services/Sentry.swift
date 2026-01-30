@@ -9,7 +9,7 @@ func setSentryCloudKitContext() async {
     let accountStatus = try? await container.accountStatus()
     let cloudKitUserId = try? await container.userRecordID()
 
-    setSentryContext(for: "cloudkit", [
+    setSentryContext(for: "CloudKit", [
         "status": cloudKitStatusString(accountStatus),
         "identifier": cloudKitUserId?.recordName ?? "",
     ])

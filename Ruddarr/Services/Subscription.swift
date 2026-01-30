@@ -16,6 +16,17 @@ class Subscription {
         return false
     }
 
+    static func entitlementStatus() async -> SubscriptionStatus? {
+        do {
+            let subscriptions = try await Product.SubscriptionInfo.status(for: group)
+            return status(from: subscriptions)
+        } catch {
+            leaveBreadcrumb(.error, category: "subscription", message: "entitledToService check failed", data: ["error": error])
+        }
+
+        return nil
+    }
+
     static func containsEntitledState(_ statuses: [StoreKit.Product.SubscriptionInfo.Status]) -> Bool {
         var entitledStates: [Product.SubscriptionInfo.RenewalState] = [
             .subscribed,
@@ -63,6 +74,16 @@ class Subscription {
         case .revoked: .revoked
         default: .unknown
         }
+    }
+
+    static func context() async -> [String: Any] {
+        let context: [String: Any] = [
+            "entitled": await self.entitledToService(),
+            "status": await self.entitlementStatus()?.label.lowercased() as Any,
+            "entitled_at": await self.lastEntitledDate()?.formatted(.iso8601) as Any,
+        ]
+
+        return context
     }
 }
 

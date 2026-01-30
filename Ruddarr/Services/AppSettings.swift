@@ -112,9 +112,10 @@ extension AppSettings {
             let type = instance.type.rawValue.lowercased()
 
             context["\(type)-\(id)"] = [
-                "type": instance.type.rawValue,
                 "mode": instance.mode.value,
                 "version": instance.version as Any,
+                "webhook": Occurrence.date(of: "webhookUpdated:\(instance.id)")?
+                    .formatted(.relative(presentation: .numeric)) as Any,
             ]
         }
 
