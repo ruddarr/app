@@ -114,15 +114,15 @@ extension API {
             try await Task.sleep(for: .seconds(2))
 
             return Empty()
-        }, movieCalendar: { _, _, _ in
+        }, movieCalendar: { _, _, instance in
             let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
 
-            return movies
-        }, episodeCalendar: { _, _, _ in
+            return modifyCalendarMovies(movies, instance)
+        }, episodeCalendar: { _, _, instance in
             try await Task.sleep(for: .seconds(1))
             let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
 
-            return episodes
+            return modifyCalendarEpisodes(episodes, instance)
         }, command: { _, _ in
             try await Task.sleep(for: .seconds(2))
 
@@ -222,7 +222,6 @@ private func modifyQueueItems(_ items: QueueItems, _ instance: Instance) -> Queu
     modifiedItems.records = items.records.map { record in
         var record = record
 
-        // ...
         record.instanceId = instance.id
 
         // set `estimatedCompletionTime` to be in the future for testing
@@ -234,10 +233,50 @@ private func modifyQueueItems(_ items: QueueItems, _ instance: Instance) -> Queu
             ))
         }
 
-        // record.sizeleft = Float.random(in: 0..<record.size)
-
         return record
     }
 
     return modifiedItems
+}
+
+private func modifyCalendarMovies(_ items: [Movie], _ instance: Instance) -> [Movie] {
+    let date = Calendar.current.date(from: DateComponents(year: 2_026, month: 1, day: 30, hour: 12))
+    let days = Calendar.current.dateComponents([.day], from: date!, to: .now).day!
+
+    return items.map { item in
+        var movie = item
+
+        movie.instanceId = instance.id
+
+        if let inCinemas = item.inCinemas {
+            movie.inCinemas = Calendar.current.date(byAdding: .day, value: Int(days), to: inCinemas)!
+        }
+
+        if let physicalRelease = item.physicalRelease {
+            movie.physicalRelease = Calendar.current.date(byAdding: .day, value: Int(days), to: physicalRelease)!
+        }
+
+        if let digitalRelease = item.digitalRelease {
+            movie.digitalRelease = Calendar.current.date(byAdding: .day, value: Int(days), to: digitalRelease)!
+        }
+
+        return movie
+    }
+}
+
+private func modifyCalendarEpisodes(_ items: [Episode], _ instance: Instance) -> [Episode] {
+    let date = Calendar.current.date(from: DateComponents(year: 2_026, month: 1, day: 30, hour: 12))
+    let days = Calendar.current.dateComponents([.day], from: date!, to: .now).day!
+
+    return items.map { item in
+        var episode = item
+
+        episode.instanceId = instance.id
+
+        if let airDateUtc = item.airDateUtc {
+            episode.airDateUtc = Calendar.current.date(byAdding: .day, value: Int(days), to: airDateUtc)!
+        }
+
+        return episode
+    }
 }

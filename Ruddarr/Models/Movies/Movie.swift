@@ -45,9 +45,9 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     var rootFolderPath: String?
 
     let added: Date
-    let inCinemas: Date?
-    let physicalRelease: Date?
-    let digitalRelease: Date?
+    var inCinemas: Date?
+    var physicalRelease: Date?
+    var digitalRelease: Date?
 
     var tags: [Int]
     let images: [MediaImage]
