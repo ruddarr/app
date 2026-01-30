@@ -30,10 +30,8 @@ struct SettingsSystemSection: View {
                     .foregroundStyle(.secondary)
             }
 
-            Button(role: .destructive) {
+            Button("Delete Spotlight Index", role: .destructive) {
                 deleteSpotlightIndexes()
-            } label: {
-                Text("Delete Spotlight Index")
             }
             #if os(macOS)
                 .buttonStyle(.link)
