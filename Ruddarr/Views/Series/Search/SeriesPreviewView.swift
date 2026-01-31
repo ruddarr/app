@@ -125,7 +125,7 @@ struct SeriesPreviewView: View {
         try? await Task.sleep(for: .milliseconds(50))
         dependencies.router.seriesPath.append(seriesPath)
 
-        TelemetryDeck.signal("seriesAdded")
+        Telemetry.record(.seriesAdded)
         maybeAskForReview()
     }
 }

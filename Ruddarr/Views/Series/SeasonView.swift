@@ -282,7 +282,7 @@ extension SeasonView {
 
         dependencies.toast.show(.seasonSearchQueued)
 
-        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "season"])
+        Telemetry.record(.seasonSearchDispatched)
         maybeAskForReview()
     }
 

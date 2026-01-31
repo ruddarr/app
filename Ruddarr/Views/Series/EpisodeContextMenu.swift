@@ -34,7 +34,7 @@ struct EpisodeContextMenu: View {
 
         dependencies.toast.show(.episodeSearchQueued)
 
-        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "episode"])
+        Telemetry.record(.episodeSearchDispatched)
     }
 
     var encodedTitle: String? {

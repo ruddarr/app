@@ -124,7 +124,7 @@ struct MoviePreviewView: View {
         try? await Task.sleep(for: .milliseconds(50))
         dependencies.router.moviesPath.append(moviePath)
 
-        TelemetryDeck.signal("movieAdded")
+        Telemetry.record(.movieAdded)
         maybeAskForReview()
     }
 }

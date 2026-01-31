@@ -293,7 +293,7 @@ struct SeriesReleaseSheet: View {
 
         dependencies.toast.show(.downloadQueued)
 
-        TelemetryDeck.signal("releaseDownloaded", parameters: ["type": release.fullSeason ? "season" : "episode"])
+        Telemetry.record(release.fullSeason ? .seasonDownloaded : .episodeDownloaded)
         maybeAskForReview()
     }
 }

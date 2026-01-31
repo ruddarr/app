@@ -1631,7 +1631,7 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		BB0FE10D2BEC660500D1D847 /* XCRemoteSwiftPackageReference "CloudStorage" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nonstrict-hq/CloudStorage.git";
+			repositoryURL = "https://github.com/nonstrict-hq/CloudStorage";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.4.0;
@@ -1647,10 +1647,10 @@
 		};
 		BB715EBD2CCAA2AD003B12A0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 8.38.0;
+				minimumVersion = 9.0.0;
 			};
 		};
 		BB846F2B2E7DE0C700E0A367 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {

@@ -198,7 +198,7 @@ struct MovieDetails: View {
 
         dependencies.toast.show(.movieSearchQueued)
 
-        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "movie"])
+        Telemetry.record(.movieSearchDispatched)
         maybeAskForReview()
     }
 }
