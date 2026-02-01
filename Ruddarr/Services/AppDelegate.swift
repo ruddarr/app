@@ -109,7 +109,6 @@ class AppDelegate:
             options.enableWatchdogTerminationTracking = true
             options.enableMetricKit = false
             options.enableAppHangTracking = false
-            options.enableAppHangTrackingV2 = false
             options.appHangTimeoutInterval = 3
             options.enableCaptureFailedRequests = false
             options.enablePreWarmedAppStartTracing = true
