@@ -25,30 +25,54 @@ struct CachedAsyncImage: View {
                         (try? state.result?.get())?.cacheType != nil ? .identity : .opacity
                     )
                 } else if state.error != nil {
-                    PlaceholderImage(icon: "network.slash", text: nil)
+                    PlaceholderImage(text: placeholder, status: "network.slash")
                 } else {
-                    PlaceholderImage(icon: "text.below.photo", text: nil)
+                    PlaceholderImage(text: placeholder)
                 }
             }.pipeline(
                 Images.pipeline()
             )
         } else {
-            PlaceholderImage(icon: "text.below.photo", text: placeholder)
+            PlaceholderImage(text: placeholder)
         }
     }
 }
 
 struct PlaceholderImage: View {
-    let icon: String
     let text: String?
+    let status: String?
+
+    init(text: String?, status: String? = nil) {
+        self.text = text
+        self.status = status
+    }
 
     var body: some View {
-        if let placeholder = text {
+        if let label = text, let icon = status {
             Rectangle()
                 .fill(.systemFill)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .overlay {
-                    Text(placeholder)
+                    Text(label)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .tint(.secondary)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(4)
+                        .padding(8)
+                }
+                .overlay(alignment: .bottomTrailing) {
+                    Image(systemName: icon)
+                        .foregroundStyle(.secondary)
+                        .tint(.secondary)
+                        .padding(8)
+                }
+        } else if let label = text {
+            Rectangle()
+                .fill(.systemFill)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .overlay {
+                    Text(label)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .tint(.secondary)
@@ -57,7 +81,7 @@ struct PlaceholderImage: View {
                         .padding(8)
                 }
         } else {
-            Image(systemName: icon)
+            Image(systemName: "text.below.photo")
                 .imageScale(.large)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .foregroundStyle(.secondary)
