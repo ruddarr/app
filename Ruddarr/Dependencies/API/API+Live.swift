@@ -49,7 +49,7 @@ extension API {
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/movie")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: movie)
+            return try await request(method: .post, url: url, headers: instance.auth, body: movie, timeout: instance.timeout(.slow))
         }, updateMovie: { movie, moveFiles, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/movie/editor")
@@ -130,7 +130,7 @@ extension API {
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/series")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: series)
+            return try await request(method: .post, url: url, headers: instance.auth, body: series, timeout: instance.timeout(.slow))
         }, pushSeries: { series, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/series")
