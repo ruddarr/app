@@ -106,7 +106,7 @@ struct QueueItemSheet: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     var progress: some View {
@@ -319,6 +319,14 @@ struct QueueItemSheet: View {
 #Preview("Waiting + Error") {
     let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
     let item = items.records[1]
+
+    QueueItemSheet(item: item)
+        .withAppState()
+}
+
+#Preview("Pending + Short") {
+    let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
+    let item = items.records[2]
 
     QueueItemSheet(item: item)
         .withAppState()
