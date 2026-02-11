@@ -362,4 +362,5 @@ struct SeriesView: View {
 
     return ContentView()
         .withAppState()
+        .frame(minWidth: 900, minHeight: 600)
 }

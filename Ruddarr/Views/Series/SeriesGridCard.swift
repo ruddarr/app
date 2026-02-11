@@ -52,7 +52,7 @@ struct SeriesGridCard: View {
             }
             .padding(.vertical, deviceType == .phone ? 8 : 10)
 
-            Spacer()
+            Spacer(minLength: 2)
         }
         .frame(maxWidth: .infinity)
         .background(.card)
