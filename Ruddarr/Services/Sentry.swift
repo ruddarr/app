@@ -100,6 +100,28 @@ func shouldReportEvent( _ crumb: Breadcrumb) -> Bool {
     return true
 }
 
+func shouldRecordBreadcrumb( _ crumb: Breadcrumb) -> Bool {
+    if crumb.category == "http" {
+
+        print("shouldRecordBreadcrumb", crumb)
+
+        // drop `GET /queue` spam
+        if let url = crumb.data?["url"] as? String,
+           let method = crumb.data?["method"] as? String,
+           method == "GET",
+           url.contains("/queue")
+        {
+            print("skip")
+            return false
+        }
+
+        print("record")
+
+    }
+
+    return true
+}
+
 enum EnvironmentType: String {
     case preview
     case simulator

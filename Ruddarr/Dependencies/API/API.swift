@@ -91,11 +91,11 @@ extension API {
             }
         }
 
-        leaveBreadcrumb(.debug, category: "api", message: "Sending request", data: [
-            "url": url,
-            "method": method.rawValue,
-            "timeout": timeout,
-        ])
+        // leaveBreadcrumb(.debug, category: "api", message: "Sending request", data: [
+        //     "url": url,
+        //     "method": method.rawValue,
+        //     "timeout": timeout,
+        // ])
 
         if let body {
             leaveBreadcrumb(.debug, category: "api", message: "Request body", data: ["body": body])
