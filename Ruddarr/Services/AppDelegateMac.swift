@@ -94,6 +94,10 @@ class AppDelegateMac:
             options.enableTimeToFullDisplayTracing = true
 
             options.tracesSampleRate = 1
+
+            options.beforeBreadcrumb = { crumb in
+                shouldRecordBreadcrumb(crumb) ? crumb : nil
+            }
         }
 
         setSentryContext(for: "device", ["identifier": Platform.deviceId])
