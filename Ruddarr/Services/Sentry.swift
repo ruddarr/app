@@ -101,22 +101,14 @@ func shouldReportEvent( _ crumb: Breadcrumb) -> Bool {
 }
 
 func shouldRecordBreadcrumb( _ crumb: Breadcrumb) -> Bool {
+    // drop `GET /api/v3/queue` spam
     if crumb.category == "http" {
+        let url = crumb.data?["url"] as? String
+        let method = crumb.data?["method"] as? String
 
-        print("shouldRecordBreadcrumb", crumb)
-
-        // drop `GET /queue` spam
-        if let url = crumb.data?["url"] as? String,
-           let method = crumb.data?["method"] as? String,
-           method == "GET",
-           url.contains("/queue")
-        {
-            print("skip")
+        if let url, url.contains(/\/api\/v\d\/queue$/), method == "GET" {
             return false
         }
-
-        print("record")
-
     }
 
     return true
