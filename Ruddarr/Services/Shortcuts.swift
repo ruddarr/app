@@ -35,7 +35,7 @@ struct Shortcuts: AppShortcutsProvider {
                 "Open \(\.$target) in \(.applicationName)",
                 "Show \(\.$target) in \(.applicationName)",
             ],
-            shortTitle: "Open \(Ruddarr.name)",
+            shortTitle: "Open Ruddarr",
             systemImageName: "arrow.up.forward.app"
         )
     }
