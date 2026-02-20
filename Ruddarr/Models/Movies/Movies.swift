@@ -47,7 +47,7 @@ class Movies {
     }
 
     func byId(_ id: Movie.ID) -> Movie? {
-        self.items.first(where: { $0.guid == id })
+        self.items.first { $0.guid == id }
     }
 
     func byId(_ id: Movie.ID) -> Binding<Movie> {

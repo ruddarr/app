@@ -14,7 +14,7 @@ struct MovieGridPoster: View {
             .background(.card)
             .overlay(alignment: .bottom) {
                 if movie.exists {
-                    posterOverlay
+                    MoviePosterOverlay(movie: movie)
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 14))
@@ -28,8 +28,12 @@ struct MovieGridPoster: View {
                 contentMode: .fill
             )
     }
+}
 
-    var posterOverlay: some View {
+struct MoviePosterOverlay: View {
+    var movie: Movie
+
+    var body: some View {
         MediaGridPosterOverlay {
             Group {
                 if movie.isDownloaded {
@@ -40,8 +44,8 @@ struct MovieGridPoster: View {
                     Image(systemName: "xmark").symbolVariant(.circle)
                 }
             }
-                .foregroundStyle(.white)
-                .imageScale(.gridItem)
+            .foregroundStyle(.white)
+            .imageScale(.gridItem)
 
             Spacer()
 

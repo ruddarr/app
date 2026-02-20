@@ -10,16 +10,34 @@ struct SeriesSearchView: View {
     let searchTextPublisher = PassthroughSubject<String, Never>()
 
     var body: some View {
+        @Bindable var discovery = Discovery.shared
         @Bindable var seriesLookup = instance.lookup
 
         ScrollView {
-            MediaGrid(items: instance.lookup.sortedItems) { series in
-                SeriesSearchItem(series: series)
-                    .environment(instance)
+            if seriesLookup.sortedItems.isEmpty {
+                Group {
+                    Text(verbatim: "Popular This Week")
+                        .font(.title3.bold())
+                        .padding(.top, 12)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    MediaGrid(items: discovery.series) { item in
+                        DiscoveryGridPoster(item: item)
+                    }
+                    .viewBottomPadding()
+                }
+                .viewPadding(.horizontal)
+                .opacity(discovery.series.isEmpty ? 0 : 1)
+                .animation(.easeIn, value: discovery.series)
+            } else {
+                MediaGrid(items: seriesLookup.sortedItems) { series in
+                    SeriesSearchItem(series: series)
+                        .environment(instance)
+                }
+                .padding(.top, 12)
+                .viewPadding(.horizontal)
+                .viewBottomPadding()
             }
-            .padding(.top, 12)
-            .viewPadding(.horizontal)
-            .viewBottomPadding()
         }
         .navigationTitle("Search")
         .safeNavigationBarTitleDisplayMode(.large)
@@ -35,6 +53,9 @@ struct SeriesSearchView: View {
             ForEach(SeriesLookup.SortOption.allCases) { option in
                 Text(option.label)
             }
+        }
+        .task {
+            await discovery.fetch(.series)
         }
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)
