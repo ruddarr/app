@@ -10,20 +10,38 @@ struct MovieSearchView: View {
     let searchTextPublisher = PassthroughSubject<String, Never>()
 
     var body: some View {
+        @Bindable var discovery = Discovery.shared
         @Bindable var movieLookup = instance.lookup
 
         ScrollView {
-            MediaGrid(items: movieLookup.sortedItems) { movie in
-                NavigationLink(value: movie.exists
-                   ? MoviesPath.movie(movie.id)
-                   : MoviesPath.preview(try? JSONEncoder().encode(movie))
-                ) {
-                    MovieGridPoster(movie: movie)
-                }.buttonStyle(.plain)
+            if movieLookup.sortedItems.isEmpty {
+                Group {
+                    Text(verbatim: "Popular This Week")
+                        .font(.title3.bold())
+                        .padding(.top, 12)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    MediaGrid(items: discovery.movies) { item in
+                        DiscoveryGridPoster(item: item)
+                    }
+                    .viewBottomPadding()
+                }
+                .viewPadding(.horizontal)
+                .opacity(discovery.movies.isEmpty ? 0 : 1)
+                .animation(.easeIn, value: discovery.movies)
+            } else {
+                MediaGrid(items: movieLookup.sortedItems) { movie in
+                    NavigationLink(value: movie.exists
+                       ? MoviesPath.movie(movie.id)
+                       : MoviesPath.preview(try? JSONEncoder().encode(movie))
+                    ) {
+                        MovieGridPoster(movie: movie)
+                    }.buttonStyle(.plain)
+                }
+                .padding(.top, 12)
+                .viewPadding(.horizontal)
+                .viewBottomPadding()
             }
-            .padding(.top, 12)
-            .viewPadding(.horizontal)
-            .viewBottomPadding()
         }
         .navigationTitle("Search")
         .safeNavigationBarTitleDisplayMode(.large)
@@ -39,6 +57,9 @@ struct MovieSearchView: View {
             ForEach(MovieLookup.SortOption.allCases) { option in
                 Text(option.label)
             }
+        }
+        .task {
+            await discovery.fetch(.movies)
         }
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)

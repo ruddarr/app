@@ -5228,6 +5228,16 @@
         }
       }
     },
+    "Upgrade to Sonarr v4.0.5 or newer." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrade to Sonarr v4.0.5 or newer."
+          }
+        }
+      }
+    },
     "URL" : {
       "localizations" : {
         "en" : {

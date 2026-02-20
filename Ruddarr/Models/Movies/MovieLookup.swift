@@ -15,6 +15,7 @@ class MovieLookup {
     var isSearching: Bool { searchTask != nil }
     var searchedQuery: String = ""
 
+    private var queries: [String: Movie] = [:]
     private var searchTask: Task<Void, Never>?
     private var searchTaskQuery: String = ""
 
@@ -89,6 +90,22 @@ class MovieLookup {
                 searchTaskQuery = ""
             }
         }
+    }
+
+    func fetch(tmdb: Int) async throws -> Movie? {
+        let query = "tmdb:\(tmdb)"
+
+        if let cached = queries[query] {
+            return cached
+        }
+
+        let results = try await dependencies.api.lookupMovies(instance, query)
+
+        if let result = results.first {
+            queries[query] = result
+        }
+
+        return queries[query] ?? nil
     }
 
     // consider caching this for performance

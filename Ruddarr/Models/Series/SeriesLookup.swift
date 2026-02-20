@@ -15,6 +15,7 @@ class SeriesLookup {
     var isSearching: Bool { searchTask != nil }
     var searchedQuery: String = ""
 
+    private var queries: [String: Series] = [:]
     private var searchTask: Task<Void, Never>?
     private var searchTaskQuery: String = ""
 
@@ -89,6 +90,22 @@ class SeriesLookup {
                 searchTaskQuery = ""
             }
         }
+    }
+
+    func fetch(tmdb: Int) async throws -> Series? {
+        let query = "tmdb:\(tmdb)"
+
+        if let cached = queries[query] {
+            return cached
+        }
+
+        let results = try await dependencies.api.lookupSeries(instance, query)
+
+        if let result = results.first {
+            queries[query] = result
+        }
+
+        return queries[query] ?? nil
     }
 
     // consider caching this for performance

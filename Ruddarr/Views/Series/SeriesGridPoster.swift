@@ -22,7 +22,11 @@ struct SeriesGridPoster: View {
             }
             .background(.card)
             .overlay(alignment: .bottom) {
-                posterOverlay
+                if series.exists {
+                    SeriesPosterOverlay(series: series)
+                } else {
+                    previewIcons
+                }
             }
             .clipShape(RoundedRectangle(cornerRadius: 14))
     }
@@ -36,49 +40,44 @@ struct SeriesGridPoster: View {
             )
     }
 
-    var posterOverlay: some View {
-        MediaGridPosterOverlay {
-            if series.exists {
-                posterIcons
-            } else {
-                previewIcons
-            }
-        }
-    }
-
-    @ViewBuilder
-    var posterIcons: some View {
-        Group {
-            if series.isDownloaded {
-                Image(systemName: "checkmark").symbolVariant(.circle.fill)
-            } else if series.isWaiting {
-                Image(systemName: "clock")
-            } else if series.percentOfEpisodes < 100 {
-                if series.episodeFileCount > 0 {
-                    Image(systemName: "checkmark.circle.trianglebadge.exclamationmark")
-                } else if series.monitored {
-                    Image(systemName: "xmark").symbolVariant(.circle)
-                }
-            }
-        }
-        .foregroundStyle(.white)
-        .imageScale(.gridItem)
-
-        Spacer()
-
-        Image(systemName: "bookmark")
-            .symbolVariant(series.monitored ? .fill : .none)
-            .foregroundStyle(.white)
-            .imageScale(.gridItem)
-    }
-
     var previewIcons: some View {
-        Group {
+        MediaGridPosterOverlay {
             series.status.icon
                 .foregroundStyle(.white)
                 .imageScale(.gridItem)
 
             Spacer()
+        }
+    }
+}
+
+struct SeriesPosterOverlay: View {
+    var series: Series
+
+    var body: some View {
+        MediaGridPosterOverlay {
+            Group {
+                if series.isDownloaded {
+                    Image(systemName: "checkmark").symbolVariant(.circle.fill)
+                } else if series.isWaiting {
+                    Image(systemName: "clock")
+                } else if series.percentOfEpisodes < 100 {
+                    if series.episodeFileCount > 0 {
+                        Image(systemName: "checkmark.circle.trianglebadge.exclamationmark")
+                    } else if series.monitored {
+                        Image(systemName: "xmark").symbolVariant(.circle)
+                    }
+                }
+            }
+            .foregroundStyle(.white)
+            .imageScale(.gridItem)
+
+            Spacer()
+
+            Image(systemName: "bookmark")
+                .symbolVariant(series.monitored ? .fill : .none)
+                .foregroundStyle(.white)
+                .imageScale(.gridItem)
         }
     }
 }
