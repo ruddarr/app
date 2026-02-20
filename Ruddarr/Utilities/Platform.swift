@@ -17,15 +17,14 @@ final class Platform: Sendable {
         UIDevice.current.identifierForVendor?.uuidString ?? "unknown"
     }()
 
-    @MainActor
-    static let deviceType: DeviceType = {
+    static let deviceType: DeviceType = MainActor.assumeIsolated {
         switch UIDevice.current.userInterfaceIdiom {
         case .phone: .phone
         case .pad: .pad
         case .vision: .vision
         default: .unspecified
         }
-    }()
+    }
 #endif
 }
 

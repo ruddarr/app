@@ -37,28 +37,12 @@ struct SeriesGridPoster: View {
     }
 
     var posterOverlay: some View {
-        HStack {
+        MediaGridPosterOverlay {
             if series.exists {
                 posterIcons
             } else {
                 previewIcons
             }
-        }
-        .font(.body)
-        .padding(.top, 36)
-        .padding(.bottom, 8)
-        .padding(.horizontal, 8)
-        .background {
-            LinearGradient(
-                colors: [
-                    Color.black.opacity(0.0),
-                    Color.black.opacity(0.2),
-                    Color.black.opacity(0.4),
-                    Color.black.opacity(0.9),
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
         }
     }
 
@@ -78,21 +62,21 @@ struct SeriesGridPoster: View {
             }
         }
         .foregroundStyle(.white)
-        .imageScale(MovieGridPoster.gridIconScale())
+        .imageScale(.gridItem)
 
         Spacer()
 
         Image(systemName: "bookmark")
             .symbolVariant(series.monitored ? .fill : .none)
             .foregroundStyle(.white)
-            .imageScale(MovieGridPoster.gridIconScale())
+            .imageScale(.gridItem)
     }
 
     var previewIcons: some View {
         Group {
             series.status.icon
                 .foregroundStyle(.white)
-                .imageScale(MovieGridPoster.gridIconScale())
+                .imageScale(.gridItem)
 
             Spacer()
         }
