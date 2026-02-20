@@ -11,7 +11,7 @@ struct CalendarView: View {
     @AppStorage("calendarSpecials", store: dependencies.store) private var hideSpecials: Bool = false
 
     @State private var onlyPremieres: Bool = false
-    @State private var displayedInstance: String = ".all"
+    @State private var displayedInstance: String = .all
     @State private var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
@@ -132,7 +132,7 @@ struct CalendarView: View {
     var filteredMovies: [TimeInterval: [Movie]] {
         var movies = calendar.movies
 
-        if displayedInstance != ".all" {
+        if displayedInstance != .all {
             movies = movies.mapValues { items in
                 items.filter { $0.instanceId?.isEqual(to: displayedInstance) == true }
             }
@@ -163,7 +163,7 @@ struct CalendarView: View {
             }
         }
 
-        if displayedInstance != ".all" {
+        if displayedInstance != .all {
             episodes = episodes.mapValues { items in
                 items.filter { $0.instanceId?.isEqual(to: displayedInstance) == true }
             }
@@ -318,7 +318,7 @@ struct CalendarView: View {
     var instancePicker: some View {
         Menu {
             Picker("Instance", selection: $displayedInstance) {
-                Text("Any Instance").tag(".all")
+                Text("Any Instance").tag(String.all)
 
                 ForEach(calendar.instances) { instance in
                     Text(instance.label).tag(instance.id.uuidString)

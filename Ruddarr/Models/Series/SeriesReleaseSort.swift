@@ -5,11 +5,11 @@ struct SeriesReleaseSort: Equatable {
     var option: Option = .byWeight
     var search: String = ""
 
-    var indexer: String = ".all"
-    var quality: String = ".all"
-    var language: String = ".all"
-    var network: String = ".all"
-    var customFormat: String = ".all"
+    var indexer: String = .all
+    var quality: String = .all
+    var language: String = .all
+    var network: String = .all
+    var customFormat: String = .all
     var seasonPack: SeasonPack = .any
 
     var approved: Bool = false
@@ -97,11 +97,11 @@ struct SeriesReleaseSort: Equatable {
     }
 
     var hasFilter: Bool {
-        network != ".all"
-        || indexer != ".all"
-        || quality != ".all"
-        || language != ".all"
-        || customFormat != ".all"
+        network != .all
+        || indexer != .all
+        || quality != .all
+        || language != .all
+        || customFormat != .all
         || seasonPack != .any
         || approved
         || freeleech
@@ -109,11 +109,11 @@ struct SeriesReleaseSort: Equatable {
     }
 
     mutating func resetFilters() {
-        network = ".all"
-        indexer = ".all"
-        quality = ".all"
-        language = ".all"
-        customFormat = ".all"
+        network = .all
+        indexer = .all
+        quality = .all
+        language = .all
+        customFormat = .all
         seasonPack = .any
         approved = false
         freeleech = false
@@ -127,12 +127,12 @@ struct SeriesReleaseSort: Equatable {
         return items
             .filter { release in
                 (search.isEmpty || release.title.localizedCaseInsensitiveContains(query)) &&
-                [release.network.label, ".all"].contains(network) &&
-                [release.indexerLabel, ".all"].contains(indexer) &&
-                [release.quality.quality.normalizedName, ".all"].contains(quality) &&
-                (language != ".multi" || ((release.languages?.count ?? 0) > 1 || release.title.lowercased().contains("multi"))) &&
-                ([".all", ".multi"].contains(language) || release.languages?.contains { $0.label == language } ?? false) &&
-                (customFormat == ".all" || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
+                [release.network.label, .all].contains(network) &&
+                [release.indexerLabel, .all].contains(indexer) &&
+                [release.quality.quality.normalizedName, .all].contains(quality) &&
+                (language != .multi || ((release.languages?.count ?? 0) > 1 || release.title.lowercased().contains("multi"))) &&
+                ([.all, .multi].contains(language) || release.languages?.contains { $0.label == language } ?? false) &&
+                (customFormat == .all || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
                 (seasonPack != .season || release.fullSeason) &&
                 (seasonPack != .episode || !release.fullSeason) &&
                 (!approved || !release.rejected) &&

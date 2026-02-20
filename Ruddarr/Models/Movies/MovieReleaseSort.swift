@@ -5,11 +5,11 @@ struct MovieReleaseSort: Equatable {
     var option: Option = .byWeight
     var search: String = ""
 
-    var indexer: String = ".all"
-    var quality: String = ".all"
-    var language: String = ".all"
-    var network: String = ".all"
-    var customFormat: String = ".all"
+    var indexer: String = .all
+    var quality: String = .all
+    var language: String = .all
+    var network: String = .all
+    var customFormat: String = .all
 
     var approved: Bool = false
     var freeleech: Bool = false
@@ -71,22 +71,22 @@ struct MovieReleaseSort: Equatable {
     }
 
     var hasFilter: Bool {
-        network != ".all"
-        || indexer != ".all"
-        || quality != ".all"
-        || language != ".all"
-        || customFormat != ".all"
+        network != .all
+        || indexer != .all
+        || quality != .all
+        || language != .all
+        || customFormat != .all
         || approved
         || freeleech
         || originalLanguage
     }
 
     mutating func resetFilters() {
-        network = ".all"
-        indexer = ".all"
-        quality = ".all"
-        language = ".all"
-        customFormat = ".all"
+        network = .all
+        indexer = .all
+        quality = .all
+        language = .all
+        customFormat = .all
         approved = false
         freeleech = false
         originalLanguage = false
@@ -99,12 +99,12 @@ struct MovieReleaseSort: Equatable {
         return items
             .filter { release in
                 (search.isEmpty || release.title.localizedCaseInsensitiveContains(query)) &&
-                [release.network.label, ".all"].contains(network) &&
-                [release.indexerLabel, ".all"].contains(indexer) &&
-                [release.quality.quality.normalizedName, ".all"].contains(quality) &&
-                (language != ".multi" || (release.languages.count > 1 || release.title.lowercased().contains("multi"))) &&
-                ([".all", ".multi"].contains(language) || release.languages.contains { $0.label == language }) &&
-                (customFormat == ".all" || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
+                [release.network.label, .all].contains(network) &&
+                [release.indexerLabel, .all].contains(indexer) &&
+                [release.quality.quality.normalizedName, .all].contains(quality) &&
+                (language != .multi || (release.languages.count > 1 || release.title.lowercased().contains("multi"))) &&
+                ([.all, .multi].contains(language) || release.languages.contains { $0.label == language }) &&
+                (customFormat == .all || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
                 (!approved || !release.rejected) &&
                 (!freeleech || release.cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }) &&
                 (!originalLanguage || release.languages.contains { $0.id == movie.originalLanguage?.id })
