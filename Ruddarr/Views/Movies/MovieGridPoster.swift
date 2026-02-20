@@ -30,7 +30,7 @@ struct MovieGridPoster: View {
     }
 
     var posterOverlay: some View {
-        HStack {
+        MediaGridPosterOverlay {
             Group {
                 if movie.isDownloaded {
                     Image(systemName: "checkmark").symbolVariant(.circle.fill)
@@ -41,43 +41,15 @@ struct MovieGridPoster: View {
                 }
             }
                 .foregroundStyle(.white)
-                .imageScale(Self.gridIconScale())
+                .imageScale(.gridItem)
 
             Spacer()
 
             Image(systemName: "bookmark")
                 .symbolVariant(movie.monitored ? .fill : .none)
                 .foregroundStyle(.white)
-                .imageScale(Self.gridIconScale())
+                .imageScale(.gridItem)
         }
-        .font(.body)
-        .padding(.top, 36)
-        .padding(.bottom, 8)
-        .padding(.horizontal, 8)
-        .background {
-            LinearGradient(
-                colors: [
-                    Color.black.opacity(0.0),
-                    Color.black.opacity(0.2),
-                    Color.black.opacity(0.4),
-                    Color.black.opacity(0.9),
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        }
-    }
-
-    static func gridIconScale() -> Image.Scale {
-        #if os(macOS)
-            return .large
-        #else
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return .small
-            }
-
-            return .medium
-        #endif
     }
 }
 
