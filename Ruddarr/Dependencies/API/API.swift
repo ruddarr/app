@@ -39,7 +39,7 @@ struct API {
     var downloadRelease: (DownloadReleaseCommand, Instance) async throws -> Empty
 
     var systemStatus: (Instance) async throws -> InstanceStatus
-    var rootFolders: (Instance) async throws -> [InstanceRootFolders]
+    var rootFolders: (Instance) async throws -> [InstanceRootFolder]
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
     var getTags: (Instance) async throws -> [Tag]
 
