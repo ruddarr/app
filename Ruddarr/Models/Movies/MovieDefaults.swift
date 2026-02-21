@@ -1,17 +1,20 @@
 import Foundation
 
 struct MovieDefaults {
+    let monitor: MovieMonitorType
     let monitored: Bool
     let rootFolder: String
     let qualityProfile: Int
     let minimumAvailability: MovieStatus
 
     init(
+        monitor: MovieMonitorType = .movieOnly,
         monitored: Bool = false,
         rootFolder: String = "",
         qualityProfile: Int = -1,
         minimumAvailability: MovieStatus = .announced
     ) {
+        self.monitor = monitor
         self.monitored = monitored
         self.rootFolder = rootFolder
         self.qualityProfile = qualityProfile
@@ -19,6 +22,7 @@ struct MovieDefaults {
     }
 
     init(from movie: Movie) {
+        monitor = movie.addOptions?.monitor ?? .movieOnly
         monitored = movie.monitored
         rootFolder = movie.rootFolderPath ?? ""
         qualityProfile = movie.qualityProfileId
@@ -28,6 +32,7 @@ struct MovieDefaults {
 
 extension MovieDefaults: Codable {
     enum CodingKeys: String, CodingKey {
+        case monitor
         case monitored
         case rootFolder
         case qualityProfile
@@ -36,6 +41,7 @@ extension MovieDefaults: Codable {
 
     init(from decoder: any Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        monitor = try values.decodeIfPresent(MovieMonitorType.self, forKey: .monitor) ?? .movieOnly
         monitored = try values.decode(Bool.self, forKey: .monitored)
         rootFolder = try values.decode(String.self, forKey: .rootFolder)
         qualityProfile = try values.decode(Int.self, forKey: .qualityProfile)
@@ -44,6 +50,7 @@ extension MovieDefaults: Codable {
 
     func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(monitor, forKey: .monitor)
         try container.encode(monitored, forKey: .monitored)
         try container.encode(rootFolder, forKey: .rootFolder)
         try container.encode(qualityProfile, forKey: .qualityProfile)
