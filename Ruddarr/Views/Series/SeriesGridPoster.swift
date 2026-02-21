@@ -89,7 +89,7 @@ struct SeriesPosterOverlay: View {
         MediaGrid(items: series) { series in
             SeriesGridPoster(series: series)
         }
-        .viewPadding(.horizontal)
+        .scenePadding(.horizontal)
     }
     .withAppState()
 }

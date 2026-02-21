@@ -36,7 +36,7 @@ struct HistoryView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical)
-            .viewPadding(.horizontal)
+            .scenePadding(.horizontal)
         }
         .navigationTitle("History")
         .safeNavigationBarTitleDisplayMode(.inline)

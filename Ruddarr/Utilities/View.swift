@@ -25,10 +25,6 @@ extension View {
         return self.environment(instance)
     }
 
-    func viewPadding(_ edges: Edge.Set = .all) -> some View {
-        self.modifier(ViewPadding(edges: edges))
-    }
-
     func viewBottomPadding() -> some View {
         self.modifier(ViewBottomPadding())
     }
@@ -81,20 +77,6 @@ private struct WithAppStateModifier: ViewModifier {
                 setSentryContext(for: "Configuration", settings.context())
                 await setSentryCloudKitContext()
             }
-    }
-}
-
-private struct ViewPadding: ViewModifier {
-    var edges: Edge.Set
-
-    @Environment(\.deviceType) private var deviceType
-
-    func body(content: Content) -> some View {
-        if deviceType == .phone {
-            content.scenePadding(edges)
-        } else {
-            content.padding(edges, 22)
-        }
     }
 }
 

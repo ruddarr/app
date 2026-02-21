@@ -19,7 +19,7 @@ struct SeriesPreviewView: View {
         ScrollView {
             SeriesDetails(series: $series)
                 .padding(.top)
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
                 .environmentObject(settings)
         }
         .safeNavigationBarTitleDisplayMode(.inline)

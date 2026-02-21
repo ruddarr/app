@@ -64,7 +64,7 @@ struct MoviePosterOverlay: View {
         MediaGrid(items: movies) { movie in
             MovieGridPoster(movie: movie)
         }
-        .viewPadding(.horizontal)
+        .scenePadding(.horizontal)
     }
     .withAppState()
 }

@@ -46,7 +46,7 @@ struct QueueItemSheet: View {
 
                     details
                 }
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
                 #if os(macOS)
                     .padding(.top, 24)
                 #else

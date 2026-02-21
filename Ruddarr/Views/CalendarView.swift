@@ -68,7 +68,7 @@ struct CalendarView: View {
                     }
                 }
             }
-            .viewPadding(.horizontal)
+            .scenePadding(.horizontal)
             .scrollIndicators(.never)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {

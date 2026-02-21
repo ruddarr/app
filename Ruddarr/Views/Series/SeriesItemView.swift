@@ -16,7 +16,7 @@ struct SeriesDetailView: View {
         ScrollView {
             SeriesDetails(series: $series)
                 .padding(.top)
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
                 .environmentObject(settings)
         }
         .refreshable {

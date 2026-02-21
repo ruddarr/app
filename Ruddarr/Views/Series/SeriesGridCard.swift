@@ -136,7 +136,7 @@ struct SeriesGridCard: View {
         MediaGrid(items: series, style: .cards) { series in
             SeriesGridCard(series: series)
         }
-        .viewPadding(.horizontal)
+        .scenePadding(.horizontal)
     }
     .withAppState()
 }

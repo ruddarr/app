@@ -20,13 +20,13 @@ struct SeriesSearchView: View {
                         .font(.title3.bold())
                         .padding(.top, 12)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .viewPadding(.horizontal)
+                        .scenePadding(.horizontal)
 
                     MediaGrid(items: discovery.series) { item in
                         DiscoveryGridPoster(item: item)
                     }
                     .viewBottomPadding()
-                    .viewPadding(.horizontal)
+                    .scenePadding(.horizontal)
                 }
                 .opacity(discovery.series.isEmpty ? 0 : 1)
                 .animation(.easeIn, value: discovery.series)
@@ -36,7 +36,7 @@ struct SeriesSearchView: View {
                         .environment(instance)
                 }
                 .padding(.top, 12)
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
                 .viewBottomPadding()
             }
         }

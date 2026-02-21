@@ -24,7 +24,7 @@ struct SeasonView: View {
 
                 episodesList
             }
-            .viewPadding(.horizontal)
+            .scenePadding(.horizontal)
             .viewBottomPadding()
         }
         .refreshable {

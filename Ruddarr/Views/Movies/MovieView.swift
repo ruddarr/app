@@ -16,7 +16,7 @@ struct MovieView: View {
         ScrollView {
             MovieDetails(movie: movie)
                 .padding(.top)
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
                 .environmentObject(settings)
         }
         .refreshable {

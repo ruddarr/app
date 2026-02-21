@@ -159,7 +159,7 @@ struct MoviesView: View {
             .id(movie.id)
         }
         .viewBottomPadding()
-        .viewPadding(.horizontal)
+        .scenePadding(.horizontal)
         #if os(iOS)
             .padding(.top, searchPresented ? 7 : 0)
         #elseif os(macOS)

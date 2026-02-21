@@ -20,13 +20,13 @@ struct MovieSearchView: View {
                         .font(.title3.bold())
                         .padding(.top, 12)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .viewPadding(.horizontal)
+                        .scenePadding(.horizontal)
 
                     MediaGrid(items: discovery.movies) { item in
                         DiscoveryGridPoster(item: item)
                     }
                     .viewBottomPadding()
-                    .viewPadding(.horizontal)
+                    .scenePadding(.horizontal)
                 }
                 .opacity(discovery.movies.isEmpty ? 0 : 1)
                 .animation(.easeIn, value: discovery.movies)
@@ -40,7 +40,7 @@ struct MovieSearchView: View {
                     }.buttonStyle(.plain)
                 }
                 .padding(.top, 12)
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
                 .viewBottomPadding()
             }
         }

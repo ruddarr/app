@@ -114,7 +114,7 @@ struct MovieGridCard: View {
             MediaGrid(items: movies, style: .cards) { movie in
                 MovieGridCard(movie: movie)
             }
-            .viewPadding(.horizontal)
+            .scenePadding(.horizontal)
         }
         .withAppState()
     }

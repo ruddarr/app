@@ -18,7 +18,7 @@ struct MediaFileSheet: View {
                     Spacer().frame(height: 42)
                 }
                 .padding(.top, -52)
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
             }
             #if os(macOS)
                 .padding(.bottom)

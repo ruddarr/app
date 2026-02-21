@@ -49,7 +49,7 @@ struct MediaEventSheet: View {
                     Spacer()
                     Spacer()
                 }
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
                 #if os(macOS)
                     .padding(.top, 24)
                 #else
