@@ -67,7 +67,7 @@ struct EpisodeRow: View {
     }
 
     var episodeIsMissing: Bool {
-        episode.isMissing && series.monitored && season?.monitored == true
+        episode.isMissing && episode.monitored && series.monitored && season?.monitored == true
     }
 
     var monitorButton: some View {
