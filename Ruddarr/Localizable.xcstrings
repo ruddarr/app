@@ -2569,7 +2569,7 @@
       }
     },
     "Monitor" : {
-      "comment" : "Label of picker of what to monitor (movie, collection, etc.)",
+      "comment" : "Label of picker of what to monitor (movie, collection, episodes, etc.)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2668,6 +2668,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movie"
+          }
+        }
+      }
+    },
+    "Movie + Collection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie + Collection"
           }
         }
       }
@@ -3069,7 +3079,7 @@
       }
     },
     "None" : {
-      "comment" : "Series monitoring option",
+      "comment" : "Movie monitoring option\nSeries monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {

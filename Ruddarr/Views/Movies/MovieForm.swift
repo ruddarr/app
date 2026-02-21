@@ -10,14 +10,19 @@ struct MovieForm: View {
 
     @State private var defaultsSet = false
     @State private var showingConfirmation = false
+    @State private var addOptions = MovieAddOptions(monitor: .movieOnly)
 
     @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
 
     var body: some View {
         Form {
             Section {
-                Toggle("Monitored", isOn: $movie.monitored)
-                    .tint(settings.theme.safeTint)
+                if movie.exists {
+                    Toggle("Monitored", isOn: $movie.monitored)
+                        .tint(settings.theme.safeTint)
+                } else {
+                    monitoringField
+                }
 
                 minimumAvailabilityField
                 qualityProfileField
@@ -42,6 +47,26 @@ struct MovieForm: View {
         .inCinemas,
         .released,
     ]
+
+    @ViewBuilder
+    var monitoringField: some View {
+        if movie.exists {
+            Toggle("Monitored", isOn: $movie.monitored)
+                .tint(settings.theme.safeTint)
+        } else {
+            Picker(selection: $addOptions.monitor) {
+                ForEach(MovieMonitorType.allCases) { type in
+                    Text(type.label)
+                }
+            } label: {
+                Text("Monitor", comment: "Label of picker of what to monitor (movie, collection, episodes, etc.)")
+            }
+            .tint(.secondary)
+            .onChange(of: addOptions.monitor, initial: true) {
+                movie.addOptions?.monitor = addOptions.monitor
+            }
+        }
+    }
 
     var minimumAvailabilityField: some View {
         Picker(selection: $movie.minimumAvailability) {
@@ -106,6 +131,9 @@ struct MovieForm: View {
         defaultsSet = true
 
         if !movie.exists {
+            addOptions.monitor = movieDefaults.monitor
+
+            movie.addOptions = addOptions
             movie.monitored = movieDefaults.monitored
             movie.rootFolderPath = movieDefaults.rootFolder
             movie.qualityProfileId = movieDefaults.qualityProfile
