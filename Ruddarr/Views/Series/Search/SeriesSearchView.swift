@@ -14,19 +14,20 @@ struct SeriesSearchView: View {
         @Bindable var seriesLookup = instance.lookup
 
         ScrollView {
-            if seriesLookup.sortedItems.isEmpty {
+            if seriesLookup.sortedItems.isEmpty && searchQuery.isEmpty {
                 Group {
                     Text(verbatim: "Popular This Week")
                         .font(.title3.bold())
                         .padding(.top, 12)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .viewPadding(.horizontal)
 
                     MediaGrid(items: discovery.series) { item in
                         DiscoveryGridPoster(item: item)
                     }
                     .viewBottomPadding()
+                    .viewPadding(.horizontal)
                 }
-                .viewPadding(.horizontal)
                 .opacity(discovery.series.isEmpty ? 0 : 1)
                 .animation(.easeIn, value: discovery.series)
             } else {
