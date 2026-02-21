@@ -85,13 +85,23 @@ struct Secrets {
 }
 
 extension WhatsNew {
-    static let version: String = "1.7.3"
+    static let version: String = "1.8.0"
 
     static let features: [WhatsNewFeature] = [
+        .init(
+            image: "flame",
+            title: "Media Discovery",
+            subtitle: "Discover popular movies and series when adding searching for new media."
+        ),
         .init(
             image: "macwindow.and.pointer.arrow",
             title: "macOS Beta",
             subtitle: "Join the TestFlight for macOS from Settings and report any issues on Discord."
+        ),
+        .init(
+            image: "line.3.horizontal.decrease",
+            title: "Filter by Folder",
+            subtitle: "Filter media grids by root folders, how did we survive without this?"
         ),
         .init(
             image: "network",
