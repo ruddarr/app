@@ -578,6 +578,17 @@
         }
       }
     },
+    "Any Folder" : {
+      "comment" : "Short spelling of Root Folder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Folder"
+          }
+        }
+      }
+    },
     "Any Format" : {
       "localizations" : {
         "en" : {

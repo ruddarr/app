@@ -37,10 +37,10 @@ extension MoviesView {
             .pickerStyle(.inline)
 
             Picker(selection: $sort.folder) {
-                // Text("Any Folder").tag(String.all)
+                Text("Any Folder").tag(String.all)
 
                 ForEach(instance.rootFolders) { folder in
-                    Text(folder.menuLabel).tag(folder.path)
+                    Text(folder.menuLabel).tag(folder.path ?? "")
                 }
             } label: {
                 if let folder = instance.rootFolders.first(where: { $0.path == sort.folder }) {
