@@ -29,14 +29,28 @@ extension MoviesView {
 
     var toolbarFilterButton: some View {
         Menu {
-            Picker(selection: $sort.filter, label: Text("Filter")) {
+            Picker("Filter", selection: $sort.filter) {
                 ForEach(MovieSort.Filter.allCases) { filter in
                     filter.label
                 }
             }
             .pickerStyle(.inline)
+
+            Picker(selection: $sort.folder) {
+                // Text("Any Folder").tag(String.all)
+
+                ForEach(instance.rootFolders) { folder in
+                    Text(folder.menuLabel).tag(folder.path)
+                }
+            } label: {
+                if let folder = instance.rootFolders.first(where: { $0.path == sort.folder }) {
+                    Label(folder.menuLabel, systemImage: "folder")
+                } else {
+                    Label("Root Folder", systemImage: "folder")
+                }
+            }.pickerStyle(.menu)
         } label: {
-            if sort.filter != .all {
+            if sort.filter != .all || sort.folder != .all {
                 Image("filters.badge")
                     .offset(y: 3)
                     .symbolRenderingMode(.palette)
