@@ -4,11 +4,36 @@ struct MovieSort: Hashable {
     var isAscending: Bool = false
     var option: Option = .byAdded
     var filter: Filter = .all
+    var folder: String = .all
 
     static func == (lhs: MovieSort, rhs: MovieSort) -> Bool {
         lhs.isAscending == rhs.isAscending &&
         lhs.option == rhs.option &&
-        lhs.filter == rhs.filter
+        lhs.filter == rhs.filter &&
+        lhs.folder == rhs.folder
+    }
+
+    func filter(_ movie: Movie) -> Bool {
+        if folder != .all && movie.rootFolderPath != folder {
+            return false
+        }
+
+        return switch filter {
+        case .all:
+            true
+        case .monitored:
+            movie.monitored
+        case .unmonitored:
+            !movie.monitored
+        case .missing:
+            movie.monitored && !movie.isDownloaded && movie.isAvailable
+        case .wanted:
+            movie.monitored && !movie.isDownloaded
+        case .downloaded:
+            movie.isDownloaded
+        case .dangling:
+            !movie.monitored && !movie.isDownloaded
+        }
     }
 
     enum Option: CaseIterable, Hashable, Identifiable, Codable {
@@ -76,25 +101,6 @@ struct MovieSort: Hashable {
             case .dangling: Label(String(localized: "Dangling", comment: "Media grid filter"), systemImage: "questionmark.square")
             }
         }
-
-        func filter(_ movie: Movie) -> Bool {
-            switch self {
-            case .all:
-                true
-            case .monitored:
-                movie.monitored
-            case .unmonitored:
-                !movie.monitored
-            case .missing:
-                movie.monitored && !movie.isDownloaded && movie.isAvailable
-            case .wanted:
-                movie.monitored && !movie.isDownloaded
-            case .downloaded:
-                movie.isDownloaded
-            case .dangling:
-                !movie.monitored && !movie.isDownloaded
-            }
-        }
     }
 }
 
@@ -127,6 +133,7 @@ extension MovieSort: Codable {
         case isAscending
         case option
         case filter
+        case folder
     }
 
     init(from decoder: any Decoder) throws {
@@ -135,7 +142,8 @@ extension MovieSort: Codable {
         try self.init(
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),
-            filter: container.decode(Filter.self, forKey: .filter)
+            filter: container.decode(Filter.self, forKey: .filter),
+            folder: container.decode(String.self, forKey: .folder)
         )
     }
 
@@ -144,5 +152,6 @@ extension MovieSort: Codable {
         try container.encode(isAscending, forKey: .isAscending)
         try container.encode(option, forKey: .option)
         try container.encode(filter, forKey: .filter)
+        try container.encode(folder, forKey: .folder)
     }
 }
