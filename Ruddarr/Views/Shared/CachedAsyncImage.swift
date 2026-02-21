@@ -61,7 +61,7 @@ struct PlaceholderImage: View {
                         .lineLimit(4)
                         .padding(8)
                 }
-                .overlay(alignment: .bottomTrailing) {
+                .overlay(alignment: .topTrailing) {
                     Image(systemName: icon)
                         .foregroundStyle(.secondary)
                         .tint(.secondary)
