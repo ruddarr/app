@@ -1,3 +1,4 @@
+import Sentry
 import CryptoKit
 import UserNotifications
 
@@ -9,6 +10,11 @@ class NotificationService: UNNotificationServiceExtension {
         _ request: UNNotificationRequest,
         withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void
     ) {
+        SentrySDK.start { options in
+            options.dsn = Secrets.SentryDsn
+            options.sendDefaultPii = false
+        }
+
         self.contentHandler = contentHandler
         self.bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
 
