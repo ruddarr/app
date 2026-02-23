@@ -15,12 +15,12 @@ class Discovery {
     }
 
     var movies: [DiscoveryItem] {
-        guard let items = movieItems?.items else { return [] }
+        guard let items = movieItems?.popular else { return [] }
         return trimmed(items)
     }
 
     var series: [DiscoveryItem] {
-        guard let items = seriesItems?.items else { return [] }
+        guard let items = seriesItems?.popular else { return [] }
         return trimmed(items)
     }
 
@@ -58,7 +58,7 @@ class Discovery {
         guard let baseURL = URL(string: Discovery.url) else { return nil }
 
         do {
-            var request = URLRequest(url: baseURL.appending(path: "/popular/\(type.rawValue)"))
+            var request = URLRequest(url: baseURL.appending(path: "/discover/\(type.rawValue)"))
             request.addValue("application/json", forHTTPHeaderField: "Accept")
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
@@ -82,7 +82,7 @@ class Discovery {
 
 struct DiscoveryItems: Codable, Equatable {
     let timestamp: String
-    let items: [DiscoveryItem]
+    let popular: [DiscoveryItem]
 }
 
 struct DiscoveryItem: Identifiable, Codable, Equatable {
