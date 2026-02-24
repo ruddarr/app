@@ -65,7 +65,7 @@ struct SeriesGridCard: View {
     }
 
     var poster: some View {
-        CachedAsyncImage(.poster, series.remotePoster, placeholder: series.title)
+        CachedAsyncImage(.poster, series.remotePoster)
             .aspectRatio(
                 CGSize(width: 150, height: 225),
                 contentMode: .fill
