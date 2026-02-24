@@ -44,8 +44,8 @@ struct MovieSearchView: View {
                 .viewBottomPadding()
             }
         }
-        .navigationTitle("Search")
-        .safeNavigationBarTitleDisplayMode(.large)
+        .navigationTitle("")
+        .safeNavigationBarTitleDisplayMode(.inline)
         .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,
