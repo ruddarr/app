@@ -55,7 +55,13 @@ class Discovery {
         guard let baseURL = URL(string: Discovery.url) else { return nil }
 
         do {
-            var request = URLRequest(url: baseURL.appending(path: "/discover/\(type.rawValue)"))
+            let url = baseURL
+                .appending(path: "/discover/\(type.rawValue)")
+                .appending(queryItems: [
+                    URLQueryItem(name: "language", value: Locale.current.identifier(.bcp47))
+                ])
+
+            var request = URLRequest(url: url)
             request.addValue("application/json", forHTTPHeaderField: "Accept")
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
