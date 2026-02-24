@@ -3,7 +3,6 @@ import SwiftUI
 #if os(macOS)
 struct ContentView: View {
     @EnvironmentObject var settings: AppSettings
-    @Environment(\.controlActiveState) var controlActiveState
 
     var body: some View {
         NavigationSplitView {
@@ -43,7 +42,7 @@ struct ContentView: View {
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
-        .onChange(of: controlActiveState, handleScenePhaseChange)
+        .onBecomeActive(perform: handleScenePhaseChange)
     }
 
     var movies: TabItem { .movies }
@@ -52,10 +51,8 @@ struct ContentView: View {
     var activity: TabItem { .activity }
 
     func handleScenePhaseChange() {
-        if controlActiveState == .key {
-            Telemetry.maybePing(with: settings)
-            Notifications.maybeUpdateWebhooks(settings)
-        }
+        Telemetry.maybePing(with: settings)
+        Notifications.maybeUpdateWebhooks(settings)
     }
 
     func handleTabChange(_ from: TabItem, _ to: TabItem) {

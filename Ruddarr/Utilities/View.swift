@@ -43,17 +43,28 @@ extension View {
 }
 
 private struct OnBecomeActiveModifier: ViewModifier {
-    @Environment(\.scenePhase) private var scenePhase
-
     let action: () async -> Void
 
+#if os(macOS)
+    @Environment(\.appearsActive) private var appearsActive
+
     func body(content: Content) -> some View {
-        content
-            .onChange(of: scenePhase) {
-                guard scenePhase == .active else { return }
-                Task { await action() }
-            }
+        content.onChange(of: appearsActive, initial: true) {
+            guard appearsActive else { return }
+            Task { await action() }
+        }
     }
+#else
+    @Environment(\.scenePhase) private var scenePhase
+
+    func body(content: Content) -> some View {
+        content.onChange(of: scenePhase, initial: true) {
+            guard scenePhase == .active else { return }
+
+            Task { await action() }
+        }
+    }
+#endif
 }
 
 private struct WithAppStateModifier: ViewModifier {
