@@ -24,8 +24,8 @@ struct CachedAsyncImage: View {
                     image.resizable().transition(
                         (try? state.result?.get())?.cacheType != nil ? .identity : .opacity
                     )
-                } else if state.error != nil {
-                    PlaceholderImage(text: placeholder, status: "network.slash")
+                // } else if state.error != nil {
+                    // PlaceholderImage(text: placeholder, status: "network.slash")
                 } else {
                     PlaceholderImage(text: placeholder)
                 }
