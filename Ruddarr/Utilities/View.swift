@@ -184,15 +184,24 @@ private struct DynamicPresentationDetents: ViewModifier {
 }
 
 extension SearchFieldPlacement {
+    enum DrawerDisplayMode { case automatic, always }
+
     static var drawerOrToolbar: SearchFieldPlacement {
-        drawerOrToolbar(.automatic)
+        #if os(macOS)
+            .toolbar
+        #else
+            .navigationBarDrawer(displayMode: .automatic)
+        #endif
     }
 
-    static func drawerOrToolbar(_ displayMode: SearchFieldPlacement.NavigationBarDrawerDisplayMode = .automatic) -> SearchFieldPlacement {
+    static func drawerOrToolbar(_ displayMode: DrawerDisplayMode) -> SearchFieldPlacement {
         #if os(macOS)
             return .toolbar
         #else
-            return .navigationBarDrawer(displayMode: displayMode)
+            switch displayMode {
+            case .automatic: return .navigationBarDrawer(displayMode: .automatic)
+            case .always: return .navigationBarDrawer(displayMode: .always)
+            }
         #endif
     }
 }
