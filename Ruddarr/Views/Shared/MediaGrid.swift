@@ -1,16 +1,41 @@
 import SwiftUI
 
-struct MediaGrid<Item: Identifiable, Content: View>: View {
+struct MediaGrid<Item: Identifiable, Content: View, Header: View>: View {
     var items: [Item]
     var style: GridStyle = .posters
     var content: (Item) -> Content
+    var header: Header?
 
     @Environment(\.deviceType) private var deviceType
 
+    init(
+        items: [Item],
+        style: GridStyle = .posters,
+        @ViewBuilder content: @escaping (Item) -> Content,
+        @ViewBuilder header: () -> Header
+    ) {
+        self.items = items
+        self.style = style
+        self.content = content
+        self.header = header()
+    }
+
     var body: some View {
         LazyVGrid(columns: columns, spacing: spacing) {
-            ForEach(items) { item in
-                content(item)
+            if let header {
+                Section {
+                    ForEach(items) { item in
+                        content(item)
+                    }
+                } header: {
+                    header
+                        .font(.title3.bold())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            } else {
+                ForEach(items) { item in
+                    content(item)
+                }
             }
         }
     }
@@ -32,6 +57,19 @@ struct MediaGrid<Item: Identifiable, Content: View>: View {
 
     var spacing: CGFloat {
         deviceType == .phone ? 12 : 20
+    }
+}
+
+extension MediaGrid where Header == Never {
+    init(
+        items: [Item],
+        style: GridStyle = .posters,
+        @ViewBuilder content: @escaping (Item) -> Content
+    ) {
+        self.items = items
+        self.style = style
+        self.content = content
+        self.header = nil
     }
 }
 

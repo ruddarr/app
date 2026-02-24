@@ -184,13 +184,17 @@ private struct DynamicPresentationDetents: ViewModifier {
 }
 
 extension SearchFieldPlacement {
-    static let drawerOrToolbar: SearchFieldPlacement = {
+    static var drawerOrToolbar: SearchFieldPlacement {
+        drawerOrToolbar(.automatic)
+    }
+
+    static func drawerOrToolbar(_ displayMode: SearchFieldPlacement.NavigationBarDrawerDisplayMode = .automatic) -> SearchFieldPlacement {
         #if os(macOS)
-            .toolbar
+            return .toolbar
         #else
-            .navigationBarDrawer(displayMode: .automatic)
+            return .navigationBarDrawer(displayMode: displayMode)
         #endif
-    }()
+    }
 }
 
 enum NavigationBarItemTitleDisplayMode {

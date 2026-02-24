@@ -3834,6 +3834,16 @@
         }
       }
     },
+    "Popular This Week" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Popular This Week"
+          }
+        }
+      }
+    },
     "Posters" : {
       "comment" : "Grid item display style",
       "localizations" : {

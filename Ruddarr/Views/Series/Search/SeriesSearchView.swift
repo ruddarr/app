@@ -15,19 +15,14 @@ struct SeriesSearchView: View {
 
         ScrollView {
             if seriesLookup.sortedItems.isEmpty && searchQuery.isEmpty {
-                Group {
-                    Text(verbatim: "Popular This Week")
-                        .font(.title3.bold())
+                MediaGrid(items: discovery.series) { item in
+                    DiscoveryGridPoster(item: item)
+                } header: {
+                    Text("Popular This Week")
                         .padding(.top, 12)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .scenePadding(.horizontal)
-
-                    MediaGrid(items: discovery.series) { item in
-                        DiscoveryGridPoster(item: item)
-                    }
-                    .viewBottomPadding()
-                    .scenePadding(.horizontal)
                 }
+                .viewBottomPadding()
+                .scenePadding(.horizontal)
                 .opacity(discovery.series.isEmpty ? 0 : 1)
                 .animation(.easeIn, value: discovery.series)
             } else {
@@ -46,7 +41,7 @@ struct SeriesSearchView: View {
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
-            placement: .drawerOrToolbar
+            placement: .drawerOrToolbar(.always)
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)

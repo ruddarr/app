@@ -16,12 +16,14 @@ class Discovery {
 
     var movies: [DiscoveryItem] {
         guard let items = movieItems?.popular else { return [] }
-        return trimmed(items)
+        guard Platform.deviceType == .phone else { return items }
+        return Array(items.prefix(24))
     }
 
     var series: [DiscoveryItem] {
         guard let items = seriesItems?.popular else { return [] }
-        return trimmed(items)
+        guard Platform.deviceType == .phone else { return items }
+        return Array(items.prefix(24))
     }
 
     func fetch(_ type: MediaType) async {
@@ -33,11 +35,6 @@ class Discovery {
             if isCurrentWindow(seriesItems?.timestamp) { return }
             seriesItems = await load(.series)
         }
-    }
-
-    private func trimmed(_ items: [DiscoveryItem]) -> [DiscoveryItem] {
-        guard Platform.deviceType == .phone else { return items }
-        return Array(items.prefix((items.count / 3) * 3))
     }
 
     private func isCurrentWindow(_ timestamp: String?) -> Bool {
