@@ -9,6 +9,9 @@ if [[ ! -n "$CROWDIN_TOKEN" ]]; then
   exit 1
 fi
 
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_INSTALL_CLEANUP=1
+
 brew install crowdin yq
 
 EXPORTED=(en $(yq '.export_languages[]' crowdin.yml))

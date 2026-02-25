@@ -23,7 +23,7 @@ struct Episode: Identifiable, Codable, Equatable {
 
     let finaleType: EpisodeFinale?
 
-    let airDateUtc: Date?
+    var airDateUtc: Date?
 
     let endTime: Date?
     let grabDate: Date?

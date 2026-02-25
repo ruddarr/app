@@ -145,7 +145,7 @@ struct CalendarEpisode: View {
     var statusIcon: some View {
         if episode.isDownloaded {
             Image(systemName: "checkmark").symbolVariant(.circle.fill)
-        } else if !episode.monitored {
+        } else if !episode.monitored || episode.series?.monitored == false {
             Image(systemName: "bookmark").symbolVariant(.slash)
         } else if !episode.hasAired {
             Image(systemName: "clock")

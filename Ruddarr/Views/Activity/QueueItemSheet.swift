@@ -14,6 +14,7 @@ struct QueueItemSheet: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
+        // swiftlint:disable:next closure_body_length
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
@@ -45,14 +46,20 @@ struct QueueItemSheet: View {
 
                     details
                 }
-                .viewPadding(.horizontal)
-                .offset(y: -45)
+                .scenePadding(.horizontal)
+                #if os(macOS)
+                    .padding(.top, 24)
+                #else
+                    .offset(y: -45)
+                #endif
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
                     Button("Close", systemImage: "xmark") {
                         dismiss()
-                    }.tint(.primary)
+                    }
+                    .hideIconOnMac()
+                    .tint(.primary)
                 }
             }
         }
@@ -99,7 +106,7 @@ struct QueueItemSheet: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     var progress: some View {
@@ -312,6 +319,14 @@ struct QueueItemSheet: View {
 #Preview("Waiting + Error") {
     let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
     let item = items.records[1]
+
+    QueueItemSheet(item: item)
+        .withAppState()
+}
+
+#Preview("Pending + Short") {
+    let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
+    let item = items.records[2]
 
     QueueItemSheet(item: item)
         .withAppState()

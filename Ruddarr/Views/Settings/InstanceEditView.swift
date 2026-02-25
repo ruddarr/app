@@ -5,10 +5,11 @@ struct InstanceEditView: View {
 
     @State var instance: Instance
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.deviceType) var deviceType
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
-    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var settings: AppSettings
 
     @State var isLoading = false
     @State var showingAlert = false
@@ -35,11 +36,13 @@ struct InstanceEditView: View {
                 modeSection
             }
 
-            if mode == .update {
-                Section {
-                    deleteButton
+            #if !os(macOS)
+                if mode == .update {
+                    Section {
+                        deleteButton
+                    }
                 }
-            }
+            #endif
 
             #if DEBUG
                 Button {
@@ -58,6 +61,7 @@ struct InstanceEditView: View {
                 } label: { Text(verbatim: "Sonarr v3") }
             #endif
         }
+        .formStyle(.grouped)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarButton
@@ -97,7 +101,7 @@ struct InstanceEditView: View {
             labelField
             urlField
         } footer: {
-            Text("The URL used to access the \(instance.type.rawValue) web interface. Must be prefixed with \"http://\" or \"https://\".")
+            Text("The URL used to access the \(instance.type.rawValue) web interface.")
                 #if os(macOS)
                 .foregroundStyle(.secondary)
                 .font(.footnote)
@@ -110,9 +114,6 @@ struct InstanceEditView: View {
             apiKeyField
         } header: {
             Text("Authentication")
-                #if os(macOS)
-                .padding(.top)
-                #endif
         } footer: {
             VStack(alignment: .leading, spacing: 12) {
                 Text("The API Key can be found in the web interface under \"Settings > General > Security\".")
@@ -149,8 +150,10 @@ struct InstanceEditView: View {
                 .layoutPriority(2)
 
             TextField(text: $instance.label, prompt: Text(verbatim: instance.type.rawValue)) { EmptyView() }
-                .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
+                #if os(iOS)
+                .multilineTextAlignment(.trailing)
+                #endif
         }
     }
 
@@ -161,11 +164,11 @@ struct InstanceEditView: View {
 
             TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
                 .truncationMode(.head)
-                .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)
                 .onChange(of: instance.url, detectInstanceType)
                 #if os(iOS)
+                .multilineTextAlignment(.trailing)
                 .textInputAutocapitalization(.never)
                 .keyboardType(.URL)
                 #endif
@@ -180,10 +183,10 @@ struct InstanceEditView: View {
 
             TextField(text: $instance.apiKey, prompt: Text(verbatim: "0a1b2c3d...")) { EmptyView() }
                 .truncationMode(.head)
-                .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)
                 #if os(iOS)
+                .multilineTextAlignment(.trailing)
                 .textInputAutocapitalization(.never)
                 #endif
         }
@@ -199,9 +202,6 @@ struct InstanceEditView: View {
                     instance.mode = value ? .slow : .normal
                 }
             ))
-            #if os(macOS)
-            .padding(.top)
-            #endif
         } footer: {
             Text("Optimizes API calls for instances that load unusually slowly and encounter timeouts frequently.")
                 #if os(macOS)
@@ -228,21 +228,26 @@ struct InstanceEditView: View {
             } label: {
                 Text("Add Header", comment: "Add HTTP Header to instance")
             }
+            #if os(macOS)
+                .buttonStyle(.link)
+                .foregroundStyle(settings.theme.tint)
+            #endif
 
             Button {
                 showBasicAuthentication = true
             } label: {
                 Text("Add Authentication", comment: "Add Basic HTTP Authentication to instance")
             }
+            #if os(macOS)
+                .buttonStyle(.link)
+                .foregroundStyle(settings.theme.tint)
+            #endif
         } header: {
             HStack {
                 Text("Headers", comment: "HTTP Headers")
                 Spacer()
                 pasteButton(pasteHeader)
             }
-            #if os(macOS)
-            .padding(.top)
-            #endif
         } footer: {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Custom Headers can be used to access instances protected by Zero Trust services.")
@@ -263,7 +268,7 @@ struct InstanceEditView: View {
     }
 
     var deleteButton: some View {
-        Button("Delete Instance", role: .destructive) {
+        Button(deviceType == .mac ? "Delete" : "Delete Instance", role: .destructive) {
             showingConfirmation = true
         }
         .frame(maxWidth: .infinity, alignment: .center)
@@ -290,23 +295,28 @@ struct InstanceEditView: View {
     @ToolbarContentBuilder
     var toolbarButton: some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
-            Button{
+            Button {
                 Task { await createOrUpdateInstance() }
             } label: {
                 if isLoading {
-                    ProgressView().tint(nil)
+                    ButtonProgressView()
                 } else {
-                    #if os(macOS)
-                        Text("Save")
-                    #else
-                        Label("Save", systemImage: "checkmark")
-                    #endif
+                    Label("Save", systemImage: "checkmark")
+                        .hideIconOnMac()
                 }
             }
             .prominentGlassButtonStyle(!isLoading)
             .tint(settings.theme.tint)
             .disabled(hasEmptyFields())
         }
+
+        #if os(macOS)
+            if mode == .update {
+                ToolbarItem(placement: .destructiveAction) {
+                    deleteButton
+                }
+            }
+        #endif
     }
 }
 
@@ -333,6 +343,7 @@ struct InstanceHeaderRow: View {
 enum InstanceError: Error {
     case urlIsLocal
     case urlNotValid
+    case urlSchemeMissing
     case labelEmpty
     case badAppName(_ reported: String, _ expected: String)
     case apiError(_ error: API.Error)
@@ -341,7 +352,7 @@ enum InstanceError: Error {
 extension InstanceError: LocalizedError {
     var errorDescription: String? {
         switch self {
-        case .urlIsLocal, .urlNotValid:
+        case .urlIsLocal, .urlNotValid, .urlSchemeMissing:
             return String(localized: "Invalid URL")
         case .labelEmpty:
             return String(localized: "Invalid Instance Label")
@@ -358,6 +369,8 @@ extension InstanceError: LocalizedError {
             return String(localized: "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work.")
         case .urlNotValid:
             return String(localized: "Enter a valid URL.")
+        case .urlSchemeMissing:
+            return String(localized: "URL must start with \"http://\" or \"https://\".")
         case .labelEmpty:
             return String(localized: "Enter an instance label.")
         case .badAppName(let reported, let expected):
@@ -377,4 +390,5 @@ extension InstanceError: LocalizedError {
 
     return ContentView()
         .withAppState()
+        .frame(minWidth: 900, minHeight: 600)
 }

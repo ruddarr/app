@@ -28,13 +28,12 @@ struct MediaDeleteSheet: View {
                     Text("Permanently erase the folder and its contents.")
                 }
             }
+            .formStyle(.grouped)
             .toolbar {
                 toolbarCloseButton
                 toolbarDeleteButton
             }
-            #if os(macOS)
-                .padding(.all)
-            #else
+            #if os(iOS)
                 .padding(.top, -25)
             #endif
         }
@@ -46,6 +45,7 @@ struct MediaDeleteSheet: View {
                 dismiss()
             } label: {
                 Label("Cancel", systemImage: "xmark")
+                    .hideIconOnMac()
             }
             .tint(.primary)
         }
@@ -58,9 +58,10 @@ struct MediaDeleteSheet: View {
                 confirm(exclude, delete)
             } label: {
                 if isWorking {
-                    ProgressView().tint(.white)
+                    ButtonProgressView(tint: .white)
                 } else {
                     Label("Delete", systemImage: "trash")
+                        .hideIconOnMac()
                 }
             }
             .tint(.red)

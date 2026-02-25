@@ -182,6 +182,7 @@ extension MovieReleasesView {
                 Image(systemName: "line.3.horizontal.decrease")
             }
         }
+        .menuIndicator(.hidden)
     }
 
     var toolbarSortingButton: some View {
@@ -206,12 +207,13 @@ extension MovieReleasesView {
                 .imageScale(.medium)
         }
         .tint(.primary)
+        .menuIndicator(.hidden)
     }
 
     var indexersPicker: some View {
         Menu {
             Picker("Indexer", selection: $sort.indexer) {
-                Text("Any Indexer").tag(".all")
+                Text("Any Indexer").tag(String.all)
 
                 ForEach(instance.releases.indexers, id: \.self) { indexer in
                     Text(indexer).tag(Optional.some(indexer))
@@ -220,7 +222,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.indexer == ".all" ? String(localized: "Indexer") : sort.indexer,
+                sort.indexer == .all ? String(localized: "Indexer") : sort.indexer,
                 systemImage: "building.2"
             )
         }
@@ -229,7 +231,7 @@ extension MovieReleasesView {
     var qualityPicker: some View {
         Menu {
             Picker("Quality", selection: $sort.quality) {
-                Text("Any Quality").tag(".all")
+                Text("Any Quality").tag(String.all)
 
                 ForEach(instance.releases.qualities, id: \.self) { quality in
                     Text(quality).tag(Optional.some(quality))
@@ -238,7 +240,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.quality == ".all" ? String(localized: "Quality") : sort.quality,
+                sort.quality == .all ? String(localized: "Quality") : sort.quality,
                 systemImage: "film.stack"
             )
         }
@@ -247,7 +249,7 @@ extension MovieReleasesView {
     var protocolPicker: some View {
         Menu {
             Picker("Protocol", selection: $sort.network) {
-                Text("Any Protocol").tag(".all")
+                Text("Any Protocol").tag(String.all)
 
                 ForEach(instance.releases.protocols, id: \.self) { type in
                     Text(type).tag(Optional.some(type))
@@ -256,7 +258,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.network == ".all" ? String(localized: "Protocol") : sort.network,
+                sort.network == .all ? String(localized: "Protocol") : sort.network,
                 systemImage: "point.3.connected.trianglepath.dotted"
             )
         }
@@ -265,8 +267,8 @@ extension MovieReleasesView {
     var languagePicker: some View {
         Menu {
             Picker("Language", selection: $sort.language) {
-                Text("Any Language").tag(".all")
-                Text("Multilingual").tag(".multi")
+                Text("Any Language").tag(String.all)
+                Text("Multilingual").tag(String.multi)
 
                 ForEach(instance.releases.languages, id: \.self) { language in
                     Text(language).tag(Optional.some(language))
@@ -275,8 +277,8 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             let label = switch sort.language {
-            case ".all": String(localized: "Language")
-            case ".multi": String(localized: "Multilingual")
+            case .all: String(localized: "Language")
+            case .multi: String(localized: "Multilingual")
             default: sort.language
             }
 
@@ -287,7 +289,7 @@ extension MovieReleasesView {
     var customFormatPicker: some View {
         Menu {
             Picker("Custom Format", selection: $sort.customFormat) {
-                Text("Any Format").tag(".all")
+                Text("Any Format").tag(String.all)
 
                 ForEach(instance.releases.customFormats, id: \.self) { format in
                     Text(format).tag(Optional.some(format))
@@ -296,7 +298,7 @@ extension MovieReleasesView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.customFormat == ".all" ? String(localized: "Custom Format") : sort.customFormat,
+                sort.customFormat == .all ? String(localized: "Custom Format") : sort.customFormat,
                 systemImage: "person.badge.plus"
             )
         }

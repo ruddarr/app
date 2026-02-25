@@ -16,7 +16,7 @@ struct MovieView: View {
         ScrollView {
             MovieDetails(movie: movie)
                 .padding(.top)
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
                 .environmentObject(settings)
         }
         .refreshable {
@@ -88,8 +88,6 @@ struct MovieView: View {
                 .sheet(isPresented: $showEditForm) {
                     MovieEditView(movie: $movie)
                         .environment(instance)
-                        .padding(.top)
-                        .padding(.all)
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Close") { showEditForm = false }
@@ -108,7 +106,7 @@ struct MovieView: View {
 
     var editAction: some View {
         #if os(macOS)
-            Button("Edit") {
+            Button("Edit", systemImage: "pencil") {
                 showEditForm = true
             }
         #else
@@ -173,7 +171,7 @@ extension MovieView {
 
         dependencies.toast.show(.movieSearchQueued)
 
-        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "movie"])
+        Telemetry.record(.movieSearchDispatched)
         maybeAskForReview()
     }
 

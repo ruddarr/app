@@ -25,10 +25,6 @@ extension View {
         return self.environment(instance)
     }
 
-    func viewPadding(_ edges: Edge.Set = .all) -> some View {
-        self.modifier(ViewPadding(edges: edges))
-    }
-
     func viewBottomPadding() -> some View {
         self.modifier(ViewBottomPadding())
     }
@@ -37,23 +33,38 @@ extension View {
         modifier(ProminentGlassButtonStyle(condition: condition))
     }
 
+    func hideIconOnMac() -> some View {
+        modifier(HideIconOnMac())
+    }
+
     func presentationDetents(dynamic: Set<PresentationDetent>) -> some View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
     }
 }
 
 private struct OnBecomeActiveModifier: ViewModifier {
-    @Environment(\.scenePhase) private var scenePhase
-
     let action: () async -> Void
 
+#if os(macOS)
+    @Environment(\.appearsActive) private var appearsActive
+
     func body(content: Content) -> some View {
-        content
-            .onChange(of: scenePhase) {
-                guard scenePhase == .active else { return }
-                Task { await action() }
-            }
+        content.onChange(of: appearsActive, initial: true) {
+            guard appearsActive else { return }
+            Task { await action() }
+        }
     }
+#else
+    @Environment(\.scenePhase) private var scenePhase
+
+    func body(content: Content) -> some View {
+        content.onChange(of: scenePhase, initial: true) {
+            guard scenePhase == .active else { return }
+
+            Task { await action() }
+        }
+    }
+#endif
 }
 
 private struct WithAppStateModifier: ViewModifier {
@@ -74,23 +85,9 @@ private struct WithAppStateModifier: ViewModifier {
             .environment(SonarrInstance(sonarrInstance))
             .task {
                 Queue.shared.instances = settings.instances
-                setSentryContext(for: "configuration", settings.context())
+                setSentryContext(for: "Configuration", settings.context())
                 await setSentryCloudKitContext()
             }
-    }
-}
-
-private struct ViewPadding: ViewModifier {
-    var edges: Edge.Set
-
-    @Environment(\.deviceType) private var deviceType
-
-    func body(content: Content) -> some View {
-        if deviceType == .phone {
-            content.scenePadding(edges)
-        } else {
-            content.padding(edges, 22)
-        }
     }
 }
 
@@ -115,6 +112,16 @@ struct ProminentGlassButtonStyle: ViewModifier {
         } else {
             content
         }
+    }
+}
+
+struct HideIconOnMac: ViewModifier {
+    func body(content: Content) -> some View {
+        #if os(macOS)
+            content.labelStyle(.titleOnly)
+        #else
+            content
+        #endif
     }
 }
 
@@ -177,13 +184,26 @@ private struct DynamicPresentationDetents: ViewModifier {
 }
 
 extension SearchFieldPlacement {
-    static let drawerOrToolbar: SearchFieldPlacement = {
+    enum DrawerDisplayMode { case automatic, always }
+
+    static var drawerOrToolbar: SearchFieldPlacement {
         #if os(macOS)
             .toolbar
         #else
             .navigationBarDrawer(displayMode: .automatic)
         #endif
-    }()
+    }
+
+    static func drawerOrToolbar(_ displayMode: DrawerDisplayMode) -> SearchFieldPlacement {
+        #if os(macOS)
+            return .toolbar
+        #else
+            switch displayMode {
+            case .automatic: return .navigationBarDrawer(displayMode: .automatic)
+            case .always: return .navigationBarDrawer(displayMode: .always)
+            }
+        #endif
+    }
 }
 
 enum NavigationBarItemTitleDisplayMode {
@@ -219,7 +239,7 @@ extension View {
 struct SheetBackgroundStyle: ShapeStyle {
     func resolve(in env: EnvironmentValues) -> some ShapeStyle {
         if env.colorScheme == .dark {
-            AnyShapeStyle(Color(uiColor: .systemBackground))
+            AnyShapeStyle(.systemBackground)
         } else {
             AnyShapeStyle(.ultraThinMaterial)
         }
@@ -271,6 +291,6 @@ extension ShapeStyle where Self == Color {
     static var secondarySystemBackground: Color { Color(NSColor.controlBackgroundColor) }
     static var tertiarySystemBackground: Color { Color(NSColor.underPageBackgroundColor) }
 
-    static var buttonTint: Color { Color(NSColor.systemGray2) }
+    static var buttonTint: Color { Color.primary }
 #endif
 }

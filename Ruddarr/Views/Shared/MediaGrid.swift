@@ -1,16 +1,41 @@
 import SwiftUI
 
-struct MediaGrid<Item: Identifiable, Content: View>: View {
+struct MediaGrid<Item: Identifiable, Content: View, Header: View>: View {
     var items: [Item]
     var style: GridStyle = .posters
     var content: (Item) -> Content
+    var header: Header?
 
     @Environment(\.deviceType) private var deviceType
 
+    init(
+        items: [Item],
+        style: GridStyle = .posters,
+        @ViewBuilder content: @escaping (Item) -> Content,
+        @ViewBuilder header: () -> Header
+    ) {
+        self.items = items
+        self.style = style
+        self.content = content
+        self.header = header()
+    }
+
     var body: some View {
         LazyVGrid(columns: columns, spacing: spacing) {
-            ForEach(items) { item in
-                content(item)
+            if let header {
+                Section {
+                    ForEach(items) { item in
+                        content(item)
+                    }
+                } header: {
+                    header
+                        .font(.title3.bold())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            } else {
+                ForEach(items) { item in
+                    content(item)
+                }
             }
         }
     }
@@ -18,7 +43,7 @@ struct MediaGrid<Item: Identifiable, Content: View>: View {
     var columns: [GridItem] {
         switch style {
         case .posters: switch deviceType {
-        case .phone: [GridItem(.adaptive(minimum: 100, maximum: 120), spacing: 12)]
+        case .phone: [GridItem(.adaptive(minimum: 100, maximum: 130), spacing: 12)]
         case .mac: [GridItem(.adaptive(minimum: 160, maximum: 200), spacing: 20)]
         default: [GridItem(.adaptive(minimum: 145, maximum: 180), spacing: 20)]
         }
@@ -35,6 +60,19 @@ struct MediaGrid<Item: Identifiable, Content: View>: View {
     }
 }
 
+extension MediaGrid where Header == Never {
+    init(
+        items: [Item],
+        style: GridStyle = .posters,
+        @ViewBuilder content: @escaping (Item) -> Content
+    ) {
+        self.items = items
+        self.style = style
+        self.content = content
+        self.header = nil
+    }
+}
+
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
 
@@ -43,7 +81,7 @@ struct MediaGrid<Item: Identifiable, Content: View>: View {
             MediaGrid(items: movies, style: .cards) { movie in
                 MovieGridCard(movie: movie)
             }
-            .viewPadding(.horizontal)
+            .scenePadding(.horizontal)
         }
     }
     .withAppState()

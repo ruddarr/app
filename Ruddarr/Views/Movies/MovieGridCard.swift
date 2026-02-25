@@ -65,7 +65,7 @@ struct MovieGridCard: View {
     }
 
     var poster: some View {
-        CachedAsyncImage(.poster, movie.remotePoster, placeholder: movie.title)
+        CachedAsyncImage(.poster, movie.remotePoster)
             .aspectRatio(
                 CGSize(width: 150, height: 225),
                 contentMode: .fill
@@ -114,7 +114,7 @@ struct MovieGridCard: View {
             MediaGrid(items: movies, style: .cards) { movie in
                 MovieGridCard(movie: movie)
             }
-            .viewPadding(.horizontal)
+            .scenePadding(.horizontal)
         }
         .withAppState()
     }

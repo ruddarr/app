@@ -58,7 +58,7 @@ struct SeriesForm: View {
                 }
             }
         } label: {
-            Text("Monitor", comment: "Label of picker of what to monitor (movie, collection, etc.)")
+            Text("Monitor", comment: "Label of picker of what to monitor (movie, collection, episodes, etc.)")
         }
         .tint(.secondary)
         .onChange(of: addOptions.monitor, initial: true) {
@@ -105,10 +105,8 @@ struct SeriesForm: View {
         NavigationLink {
             TagList(selected: tags(), tags: instance.tags)
         } label: {
-            LabeledContent {
+            LabeledContent("Tags") {
                 Text(series.tags.isEmpty ? "None" : "\(series.tags.count) Tag")
-            } label: {
-                Text("Tags")
             }
         }
     }

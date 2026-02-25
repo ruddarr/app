@@ -31,9 +31,8 @@ struct TaskRemovalView: View {
                 Text("Blocks this release from being redownloaded via Automatic Search or RSS.")
             }
         }
-        #if os(macOS)
-            .padding(.all)
-        #else
+        .formStyle(.grouped)
+        #if os(iOS)
             .padding(.top, -20)
         #endif
         .toolbarTitleDisplayMode(.inline)
@@ -62,10 +61,11 @@ struct TaskRemovalView: View {
                 }
             } label: {
                 if isWorking {
-                    ProgressView().tint(.white)
+                    ButtonProgressView(tint: .white)
                 } else {
                     Label("Delete", systemImage: "trash")
                         .foregroundStyle(.white)
+                        .hideIconOnMac()
                 }
             }
             .buttonStyle(.glassProminent)

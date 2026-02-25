@@ -56,6 +56,13 @@ enum TabItem: String, Identifiable, Hashable, Sendable {
         case .settings: "gear"
         }
     }
+
+    var image: Image {
+        switch self {
+        case .movies, .series: Image(icon)
+        default: Image(systemName: icon)
+        }
+    }
 }
 
 extension TabItem.Openable: AppEnum {

@@ -143,8 +143,13 @@ struct MovieDetails: View {
             } label: {
                 ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.right.square")
                     .modifier(MediaPreviewActionModifier())
+                    .modifier(MacMenuButtonLabelModifier())
             }
-            .buttonStyle(.bordered)
+            #if os(macOS)
+                .buttonStyle(.plain)
+            #else
+                .buttonStyle(.bordered)
+            #endif
             .tint(.buttonTint)
 
             if let trailerUrl = MovieLinks.youTubeTrailer(movie.youTubeTrailerId) {
@@ -193,7 +198,7 @@ struct MovieDetails: View {
 
         dependencies.toast.show(.movieSearchQueued)
 
-        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "movie"])
+        Telemetry.record(.movieSearchDispatched)
         maybeAskForReview()
     }
 }

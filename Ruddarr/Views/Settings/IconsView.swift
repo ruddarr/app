@@ -17,7 +17,7 @@ struct IconsView: View {
                 }
             }
             .padding(.top)
-            .viewPadding(.horizontal)
+            .scenePadding(.horizontal)
         }
         .navigationTitle("Icons")
         .safeNavigationBarTitleDisplayMode(.inline)

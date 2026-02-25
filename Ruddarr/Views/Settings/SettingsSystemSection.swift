@@ -20,7 +20,8 @@ struct SettingsSystemSection: View {
                     calculateImageCacheSize()
                 }
                 #if os(macOS)
-                    .buttonStyle(.link).foregroundStyle(.red)
+                    .buttonStyle(.link)
+                    .foregroundStyle(.red)
                 #endif
 
                 Spacer()
@@ -29,20 +30,20 @@ struct SettingsSystemSection: View {
                     .foregroundStyle(.secondary)
             }
 
-            Button(role: .destructive) {
+            Button("Delete Spotlight Index", role: .destructive) {
                 deleteSpotlightIndexes()
-            } label: {
-                Text("Delete Spotlight Index")
             }
             #if os(macOS)
-                .buttonStyle(.link).foregroundStyle(.red)
+                .buttonStyle(.link)
+                .foregroundStyle(.red)
             #endif
 
             Button("Reset All Settings", role: .destructive) {
                 showingEraseConfirmation = true
             }
             #if os(macOS)
-                .buttonStyle(.link).foregroundStyle(.red)
+                .buttonStyle(.link)
+                .foregroundStyle(.red)
             #endif
             .alert(
                 "Are you sure you want to erase all settings?",

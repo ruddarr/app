@@ -194,7 +194,7 @@ class SeriesModel {
         let comparator = sort.option.compare
 
         return items
-            .filter(sort.filter.filter)
+            .filter(sort.filter)
             .filter {
                 guard !query.isEmpty else { return true }
                 return $0.title.localizedCaseInsensitiveContains(query)

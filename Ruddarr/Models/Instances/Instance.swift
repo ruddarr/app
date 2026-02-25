@@ -12,7 +12,7 @@ struct Instance: Identifiable, Equatable, Codable {
     var url: String = ""
     var apiKey: String = ""
     var headers: [InstanceHeader] = []
-    var rootFolders: [InstanceRootFolders] = []
+    var rootFolders: [InstanceRootFolder] = []
     var qualityProfiles: [InstanceQualityProfile] = []
     var tags: [Tag] = []
     // WARNING: BE CAREFUL CHANGING
@@ -34,7 +34,7 @@ struct Instance: Identifiable, Equatable, Codable {
         url = try values.decode(String.self, forKey: .url)
         apiKey = try values.decode(String.self, forKey: .apiKey)
         headers = try values.decode([InstanceHeader].self, forKey: .headers)
-        rootFolders = try values.decode([InstanceRootFolders].self, forKey: .rootFolders)
+        rootFolders = try values.decode([InstanceRootFolder].self, forKey: .rootFolders)
         qualityProfiles = try values.decode([InstanceQualityProfile].self, forKey: .qualityProfiles)
         tags = try values.decodeIfPresent([Tag].self, forKey: .tags) ?? []
         name = try values.decodeIfPresent(String.self, forKey: .name)
@@ -126,7 +126,9 @@ struct InstanceStatus: Codable {
     let version: String
 }
 
-struct InstanceRootFolders: Identifiable, Equatable, Codable {
+typealias InstanceRootFolders = InstanceRootFolder
+
+struct InstanceRootFolder: Identifiable, Equatable, Codable, Hashable {
     let id: Int
     let accessible: Bool
     let path: String?
@@ -134,6 +136,20 @@ struct InstanceRootFolders: Identifiable, Equatable, Codable {
 
     var label: String {
         path?.untrailingSlashIt ?? "Folder (\(id))"
+    }
+
+    var menuLabel: String {
+        guard let path = path?.untrailingSlashIt else {
+            return "Folder (\(id))"
+        }
+
+        let components = path.split(separator: "/")
+
+        guard let last = components.last else {
+            return path
+        }
+
+        return String(last)
     }
 }
 
@@ -163,7 +179,7 @@ extension Instance {
         instance.url = "http://10.0.1.5:8310"
         instance.apiKey = "3b0600c1b3aa42bfb0222f4e13a81f39"
         instance.rootFolders = [
-            InstanceRootFolders(id: 1, accessible: true, path: "/volume1/Media/Movies", freeSpace: 1_000_000_000),
+            InstanceRootFolder(id: 1, accessible: true, path: "/volume1/Media/Movies", freeSpace: 1_000_000_000),
         ]
         instance.qualityProfiles = [
             InstanceQualityProfile(id: 1, name: "Any"),
@@ -185,8 +201,8 @@ extension Instance {
         instance.url = "http://10.0.1.5:8989"
         instance.apiKey = "f8e3682b3b984cddbaa00047a09d0fbd"
         instance.rootFolders = [
-            InstanceRootFolders(id: 1, accessible: true, path: "/volume1/Media/TV Series", freeSpace: 2_000_000_000),
-            InstanceRootFolders(id: 2, accessible: true, path: "/volume2/Media/Docuseries", freeSpace: 2_000_000_000),
+            InstanceRootFolder(id: 1, accessible: true, path: "/volume1/Media/TV Series", freeSpace: 2_000_000_000),
+            InstanceRootFolder(id: 2, accessible: true, path: "/volume2/Media/Docuseries", freeSpace: 2_000_000_000),
         ]
         instance.qualityProfiles = [
             InstanceQualityProfile(id: 1, name: "Any"),

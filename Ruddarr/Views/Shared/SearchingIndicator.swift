@@ -91,8 +91,14 @@ struct SearchingIndicator: View {
         }
 
         #if os(iOS)
-        try? AVAudioSession.sharedInstance().setCategory(.ambient, options: [.duckOthers])
-        try? AVAudioSession.sharedInstance().setActive(true)
+            let session = AVAudioSession.sharedInstance()
+
+            if session.secondaryAudioShouldBeSilencedHint {
+                return
+            }
+
+            try? session.setCategory(.ambient, options: [.mixWithOthers])
+            try? session.setActive(true)
         #endif
 
         player = try? AVAudioPlayer(contentsOf: sound)

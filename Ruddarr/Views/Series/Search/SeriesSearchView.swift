@@ -10,16 +10,30 @@ struct SeriesSearchView: View {
     let searchTextPublisher = PassthroughSubject<String, Never>()
 
     var body: some View {
+        @Bindable var discovery = Discovery.shared
         @Bindable var seriesLookup = instance.lookup
 
         ScrollView {
-            MediaGrid(items: instance.lookup.sortedItems) { series in
-                SeriesSearchItem(series: series)
-                    .environment(instance)
+            if seriesLookup.sortedItems.isEmpty && searchQuery.isEmpty {
+                MediaGrid(items: discovery.series) { item in
+                    DiscoveryGridPoster(item: item)
+                } header: {
+                    Text("Popular This Week")
+                        .padding(.top, 12)
+                }
+                .viewBottomPadding()
+                .scenePadding(.horizontal)
+                .opacity(discovery.series.isEmpty ? 0 : 1)
+                .animation(.easeIn, value: discovery.series)
+            } else {
+                MediaGrid(items: seriesLookup.sortedItems) { series in
+                    SeriesSearchItem(series: series)
+                        .environment(instance)
+                }
+                .padding(.top, 12)
+                .scenePadding(.horizontal)
+                .viewBottomPadding()
             }
-            .padding(.top, 12)
-            .viewPadding(.horizontal)
-            .viewBottomPadding()
         }
         .navigationTitle("Search")
         .safeNavigationBarTitleDisplayMode(.large)
@@ -27,7 +41,7 @@ struct SeriesSearchView: View {
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
-            placement: .drawerOrToolbar
+            placement: .drawerOrToolbar(.always)
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
@@ -35,6 +49,9 @@ struct SeriesSearchView: View {
             ForEach(SeriesLookup.SortOption.allCases) { option in
                 Text(option.label)
             }
+        }
+        .task {
+            await discovery.fetch(.series)
         }
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)

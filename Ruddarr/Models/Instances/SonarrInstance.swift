@@ -49,7 +49,7 @@ class SonarrInstance {
         instance.mode.isSlow
     }
 
-    var rootFolders: [InstanceRootFolders] {
+    var rootFolders: [InstanceRootFolder] {
         instance.rootFolders
     }
 

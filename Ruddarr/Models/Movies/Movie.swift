@@ -45,13 +45,14 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     var rootFolderPath: String?
 
     let added: Date
-    let inCinemas: Date?
-    let physicalRelease: Date?
-    let digitalRelease: Date?
+    var inCinemas: Date?
+    var physicalRelease: Date?
+    var digitalRelease: Date?
 
     var tags: [Int]
     let images: [MediaImage]
     let movieFile: MediaFile?
+    var addOptions: MovieAddOptions?
 
     enum CodingKeys: String, CodingKey {
         case guid = "id"
@@ -87,6 +88,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         case tags
         case images
         case movieFile
+        case addOptions
     }
 
     var exists: Bool {
@@ -275,6 +277,26 @@ enum MovieStatus: String, Equatable, Codable {
 struct MovieRating: Equatable, Codable {
     let votes: Int
     let value: Float
+}
+
+struct MovieAddOptions: Equatable, Codable {
+    var monitor: MovieMonitorType
+}
+
+enum MovieMonitorType: String, Codable, Identifiable, CaseIterable {
+    var id: Self { self }
+
+    case movieOnly
+    case movieAndCollection
+    case none
+
+    var label: String {
+        switch self {
+        case .movieOnly: String(localized: "Movie")
+        case .movieAndCollection: String(localized: "Movie + Collection")
+        case .none: String(localized: "None", comment: "Movie monitoring option")
+        }
+    }
 }
 
 struct MovieEditorResource: Codable {

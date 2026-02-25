@@ -52,7 +52,7 @@ struct SeriesGridCard: View {
             }
             .padding(.vertical, deviceType == .phone ? 8 : 10)
 
-            Spacer()
+            Spacer(minLength: 2)
         }
         .frame(maxWidth: .infinity)
         .background(.card)
@@ -65,7 +65,7 @@ struct SeriesGridCard: View {
     }
 
     var poster: some View {
-        CachedAsyncImage(.poster, series.remotePoster, placeholder: series.title)
+        CachedAsyncImage(.poster, series.remotePoster)
             .aspectRatio(
                 CGSize(width: 150, height: 225),
                 contentMode: .fill
@@ -136,7 +136,7 @@ struct SeriesGridCard: View {
         MediaGrid(items: series, style: .cards) { series in
             SeriesGridCard(series: series)
         }
-        .viewPadding(.horizontal)
+        .scenePadding(.horizontal)
     }
     .withAppState()
 }

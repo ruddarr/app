@@ -52,7 +52,10 @@ extension InstanceView {
 
         return VStack(alignment: .leading, spacing: 8) {
             Text(text.toMarkdown())
+                .tint(settings.theme.tint)
+
             Text("Sending push notifications to devices requires reliable server infrastructure, which incurs monthly operating expenses for this free, open-source project.")
+
             Text("Alternatively, \(instance.type.rawValue) comes with many notification integrations that can be self-hosted.")
         }.environment(\.openURL, .init { _ in
             showSubscription = true

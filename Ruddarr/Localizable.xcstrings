@@ -578,6 +578,17 @@
         }
       }
     },
+    "Any Folder" : {
+      "comment" : "Short spelling of Root Folder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Folder"
+          }
+        }
+      }
+    },
     "Any Format" : {
       "localizations" : {
         "en" : {
@@ -2162,12 +2173,12 @@
         }
       }
     },
-    "Instance URL is not valid or restricted by Screen Time: %@" : {
+    "Instance URL is not valid: %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instance URL is not valid or restricted by Screen Time: %@"
+            "value" : "Instance URL is not valid: %@"
           }
         }
       }
@@ -2558,7 +2569,7 @@
       }
     },
     "Monitor" : {
-      "comment" : "Label of picker of what to monitor (movie, collection, etc.)",
+      "comment" : "Label of picker of what to monitor (movie, collection, episodes, etc.)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2657,6 +2668,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Movie"
+          }
+        }
+      }
+    },
+    "Movie + Collection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movie + Collection"
           }
         }
       }
@@ -3058,7 +3079,7 @@
       }
     },
     "None" : {
-      "comment" : "Series monitoring option",
+      "comment" : "Movie monitoring option\nSeries monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3809,6 +3830,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Podcasts"
+          }
+        }
+      }
+    },
+    "Popular This Week" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Popular This Week"
           }
         }
       }
@@ -4819,6 +4850,17 @@
         }
       }
     },
+    "System Settings > Notifications > %@" : {
+      "comment" : "macOS path",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System Settings > Notifications > %@"
+          }
+        }
+      }
+    },
     "Tab" : {
       "localizations" : {
         "en" : {
@@ -4846,6 +4888,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "TBA"
+          }
+        }
+      }
+    },
+    "TestFlight for macOS" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TestFlight for macOS"
           }
         }
       }
@@ -4890,12 +4942,12 @@
         }
       }
     },
-    "The URL used to access the %@ web interface. Must be prefixed with \"http://\" or \"https://\"." : {
+    "The URL used to access the %@ web interface." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The URL used to access the %@ web interface. Must be prefixed with \"http://\" or \"https://\"."
+            "value" : "The URL used to access the %@ web interface."
           }
         }
       }
@@ -5207,6 +5259,16 @@
         }
       }
     },
+    "Upgrade to Sonarr v4.0.5 or newer." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrade to Sonarr v4.0.5 or newer."
+          }
+        }
+      }
+    },
     "URL" : {
       "localizations" : {
         "en" : {
@@ -5223,6 +5285,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "URL identified itself as a %1$@ instance, not a %2$@ instance."
+          }
+        }
+      }
+    },
+    "URL must start with \"http://\" or \"https://\"." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL must start with \"http://\" or \"https://\"."
           }
         }
       }

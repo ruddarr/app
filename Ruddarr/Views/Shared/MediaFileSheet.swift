@@ -18,7 +18,7 @@ struct MediaFileSheet: View {
                     Spacer().frame(height: 42)
                 }
                 .padding(.top, -52)
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
             }
             #if os(macOS)
                 .padding(.bottom)
@@ -27,7 +27,9 @@ struct MediaFileSheet: View {
                 ToolbarItem(placement: .destructiveAction) {
                     Button("Close", systemImage: "xmark") {
                         dismiss()
-                    }.tint(.primary)
+                    }
+                    .hideIconOnMac()
+                    .tint(.primary)
                 }
             }
             .ignoresSafeArea(edges: .bottom)

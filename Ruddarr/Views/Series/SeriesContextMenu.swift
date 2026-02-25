@@ -27,6 +27,6 @@ struct SeriesContextMenu: View {
 
         dependencies.toast.show(.monitoredSearchQueued)
 
-        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
+        Telemetry.record(.seriesSearchDispatched)
     }
 }

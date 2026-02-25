@@ -4,11 +4,36 @@ struct SeriesSort: Hashable {
     var isAscending: Bool = false
     var option: Option = .byAdded
     var filter: Filter = .all
+    var folder: String = .all
 
     static func == (lhs: SeriesSort, rhs: SeriesSort) -> Bool {
         lhs.isAscending == rhs.isAscending &&
         lhs.option == rhs.option &&
-        lhs.filter == rhs.filter
+        lhs.filter == rhs.filter &&
+        lhs.folder == rhs.folder
+    }
+
+    func filter(_ series: Series) -> Bool {
+        if folder != .all && series.rootFolderPath != folder {
+            return false
+        }
+
+        return switch filter {
+        case .all:
+            true
+        case .monitored:
+            series.monitored
+        case .unmonitored:
+            !series.monitored
+        case .continuing:
+            series.status == .continuing
+        case .ended:
+            series.status == .ended
+        case .missing:
+            series.episodeCount > series.episodeFileCount
+        case .dangling:
+            !series.monitored && series.episodeCount == 0
+        }
     }
 
     enum Option: CaseIterable, Hashable, Identifiable, Codable {
@@ -77,24 +102,6 @@ struct SeriesSort: Hashable {
             }
         }
 
-        func filter(_ series: Series) -> Bool {
-            switch self {
-            case .all:
-                true
-            case .monitored:
-                series.monitored
-            case .unmonitored:
-                !series.monitored
-            case .continuing:
-                series.status == .continuing
-            case .ended:
-                series.status == .ended
-            case .missing:
-                series.episodeCount > series.episodeFileCount
-            case .dangling:
-                !series.monitored && series.episodeCount == 0
-            }
-        }
     }
 }
 
@@ -128,6 +135,7 @@ extension SeriesSort: Codable {
         case isAscending
         case option
         case filter
+        case folder
     }
 
     init(from decoder: any Decoder) throws {
@@ -136,7 +144,8 @@ extension SeriesSort: Codable {
         try self.init(
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),
-            filter: container.decode(Filter.self, forKey: .filter)
+            filter: container.decode(Filter.self, forKey: .filter),
+            folder: container.decode(String.self, forKey: .folder)
         )
     }
 
@@ -145,5 +154,6 @@ extension SeriesSort: Codable {
         try container.encode(isAscending, forKey: .isAscending)
         try container.encode(option, forKey: .option)
         try container.encode(filter, forKey: .filter)
+        try container.encode(folder, forKey: .folder)
     }
 }

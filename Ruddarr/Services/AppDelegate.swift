@@ -109,7 +109,6 @@ class AppDelegate:
             options.enableWatchdogTerminationTracking = true
             options.enableMetricKit = false
             options.enableAppHangTracking = false
-            options.enableAppHangTrackingV2 = false
             options.appHangTimeoutInterval = 3
             options.enableCaptureFailedRequests = false
             options.enablePreWarmedAppStartTracing = true
@@ -117,6 +116,10 @@ class AppDelegate:
             options.enablePersistingTracesWhenCrashing = true
 
             options.tracesSampleRate = 1
+
+            options.beforeBreadcrumb = { crumb in
+                shouldRecordBreadcrumb(crumb) ? crumb : nil
+            }
         }
 
         setSentryContext(for: "device", ["identifier": Platform.deviceId])

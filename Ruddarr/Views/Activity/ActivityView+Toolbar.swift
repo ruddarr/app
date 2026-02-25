@@ -86,7 +86,7 @@ extension ActivityView {
     var instancePicker: some View {
         Menu {
             Picker("Instance", selection: $sort.instance) {
-                Text("Any Instance").tag(".all")
+                Text("Any Instance").tag(String.all)
 
                 ForEach(queue.instances) { instance in
                     Text(instance.label).tag(instance.id.uuidString)
@@ -105,7 +105,7 @@ extension ActivityView {
     var protocolPicker: some View {
         Menu {
             Picker("Protocol", selection: $sort.client) {
-                Text("Any Protocol").tag(".all")
+                Text("Any Protocol").tag(String.all)
 
                 ForEach(protocols, id: \.self) { type in
                     Text(type)
@@ -114,7 +114,7 @@ extension ActivityView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.type == ".all" ? "Protocol" : sort.type,
+                sort.type == .all ? "Protocol" : sort.type,
                 systemImage: "point.3.connected.trianglepath.dotted"
             )
         }
@@ -123,7 +123,7 @@ extension ActivityView {
     var clientPicker: some View {
         Menu {
             Picker("Client", selection: $sort.client) {
-                Text("Any Client").tag(".all")
+                Text("Any Client").tag(String.all)
 
                 ForEach(clients, id: \.self) { client in
                     Text(client)
@@ -132,7 +132,7 @@ extension ActivityView {
             .pickerStyle(.inline)
         } label: {
             Label(
-                sort.type == ".all" ? "Client" : sort.type,
+                sort.type == .all ? "Client" : sort.type,
                 systemImage: "apple.terminal"
             )
         }

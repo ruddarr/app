@@ -1,9 +1,46 @@
 import os
-import SwiftUI
+import Foundation
 import CloudKit
 import TelemetryDeck
 
+@preconcurrency import Sentry
+
+enum Metric: String {
+    case movieAdded
+    case seriesAdded
+
+    case movieDownloaded
+    case seasonDownloaded
+    case episodeDownloaded
+
+    case movieSearchDispatched
+    case seriesSearchDispatched
+    case seasonSearchDispatched
+    case episodeSearchDispatched
+}
+
 actor Telemetry {
+    static func record(_ metric: Metric) {
+        switch metric {
+        case .movieDownloaded:
+            SentrySDK.metrics.count(key: "releaseDownloaded", value: 1, attributes: ["type": "movie"])
+        case .seasonDownloaded:
+            SentrySDK.metrics.count(key: "releaseDownloaded", value: 1, attributes: ["type": "season"])
+        case .episodeDownloaded:
+            SentrySDK.metrics.count(key: "releaseDownloaded", value: 1, attributes: ["type": "episode"])
+        case .movieSearchDispatched:
+            SentrySDK.metrics.count(key: "automaticSearchDispatched", value: 1, attributes: ["type": "movie"])
+        case .seriesSearchDispatched:
+            SentrySDK.metrics.count(key: "automaticSearchDispatched", value: 1, attributes: ["type": "series"])
+        case .seasonSearchDispatched:
+            SentrySDK.metrics.count(key: "automaticSearchDispatched", value: 1, attributes: ["type": "season"])
+        case .episodeSearchDispatched:
+            SentrySDK.metrics.count(key: "automaticSearchDispatched", value: 1, attributes: ["type": "episode"])
+        default:
+            SentrySDK.metrics.count(key: metric.rawValue, value: 1)
+        }
+    }
+
     static func maybePing(with settings: AppSettings) {
         let hoursSincePing = Occurrence.hoursSince("telemetryUploaded")
 

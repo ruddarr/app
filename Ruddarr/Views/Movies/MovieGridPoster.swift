@@ -14,7 +14,7 @@ struct MovieGridPoster: View {
             .background(.card)
             .overlay(alignment: .bottom) {
                 if movie.exists {
-                    posterOverlay
+                    MoviePosterOverlay(movie: movie)
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 14))
@@ -28,9 +28,13 @@ struct MovieGridPoster: View {
                 contentMode: .fill
             )
     }
+}
 
-    var posterOverlay: some View {
-        HStack {
+struct MoviePosterOverlay: View {
+    var movie: Movie
+
+    var body: some View {
+        MediaGridPosterOverlay {
             Group {
                 if movie.isDownloaded {
                     Image(systemName: "checkmark").symbolVariant(.circle.fill)
@@ -40,44 +44,16 @@ struct MovieGridPoster: View {
                     Image(systemName: "xmark").symbolVariant(.circle)
                 }
             }
-                .foregroundStyle(.white)
-                .imageScale(Self.gridIconScale())
+            .foregroundStyle(.white)
+            .imageScale(.gridItem)
 
             Spacer()
 
             Image(systemName: "bookmark")
                 .symbolVariant(movie.monitored ? .fill : .none)
                 .foregroundStyle(.white)
-                .imageScale(Self.gridIconScale())
+                .imageScale(.gridItem)
         }
-        .font(.body)
-        .padding(.top, 36)
-        .padding(.bottom, 8)
-        .padding(.horizontal, 8)
-        .background {
-            LinearGradient(
-                colors: [
-                    Color.black.opacity(0.0),
-                    Color.black.opacity(0.2),
-                    Color.black.opacity(0.4),
-                    Color.black.opacity(0.9),
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        }
-    }
-
-    static func gridIconScale() -> Image.Scale {
-        #if os(macOS)
-            return .large
-        #else
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                return .small
-            }
-
-            return .medium
-        #endif
     }
 }
 
@@ -88,7 +64,7 @@ struct MovieGridPoster: View {
         MediaGrid(items: movies) { movie in
             MovieGridPoster(movie: movie)
         }
-        .viewPadding(.horizontal)
+        .scenePadding(.horizontal)
     }
     .withAppState()
 }

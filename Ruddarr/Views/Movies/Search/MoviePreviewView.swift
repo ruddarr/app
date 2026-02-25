@@ -19,7 +19,7 @@ struct MoviePreviewView: View {
         ScrollView {
             MovieDetails(movie: movie)
                 .padding(.top)
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
                 .environmentObject(settings)
         }
         .safeNavigationBarTitleDisplayMode(.inline)
@@ -41,9 +41,7 @@ struct MoviePreviewView: View {
                         toolbarCancelButton
                         toolbarSaveButton
                     }
-                    #if os(macOS)
-                        .padding(.all)
-                    #else
+                    #if os(iOS)
                         .padding(.top, -25)
                     #endif
             }
@@ -59,6 +57,7 @@ struct MoviePreviewView: View {
                 presentingForm = false
             } label: {
                 Label("Cancel", systemImage: "xmark")
+                    .hideIconOnMac()
             }
             .tint(.primary)
         }
@@ -70,6 +69,7 @@ struct MoviePreviewView: View {
             Button("Add Movie", systemImage: "plus") {
                 presentingForm = true
             }
+            .hideIconOnMac()
             .buttonStyle(.glassProminent)
             .disabled(presentingForm)
         }
@@ -84,9 +84,10 @@ struct MoviePreviewView: View {
                 }
             } label: {
                 if instance.movies.isWorking {
-                    ProgressView().tint(nil)
+                    ButtonProgressView()
                 } else {
                     Label("Add Movie", systemImage: "checkmark")
+                        .hideIconOnMac()
                 }
             }
             .prominentGlassButtonStyle(!instance.movies.isWorking)
@@ -123,14 +124,14 @@ struct MoviePreviewView: View {
         try? await Task.sleep(for: .milliseconds(50))
         dependencies.router.moviesPath.append(moviePath)
 
-        TelemetryDeck.signal("movieAdded")
+        Telemetry.record(.movieAdded)
         maybeAskForReview()
     }
 }
 
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movie-lookup")
-    let movie = movies.first(where: { $0.tmdbId == 736_308 }) ?? movies[0]
+    let movie = movies.first(where: { $0.tmdbId == 432_383 }) ?? movies[0]
 
     dependencies.router.selectedTab = .movies
 
@@ -143,4 +144,5 @@ struct MoviePreviewView: View {
     return ContentView()
         .withRadarrInstance(movies: movies)
         .withAppState()
+        .frame(minWidth: 900, minHeight: 600)
 }

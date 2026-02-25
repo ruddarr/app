@@ -59,12 +59,14 @@ struct TaskImportView: View {
                 }
             } label: {
                 if isWorking {
-                    ProgressView().tint(nil)
+                    ButtonProgressView()
                 } else {
                     Label("Import", systemImage: "arrow.down.to.line")
+                        .hideIconOnMac()
                 }
             }
             .prominentGlassButtonStyle(!isWorking)
+            .tint(settings.theme.tint)
             .disabled(selectedFiles.isEmpty)
         }
     }

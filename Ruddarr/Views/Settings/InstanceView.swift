@@ -17,7 +17,6 @@ struct InstanceView: View {
     @State var instanceNotifications: Bool = false
     @State var entitledToService: Bool = false
     @State var showSubscription: Bool = false
-    @State var showEditForm: Bool = false
     @State var cloudKitStatus: CKAccountStatus = .couldNotDetermine
     @State var cloudKitUserId: CKRecord.ID?
 
@@ -28,7 +27,7 @@ struct InstanceView: View {
     @Environment(SonarrInstance.self) private var sonarrInstance
 
     var body: some View {
-        List {
+        Form {
             instanceDetails
 
             if !instance.headers.isEmpty {
@@ -45,6 +44,7 @@ struct InstanceView: View {
                 }
             #endif
         }
+        .formStyle(.grouped)
         .toolbar {
             toolbarEditButton
         }
@@ -74,28 +74,10 @@ struct InstanceView: View {
     @ToolbarContentBuilder
     var toolbarEditButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            #if os(macOS)
-                Button("Edit") {
-                    showEditForm = true
-                }
-                .tint(.primary)
-                .sheet(isPresented: $showEditForm) {
-                    InstanceEditView(mode: .update, instance: instance)
-                        .environment(radarrInstance)
-                        .environment(sonarrInstance)
-                        .environmentObject(settings)
-                        .padding(.all)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Close") { showEditForm = false }
-                            }
-                        }
-                }
-            #else
-                NavigationLink(value: SettingsView.Path.editInstance(instance.id)) {
-                    Label("Edit", systemImage: "pencil")
-                }.tint(.primary)
-            #endif
+            NavigationLink(value: SettingsView.Path.editInstance(instance.id)) {
+                Label("Edit", systemImage: "pencil")
+                    .hideIconOnMac()
+            }.tint(.primary)
         }
     }
 

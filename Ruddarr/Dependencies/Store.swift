@@ -24,6 +24,12 @@ class Occurrence {
         case days = 86_400
     }
 
+    static func date(of key: String) -> Date? {
+        let seconds = dependencies.store.double(forKey: key)
+        guard seconds > 0 else { return nil }
+        return Date(timeIntervalSince1970: seconds)
+    }
+
     static func since(_ key: String, unit: Unit = .seconds) -> TimeInterval {
         let now = Date().timeIntervalSince1970
         let secondsSince = dependencies.store.double(forKey: key)

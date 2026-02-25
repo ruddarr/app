@@ -4,8 +4,8 @@ struct HistoryView: View {
     @State private var page: Int = 1
     @State private var history = History()
     @State private var selectedEvent: MediaHistoryEvent?
-    @State private var displayedInstance: String = ".all"
-    @State private var displayedEventType: String = ".all"
+    @State private var displayedInstance: String = .all
+    @State private var displayedEventType: String = .all
 
     @EnvironmentObject var settings: AppSettings
 
@@ -36,7 +36,7 @@ struct HistoryView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical)
-            .viewPadding(.horizontal)
+            .scenePadding(.horizontal)
         }
         .navigationTitle("History")
         .safeNavigationBarTitleDisplayMode(.inline)
@@ -84,11 +84,11 @@ struct HistoryView: View {
     var events: [MediaHistoryEvent] {
         var items = history.events
 
-        if displayedInstance != ".all" {
+        if displayedInstance != .all {
             items = items.filter { $0.instanceId?.isEqual(to: displayedInstance) == true }
         }
 
-        if displayedEventType != ".all" {
+        if displayedEventType != .all {
             items = items.filter { $0.eventType.ref == displayedEventType }
         }
 
@@ -103,7 +103,7 @@ struct HistoryView: View {
                 }
 
                 Picker(selection: $displayedEventType, label: Text("Event Type")) {
-                    Text("All Events", comment: "(Short) History event filter").tag(".all")
+                    Text("All Events", comment: "(Short) History event filter").tag(String.all)
                     Text("Grabbed", comment: "(Short) History event filter").tag(".grabbed")
                     Text("Imported", comment: "(Short) History event filter").tag(".imported")
                     Text("Failed", comment: "(Short) History event filter").tag(".failed")
@@ -113,7 +113,7 @@ struct HistoryView: View {
                 }
                 .pickerStyle(.inline)
             } label: {
-                if displayedInstance != ".all" || displayedEventType != ".all" {
+                if displayedInstance != .all || displayedEventType != .all {
                     Image("filters.badge")
                         .offset(y: 3)
                         .symbolRenderingMode(.palette)
@@ -129,7 +129,7 @@ struct HistoryView: View {
     var instancePicker: some View {
         Menu {
             Picker("Instance", selection: $displayedInstance) {
-                Text("Any Instance").tag(".all")
+                Text("Any Instance").tag(String.all)
 
                 ForEach(history.instances) { instance in
                     Text(instance.label).tag(instance.id.uuidString)
@@ -152,8 +152,8 @@ struct HistoryView: View {
             Text("No events match the selected filters.")
         } actions: {
             Button("Clear Filters") {
-                displayedInstance = ".all"
-                displayedEventType = ".all"
+                displayedInstance = .all
+                displayedEventType = .all
             }
         }
     }

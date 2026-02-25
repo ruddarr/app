@@ -11,6 +11,7 @@ struct SettingsAboutSection: View {
             review
             discord
             contribute
+            macOS
             translate
         } header: {
             Text("About", comment: "Preferences section title")
@@ -55,6 +56,13 @@ struct SettingsAboutSection: View {
             Label("Translate the App", systemImage: "globe.europe.africa")
                 .labelStyle(SettingsIconLabelStyle())
         })
+    }
+
+    var macOS: some View {
+        Link(destination: Links.TestFlight) {
+            Label("TestFlight for macOS", systemImage: "macwindow.and.pointer.arrow")
+                .labelStyle(SettingsIconLabelStyle())
+        }
     }
 }
 

@@ -18,7 +18,9 @@ struct SeriesEditView: View {
 
     var body: some View {
         SeriesForm(series: $series)
-            .padding(.top, -20)
+            #if os(iOS)
+                .padding(.top, -20)
+            #endif
             .navigationTitle(series.title)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -63,13 +65,10 @@ struct SeriesEditView: View {
                 }
             } label: {
                 if instance.series.isWorking {
-                    ProgressView().tint(nil)
+                    ButtonProgressView()
                 } else {
-                    #if os(macOS)
-                        Text("Save")
-                    #else
-                        Label("Save", systemImage: "checkmark")
-                    #endif
+                    Label("Save", systemImage: "checkmark")
+                        .hideIconOnMac()
                 }
             }
             .prominentGlassButtonStyle(!instance.series.isWorking)

@@ -131,8 +131,13 @@ struct SeriesDetails: View {
             } label: {
                 ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.right.square")
                     .modifier(MediaPreviewActionModifier())
+                    .modifier(MacMenuButtonLabelModifier())
             }
-            .buttonStyle(.bordered)
+            #if os(macOS)
+                .buttonStyle(.plain)
+            #else
+                .buttonStyle(.bordered)
+            #endif
             .tint(.buttonTint)
 
             Spacer()
@@ -189,7 +194,7 @@ struct SeriesDetails: View {
 
         dependencies.toast.show(.monitoredSearchQueued)
 
-        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
+        Telemetry.record(.seriesSearchDispatched)
         maybeAskForReview()
     }
 }

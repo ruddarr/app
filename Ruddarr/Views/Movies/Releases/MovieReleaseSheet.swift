@@ -14,6 +14,7 @@ struct MovieReleaseSheet: View {
     @State private var showGrabConfirmation: Bool = false
 
     var body: some View {
+        // swiftlint:disable:next closure_body_length
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
@@ -30,14 +31,20 @@ struct MovieReleaseSheet: View {
 
                     details
                 }
-                .viewPadding(.horizontal)
-                .offset(y: -45)
+                .scenePadding(.horizontal)
+                #if os(macOS)
+                    .padding(.top, 24)
+                #else
+                    .offset(y: -45)
+                #endif
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
                     Button("Close", systemImage: "xmark") {
                         dismiss()
-                    }.tint(.primary)
+                    }
+                    .hideIconOnMac()
+                    .tint(.primary)
                 }
             }
             .alert(
@@ -267,7 +274,7 @@ struct MovieReleaseSheet: View {
 
         dependencies.toast.show(.downloadQueued)
 
-        TelemetryDeck.signal("releaseDownloaded", parameters: ["type": "movie"])
+        Telemetry.record(.movieDownloaded)
         maybeAskForReview()
     }
 }

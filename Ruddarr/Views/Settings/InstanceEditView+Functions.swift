@@ -81,15 +81,13 @@ extension InstanceEditView {
     }
 
     func validateInstance() async throws {
+        guard instance.url.starts(with: /https?:\/\//) else {
+            throw InstanceError.urlSchemeMissing
+        }
+
         guard let url = URL(string: instance.url) else {
             throw InstanceError.urlNotValid
         }
-
-        #if os(iOS)
-            if !UIApplication.shared.canOpenURL(url) {
-                throw InstanceError.urlNotValid
-            }
-        #endif
 
         if ["localhost", "127.0.0.1"].contains(url.host()) {
             throw InstanceError.urlIsLocal

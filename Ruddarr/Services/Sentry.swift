@@ -9,7 +9,7 @@ func setSentryCloudKitContext() async {
     let accountStatus = try? await container.accountStatus()
     let cloudKitUserId = try? await container.userRecordID()
 
-    setSentryContext(for: "cloudkit", [
+    setSentryContext(for: "CloudKit", [
         "status": cloudKitStatusString(accountStatus),
         "identifier": cloudKitUserId?.recordName ?? "",
     ])
@@ -95,6 +95,20 @@ func shouldReportEvent( _ crumb: Breadcrumb) -> Bool {
     // usually an authorization issue, not relevant
     if crumb.message?.contains("data was not valid JSON") == true {
         return false
+    }
+
+    return true
+}
+
+func shouldRecordBreadcrumb( _ crumb: Breadcrumb) -> Bool {
+    // drop `GET /api/v3/queue` spam
+    if crumb.category == "http" {
+        let url = crumb.data?["url"] as? String
+        let method = crumb.data?["method"] as? String
+
+        if let url, url.contains(/\/api\/v\d\/queue$/), method == "GET" {
+            return false
+        }
     }
 
     return true

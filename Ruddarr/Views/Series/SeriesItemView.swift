@@ -16,7 +16,7 @@ struct SeriesDetailView: View {
         ScrollView {
             SeriesDetails(series: $series)
                 .padding(.top)
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
                 .environmentObject(settings)
         }
         .refreshable {
@@ -98,8 +98,6 @@ struct SeriesDetailView: View {
                 .sheet(isPresented: $showEditForm) {
                     SeriesEditView(series: $series)
                         .environment(instance)
-                        .padding(.top)
-                        .padding(.all)
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Close") { showEditForm = false }
@@ -118,7 +116,7 @@ struct SeriesDetailView: View {
 
     var editAction: some View {
         #if os(macOS)
-            Button("Edit") {
+            Button("Edit", systemImage: "pencil") {
                 showEditForm = true
             }
         #else
@@ -182,7 +180,7 @@ extension SeriesDetailView {
 
         dependencies.toast.show(.monitoredSearchQueued)
 
-        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "series"])
+        Telemetry.record(.seriesSearchDispatched)
         maybeAskForReview()
     }
 

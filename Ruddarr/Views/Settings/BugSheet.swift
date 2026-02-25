@@ -17,12 +17,15 @@ struct BugSheet: View {
                 emailField
                 reportField
             }
+            .formStyle(.grouped)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", systemImage: "xmark") {
                         dismiss()
-                    }.tint(.primary)
+                    }
+                    .tint(.primary)
+                    .hideIconOnMac()
                 }
 
                 ToolbarItem(placement: .primaryAction) {
@@ -30,12 +33,10 @@ struct BugSheet: View {
                         sendReport()
                     }
                     .buttonStyle(.glassProminent)
+                    .hideIconOnMac()
                     .disabled(!canBeSent)
                 }
             }
-            #if os(macOS)
-                .padding(.all)
-            #endif
         }
     }
 
@@ -86,7 +87,8 @@ struct BugSheet: View {
                 text = ""
             }
 
-            setSentryContext(for: "configuration", settings.context())
+            setSentryContext(for: "Configuration", settings.context())
+            setSentryContext(for: "Subscription", await Subscription.context())
             await setSentryCloudKitContext()
 
             let eventId = SentrySDK.capture(message: "Bug Report (\(UUID().shortened))")

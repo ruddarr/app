@@ -169,7 +169,7 @@ struct SeriesView: View {
             .id(series.id)
         }
         .viewBottomPadding()
-        .viewPadding(.horizontal)
+        .scenePadding(.horizontal)
         #if os(iOS)
             .padding(.top, searchPresented ? 7 : 0)
         #elseif os(macOS)
@@ -362,4 +362,5 @@ struct SeriesView: View {
 
     return ContentView()
         .withAppState()
+        .frame(minWidth: 900, minHeight: 600)
 }

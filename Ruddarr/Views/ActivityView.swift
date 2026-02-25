@@ -131,17 +131,17 @@ struct ActivityView: View {
             .flatMap { $0.value }
             .sorted(by: sort.option.isOrderedBefore)
 
-        if sort.instance != ".all" {
+        if sort.instance != .all {
             items = items.filter {
                 $0.instanceId?.isEqual(to: sort.instance) == true
             }
         }
 
-        if sort.type != ".all" {
+        if sort.type != .all {
             items = items.filter { $0.type.label == sort.type }
         }
 
-        if sort.client != ".all" {
+        if sort.client != .all {
             items = items.filter { $0.downloadClient == sort.client }
         }
 

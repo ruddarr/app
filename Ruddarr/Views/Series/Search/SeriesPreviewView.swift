@@ -19,7 +19,7 @@ struct SeriesPreviewView: View {
         ScrollView {
             SeriesDetails(series: $series)
                 .padding(.top)
-                .viewPadding(.horizontal)
+                .scenePadding(.horizontal)
                 .environmentObject(settings)
         }
         .safeNavigationBarTitleDisplayMode(.inline)
@@ -42,9 +42,7 @@ struct SeriesPreviewView: View {
                         toolbarCancelButton
                         toolbarSaveButton
                     }
-                    #if os(macOS)
-                        .padding(.all)
-                    #else
+                    #if os(iOS)
                         .padding(.top, -25)
                     #endif
             }
@@ -60,6 +58,7 @@ struct SeriesPreviewView: View {
                 presentingForm = false
             } label: {
                 Label("Cancel", systemImage: "xmark")
+                    .hideIconOnMac()
             }
             .tint(.primary)
         }
@@ -71,6 +70,7 @@ struct SeriesPreviewView: View {
             Button("Add Series", systemImage: "plus") {
                 presentingForm = true
             }
+            .hideIconOnMac()
             .buttonStyle(.glassProminent)
             .disabled(presentingForm)
         }
@@ -85,9 +85,10 @@ struct SeriesPreviewView: View {
                 }
             } label: {
                 if instance.series.isWorking {
-                    ProgressView().tint(nil)
+                    ButtonProgressView()
                 } else {
                     Label("Add Series", systemImage: "checkmark")
+                        .hideIconOnMac()
                 }
             }
             .prominentGlassButtonStyle(!instance.series.isWorking)
@@ -124,7 +125,7 @@ struct SeriesPreviewView: View {
         try? await Task.sleep(for: .milliseconds(50))
         dependencies.router.seriesPath.append(seriesPath)
 
-        TelemetryDeck.signal("seriesAdded")
+        Telemetry.record(.seriesAdded)
         maybeAskForReview()
     }
 }

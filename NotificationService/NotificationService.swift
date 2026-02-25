@@ -1,3 +1,4 @@
+import Sentry
 import CryptoKit
 import UserNotifications
 
@@ -9,10 +10,19 @@ class NotificationService: UNNotificationServiceExtension {
         _ request: UNNotificationRequest,
         withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void
     ) {
+        SentrySDK.start { options in
+            options.dsn = Secrets.SentryDsn
+            options.sendDefaultPii = false
+        }
+
         self.contentHandler = contentHandler
         self.bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
 
         if let bestAttemptContent = bestAttemptContent {
+            #if os(macOS)
+                bestAttemptContent.resolveLocalizationsIfNeeded(from: request.content.userInfo)
+            #endif
+
             if let attachment = request.attachment {
                 bestAttemptContent.attachments = [attachment]
             }
@@ -24,6 +34,25 @@ class NotificationService: UNNotificationServiceExtension {
     override func serviceExtensionTimeWillExpire() {
         if let contentHandler = contentHandler, let bestAttemptContent = bestAttemptContent {
             contentHandler(bestAttemptContent)
+        }
+    }
+}
+
+extension UNMutableNotificationContent {
+    func resolveLocalizationsIfNeeded(from userInfo: [AnyHashable: Any]) {
+        guard let aps = userInfo["aps"] as? [String: Any] else { return }
+        guard let alert = aps["alert"] as? [String: Any] else { return }
+
+        if title.hasFormatSpecifier, let args = alert["title-loc-args"] as? [String] {
+            title = String(format: title, arguments: args.map { $0 as CVarArg })
+        }
+
+        if subtitle.hasFormatSpecifier, let args = alert["subtitle-loc-args"] as? [String] {
+            subtitle = String(format: subtitle, arguments: args.map { $0 as CVarArg })
+        }
+
+        if body.hasFormatSpecifier, let args = alert["loc-args"] as? [String] {
+            body = String(format: body, arguments: args.map { $0 as CVarArg })
         }
     }
 }
@@ -52,5 +81,11 @@ extension UNNotificationRequest {
         }
 
         return try? UNNotificationAttachment(identifier: posterHash, url: fileUrl)
+    }
+}
+
+extension String {
+    var hasFormatSpecifier: Bool {
+        range(of: #"%\d*\$?@"#, options: .regularExpression) != nil
     }
 }

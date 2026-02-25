@@ -10,28 +10,40 @@ struct MovieSearchView: View {
     let searchTextPublisher = PassthroughSubject<String, Never>()
 
     var body: some View {
+        @Bindable var discovery = Discovery.shared
         @Bindable var movieLookup = instance.lookup
 
         ScrollView {
-            MediaGrid(items: movieLookup.sortedItems) { movie in
-                NavigationLink(value: movie.exists
-                   ? MoviesPath.movie(movie.id)
-                   : MoviesPath.preview(try? JSONEncoder().encode(movie))
-                ) {
-                    MovieGridPoster(movie: movie)
-                }.buttonStyle(.plain)
+            if movieLookup.sortedItems.isEmpty && searchQuery.isEmpty {
+                MediaGrid(items: discovery.movies) { item in
+                    DiscoveryGridPoster(item: item)
+                } header: {
+                    Text("Popular This Week")
+                        .padding(.top, 12)
+                }
+                .viewBottomPadding()
+                .scenePadding(.horizontal)
+                .opacity(discovery.movies.isEmpty ? 0 : 1)
+                .animation(.easeIn, value: discovery.movies)
+            } else {
+                MediaGrid(items: movieLookup.sortedItems) { movie in
+                    NavigationLink(value: movie.exists
+                       ? MoviesPath.movie(movie.id)
+                       : MoviesPath.preview(try? JSONEncoder().encode(movie))
+                    ) {
+                        MovieGridPoster(movie: movie)
+                    }.buttonStyle(.plain)
+                }
+                .padding(.top, 12)
+                .scenePadding(.horizontal)
+                .viewBottomPadding()
             }
-            .padding(.top, 12)
-            .viewPadding(.horizontal)
-            .viewBottomPadding()
         }
-        .navigationTitle("Search")
-        .safeNavigationBarTitleDisplayMode(.large)
         .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
-            placement: .drawerOrToolbar
+            placement: .drawerOrToolbar(.always)
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
@@ -39,6 +51,9 @@ struct MovieSearchView: View {
             ForEach(MovieLookup.SortOption.allCases) { option in
                 Text(option.label)
             }
+        }
+        .task {
+            await discovery.fetch(.movies)
         }
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)

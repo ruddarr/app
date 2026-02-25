@@ -11,10 +11,12 @@ if [[ -n $CI_ARCHIVE_PATH ]]; then
     export INSTALL_DIR=$PWD # Set Sentry CLI directory
 
     if [[ $(command -v sentry-cli) == "" ]]; then
-        curl -sL https://sentry.io/get-cli/ | bash
+        export HOMEBREW_NO_AUTO_UPDATE=1
+        export HOMEBREW_NO_INSTALL_CLEANUP=1
+        brew install getsentry/tools/sentry-cli
     fi
 
-    $CI_PRIMARY_REPOSITORY_PATH/ci_scripts/sentry-cli \
+    sentry-cli \
       debug-files upload \
       --org $SENTRY_ORG \
       --project $SENTRY_PROJECT \

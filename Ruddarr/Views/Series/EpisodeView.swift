@@ -50,7 +50,7 @@ struct EpisodeView: View {
             }
             .onAppear(perform: setEpisodeState)
             .padding(.vertical)
-            .viewPadding(.horizontal)
+            .scenePadding(.horizontal)
         }
         .navigationTitle(
             series.title.count < 20 ? series.title : "\(series.title.prefix(18))..."
@@ -337,7 +337,7 @@ extension EpisodeView {
 
         dependencies.toast.show(.episodeSearchQueued)
 
-        TelemetryDeck.signal("automaticSearchDispatched", parameters: ["type": "episode"])
+        Telemetry.record(.episodeSearchDispatched)
         maybeAskForReview()
     }
 

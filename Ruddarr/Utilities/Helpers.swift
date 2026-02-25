@@ -14,6 +14,9 @@ extension Optional: OptionalProtocol {
 }
 
 extension String {
+    static let all: String = ".all"
+    static let multi: String = ".multi"
+
     var untrailingSlashIt: String? {
         var string = self
 
