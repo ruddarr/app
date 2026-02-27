@@ -45,6 +45,7 @@ struct SeriesForm: View {
                 rootFolderField
             }
         }
+        .formStyle(.grouped)
         .onAppear {
             selectDefaultValues()
         }
