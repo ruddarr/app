@@ -69,6 +69,7 @@ struct DiscoveryGridPoster: View {
                 .clipShape(RoundedRectangle(cornerRadius: 14))
         }
         .buttonStyle(.plain)
+        .allowsHitTesting(!isLoading)
         .overlay {
             if isLoading {
                 ProgressView().tint(.secondary)
