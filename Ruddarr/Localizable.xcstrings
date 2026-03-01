@@ -1952,6 +1952,16 @@
         }
       }
     },
+    "Dim Unmonitored" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dim Unmonitored"
+          }
+        }
+      }
+    },
     "Hide Specials" : {
       "localizations" : {
         "en" : {

@@ -6,6 +6,8 @@ struct CalendarMovie: View {
 
     @EnvironmentObject var settings: AppSettings
 
+    @AppStorage("calendarDimUnmonitored", store: dependencies.store) private var dimUnmonitored: Bool = false
+
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
@@ -34,6 +36,7 @@ struct CalendarMovie: View {
             .frame(maxWidth: .infinity)
             .background(.card)
             .clipShape(RoundedRectangle(cornerRadius: 14))
+            .opacity(dimUnmonitored && !movie.monitored ? 0.5 : 1)
             .onTapGesture {
                 let deeplink = String(
                     format: "ruddarr://movies/open/%d?instance=%@",
@@ -63,6 +66,8 @@ struct CalendarEpisode: View {
     var episode: Episode
 
     @EnvironmentObject var settings: AppSettings
+
+    @AppStorage("calendarDimUnmonitored", store: dependencies.store) private var dimUnmonitored: Bool = false
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -104,6 +109,7 @@ struct CalendarEpisode: View {
         .frame(maxWidth: .infinity)
         .background(.card)
         .clipShape(RoundedRectangle(cornerRadius: 14))
+        .opacity(dimUnmonitored && (!episode.monitored || episode.series?.monitored == false) ? 0.5 : 1)
         .onTapGesture {
             var deeplink = String(
                 format: "ruddarr://series/open/%d?season=%d&instance=%@",

@@ -9,6 +9,7 @@ struct CalendarView: View {
 
     @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
     @AppStorage("calendarSpecials", store: dependencies.store) private var hideSpecials: Bool = false
+    @AppStorage("calendarDimUnmonitored", store: dependencies.store) private var dimUnmonitored: Bool = false
 
     @State private var onlyPremieres: Bool = false
     @State private var displayedInstance: String = .all
@@ -300,9 +301,14 @@ struct CalendarView: View {
                         Label("Hide Specials", systemImage: "star")
                             .symbolVariant(hideSpecials ? .slash.fill : .slash)
                     }
+
+                    Toggle(isOn: $dimUnmonitored) {
+                        Label("Dim Unmonitored", systemImage: "bookmark")
+                            .symbolVariant(dimUnmonitored ? .slash : .none)
+                    }
                 }
             } label: {
-                if displayedMediaType != .all || onlyPremieres || onlyMonitored || hideSpecials {
+                if displayedMediaType != .all || onlyPremieres || onlyMonitored || hideSpecials || dimUnmonitored {
                     Image("filters.badge")
                         .offset(y: 3)
                         .symbolRenderingMode(.palette)
