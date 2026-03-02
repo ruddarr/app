@@ -75,6 +75,7 @@ actor Telemetry {
                 "radarrInstances": String(settings.radarrInstances.count),
                 "sonarrInstances": String(settings.sonarrInstances.count),
                 "cloudkit": cloudKitStatusString(accountStatus),
+                "subscribed": String(await Subscription.entitledToService()),
             ]
 
             TelemetryDeck.signal("ping", parameters: payload)
