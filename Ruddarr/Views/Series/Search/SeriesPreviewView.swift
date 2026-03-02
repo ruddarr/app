@@ -125,7 +125,11 @@ struct SeriesPreviewView: View {
         try? await Task.sleep(for: .milliseconds(50))
         dependencies.router.seriesPath.append(seriesPath)
 
-        Telemetry.record(.seriesAdded)
+        Telemetry.record(.seriesAdded, attributes: [
+            "tmdb": series.tmdbId ?? 0,
+            "imdb": series.imdbId ?? 0,
+        ])
+
         maybeAskForReview()
     }
 }

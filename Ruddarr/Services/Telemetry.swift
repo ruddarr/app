@@ -6,6 +6,8 @@ import TelemetryDeck
 @preconcurrency import Sentry
 
 enum Metric: String {
+    case ping
+
     case movieAdded
     case seriesAdded
 
@@ -20,7 +22,7 @@ enum Metric: String {
 }
 
 actor Telemetry {
-    static func record(_ metric: Metric) {
+    static func record(_ metric: Metric, attributes: [String: any Sentry.SentryAttributeValue] = [:]) {
         switch metric {
         case .movieDownloaded:
             SentrySDK.metrics.count(key: "releaseDownloaded", value: 1, attributes: ["type": "movie"])
@@ -37,7 +39,7 @@ actor Telemetry {
         case .episodeSearchDispatched:
             SentrySDK.metrics.count(key: "automaticSearchDispatched", value: 1, attributes: ["type": "episode"])
         default:
-            SentrySDK.metrics.count(key: metric.rawValue, value: 1)
+            SentrySDK.metrics.count(key: metric.rawValue, value: 1, attributes: attributes)
         }
     }
 
@@ -67,6 +69,8 @@ actor Telemetry {
                 "theme": settings.theme.rawValue,
                 "tab": settings.tab.rawValue,
                 "appearance": settings.appearance.rawValue,
+                "grid": settings.grid.rawValue,
+                "releaseFilters": settings.releaseFilters.rawValue,
                 "deviceType": Platform.deviceType.rawValue,
                 "radarrInstances": String(settings.radarrInstances.count),
                 "sonarrInstances": String(settings.sonarrInstances.count),
@@ -74,6 +78,7 @@ actor Telemetry {
             ]
 
             TelemetryDeck.signal("ping", parameters: payload)
+            Telemetry.record(.ping, attributes: payload)
             Occurrence.occurred("telemetryUploaded")
 
             leaveBreadcrumb(.info, category: "telemetry", message: "Sent ping", data: payload)
