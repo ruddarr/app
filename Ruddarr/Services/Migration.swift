@@ -36,7 +36,7 @@ class Migration {
         guard let string = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String,
               let build = Int(string)
         else {
-            leaveBreadcrumb(.warning, category: "migration", message: "Could not parse CFBundleVersion")
+            assertionFailure("Could not parse CFBundleVersion")
             return 0
         }
 

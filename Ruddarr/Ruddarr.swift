@@ -19,6 +19,8 @@ struct Ruddarr: App {
         // Tips.showAllTipsForTesting()
         #endif
 
+        Migration.run()
+
         try? Tips.configure()
 
         Task {

@@ -23,8 +23,6 @@ class AppDelegate:
         configureSentry()
         configureTelemetryDeck()
 
-        Migration.run()
-
         QuickActions().registerShortcutItems()
 
         return true
