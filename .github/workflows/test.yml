@@ -28,10 +28,10 @@ jobs:
           matrix:
             include:
               - name: iOS
-                platform: "iOS Simulator,name=iPhone 16"
+                platform: "iOS Simulator,name=iPhone 17 Pro"
                 action: test
               - name: macOS
-                platform: "platform=macOS"
+                platform: "macOS"
                 action: build
 
         steps:
@@ -50,6 +50,6 @@ jobs:
                 xcodebuild ${{ matrix.action }} \
                   -scheme Ruddarr \
                   -skipPackagePluginValidation \
-                  -destination '${{ matrix.platform }}' \
+                  -destination 'platform=${{ matrix.platform }}' \
                   CODE_SIGNING_ALLOWED=NO
 

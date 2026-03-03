@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BB000000000000000000AAA8"
-               BuildableName = "RuddarrTests.xctest"
-               BlueprintName = "RuddarrTests"
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
                ReferencedContainer = "container:Ruddarr.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -48,8 +48,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BB000000000000000000AAA8"
-               BuildableName = "RuddarrTests.xctest"
-               BlueprintName = "RuddarrTests"
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
                ReferencedContainer = "container:Ruddarr.xcodeproj">
             </BuildableReference>
          </TestableReference>
