@@ -13,6 +13,7 @@ struct CalendarMovie: View {
                     Text(movie.title)
                         .font(.body)
                         .lineLimit(1)
+                        .foregroundStyle(shouldFade ? .secondary : .primary)
 
                     Spacer()
 
@@ -32,8 +33,8 @@ struct CalendarMovie: View {
             .padding(.vertical, 8)
             .padding(.horizontal, 12)
             .frame(maxWidth: .infinity)
-            .background(.card)
             .opacity(shouldFade ? 0.5 : 1)
+            .background(.card.opacity(shouldFade ? 0.6 : 1))
             .clipShape(RoundedRectangle(cornerRadius: 14))
             .onTapGesture {
                 let deeplink = String(
@@ -75,6 +76,7 @@ struct CalendarEpisode: View {
                 Text(episode.series?.title ?? "Unknown")
                     .font(.body)
                     .lineLimit(1)
+                    .foregroundStyle(shouldFade ? .secondary : .primary)
 
                 Spacer()
 
@@ -107,8 +109,8 @@ struct CalendarEpisode: View {
         .padding(.vertical, 8)
         .padding(.horizontal, 12)
         .frame(maxWidth: .infinity)
-        .background(.card)
         .opacity(shouldFade ? 0.5 : 1)
+        .background(.card.opacity(shouldFade ? 0.6 : 1))
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .onTapGesture {
             var deeplink = String(
