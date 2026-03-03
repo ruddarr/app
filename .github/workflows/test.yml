@@ -29,8 +29,8 @@ jobs:
           - name: Run tests
             run: |
                 xcodebuild test \
-                    -project Ruddarr.xcodeproj \
                     -scheme Ruddarr \
+                    -skipPackagePluginValidation
                     -destination 'platform=iOS Simulator,name=iPhone 16' \
                     CODE_SIGNING_ALLOWED=NO
 
@@ -46,7 +46,7 @@ jobs:
           - name: Run tests
             run: |
                 xcodebuild test \
-                    -project Ruddarr.xcodeproj \
                     -scheme Ruddarr \
+                    -skipPackagePluginValidation
                     -destination 'platform=macOS' \
                     CODE_SIGNING_ALLOWED=NO
