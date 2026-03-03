@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
 name: Translations
 
 on:
@@ -21,6 +23,6 @@ jobs:
         uses: crowdin/github-action@v2
         with:
           upload_sources: true
-        env:          
+        env:
           CROWDIN_PROJECT_ID: 693153
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_TOKEN }}

@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: "Tests"
+
+on:
+    pull_request: null
+    push:
+        branches:
+        - develop
+        - main
+
+permissions:
+  contents: read
+
+concurrency:
+    group: "${{ github.workflow }}-${{ github.ref }}"
+    cancel-in-progress: true
+
+jobs:
+
+    xcode:
+        name: Xcode Tests (${{ matrix.name }})
+        runs-on: macos-latest
+        timeout-minutes: 10
+
+        strategy:
+          fail-fast: false
+          matrix:
+            include:
+              - name: iOS
+                platform: "iOS Simulator,name=iPhone 17 Pro"
+                action: test
+              - name: macOS
+                platform: "macOS"
+                action: build
+
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+
+          - name: Select latest Xcode
+            run: |
+              LATEST_VERSION=$(ls -d /Applications/Xcode_*.app | sed 's|.*Xcode_||;s|\.app||' | sort -t. -k1,1n -k2,2n -k3,3n | tail -1)
+              sudo xcode-select -s "/Applications/Xcode_${LATEST_VERSION}.app"
+              xcodebuild -version
+
+          - name: Build and run tests
+            run: |
+                xcodebuild ${{ matrix.action }} \
+                  -scheme Ruddarr \
+                  -skipPackagePluginValidation \
+                  -destination 'platform=${{ matrix.platform }}' \
+                  CODE_SIGNING_ALLOWED=NO
+
