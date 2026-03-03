@@ -102,6 +102,7 @@
 		BB6F23AB2B6ABB8700A4347A /* SettingsAboutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F23AA2B6ABB8700A4347A /* SettingsAboutSection.swift */; };
 		BB6F23AD2B6ABBBD00A4347A /* SettingsSystemSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F23AC2B6ABBBD00A4347A /* SettingsSystemSection.swift */; };
 		BB715EBF2CCAA2AD003B12A0 /* SentrySwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = BB715EBE2CCAA2AD003B12A0 /* SentrySwiftUI */; };
+		BB7487F32F57627800B0F036 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7487F22F57627800B0F036 /* Migration.swift */; };
 		BB7602752B62027C006E5A1F /* quality-profiles.json in Resources */ = {isa = PBXBuildFile; fileRef = BB7602742B62027C006E5A1F /* quality-profiles.json */; };
 		BB7666CF2BA51F49009D4F68 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7666CE2BA51F49009D4F68 /* Calendar.swift */; };
 		BB77996D2BAE4757007D713B /* Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB77996C2BAE4757007D713B /* Shortcuts.swift */; };
@@ -352,6 +353,7 @@
 		BB6F23A82B6A039400A4347A /* MovieReleasesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleasesView.swift; sourceTree = "<group>"; };
 		BB6F23AA2B6ABB8700A4347A /* SettingsAboutSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAboutSection.swift; sourceTree = "<group>"; };
 		BB6F23AC2B6ABBBD00A4347A /* SettingsSystemSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSystemSection.swift; sourceTree = "<group>"; };
+		BB7487F22F57627800B0F036 /* Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
 		BB7602742B62027C006E5A1F /* quality-profiles.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "quality-profiles.json"; sourceTree = "<group>"; };
 		BB7666CE2BA51F49009D4F68 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		BB77996C2BAE4757007D713B /* Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcuts.swift; sourceTree = "<group>"; };
@@ -944,6 +946,7 @@
 				BB8A60272B952D710039CFF6 /* Subscription.swift */,
 				BBC77E252B7AB79100573EBD /* Notifications.swift */,
 				BBA06B5A2F47D68200A5F9B4 /* Discovery.swift */,
+				BB7487F22F57627800B0F036 /* Migration.swift */,
 				BBFBAD5B2BDFF5A4007B70BC /* WhatsNew.swift */,
 			);
 			path = Services;
@@ -1196,6 +1199,7 @@
 				BB94F1B92B7E7B870050F6A0 /* InstanceWebhook.swift in Sources */,
 				798010BF2B6268DE00BBC056 /* MovieSort.swift in Sources */,
 				BB8B3DF22B61713500B80E2D /* MovieEditView.swift in Sources */,
+				BB7487F32F57627800B0F036 /* Migration.swift in Sources */,
 				BBAED12B2B7205A9006C6CF2 /* Helpers.swift in Sources */,
 				BB96C3292BE8337300E24C1C /* SeriesPreviewView.swift in Sources */,
 				BBD3F2D62BFA55FE00DE5D8E /* MediaQuality.swift in Sources */,
