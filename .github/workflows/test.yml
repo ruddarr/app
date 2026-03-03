@@ -44,7 +44,7 @@ jobs:
             run: |
                 xcodebuild test \
                   -scheme Ruddarr \
-                  -skipPackagePluginValidation
+                  -skipPackagePluginValidation \
                   -destination '${{ matrix.platform }}' \
                   CODE_SIGNING_ALLOWED=NO
 
