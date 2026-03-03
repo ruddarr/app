@@ -20,6 +20,8 @@ class AppDelegateMac:
 
         configureSentry()
         configureTelemetryDeck()
+
+        Migration.run()
     }
 
     // Called after successful registration with APNs
