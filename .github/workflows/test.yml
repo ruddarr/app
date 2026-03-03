@@ -42,7 +42,6 @@ jobs:
             run: |
               LATEST_VERSION=$(ls -d /Applications/Xcode_*.app | sed 's|.*Xcode_||;s|\.app||' | sort -t. -k1,1n -k2,2n -k3,3n | tail -1)
               sudo xcode-select -s "/Applications/Xcode_${LATEST_VERSION}.app"
-              echo "Selected Xcode $LATEST_VERSION"
               xcodebuild -version
 
           - name: Build and run tests
