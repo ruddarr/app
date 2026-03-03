@@ -24,8 +24,8 @@ jobs:
         timeout-minutes: 10
 
         strategy:
+          fail-fast: false
           matrix:
-            fail-fast: false
             platform:
               - platform: "iOS Simulator,name=iPhone 16"
                 name: iOS
