@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: "Build"
+
+on:
+    pull_request: null
+    push:
+        branches:
+        - develop
+        - main
+
+permissions: {}
+
+concurrency:
+    group: "${{ github.workflow }}-${{ github.ref }}"
+    cancel-in-progress: true
+
+jobs:
+
+    test:
+        name: Test
+        runs-on: macos-latest
+        timeout-minutes: 30
+
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+
+          - name: Run tests
+            run: |
+                xcodebuild test \
+                    -project Ruddarr.xcodeproj \
+                    -scheme Ruddarr \
+                    -destination 'platform=iOS Simulator,name=iPhone 16' \
+                    CODE_SIGNING_ALLOWED=NO

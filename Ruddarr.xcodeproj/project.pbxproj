@@ -221,6 +221,7 @@
 		BBFBAD5C2BDFF5A4007B70BC /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFBAD5B2BDFF5A4007B70BC /* WhatsNew.swift */; };
 		BBFDEB842BD5B78B009F002F /* SettingsLinksSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */; };
 		BBFFB5102D72717000AB5EFD /* BugSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFFB50F2D72717000AB5EFD /* BugSheet.swift */; };
+		BB000000000000000000AAA1 /* RuddarrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000AAA3 /* RuddarrTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -476,6 +477,8 @@
 		BBFBAD5B2BDFF5A4007B70BC /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLinksSection.swift; sourceTree = "<group>"; };
 		BBFFB50F2D72717000AB5EFD /* BugSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugSheet.swift; sourceTree = "<group>"; };
+		BB000000000000000000AAA2 /* RuddarrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RuddarrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB000000000000000000AAA3 /* RuddarrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuddarrTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -495,6 +498,13 @@
 				BB715EBF2CCAA2AD003B12A0 /* SentrySwiftUI in Frameworks */,
 				BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */,
 				BB48FF4D2CADABA200DAA4A7 /* TelemetryDeck in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB000000000000000000AAA6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -779,6 +789,7 @@
 				BB644FCA2B8529C2007C7AD5 /* ci_scripts */,
 				BBE828552B4F2C7000C1E1D9 /* Ruddarr */,
 				BB40712E2C1CDD32006A3FA5 /* NotificationService */,
+				BB000000000000000000AAA4 /* RuddarrTests */,
 				BBC78DC02D70E2D700EA0AF5 /* README.md */,
 				BBF8E1202D8B9DB70018C5D7 /* LICENSE */,
 				BBB574AC2F4CEB2E009B1DD0 /* Frameworks */,
@@ -786,11 +797,20 @@
 			);
 			sourceTree = "<group>";
 		};
+		BB000000000000000000AAA4 /* RuddarrTests */ = {
+			isa = PBXGroup;
+			children = (
+				BB000000000000000000AAA3 /* RuddarrTests.swift */,
+			);
+			path = RuddarrTests;
+			sourceTree = "<group>";
+		};
 		BBE828542B4F2C7000C1E1D9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				BBE828532B4F2C7000C1E1D9 /* Ruddarr.app */,
 				BB40712D2C1CDD32006A3FA5 /* NotificationService.appex */,
+				BB000000000000000000AAA2 /* RuddarrTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -996,6 +1016,23 @@
 			productReference = BBE828532B4F2C7000C1E1D9 /* Ruddarr.app */;
 			productType = "com.apple.product-type.application";
 		};
+		BB000000000000000000AAA8 /* RuddarrTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BB000000000000000000AAAD /* Build configuration list for PBXNativeTarget "RuddarrTests" */;
+			buildPhases = (
+				BB000000000000000000AAA5 /* Sources */,
+				BB000000000000000000AAA6 /* Frameworks */,
+				BB000000000000000000AAA7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RuddarrTests;
+			productName = RuddarrTests;
+			productReference = BB000000000000000000AAA2 /* RuddarrTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1011,6 +1048,9 @@
 					};
 					BBE828522B4F2C7000C1E1D9 = {
 						CreatedOnToolsVersion = 15.2;
+					};
+					BB000000000000000000AAA8 = {
+						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -1036,6 +1076,7 @@
 			targets = (
 				BBE828522B4F2C7000C1E1D9 /* Ruddarr */,
 				BB40712C2C1CDD32006A3FA5 /* NotificationService */,
+				BB000000000000000000AAA8 /* RuddarrTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1097,6 +1138,13 @@
 				BBE8285B2B4F2C7100C1E1D9 /* Assets.xcassets in Resources */,
 				BB5379D02C3DD38500B65E95 /* Localizable.xcstrings in Resources */,
 				BB336F882B98F61B000904FA /* Ruddarr.storekit in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB000000000000000000AAA7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1277,6 +1325,14 @@
 				BB6942EA2D8A0BBC00ED7288 /* API+Live.swift in Sources */,
 				BB6F23AB2B6ABB8700A4347A /* SettingsAboutSection.swift in Sources */,
 				BB42B7CB2DCD26AB00DA73A3 /* TaskImportView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB000000000000000000AAA5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB000000000000000000AAA1 /* RuddarrTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1628,6 +1684,32 @@
 			};
 			name = Release;
 		};
+		BB000000000000000000AAAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ruddarr.tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BB000000000000000000AAAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ruddarr.tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1654,6 +1736,15 @@
 			buildConfigurations = (
 				BBE828632B4F2C7100C1E1D9 /* Debug */,
 				BBE828642B4F2C7100C1E1D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BB000000000000000000AAAD /* Build configuration list for PBXNativeTarget "RuddarrTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BB000000000000000000AAAB /* Debug */,
+				BB000000000000000000AAAC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
