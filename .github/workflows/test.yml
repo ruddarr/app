@@ -19,15 +19,18 @@ concurrency:
 jobs:
 
     xcode:
-        name: Xcode Tests
+        name: Xcode Tests (${{ matrix.name }})
         runs-on: macos-latest
         timeout-minutes: 10
 
         strategy:
           matrix:
+            fail-fast: false
             platform:
-              - "iOS Simulator,name=iPhone 16"
-              - "macOS"
+              - platform: "iOS Simulator,name=iPhone 16"
+                name: iOS
+              - platform: "macOS"
+                name: macOS
 
         steps:
           - name: Checkout repository
