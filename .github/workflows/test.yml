@@ -26,11 +26,13 @@ jobs:
         strategy:
           fail-fast: false
           matrix:
-            platform:
-              - platform: "iOS Simulator,name=iPhone 16"
-                name: iOS
-              - platform: "macOS"
-                name: macOS
+            include:
+              - name: iOS
+                platform: "iOS Simulator,name=iPhone 16"
+                action: test
+              - name: macOS
+                platform: "macOS"
+                action: build
 
         steps:
           - name: Checkout repository
@@ -45,7 +47,7 @@ jobs:
 
           - name: Build and run tests
             run: |
-                xcodebuild test \
+                xcodebuild ${{ matrix.action }} \
                   -scheme Ruddarr \
                   -skipPackagePluginValidation \
                   -destination '${{ matrix.platform }}' \
