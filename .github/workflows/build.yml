@@ -17,8 +17,8 @@ concurrency:
 
 jobs:
 
-    test:
-        name: Test
+    ios:
+        name: iOS
         runs-on: macos-latest
         timeout-minutes: 30
 
@@ -32,4 +32,21 @@ jobs:
                     -project Ruddarr.xcodeproj \
                     -scheme Ruddarr \
                     -destination 'platform=iOS Simulator,name=iPhone 16' \
+                    CODE_SIGNING_ALLOWED=NO
+
+    macos:
+        name: macOS
+        runs-on: macos-latest
+        timeout-minutes: 30
+
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+
+          - name: Run tests
+            run: |
+                xcodebuild test \
+                    -project Ruddarr.xcodeproj \
+                    -scheme Ruddarr \
+                    -destination 'platform=macOS' \
                     CODE_SIGNING_ALLOWED=NO
