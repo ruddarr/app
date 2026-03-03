@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 
-name: "Build"
+name: "Tests"
 
 on:
     pull_request: null
@@ -9,7 +9,8 @@ on:
         - develop
         - main
 
-permissions: {}
+permissions:
+  contents: read
 
 concurrency:
     group: "${{ github.workflow }}-${{ github.ref }}"
@@ -17,36 +18,33 @@ concurrency:
 
 jobs:
 
-    ios:
-        name: iOS
+    xcode:
+        name: Xcode Tests
         runs-on: macos-latest
-        timeout-minutes: 30
+        timeout-minutes: 10
+
+        strategy:
+          matrix:
+            platform:
+              - "iOS Simulator,name=iPhone 16"
+              - "macOS"
 
         steps:
           - name: Checkout repository
             uses: actions/checkout@v4
 
-          - name: Run tests
+          - name: Select latest Xcode
+            run: |
+              LATEST_VERSION=$(ls -d /Applications/Xcode_*.app | sed 's|.*Xcode_||;s|\.app||' | sort -t. -k1,1n -k2,2n -k3,3n | tail -1)
+              sudo xcode-select -s "/Applications/Xcode_${LATEST_VERSION}.app"
+              echo "Selected Xcode $LATEST_VERSION"
+              xcodebuild -version
+
+          - name: Build and run tests
             run: |
                 xcodebuild test \
-                    -scheme Ruddarr \
-                    -skipPackagePluginValidation
-                    -destination 'platform=iOS Simulator,name=iPhone 16' \
-                    CODE_SIGNING_ALLOWED=NO
+                  -scheme Ruddarr \
+                  -skipPackagePluginValidation
+                  -destination '${{ matrix.platform }}' \
+                  CODE_SIGNING_ALLOWED=NO
 
-    macos:
-        name: macOS
-        runs-on: macos-latest
-        timeout-minutes: 30
-
-        steps:
-          - name: Checkout repository
-            uses: actions/checkout@v4
-
-          - name: Run tests
-            run: |
-                xcodebuild test \
-                    -scheme Ruddarr \
-                    -skipPackagePluginValidation
-                    -destination 'platform=macOS' \
-                    CODE_SIGNING_ALLOWED=NO
