@@ -152,7 +152,7 @@ extension SeriesReleaseSort: RawRepresentable {
             let result = try JSONDecoder().decode(SeriesReleaseSort.self, from: data)
             self = result
         } catch {
-            leaveBreadcrumb(.fatal, category: "series.releases.sort", message: "init failed", data: ["error": error])
+            leaveBreadcrumb(.fatal, category: "series.releases.sort", message: "JSON decode failed: \(error)", data: ["error": error])
 
             self = .init()
         }
