@@ -66,15 +66,17 @@ struct DiscoveryGridPoster: View {
                         SeriesPosterOverlay(series: series)
                     }
                 }
-                .clipShape(RoundedRectangle(cornerRadius: 14))
         }
         .buttonStyle(.plain)
         .allowsHitTesting(!isLoading)
+        .animation(.spring(duration: 0.2), value: isLoading)
         .overlay {
             if isLoading {
-                ProgressView().tint(.secondary)
+                Color.black.opacity(0.7)
+                ProgressView().tint(.white)
             }
         }
+        .clipShape(RoundedRectangle(cornerRadius: 14))
         .alert(
             isPresented: Binding(
                 get: { self.error != nil },
@@ -153,4 +155,17 @@ struct DiscoveryGridPoster: View {
             self.error = API.Error(from: error)
         }
     }
+}
+
+#Preview {
+    let items: DiscoveryItems = PreviewData.loadObject(name: "popular-movies")
+
+    VStack {
+        DiscoveryGridPoster(item: items.popular[3])
+        DiscoveryGridPoster(item: items.popular[12])
+        DiscoveryGridPoster(item: items.popular[13])
+    }
+    .environment(RadarrInstance())
+    .environment(SonarrInstance())
+    .frame(width: 150, height: 225)
 }
