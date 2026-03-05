@@ -1963,6 +1963,7 @@
       }
     },
     "History" : {
+      "comment" : "Tab/sidebar menu item",
       "localizations" : {
         "en" : {
           "stringUnit" : {

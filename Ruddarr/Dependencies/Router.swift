@@ -28,6 +28,11 @@ enum TabItem: String, Identifiable, Hashable, Sendable {
     case series
     case calendar
     case activity
+
+    #if os(macOS)
+        case history
+    #endif
+
     case settings
 
     enum Openable: String, CaseIterable {
@@ -44,6 +49,10 @@ enum TabItem: String, Identifiable, Hashable, Sendable {
         case .calendar: String(localized: "Calendar", comment: "Tab/sidebar menu item")
         case .activity: String(localized: "Activity", comment: "Tab/sidebar menu item")
         case .settings: String(localized: "Settings", comment: "Tab/sidebar menu item")
+
+        #if os(macOS)
+            case .history: String(localized: "History", comment: "Tab/sidebar menu item")
+        #endif
         }
     }
 
@@ -54,6 +63,10 @@ enum TabItem: String, Identifiable, Hashable, Sendable {
         case .calendar: "calendar"
         case .activity: "waveform.path.ecg"
         case .settings: "gear"
+
+        #if os(macOS)
+            case .history: "clock.arrow.trianglehead.counterclockwise.rotate.90"
+        #endif
         }
     }
 
