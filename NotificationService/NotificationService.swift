@@ -20,7 +20,7 @@ class NotificationService: UNNotificationServiceExtension {
 
         if let bestAttemptContent = bestAttemptContent {
             #if os(macOS)
-                bestAttemptContent.resolveLocalizationsIfNeeded(from: request.content.userInfo)
+            bestAttemptContent.resolveLocalizationsIfNeeded(from: request.content.userInfo)
             #endif
 
             if let attachment = request.attachment {
@@ -43,16 +43,16 @@ extension UNMutableNotificationContent {
         guard let aps = userInfo["aps"] as? [String: Any] else { return }
         guard let alert = aps["alert"] as? [String: Any] else { return }
 
-        if title.hasFormatSpecifier, let args = alert["title-loc-args"] as? [String] {
-            title = String(format: title, arguments: args.map { $0 as CVarArg })
+        if title.hasFormatSpecifier, let args = alert["title-loc-args"] as? [Any] {
+            title = String(format: title, arguments: args.map { "\($0)" as NSString })
         }
 
-        if subtitle.hasFormatSpecifier, let args = alert["subtitle-loc-args"] as? [String] {
-            subtitle = String(format: subtitle, arguments: args.map { $0 as CVarArg })
+        if subtitle.hasFormatSpecifier, let args = alert["subtitle-loc-args"] as? [Any] {
+            subtitle = String(format: subtitle, arguments: args.map { "\($0)" as NSString })
         }
 
-        if body.hasFormatSpecifier, let args = alert["loc-args"] as? [String] {
-            body = String(format: body, arguments: args.map { $0 as CVarArg })
+        if body.hasFormatSpecifier, let args = alert["loc-args"] as? [Any] {
+            body = String(format: body, arguments: args.map { "\($0)" as NSString })
         }
     }
 }
