@@ -66,6 +66,7 @@ struct DiscoveryGridPoster: View {
                         SeriesPosterOverlay(series: series)
                     }
                 }
+                .opacity(inLibrary ? 0.4 : 1)
         }
         .buttonStyle(.plain)
         .allowsHitTesting(!isLoading)
@@ -88,6 +89,10 @@ struct DiscoveryGridPoster: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }.tint(nil)
+    }
+
+    var inLibrary: Bool {
+        movie != nil || series != nil
     }
 
     var movie: Movie? {
