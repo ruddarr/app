@@ -11,7 +11,16 @@ final class Toast {
     @ObservationIgnored
     lazy var show: @MainActor (AnyView, MessageType) -> Void = { [weak self] view, type in
         guard let self else { return }
-        let message = Message(view: view, type: type)
+        var message = Message(view: view, type: type)
+
+        if type == .alert {
+            message.onDismiss = { [weak self] in
+                guard let self else { return }
+                withAnimation(self.animation) {
+                    self.currentMessage = nil
+                }
+            }
+        }
 
         #if os(iOS)
             UINotificationFeedbackGenerator().notificationOccurred(
@@ -23,8 +32,10 @@ final class Toast {
             self.currentMessage = message
         }
 
-        Task {
-            try await self.dismissAfterTimeout(message.id)
+        if type != .alert {
+            Task {
+                try await self.dismissAfterTimeout(message.id)
+            }
         }
     }
 
@@ -50,10 +61,11 @@ extension Toast {
         var id: UUID = .init()
         var view: AnyView
         var type: MessageType
+        var onDismiss: (() -> Void)?
 
         var textColor: Color {
             switch type {
-            case .notice: .primary
+            case .notice, .alert: .primary
             case .error: .red
             }
         }
@@ -62,6 +74,7 @@ extension Toast {
     enum MessageType {
         case notice
         case error
+        case alert
     }
 
     enum PresetMessage {
@@ -125,6 +138,10 @@ extension Toast {
         show(AnyView(label(text, icon)), type)
     }
 
+    func alert(title: String, message: String) {
+        show(AnyView(alert(title, message)), .alert)
+    }
+
     func label(_ text: String, _ icon: String? = nil) -> any View {
         Label {
             Text(text)
@@ -137,18 +154,57 @@ extension Toast {
         .fontWeight(.semibold)
     }
 
+    func alert(_ title: String, _ message: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.headline)
+                .fontWeight(.semibold)
+
+            Text(message)
+                .font(.callout)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.leading)
+        }
+        .fixedSize(horizontal: false, vertical: true)
+    }
+
+    @ViewBuilder
     func render(_ message: Toast.Message) -> some View {
-        message.view
-            .padding()
-            .glassEffect()
-            .overlay(
-                Capsule().stroke(.ultraThinMaterial, lineWidth: 1)
-            )
-            .foregroundStyle(message.textColor)
-            .padding()
-            .transition(.opacity)
-            .id(message.id)
-            .padding(.bottom, 50)
+        Group {
+            if let onDismiss = message.onDismiss {
+                VStack(alignment: .leading, spacing: 0) {
+                    message.view
+                        .padding(.horizontal, 30)
+                        .padding(.vertical)
+
+                    Button {
+                        onDismiss()
+                    } label: {
+                        Text("OK").fontWeight(.medium)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                    .buttonSizing(.flexible)
+                    .controlSize(.large)
+                    .buttonStyle(.bordered)
+                    .tint(.secondary)
+                }
+                .frame(maxWidth: 340)
+                .glassEffect(in: RoundedRectangle(cornerRadius: 24))
+            } else {
+                message.view
+                    .padding()
+                    .glassEffect(in: RoundedRectangle(cornerRadius: 16))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16).stroke(.ultraThinMaterial, lineWidth: 1)
+                    )
+            }
+        }
+        .foregroundStyle(message.textColor)
+        .padding()
+        .transition(.opacity)
+        .id(message.id)
+        .padding(.bottom, 50)
     }
 }
 
@@ -166,7 +222,7 @@ extension View {
 
 #Preview {
     let toast = Toast()
-    toast.show(.monitored)
+    toast.show(.reportSent)
 
     let notice = Toast.Message(
         view: AnyView(toast.label("Monitored", "bookmark.fill")),
@@ -178,6 +234,12 @@ extension View {
         type: .error
     )
 
+    var alert = Toast.Message(
+        view: AnyView(toast.alert("URL Not Reachable", "The operation couldn't be completed. (NSURLERRORDOMAIN error - 1011.)")),
+        type: .alert
+    )
+    alert.onDismiss = {}
+
     return VStack {
         Text(verbatim: "Headline")
             .font(.largeTitle.bold())
@@ -185,6 +247,13 @@ extension View {
             .overlay { toast.render(notice) }
 
         toast.render(error)
+
+        Spacer().frame(maxHeight: 100)
+
+        Text(verbatim: "Headline")
+            .font(.largeTitle.bold())
+            .frame(maxWidth: .infinity)
+            .overlay { toast.render(alert) }
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .overlay(alignment: .bottom) {
