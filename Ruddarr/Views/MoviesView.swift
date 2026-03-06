@@ -49,7 +49,7 @@ struct MoviesView: View {
                     }
                     .task {
                         guard !instance.isVoid else { return }
-                        await fetchMoviesWithAlertThrottled(ignoreOffline: true)
+                        await fetchMoviesThrottled()
                     }
                     .refreshable {
                         await Task { await fetchMoviesWithAlert() }.value
@@ -236,9 +236,10 @@ struct MoviesView: View {
         }
     }
 
-    func fetchMoviesWithAlertThrottled(ignoreOffline: Bool = false) async {
+    func fetchMoviesThrottled() async {
         guard Date.now.timeIntervalSince(lastFetch) >= 15 else { return }
-        await fetchMoviesWithAlert(ignoreOffline: ignoreOffline)
+        _ = await instance.movies.fetch()
+        updateDisplayedMovies()
         lastFetch = .now
     }
 
