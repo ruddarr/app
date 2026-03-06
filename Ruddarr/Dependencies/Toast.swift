@@ -9,7 +9,10 @@ final class Toast {
     var currentMessage: Message?
 
     @ObservationIgnored
-    lazy var show: @MainActor (AnyView, MessageType) -> Void = { [weak self] view, type in
+    var animation: Animation? = .snappy
+
+    @ObservationIgnored
+    lazy var trigger: @MainActor (AnyView, MessageType) -> Void = { [weak self] view, type in
         guard let self else { return }
         let message = Message(view: view, type: type)
 
@@ -24,20 +27,16 @@ final class Toast {
         }
 
         Task {
-            try await self.dismissAfterTimeout(message.id)
+            try await self.dismissAfterTimeout(message.id, message.timeout)
         }
     }
 
     @ObservationIgnored
-    var timeout: Duration = .seconds(4)
-    var animation: Animation? = .snappy
-
-    @ObservationIgnored
-    lazy var dismissAfterTimeout: @MainActor (Message.ID) async throws -> Void = { [weak self] in
+    lazy var dismissAfterTimeout: @MainActor (Message.ID, Duration) async throws -> Void = { [weak self] id, duration in
         guard let self else { return }
-        try await Task.sleep(until: .now + self.timeout)
+        try await Task.sleep(until: .now + duration)
 
-        if self.currentMessage?.id == $0 {
+        if self.currentMessage?.id == id {
             withAnimation(self.animation) {
                 self.currentMessage = nil
             }
@@ -51,10 +50,17 @@ extension Toast {
         var view: AnyView
         var type: MessageType
 
-        var textColor: Color {
+        var tint: Color {
             switch type {
             case .notice: .primary
             case .error: .red
+            }
+        }
+
+        var timeout: Duration {
+            switch type {
+            case .notice: return .seconds(4)
+            case .error: return .seconds(8)
             }
         }
     }
@@ -87,42 +93,46 @@ extension Toast {
     func show(_ preset: PresetMessage) {
         switch preset {
         case .monitored:
-            custom(text: String(localized: "Monitored"), icon: "bookmark.fill")
+            notice(text: String(localized: "Monitored"), icon: "bookmark.fill")
         case .unmonitored:
-            custom(text: String(localized: "Unmonitored"), icon: "bookmark")
+            notice(text: String(localized: "Unmonitored"), icon: "bookmark")
         case .refreshQueued:
-            custom(text: String(localized: "Refresh Queued"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "Refresh Queued"), icon: "checkmark.circle.fill")
         case .importQueued:
-            custom(text: String(localized: "Import Queued"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "Import Queued"), icon: "checkmark.circle.fill")
         case .downloadQueued:
-            custom(text: String(localized: "Download Queued"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "Download Queued"), icon: "checkmark.circle.fill")
         case .movieSearchQueued:
-            custom(text: String(localized: "Movie Search Queued"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "Movie Search Queued"), icon: "checkmark.circle.fill")
         case .seasonSearchQueued:
-            custom(text: String(localized: "Season Search Queued"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "Season Search Queued"), icon: "checkmark.circle.fill")
         case .episodeSearchQueued:
-            custom(text: String(localized: "Episode Search Queued"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "Episode Search Queued"), icon: "checkmark.circle.fill")
         case .monitoredSearchQueued:
-            custom(text: String(localized: "Monitored Search Queued"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "Monitored Search Queued"), icon: "checkmark.circle.fill")
         case .movieDeleted:
-            custom(text: String(localized: "Movie Deleted"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "Movie Deleted"), icon: "checkmark.circle.fill")
         case .seriesDeleted:
-            custom(text: String(localized: "Series Deleted"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "Series Deleted"), icon: "checkmark.circle.fill")
         case .seasonDeleted:
-            custom(text: String(localized: "Season Files Deleted"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "Season Files Deleted"), icon: "checkmark.circle.fill")
         case .fileDeleted:
-            custom(text: String(localized: "File Deleted"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "File Deleted"), icon: "checkmark.circle.fill")
         case .linkCopied:
-            custom(text: String(localized: "Link Copied"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "Link Copied"), icon: "checkmark.circle.fill")
         case .reportSent:
-            custom(text: String(localized: "Bug Report Sent"), icon: "checkmark.circle.fill")
+            notice(text: String(localized: "Bug Report Sent"), icon: "checkmark.circle.fill")
         case .error(let message):
-            custom(text: message, icon: "exclamationmark.circle.fill", type: .error)
+            error(text: message, icon: "exclamationmark.circle.fill")
         }
     }
 
-    func custom(text: String, icon: String? = nil, type: MessageType = .notice) {
-        show(AnyView(label(text, icon)), type)
+    func notice(text: String, icon: String? = nil) {
+        trigger(AnyView(label(text, icon)), .notice)
+    }
+
+    func error(text: String, icon: String? = nil) {
+        trigger(AnyView(label(text, icon)), .error)
     }
 
     func label(_ text: String, _ icon: String? = nil) -> any View {
@@ -135,6 +145,7 @@ extension Toast {
         }
         .font(.callout)
         .fontWeight(.semibold)
+        .lineLimit(1)
     }
 
     func render(_ message: Toast.Message) -> some View {
@@ -144,8 +155,11 @@ extension Toast {
             .overlay(
                 Capsule().stroke(.ultraThinMaterial, lineWidth: 1)
             )
-            .foregroundStyle(message.textColor)
-            .padding()
+            .foregroundStyle(message.tint)
+            .scenePadding(.horizontal)
+            .scenePadding(.horizontal)
+            .frame(maxWidth: 600)
+            .padding(.bottom)
             .transition(.opacity)
             .id(message.id)
             .padding(.bottom, 50)
@@ -174,7 +188,10 @@ extension View {
     )
 
     let error = Toast.Message(
-        view: AnyView(toast.label("Something Went Wrong", "exclamationmark.circle.fill")),
+        view: AnyView(toast.label(
+            "The operation couldn't be completed. (NSURLERRORDOMAIN error - 1011.)",
+            "exclamationmark.circle.fill"
+        )),
         type: .error
     )
 

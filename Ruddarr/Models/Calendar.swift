@@ -13,7 +13,7 @@ class MediaCalendar {
     var isLoadingFuture: Bool = false
 
     var error: API.Error?
-    var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
+    var errors: [API.Error] = []
 
     let calendar: Calendar = Calendar.current
 
@@ -48,36 +48,49 @@ class MediaCalendar {
 
     private func fetch(start: Date, end: Date) async {
         error = nil
+        errors = []
 
         let start = calendar.startOfDay(for: start)
         let end = calendar.startOfDay(for: end)
 
-        do {
-            try await withThrowingTaskGroup(of: Void.self) { group in
-                for instance in instances {
-                    group.addTask {
-                        if instance.type == .radarr {
-                            try await self.fetchMovies(instance, start, end)
-                        }
+        var successes = 0
+        var failures = 0
 
-                        if instance.type == .sonarr {
-                            try await self.fetchEpisodes(instance, start, end)
-                        }
+        await withThrowingTaskGroup(of: Void.self) { group in
+            for instance in instances {
+                group.addTask {
+                    if instance.type == .radarr {
+                        try await self.fetchMovies(instance, start, end)
+                    }
+
+                    if instance.type == .sonarr {
+                        try await self.fetchEpisodes(instance, start, end)
                     }
                 }
-
-                try await group.waitForAll()
             }
 
-            insertDates(start, end)
-        } catch is CancellationError {
-            // do nothing
-        } catch let apiError as API.Error {
-            error = apiError
+            while let result = await group.nextResult() {
+                switch result {
+                case .success:
+                    successes += 1
+                case .failure(let err) where err is CancellationError:
+                    break
+                case .failure(let err):
+                    failures += 1
+                    let apiError = (err as? API.Error) ?? API.Error(from: err)
+                    error = apiError
+                    errors.append(apiError)
+                    leaveBreadcrumb(.error, category: "calendar", message: "Request failed", data: ["error": error as Any])
+                }
+            }
+        }
 
-            leaveBreadcrumb(.error, category: "calendar", message: "Request failed", data: ["error": apiError])
-        } catch {
-            self.error = API.Error(from: error)
+        if successes > 0 {
+            insertDates(start, end)
+        }
+
+        if successes == 0 && failures > 0 {
+            errors = []
         }
     }
 
@@ -172,6 +185,7 @@ class MediaCalendar {
         dates = []
         movies = [:]
         episodes = [:]
+        errors = []
     }
 
     // let futureCutoff: TimeInterval = {
