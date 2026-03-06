@@ -8,6 +8,10 @@ struct PresentBugSheetKey: EnvironmentKey {
     static let defaultValue: Binding<Bool> = .constant(false)
 }
 
+private struct WhatsNewIsPresentedKey: EnvironmentKey {
+    static let defaultValue: Bool = false
+}
+
 extension EnvironmentValues {
     var deviceType: DeviceType {
         get { self[DeviceTypeKey.self] }
@@ -17,5 +21,10 @@ extension EnvironmentValues {
     var presentBugSheet: Binding<Bool> {
         get { self[PresentBugSheetKey.self] }
         set { self[PresentBugSheetKey.self] = newValue }
+    }
+
+    var whatsNewIsPresented: Bool {
+        get { self[WhatsNewIsPresentedKey.self] }
+        set { self[WhatsNewIsPresentedKey.self] = newValue }
     }
 }

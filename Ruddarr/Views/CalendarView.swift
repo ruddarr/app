@@ -15,6 +15,7 @@ struct CalendarView: View {
     @State private var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.whatsNewIsPresented) private var whatsNewIsPresented
 
     private let firstWeekday = Calendar.current.firstWeekday
 
@@ -88,7 +89,12 @@ struct CalendarView: View {
                 }
             }
             .task {
+                guard !whatsNewIsPresented else { return }
                 await load()
+            }
+            .onChange(of: whatsNewIsPresented) {
+                guard !whatsNewIsPresented else { return }
+                Task { await load() }
             }
             .alert(
                 isPresented: calendar.errorBinding,

@@ -206,7 +206,9 @@ private struct WhatsNewSheetViewModifier: ViewModifier {
         if WhatsNew.shouldPresent() {
             content.sheet(isPresented: $isPresented) {
                 WhatsNewView()
+                    .interactiveDismissDisabled()
             }
+            .environment(\.whatsNewIsPresented, isPresented)
         } else {
             content
         }

@@ -27,6 +27,7 @@ struct MoviesView: View {
     @State private var lastFetch: Date = .distantPast
 
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.whatsNewIsPresented) private var whatsNewIsPresented
 
     var body: some View {
         // swiftlint:disable:next closure_body_length
@@ -49,7 +50,13 @@ struct MoviesView: View {
                     }
                     .task {
                         guard !instance.isVoid else { return }
+                        guard !whatsNewIsPresented else { return }
                         await fetchMoviesWithAlertThrottled(ignoreOffline: true)
+                    }
+                    .onChange(of: whatsNewIsPresented) {
+                        guard !whatsNewIsPresented else { return }
+                        guard !instance.isVoid else { return }
+                        Task { await fetchMoviesWithAlertThrottled(ignoreOffline: true) }
                     }
                     .refreshable {
                         await Task { await fetchMoviesWithAlert() }.value
