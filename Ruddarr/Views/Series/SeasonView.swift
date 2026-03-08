@@ -268,9 +268,7 @@ extension SeasonView {
         guard await instance.series.get(series) else {
             if instance.series.error?.isNotFound == true {
                 instance.series.error = nil
-                if !dependencies.router.seriesPath.isEmpty {
-                    dependencies.router.seriesPath.removeLast()
-                }
+                dependencies.router.seriesPath = .init()
             }
             return
         }

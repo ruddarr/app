@@ -152,9 +152,7 @@ extension MovieView {
         guard await instance.movies.get(movie) else {
             if instance.movies.error?.isNotFound == true {
                 instance.movies.error = nil
-                if !dependencies.router.moviesPath.isEmpty {
-                    dependencies.router.moviesPath.removeLast()
-                }
+                dependencies.router.moviesPath = .init()
             }
             return
         }
