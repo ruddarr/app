@@ -10,7 +10,6 @@ export_languages:
   - de
   - fr
   - es-ES
-  - zh-CN
 
 files:
   - source: Ruddarr/*.xcstrings
