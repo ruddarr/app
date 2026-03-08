@@ -136,10 +136,15 @@ class Movies {
 
         case .get(let movie):
             if let index = items.firstIndex(where: { $0.id == movie.id }) {
-                let item = try await dependencies.api.getMovie(movie.id, instance)
+                do {
+                    let item = try await dependencies.api.getMovie(movie.id, instance)
 
-                if items[index] != item {
-                    items[index] = item
+                    if items[index] != item {
+                        items[index] = item
+                    }
+                } catch let apiError as API.Error where apiError.isNotFound {
+                    items.remove(at: index)
+                    throw apiError
                 }
             }
 

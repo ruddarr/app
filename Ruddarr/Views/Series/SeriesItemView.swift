@@ -154,7 +154,15 @@ extension SeriesDetailView {
     }
 
     func reload() async {
-        _ = await instance.series.get(series)
+        guard await instance.series.get(series) else {
+            if instance.series.error?.isNotFound == true {
+                instance.series.error = nil
+                if !dependencies.router.seriesPath.isEmpty {
+                    dependencies.router.seriesPath.removeLast()
+                }
+            }
+            return
+        }
         await instance.episodes.fetch(series)
         await instance.files.fetch(series)
     }

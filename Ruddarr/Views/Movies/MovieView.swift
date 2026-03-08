@@ -149,7 +149,15 @@ extension MovieView {
     }
 
     func reload() async {
-        _ = await instance.movies.get(movie)
+        guard await instance.movies.get(movie) else {
+            if instance.movies.error?.isNotFound == true {
+                instance.movies.error = nil
+                if !dependencies.router.moviesPath.isEmpty {
+                    dependencies.router.moviesPath.removeLast()
+                }
+            }
+            return
+        }
     }
 
     func refresh() async {

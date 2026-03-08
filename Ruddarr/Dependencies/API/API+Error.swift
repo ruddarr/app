@@ -107,6 +107,17 @@ extension API.Error: LocalizedError {
     }
 }
 
+extension API.Error {
+    var isNotFound: Bool {
+        switch self {
+        case .badStatusCode(code: 404), .errorResponse(code: 404, _):
+            true
+        default:
+            false
+        }
+    }
+}
+
 extension DecodingError {
     var context: DecodingError.Context {
         switch self {

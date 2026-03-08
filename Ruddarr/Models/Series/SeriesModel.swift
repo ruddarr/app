@@ -153,10 +153,15 @@ class SeriesModel {
 
         case .get(let series):
             if let index = items.firstIndex(where: { $0.id == series.id }) {
-                let item = try await dependencies.api.getSeries(series.id, instance)
+                do {
+                    let item = try await dependencies.api.getSeries(series.id, instance)
 
-                if items[index] != item {
-                    items[index] = item
+                    if items[index] != item {
+                        items[index] = item
+                    }
+                } catch let apiError as API.Error where apiError.isNotFound {
+                    items.remove(at: index)
+                    throw apiError
                 }
             }
 
