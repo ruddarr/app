@@ -16,7 +16,7 @@ brew install crowdin yq
 
 EXPORTED=(en $(yq '.export_languages[]' crowdin.yml))
 
-# Convert to Apple language codes
+# Convert Crowdin codes to Apple language codes
 EXPORTED=("${EXPORTED[@]/es-ES/es}")
 EXPORTED=("${EXPORTED[@]/zh-CN/zh-Hans}")
 
@@ -30,7 +30,7 @@ cd Ruddarr
 for file in Localizable.xcstrings AppShortcuts.xcstrings; do
   for lang in $(jq -r '.strings[].localizations | keys[]' $file | sort -u); do
     if [[ ! ${EXPORTED[@]} =~ $lang ]]; then
-      jq "del(.strings[].localizations.${lang})" $file > "${file}.json"
+      jq "del(.strings[].localizations.\"${lang}\")" $file > "${file}.json"
       mv "${file}.json" $file
     fi
   done
