@@ -73,7 +73,9 @@ extension API {
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601extended
 
-        try await NetworkMonitor.shared.checkReachability()
+        if !isPrivateIpAddress(url.host() ?? "") {
+            try await NetworkMonitor.shared.checkReachability()
+        }
 
         var request = URLRequest(url: url)
         request.timeoutInterval = timeout

@@ -1,6 +1,8 @@
 import Testing
 import Foundation
 
+@testable import Ruddarr
+
 struct RuddarrTests {
     @Test func resolveLocalizedStringWithArgs() {
         let format = "%@ (S%@ E%@)"
@@ -30,5 +32,26 @@ struct RuddarrTests {
 
         let result = format == key ? fallback : format
         #expect(result == "Fallback Title")
+    }
+
+    @Test func privateIpAddressDetection() {
+        // Private ranges
+        #expect(isPrivateIpAddress("10.0.0.1") == true)
+        #expect(isPrivateIpAddress("10.255.255.255") == true)
+        #expect(isPrivateIpAddress("172.16.0.1") == true)
+        #expect(isPrivateIpAddress("172.31.255.255") == true)
+        #expect(isPrivateIpAddress("192.168.0.1") == true)
+        #expect(isPrivateIpAddress("192.168.1.100") == true)
+        #expect(isPrivateIpAddress("127.0.0.1") == true)
+
+        // Public ranges
+        #expect(isPrivateIpAddress("8.8.8.8") == false)
+        #expect(isPrivateIpAddress("182.168.1.1") == false)
+        #expect(isPrivateIpAddress("172.32.0.1") == false)
+        #expect(isPrivateIpAddress("11.0.0.1") == false)
+
+        // Non-IP strings
+        #expect(isPrivateIpAddress("example.com") == false)
+        #expect(isPrivateIpAddress("") == false)
     }
 }
