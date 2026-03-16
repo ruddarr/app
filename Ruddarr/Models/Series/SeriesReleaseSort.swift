@@ -126,11 +126,12 @@ struct SeriesReleaseSort: Equatable {
 
         return items
             .filter { release in
-                (search.isEmpty || release.title.localizedCaseInsensitiveContains(query)) &&
+                let lowerTitle = release.title.lowercased()
+                return (search.isEmpty || release.title.localizedCaseInsensitiveContains(query)) &&
                 [release.network.label, .all].contains(network) &&
                 [release.indexerLabel, .all].contains(indexer) &&
                 [release.quality.quality.normalizedName, .all].contains(quality) &&
-                (language != .multi || ((release.languages?.count ?? 0) > 1 || release.title.lowercased().contains("multi"))) &&
+                (language != .multi || ((release.languages?.count ?? 0) > 1 || lowerTitle.contains("multi") || lowerTitle.contains("dual"))) &&
                 ([.all, .multi].contains(language) || release.languages?.contains { $0.label == language } ?? false) &&
                 (customFormat == .all || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
                 (seasonPack != .season || release.fullSeason) &&
