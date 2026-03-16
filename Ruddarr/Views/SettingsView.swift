@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @State private var showInstanceNameWarning: Bool = false
+    @State private var showLocalNetworkWarning: Bool = false
 
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) private var radarrInstance
@@ -71,12 +72,14 @@ struct SettingsView: View {
         } header: {
             Text("Instances")
         } footer: {
-            if showInstanceNameWarning {
+            if showLocalNetworkWarning {
+                localNetworkWarning
+            } else if showInstanceNameWarning {
                 Text("Notifications will not route reliably until each instance has been given a unique \"Instance Name\" in the web interface under \"Settings > General\".")
                     .foregroundStyle(.orange)
             }
         }.task {
-            await checkInstanceName()
+            await checkInstanceWarnings()
         }
     }
 
@@ -90,13 +93,43 @@ struct SettingsView: View {
         #endif
     }
 
-    func checkInstanceName() async {
+    var localNetworkWarning: some View {
+        let settingsPath: String = {
+            #if os(macOS)
+                return String(format: "\"%@\"", String(localized: "System Settings > Privacy & Security > Local Network", comment: "macOS path"))
+            #else
+                return String(format: "[%@](#link)", String(localized: "System Settings", comment: "iOS path"))
+            #endif
+        }()
+
+        let text = String(
+            format: String(localized: "Local network access is denied. Allow it in %@ to connect to instances on private IP addresses."),
+            settingsPath
+        )
+
+        return Text(text.toMarkdown())
+            .foregroundStyle(.orange)
+            .environment(\.openURL, .init { _ in
+                #if os(iOS)
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                #endif
+
+                return .handled
+            })
+    }
+
+    func checkInstanceWarnings() async {
         let status = await Notifications.authorizationStatus()
         let uniqueNames = Set(settings.instances.map { $0.name })
 
         if status == .authorized {
             showInstanceNameWarning = settings.instances.count != uniqueNames.count
         }
+
+        let hasLocalInstances = settings.instances.contains { $0.isPrivateIp() }
+        showLocalNetworkWarning = hasLocalInstances && await NetworkMonitor.shared.isLocalNetworkDenied
     }
 }
 

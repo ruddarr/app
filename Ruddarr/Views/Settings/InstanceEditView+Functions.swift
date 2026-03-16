@@ -93,6 +93,10 @@ extension InstanceEditView {
             throw InstanceError.urlIsLocal
         }
 
+        if instance.isPrivateIp(), await NetworkMonitor.shared.isLocalNetworkDenied {
+            throw InstanceError.localNetworkDenied
+        }
+
         var status: InstanceStatus?
 
         do {
