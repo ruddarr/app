@@ -10,6 +10,7 @@ export_languages:
   - de
   - fr
   - it
+  - tr
   - es-ES
   # - zh-CN
 
