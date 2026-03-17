@@ -434,6 +434,7 @@
 		BBC78DC02D70E2D700EA0AF5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BBC94DE82B5F63A000504568 /* Telemetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Telemetry.swift; sourceTree = "<group>"; };
 		BBCC2E5C2C1FA72000EF159F /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		BBCF001A2F0000000000AAA1 /* WhatToTest.en-US.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "WhatToTest.en-US.txt"; sourceTree = "<group>"; };
 		BBD3F2D32BFA520700DE5D8E /* series-episode-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-episode-history.json"; sourceTree = "<group>"; };
 		BBD3F2D52BFA55FE00DE5D8E /* MediaQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaQuality.swift; sourceTree = "<group>"; };
 		BBD3F2D72BFA578000DE5D8E /* MediaHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaHistory.swift; sourceTree = "<group>"; };
@@ -480,7 +481,6 @@
 		BBF7BFDD2BE4971D00B485FA /* InformationList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationList.swift; sourceTree = "<group>"; };
 		BBF8E11F2D8B9DA80018C5D7 /* crowdin.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = crowdin.yml; sourceTree = "<group>"; };
 		BBF8E1202D8B9DB70018C5D7 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		BBCF001A2F0000000000AAA1 /* WhatToTest.en-US.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "WhatToTest.en-US.txt"; sourceTree = "<group>"; };
 		BBF8E1212D8B9DCD0018C5D7 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		BBF94F622B508F8B00300EBA /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
 		BBF94F642B50C88300300EBA /* Instance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instance.swift; sourceTree = "<group>"; };
@@ -703,14 +703,6 @@
 			path = ci_scripts;
 			sourceTree = "<group>";
 		};
-		BBCF001B2F0000000000AAA1 /* TestFlight */ = {
-			isa = PBXGroup;
-			children = (
-				BBCF001A2F0000000000AAA1 /* WhatToTest.en-US.txt */,
-			);
-			path = TestFlight;
-			sourceTree = "<group>";
-		};
 		BB7487F72F576CAB00B0F036 /* ISSUE_TEMPLATE */ = {
 			isa = PBXGroup;
 			children = (
@@ -818,6 +810,14 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		BBCF001B2F0000000000AAA1 /* TestFlight */ = {
+			isa = PBXGroup;
+			children = (
+				BBCF001A2F0000000000AAA1 /* WhatToTest.en-US.txt */,
+			);
+			path = TestFlight;
+			sourceTree = "<group>";
+		};
 		BBD3F7D02BE9A6150050D9A0 /* Releases */ = {
 			isa = PBXGroup;
 			children = (
@@ -835,10 +835,10 @@
 				BBF8E1212D8B9DCD0018C5D7 /* .swiftlint.yml */,
 				BBF8E11F2D8B9DA80018C5D7 /* crowdin.yml */,
 				BB644FCA2B8529C2007C7AD5 /* ci_scripts */,
-				BBCF001B2F0000000000AAA1 /* TestFlight */,
 				BBE828552B4F2C7000C1E1D9 /* Ruddarr */,
 				BB40712E2C1CDD32006A3FA5 /* NotificationService */,
 				BB000000000000000000AAA4 /* Tests */,
+				BBCF001B2F0000000000AAA1 /* TestFlight */,
 				BBC78DC02D70E2D700EA0AF5 /* README.md */,
 				BBF8E1202D8B9DB70018C5D7 /* LICENSE */,
 				BBE828542B4F2C7000C1E1D9 /* Products */,
