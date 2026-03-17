@@ -98,12 +98,11 @@ struct MovieReleaseSort: Equatable {
 
         return items
             .filter { release in
-                let lowerTitle = release.title.lowercased()
-                return (search.isEmpty || release.title.localizedCaseInsensitiveContains(query)) &&
+                (search.isEmpty || release.title.localizedCaseInsensitiveContains(query)) &&
                 [release.network.label, .all].contains(network) &&
                 [release.indexerLabel, .all].contains(indexer) &&
                 [release.quality.quality.normalizedName, .all].contains(quality) &&
-                (language != .multi || (release.languages.count > 1 || lowerTitle.contains(/\b(multi|dual)\b/))) &&
+                (language != .multi || (release.languages.count > 1 || release.title.lowercased().contains(/\b(multi|dual)\b/))) &&
                 ([.all, .multi].contains(language) || release.languages.contains { $0.label == language }) &&
                 (customFormat == .all || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
                 (!approved || !release.rejected) &&
