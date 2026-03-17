@@ -103,7 +103,7 @@ struct MovieReleaseSort: Equatable {
                 [release.network.label, .all].contains(network) &&
                 [release.indexerLabel, .all].contains(indexer) &&
                 [release.quality.quality.normalizedName, .all].contains(quality) &&
-                (language != .multi || (release.languages.count > 1 || lowerTitle.contains("multi") || lowerTitle.contains("dual"))) &&
+                (language != .multi || (release.languages.count > 1 || lowerTitle.contains(/(?<![a-z0-9])(multi|dual)/))) &&
                 ([.all, .multi].contains(language) || release.languages.contains { $0.label == language }) &&
                 (customFormat == .all || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
                 (!approved || !release.rejected) &&
