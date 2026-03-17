@@ -131,7 +131,7 @@ struct SeriesReleaseSort: Equatable {
                 [release.network.label, .all].contains(network) &&
                 [release.indexerLabel, .all].contains(indexer) &&
                 [release.quality.quality.normalizedName, .all].contains(quality) &&
-                (language != .multi || ((release.languages?.count ?? 0) > 1 || lowerTitle.contains(/(?<!\w)(multi|dual)/))) &&
+                (language != .multi || ((release.languages?.count ?? 0) > 1 || lowerTitle.contains(/\b(multi|dual)\b/))) &&
                 ([.all, .multi].contains(language) || release.languages?.contains { $0.label == language } ?? false) &&
                 (customFormat == .all || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
                 (seasonPack != .season || release.fullSeason) &&
