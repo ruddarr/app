@@ -1,0 +1,1 @@
+Releases that contain "DUAL" or "dual-audio" are now considered Multilingual in release filters.
