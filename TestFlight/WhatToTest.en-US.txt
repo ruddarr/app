@@ -1,3 +1,4 @@
+- Season view: Fixed episode rows flashing between file quality and status label
 - Added Italian and Turkish translations
 - Calendar: Fade unmonitored items
 - Discovery: Fade items already in library

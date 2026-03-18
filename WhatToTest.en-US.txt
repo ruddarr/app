@@ -1,1 +1,0 @@
-Navigate to a series and open a season. Switch away from the app and back — the episode list should no longer flash between the file quality (e.g. "1080p") and the episode status (e.g. "Downloaded").
