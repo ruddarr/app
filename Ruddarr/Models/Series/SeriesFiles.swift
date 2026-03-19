@@ -27,9 +27,12 @@ class SeriesFiles {
     }
 
     func fetch(_ series: Series) async {
-        items = []
         error = nil
         isFetching = true
+
+        if let file = items.first, file.seriesId != series.id {
+            items = []
+        }
 
         do {
             items = try await dependencies.api.fetchEpisodeFiles(series.id, instance)
