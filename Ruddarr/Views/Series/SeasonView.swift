@@ -267,9 +267,16 @@ extension SeasonView {
     func reload() async {
         _ = await instance.series.get(series)
 
-        async let fetchEpisodes: () = instance.episodes.fetch(series)
-        async let fetchFiles: () = instance.files.fetch(series)
-        (_, _) = await (fetchEpisodes, fetchFiles)
+        let seriesId = series.id
+        let inst = instance.episodes.instance
+
+        async let episodes: [Episode]? = try? dependencies.api.fetchEpisodes(seriesId, inst)
+        async let files: [MediaFile]? = try? dependencies.api.fetchEpisodeFiles(seriesId, inst)
+
+        let (newEpisodes, newFiles) = await (episodes, files)
+
+        if let newEpisodes { instance.episodes.items = newEpisodes }
+        if let newFiles { instance.files.items = newFiles }
     }
 
     func dispatchSearch() async {
