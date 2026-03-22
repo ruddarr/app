@@ -35,7 +35,11 @@ class SeriesFiles {
         }
 
         do {
-            items = try await dependencies.api.fetchEpisodeFiles(series.id, instance)
+            let newItems = try await dependencies.api.fetchEpisodeFiles(series.id, instance)
+
+            if items != newItems {
+                items = newItems
+            }
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
