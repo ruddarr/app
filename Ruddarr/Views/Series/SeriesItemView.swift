@@ -31,8 +31,9 @@ struct SeriesDetailView: View {
             maybeReloadRepeatedly()
         }
         .task {
-            await instance.episodes.maybeFetch(series)
-            await instance.files.maybeFetch(series)
+            async let maybeFetchEpisodes: () = instance.episodes.maybeFetch(series)
+            async let maybeFetchFiles: () = instance.files.maybeFetch(series)
+            (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
         }
         .onBecomeActive {
             await reload()
@@ -155,8 +156,10 @@ extension SeriesDetailView {
 
     func reload() async {
         _ = await instance.series.get(series)
-        await instance.episodes.fetch(series)
-        await instance.files.fetch(series)
+
+        async let fetchEpisodes: () = instance.episodes.fetch(series)
+        async let fetchFiles: () = instance.files.fetch(series)
+        (_, _) = await (fetchEpisodes, fetchFiles)
     }
 
     func refresh() async {
