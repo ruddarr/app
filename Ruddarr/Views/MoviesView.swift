@@ -3,6 +3,7 @@ import Combine
 
 enum MoviesPath: Hashable {
     case search(String = "")
+    case discover(DiscoverySection)
     case preview(Data?)
     case movie(Movie.ID)
     case edit(Movie.ID)
@@ -49,7 +50,7 @@ struct MoviesView: View {
                     }
                     .task {
                         guard !instance.isVoid else { return }
-                        await fetchMoviesThrottled()
+                        await fetchMoviesWithAlertThrottled(ignoreOffline: true)
                     }
                     .refreshable {
                         await Task { await fetchMoviesWithAlert() }.value
@@ -121,11 +122,20 @@ struct MoviesView: View {
         case .search(let query):
             MovieSearchView(searchQuery: query)
                 .environment(instance)
+        case .discover(let section):
+            MovieDiscoveryView(section: section)
+                .environment(instance)
         case .preview(let data):
-            if let data, let movie = try? JSONDecoder().decode(Movie.self, from: data) {
+            if let movie = decodePreviewMovie(data) {
                 MoviePreviewView(movie: movie)
                     .environment(instance)
                     .environmentObject(settings)
+            } else {
+                ContentUnavailableView {
+                    Label("Preview Unavailable", systemImage: "exclamationmark.triangle")
+                } description: {
+                    Text("Unable to open this movie preview.")
+                }
             }
         case .movie(let id):
             MovieView(movie: instance.movies.byId(id))
@@ -215,6 +225,21 @@ struct MoviesView: View {
         }
     }
 
+    func decodePreviewMovie(_ data: Data?) -> Movie? {
+        guard let data else { return nil }
+
+        do {
+            return try JSONDecoder().decode(Movie.self, from: data)
+        } catch {
+            leaveBreadcrumb(.error, category: "view.movies", message: "Failed to decode movie preview", data: [
+                "error": error,
+                "bytes": data.count,
+            ])
+
+            return nil
+        }
+    }
+
     func updateDisplayedMovies() {
         instance.movies.updateCachedItems(sort, searchQuery)
     }
@@ -236,10 +261,9 @@ struct MoviesView: View {
         }
     }
 
-    func fetchMoviesThrottled() async {
+    func fetchMoviesWithAlertThrottled(ignoreOffline: Bool = false) async {
         guard Date.now.timeIntervalSince(lastFetch) >= 15 else { return }
-        _ = await instance.movies.fetch()
-        updateDisplayedMovies()
+        await fetchMoviesWithAlert(ignoreOffline: ignoreOffline)
         lastFetch = .now
     }
 

@@ -3,6 +3,7 @@ import Combine
 
 enum SeriesPath: Hashable {
     case search(String = "")
+    case discover(DiscoverySection)
     case preview(Data?)
     case series(Series.ID)
     case edit(Series.ID)
@@ -50,7 +51,7 @@ struct SeriesView: View {
                     }
                     .task {
                         guard !instance.isVoid else { return }
-                        await fetchSeriesThrottled()
+                        await fetchSeriesWithAlertThrottled(ignoreOffline: true)
                     }
                     .refreshable {
                         await Task { await fetchSeriesWithAlert() }.value
@@ -122,11 +123,20 @@ struct SeriesView: View {
         case .search(let query):
             SeriesSearchView(searchQuery: query)
                 .environment(instance)
+        case .discover(let section):
+            SeriesDiscoveryView(section: section)
+                .environment(instance)
         case .preview(let data):
-            if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
+            if let series = decodePreviewSeries(data) {
                 SeriesPreviewView(series: series)
                     .environment(instance)
                     .environmentObject(settings)
+            } else {
+                ContentUnavailableView {
+                    Label("Preview Unavailable", systemImage: "exclamationmark.triangle")
+                } description: {
+                    Text("Unable to open this series preview.")
+                }
             }
         case .series(let id):
             SeriesDetailView(series: instance.series.byId(id))
@@ -225,6 +235,21 @@ struct SeriesView: View {
         }
     }
 
+    func decodePreviewSeries(_ data: Data?) -> Series? {
+        guard let data else { return nil }
+
+        do {
+            return try JSONDecoder().decode(Series.self, from: data)
+        } catch {
+            leaveBreadcrumb(.error, category: "view.series", message: "Failed to decode series preview", data: [
+                "error": error,
+                "bytes": data.count,
+            ])
+
+            return nil
+        }
+    }
+
     func updateDisplayedSeries() {
         instance.series.updateCachedItems(sort, searchQuery)
     }
@@ -246,10 +271,9 @@ struct SeriesView: View {
         }
     }
 
-    func fetchSeriesThrottled() async {
+    func fetchSeriesWithAlertThrottled(ignoreOffline: Bool = false) async {
         guard Date.now.timeIntervalSince(lastFetch) >= 15 else { return }
-        _ = await instance.series.fetch()
-        updateDisplayedSeries()
+        await fetchSeriesWithAlert(ignoreOffline: ignoreOffline)
         lastFetch = .now
     }
 

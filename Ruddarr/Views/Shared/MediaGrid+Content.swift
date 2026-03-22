@@ -123,11 +123,14 @@ struct DiscoveryGridPoster: View {
         defer { isLoading = false }
 
         do {
-            let result = try await radarrInstance.lookup.fetch(tmdb: item.id)
+            guard let result = try await radarrInstance.lookup.fetch(tmdb: item.id) else {
+                let message = String(format: String(localized: "No Results for \"%@\""), item.title)
+                self.error = API.Error(from: AppError(message))
+                return
+            }
 
-            dependencies.router.moviesPath.append(
-                MoviesPath.preview(try? JSONEncoder().encode(result))
-            )
+            let data = try JSONEncoder().encode(result)
+            dependencies.router.moviesPath.append(MoviesPath.preview(data))
         } catch {
             self.error = API.Error(from: error)
         }
@@ -151,14 +154,78 @@ struct DiscoveryGridPoster: View {
         defer { isLoading = false }
 
         do {
-            let result = try await sonarrInstance.lookup.fetch(tmdb: item.id)
+            guard let result = try await sonarrInstance.lookup.fetch(tmdb: item.id) else {
+                let message = String(format: String(localized: "No Results for \"%@\""), item.title)
+                self.error = API.Error(from: AppError(message))
+                return
+            }
 
-            dependencies.router.seriesPath.append(
-                SeriesPath.preview(try? JSONEncoder().encode(result))
-            )
+            let data = try JSONEncoder().encode(result)
+            dependencies.router.seriesPath.append(SeriesPath.preview(data))
         } catch {
             self.error = API.Error(from: error)
         }
+    }
+}
+
+struct DiscoveryRail<Path: Hashable>: View {
+    var title: LocalizedStringKey
+    var items: [DiscoveryItem]
+    var seeAllLabel: LocalizedStringKey
+    var destination: Path?
+
+    private let posterWidth: CGFloat = 120
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(title)
+                .font(.title3.bold())
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            ScrollView(.horizontal) {
+                HStack(spacing: 12) {
+                    ForEach(items) { item in
+                        DiscoveryGridPoster(item: item)
+                            .frame(width: posterWidth)
+                    }
+
+                    if let destination {
+                        NavigationLink(value: destination) {
+                            DiscoverySeeAllPoster(label: seeAllLabel)
+                                .frame(width: posterWidth)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            .scrollIndicators(.never)
+        }
+    }
+}
+
+struct DiscoverySeeAllPoster: View {
+    var label: LocalizedStringKey
+
+    var body: some View {
+        RoundedRectangle(cornerRadius: 14)
+            .fill(.card)
+            .overlay {
+                VStack(spacing: 8) {
+                    Image(systemName: "arrow.right")
+                        .imageScale(.large)
+
+                    Text(label)
+                        .font(.footnote.weight(.semibold))
+                        .multilineTextAlignment(.center)
+                }
+                .foregroundStyle(.secondary)
+                .padding(12)
+            }
+            .aspectRatio(
+                CGSize(width: 150, height: 225),
+                contentMode: .fit
+            )
+            .accessibilityLabel(Text(label))
     }
 }
 

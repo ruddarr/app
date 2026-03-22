@@ -3,9 +3,10 @@ import Combine
 
 struct MovieSearchView: View {
     @State var searchQuery: String
-    @State private var searchPresented: Bool = true
+    @State private var searchPresented: Bool = false
 
     @Environment(RadarrInstance.self) private var instance
+    @Environment(\.deviceType) private var deviceType
 
     let searchTextPublisher = PassthroughSubject<String, Never>()
 
@@ -13,18 +14,12 @@ struct MovieSearchView: View {
         @Bindable var discovery = Discovery.shared
         @Bindable var movieLookup = instance.lookup
 
+        let popularItems = discovery.movies
+        let upcomingItems = discovery.upcomingMovies
+
         ScrollView {
             if movieLookup.sortedItems.isEmpty && searchQuery.isEmpty {
-                MediaGrid(items: discovery.movies) { item in
-                    DiscoveryGridPoster(item: item)
-                } header: {
-                    Text("Popular This Week")
-                        .padding(.top, 12)
-                }
-                .viewBottomPadding()
-                .scenePadding(.horizontal)
-                .opacity(discovery.movies.isEmpty ? 0 : 1)
-                .animation(.easeIn, value: discovery.movies)
+                discoveryContent(popularItems, upcomingItems)
             } else {
                 MediaGrid(items: movieLookup.sortedItems) { movie in
                     NavigationLink(value: movie.exists
@@ -81,6 +76,78 @@ struct MovieSearchView: View {
         }
     }
 
+    @ViewBuilder
+    func discoveryContent(_ popularItems: [DiscoveryItem], _ upcomingItems: [DiscoveryItem]) -> some View {
+        if deviceType == .phone {
+            phoneDiscoveryContent(popularItems, upcomingItems)
+        } else {
+            stackedDiscoveryContent(popularItems, upcomingItems)
+        }
+    }
+
+    func isDiscoveryEmpty(_ popularItems: [DiscoveryItem], _ upcomingItems: [DiscoveryItem]) -> Bool {
+        popularItems.isEmpty && upcomingItems.isEmpty
+    }
+
+    func phoneDiscoveryContent(_ popularItems: [DiscoveryItem], _ upcomingItems: [DiscoveryItem]) -> some View {
+        VStack(spacing: 20) {
+            if !popularItems.isEmpty {
+                DiscoveryRail(
+                    title: "Popular This Week",
+                    items: Array(popularItems.prefix(Discovery.railItemLimit)),
+                    seeAllLabel: "See all popular movies",
+                    destination: popularItems.count > Discovery.railItemLimit
+                        ? MoviesPath.discover(.popular)
+                        : nil
+                )
+            }
+
+            if !upcomingItems.isEmpty {
+                DiscoveryRail(
+                    title: "Upcoming",
+                    items: Array(upcomingItems.prefix(Discovery.railItemLimit)),
+                    seeAllLabel: "See all upcoming movies",
+                    destination: upcomingItems.count > Discovery.railItemLimit
+                        ? MoviesPath.discover(.upcoming)
+                        : nil
+                )
+            }
+        }
+        .padding(.top, 12)
+        .viewBottomPadding()
+        .scenePadding(.horizontal)
+        .opacity(isDiscoveryEmpty(popularItems, upcomingItems) ? 0 : 1)
+        .animation(.easeIn, value: popularItems)
+        .animation(.easeIn, value: upcomingItems)
+    }
+
+    func stackedDiscoveryContent(_ popularItems: [DiscoveryItem], _ upcomingItems: [DiscoveryItem]) -> some View {
+        VStack(spacing: 20) {
+            if !popularItems.isEmpty {
+                MediaGrid(items: popularItems) { item in
+                    DiscoveryGridPoster(item: item)
+                } header: {
+                    Text("Popular This Week")
+                        .padding(.top, 12)
+                }
+            }
+
+            if !upcomingItems.isEmpty {
+                MediaGrid(items: upcomingItems) { item in
+                    DiscoveryGridPoster(item: item)
+                } header: {
+                    Text("Upcoming")
+                        .padding(.top, 12)
+                }
+            }
+        }
+        .viewBottomPadding()
+        .scenePadding(.horizontal)
+        .opacity(isDiscoveryEmpty(popularItems, upcomingItems) ? 0 : 1)
+        .animation(.easeIn, value: popularItems)
+        .animation(.easeIn, value: upcomingItems)
+    }
+
     func performSearch() {
         Task {
             await instance.lookup.search(query: searchQuery)
@@ -100,6 +167,51 @@ struct MovieSearchView: View {
             performSearch() // always perform initial search
         } else {
             searchTextPublisher.send(searchQuery)
+        }
+    }
+}
+
+struct MovieDiscoveryView: View {
+    var section: DiscoverySection
+
+    var body: some View {
+        @Bindable var discovery = Discovery.shared
+
+        ScrollView {
+            MediaGrid(items: items(discovery)) { item in
+                DiscoveryGridPoster(item: item)
+            } header: {
+                Text(header)
+                    .padding(.top, 12)
+            }
+            .viewBottomPadding()
+            .scenePadding(.horizontal)
+        }
+        .navigationTitle(navigationTitle)
+        .safeNavigationBarTitleDisplayMode(.inline)
+        .task {
+            await discovery.fetch(.movies)
+        }
+    }
+
+    func items(_ discovery: Discovery) -> [DiscoveryItem] {
+        switch section {
+        case .popular: discovery.movies
+        case .upcoming: discovery.upcomingMovies
+        }
+    }
+
+    var header: LocalizedStringKey {
+        switch section {
+        case .popular: "Popular This Week"
+        case .upcoming: "Upcoming"
+        }
+    }
+
+    var navigationTitle: LocalizedStringKey {
+        switch section {
+        case .popular: "Popular Movies"
+        case .upcoming: "Upcoming Movies"
         }
     }
 }
