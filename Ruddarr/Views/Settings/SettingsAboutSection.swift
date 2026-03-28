@@ -11,6 +11,7 @@ struct SettingsAboutSection: View {
             review
             discord
             contribute
+            reportIssues
             macOS
             translate
         } header: {
@@ -45,6 +46,13 @@ struct SettingsAboutSection: View {
     }
 
     var contribute: some View {
+        Link(destination: Links.GitHub, label: {
+            Label("Contribute on GitHub", systemImage: "curlybraces")
+                .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
+        })
+    }
+
+    var reportIssues: some View {
         Link(destination: Links.GitHubIssues, label: {
             Label("Report an Issue", systemImage: "exclamationmark.bubble")
                 .labelStyle(SettingsIconLabelStyle())
