@@ -94,13 +94,10 @@ struct SettingsView: View {
     }
 
     var localNetworkWarning: some View {
-        let settingsPath: String = {
-            #if os(macOS)
-                return String(format: "\"%@\"", String(localized: "System Settings > Privacy & Security > Local Network", comment: "macOS path"))
-            #else
-                return String(format: "[%@](#link)", String(localized: "System Settings", comment: "iOS path"))
-            #endif
-        }()
+        let settingsPath = String(
+            format: "[%@](#link)",
+            String(localized: "System Settings", comment: "Settings app name")
+        )
 
         let text = String(
             format: String(localized: "Local network access is denied. Allow it in %@ to connect to instances on private IP addresses."),
@@ -110,7 +107,11 @@ struct SettingsView: View {
         return Text(text.toMarkdown())
             .foregroundStyle(.orange)
             .environment(\.openURL, .init { _ in
-                #if os(iOS)
+                #if os(macOS)
+                    if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_LocalNetwork") {
+                        NSWorkspace.shared.open(url)
+                    }
+                #else
                     if let url = URL(string: UIApplication.openSettingsURLString) {
                         UIApplication.shared.open(url)
                     }
