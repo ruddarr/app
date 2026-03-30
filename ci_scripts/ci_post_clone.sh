@@ -26,6 +26,13 @@ crowdin download translations --plain ${FLAGS}
 
 cd Ruddarr
 
+# Sync CFBundleLocalizations in Info.plist with exported languages
+/usr/libexec/PlistBuddy -c "Delete :CFBundleLocalizations" Info.plist 2>/dev/null || true
+/usr/libexec/PlistBuddy -c "Add :CFBundleLocalizations array" Info.plist
+for lang in "${EXPORTED[@]}"; do
+  /usr/libexec/PlistBuddy -c "Add :CFBundleLocalizations: string $lang" Info.plist
+done
+
 # Remove languages that are not exported from *.xcstrings catalogs
 for file in Localizable.xcstrings AppShortcuts.xcstrings; do
   for lang in $(jq -r '.strings[].localizations | keys[]' $file | sort -u); do
