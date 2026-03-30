@@ -11,33 +11,21 @@ extension InstanceView {
     }
 
     var enableNotifications: some View {
-        let text = String(
+        notificationSettingsLink(String(
             format: String(localized: "Notifications are disabled, please enable them in %@."),
             notificationPath
-        )
-
-        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
-            #if os(macOS)
-                if let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings") {
-                    NSWorkspace.shared.open(url)
-                }
-            #else
-                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                    UIApplication.shared.open(url)
-                }
-            #endif
-
-            return .handled
-        })
+        ))
     }
 
     var disableNotifications: some View {
-        let text = String(
+        notificationSettingsLink(String(
             format: String(localized: "Notification settings for each instance are shared between devices. To disable notifications for a specific device go to %@."),
             notificationPath
-        )
+        ))
+    }
 
-        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
+    private func notificationSettingsLink(_ text: String) -> some View {
+        Text(text.toMarkdown()).environment(\.openURL, .init { _ in
             #if os(macOS)
                 if let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings") {
                     NSWorkspace.shared.open(url)
