@@ -120,7 +120,7 @@ struct SettingsView: View {
             .tint(.orange)
             .environment(\.openURL, .init { _ in
                 #if os(macOS)
-                    if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_LocalNetwork") {
+                    if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security") {
                         NSWorkspace.shared.open(url)
                     }
                 #else
