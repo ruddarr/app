@@ -93,7 +93,7 @@ extension InstanceEditView {
             throw InstanceError.urlIsLocal
         }
 
-        if instance.isPrivateIp(), await NetworkMonitor.shared.isLocalNetworkDenied {
+        if instance.isPrivateIp(), await NetworkMonitor.shared.localNetworkDenied {
             throw InstanceError.localNetworkDenied
         }
 

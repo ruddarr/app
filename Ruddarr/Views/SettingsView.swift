@@ -75,11 +75,10 @@ struct SettingsView: View {
             if showLocalNetworkWarning {
                 localNetworkWarning
             } else if showInstanceNameWarning {
-                Text("Notifications will not route reliably until each instance has been given a unique \"Instance Name\" in the web interface under \"Settings > General\".")
-                    .foregroundStyle(.orange)
+                instanceNameWarning
             }
         }.task {
-            await checkInstanceWarnings()
+            await checkInstance()
         }
     }
 
@@ -91,6 +90,11 @@ struct SettingsView: View {
             .buttonStyle(.link)
             .foregroundStyle(settings.theme.tint)
         #endif
+    }
+
+    var instanceNameWarning: some View {
+        Text("Notifications will not route reliably until each instance has been given a unique \"Instance Name\" in the web interface under \"Settings > General\".")
+            .foregroundStyle(.orange)
     }
 
     var localNetworkWarning: some View {
@@ -120,7 +124,7 @@ struct SettingsView: View {
             })
     }
 
-    func checkInstanceWarnings() async {
+    func checkInstance() async {
         let status = await Notifications.authorizationStatus()
         let uniqueNames = Set(settings.instances.map { $0.name })
 
@@ -129,7 +133,9 @@ struct SettingsView: View {
         }
 
         let hasLocalInstances = settings.instances.contains { $0.isPrivateIp() }
-        showLocalNetworkWarning = hasLocalInstances && await NetworkMonitor.shared.isLocalNetworkDenied
+        let localNetworkDenied = await NetworkMonitor.shared.localNetworkDenied
+
+        showLocalNetworkWarning = hasLocalInstances && localNetworkDenied
     }
 }
 

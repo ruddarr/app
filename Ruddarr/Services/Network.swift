@@ -13,14 +13,14 @@ actor NetworkMonitor {
         status == .satisfied
     }
 
-    var isLocalNetworkDenied: Bool {
+    var localNetworkDenied: Bool {
         unsatisfiedReason == .localNetworkDenied
     }
 
     func start() {
         monitor.pathUpdateHandler = { path in
             Task {
-                await self.updatePath(path)
+                await self.update(from: path)
             }
         }
 
@@ -32,7 +32,7 @@ actor NetworkMonitor {
         monitor.cancel()
     }
 
-    private func updatePath(_ path: NWPath) {
+    private func update(from path: NWPath) {
         self.status = path.status
         self.unsatisfiedReason = path.unsatisfiedReason
     }
