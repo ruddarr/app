@@ -26,12 +26,14 @@ crowdin download translations --plain ${FLAGS}
 
 cd Ruddarr
 
-# Sync CFBundleLocalizations in Info.plist with exported languages
-plutil -remove CFBundleLocalizations Info.plist 2>/dev/null || true
-plutil -insert CFBundleLocalizations -array Info.plist
-for lang in "${EXPORTED[@]}"; do
-  plutil -insert CFBundleLocalizations -string "$lang" -append Info.plist
-done
+# macOS: Set `CFBundleLocalizations` in `Info.plist`
+if [[ "$CI_PRODUCT_PLATFORM" == "macOS" ]]; then
+  plutil -remove CFBundleLocalizations Info.plist 2>/dev/null || true
+  plutil -insert CFBundleLocalizations -array Info.plist
+  for lang in "${EXPORTED[@]}"; do
+    plutil -insert CFBundleLocalizations -string "$lang" -append Info.plist
+  done
+fi
 
 # Remove languages that are not exported from *.xcstrings catalogs
 for file in Localizable.xcstrings AppShortcuts.xcstrings; do
