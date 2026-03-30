@@ -32,7 +32,7 @@ jobs:
                 action: test
               - name: macOS
                 platform: "macOS"
-                action: build
+                action: test
 
         steps:
           - name: Checkout repository
