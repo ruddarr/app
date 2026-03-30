@@ -109,10 +109,6 @@
 		<string>callsheet</string>
 		<string>sable</string>
 	</array>
-	<key>CFBundleLocalizations</key>
-	<array>
-		<string>en</string>
-	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
