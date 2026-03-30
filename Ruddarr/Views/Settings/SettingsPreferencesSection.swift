@@ -113,11 +113,20 @@ struct SettingsPreferencesSection: View {
     }
 
     var footer: some View {
-        let text = String(localized: "Preferred language and other app-related settings can be configured in the [System Settings](#link).")
+        #if os(macOS)
+            let settingsPath = String(localized: "System Settings > General > Language & Region", comment: "macOS notifications path")
+        #else
+            let settingsPath = String(localized: "System Settings", comment: "Settings app name")
+        #endif
+
+        let text = String(
+            format: String(localized: "Preferred language and other app-related settings can be configured in the %@."),
+            "[\(settingsPath)](#link)"
+        )
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
             #if os(macOS)
-                if let url = URL(string: "x-apple.systempreferences:com.apple.Localization-Settings") {
+                if let url = URL(string: "x-apple.systempreferences:com.apple.Localization-Settings.extension") {
                     NSWorkspace.shared.open(url)
                 }
             #else
