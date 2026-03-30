@@ -3,7 +3,11 @@ import CloudKit
 
 extension InstanceView {
     var notificationPath: String {
-        String(format: "[%@](#link)", String(localized: "System Settings"))
+        #if os(macOS)
+            return String(format: "\"%@\"", String(localized: "System Settings > Notifications > \(Ruddarr.name)", comment: "macOS path"))
+        #else
+            return String(format: "[%@](#link)", String(localized: "System Settings", comment: "iOS path"))
+        #endif
     }
 
     var enableNotifications: some View {
