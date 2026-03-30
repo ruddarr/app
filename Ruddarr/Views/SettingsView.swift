@@ -98,18 +98,26 @@ struct SettingsView: View {
     }
 
     var localNetworkWarning: some View {
-        let settingsPath = String(
-            format: "[%@](#link)",
-            String(localized: "System Settings", comment: "Settings app name")
-        )
+        #if os(macOS)
+            let settingsPath = String(localized: "System Settings > Privacy & Security > Local Network", comment: "macOS local network path")
+        #else
+            let settingsPath = String(localized: "System Settings", comment: "Settings app name")
+        #endif
 
         let text = String(
             format: String(localized: "Local network access must be granted in %@ to connect to instances using private IP addresses."),
-            settingsPath
+            "[\(settingsPath)](#link)"
         )
 
-        return Text(text.toMarkdown())
+        var markdown = text.toMarkdown()
+
+        for run in markdown.runs where run.link != nil {
+            markdown[run.range].underlineStyle = .single
+        }
+
+        return Text(markdown)
             .foregroundStyle(.orange)
+            .tint(.orange)
             .environment(\.openURL, .init { _ in
                 #if os(macOS)
                     if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_LocalNetwork") {
