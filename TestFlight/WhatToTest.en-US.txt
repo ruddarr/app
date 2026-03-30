@@ -14,4 +14,5 @@ macOS
 - Added "History" tab to sidebar
 - Increased card contrast
 - Attempted to fix notifications containing decimals
+- Enabled language selection in system settings
 - Fixed form style when adding/editing series

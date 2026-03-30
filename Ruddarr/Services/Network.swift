@@ -45,33 +45,18 @@ actor NetworkMonitor {
 }
 
 func isPrivateIpAddress(_ ipAddress: String) -> Bool {
-    // IPv6
+    if IPv4Address(ipAddress) != nil {
+        return isPrivateIPv4Address(ipAddress)
+    }
+
     if IPv6Address(ipAddress) != nil {
-        let normalized = ipAddress.lowercased()
-
-        // ::1 (loopback)
-        if normalized == "::1" || normalized == "0000:0000:0000:0000:0000:0000:0000:0001" {
-            return true
-        }
-
-        // fe80::/10 (link-local)
-        if normalized.hasPrefix("fe80:") {
-            return true
-        }
-
-        // fd00::/8 (unique local address)
-        if normalized.hasPrefix("fd") {
-            return true
-        }
-
-        return false
+        return isPrivateIPv6Address(ipAddress)
     }
 
-    // IPv4
-    guard IPv4Address(ipAddress) != nil else {
-        return false
-    }
+    return false
+}
 
+private func isPrivateIPv4Address(_ ipAddress: String) -> Bool {
     let parts = ipAddress.split(separator: ".").map { Int($0) }
 
     guard parts.count == 4, let first = parts[0], let second = parts[1] else {
@@ -105,6 +90,27 @@ func isPrivateIpAddress(_ ipAddress: String) -> Bool {
 
     // 100.64.0.0 - 100.127.255.255 (CGNAT / shared address space)
     if first == 100 && (second >= 64 && second <= 127) {
+        return true
+    }
+
+    return false
+}
+
+private func isPrivateIPv6Address(_ ipAddress: String) -> Bool {
+    let normalized = ipAddress.lowercased()
+
+    // ::1 (loopback)
+    if normalized == "::1" || normalized == "0000:0000:0000:0000:0000:0000:0000:0001" {
+        return true
+    }
+
+    // fe80::/10 (link-local)
+    if normalized.hasPrefix("fe80:") {
+        return true
+    }
+
+    // fd00::/8 (unique local address)
+    if normalized.hasPrefix("fd") {
         return true
     }
 
