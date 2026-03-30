@@ -105,8 +105,8 @@ struct SettingsView: View {
         #endif
 
         let text = String(
-            format: String(localized: "Local network access must be granted in [%@](#link) to connect to instances using private IP addresses."),
-            settingsPath
+            format: String(localized: "Local network access must be granted in %@ to connect to instances using private IP addresses."),
+            "[\(settingsPath)](#link)"
         )
 
         var markdown = text.toMarkdown()
