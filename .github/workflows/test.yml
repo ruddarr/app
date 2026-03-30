@@ -32,7 +32,7 @@ jobs:
                 action: test
               - name: macOS
                 platform: "macOS"
-                action: test
+                action: build-for-testing
 
         steps:
           - name: Checkout repository
@@ -50,5 +50,7 @@ jobs:
                   -scheme Ruddarr \
                   -skipPackagePluginValidation \
                   -destination 'platform=${{ matrix.platform }}' \
-                  CODE_SIGNING_ALLOWED=NO
+                  CODE_SIGNING_ALLOWED=NO \
+                  CODE_SIGN_IDENTITY="" \
+                  CODE_SIGNING_REQUIRED=NO
 
