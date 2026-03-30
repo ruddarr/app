@@ -71,33 +71,28 @@ struct Ruddarr: App {
 }
 
 extension WhatsNew {
-    static let version: String = "1.8.0"
+    static let version: String = "1.8.1"
 
     static let features: [WhatsNewFeature] = [
         .init(
-            image: "flame",
-            title: "Media Discovery",
-            subtitle: "Discover popular movies and series when adding searching for new media."
+            image: "globe",
+            title: "New Translations",
+            subtitle: "Italian and Turkish translations have been added."
         ),
         .init(
-            image: "macwindow.and.pointer.arrow",
-            title: "macOS Beta",
-            subtitle: "Join the TestFlight for macOS from Settings and report any issues on Discord."
+            image: "eye.slash",
+            title: "Faded Unmonitored Items",
+            subtitle: "Items already in your library or calendar that are unmonitored now appear faded."
         ),
         .init(
-            image: "line.3.horizontal.decrease",
-            title: "Filter by Folder",
-            subtitle: "Filter media grids by root folders, how did we survive without this?"
-        ),
-        .init(
-            image: "network",
-            title: "Improved Networking",
-            subtitle: "Support connecting to insecure instances previously blocked by App Transport Security."
+            image: "film.stack",
+            title: "Dual Audio in Multi",
+            subtitle: "Releases with dual audio are now included in the \"Multi\" language filter."
         ),
         .init(
             image: "ladybug",
             title: "Fixes & Improvements",
-            subtitle: "Various small improvements and fixes, everything is a little better."
+            subtitle: "Various internal code improvements, bug fixes, and macOS refinements."
         ),
     ]
 }
