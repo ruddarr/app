@@ -3,11 +3,7 @@ import CloudKit
 
 extension InstanceView {
     var notificationPath: String {
-        #if os(macOS)
-            return String(format: "\"%@\"", String(localized: "System Settings > Notifications > \(Ruddarr.name)", comment: "macOS path"))
-        #else
-            return String(format: "[%@](#link)", String(localized: "System Settings", comment: "iOS path"))
-        #endif
+        String(format: "[%@](#link)", String(localized: "System Settings"))
     }
 
     var enableNotifications: some View {
@@ -17,7 +13,11 @@ extension InstanceView {
         )
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
-            #if os(iOS)
+            #if os(macOS)
+                if let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings") {
+                    NSWorkspace.shared.open(url)
+                }
+            #else
                 if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
                     UIApplication.shared.open(url)
                 }
@@ -34,7 +34,11 @@ extension InstanceView {
         )
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
-            #if os(iOS)
+            #if os(macOS)
+                if let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings") {
+                    NSWorkspace.shared.open(url)
+                }
+            #else
                 if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
                     UIApplication.shared.open(url)
                 }

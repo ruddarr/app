@@ -20,9 +20,7 @@ struct SettingsPreferencesSection: View {
         } header: {
             Text("Preferences")
         } footer: {
-            #if os(iOS)
-                footer
-            #endif
+            footer
         }
         .subscriptionStatusTask(
             for: Subscription.group,
@@ -118,7 +116,11 @@ struct SettingsPreferencesSection: View {
         let text = String(localized: "Preferred language and other app-related settings can be configured in the [System Settings](#link).")
 
         return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
-            #if os(iOS)
+            #if os(macOS)
+                if let url = URL(string: "x-apple.systempreferences:com.apple.Localization-Settings") {
+                    NSWorkspace.shared.open(url)
+                }
+            #else
                 if let url = URL(string: UIApplication.openSettingsURLString) {
                     UIApplication.shared.open(url)
                 }
