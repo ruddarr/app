@@ -5,6 +5,7 @@
 - Releases: Include dual audio releases in "Multilingual" filter
 - Calendar: Improved loading and error handling
 - Avoid shorting connection error alerts when possible
+- Improved detection of and feedback about local ip addresses 
 - Improved loading of season episode list
 - Removed abandoned Chinese translation
 - Various internal code improvements and bug fixes
