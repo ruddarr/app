@@ -32,7 +32,7 @@ jobs:
                 action: test
               - name: macOS
                 platform: "macOS"
-                action: build-for-testing
+                action: test
 
         steps:
           - name: Checkout repository
@@ -52,5 +52,6 @@ jobs:
                   -destination 'platform=${{ matrix.platform }}' \
                   CODE_SIGNING_ALLOWED=NO \
                   CODE_SIGN_IDENTITY="" \
-                  CODE_SIGNING_REQUIRED=NO
+                  CODE_SIGNING_REQUIRED=NO \
+                  MACOSX_DEPLOYMENT_TARGET=15.0
 
