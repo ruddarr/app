@@ -377,7 +377,7 @@ extension InstanceError: LocalizedError {
         case .labelEmpty:
             return String(localized: "Enter an instance label.")
         case .localNetworkDenied:
-            return String(localized: "Allow local network access in System Settings to connect to instances on private IP addresses.")
+            return String(localized: "Local network access must be granted in System Settings to connect to instances on private IP addresses.")
         case .badAppName(let reported, let expected):
             return String(localized: "URL identified itself as a \(reported) instance, not a \(expected) instance.")
         case .apiError(let error):

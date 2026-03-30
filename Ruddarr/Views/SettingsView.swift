@@ -104,7 +104,7 @@ struct SettingsView: View {
         )
 
         let text = String(
-            format: String(localized: "Local network access is denied. Allow it in %@ to connect to instances on private IP addresses."),
+            format: String(localized: "Local network access must be granted in %@ to connect to instances using private IP addresses."),
             settingsPath
         )
 
