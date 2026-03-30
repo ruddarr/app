@@ -345,6 +345,7 @@ enum InstanceError: Error {
     case urlNotValid
     case urlSchemeMissing
     case labelEmpty
+    case localNetworkDenied
     case badAppName(_ reported: String, _ expected: String)
     case apiError(_ error: API.Error)
 }
@@ -356,6 +357,8 @@ extension InstanceError: LocalizedError {
             return String(localized: "Invalid URL")
         case .labelEmpty:
             return String(localized: "Invalid Instance Label")
+        case .localNetworkDenied:
+            return String(localized: "Local Network Access Denied")
         case .badAppName:
             return String(localized: "Wrong Instance Type")
         case .apiError(let error):
@@ -373,6 +376,8 @@ extension InstanceError: LocalizedError {
             return String(localized: "URL must start with \"http://\" or \"https://\".")
         case .labelEmpty:
             return String(localized: "Enter an instance label.")
+        case .localNetworkDenied:
+            return String(localized: "Local network access must be granted in System Settings to connect to instances on private IP addresses.")
         case .badAppName(let reported, let expected):
             return String(localized: "URL identified itself as a \(reported) instance, not a \(expected) instance.")
         case .apiError(let error):

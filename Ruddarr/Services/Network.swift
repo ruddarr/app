@@ -7,15 +7,20 @@ actor NetworkMonitor {
     let monitor = NWPathMonitor()
 
     private var status: NWPath.Status = .requiresConnection
+    private var unsatisfiedReason: NWPath.UnsatisfiedReason?
 
     var isReachable: Bool {
         status == .satisfied
     }
 
+    var localNetworkDenied: Bool {
+        unsatisfiedReason == .localNetworkDenied
+    }
+
     func start() {
         monitor.pathUpdateHandler = { path in
             Task {
-                await self.updateStatus(path.status)
+                await self.update(from: path)
             }
         }
 
@@ -27,8 +32,9 @@ actor NetworkMonitor {
         monitor.cancel()
     }
 
-    private func updateStatus(_ status: NWPath.Status) {
-        self.status = status
+    private func update(from path: NWPath) {
+        self.status = path.status
+        self.unsatisfiedReason = path.unsatisfiedReason
     }
 
     func checkReachability() throws {
@@ -39,6 +45,29 @@ actor NetworkMonitor {
 }
 
 func isPrivateIpAddress(_ ipAddress: String) -> Bool {
+    // IPv6
+    if IPv6Address(ipAddress) != nil {
+        let normalized = ipAddress.lowercased()
+
+        // ::1 (loopback)
+        if normalized == "::1" || normalized == "0000:0000:0000:0000:0000:0000:0000:0001" {
+            return true
+        }
+
+        // fe80::/10 (link-local)
+        if normalized.hasPrefix("fe80:") {
+            return true
+        }
+
+        // fd00::/8 (unique local address)
+        if normalized.hasPrefix("fd") {
+            return true
+        }
+
+        return false
+    }
+
+    // IPv4
     guard IPv4Address(ipAddress) != nil else {
         return false
     }
@@ -49,7 +78,7 @@ func isPrivateIpAddress(_ ipAddress: String) -> Bool {
         return false
     }
 
-    // 127.0.0.0 - 127.255.255.255 (loopback address)
+    // 127.0.0.0 - 127.255.255.255 (loopback)
     if first == 127 {
         return true
     }
@@ -66,6 +95,16 @@ func isPrivateIpAddress(_ ipAddress: String) -> Bool {
 
     // 192.168.0.0 - 192.168.255.255 (private)
     if first == 192 && second == 168 {
+        return true
+    }
+
+    // 169.254.0.0 - 169.254.255.255 (link-local)
+    if first == 169 && second == 254 {
+        return true
+    }
+
+    // 100.64.0.0 - 100.127.255.255 (CGNAT / shared address space)
+    if first == 100 && (second >= 64 && second <= 127) {
         return true
     }
 
