@@ -7,15 +7,20 @@ actor NetworkMonitor {
     let monitor = NWPathMonitor()
 
     private var status: NWPath.Status = .requiresConnection
+    private var unsatisfiedReason: NWPath.UnsatisfiedReason?
 
     var isReachable: Bool {
         status == .satisfied
     }
 
+    var localNetworkDenied: Bool {
+        unsatisfiedReason == .localNetworkDenied
+    }
+
     func start() {
         monitor.pathUpdateHandler = { path in
             Task {
-                await self.updateStatus(path.status)
+                await self.update(from: path)
             }
         }
 
@@ -27,8 +32,9 @@ actor NetworkMonitor {
         monitor.cancel()
     }
 
-    private func updateStatus(_ status: NWPath.Status) {
-        self.status = status
+    private func update(from path: NWPath) {
+        self.status = path.status
+        self.unsatisfiedReason = path.unsatisfiedReason
     }
 
     func checkReachability() throws {

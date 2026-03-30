@@ -2423,6 +2423,36 @@
         }
       }
     },
+    "Local Network Access Denied" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local Network Access Denied"
+          }
+        }
+      }
+    },
+    "Local network access must be granted in %@ to connect to instances using private IP addresses." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local network access must be granted in %@ to connect to instances using private IP addresses."
+          }
+        }
+      }
+    },
+    "Local network access must be granted in System Settings to connect to instances on private IP addresses." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local network access must be granted in System Settings to connect to instances on private IP addresses."
+          }
+        }
+      }
+    },
     "Long-press any file to delete it." : {
       "localizations" : {
         "en" : {
@@ -4841,7 +4871,7 @@
       }
     },
     "System Settings" : {
-      "comment" : "iOS path",
+      "comment" : "Settings app name\niOS path",
       "localizations" : {
         "en" : {
           "stringUnit" : {
