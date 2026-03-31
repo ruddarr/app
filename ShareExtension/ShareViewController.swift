@@ -1,7 +1,67 @@
-import UIKit
+import SwiftUI
 import UniformTypeIdentifiers
 
+#if os(macOS)
+import AppKit
+#else
+import UIKit
+#endif
+
+// MARK: - Platform View Controller
+
+#if os(macOS)
+class ShareViewController: NSViewController {
+
+    override func loadView() {
+        view = NSView(frame: NSRect(x: 0, y: 0, width: 400, height: 300))
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        processInput()
+    }
+
+    func showUnsupportedURL() {
+        let hosting = NSHostingView(rootView: UnsupportedURLView(close: close))
+        hosting.frame = view.bounds
+        hosting.autoresizingMask = [.width, .height]
+        view.addSubview(hosting)
+    }
+
+    func close() {
+        extensionContext?.completeRequest(returningItems: nil)
+    }
+}
+#else
 class ShareViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.isHidden = true
+        processInput()
+    }
+
+    func showUnsupportedURL() {
+        view.isHidden = false
+
+        let hosting = UIHostingController(rootView: UnsupportedURLView(close: close))
+        addChild(hosting)
+        hosting.view.frame = view.bounds
+        hosting.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(hosting.view)
+        hosting.didMove(toParent: self)
+    }
+
+    func close() {
+        extensionContext?.completeRequest(returningItems: nil)
+    }
+}
+#endif
+
+// MARK: - Unsupported URL View
+
+struct UnsupportedURLView: View {
+    var close: () -> Void
 
     private let supportedDomains = [
         "letterboxd.com",
@@ -12,13 +72,24 @@ class ShareViewController: UIViewController {
         "thetvdb.com",
     ]
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.isHidden = true
-        processInput()
+    var body: some View {
+        ContentUnavailableView {
+            Label("Unsupported URL", systemImage: "link.badge.plus")
+        } description: {
+            Text("Share a link from a supported site:\n\(supportedDomains.map { "  \u{2022} \($0)" }.joined(separator: "\n"))")
+        } actions: {
+            Button("Close") {
+                close()
+            }
+        }
     }
+}
 
-    private func processInput() {
+// MARK: - Shared URL Processing
+
+extension ShareViewController {
+
+    func processInput() {
         guard let item = extensionContext?.inputItems.first as? NSExtensionItem,
               let attachments = item.attachments else {
             showUnsupportedURL()
@@ -85,14 +156,12 @@ class ShareViewController: UIViewController {
         if let title = await fetchPageTitle(url) {
             var name = title
 
-            // Remove " | Letterboxd" suffix
             for separator in [" | Letterboxd", " \u{2014} Letterboxd", " - Letterboxd"] {
                 if let range = name.range(of: separator, options: .caseInsensitive) {
                     name = String(name[..<range.lowerBound])
                 }
             }
 
-            // Remove "directed by..." or "review by..." suffixes
             if let range = name.range(of: " directed by", options: .caseInsensitive) {
                 name = String(name[..<range.lowerBound])
             }
@@ -112,7 +181,6 @@ class ShareViewController: UIViewController {
             }
         }
 
-        // Fallback: extract from URL slug
         let segments = url.pathComponents
 
         if let filmIndex = segments.firstIndex(of: "film"), filmIndex + 1 < segments.count {
@@ -134,7 +202,7 @@ class ShareViewController: UIViewController {
             return
         }
 
-        let category = segments[1] // "m" or "tv"
+        let category = segments[1]
         let slug = segments[2]
         let name = cleanSlug(slug, separator: "_")
 
@@ -153,7 +221,6 @@ class ShareViewController: UIViewController {
 
         let imdbId = String(path[range])
 
-        // Download page to determine type
         var mediaType: MediaType = .movie
 
         if let title = await fetchPageTitle(url) {
@@ -178,8 +245,8 @@ class ShareViewController: UIViewController {
             return
         }
 
-        let type = segments[1] // "movie" or "tv"
-        let slug = segments[2] // "12345-movie-name"
+        let type = segments[1]
+        let slug = segments[2]
 
         if let tmdbId = slug.split(separator: "-", maxSplits: 1).first, Int(tmdbId) != nil {
             openSearch(query: "tmdb:\(tmdbId)", type: type == "tv" ? .series : .movie)
@@ -198,11 +265,10 @@ class ShareViewController: UIViewController {
             return
         }
 
-        let category = segments[1] // "movies", "shows", or "search"
+        let category = segments[1]
 
-        if category == "search", segments.count >= 3 {
-            // URL: /search/tmdb/12345?id_type=movie or /search/tvdb/12345?id_type=show
-            let idType = segments[2] // "tmdb" or "tvdb"
+        if category == "search" {
+            let idType = segments[2]
 
             guard segments.count >= 4 else {
                 showUnsupportedURL()
@@ -213,10 +279,10 @@ class ShareViewController: UIViewController {
             let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
             let mediaTypeParam = components?.queryItems?.first { $0.name == "id_type" }?.value
 
-            if idType == "tmdb", let _ = Int(id) {
+            if idType == "tmdb", Int(id) != nil {
                 let type: MediaType = mediaTypeParam == "show" ? .series : .movie
                 openSearch(query: "tmdb:\(id)", type: type)
-            } else if idType == "tvdb", let _ = Int(id) {
+            } else if idType == "tvdb", Int(id) != nil {
                 openSearch(query: "tvdb:\(id)", type: .series)
             } else {
                 showUnsupportedURL()
@@ -236,26 +302,23 @@ class ShareViewController: UIViewController {
 
     private func handleTVDB(_ url: URL) {
         let segments = url.pathComponents
-
-        // Old format: ?tab=series&id=12345
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
 
         if let tab = components?.queryItems?.first(where: { $0.name == "tab" })?.value,
            let id = components?.queryItems?.first(where: { $0.name == "id" })?.value,
-           let _ = Int(id)
+           Int(id) != nil
         {
             let type: MediaType = tab == "series" ? .series : .movie
             openSearch(query: "tvdb:\(id)", type: type)
             return
         }
 
-        // Modern format: /series/slug or /movies/slug
         guard segments.count >= 3 else {
             showUnsupportedURL()
             return
         }
 
-        let category = segments[1] // "series" or "movies"
+        let category = segments[1]
         let name = cleanSlug(segments[2])
 
         if category == "series" {
@@ -288,72 +351,7 @@ class ShareViewController: UIViewController {
         }
     }
 
-    // MARK: - Unsupported URL
-
-    private func showUnsupportedURL() {
-        view.isHidden = false
-        view.backgroundColor = .systemBackground
-
-        let image = UIImageView(image: UIImage(systemName: "link.badge.plus"))
-        image.tintColor = .secondaryLabel
-        image.contentMode = .scaleAspectFit
-        image.translatesAutoresizingMaskIntoConstraints = false
-
-        let titleLabel = UILabel()
-        titleLabel.text = NSLocalizedString("Unsupported URL", comment: "")
-        titleLabel.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
-        titleLabel.textColor = .label
-        titleLabel.textAlignment = .center
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        let domains = supportedDomains.map { "  \u{2022} \($0)" }.joined(separator: "\n")
-        let descriptionLabel = UILabel()
-        descriptionLabel.text = String(
-            format: NSLocalizedString("Share a link from a supported site:\n%@", comment: ""),
-            domains
-        )
-        descriptionLabel.font = .preferredFont(forTextStyle: .subheadline)
-        descriptionLabel.textColor = .secondaryLabel
-        descriptionLabel.textAlignment = .center
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        let closeButton = UIButton(type: .system)
-        closeButton.setTitle(NSLocalizedString("Close", comment: ""), for: .normal)
-        closeButton.titleLabel?.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
-        closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-
-        let stack = UIStackView(arrangedSubviews: [image, titleLabel, descriptionLabel, closeButton])
-        stack.axis = .vertical
-        stack.alignment = .center
-        stack.spacing = 12
-        stack.setCustomSpacing(4, after: titleLabel)
-        stack.setCustomSpacing(24, after: descriptionLabel)
-        stack.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(stack)
-
-        NSLayoutConstraint.activate([
-            image.widthAnchor.constraint(equalToConstant: 48),
-            image.heightAnchor.constraint(equalToConstant: 48),
-
-            stack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stack.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 32),
-            stack.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -32),
-        ])
-    }
-
-    @objc private func closeTapped() {
-        close()
-    }
-
     // MARK: - Helpers
-
-    private func close() {
-        extensionContext?.completeRequest(returningItems: nil)
-    }
 
     private func fetchPageTitle(_ url: URL) async -> String? {
         do {
@@ -367,7 +365,10 @@ class ShareViewController: UIViewController {
             let afterTag = html[startRange.upperBound...]
             guard let closingBracket = afterTag.range(of: ">") else { return nil }
             let contentStart = closingBracket.upperBound
-            guard let endRange = html.range(of: "</title>", options: .caseInsensitive, range: contentStart..<html.endIndex) else { return nil }
+            guard let endRange = html.range(
+                of: "</title>", options: .caseInsensitive,
+                range: contentStart..<html.endIndex
+            ) else { return nil }
 
             return String(html[contentStart..<endRange.lowerBound])
                 .trimmingCharacters(in: .whitespacesAndNewlines)
@@ -379,9 +380,7 @@ class ShareViewController: UIViewController {
     private func cleanSlug(_ slug: String, separator: Character = "-") -> String {
         var name = slug
 
-        // Remove trailing year pattern like "-2023"
         if let range = name.range(of: "-\\d{4}$", options: .regularExpression) {
-            // Keep year in parentheses for better search
             let year = String(name[range].dropFirst())
             name = String(name[..<range.lowerBound])
             name = name.replacingOccurrences(of: String(separator), with: " ")
