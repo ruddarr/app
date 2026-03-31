@@ -73,6 +73,8 @@ struct Ruddarr: App {
 extension WhatsNew {
     static let version: String = "1.8.1"
 
+    // Keep subtitles to around 72 characters:
+    // "------------------------------------------------------------------------"
     static let features: [WhatsNewFeature] = [
         .init(
             image: "globe",
