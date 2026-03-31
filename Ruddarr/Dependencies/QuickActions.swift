@@ -116,10 +116,10 @@ extension QuickActions {
         case openActivity
         case openMovies
         case openMovie(_ id: Movie.ID, _ instance: String?)
-        case addMovie(_ query: String = "")
+        case addMovie(_ query: String = "", _ instance: String? = nil)
         case openSeries
         case openSeriesItem(_ id: Movie.ID, _ season: Season.ID?, _ episode: Episode.ID?, _ instance: String?)
-        case addSeries(_ query: String = "")
+        case addSeries(_ query: String = "", _ instance: String? = nil)
 
         func callAsFunction() {
             switch self {
@@ -131,7 +131,10 @@ extension QuickActions {
                 dependencies.quickActions.openActivity()
             case .openMovies:
                 dependencies.quickActions.openMovies()
-            case .addMovie(let query):
+            case .addMovie(let query, let instance):
+                if let instance {
+                    dependencies.router.switchToRadarrInstance = instance
+                }
                 dependencies.quickActions.openMovieSearch(query)
             case .openMovie(let movie, let instance):
                 dependencies.quickActions.openMovie(movie, instance)
@@ -139,7 +142,10 @@ extension QuickActions {
                 dependencies.quickActions.openSeries()
             case .openSeriesItem(let series, let season, let episode, let instance):
                 dependencies.quickActions.openSeries(series, season, episode, instance)
-            case .addSeries(let query):
+            case .addSeries(let query, let instance):
+                if let instance {
+                    dependencies.router.switchToSonarrInstance = instance
+                }
                 dependencies.quickActions.openSeriesSearch(query)
             }
         }
@@ -168,9 +174,11 @@ extension QuickActions.Deeplink {
         case "movies":
             self = .openMovies
         case "movies/search":
-            self = .addMovie()
+            let instance = components.queryItems?.first { $0.name == "instance" }?.value
+            self = .addMovie("", instance)
         case _ where action.hasPrefix("movies/search/"):
-            self = .addMovie(value)
+            let instance = components.queryItems?.first { $0.name == "instance" }?.value
+            self = .addMovie(value, instance)
         case _ where action.hasPrefix("movies/open/"):
             guard let id = Movie.ID(value) else { throw unsupportedURL }
             let instance = components.queryItems?.first { $0.name == "instance" }?.value
@@ -178,9 +186,11 @@ extension QuickActions.Deeplink {
         case "series":
             self = .openMovies
         case "series/search":
-            self = .addSeries()
+            let instance = components.queryItems?.first { $0.name == "instance" }?.value
+            self = .addSeries("", instance)
         case _ where action.hasPrefix("series/search/"):
-            self = .addSeries(value)
+            let instance = components.queryItems?.first { $0.name == "instance" }?.value
+            self = .addSeries(value, instance)
         case _ where action.hasPrefix("series/open/"):
             guard let id = Series.ID(value) else { throw unsupportedURL }
             let seasonId = components.queryItems?.first { $0.name == "season" }?.value

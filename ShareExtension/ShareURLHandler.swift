@@ -257,10 +257,31 @@ extension ShareViewController {
     // MARK: - Deep Link
 
     private func openSearch(query: String, type: MediaType) {
+        let instances = type == .movie
+            ? ShareInstanceStore.radarrInstances
+            : ShareInstanceStore.sonarrInstances
+
+        if instances.count > 1 {
+            showInstancePicker(instances) { [weak self] instance in
+                self?.openDeepLink(query: query, type: type, instance: instance.id)
+            }
+            return
+        }
+
+        openDeepLink(query: query, type: type, instance: instances.first?.id)
+    }
+
+    private func openDeepLink(query: String, type: MediaType, instance: UUID?) {
         let path = type == .movie ? "movies" : "series"
         let encoded = query.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? query
 
-        guard let url = URL(string: "ruddarr://\(path)/search/\(encoded)") else {
+        var urlString = "ruddarr://\(path)/search/\(encoded)"
+
+        if let instance {
+            urlString += "?instance=\(instance.uuidString)"
+        }
+
+        guard let url = URL(string: urlString) else {
             close()
             return
         }
