@@ -60,6 +60,8 @@
 		BB4071342C1CDD32006A3FA5 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BB40712D2C1CDD32006A3FA5 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CC5E00012F5A000100000005 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5E00012F5A000100000002 /* ShareViewController.swift */; };
 		CC5E00012F5A000100000006 /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CC5E00012F5A000100000001 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CC5E00012F5A000100000011 /* ShareURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5E00012F5A000100000012 /* ShareURLHandler.swift */; };
+		CC5E00012F5A000100000013 /* UnsupportedURLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5E00012F5A000100000014 /* UnsupportedURLView.swift */; };
 		BB4140C62B71CA89007C7DA4 /* MovieReleaseSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */; };
 		BB42B7CB2DCD26AB00DA73A3 /* TaskImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB42B7CA2DCD26AB00DA73A3 /* TaskImportView.swift */; };
 		BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D222B58C71300C29B00 /* NoInternet.swift */; };
@@ -324,6 +326,8 @@
 		CC5E00012F5A000100000001 /* ShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC5E00012F5A000100000002 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		CC5E00012F5A000100000003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CC5E00012F5A000100000012 /* ShareURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareURLHandler.swift; sourceTree = "<group>"; };
+		CC5E00012F5A000100000014 /* UnsupportedURLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsupportedURLView.swift; sourceTree = "<group>"; };
 		BB4071312C1CDD32006A3FA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseSort.swift; sourceTree = "<group>"; };
 		BB42618C2B6980760078B94E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -630,6 +634,8 @@
 			children = (
 				CC5E00012F5A000100000003 /* Info.plist */,
 				CC5E00012F5A000100000002 /* ShareViewController.swift */,
+				CC5E00012F5A000100000012 /* ShareURLHandler.swift */,
+				CC5E00012F5A000100000014 /* UnsupportedURLView.swift */,
 			);
 			path = ShareExtension;
 			sourceTree = "<group>";
@@ -1265,6 +1271,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC5E00012F5A000100000005 /* ShareViewController.swift in Sources */,
+				CC5E00012F5A000100000011 /* ShareURLHandler.swift in Sources */,
+				CC5E00012F5A000100000013 /* UnsupportedURLView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
