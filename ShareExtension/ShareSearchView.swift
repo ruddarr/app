@@ -12,6 +12,17 @@ struct ShareMediaImage: Codable {
     }
 }
 
+struct ShareRating: Codable {
+    let votes: Int
+    let value: Double
+}
+
+struct ShareMovieRatings: Codable {
+    let imdb: ShareRating?
+    let tmdb: ShareRating?
+    let rottenTomatoes: ShareRating?
+}
+
 struct ShareMovieResult: Identifiable, Codable {
     var id: Int { guid ?? (tmdbId + 100_000) }
 
@@ -19,9 +30,19 @@ struct ShareMovieResult: Identifiable, Codable {
     let tmdbId: Int
     let title: String
     let year: Int
+    let runtime: Int
+    let overview: String?
+    let certification: String?
+    let studio: String?
+    let genres: [String]
+    let ratings: ShareMovieRatings?
+    let status: String?
+    let monitored: Bool?
+    let hasFile: Bool?
     let images: [ShareMediaImage]
 
     var exists: Bool { guid != nil }
+    var isDownloaded: Bool { hasFile ?? false }
 
     var posterURL: URL? {
         guard let poster = images.first(where: { $0.coverType == "poster" }),
@@ -29,10 +50,28 @@ struct ShareMovieResult: Identifiable, Codable {
         return URL(string: urlString)
     }
 
+    var runtimeLabel: String {
+        guard runtime > 0 else { return "" }
+        let hours = runtime / 60
+        let minutes = runtime % 60
+        if hours > 0 { return "\(hours)h \(minutes)m" }
+        return "\(minutes)m"
+    }
+
+    var genreLabel: String {
+        genres.prefix(3).joined(separator: ", ")
+    }
+
     enum CodingKeys: String, CodingKey {
         case guid = "id"
-        case tmdbId, title, year, images
+        case tmdbId, title, year, runtime, overview, certification
+        case studio, genres, ratings, status, monitored, hasFile, images
     }
+}
+
+struct ShareSeriesRatings: Codable {
+    let votes: Int
+    let value: Double
 }
 
 struct ShareSeriesResult: Identifiable, Codable {
@@ -42,6 +81,15 @@ struct ShareSeriesResult: Identifiable, Codable {
     let tvdbId: Int
     let title: String
     let year: Int
+    let runtime: Int
+    let overview: String?
+    let certification: String?
+    let network: String?
+    let genres: [String]
+    let ratings: ShareSeriesRatings?
+    let status: String?
+    let ended: Bool?
+    let monitored: Bool?
     let images: [ShareMediaImage]
 
     var exists: Bool { guid != nil }
@@ -52,9 +100,24 @@ struct ShareSeriesResult: Identifiable, Codable {
         return URL(string: urlString)
     }
 
+    var runtimeLabel: String {
+        guard runtime > 0 else { return "" }
+        return "\(runtime)m"
+    }
+
+    var genreLabel: String {
+        genres.prefix(3).joined(separator: ", ")
+    }
+
+    var statusLabel: String {
+        guard let status else { return "" }
+        return status.prefix(1).uppercased() + status.dropFirst()
+    }
+
     enum CodingKeys: String, CodingKey {
         case guid = "id"
-        case tvdbId, title, year, images
+        case tvdbId, title, year, runtime, overview, certification
+        case network, genres, ratings, status, ended, monitored, images
     }
 }
 
@@ -100,159 +163,7 @@ enum ShareAPIClient {
     }
 }
 
-// MARK: - Search View
-
-struct ShareSearchView<Result: Identifiable>: View {
-    let query: String
-    let instance: ShareInstance
-    let results: [Result]?
-    let error: Error?
-    let isLoading: Bool
-    let posterURL: (Result) -> URL?
-    let title: (Result) -> String
-    let year: (Result) -> Int
-    let exists: (Result) -> Bool
-    let onSelect: (Result) -> Void
-    let onClose: () -> Void
-
-    var body: some View {
-        NavigationStack {
-            Group {
-                if isLoading {
-                    ProgressView("Searching...")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else if let error {
-                    ContentUnavailableView {
-                        Label("Search Failed", systemImage: "exclamationmark.triangle")
-                    } description: {
-                        Text(error.localizedDescription)
-                    } actions: {
-                        Button("Close") { onClose() }
-                    }
-                } else if let results, results.isEmpty {
-                    ContentUnavailableView {
-                        Label("No Results", systemImage: "magnifyingglass")
-                    } description: {
-                        Text("No results found for \"\(query)\".")
-                    } actions: {
-                        Button("Close") { onClose() }
-                    }
-                } else if let results {
-                    ScrollView {
-                        LazyVGrid(columns: gridColumns, spacing: 12) {
-                            ForEach(results) { result in
-                                SharePosterButton(
-                                    posterURL: posterURL(result),
-                                    title: title(result),
-                                    year: year(result),
-                                    exists: exists(result)
-                                ) {
-                                    onSelect(result)
-                                }
-                            }
-                        }
-                        .padding()
-                    }
-                } else {
-                    ProgressView("Searching...")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
-            }
-            .navigationTitle("Results")
-            #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { onClose() }
-                }
-            }
-        }
-    }
-
-    private var gridColumns: [GridItem] {
-        #if os(macOS)
-        [GridItem(.adaptive(minimum: 140, maximum: 180), spacing: 16)]
-        #else
-        [GridItem(.adaptive(minimum: 100, maximum: 130), spacing: 12)]
-        #endif
-    }
-}
-
-// MARK: - Poster Button
-
-struct SharePosterButton: View {
-    let posterURL: URL?
-    let title: String
-    let year: Int
-    let exists: Bool
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 4) {
-                posterImage
-                    .aspectRatio(CGSize(width: 150, height: 225), contentMode: .fit)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .overlay(alignment: .bottomTrailing) {
-                        if exists {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.caption)
-                                .foregroundStyle(.white)
-                                .padding(6)
-                        }
-                    }
-
-                Text(title)
-                    .font(.caption)
-                    .lineLimit(1)
-                    .foregroundStyle(.primary)
-
-                if year > 0 {
-                    Text(String(year))
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                }
-            }
-        }
-        .buttonStyle(.plain)
-    }
-
-    @ViewBuilder
-    private var posterImage: some View {
-        if let posterURL {
-            AsyncImage(url: posterURL) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                case .failure:
-                    placeholderImage
-                default:
-                    placeholderImage
-                        .overlay { ProgressView() }
-                }
-            }
-        } else {
-            placeholderImage
-        }
-    }
-
-    private var placeholderImage: some View {
-        Rectangle()
-            .fill(.quaternary)
-            .overlay {
-                Text(title)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(4)
-            }
-    }
-}
-
-// MARK: - Coordinator
+// MARK: - Search Coordinator
 
 @MainActor
 class ShareSearchCoordinator: ObservableObject {
@@ -286,60 +197,607 @@ class ShareSearchCoordinator: ObservableObject {
     }
 }
 
-// MARK: - Typed Search Views
+// MARK: - Movie Search View
 
 struct ShareMovieSearchView: View {
     let query: String
     let instance: ShareInstance
-    let onSelect: (ShareMovieResult) -> Void
+    let onOpenInApp: (ShareMovieResult) -> Void
     let onClose: () -> Void
 
     @StateObject private var coordinator = ShareSearchCoordinator()
+    @State private var selectedMovie: ShareMovieResult?
 
     var body: some View {
-        ShareSearchView(
-            query: query,
-            instance: instance,
-            results: coordinator.movieResults,
-            error: coordinator.error,
-            isLoading: coordinator.isLoading,
-            posterURL: \.posterURL,
-            title: \.title,
-            year: \.year,
-            exists: \.exists,
-            onSelect: onSelect,
-            onClose: onClose
-        )
+        NavigationStack {
+            Group {
+                if coordinator.isLoading {
+                    ProgressView("Searching...")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if let error = coordinator.error {
+                    ContentUnavailableView {
+                        Label("Search Failed", systemImage: "exclamationmark.triangle")
+                    } description: {
+                        Text(error.localizedDescription)
+                    } actions: {
+                        Button("Close") { onClose() }
+                    }
+                } else if let results = coordinator.movieResults, results.isEmpty {
+                    ContentUnavailableView {
+                        Label("No Results", systemImage: "magnifyingglass")
+                    } description: {
+                        Text("No results found for \"\(query)\".")
+                    } actions: {
+                        Button("Close") { onClose() }
+                    }
+                } else if let results = coordinator.movieResults {
+                    ScrollView {
+                        LazyVGrid(columns: posterColumns, spacing: posterSpacing) {
+                            ForEach(results) { movie in
+                                ShareGridPoster(
+                                    posterURL: movie.posterURL,
+                                    title: movie.title,
+                                    exists: movie.exists,
+                                    isDownloaded: movie.isDownloaded,
+                                    monitored: movie.monitored ?? false
+                                ) {
+                                    selectedMovie = movie
+                                }
+                            }
+                        }
+                        .padding()
+                    }
+                } else {
+                    ProgressView("Searching...")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+            .navigationTitle("Results")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { onClose() }
+                }
+            }
+            .sheet(item: $selectedMovie) { movie in
+                ShareMoviePreviewView(movie: movie) {
+                    selectedMovie = nil
+                    onOpenInApp(movie)
+                } onClose: {
+                    selectedMovie = nil
+                }
+            }
+        }
         .onAppear {
             coordinator.searchMovies(query: query, instance: instance)
         }
     }
 }
 
+// MARK: - Series Search View
+
 struct ShareSeriesSearchView: View {
     let query: String
     let instance: ShareInstance
-    let onSelect: (ShareSeriesResult) -> Void
+    let onOpenInApp: (ShareSeriesResult) -> Void
     let onClose: () -> Void
 
     @StateObject private var coordinator = ShareSearchCoordinator()
+    @State private var selectedSeries: ShareSeriesResult?
 
     var body: some View {
-        ShareSearchView(
-            query: query,
-            instance: instance,
-            results: coordinator.seriesResults,
-            error: coordinator.error,
-            isLoading: coordinator.isLoading,
-            posterURL: \.posterURL,
-            title: \.title,
-            year: \.year,
-            exists: \.exists,
-            onSelect: onSelect,
-            onClose: onClose
-        )
+        NavigationStack {
+            Group {
+                if coordinator.isLoading {
+                    ProgressView("Searching...")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if let error = coordinator.error {
+                    ContentUnavailableView {
+                        Label("Search Failed", systemImage: "exclamationmark.triangle")
+                    } description: {
+                        Text(error.localizedDescription)
+                    } actions: {
+                        Button("Close") { onClose() }
+                    }
+                } else if let results = coordinator.seriesResults, results.isEmpty {
+                    ContentUnavailableView {
+                        Label("No Results", systemImage: "magnifyingglass")
+                    } description: {
+                        Text("No results found for \"\(query)\".")
+                    } actions: {
+                        Button("Close") { onClose() }
+                    }
+                } else if let results = coordinator.seriesResults {
+                    ScrollView {
+                        LazyVGrid(columns: posterColumns, spacing: posterSpacing) {
+                            ForEach(results) { series in
+                                ShareGridPoster(
+                                    posterURL: series.posterURL,
+                                    title: series.title,
+                                    exists: series.exists,
+                                    isDownloaded: false,
+                                    monitored: series.monitored ?? false
+                                ) {
+                                    selectedSeries = series
+                                }
+                            }
+                        }
+                        .padding()
+                    }
+                } else {
+                    ProgressView("Searching...")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+            .navigationTitle("Results")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { onClose() }
+                }
+            }
+            .sheet(item: $selectedSeries) { series in
+                ShareSeriesPreviewView(series: series) {
+                    selectedSeries = nil
+                    onOpenInApp(series)
+                } onClose: {
+                    selectedSeries = nil
+                }
+            }
+        }
         .onAppear {
             coordinator.searchSeries(query: query, instance: instance)
         }
     }
+}
+
+// MARK: - Grid Poster (matches main app style)
+
+struct ShareGridPoster: View {
+    let posterURL: URL?
+    let title: String
+    let exists: Bool
+    let isDownloaded: Bool
+    let monitored: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            posterImage
+                .aspectRatio(CGSize(width: 150, height: 225), contentMode: .fill)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(.systemGray5))
+                .overlay(alignment: .bottom) {
+                    if exists {
+                        posterOverlay
+                    }
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+        }
+        .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private var posterImage: some View {
+        if let posterURL {
+            AsyncImage(url: posterURL) { phase in
+                switch phase {
+                case .success(let image):
+                    image.resizable().scaledToFill()
+                case .failure:
+                    placeholder
+                default:
+                    placeholder.overlay { ProgressView() }
+                }
+            }
+        } else {
+            placeholder
+        }
+    }
+
+    private var placeholder: some View {
+        Rectangle()
+            .fill(.quaternary)
+            .overlay {
+                Text(title)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(4)
+            }
+    }
+
+    private var posterOverlay: some View {
+        HStack {
+            Group {
+                if isDownloaded {
+                    Image(systemName: "checkmark").symbolVariant(.circle.fill)
+                } else if monitored {
+                    Image(systemName: "xmark").symbolVariant(.circle)
+                }
+            }
+            .foregroundStyle(.white)
+            .font(.caption)
+
+            Spacer()
+
+            Image(systemName: "bookmark")
+                .symbolVariant(monitored ? .fill : .none)
+                .foregroundStyle(.white)
+                .font(.caption)
+        }
+        .padding(.top, 36)
+        .padding(.bottom, 8)
+        .padding(.horizontal, 8)
+        .background {
+            LinearGradient(
+                colors: [
+                    Color.black.opacity(0.0),
+                    Color.black.opacity(0.2),
+                    Color.black.opacity(0.4),
+                    Color.black.opacity(0.9),
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        }
+    }
+}
+
+// MARK: - Movie Preview View
+
+struct ShareMoviePreviewView: View {
+    let movie: ShareMovieResult
+    let onAdd: () -> Void
+    let onClose: () -> Void
+
+    @State private var descriptionExpanded = false
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    header
+                        .padding(.bottom)
+
+                    details
+                        .padding(.bottom)
+
+                    if let overview = movie.overview, !overview.isEmpty {
+                        description(overview)
+                            .padding(.bottom)
+                    }
+                }
+                .padding()
+            }
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { onClose() }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    if movie.exists {
+                        Button("Open in Ruddarr", systemImage: "arrow.up.forward.app") {
+                            onAdd()
+                        }
+                    } else {
+                        Button("Add Movie", systemImage: "plus") {
+                            onAdd()
+                        }
+                    }
+                }
+            }
+        }
+        #if os(iOS)
+        .presentationDetents([.medium, .large])
+        #endif
+    }
+
+    private var header: some View {
+        HStack(alignment: .top) {
+            posterImage
+                .frame(width: 120, height: 180)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+                .padding(.trailing, 8)
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text(movie.title)
+                    .font(.headline)
+                    .lineLimit(3)
+
+                subtitleText
+
+                if let ratings = movie.ratings {
+                    ratingsView(ratings)
+                }
+
+                Spacer()
+            }
+        }
+    }
+
+    private var subtitleText: some View {
+        HStack(spacing: 4) {
+            if movie.year > 0 {
+                Text(String(movie.year))
+            }
+            if !movie.runtimeLabel.isEmpty {
+                Text("  \(movie.runtimeLabel)")
+            }
+            if let cert = movie.certification, !cert.isEmpty {
+                Text("  \(cert)")
+            }
+        }
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+    }
+
+    private func ratingsView(_ ratings: ShareMovieRatings) -> some View {
+        HStack(spacing: 12) {
+            if let imdb = ratings.imdb, imdb.votes > 0 {
+                Label(String(format: "%.1f", imdb.value), systemImage: "star.fill")
+                    .foregroundStyle(.yellow)
+            }
+            if let rt = ratings.rottenTomatoes, rt.votes > 0 {
+                Label("\(Int(rt.value))%", systemImage: "flame.fill")
+                    .foregroundStyle(.orange)
+            }
+        }
+        .font(.subheadline)
+    }
+
+    private var details: some View {
+        Grid(alignment: .leading) {
+            if let status = movie.status, !status.isEmpty {
+                detailRow("Status", value: status.prefix(1).uppercased() + status.dropFirst())
+            }
+            if let studio = movie.studio, !studio.isEmpty {
+                detailRow("Studio", value: studio)
+            }
+            if !movie.genreLabel.isEmpty {
+                detailRow("Genre", value: movie.genreLabel)
+            }
+        }
+    }
+
+    private func description(_ text: String) -> some View {
+        HStack(alignment: .top) {
+            Text(text)
+                .font(.callout)
+                .lineLimit(descriptionExpanded ? nil : 4)
+                .onTapGesture {
+                    withAnimation(.snappy) { descriptionExpanded = true }
+                }
+            Spacer()
+        }
+    }
+
+    private func detailRow(_ label: String, value: String) -> some View {
+        GridRow(alignment: .top) {
+            Text(label)
+                .textCase(.uppercase)
+                .foregroundStyle(.secondary)
+                .fontWeight(.medium)
+                .padding(.trailing)
+            Text(value)
+            Spacer()
+        }
+        .font(.callout)
+    }
+
+    @ViewBuilder
+    private var posterImage: some View {
+        if let posterURL = movie.posterURL {
+            AsyncImage(url: posterURL) { phase in
+                switch phase {
+                case .success(let image):
+                    image.resizable().scaledToFill()
+                case .failure:
+                    posterPlaceholder
+                default:
+                    posterPlaceholder.overlay { ProgressView() }
+                }
+            }
+        } else {
+            posterPlaceholder
+        }
+    }
+
+    private var posterPlaceholder: some View {
+        Rectangle()
+            .fill(.quaternary)
+            .overlay {
+                Text(movie.title)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(4)
+            }
+    }
+}
+
+// MARK: - Series Preview View
+
+struct ShareSeriesPreviewView: View {
+    let series: ShareSeriesResult
+    let onAdd: () -> Void
+    let onClose: () -> Void
+
+    @State private var descriptionExpanded = false
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    header
+                        .padding(.bottom)
+
+                    details
+                        .padding(.bottom)
+
+                    if let overview = series.overview, !overview.isEmpty {
+                        description(overview)
+                            .padding(.bottom)
+                    }
+                }
+                .padding()
+            }
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { onClose() }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    if series.exists {
+                        Button("Open in Ruddarr", systemImage: "arrow.up.forward.app") {
+                            onAdd()
+                        }
+                    } else {
+                        Button("Add Series", systemImage: "plus") {
+                            onAdd()
+                        }
+                    }
+                }
+            }
+        }
+        #if os(iOS)
+        .presentationDetents([.medium, .large])
+        #endif
+    }
+
+    private var header: some View {
+        HStack(alignment: .top) {
+            posterImage
+                .frame(width: 120, height: 180)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+                .padding(.trailing, 8)
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text(series.title)
+                    .font(.headline)
+                    .lineLimit(3)
+
+                subtitleText
+
+                if let ratings = series.ratings, ratings.votes > 0 {
+                    Label(String(format: "%.0f%%", ratings.value * 10), systemImage: "star.fill")
+                        .foregroundStyle(.yellow)
+                        .font(.subheadline)
+                }
+
+                Spacer()
+            }
+        }
+    }
+
+    private var subtitleText: some View {
+        HStack(spacing: 4) {
+            if series.year > 0 {
+                Text(String(series.year))
+            }
+            if !series.runtimeLabel.isEmpty {
+                Text("  \(series.runtimeLabel)/ep")
+            }
+            if let cert = series.certification, !cert.isEmpty {
+                Text("  \(cert)")
+            }
+        }
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+    }
+
+    private var details: some View {
+        Grid(alignment: .leading) {
+            if !series.statusLabel.isEmpty {
+                detailRow("Status", value: series.statusLabel)
+            }
+            if let network = series.network, !network.isEmpty {
+                detailRow("Network", value: network)
+            }
+            if !series.genreLabel.isEmpty {
+                detailRow("Genre", value: series.genreLabel)
+            }
+        }
+    }
+
+    private func description(_ text: String) -> some View {
+        HStack(alignment: .top) {
+            Text(text)
+                .font(.callout)
+                .lineLimit(descriptionExpanded ? nil : 4)
+                .onTapGesture {
+                    withAnimation(.snappy) { descriptionExpanded = true }
+                }
+            Spacer()
+        }
+    }
+
+    private func detailRow(_ label: String, value: String) -> some View {
+        GridRow(alignment: .top) {
+            Text(label)
+                .textCase(.uppercase)
+                .foregroundStyle(.secondary)
+                .fontWeight(.medium)
+                .padding(.trailing)
+            Text(value)
+            Spacer()
+        }
+        .font(.callout)
+    }
+
+    @ViewBuilder
+    private var posterImage: some View {
+        if let posterURL = series.posterURL {
+            AsyncImage(url: posterURL) { phase in
+                switch phase {
+                case .success(let image):
+                    image.resizable().scaledToFill()
+                case .failure:
+                    posterPlaceholder
+                default:
+                    posterPlaceholder.overlay { ProgressView() }
+                }
+            }
+        } else {
+            posterPlaceholder
+        }
+    }
+
+    private var posterPlaceholder: some View {
+        Rectangle()
+            .fill(.quaternary)
+            .overlay {
+                Text(series.title)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(4)
+            }
+    }
+}
+
+// MARK: - Grid Layout Helpers
+
+private var posterColumns: [GridItem] {
+    #if os(macOS)
+    [GridItem(.adaptive(minimum: 160, maximum: 200), spacing: 20)]
+    #else
+    [GridItem(.adaptive(minimum: 100, maximum: 130), spacing: 12)]
+    #endif
+}
+
+private var posterSpacing: CGFloat {
+    #if os(macOS)
+    20
+    #else
+    12
+    #endif
 }

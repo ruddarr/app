@@ -281,9 +281,9 @@ extension ShareViewController {
             showSwiftUIView(ShareMovieSearchView(
                 query: query,
                 instance: instance,
-                onSelect: { [weak self] movie in
-                    self?.openDeepLink(
-                        path: "movies/open/\(movie.tmdbId)",
+                onOpenInApp: { [weak self] movie in
+                    self?.openInApp(
+                        path: "movies/search/tmdb:\(movie.tmdbId)",
                         instance: instance.id
                     )
                 },
@@ -293,9 +293,9 @@ extension ShareViewController {
             showSwiftUIView(ShareSeriesSearchView(
                 query: query,
                 instance: instance,
-                onSelect: { [weak self] series in
-                    self?.openDeepLink(
-                        path: "series/open/\(series.tvdbId)",
+                onOpenInApp: { [weak self] series in
+                    self?.openInApp(
+                        path: "series/search/tvdb:\(series.tvdbId)",
                         instance: instance.id
                     )
                 },
@@ -304,7 +304,7 @@ extension ShareViewController {
         }
     }
 
-    private func openDeepLink(path: String, instance: UUID) {
+    private func openInApp(path: String, instance: UUID) {
         let urlString = "ruddarr://\(path)?instance=\(instance.uuidString)"
 
         guard let url = URL(string: urlString) else {
