@@ -12,6 +12,20 @@ class AppSettings: ObservableObject {
         @CloudStorage("instances") var instances: [Instance] = []
     #endif
 
+    init() {
+        NotificationCenter.default.addObserver(
+            forName: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
+            object: NSUbiquitousKeyValueStore.default,
+            queue: .main
+        ) { [weak self] notification in
+            guard let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String],
+                  keys.contains("instances") else { return }
+            Task { @MainActor [weak self] in
+                self?.syncInstancesToAppGroup()
+            }
+        }
+    }
+
     @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
     @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
@@ -77,6 +91,7 @@ extension AppSettings {
         }
 
         Queue.shared.instances = instances
+        syncInstancesToAppGroup()
     }
 
     func deleteInstance(_ instance: Instance) {
@@ -95,6 +110,13 @@ extension AppSettings {
         }
 
         Queue.shared.instances = instances
+        syncInstancesToAppGroup()
+    }
+
+    func syncInstancesToAppGroup() {
+        guard let data = try? JSONEncoder().encode(instances),
+              let defaults = UserDefaults(suiteName: "group.com.ruddarr") else { return }
+        defaults.set(data, forKey: "instances")
     }
 }
 

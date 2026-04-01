@@ -402,6 +402,7 @@
 		BB8100092CD5976B00499666 /* radarr-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "radarr-history.json"; sourceTree = "<group>"; };
 		BB83AFA42CB2080C00349997 /* InstanceCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceCommand.swift; sourceTree = "<group>"; };
 		BB846F2E2E7DE1BC00E0A367 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
+		CC5E00012F5A000100000020 /* ShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShareExtension.entitlements; sourceTree = "<group>"; };
 		BB865E602B83C11E00ADCEFE /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		BB89058A2E41359E0057C62B /* SeasonCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonCard.swift; sourceTree = "<group>"; };
 		BB89ABC52B756B91009FB62D /* MovieReleaseRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseRow.swift; sourceTree = "<group>"; };
@@ -645,6 +646,7 @@
 		CC5E00012F5A000100000004 /* ShareExtension */ = {
 			isa = PBXGroup;
 			children = (
+				CC5E00012F5A000100000020 /* ShareExtension.entitlements */,
 				CC5E00012F5A000100000003 /* Info.plist */,
 				CC5E00012F5A000100000002 /* ShareViewController.swift */,
 				CC5E00012F5A000100000012 /* ShareURLHandler.swift */,
@@ -1616,6 +1618,7 @@
 		CC5E00012F5A00010000000D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1652,6 +1655,7 @@
 		CC5E00012F5A00010000000E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

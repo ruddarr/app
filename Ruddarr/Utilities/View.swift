@@ -85,6 +85,7 @@ private struct WithAppStateModifier: ViewModifier {
             .environment(SonarrInstance(sonarrInstance))
             .task {
                 Queue.shared.instances = settings.instances
+                settings.syncInstancesToAppGroup()
                 setSentryContext(for: "Configuration", settings.context())
                 await setSentryCloudKitContext()
             }
