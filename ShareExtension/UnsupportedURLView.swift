@@ -24,3 +24,20 @@ struct UnsupportedURLView: View {
         }
     }
 }
+
+struct NoInstancesView: View {
+    let instanceType: String
+    var close: () -> Void
+
+    var body: some View {
+        ContentUnavailableView {
+            Label("No \(instanceType) Instance", systemImage: "server.rack")
+        } description: {
+            Text("Add a \(instanceType) instance in the Ruddarr app to get started.")
+        } actions: {
+            Button("Close") {
+                close()
+            }
+        }
+    }
+}

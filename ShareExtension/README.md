@@ -36,8 +36,8 @@ in the main app (`RadarrInstance`/`SonarrInstance`, `AppSettings`,
 
 - [ ] Migrate instance data to App Groups shared container
 - [ ] Sync instances to App Groups shared container
-- [ ] Replace `AsyncImage` with `CachedAsyncImage` (add Nuke dependency to extension target)
+- [x] Replace `AsyncImage` with NukeUI `LazyImage` (add Nuke dependency to extension target)
 - [ ] Deduplicate models/views by extracting shared code into a framework or Swift package
-- [ ] Handle case when no instances are configured (show setup instructions)
-- [ ] Support monitoring type picker in add form (movieOnly, collection, etc.)
+- [x] Handle case when no instances are configured (show setup instructions)
+- [x] Support monitoring type picker in add form (movieOnly, collection, etc.)
 - [ ] Remember last-used add defaults per instance

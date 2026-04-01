@@ -1,4 +1,5 @@
 import SwiftUI
+import NukeUI
 
 // MARK: - Lightweight API Models
 
@@ -559,14 +560,12 @@ struct ShareGridPoster: View {
     @ViewBuilder
     private var posterImage: some View {
         if let posterURL {
-            AsyncImage(url: posterURL) { phase in
-                switch phase {
-                case .success(let image):
+            LazyImage(url: posterURL) { state in
+                if let image = state.image {
                     image.resizable().scaledToFill()
-                case .failure:
+                } else {
                     placeholder
-                default:
-                    placeholder.overlay { ProgressView() }
+                        .overlay { state.isLoading ? ProgressView() : nil }
                 }
             }
         } else {
@@ -641,7 +640,8 @@ struct ShareMoviePreviewView: View {
     // Form state
     @State private var qualityProfileId: Int = 0
     @State private var rootFolderPath: String = ""
-    @State private var monitored: Bool = true
+    @State private var monitorType: String = "movieOnly"
+    @State private var minimumAvailability: String = "announced"
 
     var body: some View {
         NavigationStack {
@@ -701,7 +701,17 @@ struct ShareMoviePreviewView: View {
         NavigationStack {
             Form {
                 Section {
-                    Toggle("Monitored", isOn: $monitored)
+                    Picker("Monitor", selection: $monitorType) {
+                        Text("Movie").tag("movieOnly")
+                        Text("Movie + Collection").tag("movieAndCollection")
+                        Text("None").tag("none")
+                    }
+
+                    Picker("Minimum Availability", selection: $minimumAvailability) {
+                        Text("Announced").tag("announced")
+                        Text("In Cinemas").tag("inCinemas")
+                        Text("Released").tag("released")
+                    }
 
                     if config.qualityProfiles.count > 1 {
                         Picker("Quality Profile", selection: $qualityProfileId) {
@@ -760,11 +770,11 @@ struct ShareMoviePreviewView: View {
         defer { isAdding = false }
 
         let overrides: [String: Any] = [
-            "monitored": monitored,
+            "monitored": monitorType != "none",
             "qualityProfileId": qualityProfileId,
             "rootFolderPath": rootFolderPath,
-            "minimumAvailability": "announced",
-            "addOptions": ["monitor": "movieOnly"],
+            "minimumAvailability": minimumAvailability,
+            "addOptions": ["monitor": monitorType],
         ]
 
         do {
@@ -870,11 +880,12 @@ struct ShareMoviePreviewView: View {
     @ViewBuilder
     private var posterImage: some View {
         if let url = movie.posterURL {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .success(let image): image.resizable().scaledToFill()
-                case .failure: posterPlaceholder
-                default: posterPlaceholder.overlay { ProgressView() }
+            LazyImage(url: url) { state in
+                if let image = state.image {
+                    image.resizable().scaledToFill()
+                } else {
+                    posterPlaceholder
+                        .overlay { state.isLoading ? ProgressView() : nil }
                 }
             }
         } else {
@@ -908,7 +919,7 @@ struct ShareSeriesPreviewView: View {
     // Form state
     @State private var qualityProfileId: Int = 0
     @State private var rootFolderPath: String = ""
-    @State private var monitored: Bool = true
+    @State private var monitorType: String = "all"
     @State private var seasonFolder: Bool = true
     @State private var seriesType: String = "standard"
 
@@ -970,7 +981,17 @@ struct ShareSeriesPreviewView: View {
         NavigationStack {
             Form {
                 Section {
-                    Toggle("Monitored", isOn: $monitored)
+                    Picker("Monitor", selection: $monitorType) {
+                        Text("All Episodes").tag("all")
+                        Text("Future Episodes").tag("future")
+                        Text("Missing Episodes").tag("missing")
+                        Text("Existing Episodes").tag("existing")
+                        Text("Recent Episodes").tag("recent")
+                        Text("Pilot Episode").tag("pilot")
+                        Text("First Season").tag("firstSeason")
+                        Text("Last Season").tag("lastSeason")
+                        Text("None").tag("none")
+                    }
 
                     if config.qualityProfiles.count > 1 {
                         Picker("Quality Profile", selection: $qualityProfileId) {
@@ -1037,12 +1058,12 @@ struct ShareSeriesPreviewView: View {
         defer { isAdding = false }
 
         let overrides: [String: Any] = [
-            "monitored": monitored,
+            "monitored": monitorType != "none",
             "qualityProfileId": qualityProfileId,
             "rootFolderPath": rootFolderPath,
             "seriesType": seriesType,
             "seasonFolder": seasonFolder,
-            "addOptions": ["monitor": "all"],
+            "addOptions": ["monitor": monitorType],
         ]
 
         do {
@@ -1136,11 +1157,12 @@ struct ShareSeriesPreviewView: View {
     @ViewBuilder
     private var posterImage: some View {
         if let url = series.posterURL {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .success(let image): image.resizable().scaledToFill()
-                case .failure: posterPlaceholder
-                default: posterPlaceholder.overlay { ProgressView() }
+            LazyImage(url: url) { state in
+                if let image = state.image {
+                    image.resizable().scaledToFill()
+                } else {
+                    posterPlaceholder
+                        .overlay { state.isLoading ? ProgressView() : nil }
                 }
             }
         } else {

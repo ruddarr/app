@@ -71,6 +71,7 @@
 		CC5E00012F5A00010000001D /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC6CEF42BE69B1600F71839 /* Media.swift */; };
 		CC5E00012F5A00010000001E /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAED12A2B7205A9006C6CF2 /* Helpers.swift */; };
 		CC5E00012F5A00010000001F /* NoInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D222B58C71300C29B00 /* NoInternet.swift */; };
+		CC5E00012F5A000100000020 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = CC5E00012F5A000100000021 /* NukeUI */; };
 		BB4140C62B71CA89007C7DA4 /* MovieReleaseSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */; };
 		BB42B7CB2DCD26AB00DA73A3 /* TaskImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB42B7CA2DCD26AB00DA73A3 /* TaskImportView.swift */; };
 		BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D222B58C71300C29B00 /* NoInternet.swift */; };
@@ -538,6 +539,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC5E00012F5A000100000020 /* NukeUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1110,6 +1112,9 @@
 			dependencies = (
 			);
 			name = ShareExtension;
+			packageProductDependencies = (
+				CC5E00012F5A000100000021 /* NukeUI */,
+			);
 			productName = ShareExtension;
 			productReference = CC5E00012F5A000100000001 /* ShareExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -2057,6 +2062,11 @@
 			productName = Sentry;
 		};
 		BBDA77602BDACD3C00568E64 /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
+		CC5E00012F5A000100000021 /* NukeUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = NukeUI;

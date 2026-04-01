@@ -271,8 +271,13 @@ extension ShareViewController {
         if let instance = instances.first {
             showSearchResults(query: query, type: type, instance: instance)
         } else {
-            showUnsupportedURL()
+            showNoInstances(type: type)
         }
+    }
+
+    private func showNoInstances(type: MediaType) {
+        let label = type == .movie ? "Radarr" : "Sonarr"
+        showSwiftUIView(NoInstancesView(instanceType: label, close: { [weak self] in self?.close() }))
     }
 
     private func showSearchResults(query: String, type: MediaType, instance: Instance) {
