@@ -23,7 +23,22 @@ struct ShareMovieRatings: Codable {
     let rottenTomatoes: ShareRating?
 }
 
-struct ShareMovieResult: Identifiable, Codable {
+struct ShareRootFolder: Identifiable, Codable {
+    let id: Int
+    let path: String?
+    let accessible: Bool?
+
+    var label: String {
+        path ?? "Folder (\(id))"
+    }
+}
+
+struct ShareQualityProfile: Identifiable, Codable {
+    let id: Int
+    let name: String
+}
+
+struct ShareMovieResult: Identifiable {
     var id: Int { guid ?? (tmdbId + 100_000) }
 
     let guid: Int?
@@ -40,6 +55,9 @@ struct ShareMovieResult: Identifiable, Codable {
     let monitored: Bool?
     let hasFile: Bool?
     let images: [ShareMediaImage]
+
+    // Raw JSON for POST back to API
+    let rawJSON: [String: Any]
 
     var exists: Bool { guid != nil }
     var isDownloaded: Bool { hasFile ?? false }
@@ -61,20 +79,9 @@ struct ShareMovieResult: Identifiable, Codable {
     var genreLabel: String {
         genres.prefix(3).joined(separator: ", ")
     }
-
-    enum CodingKeys: String, CodingKey {
-        case guid = "id"
-        case tmdbId, title, year, runtime, overview, certification
-        case studio, genres, ratings, status, monitored, hasFile, images
-    }
 }
 
-struct ShareSeriesRatings: Codable {
-    let votes: Int
-    let value: Double
-}
-
-struct ShareSeriesResult: Identifiable, Codable {
+struct ShareSeriesResult: Identifiable {
     var id: Int { guid ?? (tvdbId + 100_000) }
 
     let guid: Int?
@@ -86,11 +93,14 @@ struct ShareSeriesResult: Identifiable, Codable {
     let certification: String?
     let network: String?
     let genres: [String]
-    let ratings: ShareSeriesRatings?
+    let ratings: ShareRating?
     let status: String?
     let ended: Bool?
     let monitored: Bool?
     let images: [ShareMediaImage]
+
+    // Raw JSON for POST back to API
+    let rawJSON: [String: Any]
 
     var exists: Bool { guid != nil }
 
@@ -113,12 +123,6 @@ struct ShareSeriesResult: Identifiable, Codable {
         guard let status else { return "" }
         return status.prefix(1).uppercased() + status.dropFirst()
     }
-
-    enum CodingKeys: String, CodingKey {
-        case guid = "id"
-        case tvdbId, title, year, runtime, overview, certification
-        case network, genres, ratings, status, ended, monitored, images
-    }
 }
 
 // MARK: - API Client
@@ -129,7 +133,28 @@ enum ShareAPIClient {
             .appending(path: "/api/v3/movie/lookup")
             .appending(queryItems: [URLQueryItem(name: "term", value: query)])
 
-        return try await request(url: url, headers: instance.auth)
+        let data = try await rawRequest(url: url, headers: instance.auth)
+        guard let array = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] else {
+            return []
+        }
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        return array.compactMap { dict in
+            guard let itemData = try? JSONSerialization.data(withJSONObject: dict),
+                  let partial = try? decoder.decode(MoviePartial.self, from: itemData) else {
+                return nil
+            }
+            return ShareMovieResult(
+                guid: partial.guid, tmdbId: partial.tmdbId, title: partial.title,
+                year: partial.year, runtime: partial.runtime, overview: partial.overview,
+                certification: partial.certification, studio: partial.studio,
+                genres: partial.genres, ratings: partial.ratings, status: partial.status,
+                monitored: partial.monitored, hasFile: partial.hasFile,
+                images: partial.images, rawJSON: dict
+            )
+        }
     }
 
     static func lookupSeries(instance: ShareInstance, query: String) async throws -> [ShareSeriesResult] {
@@ -137,10 +162,71 @@ enum ShareAPIClient {
             .appending(path: "/api/v3/series/lookup")
             .appending(queryItems: [URLQueryItem(name: "term", value: query)])
 
+        let data = try await rawRequest(url: url, headers: instance.auth)
+        guard let array = try JSONSerialization.jsonObject(with: data) as? [[String: Any]] else {
+            return []
+        }
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        return array.compactMap { dict in
+            guard let itemData = try? JSONSerialization.data(withJSONObject: dict),
+                  let partial = try? decoder.decode(SeriesPartial.self, from: itemData) else {
+                return nil
+            }
+            return ShareSeriesResult(
+                guid: partial.guid, tvdbId: partial.tvdbId, title: partial.title,
+                year: partial.year, runtime: partial.runtime, overview: partial.overview,
+                certification: partial.certification, network: partial.network,
+                genres: partial.genres, ratings: partial.ratings, status: partial.status,
+                ended: partial.ended, monitored: partial.monitored,
+                images: partial.images, rawJSON: dict
+            )
+        }
+    }
+
+    static func fetchRootFolders(instance: ShareInstance) async throws -> [ShareRootFolder] {
+        let url = try instance.baseURL()
+            .appending(path: "/api/v3/rootfolder")
         return try await request(url: url, headers: instance.auth)
     }
 
-    private static func request<T: Decodable>(url: URL, headers: [String: String]) async throws -> T {
+    static func fetchQualityProfiles(instance: ShareInstance) async throws -> [ShareQualityProfile] {
+        let url = try instance.baseURL()
+            .appending(path: "/api/v3/qualityprofile")
+        return try await request(url: url, headers: instance.auth)
+    }
+
+    static func addMovie(rawJSON: [String: Any], overrides: [String: Any], instance: ShareInstance) async throws {
+        let url = try instance.baseURL()
+            .appending(path: "/api/v3/movie")
+
+        var body = rawJSON
+        for (key, value) in overrides {
+            body[key] = value
+        }
+
+        let data = try JSONSerialization.data(withJSONObject: body)
+        try await postRequest(url: url, headers: instance.auth, body: data)
+    }
+
+    static func addSeries(rawJSON: [String: Any], overrides: [String: Any], instance: ShareInstance) async throws {
+        let url = try instance.baseURL()
+            .appending(path: "/api/v3/series")
+
+        var body = rawJSON
+        for (key, value) in overrides {
+            body[key] = value
+        }
+
+        let data = try JSONSerialization.data(withJSONObject: body)
+        try await postRequest(url: url, headers: instance.auth, body: data)
+    }
+
+    // MARK: - HTTP Helpers
+
+    private static func rawRequest(url: URL, headers: [String: String]) async throws -> Data {
         var request = URLRequest(url: url)
         request.timeoutInterval = 15
         request.httpMethod = "GET"
@@ -157,9 +243,100 @@ enum ShareAPIClient {
             throw URLError(.badServerResponse)
         }
 
+        return data
+    }
+
+    private static func request<T: Decodable>(url: URL, headers: [String: String]) async throws -> T {
+        let data = try await rawRequest(url: url, headers: headers)
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         return try decoder.decode(T.self, from: data)
+    }
+
+    @discardableResult
+    private static func postRequest(url: URL, headers: [String: String], body: Data) async throws -> Data {
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 15
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
+        for (key, value) in headers {
+            request.addValue(value, forHTTPHeaderField: key)
+        }
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200..<400).contains(httpResponse.statusCode) else {
+            if let httpResponse = response as? HTTPURLResponse,
+               let payload = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let message = payload["message"] as? String {
+                throw ShareAPIError.serverError(code: httpResponse.statusCode, message: message)
+            }
+            throw URLError(.badServerResponse)
+        }
+
+        return data
+    }
+}
+
+// MARK: - Decodable partials (for lookup parsing)
+
+private struct MoviePartial: Decodable {
+    let guid: Int?
+    let tmdbId: Int
+    let title: String
+    let year: Int
+    let runtime: Int
+    let overview: String?
+    let certification: String?
+    let studio: String?
+    let genres: [String]
+    let ratings: ShareMovieRatings?
+    let status: String?
+    let monitored: Bool?
+    let hasFile: Bool?
+    let images: [ShareMediaImage]
+
+    enum CodingKeys: String, CodingKey {
+        case guid = "id"
+        case tmdbId, title, year, runtime, overview, certification
+        case studio, genres, ratings, status, monitored, hasFile, images
+    }
+}
+
+private struct SeriesPartial: Decodable {
+    let guid: Int?
+    let tvdbId: Int
+    let title: String
+    let year: Int
+    let runtime: Int
+    let overview: String?
+    let certification: String?
+    let network: String?
+    let genres: [String]
+    let ratings: ShareRating?
+    let status: String?
+    let ended: Bool?
+    let monitored: Bool?
+    let images: [ShareMediaImage]
+
+    enum CodingKeys: String, CodingKey {
+        case guid = "id"
+        case tvdbId, title, year, runtime, overview, certification
+        case network, genres, ratings, status, ended, monitored, images
+    }
+}
+
+enum ShareAPIError: LocalizedError {
+    case serverError(code: Int, message: String)
+
+    var errorDescription: String? {
+        switch self {
+        case .serverError(_, let message): return message
+        }
     }
 }
 
@@ -197,12 +374,36 @@ class ShareSearchCoordinator: ObservableObject {
     }
 }
 
+// MARK: - Instance Config (fetched for add form)
+
+@MainActor
+class ShareInstanceConfig: ObservableObject {
+    @Published var rootFolders: [ShareRootFolder] = []
+    @Published var qualityProfiles: [ShareQualityProfile] = []
+    @Published var isLoaded = false
+    @Published var error: Error?
+
+    func fetch(instance: ShareInstance) {
+        guard !isLoaded else { return }
+        Task {
+            do {
+                async let folders = ShareAPIClient.fetchRootFolders(instance: instance)
+                async let profiles = ShareAPIClient.fetchQualityProfiles(instance: instance)
+                self.rootFolders = try await folders
+                self.qualityProfiles = try await profiles
+                self.isLoaded = true
+            } catch {
+                self.error = error
+            }
+        }
+    }
+}
+
 // MARK: - Movie Search View
 
 struct ShareMovieSearchView: View {
     let query: String
     let instance: ShareInstance
-    let onOpenInApp: (ShareMovieResult) -> Void
     let onClose: () -> Void
 
     @StateObject private var coordinator = ShareSearchCoordinator()
@@ -262,9 +463,9 @@ struct ShareMovieSearchView: View {
                 }
             }
             .sheet(item: $selectedMovie) { movie in
-                ShareMoviePreviewView(movie: movie) {
+                ShareMoviePreviewView(movie: movie, instance: instance) {
                     selectedMovie = nil
-                    onOpenInApp(movie)
+                    onClose()
                 } onClose: {
                     selectedMovie = nil
                 }
@@ -281,7 +482,6 @@ struct ShareMovieSearchView: View {
 struct ShareSeriesSearchView: View {
     let query: String
     let instance: ShareInstance
-    let onOpenInApp: (ShareSeriesResult) -> Void
     let onClose: () -> Void
 
     @StateObject private var coordinator = ShareSearchCoordinator()
@@ -341,9 +541,9 @@ struct ShareSeriesSearchView: View {
                 }
             }
             .sheet(item: $selectedSeries) { series in
-                ShareSeriesPreviewView(series: series) {
+                ShareSeriesPreviewView(series: series, instance: instance) {
                     selectedSeries = nil
-                    onOpenInApp(series)
+                    onClose()
                 } onClose: {
                     selectedSeries = nil
                 }
@@ -370,7 +570,7 @@ struct ShareGridPoster: View {
             posterImage
                 .aspectRatio(CGSize(width: 150, height: 225), contentMode: .fill)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(.systemGray5))
+                .background(.quaternary)
                 .overlay(alignment: .bottom) {
                     if exists {
                         posterOverlay
@@ -452,24 +652,31 @@ struct ShareGridPoster: View {
 
 struct ShareMoviePreviewView: View {
     let movie: ShareMovieResult
-    let onAdd: () -> Void
+    let instance: ShareInstance
+    let onAdded: () -> Void
     let onClose: () -> Void
 
+    @StateObject private var config = ShareInstanceConfig()
+
+    @State private var presentingForm = false
+    @State private var isAdding = false
+    @State private var addError: Error?
     @State private var descriptionExpanded = false
+
+    // Form state
+    @State private var qualityProfileId: Int = 0
+    @State private var rootFolderPath: String = ""
+    @State private var monitored: Bool = true
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
-                    header
-                        .padding(.bottom)
-
-                    details
-                        .padding(.bottom)
+                    header.padding(.bottom)
+                    details.padding(.bottom)
 
                     if let overview = movie.overview, !overview.isEmpty {
-                        description(overview)
-                            .padding(.bottom)
+                        descriptionView(overview).padding(.bottom)
                     }
                 }
                 .padding()
@@ -483,21 +690,123 @@ struct ShareMoviePreviewView: View {
                 }
                 ToolbarItem(placement: .primaryAction) {
                     if movie.exists {
-                        Button("Open in Ruddarr", systemImage: "arrow.up.forward.app") {
-                            onAdd()
-                        }
+                        Label("Already Added", systemImage: "checkmark.circle.fill")
+                            .foregroundStyle(.green)
+                            .labelStyle(.titleAndIcon)
                     } else {
                         Button("Add Movie", systemImage: "plus") {
-                            onAdd()
+                            presentingForm = true
                         }
                     }
+                }
+            }
+            .sheet(isPresented: $presentingForm) {
+                addFormSheet
+            }
+            .alert("Failed to Add", isPresented: Binding(
+                get: { addError != nil },
+                set: { if !$0 { addError = nil } }
+            )) {
+                Button("OK") { addError = nil }
+            } message: {
+                if let error = addError {
+                    Text(error.localizedDescription)
                 }
             }
         }
         #if os(iOS)
         .presentationDetents([.medium, .large])
         #endif
+        .onAppear {
+            config.fetch(instance: instance)
+        }
     }
+
+    private var addFormSheet: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    Toggle("Monitored", isOn: $monitored)
+
+                    if config.qualityProfiles.count > 1 {
+                        Picker("Quality Profile", selection: $qualityProfileId) {
+                            ForEach(config.qualityProfiles) { profile in
+                                Text(profile.name).tag(profile.id)
+                            }
+                        }
+                    }
+                }
+
+                if config.rootFolders.count > 1 {
+                    Picker("Root Folder", selection: $rootFolderPath) {
+                        ForEach(config.rootFolders) { folder in
+                            Text(folder.label).tag(folder.path ?? "")
+                        }
+                    }
+                    .pickerStyle(.inline)
+                }
+            }
+            .formStyle(.grouped)
+            .navigationTitle("Add Movie")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { presentingForm = false }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        Task { await addMovie() }
+                    } label: {
+                        if isAdding {
+                            ProgressView()
+                        } else {
+                            Text("Add")
+                        }
+                    }
+                    .disabled(isAdding)
+                }
+            }
+            .onAppear { selectDefaults() }
+        }
+        #if os(iOS)
+        .presentationDetents([.medium])
+        #endif
+    }
+
+    private func selectDefaults() {
+        qualityProfileId = config.qualityProfiles.first?.id ?? 0
+        rootFolderPath = config.rootFolders.first?.path ?? ""
+    }
+
+    private func addMovie() async {
+        isAdding = true
+        defer { isAdding = false }
+
+        let overrides: [String: Any] = [
+            "monitored": monitored,
+            "qualityProfileId": qualityProfileId,
+            "rootFolderPath": rootFolderPath,
+            "minimumAvailability": "announced",
+            "addOptions": ["monitor": "movieOnly"],
+        ]
+
+        do {
+            try await ShareAPIClient.addMovie(
+                rawJSON: movie.rawJSON,
+                overrides: overrides,
+                instance: instance
+            )
+            presentingForm = false
+            onAdded()
+        } catch {
+            presentingForm = false
+            addError = error
+        }
+    }
+
+    // MARK: - Preview Layout
 
     private var header: some View {
         HStack(alignment: .top) {
@@ -524,15 +833,9 @@ struct ShareMoviePreviewView: View {
 
     private var subtitleText: some View {
         HStack(spacing: 4) {
-            if movie.year > 0 {
-                Text(String(movie.year))
-            }
-            if !movie.runtimeLabel.isEmpty {
-                Text("  \(movie.runtimeLabel)")
-            }
-            if let cert = movie.certification, !cert.isEmpty {
-                Text("  \(cert)")
-            }
+            if movie.year > 0 { Text(String(movie.year)) }
+            if !movie.runtimeLabel.isEmpty { Text("  \(movie.runtimeLabel)") }
+            if let cert = movie.certification, !cert.isEmpty { Text("  \(cert)") }
         }
         .font(.subheadline)
         .foregroundStyle(.secondary)
@@ -566,14 +869,12 @@ struct ShareMoviePreviewView: View {
         }
     }
 
-    private func description(_ text: String) -> some View {
+    private func descriptionView(_ text: String) -> some View {
         HStack(alignment: .top) {
             Text(text)
                 .font(.callout)
                 .lineLimit(descriptionExpanded ? nil : 4)
-                .onTapGesture {
-                    withAnimation(.snappy) { descriptionExpanded = true }
-                }
+                .onTapGesture { withAnimation(.snappy) { descriptionExpanded = true } }
             Spacer()
         }
     }
@@ -593,15 +894,12 @@ struct ShareMoviePreviewView: View {
 
     @ViewBuilder
     private var posterImage: some View {
-        if let posterURL = movie.posterURL {
-            AsyncImage(url: posterURL) { phase in
+        if let url = movie.posterURL {
+            AsyncImage(url: url) { phase in
                 switch phase {
-                case .success(let image):
-                    image.resizable().scaledToFill()
-                case .failure:
-                    posterPlaceholder
-                default:
-                    posterPlaceholder.overlay { ProgressView() }
+                case .success(let image): image.resizable().scaledToFill()
+                case .failure: posterPlaceholder
+                default: posterPlaceholder.overlay { ProgressView() }
                 }
             }
         } else {
@@ -610,15 +908,10 @@ struct ShareMoviePreviewView: View {
     }
 
     private var posterPlaceholder: some View {
-        Rectangle()
-            .fill(.quaternary)
-            .overlay {
-                Text(movie.title)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(4)
-            }
+        Rectangle().fill(.quaternary).overlay {
+            Text(movie.title).font(.caption).foregroundStyle(.secondary)
+                .multilineTextAlignment(.center).padding(4)
+        }
     }
 }
 
@@ -626,24 +919,33 @@ struct ShareMoviePreviewView: View {
 
 struct ShareSeriesPreviewView: View {
     let series: ShareSeriesResult
-    let onAdd: () -> Void
+    let instance: ShareInstance
+    let onAdded: () -> Void
     let onClose: () -> Void
 
+    @StateObject private var config = ShareInstanceConfig()
+
+    @State private var presentingForm = false
+    @State private var isAdding = false
+    @State private var addError: Error?
     @State private var descriptionExpanded = false
+
+    // Form state
+    @State private var qualityProfileId: Int = 0
+    @State private var rootFolderPath: String = ""
+    @State private var monitored: Bool = true
+    @State private var seasonFolder: Bool = true
+    @State private var seriesType: String = "standard"
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
-                    header
-                        .padding(.bottom)
-
-                    details
-                        .padding(.bottom)
+                    header.padding(.bottom)
+                    details.padding(.bottom)
 
                     if let overview = series.overview, !overview.isEmpty {
-                        description(overview)
-                            .padding(.bottom)
+                        descriptionView(overview).padding(.bottom)
                     }
                 }
                 .padding()
@@ -657,21 +959,132 @@ struct ShareSeriesPreviewView: View {
                 }
                 ToolbarItem(placement: .primaryAction) {
                     if series.exists {
-                        Button("Open in Ruddarr", systemImage: "arrow.up.forward.app") {
-                            onAdd()
-                        }
+                        Label("Already Added", systemImage: "checkmark.circle.fill")
+                            .foregroundStyle(.green)
+                            .labelStyle(.titleAndIcon)
                     } else {
                         Button("Add Series", systemImage: "plus") {
-                            onAdd()
+                            presentingForm = true
                         }
                     }
+                }
+            }
+            .sheet(isPresented: $presentingForm) {
+                addFormSheet
+            }
+            .alert("Failed to Add", isPresented: Binding(
+                get: { addError != nil },
+                set: { if !$0 { addError = nil } }
+            )) {
+                Button("OK") { addError = nil }
+            } message: {
+                if let error = addError {
+                    Text(error.localizedDescription)
                 }
             }
         }
         #if os(iOS)
         .presentationDetents([.medium, .large])
         #endif
+        .onAppear {
+            config.fetch(instance: instance)
+        }
     }
+
+    private var addFormSheet: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    Toggle("Monitored", isOn: $monitored)
+
+                    if config.qualityProfiles.count > 1 {
+                        Picker("Quality Profile", selection: $qualityProfileId) {
+                            ForEach(config.qualityProfiles) { profile in
+                                Text(profile.name).tag(profile.id)
+                            }
+                        }
+                    }
+
+                    Picker("Series Type", selection: $seriesType) {
+                        Text("Standard").tag("standard")
+                        Text("Daily").tag("daily")
+                        Text("Anime").tag("anime")
+                    }
+
+                    Toggle("Season Folders", isOn: $seasonFolder)
+                }
+
+                if config.rootFolders.count > 1 {
+                    Picker("Root Folder", selection: $rootFolderPath) {
+                        ForEach(config.rootFolders) { folder in
+                            Text(folder.label).tag(folder.path ?? "")
+                        }
+                    }
+                    .pickerStyle(.inline)
+                }
+            }
+            .formStyle(.grouped)
+            .navigationTitle("Add Series")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { presentingForm = false }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        Task { await addSeries() }
+                    } label: {
+                        if isAdding {
+                            ProgressView()
+                        } else {
+                            Text("Add")
+                        }
+                    }
+                    .disabled(isAdding)
+                }
+            }
+            .onAppear { selectDefaults() }
+        }
+        #if os(iOS)
+        .presentationDetents([.medium])
+        #endif
+    }
+
+    private func selectDefaults() {
+        qualityProfileId = config.qualityProfiles.first?.id ?? 0
+        rootFolderPath = config.rootFolders.first?.path ?? ""
+    }
+
+    private func addSeries() async {
+        isAdding = true
+        defer { isAdding = false }
+
+        let overrides: [String: Any] = [
+            "monitored": monitored,
+            "qualityProfileId": qualityProfileId,
+            "rootFolderPath": rootFolderPath,
+            "seriesType": seriesType,
+            "seasonFolder": seasonFolder,
+            "addOptions": ["monitor": "all"],
+        ]
+
+        do {
+            try await ShareAPIClient.addSeries(
+                rawJSON: series.rawJSON,
+                overrides: overrides,
+                instance: instance
+            )
+            presentingForm = false
+            onAdded()
+        } catch {
+            presentingForm = false
+            addError = error
+        }
+    }
+
+    // MARK: - Preview Layout
 
     private var header: some View {
         HStack(alignment: .top) {
@@ -700,15 +1113,9 @@ struct ShareSeriesPreviewView: View {
 
     private var subtitleText: some View {
         HStack(spacing: 4) {
-            if series.year > 0 {
-                Text(String(series.year))
-            }
-            if !series.runtimeLabel.isEmpty {
-                Text("  \(series.runtimeLabel)/ep")
-            }
-            if let cert = series.certification, !cert.isEmpty {
-                Text("  \(cert)")
-            }
+            if series.year > 0 { Text(String(series.year)) }
+            if !series.runtimeLabel.isEmpty { Text("  \(series.runtimeLabel)/ep") }
+            if let cert = series.certification, !cert.isEmpty { Text("  \(cert)") }
         }
         .font(.subheadline)
         .foregroundStyle(.secondary)
@@ -728,14 +1135,12 @@ struct ShareSeriesPreviewView: View {
         }
     }
 
-    private func description(_ text: String) -> some View {
+    private func descriptionView(_ text: String) -> some View {
         HStack(alignment: .top) {
             Text(text)
                 .font(.callout)
                 .lineLimit(descriptionExpanded ? nil : 4)
-                .onTapGesture {
-                    withAnimation(.snappy) { descriptionExpanded = true }
-                }
+                .onTapGesture { withAnimation(.snappy) { descriptionExpanded = true } }
             Spacer()
         }
     }
@@ -755,15 +1160,12 @@ struct ShareSeriesPreviewView: View {
 
     @ViewBuilder
     private var posterImage: some View {
-        if let posterURL = series.posterURL {
-            AsyncImage(url: posterURL) { phase in
+        if let url = series.posterURL {
+            AsyncImage(url: url) { phase in
                 switch phase {
-                case .success(let image):
-                    image.resizable().scaledToFill()
-                case .failure:
-                    posterPlaceholder
-                default:
-                    posterPlaceholder.overlay { ProgressView() }
+                case .success(let image): image.resizable().scaledToFill()
+                case .failure: posterPlaceholder
+                default: posterPlaceholder.overlay { ProgressView() }
                 }
             }
         } else {
@@ -772,15 +1174,10 @@ struct ShareSeriesPreviewView: View {
     }
 
     private var posterPlaceholder: some View {
-        Rectangle()
-            .fill(.quaternary)
-            .overlay {
-                Text(series.title)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(4)
-            }
+        Rectangle().fill(.quaternary).overlay {
+            Text(series.title).font(.caption).foregroundStyle(.secondary)
+                .multilineTextAlignment(.center).padding(4)
+        }
     }
 }
 

@@ -281,39 +281,14 @@ extension ShareViewController {
             showSwiftUIView(ShareMovieSearchView(
                 query: query,
                 instance: instance,
-                onOpenInApp: { [weak self] movie in
-                    self?.openInApp(
-                        path: "movies/search/tmdb:\(movie.tmdbId)",
-                        instance: instance.id
-                    )
-                },
                 onClose: { [weak self] in self?.close() }
             ))
         case .series:
             showSwiftUIView(ShareSeriesSearchView(
                 query: query,
                 instance: instance,
-                onOpenInApp: { [weak self] series in
-                    self?.openInApp(
-                        path: "series/search/tvdb:\(series.tvdbId)",
-                        instance: instance.id
-                    )
-                },
                 onClose: { [weak self] in self?.close() }
             ))
-        }
-    }
-
-    private func openInApp(path: String, instance: UUID) {
-        let urlString = "ruddarr://\(path)?instance=\(instance.uuidString)"
-
-        guard let url = URL(string: urlString) else {
-            close()
-            return
-        }
-
-        extensionContext?.open(url) { [weak self] _ in
-            self?.close()
         }
     }
 
