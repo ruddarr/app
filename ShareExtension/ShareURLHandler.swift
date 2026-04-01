@@ -254,7 +254,7 @@ extension ShareViewController {
         }
     }
 
-    // MARK: - Deep Link
+    // MARK: - Search
 
     private func openSearch(query: String, type: MediaType) {
         let instances = type == .movie
@@ -263,23 +263,49 @@ extension ShareViewController {
 
         if instances.count > 1 {
             showInstancePicker(instances) { [weak self] instance in
-                self?.openDeepLink(query: query, type: type, instance: instance.id)
+                self?.showSearchResults(query: query, type: type, instance: instance)
             }
             return
         }
 
-        openDeepLink(query: query, type: type, instance: instances.first?.id)
+        if let instance = instances.first {
+            showSearchResults(query: query, type: type, instance: instance)
+        } else {
+            showUnsupportedURL()
+        }
     }
 
-    private func openDeepLink(query: String, type: MediaType, instance: UUID?) {
-        let path = type == .movie ? "movies" : "series"
-        let encoded = query.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? query
-
-        var urlString = "ruddarr://\(path)/search/\(encoded)"
-
-        if let instance {
-            urlString += "?instance=\(instance.uuidString)"
+    private func showSearchResults(query: String, type: MediaType, instance: ShareInstance) {
+        switch type {
+        case .movie:
+            showSwiftUIView(ShareMovieSearchView(
+                query: query,
+                instance: instance,
+                onSelect: { [weak self] movie in
+                    self?.openDeepLink(
+                        path: "movies/open/\(movie.tmdbId)",
+                        instance: instance.id
+                    )
+                },
+                onClose: { [weak self] in self?.close() }
+            ))
+        case .series:
+            showSwiftUIView(ShareSeriesSearchView(
+                query: query,
+                instance: instance,
+                onSelect: { [weak self] series in
+                    self?.openDeepLink(
+                        path: "series/open/\(series.tvdbId)",
+                        instance: instance.id
+                    )
+                },
+                onClose: { [weak self] in self?.close() }
+            ))
         }
+    }
+
+    private func openDeepLink(path: String, instance: UUID) {
+        let urlString = "ruddarr://\(path)?instance=\(instance.uuidString)"
 
         guard let url = URL(string: urlString) else {
             close()

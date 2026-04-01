@@ -63,6 +63,7 @@
 		CC5E00012F5A000100000011 /* ShareURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5E00012F5A000100000012 /* ShareURLHandler.swift */; };
 		CC5E00012F5A000100000013 /* UnsupportedURLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5E00012F5A000100000014 /* UnsupportedURLView.swift */; };
 		CC5E00012F5A000100000015 /* InstancePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5E00012F5A000100000016 /* InstancePickerView.swift */; };
+		CC5E00012F5A000100000017 /* ShareSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5E00012F5A000100000018 /* ShareSearchView.swift */; };
 		BB4140C62B71CA89007C7DA4 /* MovieReleaseSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */; };
 		BB42B7CB2DCD26AB00DA73A3 /* TaskImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB42B7CA2DCD26AB00DA73A3 /* TaskImportView.swift */; };
 		BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D222B58C71300C29B00 /* NoInternet.swift */; };
@@ -330,6 +331,7 @@
 		CC5E00012F5A000100000012 /* ShareURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareURLHandler.swift; sourceTree = "<group>"; };
 		CC5E00012F5A000100000014 /* UnsupportedURLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsupportedURLView.swift; sourceTree = "<group>"; };
 		CC5E00012F5A000100000016 /* InstancePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstancePickerView.swift; sourceTree = "<group>"; };
+		CC5E00012F5A000100000018 /* ShareSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSearchView.swift; sourceTree = "<group>"; };
 		BB4071312C1CDD32006A3FA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieReleaseSort.swift; sourceTree = "<group>"; };
 		BB42618C2B6980760078B94E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -639,6 +641,7 @@
 				CC5E00012F5A000100000012 /* ShareURLHandler.swift */,
 				CC5E00012F5A000100000014 /* UnsupportedURLView.swift */,
 				CC5E00012F5A000100000016 /* InstancePickerView.swift */,
+				CC5E00012F5A000100000018 /* ShareSearchView.swift */,
 			);
 			path = ShareExtension;
 			sourceTree = "<group>";
@@ -1277,6 +1280,7 @@
 				CC5E00012F5A000100000011 /* ShareURLHandler.swift in Sources */,
 				CC5E00012F5A000100000013 /* UnsupportedURLView.swift in Sources */,
 				CC5E00012F5A000100000015 /* InstancePickerView.swift in Sources */,
+				CC5E00012F5A000100000017 /* ShareSearchView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

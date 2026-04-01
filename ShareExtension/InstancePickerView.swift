@@ -1,9 +1,33 @@
 import SwiftUI
 
+struct ShareInstanceHeader: Codable {
+    let name: String
+    let value: String
+}
+
 struct ShareInstance: Identifiable, Codable {
     let id: UUID
     let type: String
     let label: String
+    let url: String
+    let apiKey: String
+    let headers: [ShareInstanceHeader]
+
+    var auth: [String: String] {
+        var map: [String: String] = [:]
+        map["X-Api-Key"] = apiKey
+        for header in headers {
+            map[header.name] = header.value
+        }
+        return map
+    }
+
+    func baseURL() throws -> URL {
+        guard let url = URL(string: url) else {
+            throw URLError(.badURL)
+        }
+        return url
+    }
 }
 
 struct ShareInstanceStore {
