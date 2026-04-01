@@ -64,6 +64,13 @@
 		CC5E00012F5A000100000013 /* UnsupportedURLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5E00012F5A000100000014 /* UnsupportedURLView.swift */; };
 		CC5E00012F5A000100000015 /* InstancePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5E00012F5A000100000016 /* InstancePickerView.swift */; };
 		CC5E00012F5A000100000017 /* ShareSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5E00012F5A000100000018 /* ShareSearchView.swift */; };
+		CC5E00012F5A000100000019 /* Instance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF94F642B50C88300300EBA /* Instance.swift */; };
+		CC5E00012F5A00010000001A /* API+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9DC2242BA920AF00459FFF /* API+Error.swift */; };
+		CC5E00012F5A00010000001B /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB865E602B83C11E00ADCEFE /* Error.swift */; };
+		CC5E00012F5A00010000001C /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC136A32B62DD780074C7AA /* Network.swift */; };
+		CC5E00012F5A00010000001D /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC6CEF42BE69B1600F71839 /* Media.swift */; };
+		CC5E00012F5A00010000001E /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAED12A2B7205A9006C6CF2 /* Helpers.swift */; };
+		CC5E00012F5A00010000001F /* NoInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D222B58C71300C29B00 /* NoInternet.swift */; };
 		BB4140C62B71CA89007C7DA4 /* MovieReleaseSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */; };
 		BB42B7CB2DCD26AB00DA73A3 /* TaskImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB42B7CA2DCD26AB00DA73A3 /* TaskImportView.swift */; };
 		BB456D232B58C71300C29B00 /* NoInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB456D222B58C71300C29B00 /* NoInternet.swift */; };
@@ -1281,6 +1288,13 @@
 				CC5E00012F5A000100000013 /* UnsupportedURLView.swift in Sources */,
 				CC5E00012F5A000100000015 /* InstancePickerView.swift in Sources */,
 				CC5E00012F5A000100000017 /* ShareSearchView.swift in Sources */,
+				CC5E00012F5A000100000019 /* Instance.swift in Sources */,
+				CC5E00012F5A00010000001A /* API+Error.swift in Sources */,
+				CC5E00012F5A00010000001B /* Error.swift in Sources */,
+				CC5E00012F5A00010000001C /* Network.swift in Sources */,
+				CC5E00012F5A00010000001D /* Media.swift in Sources */,
+				CC5E00012F5A00010000001E /* Helpers.swift in Sources */,
+				CC5E00012F5A00010000001F /* NoInternet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

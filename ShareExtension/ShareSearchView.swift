@@ -2,16 +2,6 @@ import SwiftUI
 
 // MARK: - Lightweight API Models
 
-struct ShareMediaImage: Codable {
-    let coverType: String
-    let remoteURL: String?
-
-    enum CodingKeys: String, CodingKey {
-        case coverType
-        case remoteURL = "remoteUrl"
-    }
-}
-
 struct ShareRating: Codable {
     let votes: Int
     let value: Double
@@ -21,21 +11,6 @@ struct ShareMovieRatings: Codable {
     let imdb: ShareRating?
     let tmdb: ShareRating?
     let rottenTomatoes: ShareRating?
-}
-
-struct ShareRootFolder: Identifiable, Codable {
-    let id: Int
-    let path: String?
-    let accessible: Bool?
-
-    var label: String {
-        path ?? "Folder (\(id))"
-    }
-}
-
-struct ShareQualityProfile: Identifiable, Codable {
-    let id: Int
-    let name: String
 }
 
 struct ShareMovieResult: Identifiable {
@@ -54,7 +29,7 @@ struct ShareMovieResult: Identifiable {
     let status: String?
     let monitored: Bool?
     let hasFile: Bool?
-    let images: [ShareMediaImage]
+    let images: [MediaImage]
 
     // Raw JSON for POST back to API
     let rawJSON: [String: Any]
@@ -97,7 +72,7 @@ struct ShareSeriesResult: Identifiable {
     let status: String?
     let ended: Bool?
     let monitored: Bool?
-    let images: [ShareMediaImage]
+    let images: [MediaImage]
 
     // Raw JSON for POST back to API
     let rawJSON: [String: Any]
@@ -128,7 +103,7 @@ struct ShareSeriesResult: Identifiable {
 // MARK: - API Client
 
 enum ShareAPIClient {
-    static func lookupMovies(instance: ShareInstance, query: String) async throws -> [ShareMovieResult] {
+    static func lookupMovies(instance: Instance, query: String) async throws -> [ShareMovieResult] {
         let url = try instance.baseURL()
             .appending(path: "/api/v3/movie/lookup")
             .appending(queryItems: [URLQueryItem(name: "term", value: query)])
@@ -157,7 +132,7 @@ enum ShareAPIClient {
         }
     }
 
-    static func lookupSeries(instance: ShareInstance, query: String) async throws -> [ShareSeriesResult] {
+    static func lookupSeries(instance: Instance, query: String) async throws -> [ShareSeriesResult] {
         let url = try instance.baseURL()
             .appending(path: "/api/v3/series/lookup")
             .appending(queryItems: [URLQueryItem(name: "term", value: query)])
@@ -186,19 +161,19 @@ enum ShareAPIClient {
         }
     }
 
-    static func fetchRootFolders(instance: ShareInstance) async throws -> [ShareRootFolder] {
+    static func fetchRootFolders(instance: Instance) async throws -> [InstanceRootFolder] {
         let url = try instance.baseURL()
             .appending(path: "/api/v3/rootfolder")
         return try await request(url: url, headers: instance.auth)
     }
 
-    static func fetchQualityProfiles(instance: ShareInstance) async throws -> [ShareQualityProfile] {
+    static func fetchQualityProfiles(instance: Instance) async throws -> [InstanceQualityProfile] {
         let url = try instance.baseURL()
             .appending(path: "/api/v3/qualityprofile")
         return try await request(url: url, headers: instance.auth)
     }
 
-    static func addMovie(rawJSON: [String: Any], overrides: [String: Any], instance: ShareInstance) async throws {
+    static func addMovie(rawJSON: [String: Any], overrides: [String: Any], instance: Instance) async throws {
         let url = try instance.baseURL()
             .appending(path: "/api/v3/movie")
 
@@ -211,7 +186,7 @@ enum ShareAPIClient {
         try await postRequest(url: url, headers: instance.auth, body: data)
     }
 
-    static func addSeries(rawJSON: [String: Any], overrides: [String: Any], instance: ShareInstance) async throws {
+    static func addSeries(rawJSON: [String: Any], overrides: [String: Any], instance: Instance) async throws {
         let url = try instance.baseURL()
             .appending(path: "/api/v3/series")
 
@@ -298,7 +273,7 @@ private struct MoviePartial: Decodable {
     let status: String?
     let monitored: Bool?
     let hasFile: Bool?
-    let images: [ShareMediaImage]
+    let images: [MediaImage]
 
     enum CodingKeys: String, CodingKey {
         case guid = "id"
@@ -321,7 +296,7 @@ private struct SeriesPartial: Decodable {
     let status: String?
     let ended: Bool?
     let monitored: Bool?
-    let images: [ShareMediaImage]
+    let images: [MediaImage]
 
     enum CodingKeys: String, CodingKey {
         case guid = "id"
@@ -349,7 +324,7 @@ class ShareSearchCoordinator: ObservableObject {
     @Published var error: Error?
     @Published var isLoading = true
 
-    func searchMovies(query: String, instance: ShareInstance) {
+    func searchMovies(query: String, instance: Instance) {
         Task {
             do {
                 let results = try await ShareAPIClient.lookupMovies(instance: instance, query: query)
@@ -361,7 +336,7 @@ class ShareSearchCoordinator: ObservableObject {
         }
     }
 
-    func searchSeries(query: String, instance: ShareInstance) {
+    func searchSeries(query: String, instance: Instance) {
         Task {
             do {
                 let results = try await ShareAPIClient.lookupSeries(instance: instance, query: query)
@@ -377,13 +352,13 @@ class ShareSearchCoordinator: ObservableObject {
 // MARK: - Instance Config (fetched for add form)
 
 @MainActor
-class ShareInstanceConfig: ObservableObject {
-    @Published var rootFolders: [ShareRootFolder] = []
-    @Published var qualityProfiles: [ShareQualityProfile] = []
+class InstanceConfig: ObservableObject {
+    @Published var rootFolders: [InstanceRootFolder] = []
+    @Published var qualityProfiles: [InstanceQualityProfile] = []
     @Published var isLoaded = false
     @Published var error: Error?
 
-    func fetch(instance: ShareInstance) {
+    func fetch(instance: Instance) {
         guard !isLoaded else { return }
         Task {
             do {
@@ -403,7 +378,7 @@ class ShareInstanceConfig: ObservableObject {
 
 struct ShareMovieSearchView: View {
     let query: String
-    let instance: ShareInstance
+    let instance: Instance
     let onClose: () -> Void
 
     @StateObject private var coordinator = ShareSearchCoordinator()
@@ -481,7 +456,7 @@ struct ShareMovieSearchView: View {
 
 struct ShareSeriesSearchView: View {
     let query: String
-    let instance: ShareInstance
+    let instance: Instance
     let onClose: () -> Void
 
     @StateObject private var coordinator = ShareSearchCoordinator()
@@ -652,11 +627,11 @@ struct ShareGridPoster: View {
 
 struct ShareMoviePreviewView: View {
     let movie: ShareMovieResult
-    let instance: ShareInstance
+    let instance: Instance
     let onAdded: () -> Void
     let onClose: () -> Void
 
-    @StateObject private var config = ShareInstanceConfig()
+    @StateObject private var config = InstanceConfig()
 
     @State private var presentingForm = false
     @State private var isAdding = false
@@ -919,11 +894,11 @@ struct ShareMoviePreviewView: View {
 
 struct ShareSeriesPreviewView: View {
     let series: ShareSeriesResult
-    let instance: ShareInstance
+    let instance: Instance
     let onAdded: () -> Void
     let onClose: () -> Void
 
-    @StateObject private var config = ShareInstanceConfig()
+    @StateObject private var config = InstanceConfig()
 
     @State private var presentingForm = false
     @State private var isAdding = false

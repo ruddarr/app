@@ -34,7 +34,7 @@ class ShareViewController: NSViewController {
         showSwiftUIView(UnsupportedURLView(close: close))
     }
 
-    func showInstancePicker(_ instances: [ShareInstance], onSelect: @escaping (ShareInstance) -> Void) {
+    func showInstancePicker(_ instances: [Instance], onSelect: @escaping (Instance) -> Void) {
         showSwiftUIView(InstancePickerView(
             instances: instances,
             onSelect: onSelect,
@@ -78,7 +78,7 @@ class ShareViewController: UIViewController {
         showSwiftUIView(UnsupportedURLView(close: close))
     }
 
-    func showInstancePicker(_ instances: [ShareInstance], onSelect: @escaping (ShareInstance) -> Void) {
+    func showInstancePicker(_ instances: [Instance], onSelect: @escaping (Instance) -> Void) {
         showSwiftUIView(InstancePickerView(
             instances: instances,
             onSelect: onSelect,

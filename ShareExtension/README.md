@@ -35,7 +35,7 @@ in the main app (`RadarrInstance`/`SonarrInstance`, `AppSettings`,
 ## TODOs
 
 - [ ] Migrate instance data to App Groups shared container
-- [ ] Sync `url`, `apiKey`, and `headers` to `ShareInstance` via App Groups
+- [ ] Sync instances to App Groups shared container
 - [ ] Replace `AsyncImage` with `CachedAsyncImage` (add Nuke dependency to extension target)
 - [ ] Deduplicate models/views by extracting shared code into a framework or Swift package
 - [ ] Handle case when no instances are configured (show setup instructions)

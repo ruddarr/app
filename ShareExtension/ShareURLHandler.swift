@@ -275,7 +275,7 @@ extension ShareViewController {
         }
     }
 
-    private func showSearchResults(query: String, type: MediaType, instance: ShareInstance) {
+    private func showSearchResults(query: String, type: MediaType, instance: Instance) {
         switch type {
         case .movie:
             showSwiftUIView(ShareMovieSearchView(
