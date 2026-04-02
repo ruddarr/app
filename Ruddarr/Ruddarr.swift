@@ -73,28 +73,27 @@ struct Ruddarr: App {
 extension WhatsNew {
     static let version: String = "1.8.1"
 
-    // Keep subtitles to around 72 characters:
-    // "------------------------------------------------------------------------"
+    // ----------------------------------------------------------------------------------------------⌄⌄⌄
     static let features: [WhatsNewFeature] = [
         .init(
             image: "globe",
-            title: "New Translations",
-            subtitle: "Italian and Turkish translations have been added."
+            title: "Translations",
+            subtitle: "Added Italian and Turkish translations. Removed Chinese translation."
         ),
         .init(
             image: "eye.slash",
-            title: "Faded Unmonitored Items",
-            subtitle: "Items already in your library or calendar that are unmonitored now appear faded."
+            title: "Faded Items",
+            subtitle: "Fade items in the calednar and discovery grid the app to idicate their status."
         ),
         .init(
             image: "film.stack",
             title: "Dual Audio in Multi",
-            subtitle: "Releases with dual audio are now included in the \"Multi\" language filter."
+            subtitle: "Releases with dual audio are now included in the Multilingual language filter."
         ),
         .init(
             image: "ladybug",
             title: "Fixes & Improvements",
-            subtitle: "Various internal code improvements, bug fixes, and macOS refinements."
+            subtitle: "Various internal code improvements, bug fixes, and refinements for macOS."
         ),
     ]
 }
