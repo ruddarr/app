@@ -83,7 +83,7 @@ extension WhatsNew {
         .init(
             image: "eye.slash",
             title: "Faded Items",
-            subtitle: "Fade items in the calednar and discovery grid the app to idicate their status."
+            subtitle: "Fade items in the calednar and discovery grid the app to indicate their status."
         ),
         .init(
             image: "film.stack",
