@@ -34,10 +34,11 @@ struct MovieReleaseSheet: View {
                 .scenePadding(.horizontal)
                 #if os(macOS)
                     .padding(.top, 24)
-                #else
-                    .offset(y: -45)
                 #endif
             }
+            #if !os(macOS)
+                .contentMargins(.top, -45, for: .scrollContent)
+            #endif
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
                     Button("Close", systemImage: "xmark") {
