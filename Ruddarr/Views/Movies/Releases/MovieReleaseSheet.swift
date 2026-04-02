@@ -35,7 +35,7 @@ struct MovieReleaseSheet: View {
                 #if os(macOS)
                     .padding(.top, 24)
                 #else
-                    .offset(y: -45)
+                    .padding(.top, -45)
                 #endif
             }
             .toolbar {
