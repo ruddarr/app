@@ -293,6 +293,16 @@
         }
       }
     },
+    "Aborted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aborted"
+          }
+        }
+      }
+    },
     "About" : {
       "comment" : "Preferences section title",
       "localizations" : {
@@ -802,6 +812,16 @@
         }
       }
     },
+    "Automatic searches and other commands will appear here." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatic searches and other commands will appear here."
+          }
+        }
+      }
+    },
     "Availability" : {
       "comment" : "Very short version of Minimum Availability",
       "localizations" : {
@@ -927,6 +947,16 @@
         }
       }
     },
+    "Cancelled" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelled"
+          }
+        }
+      }
+    },
     "Cards" : {
       "comment" : "Grid item display style",
       "localizations" : {
@@ -1027,6 +1057,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Color Depth"
+          }
+        }
+      }
+    },
+    "Command" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Command"
+          }
+        }
+      }
+    },
+    "Completed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Completed"
           }
         }
       }
@@ -1468,6 +1518,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Downloading"
+          }
+        }
+      }
+    },
+    "Downloads" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloads"
+          }
+        }
+      }
+    },
+    "Duration" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duration"
           }
         }
       }
@@ -2545,6 +2615,16 @@
         }
       }
     },
+    "Message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message"
+          }
+        }
+      }
+    },
     "Metadata" : {
       "comment" : "Type of the extra movie file",
       "localizations" : {
@@ -3024,6 +3104,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No movies match the selected filters."
+          }
+        }
+      }
+    },
+    "No Recent Tasks" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Recent Tasks"
           }
         }
       }
@@ -3759,6 +3849,16 @@
         }
       }
     },
+    "Orphaned" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orphaned"
+          }
+        }
+      }
+    },
     "Other" : {
       "comment" : "Type of the extra movie file",
       "localizations" : {
@@ -4293,6 +4393,16 @@
         }
       }
     },
+    "Result" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Result"
+          }
+        }
+      }
+    },
     "Retry" : {
       "localizations" : {
         "en" : {
@@ -4320,6 +4430,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Root Folder"
+          }
+        }
+      }
+    },
+    "Running" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running"
           }
         }
       }
@@ -4693,6 +4813,16 @@
         }
       }
     },
+    "Show All Tasks" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show All Tasks"
+          }
+        }
+      }
+    },
     "Single Episode" : {
       "localizations" : {
         "en" : {
@@ -4781,6 +4911,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Standard"
+          }
+        }
+      }
+    },
+    "Started" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Started"
           }
         }
       }
@@ -4929,6 +5069,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tags"
+          }
+        }
+      }
+    },
+    "Tasks" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tasks"
           }
         }
       }
