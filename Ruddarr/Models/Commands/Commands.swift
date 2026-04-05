@@ -20,9 +20,9 @@ final class Commands {
 
     init() {
         let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
-        self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
+        self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
             Task { @MainActor in
-                guard self.performRefresh else { return }
+                guard let self, self.performRefresh else { return }
                 await self.refreshActive()
             }
         }
@@ -52,7 +52,7 @@ final class Commands {
     /// `fetchAll` is left alone (the instance may have trimmed them).
     func merge(_ incoming: [InstanceCommandStatus], for instanceId: Instance.ID) {
         var existing = items[instanceId] ?? []
-        let existingById = Dictionary(uniqueKeysWithValues: existing.map { ($0.id, $0) })
+        let existingById = Dictionary(existing.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
 
         for var fresh in incoming {
             if let prior = existingById[fresh.id], fresh.subject == nil {
