@@ -108,8 +108,27 @@ class SeriesModel {
         await request(.download(guid, indexerId, seriesId, seasonId, episodeId))
     }
 
-    func command(_ command: InstanceCommand) async -> Bool {
-        await request(.command(command))
+    func command(_ command: InstanceCommand) async -> InstanceCommandStatus? {
+        error = nil
+        isWorking = true
+        defer { isWorking = false }
+
+        do {
+            return try await dependencies.api.command(command, instance)
+        } catch is CancellationError {
+            return nil
+        } catch let apiError as API.Error {
+            error = apiError
+            leaveBreadcrumb(
+                .error, category: "series",
+                message: "Command failed",
+                data: ["command": command, "error": apiError]
+            )
+            return nil
+        } catch {
+            self.error = API.Error(from: error)
+            return nil
+        }
     }
 
     func request(_ operation: Operation, silent: Bool = false) async -> Bool {
