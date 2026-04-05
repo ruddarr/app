@@ -65,4 +65,66 @@ struct CommandsTests {
         #expect(status.state == .unknown)
         #expect(status.isSearchCommand == false)
     }
+
+    @Test @MainActor func trackInsertsCommandAtFront() async {
+        let commands = Commands.makeForTesting()
+        let instanceId = UUID()
+
+        let status = InstanceCommandStatus(
+            id: 1, name: "SeriesSearch", commandName: nil, message: nil,
+            status: "queued", result: nil,
+            queued: Date(), started: nil, ended: nil, trigger: "manual",
+            instanceId: instanceId, subject: "Breaking Bad"
+        )
+        commands.track(status)
+
+        #expect(commands.items[instanceId]?.count == 1)
+        #expect(commands.items[instanceId]?.first?.subject == "Breaking Bad")
+    }
+
+    @Test @MainActor func mergeReplacesByIdAndKeepsSubject() async {
+        let commands = Commands.makeForTesting()
+        let instanceId = UUID()
+
+        let queued = InstanceCommandStatus(
+            id: 9, name: "MoviesSearch", commandName: nil, message: nil,
+            status: "queued", result: nil,
+            queued: Date(), started: nil, ended: nil, trigger: "manual",
+            instanceId: instanceId, subject: "Inception"
+        )
+        commands.track(queued)
+
+        var completed = queued
+        completed.status = "completed"
+        completed.ended = Date()
+        completed.subject = nil // server won't know the subject
+        commands.merge([completed], for: instanceId)
+
+        let stored = commands.items[instanceId]?.first
+        #expect(stored?.state == .completed)
+        #expect(stored?.subject == "Inception") // preserved from local track
+    }
+
+    @Test @MainActor func defaultFilterKeepsOnlySearchCommands() async {
+        let commands = Commands.makeForTesting()
+        let instanceId = UUID()
+
+        let search = InstanceCommandStatus(
+            id: 1, name: "SeriesSearch", commandName: nil, message: nil,
+            status: "queued", result: nil,
+            queued: Date(), started: nil, ended: nil, trigger: "manual",
+            instanceId: instanceId, subject: nil
+        )
+        let rss = InstanceCommandStatus(
+            id: 2, name: "RssSync", commandName: nil, message: nil,
+            status: "queued", result: nil,
+            queued: Date(), started: nil, ended: nil, trigger: "scheduled",
+            instanceId: instanceId, subject: nil
+        )
+
+        commands.merge([search, rss], for: instanceId)
+
+        #expect(commands.filteredItems(showAll: false).count == 1)
+        #expect(commands.filteredItems(showAll: true).count == 2)
+    }
 }
