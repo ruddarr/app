@@ -53,6 +53,12 @@ struct InstanceCommandStatus: Identifiable, Codable, Equatable, Hashable {
     var sortDate: Date {
         started ?? queued
     }
+
+    /// Human-readable title for rows and sheets: client-stamped subject if present,
+    /// otherwise the server-provided command name, otherwise the raw command key.
+    var displayTitle: String {
+        subject ?? commandName ?? name
+    }
 }
 
 enum CommandStatusState: String, Codable {

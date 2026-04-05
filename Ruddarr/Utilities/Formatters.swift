@@ -29,6 +29,14 @@ func formatIndexer(_ name: String) -> String {
     }
 }
 
+func formatDuration(_ seconds: TimeInterval) -> String {
+    let totalSeconds = max(0, Int(seconds))
+    if totalSeconds < 60 { return "\(totalSeconds)s" }
+    let minutes = totalSeconds / 60
+    let remainingSeconds = totalSeconds % 60
+    return "\(minutes)m \(remainingSeconds)s"
+}
+
 func formatRuntime(_ minutes: Int) -> String? {
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.hour, .minute]

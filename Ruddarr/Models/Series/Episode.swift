@@ -204,15 +204,13 @@ enum EpisodeReleaseType: String, Equatable, Codable {
 }
 
 extension Episode {
-    /// Formatted subject for Activity / Commands rows, e.g. "Breaking Bad — S1E3".
+    /// Formatted subject for Activity / Commands rows, e.g. "Breaking Bad — 1x03".
+    /// Uses the existing `episodeLabel` format for numbering consistency.
     var subjectLabel: String {
-        let numbering = "S\(seasonNumber)E\(episodeNumber)"
-
         if let seriesTitle = series?.title, !seriesTitle.isEmpty {
-            return "\(seriesTitle) — \(numbering)"
+            return "\(seriesTitle) — \(episodeLabel)"
         }
-
-        return String(localized: "Episode", comment: "Fallback episode subject")
+        return episodeLabel
     }
 }
 

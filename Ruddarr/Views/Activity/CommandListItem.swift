@@ -8,7 +8,7 @@ struct CommandListItem: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(titleLabel)
+            Text(command.displayTitle)
                 .font(.headline.monospacedDigit())
                 .fontWeight(.semibold)
                 .lineLimit(1)
@@ -39,26 +39,14 @@ struct CommandListItem: View {
         }
     }
 
-    private var titleLabel: String {
-        command.subject ?? command.commandName ?? command.name
-    }
-
     private var subline: String? {
         switch command.state {
         case .started, .queued:
             let elapsed = now.timeIntervalSince(command.started ?? command.queued)
-            return formatElapsed(elapsed)
+            return formatDuration(elapsed)
         case .completed, .failed, .aborted, .cancelled, .orphaned, .unknown:
             guard let ended = command.ended else { return nil }
             return ended.formatted(.relative(presentation: .named))
         }
-    }
-
-    private func formatElapsed(_ seconds: TimeInterval) -> String {
-        let s = max(0, Int(seconds))
-        if s < 60 { return "\(s)s" }
-        let m = s / 60
-        let r = s % 60
-        return "\(m)m \(r)s"
     }
 }

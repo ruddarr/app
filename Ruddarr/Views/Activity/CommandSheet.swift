@@ -7,20 +7,31 @@ struct CommandSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                header
-                Divider()
-                details
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    header
+                    Divider()
+                    details
+                }
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding()
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .toolbar {
+                ToolbarItem(placement: .destructiveAction) {
+                    Button("Close", systemImage: "xmark") {
+                        dismiss()
+                    }
+                    .hideIconOnMac()
+                    .tint(.primary)
+                }
+            }
         }
     }
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(command.subject ?? command.commandName ?? command.name)
+            Text(command.displayTitle)
                 .font(.title3)
                 .fontWeight(.semibold)
 
@@ -35,24 +46,24 @@ struct CommandSheet: View {
 
     private var details: some View {
         VStack(alignment: .leading, spacing: 8) {
-            row(String(localized: "Instance"), instanceLabel)
-            row(String(localized: "Command"), command.commandName ?? command.name)
-            if let result = command.result { row(String(localized: "Result"), result) }
-            if let message = command.message { row(String(localized: "Message"), message) }
-            row(String(localized: "Queued"), command.queued.formatted(date: .omitted, time: .standard))
+            row("Instance", instanceLabel)
+            row("Command", command.commandName ?? command.name)
+            if let result = command.result { row("Result", result) }
+            if let message = command.message { row("Message", message) }
+            row("Queued", command.queued.formatted(date: .abbreviated, time: .shortened))
             if let started = command.started {
-                row(String(localized: "Started"), started.formatted(date: .omitted, time: .standard))
+                row("Started", started.formatted(date: .abbreviated, time: .shortened))
             }
             if let ended = command.ended {
-                row(String(localized: "Ended"), ended.formatted(date: .omitted, time: .standard))
+                row("Ended", ended.formatted(date: .abbreviated, time: .shortened))
             }
             if let duration = durationLabel {
-                row(String(localized: "Duration"), duration)
+                row("Duration", duration)
             }
         }
     }
 
-    private func row(_ label: String, _ value: String) -> some View {
+    private func row(_ label: LocalizedStringKey, _ value: String) -> some View {
         HStack(alignment: .firstTextBaseline) {
             Text(label).foregroundStyle(.secondary)
             Spacer()
@@ -70,9 +81,7 @@ struct CommandSheet: View {
 
     private var durationLabel: String? {
         guard let started = command.started, let ended = command.ended else { return nil }
-        let secs = Int(ended.timeIntervalSince(started))
-        if secs < 60 { return "\(secs)s" }
-        return "\(secs / 60)m \(secs % 60)s"
+        return formatDuration(ended.timeIntervalSince(started))
     }
 
     private var stateTint: Color {
