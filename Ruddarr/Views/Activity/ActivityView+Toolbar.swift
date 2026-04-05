@@ -30,16 +30,18 @@ extension ActivityView {
 
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
-        ToolbarItem(placement: .navigation) {
-            toolbarFilterButton
-                .tint(.primary)
-                .menuIndicator(.hidden)
-        }
+        if segment == .downloads {
+            ToolbarItem(placement: .navigation) {
+                toolbarFilterButton
+                    .tint(.primary)
+                    .menuIndicator(.hidden)
+            }
 
-        ToolbarItem(placement: .navigation) {
-            toolbarSortingButton
-                .tint(.primary)
-                .menuIndicator(.hidden)
+            ToolbarItem(placement: .navigation) {
+                toolbarSortingButton
+                    .tint(.primary)
+                    .menuIndicator(.hidden)
+            }
         }
 
         #if os(iOS)

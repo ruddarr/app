@@ -6,78 +6,99 @@ struct ActivityView: View {
     @State var sort: QueueSort = .init()
     @State var items: [QueueItem] = []
     @State private var selectedItem: QueueItem?
+    @State var segment: ActivitySegment = .downloads
 
     @EnvironmentObject var settings: AppSettings
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {
-        // swiftlint:disable:next closure_body_length
         NavigationStack {
-            Group {
-                if settings.configuredInstances.isEmpty {
-                    NoInstance()
-                } else {
-                    List {
-                        Section {
-                            ForEach(items) { item in
-                                Button {
-                                    selectedItem = item
-                                } label: {
-                                    QueueListItem(item: item)
-                                }
-                                .buttonStyle(.plain)
-                            }
-                            #if os(macOS)
-                                .padding(.vertical, 4)
-                            #else
-                                .listRowBackground(Color.card)
-                            #endif
-                        } header: {
-                            if !items.isEmpty { sectionHeader }
-                        }
-                    }
-                    #if os(iOS)
-                        .background(.systemBackground)
-                    #endif
-                    .scrollContentBackground(.hidden)
-                    .overlay {
-                        if items.isEmpty {
-                            queueEmpty
-                        }
-                    }
+            VStack(spacing: 0) {
+                Picker("", selection: $segment) {
+                    Text("Downloads").tag(ActivitySegment.downloads)
+                    Text("Tasks").tag(ActivitySegment.tasks)
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal)
+                .padding(.top, 8)
+
+                switch segment {
+                case .downloads:
+                    downloadsContent
+                case .tasks:
+                    CommandsListView()
+                        .environmentObject(settings)
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 toolbarButtons
             }
-            .onChange(of: sort.option, updateSortDirection)
-            .onChange(of: sort, updateDisplayedItems)
-            .onChange(of: queue.items, updateDisplayedItems)
-            .onChange(of: queue.items, updateSelectedItem)
-            .onAppear {
-                queue.instances = settings.instances
-                queue.performRefresh = true
-                updateDisplayedItems()
+        }
+    }
+
+    // swiftlint:disable:next closure_body_length
+    private var downloadsContent: some View {
+        Group {
+            if settings.configuredInstances.isEmpty {
+                NoInstance()
+            } else {
+                List {
+                    Section {
+                        ForEach(items) { item in
+                            Button {
+                                selectedItem = item
+                            } label: {
+                                QueueListItem(item: item)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        #if os(macOS)
+                            .padding(.vertical, 4)
+                        #else
+                            .listRowBackground(Color.card)
+                        #endif
+                    } header: {
+                        if !items.isEmpty { sectionHeader }
+                    }
+                }
+                #if os(iOS)
+                    .background(.systemBackground)
+                #endif
+                .scrollContentBackground(.hidden)
+                .overlay {
+                    if items.isEmpty {
+                        queueEmpty
+                    }
+                }
             }
-            .onDisappear {
-                queue.performRefresh = false
-            }
-            .task {
-                await queue.fetchTasks()
-            }
-            .refreshable {
-                Task { await queue.refreshDownloadClients() }
-                await Task { await queue.fetchTasks() }.value
-            }
-            .sheet(item: $selectedItem) { item in
-                QueueItemSheet(item: item)
-                    .presentationDetents(dynamic: [
-                        deviceType == .phone ? .fraction(0.7) : .large
-                    ])
-                    .presentationBackground(.sheetBackground)
-                    .environmentObject(settings)
-            }
+        }
+        .onChange(of: sort.option, updateSortDirection)
+        .onChange(of: sort, updateDisplayedItems)
+        .onChange(of: queue.items, updateDisplayedItems)
+        .onChange(of: queue.items, updateSelectedItem)
+        .onAppear {
+            queue.instances = settings.instances
+            queue.performRefresh = true
+            updateDisplayedItems()
+        }
+        .onDisappear {
+            queue.performRefresh = false
+        }
+        .task {
+            await queue.fetchTasks()
+        }
+        .refreshable {
+            Task { await queue.refreshDownloadClients() }
+            await Task { await queue.fetchTasks() }.value
+        }
+        .sheet(item: $selectedItem) { item in
+            QueueItemSheet(item: item)
+                .presentationDetents(dynamic: [
+                    deviceType == .phone ? .fraction(0.7) : .large
+                ])
+                .presentationBackground(.sheetBackground)
+                .environmentObject(settings)
         }
     }
 
@@ -157,6 +178,11 @@ struct ActivityView: View {
             self.items = items
         }
     }
+}
+
+enum ActivitySegment: Hashable {
+    case downloads
+    case tasks
 }
 
 #Preview {
