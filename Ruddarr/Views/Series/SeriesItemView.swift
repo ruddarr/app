@@ -160,7 +160,7 @@ extension SeriesDetailView {
     }
 
     func refresh() async {
-        guard await instance.series.command(.refreshSeries(series.id)) else {
+        guard await instance.series.command(.refreshSeries(series.id)) != nil else {
             return
         }
 

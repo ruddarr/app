@@ -76,6 +76,14 @@ struct CommandsListView: View {
                 .presentationBackground(.sheetBackground)
                 .environmentObject(settings)
         }
+        .onChange(of: commands.items) { updateSelected() }
+    }
+
+    private func updateSelected() {
+        guard let current = selected else { return }
+        if let fresh = commands.items[current.instanceId ?? UUID()]?.first(where: { $0.id == current.id }) {
+            selected = fresh
+        }
     }
 
     private var filteredItems: [InstanceCommandStatus] {

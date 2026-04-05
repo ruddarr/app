@@ -24,7 +24,7 @@ struct CommandsTests {
 
         let status = try decoder.decode(InstanceCommandStatus.self, from: json)
 
-        #expect(status.id == 42)
+        #expect(status.commandId == 42)
         #expect(status.name == "SeriesSearch")
         #expect(status.state == .completed)
         #expect(status.message == "Completed")
@@ -71,7 +71,7 @@ struct CommandsTests {
         let instanceId = UUID()
 
         let status = InstanceCommandStatus(
-            id: 1, name: "SeriesSearch", commandName: nil, message: nil,
+            commandId: 1, name: "SeriesSearch", commandName: nil, message: nil,
             status: "queued", result: nil,
             queued: Date(), started: nil, ended: nil, trigger: "manual",
             instanceId: instanceId, subject: "Breaking Bad"
@@ -87,7 +87,7 @@ struct CommandsTests {
         let instanceId = UUID()
 
         let queued = InstanceCommandStatus(
-            id: 9, name: "MoviesSearch", commandName: nil, message: nil,
+            commandId: 9, name: "MoviesSearch", commandName: nil, message: nil,
             status: "queued", result: nil,
             queued: Date(), started: nil, ended: nil, trigger: "manual",
             instanceId: instanceId, subject: "Inception"
@@ -110,13 +110,13 @@ struct CommandsTests {
         let instanceId = UUID()
 
         let search = InstanceCommandStatus(
-            id: 1, name: "SeriesSearch", commandName: nil, message: nil,
+            commandId: 1, name: "SeriesSearch", commandName: nil, message: nil,
             status: "queued", result: nil,
             queued: Date(), started: nil, ended: nil, trigger: "manual",
             instanceId: instanceId, subject: nil
         )
         let rss = InstanceCommandStatus(
-            id: 2, name: "RssSync", commandName: nil, message: nil,
+            commandId: 2, name: "RssSync", commandName: nil, message: nil,
             status: "queued", result: nil,
             queued: Date(), started: nil, ended: nil, trigger: "scheduled",
             instanceId: instanceId, subject: nil

@@ -1,7 +1,7 @@
 import Foundation
 
 struct InstanceCommandStatus: Identifiable, Codable, Equatable, Hashable {
-    let id: Int
+    let commandId: Int
     let name: String
     let commandName: String?
     var message: String?
@@ -21,8 +21,15 @@ struct InstanceCommandStatus: Identifiable, Codable, Equatable, Hashable {
     var subject: String?
 
     enum CodingKeys: String, CodingKey {
-        case id, name, commandName, message, status, result
+        case commandId = "id"
+        case name, commandName, message, status, result
         case queued, started, ended, trigger
+    }
+
+    /// Composite identity used by SwiftUI `ForEach` / `.sheet(item:)` so two
+    /// instances that both expose command id 42 don't collide.
+    var id: String {
+        "\(instanceId?.uuidString ?? "none")-\(commandId)"
     }
 
     var state: CommandStatusState {

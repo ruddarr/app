@@ -126,7 +126,7 @@ extension API {
             return modifyCalendarEpisodes(episodes, instance)
         }, command: { cmd, instance in
             var status = InstanceCommandStatus(
-                id: Int.random(in: 1...999),
+                commandId: Int.random(in: 1...999),
                 name: cmd.payload.name,
                 commandName: nil,
                 message: "Queued",
@@ -143,7 +143,7 @@ extension API {
             return status
         }, fetchCommand: { id, instance in
             var status = InstanceCommandStatus(
-                id: id,
+                commandId: id,
                 name: "MoviesSearch",
                 commandName: nil,
                 message: "Completed",

@@ -270,6 +270,7 @@
 		1AFC24FC2F82B789009FF858 /* CommandListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandListItem.swift; sourceTree = "<group>"; };
 		1AFC24FD2F82B789009FF858 /* CommandSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandSheet.swift; sourceTree = "<group>"; };
 		1AFC24FE2F82B789009FF858 /* CommandsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandsListView.swift; sourceTree = "<group>"; };
+		1AFC25022F832036009FF858 /* CommandsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandsTests.swift; sourceTree = "<group>"; };
 		2B949CE42CC92C970088B1A8 /* sonarr-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sonarr-history.json"; sourceTree = "<group>"; };
 		2B949CE62CC92F320088B1A8 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		2B949CEA2CCBC8600088B1A8 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -558,6 +559,7 @@
 		BB000000000000000000AAA4 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				1AFC25022F832036009FF858 /* CommandsTests.swift */,
 				BB000000000000000000AAA3 /* RuddarrTests.swift */,
 			);
 			path = Tests;

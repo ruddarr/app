@@ -23,7 +23,7 @@ final class Commands {
         self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
             Task { @MainActor in
                 guard let self, self.performRefresh else { return }
-                await self.refreshActive()
+                await self.fetchAll()
             }
         }
     }
@@ -90,26 +90,6 @@ final class Commands {
         }
 
         isLoading = false
-    }
-
-    /// Called by the polling timer. Only re-fetches commands that are still
-    /// non-terminal, to minimize API traffic.
-    func refreshActive() async {
-        for instance in instances {
-            guard let list = items[instance.id] else { continue }
-            let active = list.filter { !$0.isTerminal }
-            for command in active {
-                do {
-                    let updated = try await dependencies.api.fetchCommand(command.id, instance)
-                    merge([updated], for: instance.id)
-                } catch is CancellationError {
-                    // ignore
-                } catch {
-                    leaveBreadcrumb(.warning, category: "commands", message: "Poll failed",
-                                    data: ["id": command.id, "error": error])
-                }
-            }
-        }
     }
 
     /// Returns a flat, sorted list across all instances, respecting the
