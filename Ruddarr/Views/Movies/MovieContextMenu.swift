@@ -19,9 +19,12 @@ struct MovieContextMenu: View {
     }
 
     func dispatchSearch() async {
-        guard await instance.movies.command(.search([movie.id])) else {
+        guard var status = await instance.movies.command(.search([movie.id])) else {
             return
         }
+
+        status.subject = movie.title
+        Commands.shared.track(status)
 
         dependencies.toast.show(.movieSearchQueued)
 

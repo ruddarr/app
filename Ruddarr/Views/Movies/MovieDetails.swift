@@ -190,11 +190,14 @@ struct MovieDetails: View {
         defer { dispatchingSearch = false }
         dispatchingSearch = true
 
-        guard await instance.movies.command(
+        guard var status = await instance.movies.command(
             .search([movie.id])
         ) else {
             return
         }
+
+        status.subject = movie.title
+        Commands.shared.track(status)
 
         dependencies.toast.show(.movieSearchQueued)
 

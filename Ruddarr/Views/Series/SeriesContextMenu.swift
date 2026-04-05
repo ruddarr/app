@@ -21,9 +21,12 @@ struct SeriesContextMenu: View {
     }
 
     func dispatchSearch() async {
-        guard await instance.series.command(.seriesSearch(series.id)) else {
+        guard var status = await instance.series.command(.seriesSearch(series.id)) else {
             return
         }
+
+        status.subject = series.title
+        Commands.shared.track(status)
 
         dependencies.toast.show(.monitoredSearchQueued)
 

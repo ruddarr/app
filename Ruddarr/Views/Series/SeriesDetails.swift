@@ -186,11 +186,14 @@ struct SeriesDetails: View {
         defer { dispatchingSearch = false }
         dispatchingSearch = true
 
-        guard await instance.series.command(
+        guard var status = await instance.series.command(
             .seriesSearch(series.id)
         ) else {
             return
         }
+
+        status.subject = series.title
+        Commands.shared.track(status)
 
         dependencies.toast.show(.monitoredSearchQueued)
 

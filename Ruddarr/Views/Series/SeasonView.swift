@@ -274,11 +274,14 @@ extension SeasonView {
         defer { dispatchingSearch = false }
         dispatchingSearch = true
 
-        guard await instance.series.command(
+        guard var status = await instance.series.command(
             .seasonSearch(series.id, season: season.id)
         ) else {
             return
         }
+
+        status.subject = "\(series.title) — \(String(localized: "Season \(season.id)", comment: "Season number for command subject"))"
+        Commands.shared.track(status)
 
         dependencies.toast.show(.seasonSearchQueued)
 

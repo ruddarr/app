@@ -330,10 +330,13 @@ extension EpisodeView {
         defer { dispatchingSearch = false }
         dispatchingSearch = true
 
-        guard await instance.series.command(
+        guard var status = await instance.series.command(
             .episodeSearch([episode.id])) else {
             return
         }
+
+        status.subject = episode.subjectLabel
+        Commands.shared.track(status)
 
         dependencies.toast.show(.episodeSearchQueued)
 
