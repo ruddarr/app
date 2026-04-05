@@ -6,7 +6,7 @@ struct ActivityView: View {
     @State var sort: QueueSort = .init()
     @State var items: [QueueItem] = []
     @State private var selectedItem: QueueItem?
-    @State var segment: ActivitySegment = .downloads
+    @State var segment: ActivitySegment = .searches
 
     @EnvironmentObject var settings: AppSettings
     @Environment(\.deviceType) private var deviceType
@@ -15,19 +15,19 @@ struct ActivityView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 Picker("", selection: $segment) {
+                    Text("Searches").tag(ActivitySegment.searches)
                     Text("Downloads").tag(ActivitySegment.downloads)
-                    Text("Tasks").tag(ActivitySegment.tasks)
                 }
                 .pickerStyle(.segmented)
                 .padding(.horizontal)
                 .padding(.top, 8)
 
                 switch segment {
-                case .downloads:
-                    downloadsContent
-                case .tasks:
+                case .searches:
                     CommandsListView()
                         .environmentObject(settings)
+                case .downloads:
+                    downloadsContent
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
@@ -181,8 +181,8 @@ struct ActivityView: View {
 }
 
 enum ActivitySegment: Hashable {
+    case searches
     case downloads
-    case tasks
 }
 
 #Preview {
