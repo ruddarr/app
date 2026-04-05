@@ -220,7 +220,26 @@ extension API {
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/command")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
+            var status: InstanceCommandStatus = try await request(
+                method: .post, url: url, headers: instance.auth, body: command.payload
+            )
+            status.instanceId = instance.id
+            return status
+        }, fetchCommand: { id, instance in
+            let url = try instance.baseURL()
+                .appending(path: "/api/v3/command")
+                .appending(path: String(id))
+
+            var status: InstanceCommandStatus = try await request(url: url, headers: instance.auth)
+            status.instanceId = instance.id
+            return status
+        }, fetchCommands: { instance in
+            let url = try instance.baseURL()
+                .appending(path: "/api/v3/command")
+
+            var statuses: [InstanceCommandStatus] = try await request(url: url, headers: instance.auth)
+            for i in statuses.indices { statuses[i].instanceId = instance.id }
+            return statuses
         }, downloadRelease: { payload, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/release")

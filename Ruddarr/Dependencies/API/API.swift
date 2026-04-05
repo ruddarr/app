@@ -35,7 +35,9 @@ struct API {
     var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
     var episodeCalendar: (Date, Date, Instance) async throws -> [Episode]
 
-    var command: (InstanceCommand, Instance) async throws -> Empty
+    var command: (InstanceCommand, Instance) async throws -> InstanceCommandStatus
+    var fetchCommand: (Int, Instance) async throws -> InstanceCommandStatus
+    var fetchCommands: (Instance) async throws -> [InstanceCommandStatus]
     var downloadRelease: (DownloadReleaseCommand, Instance) async throws -> Empty
 
     var systemStatus: (Instance) async throws -> InstanceStatus

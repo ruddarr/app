@@ -124,10 +124,42 @@ extension API {
             let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
 
             return modifyCalendarEpisodes(episodes, instance)
-        }, command: { _, _ in
-            try await Task.sleep(for: .seconds(2))
-
-            return Empty()
+        }, command: { cmd, instance in
+            var status = InstanceCommandStatus(
+                id: Int.random(in: 1...999),
+                name: cmd.payload.name,
+                commandName: nil,
+                message: "Queued",
+                status: "queued",
+                result: nil,
+                queued: Date(),
+                started: nil,
+                ended: nil,
+                trigger: "manual",
+                instanceId: nil,
+                subject: nil
+            )
+            status.instanceId = instance.id
+            return status
+        }, fetchCommand: { id, instance in
+            var status = InstanceCommandStatus(
+                id: id,
+                name: "MoviesSearch",
+                commandName: nil,
+                message: "Completed",
+                status: "completed",
+                result: "successful",
+                queued: Date().addingTimeInterval(-10),
+                started: Date().addingTimeInterval(-9),
+                ended: Date().addingTimeInterval(-1),
+                trigger: "manual",
+                instanceId: nil,
+                subject: nil
+            )
+            status.instanceId = instance.id
+            return status
+        }, fetchCommands: { _ in
+            []
         }, downloadRelease: { _, _ in
             try await Task.sleep(for: .seconds(1))
 
