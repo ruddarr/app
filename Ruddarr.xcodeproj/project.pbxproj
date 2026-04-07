@@ -427,6 +427,7 @@
 		BBC309D72BED584C004080FD /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		BBC309D92BED7FE4004080FD /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		BBC309DB2BED95DF004080FD /* AppDelegateMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateMac.swift; sourceTree = "<group>"; };
+		BBC5EA922F857E6F00EE3333 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
 		BBC6CEF42BE69B1600F71839 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		BBC6CEF62BE69BEE00F71839 /* MediaFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFile.swift; sourceTree = "<group>"; };
 		BBC77E232B7AAD3300573EBD /* InstanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceView.swift; sourceTree = "<group>"; };
@@ -716,6 +717,7 @@
 		BB7487FB2F576CAB00B0F036 /* workflows */ = {
 			isa = PBXGroup;
 			children = (
+				BBC5EA922F857E6F00EE3333 /* codeql.yml */,
 				BB7487F82F576CAB00B0F036 /* crowdin.yml */,
 				BB7487F92F576CAB00B0F036 /* lint.yml */,
 				BB7487FA2F576CAB00B0F036 /* test.yml */,
