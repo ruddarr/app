@@ -4,7 +4,7 @@ set -e
 
 cd .. || exit 1
 
-if [[ ! -n "$CROWDIN_TOKEN" ]]; then
+if [[ -z "$CROWDIN_TOKEN" ]]; then
   echo "CROWDIN_TOKEN not set or empty."
   exit 1
 fi
@@ -21,8 +21,8 @@ EXPORTED=("${EXPORTED[@]/es-ES/es}")
 EXPORTED=("${EXPORTED[@]/zh-CN/zh-Hans}")
 
 # Download translations
-FLAGS=$(yq -r '[.export_languages[] | "--language="+.] | join(" ")' crowdin.yml)
-crowdin download translations --plain ${FLAGS}
+FLAGS=($(yq -r '.export_languages[] | "--language="+.' crowdin.yml))
+crowdin download translations --plain "${FLAGS[@]}"
 
 cd Ruddarr
 
@@ -37,10 +37,10 @@ fi
 
 # Remove languages that are not exported from *.xcstrings catalogs
 for file in Localizable.xcstrings AppShortcuts.xcstrings; do
-  for lang in $(jq -r '.strings[].localizations | keys[]' $file | sort -u); do
-    if [[ ! ${EXPORTED[@]} =~ $lang ]]; then
-      jq "del(.strings[].localizations.\"${lang}\")" $file > "${file}.json"
-      mv "${file}.json" $file
+  for lang in $(jq -r '.strings[].localizations | keys[]' "$file" | sort -u); do
+    if [[ " ${EXPORTED[*]} " != *" $lang "* ]]; then
+      jq "del(.strings[].localizations.\"${lang}\")" "$file" > "${file}.json"
+      mv "${file}.json" "$file"
     fi
   done
 done
