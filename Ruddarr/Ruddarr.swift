@@ -83,11 +83,11 @@ extension WhatsNew {
         .init(
             image: "eye.slash",
             title: "Faded Items",
-            subtitle: "Fade items in the calednar and discovery grid the app to indicate their status."
+            subtitle: "Fade items in the calendar and discovery grid to indicate their status."
         ),
         .init(
             image: "film.stack",
-            title: "Dual Audio in Multi",
+            title: "Dual Audio",
             subtitle: "Releases with dual audio are now included in the Multilingual language filter."
         ),
         .init(
