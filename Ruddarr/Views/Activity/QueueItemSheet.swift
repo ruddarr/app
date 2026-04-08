@@ -15,7 +15,6 @@ struct QueueItemSheet: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        // swiftlint:disable:next closure_body_length
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
@@ -48,11 +47,7 @@ struct QueueItemSheet: View {
                     details
                 }
                 .scenePadding(.horizontal)
-                #if os(macOS)
-                    .padding(.top, 24)
-                #else
-                    .offset(y: reduceTransparency ? 0 : -45)
-                #endif
+                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency ? 0 : -45))
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {

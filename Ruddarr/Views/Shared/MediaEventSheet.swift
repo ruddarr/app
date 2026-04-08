@@ -7,6 +7,7 @@ struct MediaEventSheet: View {
     @EnvironmentObject var settings: AppSettings
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.deviceType) private var deviceType
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     var body: some View {
@@ -51,11 +52,7 @@ struct MediaEventSheet: View {
                     Spacer()
                 }
                 .scenePadding(.horizontal)
-                #if os(macOS)
-                    .padding(.top, 24)
-                #else
-                    .offset(y: reduceTransparency ? 0 : -45)
-                #endif
+                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency ? 0 : -45))
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {

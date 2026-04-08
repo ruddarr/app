@@ -35,11 +35,7 @@ struct SeriesReleaseSheet: View {
                     details
                 }
                 .scenePadding(.horizontal)
-                #if os(macOS)
-                    .padding(.top, 24)
-                #else
-                    .padding(.top, reduceTransparency ? 0 : -45)
-                #endif
+                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency ? 0 : -45))
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
