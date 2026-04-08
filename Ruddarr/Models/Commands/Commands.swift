@@ -64,7 +64,6 @@ struct InstanceCommandStatus: Identifiable, Codable, Equatable, Hashable {
         "RefreshCollections",
         "RssSync",
         "ManualImport",
-        "ImportListSync",
         "RenameFiles",
         "RenameMovie",
         "RenameSeries",

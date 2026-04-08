@@ -120,7 +120,13 @@ struct ActivityView: View {
     }
 
     var commandItems: [InstanceCommandStatus] {
-        commands.filteredItems(showAll: true)
+        var cmds = commands.filteredItems(showAll: true)
+        if sort.instance != .all {
+            cmds = cmds.filter {
+                $0.instanceId?.isEqual(to: sort.instance) == true
+            }
+        }
+        return cmds
     }
 
     var commandsSectionHeader: some View {
