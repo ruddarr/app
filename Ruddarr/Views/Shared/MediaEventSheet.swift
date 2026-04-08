@@ -7,6 +7,7 @@ struct MediaEventSheet: View {
     @EnvironmentObject var settings: AppSettings
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     var body: some View {
         // swiftlint:disable:next closure_body_length
@@ -53,7 +54,7 @@ struct MediaEventSheet: View {
                 #if os(macOS)
                     .padding(.top, 24)
                 #else
-                    .offset(y: -45)
+                    .offset(y: reduceTransparency ? 0 : -45)
                 #endif
             }
             .toolbar {

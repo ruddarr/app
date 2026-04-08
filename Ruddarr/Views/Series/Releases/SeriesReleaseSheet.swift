@@ -12,6 +12,7 @@ struct SeriesReleaseSheet: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @State private var showGrabConfirmation: Bool = false
 
@@ -37,7 +38,7 @@ struct SeriesReleaseSheet: View {
                 #if os(macOS)
                     .padding(.top, 24)
                 #else
-                    .padding(.top, -45)
+                    .padding(.top, reduceTransparency ? 0 : -45)
                 #endif
             }
             .toolbar {

@@ -8,6 +8,7 @@ struct QueueItemSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @State private var downloadProgress: Float = 0
 
@@ -50,7 +51,7 @@ struct QueueItemSheet: View {
                 #if os(macOS)
                     .padding(.top, 24)
                 #else
-                    .offset(y: -45)
+                    .offset(y: reduceTransparency ? 0 : -45)
                 #endif
             }
             .toolbar {
