@@ -50,6 +50,28 @@ struct InstanceCommandStatus: Identifiable, Codable, Equatable, Hashable {
         "EpisodeSearch",
     ]
 
+    static let visibleCommandNames: Set<String> = [
+        "MoviesSearch",
+        "MissingMoviesSearch",
+        "CutoffUnmetMoviesSearch",
+        "EpisodeSearch",
+        "SeasonSearch",
+        "SeriesSearch",
+        "MissingEpisodeSearch",
+        "CutoffUnmetEpisodeSearch",
+        "RefreshMovie",
+        "RefreshSeries",
+        "RefreshCollections",
+        "RssSync",
+        "ManualImport",
+        "ImportListSync",
+        "RenameFiles",
+        "RenameMovie",
+        "RenameSeries",
+        "RescanMovie",
+        "RescanSeries",
+    ]
+
     var sortDate: Date {
         started ?? queued
     }
@@ -120,6 +142,7 @@ class Commands {
     var items: [Instance.ID: [InstanceCommandStatus]] = [:]
 
     private let perInstanceLimit = 50
+    private let sessionStart = Date()
 
     private init() {
         let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
@@ -186,6 +209,8 @@ class Commands {
 
     func filteredItems(showAll: Bool) -> [InstanceCommandStatus] {
         let all = items.values.flatMap { $0 }
+            .filter { InstanceCommandStatus.visibleCommandNames.contains($0.name) }
+            .filter { !$0.isTerminal || $0.queued >= sessionStart }
         let filtered = showAll ? all : all.filter { $0.isSearchCommand }
         return filtered.sorted { $0.sortDate > $1.sortDate }
     }

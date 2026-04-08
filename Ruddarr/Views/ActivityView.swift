@@ -2,103 +2,136 @@ import SwiftUI
 
 struct ActivityView: View {
     @State var queue = Queue.shared
+    @State var commands = Commands.shared
 
     @State var sort: QueueSort = .init()
     @State var items: [QueueItem] = []
     @State private var selectedItem: QueueItem?
-    @State var segment: ActivitySegment = .searches
+    @State private var selectedCommand: InstanceCommandStatus?
 
     @EnvironmentObject var settings: AppSettings
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                Picker("", selection: $segment) {
-                    Text("Searches").tag(ActivitySegment.searches)
-                    Text("Downloads").tag(ActivitySegment.downloads)
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
-                .padding(.top, 8)
+            // swiftlint:disable:next closure_body_length
+            Group {
+                if settings.configuredInstances.isEmpty {
+                    NoInstance()
+                } else {
+                    List {
+                        if !commandItems.isEmpty {
+                            Section {
+                                ForEach(commandItems) { command in
+                                    Button {
+                                        selectedCommand = command
+                                    } label: {
+                                        CommandListItem(command: command)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                                #if os(macOS)
+                                    .padding(.vertical, 4)
+                                #else
+                                    .listRowBackground(Color.card)
+                                #endif
+                            } header: {
+                                commandsSectionHeader
+                            }
+                        }
 
-                switch segment {
-                case .searches:
-                    CommandsListView()
-                        .environmentObject(settings)
-                case .downloads:
-                    downloadsContent
+                        Section {
+                            ForEach(items) { item in
+                                Button {
+                                    selectedItem = item
+                                } label: {
+                                    QueueListItem(item: item)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                            #if os(macOS)
+                                .padding(.vertical, 4)
+                            #else
+                                .listRowBackground(Color.card)
+                            #endif
+                        } header: {
+                            if !items.isEmpty { queueSectionHeader }
+                        }
+                    }
+                    #if os(iOS)
+                        .background(.systemBackground)
+                    #endif
+                    .scrollContentBackground(.hidden)
+                    .overlay {
+                        if items.isEmpty && commandItems.isEmpty {
+                            queueEmpty
+                        }
+                    }
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 toolbarButtons
             }
+            .onChange(of: sort.option, updateSortDirection)
+            .onChange(of: sort, updateDisplayedItems)
+            .onChange(of: queue.items, updateDisplayedItems)
+            .onChange(of: queue.items, updateSelectedItem)
+            .onChange(of: commands.items, updateSelectedCommand)
+            .onAppear {
+                queue.instances = settings.instances
+                queue.performRefresh = true
+                commands.instances = settings.instances
+                commands.performRefresh = true
+                updateDisplayedItems()
+            }
+            .onDisappear {
+                queue.performRefresh = false
+                commands.performRefresh = false
+            }
+            .task {
+                await queue.fetchTasks()
+            }
+            .task {
+                await commands.fetchAll()
+            }
+            .refreshable {
+                Task { await queue.refreshDownloadClients() }
+                Task { await commands.fetchAll() }
+                await Task { await queue.fetchTasks() }.value
+            }
+            .sheet(item: $selectedItem) { item in
+                QueueItemSheet(item: item)
+                    .presentationDetents(dynamic: [
+                        deviceType == .phone ? .fraction(0.7) : .large
+                    ])
+                    .presentationBackground(.sheetBackground)
+                    .environmentObject(settings)
+            }
+            .sheet(item: $selectedCommand) { command in
+                CommandSheet(command: command)
+                    .presentationDetents(dynamic: [
+                        deviceType == .phone ? .fraction(0.7) : .large
+                    ])
+                    .presentationBackground(.sheetBackground)
+                    .environmentObject(settings)
+            }
         }
     }
 
-    // swiftlint:disable:next closure_body_length
-    private var downloadsContent: some View {
-        Group {
-            if settings.configuredInstances.isEmpty {
-                NoInstance()
-            } else {
-                List {
-                    Section {
-                        ForEach(items) { item in
-                            Button {
-                                selectedItem = item
-                            } label: {
-                                QueueListItem(item: item)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        #if os(macOS)
-                            .padding(.vertical, 4)
-                        #else
-                            .listRowBackground(Color.card)
-                        #endif
-                    } header: {
-                        if !items.isEmpty { sectionHeader }
-                    }
-                }
-                #if os(iOS)
-                    .background(.systemBackground)
-                #endif
-                .scrollContentBackground(.hidden)
-                .overlay {
-                    if items.isEmpty {
-                        queueEmpty
-                    }
-                }
+    var commandItems: [InstanceCommandStatus] {
+        commands.filteredItems(showAll: true)
+    }
+
+    var commandsSectionHeader: some View {
+        HStack(spacing: 6) {
+            Text("\(commandItems.count) Running")
+
+            if commands.isLoading {
+                ProgressView()
+                    .controlSize(.small)
+                    .tint(.secondary)
             }
-        }
-        .onChange(of: sort.option, updateSortDirection)
-        .onChange(of: sort, updateDisplayedItems)
-        .onChange(of: queue.items, updateDisplayedItems)
-        .onChange(of: queue.items, updateSelectedItem)
-        .onAppear {
-            queue.instances = settings.instances
-            queue.performRefresh = true
-            updateDisplayedItems()
-        }
-        .onDisappear {
-            queue.performRefresh = false
-        }
-        .task {
-            await queue.fetchTasks()
-        }
-        .refreshable {
-            Task { await queue.refreshDownloadClients() }
-            await Task { await queue.fetchTasks() }.value
-        }
-        .sheet(item: $selectedItem) { item in
-            QueueItemSheet(item: item)
-                .presentationDetents(dynamic: [
-                    deviceType == .phone ? .fraction(0.7) : .large
-                ])
-                .presentationBackground(.sheetBackground)
-                .environmentObject(settings)
         }
     }
 
@@ -110,7 +143,7 @@ struct ActivityView: View {
         )
     }
 
-    var sectionHeader: some View {
+    var queueSectionHeader: some View {
         HStack(spacing: 6) {
             Text("\(items.count) Task")
 
@@ -134,6 +167,17 @@ struct ActivityView: View {
             selectedItem = item
         } else {
             selectedItem = nil
+        }
+    }
+
+    func updateSelectedCommand() {
+        guard let commandId = selectedCommand?.commandId else { return }
+        guard let instanceId = selectedCommand?.instanceId else { return }
+
+        if let command = commands.items[instanceId]?.first(where: { $0.commandId == commandId }) {
+            selectedCommand = command
+        } else {
+            selectedCommand = nil
         }
     }
 
@@ -178,11 +222,6 @@ struct ActivityView: View {
             self.items = items
         }
     }
-}
-
-enum ActivitySegment: Hashable {
-    case searches
-    case downloads
 }
 
 #Preview {

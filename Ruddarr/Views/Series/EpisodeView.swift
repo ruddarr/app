@@ -178,7 +178,7 @@ struct EpisodeView: View {
         ToolbarItem(placement: .primaryAction) {
             Menu {
                 Section {
-                    EpisodeContextMenu(episode: episode)
+                    EpisodeContextMenu(episode: episode, seriesTitle: series.title)
                 }
 
                 if episodeFile != nil {
@@ -335,7 +335,7 @@ extension EpisodeView {
             return
         }
 
-        status.subject = episode.subjectLabel
+        status.subject = "\(series.title) — \(episode.episodeLabel)"
         Commands.shared.track(status)
 
         dependencies.toast.show(.episodeSearchQueued)

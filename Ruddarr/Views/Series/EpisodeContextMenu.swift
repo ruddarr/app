@@ -3,6 +3,7 @@ import TelemetryDeck
 
 struct EpisodeContextMenu: View {
     var episode: Episode
+    var seriesTitle: String?
     @Environment(SonarrInstance.self) var instance
 
     var body: some View {
@@ -32,7 +33,8 @@ struct EpisodeContextMenu: View {
             return
         }
 
-        status.subject = episode.subjectLabel
+        let title = seriesTitle ?? episode.series?.title
+        status.subject = title != nil ? "\(title!) — \(episode.episodeLabel)" : episode.episodeLabel
         Commands.shared.track(status)
 
         dependencies.toast.show(.episodeSearchQueued)

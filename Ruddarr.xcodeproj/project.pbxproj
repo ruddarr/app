@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1AFC24FA2F82B753009FF858 /* Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC24F82F82B753009FF858 /* Commands.swift */; };
 		1AFC24FF2F82B789009FF858 /* CommandSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC24FD2F82B789009FF858 /* CommandSheet.swift */; };
-		1AFC25002F82B789009FF858 /* CommandsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC24FE2F82B789009FF858 /* CommandsListView.swift */; };
 		1AFC25012F82B789009FF858 /* CommandListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC24FC2F82B789009FF858 /* CommandListItem.swift */; };
 		2B949CE52CC92CA20088B1A8 /* sonarr-history.json in Resources */ = {isa = PBXBuildFile; fileRef = 2B949CE42CC92C970088B1A8 /* sonarr-history.json */; };
 		2B949CE72CC92F370088B1A8 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B949CE62CC92F320088B1A8 /* History.swift */; };
@@ -267,7 +266,6 @@
 		1AFC24F82F82B753009FF858 /* Commands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Commands.swift; path = Commands/Commands.swift; sourceTree = "<group>"; };
 		1AFC24FC2F82B789009FF858 /* CommandListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandListItem.swift; sourceTree = "<group>"; };
 		1AFC24FD2F82B789009FF858 /* CommandSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandSheet.swift; sourceTree = "<group>"; };
-		1AFC24FE2F82B789009FF858 /* CommandsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandsListView.swift; sourceTree = "<group>"; };
 		2B949CE42CC92C970088B1A8 /* sonarr-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sonarr-history.json"; sourceTree = "<group>"; };
 		2B949CE62CC92F320088B1A8 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		2B949CEA2CCBC8600088B1A8 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -783,7 +781,6 @@
 			children = (
 				1AFC24FC2F82B789009FF858 /* CommandListItem.swift */,
 				1AFC24FD2F82B789009FF858 /* CommandSheet.swift */,
-				1AFC24FE2F82B789009FF858 /* CommandsListView.swift */,
 				2B949CEA2CCBC8600088B1A8 /* HistoryView.swift */,
 				BB50F2282C3B3322005E14CA /* ActivityView+Toolbar.swift */,
 				BBDBBC682C13A0600087C844 /* QueueSort.swift */,
@@ -1299,7 +1296,6 @@
 				BBA50F4F2D760CAA008A16FA /* SettingsIconLabelStyle.swift in Sources */,
 				BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */,
 				1AFC24FF2F82B789009FF858 /* CommandSheet.swift in Sources */,
-				1AFC25002F82B789009FF858 /* CommandsListView.swift in Sources */,
 				1AFC25012F82B789009FF858 /* CommandListItem.swift in Sources */,
 				BBE564DF2DC99A8C005C26B6 /* MovieGridCard.swift in Sources */,
 				2B949CE72CC92F370088B1A8 /* History.swift in Sources */,
