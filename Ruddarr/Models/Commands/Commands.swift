@@ -1,43 +1,138 @@
 import Foundation
+import SwiftUI
+
+struct InstanceCommandStatus: Identifiable, Codable, Equatable, Hashable {
+    let commandId: Int
+    let name: String
+    let commandName: String?
+    var message: String?
+    var status: String
+    var result: String?
+    let queued: Date
+    var started: Date?
+    var ended: Date?
+    let trigger: String?
+
+    var instanceId: Instance.ID?
+    var subject: String?
+
+    enum CodingKeys: String, CodingKey {
+        case commandId = "id"
+        case name, commandName, message, status, result
+        case queued, started, ended, trigger
+    }
+
+    var id: String {
+        "\(instanceId?.uuidString ?? "none")-\(commandId)"
+    }
+
+    var state: CommandStatusState {
+        CommandStatusState(rawValue: status) ?? .unknown
+    }
+
+    var isTerminal: Bool {
+        switch state {
+        case .completed, .failed, .aborted, .cancelled, .orphaned:
+            return true
+        case .queued, .started, .unknown:
+            return false
+        }
+    }
+
+    var isSearchCommand: Bool {
+        Self.searchCommandNames.contains(name)
+    }
+
+    static let searchCommandNames: Set<String> = [
+        "MoviesSearch",
+        "SeriesSearch",
+        "SeasonSearch",
+        "EpisodeSearch",
+    ]
+
+    var sortDate: Date {
+        started ?? queued
+    }
+
+    var displayTitle: String {
+        subject ?? commandName ?? name
+    }
+}
+
+enum CommandStatusState: String, Codable {
+    case queued
+    case started
+    case completed
+    case failed
+    case aborted
+    case cancelled
+    case orphaned
+    case unknown
+
+    var label: String {
+        switch self {
+        case .queued: String(localized: "Queued", comment: "Command status")
+        case .started: String(localized: "Running", comment: "Command status")
+        case .completed: String(localized: "Completed", comment: "Command status")
+        case .failed: String(localized: "Failed", comment: "Command status")
+        case .aborted: String(localized: "Aborted", comment: "Command status")
+        case .cancelled: String(localized: "Cancelled", comment: "Command status")
+        case .orphaned: String(localized: "Orphaned", comment: "Command status")
+        case .unknown: String(localized: "Unknown", comment: "Command status")
+        }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .queued: "clock"
+        case .started: "arrow.triangle.2.circlepath"
+        case .completed: "checkmark.circle"
+        case .failed, .aborted, .orphaned: "exclamationmark.triangle"
+        case .cancelled: "xmark.circle"
+        case .unknown: "questionmark.circle"
+        }
+    }
+
+    var tint: Color {
+        switch self {
+        case .completed: .green
+        case .failed, .aborted, .orphaned: .red
+        case .cancelled: .secondary
+        case .queued, .started: .accentColor
+        case .unknown: .secondary
+        }
+    }
+}
 
 @MainActor
 @Observable
-final class Commands {
+class Commands {
     static let shared = Commands()
 
     private var timer: Timer?
 
     var error: API.Error?
+
     var isLoading: Bool = false
     var performRefresh: Bool = false
 
     var instances: [Instance] = []
     var items: [Instance.ID: [InstanceCommandStatus]] = [:]
 
-    /// Max items to keep per instance. The instance also trims its own
-    /// history, but we cap locally so long-running sessions don't grow forever.
     private let perInstanceLimit = 50
 
-    init() {
+    private init() {
         let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
-        self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
-            Task { @MainActor in
-                guard let self, self.performRefresh else { return }
-                await self.fetchAll()
+
+        self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
+            Task {
+                if await self.performRefresh {
+                    await self.fetchAll()
+                }
             }
         }
     }
 
-    /// Test-only factory that skips timer scheduling.
-    static func makeForTesting() -> Commands {
-        let c = Commands()
-        c.timer?.invalidate()
-        c.timer = nil
-        return c
-    }
-
-    /// Called from `dispatchSearch` call sites immediately after a command POST
-    /// so the user sees the new row without waiting for the next poll.
     func track(_ status: InstanceCommandStatus) {
         guard let instanceId = status.instanceId else { return }
         var list = items[instanceId] ?? []
@@ -46,10 +141,6 @@ final class Commands {
         items[instanceId] = Array(list.prefix(perInstanceLimit))
     }
 
-    /// Merges a fresh list of statuses fetched from the instance. Existing
-    /// entries are updated in place (preserving client-side `subject`),
-    /// unknown entries are inserted, and anything not seen since the last
-    /// `fetchAll` is left alone (the instance may have trimmed them).
     func merge(_ incoming: [InstanceCommandStatus], for instanceId: Instance.ID) {
         var existing = items[instanceId] ?? []
         let existingById = Dictionary(existing.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
@@ -69,9 +160,9 @@ final class Commands {
         items[instanceId] = Array(existing.prefix(perInstanceLimit))
     }
 
-    /// Initial population + pull-to-refresh.
     func fetchAll() async {
         guard !isLoading else { return }
+
         error = nil
         isLoading = true
 
@@ -80,9 +171,10 @@ final class Commands {
                 let statuses = try await dependencies.api.fetchCommands(instance)
                 merge(statuses, for: instance.id)
             } catch is CancellationError {
-                // ignore
+                // do nothing
             } catch let apiError as API.Error {
                 error = apiError
+
                 leaveBreadcrumb(.error, category: "commands", message: "Fetch failed", data: ["error": apiError])
             } catch {
                 self.error = API.Error(from: error)
@@ -92,8 +184,6 @@ final class Commands {
         isLoading = false
     }
 
-    /// Returns a flat, sorted list across all instances, respecting the
-    /// search-only default filter.
     func filteredItems(showAll: Bool) -> [InstanceCommandStatus] {
         let all = items.values.flatMap { $0 }
         let filtered = showAll ? all : all.filter { $0.isSearchCommand }

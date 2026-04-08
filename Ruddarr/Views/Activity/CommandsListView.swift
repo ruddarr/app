@@ -29,7 +29,7 @@ struct CommandsListView: View {
                             .listRowBackground(Color.card)
                         #endif
                     } header: {
-                        sectionHeader
+                        if !filteredItems.isEmpty { sectionHeader }
                     }
                 }
                 #if os(iOS)
@@ -55,6 +55,7 @@ struct CommandsListView: View {
                 .tint(.primary)
             }
         }
+        .onChange(of: commands.items, updateSelected)
         .onAppear {
             commands.instances = settings.instances
             commands.performRefresh = true
@@ -76,21 +77,24 @@ struct CommandsListView: View {
                 .presentationBackground(.sheetBackground)
                 .environmentObject(settings)
         }
-        .onChange(of: commands.items) { updateSelected() }
     }
 
-    private func updateSelected() {
-        guard let current = selected else { return }
-        if let fresh = commands.items[current.instanceId ?? UUID()]?.first(where: { $0.id == current.id }) {
-            selected = fresh
+    func updateSelected() {
+        guard let commandId = selected?.commandId else { return }
+        guard let instanceId = selected?.instanceId else { return }
+
+        if let command = commands.items[instanceId]?.first(where: { $0.commandId == commandId }) {
+            selected = command
+        } else {
+            selected = nil
         }
     }
 
-    private var filteredItems: [InstanceCommandStatus] {
+    var filteredItems: [InstanceCommandStatus] {
         commands.filteredItems(showAll: showAll)
     }
 
-    private var sectionHeader: some View {
+    var sectionHeader: some View {
         HStack(spacing: 6) {
             Text("\(filteredItems.count) Task")
 
@@ -102,7 +106,7 @@ struct CommandsListView: View {
         }
     }
 
-    private var empty: some View {
+    var empty: some View {
         ContentUnavailableView(
             "No Recent Tasks",
             systemImage: "checklist",

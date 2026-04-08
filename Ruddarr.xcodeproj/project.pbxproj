@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1AFC24FA2F82B753009FF858 /* Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC24F82F82B753009FF858 /* Commands.swift */; };
-		1AFC24FB2F82B753009FF858 /* CommandStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC24F92F82B753009FF858 /* CommandStatus.swift */; };
 		1AFC24FF2F82B789009FF858 /* CommandSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC24FD2F82B789009FF858 /* CommandSheet.swift */; };
 		1AFC25002F82B789009FF858 /* CommandsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC24FE2F82B789009FF858 /* CommandsListView.swift */; };
 		1AFC25012F82B789009FF858 /* CommandListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC24FC2F82B789009FF858 /* CommandListItem.swift */; };
@@ -266,11 +265,9 @@
 
 /* Begin PBXFileReference section */
 		1AFC24F82F82B753009FF858 /* Commands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Commands.swift; path = Commands/Commands.swift; sourceTree = "<group>"; };
-		1AFC24F92F82B753009FF858 /* CommandStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CommandStatus.swift; path = Commands/CommandStatus.swift; sourceTree = "<group>"; };
 		1AFC24FC2F82B789009FF858 /* CommandListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandListItem.swift; sourceTree = "<group>"; };
 		1AFC24FD2F82B789009FF858 /* CommandSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandSheet.swift; sourceTree = "<group>"; };
 		1AFC24FE2F82B789009FF858 /* CommandsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandsListView.swift; sourceTree = "<group>"; };
-		1AFC25022F832036009FF858 /* CommandsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandsTests.swift; sourceTree = "<group>"; };
 		2B949CE42CC92C970088B1A8 /* sonarr-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sonarr-history.json"; sourceTree = "<group>"; };
 		2B949CE62CC92F320088B1A8 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		2B949CEA2CCBC8600088B1A8 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -559,7 +556,6 @@
 		BB000000000000000000AAA4 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				1AFC25022F832036009FF858 /* CommandsTests.swift */,
 				BB000000000000000000AAA3 /* RuddarrTests.swift */,
 			);
 			path = Tests;
@@ -932,7 +928,6 @@
 			isa = PBXGroup;
 			children = (
 				1AFC24F82F82B753009FF858 /* Commands.swift */,
-				1AFC24F92F82B753009FF858 /* CommandStatus.swift */,
 				BB2370DC2DCE76A600261710 /* Queue */,
 				BBF583C02BACA40D00AFA7FB /* Movies */,
 				BB507D202BD9702B00EC4016 /* Series */,
@@ -1240,7 +1235,6 @@
 				2B949CEB2CCBC8690088B1A8 /* HistoryView.swift in Sources */,
 				79159D6E2B5953E800F7F997 /* API.swift in Sources */,
 				1AFC24FA2F82B753009FF858 /* Commands.swift in Sources */,
-				1AFC24FB2F82B753009FF858 /* CommandStatus.swift in Sources */,
 				BB05C9052B86D0EC009B6444 /* Languages.swift in Sources */,
 				BBC136A42B62DD780074C7AA /* Network.swift in Sources */,
 				BB89ABC62B756B91009FB62D /* MovieReleaseRow.swift in Sources */,

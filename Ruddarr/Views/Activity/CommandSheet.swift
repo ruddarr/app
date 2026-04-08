@@ -9,13 +9,18 @@ struct CommandSheet: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading) {
                     header
-                    Divider()
+
                     details
+                        .padding(.top)
                 }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .scenePadding(.horizontal)
+                #if os(macOS)
+                    .padding(.top, 24)
+                #else
+                    .offset(y: -45)
+                #endif
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
@@ -29,68 +34,99 @@ struct CommandSheet: View {
         }
     }
 
-    private var header: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(command.displayTitle)
-                .font(.title3)
-                .fontWeight(.semibold)
+    @ViewBuilder
+    var header: some View {
+        HStack(spacing: 6) {
+            Image(systemName: command.state.systemImage)
+            Text(command.state.label)
+        }
+        .foregroundStyle(command.state.tint)
+        .font(.caption)
+        .fontWeight(.semibold)
+        .textCase(.uppercase)
+        .tracking(1.1)
 
-            HStack(spacing: 6) {
-                Image(systemName: command.state.systemImage)
-                Text(command.state.label)
+        Text(command.displayTitle)
+            .font(.title3.bold())
+            .kerning(-0.5)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.trailing, 56)
+    }
+
+    var details: some View {
+        Section {
+            VStack(spacing: 6) {
+                row("Instance", instanceLabel)
+
+                Divider()
+                row("Command", command.commandName ?? command.name)
+
+                if let result = command.result {
+                    Divider()
+                    row("Result", result)
+                }
+
+                if let message = command.message {
+                    Divider()
+                    row("Message", message)
+                }
+
+                Divider()
+                row("Queued", command.queued.formatted(date: .long, time: .shortened))
+
+                if let started = command.started {
+                    Divider()
+                    row("Started", started.formatted(date: .long, time: .shortened))
+                }
+
+                if let ended = command.ended {
+                    Divider()
+                    row("Ended", ended.formatted(date: .long, time: .shortened))
+                }
+
+                if let started = command.started, let ended = command.ended {
+                    Divider()
+                    row("Duration", formatDuration(ended.timeIntervalSince(started)))
+                }
             }
-            .font(.subheadline)
-            .foregroundStyle(stateTint)
+            .padding(.bottom)
+        } header: {
+            Text("Information")
+                .font(.title2.bold())
         }
     }
 
-    private var details: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            row("Instance", instanceLabel)
-            row("Command", command.commandName ?? command.name)
-            if let result = command.result { row("Result", result) }
-            if let message = command.message { row("Message", message) }
-            row("Queued", command.queued.formatted(date: .abbreviated, time: .shortened))
-            if let started = command.started {
-                row("Started", started.formatted(date: .abbreviated, time: .shortened))
-            }
-            if let ended = command.ended {
-                row("Ended", ended.formatted(date: .abbreviated, time: .shortened))
-            }
-            if let duration = durationLabel {
-                row("Duration", duration)
-            }
-        }
+    func row(_ label: LocalizedStringKey, _ value: String) -> some View {
+        row(label, Text(value).foregroundStyle(.primary))
     }
 
-    private func row(_ label: LocalizedStringKey, _ value: String) -> some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text(label).foregroundStyle(.secondary)
+    func row<V: View>(_ label: LocalizedStringKey, _ value: V) -> some View {
+        HStack(alignment: .top) {
+            Text(label)
+                .foregroundStyle(.secondary)
+
             Spacer()
-            Text(value).multilineTextAlignment(.trailing)
+            Spacer()
+            Spacer()
+
+            value
+                .multilineTextAlignment(.trailing)
         }
-        .font(.subheadline)
+        .font(.callout)
+        .padding(.vertical, 4)
     }
 
-    private var instanceLabel: String {
+    var instanceLabel: String {
         guard let id = command.instanceId,
               let instance = settings.instances.first(where: { $0.id == id })
         else { return "—" }
         return instance.label
     }
+}
 
-    private var durationLabel: String? {
-        guard let started = command.started, let ended = command.ended else { return nil }
-        return formatDuration(ended.timeIntervalSince(started))
-    }
+#Preview {
+    dependencies.router.selectedTab = .activity
 
-    private var stateTint: Color {
-        switch command.state {
-        case .completed: .green
-        case .failed, .aborted, .orphaned: .red
-        case .cancelled: .secondary
-        case .queued, .started: .accentColor
-        case .unknown: .secondary
-        }
-    }
+    return ContentView()
+        .withAppState()
 }

@@ -3,7 +3,7 @@ import SwiftUI
 struct CommandListItem: View {
     var command: InstanceCommandStatus
 
-    @State private var now = Date()
+    @State private var time = Date()
     private let timer = Timer.publish(every: 1, tolerance: 0.5, on: .main, in: .common).autoconnect()
 
     var body: some View {
@@ -23,7 +23,7 @@ struct CommandListItem: View {
                     Bullet()
                     Text(subline)
                         .monospacedDigit()
-                        .id(now)
+                        .id(time)
                 }
             }
             .font(.subheadline)
@@ -34,19 +34,28 @@ struct CommandListItem: View {
         .contentShape(Rectangle())
         .onReceive(timer) { _ in
             if command.state == .started || command.state == .queued {
-                withAnimation { now = Date() }
+                withAnimation {
+                    time = Date()
+                }
             }
         }
     }
 
-    private var subline: String? {
+    var subline: String? {
         switch command.state {
         case .started, .queued:
-            let elapsed = now.timeIntervalSince(command.started ?? command.queued)
+            let elapsed = time.timeIntervalSince(command.started ?? command.queued)
             return formatDuration(elapsed)
         case .completed, .failed, .aborted, .cancelled, .orphaned, .unknown:
             guard let ended = command.ended else { return nil }
             return ended.formatted(.relative(presentation: .named))
         }
     }
+}
+
+#Preview {
+    dependencies.router.selectedTab = .activity
+
+    return ContentView()
+        .withAppState()
 }
