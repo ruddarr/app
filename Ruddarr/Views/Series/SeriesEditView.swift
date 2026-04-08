@@ -11,7 +11,6 @@ struct SeriesEditView: View {
     @Environment(SonarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @State private var showConfirmation: Bool = false
     @State private var savedChanges: Bool = false
@@ -20,7 +19,7 @@ struct SeriesEditView: View {
     var body: some View {
         SeriesForm(series: $series)
             #if os(iOS)
-                .padding(.top, reduceTransparency ? 0 : -20)
+                .padding(.top, -20)
             #endif
             .navigationTitle(series.title)
             .safeNavigationBarTitleDisplayMode(.inline)
