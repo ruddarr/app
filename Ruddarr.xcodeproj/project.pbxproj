@@ -83,6 +83,7 @@
 		BB50F2272C3B06AD005E14CA /* QueueListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB50F2262C3B06AD005E14CA /* QueueListItem.swift */; };
 		BB50F2292C3B3322005E14CA /* ActivityView+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB50F2282C3B3322005E14CA /* ActivityView+Toolbar.swift */; };
 		BB5379D02C3DD38500B65E95 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BB5379CF2C3DD38500B65E95 /* Localizable.xcstrings */; };
+		BB5379D12C3DD38500B65E95 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BB5379CF2C3DD38500B65E95 /* Localizable.xcstrings */; };
 		BB54D0232E90932400F5CF42 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01A2E90932400F5CF42 /* AppIcon.icon */; };
 		BB54D0242E90932400F5CF42 /* AppIconBarbie.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01B2E90932400F5CF42 /* AppIconBarbie.icon */; };
 		BB54D0252E90932400F5CF42 /* AppIconBooks.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01C2E90932400F5CF42 /* AppIconBooks.icon */; };
@@ -1136,6 +1137,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB5379D12C3DD38500B65E95 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
