@@ -12,7 +12,6 @@ struct TaskRemovalView: View {
     @State private var isWorking: Bool = false
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     var body: some View {
         Form {
@@ -34,7 +33,7 @@ struct TaskRemovalView: View {
         }
         .formStyle(.grouped)
         #if os(iOS)
-            .padding(.top, reduceTransparency ? 0 : -20)
+            .padding(.top, -25)
         #endif
         .toolbarTitleDisplayMode(.inline)
         .toolbar {
