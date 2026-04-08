@@ -14,6 +14,7 @@ class Queue {
 
     var instances: [Instance] = []
     var items: [Instance.ID: [QueueItem]] = [:]
+    var commands: [Instance.ID: [CommandItem]] = [:]
     var itemsWithIssues: Int = 0
 
     private init() {
@@ -49,6 +50,16 @@ class Queue {
                 leaveBreadcrumb(.error, category: "queue", message: "Fetch failed", data: ["error": apiError])
             } catch {
                 self.error = API.Error(from: error)
+            }
+
+            // TODO: this should happen in parallel
+            do {
+                let allCommands = try await dependencies.api.fetchCommands(instance)
+                commands[instance.id] = allCommands.filter { $0.isActive }
+            } catch is CancellationError {
+                // do nothing
+            } catch {
+                leaveBreadcrumb(.warning, category: "queue", message: "Commands fetch failed", data: ["error": error])
             }
         }
 

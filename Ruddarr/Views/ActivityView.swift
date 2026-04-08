@@ -11,13 +11,27 @@ struct ActivityView: View {
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {
-        // swiftlint:disable:next closure_body_length
         NavigationStack {
             Group {
                 if settings.configuredInstances.isEmpty {
                     NoInstance()
                 } else {
                     List {
+                        if !activeCommands.isEmpty {
+                            Section {
+                                ForEach(activeCommands) { command in
+                                    CommandListItem(command: command)
+                                }
+                                #if os(macOS)
+                                    .padding(.vertical, 4)
+                                #else
+                                    .listRowBackground(Color.card)
+                                #endif
+                            } header: {
+                                commandsSectionHeader
+                            }
+                        }
+
                         Section {
                             ForEach(items) { item in
                                 Button {
@@ -33,7 +47,7 @@ struct ActivityView: View {
                                 .listRowBackground(Color.card)
                             #endif
                         } header: {
-                            if !items.isEmpty { sectionHeader }
+                            if !items.isEmpty { queueSectionHeader }
                         }
                     }
                     #if os(iOS)
@@ -41,7 +55,7 @@ struct ActivityView: View {
                     #endif
                     .scrollContentBackground(.hidden)
                     .overlay {
-                        if items.isEmpty {
+                        if items.isEmpty && activeCommands.isEmpty {
                             queueEmpty
                         }
                     }
@@ -81,6 +95,24 @@ struct ActivityView: View {
         }
     }
 
+    var activeCommands: [CommandItem] {
+        var cmds = queue.commands.flatMap { $0.value }
+
+        if sort.instance != .all {
+            cmds = cmds.filter {
+                $0.instanceId?.isEqual(to: sort.instance) == true
+            }
+        }
+
+        return cmds.sorted { $0.queued < $1.queued }
+    }
+
+    var commandsSectionHeader: some View {
+        HStack(spacing: 6) {
+            Text("\(activeCommands.count) Running")
+        }
+    }
+
     var queueEmpty: some View {
         ContentUnavailableView(
             "Queues Empty",
@@ -89,7 +121,7 @@ struct ActivityView: View {
         )
     }
 
-    var sectionHeader: some View {
+    var queueSectionHeader: some View {
         HStack(spacing: 6) {
             Text("\(items.count) Task")
 
