@@ -11,7 +11,6 @@ struct SeriesPreviewView: View {
     @Environment(SonarrInstance.self) private var instance
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @AppStorage("seriesSort", store: dependencies.store) var seriesSort: SeriesSort = .init()
     @AppStorage("seriesDefaults", store: dependencies.store) var seriesDefaults: SeriesDefaults = .init()
@@ -44,7 +43,7 @@ struct SeriesPreviewView: View {
                         toolbarSaveButton
                     }
                     #if os(iOS)
-                        .padding(.top, reduceTransparency ? 0 : -25)
+                        .padding(.top, -25)
                     #endif
             }
             .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
