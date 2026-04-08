@@ -124,6 +124,15 @@ extension UNMutableNotificationContent {
 
         guard let args = args, !args.isEmpty else { return format }
 
-        return String(format: format, arguments: args.map { "\($0)" as NSString })
+        let stringArgs = args.map { String(describing: $0) }
+
+        switch stringArgs.count {
+        case 1: return String(format: format, stringArgs[0])
+        case 2: return String(format: format, stringArgs[0], stringArgs[1])
+        case 3: return String(format: format, stringArgs[0], stringArgs[1], stringArgs[2])
+        case 4: return String(format: format, stringArgs[0], stringArgs[1], stringArgs[2], stringArgs[3])
+        case 5: return String(format: format, stringArgs[0], stringArgs[1], stringArgs[2], stringArgs[3], stringArgs[4])
+        default: return format
+        }
     }
 }
