@@ -33,7 +33,7 @@ struct TaskRemovalView: View {
         }
         .formStyle(.grouped)
         #if os(iOS)
-            .padding(.top, -25)
+            .padding(.top, -20)
         #endif
         .toolbarTitleDisplayMode(.inline)
         .toolbar {
