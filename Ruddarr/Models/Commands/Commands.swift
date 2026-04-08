@@ -141,7 +141,6 @@ class Commands {
     var items: [Instance.ID: [InstanceCommandStatus]] = [:]
 
     private let perInstanceLimit = 50
-    private let sessionStart = Date()
 
     private init() {
         let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
@@ -164,10 +163,11 @@ class Commands {
     }
 
     func merge(_ incoming: [InstanceCommandStatus], for instanceId: Instance.ID) {
+        let visible = incoming.filter { InstanceCommandStatus.visibleCommandNames.contains($0.name) }
         var existing = items[instanceId] ?? []
         let existingById = Dictionary(existing.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
 
-        for var fresh in incoming {
+        for var fresh in visible {
             if let prior = existingById[fresh.id], fresh.subject == nil {
                 fresh.subject = prior.subject
             }
@@ -209,7 +209,7 @@ class Commands {
     func filteredItems(showAll: Bool) -> [InstanceCommandStatus] {
         let all = items.values.flatMap { $0 }
             .filter { InstanceCommandStatus.visibleCommandNames.contains($0.name) }
-            .filter { !$0.isTerminal || $0.queued >= sessionStart }
+            .filter { !$0.isTerminal || ($0.ended ?? $0.started ?? $0.queued) >= Date().addingTimeInterval(-300) }
         let filtered = showAll ? all : all.filter { $0.isSearchCommand }
         return filtered.sorted { $0.sortDate > $1.sortDate }
     }
