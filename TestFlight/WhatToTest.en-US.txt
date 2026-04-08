@@ -7,6 +7,7 @@
 - Show fewer error dialogues
 - Improved detection of and feedback about local ip addresses 
 - Improved loading of season episode list
+- Fixed sheet titles when "Reduce Transparency" is enabled
 - Removed abandoned Chinese translation
 - Various internal code improvements and bug fixes
 
