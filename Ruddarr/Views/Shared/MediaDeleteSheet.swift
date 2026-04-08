@@ -10,6 +10,7 @@ struct MediaDeleteSheet: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     var body: some View {
         NavigationStack {
@@ -34,7 +35,7 @@ struct MediaDeleteSheet: View {
                 toolbarDeleteButton
             }
             #if os(iOS)
-                .padding(.top, -25)
+                .padding(.top, reduceTransparency ? 0 : -25)
             #endif
         }
     }

@@ -11,6 +11,7 @@ struct MoviePreviewView: View {
     @Environment(RadarrInstance.self) private var instance
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @AppStorage("movieSort", store: dependencies.store) var movieSort: MovieSort = .init()
     @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
@@ -42,7 +43,7 @@ struct MoviePreviewView: View {
                         toolbarSaveButton
                     }
                     #if os(iOS)
-                        .padding(.top, -25)
+                        .padding(.top, reduceTransparency ? 0 : -25)
                     #endif
             }
             .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])

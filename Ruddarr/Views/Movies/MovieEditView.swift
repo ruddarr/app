@@ -11,6 +11,7 @@ struct MovieEditView: View {
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @State private var showConfirmation: Bool = false
     @State private var savedChanges: Bool = false
@@ -19,7 +20,7 @@ struct MovieEditView: View {
     var body: some View {
         MovieForm(movie: $movie)
             #if os(iOS)
-                .padding(.top, -20)
+                .padding(.top, reduceTransparency ? 0 : -20)
             #endif
             .navigationTitle(movie.title)
             .safeNavigationBarTitleDisplayMode(.inline)
