@@ -53,7 +53,7 @@ extension UNNotificationRequest {
             "ruddarr-poster-\(posterHash).\(posterUrl.pathExtension)"
         )
 
-        if !fileManager.fileExists(atPath: fileUrl.absoluteString) {
+        if !fileManager.fileExists(atPath: fileUrl.path) {
             guard let imageData = try? Data(contentsOf: posterUrl) else { return nil }
             try? imageData.write(to: fileUrl, options: .atomic)
         }
