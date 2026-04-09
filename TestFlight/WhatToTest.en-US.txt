@@ -1,1 +1,3 @@
 
+# macOS
+- Fixed notifications containing decimals
