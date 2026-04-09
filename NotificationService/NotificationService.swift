@@ -20,10 +20,6 @@ class NotificationService: UNNotificationServiceExtension {
         self.bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
 
         if let bestAttemptContent = bestAttemptContent {
-            #if os(macOS)
-                bestAttemptContent.resolveLocalizedStrings(from: request.content.userInfo)
-            #endif
-
             if let attachment = request.attachment {
                 bestAttemptContent.attachments = [attachment]
             }
@@ -36,44 +32,6 @@ class NotificationService: UNNotificationServiceExtension {
         if let contentHandler = contentHandler, let bestAttemptContent = bestAttemptContent {
             contentHandler(bestAttemptContent)
         }
-    }
-}
-
-// macOS does not substitute loc-args that contain JSON numbers (e.g. year)
-// into localized format strings. Manually resolve using NSLocalizedString
-// (requires Localizable.xcstrings in the extension target's resources).
-extension UNMutableNotificationContent {
-    func resolveLocalizedStrings(from userInfo: [AnyHashable: Any]) {
-        guard let aps = userInfo["aps"] as? [String: Any],
-              let alert = aps["alert"] as? [String: Any] else { return }
-
-        title = Self.resolve(
-            key: alert["title-loc-key"] as? String,
-            args: alert["title-loc-args"] as? [Any],
-            fallback: title
-        )
-
-        subtitle = Self.resolve(
-            key: alert["subtitle-loc-key"] as? String,
-            args: alert["subtitle-loc-args"] as? [Any],
-            fallback: subtitle
-        )
-
-        body = Self.resolve(
-            key: alert["loc-key"] as? String,
-            args: alert["loc-args"] as? [Any],
-            fallback: body
-        )
-    }
-
-    private static func resolve(key: String?, args: [Any]?, fallback: String) -> String {
-        guard let key = key else { return fallback }
-
-        let format = NSLocalizedString(key, comment: "")
-        guard format != key else { return fallback }
-        guard let args = args, !args.isEmpty else { return format }
-
-        return String(format: format, arguments: args.map { "\($0)" as NSString })
     }
 }
 
