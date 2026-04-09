@@ -1103,6 +1103,16 @@
         }
       }
     },
+    "Contribute on GitHub" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contribute on GitHub"
+          }
+        }
+      }
+    },
     "Copy Link" : {
       "localizations" : {
         "en" : {
@@ -1963,6 +1973,7 @@
       }
     },
     "History" : {
+      "comment" : "Tab/sidebar menu item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2418,6 +2429,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Loading..."
+          }
+        }
+      }
+    },
+    "Local Network Access Denied" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local Network Access Denied"
+          }
+        }
+      }
+    },
+    "Local network access must be granted in %@ to connect to instances using private IP addresses." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local network access must be granted in %@ to connect to instances using private IP addresses."
+          }
+        }
+      }
+    },
+    "Local network access must be granted in System Settings to connect to instances on private IP addresses." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local network access must be granted in System Settings to connect to instances on private IP addresses."
           }
         }
       }
@@ -4840,7 +4881,7 @@
       }
     },
     "System Settings" : {
-      "comment" : "iOS path",
+      "comment" : "Settings app name",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4851,12 +4892,23 @@
       }
     },
     "System Settings > Notifications > %@" : {
-      "comment" : "macOS path",
+      "comment" : "macOS notifications path",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "System Settings > Notifications > %@"
+          }
+        }
+      }
+    },
+    "System Settings > Privacy & Security > Local Network" : {
+      "comment" : "macOS local network path",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System Settings > Privacy & Security > Local Network"
           }
         }
       }

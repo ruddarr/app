@@ -102,7 +102,7 @@ struct MovieReleaseSort: Equatable {
                 [release.network.label, .all].contains(network) &&
                 [release.indexerLabel, .all].contains(indexer) &&
                 [release.quality.quality.normalizedName, .all].contains(quality) &&
-                (language != .multi || (release.languages.count > 1 || release.title.lowercased().contains("multi"))) &&
+                (language != .multi || (release.languages.count > 1 || release.title.lowercased().contains(/\b(multi|dual)\b/))) &&
                 ([.all, .multi].contains(language) || release.languages.contains { $0.label == language }) &&
                 (customFormat == .all || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
                 (!approved || !release.rejected) &&
@@ -122,7 +122,7 @@ extension MovieReleaseSort: RawRepresentable {
             let result = try JSONDecoder().decode(MovieReleaseSort.self, from: data)
             self = result
         } catch {
-            leaveBreadcrumb(.fatal, category: "movie.releases.sort", message: "init failed", data: ["error": error])
+            leaveBreadcrumb(.fatal, category: "movie.releases.sort", message: "JSON decode failed: \(error)", data: ["error": error])
 
             self = .init()
         }

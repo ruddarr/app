@@ -124,7 +124,11 @@ struct MoviePreviewView: View {
         try? await Task.sleep(for: .milliseconds(50))
         dependencies.router.moviesPath.append(moviePath)
 
-        Telemetry.record(.movieAdded)
+        Telemetry.record(.movieAdded, attributes: [
+            "tmdb": movie.tmdbId,
+            "imdb": movie.imdbId ?? 0,
+        ])
+
         maybeAskForReview()
     }
 }

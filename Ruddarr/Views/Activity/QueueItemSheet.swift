@@ -8,13 +8,13 @@ struct QueueItemSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @State private var downloadProgress: Float = 0
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        // swiftlint:disable:next closure_body_length
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
@@ -47,11 +47,7 @@ struct QueueItemSheet: View {
                     details
                 }
                 .scenePadding(.horizontal)
-                #if os(macOS)
-                    .padding(.top, 24)
-                #else
-                    .offset(y: -45)
-                #endif
+                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency ? 0 : -45))
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {

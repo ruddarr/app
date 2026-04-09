@@ -252,9 +252,9 @@ extension ShapeStyle where Self == SheetBackgroundStyle {
 
 extension ShapeStyle where Self == Color {
     static var systemPurple: Color { Color(red: 88 / 255, green: 86 / 255, blue: 215 / 255) }
-    static var card: Color { .quaternarySystemFill }
 
 #if os(iOS)
+    static var card: Color { .quaternarySystemFill }
     static var label: Color { Color(UIColor.label) }
 
     static var darkGray: Color { Color(UIColor.darkGray) }
@@ -274,6 +274,7 @@ extension ShapeStyle where Self == Color {
 
     static var buttonTint: Color { Color(UIColor.systemGray2) }
 #else
+    static var card: Color { .tertiarySystemFill }
     static var label: Color { Color(nsColor: .labelColor) }
 
     static var darkGray: Color { Color(NSColor.darkGray) }

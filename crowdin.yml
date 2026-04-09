@@ -9,8 +9,10 @@ preserve_hierarchy: true
 export_languages:
   - de
   - fr
+  - it
+  - tr
   - es-ES
-  - zh-CN
+  # - zh-CN
 
 files:
   - source: Ruddarr/*.xcstrings

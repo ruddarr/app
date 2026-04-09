@@ -115,11 +115,12 @@ extension API {
 
             return Empty()
         }, movieCalendar: { _, _, instance in
+            try await Task.sleep(for: .seconds(2))
             let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
 
             return modifyCalendarMovies(movies, instance)
         }, episodeCalendar: { _, _, instance in
-            try await Task.sleep(for: .seconds(1))
+            try await Task.sleep(for: .seconds(3))
             let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
 
             return modifyCalendarEpisodes(episodes, instance)
@@ -131,10 +132,14 @@ extension API {
             try await Task.sleep(for: .seconds(1))
 
             return Empty()
-        }, systemStatus: { _ in
+        }, systemStatus: { instance in
             try await Task.sleep(for: .seconds(2))
 
-            return loadPreviewData(filename: "system-status")
+            return InstanceStatus(
+                appName: instance.type.rawValue.capitalized,
+                instanceName: "Synology",
+                version: "5.2.6.8376"
+            )
         }, rootFolders: { _ in
             try await Task.sleep(for: .seconds(1))
 

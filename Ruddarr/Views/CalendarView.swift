@@ -5,7 +5,9 @@ struct CalendarView: View {
 
     @State private var scrollView: ScrollViewProxy?
     @State private var initializationError: API.Error?
+    @State private var alertPresented = false
     @State private var hideCalendarView: Bool = true
+    @State private var isRetrying: Bool = false
 
     @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
     @AppStorage("calendarSpecials", store: dependencies.store) private var hideSpecials: Bool = false
@@ -73,6 +75,8 @@ struct CalendarView: View {
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {
                 filtersMenu
+
+                errorIndicator
                 todayButton
             }
             .onAppear {
@@ -91,7 +95,7 @@ struct CalendarView: View {
                 await load()
             }
             .alert(
-                isPresented: calendar.errorBinding,
+                isPresented: $alertPresented,
                 error: calendar.error
             ) { _ in
                 Button("OK") { calendar.error = nil }
@@ -213,6 +217,12 @@ struct CalendarView: View {
             initializationError = calendar.error
         }
 
+        if force && calendar.error != nil {
+            alertPresented = true
+        } else if let error = calendar.errors.first {
+            dependencies.toast.show(.error(error.recoverySuggestionFallback))
+        }
+
         Occurrence.occurred("calendarFetch")
 
         guard firstLoad else { return }
@@ -256,6 +266,32 @@ struct CalendarView: View {
                 }
             }
             .tint(.primary)
+        }
+    }
+
+    @ToolbarContentBuilder
+    var errorIndicator: some ToolbarContent {
+        if !calendar.dates.isEmpty && (!calendar.errors.isEmpty || isRetrying) {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    Task {
+                        isRetrying = true
+                        await load(force: true)
+                        isRetrying = false
+                    }
+                } label: {
+                    if isRetrying {
+                        ProgressView()
+                    } else {
+                        Label("Error", systemImage: "externaldrive.trianglebadge.exclamationmark")
+                    }
+                }
+                .tint(isRetrying ? .primary : .red)
+                .contentTransition(.symbolEffect)
+                .disabled(isRetrying)
+            }
+
+            ToolbarSpacer(placement: .primaryAction)
         }
     }
 
@@ -335,6 +371,7 @@ struct CalendarView: View {
     }
 }
 
+// swiftlint:disable file_length
 #Preview {
     dependencies.router.selectedTab = .calendar
 
@@ -353,8 +390,8 @@ struct CalendarView: View {
         .withAppState()
 }
 
-#Preview("Failure") {
-    dependencies.api.movieCalendar = { _, _, _ in
+#Preview("Partial Failure") {
+    dependencies.api.episodeCalendar = { _, _, _ in
         throw API.Error.urlError(
             URLError(.badServerResponse)
         )
@@ -365,3 +402,4 @@ struct CalendarView: View {
     return ContentView()
         .withAppState()
 }
+// swiftlint:enable file_length

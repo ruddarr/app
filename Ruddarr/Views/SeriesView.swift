@@ -50,7 +50,7 @@ struct SeriesView: View {
                     }
                     .task {
                         guard !instance.isVoid else { return }
-                        await fetchSeriesWithAlertThrottled(ignoreOffline: true)
+                        await fetchSeriesThrottled()
                     }
                     .refreshable {
                         await Task { await fetchSeriesWithAlert() }.value
@@ -246,9 +246,10 @@ struct SeriesView: View {
         }
     }
 
-    func fetchSeriesWithAlertThrottled(ignoreOffline: Bool = false) async {
+    func fetchSeriesThrottled() async {
         guard Date.now.timeIntervalSince(lastFetch) >= 15 else { return }
-        await fetchSeriesWithAlert(ignoreOffline: ignoreOffline)
+        _ = await instance.series.fetch()
+        updateDisplayedSeries()
         lastFetch = .now
     }
 

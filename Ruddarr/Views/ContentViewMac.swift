@@ -12,6 +12,7 @@ struct ContentView: View {
                 sidebarItem(calendar)
 
                 sidebarItem(activity, badge: Queue.shared.itemsWithIssues)
+                sidebarItem(history)
 
                 sidebarItem(TabItem.settings)
                     .keyboardShortcut(",", modifiers: .command)
@@ -32,6 +33,8 @@ struct ContentView: View {
                         .frame(maxWidth: 700)
                 case .activity:
                     ActivityView()
+                case .history:
+                    HistoryView()
                 case .settings:
                     SettingsView()
                 }
@@ -49,6 +52,7 @@ struct ContentView: View {
     var series: TabItem { .series }
     var calendar: TabItem { .calendar }
     var activity: TabItem { .activity }
+    var history: TabItem { .history }
 
     func handleScenePhaseChange() {
         Telemetry.maybePing(with: settings)

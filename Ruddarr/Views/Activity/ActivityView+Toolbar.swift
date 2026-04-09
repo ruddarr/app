@@ -42,16 +42,18 @@ extension ActivityView {
                 .menuIndicator(.hidden)
         }
 
-        if !settings.configuredInstances.isEmpty {
-            ToolbarItem(placement: .primaryAction) {
-                NavigationLink {
-                    HistoryView().environmentObject(settings)
-                } label: {
-                    Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
-                        .imageScale(.medium)
-                }.tint(.primary)
+        #if os(iOS)
+            if !settings.configuredInstances.isEmpty {
+                ToolbarItem(placement: .primaryAction) {
+                    NavigationLink {
+                        HistoryView().environmentObject(settings)
+                    } label: {
+                        Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
+                            .imageScale(.medium)
+                    }.tint(.primary)
+                }
             }
-        }
+        #endif
     }
 
     var toolbarFilterButton: some View {
