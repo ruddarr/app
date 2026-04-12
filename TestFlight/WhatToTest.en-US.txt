@@ -1,3 +1,1 @@
-
-# macOS
-- Fixed notifications containing decimals
+- Releases with "DUAL" or "MULTI" in the title now display as Multilingual in the list
