@@ -166,9 +166,9 @@ struct DiscoveryGridPoster: View {
     let items: DiscoveryItems = PreviewData.loadObject(name: "popular-movies")
 
     VStack {
-        DiscoveryGridPoster(item: items.popular[3])
-        DiscoveryGridPoster(item: items.popular[12])
-        DiscoveryGridPoster(item: items.popular[13])
+        DiscoveryGridPoster(item: items.popular![3])
+        DiscoveryGridPoster(item: items.popular![12])
+        DiscoveryGridPoster(item: items.popular![13])
     }
     .environment(RadarrInstance())
     .environment(SonarrInstance())

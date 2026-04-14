@@ -3,9 +3,11 @@ import Combine
 
 struct SeriesSearchView: View {
     @State var searchQuery: String
-    @State private var searchPresented: Bool = true
+    @State private var searchPresented: Bool = false
+    @State private var browseMode: Discovery.BrowseMode = .discover
 
     @Environment(SonarrInstance.self) private var instance
+    @Environment(\.isSearching) private var isSearching
 
     let searchTextPublisher = PassthroughSubject<String, Never>()
 
@@ -13,31 +15,44 @@ struct SeriesSearchView: View {
         @Bindable var discovery = Discovery.shared
         @Bindable var seriesLookup = instance.lookup
 
-        ScrollView {
-            if seriesLookup.sortedItems.isEmpty && searchQuery.isEmpty {
-                MediaGrid(items: discovery.series) { item in
-                    DiscoveryGridPoster(item: item)
-                } header: {
-                    Text("Popular This Week")
-                        .padding(.top, 12)
+        VStack(spacing: 0) {
+            if searchQuery.isEmpty && !isSearching {
+                Picker(selection: $browseMode, label: EmptyView()) {
+                    Text(Discovery.BrowseMode.discover.label).tag(Discovery.BrowseMode.discover)
+                    Text(Discovery.BrowseMode.upcoming.label).tag(Discovery.BrowseMode.upcoming)
                 }
-                .viewBottomPadding()
-                .scenePadding(.horizontal)
-                .opacity(discovery.series.isEmpty ? 0 : 1)
-                .animation(.easeIn, value: discovery.series)
-            } else {
-                MediaGrid(items: seriesLookup.sortedItems) { series in
-                    SeriesSearchItem(series: series)
-                        .environment(instance)
-                }
-                .padding(.top, 12)
-                .scenePadding(.horizontal)
-                .viewBottomPadding()
+                .pickerStyle(.segmented)
+                .padding(.horizontal)
+                .padding(.vertical, 8)
             }
+
+            ScrollView {
+                if seriesLookup.sortedItems.isEmpty && searchQuery.isEmpty {
+                    MediaGrid(items: browseItems) { item in
+                        DiscoveryGridPoster(item: item)
+                    } header: {
+                        Text(browseHeader)
+                            .padding(.top, 12)
+                    }
+                    .viewBottomPadding()
+                    .scenePadding(.horizontal)
+                    .opacity(browseItems.isEmpty ? 0 : 1)
+                    .animation(.easeIn, value: browseItems)
+                } else {
+                    MediaGrid(items: seriesLookup.sortedItems) { series in
+                        SeriesSearchItem(series: series)
+                            .environment(instance)
+                    }
+                    .padding(.top, 12)
+                    .scenePadding(.horizontal)
+                    .viewBottomPadding()
+                }
+            }
+            .id(browseMode)
+            .scrollDismissesKeyboard(.immediately)
         }
         .navigationTitle("Search")
         .safeNavigationBarTitleDisplayMode(.large)
-        .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
@@ -52,6 +67,7 @@ struct SeriesSearchView: View {
         }
         .task {
             await discovery.fetch(.series)
+            await discovery.fetch(.series, mode: .upcoming)
         }
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)
@@ -76,6 +92,20 @@ struct SeriesSearchView: View {
             } else if instance.lookup.noResults(searchQuery) {
                 ContentUnavailableView.search(text: searchQuery)
             }
+        }
+    }
+
+    var browseItems: [DiscoveryItem] {
+        switch browseMode {
+        case .discover: Discovery.shared.series
+        case .upcoming: Discovery.shared.upcomingSeries
+        }
+    }
+
+    var browseHeader: String {
+        switch browseMode {
+        case .discover: "Popular This Week"
+        case .upcoming: "Coming Soon"
         }
     }
 

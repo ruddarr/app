@@ -4,14 +4,28 @@ import SwiftUI
 @Observable
 class Discovery {
     static let shared = Discovery()
-    static let url: String = "https://api.ruddarr.com"
+    static let url: String = "http://192.168.40.73:8787"
 
     private var movieItems: DiscoveryItems?
     private var seriesItems: DiscoveryItems?
+    private var movieUpcomingItems: DiscoveryItems?
+    private var seriesUpcomingItems: DiscoveryItems?
 
     enum MediaType: String {
         case movies
         case series
+    }
+
+    enum BrowseMode: String {
+        case discover
+        case upcoming
+
+        var label: String {
+            switch self {
+            case .discover: "Popular"
+            case .upcoming: "Upcoming"
+            }
+        }
     }
 
     var movies: [DiscoveryItem] {
@@ -26,14 +40,38 @@ class Discovery {
         return Array(items.prefix(24))
     }
 
-    func fetch(_ type: MediaType) async {
+    var upcomingMovies: [DiscoveryItem] {
+        guard let items = movieUpcomingItems?.upcoming else { return [] }
+        guard Platform.deviceType == .phone else { return items }
+        return Array(items.prefix(24))
+    }
+
+    var upcomingSeries: [DiscoveryItem] {
+        guard let items = seriesUpcomingItems?.upcoming else { return [] }
+        guard Platform.deviceType == .phone else { return items }
+        return Array(items.prefix(24))
+    }
+
+    func fetch(_ type: MediaType, mode: BrowseMode = .discover) async {
         switch type {
         case .movies:
-            if isCurrentWindow(movieItems?.timestamp) { return }
-            movieItems = await load(.movies)
+            switch mode {
+            case .discover:
+                if isCurrentWindow(movieItems?.timestamp) { return }
+                movieItems = await load(.movies, mode: mode)
+            case .upcoming:
+                if isCurrentWindow(movieUpcomingItems?.timestamp) { return }
+                movieUpcomingItems = await load(.movies, mode: mode)
+            }
         case .series:
-            if isCurrentWindow(seriesItems?.timestamp) { return }
-            seriesItems = await load(.series)
+            switch mode {
+            case .discover:
+                if isCurrentWindow(seriesItems?.timestamp) { return }
+                seriesItems = await load(.series, mode: mode)
+            case .upcoming:
+                if isCurrentWindow(seriesUpcomingItems?.timestamp) { return }
+                seriesUpcomingItems = await load(.series, mode: mode)
+            }
         }
     }
 
@@ -49,14 +87,14 @@ class Discovery {
         return calendar.isDateInToday(date)
     }
 
-    private func load(_ type: MediaType) async -> DiscoveryItems? {
+    private func load(_ type: MediaType, mode: BrowseMode = .discover) async -> DiscoveryItems? {
         // return PreviewData.loadObject(name: "popular-\(type.rawValue)")
 
         guard let baseURL = URL(string: Discovery.url) else { return nil }
 
         do {
             let url = baseURL
-                .appending(path: "/discover/\(type.rawValue)")
+                .appending(path: "/\(mode.rawValue)/\(type.rawValue)")
                 .appending(queryItems: [
                     URLQueryItem(name: "language", value: Locale.current.identifier(.bcp47))
                 ])
@@ -85,7 +123,8 @@ class Discovery {
 
 struct DiscoveryItems: Codable, Equatable {
     let timestamp: String
-    let popular: [DiscoveryItem]
+    let popular: [DiscoveryItem]?
+    let upcoming: [DiscoveryItem]?
 }
 
 struct DiscoveryItem: Identifiable, Codable, Equatable {
@@ -98,7 +137,7 @@ struct DiscoveryItem: Identifiable, Codable, Equatable {
     let vote_average: Double
     let vote_count: Int
     let score: Double
-    let poster_path: String
+    let poster_path: String?
 
     enum ItemType: String, Codable {
         case movie

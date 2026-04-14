@@ -3,9 +3,11 @@ import Combine
 
 struct MovieSearchView: View {
     @State var searchQuery: String
-    @State private var searchPresented: Bool = true
+    @State private var searchPresented: Bool = false
+    @State private var browseMode: Discovery.BrowseMode = .discover
 
     @Environment(RadarrInstance.self) private var instance
+    @Environment(\.isSearching) private var isSearching
 
     let searchTextPublisher = PassthroughSubject<String, Never>()
 
@@ -13,33 +15,46 @@ struct MovieSearchView: View {
         @Bindable var discovery = Discovery.shared
         @Bindable var movieLookup = instance.lookup
 
-        ScrollView {
-            if movieLookup.sortedItems.isEmpty && searchQuery.isEmpty {
-                MediaGrid(items: discovery.movies) { item in
-                    DiscoveryGridPoster(item: item)
-                } header: {
-                    Text("Popular This Week")
-                        .padding(.top, 12)
+        VStack(spacing: 0) {
+            if searchQuery.isEmpty && !isSearching {
+                Picker(selection: $browseMode, label: EmptyView()) {
+                    Text(Discovery.BrowseMode.discover.label).tag(Discovery.BrowseMode.discover)
+                    Text(Discovery.BrowseMode.upcoming.label).tag(Discovery.BrowseMode.upcoming)
                 }
-                .viewBottomPadding()
-                .scenePadding(.horizontal)
-                .opacity(discovery.movies.isEmpty ? 0 : 1)
-                .animation(.easeIn, value: discovery.movies)
-            } else {
-                MediaGrid(items: movieLookup.sortedItems) { movie in
-                    NavigationLink(value: movie.exists
-                       ? MoviesPath.movie(movie.id)
-                       : MoviesPath.preview(try? JSONEncoder().encode(movie))
-                    ) {
-                        MovieGridPoster(movie: movie)
-                    }.buttonStyle(.plain)
-                }
-                .padding(.top, 12)
-                .scenePadding(.horizontal)
-                .viewBottomPadding()
+                .pickerStyle(.segmented)
+                .padding(.horizontal)
+                .padding(.vertical, 8)
             }
+
+            ScrollView {
+                if movieLookup.sortedItems.isEmpty && searchQuery.isEmpty {
+                    MediaGrid(items: browseItems) { item in
+                        DiscoveryGridPoster(item: item)
+                    } header: {
+                        Text(browseHeader)
+                            .padding(.top, 12)
+                    }
+                    .viewBottomPadding()
+                    .scenePadding(.horizontal)
+                    .opacity(browseItems.isEmpty ? 0 : 1)
+                    .animation(.easeIn, value: browseItems)
+                } else {
+                    MediaGrid(items: movieLookup.sortedItems) { movie in
+                        NavigationLink(value: movie.exists
+                           ? MoviesPath.movie(movie.id)
+                           : MoviesPath.preview(try? JSONEncoder().encode(movie))
+                        ) {
+                            MovieGridPoster(movie: movie)
+                        }.buttonStyle(.plain)
+                    }
+                    .padding(.top, 12)
+                    .scenePadding(.horizontal)
+                    .viewBottomPadding()
+                }
+            }
+            .id(browseMode)
+            .scrollDismissesKeyboard(.immediately)
         }
-        .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
@@ -54,6 +69,7 @@ struct MovieSearchView: View {
         }
         .task {
             await discovery.fetch(.movies)
+            await discovery.fetch(.movies, mode: .upcoming)
         }
         .onSubmit(of: .search) {
             searchTextPublisher.send(searchQuery)
@@ -78,6 +94,20 @@ struct MovieSearchView: View {
             } else if instance.lookup.noResults(searchQuery) {
                 ContentUnavailableView.search(text: searchQuery)
             }
+        }
+    }
+
+    var browseItems: [DiscoveryItem] {
+        switch browseMode {
+        case .discover: Discovery.shared.movies
+        case .upcoming: Discovery.shared.upcomingMovies
+        }
+    }
+
+    var browseHeader: String {
+        switch browseMode {
+        case .discover: "Popular This Week"
+        case .upcoming: "Coming Soon"
         }
     }
 
