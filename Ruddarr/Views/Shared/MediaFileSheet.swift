@@ -5,6 +5,7 @@ struct MediaFileSheet: View {
     var runtime: Int
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     var body: some View {
         NavigationStack {
@@ -17,7 +18,7 @@ struct MediaFileSheet: View {
 
                     Spacer().frame(height: 42)
                 }
-                .padding(.top, -52)
+                .padding(.top, reduceTransparency ? 0 : -52)
                 .scenePadding(.horizontal)
             }
             #if os(macOS)

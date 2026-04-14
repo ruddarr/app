@@ -4,37 +4,33 @@ import CloudKit
 extension InstanceView {
     var notificationPath: String {
         #if os(macOS)
-            return String(format: "\"%@\"", String(localized: "System Settings > Notifications > \(Ruddarr.name)", comment: "macOS path"))
+            return String(format: "[%@](#link)", String(localized: "System Settings > Notifications > \(Ruddarr.name)", comment: "macOS notifications path"))
         #else
-            return String(format: "[%@](#link)", String(localized: "System Settings", comment: "iOS path"))
+            return String(format: "[%@](#link)", String(localized: "System Settings", comment: "Settings app name"))
         #endif
     }
 
     var enableNotifications: some View {
-        let text = String(
+        notificationSettingsLink(String(
             format: String(localized: "Notifications are disabled, please enable them in %@."),
             notificationPath
-        )
-
-        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
-            #if os(iOS)
-                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
-                    UIApplication.shared.open(url)
-                }
-            #endif
-
-            return .handled
-        })
+        ))
     }
 
     var disableNotifications: some View {
-        let text = String(
+        notificationSettingsLink(String(
             format: String(localized: "Notification settings for each instance are shared between devices. To disable notifications for a specific device go to %@."),
             notificationPath
-        )
+        ))
+    }
 
-        return Text(text.toMarkdown()).environment(\.openURL, .init { _ in
-            #if os(iOS)
+    private func notificationSettingsLink(_ text: String) -> some View {
+        Text(text.toMarkdown()).environment(\.openURL, .init { _ in
+            #if os(macOS)
+                if let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings") {
+                    NSWorkspace.shared.open(url)
+                }
+            #else
                 if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
                     UIApplication.shared.open(url)
                 }

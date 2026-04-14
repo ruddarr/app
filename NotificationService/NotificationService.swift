@@ -6,22 +6,22 @@ class NotificationService: UNNotificationServiceExtension {
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
 
-    override func didReceive(
-        _ request: UNNotificationRequest,
-        withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void
-    ) {
+    override init() {
+        super.init()
+
         SentrySDK.start { options in
             options.dsn = Secrets.SentryDsn
             options.sendDefaultPii = false
         }
+    }
 
+    override func didReceive(
+        _ request: UNNotificationRequest,
+        withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void
+    ) {
         self.contentHandler = contentHandler
 
-        #if os(macOS)
-            self.bestAttemptContent = UNMutableNotificationContent.resolvedContent(from: request.content)
-        #else
-            self.bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
-        #endif
+        self.bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
 
         if let bestAttemptContent = bestAttemptContent {
             if let attachment = request.attachment {
@@ -57,73 +57,11 @@ extension UNNotificationRequest {
             "ruddarr-poster-\(posterHash).\(posterUrl.pathExtension)"
         )
 
-        if !fileManager.fileExists(atPath: fileUrl.absoluteString) {
+        if !fileManager.fileExists(atPath: fileUrl.path) {
             guard let imageData = try? Data(contentsOf: posterUrl) else { return nil }
             try? imageData.write(to: fileUrl, options: .atomic)
         }
 
         return try? UNNotificationAttachment(identifier: posterHash, url: fileUrl)
-    }
-}
-
-
-extension UNMutableNotificationContent {
-    static func resolvedContent(from original: UNNotificationContent) -> UNMutableNotificationContent {
-        guard let aps = original.userInfo["aps"] as? [String: Any],
-              let alert = aps["alert"] as? [String: Any] else {
-            return (original.mutableCopy() as? UNMutableNotificationContent) ?? UNMutableNotificationContent()
-        }
-
-        let content = UNMutableNotificationContent()
-
-        content.title = resolveLocalizedString(
-            key: alert["title-loc-key"] as? String,
-            args: alert["title-loc-args"] as? [Any],
-            fallback: original.title
-        )
-
-        content.subtitle = resolveLocalizedString(
-            key: alert["subtitle-loc-key"] as? String,
-            args: alert["subtitle-loc-args"] as? [Any],
-            fallback: original.subtitle
-        )
-
-        content.body = resolveLocalizedString(
-            key: alert["loc-key"] as? String,
-            args: alert["loc-args"] as? [Any],
-            fallback: original.body
-        )
-
-        content.sound = original.sound
-        content.badge = original.badge
-        content.userInfo = original.userInfo
-        content.categoryIdentifier = original.categoryIdentifier
-        content.threadIdentifier = original.threadIdentifier
-
-        if let interruptionLevel = aps["interruption-level"] as? String {
-            switch interruptionLevel {
-            case "passive": content.interruptionLevel = .passive
-            case "active": content.interruptionLevel = .active
-            case "time-sensitive": content.interruptionLevel = .timeSensitive
-            case "critical": content.interruptionLevel = .critical
-            default: content.interruptionLevel = original.interruptionLevel
-            }
-        } else {
-            content.interruptionLevel = original.interruptionLevel
-        }
-
-        return content
-    }
-
-    static func resolveLocalizedString(key: String?, args: [Any]?, fallback: String) -> String {
-        guard let key = key else { return fallback }
-
-        let format = NSLocalizedString(key, comment: "")
-
-        guard format != key else { return fallback }
-
-        guard let args = args, !args.isEmpty else { return format }
-
-        return String(format: format, arguments: args.map { "\($0)" as NSString })
     }
 }

@@ -83,6 +83,7 @@
 		BB50F2272C3B06AD005E14CA /* QueueListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB50F2262C3B06AD005E14CA /* QueueListItem.swift */; };
 		BB50F2292C3B3322005E14CA /* ActivityView+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB50F2282C3B3322005E14CA /* ActivityView+Toolbar.swift */; };
 		BB5379D02C3DD38500B65E95 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BB5379CF2C3DD38500B65E95 /* Localizable.xcstrings */; };
+		BB5379D12C3DD38500B65E95 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BB5379CF2C3DD38500B65E95 /* Localizable.xcstrings */; };
 		BB54D0232E90932400F5CF42 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01A2E90932400F5CF42 /* AppIcon.icon */; };
 		BB54D0242E90932400F5CF42 /* AppIconBarbie.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01B2E90932400F5CF42 /* AppIconBarbie.icon */; };
 		BB54D0252E90932400F5CF42 /* AppIconBooks.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D01C2E90932400F5CF42 /* AppIconBooks.icon */; };
@@ -427,6 +428,7 @@
 		BBC309D72BED584C004080FD /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
 		BBC309D92BED7FE4004080FD /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		BBC309DB2BED95DF004080FD /* AppDelegateMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateMac.swift; sourceTree = "<group>"; };
+		BBC5EA922F857E6F00EE3333 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
 		BBC6CEF42BE69B1600F71839 /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		BBC6CEF62BE69BEE00F71839 /* MediaFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFile.swift; sourceTree = "<group>"; };
 		BBC77E232B7AAD3300573EBD /* InstanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceView.swift; sourceTree = "<group>"; };
@@ -716,6 +718,7 @@
 		BB7487FB2F576CAB00B0F036 /* workflows */ = {
 			isa = PBXGroup;
 			children = (
+				BBC5EA922F857E6F00EE3333 /* codeql.yml */,
 				BB7487F82F576CAB00B0F036 /* crowdin.yml */,
 				BB7487F92F576CAB00B0F036 /* lint.yml */,
 				BB7487FA2F576CAB00B0F036 /* test.yml */,
@@ -1134,6 +1137,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB5379D12C3DD38500B65E95 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1451,7 +1455,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.8.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1488,7 +1492,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.8.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1668,7 +1672,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.8.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1733,7 +1737,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.1;
+				MARKETING_VERSION = 1.8.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1841,7 +1845,7 @@
 			repositoryURL = "https://github.com/kean/Nuke";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 12.0.0;
+				minimumVersion = 13.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

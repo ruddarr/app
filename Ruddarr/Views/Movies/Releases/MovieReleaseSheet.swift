@@ -10,6 +10,7 @@ struct MovieReleaseSheet: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @State private var showGrabConfirmation: Bool = false
 
@@ -32,11 +33,7 @@ struct MovieReleaseSheet: View {
                     details
                 }
                 .scenePadding(.horizontal)
-                #if os(macOS)
-                    .padding(.top, 24)
-                #else
-                    .offset(y: -45)
-                #endif
+                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency ? 0 : -45))
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {

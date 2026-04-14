@@ -1,16 +1,1 @@
-- Added Italian and Turkish translations
-- Calendar: Fade unmonitored items
-- Discovery: Fade items already in library
-- Discovery: Improved loading contrast
-- Releases: Include dual audio releases in "Multilingual" filter
-- Calendar: Improved loading and error handling
-- Avoid shorting connection error alerts when possible
-- Improved loading of season episode list
-- Removed abandoned Chinese translation
-- Various internal code improvements and bug fixes
-
-macOS
-- Added "History" tab to sidebar
-- Increased card contrast
-- Attempted to fix notifications containing decimals
-- Fixed form style when adding/editing series
+- Releases with "DUAL" or "MULTI" in the title now display as Multilingual in the list

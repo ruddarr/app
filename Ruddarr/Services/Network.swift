@@ -7,15 +7,20 @@ actor NetworkMonitor {
     let monitor = NWPathMonitor()
 
     private var status: NWPath.Status = .requiresConnection
+    private var unsatisfiedReason: NWPath.UnsatisfiedReason?
 
     var isReachable: Bool {
         status == .satisfied
     }
 
+    var localNetworkDenied: Bool {
+        unsatisfiedReason == .localNetworkDenied
+    }
+
     func start() {
         monitor.pathUpdateHandler = { path in
             Task {
-                await self.updateStatus(path.status)
+                await self.update(from: path)
             }
         }
 
@@ -27,8 +32,9 @@ actor NetworkMonitor {
         monitor.cancel()
     }
 
-    private func updateStatus(_ status: NWPath.Status) {
-        self.status = status
+    private func update(from path: NWPath) {
+        self.status = path.status
+        self.unsatisfiedReason = path.unsatisfiedReason
     }
 
     func checkReachability() throws {
@@ -39,17 +45,25 @@ actor NetworkMonitor {
 }
 
 func isPrivateIpAddress(_ ipAddress: String) -> Bool {
-    guard IPv4Address(ipAddress) != nil else {
-        return false
+    if IPv4Address(ipAddress) != nil {
+        return isPrivateIPv4Address(ipAddress)
     }
 
+    if IPv6Address(ipAddress) != nil {
+        return isPrivateIPv6Address(ipAddress)
+    }
+
+    return false
+}
+
+private func isPrivateIPv4Address(_ ipAddress: String) -> Bool {
     let parts = ipAddress.split(separator: ".").map { Int($0) }
 
     guard parts.count == 4, let first = parts[0], let second = parts[1] else {
         return false
     }
 
-    // 127.0.0.0 - 127.255.255.255 (loopback address)
+    // 127.0.0.0 - 127.255.255.255 (loopback)
     if first == 127 {
         return true
     }
@@ -66,6 +80,37 @@ func isPrivateIpAddress(_ ipAddress: String) -> Bool {
 
     // 192.168.0.0 - 192.168.255.255 (private)
     if first == 192 && second == 168 {
+        return true
+    }
+
+    // 169.254.0.0 - 169.254.255.255 (link-local)
+    if first == 169 && second == 254 {
+        return true
+    }
+
+    // 100.64.0.0 - 100.127.255.255 (CGNAT / shared address space)
+    if first == 100 && (second >= 64 && second <= 127) {
+        return true
+    }
+
+    return false
+}
+
+private func isPrivateIPv6Address(_ ipAddress: String) -> Bool {
+    let normalized = ipAddress.lowercased()
+
+    // ::1 (loopback)
+    if normalized == "::1" || normalized == "0000:0000:0000:0000:0000:0000:0000:0001" {
+        return true
+    }
+
+    // fe80::/10 (link-local)
+    if normalized.hasPrefix("fe80:") {
+        return true
+    }
+
+    // fd00::/8 (unique local address)
+    if normalized.hasPrefix("fd") {
         return true
     }
 

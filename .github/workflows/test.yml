@@ -32,11 +32,11 @@ jobs:
                 action: test
               - name: macOS
                 platform: "macOS"
-                action: build
+                action: test
 
         steps:
           - name: Checkout repository
-            uses: actions/checkout@v5
+            uses: actions/checkout@v6
 
           - name: Select latest Xcode
             run: |
@@ -50,5 +50,8 @@ jobs:
                   -scheme Ruddarr \
                   -skipPackagePluginValidation \
                   -destination 'platform=${{ matrix.platform }}' \
-                  CODE_SIGNING_ALLOWED=NO
+                  CODE_SIGNING_ALLOWED=NO \
+                  CODE_SIGN_IDENTITY="" \
+                  CODE_SIGNING_REQUIRED=NO \
+                  MACOSX_DEPLOYMENT_TARGET=15.0
 
