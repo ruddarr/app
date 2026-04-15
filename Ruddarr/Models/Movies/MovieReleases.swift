@@ -212,7 +212,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var languageLabel: String {
-        if languages.count <= 1 && title.lowercased().contains(/\b(multi|dual)\b/) {
+        if languages.count <= 1 && title.hasMultiLanguageTag {
             return String(localized: "Multilingual")
         }
 
