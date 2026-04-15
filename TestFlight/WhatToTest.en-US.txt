@@ -1,1 +1,2 @@
-- Releases with "DUAL" or "MULTI" in the title now display as Multilingual in the list
+- Avoid showing discovery grid for fresh Sonarr instances
+- Fixed language label for Multilingual releases
