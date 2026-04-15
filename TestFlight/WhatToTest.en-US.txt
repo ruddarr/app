@@ -1,3 +1,4 @@
+- Avoid showing discovery grid for fresh Sonarr instances
 
 # macOS
 - Fixed notifications containing decimals
