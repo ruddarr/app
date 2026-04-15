@@ -14,7 +14,7 @@ struct SeriesSearchView: View {
         @Bindable var seriesLookup = instance.lookup
 
         ScrollView {
-            if seriesLookup.sortedItems.isEmpty && searchQuery.isEmpty {
+            if seriesLookup.sortedItems.isEmpty, searchQuery.isEmpty, !instance.series.items.isEmpty {
                 MediaGrid(items: discovery.series) { item in
                     DiscoveryGridPoster(item: item)
                 } header: {
