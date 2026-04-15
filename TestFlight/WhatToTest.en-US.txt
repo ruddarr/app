@@ -1,4 +1,2 @@
 - Avoid showing discovery grid for fresh Sonarr instances
-
-# macOS
-- Fixed notifications containing decimals
+- Fixed language label for Multilingual releases
