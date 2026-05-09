@@ -1,20 +1,29 @@
 import SwiftUI
 import Combine
 
+private final class SearchTextPublisherHolder: ObservableObject {
+    let publisher = PassthroughSubject<String, Never>()
+}
+
 struct SeriesSearchView: View {
     @State var searchQuery: String
     @State private var searchPresented: Bool = true
 
     @Environment(SonarrInstance.self) private var instance
+    @StateObject private var searchPublisherHolder = SearchTextPublisherHolder()
 
-    let searchTextPublisher = PassthroughSubject<String, Never>()
+    private var shouldShowDiscoveryGrid: Bool {
+        instance.lookup.sortedItems.isEmpty &&
+        searchQuery.isEmpty &&
+        !instance.series.items.isEmpty
+    }
 
     var body: some View {
         @Bindable var discovery = Discovery.shared
         @Bindable var seriesLookup = instance.lookup
 
         ScrollView {
-            if seriesLookup.sortedItems.isEmpty, searchQuery.isEmpty, !instance.series.items.isEmpty {
+            if shouldShowDiscoveryGrid {
                 MediaGrid(items: discovery.series) { item in
                     DiscoveryGridPoster(item: item)
                 } header: {
@@ -54,11 +63,11 @@ struct SeriesSearchView: View {
             await discovery.fetch(.series)
         }
         .onSubmit(of: .search) {
-            searchTextPublisher.send(searchQuery)
+            searchPublisherHolder.publisher.send(searchQuery)
         }
         .onChange(of: searchQuery, initial: true, handleSearchQueryChange)
         .onReceive(
-            searchTextPublisher.debounce(for: .milliseconds(250), scheduler: DispatchQueue.main)
+            searchPublisherHolder.publisher.debounce(for: .milliseconds(250), scheduler: DispatchQueue.main)
         ) { _ in
             performSearch()
         }
@@ -68,7 +77,7 @@ struct SeriesSearchView: View {
         ) { _ in
             Button("OK") { instance.lookup.error = nil }
         } message: { error in
-            Text(error.recoverySuggestionFallback)
+            Text(error.recoverySuggestion ?? "An unexpected error occurred.")
         }.tint(nil)
         .overlay {
             if instance.lookup.isSearching && instance.lookup.isEmpty() {
@@ -97,7 +106,7 @@ struct SeriesSearchView: View {
         } else if oldQuery == newQuery {
             performSearch() // always perform initial search
         } else {
-            searchTextPublisher.send(searchQuery)
+            searchPublisherHolder.publisher.send(searchQuery)
         }
     }
 }
