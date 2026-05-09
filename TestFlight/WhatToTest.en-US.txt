@@ -1,2 +1,3 @@
+- Added Norwegian localization
 - Avoid showing discovery grid for fresh Sonarr instances
 - Fixed language label for Multilingual releases
