@@ -76,7 +76,7 @@ struct SeriesEditView: View {
     }
 
     func hasRootFolderChanged() -> Bool {
-        series.rootFolderPath?.untrailingSlashIt != unmodifiedSeries.rootFolderPath?.untrailingSlashIt
+        series.rootFolderPath?.withoutTrailingSlashes != unmodifiedSeries.rootFolderPath?.withoutTrailingSlashes
     }
 
     func updateSeries(moveFiles: Bool = false) async {

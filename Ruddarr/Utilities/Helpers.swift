@@ -17,7 +17,7 @@ extension String {
     static let all: String = ".all"
     static let multi: String = ".multi"
 
-    var untrailingSlashIt: String? {
+    var withoutTrailingSlashes: String {
         var string = self
 
         while string.hasSuffix("/") {
@@ -142,12 +142,10 @@ class PreviewData {
 
                 return try decoder.decode([T].self, from: data)
             } catch {
-                print("Could not load preview data: \(error)")
                 fatalError("Could not load preview data: \(error)")
             }
         }
 
-        print("Invalid preview data path: \(name)")
         fatalError("Invalid preview data path: \(name)")
     }
 
@@ -161,12 +159,10 @@ class PreviewData {
 
                 return try decoder.decode(T.self, from: data)
             } catch {
-                print("Could not load preview data: \(error)")
                 fatalError("Could not load preview data: \(error)")
             }
         }
 
-        print("Invalid preview data path: \(name)")
         fatalError("Invalid preview data path: \(name)")
     }
 }

@@ -75,7 +75,7 @@ struct MovieEditView: View {
     }
 
     func hasRootFolderChanged() -> Bool {
-        movie.rootFolderPath?.untrailingSlashIt != unmodifiedMovie.rootFolderPath?.untrailingSlashIt
+        movie.rootFolderPath?.withoutTrailingSlashes != unmodifiedMovie.rootFolderPath?.withoutTrailingSlashes
     }
 
     func updateMovie(moveFiles: Bool = false) async {

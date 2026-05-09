@@ -145,10 +145,10 @@ struct SeriesForm: View {
         }
 
         // remove trailing slashes
-        series.rootFolderPath = series.rootFolderPath?.untrailingSlashIt
+        series.rootFolderPath = series.rootFolderPath?.withoutTrailingSlashes
 
         if !instance.rootFolders.contains(where: {
-            $0.path?.untrailingSlashIt == series.rootFolderPath
+            $0.path?.withoutTrailingSlashes == series.rootFolderPath
         }) {
             series.rootFolderPath = instance.rootFolders.first?.path ?? ""
         }

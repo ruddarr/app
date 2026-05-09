@@ -135,11 +135,11 @@ struct InstanceRootFolder: Identifiable, Equatable, Codable, Hashable {
     let freeSpace: Int?
 
     var label: String {
-        path?.untrailingSlashIt ?? "Folder (\(id))"
+        path?.withoutTrailingSlashes ?? "Folder (\(id))"
     }
 
     var menuLabel: String {
-        guard let path = path?.untrailingSlashIt else {
+        guard let path = path?.withoutTrailingSlashes else {
             return "Folder (\(id))"
         }
 

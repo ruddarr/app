@@ -155,7 +155,7 @@ extension QuickActions.Deeplink {
             throw unsupportedURL
         }
 
-        let action = (components.host ?? "") + (components.path.untrailingSlashIt ?? "")
+        let action = (components.host ?? "") + components.path.withoutTrailingSlashes
         let value = action.components(separatedBy: "/").last ?? ""
 
         switch action {

@@ -150,10 +150,10 @@ struct MovieForm: View {
             movie.qualityProfileId = instance.qualityProfiles.first?.id ?? 0
         }
 
-        movie.rootFolderPath = movie.rootFolderPath?.untrailingSlashIt
+        movie.rootFolderPath = movie.rootFolderPath?.withoutTrailingSlashes
 
         if !instance.rootFolders.contains(where: {
-            $0.path?.untrailingSlashIt == movie.rootFolderPath
+            $0.path?.withoutTrailingSlashes == movie.rootFolderPath
         }) {
             movie.rootFolderPath = instance.rootFolders.first?.path ?? ""
         }
