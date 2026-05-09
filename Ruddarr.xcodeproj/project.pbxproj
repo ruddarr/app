@@ -19,6 +19,21 @@
 		798010BD2B6268D200BBC056 /* RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798010BC2B6268D200BBC056 /* RawRepresentable.swift */; };
 		798010BF2B6268DE00BBC056 /* MovieSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798010BE2B6268DE00BBC056 /* MovieSort.swift */; };
 		79B761CB2B7115EC001DD30E /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B761CA2B7115EC001DD30E /* Toast.swift */; };
+		802930702FAEF65C00BD78FE /* artist-albums.json in Resources */ = {isa = PBXBuildFile; fileRef = 8029306E2FAEF65C00BD78FE /* artist-albums.json */; };
+		802930712FAEF65C00BD78FE /* artists.json in Resources */ = {isa = PBXBuildFile; fileRef = 8029306F2FAEF65C00BD78FE /* artists.json */; };
+		802930732FAEF6BA00BD78FE /* ArtistsGridPoster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802930722FAEF6BA00BD78FE /* ArtistsGridPoster.swift */; };
+		802930752FAEFE4400BD78FE /* album-files.json in Resources */ = {isa = PBXBuildFile; fileRef = 802930742FAEFE4400BD78FE /* album-files.json */; };
+		802930772FAF013F00BD78FE /* ArtistsContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802930762FAF013F00BD78FE /* ArtistsContextMenu.swift */; };
+		802930792FAF024300BD78FE /* ArtistsLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802930782FAF024000BD78FE /* ArtistsLinks.swift */; };
+		8029307B2FAF08D100BD78FE /* ArtistsGridCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8029307A2FAF08D000BD78FE /* ArtistsGridCard.swift */; };
+		809CDA2A2FADD5A60040E02A /* ArtistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809CDA292FADD5A20040E02A /* ArtistsView.swift */; };
+		809CDA2D2FADE69E0040E02A /* Artists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809CDA2C2FADE69C0040E02A /* Artists.swift */; };
+		809CDA2F2FADE7FC0040E02A /* ArtistSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809CDA2E2FADE7FB0040E02A /* ArtistSort.swift */; };
+		809CDA312FAE06AD0040E02A /* ArtistsView+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809CDA302FAE06AD0040E02A /* ArtistsView+Toolbar.swift */; };
+		809CDA332FAE072D0040E02A /* ArtistsView+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809CDA322FAE072D0040E02A /* ArtistsView+Overlay.swift */; };
+		96D15BDF2FAACBF700F67348 /* LidarrInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D15BDE2FAACBF700F67348 /* LidarrInstance.swift */; };
+		96D15BE32FAACC6900F67348 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D15BE22FAACC6600F67348 /* Artist.swift */; };
+		96D15BE72FAD81DF00F67348 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D15BE62FAD81DA00F67348 /* Album.swift */; };
 		BB000000000000000000AAA1 /* RuddarrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000AAA3 /* RuddarrTests.swift */; };
 		BB01B1F42B6465730025FAF4 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01B1F32B6465730025FAF4 /* View.swift */; };
 		BB035A442C1D3B71005DFD45 /* Spotlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB035A432C1D3B71005DFD45 /* Spotlight.swift */; };
@@ -273,6 +288,21 @@
 		798010BC2B6268D200BBC056 /* RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawRepresentable.swift; sourceTree = "<group>"; };
 		798010BE2B6268DE00BBC056 /* MovieSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSort.swift; sourceTree = "<group>"; };
 		79B761CA2B7115EC001DD30E /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		8029306E2FAEF65C00BD78FE /* artist-albums.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "artist-albums.json"; sourceTree = "<group>"; };
+		8029306F2FAEF65C00BD78FE /* artists.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = artists.json; sourceTree = "<group>"; };
+		802930722FAEF6BA00BD78FE /* ArtistsGridPoster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsGridPoster.swift; sourceTree = "<group>"; };
+		802930742FAEFE4400BD78FE /* album-files.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "album-files.json"; sourceTree = "<group>"; };
+		802930762FAF013F00BD78FE /* ArtistsContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsContextMenu.swift; sourceTree = "<group>"; };
+		802930782FAF024000BD78FE /* ArtistsLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsLinks.swift; sourceTree = "<group>"; };
+		8029307A2FAF08D000BD78FE /* ArtistsGridCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsGridCard.swift; sourceTree = "<group>"; };
+		809CDA292FADD5A20040E02A /* ArtistsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsView.swift; sourceTree = "<group>"; };
+		809CDA2C2FADE69C0040E02A /* Artists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artists.swift; sourceTree = "<group>"; };
+		809CDA2E2FADE7FB0040E02A /* ArtistSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistSort.swift; sourceTree = "<group>"; };
+		809CDA302FAE06AD0040E02A /* ArtistsView+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArtistsView+Toolbar.swift"; sourceTree = "<group>"; };
+		809CDA322FAE072D0040E02A /* ArtistsView+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArtistsView+Overlay.swift"; sourceTree = "<group>"; };
+		96D15BDE2FAACBF700F67348 /* LidarrInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidarrInstance.swift; sourceTree = "<group>"; };
+		96D15BE22FAACC6600F67348 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
+		96D15BE62FAD81DA00F67348 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		BB000000000000000000AAA2 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB000000000000000000AAA3 /* RuddarrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuddarrTests.swift; sourceTree = "<group>"; };
 		BB01B1F32B6465730025FAF4 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -545,6 +575,30 @@
 				BB9DC2242BA920AF00459FFF /* API+Error.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		809CDA2B2FADD6EC0040E02A /* Artists */ = {
+			isa = PBXGroup;
+			children = (
+				8029307A2FAF08D000BD78FE /* ArtistsGridCard.swift */,
+				802930782FAF024000BD78FE /* ArtistsLinks.swift */,
+				802930762FAF013F00BD78FE /* ArtistsContextMenu.swift */,
+				809CDA322FAE072D0040E02A /* ArtistsView+Overlay.swift */,
+				809CDA302FAE06AD0040E02A /* ArtistsView+Toolbar.swift */,
+				802930722FAEF6BA00BD78FE /* ArtistsGridPoster.swift */,
+			);
+			path = Artists;
+			sourceTree = "<group>";
+		};
+		96D15BE12FAACC3100F67348 /* Artists */ = {
+			isa = PBXGroup;
+			children = (
+				809CDA2E2FADE7FB0040E02A /* ArtistSort.swift */,
+				809CDA2C2FADE69C0040E02A /* Artists.swift */,
+				96D15BE62FAD81DA00F67348 /* Album.swift */,
+				96D15BE22FAACC6600F67348 /* Artist.swift */,
+			);
+			path = Artists;
 			sourceTree = "<group>";
 		};
 		BB000000000000000000AAA4 /* Tests */ = {
@@ -912,6 +966,9 @@
 				BB2370D92DCE657800261710 /* sonarr-manual-import.json */,
 				BBA06B582F47D4B600A5F9B4 /* popular-movies.json */,
 				BB181D6E2F48E8DF00981037 /* popular-series.json */,
+				802930742FAEFE4400BD78FE /* album-files.json */,
+				8029306F2FAEF65C00BD78FE /* artists.json */,
+				8029306E2FAEF65C00BD78FE /* artist-albums.json */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -919,6 +976,7 @@
 		BBF477A62B4F8AA300C2DED3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				96D15BE12FAACC3100F67348 /* Artists */,
 				BB2370DC2DCE76A600261710 /* Queue */,
 				BBF583C02BACA40D00AFA7FB /* Movies */,
 				BB507D202BD9702B00EC4016 /* Series */,
@@ -937,6 +995,7 @@
 			isa = PBXGroup;
 			children = (
 				BBB8AED22C10DA0F00AA2D9C /* Activity */,
+				809CDA2B2FADD6EC0040E02A /* Artists */,
 				BB25DC622B62ED2E00FE55A0 /* Movies */,
 				BB507D192BD96DDC00EC4016 /* Series */,
 				BBF583B72BAC99B700AFA7FB /* Calendar */,
@@ -946,6 +1005,7 @@
 				BB92AE312F24495B0048FC16 /* ContentViewMac.swift */,
 				BBE828672B4F320F00C1E1D9 /* MoviesView.swift */,
 				BBE828692B4F325400C1E1D9 /* SeriesView.swift */,
+				809CDA292FADD5A20040E02A /* ArtistsView.swift */,
 				BBD5D80D2C0135F9008E3B3F /* ActivityView.swift */,
 				BB581D192BA0ED5E0070DFFC /* CalendarView.swift */,
 				BBF477A82B4FA20B00C2DED3 /* SettingsView.swift */,
@@ -969,6 +1029,7 @@
 				BB83AFA42CB2080C00349997 /* InstanceCommand.swift */,
 				BB94F1B82B7E7B870050F6A0 /* InstanceWebhook.swift */,
 				BB8A60252B93DE020039CFF6 /* InstanceNotification.swift */,
+				96D15BDE2FAACBF700F67348 /* LidarrInstance.swift */,
 				BBE7F8A82B6424350014DD57 /* RadarrInstance.swift */,
 				BB507D1E2BD96EEB00EC4016 /* SonarrInstance.swift */,
 			);
@@ -1157,6 +1218,8 @@
 				BB81000A2CD5977600499666 /* radarr-history.json in Resources */,
 				BBC0E6202C02458E009543E3 /* series-queue.json in Resources */,
 				BBA7336B2BB6261D00A5022B /* movie-files.json in Resources */,
+				802930702FAEF65C00BD78FE /* artist-albums.json in Resources */,
+				802930712FAEF65C00BD78FE /* artists.json in Resources */,
 				BB6A5D382E3ABB23002E036D /* tags.json in Resources */,
 				BBB869212B6CB0AC009C1A54 /* movie-releases.json in Resources */,
 				BB0FE1132BED33A800D1D847 /* series-episode-files.json in Resources */,
@@ -1168,6 +1231,7 @@
 				BBA06B592F47D4B600A5F9B4 /* popular-movies.json in Resources */,
 				BBD3F2D42BFA520700DE5D8E /* series-episode-history.json in Resources */,
 				BB54D0232E90932400F5CF42 /* AppIcon.icon in Resources */,
+				802930752FAEFE4400BD78FE /* album-files.json in Resources */,
 				BB54D0242E90932400F5CF42 /* AppIconBarbie.icon in Resources */,
 				BB54D0252E90932400F5CF42 /* AppIconBooks.icon in Resources */,
 				BB54D0262E90932400F5CF42 /* AppIconMono.icon in Resources */,
@@ -1224,6 +1288,7 @@
 				BB96C32F2BE8889E00E24C1C /* SeriesEditView.swift in Sources */,
 				BB96C3232BE7DEAF00E24C1C /* EpisodeView.swift in Sources */,
 				BBE7CE032B91745100431801 /* MovieDetails+Information.swift in Sources */,
+				809CDA2A2FADD5A60040E02A /* ArtistsView.swift in Sources */,
 				2B949CEB2CCBC8690088B1A8 /* HistoryView.swift in Sources */,
 				79159D6E2B5953E800F7F997 /* API.swift in Sources */,
 				BB05C9052B86D0EC009B6444 /* Languages.swift in Sources */,
@@ -1256,13 +1321,16 @@
 				BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */,
 				BB351D7E2CB4A7CF002AAEBF /* SeriesLinks.swift in Sources */,
 				BBE640D32BE4554500B436CC /* SeasonView.swift in Sources */,
+				809CDA2D2FADE69E0040E02A /* Artists.swift in Sources */,
 				BBE1068D2D84FC8D007CB2D9 /* Events.swift in Sources */,
 				BB79FB912CAF3C16002F8C0F /* Tips.swift in Sources */,
+				802930772FAF013F00BD78FE /* ArtistsContextMenu.swift in Sources */,
 				BB2370E42DCE76F600261710 /* ImportableFile.swift in Sources */,
 				BB507D242BD9709F00EC4016 /* SeriesSort.swift in Sources */,
 				BB581D1A2BA0ED5E0070DFFC /* CalendarView.swift in Sources */,
 				BBE828572B4F2C7000C1E1D9 /* Ruddarr.swift in Sources */,
 				BB507D2E2BD991E100EC4016 /* SeriesContextMenu.swift in Sources */,
+				809CDA332FAE072D0040E02A /* ArtistsView+Overlay.swift in Sources */,
 				BBAFC7E72BB733E800245D10 /* MediaEventSheet.swift in Sources */,
 				BBCC2E5D2C1FA72000EF159F /* Images.swift in Sources */,
 				BBC6CEF52BE69B1600F71839 /* Media.swift in Sources */,
@@ -1281,6 +1349,7 @@
 				BBD5D8122C014538008E3B3F /* Queue.swift in Sources */,
 				BBC309D82BED584C004080FD /* Platform.swift in Sources */,
 				BB96C32B2BE833AD00E24C1C /* SeriesForm.swift in Sources */,
+				809CDA2F2FADE7FC0040E02A /* ArtistSort.swift in Sources */,
 				BBF583B22BABAE8C00AFA7FB /* Loading.swift in Sources */,
 				BB6F23A92B6A039400A4347A /* MovieReleasesView.swift in Sources */,
 				BB7666CF2BA51F49009D4F68 /* Calendar.swift in Sources */,
@@ -1291,8 +1360,10 @@
 				2B949CE72CC92F370088B1A8 /* History.swift in Sources */,
 				BBAED12D2B72D444006C6CF2 /* ButtonLabel.swift in Sources */,
 				BBC6CEF72BE69BEE00F71839 /* MediaFile.swift in Sources */,
+				96D15BE72FAD81DF00F67348 /* Album.swift in Sources */,
 				BB4140C62B71CA89007C7DA4 /* MovieReleaseSort.swift in Sources */,
 				BB204F592CBCE2CD00ACDC0B /* LinkContextMenu.swift in Sources */,
+				8029307B2FAF08D100BD78FE /* ArtistsGridCard.swift in Sources */,
 				BBF7BFDE2BE4971D00B485FA /* InformationList.swift in Sources */,
 				BB94F1B92B7E7B870050F6A0 /* InstanceWebhook.swift in Sources */,
 				798010BF2B6268DE00BBC056 /* MovieSort.swift in Sources */,
@@ -1301,6 +1372,8 @@
 				BBAED12B2B7205A9006C6CF2 /* Helpers.swift in Sources */,
 				BB96C3292BE8337300E24C1C /* SeriesPreviewView.swift in Sources */,
 				BBD3F2D62BFA55FE00DE5D8E /* MediaQuality.swift in Sources */,
+				802930732FAEF6BA00BD78FE /* ArtistsGridPoster.swift in Sources */,
+				802930792FAF024300BD78FE /* ArtistsLinks.swift in Sources */,
 				79159D712B5955A800F7F997 /* API+Mock.swift in Sources */,
 				BBE7F8A92B6424350014DD57 /* RadarrInstance.swift in Sources */,
 				BBB1A4C42E21DD7C000ADA39 /* TagList.swift in Sources */,
@@ -1319,6 +1392,7 @@
 				BB09B9B62B9FAF6D00FA6586 /* MoviePreviewView.swift in Sources */,
 				BB50F2292C3B3322005E14CA /* ActivityView+Toolbar.swift in Sources */,
 				BBB3C9142F47E68F001BDDF8 /* MediaGrid+Content.swift in Sources */,
+				96D15BDF2FAACBF700F67348 /* LidarrInstance.swift in Sources */,
 				BBA733632BB4C1F400A5022B /* MovieMetadataView.swift in Sources */,
 				BBBB08D42B77FBC700BADBA1 /* IconsView.swift in Sources */,
 				BBF583BD2BACA3B200AFA7FB /* Series.swift in Sources */,
@@ -1346,6 +1420,8 @@
 				BBC77E242B7AAD3300573EBD /* InstanceView.swift in Sources */,
 				BBC309DA2BED7FE4004080FD /* Environment.swift in Sources */,
 				BBD3F7D22BE9A6320050D9A0 /* SeriesReleasesView.swift in Sources */,
+				809CDA312FAE06AD0040E02A /* ArtistsView+Toolbar.swift in Sources */,
+				96D15BE32FAACC6900F67348 /* Artist.swift in Sources */,
 				BB63E1F02C17DE1A00BCCA94 /* Intents.swift in Sources */,
 				BBF583B92BAC99CA00AFA7FB /* CalendarDate.swift in Sources */,
 				BB25DC6A2B63161E00FE55A0 /* MovieForm.swift in Sources */,

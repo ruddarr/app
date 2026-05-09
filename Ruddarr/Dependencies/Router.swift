@@ -6,17 +6,20 @@ import AppIntents
 class Router {
     var selectedTab: TabItem = .movies
 
+    var switchToLidarrInstance: String?
     var switchToRadarrInstance: String?
     var switchToSonarrInstance: String?
 
     var moviesPath: NavigationPath = .init()
     var seriesPath: NavigationPath = .init()
+    var artistsPath: NavigationPath = .init()
     var calendarPath: NavigationPath = .init()
     var settingsPath: NavigationPath = .init()
 
     func reset() {
         moviesPath = .init()
         seriesPath = .init()
+        artistsPath = .init()
         calendarPath = .init()
     }
 }
@@ -26,6 +29,7 @@ enum TabItem: String, Identifiable, Hashable, Sendable {
 
     case movies
     case series
+    case artists
     case calendar
     case activity
 
@@ -38,6 +42,7 @@ enum TabItem: String, Identifiable, Hashable, Sendable {
     enum Openable: String, CaseIterable {
         case movies
         case series
+        case artists
         case calendar
         case activity
     }
@@ -46,6 +51,7 @@ enum TabItem: String, Identifiable, Hashable, Sendable {
         switch self {
         case .movies: String(localized: "Movies", comment: "Plural. Tab/sidebar menu item")
         case .series: String(localized: "Series", comment: "Plural. Tab/sidebar menu item")
+        case .artists: String(localized: "Artists", comment: "Plural. Tab/sidebar menu item")
         case .calendar: String(localized: "Calendar", comment: "Tab/sidebar menu item")
         case .activity: String(localized: "Activity", comment: "Tab/sidebar menu item")
         case .settings: String(localized: "Settings", comment: "Tab/sidebar menu item")
@@ -60,6 +66,7 @@ enum TabItem: String, Identifiable, Hashable, Sendable {
         switch self {
         case .movies: "movies"
         case .series: "series"
+        case .artists: "music.note.list"
         case .calendar: "calendar"
         case .activity: "waveform.path.ecg"
         case .settings: "gear"
@@ -83,6 +90,7 @@ extension TabItem.Openable: AppEnum {
         switch self {
         case .movies: .movies
         case .series: .series
+        case .artists: .artists
         case .calendar: .calendar
         case .activity: .activity
         }
@@ -100,6 +108,11 @@ extension TabItem.Openable: AppEnum {
             title: "Series",
             subtitle: nil,
             image: DisplayRepresentation.Image(systemName: "tv")
+        ),
+        .artists: DisplayRepresentation(
+            title: "Artists",
+            subtitle: nil,
+            image: DisplayRepresentation.Image(systemName: "music.note.list")
         ),
         .calendar: DisplayRepresentation(
             title: "Calendar",

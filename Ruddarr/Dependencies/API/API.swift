@@ -15,6 +15,11 @@ struct API {
     var deleteMovie: (Movie, Bool, Bool, Instance) async throws -> Empty
     var deleteMovieFile: (MediaFile, Instance) async throws -> Empty
 
+    var fetchArtists: (Instance) async throws -> [Artist]
+    var fetchAlbums: (Artist.ID, Instance) async throws -> [Album]
+    var fetchAlbumFiles: (Album.ID, Instance) async throws -> [MediaFile]
+    var lookupArtists: (_ instance: Instance, _ query: String) async throws -> [Artist]
+    // TODO: Come back
     var fetchSeries: (Instance) async throws -> [Series]
     var fetchEpisodes: (Series.ID, Instance) async throws -> [Episode]
     var fetchEpisodeFiles: (Series.ID, Instance) async throws -> [MediaFile]
@@ -32,6 +37,13 @@ struct API {
     var deleteEpisodeFile: (MediaFile, Instance) async throws -> Empty
     var deleteEpisodeFiles: ([MediaFile], Instance) async throws -> Empty
 
+    var getArtist: (Artist.ID, Instance) async throws -> Artist
+    var addArtist: (Artist, Instance) async throws -> Artist
+    var pushArtist: (Artist, Instance) async throws -> Artist
+    var updateArtist: (Artist, Bool, Instance) async throws -> Empty
+    var deleteArtist: (Artist, Bool, Bool, Instance) async throws -> Empty
+
+    var albumCalendar: (Date, Date, Instance) async throws -> [Album]
     var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
     var episodeCalendar: (Date, Date, Instance) async throws -> [Episode]
 

@@ -80,6 +80,7 @@ struct Instance: Identifiable, Equatable, Codable {
 }
 
 enum InstanceType: String, Identifiable, CaseIterable, Codable {
+    case lidarr = "Lidarr"
     case radarr = "Radarr"
     case sonarr = "Sonarr"
     var id: Self { self }
@@ -159,6 +160,12 @@ struct InstanceQualityProfile: Identifiable, Equatable, Codable {
 }
 
 extension Instance {
+    static var lidarrVoid: Self {
+        var instance = Instance(id: UUID(uuidString: "00000000-1000-0000-0000-000000000000")!)
+        instance.type = .lidarr
+        return instance
+    }
+
     static var radarrVoid: Self {
         var instance = Instance(id: UUID(uuidString: "00000000-1000-0000-0000-000000000000")!)
         instance.type = .radarr
@@ -168,6 +175,30 @@ extension Instance {
     static var sonarrVoid: Self {
         var instance = Instance(id: UUID(uuidString: "00000000-2000-0000-0000-000000000000")!)
         instance.type = .sonarr
+        return instance
+    }
+
+    static var lidarrDummy: Self {
+        var instance = Instance(id: UUID(uuidString: "00000000-3000-0000-0000-000000000000")!)
+
+        instance.type = .lidarr
+        instance.label = ".lidarr"
+        instance.url = "http://10.0.1.5:8300"
+        instance.apiKey = "sb0600c1b3a442bfb0222f4e13a8150d"
+        instance.rootFolders = [
+            InstanceRootFolder(id: 1, accessible: true, path: "/volume1/Media/Music", freeSpace: 1_000_000_000),
+        ]
+        instance.qualityProfiles = [
+            InstanceQualityProfile(id: 1, name: "MP3-320"),
+            InstanceQualityProfile(id: 2, name: "FLAC"),
+            InstanceQualityProfile(id: 2, name: "ALAC"),
+            InstanceQualityProfile(id: 2, name: "WAV"),
+        ]
+        instance.tags = [
+            Tag(id: 1, label: "Pop"),
+            Tag(id: 2, label: "EDM"),
+        ]
+
         return instance
     }
 

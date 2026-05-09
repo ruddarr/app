@@ -1,0 +1,405 @@
+[
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 01 - wrong.mp3",
+    "size": 2864576,
+    "dateAdded": "2026-02-11T00:14:51Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169140
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 02 - take care.mp3",
+    "size": 8123460,
+    "dateAdded": "2026-02-11T00:14:53Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169262
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 03 - start++end.mp3",
+    "size": 13647301,
+    "dateAdded": "2026-02-11T00:14:54Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169343
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 04 - wings.mp3",
+    "size": 7375616,
+    "dateAdded": "2026-02-11T00:14:57Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169549
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 05 - icarus.mp3",
+    "size": 16501377,
+    "dateAdded": "2026-02-11T00:14:58Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169603
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 06 - lost++found.mp3",
+    "size": 8431622,
+    "dateAdded": "2026-02-11T00:15:01Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169771
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 07 - crash.mp3",
+    "size": 9584576,
+    "dateAdded": "2026-02-11T00:15:02Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169861
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 08 - gold.mp3",
+    "size": 8156095,
+    "dateAdded": "2026-02-11T00:15:04Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169973
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 09 - forever++over.mp3",
+    "size": 14002504,
+    "dateAdded": "2026-02-11T00:15:05Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170030
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 10 - float.mp3",
+    "size": 8240577,
+    "dateAdded": "2026-02-11T00:15:07Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170149
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 11 - wonder.mp3",
+    "size": 10828738,
+    "dateAdded": "2026-02-11T00:15:08Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170208
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 12 - love; not wrong (brave).mp3",
+    "size": 8978835,
+    "dateAdded": "2026-02-11T00:15:09Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170291
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 13 - falling in reverse.mp3",
+    "size": 12260110,
+    "dateAdded": "2026-02-11T00:15:10Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170334
+  }
+]

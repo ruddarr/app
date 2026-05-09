@@ -1,0 +1,154 @@
+import SwiftUI
+
+extension ArtistsView {
+    @ToolbarContentBuilder
+    var toolbarSearchButton: some ToolbarContent {
+        if !instance.isVoid {
+            ToolbarItem(placement: .primaryAction) {
+                NavigationLink(value: ArtistsPath.search()) {
+                    Image(systemName: "plus")
+                }
+                .tint(.primary)
+                .keyboardShortcut("n", modifiers: .command)
+            }
+        }
+    }
+
+    @ToolbarContentBuilder
+    var toolbarViewOptions: some ToolbarContent {
+        ToolbarItem(placement: .navigation) {
+            toolbarFilterButton
+                .menuIndicator(.hidden)
+        }
+
+        ToolbarItem(placement: .navigation) {
+            toolbarSortingButton
+                .menuIndicator(.hidden)
+        }
+    }
+
+    var toolbarFilterButton: some View {
+        Menu {
+            Picker("Filter", selection: $sort.filter) {
+                ForEach(ArtistSort.Filter.allCases) { filter in
+                    filter.label
+                }
+            }
+            .pickerStyle(.inline)
+
+            Picker(selection: $sort.folder) {
+                Text("Any Folder").tag(String.all)
+
+                ForEach(instance.rootFolders) { folder in
+                    Text(folder.menuLabel).tag(folder.path ?? "")
+                }
+            } label: {
+                if let folder = instance.rootFolders.first(where: { $0.path == sort.folder }) {
+                    Label(folder.menuLabel, systemImage: "folder")
+                } else {
+                    Label("Root Folder", systemImage: "folder")
+                }
+            }.pickerStyle(.menu)
+        } label: {
+            if sort.filter != .all || sort.folder != .all {
+                Image("filters.badge")
+                    .offset(y: 3)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.tint, .primary)
+            } else {
+                Image(systemName: "line.3.horizontal.decrease")
+            }
+        }
+    }
+
+    var toolbarSortingButton: some View {
+        Menu {
+            Picker(selection: $sort.option, label: Text("Sort By")) {
+                ForEach(ArtistSort.Option.allCases) { option in
+                    option.label
+                }
+            }
+            .pickerStyle(.inline)
+
+            Section {
+                Picker("Direction", selection: $sort.isAscending) {
+                    Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
+                    Label("Descending", systemImage: "arrowtriangle.down").tag(false)
+                }.pickerStyle(.inline)
+            }
+        } label: {
+            Image(systemName: "arrow.up.arrow.down")
+                .imageScale(.medium)
+        }
+    }
+
+    @ToolbarContentBuilder
+    var bottomBarInstancePicker: some ToolbarContent {
+        #if os(iOS)
+            ToolbarSpacer(.flexible, placement: .bottomBar)
+
+            ToolbarItem(placement: .bottomBar) {
+                Menu {
+                    Picker(selection: $settings.lidarrInstanceId, label: Text("Instances")) {
+                        ForEach(settings.lidarrInstances) { instance in
+                            Text(instance.label).tag(Optional.some(instance.id))
+                        }
+                    }
+                    .pickerStyle(.inline)
+                } label: {
+                    HStack {
+                        Image(systemName: "internaldrive")
+                        Text(settings.lidarrInstance?.label ?? "Instance")
+                            .fontWeight(.medium)
+                    }
+                }
+                .tint(.primary)
+            }
+        #else
+            ToolbarSpacer(.flexible, placement: .principal)
+        #endif
+    }
+
+    @ToolbarContentBuilder
+    var toolbarInstancePicker: some ToolbarContent {
+        ToolbarSpacer(.fixed, placement: .navigation)
+
+        ToolbarItem(placement: .navigation) {
+            Menu {
+                Picker(selection: $settings.lidarrInstanceId, label: Text("Instances")) {
+                    ForEach(settings.lidarrInstances) { instance in
+                        Text(instance.label).tag(Optional.some(instance.id))
+                    }
+                }
+                .pickerStyle(.inline)
+            } label: {
+                Image(systemName: "internaldrive")
+            }
+            .tint(.primary)
+        }
+    }
+
+    func changeInstance() {
+        Task { @MainActor in
+            guard let newInstanceId = settings.lidarrInstanceId else {
+                leaveBreadcrumb(.fatal, category: "artists", message: "Missing Lidarr instance id")
+
+                return
+            }
+
+            guard let newInstance = settings.instanceById(newInstanceId) else {
+                leaveBreadcrumb(.fatal, category: "artists", message: "Lidarr instance not found")
+
+                return
+            }
+
+            instance.switchTo(newInstance)
+
+            await fetchArtistsWithAlert()
+
+            if let model = await instance.fetchMetadata() {
+                settings.saveInstance(model)
+            }
+        }
+    }
+}

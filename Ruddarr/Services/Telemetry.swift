@@ -19,6 +19,7 @@ enum Metric: String {
     case seriesSearchDispatched
     case seasonSearchDispatched
     case episodeSearchDispatched
+    case artistSearchDispatched
 }
 
 actor Telemetry {
@@ -38,6 +39,8 @@ actor Telemetry {
             SentrySDK.metrics.count(key: "automaticSearchDispatched", value: 1, attributes: ["type": "season"])
         case .episodeSearchDispatched:
             SentrySDK.metrics.count(key: "automaticSearchDispatched", value: 1, attributes: ["type": "episode"])
+        case .artistSearchDispatched:
+            SentrySDK.metrics.count(key: "automaticSearchDispatched", value: 1, attributes: ["type": "artists"])
         default:
             SentrySDK.metrics.count(key: metric.rawValue, value: 1, attributes: attributes)
         }

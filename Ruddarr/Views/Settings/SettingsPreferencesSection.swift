@@ -41,6 +41,7 @@ struct SettingsPreferencesSection: View {
             ForEach([
                 TabItem.movies,
                 TabItem.series,
+                TabItem.artists,
                 TabItem.calendar,
                 TabItem.activity,
             ]) { tab in

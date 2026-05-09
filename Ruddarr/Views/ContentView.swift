@@ -14,6 +14,10 @@ struct ContentView: View {
                 SeriesView()
             }
 
+            Tab(artists.label, systemImage: artists.icon, value: artists) {
+                ArtistsView()
+            }
+
             Tab(calendar.label, systemImage: calendar.icon, value: calendar) {
                 CalendarView()
             }
@@ -50,6 +54,7 @@ struct ContentView: View {
 
     var movies: TabItem { .movies }
     var series: TabItem { .series }
+    var artists: TabItem { .artists }
     var calendar: TabItem { .calendar }
     var activity: TabItem { .activity }
 

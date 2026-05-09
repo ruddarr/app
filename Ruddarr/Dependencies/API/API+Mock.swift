@@ -54,6 +54,25 @@ extension API {
             try await Task.sleep(for: .seconds(2))
 
             return Empty()
+        }, fetchArtists: { _ in
+            try await Task.sleep(for: .seconds(2))
+
+            return loadPreviewData(filename: "artists")
+        },
+        fetchAlbums: { _, _ in
+            try await Task.sleep(for: .seconds(2))
+
+            return loadPreviewData(filename: "artist-albums")
+        },
+        fetchAlbumFiles: { _, _ in
+            try await Task.sleep(for: .seconds(2))
+
+            return loadPreviewData(filename: "album-files")
+        },
+        lookupArtists: { _, _ in
+            try await Task.sleep(for: .seconds(2))
+
+            return loadPreviewData(filename: "artists")
         }, fetchSeries: { _ in
             try await Task.sleep(for: .seconds(1))
 
@@ -114,7 +133,36 @@ extension API {
             try await Task.sleep(for: .seconds(2))
 
             return Empty()
-        }, movieCalendar: { _, _, instance in
+        }, getArtist: { _, _ in
+            let artists: [Artist] = loadPreviewData(filename: "artists")
+            try await Task.sleep(for: .seconds(2))
+
+            return artists[0]
+        }, addArtist: { _, _ in
+            let artists: [Artist] = loadPreviewData(filename: "artists")
+            try await Task.sleep(for: .seconds(2))
+
+            return artists[0]
+        }, pushArtist: { _, _ in
+            let artists: [Artist] = loadPreviewData(filename: "artists")
+            try await Task.sleep(for: .seconds(2))
+
+            return artists[0]
+        }, updateArtist: { _, _, _ in
+            try await Task.sleep(for: .seconds(2))
+
+            return Empty()
+        }, deleteArtist: { _, _, _, _ in
+            try await Task.sleep(for: .seconds(2))
+
+            return Empty()
+        }, albumCalendar: { _, _, instance in
+            try await Task.sleep(for: .seconds(2))
+            let albums: [Album] = loadPreviewData(filename: "calendar-albums")
+
+            return modifyCalendarAlbum(albums, instance)
+        },
+        movieCalendar: { _, _, instance in
             try await Task.sleep(for: .seconds(2))
             let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
 
@@ -155,6 +203,7 @@ extension API {
         }, fetchQueueTasks: { instance in
             try await Task.sleep(for: .seconds(1))
 
+            // TODO: Come back and add in Lidarr
             let items: QueueItems = loadPreviewData(
                 filename: instance.type == .sonarr ? "series-queue" : "movie-queue"
             )
@@ -167,6 +216,7 @@ extension API {
         }, fetchImportableFiles: { _, instance in
             try await Task.sleep(for: .seconds(1))
 
+            // TODO: Come back and add in Lidarr
             let files: [ImportableFile] = loadPreviewData(
                 filename: instance.type == .sonarr ? "sonarr-manual-import" : "radarr-manual-import"
             )
@@ -175,6 +225,7 @@ extension API {
         }, fetchHistory: { _, _, _, instance in
             try await Task.sleep(for: .seconds(2))
 
+            // TODO: Come back and add in Lidarr
             let events: MediaHistory = loadPreviewData(
                 filename: instance.type == .sonarr ? "sonarr-history" : "radarr-history"
             )
@@ -242,6 +293,20 @@ private func modifyQueueItems(_ items: QueueItems, _ instance: Instance) -> Queu
     }
 
     return modifiedItems
+}
+
+private func modifyCalendarAlbum(_ items: [Album], _ instance: Instance) -> [Album] {
+    let date = Calendar.current.date(from: DateComponents(year: 2_026, month: 1, day: 30, hour: 12))
+    let days = Calendar.current.dateComponents([.day], from: date!, to: .now).day!
+
+    return items.map { item in
+        var album = item
+
+        album.instanceId = instance.id
+        // TODO: Come back and check
+
+        return album
+    }
 }
 
 private func modifyCalendarMovies(_ items: [Movie], _ instance: Instance) -> [Movie] {

@@ -8,10 +8,14 @@ class Discovery {
 
     private var movieItems: DiscoveryItems?
     private var seriesItems: DiscoveryItems?
+    private var artistsItems: DiscoveryItems?
+    private var albumsItems: DiscoveryItems?
 
     enum MediaType: String {
         case movies
         case series
+        case artists
+        case albums
     }
 
     var movies: [DiscoveryItem] {
@@ -34,6 +38,12 @@ class Discovery {
         case .series:
             if isCurrentWindow(seriesItems?.timestamp) { return }
             seriesItems = await load(.series)
+        case .artists:
+            if isCurrentWindow(artistsItems?.timestamp) { return }
+            artistsItems = await load(.artists)
+        case .albums:
+            if isCurrentWindow(albumsItems?.timestamp) { return }
+            albumsItems = await load(.albums)
         }
     }
 
