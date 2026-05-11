@@ -9,10 +9,10 @@ class LidarrInstance {
 
     var isVoid = true
 
-    var artists: Artists
-//    var lookup: ArtistLookup
-//    var releases: ArtistReleases
-//    var metadata: MovieMetadata
+    var artists: ArtistModel
+    var lookup: ArtistLookup
+    var releases: ArtistReleases
+    var files: ArtistFiles
 
     init(_ instance: Instance = .lidarrVoid) {
         if instance.type != .lidarr {
@@ -22,20 +22,20 @@ class LidarrInstance {
         self.isVoid = instance == .lidarrVoid
 
         self.instance = instance
-        self.artists = Artists(instance)
-//        self.lookup = MovieLookup(instance)
-//        self.releases = MovieReleases(instance)
-//        self.metadata = MovieMetadata(instance)
+        self.artists = ArtistModel(instance)
+        self.lookup = ArtistLookup(instance)
+        self.releases = ArtistReleases(instance)
+        self.files = ArtistFiles(instance)
     }
 
     func switchTo(_ target: Instance) {
         isVoid = target == .lidarrVoid
 
         self.instance = target
-        self.artists = Artists(target)
-//        self.lookup = MovieLookup(target)
-//        self.releases = MovieReleases(target)
-//        self.metadata = MovieMetadata(target)
+        self.artists = ArtistModel(target)
+        self.lookup = ArtistLookup(target)
+        self.releases = ArtistReleases(target)
+        self.files = ArtistFiles(target)
     }
 
     var id: UUID {
@@ -44,6 +44,11 @@ class LidarrInstance {
 
     var isSlow: Bool {
         instance.mode.isSlow
+    }
+
+    // TODO: Come back and check
+    var isWorking: Bool {
+        instance.version != nil
     }
 
     var rootFolders: [InstanceRootFolder] {

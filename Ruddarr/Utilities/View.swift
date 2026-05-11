@@ -28,6 +28,7 @@ extension View {
     func withLidarrInstance(artists: [Artist] = []) -> some View {
         let instance = LidarrInstance(.lidarrDummy)
         instance.artists.items = artists
+        instance.releases.items = []
         // TODO: Come back here
 
         return self.environment(instance)

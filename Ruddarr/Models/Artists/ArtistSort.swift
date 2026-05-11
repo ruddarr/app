@@ -34,10 +34,10 @@ struct ArtistSort: Hashable {
             false // TODO: Come back and figure this out
         }
     }
-    
+
     enum Option: CaseIterable, Hashable, Identifiable, Codable {
         var id: Self { self }
-        
+
         case byName
         case byAdded
         case byRating
@@ -55,7 +55,7 @@ struct ArtistSort: Hashable {
         func compare(_ lhs: Artist, _ rhs: Artist) -> Bool {
             switch self {
             case .byName:
-                lhs.sortName < rhs.sortName
+                lhs.sortName ?? "" < rhs.sortName ?? ""
             case .bySize:
                 lhs.sizeOnDisk < rhs.sizeOnDisk
             case .byAdded:
@@ -65,7 +65,7 @@ struct ArtistSort: Hashable {
             }
         }
     }
-    
+
     enum Filter: CaseIterable, Hashable, Identifiable, Codable {
         var id: Self { self }
 
@@ -97,18 +97,18 @@ extension ArtistSort: RawRepresentable {
             self = result
         } catch {
             leaveBreadcrumb(.fatal, category: "artist.sort", message: "JSON decode failed: \(error)", data: ["error": error])
-            
+
             return nil
         }
     }
-    
+
     public var rawValue: String {
         guard let data = try? JSONEncoder().encode(self),
               let result = String(data: data, encoding: .utf8)
         else {
             return "{}"
         }
-        
+
         return result
     }
 }
@@ -120,10 +120,10 @@ extension ArtistSort: Codable {
         case filter
         case folder
     }
-    
+
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         try self.init(
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),
@@ -131,7 +131,7 @@ extension ArtistSort: Codable {
             folder: container.decode(String.self, forKey: .folder)
         )
     }
-    
+
     func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(isAscending, forKey: .isAscending)

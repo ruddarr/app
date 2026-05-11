@@ -58,21 +58,22 @@ extension API {
             try await Task.sleep(for: .seconds(2))
 
             return loadPreviewData(filename: "artists")
-        },
-        fetchAlbums: { _, _ in
+        }, fetchAlbums: { _, _ in
             try await Task.sleep(for: .seconds(2))
 
             return loadPreviewData(filename: "artist-albums")
-        },
-        fetchAlbumFiles: { _, _ in
+        }, fetchAlbumFiles: { _, _ in
             try await Task.sleep(for: .seconds(2))
 
             return loadPreviewData(filename: "album-files")
-        },
-        lookupArtists: { _, _ in
+        }, lookupArtists: { _, _ in
             try await Task.sleep(for: .seconds(2))
 
             return loadPreviewData(filename: "artists")
+        }, lookupArtistReleases: { _, _, _  in
+            try await Task.sleep(for: .seconds(1))
+
+            return loadPreviewData(filename: "artist-releases")
         }, fetchSeries: { _ in
             try await Task.sleep(for: .seconds(1))
 
@@ -303,7 +304,7 @@ private func modifyCalendarAlbum(_ items: [Album], _ instance: Instance) -> [Alb
         var album = item
 
         album.instanceId = instance.id
-        // TODO: Come back and check
+        album.releaseDate = Calendar.current.date(byAdding: .day, value: Int(days), to: album.releaseDate ?? Date.now)
 
         return album
     }

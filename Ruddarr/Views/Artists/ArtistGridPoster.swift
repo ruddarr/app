@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ArtistsGridPoster: View {
+struct ArtistGridPoster: View {
     var artist: Artist
     var model: Artist?
 
@@ -16,7 +16,7 @@ struct ArtistsGridPoster: View {
         poster
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .contextMenu {
-                ArtistsContextMenu(artist: artist)
+                ArtistContextMenu(artist: artist)
             } preview: {
                 poster.frame(width: 300, height: 300)
             }
@@ -83,7 +83,7 @@ struct ArtistsPosterOverlay: View {
 
     ScrollView {
         MediaGrid(items: artists) { artist in
-            ArtistsGridPoster(artist: artist)
+            ArtistGridPoster(artist: artist)
         }
         .scenePadding(.horizontal)
     }

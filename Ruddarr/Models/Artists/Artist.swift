@@ -9,7 +9,7 @@ import CoreSpotlight
 
 struct Artist: Media, Identifiable, Equatable, Codable {
     // artists only have an `id` after being added
-    var id: Int { guid ?? (tadbId + 100_000) }
+    var id: Int { guid ?? abs((foreignArtistId ?? UUID().uuidString).hashValue) }
 
     // the remapped `id` field
     var guid: Int?
@@ -25,7 +25,7 @@ struct Artist: Media, Identifiable, Equatable, Codable {
 
     var title: String { artistName }
     let artistName: String
-    let sortName: String
+    let sortName: String?
     let cleanName: String?
 
     let status: ArtistStatus
@@ -47,7 +47,7 @@ struct Artist: Media, Identifiable, Equatable, Codable {
     let rootFolderPath: String?
     let folder: String?
 
-    let qualityProfileId: Int
+    let qualityProfileId: Int?
     let metadataProfileId: Int
 
     var monitored: Bool
@@ -157,7 +157,7 @@ extension Artist {
     }
 
     var searchableHash: String {
-        "\(id):\(sortName)"
+        "\(id):\(artistName)"
     }
 }
 
@@ -183,9 +183,7 @@ enum ArtistStatus: String, Equatable, Codable {
     }
 }
 
-struct ArtistLink: Equatable, Codable, Identifiable {
-    let id: UUID = UUID()
-
+struct ArtistLink: Equatable, Codable {
     let url: String?
     let name: String?
 }

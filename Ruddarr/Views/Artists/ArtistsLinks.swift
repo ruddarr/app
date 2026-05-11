@@ -1,10 +1,12 @@
 import SwiftUI
 
-struct ArtistsLinks: View {
+struct ArtistLinks: View {
     var artist: Artist
 
     var body: some View {
-        ForEach(artist.links) { link in
+        let links = artist.links.sorted { $0.name ?? "" < $1.name ?? "" }
+
+        ForEach(links, id: \.url) { link in
             if let url = link.url, let name = link.name {
                 Link(destination: URL(string: url)!, label: {
                     Label("Open in \(name)", systemImage: "arrow.up.right.square")

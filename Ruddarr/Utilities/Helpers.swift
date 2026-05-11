@@ -115,6 +115,16 @@ func extractImdbId(_ text: String) -> String? {
     return nil
 }
 
+func extractMbId(_ text: String) -> String? {
+    let pattern = /musicbrainz\.org\/artist\/(\w+)/
+
+    if let matches = try? pattern.firstMatch(in: text) {
+        return String(matches.1)
+    }
+
+    return nil
+}
+
 func cloudKitStatusString(_ status: CKAccountStatus?) -> String {
     switch status {
     case .couldNotDetermine: "could-not-determine"

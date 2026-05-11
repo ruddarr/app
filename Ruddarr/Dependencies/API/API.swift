@@ -19,7 +19,8 @@ struct API {
     var fetchAlbums: (Artist.ID, Instance) async throws -> [Album]
     var fetchAlbumFiles: (Album.ID, Instance) async throws -> [MediaFile]
     var lookupArtists: (_ instance: Instance, _ query: String) async throws -> [Artist]
-    // TODO: Come back
+    var lookupArtistReleases: (Artist.ID?, Album.ID?, Instance) async throws -> [ArtistRelease]
+
     var fetchSeries: (Instance) async throws -> [Series]
     var fetchEpisodes: (Series.ID, Instance) async throws -> [Episode]
     var fetchEpisodeFiles: (Series.ID, Instance) async throws -> [MediaFile]

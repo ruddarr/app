@@ -14,7 +14,7 @@ struct Album: Media, Identifiable, Equatable, Codable {
     var instanceId: Instance.ID?
 
     let artistId: Int
-    let foreignAlbumId: String? 
+    let foreignAlbumId: String?
 
     let title: String
     let disambiguation: String?
@@ -27,7 +27,7 @@ struct Album: Media, Identifiable, Equatable, Codable {
     let albumType: String?
     let secondaryTypes: [String]
 
-    let releaseDate: Date?
+    var releaseDate: Date?
     let releases: [AlbumRelease]
     let genres: [String]
 

@@ -1,13 +1,13 @@
 import SwiftUI
 
-struct ArtistsContextMenu: View {
+struct ArtistContextMenu: View {
     var artist: Artist
 
     @Environment(LidarrInstance.self) private var instance
 
     var body: some View {
         Group {
-            ArtistsLinks(artist: artist)
+            ArtistLinks(artist: artist)
 
             Divider()
 

@@ -4,10 +4,8 @@ enum ArtistsPath: Hashable {
     case search(String = "")
     case preview(Data?)
     case artist(Artist.ID)
-    case edit(Series.ID)
-    case releases(Artist.ID, Album.ID?, AlbumRelease.ID?)
-    case album(Artist.ID, Album.ID, AlbumRelease.ID? = nil)
-    case track(Album.ID, AlbumRelease.ID)
+    case edit(Artist.ID)
+    case releases(Artist.ID, Album.ID?)
 }
 
 struct ArtistsView: View {
@@ -43,9 +41,7 @@ struct ArtistsView: View {
                                 ArtistsSearchSuggestion(query: $searchQuery, sort: $sort)
                             }
                         }
-                        .onAppear {
-                            scrollView = proxy
-                        }
+                        .onAppear { scrollView = proxy }
                     }
                     .task {
                         guard !instance.isVoid else { return }
@@ -58,9 +54,7 @@ struct ArtistsView: View {
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
-            .navigationDestination(for: ArtistsPath.self) {
-                destination(for: $0)
-            }
+            .navigationDestination(for: ArtistsPath.self) { destination(for: $0) }
             .onAppear {
                 // if a deeplink set an instance, try to switch to it
                 maybeSwitchToInstance()
@@ -72,8 +66,7 @@ struct ArtistsView: View {
                     changeInstance()
                 }
             }
-            // TODO: Change me
-//            .onReceive(dependencies.quickActions.seriesPublisher, perform: navigateToArtist)
+            .onReceive(dependencies.quickActions.artistPublisher, perform: navigateToArtist)
             .toolbar {
                 toolbarViewOptions
                 toolbarSearchButton
@@ -84,11 +77,7 @@ struct ArtistsView: View {
                 }
             }
             .scrollDismissesKeyboard(.immediately)
-            .searchable(
-                text: $searchQuery,
-                isPresented: $searchPresented,
-                placement: .drawerOrToolbar
-            )
+            .searchable(text: $searchQuery, isPresented: $searchPresented, placement: .drawerOrToolbar)
             .autocorrectionDisabled(true)
             .onChange(of: settings.lidarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
@@ -99,13 +88,14 @@ struct ArtistsView: View {
                 Button("OK") { error = nil }
             } message: { error in
                 Text(error.recoverySuggestionFallback)
-            }.tint(nil)
+            }
+            .tint(nil)
             .overlay {
                 if notConnectedToInternet {
                     NoInternet()
                 } else if hasNoSearchResults {
                     NoArtistsSearchResults(query: $searchQuery, sort: $sort)
-                } else if isLoadingSeries {
+                } else if isLoadingArtist {
                     Loading()
                 } else if hasNoMatchingResults {
                     NoMatchingArtists(sort: $sort)
@@ -120,44 +110,28 @@ struct ArtistsView: View {
     func destination(for path: ArtistsPath) -> some View {
         switch path {
         case .search(let query):
-            Text("Placeholder")
-//            ArtistSearchView(searchQuery: query)
-//                .environment(instance)
+            ArtistSearchView(searchQuery: query)
+                .environment(instance)
         case .preview(let data):
-            Text("Placeholder")
-//            if let data, let artist = try? JSONDecoder().decode(Artist.self, from: data) {
-//                ArtistPreviewView(artist: artist)
-//                    .environment(instance)
-//                    .environmentObject(settings)
-//            }
+            if let data, let artist = try? JSONDecoder().decode(Artist.self, from: data) {
+                ArtistPreviewView(artist: artist)
+                    .environment(instance)
+                    .environmentObject(settings)
+            }
         case .artist(let id):
-            Text("Placeholder")
-//            ArtistsDetailView(series: instance.artists.byId(id))
-//                .environment(instance)
-//                .environmentObject(settings)
+            ArtistDetailView(artist: instance.artists.byId(id))
+                .environment(instance)
+                .environmentObject(settings)
         case .edit(let id):
-            Text("Placeholder")
-//            ArtistEditView(series: instance.artists.byId(id))
-//                .environment(instance)
-        case .releases(let id, let albumId, let trackId):
-            Text("Placeholder")
-//            ArtistReleasesView(
-//                artist: instance.artists.byId(id),
-//                albumId: albumId,
-//                trackId: trackId
-//            )
-//            .environment(instance)
-//            .environmentObject(settings)
-        case .album(let id, let albumId, let track):
-            Text("Placeholder")
-//            AlbumView(series: instance.artists.byId(id), albumId: albumId, jumpToTrack: track)
-//                .environment(instance)
-//                .environmentObject(settings)
-        case .track(let albumId, let trackId):
-            Text("Placeholder")
-//            AlbumTrackView(artist: instance.artists.byId(id), albumId: albumId, trackId: trackId)
-//                .environment(instance)
-//                .environmentObject(settings)
+            ArtistEditView(artist: instance.artists.byId(id))
+                .environment(instance)
+        case .releases(let artistId, let releaseId):
+            ArtistReleasesView(
+                artist: instance.artists.byId(artistId),
+                releaseId: releaseId
+            )
+            .environment(instance)
+            .environmentObject(settings)
         }
     }
 
@@ -169,9 +143,9 @@ struct ArtistsView: View {
             NavigationLink(value: ArtistsPath.artist(artist.id)) {
                 switch settings.grid {
                 case .posters:
-                    ArtistsGridPoster(artist: artist)
+                    ArtistGridPoster(artist: artist)
                 case .cards:
-                    ArtistsGridCard(artist: artist)
+                    ArtistGridCard(artist: artist)
                 }
             }
             .buttonStyle(.plain)
@@ -179,11 +153,11 @@ struct ArtistsView: View {
         }
         .viewBottomPadding()
         .scenePadding(.horizontal)
-        #if os(iOS)
-            .padding(.top, searchPresented ? 7 : 0)
-        #elseif os(macOS)
-            .padding(.vertical)
-        #endif
+#if os(iOS)
+        .padding(.top, searchPresented ? 7 : 0)
+#elseif os(macOS)
+        .padding(.vertical)
+#endif
     }
 
     var notConnectedToInternet: Bool {
@@ -204,7 +178,7 @@ struct ArtistsView: View {
         searchPresented && !instance.artists.cachedItems.isEmpty
     }
 
-    var isLoadingSeries: Bool {
+    var isLoadingArtist: Bool {
         instance.artists.isWorking && instance.artists.cachedItems.isEmpty
     }
 
@@ -213,6 +187,7 @@ struct ArtistsView: View {
         return instance.artists.error != nil
     }
 
+    @ViewBuilder
     var contentUnavailable: some View {
         ContentUnavailableView {
             Label("Connection Failure", systemImage: "exclamationmark.triangle")
@@ -286,9 +261,8 @@ struct ArtistsView: View {
     }
 
     func handleQueryChange() {
-        // TODO: Come back and update to musicbrainz
-        if let imdb = extractImdbId(searchQuery) {
-            searchQuery = "imdb:\(imdb)"
+        if let mbId = extractMbId(searchQuery) {
+            searchQuery = "mb:\(mbId)"
             return
         }
 
@@ -320,7 +294,7 @@ struct ArtistsView: View {
         }
     }
 
-    func navigateToArtist(_ artistId: Artist.ID, _ albumId: Album.ID?, _ trackId: AlbumRelease.ID?) {
+    func navigateToArtist(_ artistId: Artist.ID, _ albumId: Album.ID?) {
         dependencies.quickActions.clearTimer()
         maybeSwitchToInstance()
 
@@ -329,8 +303,7 @@ struct ArtistsView: View {
         func scheduleNextRun(
             time: DispatchTime,
             _ artistId: Artist.ID,
-            _ albumId: Album.ID?,
-            _ trackId: AlbumRelease.ID?
+            _ albumId: Album.ID?
         ) {
             DispatchQueue.main.asyncAfter(deadline: time) {
                 if let artist = instance.artists.items.first(where: { $0.id == artistId }) {
@@ -340,7 +313,7 @@ struct ArtistsView: View {
 
                     if let albumId {
                         dependencies.router.artistsPath.append(
-                            ArtistsPath.album(artistId, albumId, trackId)
+                            ArtistsPath.releases(artistId, albumId)
                         )
                     }
 
@@ -348,12 +321,12 @@ struct ArtistsView: View {
                 }
 
                 if Date().timeIntervalSince(startTime) < 10 {
-                    scheduleNextRun(time: DispatchTime.now() + 0.1, artistId, albumId, trackId)
+                    scheduleNextRun(time: DispatchTime.now() + 0.1, artistId, albumId)
                 }
             }
         }
 
-        scheduleNextRun(time: DispatchTime.now(), artistId, albumId, trackId)
+        scheduleNextRun(time: DispatchTime.now(), artistId, albumId)
     }
 }
 

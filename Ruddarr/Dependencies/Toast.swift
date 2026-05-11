@@ -79,10 +79,14 @@ extension Toast {
         case movieSearchQueued
         case seasonSearchQueued
         case episodeSearchQueued
+        case artistSearchQueued
+        case albumSearchQueued
         case monitoredSearchQueued
         case movieDeleted
         case seriesDeleted
         case seasonDeleted
+        case artistDeleted
+        case albumDeleted
         case fileDeleted
         case linkCopied
         case reportSent
@@ -108,6 +112,10 @@ extension Toast {
             notice(text: String(localized: "Season Search Queued"), icon: "checkmark.circle.fill")
         case .episodeSearchQueued:
             notice(text: String(localized: "Episode Search Queued"), icon: "checkmark.circle.fill")
+        case .artistSearchQueued:
+            notice(text: String(localized: "Artist Search Queued"), icon: "checkmark.circle.fill")
+        case .albumSearchQueued:
+            notice(text: String(localized: "Album Search Queued"), icon: "checkmark.circle.fill")
         case .monitoredSearchQueued:
             notice(text: String(localized: "Monitored Search Queued"), icon: "checkmark.circle.fill")
         case .movieDeleted:
@@ -116,6 +124,10 @@ extension Toast {
             notice(text: String(localized: "Series Deleted"), icon: "checkmark.circle.fill")
         case .seasonDeleted:
             notice(text: String(localized: "Season Files Deleted"), icon: "checkmark.circle.fill")
+        case .artistDeleted:
+            notice(text: String(localized: "Artist Deleted"), icon: "checkmark.circle.fill")
+        case .albumDeleted:
+            notice(text: String(localized: "Album Files Deleted"), icon: "checkmark.circle.fill")
         case .fileDeleted:
             notice(text: String(localized: "File Deleted"), icon: "checkmark.circle.fill")
         case .linkCopied:

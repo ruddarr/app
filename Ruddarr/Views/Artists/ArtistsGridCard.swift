@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ArtistsGridCard: View {
+struct ArtistGridCard: View {
     var artist: Artist
     var model: Artist?
 
@@ -60,7 +60,7 @@ struct ArtistsGridCard: View {
         .background(.card)
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .contextMenu {
-            ArtistsContextMenu(artist: artist)
+            ArtistContextMenu(artist: artist)
         } preview: {
             poster.frame(width: 300, height: 300)
         }
@@ -132,7 +132,7 @@ struct ArtistsGridCard: View {
 
     ScrollView {
         MediaGrid(items: artists, style: .cards) { artist in
-            ArtistsGridCard(artist: artist)
+            ArtistGridCard(artist: artist)
         }
         .scenePadding(.horizontal)
     }

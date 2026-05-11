@@ -82,17 +82,14 @@ extension API {
                 .appending(path: String(file.id))
 
             return try await request(method: .delete, url: url, headers: instance.auth)
-        },
-
-        fetchArtists: { instance in
+        }, fetchArtists: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v1/artist")
 
             var artists: [Artist] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
             for i in artists.indices { artists[i].instanceId = instance.id }
             return artists
-        },
-        fetchAlbums: { artistId, instance in
+        }, fetchAlbums: { artistId, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v1/album")
                 .appending(queryItems: [
@@ -111,16 +108,24 @@ extension API {
                 ])
 
             return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-        },
-        lookupArtists: { instance, query in
+        }, lookupArtists: { instance, query in
             let url = try instance.baseURL()
                 .appending(path: "/api/v1/artist/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
 
             return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-        },
+        }, lookupArtistReleases: { artistId, albumId, instance  in
+            var url = URL(string: instance.url)!
+                .appending(path: "/api/v1/release")
 
-        fetchSeries: { instance in
+            if let album = albumId {
+                url = url.appending(queryItems: [.init(name: "albumId", value: String(album))])
+            } else {
+                url = url.appending(queryItems: [.init(name: "artistId", value: String(artistId!))])
+            }
+
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
+        }, fetchSeries: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/series")
 

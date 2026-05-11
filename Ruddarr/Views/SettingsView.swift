@@ -17,6 +17,7 @@ struct SettingsView: View {
     }
 
     var body: some View {
+        // swiftlint:disable:next closure_body_length
         NavigationStack(path: dependencies.$router.settingsPath) {
             Form {
                 instanceSection

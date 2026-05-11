@@ -3,7 +3,7 @@ import SwiftUI
 
 @MainActor
 @Observable
-class Artists {
+class ArtistModel {
     var instance: Instance
 
     var items: [Artist] = []
@@ -73,6 +73,10 @@ class Artists {
 
     func byTadbId(_ tadbId: Int) -> Artist? {
         items.first(where: { $0.tadbId == tadbId })
+    }
+
+    func byMbId(_ mbId: String?) -> Artist? {
+        items.first(where: { $0.mbId == mbId })
     }
 
     func fetch() async -> Bool {
