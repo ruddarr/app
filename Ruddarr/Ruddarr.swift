@@ -65,6 +65,7 @@ struct Ruddarr: App {
         switch parts[0] {
         case "movie": openDeeplink(url: URL(string: "ruddarr://movies/open/\(parts[1])?instance=\(parts[2])")!)
         case "series": openDeeplink(url: URL(string: "ruddarr://series/open/\(parts[1])?instance=\(parts[2])")!)
+        case "artist": openDeeplink(url: URL(string: "ruddarr://artist/open/\(parts[1])?instance=\(parts[2])")!)
         default: leaveBreadcrumb(.error, category: "spotlight", message: "Invalid identifier", data: ["openSearchableItem": identifier])
         }
     }
