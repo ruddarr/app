@@ -236,7 +236,11 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var languageLabel: String {
-        languageSingleLabel(languages ?? [])
+        if (languages ?? []).count <= 1 && title.hasMultiLanguageTag {
+            return String(localized: "Multilingual")
+        }
+
+        return languageSingleLabel(languages ?? [])
     }
 
     var languagesLabel: String {
