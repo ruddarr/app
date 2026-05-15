@@ -4,6 +4,9 @@ struct TrackFile: Identifiable, Equatable, Codable {
     let id: Int
     let size: Int
 
+    // used by deeplinks to switch instances
+    var instanceId: Instance.ID?
+
     let artistId: Artist.ID
     let albumId: Album.ID?
     let path: String?

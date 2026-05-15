@@ -2,437 +2,519 @@ import Foundation
 
 extension API {
     static var live: Self {
-        .init(fetchMovies: { instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/movie")
+        .init(
+            // Start Radarr suite
+            fetchMovies: { instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/movie")
 
-            var movies: [Movie] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-            for i in movies.indices { movies[i].instanceId = instance.id }
-            return movies
-        }, lookupMovies: { instance, query in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/movie/lookup")
-                .appending(queryItems: [.init(name: "term", value: query)])
+                var movies: [Movie] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+                for i in movies.indices { movies[i].instanceId = instance.id }
+                return movies
+            }, lookupMovies: { instance, query in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/movie/lookup")
+                    .appending(queryItems: [.init(name: "term", value: query)])
 
-            return try await request(url: url, headers: instance.auth)
-        }, lookupMovieReleases: { movieId, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/release")
-                .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
+                return try await request(url: url, headers: instance.auth)
+            }, lookupMovieReleases: { movieId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/release")
+                    .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
-        }, getMovie: { movieId, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/movie")
-                .appending(path: String(movieId))
+                return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
+            }, getMovie: { movieId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/movie")
+                    .appending(path: String(movieId))
 
-            return try await request(url: url, headers: instance.auth)
-        }, getMovieHistory: { movieId, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/history/movie")
-                .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
+                return try await request(url: url, headers: instance.auth)
+            }, getMovieHistory: { movieId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/history/movie")
+                    .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
-            return try await request(url: url, headers: instance.auth)
-        }, getMovieFiles: { movieId, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/moviefile")
-                .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
+                return try await request(url: url, headers: instance.auth)
+            }, getMovieFiles: { movieId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/moviefile")
+                    .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
-            return try await request(url: url, headers: instance.auth)
-        }, getMovieExtraFiles: { movieId, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/extrafile")
-                .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
+                return try await request(url: url, headers: instance.auth)
+            }, getMovieExtraFiles: { movieId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/extrafile")
+                    .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
-            return try await request(url: url, headers: instance.auth)
-        }, addMovie: { movie, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/movie")
+                return try await request(url: url, headers: instance.auth)
+            }, addMovie: { movie, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/movie")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: movie)
-        }, updateMovie: { movie, moveFiles, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/movie/editor")
+                return try await request(method: .post, url: url, headers: instance.auth, body: movie)
+            }, updateMovie: { movie, moveFiles, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/movie/editor")
 
-            let body = MovieEditorResource(
-                movieIds: [movie.id],
-                monitored: movie.monitored,
-                qualityProfileId: movie.qualityProfileId,
-                minimumAvailability: movie.minimumAvailability,
-                rootFolderPath: movie.rootFolderPath,
-                tags: movie.tags,
-                applyTags: "replace",
-                moveFiles: moveFiles ? true : nil
-            )
+                let body = MovieEditorResource(
+                    movieIds: [movie.id],
+                    monitored: movie.monitored,
+                    qualityProfileId: movie.qualityProfileId,
+                    minimumAvailability: movie.minimumAvailability,
+                    rootFolderPath: movie.rootFolderPath,
+                    tags: movie.tags,
+                    applyTags: "replace",
+                    moveFiles: moveFiles ? true : nil
+                )
 
-            return try await request(method: .put, url: url, headers: instance.auth, body: body)
-        }, deleteMovie: { movie, addExclusion, deleteFildes, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/movie")
-                .appending(path: String(movie.id))
-                .appending(queryItems: [
-                    .init(name: "deleteFiles", value: deleteFildes ? "true" : "false"),
-                    .init(name: "addImportExclusion", value: addExclusion ? "true" : "false"),
-                ])
+                return try await request(method: .put, url: url, headers: instance.auth, body: body)
+            }, deleteMovie: { movie, addExclusion, deleteFildes, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/movie")
+                    .appending(path: String(movie.id))
+                    .appending(queryItems: [
+                        .init(name: "deleteFiles", value: deleteFildes ? "true" : "false"),
+                        .init(name: "addImportExclusion", value: addExclusion ? "true" : "false"),
+                    ])
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
-        }, deleteMovieFile: { file, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/moviefile")
-                .appending(path: String(file.id))
+                return try await request(method: .delete, url: url, headers: instance.auth)
+            }, deleteMovieFile: { file, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/moviefile")
+                    .appending(path: String(file.id))
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
-        }, fetchArtists: { instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v1/artist")
+                return try await request(method: .delete, url: url, headers: instance.auth)
+            },
 
-            var artists: [Artist] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-            for i in artists.indices { artists[i].instanceId = instance.id }
-            return artists
-        }, fetchAlbums: { artistId, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v1/album")
-                .appending(queryItems: [
-                    .init(name: "artistId", value: "\(artistId)")
-                ])
+            // Start Lidarr suite
+            fetchArtists: { instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/artist")
 
-            var albums: [Album] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-            for i in albums.indices { albums[i].instanceId = instance.id }
-            return albums
-        },
-        fetchAlbumFiles: { albumId, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v1/trackfile")
-                .appending(queryItems: [
-                    .init(name: "albumId", value: String(albumId))
-                ])
+                var artists: [Artist] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+                for i in artists.indices { artists[i].instanceId = instance.id }
+                return artists
+            }, fetchAlbums: { artistId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/album")
+                    .appending(queryItems: [
+                        .init(name: "artistId", value: "\(artistId)")
+                    ])
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-        }, lookupArtists: { instance, query in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v1/artist/lookup")
-                .appending(queryItems: [.init(name: "term", value: query)])
+                var albums: [Album] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+                for i in albums.indices { albums[i].instanceId = instance.id }
+                return albums
+            }, fetchAlbumFiles: { albumId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/trackfile")
+                    .appending(queryItems: [
+                        .init(name: "albumId", value: String(albumId))
+                    ])
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-        }, lookupArtistReleases: { artistId, albumId, instance  in
-            var url = URL(string: instance.url)!
-                .appending(path: "/api/v1/release")
+                return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            }, lookupArtists: { instance, query in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/artist/lookup")
+                    .appending(queryItems: [.init(name: "term", value: query)])
 
-            if let album = albumId {
-                url = url.appending(queryItems: [.init(name: "albumId", value: String(album))])
-            } else {
-                url = url.appending(queryItems: [.init(name: "artistId", value: String(artistId!))])
-            }
+                return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            }, lookupArtistReleases: { artistId, albumId, instance  in
+                var url = URL(string: instance.url)!
+                    .appending(path: "/api/v1/release")
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
-        }, fetchSeries: { instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/series")
+                if let album = albumId {
+                    url = url.appending(queryItems: [.init(name: "albumId", value: String(album))])
+                } else {
+                    url = url.appending(queryItems: [.init(name: "artistId", value: String(artistId!))])
+                }
 
-            var series: [Series] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-            for i in series.indices { series[i].instanceId = instance.id }
-            return series
-        }, fetchEpisodes: { seriesId, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/episode")
-                .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
+                return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
+            }, fetchArtistFiles: { artistId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/trackfile")
+                    .appending(queryItems: [
+                        .init(name: "artistId", value: String(artistId))
+                    ])
 
-            var episodes: [Episode] = try await request(url: url, headers: instance.auth)
-            for i in episodes.indices { episodes[i].instanceId = instance.id }
-            return episodes
-        }, fetchEpisodeFiles: { seriesId, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/episodeFile")
-                .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
+                return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            }, getArtist: { artistId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/artist")
+                    .appending(path: String(artistId))
 
-            return try await request(url: url, headers: instance.auth)
-        }, lookupSeries: { instance, query in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/series/lookup")
-                .appending(queryItems: [.init(name: "term", value: query)])
+                return try await request(url: url, headers: instance.auth)
+            }, addArtist: { artist, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/artist")
+                    .appending(path: String(artist.id))
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-        }, lookupSeriesReleases: { seriesId, seasonId, episodeId, instance in
-            var url = URL(string: instance.url)!
-                .appending(path: "/api/v3/release")
+                return try await request(method: .post, url: url, headers: instance.auth, body: artist)
+            }, pushArtist: { artist, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/artist")
+                    .appending(path: String(artist.id))
 
-            if let episode = episodeId {
-                url = url.appending(queryItems: [.init(name: "episodeId", value: String(episode))])
-            } else {
-                url = url.appending(queryItems: [.init(name: "seriesId", value: String(seriesId!)), .init(name: "seasonNumber", value: String(seasonId!))])
-            }
+//                let body = ArtistEditorResource(
+//                    artistsIds: [artist.id],
+//                    monitored: artist.monitored,
+//                    monitorNewItems: artist.monitorNewItems ?? .none,
+//                    qualityProfileId: artist.qualityProfileId,
+//                    metadataProfileId: artist.metadataProfileId,
+//                    rootFolderPath: artist.rootFolderPath,
+//                    tags: artist.tags,
+//                    applyTags: "replace",
+//                    moveFiles: false,
+//                )
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
-        }, getSeries: { series, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/series")
-                .appending(path: String(series))
+                return try await request(method: .put, url: url, headers: instance.auth, body: artist)
+            }, updateArtist: { artist, moveFiles, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/artist/editor")
 
-            return try await request(url: url, headers: instance.auth)
-        }, addSeries: { series, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/series")
+                let body = ArtistEditorResource(
+                    artistsIds: [artist.id],
+                    monitored: artist.monitored,
+                    monitorNewItems: artist.monitorNewItems ?? .none,
+                    qualityProfileId: artist.qualityProfileId,
+                    metadataProfileId: artist.metadataProfileId,
+                    rootFolderPath: artist.rootFolderPath,
+                    tags: artist.tags,
+                    applyTags: "replace",
+                    moveFiles: moveFiles ? true : nil,
+                )
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: series)
-        }, pushSeries: { series, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/series")
-                .appending(path: String(series.id))
+                return try await request(method: .put, url: url, headers: instance.auth, body: body)
+            }, deleteArtist: { artist, addExclusion, deleteFiles, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/artist")
+                    .appending(path: String(artist.id))
+                    .appending(queryItems: [
+                        .init(name: "deleteFiles", value: deleteFiles ? "true" : "false"),
+                        .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
+                    ])
 
-            return try await request(method: .put, url: url, headers: instance.auth, body: series)
-        }, updateSeries: { series, moveFiles, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/series/editor")
+                return try await request(method: .delete, url: url, headers: instance.auth)
+            }, getAlbum: { album, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/album")
+                    .appending(path: String(album.id))
 
-            let body = SeriesEditorResource(
-                seriesIds: [series.id],
-                monitored: series.monitored,
-                monitorNewItems: series.monitorNewItems ?? .none,
-                seriesType: series.seriesType,
-                seasonFolder: series.seasonFolder,
-                qualityProfileId: series.qualityProfileId,
-                rootFolderPath: series.rootFolderPath,
-                tags: series.tags,
-                applyTags: "replace",
-                moveFiles: moveFiles ? true : nil
-            )
+                return try await request(url: url, headers: instance.auth)
+            }, addAlbum: { album, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/album")
+                    .appending(path: String(album.id))
 
-            return try await request(method: .put, url: url, headers: instance.auth, body: body)
-        }, deleteSeries: { series, addExclusion, deleteFiles, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/series")
-                .appending(path: String(series.id))
-                .appending(queryItems: [
-                    .init(name: "deleteFiles", value: deleteFiles ? "true" : "false"),
-                    .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
-                ])
+                return try await request(url: url, headers: instance.auth)
+            }, pushAlbum: { album, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/album/monitor")
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
-        }, monitorEpisode: { ids, monitored, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/episode/monitor")
+                let body = AlbumMonitorResource(
+                    albumIds: [album.id],
+                    monitored: album.monitored
+                )
 
-            let body = EpisodesMonitorResource(episodeIds: ids, monitored: monitored)
+                return try await request(method: .put, url: url, headers: instance.auth, body: body)
+            }, deleteAlbum: { album, addExclusion, deleteFiles, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/album")
+                    .appending(path: String(album.id))
+                    .appending(queryItems: [
+                        .init(name: "deleteFiles", value: deleteFiles ? "true" : "false"),
+                        .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
+                    ])
 
-            return try await request(method: .put, url: url, headers: instance.auth, body: body)
-        }, getEpisodeHistory: { id, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/history")
-                .appending(queryItems: [.init(name: "episodeId", value: String(id))])
+                return try await request(method: .delete, url: url, headers: instance.auth)
+            }, deleteArtistFile: { track, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/trackfile")
+                    .appending(path: String(track.id))
 
-            return try await request(url: url, headers: instance.auth)
-        }, deleteEpisodeFile: { file, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/episodefile")
-                .appending(path: String(file.id))
+                return try await request(method: .delete, url: url, headers: instance.auth)
+            }, deleteArtistFiles: { files, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/trackfile/bulk")
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
-        }, deleteEpisodeFiles: { files, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/episodefile/bulk")
+                let body = ArtistDeleteResource(trackFileIds: files.map(\.id))
 
-            let body = EpisodeDeleteResource(episodeFileIds: files.map(\.id))
+                return try await request(method: .delete, url: url, headers: instance.auth, body: body)
+            },
 
-            return try await request(method: .delete, url: url, headers: instance.auth, body: body)
-        }, getArtist: { artistId, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v1/artist")
-                .appending(path: String(artistId))
+            // Start Sonarr suite
+            fetchSeries: { instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/series")
 
-            return try await request(url: url, headers: instance.auth)
-        }, addArtist: { artist, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v1/artist")
-                .appending(path: String(artist.id))
+                var series: [Series] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+                for i in series.indices { series[i].instanceId = instance.id }
+                return series
+            }, fetchEpisodes: { seriesId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/episode")
+                    .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: artist)
-        }, pushArtist: { artist, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v1/artist")
-                .appending(path: String(artist.id))
+                var episodes: [Episode] = try await request(url: url, headers: instance.auth)
+                for i in episodes.indices { episodes[i].instanceId = instance.id }
+                return episodes
+            }, fetchEpisodeFiles: { seriesId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/episodeFile")
+                    .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
 
-            return try await request(method: .put, url: url, headers: instance.auth, body: artist)
-        }, updateArtist: { artist, moveFiles, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v1/artist")
-                .appending(path: String(artist.id))
+                return try await request(url: url, headers: instance.auth)
+            }, lookupSeries: { instance, query in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/series/lookup")
+                    .appending(queryItems: [.init(name: "term", value: query)])
 
-            let body = ArtistEditorResource(
-                artistsIds: [artist.id],
-                monitored: artist.monitored,
-                monitorNewItems: artist.monitorNewItems ?? .none,
-                qualityProfileId: artist.qualityProfileId,
-                metadataProfileId: artist.metadataProfileId,
-                rootFolderPath: artist.rootFolderPath,
-                tags: artist.tags,
-                applyTags: "replace",
-                moveFiles: moveFiles ? true : nil,
-            )
+                return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            }, lookupSeriesReleases: { seriesId, seasonId, episodeId, instance in
+                var url = URL(string: instance.url)!
+                    .appending(path: "/api/v3/release")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: body)
-        }, deleteArtist: { artist, addExclusion, deleteFiles, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v1/artist")
-                .appending(path: String(artist.id))
-                .appending(queryItems: [
-                    .init(name: "deleteFiles", value: deleteFiles ? "true" : "false"),
-                    .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
-                ])
+                if let episode = episodeId {
+                    url = url.appending(queryItems: [.init(name: "episodeId", value: String(episode))])
+                } else {
+                    url = url.appending(queryItems: [.init(name: "seriesId", value: String(seriesId!)), .init(name: "seasonNumber", value: String(seasonId!))])
+                }
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
-        }, albumCalendar: { start, end, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v1/calendar")
-                .appending(queryItems: [
-                    .init(name: "unmonitored", value: "true"),
-                    .init(name: "start", value: start.formatted(.iso8601)),
-                    .init(name: "end", value: end.formatted(.iso8601)),
-                ])
+                return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
+            }, getSeries: { series, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/series")
+                    .appending(path: String(series))
 
-            var albums: [Album] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-            for i in albums.indices { albums[i].instanceId = instance.id }
-            return albums
-        }, movieCalendar: { start, end, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/calendar")
-                .appending(queryItems: [
-                    .init(name: "unmonitored", value: "true"),
-                    .init(name: "start", value: start.formatted(.iso8601)),
-                    .init(name: "end", value: end.formatted(.iso8601)),
-                ])
+                return try await request(url: url, headers: instance.auth)
+            }, addSeries: { series, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/series")
 
-            var movies: [Movie] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-            for i in movies.indices { movies[i].instanceId = instance.id }
-            return movies
-        }, episodeCalendar: { start, end, instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/calendar")
-                .appending(queryItems: [
-                    .init(name: "unmonitored", value: "true"),
-                    .init(name: "includeSeries", value: "true"),
-                    .init(name: "start", value: start.formatted(.iso8601)),
-                    .init(name: "end", value: end.formatted(.iso8601)),
-                ])
+                return try await request(method: .post, url: url, headers: instance.auth, body: series)
+            }, pushSeries: { series, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/series")
+                    .appending(path: String(series.id))
 
-            var episodes: [Episode] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-            for i in episodes.indices { episodes[i].instanceId = instance.id }
-            return episodes
-        }, command: { command, instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/command")
+                return try await request(method: .put, url: url, headers: instance.auth, body: series)
+            }, updateSeries: { series, moveFiles, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/series/editor")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
-        }, downloadRelease: { payload, instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/release")
+                let body = SeriesEditorResource(
+                    seriesIds: [series.id],
+                    monitored: series.monitored,
+                    monitorNewItems: series.monitorNewItems ?? .none,
+                    seriesType: series.seriesType,
+                    seasonFolder: series.seasonFolder,
+                    qualityProfileId: series.qualityProfileId,
+                    rootFolderPath: series.rootFolderPath,
+                    tags: series.tags,
+                    applyTags: "replace",
+                    moveFiles: moveFiles ? true : nil
+                )
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: payload, timeout: instance.timeout(.releaseDownload))
-        }, systemStatus: { instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/system/status")
+                return try await request(method: .put, url: url, headers: instance.auth, body: body)
+            }, deleteSeries: { series, addExclusion, deleteFiles, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/series")
+                    .appending(path: String(series.id))
+                    .appending(queryItems: [
+                        .init(name: "deleteFiles", value: deleteFiles ? "true" : "false"),
+                        .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
+                    ])
 
-            return try await request(url: url, headers: instance.auth)
-        }, rootFolders: { instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/rootfolder")
+                return try await request(method: .delete, url: url, headers: instance.auth)
+            }, monitorEpisode: { ids, monitored, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/episode/monitor")
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-        }, qualityProfiles: { instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/qualityprofile")
-            return try await request(url: url, headers: instance.auth)
-        }, getTags: { instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/tag")
+                let body = EpisodesMonitorResource(episodeIds: ids, monitored: monitored)
 
-            return try await request(url: url, headers: instance.auth)
-        }, fetchQueueTasks: { instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/queue")
-                .appending(queryItems: [
-                    .init(name: "includeMovie", value: "true"),
-                    .init(name: "includeSeries", value: "true"),
-                    .init(name: "includeEpisode", value: "true"),
-                    .init(name: "includeArtist", value: "true"),
-                    .init(name: "includeAlbum", value: "true"),
-                    .init(name: "includeUnknownArtistItems", value: "true"),
-                    .init(name: "pageSize", value: "100"),
-                ])
+                return try await request(method: .put, url: url, headers: instance.auth, body: body)
+            }, getEpisodeHistory: { id, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/history")
+                    .appending(queryItems: [.init(name: "episodeId", value: String(id))])
 
-            var items: QueueItems = try await request(url: url, headers: instance.auth)
-            for i in items.records.indices { items.records[i].instanceId = instance.id }
-            return items
-        }, deleteQueueTask: { task, remove, block, search, instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/queue")
-                .appending(path: String(task))
-                .appending(queryItems: [
-                    .init(name: "removeFromClient", value: remove ? "true" : "false"),
-                    .init(name: "blocklist", value: block ? "true" : "false"),
-                    .init(name: "skipRedownload", value: search ? "false" : "true"),
-                ])
+                return try await request(url: url, headers: instance.auth)
+            }, deleteEpisodeFile: { file, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/episodefile")
+                    .appending(path: String(file.id))
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
-        }, fetchImportableFiles: { downloadId, instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/manualimport")
-                .appending(queryItems: [
-                    .init(name: "downloadId", value: downloadId),
-                    .init(name: "filterExistingFiles", value: "false"),
-                ])
+                return try await request(method: .delete, url: url, headers: instance.auth)
+            }, deleteEpisodeFiles: { files, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/episodefile/bulk")
 
-            return try await request(url: url, headers: instance.auth)
-        }, fetchHistory: { type, page, limit, instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            var url = URL(string: instance.url)!
-                .appending(path: "/api/\(apiVersion)/history")
-                .appending(queryItems: [
-                    .init(name: "page", value: String(page)),
-                    .init(name: "pageSize", value: String(limit)),
-                ])
+                let body = EpisodeDeleteResource(episodeFileIds: files.map(\.id))
 
-            if let type {
-                url = url.appending(queryItems: [.init(name: "eventType", value: String(type))])
-            }
+                return try await request(method: .delete, url: url, headers: instance.auth, body: body)
+            },
 
-            var history: MediaHistory = try await request(url: url, headers: instance.auth)
-            for i in history.records.indices { history.records[i].instanceId = instance.id }
-            return history
-        }, fetchNotifications: { instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/notification")
+            // Instance calendars
+            albumCalendar: { start, end, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/calendar")
+                    .appending(queryItems: [
+                        .init(name: "unmonitored", value: "true"),
+                        .init(name: "start", value: start.formatted(.iso8601)),
+                        .init(name: "end", value: end.formatted(.iso8601)),
+                    ])
 
-            return try await request(url: url, headers: instance.auth)
-        }, createNotification: { model, instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/notification")
+                var albums: [Album] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+                for i in albums.indices { albums[i].instanceId = instance.id }
+                return albums
+            }, movieCalendar: { start, end, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/calendar")
+                    .appending(queryItems: [
+                        .init(name: "unmonitored", value: "true"),
+                        .init(name: "start", value: start.formatted(.iso8601)),
+                        .init(name: "end", value: end.formatted(.iso8601)),
+                    ])
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: model)
-        }, updateNotification: { model, instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/notification")
-                .appending(path: String(model.id ?? 0))
+                var movies: [Movie] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+                for i in movies.indices { movies[i].instanceId = instance.id }
+                return movies
+            }, episodeCalendar: { start, end, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v3/calendar")
+                    .appending(queryItems: [
+                        .init(name: "unmonitored", value: "true"),
+                        .init(name: "includeSeries", value: "true"),
+                        .init(name: "start", value: start.formatted(.iso8601)),
+                        .init(name: "end", value: end.formatted(.iso8601)),
+                    ])
 
-            return try await request(method: .put, url: url, headers: instance.auth, body: model)
-        }, deleteNotification: { model, instance in
-            let apiVersion = instance.type == .lidarr ? "v1" : "v3"
-            let url = try instance.baseURL()
-                .appending(path: "/api/\(apiVersion)/notification")
-                .appending(path: String(model.id ?? 0))
+                var episodes: [Episode] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+                for i in episodes.indices { episodes[i].instanceId = instance.id }
+                return episodes
+            },
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
-        })
+            // Generic instance requests
+            command: { command, instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/command")
+
+                return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
+            }, downloadRelease: { payload, instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/release")
+
+                return try await request(method: .post, url: url, headers: instance.auth, body: payload, timeout: instance.timeout(.releaseDownload))
+            }, systemStatus: { instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/system/status")
+
+                return try await request(url: url, headers: instance.auth)
+            }, rootFolders: { instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/rootfolder")
+
+                return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            }, qualityProfiles: { instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/qualityprofile")
+                return try await request(url: url, headers: instance.auth)
+            }, metadataProfiles: { instance in
+                // Only supported by Lidarr
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/metadataprofile")
+                return try await request(url: url, headers: instance.auth)
+            }, getTags: { instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/tag")
+
+                return try await request(url: url, headers: instance.auth)
+            }, fetchQueueTasks: { instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/queue")
+                    .appending(queryItems: [
+                        .init(name: "includeMovie", value: "true"),
+                        .init(name: "includeSeries", value: "true"),
+                        .init(name: "includeEpisode", value: "true"),
+                        .init(name: "includeArtist", value: "true"),
+                        .init(name: "includeAlbum", value: "true"),
+                        .init(name: "includeUnknownArtistItems", value: "true"),
+                        .init(name: "pageSize", value: "100"),
+                    ])
+
+                var items: QueueItems = try await request(url: url, headers: instance.auth)
+                for i in items.records.indices { items.records[i].instanceId = instance.id }
+                return items
+            }, deleteQueueTask: { task, remove, block, search, instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/queue")
+                    .appending(path: String(task))
+                    .appending(queryItems: [
+                        .init(name: "removeFromClient", value: remove ? "true" : "false"),
+                        .init(name: "blocklist", value: block ? "true" : "false"),
+                        .init(name: "skipRedownload", value: search ? "false" : "true"),
+                    ])
+
+                return try await request(method: .delete, url: url, headers: instance.auth)
+            }, fetchImportableFiles: { downloadId, instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/manualimport")
+                    .appending(queryItems: [
+                        .init(name: "downloadId", value: downloadId),
+                        .init(name: "filterExistingFiles", value: "false"),
+                    ])
+
+                return try await request(url: url, headers: instance.auth)
+            }, fetchHistory: { type, page, limit, instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                var url = URL(string: instance.url)!
+                    .appending(path: "/api/\(apiVersion)/history")
+                    .appending(queryItems: [
+                        .init(name: "page", value: String(page)),
+                        .init(name: "pageSize", value: String(limit)),
+                    ])
+
+                if let type {
+                    url = url.appending(queryItems: [.init(name: "eventType", value: String(type))])
+                }
+
+                var history: MediaHistory = try await request(url: url, headers: instance.auth)
+                for i in history.records.indices { history.records[i].instanceId = instance.id }
+                return history
+            }, fetchNotifications: { instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/notification")
+
+                return try await request(url: url, headers: instance.auth)
+            }, createNotification: { model, instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/notification")
+
+                return try await request(method: .post, url: url, headers: instance.auth, body: model)
+            }, updateNotification: { model, instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/notification")
+                    .appending(path: String(model.id ?? 0))
+
+                return try await request(method: .put, url: url, headers: instance.auth, body: model)
+            }, deleteNotification: { model, instance in
+                let apiVersion = instance.type == .lidarr ? "v1" : "v3"
+                let url = try instance.baseURL()
+                    .appending(path: "/api/\(apiVersion)/notification")
+                    .appending(path: String(model.id ?? 0))
+
+                return try await request(method: .delete, url: url, headers: instance.auth)
+            })
     }
 }

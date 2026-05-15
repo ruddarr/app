@@ -68,15 +68,15 @@ struct MediaFile: Identifiable, Equatable, Codable {
 }
 
 struct FileMediaInfo: Equatable, Codable {
-    let audioBitrate: Int
-    let audioStreamCount: Int
-    let audioChannels: Float
+    let audioBitrate: Int?
+    let audioStreamCount: Int?
+    let audioChannels: Float?
     let audioCodec: String?
     let audioLanguages: String?
 
-    let videoBitDepth: Int
-    let videoBitrate: Int
-    let videoFps: Float
+    let videoBitDepth: Int?
+    let videoBitrate: Int?
+    let videoFps: Float?
     let videoCodec: String?
     let resolution: String?
     let runTime: String?

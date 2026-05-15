@@ -23,6 +23,7 @@ class ArtistModel {
         case fetch
         case get(Artist)
         case add(Artist)
+        case push(Artist)
         case update(Artist, Bool)
         case delete(Artist, Bool, Bool)
         case download(String, Int, Int?)
@@ -83,12 +84,16 @@ class ArtistModel {
         await request(.fetch)
     }
 
-    func get(_ artist: Artist) async -> Bool {
-        await request(.get(artist))
+    func get(_ artist: Artist, silent: Bool = false) async -> Bool {
+        await request(.get(artist), silent: silent)
     }
 
     func add(_ artist: Artist) async -> Bool {
         await request(.add(artist))
+    }
+
+    func push(_ artist: Artist) async -> Bool {
+        await request(.push(artist))
     }
 
     func update(_ artist: Artist, moveFiles: Bool = false) async -> Bool {
@@ -107,23 +112,31 @@ class ArtistModel {
         await request(.command(command))
     }
 
-    func request(_ operation: Operation) async -> Bool {
-        error = nil
-        isWorking = true
+    func request(_ operation: Operation, silent: Bool = false) async -> Bool {
+        if !silent {
+            error = nil
+            isWorking = true
+        }
 
         do {
             try await performOperation(operation)
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
-            error = apiError
+            if !silent {
+                error = apiError
+            }
 
             leaveBreadcrumb(.error, category: "Artists", message: "Request failed", data: ["operation": operation, "error": apiError])
         } catch {
-            self.error = API.Error(from: error)
+            if !silent {
+                self.error = API.Error(from: error)
+            }
         }
 
-        isWorking = false
+        if !silent {
+            isWorking = false
+        }
 
         return error == nil
     }
@@ -149,6 +162,9 @@ class ArtistModel {
 
         case .add(let artist):
             items.append(try await dependencies.api.addArtist(artist, instance))
+
+        case .push(let artist):
+            _ = try await dependencies.api.pushArtist(artist, instance)
 
         case .update(let artist, let moveFiles):
             _ = try await dependencies.api.updateArtist(artist, moveFiles, instance)
@@ -180,6 +196,7 @@ class ArtistModel {
             .filter {
                 guard !query.isEmpty else { return true }
                 return $0.title.localizedCaseInsensitiveContains(query)
+                || alternateTitles[$0.id]?.localizedCaseInsensitiveContains(query) ?? false
             }
             .sorted { lhs, rhs in
                 sort.isAscending ? comparator(lhs, rhs) : comparator(rhs, lhs)

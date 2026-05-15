@@ -14,6 +14,7 @@ struct Instance: Identifiable, Equatable, Codable {
     var headers: [InstanceHeader] = []
     var rootFolders: [InstanceRootFolder] = []
     var qualityProfiles: [InstanceQualityProfile] = []
+    var metadataProfiles: [InstanceMetadataProfile] = []
     var tags: [Tag] = []
     // WARNING: BE CAREFUL CHANGING
 
@@ -36,6 +37,7 @@ struct Instance: Identifiable, Equatable, Codable {
         headers = try values.decode([InstanceHeader].self, forKey: .headers)
         rootFolders = try values.decode([InstanceRootFolder].self, forKey: .rootFolders)
         qualityProfiles = try values.decode([InstanceQualityProfile].self, forKey: .qualityProfiles)
+        metadataProfiles = try values.decode([InstanceMetadataProfile].self, forKey: .metadataProfiles)
         tags = try values.decodeIfPresent([Tag].self, forKey: .tags) ?? []
         name = try values.decodeIfPresent(String.self, forKey: .name)
         version = try values.decodeIfPresent(String.self, forKey: .version)
@@ -155,6 +157,11 @@ struct InstanceRootFolder: Identifiable, Equatable, Codable, Hashable {
 }
 
 struct InstanceQualityProfile: Identifiable, Equatable, Codable {
+    let id: Int
+    let name: String
+}
+
+struct InstanceMetadataProfile: Identifiable, Equatable, Codable {
     let id: Int
     let name: String
 }

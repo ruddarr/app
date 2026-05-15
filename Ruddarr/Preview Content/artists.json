@@ -2,432 +2,119 @@
   {
     "status": "continuing",
     "ended": false,
-    "artistName": "Approaching Nirvana",
-    "foreignArtistId": "c3a64a25-251b-4d03-afba-1471440245b8",
+    "artistName": "EDEN",
+    "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
     "tadbId": 0,
     "discogsId": 0,
-    "artistType": "Group",
-    "disambiguation": "",
+    "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
+    "artistType": "Person",
+    "disambiguation": "Irish indie pop",
     "links": [
       {
-        "url": "http://approachingnirvana.com/",
-        "name": "approachingnirvana"
-      },
-      {
-        "url": "https://www.youtube.com/channel/UC9EzN5XNxhxqHZevM9kSuaw",
+        "url": "https://www.youtube.com/channel/UC-ZsN5evqmSVo3_SJyQe9yA",
         "name": "youtube"
       },
       {
-        "url": "https://www.facebook.com/ApproachingNirvana",
-        "name": "facebook"
-      },
-      {
-        "url": "https://myspace.com/approachingnirvana",
-        "name": "myspace"
-      },
-      {
-        "url": "https://twitter.com/approachnirvana",
-        "name": "twitter"
-      },
-      {
-        "url": "http://music.approachingnirvana.com/",
-        "name": "approachingnirvana"
-      },
-      {
-        "url": "https://itunes.apple.com/us/artist/id313583565",
-        "name": "apple"
-      },
-      {
-        "url": "https://soundcloud.com/approachingnirvana",
+        "url": "https://soundcloud.com/iameden",
         "name": "soundcloud"
       },
       {
-        "url": "https://www.discogs.com/artist/3465490",
-        "name": "discogs"
-      },
-      {
-        "url": "https://www.twitch.tv/approachingnirvana",
-        "name": "twitch"
-      },
-      {
-        "url": "https://open.spotify.com/artist/3sS2Q1UZuUXL7TZSbQumDI",
-        "name": "spotify"
-      },
-      {
-        "url": "https://www.mixcloud.com/approachingnirvana/",
-        "name": "mixcloud"
-      },
-      {
-        "url": "https://www.instagram.com/approachnirvana/",
-        "name": "instagram"
-      },
-      {
-        "url": "https://www.deezer.com/artist/1429039",
-        "name": "deezer"
-      },
-      {
-        "url": "https://play.google.com/store/music/artist?id=A7wzpavrpp74tbx74xk6kishrvq",
-        "name": "google"
-      },
-      {
-        "url": "https://us.7digital.com/artist/approaching-nirvana",
-        "name": "7digital"
-      },
-      {
-        "url": "https://tidal.com/artist/4006161",
-        "name": "tidal"
-      },
-      {
-        "url": "https://music.apple.com/us/artist/313583565",
-        "name": "apple"
-      },
-      {
-        "url": "https://approachingnirvana.bandcamp.com/",
-        "name": "bandcamp"
-      }
-    ],
-    "nextAlbum": null,
-    "lastAlbum": {
-      "title": "Enchanted",
-      "disambiguation": "",
-      "overview": "",
-      "artistId": 1,
-      "foreignAlbumId": "8669a5ec-744b-4037-8736-3f09c157f53f",
-      "monitored": true,
-      "anyReleaseOk": true,
-      "profileId": 1,
-      "duration": 22113569,
-      "albumType": "Album",
-      "secondaryTypes": [],
-      "mediumCount": 1,
-      "ratings": {
-        "votes": 0,
-        "value": 0
-      },
-      "releaseDate": "2025-06-27T00:00:00Z",
-      "releases": [
-        {
-          "id": 3059,
-          "albumId": 1040,
-          "foreignReleaseId": "e5d18817-7b88-438e-8ce6-61d3d8991e32",
-          "title": "Enchanted",
-          "status": "Official",
-          "duration": 3030771,
-          "trackCount": 12,
-          "media": [
-            {
-              "mediumNumber": 1,
-              "mediumName": "",
-              "mediumFormat": "Digital Media"
-            }
-          ],
-          "mediumCount": 1,
-          "disambiguation": "",
-          "country": [
-            "[Worldwide]"
-          ],
-          "label": [
-            "[no label]"
-          ],
-          "format": "Digital Media",
-          "monitored": false
-        },
-        {
-          "id": 3794,
-          "albumId": 1040,
-          "foreignReleaseId": "c82c4d1f-188a-41ad-9fe8-dac72b23b48f",
-          "title": "Enchanted (Deluxe Edition)",
-          "status": "Official",
-          "duration": 22113569,
-          "trackCount": 51,
-          "media": [
-            {
-              "mediumNumber": 1,
-              "mediumName": "",
-              "mediumFormat": "Digital Media"
-            }
-          ],
-          "mediumCount": 1,
-          "disambiguation": "",
-          "country": [
-            "[Worldwide]"
-          ],
-          "label": [
-            "[no label]"
-          ],
-          "format": "Digital Media",
-          "monitored": true
-        }
-      ],
-      "genres": [],
-      "media": [
-        {
-          "mediumNumber": 1,
-          "mediumName": "",
-          "mediumFormat": "Digital Media"
-        }
-      ],
-      "artist": {
-        "status": "continuing",
-        "ended": false,
-        "artistName": "Approaching Nirvana",
-        "foreignArtistId": "c3a64a25-251b-4d03-afba-1471440245b8",
-        "tadbId": 0,
-        "discogsId": 0,
-        "artistType": "Group",
-        "disambiguation": "",
-        "links": [
-          {
-            "url": "http://approachingnirvana.com/",
-            "name": "approachingnirvana"
-          },
-          {
-            "url": "https://www.youtube.com/channel/UC9EzN5XNxhxqHZevM9kSuaw",
-            "name": "youtube"
-          },
-          {
-            "url": "https://www.facebook.com/ApproachingNirvana",
-            "name": "facebook"
-          },
-          {
-            "url": "https://myspace.com/approachingnirvana",
-            "name": "myspace"
-          },
-          {
-            "url": "https://twitter.com/approachnirvana",
-            "name": "twitter"
-          },
-          {
-            "url": "http://music.approachingnirvana.com/",
-            "name": "approachingnirvana"
-          },
-          {
-            "url": "https://itunes.apple.com/us/artist/id313583565",
-            "name": "apple"
-          },
-          {
-            "url": "https://soundcloud.com/approachingnirvana",
-            "name": "soundcloud"
-          },
-          {
-            "url": "https://www.discogs.com/artist/3465490",
-            "name": "discogs"
-          },
-          {
-            "url": "https://www.twitch.tv/approachingnirvana",
-            "name": "twitch"
-          },
-          {
-            "url": "https://open.spotify.com/artist/3sS2Q1UZuUXL7TZSbQumDI",
-            "name": "spotify"
-          },
-          {
-            "url": "https://www.mixcloud.com/approachingnirvana/",
-            "name": "mixcloud"
-          },
-          {
-            "url": "https://www.instagram.com/approachnirvana/",
-            "name": "instagram"
-          },
-          {
-            "url": "https://www.deezer.com/artist/1429039",
-            "name": "deezer"
-          },
-          {
-            "url": "https://play.google.com/store/music/artist?id=A7wzpavrpp74tbx74xk6kishrvq",
-            "name": "google"
-          },
-          {
-            "url": "https://us.7digital.com/artist/approaching-nirvana",
-            "name": "7digital"
-          },
-          {
-            "url": "https://tidal.com/artist/4006161",
-            "name": "tidal"
-          },
-          {
-            "url": "https://music.apple.com/us/artist/313583565",
-            "name": "apple"
-          },
-          {
-            "url": "https://approachingnirvana.bandcamp.com/",
-            "name": "bandcamp"
-          }
-        ],
-        "nextAlbum": null,
-        "lastAlbum": null,
-        "images": [
-          {
-            "url": "https://images.lidarr.audio/cache/http://r2.theaudiodb.com/images/media/artist/thumb/approaching-nirvana-54a17388e8206.jpg",
-            "coverType": "poster",
-            "extension": ".jpg"
-          },
-          {
-            "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/approaching-nirvana-549f16a9e7f99.png",
-            "coverType": "clearlogo",
-            "extension": ".png"
-          }
-        ],
-        "path": "/mnt/plex/music/Approaching Nirvana",
-        "qualityProfileId": 1,
-        "metadataProfileId": 1,
-        "monitored": false,
-        "monitorNewItems": "all",
-        "genres": [],
-        "cleanName": "approachingnirvana",
-        "sortName": "approaching nirvana",
-        "tags": [],
-        "added": "2023-09-11T04:42:33Z",
-        "ratings": {
-          "votes": 0,
-          "value": 0
-        },
-        "id": 1
-      },
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://coverartarchive.org/release/c82c4d1f-188a-41ad-9fe8-dac72b23b48f/42360105000-1200.jpg",
-          "coverType": "cover",
-          "extension": ".jpg"
-        }
-      ],
-      "links": [],
-      "id": 1040
-    },
-    "images": [
-      {
-        "url": "/MediaCover/1/poster.jpg?lastWrite=639084869024276810",
-        "coverType": "poster",
-        "extension": ".jpg",
-        "remoteUrl": "https://images.lidarr.audio/cache/http://r2.theaudiodb.com/images/media/artist/thumb/approaching-nirvana-54a17388e8206.jpg"
-      },
-      {
-        "url": "/MediaCover/1/clearlogo.png?lastWrite=638773372994847553",
-        "coverType": "clearlogo",
-        "extension": ".png",
-        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/approaching-nirvana-549f16a9e7f99.png"
-      }
-    ],
-    "path": "/mnt/plex/music/Approaching Nirvana",
-    "qualityProfileId": 1,
-    "metadataProfileId": 1,
-    "monitored": false,
-    "monitorNewItems": "all",
-    "rootFolderPath": "/mnt/plex/music/",
-    "genres": [],
-    "cleanName": "approachingnirvana",
-    "sortName": "approaching nirvana",
-    "tags": [],
-    "added": "2023-09-11T04:42:33Z",
-    "ratings": {
-      "votes": 0,
-      "value": 0
-    },
-    "statistics": {
-      "albumCount": 24,
-      "trackFileCount": 32,
-      "trackCount": 450,
-      "totalTrackCount": 450,
-      "sizeOnDisk": 330175885,
-      "percentOfTracks": 7.111111111111111
-    },
-    "id": 1
-  },
-  {
-    "status": "continuing",
-    "ended": false,
-    "artistName": "AZEDIA",
-    "foreignArtistId": "c7e7bbba-e8b7-4d11-9397-21a33039e98c",
-    "tadbId": 0,
-    "discogsId": 0,
-    "artistType": "Group",
-    "disambiguation": "",
-    "links": [
-      {
-        "url": "https://www.discogs.com/artist/3121315",
-        "name": "discogs"
-      },
-      {
-        "url": "https://azedia.bandcamp.com/",
-        "name": "bandcamp"
-      },
-      {
-        "url": "https://soundcloud.com/azedia",
-        "name": "soundcloud"
-      },
-      {
-        "url": "https://www.facebook.com/Azedia",
+        "url": "https://www.facebook.com/iameden",
         "name": "facebook"
       },
       {
-        "url": "https://twitter.com/azediamusic",
-        "name": "twitter"
+        "url": "http://iameden.eu/",
+        "name": "iameden"
       },
       {
-        "url": "https://www.youtube.com/user/azediamusic",
-        "name": "youtube"
+        "url": "https://www.discogs.com/artist/3824502",
+        "name": "discogs"
       },
       {
-        "url": "http://azedia.tumblr.com/",
-        "name": "tumblr"
-      },
-      {
-        "url": "http://www.mixcloud.com/azedia/",
-        "name": "mixcloud"
-      },
-      {
-        "url": "https://www.deezer.com/artist/4315393",
-        "name": "deezer"
-      },
-      {
-        "url": "https://tidal.com/artist/5007484",
-        "name": "tidal"
-      },
-      {
-        "url": "https://open.spotify.com/artist/19YDv4gY8HMpdJgABGIVJn",
-        "name": "spotify"
-      },
-      {
-        "url": "https://www.beatport.com/artist/azedia/280025",
+        "url": "https://www.beatport.com/artist/the-eden-project/436681",
         "name": "beatport"
       },
       {
-        "url": "https://player.monstercat.app/artist/azedia",
-        "name": "monstercat"
+        "url": "https://www.songkick.com/artists/8877139",
+        "name": "songkick"
       },
       {
-        "url": "https://www.junodownload.com/artists/Azedia/releases/",
-        "name": "junodownload"
+        "url": "https://www.last.fm/music/Eden",
+        "name": "last"
+      },
+      {
+        "url": "https://twitter.com/iameden",
+        "name": "twitter"
+      },
+      {
+        "url": "https://www.instagram.com/iameden/",
+        "name": "instagram"
+      },
+      {
+        "url": "https://www.mcmxcv.eu/",
+        "name": "mcmxcv"
+      },
+      {
+        "url": "https://open.spotify.com/artist/1t20wYnTiAT0Bs7H1hv9Wt",
+        "name": "spotify"
+      },
+      {
+        "url": "https://itunes.apple.com/us/artist/id1067193301",
+        "name": "apple"
+      },
+      {
+        "url": "https://music.apple.com/us/artist/1067193301",
+        "name": "apple"
+      },
+      {
+        "url": "https://www.wikidata.org/wiki/Q22004185",
+        "name": "wikidata"
+      },
+      {
+        "url": "https://www.allmusic.com/artist/mn0003523590",
+        "name": "allmusic"
+      },
+      {
+        "url": "https://rateyourmusic.com/artist/eden-1",
+        "name": "rateyourmusic"
+      },
+      {
+        "url": "https://tidal.com/artist/15718519",
+        "name": "tidal"
+      },
+      {
+        "url": "https://www.deezer.com/artist/14450",
+        "name": "deezer"
       }
     ],
     "nextAlbum": null,
     "lastAlbum": {
-      "title": "Captivity",
+      "title": "Still",
       "disambiguation": "",
       "overview": "",
-      "artistId": 2,
-      "foreignAlbumId": "5ab15140-ba6d-4f80-a246-50e7e94a60ff",
+      "artistId": 159,
+      "foreignAlbumId": "4d2a1229-cd03-453c-aeca-a1ee9a38876a",
       "monitored": true,
       "anyReleaseOk": true,
       "profileId": 1,
-      "duration": 1388851,
-      "albumType": "Album",
+      "duration": 1055800,
+      "albumType": "Single",
       "secondaryTypes": [],
       "mediumCount": 1,
       "ratings": {
         "votes": 0,
         "value": 0
       },
-      "releaseDate": "2023-11-22T00:00:00Z",
+      "releaseDate": "2025-08-21T00:00:00Z",
       "releases": [
         {
-          "id": 2202,
-          "albumId": 931,
-          "foreignReleaseId": "f3b65fcb-a132-449c-becc-161d7ae20f61",
-          "title": "Captivity",
+          "id": 3161,
+          "albumId": 1202,
+          "foreignReleaseId": "9374ed02-34ac-4eda-ad6f-9403ba9949a8",
+          "title": "Still",
           "status": "Official",
-          "duration": 1388851,
-          "trackCount": 8,
+          "duration": 1055800,
+          "trackCount": 6,
           "media": [
             {
               "mediumNumber": 1,
@@ -441,7 +128,8 @@
             "[Worldwide]"
           ],
           "label": [
-            "dojang"
+            "Independent Co.",
+            "MCMXCV"
           ],
           "format": "Digital Media",
           "monitored": true
@@ -458,773 +146,187 @@
       "artist": {
         "status": "continuing",
         "ended": false,
-        "artistName": "AZEDIA",
-        "foreignArtistId": "c7e7bbba-e8b7-4d11-9397-21a33039e98c",
+        "artistName": "EDEN",
+        "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
         "tadbId": 0,
         "discogsId": 0,
-        "artistType": "Group",
-        "disambiguation": "",
+        "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
+        "artistType": "Person",
+        "disambiguation": "Irish indie pop",
         "links": [
           {
-            "url": "https://www.discogs.com/artist/3121315",
-            "name": "discogs"
-          },
-          {
-            "url": "https://azedia.bandcamp.com/",
-            "name": "bandcamp"
-          },
-          {
-            "url": "https://soundcloud.com/azedia",
-            "name": "soundcloud"
-          },
-          {
-            "url": "https://www.facebook.com/Azedia",
-            "name": "facebook"
-          },
-          {
-            "url": "https://twitter.com/azediamusic",
-            "name": "twitter"
-          },
-          {
-            "url": "https://www.youtube.com/user/azediamusic",
+            "url": "https://www.youtube.com/channel/UC-ZsN5evqmSVo3_SJyQe9yA",
             "name": "youtube"
           },
           {
-            "url": "http://azedia.tumblr.com/",
-            "name": "tumblr"
+            "url": "https://soundcloud.com/iameden",
+            "name": "soundcloud"
           },
           {
-            "url": "http://www.mixcloud.com/azedia/",
-            "name": "mixcloud"
+            "url": "https://www.facebook.com/iameden",
+            "name": "facebook"
           },
           {
-            "url": "https://www.deezer.com/artist/4315393",
-            "name": "deezer"
+            "url": "http://iameden.eu/",
+            "name": "iameden"
           },
           {
-            "url": "https://tidal.com/artist/5007484",
-            "name": "tidal"
-          },
-          {
-            "url": "https://open.spotify.com/artist/19YDv4gY8HMpdJgABGIVJn",
-            "name": "spotify"
-          },
-          {
-            "url": "https://www.beatport.com/artist/azedia/280025",
-            "name": "beatport"
-          },
-          {
-            "url": "https://player.monstercat.app/artist/azedia",
-            "name": "monstercat"
-          },
-          {
-            "url": "https://www.junodownload.com/artists/Azedia/releases/",
-            "name": "junodownload"
-          }
-        ],
-        "nextAlbum": null,
-        "lastAlbum": null,
-        "images": [],
-        "path": "/mnt/plex/music/AZEDIA",
-        "qualityProfileId": 1,
-        "metadataProfileId": 1,
-        "monitored": false,
-        "monitorNewItems": "all",
-        "genres": [],
-        "cleanName": "azedia",
-        "sortName": "azedia",
-        "tags": [],
-        "added": "2023-09-11T04:42:35Z",
-        "ratings": {
-          "votes": 0,
-          "value": 0
-        },
-        "id": 2
-      },
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://coverartarchive.org/release/f3b65fcb-a132-449c-becc-161d7ae20f61/37338766247-1200.jpg",
-          "coverType": "cover",
-          "extension": ".jpg"
-        }
-      ],
-      "links": [],
-      "id": 931
-    },
-    "images": [],
-    "path": "/mnt/plex/music/AZEDIA",
-    "qualityProfileId": 1,
-    "metadataProfileId": 1,
-    "monitored": false,
-    "monitorNewItems": "all",
-    "rootFolderPath": "/mnt/plex/music/",
-    "genres": [],
-    "cleanName": "azedia",
-    "sortName": "azedia",
-    "tags": [],
-    "added": "2023-09-11T04:42:35Z",
-    "ratings": {
-      "votes": 0,
-      "value": 0
-    },
-    "statistics": {
-      "albumCount": 7,
-      "trackFileCount": 6,
-      "trackCount": 64,
-      "totalTrackCount": 64,
-      "sizeOnDisk": 81386851,
-      "percentOfTracks": 9.375
-    },
-    "id": 2
-  },
-  {
-    "status": "continuing",
-    "ended": false,
-    "artistName": "Various Artists",
-    "foreignArtistId": "89ad4ac3-39f7-470e-963a-56509c546377",
-    "tadbId": 0,
-    "discogsId": 0,
-    "overview": "A compilation album comprises tracks, which may be previously released or unreleased, usually from several separate recordings by either one performer or by several performers. If the recordings are from one artist, then generally the tracks were not originally intended for release together as a single work, but may be collected together as a greatest hits album or box set. If the recordings are from several artists, there may be a theme, topic, time period, or genre which links the tracks, or they may have been intended for release as a single work – such as a tribute album. When the tracks are by the same recording artist, the album may be referred to as a retrospective album or an anthology.",
-    "artistType": "Other",
-    "disambiguation": "add compilations to this artist",
-    "links": [
-      {
-        "url": "https://www.wikidata.org/wiki/Q3108914",
-        "name": "wikidata"
-      },
-      {
-        "url": "https://www.discogs.com/artist/194",
-        "name": "discogs"
-      },
-      {
-        "url": "https://www.last.fm/music/Various+Artists",
-        "name": "last"
-      },
-      {
-        "url": "https://open.spotify.com/artist/0LyfQWJT6nXafLPZqxe9Of",
-        "name": "spotify"
-      },
-      {
-        "url": "https://music.amazon.com/artists/B000QJO93Y",
-        "name": "amazon"
-      }
-    ],
-    "nextAlbum": null,
-    "lastAlbum": {
-      "title": "Bass for Autism, Volume 2",
-      "disambiguation": "",
-      "overview": "",
-      "artistId": 3,
-      "foreignAlbumId": "4da77767-ce39-4558-8641-d6c9dd64fd06",
-      "monitored": true,
-      "anyReleaseOk": true,
-      "profileId": 0,
-      "duration": 13119816,
-      "albumType": "Album",
-      "secondaryTypes": [
-        "Compilation"
-      ],
-      "mediumCount": 1,
-      "ratings": {
-        "votes": 0,
-        "value": 0
-      },
-      "releaseDate": "2014-08-15T00:00:00Z",
-      "releases": [
-        {
-          "id": 6,
-          "albumId": 5,
-          "foreignReleaseId": "e52aa3d7-0044-4572-a09f-eb062fd27574",
-          "title": "Bass for Autism, Volume 2",
-          "status": "Official",
-          "duration": 13119816,
-          "trackCount": 50,
-          "media": [
-            {
-              "mediumNumber": 1,
-              "mediumName": "",
-              "mediumFormat": "Digital Media"
-            }
-          ],
-          "mediumCount": 1,
-          "disambiguation": "",
-          "country": [
-            "[Worldwide]"
-          ],
-          "label": [],
-          "format": "Digital Media",
-          "monitored": true
-        }
-      ],
-      "genres": [
-        "Dubstep",
-        "Electronic"
-      ],
-      "media": [
-        {
-          "mediumNumber": 1,
-          "mediumName": "",
-          "mediumFormat": "Digital Media"
-        }
-      ],
-      "artist": {
-        "status": "continuing",
-        "ended": false,
-        "artistName": "Various Artists",
-        "foreignArtistId": "89ad4ac3-39f7-470e-963a-56509c546377",
-        "tadbId": 0,
-        "discogsId": 0,
-        "overview": "A compilation album comprises tracks, which may be previously released or unreleased, usually from several separate recordings by either one performer or by several performers. If the recordings are from one artist, then generally the tracks were not originally intended for release together as a single work, but may be collected together as a greatest hits album or box set. If the recordings are from several artists, there may be a theme, topic, time period, or genre which links the tracks, or they may have been intended for release as a single work – such as a tribute album. When the tracks are by the same recording artist, the album may be referred to as a retrospective album or an anthology.",
-        "artistType": "Other",
-        "disambiguation": "add compilations to this artist",
-        "links": [
-          {
-            "url": "https://www.wikidata.org/wiki/Q3108914",
-            "name": "wikidata"
-          },
-          {
-            "url": "https://www.discogs.com/artist/194",
+            "url": "https://www.discogs.com/artist/3824502",
             "name": "discogs"
           },
           {
-            "url": "https://www.last.fm/music/Various+Artists",
+            "url": "https://www.beatport.com/artist/the-eden-project/436681",
+            "name": "beatport"
+          },
+          {
+            "url": "https://www.songkick.com/artists/8877139",
+            "name": "songkick"
+          },
+          {
+            "url": "https://www.last.fm/music/Eden",
             "name": "last"
           },
           {
-            "url": "https://open.spotify.com/artist/0LyfQWJT6nXafLPZqxe9Of",
+            "url": "https://twitter.com/iameden",
+            "name": "twitter"
+          },
+          {
+            "url": "https://www.instagram.com/iameden/",
+            "name": "instagram"
+          },
+          {
+            "url": "https://www.mcmxcv.eu/",
+            "name": "mcmxcv"
+          },
+          {
+            "url": "https://open.spotify.com/artist/1t20wYnTiAT0Bs7H1hv9Wt",
             "name": "spotify"
           },
           {
-            "url": "https://music.amazon.com/artists/B000QJO93Y",
-            "name": "amazon"
+            "url": "https://itunes.apple.com/us/artist/id1067193301",
+            "name": "apple"
+          },
+          {
+            "url": "https://music.apple.com/us/artist/1067193301",
+            "name": "apple"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q22004185",
+            "name": "wikidata"
+          },
+          {
+            "url": "https://www.allmusic.com/artist/mn0003523590",
+            "name": "allmusic"
+          },
+          {
+            "url": "https://rateyourmusic.com/artist/eden-1",
+            "name": "rateyourmusic"
+          },
+          {
+            "url": "https://tidal.com/artist/15718519",
+            "name": "tidal"
+          },
+          {
+            "url": "https://www.deezer.com/artist/14450",
+            "name": "deezer"
           }
         ],
         "nextAlbum": null,
         "lastAlbum": null,
         "images": [
           {
-            "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/f8iqyf1757467507.jpg",
-            "coverType": "poster",
-            "extension": ".jpg"
+            "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
+            "coverType": "clearlogo",
+            "extension": ".png"
           },
           {
-            "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/gc8br01659325896.jpg",
+            "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
             "coverType": "fanart",
             "extension": ".jpg"
           },
           {
-            "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/banner/aojshm1659335285.jpg",
-            "coverType": "banner",
+            "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
+            "coverType": "poster",
             "extension": ".jpg"
-          },
-          {
-            "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/wponlz1679914062.png",
-            "coverType": "clearlogo",
-            "extension": ".png"
           }
         ],
-        "path": "/mnt/plex/music/Various Artists",
+        "path": "/mnt/plex/music/EDEN",
         "qualityProfileId": 1,
-        "metadataProfileId": 1,
-        "monitored": false,
+        "metadataProfileId": 3,
+        "monitored": true,
         "monitorNewItems": "all",
-        "genres": [],
-        "cleanName": "variousartists",
-        "sortName": "various artists",
+        "genres": [
+          "Indie Pop",
+          "Indietronica"
+        ],
+        "cleanName": "eden",
+        "sortName": "eden",
         "tags": [],
-        "added": "2023-09-11T04:42:36Z",
+        "added": "2025-09-12T02:15:56Z",
         "ratings": {
-          "votes": 34,
-          "value": 8.1
+          "votes": 5,
+          "value": 10
         },
-        "id": 3
+        "id": 159
       },
       "images": [
         {
-          "url": "https://images.lidarr.audio/cache/https://coverartarchive.org/release/e52aa3d7-0044-4572-a09f-eb062fd27574/8521951772-1200.jpg",
+          "url": "https://images.lidarr.audio/cache/https://coverartarchive.org/release/9374ed02-34ac-4eda-ad6f-9403ba9949a8/42827880766-1200.jpg",
           "coverType": "cover",
           "extension": ".jpg"
         }
       ],
       "links": [],
-      "id": 5
+      "lastSearchTime": "2025-10-31T07:52:50Z",
+      "id": 1202
     },
     "images": [
       {
-        "url": "/MediaCover/3/poster.jpg?lastWrite=639071042255679238",
-        "coverType": "poster",
-        "extension": ".jpg",
-        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/f8iqyf1757467507.jpg"
-      },
-      {
-        "url": "/MediaCover/3/fanart.jpg?lastWrite=639071042256200439",
-        "coverType": "fanart",
-        "extension": ".jpg",
-        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/gc8br01659325896.jpg"
-      },
-      {
-        "url": "/MediaCover/3/banner.jpg?lastWrite=639071042255829422",
-        "coverType": "banner",
-        "extension": ".jpg",
-        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/banner/aojshm1659335285.jpg"
-      },
-      {
-        "url": "/MediaCover/3/clearlogo.png?lastWrite=639071042256005448",
+        "url": "/MediaCover/159/clearlogo.png?lastWrite=639120302182098559",
         "coverType": "clearlogo",
         "extension": ".png",
-        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/wponlz1679914062.png"
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png"
+      },
+      {
+        "url": "/MediaCover/159/fanart.jpg?lastWrite=638934484802145532",
+        "coverType": "fanart",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg"
+      },
+      {
+        "url": "/MediaCover/159/poster.jpg?lastWrite=638932402006818626",
+        "coverType": "poster",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg"
       }
     ],
-    "path": "/mnt/plex/music/Various Artists",
+    "path": "/mnt/plex/music/EDEN",
     "qualityProfileId": 1,
-    "metadataProfileId": 1,
-    "monitored": false,
-    "monitorNewItems": "all",
-    "rootFolderPath": "/mnt/plex/music/",
-    "genres": [],
-    "cleanName": "variousartists",
-    "sortName": "various artists",
-    "tags": [],
-    "added": "2023-09-11T04:42:36Z",
-    "ratings": {
-      "votes": 34,
-      "value": 8.1
-    },
-    "statistics": {
-      "albumCount": 2,
-      "trackFileCount": 70,
-      "trackCount": 70,
-      "totalTrackCount": 70,
-      "sizeOnDisk": 726604557,
-      "percentOfTracks": 100
-    },
-    "id": 3
-  },
-  {
-    "status": "continuing",
-    "ended": false,
-    "artistName": "Bustre",
-    "foreignArtistId": "4a3dfd95-6da6-40c5-af2e-ca50454d8f09",
-    "tadbId": 0,
-    "discogsId": 0,
-    "artistType": "Person",
-    "disambiguation": "",
-    "links": [
-      {
-        "url": "https://soundcloud.com/bustrexx",
-        "name": "soundcloud"
-      },
-      {
-        "url": "https://www.facebook.com/BustreMusic",
-        "name": "facebook"
-      },
-      {
-        "url": "https://www.discogs.com/artist/3267835",
-        "name": "discogs"
-      },
-      {
-        "url": "https://tidal.com/artist/4954277",
-        "name": "tidal"
-      },
-      {
-        "url": "https://open.spotify.com/artist/7hfjEzzSLXPpjkboH8T3rh",
-        "name": "spotify"
-      },
-      {
-        "url": "https://www.beatport.com/artist/bustre/280230",
-        "name": "beatport"
-      },
-      {
-        "url": "https://player.monstercat.app/artist/bustre",
-        "name": "monstercat"
-      },
-      {
-        "url": "https://twitter.com/BustreDnB",
-        "name": "twitter"
-      },
-      {
-        "url": "https://www.junodownload.com/artists/Bustre/releases/",
-        "name": "junodownload"
-      },
-      {
-        "url": "https://music.apple.com/us/artist/551793724",
-        "name": "apple"
-      }
-    ],
-    "nextAlbum": null,
-    "lastAlbum": {
-      "title": "El Psy Congroo",
-      "disambiguation": "",
-      "overview": "",
-      "artistId": 4,
-      "foreignAlbumId": "401b8bfc-5148-4941-936d-00915838a34e",
-      "monitored": true,
-      "anyReleaseOk": true,
-      "profileId": 0,
-      "duration": 846000,
-      "albumType": "EP",
-      "secondaryTypes": [],
-      "mediumCount": 1,
-      "ratings": {
-        "votes": 0,
-        "value": 0
-      },
-      "releaseDate": "2014-04-08T00:00:00Z",
-      "releases": [
-        {
-          "id": 7,
-          "albumId": 6,
-          "foreignReleaseId": "ea04d06b-6044-4f0e-b115-0b7908ff315e",
-          "title": "El Psy Congroo",
-          "status": "Official",
-          "duration": 846000,
-          "trackCount": 3,
-          "media": [
-            {
-              "mediumNumber": 1,
-              "mediumName": "",
-              "mediumFormat": "Digital Media"
-            }
-          ],
-          "mediumCount": 1,
-          "disambiguation": "",
-          "country": [
-            "[Worldwide]"
-          ],
-          "label": [
-            "[no label]"
-          ],
-          "format": "Digital Media",
-          "monitored": true
-        }
-      ],
-      "genres": [
-        "Drum And Bass",
-        "Electronic"
-      ],
-      "media": [
-        {
-          "mediumNumber": 1,
-          "mediumName": "",
-          "mediumFormat": "Digital Media"
-        }
-      ],
-      "artist": {
-        "status": "continuing",
-        "ended": false,
-        "artistName": "Bustre",
-        "foreignArtistId": "4a3dfd95-6da6-40c5-af2e-ca50454d8f09",
-        "tadbId": 0,
-        "discogsId": 0,
-        "artistType": "Person",
-        "disambiguation": "",
-        "links": [
-          {
-            "url": "https://soundcloud.com/bustrexx",
-            "name": "soundcloud"
-          },
-          {
-            "url": "https://www.facebook.com/BustreMusic",
-            "name": "facebook"
-          },
-          {
-            "url": "https://www.discogs.com/artist/3267835",
-            "name": "discogs"
-          },
-          {
-            "url": "https://tidal.com/artist/4954277",
-            "name": "tidal"
-          },
-          {
-            "url": "https://open.spotify.com/artist/7hfjEzzSLXPpjkboH8T3rh",
-            "name": "spotify"
-          },
-          {
-            "url": "https://www.beatport.com/artist/bustre/280230",
-            "name": "beatport"
-          },
-          {
-            "url": "https://player.monstercat.app/artist/bustre",
-            "name": "monstercat"
-          },
-          {
-            "url": "https://twitter.com/BustreDnB",
-            "name": "twitter"
-          },
-          {
-            "url": "https://www.junodownload.com/artists/Bustre/releases/",
-            "name": "junodownload"
-          },
-          {
-            "url": "https://music.apple.com/us/artist/551793724",
-            "name": "apple"
-          }
-        ],
-        "nextAlbum": null,
-        "lastAlbum": null,
-        "images": [],
-        "path": "/mnt/plex/music/Bustre",
-        "qualityProfileId": 1,
-        "metadataProfileId": 1,
-        "monitored": false,
-        "monitorNewItems": "all",
-        "genres": [
-          "Drum And Bass"
-        ],
-        "cleanName": "bustre",
-        "sortName": "bustre",
-        "tags": [],
-        "added": "2023-09-11T04:42:37Z",
-        "ratings": {
-          "votes": 0,
-          "value": 0
-        },
-        "id": 4
-      },
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://coverartarchive.org/release/ea04d06b-6044-4f0e-b115-0b7908ff315e/34993053960-1200.jpg",
-          "coverType": "cover",
-          "extension": ".jpg"
-        }
-      ],
-      "links": [],
-      "id": 6
-    },
-    "images": [],
-    "path": "/mnt/plex/music/Bustre",
-    "qualityProfileId": 1,
-    "metadataProfileId": 1,
-    "monitored": false,
+    "metadataProfileId": 3,
+    "monitored": true,
     "monitorNewItems": "all",
     "rootFolderPath": "/mnt/plex/music/",
     "genres": [
-      "Drum And Bass"
+      "Indie Pop",
+      "Indietronica"
     ],
-    "cleanName": "bustre",
-    "sortName": "bustre",
+    "cleanName": "eden",
+    "sortName": "eden",
     "tags": [],
-    "added": "2023-09-11T04:42:37Z",
+    "added": "2025-09-12T02:15:56Z",
     "ratings": {
-      "votes": 0,
-      "value": 0
+      "votes": 5,
+      "value": 10
     },
     "statistics": {
-      "albumCount": 6,
-      "trackFileCount": 36,
-      "trackCount": 36,
-      "totalTrackCount": 36,
-      "sizeOnDisk": 405590328,
-      "percentOfTracks": 100
+      "albumCount": 44,
+      "trackFileCount": 128,
+      "trackCount": 184,
+      "totalTrackCount": 184,
+      "sizeOnDisk": 1552578479,
+      "percentOfTracks": 69.56521739130434
     },
-    "id": 4
-  },
-  {
-    "status": "continuing",
-    "ended": false,
-    "artistName": "Curious Quail",
-    "foreignArtistId": "01a2925f-d5ae-4a5a-a5ed-f3dd795a4a84",
-    "tadbId": 0,
-    "discogsId": 0,
-    "artistType": "Group",
-    "disambiguation": "",
-    "links": [
-      {
-        "url": "http://www.curiousquail.com/",
-        "name": "curiousquail"
-      },
-      {
-        "url": "https://curiousquail.bandcamp.com/",
-        "name": "bandcamp"
-      },
-      {
-        "url": "https://www.facebook.com/CuriousQuail",
-        "name": "facebook"
-      },
-      {
-        "url": "https://twitter.com/curiousquail",
-        "name": "twitter"
-      },
-      {
-        "url": "https://www.youtube.com/user/CuriousQuail",
-        "name": "youtube"
-      },
-      {
-        "url": "https://open.spotify.com/artist/432r8VNZg4m2pBlYq203gy",
-        "name": "spotify"
-      },
-      {
-        "url": "https://www.instagram.com/@curiousquail/",
-        "name": "instagram"
-      },
-      {
-        "url": "https://www.discogs.com/artist/3333027",
-        "name": "discogs"
-      }
-    ],
-    "nextAlbum": null,
-    "lastAlbum": {
-      "title": "Five Years After The Lights Failed (Covers of our songs by others)",
-      "disambiguation": "",
-      "overview": "",
-      "artistId": 5,
-      "foreignAlbumId": "8dea7004-f9a1-4bf3-b30c-8758e3604ef2",
-      "monitored": true,
-      "anyReleaseOk": true,
-      "profileId": 1,
-      "duration": 2145958,
-      "albumType": "Album",
-      "secondaryTypes": [],
-      "mediumCount": 1,
-      "ratings": {
-        "votes": 0,
-        "value": 0
-      },
-      "releaseDate": "2019-05-28T00:00:00Z",
-      "releases": [
-        {
-          "id": 879,
-          "albumId": 665,
-          "foreignReleaseId": "662d9afb-13a6-494a-90d7-db01bdc3bf05",
-          "title": "Five Years After The Lights Failed (Covers of our songs by others)",
-          "status": "Official",
-          "duration": 2145958,
-          "trackCount": 10,
-          "media": [
-            {
-              "mediumNumber": 1,
-              "mediumName": "",
-              "mediumFormat": "Digital Media"
-            }
-          ],
-          "mediumCount": 1,
-          "disambiguation": "",
-          "country": [
-            "[Worldwide]"
-          ],
-          "label": [
-            "[no label]"
-          ],
-          "format": "Digital Media",
-          "monitored": true
-        }
-      ],
-      "genres": [
-        "Alternative Rock",
-        "Chiptune",
-        "Folk",
-        "Funk",
-        "Indie Rock",
-        "Rock"
-      ],
-      "media": [
-        {
-          "mediumNumber": 1,
-          "mediumName": "",
-          "mediumFormat": "Digital Media"
-        }
-      ],
-      "artist": {
-        "status": "continuing",
-        "ended": false,
-        "artistName": "Curious Quail",
-        "foreignArtistId": "01a2925f-d5ae-4a5a-a5ed-f3dd795a4a84",
-        "tadbId": 0,
-        "discogsId": 0,
-        "artistType": "Group",
-        "disambiguation": "",
-        "links": [
-          {
-            "url": "http://www.curiousquail.com/",
-            "name": "curiousquail"
-          },
-          {
-            "url": "https://curiousquail.bandcamp.com/",
-            "name": "bandcamp"
-          },
-          {
-            "url": "https://www.facebook.com/CuriousQuail",
-            "name": "facebook"
-          },
-          {
-            "url": "https://twitter.com/curiousquail",
-            "name": "twitter"
-          },
-          {
-            "url": "https://www.youtube.com/user/CuriousQuail",
-            "name": "youtube"
-          },
-          {
-            "url": "https://open.spotify.com/artist/432r8VNZg4m2pBlYq203gy",
-            "name": "spotify"
-          },
-          {
-            "url": "https://www.instagram.com/@curiousquail/",
-            "name": "instagram"
-          },
-          {
-            "url": "https://www.discogs.com/artist/3333027",
-            "name": "discogs"
-          }
-        ],
-        "nextAlbum": null,
-        "lastAlbum": null,
-        "images": [],
-        "path": "/mnt/plex/music/Curious Quail",
-        "qualityProfileId": 1,
-        "metadataProfileId": 1,
-        "monitored": false,
-        "monitorNewItems": "all",
-        "genres": [
-          "Indie Rock"
-        ],
-        "cleanName": "curiousquail",
-        "sortName": "curious quail",
-        "tags": [],
-        "added": "2023-09-11T04:42:41Z",
-        "ratings": {
-          "votes": 0,
-          "value": 0
-        },
-        "id": 5
-      },
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://coverartarchive.org/release/662d9afb-13a6-494a-90d7-db01bdc3bf05/29393735288-1200.jpg",
-          "coverType": "cover",
-          "extension": ".jpg"
-        }
-      ],
-      "links": [],
-      "id": 665
-    },
-    "images": [],
-    "path": "/mnt/plex/music/Curious Quail",
-    "qualityProfileId": 1,
-    "metadataProfileId": 1,
-    "monitored": false,
-    "monitorNewItems": "all",
-    "rootFolderPath": "/mnt/plex/music/",
-    "genres": [
-      "Indie Rock"
-    ],
-    "cleanName": "curiousquail",
-    "sortName": "curious quail",
-    "tags": [],
-    "added": "2023-09-11T04:42:41Z",
-    "ratings": {
-      "votes": 0,
-      "value": 0
-    },
-    "statistics": {
-      "albumCount": 7,
-      "trackFileCount": 28,
-      "trackCount": 62,
-      "totalTrackCount": 62,
-      "sizeOnDisk": 254174181,
-      "percentOfTracks": 45.16129032258065
-    },
-    "id": 5
+    "id": 159
   },
   {
     "status": "continuing",
@@ -1259,7 +361,7 @@
       },
       {
         "url": "http://viaf.org/viaf/264509874",
-        "name": "viaf"
+        "name": "viaf" 
       },
       {
         "url": "http://andygrammer.com/home",
@@ -45884,335 +44986,6 @@
       "percentOfTracks": 50
     },
     "id": 158
-  },
-  {
-    "status": "continuing",
-    "ended": false,
-    "artistName": "EDEN",
-    "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
-    "tadbId": 0,
-    "discogsId": 0,
-    "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
-    "artistType": "Person",
-    "disambiguation": "Irish indie pop",
-    "links": [
-      {
-        "url": "https://www.youtube.com/channel/UC-ZsN5evqmSVo3_SJyQe9yA",
-        "name": "youtube"
-      },
-      {
-        "url": "https://soundcloud.com/iameden",
-        "name": "soundcloud"
-      },
-      {
-        "url": "https://www.facebook.com/iameden",
-        "name": "facebook"
-      },
-      {
-        "url": "http://iameden.eu/",
-        "name": "iameden"
-      },
-      {
-        "url": "https://www.discogs.com/artist/3824502",
-        "name": "discogs"
-      },
-      {
-        "url": "https://www.beatport.com/artist/the-eden-project/436681",
-        "name": "beatport"
-      },
-      {
-        "url": "https://www.songkick.com/artists/8877139",
-        "name": "songkick"
-      },
-      {
-        "url": "https://www.last.fm/music/Eden",
-        "name": "last"
-      },
-      {
-        "url": "https://twitter.com/iameden",
-        "name": "twitter"
-      },
-      {
-        "url": "https://www.instagram.com/iameden/",
-        "name": "instagram"
-      },
-      {
-        "url": "https://www.mcmxcv.eu/",
-        "name": "mcmxcv"
-      },
-      {
-        "url": "https://open.spotify.com/artist/1t20wYnTiAT0Bs7H1hv9Wt",
-        "name": "spotify"
-      },
-      {
-        "url": "https://itunes.apple.com/us/artist/id1067193301",
-        "name": "apple"
-      },
-      {
-        "url": "https://music.apple.com/us/artist/1067193301",
-        "name": "apple"
-      },
-      {
-        "url": "https://www.wikidata.org/wiki/Q22004185",
-        "name": "wikidata"
-      },
-      {
-        "url": "https://www.allmusic.com/artist/mn0003523590",
-        "name": "allmusic"
-      },
-      {
-        "url": "https://rateyourmusic.com/artist/eden-1",
-        "name": "rateyourmusic"
-      },
-      {
-        "url": "https://tidal.com/artist/15718519",
-        "name": "tidal"
-      },
-      {
-        "url": "https://www.deezer.com/artist/14450",
-        "name": "deezer"
-      }
-    ],
-    "nextAlbum": null,
-    "lastAlbum": {
-      "title": "Still",
-      "disambiguation": "",
-      "overview": "",
-      "artistId": 159,
-      "foreignAlbumId": "4d2a1229-cd03-453c-aeca-a1ee9a38876a",
-      "monitored": true,
-      "anyReleaseOk": true,
-      "profileId": 1,
-      "duration": 1055800,
-      "albumType": "Single",
-      "secondaryTypes": [],
-      "mediumCount": 1,
-      "ratings": {
-        "votes": 0,
-        "value": 0
-      },
-      "releaseDate": "2025-08-21T00:00:00Z",
-      "releases": [
-        {
-          "id": 3161,
-          "albumId": 1202,
-          "foreignReleaseId": "9374ed02-34ac-4eda-ad6f-9403ba9949a8",
-          "title": "Still",
-          "status": "Official",
-          "duration": 1055800,
-          "trackCount": 6,
-          "media": [
-            {
-              "mediumNumber": 1,
-              "mediumName": "",
-              "mediumFormat": "Digital Media"
-            }
-          ],
-          "mediumCount": 1,
-          "disambiguation": "",
-          "country": [
-            "[Worldwide]"
-          ],
-          "label": [
-            "Independent Co.",
-            "MCMXCV"
-          ],
-          "format": "Digital Media",
-          "monitored": true
-        }
-      ],
-      "genres": [],
-      "media": [
-        {
-          "mediumNumber": 1,
-          "mediumName": "",
-          "mediumFormat": "Digital Media"
-        }
-      ],
-      "artist": {
-        "status": "continuing",
-        "ended": false,
-        "artistName": "EDEN",
-        "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
-        "tadbId": 0,
-        "discogsId": 0,
-        "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
-        "artistType": "Person",
-        "disambiguation": "Irish indie pop",
-        "links": [
-          {
-            "url": "https://www.youtube.com/channel/UC-ZsN5evqmSVo3_SJyQe9yA",
-            "name": "youtube"
-          },
-          {
-            "url": "https://soundcloud.com/iameden",
-            "name": "soundcloud"
-          },
-          {
-            "url": "https://www.facebook.com/iameden",
-            "name": "facebook"
-          },
-          {
-            "url": "http://iameden.eu/",
-            "name": "iameden"
-          },
-          {
-            "url": "https://www.discogs.com/artist/3824502",
-            "name": "discogs"
-          },
-          {
-            "url": "https://www.beatport.com/artist/the-eden-project/436681",
-            "name": "beatport"
-          },
-          {
-            "url": "https://www.songkick.com/artists/8877139",
-            "name": "songkick"
-          },
-          {
-            "url": "https://www.last.fm/music/Eden",
-            "name": "last"
-          },
-          {
-            "url": "https://twitter.com/iameden",
-            "name": "twitter"
-          },
-          {
-            "url": "https://www.instagram.com/iameden/",
-            "name": "instagram"
-          },
-          {
-            "url": "https://www.mcmxcv.eu/",
-            "name": "mcmxcv"
-          },
-          {
-            "url": "https://open.spotify.com/artist/1t20wYnTiAT0Bs7H1hv9Wt",
-            "name": "spotify"
-          },
-          {
-            "url": "https://itunes.apple.com/us/artist/id1067193301",
-            "name": "apple"
-          },
-          {
-            "url": "https://music.apple.com/us/artist/1067193301",
-            "name": "apple"
-          },
-          {
-            "url": "https://www.wikidata.org/wiki/Q22004185",
-            "name": "wikidata"
-          },
-          {
-            "url": "https://www.allmusic.com/artist/mn0003523590",
-            "name": "allmusic"
-          },
-          {
-            "url": "https://rateyourmusic.com/artist/eden-1",
-            "name": "rateyourmusic"
-          },
-          {
-            "url": "https://tidal.com/artist/15718519",
-            "name": "tidal"
-          },
-          {
-            "url": "https://www.deezer.com/artist/14450",
-            "name": "deezer"
-          }
-        ],
-        "nextAlbum": null,
-        "lastAlbum": null,
-        "images": [
-          {
-            "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-            "coverType": "clearlogo",
-            "extension": ".png"
-          },
-          {
-            "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-            "coverType": "fanart",
-            "extension": ".jpg"
-          },
-          {
-            "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-            "coverType": "poster",
-            "extension": ".jpg"
-          }
-        ],
-        "path": "/mnt/plex/music/EDEN",
-        "qualityProfileId": 1,
-        "metadataProfileId": 3,
-        "monitored": true,
-        "monitorNewItems": "all",
-        "genres": [
-          "Indie Pop",
-          "Indietronica"
-        ],
-        "cleanName": "eden",
-        "sortName": "eden",
-        "tags": [],
-        "added": "2025-09-12T02:15:56Z",
-        "ratings": {
-          "votes": 5,
-          "value": 10
-        },
-        "id": 159
-      },
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://coverartarchive.org/release/9374ed02-34ac-4eda-ad6f-9403ba9949a8/42827880766-1200.jpg",
-          "coverType": "cover",
-          "extension": ".jpg"
-        }
-      ],
-      "links": [],
-      "lastSearchTime": "2025-10-31T07:52:50Z",
-      "id": 1202
-    },
-    "images": [
-      {
-        "url": "/MediaCover/159/clearlogo.png?lastWrite=639120302182098559",
-        "coverType": "clearlogo",
-        "extension": ".png",
-        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png"
-      },
-      {
-        "url": "/MediaCover/159/fanart.jpg?lastWrite=638934484802145532",
-        "coverType": "fanart",
-        "extension": ".jpg",
-        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg"
-      },
-      {
-        "url": "/MediaCover/159/poster.jpg?lastWrite=638932402006818626",
-        "coverType": "poster",
-        "extension": ".jpg",
-        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg"
-      }
-    ],
-    "path": "/mnt/plex/music/EDEN",
-    "qualityProfileId": 1,
-    "metadataProfileId": 3,
-    "monitored": true,
-    "monitorNewItems": "all",
-    "rootFolderPath": "/mnt/plex/music/",
-    "genres": [
-      "Indie Pop",
-      "Indietronica"
-    ],
-    "cleanName": "eden",
-    "sortName": "eden",
-    "tags": [],
-    "added": "2025-09-12T02:15:56Z",
-    "ratings": {
-      "votes": 5,
-      "value": 10
-    },
-    "statistics": {
-      "albumCount": 44,
-      "trackFileCount": 128,
-      "trackCount": 184,
-      "totalTrackCount": 184,
-      "sizeOnDisk": 1552578479,
-      "percentOfTracks": 69.56521739130434
-    },
-    "id": 159
   },
   {
     "status": "continuing",

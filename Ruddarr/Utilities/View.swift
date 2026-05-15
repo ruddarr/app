@@ -25,11 +25,12 @@ extension View {
         return self.environment(instance)
     }
 
-    func withLidarrInstance(artists: [Artist] = []) -> some View {
+    func withLidarrInstance(artists: [Artist] = [], albums: [Album] = [], releases: [ArtistRelease] = [], trackFiles: [TrackFile] = []) -> some View {
         let instance = LidarrInstance(.lidarrDummy)
         instance.artists.items = artists
-        instance.releases.items = []
-        // TODO: Come back here
+        instance.releases.items = releases
+        instance.files.items = trackFiles
+        instance.albums.items = albums
 
         return self.environment(instance)
     }

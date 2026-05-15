@@ -5,7 +5,7 @@ enum ArtistsPath: Hashable {
     case preview(Data?)
     case artist(Artist.ID)
     case edit(Artist.ID)
-    case releases(Artist.ID, Album.ID?)
+    case releases(Artist.ID, Album.ID)
 }
 
 struct ArtistsView: View {
@@ -119,16 +119,19 @@ struct ArtistsView: View {
                     .environmentObject(settings)
             }
         case .artist(let id):
-            ArtistDetailView(artist: instance.artists.byId(id))
-                .environment(instance)
-                .environmentObject(settings)
+            ArtistDetailView(
+                artist: instance.artists.byId(id),
+                releases: instance.albums.byArtistId(id)
+            )
+            .environment(instance)
+            .environmentObject(settings)
         case .edit(let id):
             ArtistEditView(artist: instance.artists.byId(id))
                 .environment(instance)
         case .releases(let artistId, let releaseId):
-            ArtistReleasesView(
+            ArtistReleaseView(
                 artist: instance.artists.byId(artistId),
-                releaseId: releaseId
+                release: instance.albums.byId(releaseId)
             )
             .environment(instance)
             .environmentObject(settings)

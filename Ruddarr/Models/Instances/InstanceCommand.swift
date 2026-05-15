@@ -9,6 +9,7 @@ enum InstanceCommand {
     case seasonSearch(_ series: Series.ID, season: Season.ID)
     case episodeSearch(_ ids: [Episode.ID])
 
+    case refreshArtist(_ artist: Artist.ID)
     case artistSearch(_ artist: Artist.ID)
     case albumSearch(_ artist: Artist.ID, album: Album.ID)
     case trackSearch(_ artist: Artist.ID, album: Album.ID, track: AlbumRelease.ID)
@@ -31,6 +32,8 @@ enum InstanceCommand {
             SonarrPayload(name: "SeasonSearch", seriesId: series, seasonNumber: season)
         case .episodeSearch(let ids):
             SonarrPayload(name: "EpisodeSearch", episodeIds: ids)
+        case .refreshArtist(let artist):
+            LidarrPayload(name: "RefreshArtist", artistId: artist)
         case .artistSearch(let artist):
             LidarrPayload(name: "ArtistSearch", artistId: artist)
         case .albumSearch(let artist, let album):

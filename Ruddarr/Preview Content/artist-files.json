@@ -1,0 +1,3970 @@
+[
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 01 - Still.flac",
+    "size": 23383245,
+    "dateAdded": "2026-02-11T00:14:49Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "944 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169016
+  },
+  {
+    "artistId": 159,
+    "albumId": 1182,
+    "path": "/mnt/plex/music/EDEN/Time Changes Everything (2013)/EDEN - Time Changes Everything - 01 - Time.mp3",
+    "size": 13916414,
+    "dateAdded": "2026-02-11T00:14:50Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169033
+  },
+  {
+    "artistId": 159,
+    "albumId": 1206,
+    "path": "/mnt/plex/music/EDEN/Remixes (2015)/EDEN - Remixes - 01 - Strangers (The Eden Project remix).mp3",
+    "size": 13894173,
+    "dateAdded": "2026-02-11T00:14:50Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169034
+  },
+  {
+    "artistId": 159,
+    "albumId": 1183,
+    "path": "/mnt/plex/music/EDEN/End Credits (2015)/EDEN - End Credits - 01 - 02-09.mp3",
+    "size": 10905338,
+    "dateAdded": "2026-02-11T00:14:50Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169053
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 01 - good morning.mp3",
+    "size": 8427272,
+    "dateAdded": "2026-02-11T00:14:51Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169099
+  },
+  {
+    "artistId": 159,
+    "albumId": 1211,
+    "path": "/mnt/plex/music/EDEN/Entrance (2014)/EDEN - Entrance - 01 - Entrance.mp3",
+    "size": 7251198,
+    "dateAdded": "2026-02-11T00:14:51Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169116
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 01 - wrong.mp3",
+    "size": 2864576,
+    "dateAdded": "2026-02-11T00:14:51Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169140
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 02 - Zzz.flac",
+    "size": 19114442,
+    "dateAdded": "2026-02-11T00:14:52Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "841 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169185
+  },
+  {
+    "artistId": 159,
+    "albumId": 1182,
+    "path": "/mnt/plex/music/EDEN/Time Changes Everything (2013)/EDEN - Time Changes Everything - 02 - Changes.mp3",
+    "size": 14575748,
+    "dateAdded": "2026-02-11T00:14:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169193
+  },
+  {
+    "artistId": 159,
+    "albumId": 1206,
+    "path": "/mnt/plex/music/EDEN/Remixes (2015)/EDEN - Remixes - 02 - Sleepless (The Eden Project remix).mp3",
+    "size": 13142947,
+    "dateAdded": "2026-02-11T00:14:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169200
+  },
+  {
+    "artistId": 159,
+    "albumId": 1211,
+    "path": "/mnt/plex/music/EDEN/Entrance (2014)/EDEN - Entrance - 02 - Lost.mp3",
+    "size": 12570741,
+    "dateAdded": "2026-02-11T00:14:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169207
+  },
+  {
+    "artistId": 159,
+    "albumId": 1183,
+    "path": "/mnt/plex/music/EDEN/End Credits (2015)/EDEN - End Credits - 02 - End Credits.mp3",
+    "size": 10475892,
+    "dateAdded": "2026-02-11T00:14:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169228
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 02 - take care.mp3",
+    "size": 8123460,
+    "dateAdded": "2026-02-11T00:14:53Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169262
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 02 - in.mp3",
+    "size": 1293744,
+    "dateAdded": "2026-02-11T00:14:53Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169287
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 03 - TEAM.flac",
+    "size": 18954107,
+    "dateAdded": "2026-02-11T00:14:54Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "894 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169331
+  },
+  {
+    "artistId": 159,
+    "albumId": 1182,
+    "path": "/mnt/plex/music/EDEN/Time Changes Everything (2013)/EDEN - Time Changes Everything - 03 - Everything.mp3",
+    "size": 15058494,
+    "dateAdded": "2026-02-11T00:14:54Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169337
+  },
+  {
+    "artistId": 159,
+    "albumId": 1211,
+    "path": "/mnt/plex/music/EDEN/Entrance (2014)/EDEN - Entrance - 03 - Better Together.mp3",
+    "size": 14237364,
+    "dateAdded": "2026-02-11T00:14:54Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169339
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 03 - start++end.mp3",
+    "size": 13647301,
+    "dateAdded": "2026-02-11T00:14:54Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169343
+  },
+  {
+    "artistId": 159,
+    "albumId": 1183,
+    "path": "/mnt/plex/music/EDEN/End Credits (2015)/EDEN - End Credits - 03 - Gravity.mp3",
+    "size": 10080917,
+    "dateAdded": "2026-02-11T00:14:55Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169368
+  },
+  {
+    "artistId": 159,
+    "albumId": 1206,
+    "path": "/mnt/plex/music/EDEN/Remixes (2015)/EDEN - Remixes - 03 - Kuaga (The Eden Project remix).mp3",
+    "size": 9256643,
+    "dateAdded": "2026-02-11T00:14:55Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169380
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 03 - hertz.mp3",
+    "size": 8004108,
+    "dateAdded": "2026-02-11T00:14:55Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169411
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 04 - Paris, Teargas.flac",
+    "size": 17507781,
+    "dateAdded": "2026-02-11T00:14:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "806 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169471
+  },
+  {
+    "artistId": 159,
+    "albumId": 1211,
+    "path": "/mnt/plex/music/EDEN/Entrance (2014)/EDEN - Entrance - 04 - Crush.mp3",
+    "size": 11823640,
+    "dateAdded": "2026-02-11T00:14:56Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169490
+  },
+  {
+    "artistId": 159,
+    "albumId": 1183,
+    "path": "/mnt/plex/music/EDEN/End Credits (2015)/EDEN - End Credits - 04 - Nocturne.mp3",
+    "size": 8764347,
+    "dateAdded": "2026-02-11T00:14:57Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169528
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 04 - wings.mp3",
+    "size": 7375616,
+    "dateAdded": "2026-02-11T00:14:57Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169549
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 04 - static.mp3",
+    "size": 2004278,
+    "dateAdded": "2026-02-11T00:14:57Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169562
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 05 - Ghost in the Shell.flac",
+    "size": 29213897,
+    "dateAdded": "2026-02-11T00:14:58Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "917 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169592
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 05 - icarus.mp3",
+    "size": 16501377,
+    "dateAdded": "2026-02-11T00:14:58Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169603
+  },
+  {
+    "artistId": 159,
+    "albumId": 1211,
+    "path": "/mnt/plex/music/EDEN/Entrance (2014)/EDEN - Entrance - 05 - Circles.mp3",
+    "size": 12213343,
+    "dateAdded": "2026-02-11T00:14:58Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169621
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 05 - projector.mp3",
+    "size": 8936134,
+    "dateAdded": "2026-02-11T00:14:59Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169656
+  },
+  {
+    "artistId": 159,
+    "albumId": 1183,
+    "path": "/mnt/plex/music/EDEN/End Credits (2015)/EDEN - End Credits - 05 - Interlude.mp3",
+    "size": 7430011,
+    "dateAdded": "2026-02-11T00:14:59Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169676
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 06 - True.flac",
+    "size": 14853279,
+    "dateAdded": "2026-02-11T00:15:00Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "723 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169729
+  },
+  {
+    "artistId": 159,
+    "albumId": 1183,
+    "path": "/mnt/plex/music/EDEN/End Credits (2015)/EDEN - End Credits - 06 - Wake Up.mp3",
+    "size": 12053682,
+    "dateAdded": "2026-02-11T00:15:00Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169738
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 06 - love, death, distraction.mp3",
+    "size": 10330043,
+    "dateAdded": "2026-02-11T00:15:01Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169752
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 06 - lost++found.mp3",
+    "size": 8431622,
+    "dateAdded": "2026-02-11T00:15:01Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169771
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 07 - 5ever.flac",
+    "size": 19572268,
+    "dateAdded": "2026-02-11T00:15:02Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "782 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169837
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 07 - crash.mp3",
+    "size": 9584576,
+    "dateAdded": "2026-02-11T00:15:02Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169861
+  },
+  {
+    "artistId": 159,
+    "albumId": 1183,
+    "path": "/mnt/plex/music/EDEN/End Credits (2015)/EDEN - End Credits - 07 - Catch Me If You Can.mp3",
+    "size": 8433124,
+    "dateAdded": "2026-02-11T00:15:03Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169880
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 07 - how to sleep.mp3",
+    "size": 6367805,
+    "dateAdded": "2026-02-11T00:15:03Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169896
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 08 - Light Sleeper.flac",
+    "size": 21038768,
+    "dateAdded": "2026-02-11T00:15:04Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "680 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169931
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 08 - gold.mp3",
+    "size": 8156095,
+    "dateAdded": "2026-02-11T00:15:04Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169973
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 08 - calm down.mp3",
+    "size": 6261196,
+    "dateAdded": "2026-02-11T00:15:05Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 169989
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 09 - forever++over.mp3",
+    "size": 14002504,
+    "dateAdded": "2026-02-11T00:15:05Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170030
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 09 - (Cold Water freestyle).flac",
+    "size": 13391767,
+    "dateAdded": "2026-02-11T00:15:05Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "741 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170032
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 09 - just saying.mp3",
+    "size": 9890155,
+    "dateAdded": "2026-02-11T00:15:05Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170051
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 10 - gggiiiiirrrrlllll.flac",
+    "size": 10851343,
+    "dateAdded": "2026-02-11T00:15:07Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "782 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170132
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 10 - float.mp3",
+    "size": 8240577,
+    "dateAdded": "2026-02-11T00:15:07Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170149
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 10 - fomo.mp3",
+    "size": 7630007,
+    "dateAdded": "2026-02-11T00:15:07Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170154
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 11 - At Once.flac",
+    "size": 19040710,
+    "dateAdded": "2026-02-11T00:15:08Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "852 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170193
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 11 - wonder.mp3",
+    "size": 10828738,
+    "dateAdded": "2026-02-11T00:15:08Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170208
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 11 - so far so good.mp3",
+    "size": 8286213,
+    "dateAdded": "2026-02-11T00:15:08Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170221
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 12 - Pocket (montreal).flac",
+    "size": 11963387,
+    "dateAdded": "2026-02-11T00:15:09Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "794 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170275
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 12 - isohel.mp3",
+    "size": 10874444,
+    "dateAdded": "2026-02-11T00:15:09Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170279
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 12 - love; not wrong (brave).mp3",
+    "size": 8978835,
+    "dateAdded": "2026-02-11T00:15:09Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170291
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/Dark (2025)/EDEN - Dark - 13 - Quantuuuum.flac",
+    "size": 32399714,
+    "dateAdded": "2026-02-11T00:15:10Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "919 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170319
+  },
+  {
+    "artistId": 159,
+    "albumId": 1119,
+    "path": "/mnt/plex/music/EDEN/vertigo (2018)/EDEN - vertigo - 13 - falling in reverse.mp3",
+    "size": 12260110,
+    "dateAdded": "2026-02-11T00:15:10Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "48kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170334
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 13.mp3",
+    "size": 7240260,
+    "dateAdded": "2026-02-11T00:15:10Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170356
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 14 - tides.mp3",
+    "size": 4178710,
+    "dateAdded": "2026-02-11T00:15:11Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170404
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 15 - rushing.mp3",
+    "size": 12364443,
+    "dateAdded": "2026-02-11T00:15:12Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170425
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 16 - $treams.mp3",
+    "size": 8080361,
+    "dateAdded": "2026-02-11T00:15:12Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170463
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 17 - 2020.mp3",
+    "size": 8503542,
+    "dateAdded": "2026-02-11T00:15:12Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170484
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 18 - out.mp3",
+    "size": 1764994,
+    "dateAdded": "2026-02-11T00:15:13Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170502
+  },
+  {
+    "artistId": 159,
+    "albumId": 1127,
+    "path": "/mnt/plex/music/EDEN/no future (2020)/EDEN - no future - 19 - untitled.mp3",
+    "size": 8697924,
+    "dateAdded": "2026-02-11T00:15:13Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 170510
+  },
+  {
+    "artistId": 159,
+    "albumId": 1153,
+    "path": "/mnt/plex/music/EDEN/Final Call (2015)/Digital Media 01/EDEN - Final Call - 01 - Blank_Space.mp3",
+    "size": 9247577,
+    "dateAdded": "2026-02-11T00:17:23Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 171700
+  },
+  {
+    "artistId": 159,
+    "albumId": 1153,
+    "path": "/mnt/plex/music/EDEN/Final Call (2015)/Digital Media 02/EDEN - Final Call - 01 - XO (instrumental).mp3",
+    "size": 6387378,
+    "dateAdded": "2026-02-11T00:17:23Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 171709
+  },
+  {
+    "artistId": 159,
+    "albumId": 1153,
+    "path": "/mnt/plex/music/EDEN/Final Call (2015)/Digital Media 01/EDEN - Final Call - 02 - Gone.mp3",
+    "size": 10276668,
+    "dateAdded": "2026-02-11T00:17:24Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 171739
+  },
+  {
+    "artistId": 159,
+    "albumId": 1153,
+    "path": "/mnt/plex/music/EDEN/Final Call (2015)/Digital Media 02/EDEN - Final Call - 02 - tell me.mp3",
+    "size": 4718676,
+    "dateAdded": "2026-02-11T00:17:24Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 171753
+  },
+  {
+    "artistId": 159,
+    "albumId": 1153,
+    "path": "/mnt/plex/music/EDEN/Final Call (2015)/Digital Media 01/EDEN - Final Call - 03 - Crazy in Love.mp3",
+    "size": 11377566,
+    "dateAdded": "2026-02-11T00:17:25Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 171771
+  },
+  {
+    "artistId": 159,
+    "albumId": 1153,
+    "path": "/mnt/plex/music/EDEN/Final Call (2015)/Digital Media 01/EDEN - Final Call - 04 - woah.mp3",
+    "size": 8101248,
+    "dateAdded": "2026-02-11T00:17:26Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 171818
+  },
+  {
+    "artistId": 159,
+    "albumId": 1153,
+    "path": "/mnt/plex/music/EDEN/Final Call (2015)/Digital Media 01/EDEN - Final Call - 05 - XO.mp3",
+    "size": 7054568,
+    "dateAdded": "2026-02-11T00:17:26Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 171856
+  },
+  {
+    "artistId": 159,
+    "albumId": 1153,
+    "path": "/mnt/plex/music/EDEN/Final Call (2015)/Digital Media 01/EDEN - Final Call - 06 - Times Like These.mp3",
+    "size": 12403491,
+    "dateAdded": "2026-02-11T00:17:27Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 171870
+  },
+  {
+    "artistId": 159,
+    "albumId": 1129,
+    "path": "/mnt/plex/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 01 - sex.mp3",
+    "size": 8824503,
+    "dateAdded": "2026-05-07T02:08:41Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 211655
+  },
+  {
+    "artistId": 159,
+    "albumId": 1129,
+    "path": "/mnt/plex/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 05 - Fumes.mp3",
+    "size": 8657351,
+    "dateAdded": "2026-05-07T02:08:41Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 211658
+  },
+  {
+    "artistId": 159,
+    "albumId": 1129,
+    "path": "/mnt/plex/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 02 - drugs.mp3",
+    "size": 13604915,
+    "dateAdded": "2026-05-07T02:08:41Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 211674
+  },
+  {
+    "artistId": 159,
+    "albumId": 1129,
+    "path": "/mnt/plex/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 06 - XO.mp3",
+    "size": 6452582,
+    "dateAdded": "2026-05-07T02:08:42Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 211688
+  },
+  {
+    "artistId": 159,
+    "albumId": 1129,
+    "path": "/mnt/plex/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 07 - Circles.mp3",
+    "size": 11058503,
+    "dateAdded": "2026-05-07T02:08:42Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 211704
+  },
+  {
+    "artistId": 159,
+    "albumId": 1129,
+    "path": "/mnt/plex/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 03 - and.mp3",
+    "size": 5406641,
+    "dateAdded": "2026-05-07T02:08:42Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 211718
+  },
+  {
+    "artistId": 159,
+    "albumId": 1129,
+    "path": "/mnt/plex/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 04 - rock + roll.mp3",
+    "size": 11914282,
+    "dateAdded": "2026-05-07T02:08:42Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 211728
+  },
+  {
+    "artistId": 159,
+    "albumId": 1203,
+    "path": "/mnt/plex/music/EDEN/Kairos (2015)/EDEN - Kairos - 01 - After the Titanic.mp3",
+    "size": 15625228,
+    "dateAdded": "2026-05-11T13:53:50Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213754
+  },
+  {
+    "artistId": 159,
+    "albumId": 1133,
+    "path": "/mnt/plex/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 01 - A Call.flac",
+    "size": 15572363,
+    "dateAdded": "2026-05-11T13:53:50Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "973 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213755
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 01 - Again.mp3",
+    "size": 10986488,
+    "dateAdded": "2026-05-11T13:53:50Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213758
+  },
+  {
+    "artistId": 159,
+    "albumId": 1205,
+    "path": "/mnt/plex/music/EDEN/Bipolar Paradise (2014)/Digital Media 01/EDEN - Bipolar Paradise - 01 - drowning.mp3",
+    "size": 10695018,
+    "dateAdded": "2026-05-11T13:53:50Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213760
+  },
+  {
+    "artistId": 159,
+    "albumId": 1205,
+    "path": "/mnt/europa/music/EDEN/Bipolar Paradise (2014)/Digital Media 01/EDEN - Bipolar Paradise - 01 - drowning.mp3",
+    "size": 10695018,
+    "dateAdded": "2026-05-11T13:53:50Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213761
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 02/EDEN - Beginnings - 01 - Scrapped Instrumental.mp3",
+    "size": 3933958,
+    "dateAdded": "2026-05-11T13:53:50Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213773
+  },
+  {
+    "artistId": 159,
+    "albumId": 1133,
+    "path": "/mnt/plex/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 02 - Balling.flac",
+    "size": 23420034,
+    "dateAdded": "2026-05-11T13:53:50Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "820 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213779
+  },
+  {
+    "artistId": 159,
+    "albumId": 1203,
+    "path": "/mnt/plex/music/EDEN/Kairos (2015)/EDEN - Kairos - 02 - Statues.mp3",
+    "size": 12799527,
+    "dateAdded": "2026-05-11T13:53:50Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213783
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 02 - Karma.mp3",
+    "size": 11969223,
+    "dateAdded": "2026-05-11T13:53:50Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213784
+  },
+  {
+    "artistId": 159,
+    "albumId": 1205,
+    "path": "/mnt/plex/music/EDEN/Bipolar Paradise (2014)/Digital Media 01/EDEN - Bipolar Paradise - 02 - Fumes.mp3",
+    "size": 9116256,
+    "dateAdded": "2026-05-11T13:53:51Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213790
+  },
+  {
+    "artistId": 159,
+    "albumId": 1205,
+    "path": "/mnt/europa/music/EDEN/Bipolar Paradise (2014)/Digital Media 02/EDEN - Bipolar Paradise - 02 - Fumes+Drowning (First Draft).mp3",
+    "size": 5974643,
+    "dateAdded": "2026-05-11T13:53:51Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213797
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 02/EDEN - Beginnings - 02 - Scrapped Some Chords (remix).mp3",
+    "size": 3381207,
+    "dateAdded": "2026-05-11T13:53:51Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213800
+  },
+  {
+    "artistId": 159,
+    "albumId": 1133,
+    "path": "/mnt/plex/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 03 - Sci‐Fi.flac",
+    "size": 20040398,
+    "dateAdded": "2026-05-11T13:53:51Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "904 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213806
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 03 - L.I.F.E.mp3",
+    "size": 12790503,
+    "dateAdded": "2026-05-11T13:53:51Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213808
+  },
+  {
+    "artistId": 159,
+    "albumId": 1203,
+    "path": "/mnt/plex/music/EDEN/Kairos (2015)/EDEN - Kairos - 03 - Kairos.mp3",
+    "size": 11583948,
+    "dateAdded": "2026-05-11T13:53:51Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213809
+  },
+  {
+    "artistId": 159,
+    "albumId": 1205,
+    "path": "/mnt/plex/music/EDEN/Bipolar Paradise (2014)/Digital Media 01/EDEN - Bipolar Paradise - 03 - Jupiter.mp3",
+    "size": 10291050,
+    "dateAdded": "2026-05-11T13:53:51Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213812
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 02/EDEN - Beginnings - 03 - Billy Jean (The Eden Project remix).mp3",
+    "size": 9529386,
+    "dateAdded": "2026-05-11T13:53:51Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213814
+  },
+  {
+    "artistId": 159,
+    "albumId": 1133,
+    "path": "/mnt/plex/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 04 - Modern Warfare.flac",
+    "size": 22345917,
+    "dateAdded": "2026-05-11T13:53:51Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "879 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213828
+  },
+  {
+    "artistId": 159,
+    "albumId": 1203,
+    "path": "/mnt/plex/music/EDEN/Kairos (2015)/EDEN - Kairos - 04 - First & Last.mp3",
+    "size": 14314725,
+    "dateAdded": "2026-05-11T13:53:51Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213831
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 04 - Fallin’.mp3",
+    "size": 9410408,
+    "dateAdded": "2026-05-11T13:53:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213837
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 02/EDEN - Beginnings - 04 - Feeling Good (scrapped).mp3",
+    "size": 8225353,
+    "dateAdded": "2026-05-11T13:53:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213841
+  },
+  {
+    "artistId": 159,
+    "albumId": 1205,
+    "path": "/mnt/europa/music/EDEN/Bipolar Paradise (2014)/Digital Media 01/EDEN - Bipolar Paradise - 04 - Soul.mp3",
+    "size": 5444346,
+    "dateAdded": "2026-05-11T13:53:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213847
+  },
+  {
+    "artistId": 159,
+    "albumId": 1133,
+    "path": "/mnt/plex/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 05 - Waiting Room.flac",
+    "size": 13770770,
+    "dateAdded": "2026-05-11T13:53:52Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "820 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213854
+  },
+  {
+    "artistId": 159,
+    "albumId": 1205,
+    "path": "/mnt/europa/music/EDEN/Bipolar Paradise (2014)/Digital Media 01/EDEN - Bipolar Paradise - 05 - Man Down.mp3",
+    "size": 13104079,
+    "dateAdded": "2026-05-11T13:53:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213855
+  },
+  {
+    "artistId": 159,
+    "albumId": 1203,
+    "path": "/mnt/plex/music/EDEN/Kairos (2015)/EDEN - Kairos - 05 - Machines.mp3",
+    "size": 12142934,
+    "dateAdded": "2026-05-11T13:53:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213857
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 05 - All of the Lights (The Eden Project remix).mp3",
+    "size": 11704011,
+    "dateAdded": "2026-05-11T13:53:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213858
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 02/EDEN - Beginnings - 05 - I Tried to Be Deadmau5 Once.mp3",
+    "size": 11366317,
+    "dateAdded": "2026-05-11T13:53:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213859
+  },
+  {
+    "artistId": 159,
+    "albumId": 1133,
+    "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 06 - Closer 2.flac",
+    "size": 25180187,
+    "dateAdded": "2026-05-11T13:53:52Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "1013 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213872
+  },
+  {
+    "artistId": 159,
+    "albumId": 1203,
+    "path": "/mnt/plex/music/EDEN/Kairos (2015)/EDEN - Kairos - 06 - Holdin’ On (instrumental).mp3",
+    "size": 12046086,
+    "dateAdded": "2026-05-11T13:53:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213875
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 06 - Grape….mp3",
+    "size": 10559655,
+    "dateAdded": "2026-05-11T13:53:52Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213880
+  },
+  {
+    "artistId": 159,
+    "albumId": 1133,
+    "path": "/mnt/plex/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 07 - PS1.flac",
+    "size": 26922886,
+    "dateAdded": "2026-05-11T13:53:53Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "885 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213890
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 07 - Solace.mp3",
+    "size": 12381506,
+    "dateAdded": "2026-05-11T13:53:53Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213893
+  },
+  {
+    "artistId": 159,
+    "albumId": 1203,
+    "path": "/mnt/plex/music/EDEN/Kairos (2015)/EDEN - Kairos - 07 - Limitless.mp3",
+    "size": 12200375,
+    "dateAdded": "2026-05-11T13:53:53Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213894
+  },
+  {
+    "artistId": 159,
+    "albumId": 1133,
+    "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 08 - Call Me Back.flac",
+    "size": 42676465,
+    "dateAdded": "2026-05-11T13:53:53Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "895 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213907
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 08 - Babel.mp3",
+    "size": 14510755,
+    "dateAdded": "2026-05-11T13:53:53Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213910
+  },
+  {
+    "artistId": 159,
+    "albumId": 1203,
+    "path": "/mnt/plex/music/EDEN/Kairos (2015)/EDEN - Kairos - 08 - Death of a Dream.mp3",
+    "size": 11473817,
+    "dateAdded": "2026-05-11T13:53:53Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213915
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 09 - Fallout (original mix).mp3",
+    "size": 15334069,
+    "dateAdded": "2026-05-11T13:53:53Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213927
+  },
+  {
+    "artistId": 159,
+    "albumId": 1203,
+    "path": "/mnt/europa/music/EDEN/Kairos (2015)/EDEN - Kairos - 09 - Chasing Ghosts.mp3",
+    "size": 11866023,
+    "dateAdded": "2026-05-11T13:53:53Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213929
+  },
+  {
+    "artistId": 159,
+    "albumId": 1133,
+    "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 09 - Duvidha.flac",
+    "size": 11006771,
+    "dateAdded": "2026-05-11T13:53:53Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "857 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213932
+  },
+  {
+    "artistId": 159,
+    "albumId": 1133,
+    "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 10 - Elsewhere.flac",
+    "size": 40969306,
+    "dateAdded": "2026-05-11T13:53:54Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "897 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213943
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 10 - Closer (The Eden Project remix).mp3",
+    "size": 12401304,
+    "dateAdded": "2026-05-11T13:53:54Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213949
+  },
+  {
+    "artistId": 159,
+    "albumId": 1203,
+    "path": "/mnt/europa/music/EDEN/Kairos (2015)/EDEN - Kairos - 10 - Chasing Ghosts (original concept).mp3",
+    "size": 11379900,
+    "dateAdded": "2026-05-11T13:53:54Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213952
+  },
+  {
+    "artistId": 159,
+    "albumId": 1133,
+    "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 11 - Reaching 2.flac",
+    "size": 18634143,
+    "dateAdded": "2026-05-11T13:53:54Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "829 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213961
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 11 - Astronot.mp3",
+    "size": 10747142,
+    "dateAdded": "2026-05-11T13:53:54Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213964
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 12 - Coalesce.mp3",
+    "size": 11116721,
+    "dateAdded": "2026-05-11T13:53:54Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213977
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 13 - Staying (The Eden Project edit).mp3",
+    "size": 10851235,
+    "dateAdded": "2026-05-11T13:53:55Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213986
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 14 - Say Something (cover).mp3",
+    "size": 10839338,
+    "dateAdded": "2026-05-11T13:53:55Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 213998
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/plex/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 15 - Ghost (The Eden Project remix).mp3",
+    "size": 12957567,
+    "dateAdded": "2026-05-11T13:53:55Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 214008
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 16 - Rain (The Eden Project remix).mp3",
+    "size": 11146514,
+    "dateAdded": "2026-05-11T13:53:55Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 214018
+  },
+  {
+    "artistId": 159,
+    "albumId": 1204,
+    "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 17 - Rift (The Eden Project remix).mp3",
+    "size": 14157913,
+    "dateAdded": "2026-05-11T13:53:55Z",
+    "quality": {
+      "quality": {
+        "id": 4,
+        "name": "MP3-320"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 21,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "320 kbps",
+      "audioCodec": "MP3",
+      "audioBits": "",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 214023
+  }
+]

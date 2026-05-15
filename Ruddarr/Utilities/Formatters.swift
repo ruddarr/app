@@ -68,16 +68,20 @@ func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
     return formatter.string(fromByteCount: Int64(bytes))
 }
 
-func formatBitrate(_ bitrate: Int) -> String? {
-    if bitrate == 0 {
+func formatBitrate(_ bitrate: Int?) -> String? {
+    guard let rate = bitrate else {
         return nil
     }
 
-    if bitrate < 1_000_000 {
-        return String(format: "%d kbps", bitrate / 1_000)
+    if rate == 0 {
+        return nil
     }
 
-    let mbps = Double(bitrate) / 1_000_000.0
+    if rate < 1_000_000 {
+        return String(format: "%d kbps", rate / 1_000)
+    }
+
+    let mbps = Double(rate) / 1_000_000.0
 
     return String(format: "%.\(mbps < 10 ? 1 : 0)f mbps", mbps)
 }

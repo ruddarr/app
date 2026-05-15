@@ -17,7 +17,7 @@ struct Artist: Media, Identifiable, Equatable, Codable {
     // used by deeplinks to switch instances
     var instanceId: Instance.ID?
 
-    let tadbId: Int
+    let tadbId: Int?
     let mbId: String?
     let foreignArtistId: String?
     let discogsId: Int?
@@ -44,12 +44,13 @@ struct Artist: Media, Identifiable, Equatable, Codable {
     let links: [ArtistLink]
 
     let path: String?
-    let rootFolderPath: String?
+    var rootFolderPath: String?
     let folder: String?
 
-    let qualityProfileId: Int?
-    let metadataProfileId: Int
+    var qualityProfileId: Int?
+    var metadataProfileId: Int?
 
+    var isSaving: Bool?
     var monitored: Bool
     var monitorNewItems: ArtistMonitorNewItems?
 
@@ -86,6 +87,7 @@ struct Artist: Media, Identifiable, Equatable, Codable {
         case path
         case qualityProfileId
         case metadataProfileId
+        case isSaving
         case monitored
         case monitorNewItems
         case rootFolderPath
@@ -99,7 +101,7 @@ struct Artist: Media, Identifiable, Equatable, Codable {
     }
 
     var exists: Bool {
-        guid != nil
+        guid ?? 0 > 0
     }
 
     var albumCount: Int {
@@ -120,6 +122,28 @@ struct Artist: Media, Identifiable, Equatable, Codable {
 
     var percentOfTracks: Float {
         statistics?.percentOfTracks ?? 0
+    }
+
+    var genreLabel: String {
+        genres.prefix(3)
+            .map { $0 }
+            .formattedList()
+    }
+
+    var stateLabel: LocalizedStringKey {
+//        if isDownloaded {
+//            return "Downloaded"
+//        }
+
+//        if isWaiting {
+//            return "Unreleased"
+//        }
+
+        if monitored && percentOfTracks < 100 {
+            return trackFileCount == 0 ? "Missing" : "Missing Releases"
+        }
+
+        return "Unwanted"
     }
 
     var ratingScore: Float {
@@ -209,10 +233,10 @@ struct ArtistStatistics: Equatable, Codable {
 }
 
 struct ArtistAddOptions: Equatable, Codable {
-    let monitor: ArtistMonitorType
-    let albumsToMonitor: [String]
-    let monitored: Bool
-    let searchForMissingAlbums: Bool
+    var monitor: ArtistMonitorType
+//    let albumsToMonitor: [String]?
+//    let monitored: Bool?
+//    let searchForMissingAlbums: Bool?
 }
 
 enum ArtistMonitorNewItems: String, Codable, Identifiable, CaseIterable {
@@ -267,6 +291,10 @@ struct ArtistEditorResource: Codable {
     let tags: [Int]
     let applyTags: String
     let moveFiles: Bool?
+}
+
+struct ArtistDeleteResource: Codable {
+    let trackFileIds: [Int]
 }
 
 extension Artist {

@@ -10,6 +10,7 @@ class LidarrInstance {
     var isVoid = true
 
     var artists: ArtistModel
+    var albums: AlbumModel
     var lookup: ArtistLookup
     var releases: ArtistReleases
     var files: ArtistFiles
@@ -23,6 +24,7 @@ class LidarrInstance {
 
         self.instance = instance
         self.artists = ArtistModel(instance)
+        self.albums = AlbumModel(instance)
         self.lookup = ArtistLookup(instance)
         self.releases = ArtistReleases(instance)
         self.files = ArtistFiles(instance)
@@ -33,6 +35,7 @@ class LidarrInstance {
 
         self.instance = target
         self.artists = ArtistModel(target)
+        self.albums = AlbumModel(target)
         self.lookup = ArtistLookup(target)
         self.releases = ArtistReleases(target)
         self.files = ArtistFiles(target)
@@ -46,17 +49,16 @@ class LidarrInstance {
         instance.mode.isSlow
     }
 
-    // TODO: Come back and check
-    var isWorking: Bool {
-        instance.version != nil
-    }
-
     var rootFolders: [InstanceRootFolder] {
         instance.rootFolders
     }
 
     var qualityProfiles: [InstanceQualityProfile] {
         instance.qualityProfiles
+    }
+
+    var metadataProfiles: [InstanceMetadataProfile] {
+        instance.metadataProfiles
     }
 
     var tags: [Tag] {
@@ -71,10 +73,12 @@ class LidarrInstance {
         do {
             async let rootFolders = dependencies.api.rootFolders(instance)
             async let qualityProfiles = dependencies.api.qualityProfiles(instance)
+            async let metadataProfiles = dependencies.api.metadataProfiles(instance)
             async let tags = dependencies.api.getTags(instance)
 
             instance.rootFolders = try await rootFolders
             instance.qualityProfiles = try await qualityProfiles
+            instance.metadataProfiles = try await metadataProfiles
             instance.tags = try await tags
         } catch {
             return nil

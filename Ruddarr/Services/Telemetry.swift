@@ -10,16 +10,19 @@ enum Metric: String {
 
     case movieAdded
     case seriesAdded
+    case artistAdded
 
     case movieDownloaded
     case seasonDownloaded
     case episodeDownloaded
+    case albumDownloaded
 
     case movieSearchDispatched
     case seriesSearchDispatched
     case seasonSearchDispatched
     case episodeSearchDispatched
     case artistSearchDispatched
+    case albumSearchDispatched
 }
 
 actor Telemetry {
@@ -27,6 +30,8 @@ actor Telemetry {
         switch metric {
         case .movieDownloaded:
             SentrySDK.metrics.count(key: "releaseDownloaded", value: 1, attributes: ["type": "movie"])
+        case .albumDownloaded:
+            SentrySDK.metrics.count(key: "albumDownloaded", value: 1, attributes: ["type": "album"])
         case .seasonDownloaded:
             SentrySDK.metrics.count(key: "releaseDownloaded", value: 1, attributes: ["type": "season"])
         case .episodeDownloaded:
@@ -75,6 +80,7 @@ actor Telemetry {
                 "grid": settings.grid.rawValue,
                 "releaseFilters": settings.releaseFilters.rawValue,
                 "deviceType": Platform.deviceType.rawValue,
+                "lidarrInstances": String(settings.lidarrInstances.count),
                 "radarrInstances": String(settings.radarrInstances.count),
                 "sonarrInstances": String(settings.sonarrInstances.count),
                 "cloudkit": cloudKitStatusString(accountStatus),

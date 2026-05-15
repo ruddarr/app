@@ -20,7 +20,7 @@ struct Album: Media, Identifiable, Equatable, Codable {
     let disambiguation: String?
     let overview: String?
 
-    let monitored: Bool
+    var monitored: Bool
     let anyReleaseOk: Bool
     let profileId: Int
 
@@ -90,6 +90,28 @@ struct Album: Media, Identifiable, Equatable, Codable {
     var percentOfTracks: Float {
         statistics?.percentOfTracks ?? 0
     }
+
+    var sizeOnDisk: Int {
+        statistics?.sizeOnDisk ?? 0
+    }
+
+    var progressLabel: String? {
+        guard let stats = statistics else { return nil }
+        return "\(stats.trackFileCount) / \(stats.totalTrackCount)"
+    }
+
+    var ratingScore: Float {
+        guard let votes = ratings?.votes, votes > 0 else { return 0 }
+        guard let rating = ratings?.value else { return 0 }
+
+        return rating * log(Float(votes) + 1)
+    }
+
+    var sizeLabel: String? {
+        guard let bytes = statistics?.sizeOnDisk, bytes > 0 else { return nil }
+        return formatBytes(bytes)
+    }
+
 }
 
 extension Album {
@@ -161,6 +183,11 @@ struct AlbumStatistics: Equatable, Codable {
 struct AlbumAddOptions: Equatable, Codable {
     let addType: ArtistMonitorType
     let searchForNewAlbum: Bool
+}
+
+struct AlbumMonitorResource: Equatable, Codable {
+    let albumIds: [Int]
+    let monitored: Bool
 }
 
 enum AlbumAddType: String, Codable {

@@ -11,6 +11,9 @@ class ArtistReleases {
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
+    var isFetching: Bool = false
+//    var isMonitoring: ArtistRelease.ID = 0
+
     var isSearching: Bool = false
 
     var indexers: [String] = []
@@ -22,6 +25,22 @@ class ArtistReleases {
     init(_ instance: Instance) {
         self.instance = instance
     }
+
+    func byId(_ id: ArtistRelease.ID) -> ArtistRelease? {
+        items.first { $0.id == id }
+    }
+
+    func fetched(_ artist: Artist) -> Bool {
+        items.contains { $0.artistId == artist.id }
+    }
+
+//    func maybeFetch(_ artist: Artist) async {
+//        let force = abs(artist.added.timeIntervalSinceNow) < 30
+//
+//        if !fetched(artist) || force {
+//            await fetch(artist)
+//        }
+//    }
 
     func search(_ artist: Artist, _ album: Album.ID?) async {
         items = []
@@ -88,6 +107,8 @@ class ArtistReleases {
 
 struct ArtistRelease: Identifiable, Codable {
     var id: String { guid }
+
+    var instanceId: Instance.ID?
 
     let guid: String
     let title: String

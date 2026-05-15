@@ -17,9 +17,23 @@ struct API {
 
     var fetchArtists: (Instance) async throws -> [Artist]
     var fetchAlbums: (Artist.ID, Instance) async throws -> [Album]
-    var fetchAlbumFiles: (Album.ID, Instance) async throws -> [MediaFile]
+    var fetchAlbumFiles: (Album.ID, Instance) async throws -> [TrackFile]
     var lookupArtists: (_ instance: Instance, _ query: String) async throws -> [Artist]
+//    var fetchReleases: (Artist.ID, Instance) async throws -> [ArtistRelease]
     var lookupArtistReleases: (Artist.ID?, Album.ID?, Instance) async throws -> [ArtistRelease]
+    var fetchArtistFiles: (Artist.ID, Instance) async throws -> [TrackFile]
+
+    var getArtist: (Artist.ID, Instance) async throws -> Artist
+    var addArtist: (Artist, Instance) async throws -> Artist
+    var pushArtist: (Artist, Instance) async throws -> Artist
+    var updateArtist: (Artist, Bool, Instance) async throws -> Empty
+    var deleteArtist: (Artist, Bool, Bool, Instance) async throws -> Empty
+    var getAlbum: (Album, Instance) async throws -> Album
+    var addAlbum: (Album, Instance) async throws -> Album
+    var pushAlbum: (Album, Instance) async throws -> Album
+    var deleteAlbum: (Album, Bool, Bool, Instance) async throws -> Empty
+    var deleteArtistFile: (TrackFile, Instance) async throws -> Empty
+    var deleteArtistFiles: ([TrackFile], Instance) async throws -> Empty
 
     var fetchSeries: (Instance) async throws -> [Series]
     var fetchEpisodes: (Series.ID, Instance) async throws -> [Episode]
@@ -38,12 +52,6 @@ struct API {
     var deleteEpisodeFile: (MediaFile, Instance) async throws -> Empty
     var deleteEpisodeFiles: ([MediaFile], Instance) async throws -> Empty
 
-    var getArtist: (Artist.ID, Instance) async throws -> Artist
-    var addArtist: (Artist, Instance) async throws -> Artist
-    var pushArtist: (Artist, Instance) async throws -> Artist
-    var updateArtist: (Artist, Bool, Instance) async throws -> Empty
-    var deleteArtist: (Artist, Bool, Bool, Instance) async throws -> Empty
-
     var albumCalendar: (Date, Date, Instance) async throws -> [Album]
     var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
     var episodeCalendar: (Date, Date, Instance) async throws -> [Episode]
@@ -54,6 +62,7 @@ struct API {
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolder]
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
+    var metadataProfiles: (Instance) async throws -> [InstanceMetadataProfile]
     var getTags: (Instance) async throws -> [Tag]
 
     var fetchQueueTasks: (Instance) async throws -> QueueItems

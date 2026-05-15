@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ArtistPreviewView: View {
     @State var artist: Artist
+    @State var releases: [Album] = []
 
     @State private var presentingForm: Bool = false
 
@@ -23,7 +24,7 @@ struct ArtistPreviewView: View {
 
     var body: some View {
         ScrollView {
-            ArtistDetails(artist: $artist)
+            ArtistDetails(artist: $artist, albums: $releases)
                 .padding(.top)
                 .scenePadding(.horizontal)
                 .environmentObject(settings)
@@ -131,18 +132,19 @@ struct ArtistPreviewView: View {
         try? await Task.sleep(for: .milliseconds(50))
         dependencies.router.artistsPath.append(artistsPath)
 
-        // TODO: Come back and add
-//        Telemetry.record(.seriesAdded, attributes: [
-//            "tmdb": series.tmdbId ?? 0,
-//            "imdb": series.imdbId ?? 0,
-//        ])
+        Telemetry.record(.artistAdded, attributes: [
+            "mbid": artist.mbId ?? "",
+            "tadb": artist.tadbId ?? 0,
+            "discogs": artist.discogsId ?? 0,
+            "allMusic": artist.allMusicId ?? 0
+        ])
 
         maybeAskForReview()
     }
 }
 
 #Preview {
-    let artists: [Artist] = PreviewData.load(name: "artist-lookup")
+    let artists: [Artist] = PreviewData.load(name: "artists")
     let item = artists.first(where: { $0.mbId == "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a" }) ?? artists[0]
 
     dependencies.router.selectedTab = .artists
