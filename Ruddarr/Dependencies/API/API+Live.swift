@@ -154,33 +154,32 @@ extension API {
                     .appending(path: "/api/v1/artist")
                     .appending(path: String(artist.id))
 
-//                let body = ArtistEditorResource(
-//                    artistsIds: [artist.id],
-//                    monitored: artist.monitored,
-//                    monitorNewItems: artist.monitorNewItems ?? .none,
-//                    qualityProfileId: artist.qualityProfileId,
-//                    metadataProfileId: artist.metadataProfileId,
-//                    rootFolderPath: artist.rootFolderPath,
-//                    tags: artist.tags,
-//                    applyTags: "replace",
-//                    moveFiles: false,
-//                )
-
-                return try await request(method: .put, url: url, headers: instance.auth, body: artist)
-            }, updateArtist: { artist, moveFiles, instance in
-                let url = try instance.baseURL()
-                    .appending(path: "/api/v1/artist/editor")
-
-                let body = ArtistEditorResource(
-                    artistsIds: [artist.id],
+                let body = ArtistUpdateResource(
+                    id: artist.id,
                     monitored: artist.monitored,
                     monitorNewItems: artist.monitorNewItems ?? .none,
                     qualityProfileId: artist.qualityProfileId,
                     metadataProfileId: artist.metadataProfileId,
+                    path: artist.path,
                     rootFolderPath: artist.rootFolderPath,
-                    tags: artist.tags,
-                    applyTags: "replace",
-                    moveFiles: moveFiles ? true : nil,
+                )
+
+                return try await request(method: .put, url: url, headers: instance.auth, body: body)
+            }, updateArtist: { artist, moveFiles, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/artist")
+                    .appending(queryItems: [
+                        .init(name: "moveFiles", value: moveFiles ? "true" : "false")
+                    ])
+
+                let body = ArtistUpdateResource(
+                    id: artist.id,
+                    monitored: artist.monitored,
+                    monitorNewItems: artist.monitorNewItems ?? .none,
+                    qualityProfileId: artist.qualityProfileId,
+                    metadataProfileId: artist.metadataProfileId,
+                    path: artist.path,
+                    rootFolderPath: artist.rootFolderPath,
                 )
 
                 return try await request(method: .put, url: url, headers: instance.auth, body: body)

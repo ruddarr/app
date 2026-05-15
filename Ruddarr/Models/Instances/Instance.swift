@@ -201,6 +201,11 @@ extension Instance {
             InstanceQualityProfile(id: 2, name: "ALAC"),
             InstanceQualityProfile(id: 2, name: "WAV"),
         ]
+        instance.metadataProfiles = [
+            InstanceMetadataProfile(id: 1, name: "Anything"),
+            InstanceMetadataProfile(id: 2, name: "Albums"),
+            InstanceMetadataProfile(id: 3, name: "Albums and EPs"),
+        ]
         instance.tags = [
             Tag(id: 1, label: "Pop"),
             Tag(id: 2, label: "EDM"),

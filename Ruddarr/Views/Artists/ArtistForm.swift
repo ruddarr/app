@@ -78,9 +78,16 @@ struct ArtistForm: View {
         .tint(.secondary)
     }
 
+    @ViewBuilder
     var metadataProfileField: some View {
+        let sortedProfiles = instance.metadataProfiles.sorted { lhs, rhs in
+            if lhs.name.lowercased() == "none" { return true }
+            if rhs.name.lowercased() == "none" { return false }
+            return lhs.id < rhs.id
+        }
+
         Picker(selection: $artist.metadataProfileId) {
-            ForEach(instance.metadataProfiles) { profile in
+            ForEach(sortedProfiles) { profile in
                 Text(profile.name).tag(Optional.some(profile.id))
             }
         } label: {

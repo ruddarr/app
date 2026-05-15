@@ -1,9 +1,3 @@
-//
-//  Artists.swift
-//  Ruddarr
-//
-//  Created by Tulus on 6/5/2026.
-//
 import SwiftUI
 import CoreSpotlight
 
@@ -27,12 +21,12 @@ struct Artist: Media, Identifiable, Equatable, Codable {
     let artistName: String
     let sortName: String?
     let cleanName: String?
+    let artistType: String?
 
     let status: ArtistStatus
 
     let ended: Bool
     let overview: String?
-    let artistType: String?
     let disambiguation: String?
 
 //    let nextAlbum: Album?
@@ -44,13 +38,11 @@ struct Artist: Media, Identifiable, Equatable, Codable {
     let links: [ArtistLink]
 
     let path: String?
-    var rootFolderPath: String?
     let folder: String?
-
+    var rootFolderPath: String?
     var qualityProfileId: Int?
     var metadataProfileId: Int?
 
-    var isSaving: Bool?
     var monitored: Bool
     var monitorNewItems: ArtistMonitorNewItems?
 
@@ -83,11 +75,9 @@ struct Artist: Media, Identifiable, Equatable, Codable {
 //        case lastAlbum
         case images
         case members
-//        case remotePoster
         case path
         case qualityProfileId
         case metadataProfileId
-        case isSaving
         case monitored
         case monitorNewItems
         case rootFolderPath
@@ -131,16 +121,12 @@ struct Artist: Media, Identifiable, Equatable, Codable {
     }
 
     var stateLabel: LocalizedStringKey {
-//        if isDownloaded {
-//            return "Downloaded"
-//        }
-
-//        if isWaiting {
-//            return "Unreleased"
-//        }
-
         if monitored && percentOfTracks < 100 {
             return trackFileCount == 0 ? "Missing" : "Missing Releases"
+        }
+
+        if monitored && percentOfTracks == 100 {
+            return "Up to Date"
         }
 
         return "Unwanted"
@@ -207,9 +193,16 @@ enum ArtistStatus: String, Equatable, Codable {
     }
 }
 
-struct ArtistLink: Equatable, Codable {
+struct ArtistLink: Equatable, Codable, Hashable, Identifiable {
+    var id: UUID { UUID() }
+
     let url: String?
     let name: String?
+
+    enum CodingKeys: String, CodingKey {
+        case url
+        case name
+    }
 }
 
 struct ArtistMember: Equatable, Codable {
@@ -281,6 +274,16 @@ enum ArtistMonitorType: String, Codable, Identifiable, CaseIterable {
     }
 }
 
+struct ArtistUpdateResource: Codable {
+    let id: Artist.ID
+    let monitored: Bool?
+    let monitorNewItems: ArtistMonitorNewItems
+    let qualityProfileId: Int?
+    let metadataProfileId: Int?
+    let path: String?
+    let rootFolderPath: String?
+}
+
 struct ArtistEditorResource: Codable {
     let artistsIds: [Int]
     let monitored: Bool?
@@ -310,10 +313,10 @@ extension Artist {
             artistName: "",
             sortName: "",
             cleanName: nil,
+            artistType: nil,
             status: .continuing,
             ended: false,
             overview: nil,
-            artistType: nil,
             disambiguation: nil,
 //            nextAlbum: nil,
 //            lastAlbum: nil,
@@ -322,8 +325,8 @@ extension Artist {
             members: [],
             links: [],
             path: nil,
-            rootFolderPath: nil,
             folder: nil,
+            rootFolderPath: nil,
             qualityProfileId: 0,
             metadataProfileId: 0,
             monitored: false,

@@ -82,12 +82,13 @@ struct ArtistDetailView: View {
                 }
 
                 Section {
-                    ArtistLinks(artist: artist)
+                    editAction
+                    deleteArtistButton
                 }
 
+                // Lower than other pages due to the increased link counts
                 Section {
-                    editAction
-                    deleteSeriesButton
+                    ArtistLinks(artist: artist)
                 }
             } label: {
                 ToolbarActionButton()
@@ -135,7 +136,7 @@ struct ArtistDetailView: View {
         .disabled(!artist.monitored)
     }
 
-    var deleteSeriesButton: some View {
+    var deleteArtistButton: some View {
         Button("Delete", systemImage: "trash", role: .destructive) {
             showDeleteConfirmation = true
         }.tint(.red)
@@ -145,7 +146,6 @@ struct ArtistDetailView: View {
 extension ArtistDetailView {
     func toggleMonitor() async {
         artist.monitored.toggle()
-        artist.isSaving = true
 
         guard await instance.artists.update(artist) else {
             return

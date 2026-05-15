@@ -1060,13 +1060,13 @@
 				80D706582FB5C238009D1CDB /* lidarr-manual-import.json */,
 				BBA06B582F47D4B600A5F9B4 /* popular-movies.json */,
 				BB181D6E2F48E8DF00981037 /* popular-series.json */,
-				802930742FAEFE4400BD78FE /* album-files.json */,
 				8029306F2FAEF65C00BD78FE /* artists.json */,
 				80D7064E2FB55810009D1CDB /* artist-lookup.json */,
 				80D7065C2FB5C26D009D1CDB /* artist-queue.json */,
 				80D706462FB2E3DB009D1CDB /* artist-files.json */,
 				8029306E2FAEF65C00BD78FE /* artist-albums.json */,
 				802930982FB0379200BD78FE /* artist-releases.json */,
+				802930742FAEFE4400BD78FE /* album-files.json */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";

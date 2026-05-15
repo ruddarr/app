@@ -69,11 +69,13 @@ struct MediaImage: Equatable, Codable {
     let coverType: String
     let remoteURL: String?
     let url: String?
+    let fileExtension: String?
 
     enum CodingKeys: String, CodingKey {
         case coverType
         case remoteURL = "remoteUrl"
         case url
+        case fileExtension = "extension"
     }
 }
 

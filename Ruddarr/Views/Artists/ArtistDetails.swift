@@ -8,6 +8,8 @@ struct ArtistDetails: View {
     @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
 
+    @State private var expandedAlbumTypes: Set<String> = []
+
     @EnvironmentObject var settings: AppSettings
     @Environment(LidarrInstance.self) var instance
 
@@ -63,6 +65,12 @@ struct ArtistDetails: View {
 
     var details: some View {
         Grid(alignment: .leading) {
+            if let blurb = artist.disambiguation {
+                if !blurb.isEmpty {
+                    MediaDetailsRow(String(localized: "Disambiguation"), value: "\(blurb)")
+                }
+            }
+
             if let type = artist.artistType {
                 MediaDetailsRow(String(localized: "Artist Type"), value: "\(type)")
             }
@@ -102,7 +110,7 @@ struct ArtistDetails: View {
                     icon: "magnifyingglass",
                     isLoading: dispatchingSearch
                 )
-                    .modifier(MediaPreviewActionModifier())
+                .modifier(MediaPreviewActionModifier())
             }
             .buttonStyle(.bordered)
             .tint(.buttonTint)
@@ -124,11 +132,11 @@ struct ArtistDetails: View {
                     .modifier(MediaPreviewActionModifier())
                     .modifier(MacMenuButtonLabelModifier())
             }
-            #if os(macOS)
-                .buttonStyle(.plain)
-            #else
-                .buttonStyle(.bordered)
-            #endif
+#if os(macOS)
+            .buttonStyle(.plain)
+#else
+            .buttonStyle(.bordered)
+#endif
             .tint(.buttonTint)
 
             Spacer()
@@ -148,36 +156,14 @@ struct ArtistDetails: View {
         )?.name ?? String(localized: "Unknown")
     }
 
+    @ViewBuilder
     var albumSection: some View {
-        Section {
-            let albumMap = Dictionary(grouping: albums, by: { $0.albumType ?? String(localized: "Unknown Album Type", comment: "Unknown album type section label") })
-            LazyVStack(alignment: .leading, spacing: 12) {
-                ForEach(albumMap.keys.sorted(), id: \.self) { key in
-                    if let releases = albumMap[key]?.sorted(by: { $0.releaseDate ?? Date.distantPast > $1.releaseDate ?? Date.distantPast }) {
-                        Section {
-                            ForEach(releases) { release in
-                                NavigationLink(value: ArtistsPath.releases(artist.id, release.id)) {
-                                    if let idx = albums.firstIndex(where: { $0.id == release.id }) {
-                                        ReleaseCard(artist: $artist, album: $albums[idx])
-                                    } else {
-                                        // Fallback: if not found (shouldn't happen), pass a constant to avoid crash
-                                        ReleaseCard(artist: $artist, album: .constant(release))
-                                    }
-                                }
-                                .buttonStyle(.plain)
-                            }
-                        } header: {
-                            Text("\(key)")
-                                .font(.title3.bold())
-                                .padding(.bottom, 6)
-                        }
-                    }
-                }
+        let albumMap = Dictionary(grouping: albums, by: { $0.albumType ?? String(localized: "Unknown Album Type", comment: "Unknown album type section label") })
+
+        ForEach(albumMap.keys.sorted(), id: \.self) { key in
+            if let releases = albumMap[key]?.sorted(by: { $0.releaseDate ?? Date.distantPast > $1.releaseDate ?? Date.distantPast }) {
+                ArtistAlbumCollection(artist: $artist, albums: releases, albumType: key)
             }
-        } header: {
-            Text("Releases")
-                .font(.title2.bold())
-                .padding(.bottom, 6)
         }
     }
 
@@ -206,7 +192,58 @@ struct ArtistDetails: View {
         Telemetry.record(.artistSearchDispatched)
         maybeAskForReview()
     }
+}
 
+struct ArtistAlbumCollection: View {
+    @Binding var artist: Artist
+    @State var albums: [Album]
+    var albumType: String
+
+    @State var expanded = true
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            // Section header with chevron and tap to expand/collapse
+            HStack {
+                Text("\(albumType)\(String("s").lowercased())")
+                    .font(.title2.bold())
+                    .padding(.bottom, 6)
+                Spacer()
+                Image(systemName: "chevron.left")
+                    .foregroundStyle(.secondary)
+                    .rotationEffect(.degrees(expanded ? -90 : 0))
+                    .animation(.snappy(duration: 0.25), value: expanded)
+                    .padding(.trailing, 6)
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                withAnimation(.snappy(duration: 0.25)) {
+                    expanded.toggle()
+                }
+            }
+            .padding(.vertical, 6)
+
+            if expanded {
+                LazyVStack(alignment: .leading, spacing: 12) {
+                    ForEach(albums) { release in
+                        if let idx = albums.firstIndex(where: { $0.id == release.id }) {
+                            NavigationLink(value: ArtistsPath.releases(artist.id, release.id)) {
+                                ReleaseCard(artist: $artist, album: $albums[idx])
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+                .transition(
+                    .asymmetric(
+                        insertion: .opacity.combined(with: .scale),
+                        removal: .opacity.combined(with: .scale)
+                    )
+                )
+            }
+        }
+        .animation(.snappy(duration: 0.25), value: expanded)
+    }
 }
 
 struct ArtistDetailsPreview: View {
@@ -232,9 +269,13 @@ struct ArtistDetailsPreview: View {
 }
 
 #Preview("Preview") {
-    ArtistDetailsPreview("artist-lookup")
+    dependencies.api = .mock
+
+    return ArtistDetailsPreview("artist-lookup")
 }
 
 #Preview {
-    ArtistDetailsPreview("artists")
+    dependencies.api = .mock
+
+    return ArtistDetailsPreview("artists")
 }
