@@ -172,6 +172,26 @@ func mediaDetailsAudioQuality(_ file: MediaFile?) -> String {
     return codec.isEmpty ? "\(languageList)" : "\(languageList) (\(codec))"
 }
 
+func mediaDetailsAudioQuality(_ file: AlbumTrackFile?) -> String {
+    var parts: [String] = []
+
+    if let audioBitrate = file?.mediaInfo?.audioBitrate {
+        parts.append(String(audioBitrate))
+    }
+
+    if let audioCodec = file?.mediaInfo?.audioCodec {
+        var codec = audioCodec
+
+        if let channels = file?.mediaInfo?.audioChannels {
+            codec += " (\(channels) Ch)"
+        }
+
+        parts.append(codec)
+    }
+
+    return parts.joined(separator: " - ")
+}
+
 func mediaDetailsSubtitles(_ file: MediaFile?, _ deviceType: DeviceType) -> String? {
     guard let codes = file?.mediaInfo?.subtitleCodes else {
         return nil
@@ -237,6 +257,29 @@ struct MediaDetailsPosterModifier: ViewModifier {
             }
         #else
             content.frame(width: 200, height: 300)
+        #endif
+    }
+}
+
+struct ArtistDetailsPosterModifier: ViewModifier {
+    @Environment(\.deviceType) private var deviceType
+
+    #if os(iOS)
+        private var screenWidth: CGFloat {
+            (UIApplication.shared.connectedScenes.first as? UIWindowScene)?
+                .screen.bounds.width ?? 0
+        }
+    #endif
+
+    func body(content: Content) -> some View {
+        #if os(iOS)
+            if deviceType == .phone {
+                content.frame(width: screenWidth * 0.4)
+            } else {
+                content.frame(width: 300, height: 300)
+            }
+        #else
+            content.frame(width: 300, height: 300)
         #endif
     }
 }

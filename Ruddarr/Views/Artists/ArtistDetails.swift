@@ -205,7 +205,7 @@ struct ArtistAlbumCollection: View {
         VStack(alignment: .leading, spacing: 0) {
             // Section header with chevron and tap to expand/collapse
             HStack {
-                Text("\(albumType)\(String("s").lowercased())")
+                Text(String(localized: "\(albumType)s", comment: "Album type collective name"))
                     .font(.title2.bold())
                     .padding(.bottom, 6)
                 Spacer()
@@ -225,9 +225,9 @@ struct ArtistAlbumCollection: View {
 
             if expanded {
                 LazyVStack(alignment: .leading, spacing: 12) {
-                    ForEach(albums) { release in
-                        if let idx = albums.firstIndex(where: { $0.id == release.id }) {
-                            NavigationLink(value: ArtistsPath.releases(artist.id, release.id)) {
+                    ForEach(albums) { album in
+                        if let idx = albums.firstIndex(where: { $0.id == album.id }) {
+                            NavigationLink(value: ArtistsPath.album(artist.id, album.id)) {
                                 ReleaseCard(artist: $artist, album: $albums[idx])
                             }
                             .buttonStyle(.plain)
@@ -249,21 +249,26 @@ struct ArtistAlbumCollection: View {
 struct ArtistDetailsPreview: View {
     let artists: [Artist]
     let albums: [Album]
+    let tracks: [AlbumTrack]
+    @State var tracksCollection: [AlbumTrack]
     @State var albumsCollection: [Album]
     @State var item: Artist
 
     init(_ file: String) {
         let artists: [Artist] = PreviewData.load(name: file)
         let albums: [Album] = PreviewData.load(name: "artist-albums")
+        let tracks: [AlbumTrack] = PreviewData.load(name: "artist-tracks")
         self.artists = artists
         self.albums = albums
+        self.tracks = tracks
         self._item = State(initialValue: artists.first(where: { $0.foreignArtistId == "00d0f0fa-a48c-416d-b4ff-25a290ce82d8" }) ?? artists[0])
         self._albumsCollection = State(initialValue: albums)
+        self._tracksCollection = State(initialValue: tracks)
     }
 
     var body: some View {
         ArtistDetailView(artist: $item, releases: $albumsCollection)
-            .withLidarrInstance(artists: artists, albums: albums)
+            .withLidarrInstance(artists: artists, albums: albums, tracks: tracks)
             .withAppState()
     }
 }

@@ -32,7 +32,9 @@ struct Artist: Media, Identifiable, Equatable, Codable {
 //    let nextAlbum: Album?
 //    let lastAlbum: Album?
 
-    var remotePoster: String? { images.first?.remoteURL }
+    var remotePoster: String? {
+        (images.first { $0.coverType == "poster" } ?? images.first)?.remoteURL
+    }
     let images: [MediaImage]
     let members: [ArtistMember]?
     let links: [ArtistLink]

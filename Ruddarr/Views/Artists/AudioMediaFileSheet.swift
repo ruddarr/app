@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct MediaFileSheet: View {
-    var file: MediaFile
+struct AudioMediaFileSheet: View {
+    var file: AlbumTrackFile
     var runtime: Int
 
     @Environment(\.dismiss) private var dismiss
@@ -12,9 +12,7 @@ struct MediaFileSheet: View {
             ScrollView {
                 Group {
                     generalMetadata
-                    videoMetadata
                     audioMetadata
-                    textMetadata
 
                     Spacer().frame(height: 42)
                 }
@@ -41,10 +39,12 @@ struct MediaFileSheet: View {
     var generalMetadata: some View {
         Section {
             VStack(spacing: 6) {
-                row(
-                    String(localized: "Added"),
-                    file.dateAdded.formatted(date: .long, time: .shortened)
-                )
+                if let dateAdded = file.dateAdded {
+                    row(
+                        String(localized: "Added"),
+                        dateAdded.formatted(date: .long, time: .shortened)
+                    )
+                }
                 Divider()
                 row(
                     String(localized: "File Size"),
@@ -71,71 +71,9 @@ struct MediaFileSheet: View {
     }
 
     @ViewBuilder
-    var videoMetadata: some View {
-        // swiftlint:disable closure_body_length
-        if let media = file.mediaInfo {
-            Section {
-                VStack(spacing: 6) {
-                    row(
-                        String(localized: "Runtime", comment: "Video runtime"),
-                        media.runTime ?? "--"
-                    )
-                    Divider()
-                    row(
-                        String(localized: "Resolution", comment: "Video file resolution"),
-                        media.resolution?.replacingOccurrences(of: "x", with: "×") ?? "--"
-                    )
-                    Divider()
-                    row(
-                        String(localized: "Codec"),
-                        media.videoCodecLabel ?? "--"
-                    )
-                    Divider()
-
-                    if let dynamicRange = media.videoDynamicRangeLabel {
-                        row(
-                            String(localized: "Dynamic Range", comment: "Video file dynamic range"),
-                            dynamicRange
-                        )
-                        Divider()
-                    }
-
-                    row(
-                        String(localized: "Bitrate"),
-                        file.videoBitrateLabel(runtime) ?? "--"
-                    )
-                    if let videoFps = media.videoFps {
-                        Divider()
-                        row(
-                            String(localized: "Framerate", comment: "Video frame rate"),
-                            String(format: "%.0f fps", videoFps)
-                        )
-                    }
-                    if let videoBitDepth = media.videoBitDepth {
-                        Divider()
-                        row(
-                            String(localized: "Color Depth", comment: "Video color depth"),
-                            "\(videoBitDepth) bit"
-                        )
-                    }
-                    Divider()
-                    row(
-                        String(localized: "Scan Type", comment: "Video scan Type"),
-                        media.scanType ?? "--"
-                    )
-                }
-            } header: {
-                headline("Video")
-                    .padding(.bottom, 4)
-            }
-        }
-        // swiftlint:enable closure_body_length
-    }
-
-    @ViewBuilder
     var audioMetadata: some View {
-        // swiftlint:disable closure_body_length
         if let media = file.mediaInfo {
+            // swiftlint:disable closure_body_length
             Section {
                 VStack(spacing: 6) {
                     row(
@@ -190,30 +128,6 @@ struct MediaFileSheet: View {
         // swiftlint:enable closure_body_length
     }
 
-    @ViewBuilder
-    var textMetadata: some View {
-        if let media = file.mediaInfo, let codes = media.subtitleCodes {
-            Section {
-                VStack(spacing: 6) {
-                    row(
-                        String(localized: "Languages", comment: "Metadata row label"),
-                        codes.count <= 3 ? languagesList(codes) : ""
-                    )
-
-                    if codes.count > 3 {
-                        Text(languagesList(codes))
-                            .foregroundStyle(.primary)
-                            .font(.subheadline)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                }
-            } header: {
-                headline("Subtitles")
-                    .padding(.bottom, 4)
-            }
-        }
-    }
-
     func headline(_ title: LocalizedStringKey) -> some View {
         Text(title)
             .font(.title2.bold())
@@ -236,23 +150,5 @@ struct MediaFileSheet: View {
         }
         .font(.subheadline)
         .padding(.vertical, 4)
-    }
-}
-
-#Preview {
-    @Previewable @State var show: Bool = false
-
-    let movies: [Movie] = PreviewData.load(name: "movies")
-    let movie = movies.first(where: { $0.id == 235 }) ?? movies[0]
-
-    Button {
-        show.toggle()
-    } label: {
-        Text(verbatim: "Hello")
-    }
-    .sheet(isPresented: $show) {
-        MediaFileSheet(file: movie.movieFile!, runtime: 42)
-            .presentationDetents([.fraction(0.8)])
-            .presentationBackground(.sheetBackground)
     }
 }

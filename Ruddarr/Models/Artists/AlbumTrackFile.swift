@@ -1,6 +1,6 @@
 import Foundation
 
-struct TrackFile: Identifiable, Equatable, Codable {
+struct AlbumTrackFile: Identifiable, Equatable, Codable {
     let id: Int
     let size: Int
 
@@ -10,14 +10,14 @@ struct TrackFile: Identifiable, Equatable, Codable {
     let artistId: Artist.ID
     let albumId: Album.ID?
     let path: String?
-    let dateAdded: Date
+    let dateAdded: Date?
     let sceneName: String?
     let releaseGroup: String?
-    let quality: AudioMediaQuality?
+    let quality: MediaQuality?
     let qualityWeight: Int
 
-    let customFormats: [AudioMediaQualityDetails]
-    let customFormatScore: Int
+    let customFormats: [MediaQualityDetails]?
+    let customFormatScore: Int?
 
     let indexerFlags: Int?
     let mediaInfo: FileMediaInfo?
@@ -41,6 +41,26 @@ struct TrackFile: Identifiable, Equatable, Codable {
         case mediaInfo
         case qualityCutoffNotMet
         case audioTags
+    }
+
+    var filenameLabel: String {
+        path?.components(separatedBy: "/").last?.breakable() ?? "--"
+    }
+
+    var sizeLabel: String {
+        formatBytes(size)
+    }
+
+    var scoreLabel: String {
+        formatCustomScore(customFormatScore ?? 0)
+    }
+
+    var customFormatsList: [String]? {
+        guard let formats = customFormats, !formats.isEmpty else {
+            return nil
+        }
+
+        return formats.map { $0.label }
     }
 }
 
@@ -70,7 +90,7 @@ struct TrackFileInfo: Equatable, Codable {
 
     let duration: DateInterval?
 
-    let quality: AudioMediaQuality?
+    let quality: MediaQuality?
     let mediaInfo: TrackMediaInfo?
     let trackNumbers: [Int?]
 
@@ -95,4 +115,28 @@ struct TrackMediaInfo: Equatable, Codable {
     let audioChannels: Int
     let audioBits: Int
     let audioSampleRate: Int
+}
+
+extension AlbumTrackFile {
+    static var void: Self {
+        .init(
+            id: 0,
+            size: 0,
+            instanceId: nil,
+            artistId: 0,
+            albumId: 0,
+            path: nil,
+            dateAdded: nil,
+            sceneName: nil,
+            releaseGroup: nil,
+            quality: nil,
+            qualityWeight: 0,
+            customFormats: [],
+            customFormatScore: 0,
+            indexerFlags: nil,
+            mediaInfo: nil,
+            qualityCutoffNotMet: false,
+            audioTags: nil
+        )
+    }
 }

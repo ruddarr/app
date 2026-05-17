@@ -16,6 +16,7 @@ struct CalendarView: View {
     @State private var displayedInstance: String = .all
     @State private var displayedMediaType: CalendarMediaType = .all
 
+    @ObservedObject var globalObservables = ObservedDependencies.shared
     @EnvironmentObject var settings: AppSettings
 
     private let firstWeekday = Calendar.current.firstWeekday
@@ -78,6 +79,18 @@ struct CalendarView: View {
 
                 errorIndicator
                 todayButton
+
+                #if os(iOS)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            globalObservables.showSettings.toggle()
+                        } label: {
+                            Image(systemName: TabItem.settings.icon)
+                        }
+                        .tint(.primary)
+                        .keyboardShortcut(",", modifiers: .command)
+                    }
+                #endif
             }
             .onAppear {
                 if Set(calendar.instances.map(\.id)) != Set(settings.instances.map(\.id)) {

@@ -67,10 +67,18 @@ extension API {
                 try await Task.sleep(for: .seconds(2))
 
                 return loadPreviewData(filename: "artist-albums")
-            }, fetchAlbumFiles: { _, _ in
+            }, fetchAlbumTracks: { _, _ in
                 try await Task.sleep(for: .seconds(2))
 
-                return loadPreviewData(filename: "album-files")
+                return loadPreviewData(filename: "album-tracks")
+            }, fetchArtistTracks: { _, _ in
+                try await Task.sleep(for: .seconds(2))
+
+                return loadPreviewData(filename: "artist-tracks")
+            }, fetchArtistTrackFiles: { _, _ in
+                try await Task.sleep(for: .seconds(2))
+
+                return loadPreviewData(filename: "artist-track-files")
             }, lookupArtists: { _, _ in
                 try await Task.sleep(for: .seconds(2))
 
@@ -79,15 +87,16 @@ extension API {
                 try await Task.sleep(for: .seconds(1))
 
                 return loadPreviewData(filename: "artist-releases")
-            }, fetchArtistFiles: { _, _ in
-                try await Task.sleep(for: .seconds(2))
-
-                return loadPreviewData(filename: "artist-files")
             }, getArtist: { _, _ in
                 let artists: [Artist] = loadPreviewData(filename: "artists")
                 try await Task.sleep(for: .seconds(2))
 
                 return artists[0]
+            }, getArtistHistory: { _, _ in
+                let events: MediaHistory = loadPreviewData(filename: "artist-history")
+                try await Task.sleep(for: .seconds(1))
+
+                return events
             }, addArtist: { _, _ in
                 let artists: [Artist] = loadPreviewData(filename: "artists")
                 try await Task.sleep(for: .seconds(2))
@@ -111,11 +120,20 @@ extension API {
                 try await Task.sleep(for: .seconds(2))
 
                 return albums[0]
+            }, getAlbumHistory: { _, _, _ in
+                let events: MediaHistory = loadPreviewData(filename: "album-history")
+                try await Task.sleep(for: .seconds(1))
+
+                return events
             }, addAlbum: { _, _ in
                 let albums: [Album] = loadPreviewData(filename: "artist-albums")
                 try await Task.sleep(for: .seconds(2))
 
                 return albums[0]
+            }, monitorAlbum: { _, _, _ in
+                try await Task.sleep(for: .seconds(2))
+
+                return Empty()
             }, pushAlbum: { _, _ in
                 let albums: [Album] = loadPreviewData(filename: "artist-albums")
                 try await Task.sleep(for: .seconds(2))
@@ -125,11 +143,11 @@ extension API {
                 try await Task.sleep(for: .seconds(2))
 
                 return Empty()
-            }, deleteArtistFile: { _, _ in
+            }, deleteTrackFile: { _, _ in
                 try await Task.sleep(for: .seconds(2))
 
                 return Empty()
-            }, deleteArtistFiles: { _, _ in
+            }, deleteTrackFiles: { _, _ in
                 try await Task.sleep(for: .seconds(2))
 
                 return Empty()

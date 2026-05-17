@@ -6,15 +6,20 @@ enum ArtistsPath: Hashable {
     case artist(Artist.ID)
     case edit(Artist.ID)
     case releases(Artist.ID, Album.ID)
+    case album(Artist.ID, Album.ID)
+    case track(Artist.ID, AlbumTrackFile.ID)
 }
 
 struct ArtistsView: View {
     @AppStorage("artistSort", store: dependencies.store) var sort: ArtistSort = .init()
 
+    @ObservedObject var globalObservables = ObservedDependencies.shared
     @EnvironmentObject var settings: AppSettings
     @Environment(LidarrInstance.self) var instance
 
     @State private var scrollView: ScrollViewProxy?
+
+    @State private var showingSettings = false
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
@@ -41,7 +46,9 @@ struct ArtistsView: View {
                                 ArtistsSearchSuggestion(query: $searchQuery, sort: $sort)
                             }
                         }
-                        .onAppear { scrollView = proxy }
+                        .onAppear {
+                            scrollView = proxy
+                        }
                     }
                     .task {
                         guard !instance.isVoid else { return }
@@ -54,17 +61,11 @@ struct ArtistsView: View {
                 }
             }
             .safeNavigationBarTitleDisplayMode(.inline)
-            .navigationDestination(for: ArtistsPath.self) { destination(for: $0) }
+            .navigationDestination(for: ArtistsPath.self) {
+                destination(for: $0)
+            }
             .onAppear {
-                // if a deeplink set an instance, try to switch to it
-                maybeSwitchToInstance()
-
-                // if no instance is selected, try to select one
-                // if the selected instance was deleted, try to select one
-                if instance.isVoid, let first = settings.lidarrInstances.first {
-                    settings.lidarrInstanceId = first.id
-                    changeInstance()
-                }
+                onAppear()
             }
             .onReceive(dependencies.quickActions.artistPublisher, perform: navigateToArtist)
             .toolbar {
@@ -75,6 +76,21 @@ struct ArtistsView: View {
                     if deviceType == .phone { toolbarInstancePicker }
                     if deviceType == .pad { bottomBarInstancePicker }
                 }
+
+                #if os(iOS)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            globalObservables.showSettings.toggle()
+                        } label: {
+                            Image(systemName: TabItem.settings.icon)
+                        }
+                        .tint(.primary)
+                        .keyboardShortcut(",", modifiers: .command)
+                    }
+                #endif
+            }
+            .sheet(isPresented: $showingSettings) {
+                SettingsView()
             }
             .scrollDismissesKeyboard(.immediately)
             .searchable(text: $searchQuery, isPresented: $searchPresented, placement: .drawerOrToolbar)
@@ -84,6 +100,7 @@ struct ArtistsView: View {
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
             .onChange(of: instance.artists.items, updateDisplayedArtists)
+            .onChange(of: globalObservables.showSettings, changeInstance)
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
@@ -103,6 +120,18 @@ struct ArtistsView: View {
                     contentUnavailable
                 }
             }
+        }
+    }
+
+    func onAppear() {
+        // if a deeplink set an instance, try to switch to it
+        maybeSwitchToInstance()
+
+        // if no instance is selected, try to select one
+        // if the selected instance was deleted, try to select one
+        if instance.isVoid, let first = settings.lidarrInstances.first {
+            settings.lidarrInstanceId = first.id
+            changeInstance()
         }
     }
 
@@ -128,10 +157,23 @@ struct ArtistsView: View {
         case .edit(let id):
             ArtistEditView(artist: instance.artists.byId(id))
                 .environment(instance)
-        case .releases(let artistId, let releaseId):
-            ArtistReleaseView(
+        case .releases(let artistId, let albumId):
+            AlbumReleasesView(
                 artist: instance.artists.byId(artistId),
-                release: instance.albums.byId(releaseId)
+                album: instance.albums.byId(albumId),
+                albumId: albumId
+            )
+        case .album(let artistId, let albumId):
+            AlbumView(
+                artist: instance.artists.byId(artistId),
+                albumId: albumId
+            )
+            .environment(instance)
+            .environmentObject(settings)
+        case .track(let artistId, let trackId):
+            AlbumTrackView(
+                artist: instance.artists.byId(artistId),
+                trackId: trackId
             )
             .environment(instance)
             .environmentObject(settings)
@@ -297,7 +339,7 @@ struct ArtistsView: View {
         }
     }
 
-    func navigateToArtist(_ artistId: Artist.ID, _ albumId: Album.ID?) {
+    func navigateToArtist(_ artistId: Artist.ID, _ albumId: Album.ID?, _ trackId: AlbumTrackFile.ID?) {
         dependencies.quickActions.clearTimer()
         maybeSwitchToInstance()
 
@@ -306,7 +348,8 @@ struct ArtistsView: View {
         func scheduleNextRun(
             time: DispatchTime,
             _ artistId: Artist.ID,
-            _ albumId: Album.ID?
+            _ albumId: Album.ID?,
+            _ trackId: AlbumTrackFile.ID?
         ) {
             DispatchQueue.main.asyncAfter(deadline: time) {
                 if let artist = instance.artists.items.first(where: { $0.id == artistId }) {
@@ -316,20 +359,26 @@ struct ArtistsView: View {
 
                     if let albumId {
                         dependencies.router.artistsPath.append(
-                            ArtistsPath.releases(artistId, albumId)
+                            ArtistsPath.album(artistId, albumId)
                         )
+
+                        if let trackId {
+                            dependencies.router.artistsPath.append(
+                                ArtistsPath.track(artistId, trackId)
+                            )
+                        }
                     }
 
                     return
                 }
 
                 if Date().timeIntervalSince(startTime) < 10 {
-                    scheduleNextRun(time: DispatchTime.now() + 0.1, artistId, albumId)
+                    scheduleNextRun(time: DispatchTime.now() + 0.1, artistId, albumId, trackId)
                 }
             }
         }
 
-        scheduleNextRun(time: DispatchTime.now(), artistId, albumId)
+        scheduleNextRun(time: DispatchTime.now(), artistId, albumId, trackId)
     }
 }
 

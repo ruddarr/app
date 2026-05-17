@@ -14,6 +14,7 @@ enum SeriesPath: Hashable {
 struct SeriesView: View {
     @AppStorage("seriesSort", store: dependencies.store) var sort: SeriesSort = .init()
 
+    @ObservedObject var globalObservables = ObservedDependencies.shared
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
 
@@ -82,6 +83,18 @@ struct SeriesView: View {
                     if deviceType == .phone { toolbarInstancePicker }
                     if deviceType == .pad { bottomBarInstancePicker }
                 }
+
+                #if os(iOS)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            globalObservables.showSettings.toggle()
+                        } label: {
+                            Image(systemName: TabItem.settings.icon)
+                        }
+                        .tint(.primary)
+                        .keyboardShortcut(",", modifiers: .command)
+                    }
+                #endif
             }
             .scrollDismissesKeyboard(.immediately)
             .searchable(

@@ -1,0 +1,560 @@
+[
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 01 - Still.flac",
+    "size": 23375676,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "944 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217471
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 01/EDEN - DDAARRKK - 01 - Trophy Hunting.flac",
+    "size": 20510346,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "898 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217472
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 02 - Zzz.flac",
+    "size": 19106873,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "841 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217473
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 01/EDEN - DDAARRKK - 02 - Twiin.flac",
+    "size": 17378852,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "838 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217474
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 01/EDEN - DDAARRKK - 03 - Hello.flac",
+    "size": 29834178,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "930 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217475
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 03 - TEAM.flac",
+    "size": 18946538,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "894 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217476
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 01/EDEN - DDAARRKK - 04 - redemption arc.flac",
+    "size": 20726251,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "837 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217477
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 04 - Paris, Teargas.flac",
+    "size": 17500212,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "806 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217478
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 05 - Ghost in the Shell.flac",
+    "size": 29206328,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "917 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217479
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 01/EDEN - DDAARRKK - 05 - Under the Skin.flac",
+    "size": 24083682,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "775 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217480
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 06 - True.flac",
+    "size": 14845710,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "723 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217481
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 07 - 5ever.flac",
+    "size": 19564699,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "782 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217482
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 08 - Light Sleeper.flac",
+    "size": 21031199,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "680 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217483
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 09 - (Cold Water freestyle).flac",
+    "size": 13384198,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "741 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217484
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 10 - gggiiiiirrrrlllll.flac",
+    "size": 10843774,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "782 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217485
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 11 - At Once.flac",
+    "size": 19033141,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "852 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217486
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 12 - Pocket (montreal).flac",
+    "size": 11955818,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "794 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217487
+  },
+  {
+    "artistId": 159,
+    "albumId": 1144,
+    "path": "/mnt/plex/music/EDEN/DDAARRKK (2025)/Digital Media 02/EDEN - DDAARRKK - 13 - Quantuuuum.flac",
+    "size": 32392145,
+    "dateAdded": "2026-05-16T14:43:56Z",
+    "quality": {
+      "quality": {
+        "id": 6,
+        "name": "FLAC"
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "qualityWeight": 23,
+    "customFormats": [],
+    "customFormatScore": 0,
+    "indexerFlags": 0,
+    "mediaInfo": {
+      "audioChannels": 2,
+      "audioBitRate": "919 kbps",
+      "audioCodec": "FLAC",
+      "audioBits": "16bit",
+      "audioSampleRate": "44.1kHz"
+    },
+    "qualityCutoffNotMet": false,
+    "id": 217488
+  }
+]

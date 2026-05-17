@@ -32,7 +32,7 @@ struct ArtistDetailView: View {
         }
         .task {
             await instance.albums.maybeFetch(artist)
-            await instance.files.maybeFetch(artist)
+            await instance.tracks.maybeFetch(artist)
         }
         .onBecomeActive {
             await reload()
@@ -157,7 +157,7 @@ extension ArtistDetailView {
     func reload() async {
         _ = await instance.artists.get(artist)
         _ = await instance.albums.fetch(artist)
-        _ = await instance.files.fetch(artist)
+        _ = await instance.tracks.fetch(artist)
     }
 
     func refresh() async {

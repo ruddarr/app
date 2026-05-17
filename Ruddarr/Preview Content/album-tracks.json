@@ -1,0 +1,344 @@
+[
+  {
+    "artistId": 159,
+    "foreignTrackId": "85bd1550-bf39-4d84-9884-7dadc12c68bb",
+    "foreignRecordingId": "f587d2d0-4551-40cf-ad10-c903e17bf51b",
+    "trackFileId": 217472,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 1,
+    "trackNumber": "1",
+    "title": "Trophy Hunting",
+    "duration": 180976,
+    "mediumNumber": 1,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40230
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "6d639728-efe2-4f2f-8792-697007bc943c",
+    "foreignRecordingId": "41bc5a99-8db3-46d8-8d8e-8b11b6bebc85",
+    "trackFileId": 217474,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 2,
+    "trackNumber": "2",
+    "title": "Twiin",
+    "duration": 164211,
+    "mediumNumber": 1,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40231
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "20fa79b2-f891-4e2a-803f-ccdd890dbb31",
+    "foreignRecordingId": "4bf87f96-a1e5-4948-861b-848c041bfbef",
+    "trackFileId": 217475,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 3,
+    "trackNumber": "3",
+    "title": "Hello",
+    "duration": 255059,
+    "mediumNumber": 1,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40232
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "ec9b7d98-cfee-4a5d-abf1-be884272a798",
+    "foreignRecordingId": "2865bdf8-5243-41f8-8427-5f4c1f1b68fa",
+    "trackFileId": 217477,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 4,
+    "trackNumber": "4",
+    "title": "redemption arc",
+    "duration": 196344,
+    "mediumNumber": 1,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40233
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "60f966a5-9dc1-44c0-b862-0b07c62644a0",
+    "foreignRecordingId": "be4eabe7-a918-460d-8ddf-fdca5ecbbc13",
+    "trackFileId": 217480,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 5,
+    "trackNumber": "5",
+    "title": "Under the Skin",
+    "duration": 246674,
+    "mediumNumber": 1,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40234
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "cc2494c3-ced6-4751-98bc-d6b356baf504",
+    "foreignRecordingId": "3cdd9031-3f7d-4fd3-99e3-fcd44a3abbec",
+    "trackFileId": 217471,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 1,
+    "trackNumber": "1",
+    "title": "Still",
+    "duration": 196620,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40235
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "4a72ef35-5ca0-42ec-94ba-71a982acbff4",
+    "foreignRecordingId": "ab3343ae-d562-486b-833b-a74123a2e07a",
+    "trackFileId": 217473,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 2,
+    "trackNumber": "2",
+    "title": "Zzz",
+    "duration": 180001,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40236
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "3d4d0557-9bd7-4c50-ab9f-9aea0bb02b23",
+    "foreignRecordingId": "418a145d-80b1-4a19-8139-d7040c040452",
+    "trackFileId": 217476,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 3,
+    "trackNumber": "3",
+    "title": "TEAM",
+    "duration": 167820,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40237
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "0ddd00b4-ca1d-4b4f-bf67-bbc8f94d8463",
+    "foreignRecordingId": "b6d2d25a-6a50-42fb-9dd9-4b41e4a1210a",
+    "trackFileId": 217478,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 4,
+    "trackNumber": "4",
+    "title": "Paris, Teargas",
+    "duration": 171832,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40238
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "e5e6e47d-0623-4716-a97f-20c103330301",
+    "foreignRecordingId": "c32f54e5-7145-4d99-b5d9-ee3fa6a9aa4f",
+    "trackFileId": 217479,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 5,
+    "trackNumber": "5",
+    "title": "Ghost in the Shell",
+    "duration": 253011,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40239
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "76cca6f6-8a21-4c26-ae6e-fdb282855eee",
+    "foreignRecordingId": "e25ffd8f-4aaf-476d-82de-ddca3041856e",
+    "trackFileId": 217481,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 6,
+    "trackNumber": "6",
+    "title": "True",
+    "duration": 162291,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40240
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "46346674-42e9-4b2d-93dc-06ea341d8cfa",
+    "foreignRecordingId": "f4282c9b-c5f1-490d-b61d-34be347a5cd0",
+    "trackFileId": 217482,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 7,
+    "trackNumber": "7",
+    "title": "5ever",
+    "duration": 198333,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40241
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "d3925c77-63ff-4b3e-9b61-1dcb7a5480be",
+    "foreignRecordingId": "91cf7b53-75ca-4d47-8905-35751537cd8d",
+    "trackFileId": 217483,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 8,
+    "trackNumber": "8",
+    "title": "Light Sleeper",
+    "duration": 245363,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40242
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "d64558d0-1060-4895-9268-8900544288a0",
+    "foreignRecordingId": "ae18a084-20c7-4b85-81af-e4a8a1c5e421",
+    "trackFileId": 217484,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 9,
+    "trackNumber": "9",
+    "title": "(Cold Water freestyle)",
+    "duration": 142522,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40243
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "b26745fb-832b-445c-a9c5-1cbda622c6d0",
+    "foreignRecordingId": "1286e9a3-ab17-4de2-9563-e3301c14496f",
+    "trackFileId": 217485,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 10,
+    "trackNumber": "10",
+    "title": "gggiiiiirrrrlllll",
+    "duration": 109131,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40244
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "eba4d8fa-0692-48c7-bb7b-f2a0daaad72e",
+    "foreignRecordingId": "bea8c7a4-5993-44e0-ae7e-6ce780e03c2d",
+    "trackFileId": 217486,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 11,
+    "trackNumber": "11",
+    "title": "At Once",
+    "duration": 176928,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40245
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "980e3cfe-9a83-47c8-a9d7-aa7cdf3130d6",
+    "foreignRecordingId": "650bbe75-d11f-439e-b334-14bea20fdd6f",
+    "trackFileId": 217487,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 12,
+    "trackNumber": "12",
+    "title": "Pocket (montreal)",
+    "duration": 118704,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40246
+  },
+  {
+    "artistId": 159,
+    "foreignTrackId": "adba9359-463f-429d-b6a5-d6b114c63614",
+    "foreignRecordingId": "4f4a1e41-43bc-4f20-aa48-f2fecedf6a2f",
+    "trackFileId": 217488,
+    "albumId": 1144,
+    "explicit": false,
+    "absoluteTrackNumber": 13,
+    "trackNumber": "13",
+    "title": "Quantuuuum",
+    "duration": 280391,
+    "mediumNumber": 2,
+    "hasFile": true,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "id": 40247
+  }
+]

@@ -8,7 +8,7 @@ extension ArtistDetails {
                     CGSize(width: 150, height: 150),
                     contentMode: .fill
                 )
-                .modifier(MediaDetailsPosterModifier())
+                .modifier(ArtistDetailsPosterModifier())
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 14))
                 .padding(.trailing, deviceType == .phone ? 8 : 16)

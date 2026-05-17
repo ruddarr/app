@@ -9,6 +9,8 @@ struct SettingsView: View {
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
 
+    @Environment(\.dismiss) private var dismiss
+
     enum Path: Hashable {
         case icons
         case createInstance
@@ -62,6 +64,18 @@ struct SettingsView: View {
                     }
                 }
             }
+            #if os(iOS)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                        .tint(.primary)
+                }
+            }
+            #endif
         }
     }
 

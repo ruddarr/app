@@ -1,6 +1,5 @@
 import SwiftUI
 
-// TODO: Come back and complete
 struct ArtistSort: Hashable {
     var isAscending: Bool = false
     var option: Option = .byAdded

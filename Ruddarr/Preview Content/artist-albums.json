@@ -4,7 +4,7 @@
     "disambiguation": "",
     "overview": "",
     "artistId": 159,
-    "foreignAlbumId": "8100200f-7304-4db9-a420-5aba519550f4",	
+    "foreignAlbumId": "8100200f-7304-4db9-a420-5aba519550f4",
     "monitored": false,
     "anyReleaseOk": true,
     "profileId": 0,
@@ -92,7 +92,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -175,23 +174,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -659,7 +642,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -742,23 +724,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -805,7 +771,7 @@
     "monitored": false,
     "anyReleaseOk": true,
     "profileId": 0,
-    "duration": 1632000,
+    "duration": 1635365,
     "albumType": "EP",
     "secondaryTypes": [],
     "mediumCount": 2,
@@ -837,7 +803,9 @@
         ],
         "mediumCount": 2,
         "disambiguation": "",
-        "country": [],
+        "country": [
+          "United States"
+        ],
         "label": [
           "MCMXCV LTD."
         ],
@@ -873,37 +841,6 @@
           "MCMXCV LTD."
         ],
         "format": "2xDigital Media",
-        "monitored": false
-      },
-      {
-        "id": 3019,
-        "albumId": 1129,
-        "foreignReleaseId": "073321f0-205f-4e69-bbce-e7b4b3c42db3",
-        "title": "i think you think too much of me",
-        "status": "Official",
-        "duration": 1632000,
-        "trackCount": 7,
-        "media": [
-          {
-            "mediumNumber": 1,
-            "mediumName": "",
-            "mediumFormat": "Digital Media"
-          },
-          {
-            "mediumNumber": 2,
-            "mediumName": "",
-            "mediumFormat": "Digital Media"
-          }
-        ],
-        "mediumCount": 2,
-        "disambiguation": "",
-        "country": [
-          "United States"
-        ],
-        "label": [
-          "MCMXCV LTD."
-        ],
-        "format": "2xDigital Media",
         "monitored": true
       }
     ],
@@ -930,7 +867,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -1013,23 +949,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -1051,10 +971,10 @@
     },
     "images": [
       {
-        "url": "/MediaCover/Albums/1129/cover.jpg?lastWrite=638932401919113523",
+        "url": "/MediaCover/Albums/1129/cover.jpg?lastWrite=639145362008176293",
         "coverType": "cover",
         "extension": ".jpg",
-        "remoteUrl": "https://images.lidarr.audio/cache/https://coverartarchive.org/release/f557723d-90a5-4fff-a1e3-91f7e5eec4a2/27632190965-1200.jpg"
+        "remoteUrl": "https://images.lidarr.audio/cache/https://coverartarchive.org/release/5c6505f5-43c5-4f45-9fdc-fbf9ac991ef5/30854167677-1200.jpg"
       }
     ],
     "links": [
@@ -1064,11 +984,11 @@
       }
     ],
     "statistics": {
-      "trackFileCount": 7,
-      "trackCount": 7,
+      "trackFileCount": 0,
+      "trackCount": 0,
       "totalTrackCount": 7,
       "sizeOnDisk": 65918777,
-      "percentOfTracks": 100
+      "percentOfTracks": 0
     },
     "id": 1129
   },
@@ -1340,7 +1260,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -1423,23 +1342,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -1484,12 +1387,12 @@
     "artistId": 159,
     "foreignAlbumId": "8662901d-1335-47b7-a1ab-5ca67ea09e86",
     "monitored": false,
-    "anyReleaseOk": true,
+    "anyReleaseOk": false,
     "profileId": 0,
-    "duration": 2402947,
+    "duration": 3446211,
     "albumType": "Album",
     "secondaryTypes": [],
-    "mediumCount": 1,
+    "mediumCount": 2,
     "ratings": {
       "votes": 0,
       "value": 0
@@ -1521,7 +1424,7 @@
           "MCMXCV"
         ],
         "format": "Digital Media",
-        "monitored": true
+        "monitored": false
       },
       {
         "id": 3130,
@@ -1553,7 +1456,7 @@
           "MCMXCV"
         ],
         "format": "2xDigital Media",
-        "monitored": false
+        "monitored": true
       },
       {
         "id": 3131,
@@ -1617,6 +1520,11 @@
         "mediumNumber": 1,
         "mediumName": "",
         "mediumFormat": "Digital Media"
+      },
+      {
+        "mediumNumber": 2,
+        "mediumName": "",
+        "mediumFormat": "Digital Media"
       }
     ],
     "artist": {
@@ -1626,7 +1534,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -1709,23 +1616,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -1755,11 +1646,11 @@
     ],
     "links": [],
     "statistics": {
-      "trackFileCount": 13,
-      "trackCount": 13,
-      "totalTrackCount": 13,
+      "trackFileCount": 0,
+      "trackCount": 0,
+      "totalTrackCount": 18,
       "sizeOnDisk": 251284708,
-      "percentOfTracks": 100
+      "percentOfTracks": 0
     },
     "id": 1144
   },
@@ -1838,7 +1729,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -1921,23 +1811,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -1981,7 +1855,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "decbb8f2-0e6d-44c5-92f1-a1aa610b807f",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 938117,
@@ -2038,7 +1912,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -2121,23 +1994,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -2166,7 +2023,7 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:51:48Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 3,
       "trackCount": 3,
@@ -2182,7 +2039,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "e6b226e8-8900-466b-8f7d-4bcb6e0d5330",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 1550000,
@@ -2320,7 +2177,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -2403,23 +2259,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -2453,7 +2293,7 @@
         "name": "wikipedia"
       }
     ],
-    "lastSearchTime": "2025-10-31T07:51:55Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 7,
       "trackCount": 7,
@@ -2469,7 +2309,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "cbec71fa-f978-4db8-a4da-019792116327",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 450000,
@@ -2524,7 +2364,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -2607,23 +2446,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -2652,10 +2475,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:51:56Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 2,
+      "trackCount": 0,
       "totalTrackCount": 2,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -2668,7 +2491,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "7fd31e2c-ebd1-468c-b068-9a86c1c699e0",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 446000,
@@ -2723,7 +2546,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -2806,23 +2628,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -2851,10 +2657,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:01Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 2,
+      "trackCount": 0,
       "totalTrackCount": 2,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -2867,7 +2673,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "09efb39b-0bd4-4367-9b26-d0f9800fdd76",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 243000,
@@ -2925,7 +2731,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -3008,23 +2813,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -3053,10 +2842,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:05Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -3069,7 +2858,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "16b49323-5daa-4a5b-af2d-10f830ad6e69",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 258000,
@@ -3122,7 +2911,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -3205,23 +2993,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -3250,10 +3022,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:08Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -3266,7 +3038,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "d7c1d4b6-a6e3-49e2-a75b-3624879a0ddd",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 222000,
@@ -3319,7 +3091,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -3402,23 +3173,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -3447,10 +3202,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:11Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -3463,7 +3218,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "f1b45553-3108-4285-9919-1d2d0d9b2d2a",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 216000,
@@ -3516,7 +3271,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -3599,23 +3353,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -3644,10 +3382,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:14Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -3660,7 +3398,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "34c66b94-548c-44d2-9022-ce922a4994e7",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 202000,
@@ -3715,7 +3453,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -3798,23 +3535,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -3843,10 +3564,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:18Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -3859,7 +3580,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "d9eed1fe-4f8b-45ae-8ac5-5339ecd847ae",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 236000,
@@ -3914,7 +3635,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -3997,23 +3717,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -4042,10 +3746,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:24Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -4058,7 +3762,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "70e59167-18dd-4df4-9501-b0d2821dcec8",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 227532,
@@ -4113,7 +3817,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -4196,23 +3899,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -4241,10 +3928,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:25Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -4257,7 +3944,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "497a53c9-08c3-4197-a5b8-5218bc25088d",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 176349,
@@ -4519,7 +4206,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -4602,23 +4288,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -4647,10 +4317,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:28Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -4663,7 +4333,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "3125df77-ece8-47fd-aee5-6df2193a5315",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 0,
     "duration": 289000,
@@ -4738,7 +4408,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -4821,23 +4490,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -4859,10 +4512,10 @@
     },
     "images": [],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:29Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -4875,7 +4528,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "3b586ce3-c4de-487f-9795-2f74a3a3b4d1",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 495615,
@@ -4928,7 +4581,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -5011,23 +4663,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -5056,10 +4692,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:32Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 2,
+      "trackCount": 0,
       "totalTrackCount": 2,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -5072,7 +4708,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "d37b35e3-99c1-47b8-a78d-793e55c19639",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 180000,
@@ -5154,7 +4790,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -5237,23 +4872,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -5282,10 +4901,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:36Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -5298,7 +4917,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "e4675cc7-5051-4fe3-898e-14b7611286fb",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 378333,
@@ -5381,7 +5000,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -5464,23 +5082,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -5509,10 +5111,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:38Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 2,
+      "trackCount": 0,
       "totalTrackCount": 2,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -5525,7 +5127,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "04314c18-a372-435b-ac3c-579ff425fb69",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 497038,
@@ -5582,7 +5184,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -5665,23 +5266,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -5710,10 +5295,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:42Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 3,
+      "trackCount": 0,
       "totalTrackCount": 3,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -5726,7 +5311,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "eb682911-674e-4d1d-82d8-e56f6bc9b3ce",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 606169,
@@ -5782,7 +5367,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -5865,23 +5449,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -5910,10 +5478,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:44Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 4,
+      "trackCount": 0,
       "totalTrackCount": 4,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -5926,7 +5494,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "bcc36024-4e56-4166-aaf4-3eb6e4035d05",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 741321,
@@ -5983,7 +5551,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -6066,23 +5633,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -6111,10 +5662,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:47Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 4,
+      "trackCount": 0,
       "totalTrackCount": 4,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -6127,7 +5678,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "a56d9192-d524-4d2f-8322-01f0b008adb5",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 859180,
@@ -6183,7 +5734,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -6266,23 +5816,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -6311,10 +5845,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:47Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 5,
+      "trackCount": 0,
       "totalTrackCount": 5,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -6327,7 +5861,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "4d2a1229-cd03-453c-aeca-a1ee9a38876a",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 1055800,
@@ -6383,7 +5917,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -6466,23 +5999,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -6511,10 +6028,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:50Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 6,
+      "trackCount": 0,
       "totalTrackCount": 6,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -6527,7 +6044,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "e6b0a452-c7ae-480b-8990-1bbb8fbe8f61",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 2848883,
@@ -6588,7 +6105,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -6671,23 +6187,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -6716,7 +6216,7 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:52Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 10,
       "trackCount": 10,
@@ -6732,7 +6232,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "e5b64321-432a-4ec4-bdb6-fd0fabd3aaeb",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 5797000,
@@ -6800,7 +6300,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -6883,23 +6382,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -6921,7 +6404,7 @@
     },
     "images": [],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:52:55Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 22,
       "trackCount": 22,
@@ -6937,7 +6420,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "92580fde-ede1-4b5e-82e8-fa52db506097",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 1562000,
@@ -7032,7 +6515,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -7115,23 +6597,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -7160,7 +6626,7 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:53:11Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 7,
       "trackCount": 7,
@@ -7176,7 +6642,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "5b4c669f-24f2-46aa-b125-39153e2d8cd4",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 824000,
@@ -7235,7 +6701,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -7318,23 +6783,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -7356,7 +6805,7 @@
     },
     "images": [],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:53:28Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 3,
       "trackCount": 3,
@@ -7372,7 +6821,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "27aab3ba-e96c-455b-8e73-1fbc6bbe212a",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 284718,
@@ -7427,7 +6876,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -7510,23 +6958,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -7555,10 +6987,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:53:39Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -7571,7 +7003,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "b0b3975e-9bb4-4854-a242-6a3522846886",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 990716,
@@ -7628,7 +7060,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -7711,23 +7142,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -7756,10 +7171,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:53:51Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 4,
+      "trackCount": 0,
       "totalTrackCount": 4,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -7772,7 +7187,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "837e73d4-7a81-434d-9984-eb08fd04179e",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 166000,
@@ -7827,7 +7242,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -7910,23 +7324,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -7955,10 +7353,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:54:03Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -7971,7 +7369,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "a11defc1-d82e-4a26-a752-29785dff19a6",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 215745,
@@ -8026,7 +7424,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -8109,23 +7506,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -8154,10 +7535,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:54:14Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -8170,7 +7551,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "8c147746-ae8c-451c-bf57-b196a86ae403",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 1305000,
@@ -8230,7 +7611,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -8313,23 +7693,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -8358,7 +7722,7 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-10-31T07:54:23Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 5,
       "trackCount": 5,
@@ -8374,7 +7738,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "1cd35987-5d46-413b-b81a-38a57d2547c1",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 495616,
@@ -8429,7 +7793,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -8512,23 +7875,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -8550,9 +7897,10 @@
     },
     "images": [],
     "links": [],
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 2,
+      "trackCount": 0,
       "totalTrackCount": 2,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -8565,7 +7913,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "1b4fe88d-1909-4504-a6d4-7b33e08c0f1b",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 286537,
@@ -8620,7 +7968,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -8703,23 +8050,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -8748,10 +8079,10 @@
       }
     ],
     "links": [],
-    "lastSearchTime": "2025-12-20T13:04:07Z",
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -8764,7 +8095,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "8f753117-a189-4015-b368-682f807fe98c",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 174000,
@@ -8819,7 +8150,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -8902,23 +8232,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -8947,9 +8261,10 @@
       }
     ],
     "links": [],
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -8962,7 +8277,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "d9f6628e-42de-4b7f-87fa-dc2b1b6b11f3",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 291500,
@@ -9017,7 +8332,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -9100,23 +8414,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -9138,9 +8436,10 @@
     },
     "images": [],
     "links": [],
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -9153,7 +8452,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "0cfac9e9-5ad1-490d-8399-e8e24489241e",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 159582,
@@ -9208,7 +8507,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -9291,23 +8589,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -9329,9 +8611,10 @@
     },
     "images": [],
     "links": [],
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -9344,7 +8627,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "ed9fb636-af22-40f4-b124-008a3db08cb9",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 238576,
@@ -9399,7 +8682,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -9482,23 +8764,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -9520,9 +8786,10 @@
     },
     "images": [],
     "links": [],
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -9535,7 +8802,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "5e217eff-036b-4c93-9955-c91f3691f30a",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 188212,
@@ -9590,7 +8857,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -9673,23 +8939,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -9711,9 +8961,10 @@
     },
     "images": [],
     "links": [],
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0
@@ -9726,7 +8977,7 @@
     "overview": "",
     "artistId": 159,
     "foreignAlbumId": "b705d1b2-0244-4a9e-9d20-50789e5c2a52",
-    "monitored": true,
+    "monitored": false,
     "anyReleaseOk": true,
     "profileId": 1,
     "duration": 265456,
@@ -9781,7 +9032,6 @@
       "foreignArtistId": "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a",
       "tadbId": 0,
       "discogsId": 0,
-      "overview": "Jonathon Ng, known professionally as Eden, is an Irish musician, singer, songwriter, record producer, and occasional model. He formerly operated as The Spab Project and later The Eden Project, an alias discontinued in 2015. Ng's work as The Eden Project typically featured more conventional styles of electronic dance music, such as dubstep and drum and bass, while EDEN saw himself venturing into an indie pop style.",
       "artistType": "Person",
       "disambiguation": "Irish indie pop",
       "links": [
@@ -9864,23 +9114,7 @@
       ],
       "nextAlbum": null,
       "lastAlbum": null,
-      "images": [
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/ryqqxy1496089242.png",
-          "coverType": "clearlogo",
-          "extension": ".png"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xsppqt1590162083.jpg",
-          "coverType": "fanart",
-          "extension": ".jpg"
-        },
-        {
-          "url": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rwssvt1496088981.jpg",
-          "coverType": "poster",
-          "extension": ".jpg"
-        }
-      ],
+      "images": [],
       "path": "/mnt/plex/music/EDEN",
       "qualityProfileId": 1,
       "metadataProfileId": 3,
@@ -9902,9 +9136,10 @@
     },
     "images": [],
     "links": [],
+    "lastSearchTime": "2026-05-10T03:17:34Z",
     "statistics": {
       "trackFileCount": 0,
-      "trackCount": 1,
+      "trackCount": 0,
       "totalTrackCount": 1,
       "sizeOnDisk": 0,
       "percentOfTracks": 0

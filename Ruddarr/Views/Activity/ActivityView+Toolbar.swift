@@ -54,6 +54,18 @@ extension ActivityView {
                 }
             }
         #endif
+
+        #if os(iOS)
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    globalObservables.showSettings.toggle()
+                } label: {
+                    Image(systemName: TabItem.settings.icon)
+                }
+                .tint(.primary)
+                .keyboardShortcut(",", modifiers: .command)
+            }
+        #endif
     }
 
     var toolbarFilterButton: some View {

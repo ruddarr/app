@@ -8,6 +8,7 @@ class AlbumModel {
 
     var items: [Album] = []
     var itemsCount: Int = 0
+    var history: [MediaHistoryEvent] = []
 
     var cachedItems: [Album] = []
 
@@ -171,6 +172,41 @@ class AlbumModel {
         isFetching = false
     }
 
+    func monitor(_ albums: [Album.ID], _ monitored: Bool) async -> Bool {
+        error = nil
+        isMonitoring = albums[0]
+
+        do {
+            _ = try await dependencies.api.monitorAlbum(albums, monitored, instance)
+        } catch is CancellationError {
+            // do nothing
+        } catch let apiError as API.Error {
+            error = apiError
+
+            leaveBreadcrumb(.error, category: "artist.albums", message: "Album monitor failed", data: ["error": apiError])
+        } catch {
+            self.error = API.Error(from: error)
+        }
+
+        isMonitoring = 0
+
+        return error == nil
+    }
+
+    func fetchHistory(for album: Album) async {
+        do {
+            history = try await dependencies.api.getAlbumHistory(album.artistId, album.id, instance).records
+        } catch is CancellationError {
+            // do nothing
+        } catch let apiError as API.Error {
+            error = apiError
+
+            leaveBreadcrumb(.error, category: "artist.albums", message: "Album history fetch failed", data: ["error": apiError])
+        } catch {
+            self.error = API.Error(from: error)
+        }
+    }
+
     func request(_ operation: Operation) async -> Bool {
         error = nil
         isWorking = true
@@ -227,6 +263,20 @@ class AlbumModel {
 
         case .command(let command):
             _ = try await dependencies.api.command(command, instance)
+        }
+    }
+
+    func fetchHistory(_ artist: Artist, _ album: Album) async {
+        do {
+            history = try await dependencies.api.getAlbumHistory(artist.id, album.id, instance).records
+        } catch is CancellationError {
+            // do nothing
+        } catch let apiError as API.Error {
+            error = apiError
+
+            leaveBreadcrumb(.error, category: "albums.history", message: "Album history fetch failed", data: ["error": apiError])
+        } catch {
+            self.error = API.Error(from: error)
         }
     }
 

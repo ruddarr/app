@@ -25,6 +25,11 @@ struct MediaHistoryEvent: Identifiable, Codable {
     let seriesId: Int?
     let episodeId: Int?
 
+    // Lidar
+    let artistId: Int?
+    let albumId: Int?
+    let trackId: Int?
+
     let quality: MediaQuality
     let languages: [MediaLanguage]?
 
@@ -77,9 +82,15 @@ struct MediaHistoryEvent: Identifiable, Codable {
     var description: String {
         let fallback = String(localized: "Unknown event.")
 
-        let mediaNoun = movieId != nil
-            ? String(localized: "Movie")
-            : String(localized: "Episode")
+        var mediaNoun = String(localized: "Unknown")
+
+        if movieId != nil {
+            mediaNoun = String(localized: "Movie")
+        } else if albumId != nil {
+            mediaNoun = String(localized: "Album")
+        } else if seriesId != nil {
+            mediaNoun = String(localized: "Episode")
+        }
 
         return switch eventType {
         case .unknown:
@@ -97,6 +108,12 @@ struct MediaHistoryEvent: Identifiable, Codable {
                 mediaNoun,
                 downloadClientFallbackLabel
             )
+        case .downloadImported:
+            String(format: String(
+                localized: "%1$@ downloaded successfully and imported from %2$@."),
+                mediaNoun,
+                downloadClientFallbackLabel
+            )
         case .downloadFailed:
             data("message") ?? fallback
         case .downloadIgnored:
@@ -105,14 +122,22 @@ struct MediaHistoryEvent: Identifiable, Codable {
             String(localized: "Movie file was renamed.")
         case .episodeFileRenamed:
             String(localized: "Episode file was renamed.")
-        case .movieFileDeleted, .episodeFileDeleted:
+        case .trackFileRenamed:
+            String(localized: "Track file was renamed.")
+        case .trackFileRetagged:
+            String(localized: "Track file was retagged.")
+        case .movieFileDeleted, .episodeFileDeleted, .trackFileDeleted:
             switch data?["reason"] {
             case "Manual":
                 String(localized: "File was deleted either manually or by a client through the API.")
             case "MissingFromDisk":
-                eventType == .episodeFileDeleted // swiftlint:disable:next void_function_in_ternary
-                    ? String(localized: "File was not found on disk so it was unlinked from the episode in the database.")
-                    : String(localized: "File was not found on disk so it was unlinked from the movie in the database.")
+                if eventType == .episodeFileDeleted {
+                    String(localized: "File was not found on disk so it was unlinked from the episode in the database.")
+                } else if eventType == .movieFileDeleted {
+                    String(localized: "File was not found on disk so it was unlinked from the movie in the database.")
+                } else {
+                    String(localized: "File was not found on disk so it was unlinked from the album in the database.")
+                }
             case "Upgrade":
                 String(localized: "File was deleted to import an upgrade.")
             default:
@@ -122,6 +147,10 @@ struct MediaHistoryEvent: Identifiable, Codable {
             String(localized: "Movie imported from folder.")
         case .seriesFolderImported:
             String(localized: "Series imported from folder.")
+        case .artistFolderImported:
+            String(localized: "Artist imported from folder.")
+        case .trackFileImported:
+            String(localized: "Track imported from folder.")
         }
     }
 
@@ -151,6 +180,7 @@ enum HistoryEventType: String, Codable {
     case downloadFolderImported
     case downloadFailed
     case downloadIgnored
+    case downloadImported
 
     case movieFileRenamed
     case movieFileDeleted
@@ -160,15 +190,23 @@ enum HistoryEventType: String, Codable {
     case episodeFileDeleted
     case seriesFolderImported
 
+    case trackFileRenamed
+    case trackFileDeleted
+    case trackFileRetagged
+    case trackFileImported
+    case artistFolderImported
+
     var ref: String {
         switch self {
         case .unknown: ".unknown"
         case .grabbed: ".grabbed"
-        case .downloadFolderImported, .movieFolderImported, .seriesFolderImported: ".imported"
+        case .downloadFolderImported, .movieFolderImported, .seriesFolderImported,
+                .artistFolderImported, .trackFileImported, .downloadImported: ".imported"
         case .downloadFailed: ".failed"
         case .downloadIgnored: ".ignored"
-        case .movieFileRenamed, .episodeFileRenamed: ".renamed"
-        case .movieFileDeleted, .episodeFileDeleted: ".deleted"
+        case .movieFileRenamed, .episodeFileRenamed, .trackFileRenamed: ".renamed"
+        case .trackFileRetagged: ".retagged"
+        case .movieFileDeleted, .episodeFileDeleted, .trackFileDeleted: ".deleted"
         }
     }
 
@@ -184,12 +222,14 @@ enum HistoryEventType: String, Codable {
             String(localized: "Failed", comment: "(Short) Title of history event")
         case .downloadIgnored:
             String(localized: "Ignored", comment: "(Short) Title of history event")
-        case .movieFileRenamed, .episodeFileRenamed:
+        case .movieFileRenamed, .episodeFileRenamed, .trackFileRenamed:
             String(localized: "Renamed", comment: "(Short) Title of history event")
-        case .movieFileDeleted, .episodeFileDeleted:
+        case .movieFileDeleted, .episodeFileDeleted, .trackFileDeleted:
             String(localized: "Deleted", comment: "(Short) Title of history event")
-        case .movieFolderImported, .seriesFolderImported:
+        case .movieFolderImported, .seriesFolderImported, .artistFolderImported, .trackFileImported, .downloadImported:
             String(localized: "Imported", comment: "(Short) Title of history event")
+        case .trackFileRetagged:
+            String(localized: "Retagged", comment: "(Short) Title of history event")
         }
     }
 
@@ -201,6 +241,8 @@ enum HistoryEventType: String, Codable {
             String(localized: "Release Grabbed", comment: "Title of history event type")
         case .downloadFolderImported:
             String(localized: "Folder Imported", comment: "Title of history event type")
+        case .downloadImported:
+            String(localized: "Download Imported", comment: "Title of history event type")
         case .downloadFailed:
             String(localized: "Download Failed", comment: "Title of history event type")
         case .downloadIgnored:
@@ -216,6 +258,16 @@ enum HistoryEventType: String, Codable {
         case .episodeFileDeleted:
             String(localized: "Episode Deleted", comment: "Title of history event type")
         case .seriesFolderImported:
+            String(localized: "Folder Imported", comment: "Title of history event type")
+        case .trackFileRenamed:
+            String(localized: "Track Renamed", comment: "Title of history event type")
+        case .trackFileDeleted:
+            String(localized: "Track Deleted", comment: "Title of history event type")
+        case .trackFileRetagged:
+            String(localized: "Track Retagged", comment: "Title of history event type")
+        case .trackFileImported:
+            String(localized: "Track Imported", comment: "Title of history event type")
+        case .artistFolderImported:
             String(localized: "Folder Imported", comment: "Title of history event type")
         }
     }

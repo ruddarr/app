@@ -7,6 +7,7 @@ struct ActivityView: View {
     @State var items: [QueueItem] = []
     @State private var selectedItem: QueueItem?
 
+    @ObservedObject var globalObservables = ObservedDependencies.shared
     @EnvironmentObject var settings: AppSettings
     @Environment(\.deviceType) private var deviceType
 

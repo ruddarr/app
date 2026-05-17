@@ -42,7 +42,7 @@ struct MediaFile: Identifiable, Equatable, Codable {
     }
 
     var videoResolution: Int? {
-        if quality.quality.resolution > 0 {
+        if quality.quality.resolution ?? 0 > 0 {
             return quality.quality.resolution
         }
 

@@ -3,10 +3,10 @@ import SwiftUI
 
 @MainActor
 @Observable
-class ArtistFiles {
+class ArtistTracks {
     var instance: Instance
 
-    var items: [TrackFile] = []
+    var items: [AlbumTrack] = []
 
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
@@ -53,7 +53,7 @@ class ArtistFiles {
         isFetching = false
     }
 
-    func delete(_ file: TrackFile) async -> Bool {
+    func delete(_ file: AlbumTrack) async -> Bool {
         error = nil
 
         do {
@@ -75,7 +75,7 @@ class ArtistFiles {
         return error == nil
     }
 
-    func delete(_ files: [TrackFile]) async -> Bool {
+    func delete(_ files: [AlbumTrack]) async -> Bool {
         error = nil
 
         do {

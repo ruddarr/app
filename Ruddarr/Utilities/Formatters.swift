@@ -38,6 +38,24 @@ func formatRuntime(_ minutes: Int) -> String? {
         ?? formatter.string(from: 0)
 }
 
+func formatTrackRuntime(_ milliseconds: Int) -> String? {
+    let totalSeconds = TimeInterval(milliseconds) / 1_000.0
+
+    let formatter = DateComponentsFormatter()
+    formatter.allowedUnits = [.hour, .minute, .second]
+    formatter.unitsStyle = .abbreviated
+    formatter.zeroFormattingBehavior = [.pad]
+
+    // If duration is less than 1 hour, omit the hour component from output like mm:ss
+    if totalSeconds < 3_600 {
+        formatter.allowedUnits = [.minute, .second]
+    } else if totalSeconds < 60 {
+        formatter.allowedUnits = [.second]
+    }
+
+    return formatter.string(from: totalSeconds)
+}
+
 func formatTags(_ ids: [Int], tags: [Tag]) -> String {
     guard !ids.isEmpty else {
         return String(localized: "None")

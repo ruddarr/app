@@ -11,7 +11,6 @@ struct ReleaseCard: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(LidarrInstance.self) private var instance
 
-    // TODO: What if I make these cards to match the whole appeal of album covers?
     var body: some View {
         LabeledGroupBox {
             HStack(spacing: 12) {

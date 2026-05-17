@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct NoInstance: View {
+    @ObservedObject var state = ObservedDependencies.shared
+
     let type: String?
 
     init(type: String? = nil) {
@@ -13,7 +15,11 @@ struct NoInstance: View {
             systemImage: "externaldrive.badge.xmark",
             description: Text(description.toMarkdown())
         ).environment(\.openURL, .init { _ in
+            #if os(iOS)
+            state.showSettings.toggle()
+            #else
             dependencies.router.selectedTab = .settings
+            #endif
             return .handled
         })
     }

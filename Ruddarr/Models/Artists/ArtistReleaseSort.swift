@@ -80,7 +80,7 @@ struct ArtistReleaseSort: Equatable {
         approved = false
     }
 
-    func filterAndSortItems(_ items: [ArtistRelease], _ artist: Artist) -> [ArtistRelease] {
+    func filterAndSortItems(_ items: [ArtistRelease]) -> [ArtistRelease] {
         let query = search.trimmed()
         let comparator = option.isOrderedBefore
 

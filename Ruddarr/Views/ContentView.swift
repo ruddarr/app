@@ -2,6 +2,7 @@ import SwiftUI
 
 #if os(iOS)
 struct ContentView: View {
+    @ObservedObject var state = ObservedDependencies.shared
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
@@ -26,11 +27,6 @@ struct ContentView: View {
                 ActivityView()
             }
             .badge(Queue.shared.itemsWithIssues)
-
-            Tab(TabItem.settings.label, systemImage: TabItem.settings.icon, value: TabItem.settings) {
-                SettingsView()
-            }
-            .defaultVisibility(.hidden, for: .tabBar)
         }
         .tabViewStyle(.sidebarAdaptable)
         .tabBarMinimizeBehavior(.never)
@@ -45,6 +41,9 @@ struct ContentView: View {
             }
 
             UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
+        }
+        .sheet(isPresented: $state.showSettings) {
+            SettingsView()
         }
         .onBecomeActive(perform: handleScenePhaseChange)
         .displayToasts()

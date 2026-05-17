@@ -12,8 +12,6 @@ class ArtistReleases {
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
     var isFetching: Bool = false
-//    var isMonitoring: ArtistRelease.ID = 0
-
     var isSearching: Bool = false
 
     var indexers: [String] = []
@@ -133,7 +131,7 @@ struct ArtistRelease: Identifiable, Codable {
     let network: ReleaseProtocol
     let indexerId: Int
     let indexer: String?
-    let indexerFlags: [String]?
+    let indexerFlags: Int?
     let seeders: Int?
     let leechers: Int?
 
@@ -210,12 +208,6 @@ struct ArtistRelease: Identifiable, Codable {
         network == .usenet
     }
 
-    var isFreeleech: Bool {
-        guard !(indexerFlags ?? []).isEmpty else { return false }
-
-        return cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }
-    }
-
     var isProper: Bool {
         quality.revision.isProper
     }
@@ -232,34 +224,12 @@ struct ArtistRelease: Identifiable, Codable {
         return false
     }
 
-    var hasNonFreeleechFlags: Bool {
-        guard let flags = indexerFlags else { return false }
-        guard !flags.isEmpty else { return false }
-
-        return !(flags.count == 1 && isFreeleech)
-    }
-
-    var cleanIndexerFlags: [String] {
-        guard let flags = indexerFlags else { return [] }
-
-        return flags.map {
-            guard let range = $0.range(of: "_") else { return $0 }
-            return String($0[range.upperBound...])
-        }
-    }
-
     var indexerLabel: String {
         guard let name = indexer else {
             return String(indexerId)
         }
 
         return formatIndexer(name)
-    }
-
-    var indexerFlagsLabel: String? {
-        guard !(indexerFlags ?? []).isEmpty else { return nil }
-
-        return cleanIndexerFlags.formattedList()
     }
 
     var typeLabel: String {

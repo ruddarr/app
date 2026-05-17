@@ -13,6 +13,7 @@ enum MoviesPath: Hashable {
 struct MoviesView: View {
     @AppStorage("movieSort", store: dependencies.store) var sort: MovieSort = .init()
 
+    @ObservedObject var globalObservables = ObservedDependencies.shared
     @EnvironmentObject var settings: AppSettings
     @Environment(RadarrInstance.self) var instance
 
@@ -81,6 +82,18 @@ struct MoviesView: View {
                     if deviceType == .phone { toolbarInstancePicker }
                     if deviceType == .pad { bottomBarInstancePicker }
                 }
+
+                #if os(iOS)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            globalObservables.showSettings.toggle()
+                        } label: {
+                            Image(systemName: TabItem.settings.icon)
+                        }
+                        .tint(.primary)
+                        .keyboardShortcut(",", modifiers: .command)
+                    }
+                #endif
             }
             .scrollDismissesKeyboard(.immediately)
             .searchable(

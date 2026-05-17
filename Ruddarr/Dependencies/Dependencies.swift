@@ -27,4 +27,11 @@ extension Dependencies {
     }
 }
 
+@MainActor
+class ObservedDependencies: ObservableObject {
+    static let shared = ObservedDependencies()
+
+    @Published var showSettings: Bool = false
+}
+
 nonisolated(unsafe) var dependencies: Dependencies = .live

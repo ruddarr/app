@@ -104,11 +104,27 @@ extension API {
                 var albums: [Album] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
                 for i in albums.indices { albums[i].instanceId = instance.id }
                 return albums
-            }, fetchAlbumFiles: { albumId, instance in
+            }, fetchAlbumTracks: { albumId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/track")
+                    .appending(queryItems: [
+                        .init(name: "albumId", value: String(albumId))
+                    ])
+
+                return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            }, fetchArtistTracks: { artistId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/track")
+                    .appending(queryItems: [
+                        .init(name: "artistId", value: String(artistId))
+                    ])
+
+                return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            }, fetchArtistTrackFiles: { artistId, instance in
                 let url = try instance.baseURL()
                     .appending(path: "/api/v1/trackfile")
                     .appending(queryItems: [
-                        .init(name: "albumId", value: String(albumId))
+                        .init(name: "artistId", value: String(artistId))
                     ])
 
                 return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
@@ -129,18 +145,21 @@ extension API {
                 }
 
                 return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
-            }, fetchArtistFiles: { artistId, instance in
-                let url = try instance.baseURL()
-                    .appending(path: "/api/v1/trackfile")
-                    .appending(queryItems: [
-                        .init(name: "artistId", value: String(artistId))
-                    ])
-
-                return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
             }, getArtist: { artistId, instance in
                 let url = try instance.baseURL()
                     .appending(path: "/api/v1/artist")
                     .appending(path: String(artistId))
+
+                return try await request(url: url, headers: instance.auth)
+            }, getArtistHistory: { artistId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/history/artist")
+                    .appending(queryItems: [
+                        .init(name: "artistId", value: String(artistId)),
+                        .init(name: "includeArtist", value: "true"),
+                        .init(name: "includeAlbum", value: "true"),
+                        .init(name: "includeTrack", value: "true"),
+                    ])
 
                 return try await request(url: url, headers: instance.auth)
             }, addArtist: { artist, instance in
@@ -199,12 +218,34 @@ extension API {
                     .appending(path: String(album.id))
 
                 return try await request(url: url, headers: instance.auth)
+            }, getAlbumHistory: { artistId, albumId, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/history")
+                    .appending(queryItems: [
+                        .init(name: "artistIds", value: String(artistId)),
+                        .init(name: "albumId", value: String(albumId)),
+                        .init(name: "includeArtist", value: "true"),
+                        .init(name: "includeAlbum", value: "true"),
+                        .init(name: "includeTrack", value: "true"),
+                    ])
+
+                return try await request(url: url, headers: instance.auth)
             }, addAlbum: { album, instance in
                 let url = try instance.baseURL()
                     .appending(path: "/api/v1/album")
                     .appending(path: String(album.id))
 
                 return try await request(url: url, headers: instance.auth)
+            }, monitorAlbum: { ids, monitored, instance in
+                let url = try instance.baseURL()
+                    .appending(path: "/api/v1/album/monitor")
+
+                let body = AlbumMonitorResource(
+                    albumIds: ids,
+                    monitored: monitored
+                )
+
+                return try await request(method: .put, url: url, headers: instance.auth, body: body)
             }, pushAlbum: { album, instance in
                 let url = try instance.baseURL()
                     .appending(path: "/api/v1/album/monitor")
@@ -225,13 +266,13 @@ extension API {
                     ])
 
                 return try await request(method: .delete, url: url, headers: instance.auth)
-            }, deleteArtistFile: { track, instance in
+            }, deleteTrackFile: { track, instance in
                 let url = try instance.baseURL()
                     .appending(path: "/api/v1/trackfile")
                     .appending(path: String(track.id))
 
                 return try await request(method: .delete, url: url, headers: instance.auth)
-            }, deleteArtistFiles: { files, instance in
+            }, deleteTrackFiles: { files, instance in
                 let url = try instance.baseURL()
                     .appending(path: "/api/v1/trackfile/bulk")
 

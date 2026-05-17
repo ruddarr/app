@@ -75,6 +75,10 @@ struct Album: Media, Identifiable, Equatable, Codable {
         case statistics
     }
 
+    var albumCover: String? {
+        images.first(where: { $0.coverType == "cover" })?.remoteURL
+    }
+
     var remotePoster: String? {
         remoteCover
     }

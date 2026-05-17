@@ -11,9 +11,10 @@ class LidarrInstance {
 
     var artists: ArtistModel
     var albums: AlbumModel
+    var tracks: AlbumTrackModel
+    var files: AlbumTrackFileModel
     var lookup: ArtistLookup
     var releases: ArtistReleases
-    var files: ArtistFiles
 
     init(_ instance: Instance = .lidarrVoid) {
         if instance.type != .lidarr {
@@ -25,9 +26,10 @@ class LidarrInstance {
         self.instance = instance
         self.artists = ArtistModel(instance)
         self.albums = AlbumModel(instance)
+        self.tracks = AlbumTrackModel(instance)
+        self.files = AlbumTrackFileModel(instance)
         self.lookup = ArtistLookup(instance)
         self.releases = ArtistReleases(instance)
-        self.files = ArtistFiles(instance)
     }
 
     func switchTo(_ target: Instance) {
@@ -36,9 +38,10 @@ class LidarrInstance {
         self.instance = target
         self.artists = ArtistModel(target)
         self.albums = AlbumModel(target)
+        self.tracks = AlbumTrackModel(target)
+        self.files = AlbumTrackFileModel(target)
         self.lookup = ArtistLookup(target)
         self.releases = ArtistReleases(target)
-        self.files = ArtistFiles(target)
     }
 
     var id: UUID {

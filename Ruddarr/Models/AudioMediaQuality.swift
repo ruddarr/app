@@ -18,9 +18,7 @@ struct AudioMediaQualityDetails: Equatable, Codable {
             return String(label[range].dropFirst())
         }
 
-        // TODO: Come back and put in proper labels if required
         return label
-//            .replacingOccurrences(of: "BR-DISK", with: "1080p")
     }
 }
 

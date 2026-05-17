@@ -63,7 +63,7 @@ struct MovieReleaseSort: Equatable {
             case .byFilesize:
                 lhs.size > rhs.size
             case .byQuality:
-                lhs.quality.quality.resolution > rhs.quality.quality.resolution
+                lhs.quality.quality.resolution ?? 0 > rhs.quality.quality.resolution ?? 0
             case .byCustomScore:
                 lhs.customFormatScore > rhs.customFormatScore
             }
