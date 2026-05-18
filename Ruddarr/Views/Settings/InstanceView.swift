@@ -34,7 +34,17 @@ struct InstanceView: View {
                 instanceHeaders
             }
 
-            notifications
+            if instance.type == .prowlarr {
+                Section {
+                    NavigationLink(value: SettingsView.Path.indexers(instance.id)) {
+                        Label("Indexers", systemImage: "magnifyingglass")
+                    }
+                }
+            }
+
+            if instance.type != .prowlarr {
+                notifications
+            }
 
             #if DEBUG
                 Button {

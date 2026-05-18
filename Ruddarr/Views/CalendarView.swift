@@ -80,9 +80,9 @@ struct CalendarView: View {
                 todayButton
             }
             .onAppear {
-                if Set(calendar.instances.map(\.id)) != Set(settings.instances.map(\.id)) {
+                if Set(calendar.instances.map(\.id)) != Set(settings.mediaInstances.map(\.id)) {
                     calendar.reset()
-                    calendar.instances = settings.instances
+                    calendar.instances = settings.mediaInstances
                     hideCalendarView = true
                 }
             }

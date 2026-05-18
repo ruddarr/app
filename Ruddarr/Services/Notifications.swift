@@ -85,7 +85,7 @@ actor Notifications {
 
     static func maybeUpdateWebhooks(_ settings: AppSettings) {
         Task.detached { [settings] in
-            let instances = await settings.instances
+            let instances = await settings.mediaInstances
 
             let updateNeeded = instances.map {
                 Occurrence.hoursSince("webhookUpdated:\($0.id)") >= 6

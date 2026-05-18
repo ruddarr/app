@@ -1,0 +1,70 @@
+[
+    {
+        "id": 1,
+        "name": "1337x",
+        "definitionName": "1337x",
+        "description": "1337x is a public tracker.",
+        "enable": true,
+        "protocol": "torrent",
+        "privacy": "public",
+        "priority": 25,
+        "language": "en-US",
+        "added": "2024-01-15T12:00:00Z",
+        "appProfileId": 1,
+        "tags": [],
+        "capabilities": {
+            "limitsMax": 100,
+            "limitsDefault": 100,
+            "supportsRawSearch": false,
+            "categories": [
+                { "id": 2000, "name": "Movies", "subCategories": [] },
+                { "id": 5000, "name": "TV", "subCategories": [] }
+            ]
+        }
+    },
+    {
+        "id": 2,
+        "name": "IPTorrents",
+        "definitionName": "IPTorrents",
+        "description": "IPTorrents is a private tracker.",
+        "enable": false,
+        "protocol": "torrent",
+        "privacy": "private",
+        "priority": 10,
+        "language": "en-US",
+        "added": "2024-02-01T12:00:00Z",
+        "appProfileId": 1,
+        "tags": [1],
+        "capabilities": {
+            "limitsMax": 100,
+            "limitsDefault": 50,
+            "supportsRawSearch": true,
+            "categories": [
+                { "id": 2000, "name": "Movies", "subCategories": [] }
+            ]
+        }
+    },
+    {
+        "id": 3,
+        "name": "NZBgeek",
+        "definitionName": "Newznab",
+        "description": "Usenet indexer.",
+        "enable": true,
+        "protocol": "usenet",
+        "privacy": "private",
+        "priority": 5,
+        "language": "en-US",
+        "added": "2024-03-10T12:00:00Z",
+        "appProfileId": 1,
+        "tags": [],
+        "capabilities": {
+            "limitsMax": 100,
+            "limitsDefault": 100,
+            "supportsRawSearch": false,
+            "categories": [
+                { "id": 2000, "name": "Movies", "subCategories": [] },
+                { "id": 5000, "name": "TV", "subCategories": [] }
+            ]
+        }
+    }
+]

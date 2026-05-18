@@ -67,28 +67,45 @@ struct InstanceRow: View {
 
             connection = .pending
 
-            async let systemStatus = try dependencies.api.systemStatus(instance)
-            async let rootFolders = try dependencies.api.rootFolders(instance)
-            async let qualityProfiles = try dependencies.api.qualityProfiles(instance)
-            async let tags = dependencies.api.getTags(instance)
+            if instance.type == .prowlarr {
+                async let systemStatus = try dependencies.api.systemStatus(instance)
+                async let tags = dependencies.api.getTags(instance)
 
-            let data = try await systemStatus
+                let data = try await systemStatus
 
-            instance.name = data.instanceName
-            instance.version = data.version
-            instance.rootFolders = try await rootFolders
-            instance.qualityProfiles = try await qualityProfiles
-            instance.tags = try await tags
+                instance.name = data.instanceName
+                instance.version = data.version
+                instance.tags = try await tags
 
-            settings.saveInstance(instance)
+                settings.saveInstance(instance)
 
-            Occurrence.occurred(lastCheck)
+                Occurrence.occurred(lastCheck)
 
-            let webhook = InstanceWebhook(instance)
-            await webhook.synchronize()
-            self.webhook = webhook.isEnabled ? .enabled : .disabled
+                connection = .reachable
+            } else {
+                async let systemStatus = try dependencies.api.systemStatus(instance)
+                async let rootFolders = try dependencies.api.rootFolders(instance)
+                async let qualityProfiles = try dependencies.api.qualityProfiles(instance)
+                async let tags = dependencies.api.getTags(instance)
 
-            connection = .reachable
+                let data = try await systemStatus
+
+                instance.name = data.instanceName
+                instance.version = data.version
+                instance.rootFolders = try await rootFolders
+                instance.qualityProfiles = try await qualityProfiles
+                instance.tags = try await tags
+
+                settings.saveInstance(instance)
+
+                Occurrence.occurred(lastCheck)
+
+                let webhook = InstanceWebhook(instance)
+                await webhook.synchronize()
+                self.webhook = webhook.isEnabled ? .enabled : .disabled
+
+                connection = .reachable
+            }
         } catch is CancellationError {
             // do nothing
         } catch {

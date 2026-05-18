@@ -41,7 +41,7 @@ struct HistoryView: View {
         .navigationTitle("History")
         .safeNavigationBarTitleDisplayMode(.inline)
         .task {
-            history.instances = settings.instances
+            history.instances = settings.mediaInstances
             await history.fetch(page, displayedEventType)
         }
         .toolbar {

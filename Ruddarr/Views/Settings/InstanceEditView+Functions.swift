@@ -129,6 +129,10 @@ extension InstanceEditView {
         if [":8989", "sonar"].contains(where: instance.url.contains) {
             instance.type = .sonarr
         }
+
+        if [":9696", "prowlar"].contains(where: instance.url.contains) {
+            instance.type = .prowlarr
+        }
     }
 
     func pasteHeader() {

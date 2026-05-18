@@ -13,9 +13,11 @@ struct SettingsView: View {
         case createInstance
         case viewInstance(Instance.ID)
         case editInstance(Instance.ID)
+        case indexers(Instance.ID)
     }
 
     var body: some View {
+        // swiftlint:disable:next closure_body_length
         NavigationStack(path: dependencies.$router.settingsPath) {
             Form {
                 instanceSection
@@ -53,6 +55,11 @@ struct SettingsView: View {
                         InstanceEditView(mode: .update, instance: instance)
                             .environment(radarrInstance)
                             .environment(sonarrInstance)
+                            .environmentObject(settings)
+                    }
+                case .indexers(let instanceId):
+                    if let instance = settings.instanceById(instanceId), instance.type == .prowlarr {
+                        IndexersView(instance: instance)
                             .environmentObject(settings)
                     }
                 }
@@ -135,10 +142,11 @@ struct SettingsView: View {
 
     func checkInstance() async {
         let status = await Notifications.authorizationStatus()
-        let uniqueNames = Set(settings.instances.map { $0.name })
+        let mediaInstances = settings.mediaInstances
+        let uniqueNames = Set(mediaInstances.map { $0.name })
 
         if status == .authorized {
-            showInstanceNameWarning = settings.instances.count != uniqueNames.count
+            showInstanceNameWarning = mediaInstances.count != uniqueNames.count
         }
 
         let hasLocalInstances = settings.instances.contains { $0.isPrivateIp() }

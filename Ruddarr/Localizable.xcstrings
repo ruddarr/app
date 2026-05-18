@@ -368,6 +368,16 @@
         }
       }
     },
+    "Add indexers in the Prowlarr web interface." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add indexers in the Prowlarr web interface."
+          }
+        }
+      }
+    },
     "Add Instance" : {
       "localizations" : {
         "en" : {
@@ -938,6 +948,16 @@
         }
       }
     },
+    "Categories" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categories"
+          }
+        }
+      }
+    },
     "Channels" : {
       "comment" : "Audio channel count",
       "localizations" : {
@@ -1307,6 +1327,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descending"
+          }
+        }
+      }
+    },
+    "Description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Description"
           }
         }
       }
@@ -2164,6 +2194,46 @@
         }
       }
     },
+    "Indexer Disabled" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indexer Disabled"
+          }
+        }
+      }
+    },
+    "Indexer Enabled" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indexer Enabled"
+          }
+        }
+      }
+    },
+    "Indexers" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indexers"
+          }
+        }
+      }
+    },
+    "Indexers could not be loaded" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indexers could not be loaded"
+          }
+        }
+      }
+    },
     "Information" : {
       "localizations" : {
         "en" : {
@@ -2887,6 +2957,16 @@
         }
       }
     },
+    "Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        }
+      }
+    },
     "Network" : {
       "comment" : "The network that airs the show",
       "localizations" : {
@@ -2984,6 +3064,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No importable files found."
+          }
+        }
+      }
+    },
+    "No Indexers" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Indexers"
           }
         }
       }
@@ -3957,6 +4047,36 @@
         }
       }
     },
+    "Priority" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Priority"
+          }
+        }
+      }
+    },
+    "Privacy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy"
+          }
+        }
+      }
+    },
+    "Private" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Private"
+          }
+        }
+      }
+    },
     "Proper" : {
       "comment" : "The PROPER flag",
       "localizations" : {
@@ -3984,6 +4104,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Provide a detailed description of the issue along with the exact steps to reproduce it."
+          }
+        }
+      }
+    },
+    "Public" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Public"
           }
         }
       }
@@ -4547,6 +4677,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seeders"
+          }
+        }
+      }
+    },
+    "Semi-Private" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semi-Private"
           }
         }
       }
