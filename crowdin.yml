@@ -7,11 +7,12 @@ preserve_hierarchy: true
 #  1. Add the subscription description: https://appstoreconnect.apple.com/apps/6476240130/distribution/subscriptions
 #  2. Convert Crowdin code to Apple code using `EXPORTED` variable in `ci_scripts/ci_post_clone.sh`
 export_languages:
-  - de
-  - fr
-  - it
-  - tr
-  - es-ES
+  - 'de'
+  - 'fr'
+  - 'it'
+  - 'no'
+  - 'tr'
+  - 'es-ES'
   # - zh-CN
 
 files:

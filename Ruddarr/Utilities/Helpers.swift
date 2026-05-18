@@ -48,6 +48,10 @@ extension String {
     func isValidEmail() -> Bool {
         self.wholeMatch(of: /(?i)^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/) != nil
     }
+
+    var hasMultiLanguageTag: Bool {
+        self.lowercased().contains(/\b(multi|dual)\b/)
+    }
 }
 
 extension UUID {

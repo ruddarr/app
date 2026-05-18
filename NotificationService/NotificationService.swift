@@ -6,15 +6,19 @@ class NotificationService: UNNotificationServiceExtension {
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
 
-    override func didReceive(
-        _ request: UNNotificationRequest,
-        withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void
-    ) {
+    override init() {
+        super.init()
+
         SentrySDK.start { options in
             options.dsn = Secrets.SentryDsn
             options.sendDefaultPii = false
         }
+    }
 
+    override func didReceive(
+        _ request: UNNotificationRequest,
+        withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void
+    ) {
         self.contentHandler = contentHandler
 
         self.bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
@@ -53,7 +57,7 @@ extension UNNotificationRequest {
             "ruddarr-poster-\(posterHash).\(posterUrl.pathExtension)"
         )
 
-        if !fileManager.fileExists(atPath: fileUrl.absoluteString) {
+        if !fileManager.fileExists(atPath: fileUrl.path) {
             guard let imageData = try? Data(contentsOf: posterUrl) else { return nil }
             try? imageData.write(to: fileUrl, options: .atomic)
         }
