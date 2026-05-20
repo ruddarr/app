@@ -72,29 +72,19 @@ struct Ruddarr: App {
 }
 
 extension WhatsNew {
-    static let version: String = "1.8.1"
+    static let version: String = "1.9"
 
     // ----------------------------------------------------------------------------------------------⌄⌄⌄
     static let features: [WhatsNewFeature] = [
         .init(
-            image: "globe",
-            title: "Translations",
-            subtitle: "Added Italian and Turkish translations. Removed Chinese translation."
+            image: "music.note",
+            title: "Lidarr",
+            subtitle: "Added Lidarr integration support"
         ),
         .init(
-            image: "eye.slash",
-            title: "Faded Items",
-            subtitle: "Fade items in the calendar and discovery grid to indicate their status."
-        ),
-        .init(
-            image: "film.stack",
-            title: "Dual Audio",
-            subtitle: "Releases with dual audio are now included in the Multilingual language filter."
-        ),
-        .init(
-            image: "ladybug",
-            title: "Fixes & Improvements",
-            subtitle: "Various internal code improvements, bug fixes, and refinements for macOS."
-        ),
+            image: "gear",
+            title: "Settings Moved",
+            subtitle: "Settings have been moved to the toolbar at the top of each page."
+        )
     ]
 }
