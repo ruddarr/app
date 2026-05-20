@@ -175,8 +175,16 @@ func mediaDetailsAudioQuality(_ file: MediaFile?) -> String {
 func mediaDetailsAudioQuality(_ file: AlbumTrackFile?) -> String {
     var parts: [String] = []
 
-    if let audioBitrate = file?.mediaInfo?.audioBitrate {
-        parts.append(String(audioBitrate))
+    if let audioBitrate = file?.mediaInfo?.audioBitRate {
+        parts.append(audioBitrate)
+    }
+
+    if let audioCodec = file?.mediaInfo?.audioCodec {
+        parts.append(audioCodec)
+    }
+
+    if let audioSampleRate = file?.mediaInfo?.audioSampleRate {
+        parts.append(audioSampleRate)
     }
 
     if let audioCodec = file?.mediaInfo?.audioCodec {

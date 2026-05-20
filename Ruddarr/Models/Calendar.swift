@@ -8,6 +8,7 @@ class MediaCalendar {
 
     var movies: [TimeInterval: [Movie]] = [:]
     var episodes: [TimeInterval: [Episode]] = [:]
+    var albums: [TimeInterval: [Album]] = [:]
 
     var isLoading: Bool = false
     var isLoadingFuture: Bool = false
@@ -65,6 +66,10 @@ class MediaCalendar {
 
                     if instance.type == .sonarr {
                         try await self.fetchEpisodes(instance, start, end)
+                    }
+
+                    if instance.type == .lidarr {
+                        try await self.fetchAlbums(instance, start, end)
                     }
                 }
             }
@@ -176,6 +181,33 @@ class MediaCalendar {
         }
     }
 
+    private func fetchAlbums(_ instance: Instance, _ start: Date, _ end: Date) async throws {
+        let albums = try await dependencies.api.albumCalendar(start, end, instance)
+
+        for album in albums {
+            if let releaseDate = album.releaseDate {
+                maybeUpsertAlbum(album, releaseDate)
+            }
+        }
+    }
+
+    private func maybeUpsertAlbum(_ album: Album, _ date: Date) {
+        let day = calendar.startOfDay(for: date).timeIntervalSince1970
+
+        if albums[day] == nil {
+            albums[day] = []
+        }
+
+        guard let index = albums[day]!.firstIndex(where: { $0.id == album.id }) else {
+            albums[day]!.append(album)
+            return
+        }
+
+        if albums[day]![index] != album {
+            albums[day]![index] = album
+        }
+    }
+
     func today() -> TimeInterval {
         calendar.startOfDay(for: Date.now).timeIntervalSince1970
     }
@@ -185,6 +217,7 @@ class MediaCalendar {
         dates = []
         movies = [:]
         episodes = [:]
+        albums = [:]
         errors = []
     }
 

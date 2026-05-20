@@ -5,7 +5,8 @@ struct AudioMediaFileSheet: View {
     var runtime: Int
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    @Environment(\.accessibilityReduceTransparency) private
+        var reduceTransparency
 
     var body: some View {
         NavigationStack {
@@ -52,14 +53,20 @@ struct AudioMediaFileSheet: View {
                 )
                 Divider()
                 row(
-                    String(localized: "Score", comment: "Custom score of media file"),
+                    String(
+                        localized: "Score",
+                        comment: "Custom score of media file"
+                    ),
                     file.scoreLabel
                 )
 
                 if let formats = file.customFormatsList {
                     Divider()
                     row(
-                        String(localized: "Custom Formats", comment: "Custom formats of media file"),
+                        String(
+                            localized: "Custom Formats",
+                            comment: "Custom formats of media file"
+                        ),
                         formats.formattedList()
                     )
                 }
@@ -77,46 +84,54 @@ struct AudioMediaFileSheet: View {
             Section {
                 VStack(spacing: 6) {
                     row(
-                        String(localized: "Codec", comment: "Audio/video codec"),
+                        String(
+                            localized: "Codec",
+                            comment: "Audio/video codec"
+                        ),
                         media.audioCodec ?? "--"
                     )
+
                     if let audioChannels = media.audioChannels {
                         Divider()
                         row(
-                            String(localized: "Channels", comment: "Audio channel count"),
+                            String(
+                                localized: "Channels",
+                                comment: "Audio channel count"
+                            ),
                             "\(audioChannels)"
                         )
                     }
-                    Divider()
-                    row(
-                        String(localized: "Bitrate", comment: "Audio/video bitrate"),
-                        formatBitrate(media.audioBitrate) ?? "--"
-                    )
-                    if let audioStreamCount = media.audioStreamCount {
+
+                    if let bitrate = media.audioBitRate {
                         Divider()
                         row(
-                            String(localized: "Streams", comment: "Audio stream count"),
-                            "\(audioStreamCount)"
+                            String(
+                                localized: "Bitrate",
+                                comment: "Audio/video bitrate"
+                            ),
+                            bitrate
                         )
                     }
 
-                    if let codes = media.audioLanguageCodes {
+                    if let bitDepth = media.audioBits {
                         Divider()
                         row(
-                            String(localized: "Languages"),
-                            codes.count <= 3 ? languagesList(codes) : ""
+                            String(
+                                localized: "Bit Depth",
+                                comment: "Audio bit depth"
+                            ),
+                            bitDepth
                         )
+                    }
 
-                        if codes.count > 3 {
-                            Text(languagesList(codes))
-                                .foregroundStyle(.primary)
-                                .font(.subheadline)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                    } else {
+                    if let sampleRate = media.audioSampleRate {
+                        Divider()
                         row(
-                            String(localized: "Languages"),
-                            "--"
+                            String(
+                                localized: "Sample Rate",
+                                comment: "Audio sample rate"
+                            ),
+                            sampleRate
                         )
                     }
                 }
@@ -151,4 +166,19 @@ struct AudioMediaFileSheet: View {
         .font(.subheadline)
         .padding(.vertical, 4)
     }
+}
+
+#Preview {
+    let trackFiles: [AlbumTrackFile] = PreviewData.load(
+        name: "album-track-files"
+    )
+    let files = trackFiles.filter { $0.albumId == 1_144 }
+    let file = files.first ?? trackFiles[0]
+
+    Text(verbatim: "Hello")
+        .sheet(isPresented: .constant(true)) {
+            AudioMediaFileSheet(file: file, runtime: 42)
+                .presentationDetents([.fraction(0.8)])
+                .presentationBackground(.sheetBackground)
+        }
 }

@@ -40,6 +40,7 @@
 		802930952FB02F5100BD78FE /* ArtistRelease.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802930942FB02F5100BD78FE /* ArtistRelease.swift */; };
 		802930972FB0316800BD78FE /* AudioMediaQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802930962FB0316500BD78FE /* AudioMediaQuality.swift */; };
 		802930992FB0379200BD78FE /* artist-releases.json in Resources */ = {isa = PBXBuildFile; fileRef = 802930982FB0379200BD78FE /* artist-releases.json */; };
+		804994C52FBD8A56004BF48E /* calendar-albums.json in Sources */ = {isa = PBXBuildFile; fileRef = 804994C42FBD8A53004BF48E /* calendar-albums.json */; };
 		8099E39E2FB753C70013E14B /* AlbumTrackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8099E39D2FB753C70013E14B /* AlbumTrackModel.swift */; };
 		8099E3A02FB754970013E14B /* AlbumTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8099E39F2FB754900013E14B /* AlbumTrack.swift */; };
 		8099E3A22FB75CBA0013E14B /* album-tracks.json in Resources */ = {isa = PBXBuildFile; fileRef = 8099E3A12FB75CBA0013E14B /* album-tracks.json */; };
@@ -346,6 +347,7 @@
 		802930942FB02F5100BD78FE /* ArtistRelease.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistRelease.swift; sourceTree = "<group>"; };
 		802930962FB0316500BD78FE /* AudioMediaQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMediaQuality.swift; sourceTree = "<group>"; };
 		802930982FB0379200BD78FE /* artist-releases.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "artist-releases.json"; sourceTree = "<group>"; };
+		804994C42FBD8A53004BF48E /* calendar-albums.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "calendar-albums.json"; sourceTree = "<group>"; };
 		8099E39D2FB753C70013E14B /* AlbumTrackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTrackModel.swift; sourceTree = "<group>"; };
 		8099E39F2FB754900013E14B /* AlbumTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTrack.swift; sourceTree = "<group>"; };
 		8099E3A12FB75CBA0013E14B /* album-tracks.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "album-tracks.json"; sourceTree = "<group>"; };
@@ -1078,6 +1080,7 @@
 				BB94F1BA2B7E8A190050F6A0 /* notifications.json */,
 				BBF583C12BACBE1400AFA7FB /* calendar-movies.json */,
 				BBF583C32BACBE5000AFA7FB /* calendar-episodes.json */,
+				804994C42FBD8A53004BF48E /* calendar-albums.json */,
 				BB8100092CD5976B00499666 /* radarr-history.json */,
 				BB2370D72DCE657700261710 /* radarr-manual-import.json */,
 				2B949CE42CC92C970088B1A8 /* sonarr-history.json */,
@@ -1620,6 +1623,7 @@
 				BBB8691F2B6CAE26009C1A54 /* MovieReleases.swift in Sources */,
 				BB6942EA2D8A0BBC00ED7288 /* API+Live.swift in Sources */,
 				BB6F23AB2B6ABB8700A4347A /* SettingsAboutSection.swift in Sources */,
+				804994C52FBD8A56004BF48E /* calendar-albums.json in Sources */,
 				BB42B7CB2DCD26AB00DA73A3 /* TaskImportView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

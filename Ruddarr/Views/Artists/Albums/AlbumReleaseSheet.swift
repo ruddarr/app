@@ -263,4 +263,19 @@ struct AlbumReleaseSheet: View {
         Telemetry.record(.albumDownloaded)
         maybeAskForReview()
     }
+
+}
+
+#Preview {
+    let releases: [ArtistRelease] = PreviewData.load(name: "artist-releases")
+    let albums: [Album] = PreviewData.load(name: "artist-albums")
+    let release = releases[1]
+
+    Text(verbatim: "Sheet")
+        .sheet(isPresented: .constant(true)) {
+            AlbumReleaseSheet(release: release, album: albums[1])
+                .presentationDetents([.medium])
+                .presentationBackground(.sheetBackground)
+        }
+        .withAppState()
 }

@@ -146,6 +146,10 @@ struct CalendarView: View {
         [.all, .series].contains(displayedMediaType)
     }
 
+    var displayAlbums: Bool {
+        [.all, .albums].contains(displayedMediaType)
+    }
+
     var filteredMovies: [TimeInterval: [Movie]] {
         var movies = calendar.movies
 
@@ -207,6 +211,24 @@ struct CalendarView: View {
         return episodes
     }
 
+    var filteredAlbums: [TimeInterval: [Album]] {
+        var albums = calendar.albums
+
+        if displayedInstance != .all {
+            albums = albums.mapValues { items in
+                items.filter { $0.instanceId?.isEqual(to: displayedInstance) == true }
+            }
+        }
+
+        if onlyMonitored {
+            albums = albums.mapValues { items in
+                items.filter { $0.monitored }
+            }
+        }
+
+        return albums
+    }
+
     func load(force: Bool = false) async {
         if calendar.isLoading {
             return
@@ -261,6 +283,12 @@ struct CalendarView: View {
             if displaySeries, let episodes = filteredEpisodes[timestamp] {
                 ForEach(episodes) { episode in
                     CalendarEpisode(episode: episode)
+                }
+            }
+
+            if displayAlbums, let albums = filteredAlbums[timestamp] {
+                ForEach(albums) { album in
+                    CalendarAlbum(date: date, album: album)
                 }
             }
 

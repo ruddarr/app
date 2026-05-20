@@ -92,15 +92,27 @@ struct AlbumReleaseRow: View {
     }
 }
 
-//#Preview {
-//    let movies: [Movie] = PreviewData.load(name: "movies")
-//    let movie = movies.first(where: { $0.id == 66 }) ?? movies[0]
-//
-//    dependencies.router.selectedTab = .movies
-//    dependencies.router.moviesPath.append(MoviesPath.movie(movie.id))
-//    dependencies.router.moviesPath.append(MoviesPath.releases(movie.id))
-//
-//    return ContentView()
-//        .withRadarrInstance(movies: movies)
-//        .withAppState()
-//}
+#Preview {
+    let releases: [ArtistRelease] = PreviewData.load(name: "artist-releases")
+    let artists: [Artist] = PreviewData.load(name: "artists")
+    let albums: [Album] = PreviewData.load(name: "artist-albums")
+    let artist = artists.first(where: { $0.foreignArtistId == "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a" }) ?? artists[0]
+    let album = albums.first(where: { $0.id == 1_144 }) ?? albums[0]
+
+    dependencies.api = .mock
+    dependencies.router.selectedTab = .artists
+
+    dependencies.router.artistsPath.append(
+        ArtistsPath.artist(artist.id)
+    )
+    dependencies.router.artistsPath.append(
+        ArtistsPath.album(artist.id, album.id)
+    )
+    dependencies.router.artistsPath.append(
+        ArtistsPath.releases(artist.id, album.id)
+    )
+
+    return ContentView()
+        .withLidarrInstance(artists: artists, albums: albums, releases: releases)
+        .withAppState()
+}

@@ -20,7 +20,7 @@ struct AlbumTrackFile: Identifiable, Equatable, Codable {
     let customFormatScore: Int?
 
     let indexerFlags: Int?
-    let mediaInfo: FileMediaInfo?
+    let mediaInfo: TrackMediaInfo?
     let qualityCutoffNotMet: Bool
     let audioTags: TrackFileInfo?
 
@@ -61,6 +61,15 @@ struct AlbumTrackFile: Identifiable, Equatable, Codable {
         }
 
         return formats.map { $0.label }
+    }
+
+    func bitrateLabel(_ runtime: Int) -> String? {
+        guard runtime > 0 else { return nil }
+
+        guard let bitrate = calculateBitrate(runtime * 60, size) else { return nil }
+        guard let label = formatBitrate(bitrate) else { return nil }
+
+        return String(format: "~%@", label)
     }
 }
 
@@ -110,11 +119,11 @@ struct TrackArtistTitleInfo: Equatable, Codable {
 }
 
 struct TrackMediaInfo: Equatable, Codable {
-    let audioFormat: String?
-    let audioBitrate: Int
-    let audioChannels: Int
-    let audioBits: Int
-    let audioSampleRate: Int
+    let audioCodec: String?
+    let audioBitRate: String?
+    let audioChannels: Int?
+    let audioBits: String?
+    let audioSampleRate: String?
 }
 
 extension AlbumTrackFile {
