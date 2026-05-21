@@ -66,7 +66,6 @@ struct InstanceNotification: Identifiable, Codable {
     var supportsOnArtistAdd: Bool? = false
     var supportsOnArtistDelete: Bool? = false
     var supportsOnAlbumDelete: Bool? = false
-    var supportsOnAlbumDeleteForUpgrade: Bool? = false
 
     var isEnabled: Bool {
         onGrab
