@@ -195,8 +195,8 @@ extension ArtistDetailView {
         dependencies.toast.show(.artistDeleted)
     }
 
-    // This is an annoying "hack" because Sonarr takes a couple of seconds
-    // after adding a new series before it updates its monitoring values.
+    // This is an annoying "hack" because Lidarr takes a couple of seconds
+    // after adding a new artist before it updates its monitoring values.
     func maybeReloadRepeatedly() {
         if abs(artist.added.timeIntervalSinceNow) > 15 {
             return

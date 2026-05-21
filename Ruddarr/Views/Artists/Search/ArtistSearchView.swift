@@ -14,19 +14,7 @@ struct ArtistSearchView: View {
         @Bindable var artistsLookup = instance.lookup
 
         ScrollView {
-            if artistsLookup.sortedItems.isEmpty && searchQuery.isEmpty {
-                // Unaware of the discovery endpoints for music
-//                MediaGrid(items: discovery.artists) { item in
-//                    DiscoveryGridPoster(item: item)
-//                } header: {
-//                    Text("Popular This Week")
-//                        .padding(.top, 12)
-//                }
-//                .viewBottomPadding()
-//                .scenePadding(.horizontal)
-//                .opacity(discovery.series.isEmpty ? 0 : 1)
-//                .animation(.easeIn, value: discovery.series)
-            } else {
+            if !artistsLookup.sortedItems.isEmpty && !searchQuery.isEmpty {
                 MediaGrid(items: artistsLookup.sortedItems) { artist in
                     ArtistSearchItem(artist: artist)
                         .environment(instance)

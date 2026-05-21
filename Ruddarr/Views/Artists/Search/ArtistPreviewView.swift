@@ -1,10 +1,3 @@
-//
-//  ArtistPreviewView.swift
-//  Ruddarr
-//
-//  Created by Lukas McDiarmid on 10/5/2026.
-//
-
 import SwiftUI
 
 struct ArtistPreviewView: View {
@@ -112,8 +105,8 @@ struct ArtistPreviewView: View {
             return
         }
 
-        guard let addedArtist = instance.artists.byMbId(artist.mbId) else {
-            fatalError("Failed to locate added artist by Musicbrainz id")
+        guard let addedArtist = instance.artists.byForeignId(artist.foreignArtistId) else {
+            fatalError("Failed to locate added artist by foreign id")
         }
 
         #if os(iOS)

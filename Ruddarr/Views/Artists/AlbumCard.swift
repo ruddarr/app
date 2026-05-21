@@ -67,3 +67,29 @@ struct ReleaseCard: View {
         await instance.albums.fetch(artist)
     }
 }
+
+#Preview {
+    let artists: [Artist] = PreviewData.load(name: "artists")
+    let albums: [Album] = PreviewData.load(name: "artist-albums")
+    let artist = artists.first(where: { $0.foreignArtistId == "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a" }) ?? artists[0]
+    let album = albums.first(where: { $0.id == 1_144 }) ?? albums[0]
+    let artistBinding = Binding<Artist>(get: { artist }, set: { _ in })
+    let albumBinding = Binding<Album>(get: { album }, set: { _ in })
+
+    VStack {
+        Section {
+            LazyVStack(alignment: .leading, spacing: 12) {
+                ReleaseCard(artist: artistBinding, album: albumBinding)
+                ReleaseCard(artist: artistBinding, album: albumBinding)
+                ReleaseCard(artist: artistBinding, album: albumBinding)
+            }
+        } header: {
+            Text("Albums")
+                .font(.title2.bold())
+                .padding(.bottom, 6)
+        }
+        .padding(.horizontal)
+    }
+    .withLidarrInstance(artists: artists, albums: albums)
+    .withAppState()
+}

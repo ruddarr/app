@@ -80,6 +80,10 @@ class ArtistModel {
         items.first(where: { $0.mbId == mbId })
     }
 
+    func byForeignId(_ foreignId: String?) -> Artist? {
+        items.first(where: { $0.foreignArtistId == foreignId })
+    }
+
     func fetch() async -> Bool {
         await request(.fetch)
     }

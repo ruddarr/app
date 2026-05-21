@@ -165,7 +165,6 @@ extension API {
             }, addArtist: { artist, instance in
                 let url = try instance.baseURL()
                     .appending(path: "/api/v1/artist")
-                    .appending(path: String(artist.id))
 
                 return try await request(method: .post, url: url, headers: instance.auth, body: artist)
             }, pushArtist: { artist, instance in

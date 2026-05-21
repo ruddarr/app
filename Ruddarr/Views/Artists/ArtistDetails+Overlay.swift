@@ -64,13 +64,11 @@ extension ArtistDetails {
         ViewThatFits(in: .horizontal) {
             HStack(spacing: 6) {
                 if deviceType != .phone, let size = artist.sizeLabel {
-//                    Bullet()
                     Text(size)
                 }
             }
             HStack(spacing: 6) {
                 if deviceType != .phone, let size = artist.sizeLabel {
-//                    Bullet()
                     Text(size)
                 }
             }
