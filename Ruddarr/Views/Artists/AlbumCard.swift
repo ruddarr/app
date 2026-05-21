@@ -1,10 +1,9 @@
 import SwiftUI
 
-struct ReleaseCard: View {
+struct AlbumCard: View {
     @Binding var artist: Artist
     @Binding var album: Album
     var albums: [Album] = []
-//    var album: Album
 
     @State private var isWorking: Bool = false
 
@@ -79,9 +78,9 @@ struct ReleaseCard: View {
     VStack {
         Section {
             LazyVStack(alignment: .leading, spacing: 12) {
-                ReleaseCard(artist: artistBinding, album: albumBinding)
-                ReleaseCard(artist: artistBinding, album: albumBinding)
-                ReleaseCard(artist: artistBinding, album: albumBinding)
+                AlbumCard(artist: artistBinding, album: albumBinding)
+                AlbumCard(artist: artistBinding, album: albumBinding)
+                AlbumCard(artist: artistBinding, album: albumBinding)
             }
         } header: {
             Text("Albums")

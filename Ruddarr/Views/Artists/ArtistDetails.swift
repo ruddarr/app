@@ -228,7 +228,7 @@ struct ArtistAlbumCollection: View {
                     ForEach(albums) { album in
                         if let idx = albums.firstIndex(where: { $0.id == album.id }) {
                             NavigationLink(value: ArtistsPath.album(artist.id, album.id)) {
-                                ReleaseCard(artist: $artist, album: $albums[idx])
+                                AlbumCard(artist: $artist, album: $albums[idx])
                             }
                             .buttonStyle(.plain)
                         }
