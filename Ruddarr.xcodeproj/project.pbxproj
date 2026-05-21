@@ -60,7 +60,6 @@
 		80BE51042FB1FD5600B60BE1 /* AlbumTrackFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BE51032FB1FD5300B60BE1 /* AlbumTrackFile.swift */; };
 		80D706472FB2E3DB009D1CDB /* artist-track-files.json in Resources */ = {isa = PBXBuildFile; fileRef = 80D706462FB2E3DB009D1CDB /* artist-track-files.json */; };
 		80D706492FB40DFE009D1CDB /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D706482FB40DFC009D1CDB /* AlbumModel.swift */; };
-		80D7064B2FB43CFB009D1CDB /* AlbumSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D7064A2FB43CF9009D1CDB /* AlbumSort.swift */; };
 		80D7064D2FB45C01009D1CDB /* metadata-profiles.json in Resources */ = {isa = PBXBuildFile; fileRef = 80D7064C2FB45C01009D1CDB /* metadata-profiles.json */; };
 		80D7064F2FB55810009D1CDB /* artist-lookup.json in Resources */ = {isa = PBXBuildFile; fileRef = 80D7064E2FB55810009D1CDB /* artist-lookup.json */; };
 		80D706512FB5586F009D1CDB /* ArtistDetails+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D706502FB5586B009D1CDB /* ArtistDetails+Overlay.swift */; };
@@ -367,7 +366,6 @@
 		80BE51032FB1FD5300B60BE1 /* AlbumTrackFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTrackFile.swift; sourceTree = "<group>"; };
 		80D706462FB2E3DB009D1CDB /* artist-track-files.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "artist-track-files.json"; sourceTree = "<group>"; };
 		80D706482FB40DFC009D1CDB /* AlbumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
-		80D7064A2FB43CF9009D1CDB /* AlbumSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumSort.swift; sourceTree = "<group>"; };
 		80D7064C2FB45C01009D1CDB /* metadata-profiles.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "metadata-profiles.json"; sourceTree = "<group>"; };
 		80D7064E2FB55810009D1CDB /* artist-lookup.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "artist-lookup.json"; sourceTree = "<group>"; };
 		80D706502FB5586B009D1CDB /* ArtistDetails+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArtistDetails+Overlay.swift"; sourceTree = "<group>"; };
@@ -703,7 +701,6 @@
 			isa = PBXGroup;
 			children = (
 				8099E39D2FB753C70013E14B /* AlbumTrackModel.swift */,
-				80D7064A2FB43CF9009D1CDB /* AlbumSort.swift */,
 				80D706482FB40DFC009D1CDB /* AlbumModel.swift */,
 				8029308C2FB0242600BD78FE /* ArtistDefaults.swift */,
 				96D15BE22FAACC6600F67348 /* Artist.swift */,
@@ -1565,7 +1562,6 @@
 				BB89058B2E41359E0057C62B /* SeasonCard.swift in Sources */,
 				BB2370E22DCE76F500261710 /* QueueItem.swift in Sources */,
 				8029307F2FB0210100BD78FE /* ArtistItemView.swift in Sources */,
-				80D7064B2FB43CFB009D1CDB /* AlbumSort.swift in Sources */,
 				BB6EB88B2BF00FA900066FB4 /* DateDecodingStrategy.swift in Sources */,
 				79159D6C2B5953D700F7F997 /* Dependencies.swift in Sources */,
 				BBB8AED42C10DA1A00AA2D9C /* QueueItemSheet.swift in Sources */,
@@ -1701,7 +1697,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.2;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1738,7 +1734,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.2;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1918,7 +1914,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.2;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1983,7 +1979,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.2;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

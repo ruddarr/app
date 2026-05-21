@@ -572,7 +572,7 @@
       }
     },
     "All Albums" : {
-      "comment" : "Artists monitoring option\nMedia grid filter",
+      "comment" : "Artists monitoring option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1455,6 +1455,7 @@
     },
     "Date Released" : {
       "comment" : "Media grid sorting",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3634,6 +3635,126 @@
         }
       }
     },
+    "NOTIFICATION_ALBUM_DOWNLOAD" : {
+      "comment" : "Notification title (instance name)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Album Downloaded on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ALBUM_DOWNLOAD_BODY" : {
+      "comment" : "Notification body (album, artist)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ALBUM_FILES_DELETED" : {
+      "comment" : "Notification title (instance name)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Album Files Deleted on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ALBUM_FILES_DELETED_BODY" : {
+      "comment" : "Notification body (album, artist)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ALBUM_GRAB" : {
+      "comment" : "Notification title (instance name)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Album Downloading on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ALBUM_GRAB_BODY" : {
+      "comment" : "Notification body (quality, indexer)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Downloading %@ from %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ALBUM_GRAB_SUBTITLE" : {
+      "comment" : "Notification subtitle (album, artist)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ALBUM_UPGRADE" : {
+      "comment" : "Notification title (instance name)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Album Upgraded on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ALBUM_UPGRADE_BODY" : {
+      "comment" : "Notification body (old quality, new quality)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgraded from %1$@ to %2$@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ALBUM_UPGRADE_SUBTITLE" : {
+      "comment" : "Notification subtitle (album, artist)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (%@)"
+          }
+        }
+      }
+    },
     "NOTIFICATION_APPLICATION_UPDATE" : {
       "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
@@ -3642,6 +3763,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ Updated"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ARTIST_ADDED" : {
+      "comment" : "Notification title (instance name)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artist Added on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ARTIST_ADDED_BODY" : {
+      "comment" : "Notification body (artist name)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ARTIST_DELETED" : {
+      "comment" : "Notification title (instance name)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artist Deleted on %@"
+          }
+        }
+      }
+    },
+    "NOTIFICATION_ARTIST_DELETED_BODY" : {
+      "comment" : "Notification body (artist)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
           }
         }
       }

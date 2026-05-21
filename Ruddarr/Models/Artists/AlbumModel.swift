@@ -27,7 +27,6 @@ class AlbumModel {
         case get(Album)
         case add(Album)
         case push(Album)
-//        case update(Album, Bool)
         case delete(Album, Bool, Bool)
         case download(String, Int, Int?)
         case command(InstanceCommand)
@@ -37,7 +36,7 @@ class AlbumModel {
         self.instance = instance
     }
 
-    func updateCachedItems(_ sort: AlbumSort, _ searchQuery: String) {
+    func updateCachedItems(_ searchQuery: String) {
         sortAndFilterTask?.cancel()
 
         sortAndFilterTask = Task { @MainActor in
@@ -45,7 +44,7 @@ class AlbumModel {
             let alternateTitles = self.alternateTitles
 
             cachedItems = await Task.detached(priority: .userInitiated) {
-                Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
+                Self.filterAndSortItems(items, alternateTitles, searchQuery)
             }.result.get()
         }
     }
@@ -283,21 +282,15 @@ class AlbumModel {
     nonisolated private static func filterAndSortItems(
         _ items: [Album],
         _ alternateTitles: [Album.ID: String],
-        _ sort: AlbumSort,
         _ searchQuery: String
     ) -> [Album] {
         let query = searchQuery.trimmed()
-        let comparator = sort.option.compare
 
         return items
-            .filter(sort.filter)
             .filter {
                 guard !query.isEmpty else { return true }
                 return $0.title.localizedCaseInsensitiveContains(query)
                 || alternateTitles[$0.id]?.localizedCaseInsensitiveContains(query) ?? false
-            }
-            .sorted { lhs, rhs in
-                sort.isAscending ? comparator(lhs, rhs) : comparator(rhs, lhs)
             }
     }
 

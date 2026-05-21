@@ -30,7 +30,7 @@ struct ArtistSort: Hashable {
         case .continuing:
             !artist.ended
         case .missing:
-            false // TODO: Come back and figure this out
+            artist.monitored && artist.percentOfTracks != 100
         }
     }
 
@@ -60,7 +60,7 @@ struct ArtistSort: Hashable {
             case .byAdded:
                 lhs.added < rhs.added
             case .byRating:
-                lhs.ratingScore < rhs.ratingScore
+                lhs.ratings?.value ?? 0 < rhs.ratings?.value ?? 0
             }
         }
     }

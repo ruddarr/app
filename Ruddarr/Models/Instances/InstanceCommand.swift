@@ -12,7 +12,6 @@ enum InstanceCommand {
     case refreshArtist(_ artist: Artist.ID)
     case artistSearch(_ artist: Artist.ID)
     case albumSearch(_ artist: Artist.ID, album: Album.ID)
-    case trackSearch(_ artist: Artist.ID, album: Album.ID, track: AlbumRelease.ID)
 
     case refreshDownloads
 
@@ -38,8 +37,6 @@ enum InstanceCommand {
             LidarrPayload(name: "ArtistSearch", artistId: artist)
         case .albumSearch(let artist, let album):
             LidarrPayload(name: "AlbumSearch", artistId: artist, albumId: album)
-        case .trackSearch(let artist, let album, let track):
-            LidarrPayload(name: "TrackSearch", artistId: artist, albumId: album, trackId: track)
         case .refreshDownloads:
             GenericPayload(name: "RefreshMonitoredDownloads")
         case .manualImport(let files):

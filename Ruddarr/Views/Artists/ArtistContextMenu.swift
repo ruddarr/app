@@ -7,16 +7,14 @@ struct ArtistContextMenu: View {
 
     var body: some View {
         Group {
-            ArtistLinks(artist: artist)
-
-            Divider()
-
             if artist.monitored {
                 Button("Search Monitored", systemImage: "magnifyingglass") {
                     Task { await dispatchSearch() }
                 }
-            }
 
+                Divider()
+            }
+            ArtistLinks(artist: artist)
         }.tint(.primary)
     }
 
