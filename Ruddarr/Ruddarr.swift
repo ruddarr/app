@@ -84,7 +84,7 @@ extension WhatsNew {
         .init(
             image: "gear",
             title: "Settings Moved",
-            subtitle: "Settings have been moved to the toolbar at the top of each page."
+            subtitle: "Settings have been moved to the toolbar at the top of each page on iPhone and iPad devices."
         )
     ]
 }

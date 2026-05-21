@@ -19,8 +19,6 @@ struct ArtistsView: View {
 
     @State private var scrollView: ScrollViewProxy?
 
-    @State private var showingSettings = false
-
     @State private var searchQuery = ""
     @State private var searchPresented = false
 
@@ -88,9 +86,6 @@ struct ArtistsView: View {
                         .keyboardShortcut(",", modifiers: .command)
                     }
                 #endif
-            }
-            .sheet(isPresented: $showingSettings) {
-                SettingsView()
             }
             .scrollDismissesKeyboard(.immediately)
             .searchable(text: $searchQuery, isPresented: $searchPresented, placement: .drawerOrToolbar)
