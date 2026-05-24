@@ -578,6 +578,17 @@
         }
       }
     },
+    "Any Category" : {
+      "comment" : "Prowlarr category picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Category"
+          }
+        }
+      }
+    },
     "Any Client" : {
       "localizations" : {
         "en" : {
@@ -772,11 +783,23 @@
       }
     },
     "Audio" : {
+      "comment" : "Prowlarr category picker",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Audio"
+          }
+        }
+      }
+    },
+    "Audiobooks" : {
+      "comment" : "Prowlarr category picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Audiobooks"
           }
         }
       }
@@ -896,7 +919,7 @@
       }
     },
     "Books" : {
-      "comment" : "Localized name of Apple's Books app",
+      "comment" : "Localized name of Apple's Books app\nProwlarr category picker",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -954,6 +977,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Categories"
+          }
+        }
+      }
+    },
+    "Category" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
           }
         }
       }
@@ -1097,6 +1130,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Connection Failure"
+          }
+        }
+      }
+    },
+    "Console" : {
+      "comment" : "Prowlarr category picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Console"
           }
         }
       }
@@ -1910,6 +1954,18 @@
         }
       }
     },
+    "Grab" : {
+      "comment" : "Short version of Grab Release",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grab"
+          }
+        }
+      }
+    },
     "Grab Release" : {
       "localizations" : {
         "en" : {
@@ -1927,6 +1983,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grabbed"
+          }
+        }
+      }
+    },
+    "Grabs" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grabs"
+          }
+        }
+      }
+    },
+    "Grabs %lld" : {
+      "comment" : "Prowlarr usenet result — grab count",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grabs %lld"
           }
         }
       }
@@ -2574,6 +2652,17 @@
         }
       }
     },
+    "Manage" : {
+      "comment" : "Prowlarr indexers section — manage row label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage"
+          }
+        }
+      }
+    },
     "Manual Import" : {
       "localizations" : {
         "en" : {
@@ -2916,7 +3005,7 @@
       }
     },
     "Movies" : {
-      "comment" : "Plural. Tab/sidebar menu item",
+      "comment" : "Plural. Tab/sidebar menu item\nProwlarr category picker",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3850,7 +3939,7 @@
       }
     },
     "Other" : {
-      "comment" : "Type of the extra movie file",
+      "comment" : "Prowlarr category picker\nType of the extra movie file",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4307,6 +4396,17 @@
         }
       }
     },
+    "Relevance" : {
+      "comment" : "Prowlarr search sort option",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relevance"
+          }
+        }
+      }
+    },
     "Relevant" : {
       "comment" : "Media search scope",
       "localizations" : {
@@ -4508,6 +4608,16 @@
         }
       }
     },
+    "Search across your enabled Prowlarr indexers. Grabs are sent to Prowlarr's download client and won't appear in Ruddarr's Activity." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search across your enabled Prowlarr indexers. Grabs are sent to Prowlarr's download client and won't appear in Ruddarr's Activity."
+          }
+        }
+      }
+    },
     "Search for Movie" : {
       "localizations" : {
         "en" : {
@@ -4558,12 +4668,32 @@
         }
       }
     },
+    "Search Indexers" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Indexers"
+          }
+        }
+      }
+    },
     "Search Monitored" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search Monitored"
+          }
+        }
+      }
+    },
+    "Search Prowlarr" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Prowlarr"
           }
         }
       }
@@ -4849,6 +4979,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Slow Instance"
+          }
+        }
+      }
+    },
+    "Software" : {
+      "comment" : "Prowlarr category picker — Newznab PC category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Software"
           }
         }
       }
@@ -5273,6 +5414,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Try holding your breath."
+          }
+        }
+      }
+    },
+    "TV" : {
+      "comment" : "Prowlarr category picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TV"
           }
         }
       }

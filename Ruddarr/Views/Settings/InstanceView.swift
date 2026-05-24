@@ -35,9 +35,13 @@ struct InstanceView: View {
             }
 
             if instance.type == .prowlarr {
-                Section {
+                Section("Indexers") {
+                    NavigationLink(value: SettingsView.Path.prowlarrSearch(instance.id)) {
+                        Label("Search", systemImage: "magnifyingglass")
+                    }
+
                     NavigationLink(value: SettingsView.Path.indexers(instance.id)) {
-                        Label("Indexers", systemImage: "magnifyingglass")
+                        Label("Manage", systemImage: "list.bullet")
                     }
                 }
             }

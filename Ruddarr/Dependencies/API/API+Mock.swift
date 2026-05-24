@@ -202,6 +202,10 @@ extension API {
             loadPreviewData(filename: "prowlarr-indexers")
         }, setIndexersEnabled: { _, _, _ in
             Empty()
+        }, searchProwlarr: { _, _, _ in
+            loadPreviewData(filename: "prowlarr-search")
+        }, grabProwlarrRelease: { _, _, _ in
+            Empty()
         })
     }
 }

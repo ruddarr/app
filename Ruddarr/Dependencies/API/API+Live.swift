@@ -327,6 +327,41 @@ extension API {
             let body = IndexerBulkResource(ids: ids, enable: enable)
 
             return try await request(method: .put, url: url, headers: instance.auth, body: body)
+        }, searchProwlarr: { query, categories, instance in
+            var queryItems: [URLQueryItem] = [
+                .init(name: "query", value: query),
+                .init(name: "type", value: "search"),
+                .init(name: "limit", value: "100"),
+            ]
+
+            if !categories.isEmpty {
+                queryItems.append(.init(
+                    name: "categories",
+                    value: categories.map(String.init).joined(separator: ",")
+                ))
+            }
+
+            let url = try instance.baseURL()
+                .appending(path: "/api/v1/search")
+                .appending(queryItems: queryItems)
+
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
+        }, grabProwlarrRelease: { guid, indexerId, instance in
+            let url = try instance.baseURL()
+                .appending(path: "/api/v1/search")
+
+            struct GrabBody: Encodable {
+                let guid: String
+                let indexerId: Int
+            }
+
+            return try await request(
+                method: .post,
+                url: url,
+                headers: instance.auth,
+                body: GrabBody(guid: guid, indexerId: indexerId),
+                timeout: instance.timeout(.releaseDownload)
+            )
         })
     }
 }

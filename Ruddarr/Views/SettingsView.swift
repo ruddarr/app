@@ -14,6 +14,7 @@ struct SettingsView: View {
         case viewInstance(Instance.ID)
         case editInstance(Instance.ID)
         case indexers(Instance.ID)
+        case prowlarrSearch(Instance.ID)
     }
 
     var body: some View {
@@ -60,6 +61,11 @@ struct SettingsView: View {
                 case .indexers(let instanceId):
                     if let instance = settings.instanceById(instanceId), instance.type == .prowlarr {
                         IndexersView(instance: instance)
+                            .environmentObject(settings)
+                    }
+                case .prowlarrSearch(let instanceId):
+                    if let instance = settings.instanceById(instanceId), instance.type == .prowlarr {
+                        ProwlarrSearchView(instance: instance)
                             .environmentObject(settings)
                     }
                 }
