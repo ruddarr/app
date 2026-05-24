@@ -17,6 +17,7 @@ brew install crowdin yq
 EXPORTED=(en $(yq '.export_languages[]' crowdin.yml))
 
 # Convert Crowdin codes to Apple language codes
+EXPORTED=("${EXPORTED[@]/no/nb}")
 EXPORTED=("${EXPORTED[@]/es-ES/es}")
 EXPORTED=("${EXPORTED[@]/zh-CN/zh-Hans}")
 
