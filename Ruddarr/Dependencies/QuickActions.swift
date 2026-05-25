@@ -14,6 +14,10 @@ import Combine
 [public] ruddarr://series/search/{query?}
 [private] ruddarr://series/open/{id}?instance={instanceIdOrName?}
 [private] ruddarr://series/open/{id}/?season={seasonId}&episode={episodeId}&instance={instanceIdOrName?}
+[public] ruddarr://artists
+[public] ruddarr://artists/search
+[public] ruddarr://artists/search/{query?}
+[private] ruddarr://artists/open/{id}?album={albumId}&track={trackId}&instance={instanceIdOrName?}
 */
 struct QuickActions {
     let moviePublisher = PassthroughSubject<Movie.ID, Never>()
@@ -21,6 +25,9 @@ struct QuickActions {
 
     let seriesPublisher = PassthroughSubject<(Series.ID, Season.ID?, Episode.ID?), Never>()
     var seriesPublisherPending: (Series.ID, Season.ID?, Episode.ID?)?
+
+    let artistPublisher = PassthroughSubject<(Artist.ID, Album.ID?, AlbumTrackFile.ID?), Never>()
+    var artistPublisherPending: (Artist.ID, Album.ID?, AlbumTrackFile.ID?)?
 
     private var timer: Timer?
 
@@ -100,6 +107,37 @@ struct QuickActions {
         }
     }
 
+    var openArtists: () -> Void = {
+        dependencies.router.selectedTab = .artists
+    }
+
+    var openArtistSearch: (String) -> Void = { query in
+        var searchText: String = query
+
+        if let mbId = extractMbId(query) {
+            searchText = "mb:\(mbId)"
+        }
+
+        dependencies.router.selectedTab = .artists
+        dependencies.router.artistsPath = .init([ArtistsPath.search(searchText)])
+    }
+
+    func openArtist(_ id: Artist.ID, _ albumId: Album.ID?, _ trackId: AlbumTrackFile.ID?, _ instance: String?) {
+        dependencies.router.switchToLidarrInstance = instance
+        dependencies.router.selectedTab = .artists
+        dependencies.router.artistsPath = .init()
+
+        dependencies.quickActions.artistPublisherPending = (id, albumId, trackId)
+
+        dependencies.quickActions.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+            if let ids = dependencies.quickActions.artistPublisherPending {
+                dependencies.quickActions.artistPublisher.send(ids)
+            } else {
+                dependencies.quickActions.clearTimer()
+            }
+        }
+    }
+
     func clearTimer() {
         dependencies.quickActions.timer?.invalidate()
         dependencies.quickActions.timer = nil
@@ -118,9 +156,13 @@ extension QuickActions {
         case openMovie(_ id: Movie.ID, _ instance: String?)
         case addMovie(_ query: String = "")
         case openSeries
-        case openSeriesItem(_ id: Movie.ID, _ season: Season.ID?, _ episode: Episode.ID?, _ instance: String?)
+        case openSeriesItem(_ id: Series.ID, _ season: Season.ID?, _ episode: Episode.ID?, _ instance: String?)
         case addSeries(_ query: String = "")
+        case openArtists
+        case openArtist(_ id: Artist.ID, _ albumId: Album.ID?, _ trackId: AlbumTrackFile.ID?, _ instance: String?)
+        case addArtist(_ query: String = "")
 
+        // swiftlint:disable:next cyclomatic_complexity
         func callAsFunction() {
             switch self {
             case .openApp:
@@ -141,6 +183,12 @@ extension QuickActions {
                 dependencies.quickActions.openSeries(series, season, episode, instance)
             case .addSeries(let query):
                 dependencies.quickActions.openSeriesSearch(query)
+            case .openArtists:
+                dependencies.quickActions.openArtists()
+            case .openArtist(let artist, let album, let track, let instance):
+                dependencies.quickActions.openArtist(artist, album, track, instance)
+            case .addArtist(let query):
+                dependencies.quickActions.openArtistSearch(query)
             }
         }
     }
@@ -187,6 +235,18 @@ extension QuickActions.Deeplink {
             let episodeId = components.queryItems?.first { $0.name == "episode" }?.value
             let instance = components.queryItems?.first { $0.name == "instance" }?.value
             self = .openSeriesItem(id, Int(seasonId ?? ""), Int(episodeId ?? ""), instance)
+        case "artists":
+            self = .openArtists
+        case "artists/search":
+            self = .addArtist()
+        case _ where action.hasPrefix("artists/search/"):
+            self = .addArtist(value)
+        case _ where action.hasPrefix("artists/open/"):
+            guard let id = Artist.ID(value) else { throw unsupportedURL }
+            let albumId = components.queryItems?.first { $0.name == "album" }?.value
+            let trackId = components.queryItems?.first { $0.name == "track" }?.value
+            let instance = components.queryItems?.first { $0.name == "instance" }?.value
+            self = .openArtist(id, Int(albumId ?? ""), Int(trackId ?? ""), instance)
         default:
             throw unsupportedURL
         }
@@ -198,11 +258,13 @@ extension QuickActions {
     enum ShortcutItem: String, CaseIterable {
         case addMovie
         case addSeries
+        case addArtist
 
         var title: String {
             switch self {
             case .addMovie: String(localized: "Add Movie")
             case .addSeries: String(localized: "Add Series")
+            case .addArtist: String(localized: "Add Artist")
             }
         }
 
@@ -210,6 +272,7 @@ extension QuickActions {
             switch self {
             case .addMovie: UIApplicationShortcutIcon(type: .add)
             case .addSeries: UIApplicationShortcutIcon(type: .add)
+            case .addArtist: UIApplicationShortcutIcon(type: .add)
             }
         }
 
@@ -217,6 +280,7 @@ extension QuickActions {
             switch self {
             case .addMovie: dependencies.quickActions.openMovieSearch("")
             case .addSeries: dependencies.quickActions.openSeriesSearch("")
+            case .addArtist: dependencies.quickActions.openArtistSearch("")
             }
         }
     }

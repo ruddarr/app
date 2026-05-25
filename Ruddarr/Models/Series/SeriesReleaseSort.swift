@@ -65,7 +65,7 @@ struct SeriesReleaseSort: Equatable {
             case .byFilesize:
                 lhs.size > rhs.size
             case .byQuality:
-                lhs.quality.quality.resolution > rhs.quality.quality.resolution
+                lhs.quality.quality.resolution ?? 0 > rhs.quality.quality.resolution ?? 0
             case .byCustomScore:
                 lhs.customFormatScore ?? 0 > rhs.customFormatScore ?? 0
             }

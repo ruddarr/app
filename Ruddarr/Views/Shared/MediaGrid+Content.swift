@@ -45,6 +45,7 @@ struct DiscoveryGridPoster: View {
 
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
+    @Environment(LidarrInstance.self) private var lidarrInstance
 
     var body: some View {
         Button {
@@ -64,6 +65,8 @@ struct DiscoveryGridPoster: View {
                         MoviePosterOverlay(movie: movie)
                     } else if let series {
                         SeriesPosterOverlay(series: series)
+                    } else if let artist {
+                        ArtistsPosterOverlay(artist: artist)
                     }
                 }
                 .opacity(inLibrary ? 0.4 : 1)
@@ -103,6 +106,11 @@ struct DiscoveryGridPoster: View {
     var series: Series? {
         guard item.type == .series else { return nil }
         return sonarrInstance.series.cachedItems.first { $0.tmdbId == item.id }
+    }
+
+    var artist: Artist? {
+        guard item.type == .artist else { return nil }
+        return lidarrInstance.artists.cachedItems.first { $0.id == item.id }
     }
 
     func navigate() async {
@@ -155,6 +163,34 @@ struct DiscoveryGridPoster: View {
 
             dependencies.router.seriesPath.append(
                 SeriesPath.preview(try? JSONEncoder().encode(result))
+            )
+        } catch {
+            self.error = API.Error(from: error)
+        }
+    }
+
+    func navigateTo(artist: Artist?) async {
+        if let artist {
+            dependencies.router.artistsPath.append(ArtistsPath.artist(artist.id))
+            return
+        }
+
+        if lidarrInstance.artists.cachedItems.first(where: { $0.mbId != nil }) == nil {
+            self.error = API.Error(from: AppError(
+                String(localized: "Upgrade to Lidarr v3.0.0 or newer.")
+            ))
+
+            return
+        }
+
+        isLoading = true
+        defer { isLoading = false }
+
+        do {
+            let result = try await lidarrInstance.lookup.fetch(id: item.id)
+
+            dependencies.router.artistsPath.append(
+                ArtistsPath.preview(try? JSONEncoder().encode(result))
             )
         } catch {
             self.error = API.Error(from: error)

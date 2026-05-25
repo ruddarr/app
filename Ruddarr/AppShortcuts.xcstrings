@@ -18,6 +18,20 @@
         }
       }
     },
+    "Search for artist in ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Search for artist in ${applicationName}",
+              "Add artist to ${applicationName}"
+            ]
+          }
+        }
+      }
+    },
     "Search for movie in ${applicationName}" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {

@@ -16,6 +16,7 @@ struct CalendarView: View {
     @State private var displayedInstance: String = .all
     @State private var displayedMediaType: CalendarMediaType = .all
 
+    @ObservedObject var globalObservables = ObservedDependencies.shared
     @EnvironmentObject var settings: AppSettings
 
     private let firstWeekday = Calendar.current.firstWeekday
@@ -78,6 +79,18 @@ struct CalendarView: View {
 
                 errorIndicator
                 todayButton
+
+                #if os(iOS)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            globalObservables.showSettings.toggle()
+                        } label: {
+                            Image(systemName: TabItem.settings.icon)
+                        }
+                        .tint(.primary)
+                        .keyboardShortcut(",", modifiers: .command)
+                    }
+                #endif
             }
             .onAppear {
                 if Set(calendar.instances.map(\.id)) != Set(settings.instances.map(\.id)) {
@@ -131,6 +144,10 @@ struct CalendarView: View {
 
     var displaySeries: Bool {
         [.all, .series].contains(displayedMediaType)
+    }
+
+    var displayAlbums: Bool {
+        [.all, .albums].contains(displayedMediaType)
     }
 
     var filteredMovies: [TimeInterval: [Movie]] {
@@ -194,6 +211,24 @@ struct CalendarView: View {
         return episodes
     }
 
+    var filteredAlbums: [TimeInterval: [Album]] {
+        var albums = calendar.albums
+
+        if displayedInstance != .all {
+            albums = albums.mapValues { items in
+                items.filter { $0.instanceId?.isEqual(to: displayedInstance) == true }
+            }
+        }
+
+        if onlyMonitored {
+            albums = albums.mapValues { items in
+                items.filter { $0.monitored }
+            }
+        }
+
+        return albums
+    }
+
     func load(force: Bool = false) async {
         if calendar.isLoading {
             return
@@ -248,6 +283,12 @@ struct CalendarView: View {
             if displaySeries, let episodes = filteredEpisodes[timestamp] {
                 ForEach(episodes) { episode in
                     CalendarEpisode(episode: episode)
+                }
+            }
+
+            if displayAlbums, let albums = filteredAlbums[timestamp] {
+                ForEach(albums) { album in
+                    CalendarAlbum(date: date, album: album)
                 }
             }
 

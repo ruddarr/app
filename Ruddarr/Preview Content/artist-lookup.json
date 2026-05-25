@@ -1,0 +1,856 @@
+[
+  {
+    "status": "continuing",
+    "ended": false,
+    "artistName": "half•alive",
+    "foreignArtistId": "00d0f0fa-a48c-416d-b4ff-25a290ce82d8",
+    "tadbId": 0,
+    "discogsId": 0,
+    "overview": "Half Alive is an American rock band formed in Long Beach, California, in 2016. It consists of Josh Taylor (vocals), Brett Kramer (drums) and J. Tyler Johnson (bass). The band began recording music in 2017, releasing three singles and an extended play (EP).",
+    "artistType": "Group",
+    "disambiguation": "",
+    "links": [
+      {
+        "url": "https://www.youtube.com/channel/UCx4S3-wrOGRtg8D14M6aAeQ",
+        "name": "youtube"
+      },
+      {
+        "url": "https://halfalive.co/",
+        "name": "halfalive"
+      },
+      {
+        "url": "https://soundcloud.com/halfaliveco",
+        "name": "soundcloud"
+      },
+      {
+        "url": "https://open.spotify.com/artist/7sOR7gk6XUlGnxj3p9F54k",
+        "name": "spotify"
+      },
+      {
+        "url": "https://www.instagram.com/halfaliveco/",
+        "name": "instagram"
+      },
+      {
+        "url": "https://twitter.com/halfaliveco",
+        "name": "twitter"
+      },
+      {
+        "url": "https://itunes.apple.com/artist/id1308651354",
+        "name": "apple"
+      },
+      {
+        "url": "https://genius.com/artists/Halfalive",
+        "name": "genius"
+      },
+      {
+        "url": "https://www.last.fm/music/half%E2%80%A2alive",
+        "name": "last"
+      },
+      {
+        "url": "https://www.deezer.com/artist/48846361",
+        "name": "deezer"
+      },
+      {
+        "url": "https://www.reddit.com/user/thisishalfalive",
+        "name": "reddit"
+      },
+      {
+        "url": "https://www.wikidata.org/wiki/Q60753545",
+        "name": "wikidata"
+      },
+      {
+        "url": "https://www.discogs.com/artist/7123802",
+        "name": "discogs"
+      },
+      {
+        "url": "https://www.imdb.com/name/nm10034307/",
+        "name": "imdb"
+      },
+      {
+        "url": "https://www.bandsintown.com/a/15372931",
+        "name": "bandsintown"
+      },
+      {
+        "url": "https://www.allmusic.com/artist/mn0003808326",
+        "name": "allmusic"
+      },
+      {
+        "url": "https://tidal.com/artist/10660851",
+        "name": "tidal"
+      },
+      {
+        "url": "https://imvdb.com/n/halfalive",
+        "name": "imvdb"
+      },
+      {
+        "url": "https://www.facebook.com/halfalivejoshtaylor",
+        "name": "facebook"
+      },
+      {
+        "url": "https://www.deezer.com/artist/54887122",
+        "name": "deezer"
+      },
+      {
+        "url": "https://music.apple.com/us/artist/1308651354",
+        "name": "apple"
+      },
+      {
+        "url": "https://music.apple.com/gb/artist/1308651354",
+        "name": "apple"
+      },
+      {
+        "url": "https://web.archive.org/web/0/https://i.scdn.co/image/ab6761610000e5eba4f202963dd12ab6044bdb97",
+        "name": "archive"
+      }
+    ],
+    "nextAlbum": null,
+    "lastAlbum": null,
+    "images": [
+      {
+        "url": "/MediaCoverProxy/06cfd942ab065ee2c2866069d67c1bf1c5e04414b9388f134b05dbc1aae2a320/tustsp1562267517.jpg",
+        "coverType": "poster",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/tustsp1562267517.jpg"
+      },
+      {
+        "url": "/MediaCoverProxy/4011aa336526619884766c73a252db7ea253c8c2c6b876b463e68066fdc1a876/half-alive-689f3d0d11bbd.png",
+        "coverType": "clearlogo",
+        "extension": ".png",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://assets.fanart.tv/fanart/half-alive-689f3d0d11bbd.png"
+      },
+      {
+        "url": "/MediaCoverProxy/8006abfdacd48ca52187324d545dbe8eb0c3a0fc80c46296ba997ad65403a341/hg709r1630576585.jpg",
+        "coverType": "fanart",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/hg709r1630576585.jpg"
+      }
+    ],
+    "qualityProfileId": 0,
+    "metadataProfileId": 0,
+    "monitored": false,
+    "monitorNewItems": "all",
+    "folder": "half•alive",
+    "genres": [
+      "Indie Pop"
+    ],
+    "tags": [],
+    "added": "0001-01-01T00:00:00Z",
+    "ratings": {
+      "votes": 2,
+      "value": 8
+    }
+  },
+  {
+    "status": "continuing",
+    "ended": false,
+    "artistName": "Halflives",
+    "foreignArtistId": "e3a0c5a5-e666-4d6f-8d92-8d0b92a7f9de",
+    "tadbId": 0,
+    "discogsId": 0,
+    "overview": "Halflives is an alternative rock band from Modena, Italy. Following several lineup changes, the band is now a solo project composed of frontwoman Linda Battilani.",
+    "artistType": "Group",
+    "disambiguation": "",
+    "links": [
+      {
+        "url": "https://www.facebook.com/pg/wehavehalflives",
+        "name": "facebook"
+      },
+      {
+        "url": "https://twitter.com/wehavehalflives",
+        "name": "twitter"
+      },
+      {
+        "url": "https://www.instagram.com/wehavehalflives/",
+        "name": "instagram"
+      },
+      {
+        "url": "https://www.wehavehalflives.com/",
+        "name": "wehavehalflives"
+      },
+      {
+        "url": "https://www.last.fm/music/Halflives",
+        "name": "last"
+      },
+      {
+        "url": "https://www.youtube.com/channel/UCUtqDHg8ln1iApppgvPfxPQ",
+        "name": "youtube"
+      },
+      {
+        "url": "https://open.spotify.com/artist/4er5NZNuc83Cev96LA28ID",
+        "name": "spotify"
+      },
+      {
+        "url": "https://www.deezer.com/artist/10985786",
+        "name": "deezer"
+      },
+      {
+        "url": "https://play.google.com/music/r/m/Aghnaaxs7xx2buwzssc2klzsdhu?play=1",
+        "name": "google"
+      },
+      {
+        "url": "https://itunes.apple.com/us/artist/id1152259723",
+        "name": "apple"
+      },
+      {
+        "url": "https://www.facebook.com/wehavehalflives",
+        "name": "facebook"
+      },
+      {
+        "url": "https://www.wikidata.org/wiki/Q93124587",
+        "name": "wikidata"
+      },
+      {
+        "url": "https://www.discogs.com/artist/5757587",
+        "name": "discogs"
+      },
+      {
+        "url": "https://www.discogs.com/artist/7578438",
+        "name": "discogs"
+      },
+      {
+        "url": "https://music.apple.com/gb/artist/1152259723",
+        "name": "apple"
+      },
+      {
+        "url": "https://tidal.com/artist/8108942",
+        "name": "tidal"
+      }
+    ],
+    "nextAlbum": null,
+    "lastAlbum": null,
+    "images": [
+      {
+        "url": "/MediaCoverProxy/1ac46ac98d4147217e5ffb9f0ec6ca609e1cf8408bdd7483cf66b287ebcfa688/h4pf0f1672765582.jpg",
+        "coverType": "banner",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/banner/h4pf0f1672765582.jpg"
+      },
+      {
+        "url": "/MediaCoverProxy/5cb416bc8cd5ee61619d73a587983363bc86e6369376176156c14b522ff58083/7a99rb1643255960.jpg",
+        "coverType": "poster",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/7a99rb1643255960.jpg"
+      },
+      {
+        "url": "/MediaCoverProxy/19bb0184ba022b758b61b5f34b9a37561f582d8482b33f315e56cac93f318996/halflives-60ff0cf103c04.jpg",
+        "coverType": "fanart",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/halflives-60ff0cf103c04.jpg"
+      },
+      {
+        "url": "/MediaCoverProxy/6025295f5921c4275a71469fc84f3592ba66d4c9b2c1882b6771f4a6932431fa/pdyf1d1672763927.png",
+        "coverType": "clearlogo",
+        "extension": ".png",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/logo/pdyf1d1672763927.png"
+      }
+    ],
+    "qualityProfileId": 0,
+    "metadataProfileId": 0,
+    "monitored": false,
+    "monitorNewItems": "all",
+    "folder": "Halflives",
+    "genres": [
+      "Alternative Rock",
+      "Pop Rock"
+    ],
+    "tags": [],
+    "added": "0001-01-01T00:00:00Z",
+    "ratings": {
+      "votes": 1,
+      "value": 10
+    }
+  },
+  {
+    "status": "continuing",
+    "ended": false,
+    "artistName": "Half",
+    "foreignArtistId": "542f918f-e324-4273-a8fc-29603c93b3a1",
+    "tadbId": 0,
+    "discogsId": 0,
+    "artistType": "Person",
+    "disambiguation": "UK ambient/shoegaze producer",
+    "links": [
+      {
+        "url": "https://herelieshalf.bandcamp.com/",
+        "name": "bandcamp"
+      },
+      {
+        "url": "https://twitter.com/herelieshalf",
+        "name": "twitter"
+      },
+      {
+        "url": "https://www.facebook.com/herelieshalf",
+        "name": "facebook"
+      },
+      {
+        "url": "https://soundcloud.com/herelieshalf",
+        "name": "soundcloud"
+      },
+      {
+        "url": "https://www.discogs.com/artist/7922935",
+        "name": "discogs"
+      },
+      {
+        "url": "https://secondhandsongs.com/artist/171115",
+        "name": "secondhandsongs"
+      }
+    ],
+    "nextAlbum": null,
+    "lastAlbum": null,
+    "images": [],
+    "qualityProfileId": 0,
+    "metadataProfileId": 0,
+    "monitored": false,
+    "monitorNewItems": "all",
+    "folder": "Half",
+    "genres": [],
+    "tags": [],
+    "added": "0001-01-01T00:00:00Z",
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    }
+  },
+  {
+    "status": "continuing",
+    "ended": false,
+    "artistName": "Half",
+    "foreignArtistId": "619064d0-54b4-42cb-bf94-76b767153918",
+    "tadbId": 0,
+    "discogsId": 0,
+    "artistType": "Person",
+    "disambiguation": "US hip-hop producer",
+    "links": [],
+    "nextAlbum": null,
+    "lastAlbum": null,
+    "images": [],
+    "qualityProfileId": 0,
+    "metadataProfileId": 0,
+    "monitored": false,
+    "monitorNewItems": "all",
+    "folder": "Half",
+    "genres": [],
+    "tags": [],
+    "added": "0001-01-01T00:00:00Z",
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    }
+  },
+  {
+    "status": "continuing",
+    "ended": false,
+    "artistName": "Half Pint",
+    "foreignArtistId": "caa8844b-6a16-4100-b2ae-622b2edf5055",
+    "tadbId": 0,
+    "discogsId": 0,
+    "overview": "Lindon Andrew Roberts, professionally known as Half Pint, is a Jamaican dancehall, ragga, and reggae singer.",
+    "artistType": "Person",
+    "disambiguation": "Jamaican reggae/dancehall singer",
+    "links": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Half_Pint",
+        "name": "wikipedia"
+      },
+      {
+        "url": "https://www.discogs.com/artist/72671",
+        "name": "discogs"
+      },
+      {
+        "url": "https://www.facebook.com/halfpintmusic",
+        "name": "facebook"
+      },
+      {
+        "url": "https://www.allmusic.com/artist/mn0000663455",
+        "name": "allmusic"
+      },
+      {
+        "url": "https://rateyourmusic.com/artist/half_pint_f1",
+        "name": "rateyourmusic"
+      },
+      {
+        "url": "https://www.wikidata.org/wiki/Q3125946",
+        "name": "wikidata"
+      },
+      {
+        "url": "http://viaf.org/viaf/225759890",
+        "name": "viaf"
+      },
+      {
+        "url": "http://id.loc.gov/authorities/names/no98004966",
+        "name": "loc"
+      },
+      {
+        "url": "https://www.worldcat.org/identities/lccn-no98004966",
+        "name": "worldcat"
+      },
+      {
+        "url": "https://catalogue.bnf.fr/ark:/12148/cb15912440f",
+        "name": "bnf"
+      },
+      {
+        "url": "https://www.songkick.com/artists/162323",
+        "name": "songkick"
+      },
+      {
+        "url": "https://open.spotify.com/artist/1AS5bOBVUz4V691GBjdwTK",
+        "name": "spotify"
+      },
+      {
+        "url": "http://www.halfpintmusic.com/",
+        "name": "halfpintmusic"
+      },
+      {
+        "url": "https://music.apple.com/us/artist/1524654489",
+        "name": "apple"
+      },
+      {
+        "url": "https://www.deezer.com/artist/103629",
+        "name": "deezer"
+      },
+      {
+        "url": "https://open.spotify.com/artist/2ohR2Q6zOLBAMmtbENRHcc",
+        "name": "spotify"
+      },
+      {
+        "url": "https://tidal.com/artist/17136",
+        "name": "tidal"
+      },
+      {
+        "url": "https://www.youtube.com/channel/UCA7-QximSoy9NL1FWI0Uovg",
+        "name": "youtube"
+      },
+      {
+        "url": "https://www.youtube.com/channel/UCT1GrfPmE4hITJfGIwT6QGg",
+        "name": "youtube"
+      },
+      {
+        "url": "https://www.bandsintown.com/a/8829",
+        "name": "bandsintown"
+      },
+      {
+        "url": "https://www.45cat.com/vinyl/artist/half-pint",
+        "name": "45cat"
+      },
+      {
+        "url": "https://www.45cat.com/artist/half-pint",
+        "name": "45cat"
+      },
+      {
+        "url": "https://www.45cat.com/12single/artist/half-pint",
+        "name": "45cat"
+      },
+      {
+        "url": "https://genius.com/artists/Half-pint",
+        "name": "genius"
+      },
+      {
+        "url": "https://www.musixmatch.com/artist/Half-Pint",
+        "name": "musixmatch"
+      },
+      {
+        "url": "https://www.whosampled.com/Half-Pint/",
+        "name": "whosampled"
+      },
+      {
+        "url": "https://id.oclc.org/worldcat/entity/E39PBJB8qhymYTtvBC6DCp3PcP",
+        "name": "oclc"
+      },
+      {
+        "url": "https://www.muziekweb.nl/Link/M00000066659/POPULAR/",
+        "name": "muziekweb"
+      },
+      {
+        "url": "https://halfpintmusic.com/about/",
+        "name": "halfpintmusic"
+      },
+      {
+        "url": "https://www.allmusic.com/artist/mn0001604757",
+        "name": "allmusic"
+      },
+      {
+        "url": "https://www.allmusic.com/artist/mn0001230484",
+        "name": "allmusic"
+      },
+      {
+        "url": "https://open.spotify.com/artist/0tGZBRO4tZjpUOZcD7tMeS",
+        "name": "spotify"
+      }
+    ],
+    "nextAlbum": null,
+    "lastAlbum": null,
+    "images": [
+      {
+        "url": "/MediaCoverProxy/c4c9c8edb6fd7f21b1ad873917d0e6b1cc6ae215ce6fa084f191658434da69eb/tyvypx1392970202.jpg",
+        "coverType": "poster",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/tyvypx1392970202.jpg"
+      },
+      {
+        "url": "/MediaCoverProxy/e534facd51cf30b2568600ca674547ab60bcfdccf20f910407e910c134a90fae/xruxyt1392970346.jpg",
+        "coverType": "fanart",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/xruxyt1392970346.jpg"
+      }
+    ],
+    "qualityProfileId": 0,
+    "metadataProfileId": 0,
+    "monitored": false,
+    "monitorNewItems": "all",
+    "folder": "Half Pint",
+    "genres": [
+      "Dancehall",
+      "Dub",
+      "Reggae"
+    ],
+    "tags": [],
+    "added": "0001-01-01T00:00:00Z",
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    }
+  },
+  {
+    "status": "ended",
+    "ended": true,
+    "artistName": "Half Film",
+    "foreignArtistId": "87184540-b1a1-4c8f-b5ed-a968a2c4d206",
+    "tadbId": 0,
+    "discogsId": 0,
+    "artistType": "Group",
+    "disambiguation": "",
+    "links": [
+      {
+        "url": "https://www.discogs.com/artist/1060823",
+        "name": "discogs"
+      },
+      {
+        "url": "https://www.allmusic.com/artist/mn0000949039",
+        "name": "allmusic"
+      },
+      {
+        "url": "https://rateyourmusic.com/artist/half_film",
+        "name": "rateyourmusic"
+      }
+    ],
+    "nextAlbum": null,
+    "lastAlbum": null,
+    "images": [],
+    "qualityProfileId": 0,
+    "metadataProfileId": 0,
+    "monitored": false,
+    "monitorNewItems": "all",
+    "folder": "Half Film",
+    "genres": [],
+    "tags": [],
+    "added": "0001-01-01T00:00:00Z",
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    }
+  },
+  {
+    "status": "continuing",
+    "ended": false,
+    "artistName": "Half Japanese",
+    "foreignArtistId": "18dc6bd7-9caa-4c2d-a2fc-e9546ebda6a4",
+    "tadbId": 0,
+    "discogsId": 0,
+    "overview": "Half Japanese is an American art punk band formed by brothers Jad and David Fair in 1974, after their family's relocation to Uniontown, Maryland.",
+    "artistType": "Group",
+    "disambiguation": "",
+    "links": [
+      {
+        "url": "https://www.discogs.com/artist/178047",
+        "name": "discogs"
+      },
+      {
+        "url": "https://www.wikidata.org/wiki/Q931544",
+        "name": "wikidata"
+      },
+      {
+        "url": "https://www.facebook.com/halfjapaneseband",
+        "name": "facebook"
+      },
+      {
+        "url": "https://halfjapanese.bandcamp.com/",
+        "name": "bandcamp"
+      },
+      {
+        "url": "http://www.xsilence.net/interview-46.htm",
+        "name": "xsilence"
+      },
+      {
+        "url": "http://www.xsilence.net/images/artistes/halfjapanese/interviews/halfjapaneseparfoisonmedemandeojetrouvemoninspirationetameparattrangejenypensemmepasameparatallerdesoi_1452447526404043.jpeg",
+        "name": "xsilence"
+      },
+      {
+        "url": "https://www.allmusic.com/artist/mn0000555654",
+        "name": "allmusic"
+      },
+      {
+        "url": "https://rateyourmusic.com/artist/half_japanese",
+        "name": "rateyourmusic"
+      },
+      {
+        "url": "https://www.last.fm/music/Half%20Japanese",
+        "name": "last"
+      },
+      {
+        "url": "http://viaf.org/viaf/140853791",
+        "name": "viaf"
+      },
+      {
+        "url": "https://catalogue.bnf.fr/ark:/12148/cb13903859q",
+        "name": "bnf"
+      },
+      {
+        "url": "https://myspace.com/halfjapanesefanpage",
+        "name": "myspace"
+      },
+      {
+        "url": "https://www.songkick.com/artists/53970",
+        "name": "songkick"
+      },
+      {
+        "url": "https://itunes.apple.com/us/artist/id7422070",
+        "name": "apple"
+      },
+      {
+        "url": "https://open.spotify.com/artist/0rNdohQtVWZJjcYVz5vSZp",
+        "name": "spotify"
+      },
+      {
+        "url": "https://www.deezer.com/artist/1295334",
+        "name": "deezer"
+      },
+      {
+        "url": "https://tidal.com/artist/3643677",
+        "name": "tidal"
+      },
+      {
+        "url": "https://www.deezer.com/artist/6957",
+        "name": "deezer"
+      },
+      {
+        "url": "https://music.apple.com/us/artist/7422070",
+        "name": "apple"
+      },
+      {
+        "url": "https://open.spotify.com/artist/1YPYaJyUobMi0eABhZo92N",
+        "name": "spotify"
+      },
+      {
+        "url": "https://music.apple.com/gb/artist/7422070",
+        "name": "apple"
+      },
+      {
+        "url": "http://id.loc.gov/authorities/names/n94018032",
+        "name": "loc"
+      },
+      {
+        "url": "https://www.worldcat.org/identities/lccn-n94018032/",
+        "name": "worldcat"
+      }
+    ],
+    "nextAlbum": null,
+    "lastAlbum": null,
+    "images": [
+      {
+        "url": "/MediaCoverProxy/da79df8ae9bdfffc53e386c928b8a0822e6563d7b9aa5e138713e7d7448a9fcd/8g3iqz1756328647.jpg",
+        "coverType": "fanart",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/fanart/8g3iqz1756328647.jpg"
+      },
+      {
+        "url": "/MediaCoverProxy/37e0fb0fe2595c339893d0bea561f863406f6d683345565bd20746d6d0cd51d6/j39nka1597755405.jpg",
+        "coverType": "poster",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/j39nka1597755405.jpg"
+      }
+    ],
+    "qualityProfileId": 0,
+    "metadataProfileId": 0,
+    "monitored": false,
+    "monitorNewItems": "all",
+    "folder": "Half Japanese",
+    "genres": [
+      "Post-Punk",
+      "Indie Rock",
+      "Experimental Rock",
+      "Lo-Fi",
+      "Experimental",
+      "Punk Rock",
+      "Noise Rock",
+      "Alternative Rock",
+      "Art Punk",
+      "Avant-Garde",
+      "No Wave",
+      "Noise",
+      "Punk"
+    ],
+    "tags": [],
+    "added": "0001-01-01T00:00:00Z",
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    }
+  },
+  {
+    "status": "continuing",
+    "ended": false,
+    "artistName": "Half Man Half Biscuit",
+    "foreignArtistId": "10eb06ab-0695-4057-97a5-bea9eeb6fb6d",
+    "tadbId": 0,
+    "discogsId": 0,
+    "overview": "Half Man Half Biscuit are an English rock band, formed in 1984 in Birkenhead, Merseyside. Known for their satirical, sardonic, and sometimes surreal songs, the band comprises lead singer and guitarist Nigel Blackwell, bassist and singer Neil Crossley, drummer Carl Henry, and guitarist Karl Benson.",
+    "artistType": "Group",
+    "disambiguation": "",
+    "links": [
+      {
+        "url": "http://www.hmhb.co.uk/",
+        "name": "hmhb"
+      },
+      {
+        "url": "https://www.discogs.com/artist/312784",
+        "name": "discogs"
+      },
+      {
+        "url": "http://musicmoz.org/Bands_and_Artists/H/Half_Man_Half_Biscuit/",
+        "name": "musicmoz"
+      },
+      {
+        "url": "https://www.allmusic.com/artist/mn0000659618",
+        "name": "allmusic"
+      },
+      {
+        "url": "https://www.wikidata.org/wiki/Q834084",
+        "name": "wikidata"
+      },
+      {
+        "url": "https://rateyourmusic.com/artist/half_man_half_biscuit",
+        "name": "rateyourmusic"
+      },
+      {
+        "url": "https://open.spotify.com/artist/6hBQq083tyW3yrF1gdVt4Q",
+        "name": "spotify"
+      },
+      {
+        "url": "https://www.deezer.com/artist/2555",
+        "name": "deezer"
+      },
+      {
+        "url": "https://music.apple.com/us/artist/118947169",
+        "name": "apple"
+      },
+      {
+        "url": "https://music.apple.com/gb/artist/118947169",
+        "name": "apple"
+      },
+      {
+        "url": "https://tidal.com/artist/3566023",
+        "name": "tidal"
+      },
+      {
+        "url": "https://halfmanhalfbiscuit.uk/",
+        "name": "halfmanhalfbiscuit"
+      }
+    ],
+    "nextAlbum": null,
+    "lastAlbum": null,
+    "images": [
+      {
+        "url": "/MediaCoverProxy/5d9c70ce144782066f29ce8cf7beee216ba12b754d9e9bb339e87921c42396cd/rqtuuy1455367756.jpg",
+        "coverType": "poster",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://r2.theaudiodb.com/images/media/artist/thumb/rqtuuy1455367756.jpg"
+      }
+    ],
+    "qualityProfileId": 0,
+    "metadataProfileId": 0,
+    "monitored": false,
+    "monitorNewItems": "all",
+    "folder": "Half Man Half Biscuit",
+    "genres": [
+      "Indie Rock",
+      "Post-Punk",
+      "C86",
+      "Folk Punk",
+      "Punk"
+    ],
+    "tags": [],
+    "added": "0001-01-01T00:00:00Z",
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    }
+  },
+  {
+    "status": "continuing",
+    "ended": false,
+    "artistName": "Half Breed",
+    "foreignArtistId": "ec8a8b86-62b9-42bf-a2bc-67f59619eb18",
+    "tadbId": 0,
+    "discogsId": 0,
+    "disambiguation": "",
+    "links": [
+      {
+        "url": "https://www.discogs.com/artist/7913",
+        "name": "discogs"
+      }
+    ],
+    "nextAlbum": null,
+    "lastAlbum": null,
+    "images": [],
+    "qualityProfileId": 0,
+    "metadataProfileId": 0,
+    "monitored": false,
+    "monitorNewItems": "all",
+    "folder": "Half Breed",
+    "genres": [
+      "Drum And Bass"
+    ],
+    "tags": [],
+    "added": "0001-01-01T00:00:00Z",
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    }
+  },
+  {
+    "status": "ended",
+    "ended": true,
+    "artistName": "Half Man",
+    "foreignArtistId": "7124f661-2135-4d62-b235-23ee1e11cb6b",
+    "tadbId": 0,
+    "discogsId": 0,
+    "overview": "Half Man was a Swedish stoner/blues rock band.",
+    "artistType": "Group",
+    "disambiguation": "",
+    "links": [
+      {
+        "url": "https://www.wikidata.org/wiki/Q5641689",
+        "name": "wikidata"
+      },
+      {
+        "url": "https://www.wikidata.org/wiki/Q5641689",
+        "name": "wikidata"
+      }
+    ],
+    "nextAlbum": null,
+    "lastAlbum": null,
+    "images": [],
+    "qualityProfileId": 0,
+    "metadataProfileId": 0,
+    "monitored": false,
+    "monitorNewItems": "all",
+    "folder": "Half Man",
+    "genres": [],
+    "tags": [],
+    "added": "0001-01-01T00:00:00Z",
+    "ratings": {
+      "votes": 1,
+      "value": 6
+    }
+  }
+]

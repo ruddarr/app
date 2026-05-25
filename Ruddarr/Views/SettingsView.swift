@@ -5,8 +5,11 @@ struct SettingsView: View {
     @State private var showLocalNetworkWarning: Bool = false
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(LidarrInstance.self) private var lidarrInstance
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
+
+    @Environment(\.dismiss) private var dismiss
 
     enum Path: Hashable {
         case icons
@@ -16,6 +19,7 @@ struct SettingsView: View {
     }
 
     var body: some View {
+        // swiftlint:disable:next closure_body_length
         NavigationStack(path: dependencies.$router.settingsPath) {
             Form {
                 instanceSection
@@ -38,12 +42,14 @@ struct SettingsView: View {
                         .environmentObject(settings)
                 case .createInstance:
                     InstanceEditView(mode: .create, instance: Instance())
+                        .environment(lidarrInstance)
                         .environment(radarrInstance)
                         .environment(sonarrInstance)
                         .environmentObject(settings)
                 case .viewInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
                         InstanceView(instance: instance)
+                            .environment(lidarrInstance)
                             .environment(radarrInstance)
                             .environment(sonarrInstance)
                             .environmentObject(settings)
@@ -51,12 +57,25 @@ struct SettingsView: View {
                 case .editInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
                         InstanceEditView(mode: .update, instance: instance)
+                            .environment(lidarrInstance)
                             .environment(radarrInstance)
                             .environment(sonarrInstance)
                             .environmentObject(settings)
                     }
                 }
             }
+            #if os(iOS)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                        .tint(.primary)
+                }
+            }
+            #endif
         }
     }
 

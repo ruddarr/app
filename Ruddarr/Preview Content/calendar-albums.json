@@ -1,0 +1,160 @@
+[
+  {
+    "title": "God Save The Three",
+    "disambiguation": "",
+    "overview": "",
+    "artistId": 160,
+    "foreignAlbumId": "d5e34e64-4cda-49f9-afe4-82cb39e5b229",
+    "monitored": true,
+    "anyReleaseOk": true,
+    "profileId": 1,
+    "duration": 1773000,
+    "albumType": "Album",
+    "secondaryTypes": [],
+    "mediumCount": 1,
+    "ratings": {
+      "votes": 0,
+      "value": 0
+    },
+    "releaseDate": "2026-05-08T00:00:00Z",
+    "releases": [
+      {
+        "id": 3877,
+        "albumId": 1532,
+        "foreignReleaseId": "d5b1b1ca-5246-488a-be89-271c914741f0",
+        "title": "God Save The Three",
+        "status": "Official",
+        "duration": 1773000,
+        "trackCount": 12,
+        "media": [
+          {
+            "mediumNumber": 1,
+            "mediumName": "",
+            "mediumFormat": "Digital Media"
+          }
+        ],
+        "mediumCount": 1,
+        "disambiguation": "",
+        "country": [
+          "[Worldwide]"
+        ],
+        "label": [
+          "broke",
+          "slowsilver03"
+        ],
+        "format": "Digital Media",
+        "monitored": true
+      }
+    ],
+    "genres": [],
+    "media": [
+      {
+        "mediumNumber": 1,
+        "mediumName": "",
+        "mediumFormat": "Digital Media"
+      }
+    ],
+    "artist": {
+      "status": "continuing",
+      "ended": false,
+      "artistName": "glaive",
+      "foreignArtistId": "fd36f43e-5bd1-488e-b844-0e059250ef78",
+      "tadbId": 0,
+      "discogsId": 0,
+      "artistType": "Person",
+      "disambiguation": "",
+      "links": [
+        {
+          "url": "https://soundcloud.com/1glaive",
+          "name": "soundcloud"
+        },
+        {
+          "url": "https://www.instagram.com/1glaive/",
+          "name": "instagram"
+        },
+        {
+          "url": "https://www.youtube.com/channel/UCgVCTlNEvc7at5cAkTsKWCA/",
+          "name": "youtube"
+        },
+        {
+          "url": "https://genius.com/artists/Glaive",
+          "name": "genius"
+        },
+        {
+          "url": "https://open.spotify.com/artist/4cJKDGSv4Dz9QycXYmo565",
+          "name": "spotify"
+        },
+        {
+          "url": "https://www.discogs.com/artist/9390226",
+          "name": "discogs"
+        },
+        {
+          "url": "https://twitter.com/glaive",
+          "name": "twitter"
+        },
+        {
+          "url": "https://www.deezer.com/artist/7411938",
+          "name": "deezer"
+        },
+        {
+          "url": "https://music.apple.com/us/artist/1465672438",
+          "name": "apple"
+        },
+        {
+          "url": "https://tidal.com/artist/7133325",
+          "name": "tidal"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q100978614",
+          "name": "wikidata"
+        },
+        {
+          "url": "https://tidal.com/artist/39628767",
+          "name": "tidal"
+        }
+      ],
+      "nextAlbum": null,
+      "lastAlbum": null,
+      "images": [],
+      "path": "/mnt/plex/music/glaive",
+      "qualityProfileId": 1,
+      "metadataProfileId": 1,
+      "monitored": true,
+      "monitorNewItems": "all",
+      "genres": [
+        "Alternative Pop",
+        "Pop",
+        "Emo Pop",
+        "Digicore",
+        "Hyperpop"
+      ],
+      "cleanName": "glaive",
+      "sortName": "glaive",
+      "tags": [],
+      "added": "2025-09-29T11:19:18Z",
+      "ratings": {
+        "votes": 0,
+        "value": 0
+      },
+      "id": 160
+    },
+    "images": [
+      {
+        "url": "/MediaCover/Albums/1532/cover.jpg?lastWrite=639138451191124909",
+        "coverType": "cover",
+        "extension": ".jpg",
+        "remoteUrl": "https://images.lidarr.audio/cache/https://coverartarchive.org/release/d5b1b1ca-5246-488a-be89-271c914741f0/45070228426-1200.jpg"
+      }
+    ],
+    "links": [],
+    "lastSearchTime": "2026-05-17T13:17:47Z",
+    "statistics": {
+      "trackFileCount": 12,
+      "trackCount": 12,
+      "totalTrackCount": 12,
+      "sizeOnDisk": 217192059,
+      "percentOfTracks": 100
+    },
+    "id": 1532
+  }
+]

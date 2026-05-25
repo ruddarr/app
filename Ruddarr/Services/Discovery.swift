@@ -8,10 +8,14 @@ class Discovery {
 
     private var movieItems: DiscoveryItems?
     private var seriesItems: DiscoveryItems?
+    private var artistItems: DiscoveryItems?
+    private var albumsItems: DiscoveryItems?
 
     enum MediaType: String {
         case movies
         case series
+        case artists
+        case albums
     }
 
     var movies: [DiscoveryItem] {
@@ -26,6 +30,12 @@ class Discovery {
         return Array(items.prefix(24))
     }
 
+    var artists: [DiscoveryItem] {
+        guard let items = artistItems?.popular else { return [] }
+        guard Platform.deviceType == .phone else { return items }
+        return Array(items.prefix(24))
+    }
+
     func fetch(_ type: MediaType) async {
         switch type {
         case .movies:
@@ -34,6 +44,12 @@ class Discovery {
         case .series:
             if isCurrentWindow(seriesItems?.timestamp) { return }
             seriesItems = await load(.series)
+        case .artists:
+            if isCurrentWindow(artistItems?.timestamp) { return }
+            artistItems = await load(.artists)
+        case .albums:
+            if isCurrentWindow(albumsItems?.timestamp) { return }
+            albumsItems = await load(.albums)
         }
     }
 
@@ -103,5 +119,6 @@ struct DiscoveryItem: Identifiable, Codable, Equatable {
     enum ItemType: String, Codable {
         case movie
         case series
+        case artist
     }
 }

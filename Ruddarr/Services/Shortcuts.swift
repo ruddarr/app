@@ -27,6 +27,16 @@ struct Shortcuts: AppShortcutsProvider {
         )
 
         AppShortcut(
+            intent: SearchArtistIntent(),
+            phrases: [
+                "Search for artist in \(.applicationName)",
+                "Add artist to \(.applicationName)",
+            ],
+            shortTitle: "Add Artist",
+            systemImageName: "plus"
+        )
+
+        AppShortcut(
             intent: OpenAppIntent(),
             phrases: [
                 "Open \(.applicationName)",

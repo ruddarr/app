@@ -410,4 +410,90 @@ actor Notifications {
     }
     .padding()
 }
+
+#Preview("Artists") {
+    let artistAdd = [
+        String(format: localized("NOTIFICATION_ARTIST_ADDED"), "Synology"),
+        String(format: localized("NOTIFICATION_ARTIST_ADDED_BODY"), "Ninajirachi"),
+    ]
+
+    let artistDelete = [
+        String(format: localized("NOTIFICATION_ARTIST_DELETED"), "Synology"),
+        String(format: localized("NOTIFICATION_ARTIST_DELETED_BODY"), "Ninajirachi"),
+    ]
+
+    let albumGrab = [
+        String(format: localized("NOTIFICATION_ALBUM_GRAB"), "Synology", "1"),
+        String(format: localized("NOTIFICATION_ALBUM_GRAB_SUBTITLE"), "I Love My Computer", "Ninajirachi"),
+        String(format: localized("NOTIFICATION_ALBUM_GRAB_BODY"), "FLAC", "BHD"),
+    ]
+
+    let albumDownload = [
+        String(format: localized("NOTIFICATION_ALBUM_DOWNLOAD"), "Synology"),
+        String(format: localized("NOTIFICATION_ALBUM_DOWNLOAD_BODY"), "I Love My Computer", "Ninajirachi"),
+    ]
+
+    let albumUpgrade = [
+        String(format: localized("NOTIFICATION_ALBUM_UPGRADE"), "Synology"),
+        String(format: localized("NOTIFICATION_ALBUM_UPGRADE_SUBTITLE"), "I Love My Computer", "Ninajirachi"),
+        String(format: localized("NOTIFICATION_ALBUM_UPGRADE_BODY"), "MP3-320", "FLAC"),
+    ]
+
+    let albumFilesDelete = [
+        String(format: localized("NOTIFICATION_ALBUM_FILES_DELETED"), "Synology"),
+        String(format: localized("NOTIFICATION_ALBUM_FILES_DELETED_BODY"), "I Love My Computer", "Ninajirachi"),
+    ]
+
+    func localized(_ key: String) -> String {
+        NSLocalizedString(key, comment: "")
+    }
+
+    @ViewBuilder
+    func group(_ name: String) -> some View {
+        Text(verbatim: name)
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+    }
+
+    @ViewBuilder
+    func notification(_ strings: [String]) -> some View {
+        let cutoff = strings.count == 3 ? 2 : 1
+
+        ForEach(strings.indices, id: \.self) { index in
+            Text(verbatim: strings[index])
+                .fontWeight(index < cutoff ? .bold : .regular)
+        }
+    }
+
+    return ScrollView {
+        VStack(alignment: .leading) {
+            group("ArtistAdd")
+            notification(artistAdd)
+            Divider().padding(.top, 6)
+
+            group("ArtistDeleted")
+            notification(artistDelete)
+            Divider().padding(.top, 6)
+
+            group("Grab (Album)")
+            notification(albumGrab)
+            Divider().padding(.top, 6)
+
+            group("Download (Album)")
+            notification(albumDownload)
+            Divider().padding(.top, 6)
+
+            group("Upgrade (Album)")
+            notification(albumUpgrade)
+            Divider().padding(.top, 6)
+
+            group("Deleted (Album Files)")
+            notification(albumFilesDelete)
+            Divider().padding(.top, 6)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    .padding()
+}
 // swiftlint:enable closure_body_length file_length

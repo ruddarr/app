@@ -38,6 +38,24 @@ func formatRuntime(_ minutes: Int) -> String? {
         ?? formatter.string(from: 0)
 }
 
+func formatTrackRuntime(_ milliseconds: Int) -> String? {
+    let totalSeconds = TimeInterval(milliseconds) / 1_000.0
+
+    let formatter = DateComponentsFormatter()
+    formatter.allowedUnits = [.hour, .minute, .second]
+    formatter.unitsStyle = .abbreviated
+    formatter.zeroFormattingBehavior = [.pad]
+
+    // If duration is less than 1 hour, omit the hour component from output like mm:ss
+    if totalSeconds < 3_600 {
+        formatter.allowedUnits = [.minute, .second]
+    } else if totalSeconds < 60 {
+        formatter.allowedUnits = [.second]
+    }
+
+    return formatter.string(from: totalSeconds)
+}
+
 func formatTags(_ ids: [Int], tags: [Tag]) -> String {
     guard !ids.isEmpty else {
         return String(localized: "None")
@@ -68,16 +86,20 @@ func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
     return formatter.string(fromByteCount: Int64(bytes))
 }
 
-func formatBitrate(_ bitrate: Int) -> String? {
-    if bitrate == 0 {
+func formatBitrate(_ bitrate: Int?) -> String? {
+    guard let rate = bitrate else {
         return nil
     }
 
-    if bitrate < 1_000_000 {
-        return String(format: "%d kbps", bitrate / 1_000)
+    if rate == 0 {
+        return nil
     }
 
-    let mbps = Double(bitrate) / 1_000_000.0
+    if rate < 1_000_000 {
+        return String(format: "%d kbps", rate / 1_000)
+    }
+
+    let mbps = Double(rate) / 1_000_000.0
 
     return String(format: "%.\(mbps < 10 ? 1 : 0)f mbps", mbps)
 }

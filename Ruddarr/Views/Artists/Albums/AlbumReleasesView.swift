@@ -1,0 +1,300 @@
+import SwiftUI
+
+struct AlbumReleasesView: View {
+    @Binding var artist: Artist
+    @Binding var album: Album
+    var albumId: Album.ID?
+
+    @State private var releases: [ArtistRelease] = []
+    @State private var fetched: Album.ID?
+    @State private var selectedRelease: ArtistRelease?
+
+    @AppStorage("artistReleaseSort", store: dependencies.store) private var sort: ArtistReleaseSort = .init()
+
+    @EnvironmentObject var settings: AppSettings
+    @Environment(\.deviceType) private var deviceType
+    @Environment(LidarrInstance.self) private var instance
+
+    var body: some View {
+        List {
+            ForEach(releases) { release in
+                Button {
+                    selectedRelease = release
+                } label: {
+                    AlbumReleaseRow(release: release, album: album)
+                        .environment(instance)
+                        .environmentObject(settings)
+                }
+                .buttonStyle(.plain)
+            }
+
+            if hasHiddenReleases {
+                HiddenReleases()
+            }
+        }
+        .listStyle(.inset)
+        .searchable(text: $sort.search, placement: .drawerOrToolbar)
+        .toolbar {
+            toolbarButtons
+        }
+        .task {
+            guard !hasFetched else { return }
+            if settings.releaseFilters == .reset { sort = .init() }
+            releases = []
+            sort.search = ""
+            await instance.releases.search(artist, album.id)
+            updateDisplayedReleases()
+            fetched = album.id
+        }
+        .onChange(of: sort.option, updateSortDirection)
+        .onChange(of: sort, updateDisplayedReleases)
+        .alert(
+            isPresented: instance.releases.errorBinding,
+            error: instance.releases.error
+        ) { _ in
+            Button("OK") { instance.releases.error = nil }
+        } message: { error in
+            Text(error.recoverySuggestionFallback)
+        }.tint(nil)
+        .overlay {
+            if instance.releases.isSearching {
+                SearchingIndicator()
+            } else if instance.releases.items.isEmpty && hasFetched {
+                noReleasesFound
+            } else if releases.isEmpty && hasFetched {
+                noMatchingReleases
+            }
+        }
+        .sheet(item: $selectedRelease) { release in
+            AlbumReleaseSheet(release: release, album: album)
+                .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
+                .presentationBackground(.systemBackground)
+                .environment(instance)
+                .environmentObject(settings)
+        }
+    }
+
+    var hasFetched: Bool {
+        fetched == album.id
+    }
+
+    var hasHiddenReleases: Bool {
+        sort.hasFilter &&
+        !releases.isEmpty &&
+        releases.count < instance.releases.items.count
+    }
+
+    var noReleasesFound: some View {
+        ContentUnavailableView(
+            "No Releases Found",
+            systemImage: "slash.circle",
+            description: Text("No releases found for \"\(album.title)\".")
+        )
+    }
+
+    var noMatchingReleases: some View {
+        ContentUnavailableView {
+            Label("No Releases Match", systemImage: "slash.circle")
+        } description: {
+            if sort.search.trimmed().isEmpty {
+                Text("No releases match the selected filters.")
+            } else if sort.hasFilter {
+                Text("No releases match the selected filters and \"\(sort.search.trimmed())\".")
+            } else {
+                Text("No releases match \"\(sort.search.trimmed())\".")
+            }
+        } actions: {
+            Button("Clear Filters") {
+                sort.resetFilters()
+            }.opacity(sort.hasFilter ? 1 : 0)
+        }
+    }
+
+    func updateSortDirection() {
+        switch sort.option {
+        case .bySeeders, .byQuality, .byCustomScore:
+            sort.isAscending = false
+        default:
+            sort.isAscending = true
+        }
+    }
+
+    func updateDisplayedReleases() {
+        Task {
+            try? await Task.sleep(for: .milliseconds(10))
+            releases = sort.filterAndSortItems(instance.releases.items)
+        }
+    }
+}
+
+extension AlbumReleasesView {
+    @ToolbarContentBuilder
+    var toolbarButtons: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            toolbarSortingButton
+        }
+
+        ToolbarItem(placement: .primaryAction) {
+            toolbarFilterButton
+        }
+    }
+
+    var toolbarFilterButton: some View {
+        Menu {
+            if instance.releases.protocols.count > 1 {
+                protocolPicker
+            }
+
+            indexersPicker
+
+            qualityPicker
+
+            if !instance.releases.customFormats.isEmpty {
+                customFormatPicker
+            }
+
+            Section {
+                Toggle(
+                    String(localized: "Approved", comment: "Release filter"),
+                    systemImage: "checkmark.seal",
+                    isOn: $sort.approved
+                )
+            }
+        } label: {
+            if sort.hasFilter {
+                Image("filters.badge")
+                    .offset(y: 3)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.tint, .primary)
+            } else{
+                Image(systemName: "line.3.horizontal.decrease")
+            }
+        }
+        .menuIndicator(.hidden)
+    }
+
+    var toolbarSortingButton: some View {
+        Menu {
+            Section {
+                Picker("Sort By", selection: $sort.option) {
+                    ForEach(ArtistReleaseSort.Option.allCases) { option in
+                        option.label
+                    }
+                }
+                .pickerStyle(.inline)
+            }
+
+            Section {
+                Picker("Direction", selection: $sort.isAscending) {
+                    Label("Ascending", systemImage: "arrowtriangle.up").tag(true)
+                    Label("Descending", systemImage: "arrowtriangle.down").tag(false)
+                }.pickerStyle(.inline)
+            }
+        } label: {
+            Image(systemName: "arrow.up.arrow.down")
+                .imageScale(.medium)
+        }
+        .tint(.primary)
+        .menuIndicator(.hidden)
+    }
+
+    var indexersPicker: some View {
+        Menu {
+            Picker("Indexer", selection: $sort.indexer) {
+                Text("Any Indexer").tag(String.all)
+
+                ForEach(instance.releases.indexers, id: \.self) { indexer in
+                    Text(indexer).tag(Optional.some(indexer))
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label(
+                sort.indexer == .all ? String(localized: "Indexer") : sort.indexer,
+                systemImage: "building.2"
+            )
+        }
+    }
+
+    var qualityPicker: some View {
+        Menu {
+            Picker("Quality", selection: $sort.quality) {
+                Text("Any Quality").tag(String.all)
+
+                ForEach(instance.releases.qualities, id: \.self) { quality in
+                    Text(quality).tag(Optional.some(quality))
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label(
+                sort.quality == .all ? String(localized: "Quality") : sort.quality,
+                systemImage: "film.stack"
+            )
+        }
+    }
+
+    var protocolPicker: some View {
+        Menu {
+            Picker("Protocol", selection: $sort.network) {
+                Text("Any Protocol").tag(String.all)
+
+                ForEach(instance.releases.protocols, id: \.self) { type in
+                    Text(type).tag(Optional.some(type))
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label(
+                sort.network == .all ? String(localized: "Protocol") : sort.network,
+                systemImage: "point.3.connected.trianglepath.dotted"
+            )
+        }
+    }
+
+    var customFormatPicker: some View {
+        Menu {
+            Picker("Custom Format", selection: $sort.customFormat) {
+                Text("Any Format").tag(String.all)
+
+                ForEach(instance.releases.customFormats, id: \.self) { format in
+                    Text(format).tag(Optional.some(format))
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label(
+                sort.customFormat == .all ? String(localized: "Custom Format") : sort.customFormat,
+                systemImage: "person.badge.plus"
+            )
+        }
+    }
+}
+
+#Preview {
+    let artists: [Artist] = PreviewData.load(name: "artists")
+    let albums: [Album] = PreviewData.load(name: "artist-albums")
+    let tracks: [AlbumTrack] = PreviewData.load(name: "album-tracks")
+    let trackFiles: [AlbumTrackFile] = PreviewData.load(name: "album-track-files")
+    let artist = artists.first(where: { $0.foreignArtistId == "3fd78e94-efeb-43a1-bc19-ad2dd1afbd5a" }) ?? artists[0]
+    let album = albums.first(where: { $0.id == 1_144 }) ?? albums[0]
+
+    dependencies.api = .mock
+    dependencies.router.selectedTab = .artists
+
+    dependencies.router.artistsPath.append(
+        ArtistsPath.artist(artist.id)
+    )
+
+    dependencies.router.artistsPath.append(
+        ArtistsPath.album(artist.id, album.id)
+    )
+
+    dependencies.router.artistsPath.append(
+        ArtistsPath.releases(artist.id, album.id)
+    )
+
+    return ContentView()
+        .withLidarrInstance(artists: artists, albums: albums, tracks: tracks, trackFiles: trackFiles)
+        .withAppState()
+}

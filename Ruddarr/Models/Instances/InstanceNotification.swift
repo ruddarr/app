@@ -27,6 +27,11 @@ struct InstanceNotification: Identifiable, Codable {
     var onEpisodeFileDelete: Bool? = false
     var onImportComplete: Bool? = false
 
+    // Lidarr only
+    var onArtistAdd: Bool? = false
+    var onArtistDelete: Bool? = false
+    var onAlbumDelete: Bool? = false
+
     var onManualInteractionRequired: Bool? = false
 
     var onHealthIssue: Bool = false
@@ -57,12 +62,18 @@ struct InstanceNotification: Identifiable, Codable {
     var supportsOnImportComplete: Bool? = false
     var supportsOnManualInteractionRequired: Bool? = false
 
+    // Lidarr
+    var supportsOnArtistAdd: Bool? = false
+    var supportsOnArtistDelete: Bool? = false
+    var supportsOnAlbumDelete: Bool? = false
+
     var isEnabled: Bool {
         onGrab
         || onDownload
         || onUpgrade
         || onMovieAdded ?? false
         || onSeriesAdd ?? false
+        || onArtistAdd ?? false
         || onImportComplete ?? false
         || onHealthIssue
         || onHealthRestored ?? false
@@ -77,6 +88,7 @@ struct InstanceNotification: Identifiable, Codable {
         onMovieAdded = false // Radarr
         onSeriesAdd = false // Sonarr
         onImportComplete = false // Sonarr
+        onArtistAdd = false  // Lidarr
         onHealthIssue = false
         onHealthRestored = false
         includeHealthWarnings = false
@@ -91,6 +103,7 @@ struct InstanceNotification: Identifiable, Codable {
         onManualInteractionRequired = supportsOnManualInteractionRequired == true
         onMovieAdded = supportsOnMovieAdded == true // Radarr
         onSeriesAdd = supportsOnSeriesAdd == true // Sonarr
+        onArtistAdd = supportsOnArtistAdd == true // Lidarr
         onImportComplete = false // Sonarr
         onHealthIssue = false
         onHealthRestored = false

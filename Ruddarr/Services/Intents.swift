@@ -55,6 +55,39 @@ struct SearchMovieIntent: AppIntent {
     }
 }
 
+struct SearchArtistIntent: AppIntent {
+    static let title: LocalizedStringResource = "Search for Artist"
+    static let openAppWhenRun: Bool = true
+
+    @Parameter(title: "Title")
+    var name: String?
+
+    static var parameterSummary: some ParameterSummary {
+        Summary("Search for artist with \(\.$name)")
+    }
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        var query: String = ""
+
+        if let artistName = name, !artistName.isEmpty {
+            query = artistName.trimmed()
+        }
+
+        dependencies.router.artistsPath = .init()
+
+        try? await Task.sleep(for: .milliseconds(50))
+
+        dependencies.router.artistsPath.append(
+            ArtistsPath.search(query)
+        )
+
+        dependencies.router.selectedTab = .artists
+
+        return .result()
+    }
+}
+
 struct SearchSeriesIntent: AppIntent {
     static let title: LocalizedStringResource = "Search for TV Series"
     static let openAppWhenRun: Bool = true

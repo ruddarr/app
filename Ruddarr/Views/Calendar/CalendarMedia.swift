@@ -172,16 +172,93 @@ struct CalendarEpisode: View {
     }
 }
 
+struct CalendarAlbum: View {
+    var date: Date
+    var album: Album
+
+    @EnvironmentObject var settings: AppSettings
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(alignment: .center) {
+                    HStack {
+                        if let artistName = album.artist?.artistName {
+                            Text(artistName)
+                            Bullet()
+                        }
+
+                        Text(album.title)
+                    }
+                    .font(.body)
+                    .foregroundStyle(shouldFade ? .secondary : .primary)
+
+                    Spacer()
+
+                    statusIcon
+                        .font(.subheadline)
+                        .imageScale(.small)
+                        .foregroundStyle(.secondary)
+                }
+
+                HStack(alignment: .center, spacing: 6) {
+                    if let type = album.albumType {
+                        Text(type)
+                        Bullet()
+                    }
+
+                    Text("\(album.trackCount) Track")
+                }
+                .foregroundStyle(.secondary)
+                .font(.subheadline)
+            }
+        }
+            .padding(.vertical, 8)
+            .padding(.horizontal, 12)
+            .frame(maxWidth: .infinity)
+            .opacity(shouldFade ? 0.5 : 1)
+            .background(.card.opacity(shouldFade ? 0.6 : 1))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .onTapGesture {
+                let deeplink = String(
+                    format: "ruddarr://artists/open/%d?album=%d&instance=%@",
+                    album.artistId,
+                    album.id,
+                    album.instanceId!.uuidString
+                )
+
+                try? QuickActions.Deeplink(url: URL(string: deeplink)!)()
+            }
+    }
+
+    var shouldFade: Bool {
+        !album.monitored && album.percentOfTracks != 100
+    }
+
+    @ViewBuilder
+    var statusIcon: some View {
+        if album.percentOfTracks == 100 {
+            Image(systemName: "checkmark").symbolVariant(.circle.fill)
+        } else if !album.monitored {
+            Image(systemName: "bookmark").symbolVariant(.slash)
+        } else if album.monitored {
+            Image(systemName: "xmark").symbolVariant(.circle)
+        }
+    }
+}
+
 enum CalendarMediaType: CaseIterable {
     case all
     case movies
     case series
+    case albums
 
     var label: some View {
         switch self {
-        case .all: Label(String(localized: "Everything", comment: "Movies and series filter option"), systemImage: "rectangle.stack")
+        case .all: Label(String(localized: "Everything", comment: "Movies series and albums filter option"), systemImage: "rectangle.stack")
         case .movies: Label(String(localized: "Movies"), systemImage: "film")
         case .series: Label(String(localized: "Series"), systemImage: "tv")
+        case .albums: Label(String(localized: "Albums"), systemImage: "music.note")
         }
     }
 }

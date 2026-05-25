@@ -2,207 +2,342 @@ import Foundation
 
 extension API {
     static var mock: Self {
-        .init(fetchMovies: { _ in
-            try await Task.sleep(for: .seconds(1))
+        .init(
+            // Start Radarr suite
+            fetchMovies: { _ in
+                try await Task.sleep(for: .seconds(1))
 
-            return loadPreviewData(filename: "movies")
-        }, lookupMovies: { _, query in
-            let movies: [Movie] = loadPreviewData(filename: "movie-lookup")
-            try await Task.sleep(for: .seconds(1))
+                return loadPreviewData(filename: "movies")
+            }, lookupMovies: { _, query in
+                let movies: [Movie] = loadPreviewData(filename: "movie-lookup")
+                try await Task.sleep(for: .seconds(1))
 
-            return movies.filter {
-                $0.title.localizedCaseInsensitiveContains(query)
-            }
-        }, lookupMovieReleases: { _, _ in
-            try await Task.sleep(for: .seconds(1))
+                return movies.filter {
+                    $0.title.localizedCaseInsensitiveContains(query)
+                }
+            }, lookupMovieReleases: { _, _ in
+                try await Task.sleep(for: .seconds(1))
 
-            return loadPreviewData(filename: "movie-releases")
-        }, getMovie: { movieId, _ in
-            let movies: [Movie] = loadPreviewData(filename: "movies")
-            try await Task.sleep(for: .seconds(2))
+                return loadPreviewData(filename: "movie-releases")
+            }, getMovie: { movieId, _ in
+                let movies: [Movie] = loadPreviewData(filename: "movies")
+                try await Task.sleep(for: .seconds(2))
 
-            return movies.first(where: { $0.guid == movieId })!
-        }, getMovieHistory: { _, _ in
-            let events: [MediaHistoryEvent] = loadPreviewData(filename: "movie-history")
-            try await Task.sleep(for: .seconds(1))
+                return movies.first(where: { $0.guid == movieId })!
+            }, getMovieHistory: { _, _ in
+                let events: [MediaHistoryEvent] = loadPreviewData(filename: "movie-history")
+                try await Task.sleep(for: .seconds(1))
 
-            return events
-        }, getMovieFiles: { _, _ in
-            let files: [MediaFile] = loadPreviewData(filename: "movie-files")
-            try await Task.sleep(for: .seconds(1))
+                return events
+            }, getMovieFiles: { _, _ in
+                let files: [MediaFile] = loadPreviewData(filename: "movie-files")
+                try await Task.sleep(for: .seconds(1))
 
-            return files
-        }, getMovieExtraFiles: { _, _ in
-            let files: [MovieExtraFile] = loadPreviewData(filename: "movie-extra-files")
-            // try await Task.sleep(for: .seconds(1))
+                return files
+            }, getMovieExtraFiles: { _, _ in
+                let files: [MovieExtraFile] = loadPreviewData(filename: "movie-extra-files")
+                // try await Task.sleep(for: .seconds(1))
 
-            return files
-        }, addMovie: { _, _ in
-            let movies: [Movie] = loadPreviewData(filename: "movies")
-            try await Task.sleep(for: .seconds(2))
+                return files
+            }, addMovie: { _, _ in
+                let movies: [Movie] = loadPreviewData(filename: "movies")
+                try await Task.sleep(for: .seconds(2))
 
-            return movies[0]
-        }, updateMovie: { _, _, _ in
-            try await Task.sleep(for: .seconds(2))
+                return movies[0]
+            }, updateMovie: { _, _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return Empty()
-        }, deleteMovie: { _, _, _, _ in
-            try await Task.sleep(for: .seconds(2))
+                return Empty()
+            }, deleteMovie: { _, _, _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return Empty()
-        }, deleteMovieFile: { _, _ in
-            try await Task.sleep(for: .seconds(2))
+                return Empty()
+            }, deleteMovieFile: { _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return Empty()
-        }, fetchSeries: { _ in
-            try await Task.sleep(for: .seconds(1))
+                return Empty()
+            },
 
-            return loadPreviewData(filename: "series")
-        }, fetchEpisodes: { _, _ in
-            try await Task.sleep(for: .seconds(2))
+            // Start Lidarr suite
+            fetchArtists: { _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return loadPreviewData(filename: "series-episodes")
-        }, fetchEpisodeFiles: { _, _ in
-            try await Task.sleep(for: .seconds(1))
+                return loadPreviewData(filename: "artists")
+            }, fetchAlbums: { _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return loadPreviewData(filename: "series-episode-files")
-        }, lookupSeries: { _, _ in
-            try await Task.sleep(for: .seconds(1))
+                return loadPreviewData(filename: "artist-albums")
+            }, fetchAlbumTracks: { _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return loadPreviewData(filename: "series-lookup")
-        }, lookupSeriesReleases: { _, _, _, _ in
-            try await Task.sleep(for: .seconds(1))
+                return loadPreviewData(filename: "album-tracks")
+            }, fetchArtistTracks: { _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return loadPreviewData(filename: "series-releases")
-        }, getSeries: { _, _ in
-            let series: [Series] = loadPreviewData(filename: "series")
-            try await Task.sleep(for: .seconds(1))
+                return loadPreviewData(filename: "artist-tracks")
+            }, fetchArtistTrackFiles: { _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return series[0]
-        }, addSeries: { _, _ in
-            let series: [Series] = loadPreviewData(filename: "series")
-            try await Task.sleep(for: .seconds(2))
+                return loadPreviewData(filename: "artist-track-files")
+            }, lookupArtists: { _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return series[0]
-        }, pushSeries: { _, _ in
-            let series: [Series] = loadPreviewData(filename: "series")
-            try await Task.sleep(for: .seconds(2))
+                return loadPreviewData(filename: "artists")
+            }, lookupArtistReleases: { _, _, _  in
+                try await Task.sleep(for: .seconds(1))
 
-            return series[0]
-        }, updateSeries: { _, _, _ in
-            try await Task.sleep(for: .seconds(2))
+                return loadPreviewData(filename: "artist-releases")
+            }, getArtist: { _, _ in
+                let artists: [Artist] = loadPreviewData(filename: "artists")
+                try await Task.sleep(for: .seconds(2))
 
-            return Empty()
-        }, deleteSeries: { _, _, _, _ in
-            try await Task.sleep(for: .seconds(2))
+                return artists[0]
+            }, getArtistHistory: { _, _ in
+                let events: MediaHistory = loadPreviewData(filename: "artist-history")
+                try await Task.sleep(for: .seconds(1))
 
-            return Empty()
-        }, monitorEpisode: { _, _, _ in
-            try await Task.sleep(for: .seconds(2))
+                return events
+            }, addArtist: { _, _ in
+                let artists: [Artist] = loadPreviewData(filename: "artists")
+                try await Task.sleep(for: .seconds(2))
 
-            return Empty()
-        }, getEpisodeHistory: { _, _ in
-            let events: MediaHistory = loadPreviewData(filename: "series-episode-history")
-            try await Task.sleep(for: .seconds(2))
+                return artists[0]
+            }, pushArtist: { _, _ in
+                let artists: [Artist] = loadPreviewData(filename: "artists")
+                try await Task.sleep(for: .seconds(2))
 
-            return events
-        }, deleteEpisodeFile: { _, _ in
-            try await Task.sleep(for: .seconds(2))
+                return artists[0]
+            }, updateArtist: { _, _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return Empty()
-        }, deleteEpisodeFiles: { _, _ in
-            try await Task.sleep(for: .seconds(2))
+                return Empty()
+            }, deleteArtist: { _, _, _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return Empty()
-        }, movieCalendar: { _, _, instance in
-            try await Task.sleep(for: .seconds(2))
-            let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
+                return Empty()
+            }, getAlbum: { _, _ in
+                let albums: [Album] = loadPreviewData(filename: "artist-albums")
+                try await Task.sleep(for: .seconds(2))
 
-            return modifyCalendarMovies(movies, instance)
-        }, episodeCalendar: { _, _, instance in
-            try await Task.sleep(for: .seconds(3))
-            let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
+                return albums[0]
+            }, getAlbumHistory: { _, _, _ in
+                let events: MediaHistory = loadPreviewData(filename: "album-history")
+                try await Task.sleep(for: .seconds(1))
 
-            return modifyCalendarEpisodes(episodes, instance)
-        }, command: { _, _ in
-            try await Task.sleep(for: .seconds(2))
+                return events
+            }, addAlbum: { _, _ in
+                let albums: [Album] = loadPreviewData(filename: "artist-albums")
+                try await Task.sleep(for: .seconds(2))
 
-            return Empty()
-        }, downloadRelease: { _, _ in
-            try await Task.sleep(for: .seconds(1))
+                return albums[0]
+            }, monitorAlbum: { _, _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return Empty()
-        }, systemStatus: { instance in
-            try await Task.sleep(for: .seconds(2))
+                return Empty()
+            }, pushAlbum: { _, _ in
+                let albums: [Album] = loadPreviewData(filename: "artist-albums")
+                try await Task.sleep(for: .seconds(2))
 
-            return InstanceStatus(
-                appName: instance.type.rawValue.capitalized,
-                instanceName: "Synology",
-                version: "5.2.6.8376"
-            )
-        }, rootFolders: { _ in
-            try await Task.sleep(for: .seconds(1))
+                return albums[0]
+            }, deleteAlbum: { _, _, _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return loadPreviewData(filename: "root-folders")
-        }, qualityProfiles: { _ in
-            try await Task.sleep(for: .seconds(1))
+                return Empty()
+            }, deleteTrackFile: { _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return loadPreviewData(filename: "quality-profiles")
-        }, getTags: { _ in
-            try await Task.sleep(for: .seconds(1))
-            let tags: [Tag] = loadPreviewData(filename: "tags")
-            return tags
-        }, fetchQueueTasks: { instance in
-            try await Task.sleep(for: .seconds(1))
+                return Empty()
+            }, deleteTrackFiles: { _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            let items: QueueItems = loadPreviewData(
-                filename: instance.type == .sonarr ? "series-queue" : "movie-queue"
-            )
+                return Empty()
+            },
 
-            return modifyQueueItems(items, instance)
-        }, deleteQueueTask: { _, _, _, _, _ in
-            try await Task.sleep(for: .seconds(3))
+            // Start Sonarr suite
+            fetchSeries: { _ in
+                try await Task.sleep(for: .seconds(1))
 
-            return Empty()
-        }, fetchImportableFiles: { _, instance in
-            try await Task.sleep(for: .seconds(1))
+                return loadPreviewData(filename: "series")
+            }, fetchEpisodes: { _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            let files: [ImportableFile] = loadPreviewData(
-                filename: instance.type == .sonarr ? "sonarr-manual-import" : "radarr-manual-import"
-            )
+                return loadPreviewData(filename: "series-episodes")
+            }, fetchEpisodeFiles: { _, _ in
+                try await Task.sleep(for: .seconds(1))
 
-            return files
-        }, fetchHistory: { _, _, _, instance in
-            try await Task.sleep(for: .seconds(2))
+                return loadPreviewData(filename: "series-episode-files")
+            }, lookupSeries: { _, _ in
+                try await Task.sleep(for: .seconds(1))
 
-            let events: MediaHistory = loadPreviewData(
-                filename: instance.type == .sonarr ? "sonarr-history" : "radarr-history"
-            )
+                return loadPreviewData(filename: "series-lookup")
+            }, lookupSeriesReleases: { _, _, _, _ in
+                try await Task.sleep(for: .seconds(1))
 
-            return events
-        }, fetchNotifications: { _ in
-            try await Task.sleep(for: .seconds(2))
+                return loadPreviewData(filename: "series-releases")
+            }, getSeries: { _, _ in
+                let series: [Series] = loadPreviewData(filename: "series")
+                try await Task.sleep(for: .seconds(1))
 
-            return loadPreviewData(filename: "notifications")
-        }, createNotification: { _, _ in
-            let notifications: [InstanceNotification] = loadPreviewData(filename: "notifications")
-            try await Task.sleep(for: .seconds(2))
+                return series[0]
+            }, addSeries: { _, _ in
+                let series: [Series] = loadPreviewData(filename: "series")
+                try await Task.sleep(for: .seconds(2))
 
-            return notifications[0]
-        }, updateNotification: { _, _ in
-            let notifications: [InstanceNotification] = loadPreviewData(filename: "notifications")
-            try await Task.sleep(for: .seconds(2))
+                return series[0]
+            }, pushSeries: { _, _ in
+                let series: [Series] = loadPreviewData(filename: "series")
+                try await Task.sleep(for: .seconds(2))
 
-            return notifications[0]
-        }, deleteNotification: { _, _ in
-            try await Task.sleep(for: .seconds(2))
+                return series[0]
+            }, updateSeries: { _, _, _ in
+                try await Task.sleep(for: .seconds(2))
 
-            return Empty()
-        })
+                return Empty()
+            }, deleteSeries: { _, _, _, _ in
+                try await Task.sleep(for: .seconds(2))
+
+                return Empty()
+            }, monitorEpisode: { _, _, _ in
+                try await Task.sleep(for: .seconds(2))
+
+                return Empty()
+            }, getEpisodeHistory: { _, _ in
+                let events: MediaHistory = loadPreviewData(filename: "series-episode-history")
+                try await Task.sleep(for: .seconds(2))
+
+                return events
+            }, deleteEpisodeFile: { _, _ in
+                try await Task.sleep(for: .seconds(2))
+
+                return Empty()
+            }, deleteEpisodeFiles: { _, _ in
+                try await Task.sleep(for: .seconds(2))
+
+                return Empty()
+            },
+
+            // Instance calendars
+
+            albumCalendar: { _, _, instance in
+                try await Task.sleep(for: .seconds(2))
+                let albums: [Album] = loadPreviewData(filename: "calendar-albums")
+
+                return modifyCalendarAlbum(albums, instance)
+            }, movieCalendar: { _, _, instance in
+                try await Task.sleep(for: .seconds(2))
+                let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
+
+                return modifyCalendarMovies(movies, instance)
+            }, episodeCalendar: { _, _, instance in
+                try await Task.sleep(for: .seconds(3))
+                let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
+
+                return modifyCalendarEpisodes(episodes, instance)
+            },
+
+            // Generic instance requests
+            command: { _, _ in
+                try await Task.sleep(for: .seconds(2))
+
+                return Empty()
+            }, downloadRelease: { _, _ in
+                try await Task.sleep(for: .seconds(1))
+
+                return Empty()
+            }, systemStatus: { instance in
+                try await Task.sleep(for: .seconds(2))
+
+                return InstanceStatus(
+                    appName: instance.type.rawValue.capitalized,
+                    instanceName: "Synology",
+                    version: "5.2.6.8376"
+                )
+            }, rootFolders: { _ in
+                try await Task.sleep(for: .seconds(1))
+
+                return loadPreviewData(filename: "root-folders")
+            }, qualityProfiles: { _ in
+                try await Task.sleep(for: .seconds(1))
+
+                return loadPreviewData(filename: "quality-profiles")
+            }, metadataProfiles: { _ in
+                try await Task.sleep(for: .seconds(1))
+
+                return loadPreviewData(filename: "metadata-profiles")
+            }, getTags: { _ in
+                try await Task.sleep(for: .seconds(1))
+                let tags: [Tag] = loadPreviewData(filename: "tags")
+                return tags
+            }, fetchQueueTasks: { instance in
+                try await Task.sleep(for: .seconds(1))
+
+                let queuePrefix = switch instance.type {
+                case .sonarr: "series"
+                case .radarr: "movie"
+                case .lidarr: "artist"
+                }
+
+                let items: QueueItems = loadPreviewData(
+                    filename: "\(queuePrefix)-queue"
+                )
+
+                return modifyQueueItems(items, instance)
+            }, deleteQueueTask: { _, _, _, _, _ in
+                try await Task.sleep(for: .seconds(3))
+
+                return Empty()
+            }, fetchImportableFiles: { _, instance in
+                try await Task.sleep(for: .seconds(1))
+
+                let filePrefix = getFilePrefix(for: instance.type)
+                let files: [ImportableFile] = loadPreviewData(
+                    filename: "\(filePrefix)-manual-import"
+                )
+
+                return files
+            }, fetchHistory: { _, _, _, instance in
+                try await Task.sleep(for: .seconds(2))
+
+                let filePrefix = getFilePrefix(for: instance.type)
+                let events: MediaHistory = loadPreviewData(
+                    filename: "\(filePrefix)-history"
+                )
+
+                return events
+            }, fetchNotifications: { _ in
+                try await Task.sleep(for: .seconds(2))
+
+                return loadPreviewData(filename: "notifications")
+            }, createNotification: { _, _ in
+                let notifications: [InstanceNotification] = loadPreviewData(filename: "notifications")
+                try await Task.sleep(for: .seconds(2))
+
+                return notifications[0]
+            }, updateNotification: { _, _ in
+                let notifications: [InstanceNotification] = loadPreviewData(filename: "notifications")
+                try await Task.sleep(for: .seconds(2))
+
+                return notifications[0]
+            }, deleteNotification: { _, _ in
+                try await Task.sleep(for: .seconds(2))
+
+                return Empty()
+            })
     }
 }
 
 fileprivate extension API {
+    static func getFilePrefix(for instanceType: InstanceType) -> String {
+        switch instanceType {
+        case .lidarr:
+            "lidarr"
+        case .radarr:
+            "radarr"
+        case .sonarr:
+            "sonarr"
+        }
+    }
+
     static func loadPreviewData<Model: Decodable>(filename: String) -> Model {
         if let path = Bundle.main.path(forResource: filename, ofType: "json") {
             do {
@@ -242,6 +377,20 @@ private func modifyQueueItems(_ items: QueueItems, _ instance: Instance) -> Queu
     }
 
     return modifiedItems
+}
+
+private func modifyCalendarAlbum(_ items: [Album], _ instance: Instance) -> [Album] {
+    let date = Calendar.current.date(from: DateComponents(year: 2_026, month: 1, day: 30, hour: 12))
+    let days = Calendar.current.dateComponents([.day], from: date!, to: .now).day!
+
+    return items.map { item in
+        var album = item
+
+        album.instanceId = instance.id
+        album.releaseDate = Calendar.current.date(byAdding: .day, value: Int(days), to: album.releaseDate ?? Date.now)
+
+        return album
+    }
 }
 
 private func modifyCalendarMovies(_ items: [Movie], _ instance: Instance) -> [Movie] {

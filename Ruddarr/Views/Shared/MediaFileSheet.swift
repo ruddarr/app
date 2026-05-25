@@ -104,16 +104,20 @@ struct MediaFileSheet: View {
                         String(localized: "Bitrate"),
                         file.videoBitrateLabel(runtime) ?? "--"
                     )
-                    Divider()
-                    row(
-                        String(localized: "Framerate", comment: "Video frame rate"),
-                        String(format: "%.0f fps", media.videoFps)
-                    )
-                    Divider()
-                    row(
-                        String(localized: "Color Depth", comment: "Video color depth"),
-                        "\(media.videoBitDepth) bit"
-                    )
+                    if let videoFps = media.videoFps {
+                        Divider()
+                        row(
+                            String(localized: "Framerate", comment: "Video frame rate"),
+                            String(format: "%.0f fps", videoFps)
+                        )
+                    }
+                    if let videoBitDepth = media.videoBitDepth {
+                        Divider()
+                        row(
+                            String(localized: "Color Depth", comment: "Video color depth"),
+                            "\(videoBitDepth) bit"
+                        )
+                    }
                     Divider()
                     row(
                         String(localized: "Scan Type", comment: "Video scan Type"),
@@ -130,6 +134,7 @@ struct MediaFileSheet: View {
 
     @ViewBuilder
     var audioMetadata: some View {
+        // swiftlint:disable closure_body_length
         if let media = file.mediaInfo {
             Section {
                 VStack(spacing: 6) {
@@ -137,24 +142,28 @@ struct MediaFileSheet: View {
                         String(localized: "Codec", comment: "Audio/video codec"),
                         media.audioCodec ?? "--"
                     )
-                    Divider()
-                    row(
-                        String(localized: "Channels", comment: "Audio channel count"),
-                        "\(media.audioChannels)"
-                    )
+                    if let audioChannels = media.audioChannels {
+                        Divider()
+                        row(
+                            String(localized: "Channels", comment: "Audio channel count"),
+                            "\(audioChannels)"
+                        )
+                    }
                     Divider()
                     row(
                         String(localized: "Bitrate", comment: "Audio/video bitrate"),
                         formatBitrate(media.audioBitrate) ?? "--"
                     )
-                    Divider()
-                    row(
-                        String(localized: "Streams", comment: "Audio stream count"),
-                        "\(media.audioStreamCount)"
-                    )
-                    Divider()
+                    if let audioStreamCount = media.audioStreamCount {
+                        Divider()
+                        row(
+                            String(localized: "Streams", comment: "Audio stream count"),
+                            "\(audioStreamCount)"
+                        )
+                    }
 
                     if let codes = media.audioLanguageCodes {
+                        Divider()
                         row(
                             String(localized: "Languages"),
                             codes.count <= 3 ? languagesList(codes) : ""
@@ -178,6 +187,7 @@ struct MediaFileSheet: View {
                     .padding(.bottom, 4)
             }
         }
+        // swiftlint:enable closure_body_length
     }
 
     @ViewBuilder

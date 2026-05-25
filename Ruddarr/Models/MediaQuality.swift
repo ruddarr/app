@@ -7,8 +7,8 @@ struct MediaQuality: Equatable, Codable {
 
 struct MediaQualityDetails: Equatable, Codable {
     let name: String?
-    let source: MediaQualitySource
-    let resolution: Int
+    let source: MediaQualitySource?
+    let resolution: Int?
     let modifier: MediaReleaseQualityModifier?
 
     var label: String {
@@ -33,19 +33,19 @@ struct MediaQualityDetails: Equatable, Codable {
 
     var sourceLabel: String {
         switch source {
-        case .unknown: String(localized: "Unknown")
         case .cam: "CAM"
         case .telesync: "TELESYNC"
         case .telecine: "TELECINE"
         case .workprint: "WORKPRINT"
         case .dvd: "DVD"
         case .tv: "TV"
-        case .television: resolution < 480 ? "SDTV" : "HDTV"
+        case .television: resolution ?? 0 < 480 ? "SDTV" : "HDTV"
         case .televisionRaw: "Raw-HD"
         case .web, .webdl: "WEBDL"
         case .webrip, .webRip: "WEBRip"
         case .bluray: "Bluray"
         case .blurayRaw: "Remux"
+        default: String(localized: "Unknown")
         }
     }
 }

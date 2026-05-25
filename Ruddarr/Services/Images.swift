@@ -70,13 +70,16 @@ class Images {
 
 enum ImageType {
     case poster
+    case artist
 
     var size: CGSize {
         switch self {
         #if os(macOS)
             case .poster: CGSize(width: 325, height: 488)
+            case .artist: CGSize(width: 325, height: 325)
         #else
             case .poster: CGSize(width: 250, height: 375)
+            case .artist: CGSize(width: 250, height: 250)
         #endif
         }
     }

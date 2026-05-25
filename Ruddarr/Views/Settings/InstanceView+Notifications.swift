@@ -234,6 +234,81 @@ extension InstanceView {
             }
         }
     }
+
+    var lidarrNotifications: some View {
+        Group {
+            if webhook.model.supportsOnArtistAdd ?? false {
+                Toggle("Artist Added", isOn: Binding<Bool>(
+                    get: { self.webhook.model.onArtistAdd ?? false },
+                    set: { newValue in self.webhook.model.onArtistAdd = newValue }
+                ))
+                .onChange(of: webhook.model.onArtistAdd, updateWebhook)
+            }
+
+            if webhook.model.supportsOnGrab ?? false {
+                Toggle("Album Downloading", isOn: $webhook.model.onGrab)
+                    .onChange(of: webhook.model.onGrab, updateWebhook)
+            }
+
+            if webhook.model.supportsOnDownload ?? false {
+                Toggle("Album Imported", isOn: $webhook.model.onDownload)
+                    .onChange(of: webhook.model.onDownload, updateWebhook)
+            }
+
+            if webhook.model.onDownload && webhook.model.supportsOnUpgrade ?? false {
+                Toggle("Album Upgraded", isOn: $webhook.model.onUpgrade)
+                    .onChange(of: webhook.model.onUpgrade, updateWebhook)
+            }
+
+            if webhook.model.supportsOnArtistDelete ?? false {
+                Toggle("Artist Deleted", isOn: Binding<Bool>(
+                    get: { self.webhook.model.onArtistDelete ?? false },
+                    set: { newValue in self.webhook.model.onArtistDelete = newValue }
+                ))
+                .onChange(of: webhook.model.onArtistDelete, updateWebhook)
+            }
+
+            if webhook.model.supportsOnAlbumDelete ?? false {
+                Toggle("Album Deleted", isOn: Binding<Bool>(
+                    get: { self.webhook.model.onAlbumDelete ?? false },
+                    set: { newValue in self.webhook.model.onAlbumDelete = newValue }
+                ))
+                .onChange(of: webhook.model.onAlbumDelete, updateWebhook)
+            }
+
+            if webhook.model.supportsOnManualInteractionRequired ?? false {
+                Toggle("Manual Interaction Required", isOn: Binding(
+                    get: { webhook.model.onManualInteractionRequired ?? false },
+                    set: { webhook.model.onManualInteractionRequired = $0 }
+                ))
+                .onChange(of: webhook.model.onManualInteractionRequired, updateWebhook)
+            }
+
+            if webhook.model.supportsOnHealthIssue ?? false {
+                Toggle("Health Issue", isOn: $webhook.model.onHealthIssue)
+                    .onChange(of: webhook.model.onHealthIssue, updateWebhook)
+
+                if webhook.model.onHealthIssue {
+                    Toggle("Include Warnings", isOn: $webhook.model.includeHealthWarnings)
+                        .onChange(of: webhook.model.includeHealthWarnings, updateWebhook)
+                        .padding(.leading)
+                }
+            }
+
+            if webhook.model.supportsOnHealthRestored ?? false {
+                Toggle("Health Restored", isOn: Binding(
+                    get: { webhook.model.onHealthRestored ?? false },
+                    set: { webhook.model.onHealthRestored = $0 }
+                ))
+                .onChange(of: webhook.model.onHealthRestored, updateWebhook)
+            }
+
+            if webhook.model.supportsOnApplicationUpdate ?? false {
+                Toggle("Application Updated", isOn: $webhook.model.onApplicationUpdate)
+                    .onChange(of: webhook.model.onApplicationUpdate, updateWebhook)
+            }
+        }
+    }
     // swiftlint:enable closure_body_length
 }
 

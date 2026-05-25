@@ -1,0 +1,3969 @@
+{
+  "page": 1,
+  "pageSize": 250,
+  "sortKey": "date",
+  "sortDirection": "descending",
+  "totalRecords": 132,
+  "records": [
+    {
+      "albumId": 1182,
+      "artistId": 159,
+      "trackId": 40282,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/2 Time Changes Everything/03 Everything.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:14Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/2 Time Changes Everything/03 Everything.mp3",
+        "path": "/mnt/europa/music/EDEN/Time Changes Everything (2013)/EDEN - Time Changes Everything - 03 - Everything.mp3",
+        "releaseGroup": null,
+        "size": "15058494",
+        "indexerFlags": "0"
+      },
+      "id": 1633
+    },
+    {
+      "albumId": 1182,
+      "artistId": 159,
+      "trackId": 40281,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/2 Time Changes Everything/02 Changes (Feat. Laura Brehm).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:14Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/2 Time Changes Everything/02 Changes (Feat. Laura Brehm).mp3",
+        "path": "/mnt/europa/music/EDEN/Time Changes Everything (2013)/EDEN - Time Changes Everything - 02 - Changes.mp3",
+        "releaseGroup": null,
+        "size": "14575748",
+        "indexerFlags": "0"
+      },
+      "id": 1632
+    },
+    {
+      "albumId": 1182,
+      "artistId": 159,
+      "trackId": 40280,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/2 Time Changes Everything/01 Time.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:14Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/2 Time Changes Everything/01 Time.mp3",
+        "path": "/mnt/europa/music/EDEN/Time Changes Everything (2013)/EDEN - Time Changes Everything - 01 - Time.mp3",
+        "releaseGroup": null,
+        "size": "13916414",
+        "indexerFlags": "0"
+      },
+      "id": 1631
+    },
+    {
+      "albumId": 1205,
+      "artistId": 159,
+      "trackId": 40404,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/05 Man Down.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:08Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/05 Man Down.mp3",
+        "path": "/mnt/europa/music/EDEN/Bipolar Paradise (2014)/Digital Media 01/EDEN - Bipolar Paradise - 05 - Man Down.mp3",
+        "releaseGroup": null,
+        "size": "13104079",
+        "indexerFlags": "0"
+      },
+      "id": 1630
+    },
+    {
+      "albumId": 1205,
+      "artistId": 159,
+      "trackId": 40403,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/04 Soul.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:08Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/04 Soul.mp3",
+        "path": "/mnt/europa/music/EDEN/Bipolar Paradise (2014)/Digital Media 01/EDEN - Bipolar Paradise - 04 - Soul.mp3",
+        "releaseGroup": null,
+        "size": "5444346",
+        "indexerFlags": "0"
+      },
+      "id": 1629
+    },
+    {
+      "albumId": 1205,
+      "artistId": 159,
+      "trackId": 40402,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/03 Jupiter.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:08Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/03 Jupiter.mp3",
+        "path": "/mnt/europa/music/EDEN/Bipolar Paradise (2014)/Digital Media 01/EDEN - Bipolar Paradise - 03 - Jupiter.mp3",
+        "releaseGroup": null,
+        "size": "10291050",
+        "indexerFlags": "0"
+      },
+      "id": 1628
+    },
+    {
+      "albumId": 1205,
+      "artistId": 159,
+      "trackId": 40406,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/z-01 Fumes_Drowning First Draft.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:08Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/z-01 Fumes_Drowning First Draft.mp3",
+        "path": "/mnt/europa/music/EDEN/Bipolar Paradise (2014)/Digital Media 02/EDEN - Bipolar Paradise - 02 - Fumes+Drowning (First Draft).mp3",
+        "releaseGroup": null,
+        "size": "5974643",
+        "indexerFlags": "0"
+      },
+      "id": 1627
+    },
+    {
+      "albumId": 1205,
+      "artistId": 159,
+      "trackId": 40401,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/02 Fumes.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:08Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/02 Fumes.mp3",
+        "path": "/mnt/europa/music/EDEN/Bipolar Paradise (2014)/Digital Media 01/EDEN - Bipolar Paradise - 02 - Fumes.mp3",
+        "releaseGroup": null,
+        "size": "9116256",
+        "indexerFlags": "0"
+      },
+      "id": 1626
+    },
+    {
+      "albumId": 1205,
+      "artistId": 159,
+      "trackId": 40405,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/01 drowning..mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:08Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/01 drowning..mp3",
+        "path": "/mnt/europa/music/EDEN/Bipolar Paradise (2014)/Digital Media 02/EDEN - Bipolar Paradise - 01 - drowning. (clean).mp3",
+        "releaseGroup": null,
+        "size": "10693956",
+        "indexerFlags": "0"
+      },
+      "id": 1625
+    },
+    {
+      "albumId": 1205,
+      "artistId": 159,
+      "trackId": 40400,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/z-01 drowning. [clean].mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:08Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/6 Bipolar Paradise/z-01 drowning. [clean].mp3",
+        "path": "/mnt/europa/music/EDEN/Bipolar Paradise (2014)/Digital Media 01/EDEN - Bipolar Paradise - 01 - drowning.mp3",
+        "releaseGroup": null,
+        "size": "10695018",
+        "indexerFlags": "0"
+      },
+      "id": 1624
+    },
+    {
+      "albumId": 1211,
+      "artistId": 159,
+      "trackId": 40421,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/5 Entrance/05 Circles [Bonus Track].mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:00Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/5 Entrance/05 Circles [Bonus Track].mp3",
+        "path": "/mnt/europa/music/EDEN/Entrance (2014)/EDEN - Entrance - 05 - Circles.mp3",
+        "releaseGroup": null,
+        "size": "12213343",
+        "indexerFlags": "0"
+      },
+      "id": 1623
+    },
+    {
+      "albumId": 1211,
+      "artistId": 159,
+      "trackId": 40420,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/5 Entrance/04 Crush.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:00Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/5 Entrance/04 Crush.mp3",
+        "path": "/mnt/europa/music/EDEN/Entrance (2014)/EDEN - Entrance - 04 - Crush.mp3",
+        "releaseGroup": null,
+        "size": "11823640",
+        "indexerFlags": "0"
+      },
+      "id": 1622
+    },
+    {
+      "albumId": 1211,
+      "artistId": 159,
+      "trackId": 40419,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/5 Entrance/03 Better Together.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:00Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/5 Entrance/03 Better Together.mp3",
+        "path": "/mnt/europa/music/EDEN/Entrance (2014)/EDEN - Entrance - 03 - Better Together.mp3",
+        "releaseGroup": null,
+        "size": "14237364",
+        "indexerFlags": "0"
+      },
+      "id": 1621
+    },
+    {
+      "albumId": 1211,
+      "artistId": 159,
+      "trackId": 40418,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/5 Entrance/02 Lost.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:00Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/5 Entrance/02 Lost.mp3",
+        "path": "/mnt/europa/music/EDEN/Entrance (2014)/EDEN - Entrance - 02 - Lost.mp3",
+        "releaseGroup": null,
+        "size": "12570741",
+        "indexerFlags": "0"
+      },
+      "id": 1620
+    },
+    {
+      "albumId": 1211,
+      "artistId": 159,
+      "trackId": 40417,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/5 Entrance/01 Entrance.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:54:00Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/5 Entrance/01 Entrance.mp3",
+        "path": "/mnt/europa/music/EDEN/Entrance (2014)/EDEN - Entrance - 01 - Entrance.mp3",
+        "releaseGroup": null,
+        "size": "7251198",
+        "indexerFlags": "0"
+      },
+      "id": 1619
+    },
+    {
+      "albumId": 1153,
+      "artistId": 159,
+      "trackId": 36152,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/06 Times Like These.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/06 Times Like These.mp3",
+        "path": "/mnt/europa/music/EDEN/Final Call (2015)/Digital Media 01/EDEN - Final Call - 06 - Times Like These.mp3",
+        "releaseGroup": null,
+        "size": "12403491",
+        "indexerFlags": "0"
+      },
+      "id": 1618
+    },
+    {
+      "albumId": 1153,
+      "artistId": 159,
+      "trackId": 36151,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/05 XO.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/05 XO.mp3",
+        "path": "/mnt/europa/music/EDEN/Final Call (2015)/Digital Media 01/EDEN - Final Call - 05 - XO.mp3",
+        "releaseGroup": null,
+        "size": "7054568",
+        "indexerFlags": "0"
+      },
+      "id": 1617
+    },
+    {
+      "albumId": 1153,
+      "artistId": 159,
+      "trackId": 36150,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/04 woah.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/04 woah.mp3",
+        "path": "/mnt/europa/music/EDEN/Final Call (2015)/Digital Media 01/EDEN - Final Call - 04 - woah.mp3",
+        "releaseGroup": null,
+        "size": "8101248",
+        "indexerFlags": "0"
+      },
+      "id": 1616
+    },
+    {
+      "albumId": 1153,
+      "artistId": 159,
+      "trackId": 36149,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/03 Crazy in Love (Feat. Leah Kelly).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/03 Crazy in Love (Feat. Leah Kelly).mp3",
+        "path": "/mnt/europa/music/EDEN/Final Call (2015)/Digital Media 01/EDEN - Final Call - 03 - Crazy in Love.mp3",
+        "releaseGroup": null,
+        "size": "11377566",
+        "indexerFlags": "0"
+      },
+      "id": 1615
+    },
+    {
+      "albumId": 1153,
+      "artistId": 159,
+      "trackId": 36154,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/z-02 tell me.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/z-02 tell me.mp3",
+        "path": "/mnt/europa/music/EDEN/Final Call (2015)/Digital Media 02/EDEN - Final Call - 02 - tell me.mp3",
+        "releaseGroup": null,
+        "size": "4718676",
+        "indexerFlags": "0"
+      },
+      "id": 1614
+    },
+    {
+      "albumId": 1153,
+      "artistId": 159,
+      "trackId": 36148,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/02 Gone.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/02 Gone.mp3",
+        "path": "/mnt/europa/music/EDEN/Final Call (2015)/Digital Media 01/EDEN - Final Call - 02 - Gone.mp3",
+        "releaseGroup": null,
+        "size": "10276668",
+        "indexerFlags": "0"
+      },
+      "id": 1613
+    },
+    {
+      "albumId": 1153,
+      "artistId": 159,
+      "trackId": 36153,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/z-01 XO (Instrumental).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/z-01 XO (Instrumental).mp3",
+        "path": "/mnt/europa/music/EDEN/Final Call (2015)/Digital Media 02/EDEN - Final Call - 01 - XO (instrumental).mp3",
+        "releaseGroup": null,
+        "size": "6387378",
+        "indexerFlags": "0"
+      },
+      "id": 1612
+    },
+    {
+      "albumId": 1153,
+      "artistId": 159,
+      "trackId": 36147,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/01 Blank_Space.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/7 Final Call/01 Blank_Space.mp3",
+        "path": "/mnt/europa/music/EDEN/Final Call (2015)/Digital Media 01/EDEN - Final Call - 01 - Blank_Space.mp3",
+        "releaseGroup": null,
+        "size": "9247577",
+        "indexerFlags": "0"
+      },
+      "id": 1611
+    },
+    {
+      "albumId": 1206,
+      "artistId": 159,
+      "trackId": 40409,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/4 Remixes/03 Kuaga (The Eden Project Remix).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/4 Remixes/03 Kuaga (The Eden Project Remix).mp3",
+        "path": "/mnt/europa/music/EDEN/Remixes (2015)/EDEN - Remixes - 03 - Kuaga (The Eden Project remix).mp3",
+        "releaseGroup": null,
+        "size": "9256643",
+        "indexerFlags": "0"
+      },
+      "id": 1610
+    },
+    {
+      "albumId": 1206,
+      "artistId": 159,
+      "trackId": 40408,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/4 Remixes/02 Sleepless (The Eden Project Remix).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/4 Remixes/02 Sleepless (The Eden Project Remix).mp3",
+        "path": "/mnt/europa/music/EDEN/Remixes (2015)/EDEN - Remixes - 02 - Sleepless (The Eden Project remix).mp3",
+        "releaseGroup": null,
+        "size": "13142947",
+        "indexerFlags": "0"
+      },
+      "id": 1609
+    },
+    {
+      "albumId": 1206,
+      "artistId": 159,
+      "trackId": 40407,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/4 Remixes/01 Strangers (The Eden Project Remix).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/4 Remixes/01 Strangers (The Eden Project Remix).mp3",
+        "path": "/mnt/europa/music/EDEN/Remixes (2015)/EDEN - Remixes - 01 - Strangers (The Eden Project remix).mp3",
+        "releaseGroup": null,
+        "size": "13894173",
+        "indexerFlags": "0"
+      },
+      "id": 1608
+    },
+    {
+      "albumId": 1208,
+      "artistId": 159,
+      "trackId": 40414,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/I Am Spitfire/04 Spitfire Pt 3.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:27Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/I Am Spitfire/04 Spitfire Pt 3.mp3",
+        "path": "/mnt/europa/music/EDEN/I Am Spitfire (2015)/EDEN - I Am Spitfire - 04 - Spitfire Part 3.mp3",
+        "releaseGroup": null,
+        "size": "9191723",
+        "indexerFlags": "0"
+      },
+      "id": 1607
+    },
+    {
+      "albumId": 1208,
+      "artistId": 159,
+      "trackId": 40413,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/I Am Spitfire/03 Spitfire Pt 2.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:27Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/I Am Spitfire/03 Spitfire Pt 2.mp3",
+        "path": "/mnt/europa/music/EDEN/I Am Spitfire (2015)/EDEN - I Am Spitfire - 03 - Spitfire Part 2.mp3",
+        "releaseGroup": null,
+        "size": "11141508",
+        "indexerFlags": "0"
+      },
+      "id": 1606
+    },
+    {
+      "albumId": 1208,
+      "artistId": 159,
+      "trackId": 40412,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/I Am Spitfire/02 Spitfire Pt 1.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:27Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/I Am Spitfire/02 Spitfire Pt 1.mp3",
+        "path": "/mnt/europa/music/EDEN/I Am Spitfire (2015)/EDEN - I Am Spitfire - 02 - Spitfire Part 1.mp3",
+        "releaseGroup": null,
+        "size": "10504115",
+        "indexerFlags": "0"
+      },
+      "id": 1605
+    },
+    {
+      "albumId": 1208,
+      "artistId": 159,
+      "trackId": 40411,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/I Am Spitfire/01 I Am.m4a",
+      "quality": {
+        "quality": {
+          "id": 10,
+          "name": "AAC-256"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:53:27Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/I Am Spitfire/01 I Am.m4a",
+        "path": "/mnt/europa/music/EDEN/I Am Spitfire (2015)/EDEN - I Am Spitfire - 01 - I Am.m4a",
+        "releaseGroup": null,
+        "size": "8329676",
+        "indexerFlags": "0"
+      },
+      "id": 1604
+    },
+    {
+      "albumId": 1203,
+      "artistId": 159,
+      "trackId": 40372,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/2-01 Chasing Ghosts Original Concept.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:52:09Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/2-01 Chasing Ghosts Original Concept.mp3",
+        "path": "/mnt/europa/music/EDEN/Kairos (2015)/EDEN - Kairos - 10 - Chasing Ghosts (original concept).mp3",
+        "releaseGroup": null,
+        "size": "11379900",
+        "indexerFlags": "0"
+      },
+      "id": 1603
+    },
+    {
+      "albumId": 1203,
+      "artistId": 159,
+      "trackId": 40371,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/09 Chasing Ghosts.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:52:09Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/09 Chasing Ghosts.mp3",
+        "path": "/mnt/europa/music/EDEN/Kairos (2015)/EDEN - Kairos - 09 - Chasing Ghosts.mp3",
+        "releaseGroup": null,
+        "size": "11866023",
+        "indexerFlags": "0"
+      },
+      "id": 1602
+    },
+    {
+      "albumId": 1203,
+      "artistId": 159,
+      "trackId": 40370,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/08 Death of a Dream.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:52:09Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/08 Death of a Dream.mp3",
+        "path": "/mnt/europa/music/EDEN/Kairos (2015)/EDEN - Kairos - 08 - Death of a Dream.mp3",
+        "releaseGroup": null,
+        "size": "11473817",
+        "indexerFlags": "0"
+      },
+      "id": 1601
+    },
+    {
+      "albumId": 1203,
+      "artistId": 159,
+      "trackId": 40369,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/07 Limitless.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:52:09Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/07 Limitless.mp3",
+        "path": "/mnt/europa/music/EDEN/Kairos (2015)/EDEN - Kairos - 07 - Limitless.mp3",
+        "releaseGroup": null,
+        "size": "12200375",
+        "indexerFlags": "0"
+      },
+      "id": 1600
+    },
+    {
+      "albumId": 1203,
+      "artistId": 159,
+      "trackId": 40368,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/06 Holdin' On (Inst).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:52:09Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/06 Holdin' On (Inst).mp3",
+        "path": "/mnt/europa/music/EDEN/Kairos (2015)/EDEN - Kairos - 06 - Holdin’ On (instrumental).mp3",
+        "releaseGroup": null,
+        "size": "12046086",
+        "indexerFlags": "0"
+      },
+      "id": 1599
+    },
+    {
+      "albumId": 1203,
+      "artistId": 159,
+      "trackId": 40367,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/05 Machines.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:52:09Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/05 Machines.mp3",
+        "path": "/mnt/europa/music/EDEN/Kairos (2015)/EDEN - Kairos - 05 - Machines.mp3",
+        "releaseGroup": null,
+        "size": "12142934",
+        "indexerFlags": "0"
+      },
+      "id": 1598
+    },
+    {
+      "albumId": 1203,
+      "artistId": 159,
+      "trackId": 40366,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/04 First & Last.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:52:09Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/04 First & Last.mp3",
+        "path": "/mnt/europa/music/EDEN/Kairos (2015)/EDEN - Kairos - 04 - First & Last.mp3",
+        "releaseGroup": null,
+        "size": "14314725",
+        "indexerFlags": "0"
+      },
+      "id": 1597
+    },
+    {
+      "albumId": 1203,
+      "artistId": 159,
+      "trackId": 40365,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/03 Kairos.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:52:09Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/03 Kairos.mp3",
+        "path": "/mnt/europa/music/EDEN/Kairos (2015)/EDEN - Kairos - 03 - Kairos.mp3",
+        "releaseGroup": null,
+        "size": "11583948",
+        "indexerFlags": "0"
+      },
+      "id": 1596
+    },
+    {
+      "albumId": 1203,
+      "artistId": 159,
+      "trackId": 40364,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/02 Statues (Feat. Leah Kelly).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:52:09Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/02 Statues (Feat. Leah Kelly).mp3",
+        "path": "/mnt/europa/music/EDEN/Kairos (2015)/EDEN - Kairos - 02 - Statues.mp3",
+        "releaseGroup": null,
+        "size": "12799527",
+        "indexerFlags": "0"
+      },
+      "id": 1595
+    },
+    {
+      "albumId": 1203,
+      "artistId": 159,
+      "trackId": 40363,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/01 After The Titanic.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:52:09Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/3 Kairos/01 After The Titanic.mp3",
+        "path": "/mnt/europa/music/EDEN/Kairos (2015)/EDEN - Kairos - 01 - After the Titanic.mp3",
+        "releaseGroup": null,
+        "size": "15625228",
+        "indexerFlags": "0"
+      },
+      "id": 1594
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40389,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/17 Rift (The Eden Project Remix).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:58Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/17 Rift (The Eden Project Remix).mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 17 - Rift (The Eden Project remix).mp3",
+        "releaseGroup": null,
+        "size": "14157913",
+        "indexerFlags": "0"
+      },
+      "id": 1593
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40388,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/16 Astronaut - Rain (The Eden Project Remix).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:58Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/16 Astronaut - Rain (The Eden Project Remix).mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 16 - Rain (The Eden Project remix).mp3",
+        "releaseGroup": null,
+        "size": "11146514",
+        "indexerFlags": "0"
+      },
+      "id": 1592
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40387,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/15 Chelsea Lankes - Ghost (The Eden Project Remix).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:58Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/15 Chelsea Lankes - Ghost (The Eden Project Remix).mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 15 - Ghost (The Eden Project remix).mp3",
+        "releaseGroup": null,
+        "size": "12957567",
+        "indexerFlags": "0"
+      },
+      "id": 1591
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40386,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/14 Say Something (Cover).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:58Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/14 Say Something (Cover).mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 14 - Say Something (cover).mp3",
+        "releaseGroup": null,
+        "size": "10839338",
+        "indexerFlags": "0"
+      },
+      "id": 1590
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40385,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/13 Koda - Staying (The Eden Project Edit).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:58Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/13 Koda - Staying (The Eden Project Edit).mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 13 - Staying (The Eden Project edit).mp3",
+        "releaseGroup": null,
+        "size": "10851235",
+        "indexerFlags": "0"
+      },
+      "id": 1589
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40384,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/12 Coalesce.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:58Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/12 Coalesce.mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 12 - Coalesce.mp3",
+        "releaseGroup": null,
+        "size": "11116721",
+        "indexerFlags": "0"
+      },
+      "id": 1588
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40383,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/11 Astronot.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:58Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/11 Astronot.mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 11 - Astronot.mp3",
+        "releaseGroup": null,
+        "size": "10747142",
+        "indexerFlags": "0"
+      },
+      "id": 1587
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40382,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/10 Closer (The Eden Project Remix).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:58Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/10 Closer (The Eden Project Remix).mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 10 - Closer (The Eden Project remix).mp3",
+        "releaseGroup": null,
+        "size": "12401304",
+        "indexerFlags": "0"
+      },
+      "id": 1586
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40381,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/09 Fallout (Original Mix).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/09 Fallout (Original Mix).mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 09 - Fallout (original mix).mp3",
+        "releaseGroup": null,
+        "size": "15334069",
+        "indexerFlags": "0"
+      },
+      "id": 1585
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40380,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/08 Babel.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/08 Babel.mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 08 - Babel.mp3",
+        "releaseGroup": null,
+        "size": "14510755",
+        "indexerFlags": "0"
+      },
+      "id": 1584
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40379,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/07 Solace.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/07 Solace.mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 07 - Solace.mp3",
+        "releaseGroup": null,
+        "size": "12381506",
+        "indexerFlags": "0"
+      },
+      "id": 1583
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40378,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/06 Grape....mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/06 Grape....mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 06 - Grape….mp3",
+        "releaseGroup": null,
+        "size": "10559655",
+        "indexerFlags": "0"
+      },
+      "id": 1582
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40394,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/z-05 I tired to be deadmau5 once.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/z-05 I tired to be deadmau5 once.mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 02/EDEN - Beginnings - 05 - I Tried to Be Deadmau5 Once.mp3",
+        "releaseGroup": null,
+        "size": "11366317",
+        "indexerFlags": "0"
+      },
+      "id": 1581
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40377,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/05 All Of The Lights (The Eden Project Remix).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/05 All Of The Lights (The Eden Project Remix).mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 05 - All of the Lights (The Eden Project remix).mp3",
+        "releaseGroup": null,
+        "size": "11704011",
+        "indexerFlags": "0"
+      },
+      "id": 1580
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40393,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/z-04 Feeling Good (Scrapped).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/z-04 Feeling Good (Scrapped).mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 02/EDEN - Beginnings - 04 - Feeling Good (scrapped).mp3",
+        "releaseGroup": null,
+        "size": "8225353",
+        "indexerFlags": "0"
+      },
+      "id": 1579
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40376,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/04 Fallin'.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/04 Fallin'.mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 04 - Fallin’.mp3",
+        "releaseGroup": null,
+        "size": "9410408",
+        "indexerFlags": "0"
+      },
+      "id": 1578
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40392,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/z-03 Billy Jean (The Eden Project Remix) [unreleased].mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/z-03 Billy Jean (The Eden Project Remix) [unreleased].mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 02/EDEN - Beginnings - 03 - Billy Jean (The Eden Project remix).mp3",
+        "releaseGroup": null,
+        "size": "9529386",
+        "indexerFlags": "0"
+      },
+      "id": 1577
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40375,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/03 L.I.F.E.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/03 L.I.F.E.mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 03 - L.I.F.E.mp3",
+        "releaseGroup": null,
+        "size": "12790503",
+        "indexerFlags": "0"
+      },
+      "id": 1576
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40391,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/z-02 Scrapped Some Chords Remix.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/z-02 Scrapped Some Chords Remix.mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 02/EDEN - Beginnings - 02 - Scrapped Some Chords (remix).mp3",
+        "releaseGroup": null,
+        "size": "3381207",
+        "indexerFlags": "0"
+      },
+      "id": 1575
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40374,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/02 Karma.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/02 Karma.mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 02 - Karma.mp3",
+        "releaseGroup": null,
+        "size": "11969223",
+        "indexerFlags": "0"
+      },
+      "id": 1574
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40390,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/z-01 Scrapped Instrumental.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/z-01 Scrapped Instrumental.mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 02/EDEN - Beginnings - 01 - Scrapped Instrumental.mp3",
+        "releaseGroup": null,
+        "size": "3933958",
+        "indexerFlags": "0"
+      },
+      "id": 1573
+    },
+    {
+      "albumId": 1204,
+      "artistId": 159,
+      "trackId": 40373,
+      "sourceTitle": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/01 Again.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:57Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/The Eden Project/1 Beginnings/01 Again.mp3",
+        "path": "/mnt/europa/music/EDEN/Beginnings (2015)/Digital Media 01/EDEN - Beginnings - 01 - Again.mp3",
+        "releaseGroup": null,
+        "size": "10986488",
+        "indexerFlags": "0"
+      },
+      "id": 1572
+    },
+    {
+      "albumId": 1183,
+      "artistId": 159,
+      "trackId": 40297,
+      "sourceTitle": "/mnt/europa/music/EDEN/End Credits EP/1-07 catch me if you can [Bonus Track].mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:33Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/End Credits EP/1-07 catch me if you can [Bonus Track].mp3",
+        "path": "/mnt/europa/music/EDEN/End Credits (2015)/EDEN - End Credits - 07 - Catch Me If You Can.mp3",
+        "releaseGroup": null,
+        "size": "8433124",
+        "indexerFlags": "0"
+      },
+      "id": 1571
+    },
+    {
+      "albumId": 1183,
+      "artistId": 159,
+      "trackId": 40296,
+      "sourceTitle": "/mnt/europa/music/EDEN/End Credits EP/1-06 Wake Up.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:33Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/End Credits EP/1-06 Wake Up.mp3",
+        "path": "/mnt/europa/music/EDEN/End Credits (2015)/EDEN - End Credits - 06 - Wake Up.mp3",
+        "releaseGroup": null,
+        "size": "12053682",
+        "indexerFlags": "0"
+      },
+      "id": 1570
+    },
+    {
+      "albumId": 1183,
+      "artistId": 159,
+      "trackId": 40295,
+      "sourceTitle": "/mnt/europa/music/EDEN/End Credits EP/1-05 Interlude.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:33Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/End Credits EP/1-05 Interlude.mp3",
+        "path": "/mnt/europa/music/EDEN/End Credits (2015)/EDEN - End Credits - 05 - Interlude.mp3",
+        "releaseGroup": null,
+        "size": "7430011",
+        "indexerFlags": "0"
+      },
+      "id": 1569
+    },
+    {
+      "albumId": 1183,
+      "artistId": 159,
+      "trackId": 40294,
+      "sourceTitle": "/mnt/europa/music/EDEN/End Credits EP/1-04 Nocturne.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:33Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/End Credits EP/1-04 Nocturne.mp3",
+        "path": "/mnt/europa/music/EDEN/End Credits (2015)/EDEN - End Credits - 04 - Nocturne.mp3",
+        "releaseGroup": null,
+        "size": "8764347",
+        "indexerFlags": "0"
+      },
+      "id": 1568
+    },
+    {
+      "albumId": 1183,
+      "artistId": 159,
+      "trackId": 40293,
+      "sourceTitle": "/mnt/europa/music/EDEN/End Credits EP/1-03 Gravity.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:33Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/End Credits EP/1-03 Gravity.mp3",
+        "path": "/mnt/europa/music/EDEN/End Credits (2015)/EDEN - End Credits - 03 - Gravity.mp3",
+        "releaseGroup": null,
+        "size": "10080917",
+        "indexerFlags": "0"
+      },
+      "id": 1567
+    },
+    {
+      "albumId": 1183,
+      "artistId": 159,
+      "trackId": 40292,
+      "sourceTitle": "/mnt/europa/music/EDEN/End Credits EP/1-02 End Credits (Feat. Leah Kelly).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:33Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/End Credits EP/1-02 End Credits (Feat. Leah Kelly).mp3",
+        "path": "/mnt/europa/music/EDEN/End Credits (2015)/EDEN - End Credits - 02 - End Credits.mp3",
+        "releaseGroup": null,
+        "size": "10475892",
+        "indexerFlags": "0"
+      },
+      "id": 1566
+    },
+    {
+      "albumId": 1183,
+      "artistId": 159,
+      "trackId": 40291,
+      "sourceTitle": "/mnt/europa/music/EDEN/End Credits EP/1-01 02;09.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:51:33Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/End Credits EP/1-01 02;09.mp3",
+        "path": "/mnt/europa/music/EDEN/End Credits (2015)/EDEN - End Credits - 01 - 02-09.mp3",
+        "releaseGroup": null,
+        "size": "10905338",
+        "indexerFlags": "0"
+      },
+      "id": 1565
+    },
+    {
+      "albumId": 1129,
+      "artistId": 159,
+      "trackId": 36128,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/07. EDEN - i think you think too much of me - Circles.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/07. EDEN - i think you think too much of me - Circles.mp3",
+        "path": "/mnt/europa/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 07 - Circles.mp3",
+        "releaseGroup": null,
+        "size": "11058503",
+        "indexerFlags": "0"
+      },
+      "id": 1564
+    },
+    {
+      "albumId": 1129,
+      "artistId": 159,
+      "trackId": 36127,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/06. EDEN - i think you think too much of me - XO.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/06. EDEN - i think you think too much of me - XO.mp3",
+        "path": "/mnt/europa/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 06 - XO.mp3",
+        "releaseGroup": null,
+        "size": "6452582",
+        "indexerFlags": "0"
+      },
+      "id": 1563
+    },
+    {
+      "albumId": 1129,
+      "artistId": 159,
+      "trackId": 36126,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/05. EDEN - i think you think too much of me - Fumes (feat. gnash).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/05. EDEN - i think you think too much of me - Fumes (feat. gnash).mp3",
+        "path": "/mnt/europa/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 05 - Fumes.mp3",
+        "releaseGroup": null,
+        "size": "8657351",
+        "indexerFlags": "0"
+      },
+      "id": 1562
+    },
+    {
+      "albumId": 1129,
+      "artistId": 159,
+      "trackId": 36125,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/04. EDEN - i think you think too much of me - rock + roll.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/04. EDEN - i think you think too much of me - rock + roll.mp3",
+        "path": "/mnt/europa/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 04 - rock + roll.mp3",
+        "releaseGroup": null,
+        "size": "11914282",
+        "indexerFlags": "0"
+      },
+      "id": 1561
+    },
+    {
+      "albumId": 1129,
+      "artistId": 159,
+      "trackId": 36124,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/03. EDEN - i think you think too much of me - and.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/03. EDEN - i think you think too much of me - and.mp3",
+        "path": "/mnt/europa/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 03 - and.mp3",
+        "releaseGroup": null,
+        "size": "5406641",
+        "indexerFlags": "0"
+      },
+      "id": 1560
+    },
+    {
+      "albumId": 1129,
+      "artistId": 159,
+      "trackId": 36123,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/02. EDEN - i think you think too much of me - drugs.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/02. EDEN - i think you think too much of me - drugs.mp3",
+        "path": "/mnt/europa/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 02 - drugs.mp3",
+        "releaseGroup": null,
+        "size": "13604915",
+        "indexerFlags": "0"
+      },
+      "id": 1559
+    },
+    {
+      "albumId": 1129,
+      "artistId": 159,
+      "trackId": 36122,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/01. EDEN - i think you think too much of me - sex.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:50Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - i think you think too much of me (2016)/01. EDEN - i think you think too much of me - sex.mp3",
+        "path": "/mnt/europa/music/EDEN/I Think You Think Too Much of Me (2016)/EDEN - I Think You Think Too Much of Me - 01 - sex.mp3",
+        "releaseGroup": null,
+        "size": "8824503",
+        "indexerFlags": "0"
+      },
+      "id": 1558
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36167,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/13. EDEN - vertigo - falling in reverse.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/13. EDEN - vertigo - falling in reverse.mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 13 - falling in reverse.mp3",
+        "releaseGroup": null,
+        "size": "12260110",
+        "indexerFlags": "0"
+      },
+      "id": 1557
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36166,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/12. EDEN - vertigo - love; not wrong (brave).mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/12. EDEN - vertigo - love; not wrong (brave).mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 12 - love; not wrong (brave).mp3",
+        "releaseGroup": null,
+        "size": "8978835",
+        "indexerFlags": "0"
+      },
+      "id": 1556
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36165,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/11. EDEN - vertigo - wonder.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/11. EDEN - vertigo - wonder.mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 11 - wonder.mp3",
+        "releaseGroup": null,
+        "size": "10828738",
+        "indexerFlags": "0"
+      },
+      "id": 1555
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36164,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/10. EDEN - vertigo - float.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/10. EDEN - vertigo - float.mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 10 - float.mp3",
+        "releaseGroup": null,
+        "size": "8240577",
+        "indexerFlags": "0"
+      },
+      "id": 1554
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36163,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/09. EDEN - vertigo - forever over.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/09. EDEN - vertigo - forever over.mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 09 - forever++over.mp3",
+        "releaseGroup": null,
+        "size": "14002504",
+        "indexerFlags": "0"
+      },
+      "id": 1553
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36162,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/08. EDEN - vertigo - gold.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/08. EDEN - vertigo - gold.mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 08 - gold.mp3",
+        "releaseGroup": null,
+        "size": "8156095",
+        "indexerFlags": "0"
+      },
+      "id": 1552
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36161,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/07. EDEN - vertigo - crash.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/07. EDEN - vertigo - crash.mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 07 - crash.mp3",
+        "releaseGroup": null,
+        "size": "9584576",
+        "indexerFlags": "0"
+      },
+      "id": 1551
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36160,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/06. EDEN - vertigo - lost found.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/06. EDEN - vertigo - lost found.mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 06 - lost++found.mp3",
+        "releaseGroup": null,
+        "size": "8431622",
+        "indexerFlags": "0"
+      },
+      "id": 1550
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36159,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/05. EDEN - vertigo - icarus.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/05. EDEN - vertigo - icarus.mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 05 - icarus.mp3",
+        "releaseGroup": null,
+        "size": "16501377",
+        "indexerFlags": "0"
+      },
+      "id": 1549
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36158,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/04. EDEN - vertigo - wings.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/04. EDEN - vertigo - wings.mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 04 - wings.mp3",
+        "releaseGroup": null,
+        "size": "7375616",
+        "indexerFlags": "0"
+      },
+      "id": 1548
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36157,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/03. EDEN - vertigo - start end.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/03. EDEN - vertigo - start end.mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 03 - start++end.mp3",
+        "releaseGroup": null,
+        "size": "13647301",
+        "indexerFlags": "0"
+      },
+      "id": 1547
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36156,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/02. EDEN - vertigo - take care.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/02. EDEN - vertigo - take care.mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 02 - take care.mp3",
+        "releaseGroup": null,
+        "size": "8123460",
+        "indexerFlags": "0"
+      },
+      "id": 1546
+    },
+    {
+      "albumId": 1119,
+      "artistId": 159,
+      "trackId": 36155,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/01. EDEN - vertigo - wrong.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:42Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - vertigo (2018)/01. EDEN - vertigo - wrong.mp3",
+        "path": "/mnt/europa/music/EDEN/vertigo (2018)/EDEN - vertigo - 01 - wrong.mp3",
+        "releaseGroup": null,
+        "size": "2864576",
+        "indexerFlags": "0"
+      },
+      "id": 1545
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36068,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/19. EDEN - no future - untitled.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/19. EDEN - no future - untitled.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 19 - untitled.mp3",
+        "releaseGroup": null,
+        "size": "8697924",
+        "indexerFlags": "0"
+      },
+      "id": 1544
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36067,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/18. EDEN - no future - out.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/18. EDEN - no future - out.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 18 - out.mp3",
+        "releaseGroup": null,
+        "size": "1764994",
+        "indexerFlags": "0"
+      },
+      "id": 1543
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36066,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/17. EDEN - no future - 2020.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/17. EDEN - no future - 2020.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 17 - 2020.mp3",
+        "releaseGroup": null,
+        "size": "8503542",
+        "indexerFlags": "0"
+      },
+      "id": 1542
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36065,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/16. EDEN - no future - $treams.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/16. EDEN - no future - $treams.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 16 - $treams.mp3",
+        "releaseGroup": null,
+        "size": "8080361",
+        "indexerFlags": "0"
+      },
+      "id": 1541
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36064,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/15. EDEN - no future - rushing.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/15. EDEN - no future - rushing.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 15 - rushing.mp3",
+        "releaseGroup": null,
+        "size": "12364443",
+        "indexerFlags": "0"
+      },
+      "id": 1540
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36063,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/14. EDEN - no future - tides.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/14. EDEN - no future - tides.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 14 - tides.mp3",
+        "releaseGroup": null,
+        "size": "4178710",
+        "indexerFlags": "0"
+      },
+      "id": 1539
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36062,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/13. EDEN - no future - ____.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/13. EDEN - no future - ____.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 13.mp3",
+        "releaseGroup": null,
+        "size": "7240260",
+        "indexerFlags": "0"
+      },
+      "id": 1538
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36061,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/12. EDEN - no future - isohel.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/12. EDEN - no future - isohel.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 12 - isohel.mp3",
+        "releaseGroup": null,
+        "size": "10874444",
+        "indexerFlags": "0"
+      },
+      "id": 1537
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36060,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/11. EDEN - no future - so far so good.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/11. EDEN - no future - so far so good.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 11 - so far so good.mp3",
+        "releaseGroup": null,
+        "size": "8286213",
+        "indexerFlags": "0"
+      },
+      "id": 1536
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36059,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/10. EDEN - no future - fomo.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/10. EDEN - no future - fomo.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 10 - fomo.mp3",
+        "releaseGroup": null,
+        "size": "7630007",
+        "indexerFlags": "0"
+      },
+      "id": 1535
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36058,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/09. EDEN - no future - just saying.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/09. EDEN - no future - just saying.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 09 - just saying.mp3",
+        "releaseGroup": null,
+        "size": "9890155",
+        "indexerFlags": "0"
+      },
+      "id": 1534
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36057,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/08. EDEN - no future - calm down.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/08. EDEN - no future - calm down.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 08 - calm down.mp3",
+        "releaseGroup": null,
+        "size": "6261196",
+        "indexerFlags": "0"
+      },
+      "id": 1533
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36056,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/07. EDEN - no future - how to sleep.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/07. EDEN - no future - how to sleep.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 07 - how to sleep.mp3",
+        "releaseGroup": null,
+        "size": "6367805",
+        "indexerFlags": "0"
+      },
+      "id": 1532
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36055,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/06. EDEN - no future - love, death, distraction.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:38Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/06. EDEN - no future - love, death, distraction.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 06 - love, death, distraction.mp3",
+        "releaseGroup": null,
+        "size": "10330043",
+        "indexerFlags": "0"
+      },
+      "id": 1531
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36054,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/05. EDEN - no future - projector.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:37Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/05. EDEN - no future - projector.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 05 - projector.mp3",
+        "releaseGroup": null,
+        "size": "8936134",
+        "indexerFlags": "0"
+      },
+      "id": 1530
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36053,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/04. EDEN - no future - static.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:37Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/04. EDEN - no future - static.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 04 - static.mp3",
+        "releaseGroup": null,
+        "size": "2004278",
+        "indexerFlags": "0"
+      },
+      "id": 1529
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36052,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/03. EDEN - no future - hertz.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:37Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/03. EDEN - no future - hertz.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 03 - hertz.mp3",
+        "releaseGroup": null,
+        "size": "8004108",
+        "indexerFlags": "0"
+      },
+      "id": 1528
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36051,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/02. EDEN - no future - in.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:37Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/02. EDEN - no future - in.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 02 - in.mp3",
+        "releaseGroup": null,
+        "size": "1293744",
+        "indexerFlags": "0"
+      },
+      "id": 1527
+    },
+    {
+      "albumId": 1127,
+      "artistId": 159,
+      "trackId": 36050,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - no future (2020)/01. EDEN - no future - good morning.mp3",
+      "quality": {
+        "quality": {
+          "id": 4,
+          "name": "MP3-320"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:37Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - no future (2020)/01. EDEN - no future - good morning.mp3",
+        "path": "/mnt/europa/music/EDEN/no future (2020)/EDEN - no future - 01 - good morning.mp3",
+        "releaseGroup": null,
+        "size": "8427272",
+        "indexerFlags": "0"
+      },
+      "id": 1526
+    },
+    {
+      "albumId": 1133,
+      "artistId": 159,
+      "trackId": 36140,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/11. EDEN - ICYMI - Reaching 2.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:31Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/11. EDEN - ICYMI - Reaching 2.flac",
+        "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 11 - Reaching 2.flac",
+        "releaseGroup": null,
+        "size": "18634143",
+        "indexerFlags": "0"
+      },
+      "id": 1525
+    },
+    {
+      "albumId": 1133,
+      "artistId": 159,
+      "trackId": 36139,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/10. EDEN - ICYMI - Elsewhere.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:31Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/10. EDEN - ICYMI - Elsewhere.flac",
+        "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 10 - Elsewhere.flac",
+        "releaseGroup": null,
+        "size": "40969306",
+        "indexerFlags": "0"
+      },
+      "id": 1524
+    },
+    {
+      "albumId": 1133,
+      "artistId": 159,
+      "trackId": 36138,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/09. EDEN - ICYMI - Duvidha.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:31Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/09. EDEN - ICYMI - Duvidha.flac",
+        "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 09 - Duvidha.flac",
+        "releaseGroup": null,
+        "size": "11006771",
+        "indexerFlags": "0"
+      },
+      "id": 1523
+    },
+    {
+      "albumId": 1133,
+      "artistId": 159,
+      "trackId": 36137,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/08. EDEN - ICYMI - Call Me Back.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:31Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/08. EDEN - ICYMI - Call Me Back.flac",
+        "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 08 - Call Me Back.flac",
+        "releaseGroup": null,
+        "size": "42676465",
+        "indexerFlags": "0"
+      },
+      "id": 1522
+    },
+    {
+      "albumId": 1133,
+      "artistId": 159,
+      "trackId": 36136,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/07. EDEN - ICYMI - PS1.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:31Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/07. EDEN - ICYMI - PS1.flac",
+        "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 07 - PS1.flac",
+        "releaseGroup": null,
+        "size": "26922886",
+        "indexerFlags": "0"
+      },
+      "id": 1521
+    },
+    {
+      "albumId": 1133,
+      "artistId": 159,
+      "trackId": 36135,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/06. EDEN - ICYMI - Closer 2.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:31Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/06. EDEN - ICYMI - Closer 2.flac",
+        "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 06 - Closer 2.flac",
+        "releaseGroup": null,
+        "size": "25180187",
+        "indexerFlags": "0"
+      },
+      "id": 1520
+    },
+    {
+      "albumId": 1133,
+      "artistId": 159,
+      "trackId": 36134,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/05. EDEN - ICYMI - Waiting Room.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:31Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/05. EDEN - ICYMI - Waiting Room.flac",
+        "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 05 - Waiting Room.flac",
+        "releaseGroup": null,
+        "size": "13770770",
+        "indexerFlags": "0"
+      },
+      "id": 1519
+    },
+    {
+      "albumId": 1133,
+      "artistId": 159,
+      "trackId": 36133,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/04. EDEN - ICYMI - Modern Warfare.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:31Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/04. EDEN - ICYMI - Modern Warfare.flac",
+        "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 04 - Modern Warfare.flac",
+        "releaseGroup": null,
+        "size": "22345917",
+        "indexerFlags": "0"
+      },
+      "id": 1518
+    },
+    {
+      "albumId": 1133,
+      "artistId": 159,
+      "trackId": 36132,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/03. EDEN - ICYMI - Sci-Fi.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:31Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/03. EDEN - ICYMI - Sci-Fi.flac",
+        "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 03 - Sci‐Fi.flac",
+        "releaseGroup": null,
+        "size": "20040398",
+        "indexerFlags": "0"
+      },
+      "id": 1517
+    },
+    {
+      "albumId": 1133,
+      "artistId": 159,
+      "trackId": 36131,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/02. EDEN - ICYMI - Balling.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:31Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/02. EDEN - ICYMI - Balling.flac",
+        "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 02 - Balling.flac",
+        "releaseGroup": null,
+        "size": "23420034",
+        "indexerFlags": "0"
+      },
+      "id": 1516
+    },
+    {
+      "albumId": 1133,
+      "artistId": 159,
+      "trackId": 36130,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/01. EDEN - ICYMI - A Call.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:31Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - ICYMI (2022)/01. EDEN - ICYMI - A Call.flac",
+        "path": "/mnt/europa/music/EDEN/ICYMI (2022)/EDEN - ICYMI - 01 - A Call.flac",
+        "releaseGroup": null,
+        "size": "15572363",
+        "indexerFlags": "0"
+      },
+      "id": 1515
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36257,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/13. EDEN - Dark - Quantuuuum.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/13. EDEN - Dark - Quantuuuum.flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 13 - Quantuuuum.flac",
+        "releaseGroup": null,
+        "size": "32399714",
+        "indexerFlags": "0"
+      },
+      "id": 1514
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36256,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/12. EDEN - Dark - Pocket (montreal).flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/12. EDEN - Dark - Pocket (montreal).flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 12 - Pocket (montreal).flac",
+        "releaseGroup": null,
+        "size": "11963387",
+        "indexerFlags": "0"
+      },
+      "id": 1513
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36255,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/11. EDEN - Dark - At Once.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/11. EDEN - Dark - At Once.flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 11 - At Once.flac",
+        "releaseGroup": null,
+        "size": "19040710",
+        "indexerFlags": "0"
+      },
+      "id": 1512
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36254,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/10. EDEN - Dark - gggiiiiirrrrlllll.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/10. EDEN - Dark - gggiiiiirrrrlllll.flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 10 - gggiiiiirrrrlllll.flac",
+        "releaseGroup": null,
+        "size": "10851343",
+        "indexerFlags": "0"
+      },
+      "id": 1511
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36253,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/09. EDEN - Dark - (Cold Water freestyle).flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/09. EDEN - Dark - (Cold Water freestyle).flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 09 - (Cold Water freestyle).flac",
+        "releaseGroup": null,
+        "size": "13391767",
+        "indexerFlags": "0"
+      },
+      "id": 1510
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36252,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/08. EDEN - Dark - Light Sleeper.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/08. EDEN - Dark - Light Sleeper.flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 08 - Light Sleeper.flac",
+        "releaseGroup": null,
+        "size": "21038768",
+        "indexerFlags": "0"
+      },
+      "id": 1509
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36251,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/07. EDEN - Dark - 5ever.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/07. EDEN - Dark - 5ever.flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 07 - 5ever.flac",
+        "releaseGroup": null,
+        "size": "19572268",
+        "indexerFlags": "0"
+      },
+      "id": 1508
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36250,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/06. EDEN - Dark - True.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/06. EDEN - Dark - True.flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 06 - True.flac",
+        "releaseGroup": null,
+        "size": "14853279",
+        "indexerFlags": "0"
+      },
+      "id": 1507
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36249,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/05. EDEN - Dark - Ghost in the Shell.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/05. EDEN - Dark - Ghost in the Shell.flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 05 - Ghost in the Shell.flac",
+        "releaseGroup": null,
+        "size": "29213897",
+        "indexerFlags": "0"
+      },
+      "id": 1506
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36248,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/04. EDEN - Dark - Paris, Teargas.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/04. EDEN - Dark - Paris, Teargas.flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 04 - Paris, Teargas.flac",
+        "releaseGroup": null,
+        "size": "17507781",
+        "indexerFlags": "0"
+      },
+      "id": 1505
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36247,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/03. EDEN - Dark - TEAM.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/03. EDEN - Dark - TEAM.flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 03 - TEAM.flac",
+        "releaseGroup": null,
+        "size": "18954107",
+        "indexerFlags": "0"
+      },
+      "id": 1504
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36246,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/02. EDEN - Dark - Zzz.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/02. EDEN - Dark - Zzz.flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 02 - Zzz.flac",
+        "releaseGroup": null,
+        "size": "19114442",
+        "indexerFlags": "0"
+      },
+      "id": 1503
+    },
+    {
+      "albumId": 1144,
+      "artistId": 159,
+      "trackId": 36245,
+      "sourceTitle": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/01. EDEN - Dark - Still.flac",
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "qualityCutoffNotMet": false,
+      "date": "2025-10-31T07:49:18Z",
+      "eventType": "trackFileRenamed",
+      "data": {
+        "sourcePath": "/mnt/europa/music/EDEN/EDEN - Dark (2025)/01. EDEN - Dark - Still.flac",
+        "path": "/mnt/europa/music/EDEN/Dark (2025)/EDEN - Dark - 01 - Still.flac",
+        "releaseGroup": null,
+        "size": "23383245",
+        "indexerFlags": "0"
+      },
+      "id": 1502
+    }
+  ]
+}

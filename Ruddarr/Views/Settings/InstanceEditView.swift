@@ -7,6 +7,7 @@ struct InstanceEditView: View {
 
     @Environment(\.dismiss) var dismiss
     @Environment(\.deviceType) var deviceType
+    @Environment(LidarrInstance.self) var lidarrInstance
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
     @EnvironmentObject var settings: AppSettings
@@ -46,16 +47,25 @@ struct InstanceEditView: View {
 
             #if DEBUG
                 Button {
+                    instance.type = .lidarr
+                    instance.url = "http://10.0.1.5:8300/settings/general"
+                    instance.apiKey = "sb0600c1b3a442bfb0222f4e13a8150d"
+                } label: { Text(verbatim: "Lidarr") }
+
+                Button {
+                    instance.type = .radarr
                     instance.url = "http://10.0.1.5:8310/settings/general"
                     instance.apiKey = "3b0600c1b3aa42bfb0222f4e13a81f39"
                 } label: { Text(verbatim: "Radarr") }
 
                 Button {
+                    instance.type = .sonarr
                     instance.url = "http://10.0.1.5:8989/"
                     instance.apiKey = "f8e3682b3b984cddbaa00047a09d0fbd"
                 } label: { Text(verbatim: "Sonarr") }
 
                 Button {
+                    instance.type = .sonarr
                     instance.url = "http://10.0.1.5:18988"
                     instance.apiKey = "8efa9412e9564d588cefadc4d4cd1b06"
                 } label: { Text(verbatim: "Sonarr v3") }
@@ -262,6 +272,7 @@ struct InstanceEditView: View {
 
     var urlPlaceholder: String {
         switch instance.type {
+        case .lidarr: "http://10.0.1.1:8686"
         case .radarr: "http://10.0.1.1:7878"
         case .sonarr: "http://10.0.1.1:8989"
         }

@@ -1,0 +1,910 @@
+{
+  "page": 1,
+  "pageSize": 10,
+  "sortKey": "timeleft",
+  "sortDirection": "descending",
+  "totalRecords": 1,
+  "records": [
+    {
+      "artistId": 150,
+      "albumId": 1286,
+      "artist": {
+        "status": "continuing",
+        "ended": false,
+        "artistName": "Poppy",
+        "foreignArtistId": "4ad8190b-d2fd-46f8-a3d9-c0f55c034976",
+        "tadbId": 0,
+        "discogsId": 0,
+        "artistType": "Person",
+        "disambiguation": "US post‐genre artist, AKA That Poppy",
+        "links": [
+          {
+            "url": "https://www.youtube.com/channel/UC8JE00xTMBOqKs7o0grFTfQ",
+            "name": "youtube"
+          },
+          {
+            "url": "https://www.facebook.com/Poppy",
+            "name": "facebook"
+          },
+          {
+            "url": "https://twitter.com/poppy",
+            "name": "twitter"
+          },
+          {
+            "url": "https://impoppy.bandcamp.com/",
+            "name": "bandcamp"
+          },
+          {
+            "url": "https://genius.com/artists/Poppy",
+            "name": "genius"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q24852571",
+            "name": "wikidata"
+          },
+          {
+            "url": "https://www.youtube.com/user/ThatPoppyVEVO",
+            "name": "youtube"
+          },
+          {
+            "url": "https://open.spotify.com/artist/5uW6WiRHzStJq2i2OsAXcu",
+            "name": "spotify"
+          },
+          {
+            "url": "https://imvdb.com/n/poppy",
+            "name": "imvdb"
+          },
+          {
+            "url": "https://www.allmusic.com/artist/mn0003411865",
+            "name": "allmusic"
+          },
+          {
+            "url": "https://www.last.fm/music/Poppy",
+            "name": "last"
+          },
+          {
+            "url": "https://www.last.fm/music/That+Poppy",
+            "name": "last"
+          },
+          {
+            "url": "https://www.allmusic.com/artist/mn0003411863",
+            "name": "allmusic"
+          },
+          {
+            "url": "https://www.discogs.com/artist/5081293",
+            "name": "discogs"
+          },
+          {
+            "url": "https://soundcloud.com/thatpoppy",
+            "name": "soundcloud"
+          },
+          {
+            "url": "https://www.instagram.com/impoppy/",
+            "name": "instagram"
+          },
+          {
+            "url": "https://open.spotify.com/artist/5mlbvTfWUOfDrUIK6dkNzv",
+            "name": "spotify"
+          },
+          {
+            "url": "https://soundcloud.com/poppy",
+            "name": "soundcloud"
+          },
+          {
+            "url": "https://www.beatport.com/artist/poppy/69536",
+            "name": "beatport"
+          },
+          {
+            "url": "https://www.beatport.com/artist/that-poppy/550757",
+            "name": "beatport"
+          },
+          {
+            "url": "https://www.allmusic.com/artist/mn0003667565",
+            "name": "allmusic"
+          },
+          {
+            "url": "https://www.discogs.com/artist/6581315",
+            "name": "discogs"
+          },
+          {
+            "url": "https://itunes.apple.com/us/artist/id1004130511",
+            "name": "apple"
+          },
+          {
+            "url": "https://www.deezer.com/artist/712754",
+            "name": "deezer"
+          },
+          {
+            "url": "http://viaf.org/viaf/1214151778252018130006",
+            "name": "viaf"
+          },
+          {
+            "url": "http://id.loc.gov/authorities/names/no2016113561",
+            "name": "loc"
+          },
+          {
+            "url": "https://www.worldcat.org/identities/lccn-no2016113561",
+            "name": "worldcat"
+          },
+          {
+            "url": "https://www.imdb.com/name/nm8824909/",
+            "name": "imdb"
+          },
+          {
+            "url": "https://play.google.com/store/music/artist?id=Aievywb2waz72f7etpxci7g6qhm",
+            "name": "google"
+          },
+          {
+            "url": "https://www.musik-sammler.de/artist/poppy-2/",
+            "name": "musik-sammler"
+          },
+          {
+            "url": "https://www.musixmatch.com/artist/Poppy-6",
+            "name": "musixmatch"
+          },
+          {
+            "url": "https://rateyourmusic.com/artist/poppy-1",
+            "name": "rateyourmusic"
+          },
+          {
+            "url": "https://www.setlist.fm/setlists/poppy-3c3b177.html",
+            "name": "setlist"
+          },
+          {
+            "url": "https://www.whosampled.com/Poppy/",
+            "name": "whosampled"
+          },
+          {
+            "url": "https://www.impoppy.com/",
+            "name": "impoppy"
+          },
+          {
+            "url": "https://foundation.app/@poppy",
+            "name": "foundation"
+          },
+          {
+            "url": "https://www.bandsintown.com/a/231079",
+            "name": "bandsintown"
+          },
+          {
+            "url": "https://www.songkick.com/artists/727817",
+            "name": "songkick"
+          },
+          {
+            "url": "https://www.instagram.com/poponfilm/",
+            "name": "instagram"
+          },
+          {
+            "url": "https://music.apple.com/us/artist/1004130511",
+            "name": "apple"
+          },
+          {
+            "url": "https://music.apple.com/us/artist/1004130511",
+            "name": "apple"
+          },
+          {
+            "url": "https://poppy.fandom.com/",
+            "name": "fandom"
+          },
+          {
+            "url": "https://itunes.apple.com/us/artist/id1479065420",
+            "name": "apple"
+          },
+          {
+            "url": "https://www.tiktok.com/@poppy",
+            "name": "tiktok"
+          },
+          {
+            "url": "https://mora.jp/artist/1170693/",
+            "name": "mora"
+          },
+          {
+            "url": "https://open.spotify.com/user/xd9qmu77y82326wil8t3j366l",
+            "name": "spotify"
+          },
+          {
+            "url": "https://popxmi.com/",
+            "name": "popxmi"
+          },
+          {
+            "url": "https://www.sumerianmerch.com/collections/poppy",
+            "name": "sumerianmerch"
+          },
+          {
+            "url": "https://sumerianmerch.co.uk/collections/poppy",
+            "name": "sumerianmerch"
+          },
+          {
+            "url": "https://24hundred.net/collections/poppy",
+            "name": "24hundred"
+          },
+          {
+            "url": "https://music.amazon.com/artists/B000QK9YZQ",
+            "name": "amazon"
+          },
+          {
+            "url": "https://www.amazon.com/-/e/B001LHNZUI",
+            "name": "amazon"
+          },
+          {
+            "url": "https://www.amazon.com/-/e/B001LHNZUI",
+            "name": "amazon"
+          },
+          {
+            "url": "https://www.amazon.com/-/e/B001LHNZUI",
+            "name": "amazon"
+          },
+          {
+            "url": "https://bookbrainz.org/author/3b591ae4-1435-479f-b118-2c6a263b8283",
+            "name": "bookbrainz"
+          },
+          {
+            "url": "https://open.spotify.com/artist/5LtL2B9LC31DesMx7ihMFc",
+            "name": "spotify"
+          },
+          {
+            "url": "https://www.dailymotion.com/thatpoppy",
+            "name": "dailymotion"
+          },
+          {
+            "url": "https://poppyvintage.co/",
+            "name": "poppyvintage"
+          },
+          {
+            "url": "https://music.amazon.com/artists/B00ZBMAMJ6",
+            "name": "amazon"
+          },
+          {
+            "url": "https://us.napster.com/artist/poppy",
+            "name": "napster"
+          },
+          {
+            "url": "https://us.napster.com/artist/that-poppy",
+            "name": "napster"
+          },
+          {
+            "url": "https://us.napster.com/artist/moriah-pereira",
+            "name": "napster"
+          },
+          {
+            "url": "https://music.youtube.com/channel/UCwJcp-qqo0pVvvRwPXIXKyQ",
+            "name": "youtube"
+          },
+          {
+            "url": "https://twitter.com/ThatPoppy",
+            "name": "twitter"
+          },
+          {
+            "url": "https://mora.jp/artist/897809/",
+            "name": "mora"
+          },
+          {
+            "url": "https://tidal.com/artist/9158616",
+            "name": "tidal"
+          },
+          {
+            "url": "https://tidal.com/artist/6883406",
+            "name": "tidal"
+          },
+          {
+            "url": "https://www.qobuz.com/gb-en/interpreter/poppy/654210",
+            "name": "qobuz"
+          },
+          {
+            "url": "https://www.qobuz.com/gb-en/interpreter/poppy/654210",
+            "name": "qobuz"
+          },
+          {
+            "url": "https://mora.jp/artist/944638/",
+            "name": "mora"
+          },
+          {
+            "url": "https://www.discogs.com/artist/12562547",
+            "name": "discogs"
+          },
+          {
+            "url": "https://www.livenation.com/artist/K8vZ917fae0",
+            "name": "livenation"
+          },
+          {
+            "url": "https://www.ticketmaster.com/artist/2186490",
+            "name": "ticketmaster"
+          },
+          {
+            "url": "https://www.melon.com/artist/detail.htm?artistId=1102972",
+            "name": "melon"
+          },
+          {
+            "url": "https://www.melon.com/artist/detail.htm?artistId=1102972",
+            "name": "melon"
+          },
+          {
+            "url": "https://d-nb.info/gnd/1251346758",
+            "name": "d-nb"
+          },
+          {
+            "url": "https://tidal.com/artist/3962878",
+            "name": "tidal"
+          },
+          {
+            "url": "https://commons.wikimedia.org/wiki/File:Poppy_2023.jpg",
+            "name": "wikimedia"
+          },
+          {
+            "url": "https://www.topfemalevocalists.com/poppy",
+            "name": "topfemalevocalists"
+          },
+          {
+            "url": "https://www.themoviedb.org/person/1811266",
+            "name": "themoviedb"
+          }
+        ],
+        "nextAlbum": null,
+        "lastAlbum": null,
+        "images": [],
+        "path": "/mnt/plex/music/Poppy",
+        "qualityProfileId": 1,
+        "metadataProfileId": 3,
+        "monitored": true,
+        "monitorNewItems": "all",
+        "genres": [
+          "Nu Metal",
+          "Electropop",
+          "Alternative Metal",
+          "Dance-Pop",
+          "Art Pop",
+          "Ambient",
+          "Metalcore",
+          "Indietronica",
+          "Industrial Metal",
+          "Pop Metal",
+          "Pop",
+          "Metal"
+        ],
+        "cleanName": "poppy",
+        "sortName": "poppy",
+        "tags": [],
+        "added": "2023-10-13T00:33:54Z",
+        "ratings": {
+          "votes": 1,
+          "value": 10
+        },
+        "id": 150
+      },
+      "album": {
+        "title": "Bubblebath",
+        "disambiguation": "",
+        "overview": "",
+        "artistId": 150,
+        "foreignAlbumId": "22e2632f-fc30-4f4f-a61e-1e9acee9ef7d",
+        "monitored": true,
+        "anyReleaseOk": true,
+        "profileId": 1,
+        "duration": 789000,
+        "albumType": "EP",
+        "secondaryTypes": [],
+        "mediumCount": 1,
+        "ratings": {
+          "votes": 2,
+          "value": 5
+        },
+        "releaseDate": "2016-02-12T00:00:00Z",
+        "releases": [
+          {
+            "id": 3401,
+            "albumId": 1286,
+            "foreignReleaseId": "e2bd7574-8915-45ef-b403-15e956b09239",
+            "title": "Bubblebath",
+            "status": "Official",
+            "duration": 789000,
+            "trackCount": 4,
+            "media": [
+              {
+                "mediumNumber": 1,
+                "mediumName": "",
+                "mediumFormat": "Digital Media"
+              }
+            ],
+            "mediumCount": 1,
+            "disambiguation": "",
+            "country": [
+              "[Worldwide]"
+            ],
+            "label": [
+              "Island"
+            ],
+            "format": "Digital Media",
+            "monitored": true
+          },
+          {
+            "id": 3402,
+            "albumId": 1286,
+            "foreignReleaseId": "7db660de-60e2-4e94-b231-d09b1023b87b",
+            "title": "Bubblebath",
+            "status": "Official",
+            "duration": 768162,
+            "trackCount": 4,
+            "media": [
+              {
+                "mediumNumber": 1,
+                "mediumName": "",
+                "mediumFormat": "Digital Media"
+              }
+            ],
+            "mediumCount": 1,
+            "disambiguation": "",
+            "country": [],
+            "label": [
+              "Island"
+            ],
+            "format": "Digital Media",
+            "monitored": false
+          },
+          {
+            "id": 3403,
+            "albumId": 1286,
+            "foreignReleaseId": "564c6247-2d81-48c6-b15c-cd56c621b900",
+            "title": "Bubblebath",
+            "status": "Official",
+            "duration": 768106,
+            "trackCount": 4,
+            "media": [
+              {
+                "mediumNumber": 1,
+                "mediumName": "",
+                "mediumFormat": "Digital Media"
+              }
+            ],
+            "mediumCount": 1,
+            "disambiguation": "",
+            "country": [],
+            "label": [
+              "Island"
+            ],
+            "format": "Digital Media",
+            "monitored": false
+          }
+        ],
+        "genres": [
+          "Pop",
+          "Bubblegum Pop",
+          "Dance-Pop",
+          "Electropop",
+          "Pop Punk",
+          "Ska",
+          "Synth-Pop",
+          "Alternative Pop",
+          "Reggae-Pop"
+        ],
+        "media": [
+          {
+            "mediumNumber": 1,
+            "mediumName": "",
+            "mediumFormat": "Digital Media"
+          }
+        ],
+        "artist": {
+          "status": "continuing",
+          "ended": false,
+          "artistName": "Poppy",
+          "foreignArtistId": "4ad8190b-d2fd-46f8-a3d9-c0f55c034976",
+          "tadbId": 0,
+          "discogsId": 0,
+          "artistType": "Person",
+          "disambiguation": "US post‐genre artist, AKA That Poppy",
+          "links": [
+            {
+              "url": "https://www.youtube.com/channel/UC8JE00xTMBOqKs7o0grFTfQ",
+              "name": "youtube"
+            },
+            {
+              "url": "https://www.facebook.com/Poppy",
+              "name": "facebook"
+            },
+            {
+              "url": "https://twitter.com/poppy",
+              "name": "twitter"
+            },
+            {
+              "url": "https://impoppy.bandcamp.com/",
+              "name": "bandcamp"
+            },
+            {
+              "url": "https://genius.com/artists/Poppy",
+              "name": "genius"
+            },
+            {
+              "url": "https://www.wikidata.org/wiki/Q24852571",
+              "name": "wikidata"
+            },
+            {
+              "url": "https://www.youtube.com/user/ThatPoppyVEVO",
+              "name": "youtube"
+            },
+            {
+              "url": "https://open.spotify.com/artist/5uW6WiRHzStJq2i2OsAXcu",
+              "name": "spotify"
+            },
+            {
+              "url": "https://imvdb.com/n/poppy",
+              "name": "imvdb"
+            },
+            {
+              "url": "https://www.allmusic.com/artist/mn0003411865",
+              "name": "allmusic"
+            },
+            {
+              "url": "https://www.last.fm/music/Poppy",
+              "name": "last"
+            },
+            {
+              "url": "https://www.last.fm/music/That+Poppy",
+              "name": "last"
+            },
+            {
+              "url": "https://www.allmusic.com/artist/mn0003411863",
+              "name": "allmusic"
+            },
+            {
+              "url": "https://www.discogs.com/artist/5081293",
+              "name": "discogs"
+            },
+            {
+              "url": "https://soundcloud.com/thatpoppy",
+              "name": "soundcloud"
+            },
+            {
+              "url": "https://www.instagram.com/impoppy/",
+              "name": "instagram"
+            },
+            {
+              "url": "https://open.spotify.com/artist/5mlbvTfWUOfDrUIK6dkNzv",
+              "name": "spotify"
+            },
+            {
+              "url": "https://soundcloud.com/poppy",
+              "name": "soundcloud"
+            },
+            {
+              "url": "https://www.beatport.com/artist/poppy/69536",
+              "name": "beatport"
+            },
+            {
+              "url": "https://www.beatport.com/artist/that-poppy/550757",
+              "name": "beatport"
+            },
+            {
+              "url": "https://www.allmusic.com/artist/mn0003667565",
+              "name": "allmusic"
+            },
+            {
+              "url": "https://www.discogs.com/artist/6581315",
+              "name": "discogs"
+            },
+            {
+              "url": "https://itunes.apple.com/us/artist/id1004130511",
+              "name": "apple"
+            },
+            {
+              "url": "https://www.deezer.com/artist/712754",
+              "name": "deezer"
+            },
+            {
+              "url": "http://viaf.org/viaf/1214151778252018130006",
+              "name": "viaf"
+            },
+            {
+              "url": "http://id.loc.gov/authorities/names/no2016113561",
+              "name": "loc"
+            },
+            {
+              "url": "https://www.worldcat.org/identities/lccn-no2016113561",
+              "name": "worldcat"
+            },
+            {
+              "url": "https://www.imdb.com/name/nm8824909/",
+              "name": "imdb"
+            },
+            {
+              "url": "https://play.google.com/store/music/artist?id=Aievywb2waz72f7etpxci7g6qhm",
+              "name": "google"
+            },
+            {
+              "url": "https://www.musik-sammler.de/artist/poppy-2/",
+              "name": "musik-sammler"
+            },
+            {
+              "url": "https://www.musixmatch.com/artist/Poppy-6",
+              "name": "musixmatch"
+            },
+            {
+              "url": "https://rateyourmusic.com/artist/poppy-1",
+              "name": "rateyourmusic"
+            },
+            {
+              "url": "https://www.setlist.fm/setlists/poppy-3c3b177.html",
+              "name": "setlist"
+            },
+            {
+              "url": "https://www.whosampled.com/Poppy/",
+              "name": "whosampled"
+            },
+            {
+              "url": "https://www.impoppy.com/",
+              "name": "impoppy"
+            },
+            {
+              "url": "https://foundation.app/@poppy",
+              "name": "foundation"
+            },
+            {
+              "url": "https://www.bandsintown.com/a/231079",
+              "name": "bandsintown"
+            },
+            {
+              "url": "https://www.songkick.com/artists/727817",
+              "name": "songkick"
+            },
+            {
+              "url": "https://www.instagram.com/poponfilm/",
+              "name": "instagram"
+            },
+            {
+              "url": "https://music.apple.com/us/artist/1004130511",
+              "name": "apple"
+            },
+            {
+              "url": "https://music.apple.com/us/artist/1004130511",
+              "name": "apple"
+            },
+            {
+              "url": "https://poppy.fandom.com/",
+              "name": "fandom"
+            },
+            {
+              "url": "https://itunes.apple.com/us/artist/id1479065420",
+              "name": "apple"
+            },
+            {
+              "url": "https://www.tiktok.com/@poppy",
+              "name": "tiktok"
+            },
+            {
+              "url": "https://mora.jp/artist/1170693/",
+              "name": "mora"
+            },
+            {
+              "url": "https://open.spotify.com/user/xd9qmu77y82326wil8t3j366l",
+              "name": "spotify"
+            },
+            {
+              "url": "https://popxmi.com/",
+              "name": "popxmi"
+            },
+            {
+              "url": "https://www.sumerianmerch.com/collections/poppy",
+              "name": "sumerianmerch"
+            },
+            {
+              "url": "https://sumerianmerch.co.uk/collections/poppy",
+              "name": "sumerianmerch"
+            },
+            {
+              "url": "https://24hundred.net/collections/poppy",
+              "name": "24hundred"
+            },
+            {
+              "url": "https://music.amazon.com/artists/B000QK9YZQ",
+              "name": "amazon"
+            },
+            {
+              "url": "https://www.amazon.com/-/e/B001LHNZUI",
+              "name": "amazon"
+            },
+            {
+              "url": "https://www.amazon.com/-/e/B001LHNZUI",
+              "name": "amazon"
+            },
+            {
+              "url": "https://www.amazon.com/-/e/B001LHNZUI",
+              "name": "amazon"
+            },
+            {
+              "url": "https://bookbrainz.org/author/3b591ae4-1435-479f-b118-2c6a263b8283",
+              "name": "bookbrainz"
+            },
+            {
+              "url": "https://open.spotify.com/artist/5LtL2B9LC31DesMx7ihMFc",
+              "name": "spotify"
+            },
+            {
+              "url": "https://www.dailymotion.com/thatpoppy",
+              "name": "dailymotion"
+            },
+            {
+              "url": "https://poppyvintage.co/",
+              "name": "poppyvintage"
+            },
+            {
+              "url": "https://music.amazon.com/artists/B00ZBMAMJ6",
+              "name": "amazon"
+            },
+            {
+              "url": "https://us.napster.com/artist/poppy",
+              "name": "napster"
+            },
+            {
+              "url": "https://us.napster.com/artist/that-poppy",
+              "name": "napster"
+            },
+            {
+              "url": "https://us.napster.com/artist/moriah-pereira",
+              "name": "napster"
+            },
+            {
+              "url": "https://music.youtube.com/channel/UCwJcp-qqo0pVvvRwPXIXKyQ",
+              "name": "youtube"
+            },
+            {
+              "url": "https://twitter.com/ThatPoppy",
+              "name": "twitter"
+            },
+            {
+              "url": "https://mora.jp/artist/897809/",
+              "name": "mora"
+            },
+            {
+              "url": "https://tidal.com/artist/9158616",
+              "name": "tidal"
+            },
+            {
+              "url": "https://tidal.com/artist/6883406",
+              "name": "tidal"
+            },
+            {
+              "url": "https://www.qobuz.com/gb-en/interpreter/poppy/654210",
+              "name": "qobuz"
+            },
+            {
+              "url": "https://www.qobuz.com/gb-en/interpreter/poppy/654210",
+              "name": "qobuz"
+            },
+            {
+              "url": "https://mora.jp/artist/944638/",
+              "name": "mora"
+            },
+            {
+              "url": "https://www.discogs.com/artist/12562547",
+              "name": "discogs"
+            },
+            {
+              "url": "https://www.livenation.com/artist/K8vZ917fae0",
+              "name": "livenation"
+            },
+            {
+              "url": "https://www.ticketmaster.com/artist/2186490",
+              "name": "ticketmaster"
+            },
+            {
+              "url": "https://www.melon.com/artist/detail.htm?artistId=1102972",
+              "name": "melon"
+            },
+            {
+              "url": "https://www.melon.com/artist/detail.htm?artistId=1102972",
+              "name": "melon"
+            },
+            {
+              "url": "https://d-nb.info/gnd/1251346758",
+              "name": "d-nb"
+            },
+            {
+              "url": "https://tidal.com/artist/3962878",
+              "name": "tidal"
+            },
+            {
+              "url": "https://commons.wikimedia.org/wiki/File:Poppy_2023.jpg",
+              "name": "wikimedia"
+            },
+            {
+              "url": "https://www.topfemalevocalists.com/poppy",
+              "name": "topfemalevocalists"
+            },
+            {
+              "url": "https://www.themoviedb.org/person/1811266",
+              "name": "themoviedb"
+            }
+          ],
+          "nextAlbum": null,
+          "lastAlbum": null,
+          "images": [],
+          "path": "/mnt/plex/music/Poppy",
+          "qualityProfileId": 1,
+          "metadataProfileId": 3,
+          "monitored": true,
+          "monitorNewItems": "all",
+          "genres": [
+            "Nu Metal",
+            "Electropop",
+            "Alternative Metal",
+            "Dance-Pop",
+            "Art Pop",
+            "Ambient",
+            "Metalcore",
+            "Indietronica",
+            "Industrial Metal",
+            "Pop Metal",
+            "Pop",
+            "Metal"
+          ],
+          "cleanName": "poppy",
+          "sortName": "poppy",
+          "tags": [],
+          "added": "2023-10-13T00:33:54Z",
+          "ratings": {
+            "votes": 1,
+            "value": 10
+          },
+          "id": 150
+        },
+        "images": [
+          {
+            "url": "https://images.lidarr.audio/cache/https://coverartarchive.org/release/e2bd7574-8915-45ef-b403-15e956b09239/29668762597-1200.jpg",
+            "coverType": "cover",
+            "extension": ".jpg"
+          }
+        ],
+        "links": [
+          {
+            "url": "https://www.allmusic.com/album/mw0002918396",
+            "name": "allmusic"
+          },
+          {
+            "url": "https://genius.com/albums/Poppy/Bubblebath",
+            "name": "genius"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q28054917",
+            "name": "wikidata"
+          },
+          {
+            "url": "https://rateyourmusic.com/release/ep/that-poppy/bubblebath/",
+            "name": "rateyourmusic"
+          }
+        ],
+        "lastSearchTime": "2026-05-15T03:20:26Z",
+        "id": 1286
+      },
+      "quality": {
+        "quality": {
+          "id": 6,
+          "name": "FLAC"
+        },
+        "revision": {
+          "version": 1,
+          "real": 0,
+          "isRepack": false
+        }
+      },
+      "customFormats": [],
+      "customFormatScore": 0,
+      "size": 102259093,
+      "title": "That Poppy - Bubblebath EP (2016) FLAC [RiCK]",
+      "sizeleft": 102259093,
+      "added": "2026-05-15T03:20:27Z",
+      "status": "warning",
+      "trackedDownloadStatus": "ok",
+      "trackedDownloadState": "downloading",
+      "statusMessages": [],
+      "errorMessage": "The download is stalled with no connections",
+      "downloadId": "88BC0E70994381E26C28D5CE9EB07ED351B20BF0",
+      "protocol": "torrent",
+      "downloadClient": "qBittorrent",
+      "downloadClientHasPostImportCategory": false,
+      "indexer": "The Pirate Bay (Prowlarr)",
+      "trackFileCount": 4,
+      "trackHasFileCount": 0,
+      "downloadForced": false,
+      "id": 1576305859
+    }
+  ]
+}

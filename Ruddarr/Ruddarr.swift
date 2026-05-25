@@ -14,8 +14,8 @@ struct Ruddarr: App {
 
     init() {
         #if DEBUG
-        // dependencies = .mock
-        // dependencies.cloudkit = .mock
+//         dependencies = .mock
+//         dependencies.cloudkit = .mock
         // Tips.showAllTipsForTesting()
         #endif
 
@@ -65,35 +65,26 @@ struct Ruddarr: App {
         switch parts[0] {
         case "movie": openDeeplink(url: URL(string: "ruddarr://movies/open/\(parts[1])?instance=\(parts[2])")!)
         case "series": openDeeplink(url: URL(string: "ruddarr://series/open/\(parts[1])?instance=\(parts[2])")!)
+        case "artist": openDeeplink(url: URL(string: "ruddarr://artist/open/\(parts[1])?instance=\(parts[2])")!)
         default: leaveBreadcrumb(.error, category: "spotlight", message: "Invalid identifier", data: ["openSearchableItem": identifier])
         }
     }
 }
 
 extension WhatsNew {
-    static let version: String = "1.8.1"
+    static let version: String = "1.9"
 
     // ----------------------------------------------------------------------------------------------⌄⌄⌄
     static let features: [WhatsNewFeature] = [
         .init(
-            image: "globe",
-            title: "Translations",
-            subtitle: "Added Italian and Turkish translations. Removed Chinese translation."
+            image: "music.note",
+            title: "Lidarr",
+            subtitle: "Added Lidarr integration support"
         ),
         .init(
-            image: "eye.slash",
-            title: "Faded Items",
-            subtitle: "Fade items in the calendar and discovery grid to indicate their status."
-        ),
-        .init(
-            image: "film.stack",
-            title: "Dual Audio",
-            subtitle: "Releases with dual audio are now included in the Multilingual language filter."
-        ),
-        .init(
-            image: "ladybug",
-            title: "Fixes & Improvements",
-            subtitle: "Various internal code improvements, bug fixes, and refinements for macOS."
-        ),
+            image: "gear",
+            title: "Settings Moved",
+            subtitle: "Settings have been moved to the toolbar at the top of each page on iPhone and iPad devices."
+        )
     ]
 }

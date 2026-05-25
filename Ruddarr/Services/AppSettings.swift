@@ -9,7 +9,7 @@ class AppSettings: ObservableObject {
     #if DEBUG
         @AppStorage("debugInstances") var instances: [Instance] = []
     #else
-        @CloudStorage("instances") var instances: [Instance] = []
+        @AppStorage("instances") var instances: [Instance] = []
     #endif
 
     @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
@@ -20,6 +20,7 @@ class AppSettings: ObservableObject {
     @AppStorage("tab", store: dependencies.store) var tab: TabItem = .movies
     @AppStorage("releaseFilters", store: dependencies.store) var releaseFilters: ReleaseFilters = .reset
 
+    @AppStorage("lidarrInstanceId", store: dependencies.store) var lidarrInstanceId: Instance.ID?
     @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
     @AppStorage("sonarrInstanceId", store: dependencies.store) var sonarrInstanceId: Instance.ID?
 
@@ -33,12 +34,20 @@ class AppSettings: ObservableObject {
 }
 
 extension AppSettings {
+    var lidarrInstance: Instance? {
+        lidarrInstances.first(where: { $0.id == lidarrInstanceId })
+    }
+
     var radarrInstance: Instance? {
         radarrInstances.first(where: { $0.id == radarrInstanceId })
     }
 
     var sonarrInstance: Instance? {
         sonarrInstances.first(where: { $0.id == sonarrInstanceId })
+    }
+
+    var lidarrInstances: [Instance] {
+        instances.filter { $0.type == .lidarr }
     }
 
     var radarrInstances: [Instance] {

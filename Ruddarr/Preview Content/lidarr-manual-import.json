@@ -1,0 +1,176 @@
+[
+    {
+        "path": "/volume2/Media/#nzb/complete/Cats.2019.720p.WEB-DL.H264.AC3-EVO/Cats.2019.720p.WEB-DL.H264.AC3-EVO.mkv",
+        "relativePath": "Cats.2019.720p.WEB-DL.H264.AC3-EVO.mkv",
+        "folderName": "Cats.2019.720p.WEB-DL.H264.AC3-EVO",
+        "name": "Cats.2019.720p.WEB-DL.H264.AC3-EVO",
+        "size": 3648815687,
+        "movie": {
+            "title": "Cats",
+            "originalTitle": "Cats",
+            "originalLanguage": {
+                "id": 1,
+                "name": "English"
+            },
+            "alternateTitles": [
+                {
+                    "sourceType": "tmdb",
+                    "movieMetadataId": 380,
+                    "title": "Cats the Movie",
+                    "id": 6278
+                }
+            ],
+            "secondaryYearSourceId": 0,
+            "sortTitle": "cats",
+            "status": "released",
+            "overview": "A tribe of cats called the Jellicles must decide yearly which one will ascend to the Heaviside Layer and come back to a new Jellicle life.",
+            "inCinemas": "2019-12-19T00:00:00Z",
+            "physicalRelease": "2020-04-07T00:00:00Z",
+            "digitalRelease": "2020-01-03T00:00:00Z",
+            "releaseDate": "2020-01-03T00:00:00Z",
+            "images": [
+                {
+                    "coverType": "poster",
+                    "remoteUrl": "https://image.tmdb.org/t/p/original/aCNch5FmzT2WaUcY44925owIZXY.jpg"
+                },
+                {
+                    "coverType": "fanart",
+                    "remoteUrl": "https://image.tmdb.org/t/p/original/rXSDDbT43pcTjppu1qTxs1cOwla.jpg"
+                }
+            ],
+            "website": "https://www.catsmovie.com/",
+            "year": 2019,
+            "youTubeTrailerId": "gNTDoOmc1OQ",
+            "studio": "Universal Pictures",
+            "path": "/volume2/Media/Movies/Cats (2019)",
+            "qualityProfileId": 2,
+            "movieFileId": 625,
+            "monitored": false,
+            "minimumAvailability": "released",
+            "isAvailable": true,
+            "folderName": "/volume2/Media/Movies/Cats (2019)",
+            "runtime": 110,
+            "cleanTitle": "cats",
+            "imdbId": "tt5697572",
+            "tmdbId": 536869,
+            "titleSlug": "536869",
+            "certification": "PG",
+            "genres": [
+                "Fantasy",
+                "Comedy",
+                "Drama"
+            ],
+            "tags": [],
+            "added": "2025-05-05T21:51:51Z",
+            "ratings": {
+                "imdb": {
+                    "votes": 57653,
+                    "value": 2.8,
+                    "type": "user"
+                },
+                "tmdb": {
+                    "votes": 986,
+                    "value": 4.054,
+                    "type": "user"
+                },
+                "metacritic": {
+                    "votes": 0,
+                    "value": 32,
+                    "type": "user"
+                },
+                "rottenTomatoes": {
+                    "votes": 0,
+                    "value": 19,
+                    "type": "user"
+                }
+            },
+            "movieFile": {
+                "movieId": 722,
+                "relativePath": "Cats.2019.1080p.BluRay.DDP5.1.x265.10bit-LAMA.mkv",
+                "path": "/volume2/Media/Movies/Cats (2019)/Cats.2019.1080p.BluRay.DDP5.1.x265.10bit-LAMA.mkv",
+                "size": 2173187393,
+                "dateAdded": "2025-05-08T17:39:05Z",
+                "sceneName": "Cats.2019.1080p.BluRay.DDP5.1.x265.10bit-LAMA",
+                "releaseGroup": "LAMA",
+                "edition": "",
+                "languages": [
+                    {
+                        "id": 1,
+                        "name": "English"
+                    }
+                ],
+                "quality": {
+                    "quality": {
+                        "id": 7,
+                        "name": "Bluray-1080p",
+                        "source": "bluray",
+                        "resolution": 1080,
+                        "modifier": "none"
+                    },
+                    "revision": {
+                        "version": 1,
+                        "real": 0,
+                        "isRepack": false
+                    }
+                },
+                "indexerFlags": 0,
+                "mediaInfo": {
+                    "audioBitrate": 384000,
+                    "audioChannels": 5.1,
+                    "audioCodec": "EAC3",
+                    "audioLanguages": "eng",
+                    "audioStreamCount": 1,
+                    "videoBitDepth": 10,
+                    "videoBitrate": 0,
+                    "videoCodec": "x265",
+                    "videoFps": 23.976,
+                    "videoDynamicRange": "",
+                    "videoDynamicRangeType": "",
+                    "resolution": "1920x1080",
+                    "runTime": "1:49:58",
+                    "scanType": "Progressive",
+                    "subtitles": "eng"
+                },
+                "originalFilePath": "Cats.2019.1080p.BluRay.DDP5.1.x265.10bit-LAMA/Cats.2019.1080p.BluRay.DDP5.1.x265.10bit-LAMA.mkv",
+                "qualityCutoffNotMet": false,
+                "id": 625
+            },
+            "popularity": 6.4462,
+            "lastSearchTime": "2025-05-08T17:39:52Z",
+            "id": 722
+        },
+        "releaseGroup": "EVO",
+        "quality": {
+            "quality": {
+                "id": 5,
+                "name": "WEBDL-720p",
+                "source": "webdl",
+                "resolution": 720,
+                "modifier": "none"
+            },
+            "revision": {
+                "version": 1,
+                "real": 0,
+                "isRepack": false
+            }
+        },
+        "languages": [
+            {
+                "id": 1,
+                "name": "English"
+            }
+        ],
+        "qualityWeight": 16,
+        "downloadId": "SABnzbd_nzo_t7hf8_mz",
+        "customFormats": [],
+        "customFormatScore": 0,
+        "indexerFlags": 0,
+        "rejections": [
+            {
+                "reason": "Not an upgrade for existing movie file. Existing quality: Bluray-1080p. New Quality WEBDL-720p.",
+                "type": "permanent"
+            }
+        ],
+        "id": 1611113042
+    }
+]

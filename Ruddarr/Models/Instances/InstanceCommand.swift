@@ -9,6 +9,10 @@ enum InstanceCommand {
     case seasonSearch(_ series: Series.ID, season: Season.ID)
     case episodeSearch(_ ids: [Episode.ID])
 
+    case refreshArtist(_ artist: Artist.ID)
+    case artistSearch(_ artist: Artist.ID)
+    case albumSearch(_ artist: Artist.ID, album: Album.ID)
+
     case refreshDownloads
 
     case manualImport(_ files: [ImportableFile])
@@ -27,6 +31,12 @@ enum InstanceCommand {
             SonarrPayload(name: "SeasonSearch", seriesId: series, seasonNumber: season)
         case .episodeSearch(let ids):
             SonarrPayload(name: "EpisodeSearch", episodeIds: ids)
+        case .refreshArtist(let artist):
+            LidarrPayload(name: "RefreshArtist", artistId: artist)
+        case .artistSearch(let artist):
+            LidarrPayload(name: "ArtistSearch", artistId: artist)
+        case .albumSearch(let artist, let album):
+            LidarrPayload(name: "AlbumSearch", artistId: artist, albumId: album)
         case .refreshDownloads:
             GenericPayload(name: "RefreshMonitoredDownloads")
         case .manualImport(let files):
@@ -66,6 +76,20 @@ enum InstanceCommand {
         }
     }
 
+    struct LidarrPayload: Payload {
+        let name: String
+        let artistId: Int?
+        let albumId: Int?
+        let trackId: Int?
+
+        init(name: String, artistId: Int? = nil, albumId: Int? = nil, trackId: Int? = nil) {
+            self.name = name
+            self.artistId = artistId
+            self.albumId = albumId
+            self.trackId = trackId
+        }
+    }
+
     struct ImportPayload: Payload {
         let name: String = "ManualImport"
         let files: [ImportableResource]
@@ -76,6 +100,10 @@ enum InstanceCommand {
 struct DownloadReleaseCommand: Codable {
     let guid: String
     let indexerId: Int
+
+    // Lidarr
+    var artistId: Int?
+    var albumId: Int?
 
     // Radarr
     var movieId: Int?
@@ -104,5 +132,18 @@ struct DownloadReleaseCommand: Codable {
         self.guid = guid
         self.indexerId = indexerId
         self.episodeId = episodeId
+    }
+
+    init(guid: String, indexerId: Int, artistId: Int?) {
+        self.guid = guid
+        self.indexerId = indexerId
+        self.artistId = artistId
+    }
+
+    init(guid: String, indexerId: Int, artistId: Int?, albumId: Int?) {
+        self.guid = guid
+        self.indexerId = indexerId
+        self.artistId = artistId
+        self.albumId = albumId
     }
 }

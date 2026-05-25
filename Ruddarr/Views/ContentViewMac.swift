@@ -9,6 +9,7 @@ struct ContentView: View {
             List {
                 sidebarItem(movies)
                 sidebarItem(series)
+                sidebarItem(artists)
                 sidebarItem(calendar)
 
                 sidebarItem(activity, badge: Queue.shared.itemsWithIssues)
@@ -28,6 +29,8 @@ struct ContentView: View {
                     MoviesView()
                 case .series:
                     SeriesView()
+                case .artists:
+                    ArtistsView()
                 case .calendar:
                     CalendarView()
                         .frame(maxWidth: 700)
@@ -50,6 +53,7 @@ struct ContentView: View {
 
     var movies: TabItem { .movies }
     var series: TabItem { .series }
+    var artists: TabItem { .artists }
     var calendar: TabItem { .calendar }
     var activity: TabItem { .activity }
     var history: TabItem { .history }
@@ -65,6 +69,7 @@ struct ContentView: View {
         switch to {
         case .movies: dependencies.router.moviesPath = .init()
         case .series: dependencies.router.seriesPath = .init()
+        case .artists: dependencies.router.artistsPath = .init()
         case .calendar: NotificationCenter.default.post(name: .scrollToToday)
         default: break
         }

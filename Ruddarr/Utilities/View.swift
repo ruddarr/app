@@ -25,6 +25,19 @@ extension View {
         return self.environment(instance)
     }
 
+    func withLidarrInstance(artists: [Artist] = [], albums: [Album] = [],
+                            tracks: [AlbumTrack] = [], releases: [ArtistRelease] = [],
+                            trackFiles: [AlbumTrackFile] = []) -> some View {
+        let instance = LidarrInstance(.lidarrDummy)
+        instance.artists.items = artists
+        instance.releases.items = releases
+        instance.tracks.items = tracks
+        instance.files.items = trackFiles
+        instance.albums.items = albums
+
+        return self.environment(instance)
+    }
+
     func viewBottomPadding() -> some View {
         self.modifier(ViewBottomPadding())
     }
@@ -73,6 +86,7 @@ private struct WithAppStateModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         let settings = AppSettings()
+        let lidarrInstance = settings.lidarrInstance ?? Instance.lidarrVoid
         let radarrInstance = settings.radarrInstance ?? Instance.radarrVoid
         let sonarrInstance = settings.sonarrInstance ?? Instance.sonarrVoid
 
@@ -81,6 +95,7 @@ private struct WithAppStateModifier: ViewModifier {
             .preferredColorScheme(appearance.preferredColorScheme)
             .environmentObject(settings)
             .environment(\.deviceType, Platform.deviceType)
+            .environment(LidarrInstance(lidarrInstance))
             .environment(RadarrInstance(radarrInstance))
             .environment(SonarrInstance(sonarrInstance))
             .task {

@@ -66,7 +66,7 @@ class MovieReleases {
         var seen: Set<String> = []
 
         qualities = items
-            .sorted { $0.quality.quality.resolution > $1.quality.quality.resolution }
+            .sorted { $0.quality.quality.resolution ?? 0 > $1.quality.quality.resolution ?? 0 }
             .map { $0.quality.quality.normalizedName }
             .filter { seen.insert($0).inserted }
     }
@@ -242,21 +242,21 @@ struct MovieRelease: Identifiable, Codable {
 
     var qualityLabel: String {
         let name = quality.quality.name
-        let resolution = String(quality.quality.resolution)
+        let resolution = String(quality.quality.resolution ?? 0)
 
         if let label = name {
             if label.contains(resolution) {
                 return label
             }
 
-            if quality.quality.resolution > 0 {
+            if quality.quality.resolution ?? 0 > 0 {
                 return "\(label) (\(resolution)p)"
             }
 
             return label
         }
 
-        if quality.quality.resolution > 0 {
+        if quality.quality.resolution ?? 0 > 0 {
             return "\(resolution)p"
         }
 
