@@ -132,6 +132,30 @@ struct QueueItem: Codable, Identifiable, Equatable {
         (downloadId ?? "") + (title ?? "") + String(seasonNumber ?? id) + String(size)
     }
 
+    var remotePoster: String? {
+        if let poster = movie?.remotePoster {
+            return poster
+        }
+
+        if let poster = series?.remotePoster {
+            return poster
+        }
+
+        return episode?.series?.remotePoster
+    }
+
+    var posterPlaceholder: String? {
+        if let title = movie?.title {
+            return title
+        }
+
+        if let title = series?.title {
+            return title
+        }
+
+        return episode?.series?.title
+    }
+
     var titleLabel: String {
         if let title = movie?.title {
             return title
@@ -154,7 +178,12 @@ struct QueueItem: Codable, Identifiable, Equatable {
 
     var progressLabel: String {
         guard sizeleft > 0 else { return 100.formatted(.percent) }
-        return ((size - sizeleft) / size).formatted(.percent.precision(.fractionLength(1)))
+        return progressFraction.formatted(.percent.precision(.fractionLength(1)))
+    }
+
+    var progressFraction: Float {
+        guard size > 0 else { return sizeleft <= 0 ? 1 : 0 }
+        return min(max((size - sizeleft) / size, 0), 1)
     }
 
     var remainingLabel: String? {

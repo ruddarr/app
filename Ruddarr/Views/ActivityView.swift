@@ -26,11 +26,15 @@ struct ActivityView: View {
                                     QueueListItem(item: item)
                                 }
                                 .buttonStyle(.plain)
+                                #if os(iOS)
+                                    .listRowInsets(settings.richActivityDisplay ? richActivityRowInsets : nil)
+                                    .listRowSeparator(settings.richActivityDisplay ? .hidden : .automatic)
+                                #endif
                             }
                             #if os(macOS)
                                 .padding(.vertical, 4)
                             #else
-                                .listRowBackground(Color.card)
+                                .listRowBackground(settings.richActivityDisplay ? Color.clear : Color.card)
                             #endif
                         } header: {
                             if !items.isEmpty { sectionHeader }
@@ -103,6 +107,10 @@ struct ActivityView: View {
                     .tint(.secondary)
             }
         }
+    }
+
+    var richActivityRowInsets: EdgeInsets {
+        EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0)
     }
 
     func updateSelectedItem() {

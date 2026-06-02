@@ -16,6 +16,7 @@ class AppSettings: ObservableObject {
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
     @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
     @AppStorage("grid", store: dependencies.store) var grid: GridStyle = .posters
+    @AppStorage("richActivityDisplay", store: dependencies.store) var richActivityDisplay: Bool = true
 
     @AppStorage("tab", store: dependencies.store) var tab: TabItem = .movies
     @AppStorage("releaseFilters", store: dependencies.store) var releaseFilters: ReleaseFilters = .reset
@@ -105,6 +106,7 @@ extension AppSettings {
             "theme": theme.rawValue,
             "tab": tab.rawValue,
             "appearance": appearance.rawValue,
+            "richActivityDisplay": richActivityDisplay,
         ]
 
         for instance in configuredInstances {

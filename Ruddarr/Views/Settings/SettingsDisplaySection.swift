@@ -13,6 +13,8 @@ struct SettingsDisplaySection: View {
             #if os(iOS)
                 iconPicker
             #endif
+
+            richActivityDisplayToggle
         } header: {
             Text("Display", comment: "Preferences section title")
         }
@@ -33,6 +35,13 @@ struct SettingsDisplaySection: View {
             Label("Appearance", systemImage: icon)
                 .labelStyle(SettingsIconLabelStyle())
         }.tint(.secondary)
+    }
+
+    var richActivityDisplayToggle: some View {
+        Toggle(isOn: $settings.richActivityDisplay) {
+            Label("Rich Display on Activity", systemImage: TabItem.activity.icon)
+                .labelStyle(SettingsIconLabelStyle())
+        }
     }
 
     var themePicker: some View {
