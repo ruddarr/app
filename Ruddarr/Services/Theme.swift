@@ -96,6 +96,7 @@ enum Appearance: String, Identifiable, CaseIterable {
 
 enum AppIcon: String, Identifiable, CaseIterable {
     case factory
+    case original
     case books
     case podcasts
     case music
@@ -111,6 +112,7 @@ enum AppIcon: String, Identifiable, CaseIterable {
     var data: AppIconData {
         switch self {
         case .factory: AppIconData.factory
+        case .original: AppIconData.original
         case .music: AppIconData.music
         case .podcasts: AppIconData.podcasts
         case .books: AppIconData.books
@@ -147,6 +149,10 @@ struct AppIconData {
 
     static var factory: Self {
         .init(label: String(localized: "Default", comment: "Default app icon name"), asset: "Default", locked: false)
+    }
+
+    static var original: Self {
+        .init(label: String(localized: "Original", comment: "Original app icon name"), asset: "Original", locked: false)
     }
 
     static var podcasts: Self {

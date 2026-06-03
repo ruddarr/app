@@ -4,33 +4,21 @@
   },
   "groups" : [
     {
-      "hidden" : false,
       "layers" : [
         {
-          "fill" : {
-            "solid" : "srgb:1.00000,1.00000,1.00000,1.00000"
-          },
-          "glass" : true,
-          "hidden" : false,
-          "image-name" : "shape.svg",
-          "name" : "Shape",
-          "position" : {
-            "scale" : 2.1,
-            "translation-in-points" : [
-              -9,
-              12
-            ]
-          }
+          "blend-mode" : "normal",
+          "glass" : false,
+          "image-name" : "icon_transparent.png",
+          "name" : "icon_transparent",
+          "opacity" : 1
         }
       ],
-      "lighting" : "individual",
       "shadow" : {
         "kind" : "neutral",
         "opacity" : 0.5
       },
-      "specular" : true,
       "translucency" : {
-        "enabled" : false,
+        "enabled" : true,
         "value" : 0.5
       }
     }
