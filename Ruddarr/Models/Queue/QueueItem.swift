@@ -153,8 +153,17 @@ struct QueueItem: Codable, Identifiable, Equatable {
     }
 
     var progressLabel: String {
-        guard sizeleft > 0 else { return 100.formatted(.percent) }
-        return ((size - sizeleft) / size).formatted(.percent.precision(.fractionLength(1)))
+        progressFraction.formatted(.percent.precision(.fractionLength(1)))
+    }
+
+    var progressFraction: Float {
+        guard size > 0 else { return sizeleft <= 0 ? 1 : 0 }
+        return min(max((size - sizeleft) / size, 0), 1)
+    }
+
+    var isActivelyDownloading: Bool {
+        status == "downloading" ||
+        trackedDownloadState == .downloading
     }
 
     var remainingLabel: String? {

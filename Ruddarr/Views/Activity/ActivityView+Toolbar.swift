@@ -21,7 +21,7 @@ extension ActivityView {
 
     func updateSortDirection() {
         switch sort.option {
-        case .byAdded:
+        case .byAdded, .byProgress:
             sort.isAscending = false
         default:
             sort.isAscending = true

@@ -129,7 +129,7 @@ struct ActivityView: View {
 
         var items: [QueueItem] = grouped
             .flatMap { $0.value }
-            .sorted(by: sort.option.isOrderedBefore)
+            .sorted(by: sort.isOrderedBefore)
 
         if sort.instance != .all {
             items = items.filter {
@@ -147,10 +147,6 @@ struct ActivityView: View {
 
         if sort.issues {
             items = items.filter { $0.trackedDownloadStatus != .ok || $0.status == "warning" }
-        }
-
-        if !sort.isAscending {
-            items = items.reversed()
         }
 
         withAnimation {
