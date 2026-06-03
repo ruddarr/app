@@ -86,7 +86,8 @@ struct MoviesView: View {
             .searchable(
                 text: $searchQuery,
                 isPresented: $searchPresented,
-                placement: .drawerOrToolbar
+                placement: .drawerOrToolbar,
+                prompt: "Search your Movie library"
             )
             .autocorrectionDisabled(true)
             .onChange(of: settings.radarrInstanceId, changeInstance)

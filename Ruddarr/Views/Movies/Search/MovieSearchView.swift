@@ -41,7 +41,8 @@ struct MovieSearchView: View {
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
-            placement: .drawerOrToolbar(.always)
+            placement: .drawerOrToolbar(.always),
+            prompt: "Search for a movie to add"
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)

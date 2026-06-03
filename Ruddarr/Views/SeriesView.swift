@@ -87,7 +87,8 @@ struct SeriesView: View {
             .searchable(
                 text: $searchQuery,
                 isPresented: $searchPresented,
-                placement: .drawerOrToolbar
+                placement: .drawerOrToolbar,
+                prompt: "Search your Series library"
             )
             .autocorrectionDisabled(true)
             .onChange(of: settings.sonarrInstanceId, changeInstance)
