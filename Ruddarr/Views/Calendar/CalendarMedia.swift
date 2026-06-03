@@ -3,6 +3,7 @@ import SwiftUI
 struct CalendarMovie: View {
     var date: Date
     var movie: Movie
+    var downloadProgress: Float?
 
     @EnvironmentObject var settings: AppSettings
 
@@ -17,10 +18,7 @@ struct CalendarMovie: View {
 
                     Spacer()
 
-                    statusIcon
-                        .font(.subheadline)
-                        .imageScale(.small)
-                        .foregroundStyle(.secondary)
+                    status
                 }
 
                 if let type = movie.releaseType(for: date) {
@@ -52,6 +50,18 @@ struct CalendarMovie: View {
     }
 
     @ViewBuilder
+    var status: some View {
+        if let downloadProgress {
+            CalendarDownloadProgress(progress: downloadProgress)
+        } else {
+            statusIcon
+                .font(.subheadline)
+                .imageScale(.small)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    @ViewBuilder
     var statusIcon: some View {
         if movie.isDownloaded {
             Image(systemName: "checkmark").symbolVariant(.circle.fill)
@@ -67,6 +77,7 @@ struct CalendarMovie: View {
 
 struct CalendarEpisode: View {
     var episode: Episode
+    var downloadProgress: Float?
 
     @EnvironmentObject var settings: AppSettings
 
@@ -97,9 +108,7 @@ struct CalendarEpisode: View {
 
                 Spacer()
 
-                statusIcon
-                    .foregroundStyle(.secondary)
-                    .imageScale(.small)
+                status
             }
             .foregroundStyle(.secondary)
             .font(.subheadline)
@@ -155,6 +164,17 @@ struct CalendarEpisode: View {
     }
 
     @ViewBuilder
+    var status: some View {
+        if let downloadProgress {
+            CalendarDownloadProgress(progress: downloadProgress)
+        } else {
+            statusIcon
+                .foregroundStyle(.secondary)
+                .imageScale(.small)
+        }
+    }
+
+    @ViewBuilder
     var statusIcon: some View {
         if episode.isDownloaded {
             Image(systemName: "checkmark").symbolVariant(.circle.fill)
@@ -169,6 +189,27 @@ struct CalendarEpisode: View {
 
     var isGrouped: Bool {
         (episode.calendarGroupCount ?? 0) > 2
+    }
+}
+
+private struct CalendarDownloadProgress: View {
+    var progress: Float
+
+    @EnvironmentObject var settings: AppSettings
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(.secondary.opacity(0.28), lineWidth: 2)
+
+            Circle()
+                .trim(from: 0, to: CGFloat(progress))
+                .stroke(settings.theme.tint, style: StrokeStyle(lineWidth: 2, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+        }
+        .frame(width: 18, height: 18)
+        .accessibilityLabel("Downloading")
+        .accessibilityValue(progress.formatted(.percent.precision(.fractionLength(0))))
     }
 }
 

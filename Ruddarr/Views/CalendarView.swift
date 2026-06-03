@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CalendarView: View {
     @State var calendar = MediaCalendar()
+    @State var queue = Queue.shared
 
     @State private var scrollView: ScrollViewProxy?
     @State private var initializationError: API.Error?
@@ -80,6 +81,8 @@ struct CalendarView: View {
                 todayButton
             }
             .onAppear {
+                queue.instances = settings.instances
+
                 if Set(calendar.instances.map(\.id)) != Set(settings.instances.map(\.id)) {
                     calendar.reset()
                     calendar.instances = settings.instances
@@ -93,6 +96,10 @@ struct CalendarView: View {
             }
             .task {
                 await load()
+            }
+            .task {
+                queue.instances = settings.instances
+                await queue.fetchTasks()
             }
             .alert(
                 isPresented: $alertPresented,
@@ -241,13 +248,20 @@ struct CalendarView: View {
         VStack(spacing: 8) {
             if displayMovies, let movies = filteredMovies[timestamp] {
                 ForEach(movies) { movie in
-                    CalendarMovie(date: date, movie: movie)
+                    CalendarMovie(
+                        date: date,
+                        movie: movie,
+                        downloadProgress: downloadProgress(for: movie)
+                    )
                 }
             }
 
             if displaySeries, let episodes = filteredEpisodes[timestamp] {
                 ForEach(episodes) { episode in
-                    CalendarEpisode(episode: episode)
+                    CalendarEpisode(
+                        episode: episode,
+                        downloadProgress: downloadProgress(for: episode)
+                    )
                 }
             }
 
@@ -368,6 +382,44 @@ struct CalendarView: View {
 
             Label(label, systemImage: "internaldrive")
         }
+    }
+}
+
+extension CalendarView {
+    var activeQueueItems: [QueueItem] {
+        queue.items
+            .flatMap { $0.value }
+            .filter(\.hasDownloadProgress)
+    }
+
+    func activeDownload(for movie: Movie) -> QueueItem? {
+        activeQueueItems.first {
+            $0.instanceId == movie.instanceId &&
+            $0.movieId == movie.id
+        }
+    }
+
+    func downloadProgress(for movie: Movie) -> Float? {
+        activeDownload(for: movie)?.progressFraction
+    }
+
+    func activeDownload(for episode: Episode) -> QueueItem? {
+        activeQueueItems.first {
+            guard $0.instanceId == episode.instanceId else {
+                return false
+            }
+
+            if let episodeId = $0.episodeId {
+                return episodeId == episode.id
+            }
+
+            return $0.seriesId == episode.seriesId &&
+                $0.seasonNumber == episode.seasonNumber
+        }
+    }
+
+    func downloadProgress(for episode: Episode) -> Float? {
+        activeDownload(for: episode)?.progressFraction
     }
 }
 
