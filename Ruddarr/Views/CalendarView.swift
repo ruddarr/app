@@ -91,6 +91,13 @@ struct CalendarView: View {
                     scrollTo(calendar.today())
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: .calendarMonitoringChanged)) { notification in
+                guard let change = CalendarMonitoringChange(notification) else { return }
+
+                withAnimation(.easeOut(duration: 0.2)) {
+                    calendar.applyMonitoringChange(change)
+                }
+            }
             .task {
                 await load()
             }

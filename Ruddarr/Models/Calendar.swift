@@ -180,6 +180,80 @@ class MediaCalendar {
         calendar.startOfDay(for: Date.now).timeIntervalSince1970
     }
 
+    func applyMonitoringChange(_ change: CalendarMonitoringChange) {
+        switch change.kind {
+        case .movie:
+            updateMovie(change)
+        case .series:
+            updateSeries(change)
+        case .episode:
+            updateEpisode(change)
+        }
+    }
+
+    private func updateMovie(_ change: CalendarMonitoringChange) {
+        for day in Array(movies.keys) {
+            guard var items = movies[day] else { continue }
+            var changed = false
+
+            for index in items.indices {
+                guard items[index].id == change.mediaId else { continue }
+                guard matches(items[index].instanceId, change.instanceId) else { continue }
+
+                items[index].monitored = change.monitored
+                changed = true
+            }
+
+            if changed {
+                movies[day] = items
+            }
+        }
+    }
+
+    private func updateSeries(_ change: CalendarMonitoringChange) {
+        for day in Array(episodes.keys) {
+            guard var items = episodes[day] else { continue }
+            var changed = false
+
+            for index in items.indices {
+                guard items[index].seriesId == change.mediaId else { continue }
+                guard matches(items[index].instanceId, change.instanceId) else { continue }
+                guard var series = items[index].series else { continue }
+
+                series.monitored = change.monitored
+                items[index].series = series
+                changed = true
+            }
+
+            if changed {
+                episodes[day] = items
+            }
+        }
+    }
+
+    private func updateEpisode(_ change: CalendarMonitoringChange) {
+        for day in Array(episodes.keys) {
+            guard var items = episodes[day] else { continue }
+            var changed = false
+
+            for index in items.indices {
+                guard items[index].id == change.mediaId else { continue }
+                guard matches(items[index].instanceId, change.instanceId) else { continue }
+
+                items[index].monitored = change.monitored
+                changed = true
+            }
+
+            if changed {
+                episodes[day] = items
+            }
+        }
+    }
+
+    private func matches(_ mediaInstanceId: Instance.ID?, _ changeInstanceId: Instance.ID?) -> Bool {
+        changeInstanceId == nil || mediaInstanceId == nil || mediaInstanceId == changeInstanceId
+    }
+
     func reset() {
         instances = []
         dates = []

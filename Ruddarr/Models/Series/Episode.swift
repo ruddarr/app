@@ -34,7 +34,7 @@ struct Episode: Identifiable, Codable, Equatable {
     let sceneSeasonNumber: Int?
     let unverifiedSceneNumbering: Bool
 
-    let series: Series?
+    var series: Series?
 
     var calendarGroupCount: Int?
 

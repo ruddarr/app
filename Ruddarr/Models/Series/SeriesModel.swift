@@ -168,6 +168,14 @@ class SeriesModel {
 
         case .update(let series, let moveFiles):
             _ = try await dependencies.api.updateSeries(series, moveFiles, instance)
+            NotificationCenter.default.postCalendarMonitoringChange(
+                .init(
+                    kind: .series,
+                    mediaId: series.id,
+                    instanceId: series.instanceId ?? instance.id,
+                    monitored: series.monitored
+                )
+            )
 
         case .delete(let series, let addExclusion, let deleteFiles):
             _ = try await dependencies.api.deleteSeries(series, addExclusion, deleteFiles, instance)

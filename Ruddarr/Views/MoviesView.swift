@@ -149,11 +149,24 @@ struct MoviesView: View {
             items: instance.movies.cachedItems,
             style: settings.grid
         ) { movie in
-            NavigationLink(value: MoviesPath.movie(movie.id)) {
-                switch settings.grid {
-                case .posters: MovieGridPoster(movie: movie)
-                case .cards: MovieGridCard(movie: movie)
+            Group {
+                #if os(iOS)
+                Button {
+                    dependencies.router.presentMovie(movie)
+                } label: {
+                    switch settings.grid {
+                    case .posters: MovieGridPoster(movie: movie)
+                    case .cards: MovieGridCard(movie: movie)
+                    }
                 }
+                #elseif os(macOS)
+                NavigationLink(value: MoviesPath.movie(movie.id)) {
+                    switch settings.grid {
+                    case .posters: MovieGridPoster(movie: movie)
+                    case .cards: MovieGridCard(movie: movie)
+                    }
+                }
+                #endif
             }
             .buttonStyle(.plain)
             .id(movie.id)

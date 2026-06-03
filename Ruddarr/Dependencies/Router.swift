@@ -13,11 +13,115 @@ class Router {
     var seriesPath: NavigationPath = .init()
     var calendarPath: NavigationPath = .init()
     var settingsPath: NavigationPath = .init()
+    var mediaSheetRoute: MediaSheetRoute?
+    var mediaSheetPath: NavigationPath = .init()
 
     func reset() {
         moviesPath = .init()
         seriesPath = .init()
         calendarPath = .init()
+        mediaSheetRoute = nil
+        mediaSheetPath = .init()
+    }
+
+    func presentMovie(_ movie: Movie) {
+        mediaSheetPath = .init()
+        mediaSheetRoute = .movie(movie)
+    }
+
+    func presentSeries(_ series: Series) {
+        mediaSheetPath = .init()
+        mediaSheetRoute = .series(series)
+    }
+
+    func presentEpisode(_ episode: Episode, grouped: Bool) {
+        let route = MediaSheetRoute.episode(episode, grouped: grouped)
+        mediaSheetPath = route.initialPath
+        mediaSheetRoute = route
+    }
+
+    func dismissMediaSheet() {
+        mediaSheetRoute = nil
+        mediaSheetPath = .init()
+    }
+}
+
+struct MediaSheetRoute: Identifiable {
+    enum Kind {
+        case movie
+        case series
+    }
+
+    let id: String
+    let kind: Kind
+    let movieId: Movie.ID?
+    let seriesId: Series.ID?
+    let seasonId: Season.ID?
+    let episodeId: Episode.ID?
+    let instanceId: Instance.ID?
+    let movie: Movie?
+    let series: Series?
+    let episode: Episode?
+
+    static func movie(_ movie: Movie) -> Self {
+        .init(
+            id: "movie-\(movie.id)-\(movie.instanceId?.uuidString ?? "unknown")",
+            kind: .movie,
+            movieId: movie.id,
+            seriesId: nil,
+            seasonId: nil,
+            episodeId: nil,
+            instanceId: movie.instanceId,
+            movie: movie,
+            series: nil,
+            episode: nil
+        )
+    }
+
+    static func series(_ series: Series) -> Self {
+        .init(
+            id: "series-\(series.id)-\(series.instanceId?.uuidString ?? "unknown")",
+            kind: .series,
+            movieId: nil,
+            seriesId: series.id,
+            seasonId: nil,
+            episodeId: nil,
+            instanceId: series.instanceId,
+            movie: nil,
+            series: series,
+            episode: nil
+        )
+    }
+
+    static func episode(_ episode: Episode, grouped: Bool) -> Self {
+        .init(
+            id: "series-\(episode.seriesId)-\(episode.id)-\(episode.instanceId?.uuidString ?? "unknown")",
+            kind: .series,
+            movieId: nil,
+            seriesId: episode.seriesId,
+            seasonId: episode.seasonNumber,
+            episodeId: grouped ? nil : episode.id,
+            instanceId: episode.instanceId,
+            movie: nil,
+            series: nil,
+            episode: episode
+        )
+    }
+
+    var initialPath: NavigationPath {
+        var path = NavigationPath()
+
+        guard kind == .series, let seriesId, let seasonId else {
+            return path
+        }
+
+        path.append(SeriesPath.season(seriesId, seasonId, nil))
+
+        if let episodeId {
+            path.append(SeriesPath.episode(seriesId, episodeId))
+        }
+
+        return path
     }
 }
 

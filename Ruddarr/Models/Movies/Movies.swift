@@ -148,6 +148,14 @@ class Movies {
 
         case .update(let movie, let moveFiles):
             _ = try await dependencies.api.updateMovie(movie, moveFiles, instance)
+            NotificationCenter.default.postCalendarMonitoringChange(
+                .init(
+                    kind: .movie,
+                    mediaId: movie.id,
+                    instanceId: movie.instanceId ?? instance.id,
+                    monitored: movie.monitored
+                )
+            )
 
         case .delete(let movie, let addExclusion, let deleteFiles):
             _ = try await dependencies.api.deleteMovie(movie, addExclusion, deleteFiles, instance)

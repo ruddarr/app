@@ -37,13 +37,7 @@ struct CalendarMovie: View {
             .background(.card.opacity(shouldFade ? 0.6 : 1))
             .clipShape(RoundedRectangle(cornerRadius: 14))
             .onTapGesture {
-                let deeplink = String(
-                    format: "ruddarr://movies/open/%d?instance=%@",
-                    movie.id,
-                    movie.instanceId!.uuidString
-                )
-
-                try? QuickActions.Deeplink(url: URL(string: deeplink)!)()
+                dependencies.router.presentMovie(movie)
             }
     }
 
@@ -113,18 +107,7 @@ struct CalendarEpisode: View {
         .background(.card.opacity(shouldFade ? 0.6 : 1))
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .onTapGesture {
-            var deeplink = String(
-                format: "ruddarr://series/open/%d?season=%d&instance=%@",
-                episode.seriesId,
-                episode.seasonNumber,
-                episode.instanceId!.uuidString
-            )
-
-            if !isGrouped {
-                deeplink.append("&episode=\(episode.episodeNumber)")
-            }
-
-            try? QuickActions.Deeplink(url: URL(string: deeplink)!)()
+            dependencies.router.presentEpisode(episode, grouped: isGrouped)
         }
     }
 

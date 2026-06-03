@@ -75,6 +75,16 @@ class SeriesEpisodes {
 
         do {
             _ = try await dependencies.api.monitorEpisode(episodes, monitored, instance)
+            for episode in episodes {
+                NotificationCenter.default.postCalendarMonitoringChange(
+                    .init(
+                        kind: .episode,
+                        mediaId: episode,
+                        instanceId: instance.id,
+                        monitored: monitored
+                    )
+                )
+            }
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
