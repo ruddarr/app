@@ -4,10 +4,14 @@ import CloudKit
 import StoreKit
 
 struct InstanceView: View {
-    var instance: Instance
+    private let initialInstance: Instance
+
+    var instance: Instance {
+        settings.instanceById(initialInstance.id) ?? initialInstance
+    }
 
     init(instance: Instance) {
-        self.instance = instance
+        self.initialInstance = instance
         self._webhook = State(wrappedValue: InstanceWebhook(instance))
     }
 
@@ -93,6 +97,11 @@ struct InstanceView: View {
 
             LabeledContent("URL", value: instance.url)
                 .textSelection(.enabled)
+
+            if !instance.fallbackUrl.isEmpty {
+                LabeledContent("Fallback", value: instance.fallbackUrl)
+                    .textSelection(.enabled)
+            }
         }
     }
 

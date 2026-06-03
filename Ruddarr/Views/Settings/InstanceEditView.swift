@@ -100,8 +100,12 @@ struct InstanceEditView: View {
             typeField
             labelField
             urlField
+            fallbackUrlField
         } footer: {
-            Text("The URL used to access the \(instance.type.rawValue) web interface.")
+            Text(
+                "The preferred URL is tried first. If it is unreachable, Ruddarr will use " +
+                "the fallback URL and periodically retry the preferred URL."
+            )
                 #if os(macOS)
                 .foregroundStyle(.secondary)
                 .font(.footnote)
@@ -162,7 +166,7 @@ struct InstanceEditView: View {
             Text("URL")
                 .layoutPriority(2)
 
-            TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
+            TextField(text: $instance.url, prompt: Text(verbatim: "preferred")) { EmptyView() }
                 .truncationMode(.head)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)
@@ -173,6 +177,25 @@ struct InstanceEditView: View {
                 .keyboardType(.URL)
                 #endif
 
+        }
+    }
+
+    var fallbackUrlField: some View {
+        HStack(spacing: 24) {
+            Text("Fallback")
+                .layoutPriority(2)
+
+            TextField(text: $instance.fallbackUrl, prompt: Text(verbatim: "(remote or DDNS URL)")) {
+                EmptyView()
+            }
+                .truncationMode(.head)
+                .autocorrectionDisabled(true)
+                .textCase(.lowercase)
+                #if os(iOS)
+                .multilineTextAlignment(.trailing)
+                .textInputAutocapitalization(.never)
+                .keyboardType(.URL)
+                #endif
         }
     }
 
@@ -260,13 +283,6 @@ struct InstanceEditView: View {
         }
     }
 
-    var urlPlaceholder: String {
-        switch instance.type {
-        case .radarr: "http://10.0.1.1:7878"
-        case .sonarr: "http://10.0.1.1:8989"
-        }
-    }
-
     var deleteButton: some View {
         Button(deviceType == .mac ? "Delete" : "Delete Instance", role: .destructive) {
             showingConfirmation = true
@@ -336,52 +352,6 @@ struct InstanceHeaderRow: View {
             #if os(iOS)
                 .textInputAutocapitalization(.never)
             #endif
-        }
-    }
-}
-
-enum InstanceError: Error {
-    case urlIsLocal
-    case urlNotValid
-    case urlSchemeMissing
-    case labelEmpty
-    case localNetworkDenied
-    case badAppName(_ reported: String, _ expected: String)
-    case apiError(_ error: API.Error)
-}
-
-extension InstanceError: LocalizedError {
-    var errorDescription: String? {
-        switch self {
-        case .urlIsLocal, .urlNotValid, .urlSchemeMissing:
-            return String(localized: "Invalid URL")
-        case .labelEmpty:
-            return String(localized: "Invalid Instance Label")
-        case .localNetworkDenied:
-            return String(localized: "Local Network Access Denied")
-        case .badAppName:
-            return String(localized: "Wrong Instance Type")
-        case .apiError(let error):
-            return error.errorDescription
-        }
-    }
-
-    var recoverySuggestion: String? {
-        switch self {
-        case .urlIsLocal:
-            return String(localized: "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work.")
-        case .urlNotValid:
-            return String(localized: "Enter a valid URL.")
-        case .urlSchemeMissing:
-            return String(localized: "URL must start with \"http://\" or \"https://\".")
-        case .labelEmpty:
-            return String(localized: "Enter an instance label.")
-        case .localNetworkDenied:
-            return String(localized: "Local network access must be granted in System Settings to connect to instances on private IP addresses.")
-        case .badAppName(let reported, let expected):
-            return String(localized: "URL identified itself as a \(reported) instance, not a \(expected) instance.")
-        case .apiError(let error):
-            return error.recoverySuggestion
         }
     }
 }

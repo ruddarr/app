@@ -5,7 +5,7 @@ extension InstanceEditView {
         do {
             isLoading = true
 
-            sanitizeInstanceUrl()
+            sanitizeInstanceUrls()
             try await validateInstance()
 
             if instance.label.isEmpty {
@@ -13,6 +13,7 @@ extension InstanceEditView {
             }
 
             settings.saveInstance(instance)
+            syncActiveInstance()
 
             #if os(iOS)
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
@@ -29,6 +30,16 @@ extension InstanceEditView {
             self.error = error
         } catch {
             fatalError("Failed to save instance: Unhandled error")
+        }
+    }
+
+    func syncActiveInstance() {
+        if instance.type == .radarr, settings.radarrInstanceId == instance.id {
+            radarrInstance.switchTo(instance)
+        }
+
+        if instance.type == .sonarr, settings.sonarrInstanceId == instance.id {
+            sonarrInstance.switchTo(instance)
         }
     }
 
@@ -51,29 +62,45 @@ extension InstanceEditView {
         instance.url.isEmpty || instance.apiKey.isEmpty
     }
 
-    func sanitizeInstanceUrl() {
-        if let url = URL(string: instance.url) {
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+    func sanitizeInstanceUrls() {
+        instance.url = sanitizeUrl(instance.url)
+        instance.fallbackUrl = sanitizeUrl(instance.fallbackUrl)
+        instance.apiKey = instance.apiKey.trimmed()
+    }
+
+    func sanitizeUrl(_ value: String) -> String {
+        var sanitized = value.trimmed()
+
+        guard !sanitized.isEmpty else {
+            return ""
+        }
+
+        if var components = URLComponents(string: sanitized) {
+            components.scheme = components.scheme?.lowercased()
+            components.host = components.host?.lowercased()
 
             components.path = stripAfter("/system", in: components.path)
             components.path = stripAfter("/settings", in: components.path)
             components.path = stripAfter("/activity", in: components.path)
             components.path = stripAfter("/calendar", in: components.path)
+            components.path = stripAfter("/login", in: components.path)
+            components.query = nil
+            components.fragment = nil
 
             if let urlWithoutPath = components.url {
-                instance.url = urlWithoutPath.absoluteString
+                sanitized = urlWithoutPath.absoluteString
             }
         }
 
-        instance.url = instance.url.lowercased()
-
-        if instance.url.hasSuffix("/") {
-            instance.url = String(instance.url.dropLast())
+        if sanitized.hasSuffix("/") {
+            sanitized = String(sanitized.dropLast())
         }
+
+        return sanitized
     }
 
     func stripAfter(_ path: String, in string: String) -> String {
-        guard let range = string.range(of: path) else {
+        guard let range = string.range(of: path, options: [.caseInsensitive]) else {
             return string
         }
 
@@ -81,19 +108,13 @@ extension InstanceEditView {
     }
 
     func validateInstance() async throws {
-        guard instance.url.starts(with: /https?:\/\//) else {
-            throw InstanceError.urlSchemeMissing
+        try validateURL(instance.url, fallback: false)
+
+        if !instance.fallbackUrl.isEmpty {
+            try validateURL(instance.fallbackUrl, fallback: true)
         }
 
-        guard let url = URL(string: instance.url) else {
-            throw InstanceError.urlNotValid
-        }
-
-        if ["localhost", "127.0.0.1"].contains(url.host()) {
-            throw InstanceError.urlIsLocal
-        }
-
-        if instance.isPrivateIp(), await NetworkMonitor.shared.localNetworkDenied {
+        if instance.isPrivateIp(), instance.fallbackUrl.isEmpty, await NetworkMonitor.shared.localNetworkDenied {
             throw InstanceError.localNetworkDenied
         }
 
@@ -118,6 +139,20 @@ extension InstanceEditView {
         if let status {
             instance.name = status.instanceName
             instance.version = status.version
+        }
+    }
+
+    func validateURL(_ value: String, fallback: Bool) throws {
+        guard value.starts(with: /https?:\/\//) else {
+            throw fallback ? InstanceError.fallbackUrlSchemeMissing : InstanceError.urlSchemeMissing
+        }
+
+        guard let url = URL(string: value) else {
+            throw fallback ? InstanceError.fallbackUrlNotValid : InstanceError.urlNotValid
+        }
+
+        if ["localhost", "127.0.0.1"].contains(url.host()) {
+            throw fallback ? InstanceError.fallbackUrlIsLocal : InstanceError.urlIsLocal
         }
     }
 
@@ -173,6 +208,65 @@ extension InstanceEditView {
             }
         } else {
             instance.headers.append(InstanceHeader(name: value, value: ""))
+        }
+    }
+}
+
+enum InstanceError: Error {
+    case urlIsLocal
+    case urlNotValid
+    case urlSchemeMissing
+    case fallbackUrlIsLocal
+    case fallbackUrlNotValid
+    case fallbackUrlSchemeMissing
+    case labelEmpty
+    case localNetworkDenied
+    case badAppName(_ reported: String, _ expected: String)
+    case apiError(_ error: API.Error)
+}
+
+extension InstanceError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .urlIsLocal, .urlNotValid, .urlSchemeMissing:
+            return String(localized: "Invalid URL")
+        case .fallbackUrlIsLocal, .fallbackUrlNotValid, .fallbackUrlSchemeMissing:
+            return String(localized: "Invalid Fallback URL")
+        case .labelEmpty:
+            return String(localized: "Invalid Instance Label")
+        case .localNetworkDenied:
+            return String(localized: "Local Network Access Denied")
+        case .badAppName:
+            return String(localized: "Wrong Instance Type")
+        case .apiError(let error):
+            return error.errorDescription
+        }
+    }
+
+    var recoverySuggestion: String? {
+        switch self {
+        case .urlIsLocal:
+            return String(localized: "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work.")
+        case .urlNotValid:
+            return String(localized: "Enter a valid URL.")
+        case .urlSchemeMissing:
+            return String(localized: "URL must start with \"http://\" or \"https://\".")
+        case .fallbackUrlIsLocal:
+            return String(
+                localized: "Fallback URL must be non-local, \"localhost\" and \"127.0.0.1\" will not work."
+            )
+        case .fallbackUrlNotValid:
+            return String(localized: "Enter a valid fallback URL.")
+        case .fallbackUrlSchemeMissing:
+            return String(localized: "Fallback URL must start with \"http://\" or \"https://\".")
+        case .labelEmpty:
+            return String(localized: "Enter an instance label.")
+        case .localNetworkDenied:
+            return String(localized: "Local network access must be granted in System Settings to connect to instances on private IP addresses.")
+        case .badAppName(let reported, let expected):
+            return String(localized: "URL identified itself as a \(reported) instance, not a \(expected) instance.")
+        case .apiError(let error):
+            return error.recoverySuggestion
         }
     }
 }

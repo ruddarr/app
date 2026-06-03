@@ -75,7 +75,8 @@ extension API {
 
         try await NetworkMonitor.shared.checkReachability()
 
-        var request = URLRequest(url: url)
+        let resolvedURL = InstanceURLResolver.shared.resolvedURL(for: url)
+        var request = URLRequest(url: resolvedURL)
         request.timeoutInterval = timeout
         request.httpMethod = method.rawValue.uppercased()
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -115,12 +116,41 @@ extension API {
         } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
             throw Error.notConnectedToInternet
         } catch let urlError as URLError where urlError.code == .timedOut {
-            guard isPrivateIpAddress(url.host() ?? "") else {
-                throw Error.urlError(urlError)
+            let error: Error = isPrivateIpAddress(resolvedURL.host() ?? "")
+                ? .timeoutOnPrivateIp(urlError)
+                : .urlError(urlError)
+
+            if let fallbackURL = fallbackURL(afterFailureOf: resolvedURL, error: error) {
+                return try await Self.request(
+                    method: method,
+                    url: fallbackURL,
+                    headers: headers,
+                    body: body,
+                    timeout: timeout,
+                    decoder: decoder,
+                    encoder: encoder,
+                    session: session
+                )
             }
-            throw Error.timeoutOnPrivateIp(urlError)
+
+            throw error
         } catch let urlError as URLError {
-            throw Error.urlError(urlError)
+            let error = Error.urlError(urlError)
+
+            if let fallbackURL = fallbackURL(afterFailureOf: resolvedURL, error: error) {
+                return try await Self.request(
+                    method: method,
+                    url: fallbackURL,
+                    headers: headers,
+                    body: body,
+                    timeout: timeout,
+                    decoder: decoder,
+                    encoder: encoder,
+                    session: session
+                )
+            }
+
+            throw error
         } catch let localizedError as any LocalizedError {
             throw Error.localizedError(localizedError)
         } catch let nsError as NSError {
@@ -137,6 +167,7 @@ extension API {
 
         let httpResponse: HTTPURLResponse? = response as? HTTPURLResponse
         let statusCode: Int = httpResponse?.statusCode ?? 599
+        InstanceURLResolver.shared.recordReachable(url, resolvedURL: resolvedURL)
 
         // print(String(data: data, encoding: .utf8) ?? "non-utf8 response")
         // leaveBreadcrumb(.debug, category: "api", message: "Response headers (\(statusCode))", data: parseResponseHeaders(httpResponse))
@@ -206,6 +237,15 @@ extension API {
     private static func parseResponseHeaders(_ response: HTTPURLResponse?) -> [String: Any] {
         guard let headerFields = response?.allHeaderFields else { return [:] }
         return Dictionary(uniqueKeysWithValues: headerFields.compactMap { ($0 as? (String, Any)) })
+    }
+
+    private static func fallbackURL(afterFailureOf url: URL, error: Error) -> URL? {
+        guard let fallbackURL = InstanceURLResolver.shared.fallbackURL(afterFailureOf: url) else {
+            return nil
+        }
+
+        leaveBreadcrumb(.info, category: "api", message: "Retrying with fallback URL", data: ["error": error])
+        return fallbackURL
     }
 }
 

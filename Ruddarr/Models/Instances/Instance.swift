@@ -10,6 +10,7 @@ struct Instance: Identifiable, Equatable, Codable {
     var mode: InstanceMode = .normal
     var label: String = ""
     var url: String = ""
+    var fallbackUrl: String = ""
     var apiKey: String = ""
     var headers: [InstanceHeader] = []
     var rootFolders: [InstanceRootFolder] = []
@@ -32,6 +33,7 @@ struct Instance: Identifiable, Equatable, Codable {
         mode = try values.decode(InstanceMode.self, forKey: .mode)
         label = try values.decode(String.self, forKey: .label)
         url = try values.decode(String.self, forKey: .url)
+        fallbackUrl = try values.decodeIfPresent(String.self, forKey: .fallbackUrl) ?? ""
         apiKey = try values.decode(String.self, forKey: .apiKey)
         headers = try values.decode([InstanceHeader].self, forKey: .headers)
         rootFolders = try values.decode([InstanceRootFolder].self, forKey: .rootFolders)
@@ -58,7 +60,19 @@ struct Instance: Identifiable, Equatable, Codable {
             throw API.Error.invalidUrl(url)
         }
 
+        InstanceURLResolver.shared.register(
+            for: id,
+            preferred: url,
+            fallback: fallbackBaseURL()
+        )
+
         return url
+    }
+
+    func fallbackBaseURL() -> URL? {
+        guard !fallbackUrl.isEmpty else { return nil }
+        guard fallbackUrl.hasPrefix("http://") || fallbackUrl.hasPrefix("https://") else { return nil }
+        return URL(string: fallbackUrl)
     }
 
     func isPrivateIp() -> Bool {
@@ -76,6 +90,127 @@ struct Instance: Identifiable, Equatable, Codable {
         case .releaseSearch: mode.isSlow ? 180 : 90
         case .releaseDownload: 15
         }
+    }
+}
+
+final class InstanceURLResolver: @unchecked Sendable {
+    static let shared = InstanceURLResolver()
+
+    private struct State {
+        var preferred: String
+        var fallback: String?
+        var isUsingFallback = false
+        var lastPreferredFailure: Date?
+    }
+
+    private let lock = NSLock()
+    private let preferredRetryInterval: TimeInterval = 300
+    private var states: [Instance.ID: State] = [:]
+
+    func register(for id: Instance.ID, preferred: URL, fallback: URL?) {
+        lock.lock()
+        defer { lock.unlock() }
+
+        let preferred = normalized(preferred)
+        let fallback = fallback.map(normalized)
+        var state = states[id] ?? State(preferred: preferred, fallback: fallback)
+
+        if state.preferred != preferred || state.fallback != fallback {
+            state = State(preferred: preferred, fallback: fallback)
+        }
+
+        states[id] = state
+    }
+
+    func resolvedURL(for url: URL) -> URL {
+        lock.lock()
+        defer { lock.unlock() }
+
+        let absolute = normalized(url)
+
+        for state in states.values {
+            guard let fallback = state.fallback else { continue }
+            guard state.isUsingFallback else { continue }
+            guard let lastPreferredFailure = state.lastPreferredFailure else { continue }
+            guard Date().timeIntervalSince(lastPreferredFailure) < preferredRetryInterval else { continue }
+            guard let retryURL = replacingBase(of: absolute, from: state.preferred, to: fallback) else { continue }
+
+            return retryURL
+        }
+
+        return url
+    }
+
+    func fallbackURL(afterFailureOf failedURL: URL) -> URL? {
+        lock.lock()
+        defer { lock.unlock() }
+
+        for (id, state) in states {
+            guard let fallback = state.fallback else { continue }
+            guard let retryURL = replacingBase(of: failedURL, from: state.preferred, to: fallback) else { continue }
+
+            var updated = state
+            updated.isUsingFallback = true
+            updated.lastPreferredFailure = Date()
+            states[id] = updated
+
+            return retryURL
+        }
+
+        return nil
+    }
+
+    func recordReachable(_ url: URL, resolvedURL: URL) {
+        guard normalized(url) == normalized(resolvedURL) else {
+            return
+        }
+
+        lock.lock()
+        defer { lock.unlock() }
+
+        for (id, state) in states {
+            guard replacingBase(of: url, from: state.preferred, to: state.preferred) != nil else { continue }
+
+            var updated = state
+            updated.isUsingFallback = false
+            updated.lastPreferredFailure = nil
+            states[id] = updated
+            return
+        }
+    }
+
+    private func replacingBase(of url: URL, from base: String, to replacement: String) -> URL? {
+        replacingBase(of: normalized(url), from: base, to: replacement)
+    }
+
+    private func replacingBase(of absolute: String, from base: String, to replacement: String) -> URL? {
+        guard let suffix = suffix(of: absolute, after: base) else {
+            return nil
+        }
+
+        return URL(string: replacement + suffix)
+    }
+
+    private func suffix(of absolute: String, after base: String) -> String? {
+        if absolute == base {
+            return ""
+        }
+
+        if absolute.hasPrefix(base + "/") || absolute.hasPrefix(base + "?") {
+            return String(absolute.dropFirst(base.count))
+        }
+
+        return nil
+    }
+
+    private func normalized(_ url: URL) -> String {
+        var absolute = url.absoluteString
+
+        while absolute.hasSuffix("/") {
+            absolute.removeLast()
+        }
+
+        return absolute
     }
 }
 
