@@ -6,6 +6,15 @@ extension View {
         self.modifier(OnBecomeActiveModifier(action: action))
     }
 
+    /// Dismisses an active `.searchable` field when the scene leaves the foreground.
+    ///
+    /// Works around an iOS 26.4+ crash where UIKit repositions the navigation bar
+    /// search palette (`_repositionPaletteWithNavigationBarHidden`) during a scene
+    /// transition while the search field is presented, trapping in the teardown block.
+    func dismissSearchWhenInactive(_ isPresented: Binding<Bool>) -> some View {
+        self.modifier(DismissSearchWhenInactiveModifier(isPresented: isPresented))
+    }
+
     func withAppState() -> some View {
         modifier(WithAppStateModifier())
     }
@@ -63,6 +72,27 @@ private struct OnBecomeActiveModifier: ViewModifier {
 
             Task { await action() }
         }
+    }
+#endif
+}
+
+private struct DismissSearchWhenInactiveModifier: ViewModifier {
+    @Binding var isPresented: Bool
+
+#if os(iOS)
+    @Environment(\.scenePhase) private var scenePhase
+
+    func body(content: Content) -> some View {
+        // Dismiss on `.inactive` (delivered before the `.background` transition)
+        // so there is no presented palette for UIKit to reposition mid-transition.
+        content.onChange(of: scenePhase) {
+            guard scenePhase != .active, isPresented else { return }
+            isPresented = false
+        }
+    }
+#else
+    func body(content: Content) -> some View {
+        content
     }
 #endif
 }

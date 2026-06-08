@@ -88,6 +88,7 @@ struct MoviesView: View {
                 isPresented: $searchPresented,
                 placement: .drawerOrToolbar
             )
+            .dismissSearchWhenInactive($searchPresented)
             .autocorrectionDisabled(true)
             .onChange(of: settings.radarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)

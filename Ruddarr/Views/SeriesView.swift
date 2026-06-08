@@ -89,6 +89,7 @@ struct SeriesView: View {
                 isPresented: $searchPresented,
                 placement: .drawerOrToolbar
             )
+            .dismissSearchWhenInactive($searchPresented)
             .autocorrectionDisabled(true)
             .onChange(of: settings.sonarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)

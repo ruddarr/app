@@ -43,6 +43,7 @@ struct MovieSearchView: View {
             isPresented: $searchPresented,
             placement: .drawerOrToolbar(.always)
         )
+        .dismissSearchWhenInactive($searchPresented)
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
         .searchScopes($movieLookup.sort) {
