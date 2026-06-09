@@ -25,7 +25,7 @@ actor Spotlight {
             }
 
             if let sleepDelay = delay {
-                try await Task.sleep(for: sleepDelay)
+                try? await Task.sleep(for: sleepDelay)
             }
 
             let typeName = String(describing: M.self)
