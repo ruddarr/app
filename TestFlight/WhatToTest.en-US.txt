@@ -1,1 +1,2 @@
-- 
+- Added Brazilian Portuguese localization
+- Fixed various small iOS 27 issues
