@@ -12,6 +12,8 @@ fi
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 
+
+brew update
 brew install crowdin yq
 
 EXPORTED=(en $(yq '.export_languages[]' crowdin.yml))
