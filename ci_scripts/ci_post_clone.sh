@@ -11,9 +11,8 @@ fi
 
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
+export HOMEBREW_FAKE_MACOS=26.0 # macOS 27 fix
 
-
-brew update
 brew install crowdin yq
 
 EXPORTED=(en $(yq '.export_languages[]' crowdin.yml))

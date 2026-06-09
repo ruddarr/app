@@ -13,8 +13,8 @@ if [[ -n $CI_ARCHIVE_PATH ]]; then
     if [[ $(command -v sentry-cli) == "" ]]; then
         export HOMEBREW_NO_AUTO_UPDATE=1
         export HOMEBREW_NO_INSTALL_CLEANUP=1
+        export HOMEBREW_FAKE_MACOS=26.0 # macOS 27 fix
 
-        brew update
         brew install getsentry/tools/sentry-cli
     fi
 
