@@ -41,7 +41,11 @@ struct MovieSearchView: View {
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
-            placement: .drawerOrToolbar(.always)
+            placement: .drawerOrToolbar(.always),
+            prompt: Text(
+                "e.g. \("Interstellar, tmdb:157336, imdb:tt0816692")",
+                comment: "Placeholder in the search field on the Add Movie and Add Series screens. %@ is a fixed example (a title plus tmdb/tvdb/imdb ids) — do not translate it; translate only \"e.g.\""
+            )
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)

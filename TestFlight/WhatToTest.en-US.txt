@@ -1,4 +1,5 @@
 - Added support for downgrade notifications
 - Added Brazilian Portuguese localization
+- Clarified search placeholder text
 - Fixed various small iOS 27 issues
-- Fixed negative custom format scores showing a double minus sign
+- Fixed negative custom format scores double minus sign
