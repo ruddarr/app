@@ -1483,6 +1483,26 @@
         }
       }
     },
+    "e.g. Breaking Bad, tvdb:81189, imdb:tt0903747" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. Breaking Bad, tvdb:81189, imdb:tt0903747"
+          }
+        }
+      }
+    },
+    "e.g. Interstellar, tmdb:157336, imdb:tt0816692" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. Interstellar, tmdb:157336, imdb:tt0816692"
+          }
+        }
+      }
+    },
     "Edit" : {
       "localizations" : {
         "en" : {
