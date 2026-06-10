@@ -243,6 +243,12 @@ actor Notifications {
         String(format: localized("NOTIFICATION_MOVIE_UPGRADE_BODY"), "SDTV", "WEBDL-2160p"),
     ]
 
+    let movieDowngrade = [
+        String(format: localized("NOTIFICATION_MOVIE_DOWNGRADE"), "Synology"),
+        String(format: localized("NOTIFICATION_MOVIE_DOWNGRADE_SUBTITLE"), "Joker", "2024"),
+        String(format: localized("NOTIFICATION_MOVIE_DOWNGRADE_BODY"), "WEBDL-2160p", "SDTV"),
+    ]
+
     let movieDeleted = [
         String(format: localized("NOTIFICATION_MOVIE_DELETED"), "Synology"),
         String(format: localized("NOTIFICATION_MOVIE_DELETED_BODY"), "Joker", "2024"),
@@ -291,6 +297,10 @@ actor Notifications {
 
             group("Upgrade")
             notification(movieUpgrade)
+            Divider().padding(.top, 6)
+
+            group("Downgrade")
+            notification(movieDowngrade)
             Divider().padding(.top, 6)
 
             group("Deleted")
@@ -343,6 +353,12 @@ actor Notifications {
         String(format: localized("NOTIFICATION_EPISODE_UPGRADE"), "Synology"),
         String(format: localized("NOTIFICATION_EPISODE_UPGRADE_SUBTITLE"), "Patriot", "2", "8"),
         String(format: localized("NOTIFICATION_EPISODE_UPGRADE_BODY"), "SDTV", "WEBDL-2160p"),
+    ]
+
+    let episodeDowngrade = [
+        String(format: localized("NOTIFICATION_EPISODE_DOWNGRADE"), "Synology"),
+        String(format: localized("NOTIFICATION_EPISODE_DOWNGRADE_SUBTITLE"), "Patriot", "2", "8"),
+        String(format: localized("NOTIFICATION_EPISODE_DOWNGRADE_BODY"), "WEBDL-2160p", "SDTV"),
     ]
 
     let episodeFileDelete = [
@@ -400,6 +416,10 @@ actor Notifications {
 
             group("Upgrade (Episode)")
             notification(episodeUpgrade)
+            Divider().padding(.top, 6)
+
+            group("Downgrade (Episode)")
+            notification(episodeDowngrade)
             Divider().padding(.top, 6)
 
             group("Deleted (Episode File)")
