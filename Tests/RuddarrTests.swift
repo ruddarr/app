@@ -31,4 +31,13 @@ struct RuddarrTests {
         let result = format == key ? fallback : format
         #expect(result == "Fallback Title")
     }
+
+    @Test func formatCustomScoreIsSigned() {
+        // Mirrors formatCustomScore() in Movie.swift. The "%+d" flag forces a
+        // single leading sign, fixing the previous "%@%d" approach that
+        // double-signed negatives (e.g. "--5000" instead of "-5000").
+        #expect(String(format: "%+d", 500) == "+500")
+        #expect(String(format: "%+d", 0) == "+0")
+        #expect(String(format: "%+d", -5000) == "-5000")
+    }
 }
