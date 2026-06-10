@@ -31,4 +31,11 @@ struct RuddarrTests {
         let result = format == key ? fallback : format
         #expect(result == "Fallback Title")
     }
+
+    @Test func formatCustomScoreIsSigned() {
+        #expect(formatCustomScore(500) == "+500")
+        #expect(formatCustomScore(0) == "+0")
+        // Negative scores must not be double-signed (e.g. "--5000")
+        #expect(formatCustomScore(-5000) == "-5000")
+    }
 }
