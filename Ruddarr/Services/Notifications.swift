@@ -245,7 +245,6 @@ actor Notifications {
 
     let movieDowngrade = [
         String(format: localized("NOTIFICATION_MOVIE_DOWNGRADE"), "Synology"),
-        String(format: localized("NOTIFICATION_MOVIE_DOWNGRADE_SUBTITLE"), "Joker", "2024"),
         String(format: localized("NOTIFICATION_MOVIE_DOWNGRADE_BODY"), "WEBDL-2160p", "SDTV"),
     ]
 
@@ -357,7 +356,6 @@ actor Notifications {
 
     let episodeDowngrade = [
         String(format: localized("NOTIFICATION_EPISODE_DOWNGRADE"), "Synology"),
-        String(format: localized("NOTIFICATION_EPISODE_DOWNGRADE_SUBTITLE"), "Patriot", "2", "8"),
         String(format: localized("NOTIFICATION_EPISODE_DOWNGRADE_BODY"), "WEBDL-2160p", "SDTV"),
     ]
 

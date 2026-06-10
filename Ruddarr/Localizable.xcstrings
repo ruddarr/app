@@ -3198,18 +3198,6 @@
         }
       }
     },
-    "NOTIFICATION_EPISODE_DOWNGRADE_SUBTITLE" : {
-      "comment" : "Notification subtitle (series, season, episode)",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ (S%@ E%@)"
-          }
-        }
-      }
-    },
     "NOTIFICATION_EPISODE_DOWNLOAD" : {
       "comment" : "Notification title (instance name)",
       "extractionState" : "manual",
@@ -3482,18 +3470,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Downgraded from %1$@ to %2$@"
-          }
-        }
-      }
-    },
-    "NOTIFICATION_MOVIE_DOWNGRADE_SUBTITLE" : {
-      "comment" : "Notification subtitle (movie, year)",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ (%@)"
           }
         }
       }
