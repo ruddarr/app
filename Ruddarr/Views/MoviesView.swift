@@ -39,6 +39,10 @@ struct MoviesView: View {
                         ScrollView {
                             mediaGrid
 
+                            if !instance.movies.cachedItems.isEmpty {
+                                mediaCount
+                            }
+
                             if presentSearchSuggestion {
                                 MovieSearchSuggestion(query: $searchQuery, sort: $sort)
                             }
@@ -165,6 +169,13 @@ struct MoviesView: View {
         #elseif os(macOS)
             .padding(.vertical)
         #endif
+    }
+
+    var mediaCount: some View {
+        MediaGridCount {
+            Text("\(instance.movies.cachedItems.count) Movie")
+        }
+        .scenePadding(.horizontal)
     }
 
     var notConnectedToInternet: Bool {

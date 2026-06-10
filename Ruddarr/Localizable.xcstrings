@@ -183,6 +183,52 @@
         }
       }
     },
+    "%lld Episode" : {
+      "comment" : "Media grid count",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Episode"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Episodes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld Movie" : {
+      "comment" : "Media grid count",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Movie"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Movies"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld Season" : {
       "localizations" : {
         "en" : {
@@ -220,6 +266,29 @@
                 "stringUnit" : {
                   "state" : "new",
                   "value" : "%lld Seasons"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld Series" : {
+      "comment" : "Media grid count",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Series"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Series"
                 }
               }
             }

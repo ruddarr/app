@@ -40,6 +40,10 @@ struct SeriesView: View {
                         ScrollView {
                             mediaGrid
 
+                            if !instance.series.cachedItems.isEmpty {
+                                mediaCount
+                            }
+
                             if presentSearchSuggestion {
                                 SeriesSearchSuggestion(query: $searchQuery, sort: $sort)
                             }
@@ -175,6 +179,22 @@ struct SeriesView: View {
         #elseif os(macOS)
             .padding(.vertical)
         #endif
+    }
+
+    var mediaCount: some View {
+        MediaGridCount {
+            Text("\(instance.series.cachedItems.count) Series")
+
+            if episodeCount > 0 {
+                Bullet()
+                Text("\(episodeCount) Episode")
+            }
+        }
+        .scenePadding(.horizontal)
+    }
+
+    var episodeCount: Int {
+        instance.series.cachedItems.reduce(0) { $0 + $1.episodeCount }
     }
 
     var notConnectedToInternet: Bool {
