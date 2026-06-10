@@ -39,7 +39,8 @@ struct SeriesSearchView: View {
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
-            placement: .drawerOrToolbar(.always)
+            placement: .drawerOrToolbar(.always),
+            prompt: "e.g. Breaking Bad, tvdb:81189, imdb:tt0903747"
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
