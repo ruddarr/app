@@ -40,7 +40,7 @@ struct SeriesView: View {
                         ScrollView {
                             mediaGrid
 
-                            if !instance.series.cachedItems.isEmpty {
+                            if instance.series.cachedItems.count > 42 {
                                 mediaCount
                             }
 
@@ -182,7 +182,7 @@ struct SeriesView: View {
     }
 
     var mediaCount: some View {
-        MediaGridCount {
+        HStack(spacing: 6) {
             Text("\(instance.series.cachedItems.count) Series")
 
             if episodeCount > 0 {
@@ -190,7 +190,10 @@ struct SeriesView: View {
                 Text("\(episodeCount) Episode")
             }
         }
-        .scenePadding(.horizontal)
+        .font(.footnote)
+        .foregroundStyle(.secondary)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.bottom)
     }
 
     var episodeCount: Int {

@@ -135,7 +135,6 @@
 		BB96C32D2BE8351800E24C1C /* series-releases.json in Resources */ = {isa = PBXBuildFile; fileRef = BB96C32C2BE8351800E24C1C /* series-releases.json */; };
 		BB96C32F2BE8889E00E24C1C /* SeriesEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB96C32E2BE8889E00E24C1C /* SeriesEditView.swift */; };
 		BB9BF4182DCFFE2D00488FCA /* MediaGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9BF4172DCFFE2D00488FCA /* MediaGrid.swift */; };
-		BBCAFE000000000000000FA1 /* MediaGridCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCAFE000000000000000FA2 /* MediaGridCount.swift */; };
 		BB9DC2252BA920AF00459FFF /* API+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9DC2242BA920AF00459FFF /* API+Error.swift */; };
 		BB9DC22B2BAA11C700459FFF /* MoviesView+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9DC22A2BAA11C700459FFF /* MoviesView+Overlay.swift */; };
 		BBA06B592F47D4B600A5F9B4 /* popular-movies.json in Resources */ = {isa = PBXBuildFile; fileRef = BBA06B582F47D4B600A5F9B4 /* popular-movies.json */; };
@@ -396,7 +395,6 @@
 		BB96C32C2BE8351800E24C1C /* series-releases.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-releases.json"; sourceTree = "<group>"; };
 		BB96C32E2BE8889E00E24C1C /* SeriesEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesEditView.swift; sourceTree = "<group>"; };
 		BB9BF4172DCFFE2D00488FCA /* MediaGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGrid.swift; sourceTree = "<group>"; };
-		BBCAFE000000000000000FA2 /* MediaGridCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGridCount.swift; sourceTree = "<group>"; };
 		BB9DC2242BA920AF00459FFF /* API+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+Error.swift"; sourceTree = "<group>"; };
 		BB9DC22A2BAA11C700459FFF /* MoviesView+Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoviesView+Overlay.swift"; sourceTree = "<group>"; };
 		BBA06B582F47D4B600A5F9B4 /* popular-movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "popular-movies.json"; sourceTree = "<group>"; };
@@ -802,7 +800,6 @@
 				BB89BCA72CAB853E006F8728 /* HiddenReleases.swift */,
 				BB9BF4172DCFFE2D00488FCA /* MediaGrid.swift */,
 				BBB3C9132F47E68F001BDDF8 /* MediaGrid+Content.swift */,
-				BBCAFE000000000000000FA2 /* MediaGridCount.swift */,
 				BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */,
 				BBAFC7E62BB733E800245D10 /* MediaEventSheet.swift */,
 				BB35E7102DBFDD6200A8A735 /* MediaDeleteSheet.swift */,
@@ -1342,7 +1339,6 @@
 				BBBCA0582BE936F300BAE374 /* Season.swift in Sources */,
 				BB507D322BD99C0300EC4016 /* SeriesDetails+Overview.swift in Sources */,
 				BB9BF4182DCFFE2D00488FCA /* MediaGrid.swift in Sources */,
-				BBCAFE000000000000000FA1 /* MediaGridCount.swift in Sources */,
 				BB9255CE2B54657900967F84 /* InstanceEditView.swift in Sources */,
 				BBC77E262B7AB79100573EBD /* Notifications.swift in Sources */,
 				BBBE93162B68638400353216 /* Theme.swift in Sources */,

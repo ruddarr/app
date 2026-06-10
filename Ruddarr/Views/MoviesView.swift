@@ -39,7 +39,7 @@ struct MoviesView: View {
                         ScrollView {
                             mediaGrid
 
-                            if !instance.movies.cachedItems.isEmpty {
+                            if instance.movies.cachedItems.count > 42 {
                                 mediaCount
                             }
 
@@ -172,10 +172,13 @@ struct MoviesView: View {
     }
 
     var mediaCount: some View {
-        MediaGridCount {
+        HStack(spacing: 6) {
             Text("\(instance.movies.cachedItems.count) Movie")
         }
-        .scenePadding(.horizontal)
+        .font(.footnote)
+        .foregroundStyle(.secondary)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.bottom)
     }
 
     var notConnectedToInternet: Bool {
