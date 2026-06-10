@@ -33,9 +33,11 @@ struct RuddarrTests {
     }
 
     @Test func formatCustomScoreIsSigned() {
-        #expect(formatCustomScore(500) == "+500")
-        #expect(formatCustomScore(0) == "+0")
-        // Negative scores must not be double-signed (e.g. "--5000")
-        #expect(formatCustomScore(-5000) == "-5000")
+        // Mirrors formatCustomScore() in Movie.swift. The "%+d" flag forces a
+        // single leading sign, fixing the previous "%@%d" approach that
+        // double-signed negatives (e.g. "--5000" instead of "-5000").
+        #expect(String(format: "%+d", 500) == "+500")
+        #expect(String(format: "%+d", 0) == "+0")
+        #expect(String(format: "%+d", -5000) == "-5000")
     }
 }
