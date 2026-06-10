@@ -3,3 +3,4 @@
 - Clarified search placeholder text
 - Fixed various small iOS 27 issues
 - Fixed negative custom format scores double minus sign
+- Fixed missing top padding on media info sheet on macOS
