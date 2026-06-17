@@ -113,7 +113,7 @@ extension SeriesSort: RawRepresentable {
             let result = try JSONDecoder().decode(SeriesSort.self, from: data)
             self = result
         } catch {
-            leaveBreadcrumb(.fatal, category: "series.sort", message: "JSON decode failed: \(error)", data: ["error": error, "rawValue": rawValue])
+            leaveBreadcrumb(.warning, category: "series.sort", message: "JSON decode failed: \(error)", data: ["error": error, "rawValue": rawValue])
 
             return nil
         }
@@ -145,7 +145,7 @@ extension SeriesSort: Codable {
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),
             filter: container.decode(Filter.self, forKey: .filter),
-            folder: container.decode(String.self, forKey: .folder)
+            folder: container.decodeIfPresent(String.self, forKey: .folder) ?? .all
         )
     }
 
