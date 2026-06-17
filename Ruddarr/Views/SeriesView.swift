@@ -347,6 +347,14 @@ struct SeriesView: View {
     }
 }
 
+#Preview {
+    dependencies.router.selectedTab = .series
+
+    return ContentView()
+        .withAppState()
+        // .frame(minWidth: 900, minHeight: 600)
+}
+
 #Preview("Offline") {
     dependencies.api.fetchSeries = { _ in
         throw API.Error.notConnectedToInternet
@@ -356,12 +364,4 @@ struct SeriesView: View {
 
     return ContentView()
         .withAppState()
-}
-
-#Preview {
-    dependencies.router.selectedTab = .series
-
-    return ContentView()
-        .withAppState()
-        .frame(minWidth: 900, minHeight: 600)
 }

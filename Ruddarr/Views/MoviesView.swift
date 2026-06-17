@@ -323,6 +323,11 @@ struct MoviesView: View {
     }
 }
 
+#Preview {
+    ContentView()
+        .withAppState()
+}
+
 #Preview("Offline") {
     dependencies.api.fetchMovies = { _ in
         throw API.Error.notConnectedToInternet
@@ -351,10 +356,5 @@ struct MoviesView: View {
     }
 
     return ContentView()
-        .withAppState()
-}
-
-#Preview {
-    ContentView()
         .withAppState()
 }
