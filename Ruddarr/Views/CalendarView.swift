@@ -148,6 +148,16 @@ struct CalendarView: View {
             }
         }
 
+        movies = movies.mapValues { items in
+            items.sorted {
+                if $0.monitored != $1.monitored {
+                    return $0.monitored
+                }
+
+                return $0.title.localizedStandardCompare($1.title) == .orderedAscending
+            }
+        }
+
         return movies
     }
 
@@ -162,8 +172,21 @@ struct CalendarView: View {
                 dummy.calendarGroupCount = group.count
                 return dummy
             }.sorted {
-                ($0.airDateUtc ?? Date.distantPast, $0.episodeNumber) <
-                ($1.airDateUtc ?? Date.distantPast, $1.episodeNumber)
+                let lhsDate = $0.airDateUtc ?? Date.distantPast
+                let rhsDate = $1.airDateUtc ?? Date.distantPast
+
+                if lhsDate != rhsDate {
+                    return lhsDate < rhsDate
+                }
+
+                let lhsMonitored = $0.monitored && $0.series?.monitored != false
+                let rhsMonitored = $1.monitored && $1.series?.monitored != false
+
+                if lhsMonitored != rhsMonitored {
+                    return lhsMonitored
+                }
+
+                return $0.episodeNumber < $1.episodeNumber
             }
         }
 
