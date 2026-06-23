@@ -128,6 +128,9 @@ extension API {
             try await Task.sleep(for: .seconds(2))
 
             return Empty()
+        }, fetchCommands: { instance in
+            let commands: [CommandItem] = loadPreviewData(filename: "commands")
+            return commands.map { var cmd = $0; cmd.instanceId = instance.id; return cmd }
         }, downloadRelease: { _, _ in
             try await Task.sleep(for: .seconds(1))
 

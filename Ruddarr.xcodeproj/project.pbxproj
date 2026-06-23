@@ -19,6 +19,9 @@
 		798010BD2B6268D200BBC056 /* RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798010BC2B6268D200BBC056 /* RawRepresentable.swift */; };
 		798010BF2B6268DE00BBC056 /* MovieSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798010BE2B6268DE00BBC056 /* MovieSort.swift */; };
 		79B761CB2B7115EC001DD30E /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B761CA2B7115EC001DD30E /* Toast.swift */; };
+		AA0000012F00000000000001 /* CommandItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012F00000000000002 /* CommandItem.swift */; };
+		AA0000012F00000000000003 /* CommandListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012F00000000000004 /* CommandListItem.swift */; };
+		AA0000012F00000000000005 /* commands.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0000012F00000000000006 /* commands.json */; };
 		BB000000000000000000AAA1 /* RuddarrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000000000000000000AAA3 /* RuddarrTests.swift */; };
 		BB01B1F42B6465730025FAF4 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01B1F32B6465730025FAF4 /* View.swift */; };
 		BB035A442C1D3B71005DFD45 /* Spotlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB035A432C1D3B71005DFD45 /* Spotlight.swift */; };
@@ -273,6 +276,9 @@
 		798010BC2B6268D200BBC056 /* RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawRepresentable.swift; sourceTree = "<group>"; };
 		798010BE2B6268DE00BBC056 /* MovieSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSort.swift; sourceTree = "<group>"; };
 		79B761CA2B7115EC001DD30E /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		AA0000012F00000000000002 /* CommandItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandItem.swift; sourceTree = "<group>"; };
+		AA0000012F00000000000004 /* CommandListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandListItem.swift; sourceTree = "<group>"; };
+		AA0000012F00000000000006 /* commands.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = commands.json; sourceTree = "<group>"; };
 		BB000000000000000000AAA2 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB000000000000000000AAA3 /* RuddarrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuddarrTests.swift; sourceTree = "<group>"; };
 		BB01B1F32B6465730025FAF4 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -560,6 +566,7 @@
 			children = (
 				BBD5D8112C014538008E3B3F /* Queue.swift */,
 				BB2370E12DCE76F500261710 /* QueueItem.swift */,
+				AA0000012F00000000000002 /* CommandItem.swift */,
 				BB2370E32DCE76F600261710 /* ImportableFile.swift */,
 			);
 			path = Queue;
@@ -779,6 +786,7 @@
 				BBDBBC682C13A0600087C844 /* QueueSort.swift */,
 				BB50F2262C3B06AD005E14CA /* QueueListItem.swift */,
 				BBB8AED32C10DA1A00AA2D9C /* QueueItemSheet.swift */,
+				AA0000012F00000000000004 /* CommandListItem.swift */,
 				BB3EBC002CC052B700141868 /* TaskRemovalView.swift */,
 				BB42B7CA2DCD26AB00DA73A3 /* TaskImportView.swift */,
 			);
@@ -912,6 +920,7 @@
 				BB2370D92DCE657800261710 /* sonarr-manual-import.json */,
 				BBA06B582F47D4B600A5F9B4 /* popular-movies.json */,
 				BB181D6E2F48E8DF00981037 /* popular-series.json */,
+				AA0000012F00000000000006 /* commands.json */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -1177,6 +1186,7 @@
 				BB181D6F2F48E8DF00981037 /* popular-series.json in Resources */,
 				BB54D02A2E90932400F5CF42 /* AppIconWarp.icon in Resources */,
 				BB77C2CE2C1A019B00125852 /* AppShortcuts.xcstrings in Resources */,
+				AA0000012F00000000000005 /* commands.json in Resources */,
 				BBD5D8102C013E30008E3B3F /* movie-queue.json in Resources */,
 				BBA733672BB5278800A5022B /* movie-history.json in Resources */,
 				BB456D272B58E4B900C29B00 /* system-status.json in Resources */,
@@ -1278,6 +1288,8 @@
 				BB6F23AD2B6ABBBD00A4347A /* SettingsSystemSection.swift in Sources */,
 				BB0FE1112BED30D100D1D847 /* SeriesFiles.swift in Sources */,
 				BB8A56792C0004D500199DB7 /* Reviews.swift in Sources */,
+				AA0000012F00000000000001 /* CommandItem.swift in Sources */,
+				AA0000012F00000000000003 /* CommandListItem.swift in Sources */,
 				BBD5D8122C014538008E3B3F /* Queue.swift in Sources */,
 				BBC309D82BED584C004080FD /* Platform.swift in Sources */,
 				BB96C32B2BE833AD00E24C1C /* SeriesForm.swift in Sources */,

@@ -221,6 +221,13 @@ extension API {
                 .appending(path: "/api/v3/command")
 
             return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
+        }, fetchCommands: { instance in
+            let url = try instance.baseURL()
+                .appending(path: "/api/v3/command")
+
+            var commands: [CommandItem] = try await request(url: url, headers: instance.auth)
+            for i in commands.indices { commands[i].instanceId = instance.id }
+            return commands
         }, downloadRelease: { payload, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/release")
