@@ -88,6 +88,8 @@ extension SeriesView {
             ToolbarSpacer(.flexible, placement: .bottomBar)
 
             ToolbarItem(placement: .bottomBar) {
+                @Bindable var settings = settings
+
                 Menu {
                     Picker(selection: $settings.sonarrInstanceId, label: Text("Instances")) {
                         ForEach(settings.sonarrInstances) { instance in
@@ -114,6 +116,8 @@ extension SeriesView {
         ToolbarSpacer(.fixed, placement: .navigation)
 
         ToolbarItem(placement: .navigation) {
+            @Bindable var settings = settings
+
             Menu {
                 Picker(selection: $settings.sonarrInstanceId, label: Text("Instances")) {
                     ForEach(settings.sonarrInstances) { instance in

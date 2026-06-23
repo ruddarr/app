@@ -10,7 +10,7 @@ struct SeasonView: View {
     @State private var dispatchingSearch: Bool = false
     @State private var showDeleteConfirmation = false
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
 
     var body: some View {
@@ -186,7 +186,7 @@ struct SeasonView: View {
                         ) {
                             EpisodeRow(episode: episode)
                                 .environment(instance)
-                                .environmentObject(settings)
+                                .environment(settings)
                         }
                         .buttonStyle(.plain)
 

@@ -5,7 +5,7 @@ struct CalendarDate: View {
 
     @State var isToday: Bool = false
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     var body: some View {
         VStack(alignment: .center, spacing: 0) {

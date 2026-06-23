@@ -2,7 +2,7 @@ import SwiftUI
 
 #if os(macOS)
 struct ContentView: View {
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     var body: some View {
         NavigationSplitView {
@@ -105,6 +105,8 @@ struct ContentView: View {
 
     @ViewBuilder
     var instancesSection: some View {
+        @Bindable var settings = settings
+
         if dependencies.router.selectedTab == .movies, settings.radarrInstances.count > 1 {
             Section("Instances") {
                 instanceRow(

@@ -3,7 +3,7 @@ import CoreSpotlight
 import Nuke
 
 struct SettingsSystemSection: View {
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
     @Environment(\.presentBugSheet) var presentBugSheet

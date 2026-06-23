@@ -4,7 +4,7 @@ import TelemetryDeck
 struct MovieView: View {
     @Binding var movie: Movie
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance
@@ -17,7 +17,7 @@ struct MovieView: View {
             MovieDetails(movie: movie)
                 .padding(.top)
                 .scenePadding(.horizontal)
-                .environmentObject(settings)
+                .environment(settings)
         }
         .refreshable {
             await Task { await reload() }.value

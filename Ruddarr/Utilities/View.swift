@@ -68,18 +68,16 @@ private struct OnBecomeActiveModifier: ViewModifier {
 }
 
 private struct WithAppStateModifier: ViewModifier {
-    @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
-    @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
+    @State private var settings = AppSettings()
 
     func body(content: Content) -> some View {
-        let settings = AppSettings()
         let radarrInstance = settings.radarrInstance ?? Instance.radarrVoid
         let sonarrInstance = settings.sonarrInstance ?? Instance.sonarrVoid
 
         content
-            .tint(theme.tint)
-            .preferredColorScheme(appearance.preferredColorScheme)
-            .environmentObject(settings)
+            .tint(settings.theme.tint)
+            .preferredColorScheme(settings.appearance.preferredColorScheme)
+            .environment(settings)
             .environment(\.deviceType, Platform.deviceType)
             .environment(RadarrInstance(radarrInstance))
             .environment(SonarrInstance(sonarrInstance))

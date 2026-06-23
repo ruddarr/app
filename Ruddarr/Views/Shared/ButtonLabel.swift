@@ -17,7 +17,7 @@ struct ButtonLabel: View {
         self.isLoading = isLoading
     }
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     var body: some View {
         Label {

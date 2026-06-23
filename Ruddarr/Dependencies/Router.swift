@@ -1,6 +1,7 @@
 import SwiftUI
 import Combine
 import AppIntents
+import Defaults
 
 @Observable
 class Router {
@@ -21,7 +22,7 @@ class Router {
     }
 }
 
-enum TabItem: String, Identifiable, Hashable, Sendable {
+enum TabItem: String, Identifiable, Hashable, Sendable, Defaults.Serializable {
     var id: Self { self }
 
     case movies

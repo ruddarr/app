@@ -1,7 +1,8 @@
 import SwiftUI
+import Defaults
 
 // https://developer.apple.com/design/human-interface-guidelines/color
-enum Theme: String, Identifiable, CaseIterable {
+enum Theme: String, Identifiable, CaseIterable, Defaults.Serializable {
     static let factory = Theme.purple
 
     case blue
@@ -56,7 +57,7 @@ enum Theme: String, Identifiable, CaseIterable {
     }
 }
 
-enum GridStyle: String, Identifiable, CaseIterable {
+enum GridStyle: String, Identifiable, CaseIterable, Defaults.Serializable {
     case posters
     case cards
 
@@ -70,7 +71,7 @@ enum GridStyle: String, Identifiable, CaseIterable {
     }
 }
 
-enum Appearance: String, Identifiable, CaseIterable {
+enum Appearance: String, Identifiable, CaseIterable, Defaults.Serializable {
     case automatic
     case light
     case dark
@@ -94,7 +95,7 @@ enum Appearance: String, Identifiable, CaseIterable {
     }
 }
 
-enum AppIcon: String, Identifiable, CaseIterable {
+enum AppIcon: String, Identifiable, CaseIterable, Defaults.Serializable {
     case factory
     case books
     case podcasts

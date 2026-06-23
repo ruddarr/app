@@ -16,7 +16,7 @@ struct CalendarView: View {
     @State private var displayedInstance: String = .all
     @State private var displayedMediaType: CalendarMediaType = .all
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     private let firstWeekday = Calendar.current.firstWeekday
 

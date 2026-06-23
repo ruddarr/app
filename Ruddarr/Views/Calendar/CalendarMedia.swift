@@ -4,7 +4,7 @@ struct CalendarMovie: View {
     var date: Date
     var movie: Movie
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     var body: some View {
         HStack {
@@ -68,7 +68,7 @@ struct CalendarMovie: View {
 struct CalendarEpisode: View {
     var episode: Episode
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     var body: some View {
         VStack(alignment: .leading) {

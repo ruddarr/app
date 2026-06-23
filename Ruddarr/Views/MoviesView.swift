@@ -13,7 +13,7 @@ enum MoviesPath: Hashable {
 struct MoviesView: View {
     @AppStorage("movieSort", store: dependencies.store) var sort: MovieSort = .init()
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var instance
 
     @State private var scrollView: ScrollViewProxy?
@@ -125,19 +125,19 @@ struct MoviesView: View {
             if let data, let movie = try? JSONDecoder().decode(Movie.self, from: data) {
                 MoviePreviewView(movie: movie)
                     .environment(instance)
-                    .environmentObject(settings)
+                    .environment(settings)
             }
         case .movie(let id):
             MovieView(movie: instance.movies.byId(id))
                 .environment(instance)
-                .environmentObject(settings)
+                .environment(settings)
         case .edit(let id):
             MovieEditView(movie: instance.movies.byId(id))
                 .environment(instance)
         case .releases(let id):
             MovieReleasesView(movie: instance.movies.byId(id))
                 .environment(instance)
-                .environmentObject(settings)
+                .environment(settings)
         case .metadata(let id):
             MovieMetadataView(movie: instance.movies.byId(id))
                 .environment(instance)

@@ -2,7 +2,7 @@ import SwiftUI
 
 #if os(iOS)
 struct ContentView: View {
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     var body: some View {
         TabView(selection: selectedTab) {

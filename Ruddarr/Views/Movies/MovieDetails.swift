@@ -8,7 +8,7 @@ struct MovieDetails: View {
     @State private var descriptionTruncated = true
     @State private var fileSheet: MediaFile?
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     @Environment(RadarrInstance.self) var instance
     @Environment(\.deviceType) var deviceType

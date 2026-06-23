@@ -5,7 +5,7 @@ struct MovieReleaseSheet: View {
     var release: MovieRelease
     var movie: Movie
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss

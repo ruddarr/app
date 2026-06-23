@@ -14,7 +14,7 @@ enum SeriesPath: Hashable {
 struct SeriesView: View {
     @AppStorage("seriesSort", store: dependencies.store) var sort: SeriesSort = .init()
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
 
     @State private var scrollView: ScrollViewProxy?
@@ -126,12 +126,12 @@ struct SeriesView: View {
             if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
                 SeriesPreviewView(series: series)
                     .environment(instance)
-                    .environmentObject(settings)
+                    .environment(settings)
             }
         case .series(let id):
             SeriesDetailView(series: instance.series.byId(id))
                 .environment(instance)
-                .environmentObject(settings)
+                .environment(settings)
         case .edit(let id):
             SeriesEditView(series: instance.series.byId(id))
                 .environment(instance)
@@ -142,15 +142,15 @@ struct SeriesView: View {
                 episodeId: episode
             )
             .environment(instance)
-            .environmentObject(settings)
+            .environment(settings)
         case .season(let id, let season, let episode):
             SeasonView(series: instance.series.byId(id), seasonId: season, jumpToEpisode: episode)
                 .environment(instance)
-                .environmentObject(settings)
+                .environment(settings)
         case .episode(let id, let episode):
             EpisodeView(series: instance.series.byId(id), episodeId: episode)
                 .environment(instance)
-                .environmentObject(settings)
+                .environment(settings)
         }
     }
 

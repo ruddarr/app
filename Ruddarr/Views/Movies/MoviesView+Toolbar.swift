@@ -88,6 +88,8 @@ extension MoviesView {
             ToolbarSpacer(.flexible, placement: .bottomBar)
 
             ToolbarItem(placement: .bottomBar) {
+                @Bindable var settings = settings
+
                 Menu {
                     Picker(selection: $settings.radarrInstanceId, label: Text("Instances")) {
                         ForEach(settings.radarrInstances) { instance in
@@ -114,6 +116,8 @@ extension MoviesView {
         ToolbarSpacer(.fixed, placement: .navigation)
 
         ToolbarItem(placement: .navigation) {
+            @Bindable var settings = settings
+
             Menu {
                 Picker(selection: $settings.radarrInstanceId, label: Text("Instances")) {
                     ForEach(settings.radarrInstances) { instance in

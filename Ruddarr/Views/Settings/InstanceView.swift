@@ -22,7 +22,7 @@ struct InstanceView: View {
 
     @State var showSonarrNoiseAlert = false
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
 

@@ -3,7 +3,7 @@ import SwiftUI
 struct EpisodeRow: View {
     var episode: Episode
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
     @Environment(\.colorScheme) var colorScheme
 

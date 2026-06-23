@@ -2,7 +2,7 @@ import SwiftUI
 import StoreKit
 
 struct SettingsPreferencesSection: View {
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(\.colorScheme) var colorScheme
 
     @State private var showSubscriptionSheet: Bool = false
@@ -36,7 +36,10 @@ struct SettingsPreferencesSection: View {
         #endif
     }
 
+    @ViewBuilder
     var tabPicker: some View {
+        @Bindable var settings = settings
+
         Picker(selection: $settings.tab) {
             ForEach([
                 TabItem.movies,
@@ -59,7 +62,10 @@ struct SettingsPreferencesSection: View {
         }
     }
 
+    @ViewBuilder
     var gridPicker: some View {
+        @Bindable var settings = settings
+
         Picker(selection: $settings.grid) {
             ForEach(GridStyle.allCases) { style in
                 Text(style.label)
@@ -70,7 +76,10 @@ struct SettingsPreferencesSection: View {
         }.tint(.secondary)
     }
 
+    @ViewBuilder
     var releaseFiltersPicker: some View {
+        @Bindable var settings = settings
+
         Picker(selection: $settings.releaseFilters) {
             ForEach(ReleaseFilters.allCases) { value in
                 Text(value.label)

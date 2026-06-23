@@ -1,27 +1,18 @@
+import Defaults
 import SwiftUI
 import Foundation
-import CloudStorage
 
-// We can't migrate this to `@Observable` because `@AppStorage` isn't supported
-// We could use https://github.com/sindresorhus/Defaults instead maybe
-@MainActor
-class AppSettings: ObservableObject {
-    #if DEBUG
-        @AppStorage("debugInstances") var instances: [Instance] = []
-    #else
-        @CloudStorage("instances") var instances: [Instance] = []
-    #endif
-
-    @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
-    @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
-    @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
-    @AppStorage("grid", store: dependencies.store) var grid: GridStyle = .posters
-
-    @AppStorage("tab", store: dependencies.store) var tab: TabItem = .movies
-    @AppStorage("releaseFilters", store: dependencies.store) var releaseFilters: ReleaseFilters = .reset
-
-    @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
-    @AppStorage("sonarrInstanceId", store: dependencies.store) var sonarrInstanceId: Instance.ID?
+@Observable @MainActor
+final class AppSettings {
+    @ObservationIgnored @Default(.instances) var instances
+    @ObservationIgnored @Default(.icon) var icon
+    @ObservationIgnored @Default(.theme) var theme
+    @ObservationIgnored @Default(.appearance) var appearance
+    @ObservationIgnored @Default(.grid) var grid
+    @ObservationIgnored @Default(.tab) var tab
+    @ObservationIgnored @Default(.releaseFilters) var releaseFilters
+    @ObservationIgnored @Default(.radarrInstanceId) var radarrInstanceId
+    @ObservationIgnored @Default(.sonarrInstanceId) var sonarrInstanceId
 
     func resetAll() {
         instances.removeAll()
@@ -123,7 +114,7 @@ extension AppSettings {
     }
 }
 
-enum ReleaseFilters: String, Identifiable, CaseIterable {
+enum ReleaseFilters: String, Identifiable, CaseIterable, Defaults.Serializable {
     var id: Self { self }
 
     case reset

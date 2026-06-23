@@ -11,7 +11,7 @@ struct SeriesReleasesView: View {
 
     @AppStorage("seriesReleaseSort", store: dependencies.store) private var sort: SeriesReleaseSort = .init()
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(\.deviceType) private var deviceType
     @Environment(SonarrInstance.self) private var instance
 
@@ -23,7 +23,7 @@ struct SeriesReleasesView: View {
                 } label: {
                     SeriesReleaseRow(release: release)
                         .environment(instance)
-                        .environmentObject(settings)
+                        .environment(settings)
                 }
                 .buttonStyle(.plain)
             }
@@ -74,7 +74,7 @@ struct SeriesReleasesView: View {
                 episodeId: episodeId
             )
             .environment(instance)
-            .environmentObject(settings)
+            .environment(settings)
             .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
             .presentationBackground(.sheetBackground)
         }

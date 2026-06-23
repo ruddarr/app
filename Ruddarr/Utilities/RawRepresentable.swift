@@ -1,4 +1,5 @@
 public import Foundation
+import Defaults
 
 extension UUID: @retroactive RawRepresentable {
     public var rawValue: String {
@@ -30,4 +31,12 @@ extension Array<Instance>: @retroactive RawRepresentable {
         }
         return result
     }
+}
+
+extension UUID: Defaults.Serializable {
+    public static let bridge = Defaults.RawRepresentableBridge<UUID>()
+}
+
+extension Array<Instance>: Defaults.Serializable {
+    public static let bridge = Defaults.RawRepresentableBridge<[Instance]>()
 }

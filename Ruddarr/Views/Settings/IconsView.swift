@@ -2,7 +2,7 @@ import SwiftUI
 import StoreKit
 
 struct IconsView: View {
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     @State var showSubscription: Bool = false
     @State var entitledToService: Bool = false

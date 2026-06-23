@@ -4,7 +4,7 @@ struct SettingsView: View {
     @State private var showInstanceNameWarning: Bool = false
     @State private var showLocalNetworkWarning: Bool = false
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
 
@@ -35,33 +35,36 @@ struct SettingsView: View {
                 switch $0 {
                 case .icons:
                     IconsView()
-                        .environmentObject(settings)
+                        .environment(settings)
                 case .createInstance:
                     InstanceEditView(mode: .create, instance: Instance())
                         .environment(radarrInstance)
                         .environment(sonarrInstance)
-                        .environmentObject(settings)
+                        .environment(settings)
                 case .viewInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
                         InstanceView(instance: instance)
                             .environment(radarrInstance)
                             .environment(sonarrInstance)
-                            .environmentObject(settings)
+                            .environment(settings)
                     }
                 case .editInstance(let instanceId):
                     if let instance = settings.instanceById(instanceId) {
                         InstanceEditView(mode: .update, instance: instance)
                             .environment(radarrInstance)
                             .environment(sonarrInstance)
-                            .environmentObject(settings)
+                            .environment(settings)
                     }
                 }
             }
         }
     }
 
+    @ViewBuilder
     var instanceSection: some View {
-        Section {
+        @Bindable var settings = settings
+
+        return Section {
             ForEach($settings.instances) { $instance in
                 NavigationLink(value: Path.viewInstance(instance.id)) {
                     InstanceRow(instance: $instance)

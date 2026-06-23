@@ -7,7 +7,7 @@ struct SeriesDetails: View {
     @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
 
     @Environment(\.deviceType) var deviceType
