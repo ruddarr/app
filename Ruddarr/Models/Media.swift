@@ -23,19 +23,36 @@ struct MediaLanguage: Equatable, Codable {
             return String(localized: "Unknown")
         }
 
-        let english = Locale(identifier: "en")
+        let key = name.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
 
-        let code = Locale.LanguageCode.isoLanguageCodes.first(where: {
-            guard let language = english.localizedString(forLanguageCode: $0.identifier) else { return false }
-            return language.compare(name, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
-        })
-
-        guard let code, let label = Locale.current.localizedString(forLanguageCode: code.identifier) else {
+        guard
+            let code = Self.codesByEnglishName[key],
+            let label = Locale.current.localizedString(forLanguageCode: code)
+        else {
             return String(localized: "Unknown")
         }
 
         return label
     }
+
+    private static let codesByEnglishName: [String: String] = {
+        let english = Locale(identifier: "en")
+        var map: [String: String] = [:]
+
+        for code in Locale.LanguageCode.isoLanguageCodes {
+            guard let name = english.localizedString(forLanguageCode: code.identifier) else {
+                continue
+            }
+
+            let key = name.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
+
+            if map[key] == nil {
+                map[key] = code.identifier
+            }
+        }
+
+        return map
+    }()
 }
 
 struct MediaAlternateTitle: Equatable, Codable {
