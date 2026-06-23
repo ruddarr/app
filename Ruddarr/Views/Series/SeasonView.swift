@@ -5,6 +5,7 @@ import TipKit
 struct SeasonView: View {
     @Binding var series: Series
     var seasonId: Season.ID
+    var navigate: ((SeriesPath) -> Void)?
     @State var jumpToEpisode: Episode.ID?
 
     @State private var hasFetched: Bool = false
@@ -36,7 +37,7 @@ struct SeasonView: View {
         #endif
         .toolbar {
             toolbarMonitorButton
-            toolbarMenu
+            CalendarAwareToolbarMenu { toolbarMenu }
         }
         .task {
             async let maybeFetchEpisodes: () = instance.episodes.maybeFetch(series)
@@ -298,9 +299,13 @@ extension SeasonView {
 
         jumpToEpisode = nil
 
-        dependencies.router.seriesPath.append(
-            SeriesPath.episode(series.id, episode.id)
-        )
+        let path = SeriesPath.episode(series.id, episode.id)
+
+        if let navigate {
+            navigate(path)
+        } else {
+            dependencies.router.seriesPath.append(path)
+        }
     }
 
     func deleteSeason() async {

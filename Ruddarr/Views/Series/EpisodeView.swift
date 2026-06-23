@@ -19,7 +19,6 @@ struct EpisodeView: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
 
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
 
     var startOfToday = Calendar.current.startOfDay(for: Date())
@@ -59,7 +58,7 @@ struct EpisodeView: View {
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
-            toolbarMenu
+            CalendarAwareToolbarMenu { toolbarMenu }
         }
         .refreshable {
             await Task { await reload() }.value

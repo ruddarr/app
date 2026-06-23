@@ -42,6 +42,22 @@ struct Episode: Identifiable, Codable, Equatable {
         "\(seriesId):\(seasonNumber):\(airDateUtc?.formatted(.iso8601) ?? "")"
     }
 
+    var isGroupedInCalendar: Bool {
+        (calendarGroupCount ?? 0) > 2
+    }
+
+    var calendarDeeplink: URL? {
+        guard let instanceId else { return nil }
+
+        var deeplink = "ruddarr://series/open/\(seriesId)?season=\(seasonNumber)&instance=\(instanceId.uuidString)"
+
+        if !isGroupedInCalendar {
+            deeplink.append("&episode=\(episodeNumber)")
+        }
+
+        return URL(string: deeplink)
+    }
+
     var titleLabel: String {
         title ?? String(localized: "Unannounced", comment: "Missing media title")
     }

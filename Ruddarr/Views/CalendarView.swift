@@ -8,6 +8,9 @@ struct CalendarView: View {
     @State private var alertPresented = false
     @State private var hideCalendarView: Bool = true
     @State private var isRetrying: Bool = false
+    #if os(iOS)
+        @State private var selectedMedia: CalendarSelection?
+    #endif
 
     @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
     @AppStorage("calendarSpecials", store: dependencies.store) private var hideSpecials: Bool = false
@@ -114,6 +117,13 @@ struct CalendarView: View {
                     contentUnavailable
                 }
             }
+            #if os(iOS)
+                .sheet(item: $selectedMedia) { selection in
+                    CalendarDetailSheet(selection: selection)
+                        .presentationDetents([.large])
+                        .presentationBackground(.sheetBackground)
+                }
+            #endif
         }
     }
 
@@ -245,13 +255,17 @@ struct CalendarView: View {
         VStack(spacing: 8) {
             if let movies {
                 ForEach(movies) { movie in
-                    CalendarMovie(date: date, movie: movie)
+                    CalendarMovie(date: date, movie: movie) {
+                        open(movie)
+                    }
                 }
             }
 
             if let episodes {
                 ForEach(episodes) { episode in
-                    CalendarEpisode(episode: episode)
+                    CalendarEpisode(episode: episode) {
+                        open(episode)
+                    }
                 }
             }
 
@@ -372,6 +386,24 @@ struct CalendarView: View {
 
             Label(label, systemImage: "internaldrive")
         }
+    }
+
+    func open(_ movie: Movie) {
+        #if os(iOS)
+            selectedMedia = .movie(movie)
+        #else
+            guard let deeplink = movie.calendarDeeplink else { return }
+            try? QuickActions.Deeplink(url: deeplink)()
+        #endif
+    }
+
+    func open(_ episode: Episode) {
+        #if os(iOS)
+            selectedMedia = .episode(episode)
+        #else
+            guard let deeplink = episode.calendarDeeplink else { return }
+            try? QuickActions.Deeplink(url: deeplink)()
+        #endif
     }
 }
 

@@ -60,7 +60,7 @@ struct SeriesView: View {
             }
             .safeNavigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: SeriesPath.self) {
-                destination(for: $0)
+                SeriesDestination(path: $0)
             }
             .onAppear {
                 // if a deeplink set an instance, try to switch to it
@@ -113,44 +113,6 @@ struct SeriesView: View {
                     contentUnavailable
                 }
             }
-        }
-    }
-
-    @ViewBuilder
-    func destination(for path: SeriesPath) -> some View {
-        switch path {
-        case .search(let query):
-            SeriesSearchView(searchQuery: query)
-                .environment(instance)
-        case .preview(let data):
-            if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
-                SeriesPreviewView(series: series)
-                    .environment(instance)
-                    .environmentObject(settings)
-            }
-        case .series(let id):
-            SeriesDetailView(series: instance.series.byId(id))
-                .environment(instance)
-                .environmentObject(settings)
-        case .edit(let id):
-            SeriesEditView(series: instance.series.byId(id))
-                .environment(instance)
-        case .releases(let id, let season, let episode):
-            SeriesReleasesView(
-                series: instance.series.byId(id),
-                seasonId: season,
-                episodeId: episode
-            )
-            .environment(instance)
-            .environmentObject(settings)
-        case .season(let id, let season, let episode):
-            SeasonView(series: instance.series.byId(id), seasonId: season, jumpToEpisode: episode)
-                .environment(instance)
-                .environmentObject(settings)
-        case .episode(let id, let episode):
-            EpisodeView(series: instance.series.byId(id), episodeId: episode)
-                .environment(instance)
-                .environmentObject(settings)
         }
     }
 
@@ -344,6 +306,56 @@ struct SeriesView: View {
         }
 
         scheduleNextRun(time: DispatchTime.now(), seriesId, seasonId, episodeId)
+    }
+}
+
+struct SeriesDestination: View {
+    var path: SeriesPath
+    var navigate: ((SeriesPath) -> Void)?
+
+    @EnvironmentObject var settings: AppSettings
+    @Environment(SonarrInstance.self) var instance
+
+    var body: some View {
+        switch path {
+        case .search(let query):
+            SeriesSearchView(searchQuery: query)
+                .environment(instance)
+        case .preview(let data):
+            if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
+                SeriesPreviewView(series: series)
+                    .environment(instance)
+                    .environmentObject(settings)
+            }
+        case .series(let id):
+            SeriesDetailView(series: instance.series.byId(id))
+                .environment(instance)
+                .environmentObject(settings)
+        case .edit(let id):
+            SeriesEditView(series: instance.series.byId(id))
+                .environment(instance)
+        case .releases(let id, let season, let episode):
+            SeriesReleasesView(
+                series: instance.series.byId(id),
+                seasonId: season,
+                episodeId: episode
+            )
+            .environment(instance)
+            .environmentObject(settings)
+        case .season(let id, let season, let episode):
+            SeasonView(
+                series: instance.series.byId(id),
+                seasonId: season,
+                navigate: navigate,
+                jumpToEpisode: episode
+            )
+                .environment(instance)
+                .environmentObject(settings)
+        case .episode(let id, let episode):
+            EpisodeView(series: instance.series.byId(id), episodeId: episode)
+                .environment(instance)
+                .environmentObject(settings)
+        }
     }
 }
 

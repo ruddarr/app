@@ -3,6 +3,7 @@ import SwiftUI
 struct CalendarMovie: View {
     var date: Date
     var movie: Movie
+    var onTap: () -> Void = {}
 
     @EnvironmentObject var settings: AppSettings
 
@@ -37,13 +38,7 @@ struct CalendarMovie: View {
             .background(.card.opacity(shouldFade ? 0.6 : 1))
             .clipShape(RoundedRectangle(cornerRadius: 14))
             .onTapGesture {
-                let deeplink = String(
-                    format: "ruddarr://movies/open/%d?instance=%@",
-                    movie.id,
-                    movie.instanceId!.uuidString
-                )
-
-                try? QuickActions.Deeplink(url: URL(string: deeplink)!)()
+                onTap()
             }
     }
 
@@ -67,6 +62,7 @@ struct CalendarMovie: View {
 
 struct CalendarEpisode: View {
     var episode: Episode
+    var onTap: () -> Void = {}
 
     @EnvironmentObject var settings: AppSettings
 
@@ -113,18 +109,7 @@ struct CalendarEpisode: View {
         .background(.card.opacity(shouldFade ? 0.6 : 1))
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .onTapGesture {
-            var deeplink = String(
-                format: "ruddarr://series/open/%d?season=%d&instance=%@",
-                episode.seriesId,
-                episode.seasonNumber,
-                episode.instanceId!.uuidString
-            )
-
-            if !isGrouped {
-                deeplink.append("&episode=\(episode.episodeNumber)")
-            }
-
-            try? QuickActions.Deeplink(url: URL(string: deeplink)!)()
+            onTap()
         }
     }
 
@@ -168,7 +153,7 @@ struct CalendarEpisode: View {
     }
 
     var isGrouped: Bool {
-        (episode.calendarGroupCount ?? 0) > 2
+        episode.isGroupedInCalendar
     }
 }
 

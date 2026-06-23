@@ -120,6 +120,11 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         return 0
     }
 
+    var calendarDeeplink: URL? {
+        guard let instanceId else { return nil }
+        return URL(string: "ruddarr://movies/open/\(id)?instance=\(instanceId.uuidString)")
+    }
+
     var stateLabel: String {
         if isDownloaded {
             return String(localized: "Downloaded", comment: "State of media item")
