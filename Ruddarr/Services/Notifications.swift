@@ -3,7 +3,7 @@ import SwiftUI
 import CloudKit
 import StoreKit
 import CryptoKit
-@preconcurrency import UserNotifications
+import UserNotifications
 
 actor Notifications {
     static let url: String = "https://notify.ruddarr.com"
