@@ -61,7 +61,8 @@ struct SeriesLinks: View {
             if let tmdbId = series.tmdbId {
                 let url = "callsheet://open/tv/\(tmdbId)"
 
-                if UIApplication.shared.canOpenURL(URL(string: url)!) {
+                if let callsheetURL = URL(string: url),
+                   UIApplication.shared.canOpenURL(callsheetURL) {
                     return url
                 }
             }
