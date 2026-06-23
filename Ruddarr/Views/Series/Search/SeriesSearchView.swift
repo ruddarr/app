@@ -7,12 +7,18 @@ struct SeriesSearchView: View {
 
     @Environment(SonarrInstance.self) private var instance
 
+    private var shouldShowDiscoveryGrid: Bool {
+        instance.lookup.sortedItems.isEmpty &&
+        searchQuery.isEmpty &&
+        !instance.series.items.isEmpty
+    }
+
     var body: some View {
         @Bindable var discovery = Discovery.shared
         @Bindable var seriesLookup = instance.lookup
 
         ScrollView {
-            if seriesLookup.sortedItems.isEmpty, searchQuery.isEmpty, !instance.series.items.isEmpty {
+            if shouldShowDiscoveryGrid {
                 MediaGrid(items: discovery.series) { item in
                     DiscoveryGridPoster(item: item)
                 } header: {
