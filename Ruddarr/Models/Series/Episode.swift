@@ -83,6 +83,10 @@ struct Episode: Identifiable, Codable, Equatable {
         episodeNumber == 1 && seasonNumber > 0
     }
 
+    var isMonitoredInCalendar: Bool {
+        monitored && series?.monitored != false
+    }
+
     var isDownloaded: Bool {
         hasFile
     }
