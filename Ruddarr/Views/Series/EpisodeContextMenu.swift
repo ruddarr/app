@@ -72,6 +72,8 @@ struct EpisodeContextMenu: View {
                 return url
             }
         }
+
+        return nil
     }
 
     var imdbUrl: String {
