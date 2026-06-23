@@ -1,7 +1,9 @@
 - Added support for downgrade notifications
 - Added Brazilian Portuguese localization
+- Added episode links to Callsheet
 - Improved calendar filtering/ordering 
 - Clarified search placeholder text
+- Fixed broken Trakt links
 - Fixed poster size when screen sharing
 - Fixed negative custom format scores double minus sign
 - Fixed missing top padding on media info sheet on macOS
