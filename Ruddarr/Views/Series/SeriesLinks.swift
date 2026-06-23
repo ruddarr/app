@@ -23,7 +23,7 @@ struct SeriesLinks: View {
     var encodedTitle: String {
         series.title.addingPercentEncoding(
             withAllowedCharacters: .urlQueryAllowed
-        )!
+        ) ?? series.title
     }
 
     var traktUrl: String {
