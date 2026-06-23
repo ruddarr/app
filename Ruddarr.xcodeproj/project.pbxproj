@@ -31,6 +31,7 @@
 		BB0BEA8F2BE59640004DBFE6 /* series-episodes.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0BEA8E2BE5963F004DBFE6 /* series-episodes.json */; };
 		BB0C3EC72BF90C5900632CB1 /* NoInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0C3EC62BF90C5900632CB1 /* NoInstance.swift */; };
 		BB0FE10F2BEC660500D1D847 /* CloudStorage in Frameworks */ = {isa = PBXBuildFile; productRef = BB0FE10E2BEC660500D1D847 /* CloudStorage */; };
+		BBDFA00F2EE0000000000003 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = BBDFA00F2EE0000000000002 /* Defaults */; };
 		BB0FE1112BED30D100D1D847 /* SeriesFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0FE1102BED30D100D1D847 /* SeriesFiles.swift */; };
 		BB0FE1132BED33A800D1D847 /* series-episode-files.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0FE1122BED33A800D1D847 /* series-episode-files.json */; };
 		BB0FE1152BED3E3700D1D847 /* MediaFileSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */; };
@@ -514,6 +515,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB0FE10F2BEC660500D1D847 /* CloudStorage in Frameworks */,
+				BBDFA00F2EE0000000000003 /* Defaults in Frameworks */,
 				BB715EBF2CCAA2AD003B12A0 /* SentrySwiftUI in Frameworks */,
 				BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */,
 				BB48FF4D2CADABA200DAA4A7 /* TelemetryDeck in Frameworks */,
@@ -1072,6 +1074,7 @@
 			packageProductDependencies = (
 				BBDA77602BDACD3C00568E64 /* NukeUI */,
 				BB0FE10E2BEC660500D1D847 /* CloudStorage */,
+				BBDFA00F2EE0000000000002 /* Defaults */,
 				BB48FF4C2CADABA200DAA4A7 /* TelemetryDeck */,
 				BB715EBE2CCAA2AD003B12A0 /* SentrySwiftUI */,
 			);
@@ -1112,6 +1115,7 @@
 			packageReferences = (
 				BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */,
 				BB0FE10D2BEC660500D1D847 /* XCRemoteSwiftPackageReference "CloudStorage" */,
+				BBDFA00F2EE0000000000001 /* XCRemoteSwiftPackageReference "Defaults" */,
 				BB48FF492CADABA200DAA4A7 /* XCRemoteSwiftPackageReference "SwiftSDK" */,
 				BB715EBD2CCAA2AD003B12A0 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 				BB846F2B2E7DE0C700E0A367 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
@@ -1820,6 +1824,14 @@
 				minimumVersion = 0.4.0;
 			};
 		};
+		BBDFA00F2EE0000000000001 /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Defaults";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		BB48FF492CADABA200DAA4A7 /* XCRemoteSwiftPackageReference "SwiftSDK" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/TelemetryDeck/SwiftSDK";
@@ -1859,6 +1871,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BB0FE10D2BEC660500D1D847 /* XCRemoteSwiftPackageReference "CloudStorage" */;
 			productName = CloudStorage;
+		};
+		BBDFA00F2EE0000000000002 /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BBDFA00F2EE0000000000001 /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
 		};
 		BB48FF4C2CADABA200DAA4A7 /* TelemetryDeck */ = {
 			isa = XCSwiftPackageProductDependency;

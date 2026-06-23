@@ -1,5 +1,5 @@
 {
-  "originHash" : "73e98d3869eff6e64d5c6ee5af75daf2fcc2e9b5e75eabe1d86e028492cb3d52",
+  "originHash" : "c4e4010f07e46317d4957f2d8cca51409c085421fa45df0893695c7e6b668579",
   "pins" : [
     {
       "identity" : "cloudstorage",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "d94cb14e563c1a20edeba8a861395c60c2b9d064",
         "version" : "0.7.0"
+      }
+    },
+    {
+      "identity" : "defaults",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sindresorhus/Defaults",
+      "state" : {
+        "revision" : "00a7465a0668a87fa159e779b9d80f1f9652357e",
+        "version" : "9.0.9"
       }
     },
     {
@@ -26,6 +35,15 @@
       "state" : {
         "revision" : "2c420d31d0c31b525fa9e7c552ef0fc9d924befc",
         "version" : "9.17.1"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax",
+      "state" : {
+        "revision" : "79e4b74a295b6eb74a8b585e3a39d29e70c1dbd1",
+        "version" : "603.0.2"
       }
     },
     {
