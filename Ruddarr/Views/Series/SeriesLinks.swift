@@ -40,8 +40,7 @@ struct SeriesLinks: View {
 
     var imdbUrl: String {
         #if os(iOS)
-            if let imdbSchemeURL = URL(string: "imdb://"),
-               UIApplication.shared.canOpenURL(imdbSchemeURL) {
+            if let url = URL(string: "imdb://"), UIApplication.shared.canOpenURL(url) {
                 if let imdbId = series.imdbId {
                     return "imdb:///title/\(imdbId)"
                 }
@@ -62,8 +61,7 @@ struct SeriesLinks: View {
             if let tmdbId = series.tmdbId {
                 let url = "callsheet://open/tv/\(tmdbId)"
 
-                if let callsheetURL = URL(string: url),
-                   UIApplication.shared.canOpenURL(callsheetURL) {
+                if let link = URL(string: url), UIApplication.shared.canOpenURL(link) {
                     return url
                 }
             }
