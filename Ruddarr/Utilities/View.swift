@@ -273,7 +273,7 @@ extension ShapeStyle where Self == Color {
     static var buttonTint: Color { Color(UIColor.systemGray2) }
 #else
     static var card: Color { .tertiarySystemFill }
-    static var label: Color { Color(nsColor: .labelColor) }
+    static var label: Color { Color(NSColor.labelColor) }
 
     static var darkGray: Color { Color(NSColor.darkGray) }
     static var darkText: Color { Color(NSColor.secondaryLabelColor) }
