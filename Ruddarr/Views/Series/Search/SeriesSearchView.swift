@@ -7,12 +7,6 @@ struct SeriesSearchView: View {
 
     @Environment(SonarrInstance.self) private var instance
 
-    private var shouldShowDiscoveryGrid: Bool {
-        instance.lookup.sortedItems.isEmpty &&
-        searchQuery.isEmpty &&
-        !instance.series.items.isEmpty
-    }
-
     var body: some View {
         @Bindable var discovery = Discovery.shared
         @Bindable var seriesLookup = instance.lookup
@@ -85,6 +79,12 @@ struct SeriesSearchView: View {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
+    }
+
+    var shouldShowDiscoveryGrid: Bool {
+        instance.lookup.isEmpty &&
+        searchQuery.isEmpty &&
+        !instance.series.items.isEmpty
     }
 
     func performSearch(debounced: Bool = false) {
