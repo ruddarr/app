@@ -30,7 +30,7 @@ struct MovieLinks: View {
         let query = movie.imdbId ?? movie.title
         let encoded = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
 
-        return "https://app.trakt.tv/search?q=\(encoded)"
+        return "https://app.trakt.tv/search?m=movie&q=\(encoded)"
     }
 
     var imdbUrl: String {
