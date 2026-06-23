@@ -58,7 +58,10 @@ struct EpisodeContextMenu: View {
     }
 
     var callsheet: String? {
-        #if os(iOS)
+        #if !os(iOS)
+            return nil
+        #endif
+
         let series: Series? = instance.series.byId(episode.seriesId)
 
         if let tmdbId = series?.tmdbId {
@@ -69,9 +72,6 @@ struct EpisodeContextMenu: View {
                 return url
             }
         }
-        #endif
-
-        return nil
     }
 
     var imdbUrl: String {
