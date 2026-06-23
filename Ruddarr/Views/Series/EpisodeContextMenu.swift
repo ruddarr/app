@@ -13,6 +13,10 @@ struct EpisodeContextMenu: View {
                 link(name: "IMDb", url: imdbUrl)
             }
 
+            if let callsheetUrl = callsheet {
+                link(name: "Callsheet", url: callsheetUrl)
+            }
+
             Divider()
 
             Button("Automatic Search", systemImage: "magnifyingglass") {
@@ -51,6 +55,23 @@ struct EpisodeContextMenu: View {
         let encoded = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
 
         return "https://app.trakt.tv/search?q=\(encoded)"
+    }
+
+    var callsheet: String? {
+        #if os(iOS)
+        let series: Series? = instance.series.byId(episode.seriesId)
+
+        if let tmdbId = series?.tmdbId {
+            // Callsheet deep-links down to the season level, not individual episodes.
+            let url = "callsheet://open/tv/\(tmdbId)/season/\(episode.seasonNumber)"
+
+            if UIApplication.shared.canOpenURL(URL(string: url)!) {
+                return url
+            }
+        }
+        #endif
+
+        return nil
     }
 
     var imdbUrl: String {
