@@ -53,5 +53,5 @@ jobs:
                   CODE_SIGNING_ALLOWED=NO \
                   CODE_SIGN_IDENTITY="" \
                   CODE_SIGNING_REQUIRED=NO \
-                  MACOSX_DEPLOYMENT_TARGET=15.0
+                  MACOSX_DEPLOYMENT_TARGET=26.0
 
