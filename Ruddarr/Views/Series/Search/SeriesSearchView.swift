@@ -1,13 +1,11 @@
 import SwiftUI
-import Combine
 
 struct SeriesSearchView: View {
     @State var searchQuery: String
     @State private var searchPresented: Bool = true
+    @State private var searchRequest: SearchRequest?
 
     @Environment(SonarrInstance.self) private var instance
-
-    let searchTextPublisher = PassthroughSubject<String, Never>()
 
     var body: some View {
         @Bindable var discovery = Discovery.shared
@@ -41,7 +39,11 @@ struct SeriesSearchView: View {
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
-            placement: .drawerOrToolbar(.always)
+            placement: .drawerOrToolbar(.always),
+            prompt: Text(
+                "e.g. \("Breaking Bad, tvdb:81189, imdb:tt0903747")",
+                comment: "Placeholder in the search field on the Add Movie/Series screens (translate only \"e.g.\", short form of \"for example\")"
+            )
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
@@ -54,13 +56,13 @@ struct SeriesSearchView: View {
             await discovery.fetch(.series)
         }
         .onSubmit(of: .search) {
-            searchTextPublisher.send(searchQuery)
+            performSearch()
         }
         .onChange(of: searchQuery, initial: true, handleSearchQueryChange)
-        .onReceive(
-            searchTextPublisher.debounce(for: .milliseconds(250), scheduler: DispatchQueue.main)
-        ) { _ in
-            performSearch()
+        .task(id: searchRequest) {
+            guard let searchRequest, await searchRequest.waitForDebounce() else { return }
+
+            await instance.lookup.search(query: searchRequest.query)
         }
         .alert(
             isPresented: instance.lookup.errorBinding,
@@ -79,10 +81,8 @@ struct SeriesSearchView: View {
         }
     }
 
-    func performSearch() {
-        Task { @MainActor in
-            await instance.lookup.search(query: searchQuery)
-        }
+    func performSearch(debounced: Bool = false) {
+        searchRequest = SearchRequest(query: searchQuery, isDebounced: debounced)
     }
 
     func handleSearchQueryChange(oldQuery: String, newQuery: String) {
@@ -97,7 +97,7 @@ struct SeriesSearchView: View {
         } else if oldQuery == newQuery {
             performSearch() // always perform initial search
         } else {
-            searchTextPublisher.send(searchQuery)
+            performSearch(debounced: true)
         }
     }
 }

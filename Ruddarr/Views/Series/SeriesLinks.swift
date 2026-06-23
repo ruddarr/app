@@ -27,7 +27,11 @@ struct SeriesLinks: View {
     }
 
     var traktUrl: String {
-        "https://trakt.tv/search/tvdb/\(series.tvdbId)?id_type=show"
+        if let imdbId = series.imdbId {
+            return "https://app.trakt.tv/shows/\(imdbId)"
+        }
+
+        return "https://app.trakt.tv/search?m=show&q=\(encodedTitle)"
     }
 
     var tvdbUrl: String {
@@ -54,13 +58,13 @@ struct SeriesLinks: View {
 
     var callsheet: String? {
         #if os(iOS)
-        if let tmdbId = series.tmdbId {
-            let url = "callsheet://open/tv/\(tmdbId)"
+            if let tmdbId = series.tmdbId {
+                let url = "callsheet://open/tv/\(tmdbId)"
 
-            if UIApplication.shared.canOpenURL(URL(string: url)!) {
-                return url
+                if UIApplication.shared.canOpenURL(URL(string: url)!) {
+                    return url
+                }
             }
-        }
         #endif
 
         return nil

@@ -219,22 +219,13 @@ struct MediaPreviewActionSpacerModifier: ViewModifier {
 struct MediaDetailsPosterModifier: ViewModifier {
     @Environment(\.deviceType) private var deviceType
 
-    #if os(iOS)
-        private var screenWidth: CGFloat {
-            (UIApplication.shared.connectedScenes.first as? UIWindowScene)?
-                .screen.bounds.width ?? 0
-        }
-    #endif
-
     func body(content: Content) -> some View {
-        #if os(iOS)
-            if deviceType == .phone {
-                content.frame(width: screenWidth * 0.4)
-            } else {
-                content.frame(width: 200, height: 300)
+        if deviceType == .phone {
+            content.containerRelativeFrame(.horizontal) { width, _ in
+                width * 0.4
             }
-        #else
+        } else {
             content.frame(width: 200, height: 300)
-        #endif
+        }
     }
 }

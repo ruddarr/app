@@ -13,6 +13,7 @@ export_languages:
   - 'no'
   - 'tr'
   - 'es-ES'
+  - 'pt-BR'
   # - zh-CN
 
 files:

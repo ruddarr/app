@@ -216,10 +216,10 @@ struct SeriesDetailsPreview: View {
     }
 }
 
-#Preview("Preview") {
-    SeriesDetailsPreview("series-lookup")
-}
-
 #Preview {
     SeriesDetailsPreview("series")
+}
+
+#Preview("Preview") {
+    SeriesDetailsPreview("series-lookup")
 }

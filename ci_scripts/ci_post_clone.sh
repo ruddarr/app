@@ -9,10 +9,26 @@ if [[ -z "$CROWDIN_TOKEN" ]]; then
   exit 1
 fi
 
+# Retry a command on transient (network) failures with linear backoff.
+retry() {
+  attempts=$1; shift
+  count=0
+  until "$@"; do
+    count=$((count + 1))
+    if [ "$count" -ge "$attempts" ]; then
+      echo "Command failed after $count attempts: $*"
+      return 1
+    fi
+    echo "Attempt $count failed. Retrying in $((count * 10))s..."
+    sleep $((count * 10))
+  done
+}
+
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
+export HOMEBREW_FAKE_MACOS=26.0 # macOS 27 fix
 
-brew install crowdin yq
+retry 5 brew install crowdin yq
 
 EXPORTED=(en $(yq '.export_languages[]' crowdin.yml))
 
@@ -22,7 +38,7 @@ EXPORTED=("${EXPORTED[@]/zh-CN/zh-Hans}")
 
 # Download translations
 FLAGS=($(yq -r '.export_languages[] | "--language="+.' crowdin.yml))
-crowdin download translations --plain "${FLAGS[@]}"
+retry 5 crowdin download translations --plain "${FLAGS[@]}"
 
 cd Ruddarr
 
