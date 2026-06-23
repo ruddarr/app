@@ -187,7 +187,7 @@ extension SearchFieldPlacement {
     enum DrawerDisplayMode { case automatic, always }
 
     static var drawerOrToolbar: SearchFieldPlacement {
-        // This used to to be `.navigationBarDrawer(displayMode: .automatic)`
+        // This used to be `.navigationBarDrawer(displayMode: .automatic)`
         // but that started crashing in iOS 26.4
         .toolbar
     }
