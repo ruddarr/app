@@ -1,28 +1,15 @@
 import Foundation
 
-extension DateFormatter {
-    nonisolated(unsafe) static let iso8601: ISO8601DateFormatter = {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime]
-        return formatter
-    }()
-
-    nonisolated(unsafe) static let iso8601withFractionalSeconds: ISO8601DateFormatter = {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        return formatter
-    }()
-}
-
 extension JSONDecoder.DateDecodingStrategy {
     static let iso8601extended = custom { decoder in
         let string = try decoder.singleValueContainer().decode(String.self)
 
-        if let date = DateFormatter.iso8601.date(from: string) {
+        // `Date.ISO8601FormatStyle` is `Sendable`, so it needs no shared formatter.
+        if let date = try? Date(string, strategy: .iso8601) {
             return date
         }
 
-        if let date = DateFormatter.iso8601withFractionalSeconds.date(from: string) {
+        if let date = try? Date.ISO8601FormatStyle(includingFractionalSeconds: true).parse(string) {
             return date
         }
 
