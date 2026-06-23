@@ -35,17 +35,20 @@ struct MediaLanguage: Equatable, Codable {
         return label
     }
 
-    // English language name (case- and diacritic-insensitive) to ISO code. The
-    // mapping is locale-independent, so it's computed once and reused.
     private static let codesByEnglishName: [String: String] = {
         let english = Locale(identifier: "en")
         var map: [String: String] = [:]
 
         for code in Locale.LanguageCode.isoLanguageCodes {
-            guard let name = english.localizedString(forLanguageCode: code.identifier) else { continue }
+            guard let name = english.localizedString(forLanguageCode: code.identifier) else {
+                continue
+            }
+
             let key = name.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
-            // Keep the first match, mirroring the previous `first(where:)` behavior.
-            if map[key] == nil { map[key] = code.identifier }
+
+            if map[key] == nil {
+                map[key] = code.identifier
+            }
         }
 
         return map
