@@ -60,17 +60,15 @@ struct DateDecodingStrategyTests {
         return plain.date(from: string) ?? fractional.date(from: string)
     }
 
-    /// Mirrors the current `iso8601extended` implementation.
+    /// Exercises the production `iso8601extended` decoding strategy.
     private func current(_ string: String) -> Date? {
-        if let date = try? Date(string, strategy: .iso8601) {
-            return date
-        }
+        struct Wrapper: Decodable { let date: Date }
 
-        if let date = try? Date.ISO8601FormatStyle(includingFractionalSeconds: true).parse(string) {
-            return date
-        }
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601extended
 
-        return nil
+        let json = Data(#"{"date":"\#(string)"}"#.utf8)
+        return try? decoder.decode(Wrapper.self, from: json).date
     }
 
     private let validDates = [
@@ -145,12 +143,7 @@ struct DateDecodingStrategyTests {
         let json = Data(#"{"date":"2024-01-15T10:30:00.123Z"}"#.utf8)
 
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .custom { decoder in
-            let string = try decoder.singleValueContainer().decode(String.self)
-            if let date = try? Date(string, strategy: .iso8601) { return date }
-            if let date = try? Date.ISO8601FormatStyle(includingFractionalSeconds: true).parse(string) { return date }
-            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "bad date"))
-        }
+        decoder.dateDecodingStrategy = .iso8601extended
 
         let decoded = try? decoder.decode(Wrapper.self, from: json)
         #expect(decoded != nil)
