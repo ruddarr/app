@@ -1,5 +1,6 @@
 - Added support for downgrade notifications
 - Added Brazilian Portuguese localization
+- Improved calendar filtering/ordering 
 - Clarified search placeholder text
 - Fixed poster size when screen sharing
 - Fixed negative custom format scores double minus sign
