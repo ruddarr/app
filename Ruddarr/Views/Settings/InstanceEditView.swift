@@ -79,7 +79,7 @@ struct InstanceEditView: View {
         .alert(isPresented: $showingAlert, error: error) { _ in
             Button("OK") { error = nil }
         } message: { error in
-            Text(error.recoverySuggestionFallback)
+            Text(error.recoverySuggestion ?? "")
         }
         .alert("Basic Authentication", isPresented: $showBasicAuthentication, actions: {
             TextField("Username", text: $username)
