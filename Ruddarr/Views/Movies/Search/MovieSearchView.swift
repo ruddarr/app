@@ -7,12 +7,16 @@ struct MovieSearchView: View {
 
     @Environment(RadarrInstance.self) private var instance
 
+    private var shouldShowDiscoveryGrid: Bool {
+        instance.lookup.isEmpty() && searchQuery.isEmpty
+    }
+
     var body: some View {
         @Bindable var discovery = Discovery.shared
         @Bindable var movieLookup = instance.lookup
 
         ScrollView {
-            if movieLookup.sortedItems.isEmpty && searchQuery.isEmpty {
+            if shouldShowDiscoveryGrid {
                 MediaGrid(items: discovery.movies) { item in
                     DiscoveryGridPoster(item: item)
                 } header: {
