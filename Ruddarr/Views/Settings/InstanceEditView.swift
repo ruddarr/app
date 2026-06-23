@@ -213,11 +213,13 @@ struct InstanceEditView: View {
 
     var headersSection: some View {
         Section {
-            ForEach($instance.headers.indices, id: \.self) { index in
-                InstanceHeaderRow(header: $instance.headers[index])
+            ForEach($instance.headers, id: \.id) { $header in
+                InstanceHeaderRow(header: $header)
                     .swipeActions {
                         Button("Delete") {
-                            instance.headers.remove(at: index)
+                            if let index = instance.headers.firstIndex(where: { $0.id == header.id }) {
+                                instance.headers.remove(at: index)
+                            }
                         }
                         .tint(.red)
                     }
