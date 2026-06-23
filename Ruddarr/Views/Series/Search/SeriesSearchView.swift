@@ -82,7 +82,7 @@ struct SeriesSearchView: View {
     }
 
     var shouldShowDiscoveryGrid: Bool {
-        instance.lookup.isEmpty &&
+        instance.lookup.isEmpty() &&
         searchQuery.isEmpty &&
         !instance.series.items.isEmpty
     }
