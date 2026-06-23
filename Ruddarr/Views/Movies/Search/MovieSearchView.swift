@@ -7,10 +7,6 @@ struct MovieSearchView: View {
 
     @Environment(RadarrInstance.self) private var instance
 
-    private var shouldShowDiscoveryGrid: Bool {
-        instance.lookup.isEmpty() && searchQuery.isEmpty
-    }
-
     var body: some View {
         @Bindable var discovery = Discovery.shared
         @Bindable var movieLookup = instance.lookup
@@ -85,6 +81,10 @@ struct MovieSearchView: View {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
+    }
+
+    var shouldShowDiscoveryGrid: Bool {
+        instance.lookup.isEmpty() && searchQuery.isEmpty
     }
 
     func performSearch(debounced: Bool = false) {
