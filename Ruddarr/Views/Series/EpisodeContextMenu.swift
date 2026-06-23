@@ -7,6 +7,10 @@ struct EpisodeContextMenu: View {
 
     var body: some View {
         Group {
+            if let traktUrl {
+                link(name: "Trakt", url: traktUrl)
+            }
+
             if encodedTitle != nil {
                 link(name: "IMDb", url: imdbUrl)
             }
@@ -43,6 +47,14 @@ struct EpisodeContextMenu: View {
         episode.title?.addingPercentEncoding(
             withAllowedCharacters: .urlQueryAllowed
         )
+    }
+
+    var traktUrl: String? {
+        guard let imdbId = instance.series.byId(episode.seriesId)?.imdbId else {
+            return nil
+        }
+
+        return "https://app.trakt.tv/shows/\(imdbId)/seasons/\(episode.seasonNumber)/episodes/\(episode.episodeNumber)"
     }
 
     var callsheet: String? {
