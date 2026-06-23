@@ -58,13 +58,13 @@ struct SeriesLinks: View {
 
     var callsheet: String? {
         #if os(iOS)
-        if let tmdbId = series.tmdbId {
-            let url = "callsheet://open/tv/\(tmdbId)"
+            if let tmdbId = series.tmdbId {
+                let url = "callsheet://open/tv/\(tmdbId)"
 
-            if UIApplication.shared.canOpenURL(URL(string: url)!) {
-                return url
+                if UIApplication.shared.canOpenURL(URL(string: url)!) {
+                    return url
+                }
             }
-        }
         #endif
 
         return nil

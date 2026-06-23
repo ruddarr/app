@@ -58,20 +58,17 @@ struct EpisodeContextMenu: View {
     }
 
     var callsheet: String? {
-        #if !os(iOS)
-            return nil
-        #endif
+        #if os(iOS)
+            let series: Series? = instance.series.byId(episode.seriesId)
 
-        let series: Series? = instance.series.byId(episode.seriesId)
+            if let tmdbId = series?.tmdbId {
+                let url = "callsheet://open/tv/\(tmdbId)/season/\(episode.seasonNumber)"
 
-        if let tmdbId = series?.tmdbId {
-            // Callsheet deep-links down to the season level, not individual episodes.
-            let url = "callsheet://open/tv/\(tmdbId)/season/\(episode.seasonNumber)"
-
-            if UIApplication.shared.canOpenURL(URL(string: url)!) {
-                return url
+                if UIApplication.shared.canOpenURL(URL(string: url)!) {
+                    return url
+                }
             }
-        }
+        #endif
 
         return nil
     }
