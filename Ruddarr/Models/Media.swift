@@ -179,7 +179,7 @@ func mediaDetailsSubtitles(_ file: MediaFile?, _ deviceType: DeviceType) -> Stri
 
     if codes.count > limit {
         var someCodes = Array(codes.prefix(limit)).map {
-            $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
+            Languages.name(byCode: $0)
         }
 
         someCodes.append(
