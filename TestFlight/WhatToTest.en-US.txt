@@ -2,6 +2,7 @@
 - Added Brazilian Portuguese localization
 - Improved calendar filtering/ordering 
 - Clarified search placeholder text
+- Fixed broken Trakt links after their website redesign
 - Fixed poster size when screen sharing
 - Fixed negative custom format scores double minus sign
 - Fixed missing top padding on media info sheet on macOS
