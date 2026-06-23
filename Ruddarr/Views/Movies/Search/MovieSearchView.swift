@@ -12,7 +12,7 @@ struct MovieSearchView: View {
         @Bindable var movieLookup = instance.lookup
 
         ScrollView {
-            if movieLookup.sortedItems.isEmpty && searchQuery.isEmpty {
+            if shouldShowDiscoveryGrid {
                 MediaGrid(items: discovery.movies) { item in
                     DiscoveryGridPoster(item: item)
                 } header: {
@@ -81,6 +81,10 @@ struct MovieSearchView: View {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
+    }
+
+    var shouldShowDiscoveryGrid: Bool {
+        instance.lookup.isEmpty() && searchQuery.isEmpty
     }
 
     func performSearch(debounced: Bool = false) {
