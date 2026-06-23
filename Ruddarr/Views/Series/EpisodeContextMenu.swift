@@ -44,7 +44,13 @@ struct EpisodeContextMenu: View {
     }
 
     var traktUrl: String {
-        "https://trakt.tv/search/tvdb/\(episode.tvdbId)?id_type=episode"
+        // Trakt's v3 web app dropped external-id redirects; episodes have no IMDb
+        // id, so fall back to the series (IMDb id when known, otherwise its title).
+        let series: Series? = instance.series.byId(episode.seriesId)
+        let query = series?.imdbId ?? series?.title ?? episode.titleLabel
+        let encoded = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+
+        return "https://app.trakt.tv/search?q=\(encoded)"
     }
 
     var imdbUrl: String {
