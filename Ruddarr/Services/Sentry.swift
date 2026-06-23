@@ -121,7 +121,13 @@ enum EnvironmentType: String {
     case testflight
     case appstore
 
-    nonisolated(unsafe) static var cache: EnvironmentType?
+    static let cached: EnvironmentType = {
+        guard let branch = Bundle.main.object(forInfoDictionaryKey: "CI_BRANCH") as? String else {
+            return .appstore
+        }
+
+        return branch.contains("develop") ? .testflight : .appstore
+    }()
 }
 
 func isRunningIn(_ env: EnvironmentType) -> Bool {
@@ -138,19 +144,6 @@ func runningIn() -> EnvironmentType {
 #elseif DEBUG
     return .debug
 #else
-    if let env = EnvironmentType.cache {
-        return env
-    }
-
-    guard let branch = Bundle.main.object(forInfoDictionaryKey: "CI_BRANCH") as? String else {
-        EnvironmentType.cache = .appstore
-        return .appstore
-    }
-
-    let isTestFlight = branch.contains("develop")
-
-    EnvironmentType.cache = isTestFlight ? .testflight : .appstore
-
-    return isTestFlight ? .testflight : .appstore
+    return EnvironmentType.cached
 #endif
 }
