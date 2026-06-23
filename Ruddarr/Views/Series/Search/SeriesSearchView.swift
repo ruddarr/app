@@ -12,7 +12,7 @@ struct SeriesSearchView: View {
         @Bindable var seriesLookup = instance.lookup
 
         ScrollView {
-            if seriesLookup.sortedItems.isEmpty, searchQuery.isEmpty, !instance.series.items.isEmpty {
+            if shouldShowDiscoveryGrid {
                 MediaGrid(items: discovery.series) { item in
                     DiscoveryGridPoster(item: item)
                 } header: {
@@ -79,6 +79,12 @@ struct SeriesSearchView: View {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
+    }
+
+    var shouldShowDiscoveryGrid: Bool {
+        instance.lookup.isEmpty &&
+        searchQuery.isEmpty &&
+        !instance.series.items.isEmpty
     }
 
     func performSearch(debounced: Bool = false) {
