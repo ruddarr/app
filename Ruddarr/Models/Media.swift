@@ -23,19 +23,33 @@ struct MediaLanguage: Equatable, Codable {
             return String(localized: "Unknown")
         }
 
-        let english = Locale(identifier: "en")
+        let key = name.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
 
-        let code = Locale.LanguageCode.isoLanguageCodes.first(where: {
-            guard let language = english.localizedString(forLanguageCode: $0.identifier) else { return false }
-            return language.compare(name, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
-        })
-
-        guard let code, let label = Locale.current.localizedString(forLanguageCode: code.identifier) else {
+        guard
+            let code = Self.codesByEnglishName[key],
+            let label = Locale.current.localizedString(forLanguageCode: code)
+        else {
             return String(localized: "Unknown")
         }
 
         return label
     }
+
+    // English language name (case- and diacritic-insensitive) to ISO code. The
+    // mapping is locale-independent, so it's computed once and reused.
+    private static let codesByEnglishName: [String: String] = {
+        let english = Locale(identifier: "en")
+        var map: [String: String] = [:]
+
+        for code in Locale.LanguageCode.isoLanguageCodes {
+            guard let name = english.localizedString(forLanguageCode: code.identifier) else { continue }
+            let key = name.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
+            // Keep the first match, mirroring the previous `first(where:)` behavior.
+            if map[key] == nil { map[key] = code.identifier }
+        }
+
+        return map
+    }()
 }
 
 struct MediaAlternateTitle: Equatable, Codable {
