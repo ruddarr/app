@@ -1,5 +1,6 @@
 import SwiftUI
 import TelemetryDeck
+import Sentry
 
 struct SeriesPreviewView: View {
     @State var series: Series

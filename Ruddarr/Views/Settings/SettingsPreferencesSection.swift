@@ -1,5 +1,6 @@
 import SwiftUI
 import StoreKit
+import Sentry
 
 struct SettingsPreferencesSection: View {
     @EnvironmentObject var settings: AppSettings

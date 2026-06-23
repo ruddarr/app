@@ -1,5 +1,6 @@
 import SwiftUI
 import CloudKit
+import Sentry
 
 extension InstanceView {
     var notificationPath: String {

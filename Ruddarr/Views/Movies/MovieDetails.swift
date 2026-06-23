@@ -1,5 +1,6 @@
 import SwiftUI
 import TelemetryDeck
+import TipKit
 
 struct MovieDetails: View {
     var movie: Movie

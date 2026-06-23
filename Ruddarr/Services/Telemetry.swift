@@ -2,8 +2,7 @@ import os
 import Foundation
 import CloudKit
 import TelemetryDeck
-
-@preconcurrency import Sentry
+import Sentry
 
 enum Metric: String {
     case ping

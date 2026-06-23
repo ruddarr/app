@@ -23,7 +23,7 @@ Guidance for AI agents working in this repository.
 
 ## Conventions
 
-- Target iOS/macOS 26+ and Swift 6 features, functions and conventions for app code.
+- Target iOS/macOS 26+ and Swift 6.4 features, functions and conventions for app code.
 - Prefer SwiftUI-native patterns and the existing dependency/mock structure under `Ruddarr/Dependencies`.
 - Respect the existing SwiftLint configuration in `.swiftlint.yml`. Do not introduce a separate formatting style.
 - Preserve `.xcstrings` string catalog structure. Be careful with generated or Crowdin-managed localization data.

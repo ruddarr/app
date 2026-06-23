@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct SeriesSearchView: View {
     @State var searchQuery: String

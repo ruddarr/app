@@ -1,5 +1,7 @@
-import CoreSpotlight
 import zlib
+import CoreSpotlight
+import Nuke
+import Sentry
 
 actor Spotlight {
     var instanceId: Instance.ID

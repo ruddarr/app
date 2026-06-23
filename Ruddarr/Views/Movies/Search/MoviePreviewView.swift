@@ -1,5 +1,6 @@
 import SwiftUI
 import TelemetryDeck
+import Sentry
 
 struct MoviePreviewView: View {
     @State var movie: Movie

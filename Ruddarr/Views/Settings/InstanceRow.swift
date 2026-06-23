@@ -1,5 +1,6 @@
 import os
 import SwiftUI
+import Sentry
 
 struct InstanceRow: View {
     @Binding var instance: Instance

@@ -1,5 +1,6 @@
 import SwiftUI
 import TelemetryDeck
+import TipKit
 
 struct SeriesDetails: View {
     @Binding var series: Series

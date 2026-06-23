@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct MovieSort: Hashable {
     var isAscending: Bool = false

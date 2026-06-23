@@ -3,6 +3,7 @@ import SwiftUI
 import CloudKit
 import StoreKit
 import CryptoKit
+import Sentry
 import UserNotifications
 
 actor Notifications {

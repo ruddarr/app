@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreSpotlight
 import TipKit
+import Sentry
 
 @main
 struct Ruddarr: App {

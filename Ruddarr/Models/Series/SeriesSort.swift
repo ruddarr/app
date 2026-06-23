@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct SeriesSort: Hashable {
     var isAscending: Bool = false

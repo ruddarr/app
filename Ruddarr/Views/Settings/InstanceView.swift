@@ -2,6 +2,7 @@ import os
 import SwiftUI
 import CloudKit
 import StoreKit
+import Sentry
 
 struct InstanceView: View {
     var instance: Instance

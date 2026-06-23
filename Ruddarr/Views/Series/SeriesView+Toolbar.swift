@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 extension SeriesView {
     @ToolbarContentBuilder
