@@ -326,13 +326,13 @@ struct InstanceHeaderRow: View {
     var body: some View {
         VStack {
             TextField("Header name", text: $header.name)
-            .autocorrectionDisabled(true)
+                .autocorrectionDisabled(true)
             #if os(iOS)
                 .textInputAutocapitalization(.never)
             #endif
 
             TextField("Header value", text: $header.value)
-            .autocorrectionDisabled(true)
+                .autocorrectionDisabled(true)
             #if os(iOS)
                 .textInputAutocapitalization(.never)
             #endif
