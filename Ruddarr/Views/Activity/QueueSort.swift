@@ -32,30 +32,15 @@ struct QueueSort: Equatable {
             case .byAdded:
                 lhs.added ?? Date.distantPast < rhs.added ?? Date.distantPast
             case .byProgress:
-                lhs.progressFraction < rhs.progressFraction
+                lhs.progressFraction != rhs.progressFraction
+                    ? lhs.progressFraction < rhs.progressFraction
+                    : lhs.titleLabel < rhs.titleLabel
             }
         }
     }
 
     func isOrderedBefore(_ lhs: QueueItem, _ rhs: QueueItem) -> Bool {
-        switch option {
-        case .byProgress:
-            isProgressOrderedBefore(lhs, rhs)
-        default:
-            isAscending ? option.isOrderedBefore(lhs, rhs) : option.isOrderedBefore(rhs, lhs)
-        }
-    }
-
-    private func isProgressOrderedBefore(_ lhs: QueueItem, _ rhs: QueueItem) -> Bool {
-        if lhs.isActivelyDownloading != rhs.isActivelyDownloading {
-            return lhs.isActivelyDownloading
-        }
-
-        if lhs.progressFraction != rhs.progressFraction {
-            return isAscending ? lhs.progressFraction < rhs.progressFraction : lhs.progressFraction > rhs.progressFraction
-        }
-
-        return lhs.titleLabel < rhs.titleLabel
+        isAscending ? option.isOrderedBefore(lhs, rhs) : option.isOrderedBefore(rhs, lhs)
     }
 
     var hasFilter: Bool {
