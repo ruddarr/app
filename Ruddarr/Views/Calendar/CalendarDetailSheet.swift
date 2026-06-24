@@ -48,9 +48,10 @@ struct CalendarSheetAwareToolbar: ToolbarContent {
                 .accessibilityLabel("Close")
             }
 
-            if showsOpenButton {
+            if let deeplink {
                 ToolbarItem(placement: .bottomBar) {
                     Button("Open", systemImage: "arrow.up.forward.app") {
+                        try? QuickActions.Deeplink(url: deeplink)()
                         inCalendarSheet.dismiss()
                     }
                     .tint(.primary)
@@ -163,7 +164,9 @@ extension View {
     @ViewBuilder
     func calendarSheetToolbar(_ enabled: Bool = true) -> some View {
         if enabled {
-            toolbar { CalendarSheetAwareToolbar() }
+            toolbar {
+                CalendarSheetAwareToolbar()
+            }
         } else {
             self
         }

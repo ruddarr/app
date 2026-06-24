@@ -122,7 +122,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
 
     var deeplink: URL? {
         guard let instanceId else { return nil }
-        return URL(string: "ruddarr://movies/open/\(id)?instance=\(instanceId.uuidString)")
+        return QuickActions.Deeplink.openMovie(id, instanceId.uuidString).url
     }
 
     var stateLabel: String {

@@ -49,13 +49,11 @@ struct Episode: Identifiable, Codable, Equatable {
     var deeplink: URL? {
         guard let instanceId else { return nil }
 
-        var deeplink = "ruddarr://series/open/\(seriesId)?season=\(seasonNumber)&instance=\(instanceId.uuidString)"
-
-        if !isGroupedInCalendar {
-            deeplink.append("&episode=\(episodeNumber)")
+        if isGroupedInCalendar {
+            return QuickActions.Deeplink.openSeason(seriesId, seasonNumber, instanceId.uuidString).url
         }
 
-        return URL(string: deeplink)
+        return QuickActions.Deeplink.openEpisode(seriesId, seasonNumber, episodeNumber, instanceId.uuidString).url
     }
 
     var titleLabel: String {
