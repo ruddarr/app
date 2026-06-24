@@ -92,6 +92,11 @@ extension WhatsNew {
             subtitle: "Releases with dual audio are now included in the Multilingual language filter."
         ),
         .init(
+            image: "line.3.horizontal.decrease",
+            title: "Filter Indicator",
+            subtitle: "Active filters now highlight the toolbar button with a tinted background."
+        ),
+        .init(
             image: "ladybug",
             title: "Fixes & Improvements",
             subtitle: "Various internal code improvements, bug fixes, and refinements for macOS."
