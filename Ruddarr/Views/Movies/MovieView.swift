@@ -5,10 +5,10 @@ struct MovieView: View {
     @Binding var movie: Movie
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.deviceType) private var deviceType
-    @Environment(RadarrInstance.self) private var instance
-    @Environment(\.calendarSheetContext) private var calendarSheetContext
+    @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     @State private var showEditForm: Bool = false
     @State private var showDeleteConfirmation = false
@@ -80,7 +80,7 @@ struct MovieView: View {
                 Section {
                     editAction
 
-                    if calendarSheetContext == nil {
+                    if inCalendarSheet == nil {
                         deleteMovieButton
                     }
                 }
@@ -183,8 +183,8 @@ extension MovieView {
     func deleteMovie(exclude: Bool, delete: Bool) async {
         _ = await instance.movies.delete(movie, addExclusion: exclude, deleteFiles: delete)
 
-        if let calendarSheetContext {
-            calendarSheetContext.dismiss()
+        if let inCalendarSheet {
+            inCalendarSheet.dismiss()
         } else if !dependencies.router.moviesPath.isEmpty {
             dependencies.router.moviesPath.removeLast()
         }

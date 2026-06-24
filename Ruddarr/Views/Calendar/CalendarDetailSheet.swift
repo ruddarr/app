@@ -69,7 +69,7 @@ private struct CalendarMovieSheet: View {
                 }
         }
         .environment(instance)
-        .calendarSheetContext(selection: selection) {
+        .inCalendarSheet(selection: selection) {
             dismiss()
         }
         .displayToasts()
@@ -125,7 +125,7 @@ private struct CalendarEpisodeSheet: View {
                 }
         }
         .environment(instance)
-        .calendarSheetContext(selection: selection) {
+        .inCalendarSheet(selection: selection) {
             dismiss()
         }
         .displayToasts()

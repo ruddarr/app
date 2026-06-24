@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct CalendarSheetToolbarContent: ToolbarContent {
-    @Environment(\.calendarSheetContext) private var calendarSheetContext
+    @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     var body: some ToolbarContent {
-        if let calendarSheetContext {
+        if let inCalendarSheet {
             ToolbarItem(placement: .cancellationAction) {
                 Button {
-                    calendarSheetContext.dismiss()
+                    inCalendarSheet.dismiss()
                 } label: {
                     Image(systemName: "xmark")
                 }
@@ -17,8 +17,8 @@ struct CalendarSheetToolbarContent: ToolbarContent {
 
             ToolbarItem(placement: .automatic) {
                 Button("Open", systemImage: "arrow.up.forward.app") {
-                    calendarSheetContext.selection.jumpToTab()
-                    calendarSheetContext.dismiss()
+                    inCalendarSheet.selection.jumpToTab()
+                    inCalendarSheet.dismiss()
                 }
                 .tint(.primary)
             }

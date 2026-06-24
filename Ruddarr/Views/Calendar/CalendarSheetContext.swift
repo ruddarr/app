@@ -36,15 +36,15 @@ private struct CalendarSheetContextKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    var calendarSheetContext: CalendarSheetContext? {
+    var inCalendarSheet: CalendarSheetContext? {
         get { self[CalendarSheetContextKey.self] }
         set { self[CalendarSheetContextKey.self] = newValue }
     }
 }
 
 extension View {
-    func calendarSheetContext(selection: CalendarSelection, dismiss: @escaping @MainActor () -> Void) -> some View {
-        environment(\.calendarSheetContext, CalendarSheetContext(selection: selection, dismiss: dismiss))
+    func inCalendarSheet(selection: CalendarSelection, dismiss: @escaping @MainActor () -> Void) -> some View {
+        environment(\.inCalendarSheet, CalendarSheetContext(selection: selection, dismiss: dismiss))
     }
 
     @ViewBuilder
