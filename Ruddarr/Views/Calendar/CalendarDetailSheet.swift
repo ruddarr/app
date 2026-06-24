@@ -34,6 +34,7 @@ struct CalendarDetailSheet: View {
 struct CalendarSheetAwareToolbar: ToolbarContent {
     var deeplink: URL?
 
+    @Environment(\.deviceType) private var deviceType
     @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     var body: some ToolbarContent {
@@ -49,7 +50,7 @@ struct CalendarSheetAwareToolbar: ToolbarContent {
             }
 
             if let deeplink {
-                ToolbarItem(placement: .bottomBar) {
+                ToolbarItem(placement: deviceType == .phone ? .bottomBar : .automatic) {
                     Button("Open", systemImage: "arrow.up.forward.app") {
                         try? QuickActions.Deeplink(url: deeplink)()
                         inCalendarSheet.dismiss()
@@ -57,7 +58,7 @@ struct CalendarSheetAwareToolbar: ToolbarContent {
                     .tint(.primary)
                 }
 
-                ToolbarSpacer(.flexible, placement: .bottomBar)
+                ToolbarSpacer(.flexible, placement: deviceType == .phone ? .bottomBar : .automatic)
             }
         }
     }
