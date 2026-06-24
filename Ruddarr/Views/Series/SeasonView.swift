@@ -36,7 +36,7 @@ struct SeasonView: View {
             .padding(.vertical)
         #endif
         .toolbar {
-            CalendarSheetAwareToolbar()
+            CalendarSheetAwareToolbar(showsOpenButton: false)
             toolbarMonitorButton
             toolbarMenu
         }

@@ -32,6 +32,11 @@ struct CalendarDetailSheet: View {
 }
 
 struct CalendarSheetAwareToolbar: ToolbarContent {
+    /// Whether the "Open" button (deep-links to the selected item) is shown.
+    /// Only the destination view for the selection should offer it — e.g. the
+    /// episode view, not the intermediate series or season views.
+    var showsOpenButton: Bool = true
+
     @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     var body: some ToolbarContent {
@@ -46,12 +51,17 @@ struct CalendarSheetAwareToolbar: ToolbarContent {
                 .accessibilityLabel("Close")
             }
 
-            ToolbarItem(placement: .automatic) {
-                Button("Open", systemImage: "arrow.up.forward.app") {
-                    inCalendarSheet.selection.jumpToTab()
-                    inCalendarSheet.dismiss()
+            if showsOpenButton {
+                ToolbarItem(placement: .bottomBar) {
+                    Button("Open", systemImage: "arrow.up.forward.app") {
+                        inCalendarSheet.selection.jumpToTab()
+                        inCalendarSheet.dismiss()
+                    }
+                    .tint(.primary)
                 }
-                .tint(.primary)
+
+                // Pin the "Open" button to the left of the bottom bar.
+                ToolbarSpacer(.flexible, placement: .bottomBar)
             }
         }
     }

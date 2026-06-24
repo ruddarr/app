@@ -40,6 +40,13 @@ extension View {
     func presentationDetents(dynamic: Set<PresentationDetent>) -> some View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
     }
+
+    func presentationDetents(
+        dynamic: Set<PresentationDetent>,
+        selection: Binding<PresentationDetent>
+    ) -> some View {
+        self.modifier(DynamicPresentationDetents(detents: dynamic, selection: selection))
+    }
 }
 
 private struct OnBecomeActiveModifier: ViewModifier {
@@ -127,11 +134,17 @@ struct HideIconOnMac: ViewModifier {
 
 private struct DynamicPresentationDetents: ViewModifier {
     var detents: Set<PresentationDetent>
+    var selection: Binding<PresentationDetent>?
 
     @Environment(\.sizeCategory) var sizeCategory
 
+    @ViewBuilder
     func body(content: Content) -> some View {
-        content.presentationDetents(adjustedDetents)
+        if let selection {
+            content.presentationDetents(adjustedDetents, selection: selection)
+        } else {
+            content.presentationDetents(adjustedDetents)
+        }
     }
 
     var adjustedDetents: Set<PresentationDetent> {
