@@ -3,7 +3,7 @@ import SwiftUI
 struct CalendarMovie: View {
     var date: Date
     var movie: Movie
-    var onTap: () -> Void
+    var open: (CalendarSelection) -> Void
 
     @EnvironmentObject var settings: AppSettings
 
@@ -38,7 +38,7 @@ struct CalendarMovie: View {
             .background(.card.opacity(shouldFade ? 0.6 : 1))
             .clipShape(RoundedRectangle(cornerRadius: 14))
             .onTapGesture {
-                onTap()
+                open(.movie(movie))
             }
     }
 
@@ -62,7 +62,7 @@ struct CalendarMovie: View {
 
 struct CalendarEpisode: View {
     var episode: Episode
-    var onTap: () -> Void
+    var open: (CalendarSelection) -> Void
 
     @EnvironmentObject var settings: AppSettings
 
@@ -109,7 +109,7 @@ struct CalendarEpisode: View {
         .background(.card.opacity(shouldFade ? 0.6 : 1))
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .onTapGesture {
-            onTap()
+            open(.episode(episode))
         }
     }
 
