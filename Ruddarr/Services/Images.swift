@@ -54,6 +54,42 @@ class Images {
         return thumbnail
     }
 
+    static func localCopy(of remote: String?) async -> URL? {
+        guard let remote, let url = URL(string: remote) else { return nil }
+
+        if let cached = hasLocalCopy(of: remote) {
+            return cached
+        }
+
+        var file = FileManager.default.temporaryDirectory
+            .appendingPathComponent(url.lastPathComponent)
+
+        if file.pathExtension.isEmpty {
+            file.appendPathExtension("jpg")
+        }
+
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            try data.write(to: file)
+            return file
+        } catch {
+            return nil
+        }
+    }
+
+    static func hasLocalCopy(of remote: String?) -> URL? {
+        guard let remote, let url = URL(string: remote) else { return nil }
+
+        var file = FileManager.default.temporaryDirectory
+            .appendingPathComponent(url.lastPathComponent)
+
+        if file.pathExtension.isEmpty {
+            file.appendPathExtension("jpg")
+        }
+
+        return FileManager.default.fileExists(atPath: file.path) ? file : nil
+    }
+
     private static func thumbnailPath(_ key: String) -> URL? {
         let cacheKeyHash = Insecure.SHA1
             .hash(data: Data(key.utf8))

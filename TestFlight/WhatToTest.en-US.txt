@@ -1,1 +1,2 @@
-- Various internal code improvements
+- Display Quick Look of posters
+- Dozens of internal code improvements

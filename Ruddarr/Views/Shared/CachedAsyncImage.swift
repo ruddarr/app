@@ -1,7 +1,6 @@
+import SwiftUI
 import Nuke
 import NukeUI
-
-import SwiftUI
 
 struct CachedAsyncImage: View {
     let url: String?
