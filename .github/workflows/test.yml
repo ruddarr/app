@@ -20,7 +20,7 @@ jobs:
 
   xcode:
     name: Xcode Tests (${{ matrix.name }})
-    runs-on: macos-latest
+    runs-on: macos-26
     timeout-minutes: 10
 
     strategy:
@@ -52,5 +52,4 @@ jobs:
             -destination 'platform=${{ matrix.platform }}' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            MACOSX_DEPLOYMENT_TARGET=15.0
+            CODE_SIGNING_REQUIRED=NO
