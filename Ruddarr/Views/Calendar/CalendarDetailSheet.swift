@@ -1,62 +1,5 @@
 import SwiftUI
 
-struct CalendarAwareToolbarMenu<Menu: ToolbarContent>: ToolbarContent {
-    private let menu: () -> Menu
-
-    init(@ToolbarContentBuilder menu: @escaping () -> Menu) {
-        self.menu = menu
-    }
-
-    var body: some ToolbarContent {
-        // Keep the view's own actions (monitor, overflow menu, …) and, when
-        // presented inside the calendar sheet, add the close/jump buttons.
-        menu()
-        CalendarSheetToolbarContent()
-    }
-}
-
-enum CalendarSelection: Identifiable {
-    case movie(Movie)
-    case episode(Episode)
-
-    var id: String {
-        switch self {
-        case .movie(let movie):
-            "movie:\(movie.instanceId?.uuidString ?? "unknown"):\(movie.id)"
-        case .episode(let episode):
-            "episode:\(episode.instanceId?.uuidString ?? "unknown"):\(episode.id)"
-        }
-    }
-
-    func jumpToTab() {
-        guard let deeplink else { return }
-        try? QuickActions.Deeplink(url: deeplink)()
-    }
-
-    var deeplink: URL? {
-        switch self {
-        case .movie(let movie): movie.calendarDeeplink
-        case .episode(let episode): episode.calendarDeeplink
-        }
-    }
-}
-
-struct CalendarSheetContext: Sendable {
-    let selection: CalendarSelection
-    let dismiss: @MainActor () -> Void
-}
-
-private struct CalendarSheetContextKey: EnvironmentKey {
-    static let defaultValue: CalendarSheetContext? = nil
-}
-
-extension EnvironmentValues {
-    var calendarSheetContext: CalendarSheetContext? {
-        get { self[CalendarSheetContextKey.self] }
-        set { self[CalendarSheetContextKey.self] = newValue }
-    }
-}
-
 struct CalendarDetailSheet: View {
     var selection: CalendarSelection
 
@@ -207,46 +150,5 @@ private struct CalendarEpisodeSheet: View {
 
         return SeriesDestination(path: destination, navigate: { path.append($0) })
             .calendarSheetToolbar(needsToolbar)
-    }
-}
-
-struct CalendarSheetToolbarContent: ToolbarContent {
-    @Environment(\.calendarSheetContext) private var calendarSheetContext
-
-    var body: some ToolbarContent {
-        if let calendarSheetContext {
-            ToolbarItem(placement: .cancellationAction) {
-                Button {
-                    calendarSheetContext.dismiss()
-                } label: {
-                    Image(systemName: "xmark")
-                }
-                .tint(.primary)
-                .accessibilityLabel("Dismiss")
-            }
-
-            ToolbarItem(placement: .primaryAction) {
-                Button("Jump", systemImage: "arrow.up.forward.app") {
-                    calendarSheetContext.selection.jumpToTab()
-                    calendarSheetContext.dismiss()
-                }
-                .tint(.primary)
-            }
-        }
-    }
-}
-
-private extension View {
-    func calendarSheetContext(selection: CalendarSelection, dismiss: @escaping @MainActor () -> Void) -> some View {
-        environment(\.calendarSheetContext, CalendarSheetContext(selection: selection, dismiss: dismiss))
-    }
-
-    @ViewBuilder
-    func calendarSheetToolbar(_ enabled: Bool = true) -> some View {
-        if enabled {
-            toolbar { CalendarSheetToolbarContent() }
-        } else {
-            self
-        }
     }
 }

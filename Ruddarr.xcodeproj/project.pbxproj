@@ -215,6 +215,8 @@
 		BBF583B92BAC99CA00AFA7FB /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF583B82BAC99CA00AFA7FB /* CalendarDate.swift */; };
 		BBF583BB2BAC9A0A00AFA7FB /* CalendarMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF583BA2BAC9A0A00AFA7FB /* CalendarMedia.swift */; };
 		BB3F1E912E07000100A0C0DE /* CalendarDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F1E902E07000100A0C0DE /* CalendarDetailSheet.swift */; };
+		BB3F1E932E07000100A0C0DE /* CalendarSheetToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F1E922E07000100A0C0DE /* CalendarSheetToolbar.swift */; };
+		BB3F1E952E07000100A0C0DE /* CalendarSheetContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F1E942E07000100A0C0DE /* CalendarSheetContext.swift */; };
 		BBF583BD2BACA3B200AFA7FB /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF583BC2BACA3B200AFA7FB /* Series.swift */; };
 		BBF583C22BACBE1400AFA7FB /* calendar-movies.json in Resources */ = {isa = PBXBuildFile; fileRef = BBF583C12BACBE1400AFA7FB /* calendar-movies.json */; };
 		BBF583C42BACBE5000AFA7FB /* calendar-episodes.json in Resources */ = {isa = PBXBuildFile; fileRef = BBF583C32BACBE5000AFA7FB /* calendar-episodes.json */; };
@@ -480,6 +482,8 @@
 		BBF583B82BAC99CA00AFA7FB /* CalendarDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDate.swift; sourceTree = "<group>"; };
 		BBF583BA2BAC9A0A00AFA7FB /* CalendarMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMedia.swift; sourceTree = "<group>"; };
 		BB3F1E902E07000100A0C0DE /* CalendarDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDetailSheet.swift; sourceTree = "<group>"; };
+		BB3F1E922E07000100A0C0DE /* CalendarSheetToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSheetToolbar.swift; sourceTree = "<group>"; };
+		BB3F1E942E07000100A0C0DE /* CalendarSheetContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSheetContext.swift; sourceTree = "<group>"; };
 		BBF583BC2BACA3B200AFA7FB /* Series.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
 		BBF583C12BACBE1400AFA7FB /* calendar-movies.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "calendar-movies.json"; sourceTree = "<group>"; };
 		BBF583C32BACBE5000AFA7FB /* calendar-episodes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "calendar-episodes.json"; sourceTree = "<group>"; };
@@ -966,6 +970,8 @@
 			children = (
 				BBF583B82BAC99CA00AFA7FB /* CalendarDate.swift */,
 				BB3F1E902E07000100A0C0DE /* CalendarDetailSheet.swift */,
+				BB3F1E922E07000100A0C0DE /* CalendarSheetToolbar.swift */,
+				BB3F1E942E07000100A0C0DE /* CalendarSheetContext.swift */,
 				BBF583BA2BAC9A0A00AFA7FB /* CalendarMedia.swift */,
 			);
 			path = Calendar;
@@ -1377,6 +1383,8 @@
 				BBFFB5102D72717000AB5EFD /* BugSheet.swift in Sources */,
 				BBDBBC692C13A0600087C844 /* QueueSort.swift in Sources */,
 				BB3F1E912E07000100A0C0DE /* CalendarDetailSheet.swift in Sources */,
+				BB3F1E932E07000100A0C0DE /* CalendarSheetToolbar.swift in Sources */,
+				BB3F1E952E07000100A0C0DE /* CalendarSheetContext.swift in Sources */,
 				BBF583BB2BAC9A0A00AFA7FB /* CalendarMedia.swift in Sources */,
 				BBD3F7DA2BE9E31F0050D9A0 /* SeriesReleaseSheet.swift in Sources */,
 				BB3CC7212C192C980024FA90 /* MovieDefaults.swift in Sources */,
