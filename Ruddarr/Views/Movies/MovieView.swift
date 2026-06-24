@@ -25,8 +25,9 @@ struct MovieView: View {
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
+            CalendarSheetToolbarContent()
             toolbarMonitorButton
-            CalendarAwareToolbarMenu { toolbarMenu }
+            toolbarMenu
         }
         .onBecomeActive {
             await reload()

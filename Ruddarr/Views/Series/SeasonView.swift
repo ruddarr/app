@@ -36,8 +36,9 @@ struct SeasonView: View {
             .padding(.vertical)
         #endif
         .toolbar {
+            CalendarSheetToolbarContent()
             toolbarMonitorButton
-            CalendarAwareToolbarMenu { toolbarMenu }
+            toolbarMenu
         }
         .task {
             async let maybeFetchEpisodes: () = instance.episodes.maybeFetch(series)

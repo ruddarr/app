@@ -25,8 +25,9 @@ struct SeriesDetailView: View {
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
+            CalendarSheetToolbarContent()
             toolbarMonitorButton
-            CalendarAwareToolbarMenu { toolbarMenu }
+            toolbarMenu
         }
         .onAppear {
             maybeReloadRepeatedly()

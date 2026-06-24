@@ -3736,6 +3736,16 @@
         }
       }
     },
+    "Open" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open"
+          }
+        }
+      }
+    },
     "Open %@" : {
       "comment" : "Open (app name)",
       "localizations" : {

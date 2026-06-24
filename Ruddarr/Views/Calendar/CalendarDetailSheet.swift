@@ -12,25 +12,14 @@ struct CalendarDetailSheet: View {
             if let instance = instance(movie.instanceId) {
                 CalendarMovieSheet(selection: selection, movie: movie, instance: instance)
             } else {
-                unavailable
+                EmptyView()
             }
         case .episode(let episode):
             if let instance = instance(episode.instanceId), episode.series != nil {
                 CalendarEpisodeSheet(selection: selection, episode: episode, instance: instance)
             } else {
-                unavailable
+                EmptyView()
             }
-        }
-    }
-
-    var unavailable: some View {
-        NavigationStack {
-            ContentUnavailableView {
-                Label("Unable to Open", systemImage: "exclamationmark.triangle")
-            } description: {
-                Text("The selected item no longer has a matching instance.")
-            }
-            .toolbar { closeButton }
         }
     }
 
@@ -43,7 +32,7 @@ struct CalendarDetailSheet: View {
                 Image(systemName: "xmark")
             }
             .tint(.primary)
-            .accessibilityLabel("Dismiss")
+            .accessibilityLabel("Close")
         }
     }
 

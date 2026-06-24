@@ -56,8 +56,9 @@ struct EpisodeView: View {
         .navigationTitle(navigationTitle)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
+            CalendarSheetToolbarContent()
             toolbarMonitorButton
-            CalendarAwareToolbarMenu { toolbarMenu }
+            toolbarMenu
         }
         .refreshable {
             await Task { await reload() }.value
