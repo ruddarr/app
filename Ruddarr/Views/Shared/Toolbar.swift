@@ -44,8 +44,9 @@ extension View {
     func toolbarFilterIndicator(active: Bool, tint: Color) -> some View {
         if active {
             self
-                .tint(tint)
+                .menuStyle(.button)
                 .buttonStyle(.glassProminent)
+                .tint(tint)
         } else {
             self
         }
