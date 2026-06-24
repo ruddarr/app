@@ -88,7 +88,10 @@ struct SeriesDetailView: View {
 
                 Section {
                     editAction
-                    deleteSeriesButton
+
+                    if calendarSheetContext == nil {
+                        deleteSeriesButton
+                    }
                 }
             } label: {
                 ToolbarActionButton()

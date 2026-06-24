@@ -78,7 +78,10 @@ struct MovieView: View {
 
                 Section {
                     editAction
-                    deleteMovieButton
+
+                    if calendarSheetContext == nil {
+                        deleteMovieButton
+                    }
                 }
             } label: {
                 ToolbarActionButton()
