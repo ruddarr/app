@@ -72,7 +72,9 @@ struct EpisodeView: View {
     }
 
     var navigationTitle: String {
-        if inCalendarSheet != nil { return "" }
+        if inCalendarSheet != nil {
+            return ""
+        }
 
         return series.title.count < 20 ? series.title : "\(series.title.prefix(18))..."
     }
