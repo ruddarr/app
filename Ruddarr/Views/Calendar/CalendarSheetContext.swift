@@ -27,7 +27,6 @@ enum CalendarSelection: Identifiable {
 }
 
 struct CalendarSheetContext {
-    let selection: CalendarSelection
     let dismiss: @MainActor () -> Void
 }
 
@@ -43,7 +42,7 @@ extension EnvironmentValues {
 }
 
 extension View {
-    func inCalendarSheet(selection: CalendarSelection, dismiss: @escaping @MainActor () -> Void) -> some View {
-        environment(\.inCalendarSheet, CalendarSheetContext(selection: selection, dismiss: dismiss))
+    func inCalendarSheet(dismiss: @escaping @MainActor () -> Void) -> some View {
+        environment(\.inCalendarSheet, CalendarSheetContext(dismiss: dismiss))
     }
 }
