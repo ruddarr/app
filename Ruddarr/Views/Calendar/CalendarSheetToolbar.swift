@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CalendarSheetToolbarContent: ToolbarContent {
+struct CalendarSheetAwareToolbar: ToolbarContent {
     @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     var body: some ToolbarContent {

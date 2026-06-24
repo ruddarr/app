@@ -50,7 +50,7 @@ extension View {
     @ViewBuilder
     func calendarSheetToolbar(_ enabled: Bool = true) -> some View {
         if enabled {
-            toolbar { CalendarSheetToolbarContent() }
+            toolbar { CalendarSheetAwareToolbar() }
         } else {
             self
         }
