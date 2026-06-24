@@ -4,7 +4,6 @@ struct CalendarDetailSheet: View {
     var selection: CalendarSelection
 
     @EnvironmentObject private var settings: AppSettings
-    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         switch selection {
@@ -12,28 +11,19 @@ struct CalendarDetailSheet: View {
             if let instance = instance(movie.instanceId) {
                 CalendarMovieSheet(selection: selection, movie: movie, instance: instance)
             } else {
-                EmptyView()
+                unavailable
             }
         case .episode(let episode):
             if let instance = instance(episode.instanceId), episode.series != nil {
                 CalendarEpisodeSheet(selection: selection, episode: episode, instance: instance)
             } else {
-                EmptyView()
+                unavailable
             }
         }
     }
 
-    @ToolbarContentBuilder
-    var closeButton: some ToolbarContent {
-        ToolbarItem(placement: .cancellationAction) {
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "xmark")
-            }
-            .tint(.primary)
-            .accessibilityLabel("Close")
-        }
+    var unavailable: some View {
+        ContentUnavailableView("An error occurred.", systemImage: "exclamationmark.triangle")
     }
 
     func instance(_ instanceId: Instance.ID?) -> Instance? {

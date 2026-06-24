@@ -26,7 +26,7 @@ enum CalendarSelection: Identifiable {
     }
 }
 
-struct CalendarSheetContext: Sendable {
+struct CalendarSheetContext {
     let selection: CalendarSelection
     let dismiss: @MainActor () -> Void
 }
