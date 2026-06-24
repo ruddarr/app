@@ -5,7 +5,7 @@ import TipKit
 struct SeasonView: View {
     @Binding var series: Series
     var seasonId: Season.ID
-    var navigate: ((SeriesPath) -> Void)?
+    var navigate: (SeriesPath) -> Void = { dependencies.router.seriesPath.append($0) }
     @State var jumpToEpisode: Episode.ID?
 
     @State private var hasFetched: Bool = false
@@ -299,13 +299,7 @@ extension SeasonView {
 
         jumpToEpisode = nil
 
-        let path = SeriesPath.episode(series.id, episode.id)
-
-        if let navigate {
-            navigate(path)
-        } else {
-            dependencies.router.seriesPath.append(path)
-        }
+        navigate(SeriesPath.episode(series.id, episode.id))
     }
 
     func deleteSeason() async {

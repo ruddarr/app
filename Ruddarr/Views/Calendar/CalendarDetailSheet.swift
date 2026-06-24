@@ -41,9 +41,9 @@ enum CalendarSelection: Identifiable {
     }
 }
 
-struct CalendarSheetContext: @unchecked Sendable {
+struct CalendarSheetContext: Sendable {
     let selection: CalendarSelection
-    let dismiss: () -> Void
+    let dismiss: @MainActor () -> Void
 }
 
 private struct CalendarSheetContextKey: EnvironmentKey {
@@ -66,13 +66,13 @@ struct CalendarDetailSheet: View {
     var body: some View {
         switch selection {
         case .movie(let movie):
-            if let instance = instance(for: movie) {
+            if let instance = instance(movie.instanceId) {
                 CalendarMovieSheet(selection: selection, movie: movie, instance: instance)
             } else {
                 unavailable
             }
         case .episode(let episode):
-            if let instance = instance(for: episode), episode.series != nil {
+            if let instance = instance(episode.instanceId), episode.series != nil {
                 CalendarEpisodeSheet(selection: selection, episode: episode, instance: instance)
             } else {
                 unavailable
@@ -104,14 +104,8 @@ struct CalendarDetailSheet: View {
         }
     }
 
-    func instance(for movie: Movie) -> Instance? {
-        guard let instanceId = movie.instanceId else { return nil }
-        return settings.instanceById(instanceId)
-    }
-
-    func instance(for episode: Episode) -> Instance? {
-        guard let instanceId = episode.instanceId else { return nil }
-        return settings.instanceById(instanceId)
+    func instance(_ instanceId: Instance.ID?) -> Instance? {
+        instanceId.flatMap(settings.instanceById)
     }
 }
 
@@ -149,15 +143,11 @@ private struct CalendarMovieSheet: View {
         .displayToasts()
     }
 
-    @ViewBuilder
     func destination(for path: MoviesPath) -> some View {
-        switch path {
-        case .movie:
-            MoviesDestination(path: path)
-        default:
-            MoviesDestination(path: path)
-                .calendarSheetToolbar()
-        }
+        let needsToolbar = if case .movie = path { false } else { true }
+
+        return MoviesDestination(path: path)
+            .calendarSheetToolbar(needsToolbar)
     }
 }
 
@@ -209,15 +199,14 @@ private struct CalendarEpisodeSheet: View {
         .displayToasts()
     }
 
-    @ViewBuilder
     func destination(for destination: SeriesPath) -> some View {
-        switch destination {
-        case .series, .season, .episode:
-            SeriesDestination(path: destination, navigate: { path.append($0) })
-        default:
-            SeriesDestination(path: destination, navigate: { path.append($0) })
-                .calendarSheetToolbar()
+        let needsToolbar: Bool = switch destination {
+        case .series, .season, .episode: false
+        default: true
         }
+
+        return SeriesDestination(path: destination, navigate: { path.append($0) })
+            .calendarSheetToolbar(needsToolbar)
     }
 }
 
@@ -247,32 +236,17 @@ struct CalendarSheetToolbarContent: ToolbarContent {
     }
 }
 
-private struct CalendarSheetContextModifier: ViewModifier {
-    var selection: CalendarSelection
-    var dismiss: () -> Void
-
-    func body(content: Content) -> some View {
-        content.environment(\.calendarSheetContext, CalendarSheetContext(
-            selection: selection,
-            dismiss: dismiss
-        ))
-    }
-}
-
-private struct CalendarSheetToolbarModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        content.toolbar {
-            CalendarSheetToolbarContent()
-        }
-    }
-}
-
 private extension View {
-    func calendarSheetContext(selection: CalendarSelection, dismiss: @escaping () -> Void) -> some View {
-        modifier(CalendarSheetContextModifier(selection: selection, dismiss: dismiss))
+    func calendarSheetContext(selection: CalendarSelection, dismiss: @escaping @MainActor () -> Void) -> some View {
+        environment(\.calendarSheetContext, CalendarSheetContext(selection: selection, dismiss: dismiss))
     }
 
-    func calendarSheetToolbar() -> some View {
-        modifier(CalendarSheetToolbarModifier())
+    @ViewBuilder
+    func calendarSheetToolbar(_ enabled: Bool = true) -> some View {
+        if enabled {
+            toolbar { CalendarSheetToolbarContent() }
+        } else {
+            self
+        }
     }
 }

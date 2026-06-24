@@ -256,7 +256,7 @@ struct CalendarView: View {
             if let movies {
                 ForEach(movies) { movie in
                     CalendarMovie(date: date, movie: movie) {
-                        open(movie)
+                        open(.movie(movie))
                     }
                 }
             }
@@ -264,7 +264,7 @@ struct CalendarView: View {
             if let episodes {
                 ForEach(episodes) { episode in
                     CalendarEpisode(episode: episode) {
-                        open(episode)
+                        open(.episode(episode))
                     }
                 }
             }
@@ -388,21 +388,11 @@ struct CalendarView: View {
         }
     }
 
-    func open(_ movie: Movie) {
+    func open(_ selection: CalendarSelection) {
         #if os(iOS)
-            selectedMedia = .movie(movie)
+            selectedMedia = selection
         #else
-            guard let deeplink = movie.calendarDeeplink else { return }
-            try? QuickActions.Deeplink(url: deeplink)()
-        #endif
-    }
-
-    func open(_ episode: Episode) {
-        #if os(iOS)
-            selectedMedia = .episode(episode)
-        #else
-            guard let deeplink = episode.calendarDeeplink else { return }
-            try? QuickActions.Deeplink(url: deeplink)()
+            selection.jumpToTab()
         #endif
     }
 }

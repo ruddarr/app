@@ -3,7 +3,7 @@ import SwiftUI
 struct CalendarMovie: View {
     var date: Date
     var movie: Movie
-    var onTap: () -> Void = {}
+    var onTap: () -> Void
 
     @EnvironmentObject var settings: AppSettings
 
@@ -62,7 +62,7 @@ struct CalendarMovie: View {
 
 struct CalendarEpisode: View {
     var episode: Episode
-    var onTap: () -> Void = {}
+    var onTap: () -> Void
 
     @EnvironmentObject var settings: AppSettings
 
@@ -120,7 +120,7 @@ struct CalendarEpisode: View {
 
     @ViewBuilder
     var tag: some View {
-        if isGrouped, let hidden = episode.calendarGroupCount {
+        if episode.isGroupedInCalendar, let hidden = episode.calendarGroupCount {
             Text(String(localized: "+\(hidden - 1) more..."))
                 .font(.caption)
                 .foregroundStyle(settings.theme.tint)
@@ -150,10 +150,6 @@ struct CalendarEpisode: View {
         } else if episode.monitored {
             Image(systemName: "xmark").symbolVariant(.circle)
         }
-    }
-
-    var isGrouped: Bool {
-        episode.isGroupedInCalendar
     }
 }
 

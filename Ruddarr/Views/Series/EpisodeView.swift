@@ -20,9 +20,7 @@ struct EpisodeView: View {
     @Environment(SonarrInstance.self) var instance
 
     @Environment(\.deviceType) private var deviceType
-    #if os(iOS)
-        @Environment(\.calendarSheetContext) private var calendarSheetContext
-    #endif
+    @Environment(\.calendarSheetContext) private var calendarSheetContext
 
     var startOfToday = Calendar.current.startOfDay(for: Date())
 
@@ -73,9 +71,7 @@ struct EpisodeView: View {
     }
 
     var navigationTitle: String {
-        #if os(iOS)
-            if calendarSheetContext != nil { return "" }
-        #endif
+        if calendarSheetContext != nil { return "" }
 
         return series.title.count < 20 ? series.title : "\(series.title.prefix(18))..."
     }

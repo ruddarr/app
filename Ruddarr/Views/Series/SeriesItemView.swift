@@ -8,9 +8,7 @@ struct SeriesDetailView: View {
 
     @Environment(\.deviceType) private var deviceType
     @Environment(SonarrInstance.self) private var instance
-    #if os(iOS)
-        @Environment(\.calendarSheetContext) private var calendarSheetContext
-    #endif
+    @Environment(\.calendarSheetContext) private var calendarSheetContext
 
     @State private var showEditForm = false
     @State private var showDeleteConfirmation = false
@@ -190,17 +188,11 @@ extension SeriesDetailView {
     func deleteSeries(exclude: Bool, delete: Bool) async {
         _ = await instance.series.delete(series, addExclusion: exclude, deleteFiles: delete)
 
-        #if os(iOS)
-            if let calendarSheetContext {
-                calendarSheetContext.dismiss()
-            } else if !dependencies.router.seriesPath.isEmpty {
-                dependencies.router.seriesPath.removeLast()
-            }
-        #else
-            if !dependencies.router.seriesPath.isEmpty {
-                dependencies.router.seriesPath.removeLast()
-            }
-        #endif
+        if let calendarSheetContext {
+            calendarSheetContext.dismiss()
+        } else if !dependencies.router.seriesPath.isEmpty {
+            dependencies.router.seriesPath.removeLast()
+        }
 
         dependencies.toast.show(.seriesDeleted)
     }

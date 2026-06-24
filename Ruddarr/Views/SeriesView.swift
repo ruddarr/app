@@ -311,7 +311,7 @@ struct SeriesView: View {
 
 struct SeriesDestination: View {
     var path: SeriesPath
-    var navigate: ((SeriesPath) -> Void)?
+    var navigate: (SeriesPath) -> Void = { dependencies.router.seriesPath.append($0) }
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
