@@ -41,6 +41,32 @@ struct CalendarDetailSheet: View {
     }
 }
 
+struct CalendarSheetAwareToolbar: ToolbarContent {
+    @Environment(\.inCalendarSheet) private var inCalendarSheet
+
+    var body: some ToolbarContent {
+        if let inCalendarSheet {
+            ToolbarItem(placement: .cancellationAction) {
+                Button {
+                    inCalendarSheet.dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                }
+                .tint(.primary)
+                .accessibilityLabel("Close")
+            }
+
+            ToolbarItem(placement: .automatic) {
+                Button("Open", systemImage: "arrow.up.forward.app") {
+                    inCalendarSheet.selection.jumpToTab()
+                    inCalendarSheet.dismiss()
+                }
+                .tint(.primary)
+            }
+        }
+    }
+}
+
 private struct CalendarMovieSheet: View {
     private let movieId: Movie.ID
     private let selection: CalendarSelection
@@ -139,5 +165,16 @@ private struct CalendarEpisodeSheet: View {
 
         return SeriesDestination(path: destination, navigate: { path.append($0) })
             .calendarSheetToolbar(needsToolbar)
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func calendarSheetToolbar(_ enabled: Bool = true) -> some View {
+        if enabled {
+            toolbar { CalendarSheetAwareToolbar() }
+        } else {
+            self
+        }
     }
 }

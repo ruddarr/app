@@ -20,8 +20,8 @@ enum CalendarSelection: Identifiable {
 
     var deeplink: URL? {
         switch self {
-        case .movie(let movie): movie.calendarDeeplink
-        case .episode(let episode): episode.calendarDeeplink
+        case .movie(let movie): movie.deeplink
+        case .episode(let episode): episode.deeplink
         }
     }
 }
@@ -45,14 +45,5 @@ extension EnvironmentValues {
 extension View {
     func inCalendarSheet(selection: CalendarSelection, dismiss: @escaping @MainActor () -> Void) -> some View {
         environment(\.inCalendarSheet, CalendarSheetContext(selection: selection, dismiss: dismiss))
-    }
-
-    @ViewBuilder
-    func calendarSheetToolbar(_ enabled: Bool = true) -> some View {
-        if enabled {
-            toolbar { CalendarSheetAwareToolbar() }
-        } else {
-            self
-        }
     }
 }

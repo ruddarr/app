@@ -120,7 +120,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         return 0
     }
 
-    var calendarDeeplink: URL? {
+    var deeplink: URL? {
         guard let instanceId else { return nil }
         return URL(string: "ruddarr://movies/open/\(id)?instance=\(instanceId.uuidString)")
     }

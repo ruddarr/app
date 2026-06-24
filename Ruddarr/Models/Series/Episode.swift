@@ -46,7 +46,7 @@ struct Episode: Identifiable, Codable, Equatable {
         (calendarGroupCount ?? 0) > 2
     }
 
-    var calendarDeeplink: URL? {
+    var deeplink: URL? {
         guard let instanceId else { return nil }
 
         var deeplink = "ruddarr://series/open/\(seriesId)?season=\(seasonNumber)&instance=\(instanceId.uuidString)"
