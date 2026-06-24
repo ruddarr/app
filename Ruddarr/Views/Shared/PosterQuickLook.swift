@@ -3,6 +3,7 @@ import QuickLook
 
 struct PosterQuickLook: ViewModifier {
     let remote: String?
+    let filename: String?
 
     @State private var url: URL?
     @State private var isLoading = false
@@ -11,12 +12,12 @@ struct PosterQuickLook: ViewModifier {
         content
             .onTapGesture {
                 Task {
-                    if Images.hasLocalCopy(of: remote) == nil {
+                    if Images.hasLocalCopy(of: remote, named: filename) == nil {
                         isLoading = true
                     }
 
                     defer { isLoading = false }
-                    url = await Images.localCopy(of: remote)
+                    url = await Images.localCopy(of: remote, named: filename)
                 }
             }
             .allowsHitTesting(!isLoading)
@@ -36,7 +37,7 @@ struct PosterQuickLook: ViewModifier {
 }
 
 extension View {
-    func posterQuickLook(_ remote: String?) -> some View {
-        modifier(PosterQuickLook(remote: remote))
+    func posterQuickLook(_ remote: String?, named filename: String? = nil) -> some View {
+        modifier(PosterQuickLook(remote: remote, filename: filename))
     }
 }

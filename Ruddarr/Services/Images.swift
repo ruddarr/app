@@ -54,53 +54,73 @@ class Images {
         return thumbnail
     }
 
-    static func localCopy(of remote: String?) async -> URL? {
+    private static func thumbnailPath(_ key: String) -> URL? {
+        FileManager.default
+            .urls(for: .cachesDirectory, in: .userDomainMask)
+            .first?
+            .appendingPathComponent("com.ruddarr.images/\(sha1(of: key))")
+    }
+
+    static func localCopy(of remote: String?, named filename: String? = nil) async -> URL? {
         guard let remote, let url = URL(string: remote) else { return nil }
 
-        if let cached = hasLocalCopy(of: remote) {
+        if let cached = hasLocalCopy(of: remote, named: filename) {
             return cached
         }
 
-        var file = FileManager.default.temporaryDirectory
-            .appendingPathComponent(url.lastPathComponent)
-
-        if file.pathExtension.isEmpty {
-            file.appendPathExtension("jpg")
-        }
+        let file = localCopyPath(for: url, named: filename)
 
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
+
+            try FileManager.default.createDirectory(
+                at: file.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
+
             try data.write(to: file)
+
             return file
         } catch {
             return nil
         }
     }
 
-    static func hasLocalCopy(of remote: String?) -> URL? {
+    static func hasLocalCopy(of remote: String?, named filename: String? = nil) -> URL? {
         guard let remote, let url = URL(string: remote) else { return nil }
 
-        var file = FileManager.default.temporaryDirectory
-            .appendingPathComponent(url.lastPathComponent)
-
-        if file.pathExtension.isEmpty {
-            file.appendPathExtension("jpg")
-        }
+        let file = localCopyPath(for: url, named: filename)
 
         return FileManager.default.fileExists(atPath: file.path) ? file : nil
     }
 
-    private static func thumbnailPath(_ key: String) -> URL? {
-        let cacheKeyHash = Insecure.SHA1
-            .hash(data: Data(key.utf8))
+    private static func localCopyPath(for url: URL, named filename: String?) -> URL {
+        let pathExtension = url.pathExtension.isEmpty ? "jpg" : url.pathExtension
+
+        let illegal = CharacterSet(charactersIn: "/\\:*?\"<>|").union(.newlines)
+
+        let name = filename
+            .map {
+                $0.components(separatedBy: illegal)
+                    .joined(separator: " ")
+                    .replacingOccurrences(of: "  ", with: " ")
+                    .trimmingCharacters(in: .whitespaces)
+            }
+            .flatMap { $0.isEmpty ? nil : $0 }
+            ?? url.deletingPathExtension().lastPathComponent
+
+        return FileManager.default.temporaryDirectory
+            .appendingPathComponent(sha1(of: url.absoluteString))
+            .appendingPathComponent(name)
+            .appendingPathExtension(pathExtension)
+    }
+
+    private static func sha1(of value: String) -> String {
+        Insecure.SHA1
+            .hash(data: Data(value.utf8))
             .prefix(Insecure.SHA1.byteCount)
             .map { String(format: "%02hhx", $0) }
             .joined()
-
-        return FileManager.default
-            .urls(for: .cachesDirectory, in: .userDomainMask)
-            .first?
-            .appendingPathComponent("com.ruddarr.images/\(cacheKeyHash)")
     }
 }
 
