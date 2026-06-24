@@ -8,6 +8,7 @@ struct CalendarView: View {
     @State private var alertPresented = false
     @State private var hideCalendarView: Bool = true
     @State private var isRetrying: Bool = false
+    @State private var selectedMedia: CalendarSelection?
 
     @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
     @AppStorage("calendarSpecials", store: dependencies.store) private var hideSpecials: Bool = false
@@ -17,6 +18,7 @@ struct CalendarView: View {
     @State private var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.deviceType) private var deviceType
 
     private let firstWeekday = Calendar.current.firstWeekday
 
@@ -34,6 +36,9 @@ struct CalendarView: View {
                 } else {
                     ScrollViewReader { proxy in
                         ScrollView {
+                            let moviesByDate = displayMovies ? filteredMovies : [:]
+                            let episodesByDate = displaySeries ? filteredEpisodes : [:]
+
                             LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
                                 ForEach(calendar.dates, id: \.self) { timestamp in
                                     let date = Date(timeIntervalSince1970: timestamp)
@@ -44,7 +49,7 @@ struct CalendarView: View {
                                     }
 
                                     CalendarDate(date: date).offset(x: -6)
-                                    media(for: timestamp, date: date)
+                                    media(date: date, movies: moviesByDate[timestamp], episodes: episodesByDate[timestamp])
                                 }
                             }
 
@@ -111,6 +116,15 @@ struct CalendarView: View {
                     contentUnavailable
                 }
             }
+            #if os(iOS)
+                .sheet(item: $selectedMedia) { selection in
+                    CalendarDetailSheet(selection: selection)
+                        .presentationDetents(dynamic: deviceType == .pad ? [.large] : [.fraction(0.8), .large])
+                        .presentationSizing(.page)
+                        .presentationDragIndicator(.visible)
+                        .presentationBackground(.sheetBackground)
+                }
+            #endif
         }
     }
 
@@ -134,64 +148,65 @@ struct CalendarView: View {
     }
 
     var filteredMovies: [TimeInterval: [Movie]] {
-        var movies = calendar.movies
-
-        if displayedInstance != .all {
-            movies = movies.mapValues { items in
-                items.filter { $0.instanceId?.isEqual(to: displayedInstance) == true }
+        calendar.movies.mapValues { items in
+            let filtered = items.filter { movie in
+                if displayedInstance != .all, movie.instanceId?.isEqual(to: displayedInstance) != true { return false }
+                if onlyMonitored, !movie.monitored { return false }
+                return true
             }
-        }
 
-        if onlyMonitored {
-            movies = movies.mapValues { items in
-                items.filter { $0.monitored }
-            }
+            guard filtered.count > 1 else { return filtered }
+            return filtered.sorted(by: areMoviesInCalendarOrder)
         }
-
-        return movies
     }
 
     var filteredEpisodes: [TimeInterval: [Episode]] {
-        var episodes = calendar.episodes
+        calendar.episodes.mapValues { items in
+            let filtered = items.filter(includeEpisodeInCalendar)
 
-        episodes = episodes.mapValues { items in
-            let grouped = Dictionary(grouping: items, by: \.calendarGroup)
+            guard filtered.count > 1 else { return filtered }
 
-            return grouped.values.compactMap { group in
-                guard var dummy = group.first else { return group[0] }
-                dummy.calendarGroupCount = group.count
-                return dummy
-            }.sorted {
-                ($0.airDateUtc ?? Date.distantPast, $0.episodeNumber) <
-                ($1.airDateUtc ?? Date.distantPast, $1.episodeNumber)
+            let grouped = Dictionary(grouping: filtered, by: \.calendarGroup)
+            let episodes = grouped.values.compactMap { group -> Episode? in
+                guard var episode = group.first else { return nil }
+                episode.calendarGroupCount = group.count
+                return episode
             }
+
+            guard episodes.count > 1 else { return episodes }
+            return episodes.sorted(by: areEpisodesInCalendarOrder)
+        }
+    }
+
+    func includeEpisodeInCalendar(_ episode: Episode) -> Bool {
+        if displayedInstance != .all, episode.instanceId?.isEqual(to: displayedInstance) != true { return false }
+        if onlyMonitored, !episode.isMonitoredInCalendar { return false }
+        if onlyPremieres, !episode.isPremiere { return false }
+        if hideSpecials, episode.isSpecial { return false }
+        return true
+    }
+
+    func areMoviesInCalendarOrder(_ lhs: Movie, _ rhs: Movie) -> Bool {
+        if lhs.monitored != rhs.monitored {
+            return lhs.monitored
         }
 
-        if displayedInstance != .all {
-            episodes = episodes.mapValues { items in
-                items.filter { $0.instanceId?.isEqual(to: displayedInstance) == true }
-            }
+        return lhs.title.localizedStandardCompare(rhs.title) == .orderedAscending
+    }
+
+    func areEpisodesInCalendarOrder(_ lhs: Episode, _ rhs: Episode) -> Bool {
+        let lhsDate = lhs.airDateUtc ?? .distantPast
+        let rhsDate = rhs.airDateUtc ?? .distantPast
+
+        if lhsDate != rhsDate {
+            return lhsDate < rhsDate
         }
 
-        if onlyMonitored {
-            episodes = episodes.mapValues { items in
-                items.filter { $0.monitored }
-            }
+        if lhs.isMonitoredInCalendar != rhs.isMonitoredInCalendar {
+            return lhs.isMonitoredInCalendar
         }
 
-        if onlyPremieres {
-            episodes = episodes.mapValues { items in
-                items.filter { $0.isPremiere }
-            }
-        }
-
-        if hideSpecials {
-            episodes = episodes.mapValues { items in
-                items.filter { !$0.isSpecial }
-            }
-        }
-
-        return episodes
+        return lhs.episodeNumber < rhs.episodeNumber
     }
 
     func load(force: Bool = false) async {
@@ -237,17 +252,17 @@ struct CalendarView: View {
         scrollView?.scrollTo(timestamp, anchor: .center)
     }
 
-    func media(for timestamp: TimeInterval, date: Date) -> some View {
+    func media(date: Date, movies: [Movie]?, episodes: [Episode]?) -> some View {
         VStack(spacing: 8) {
-            if displayMovies, let movies = filteredMovies[timestamp] {
+            if let movies {
                 ForEach(movies) { movie in
-                    CalendarMovie(date: date, movie: movie)
+                    CalendarMovie(date: date, movie: movie, open: open)
                 }
             }
 
-            if displaySeries, let episodes = filteredEpisodes[timestamp] {
+            if let episodes {
                 ForEach(episodes) { episode in
-                    CalendarEpisode(episode: episode)
+                    CalendarEpisode(episode: episode, open: open)
                 }
             }
 
@@ -368,6 +383,14 @@ struct CalendarView: View {
 
             Label(label, systemImage: "internaldrive")
         }
+    }
+
+    func open(_ selection: CalendarSelection) {
+        #if os(iOS)
+            selectedMedia = selection
+        #else
+            selection.jumpToTab()
+        #endif
     }
 }
 

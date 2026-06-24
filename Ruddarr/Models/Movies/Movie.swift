@@ -120,6 +120,11 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         return 0
     }
 
+    var deeplink: URL? {
+        guard let instanceId else { return nil }
+        return QuickActions.Deeplink.openMovie(id, instanceId.uuidString).url
+    }
+
     var stateLabel: String {
         if isDownloaded {
             return String(localized: "Downloaded", comment: "State of media item")
@@ -195,6 +200,10 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         }
 
         return nil
+    }
+
+    var posterFilename: String {
+        year > 0 ? "\(title) (\(year))" : title
     }
 
     var isDownloaded: Bool {
@@ -311,7 +320,7 @@ struct MovieEditorResource: Codable {
 }
 
 func formatCustomScore(_ score: Int) -> String {
-    String(format: "%@%d", score < 0 ? "-" : "+", score)
+    String(format: "%+d", score)
 }
 
 extension Movie {

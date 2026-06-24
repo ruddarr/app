@@ -11,6 +11,7 @@ extension MovieDetails {
                 .modifier(MediaDetailsPosterModifier())
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 14))
+                .posterQuickLook(movie.remotePoster, named: movie.posterFilename)
                 .padding(.trailing, deviceType == .phone ? 8 : 16)
 
             VStack(alignment: .leading, spacing: 0) {

@@ -56,6 +56,8 @@
 		BB3B4BF92CE13437001A8896 /* LabeledGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3B4BF82CE13435001A8896 /* LabeledGroupBox.swift */; };
 		BB3CC7212C192C980024FA90 /* MovieDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3CC7202C192C980024FA90 /* MovieDefaults.swift */; };
 		BB3EBC012CC052B700141868 /* TaskRemovalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3EBC002CC052B700141868 /* TaskRemovalView.swift */; };
+		BB3F1E912E07000100A0C0DE /* CalendarDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F1E902E07000100A0C0DE /* CalendarDetailSheet.swift */; };
+		BB3F1E952E07000100A0C0DE /* CalendarSheetContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F1E942E07000100A0C0DE /* CalendarSheetContext.swift */; };
 		BB4071302C1CDD32006A3FA5 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB40712F2C1CDD32006A3FA5 /* NotificationService.swift */; };
 		BB4071342C1CDD32006A3FA5 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BB40712D2C1CDD32006A3FA5 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BB4140C62B71CA89007C7DA4 /* MovieReleaseSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4140C52B71CA89007C7DA4 /* MovieReleaseSort.swift */; };
@@ -100,6 +102,7 @@
 		BB6A5D382E3ABB23002E036D /* tags.json in Resources */ = {isa = PBXBuildFile; fileRef = BB6A5D372E3ABB23002E036D /* tags.json */; };
 		BB6D96952B61E61D0017BFB3 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6D96942B61E61D0017BFB3 /* AppSettings.swift */; };
 		BB6EB88B2BF00FA900066FB4 /* DateDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EB88A2BF00FA900066FB4 /* DateDecodingStrategy.swift */; };
+		BB6EB88C2BF00FA900066FB4 /* DateDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6EB88A2BF00FA900066FB4 /* DateDecodingStrategy.swift */; };
 		BB6F23A92B6A039400A4347A /* MovieReleasesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F23A82B6A039400A4347A /* MovieReleasesView.swift */; };
 		BB6F23AB2B6ABB8700A4347A /* SettingsAboutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F23AA2B6ABB8700A4347A /* SettingsAboutSection.swift */; };
 		BB6F23AD2B6ABBBD00A4347A /* SettingsSystemSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6F23AC2B6ABBBD00A4347A /* SettingsSystemSection.swift */; };
@@ -224,6 +227,7 @@
 		BBFBAD5C2BDFF5A4007B70BC /* WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFBAD5B2BDFF5A4007B70BC /* WhatsNew.swift */; };
 		BBFDEB842BD5B78B009F002F /* SettingsLinksSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */; };
 		BBFFB5102D72717000AB5EFD /* BugSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFFB50F2D72717000AB5EFD /* BugSheet.swift */; };
+		CE63F57516B93143FBCD1751 /* PosterQuickLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05CB8795B8D64043875ABB /* PosterQuickLook.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -273,6 +277,7 @@
 		798010BC2B6268D200BBC056 /* RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawRepresentable.swift; sourceTree = "<group>"; };
 		798010BE2B6268DE00BBC056 /* MovieSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSort.swift; sourceTree = "<group>"; };
 		79B761CA2B7115EC001DD30E /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		7B05CB8795B8D64043875ABB /* PosterQuickLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterQuickLook.swift; sourceTree = "<group>"; };
 		BB000000000000000000AAA2 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB000000000000000000AAA3 /* RuddarrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuddarrTests.swift; sourceTree = "<group>"; };
 		BB01B1F32B6465730025FAF4 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -310,6 +315,8 @@
 		BB3B4BF82CE13435001A8896 /* LabeledGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledGroupBox.swift; sourceTree = "<group>"; };
 		BB3CC7202C192C980024FA90 /* MovieDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDefaults.swift; sourceTree = "<group>"; };
 		BB3EBC002CC052B700141868 /* TaskRemovalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRemovalView.swift; sourceTree = "<group>"; };
+		BB3F1E902E07000100A0C0DE /* CalendarDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDetailSheet.swift; sourceTree = "<group>"; };
+		BB3F1E942E07000100A0C0DE /* CalendarSheetContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSheetContext.swift; sourceTree = "<group>"; };
 		BB40712D2C1CDD32006A3FA5 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB40712F2C1CDD32006A3FA5 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		BB4071312C1CDD32006A3FA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -366,6 +373,7 @@
 		BB7487FA2F576CAB00B0F036 /* test.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = test.yml; sourceTree = "<group>"; };
 		BB7602742B62027C006E5A1F /* quality-profiles.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "quality-profiles.json"; sourceTree = "<group>"; };
 		BB7666CE2BA51F49009D4F68 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		BB778B4E2FEB0DE30077A26A /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
 		BB77996C2BAE4757007D713B /* Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcuts.swift; sourceTree = "<group>"; };
 		BB77C2CB2C19F41800125852 /* SeriesDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesDefaults.swift; sourceTree = "<group>"; };
 		BB77C2CD2C1A019B00125852 /* AppShortcuts.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = AppShortcuts.xcstrings; sourceTree = "<group>"; };
@@ -793,6 +801,7 @@
 				BB0C3EC62BF90C5900632CB1 /* NoInstance.swift */,
 				BBBCA05B2BE958F300BAE374 /* Toolbar.swift */,
 				BBA54BDD2B561FB200CA0F3E /* CachedAsyncImage.swift */,
+				7B05CB8795B8D64043875ABB /* PosterQuickLook.swift */,
 				BBAED12C2B72D444006C6CF2 /* ButtonLabel.swift */,
 				BBF583B12BABAE8C00AFA7FB /* Loading.swift */,
 				BBAFC7EB2BB8704000245D10 /* CustomFormat.swift */,
@@ -843,6 +852,7 @@
 				BB000000000000000000AAA4 /* Tests */,
 				BBCF001B2F0000000000AAA1 /* TestFlight */,
 				BBC78DC02D70E2D700EA0AF5 /* README.md */,
+				BB778B4E2FEB0DE30077A26A /* AGENTS.md */,
 				BBF8E1202D8B9DB70018C5D7 /* LICENSE */,
 				BBE828542B4F2C7000C1E1D9 /* Products */,
 			);
@@ -957,6 +967,8 @@
 			isa = PBXGroup;
 			children = (
 				BBF583B82BAC99CA00AFA7FB /* CalendarDate.swift */,
+				BB3F1E902E07000100A0C0DE /* CalendarDetailSheet.swift */,
+				BB3F1E942E07000100A0C0DE /* CalendarSheetContext.swift */,
 				BBF583BA2BAC9A0A00AFA7FB /* CalendarMedia.swift */,
 			);
 			path = Calendar;
@@ -1085,7 +1097,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					BB000000000000000000AAA8 = {
 						CreatedOnToolsVersion = 16.0;
@@ -1200,6 +1212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB6EB88C2BF00FA900066FB4 /* DateDecodingStrategy.swift in Sources */,
 				BB000000000000000000AAA1 /* RuddarrTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1359,12 +1372,15 @@
 				BB336F8A2B9A32FE000904FA /* MovieSearchView.swift in Sources */,
 				BB92AE322F24495B0048FC16 /* ContentViewMac.swift in Sources */,
 				BBA54BDE2B561FB200CA0F3E /* CachedAsyncImage.swift in Sources */,
+				CE63F57516B93143FBCD1751 /* PosterQuickLook.swift in Sources */,
 				BBD3F7D62BE9AD060050D9A0 /* SeriesReleaseSort.swift in Sources */,
 				BB351D7C2CB4A330002AAEBF /* MovieLinks.swift in Sources */,
 				BB35E7112DBFDD6200A8A735 /* MediaDeleteSheet.swift in Sources */,
 				BBFBAD5C2BDFF5A4007B70BC /* WhatsNew.swift in Sources */,
 				BBFFB5102D72717000AB5EFD /* BugSheet.swift in Sources */,
 				BBDBBC692C13A0600087C844 /* QueueSort.swift in Sources */,
+				BB3F1E912E07000100A0C0DE /* CalendarDetailSheet.swift in Sources */,
+				BB3F1E952E07000100A0C0DE /* CalendarSheetContext.swift in Sources */,
 				BBF583BB2BAC9A0A00AFA7FB /* CalendarMedia.swift in Sources */,
 				BBD3F7DA2BE9E31F0050D9A0 /* SeriesReleaseSheet.swift in Sources */,
 				BB3CC7212C192C980024FA90 /* MovieDefaults.swift in Sources */,
@@ -1455,7 +1471,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.3;
+				MARKETING_VERSION = 1.8.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1466,7 +1482,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1492,7 +1508,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.3;
+				MARKETING_VERSION = 1.8.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1503,7 +1519,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1515,6 +1531,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1582,6 +1599,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1672,7 +1690,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.3;
+				MARKETING_VERSION = 1.8.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1695,6 +1713,7 @@
 				SWIFT_UPCOMING_FEATURE_INFER_SENDABLE_FROM_CAPTURES = YES;
 				SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT = YES;
 				SWIFT_UPCOMING_FEATURE_ISOLATED_DEFAULT_VALUES = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_UPCOMING_FEATURE_REGION_BASED_ISOLATION = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1737,7 +1756,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.3;
+				MARKETING_VERSION = 1.8.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1760,6 +1779,7 @@
 				SWIFT_UPCOMING_FEATURE_INFER_SENDABLE_FROM_CAPTURES = YES;
 				SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT = YES;
 				SWIFT_UPCOMING_FEATURE_ISOLATED_DEFAULT_VALUES = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_UPCOMING_FEATURE_REGION_BASED_ISOLATION = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

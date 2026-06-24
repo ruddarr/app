@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct SeriesSearchView: View {
     @State var searchQuery: String
@@ -12,7 +13,7 @@ struct SeriesSearchView: View {
         @Bindable var seriesLookup = instance.lookup
 
         ScrollView {
-            if seriesLookup.sortedItems.isEmpty, searchQuery.isEmpty, !instance.series.items.isEmpty {
+            if shouldShowDiscoveryGrid {
                 MediaGrid(items: discovery.series) { item in
                     DiscoveryGridPoster(item: item)
                 } header: {
@@ -39,7 +40,11 @@ struct SeriesSearchView: View {
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
-            placement: .drawerOrToolbar(.always)
+            placement: .drawerOrToolbar(.always),
+            prompt: Text(
+                "e.g. \("Breaking Bad, tvdb:81189, imdb:tt0903747")",
+                comment: "Placeholder in the search field on the Add Movie/Series screens (translate only \"e.g.\", short form of \"for example\")"
+            )
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
@@ -75,6 +80,12 @@ struct SeriesSearchView: View {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
+    }
+
+    var shouldShowDiscoveryGrid: Bool {
+        instance.lookup.isEmpty() &&
+        searchQuery.isEmpty &&
+        !instance.series.items.isEmpty
     }
 
     func performSearch(debounced: Bool = false) {

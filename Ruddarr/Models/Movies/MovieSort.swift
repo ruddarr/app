@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct MovieSort: Hashable {
     var isAscending: Bool = false
@@ -111,7 +112,7 @@ extension MovieSort: RawRepresentable {
             let result = try JSONDecoder().decode(MovieSort.self, from: data)
             self = result
         } catch {
-            leaveBreadcrumb(.fatal, category: "movie.sort", message: "JSON decode failed: \(error)", data: ["error": error])
+            leaveBreadcrumb(.warning, category: "movie.sort", message: "JSON decode failed: \(error)", data: ["error": error, "rawValue": rawValue])
 
             return nil
         }
@@ -143,7 +144,7 @@ extension MovieSort: Codable {
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),
             filter: container.decode(Filter.self, forKey: .filter),
-            folder: container.decode(String.self, forKey: .folder)
+            folder: container.decodeIfPresent(String.self, forKey: .folder) ?? .all
         )
     }
 

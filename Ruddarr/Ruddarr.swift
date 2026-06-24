@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreSpotlight
 import TipKit
+import Sentry
 
 @main
 struct Ruddarr: App {
@@ -62,11 +63,17 @@ struct Ruddarr: App {
 
         let parts = identifier.split(separator: ":").map(String.init) // `<type>:<id>:<instance>`
 
-        switch parts[0] {
-        case "movie": openDeeplink(url: URL(string: "ruddarr://movies/open/\(parts[1])?instance=\(parts[2])")!)
-        case "series": openDeeplink(url: URL(string: "ruddarr://series/open/\(parts[1])?instance=\(parts[2])")!)
-        default: leaveBreadcrumb(.error, category: "spotlight", message: "Invalid identifier", data: ["openSearchableItem": identifier])
+        let deeplink: QuickActions.Deeplink? = switch parts[0] {
+        case "movie": Movie.ID(parts[1]).map { .openMovie($0, parts[2]) }
+        case "series": Series.ID(parts[1]).map { .openSeries($0, parts[2]) }
+        default: nil
         }
+
+        guard let deeplink else {
+            return leaveBreadcrumb(.error, category: "spotlight", message: "Invalid identifier", data: ["openSearchableItem": identifier])
+        }
+
+        deeplink()
     }
 }
 

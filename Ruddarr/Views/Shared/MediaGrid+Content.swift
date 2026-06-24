@@ -70,13 +70,16 @@ struct DiscoveryGridPoster: View {
         }
         .buttonStyle(.plain)
         .allowsHitTesting(!isLoading)
-        .animation(.spring(duration: 0.2), value: isLoading)
         .overlay {
             if isLoading {
-                Color.black.opacity(0.7)
-                ProgressView().tint(.white)
+                ZStack {
+                    Color.black.opacity(0.7)
+                    ProgressView().tint(.white)
+                }
+                .transition(.opacity)
             }
         }
+        .animation(.easeInOut(duration: 0.2), value: isLoading)
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .alert(
             isPresented: Binding(

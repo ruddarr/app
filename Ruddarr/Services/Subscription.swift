@@ -1,5 +1,6 @@
 import SwiftUI
 import StoreKit
+import Sentry
 
 class Subscription {
     static let group: String = "21452440"

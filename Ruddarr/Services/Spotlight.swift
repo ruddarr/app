@@ -1,5 +1,7 @@
-import CoreSpotlight
 import zlib
+import CoreSpotlight
+import Nuke
+import Sentry
 
 actor Spotlight {
     var instanceId: Instance.ID
@@ -25,7 +27,7 @@ actor Spotlight {
             }
 
             if let sleepDelay = delay {
-                try await Task.sleep(for: sleepDelay)
+                try? await Task.sleep(for: sleepDelay)
             }
 
             let typeName = String(describing: M.self)

@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct MovieReleaseSort: Equatable {
     var isAscending: Bool = true

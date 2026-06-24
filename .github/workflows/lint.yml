@@ -3,29 +3,29 @@
 name: "Lint"
 
 on:
-    pull_request: null
-    push:
-        branches:
-        - develop
-        - main
+  pull_request: null
+  push:
+    branches:
+      - develop
+      - main
 
 permissions:
   contents: read
 
 concurrency:
-    group: "${{ github.workflow }}-${{ github.ref }}"
-    cancel-in-progress: true
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
 
 jobs:
 
-    typos:
-        name: Typos
-        runs-on: ubuntu-latest
-        timeout-minutes: 1
+  typos:
+    name: Typos
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
 
-        steps:
-          - name: Checkout repository
-            uses: actions/checkout@v6
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
 
-          - name: Search for misspellings
-            uses: crate-ci/typos@v1
+      - name: Search for misspellings
+        uses: crate-ci/typos@v1

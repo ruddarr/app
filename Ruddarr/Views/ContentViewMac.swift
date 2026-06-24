@@ -83,6 +83,9 @@ struct ContentView: View {
                 tab.image
                     .imageScale(.large)
                     .frame(width: 22, height: 22, alignment: .center)
+                    .foregroundStyle(
+                        dependencies.router.selectedTab == tab ? Color.white : settings.theme.tint
+                    )
             }
             .labelIconToTitleSpacing(8)
             .badge(badge == nil ? nil : renderBadge(badge))

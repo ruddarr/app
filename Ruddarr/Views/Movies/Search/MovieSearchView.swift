@@ -12,7 +12,7 @@ struct MovieSearchView: View {
         @Bindable var movieLookup = instance.lookup
 
         ScrollView {
-            if movieLookup.sortedItems.isEmpty && searchQuery.isEmpty {
+            if shouldShowDiscoveryGrid {
                 MediaGrid(items: discovery.movies) { item in
                     DiscoveryGridPoster(item: item)
                 } header: {
@@ -41,7 +41,11 @@ struct MovieSearchView: View {
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
-            placement: .drawerOrToolbar(.always)
+            placement: .drawerOrToolbar(.always),
+            prompt: Text(
+                "e.g. \("Interstellar, tmdb:157336, imdb:tt0816692")",
+                comment: "Placeholder in the search field on the Add Movie/Series screens (translate only \"e.g.\", short form of \"for example\")"
+            )
         )
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
@@ -77,6 +81,10 @@ struct MovieSearchView: View {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
+    }
+
+    var shouldShowDiscoveryGrid: Bool {
+        instance.lookup.isEmpty() && searchQuery.isEmpty
     }
 
     func performSearch(debounced: Bool = false) {

@@ -27,7 +27,7 @@ final class Toast {
         }
 
         Task {
-            try await self.dismissAfterTimeout(message.id, message.timeout)
+            try? await self.dismissAfterTimeout(message.id, message.timeout)
         }
     }
 

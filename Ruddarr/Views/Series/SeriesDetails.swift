@@ -1,5 +1,6 @@
 import SwiftUI
 import TelemetryDeck
+import TipKit
 
 struct SeriesDetails: View {
     @Binding var series: Series
@@ -216,10 +217,10 @@ struct SeriesDetailsPreview: View {
     }
 }
 
-#Preview("Preview") {
-    SeriesDetailsPreview("series-lookup")
-}
-
 #Preview {
     SeriesDetailsPreview("series")
+}
+
+#Preview("Preview") {
+    SeriesDetailsPreview("series-lookup")
 }

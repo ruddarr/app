@@ -1,4 +1,5 @@
 import SwiftUI
+import TipKit
 import TelemetryDeck
 
 struct EpisodeView: View {
@@ -18,8 +19,8 @@ struct EpisodeView: View {
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
 
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     var startOfToday = Calendar.current.startOfDay(for: Date())
 
@@ -52,11 +53,10 @@ struct EpisodeView: View {
             .padding(.vertical)
             .scenePadding(.horizontal)
         }
-        .navigationTitle(
-            series.title.count < 20 ? series.title : "\(series.title.prefix(18))..."
-        )
+        .navigationTitle(navigationTitle)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
+            CalendarSheetAwareToolbar(deeplink: episode.deeplink)
             toolbarMonitorButton
             toolbarMenu
         }
@@ -69,6 +69,14 @@ struct EpisodeView: View {
         .onBecomeActive {
             await reload()
         }
+    }
+
+    var navigationTitle: String {
+        if inCalendarSheet != nil {
+            return ""
+        }
+
+        return series.title.count < 20 ? series.title : "\(series.title.prefix(18))..."
     }
 
     var header: some View {

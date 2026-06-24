@@ -40,6 +40,13 @@ extension View {
     func presentationDetents(dynamic: Set<PresentationDetent>) -> some View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
     }
+
+    func presentationDetents(
+        dynamic: Set<PresentationDetent>,
+        selection: Binding<PresentationDetent>
+    ) -> some View {
+        self.modifier(DynamicPresentationDetents(detents: dynamic, selection: selection))
+    }
 }
 
 private struct OnBecomeActiveModifier: ViewModifier {
@@ -127,11 +134,17 @@ struct HideIconOnMac: ViewModifier {
 
 private struct DynamicPresentationDetents: ViewModifier {
     var detents: Set<PresentationDetent>
+    var selection: Binding<PresentationDetent>?
 
     @Environment(\.sizeCategory) var sizeCategory
 
+    @ViewBuilder
     func body(content: Content) -> some View {
-        content.presentationDetents(adjustedDetents)
+        if let selection {
+            content.presentationDetents(adjustedDetents, selection: selection)
+        } else {
+            content.presentationDetents(adjustedDetents)
+        }
     }
 
     var adjustedDetents: Set<PresentationDetent> {
@@ -187,11 +200,9 @@ extension SearchFieldPlacement {
     enum DrawerDisplayMode { case automatic, always }
 
     static var drawerOrToolbar: SearchFieldPlacement {
-        #if os(macOS)
-            .toolbar
-        #else
-            .navigationBarDrawer(displayMode: .automatic)
-        #endif
+        // This used to be `.navigationBarDrawer(displayMode: .automatic)`
+        // but that started crashing in iOS 26.4
+        .toolbar
     }
 
     static func drawerOrToolbar(_ displayMode: DrawerDisplayMode) -> SearchFieldPlacement {
@@ -275,7 +286,7 @@ extension ShapeStyle where Self == Color {
     static var buttonTint: Color { Color(UIColor.systemGray2) }
 #else
     static var card: Color { .tertiarySystemFill }
-    static var label: Color { Color(nsColor: .labelColor) }
+    static var label: Color { Color(NSColor.labelColor) }
 
     static var darkGray: Color { Color(NSColor.darkGray) }
     static var darkText: Color { Color(NSColor.secondaryLabelColor) }

@@ -1,5 +1,7 @@
 import SwiftUI
 import CloudKit
+import Sentry
+import UserNotifications
 
 extension InstanceView {
     var notificationPath: String {
@@ -254,7 +256,10 @@ extension InstanceView {
             instanceNotifications = false
         case .notDetermined, .authorized:
             notificationsAllowed = true
-        case .provisional, .ephemeral: break
+        case .provisional: break
+        #if !os(macOS)
+            case .ephemeral: break
+        #endif
         @unknown default: break
         }
     }

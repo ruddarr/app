@@ -1,5 +1,6 @@
 import os
 import SwiftUI
+import Sentry
 
 struct API {
     var fetchMovies: (Instance) async throws -> [Movie]

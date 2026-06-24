@@ -2,7 +2,6 @@ import os
 import Foundation
 import CloudKit
 import TelemetryDeck
-
 @preconcurrency import Sentry
 
 enum Metric: String {

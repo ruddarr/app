@@ -1,1 +1,4 @@
+- Display calendar items inside sheet
+- Display Quick Look of posters
 - Support sort queue tasks by progress
+- Dozens of internal code improvements
