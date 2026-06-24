@@ -55,6 +55,11 @@ struct API {
     var createNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
     var updateNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
     var deleteNotification: (InstanceNotification, Instance) async throws -> Empty
+
+    var fetchIndexers: (Instance) async throws -> [Indexer]
+    var setIndexersEnabled: (_ ids: [Int], _ enable: Bool, Instance) async throws -> Empty
+    var searchProwlarr: (_ query: String, _ categories: [Int], Instance) async throws -> [ProwlarrRelease]
+    var grabProwlarrRelease: (_ guid: String, _ indexerId: Int, Instance) async throws -> Empty
 }
 
 extension API {

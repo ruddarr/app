@@ -82,6 +82,7 @@ struct Instance: Identifiable, Equatable, Codable {
 enum InstanceType: String, Identifiable, CaseIterable, Codable {
     case radarr = "Radarr"
     case sonarr = "Sonarr"
+    case prowlarr = "Prowlarr"
     var id: Self { self }
 }
 
@@ -214,6 +215,20 @@ extension Instance {
         instance.tags = [
             Tag(id: 1, label: "Anime"),
             Tag(id: 2, label: "Trash"),
+        ]
+
+        return instance
+    }
+
+    static var prowlarrDummy: Self {
+        var instance = Instance(id: UUID(uuidString: "00000000-5000-0000-0000-000000000000")!)
+
+        instance.type = .prowlarr
+        instance.label = ".prowlarr"
+        instance.url = "http://10.0.1.5:9696"
+        instance.apiKey = "deadbeefcafebabe1234567890abcdef"
+        instance.tags = [
+            Tag(id: 1, label: "Anime"),
         ]
 
         return instance

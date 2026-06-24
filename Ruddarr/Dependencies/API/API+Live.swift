@@ -227,8 +227,8 @@ extension API {
 
             return try await request(method: .post, url: url, headers: instance.auth, body: payload, timeout: instance.timeout(.releaseDownload))
         }, systemStatus: { instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/system/status")
+            let path = instance.type == .prowlarr ? "/api/v1/system/status" : "/api/v3/system/status"
+            let url = try instance.baseURL().appending(path: path)
 
             return try await request(url: url, headers: instance.auth)
         }, rootFolders: { instance in
@@ -241,8 +241,8 @@ extension API {
                 .appending(path: "/api/v3/qualityprofile")
             return try await request(url: url, headers: instance.auth)
         }, getTags: { instance in
-            let url = try instance.baseURL()
-                .appending(path: "/api/v3/tag")
+            let path = instance.type == .prowlarr ? "/api/v1/tag" : "/api/v3/tag"
+            let url = try instance.baseURL().appending(path: path)
 
             return try await request(url: url, headers: instance.auth)
         }, fetchQueueTasks: { instance in
@@ -315,6 +315,53 @@ extension API {
                 .appending(path: String(model.id ?? 0))
 
             return try await request(method: .delete, url: url, headers: instance.auth)
+        }, fetchIndexers: { instance in
+            let url = try instance.baseURL()
+                .appending(path: "/api/v1/indexer")
+
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.normal))
+        }, setIndexersEnabled: { ids, enable, instance in
+            let url = try instance.baseURL()
+                .appending(path: "/api/v1/indexer/bulk")
+
+            let body = IndexerBulkResource(ids: ids, enable: enable)
+
+            return try await request(method: .put, url: url, headers: instance.auth, body: body)
+        }, searchProwlarr: { query, categories, instance in
+            var queryItems: [URLQueryItem] = [
+                .init(name: "query", value: query),
+                .init(name: "type", value: "search"),
+                .init(name: "limit", value: "100"),
+            ]
+
+            if !categories.isEmpty {
+                queryItems.append(.init(
+                    name: "categories",
+                    value: categories.map(String.init).joined(separator: ",")
+                ))
+            }
+
+            let url = try instance.baseURL()
+                .appending(path: "/api/v1/search")
+                .appending(queryItems: queryItems)
+
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
+        }, grabProwlarrRelease: { guid, indexerId, instance in
+            let url = try instance.baseURL()
+                .appending(path: "/api/v1/search")
+
+            struct GrabBody: Encodable {
+                let guid: String
+                let indexerId: Int
+            }
+
+            return try await request(
+                method: .post,
+                url: url,
+                headers: instance.auth,
+                body: GrabBody(guid: guid, indexerId: indexerId),
+                timeout: instance.timeout(.releaseDownload)
+            )
         })
     }
 }

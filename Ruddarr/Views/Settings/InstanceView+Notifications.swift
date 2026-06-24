@@ -286,6 +286,8 @@ extension InstanceView {
     }
 
     func initialWebhookSync() async {
+        guard instance.type != .prowlarr else { return }
+
         if notificationsAllowed && cloudKitEnabled && entitledToService {
             await webhook.synchronize()
 

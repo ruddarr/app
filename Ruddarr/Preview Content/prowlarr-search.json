@@ -1,0 +1,60 @@
+[
+    {
+        "guid": "https://1337x.example/torrent/abc123",
+        "title": "Brandon Sanderson - The Way of Kings (Stormlight #1) [Audiobook MP3 96kbps]",
+        "indexerId": 1,
+        "indexer": "1337x",
+        "size": 1503238553,
+        "age": 3,
+        "ageMinutes": 4320.0,
+        "publishDate": "2026-05-20T12:00:00Z",
+        "protocol": "torrent",
+        "seeders": 18,
+        "leechers": 2,
+        "grabs": 47,
+        "categories": [
+            { "id": 3000, "name": "Audio" },
+            { "id": 3030, "name": "Audio/Audiobook" }
+        ],
+        "infoUrl": "https://1337x.example/torrent/abc123",
+        "downloadUrl": "https://1337x.example/torrent/abc123.torrent"
+    },
+    {
+        "guid": "https://audiobookbay.example/torrent/def456",
+        "title": "Brandon Sanderson - Words of Radiance (Stormlight #2) [Audiobook M4B]",
+        "indexerId": 2,
+        "indexer": "AudioBookBay",
+        "size": 2254857830,
+        "age": 11,
+        "ageMinutes": 15840.0,
+        "publishDate": "2026-05-12T08:30:00Z",
+        "protocol": "torrent",
+        "seeders": 42,
+        "leechers": 5,
+        "grabs": 312,
+        "categories": [
+            { "id": 3030, "name": "Audio/Audiobook" }
+        ],
+        "infoUrl": "https://audiobookbay.example/torrent/def456",
+        "downloadUrl": "https://audiobookbay.example/torrent/def456.torrent"
+    },
+    {
+        "guid": "https://nzbgeek.example/release/ghi789",
+        "title": "Stormlight Archive Books 1-4 [Audiobook Collection FLAC]",
+        "indexerId": 3,
+        "indexer": "NZBgeek",
+        "size": 15891894272,
+        "age": 42,
+        "ageMinutes": 60480.0,
+        "publishDate": "2026-04-11T03:00:00Z",
+        "protocol": "usenet",
+        "seeders": null,
+        "leechers": null,
+        "grabs": 87,
+        "categories": [
+            { "id": 3030, "name": "Audio/Audiobook" }
+        ],
+        "infoUrl": "https://nzbgeek.example/release/ghi789",
+        "downloadUrl": "https://nzbgeek.example/release/ghi789.nzb"
+    }
+]

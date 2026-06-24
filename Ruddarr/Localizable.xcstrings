@@ -368,6 +368,16 @@
         }
       }
     },
+    "Add indexers in the Prowlarr web interface." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add indexers in the Prowlarr web interface."
+          }
+        }
+      }
+    },
     "Add Instance" : {
       "localizations" : {
         "en" : {
@@ -568,6 +578,17 @@
         }
       }
     },
+    "Any Category" : {
+      "comment" : "Prowlarr category picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Category"
+          }
+        }
+      }
+    },
     "Any Client" : {
       "localizations" : {
         "en" : {
@@ -762,11 +783,23 @@
       }
     },
     "Audio" : {
+      "comment" : "Prowlarr category picker",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Audio"
+          }
+        }
+      }
+    },
+    "Audiobooks" : {
+      "comment" : "Prowlarr category picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Audiobooks"
           }
         }
       }
@@ -886,7 +919,7 @@
       }
     },
     "Books" : {
-      "comment" : "Localized name of Apple's Books app",
+      "comment" : "Localized name of Apple's Books app\nProwlarr category picker",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -934,6 +967,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cards"
+          }
+        }
+      }
+    },
+    "Categories" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categories"
+          }
+        }
+      }
+    },
+    "Category" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
           }
         }
       }
@@ -1077,6 +1130,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Connection Failure"
+          }
+        }
+      }
+    },
+    "Console" : {
+      "comment" : "Prowlarr category picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Console"
           }
         }
       }
@@ -1307,6 +1371,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descending"
+          }
+        }
+      }
+    },
+    "Description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Description"
           }
         }
       }
@@ -1891,6 +1965,18 @@
         }
       }
     },
+    "Grab" : {
+      "comment" : "Short version of Grab Release",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grab"
+          }
+        }
+      }
+    },
     "Grab Release" : {
       "localizations" : {
         "en" : {
@@ -1908,6 +1994,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grabbed"
+          }
+        }
+      }
+    },
+    "Grabs" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grabs"
+          }
+        }
+      }
+    },
+    "Grabs %lld" : {
+      "comment" : "Prowlarr usenet result — grab count",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grabs %lld"
           }
         }
       }
@@ -2171,6 +2279,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Indexer"
+          }
+        }
+      }
+    },
+    "Indexer Disabled" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indexer Disabled"
+          }
+        }
+      }
+    },
+    "Indexer Enabled" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indexer Enabled"
+          }
+        }
+      }
+    },
+    "Indexers" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indexers"
+          }
+        }
+      }
+    },
+    "Indexers could not be loaded" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indexers could not be loaded"
           }
         }
       }
@@ -2511,6 +2659,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mail"
+          }
+        }
+      }
+    },
+    "Manage" : {
+      "comment" : "Prowlarr indexers section — manage row label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage"
           }
         }
       }
@@ -2857,7 +3016,7 @@
       }
     },
     "Movies" : {
-      "comment" : "Plural. Tab/sidebar menu item",
+      "comment" : "Plural. Tab/sidebar menu item\nProwlarr category picker",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2894,6 +3053,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Music"
+          }
+        }
+      }
+    },
+    "Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
           }
         }
       }
@@ -2995,6 +3164,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No importable files found."
+          }
+        }
+      }
+    },
+    "No Indexers" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Indexers"
           }
         }
       }
@@ -3829,7 +4008,7 @@
       }
     },
     "Other" : {
-      "comment" : "Type of the extra movie file",
+      "comment" : "Prowlarr category picker\nType of the extra movie file",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4026,6 +4205,36 @@
         }
       }
     },
+    "Priority" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Priority"
+          }
+        }
+      }
+    },
+    "Privacy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy"
+          }
+        }
+      }
+    },
+    "Private" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Private"
+          }
+        }
+      }
+    },
     "Proper" : {
       "comment" : "The PROPER flag",
       "localizations" : {
@@ -4053,6 +4262,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Provide a detailed description of the issue along with the exact steps to reproduce it."
+          }
+        }
+      }
+    },
+    "Public" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Public"
           }
         }
       }
@@ -4242,6 +4461,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Released"
+          }
+        }
+      }
+    },
+    "Relevance" : {
+      "comment" : "Prowlarr search sort option",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relevance"
           }
         }
       }
@@ -4447,6 +4677,16 @@
         }
       }
     },
+    "Search across your enabled Prowlarr indexers. Grabs are sent to Prowlarr's download client and won't appear in Ruddarr's Activity." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search across your enabled Prowlarr indexers. Grabs are sent to Prowlarr's download client and won't appear in Ruddarr's Activity."
+          }
+        }
+      }
+    },
     "Search for Movie" : {
       "localizations" : {
         "en" : {
@@ -4497,12 +4737,32 @@
         }
       }
     },
+    "Search Indexers" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Indexers"
+          }
+        }
+      }
+    },
     "Search Monitored" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search Monitored"
+          }
+        }
+      }
+    },
+    "Search Prowlarr" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Prowlarr"
           }
         }
       }
@@ -4616,6 +4876,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seeders"
+          }
+        }
+      }
+    },
+    "Semi-Private" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semi-Private"
           }
         }
       }
@@ -4778,6 +5048,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Slow Instance"
+          }
+        }
+      }
+    },
+    "Software" : {
+      "comment" : "Prowlarr category picker — Newznab PC category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Software"
           }
         }
       }
@@ -5202,6 +5483,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Try holding your breath."
+          }
+        }
+      }
+    },
+    "TV" : {
+      "comment" : "Prowlarr category picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TV"
           }
         }
       }

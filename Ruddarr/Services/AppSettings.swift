@@ -50,6 +50,10 @@ extension AppSettings {
         instances.filter { $0.type == .sonarr }
     }
 
+    var mediaInstances: [Instance] {
+        instances.filter { $0.type != .prowlarr }
+    }
+
     var configuredInstances: [Instance] {
         instances.filter { !$0.id.uuidString.starts(with: "00000000") }
     }
@@ -77,17 +81,18 @@ extension AppSettings {
             instances.append(instance)
         }
 
-        Queue.shared.instances = instances
+        Queue.shared.instances = mediaInstances
     }
 
     func deleteInstance(_ instance: Instance) {
         var deletedInstance = instance
         deletedInstance.id = UUID()
 
-        let webhook = InstanceWebhook(instance)
-
         Task {
-            await webhook.delete()
+            if instance.type != .prowlarr {
+                let webhook = InstanceWebhook(instance)
+                await webhook.delete()
+            }
             await Spotlight(instance.id).deleteInstanceIndex()
         }
 
@@ -95,7 +100,7 @@ extension AppSettings {
             instances.remove(at: index)
         }
 
-        Queue.shared.instances = instances
+        Queue.shared.instances = mediaInstances
     }
 }
 

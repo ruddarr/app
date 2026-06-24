@@ -264,6 +264,7 @@ struct InstanceEditView: View {
         switch instance.type {
         case .radarr: "http://10.0.1.1:7878"
         case .sonarr: "http://10.0.1.1:8989"
+        case .prowlarr: "http://10.0.1.1:9696"
         }
     }
 
