@@ -5,9 +5,10 @@ struct SeriesDetailView: View {
     @Binding var series: Series
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(SonarrInstance.self) private var instance
 
     @Environment(\.deviceType) private var deviceType
-    @Environment(SonarrInstance.self) private var instance
+    @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     @State private var showEditForm = false
     @State private var showDeleteConfirmation = false
@@ -24,6 +25,7 @@ struct SeriesDetailView: View {
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
+            CalendarSheetAwareToolbar()
             toolbarMonitorButton
             toolbarMenu
         }
@@ -87,7 +89,10 @@ struct SeriesDetailView: View {
 
                 Section {
                     editAction
-                    deleteSeriesButton
+
+                    if inCalendarSheet == nil {
+                        deleteSeriesButton
+                    }
                 }
             } label: {
                 ToolbarActionButton()
@@ -187,7 +192,9 @@ extension SeriesDetailView {
     func deleteSeries(exclude: Bool, delete: Bool) async {
         _ = await instance.series.delete(series, addExclusion: exclude, deleteFiles: delete)
 
-        if !dependencies.router.seriesPath.isEmpty {
+        if let inCalendarSheet {
+            inCalendarSheet.dismiss()
+        } else if !dependencies.router.seriesPath.isEmpty {
             dependencies.router.seriesPath.removeLast()
         }
 

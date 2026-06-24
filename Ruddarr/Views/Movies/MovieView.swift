@@ -5,9 +5,10 @@ struct MovieView: View {
     @Binding var movie: Movie
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.deviceType) private var deviceType
-    @Environment(RadarrInstance.self) private var instance
+    @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     @State private var showEditForm: Bool = false
     @State private var showDeleteConfirmation = false
@@ -24,6 +25,7 @@ struct MovieView: View {
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
+            CalendarSheetAwareToolbar()
             toolbarMonitorButton
             toolbarMenu
         }
@@ -77,7 +79,10 @@ struct MovieView: View {
 
                 Section {
                     editAction
-                    deleteMovieButton
+
+                    if inCalendarSheet == nil {
+                        deleteMovieButton
+                    }
                 }
             } label: {
                 ToolbarActionButton()
@@ -178,7 +183,9 @@ extension MovieView {
     func deleteMovie(exclude: Bool, delete: Bool) async {
         _ = await instance.movies.delete(movie, addExclusion: exclude, deleteFiles: delete)
 
-        if !dependencies.router.moviesPath.isEmpty {
+        if let inCalendarSheet {
+            inCalendarSheet.dismiss()
+        } else if !dependencies.router.moviesPath.isEmpty {
             dependencies.router.moviesPath.removeLast()
         }
 

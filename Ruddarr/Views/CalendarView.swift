@@ -8,6 +8,7 @@ struct CalendarView: View {
     @State private var alertPresented = false
     @State private var hideCalendarView: Bool = true
     @State private var isRetrying: Bool = false
+    @State private var selectedMedia: CalendarSelection?
 
     @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
     @AppStorage("calendarSpecials", store: dependencies.store) private var hideSpecials: Bool = false
@@ -114,6 +115,13 @@ struct CalendarView: View {
                     contentUnavailable
                 }
             }
+            #if os(iOS)
+                .sheet(item: $selectedMedia) { selection in
+                    CalendarDetailSheet(selection: selection)
+                        .presentationDetents([.large])
+                        .presentationBackground(.sheetBackground)
+                }
+            #endif
         }
     }
 
@@ -245,13 +253,13 @@ struct CalendarView: View {
         VStack(spacing: 8) {
             if let movies {
                 ForEach(movies) { movie in
-                    CalendarMovie(date: date, movie: movie)
+                    CalendarMovie(date: date, movie: movie, open: open)
                 }
             }
 
             if let episodes {
                 ForEach(episodes) { episode in
-                    CalendarEpisode(episode: episode)
+                    CalendarEpisode(episode: episode, open: open)
                 }
             }
 
@@ -372,6 +380,14 @@ struct CalendarView: View {
 
             Label(label, systemImage: "internaldrive")
         }
+    }
+
+    func open(_ selection: CalendarSelection) {
+        #if os(iOS)
+            selectedMedia = selection
+        #else
+            selection.jumpToTab()
+        #endif
     }
 }
 
