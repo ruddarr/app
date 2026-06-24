@@ -202,6 +202,10 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         return nil
     }
 
+    var posterFilename: String {
+        year > 0 ? "\(title) (\(year))" : title
+    }
+
     var isDownloaded: Bool {
         movieFile != nil
     }

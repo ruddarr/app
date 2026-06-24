@@ -54,19 +54,14 @@ class Images {
         return thumbnail
     }
 
-    static func localCopy(of remote: String?) async -> URL? {
+    static func localCopy(of remote: String?, named filename: String? = nil) async -> URL? {
         guard let remote, let url = URL(string: remote) else { return nil }
 
-        if let cached = hasLocalCopy(of: remote) {
+        if let cached = hasLocalCopy(of: remote, named: filename) {
             return cached
         }
 
-        var file = FileManager.default.temporaryDirectory
-            .appendingPathComponent(url.lastPathComponent)
-
-        if file.pathExtension.isEmpty {
-            file.appendPathExtension("jpg")
-        }
+        let file = localCopyDestination(for: url, named: filename)
 
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
@@ -77,17 +72,35 @@ class Images {
         }
     }
 
-    static func hasLocalCopy(of remote: String?) -> URL? {
+    static func hasLocalCopy(of remote: String?, named filename: String? = nil) -> URL? {
         guard let remote, let url = URL(string: remote) else { return nil }
 
-        var file = FileManager.default.temporaryDirectory
-            .appendingPathComponent(url.lastPathComponent)
-
-        if file.pathExtension.isEmpty {
-            file.appendPathExtension("jpg")
-        }
+        let file = localCopyDestination(for: url, named: filename)
 
         return FileManager.default.fileExists(atPath: file.path) ? file : nil
+    }
+
+    private static func localCopyDestination(for url: URL, named filename: String?) -> URL {
+        let pathExtension = url.pathExtension.isEmpty ? "jpg" : url.pathExtension
+
+        let name = filename
+            .map { sanitizeFilename($0) }
+            .flatMap { $0.isEmpty ? nil : $0 }
+            ?? url.deletingPathExtension().lastPathComponent
+
+        return FileManager.default.temporaryDirectory
+            .appendingPathComponent(name)
+            .appendingPathExtension(pathExtension)
+    }
+
+    private static func sanitizeFilename(_ name: String) -> String {
+        let illegal = CharacterSet(charactersIn: "/\\:*?\"<>|").union(.newlines)
+
+        return name
+            .components(separatedBy: illegal)
+            .joined(separator: " ")
+            .replacingOccurrences(of: "  ", with: " ")
+            .trimmingCharacters(in: .whitespaces)
     }
 
     private static func thumbnailPath(_ key: String) -> URL? {

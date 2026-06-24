@@ -11,7 +11,7 @@ extension SeriesDetails {
                 .modifier(MediaDetailsPosterModifier())
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 14))
-                .posterQuickLook(series.remotePoster)
+                .posterQuickLook(series.remotePoster, named: series.posterFilename)
                 .padding(.trailing, deviceType == .phone ? 8 : 16)
 
             VStack(alignment: .leading, spacing: 0) {
