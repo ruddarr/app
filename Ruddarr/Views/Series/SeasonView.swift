@@ -36,7 +36,7 @@ struct SeasonView: View {
             .padding(.vertical)
         #endif
         .toolbar {
-            CalendarSheetAwareToolbar()
+            CalendarSheetAwareToolbar(deeplink: deeplink)
             toolbarMonitorButton
             toolbarMenu
         }
@@ -78,6 +78,11 @@ struct SeasonView: View {
         } message: {
             Text("This will permanently erase all episode files of this season.")
         }.tint(nil)
+    }
+
+    var deeplink: URL? {
+        guard let instanceId = series.instanceId else { return nil }
+        return QuickActions.Deeplink.openSeason(series.id, seasonId, instanceId.uuidString).url
     }
 
     var season: Season {

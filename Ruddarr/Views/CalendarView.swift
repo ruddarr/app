@@ -18,6 +18,7 @@ struct CalendarView: View {
     @State private var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.deviceType) private var deviceType
 
     private let firstWeekday = Calendar.current.firstWeekday
 
@@ -118,7 +119,9 @@ struct CalendarView: View {
             #if os(iOS)
                 .sheet(item: $selectedMedia) { selection in
                     CalendarDetailSheet(selection: selection)
-                        .presentationDetents([.large])
+                        .presentationDetents(dynamic: deviceType == .pad ? [.large] : [.fraction(0.8), .large])
+                        .presentationSizing(.page)
+                        .presentationDragIndicator(.visible)
                         .presentationBackground(.sheetBackground)
                 }
             #endif

@@ -9,13 +9,13 @@ struct CalendarDetailSheet: View {
         switch selection {
         case .movie(let movie):
             if let instance = instance(movie.instanceId) {
-                CalendarMovieSheet(selection: selection, movie: movie, instance: instance)
+                CalendarMovieSheet(movie: movie, instance: instance)
             } else {
                 unavailable
             }
         case .episode(let episode):
             if let instance = instance(episode.instanceId), episode.series != nil {
-                CalendarEpisodeSheet(selection: selection, episode: episode, instance: instance)
+                CalendarEpisodeSheet(episode: episode, instance: instance)
             } else {
                 unavailable
             }
@@ -32,6 +32,9 @@ struct CalendarDetailSheet: View {
 }
 
 struct CalendarSheetAwareToolbar: ToolbarContent {
+    var deeplink: URL?
+
+    @Environment(\.deviceType) private var deviceType
     @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     var body: some ToolbarContent {
@@ -46,12 +49,16 @@ struct CalendarSheetAwareToolbar: ToolbarContent {
                 .accessibilityLabel("Close")
             }
 
-            ToolbarItem(placement: .automatic) {
-                Button("Open", systemImage: "arrow.up.forward.app") {
-                    inCalendarSheet.selection.jumpToTab()
-                    inCalendarSheet.dismiss()
+            if let deeplink {
+                ToolbarItem(placement: deviceType == .phone ? .bottomBar : .automatic) {
+                    Button("Open", systemImage: "arrow.up.forward.app") {
+                        try? QuickActions.Deeplink(url: deeplink)()
+                        inCalendarSheet.dismiss()
+                    }
+                    .tint(.primary)
                 }
-                .tint(.primary)
+
+                ToolbarSpacer(.flexible, placement: deviceType == .phone ? .bottomBar : .automatic)
             }
         }
     }
@@ -59,20 +66,18 @@ struct CalendarSheetAwareToolbar: ToolbarContent {
 
 private struct CalendarMovieSheet: View {
     private let movieId: Movie.ID
-    private let selection: CalendarSelection
 
     @State private var path = NavigationPath()
     @State private var instance: RadarrInstance
 
     @Environment(\.dismiss) private var dismiss
 
-    init(selection: CalendarSelection, movie: Movie, instance model: Instance) {
+    init(movie: Movie, instance model: Instance) {
         let instance = RadarrInstance(model)
         instance.movies.items = [movie]
         instance.movies.cachedItems = [movie]
         instance.movies.itemsCount = 1
 
-        self.selection = selection
         self.movieId = movie.id
         self._instance = State(initialValue: instance)
     }
@@ -85,7 +90,7 @@ private struct CalendarMovieSheet: View {
                 }
         }
         .environment(instance)
-        .inCalendarSheet(selection: selection) {
+        .inCalendarSheet {
             dismiss()
         }
         .displayToasts()
@@ -101,14 +106,13 @@ private struct CalendarMovieSheet: View {
 
 private struct CalendarEpisodeSheet: View {
     private let seriesId: Series.ID
-    private let selection: CalendarSelection
 
     @State private var path: NavigationPath
     @State private var instance: SonarrInstance
 
     @Environment(\.dismiss) private var dismiss
 
-    init(selection: CalendarSelection, episode: Episode, instance model: Instance) {
+    init(episode: Episode, instance model: Instance) {
         let instance = SonarrInstance(model)
 
         if let series = episode.series {
@@ -119,7 +123,6 @@ private struct CalendarEpisodeSheet: View {
 
         instance.episodes.items = [episode]
 
-        self.selection = selection
         self.seriesId = episode.seriesId
 
         var path = NavigationPath()
@@ -141,7 +144,7 @@ private struct CalendarEpisodeSheet: View {
                 }
         }
         .environment(instance)
-        .inCalendarSheet(selection: selection) {
+        .inCalendarSheet {
             dismiss()
         }
         .displayToasts()
@@ -162,7 +165,9 @@ extension View {
     @ViewBuilder
     func calendarSheetToolbar(_ enabled: Bool = true) -> some View {
         if enabled {
-            toolbar { CalendarSheetAwareToolbar() }
+            toolbar {
+                CalendarSheetAwareToolbar()
+            }
         } else {
             self
         }

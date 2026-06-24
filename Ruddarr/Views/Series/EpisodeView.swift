@@ -56,7 +56,7 @@ struct EpisodeView: View {
         .navigationTitle(navigationTitle)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
-            CalendarSheetAwareToolbar()
+            CalendarSheetAwareToolbar(deeplink: episode.deeplink)
             toolbarMonitorButton
             toolbarMenu
         }

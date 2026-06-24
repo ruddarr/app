@@ -25,7 +25,7 @@ struct SeriesDetailView: View {
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
-            CalendarSheetAwareToolbar()
+            CalendarSheetAwareToolbar(deeplink: deeplink)
             toolbarMonitorButton
             toolbarMenu
         }
@@ -111,6 +111,11 @@ struct SeriesDetailView: View {
                 }
             #endif
         }
+    }
+
+    var deeplink: URL? {
+        guard let instanceId = series.instanceId else { return nil }
+        return QuickActions.Deeplink.openSeries(series.id, instanceId.uuidString).url
     }
 
     var refreshAction: some View {

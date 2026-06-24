@@ -26,7 +26,9 @@ extension API {
                 .appending(path: "/api/v3/movie")
                 .appending(path: String(movieId))
 
-            return try await request(url: url, headers: instance.auth)
+            var movie: Movie = try await request(url: url, headers: instance.auth)
+            movie.instanceId = instance.id
+            return movie
         }, getMovieHistory: { movieId, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/history/movie")
@@ -95,7 +97,7 @@ extension API {
                 .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
 
             var episodes: [Episode] = try await request(url: url, headers: instance.auth)
-            for i in episodes.indices { episodes[i].instanceId = instance.id }
+            for i in episodes.indices { episodes[i].instanceId = instance.id; episodes[i].series?.instanceId = instance.id }
             return episodes
         }, fetchEpisodeFiles: { seriesId, instance in
             let url = try instance.baseURL()
@@ -120,12 +122,14 @@ extension API {
             }
 
             return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
-        }, getSeries: { series, instance in
+        }, getSeries: { seriesId, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/series")
-                .appending(path: String(series))
+                .appending(path: String(seriesId))
 
-            return try await request(url: url, headers: instance.auth)
+            var series: Series = try await request(url: url, headers: instance.auth)
+            series.instanceId = instance.id
+            return series
         }, addSeries: { series, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/series")
@@ -214,7 +218,7 @@ extension API {
                 ])
 
             var episodes: [Episode] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
-            for i in episodes.indices { episodes[i].instanceId = instance.id }
+            for i in episodes.indices { episodes[i].instanceId = instance.id; episodes[i].series?.instanceId = instance.id }
             return episodes
         }, command: { command, instance in
             let url = try instance.baseURL()
