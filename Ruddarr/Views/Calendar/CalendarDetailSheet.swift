@@ -3,24 +3,15 @@ import SwiftUI
 struct CalendarAwareToolbarMenu<Menu: ToolbarContent>: ToolbarContent {
     private let menu: () -> Menu
 
-    #if os(iOS)
-        @Environment(\.calendarSheetContext) private var calendarSheetContext
-    #endif
-
     init(@ToolbarContentBuilder menu: @escaping () -> Menu) {
         self.menu = menu
     }
 
     var body: some ToolbarContent {
-        #if os(iOS)
-            if calendarSheetContext == nil {
-                menu()
-            }
-
-            CalendarSheetToolbarContent()
-        #else
-            menu()
-        #endif
+        // Keep the view's own actions (monitor, overflow menu, …) and, when
+        // presented inside the calendar sheet, add the close/jump buttons.
+        menu()
+        CalendarSheetToolbarContent()
     }
 }
 
@@ -235,7 +226,7 @@ struct CalendarSheetToolbarContent: ToolbarContent {
 
     var body: some ToolbarContent {
         if let calendarSheetContext {
-            ToolbarItem(placement: .topBarLeading) {
+            ToolbarItem(placement: .cancellationAction) {
                 Button {
                     calendarSheetContext.dismiss()
                 } label: {
@@ -245,7 +236,7 @@ struct CalendarSheetToolbarContent: ToolbarContent {
                 .accessibilityLabel("Dismiss")
             }
 
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .primaryAction) {
                 Button("Jump", systemImage: "arrow.up.forward.app") {
                     calendarSheetContext.selection.jumpToTab()
                     calendarSheetContext.dismiss()

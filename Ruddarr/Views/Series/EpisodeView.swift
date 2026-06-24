@@ -20,6 +20,9 @@ struct EpisodeView: View {
     @Environment(SonarrInstance.self) var instance
 
     @Environment(\.deviceType) private var deviceType
+    #if os(iOS)
+        @Environment(\.calendarSheetContext) private var calendarSheetContext
+    #endif
 
     var startOfToday = Calendar.current.startOfDay(for: Date())
 
@@ -52,9 +55,7 @@ struct EpisodeView: View {
             .padding(.vertical)
             .scenePadding(.horizontal)
         }
-        .navigationTitle(
-            series.title.count < 20 ? series.title : "\(series.title.prefix(18))..."
-        )
+        .navigationTitle(navigationTitle)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarMonitorButton
@@ -69,6 +70,14 @@ struct EpisodeView: View {
         .onBecomeActive {
             await reload()
         }
+    }
+
+    var navigationTitle: String {
+        #if os(iOS)
+            if calendarSheetContext != nil { return "" }
+        #endif
+
+        return series.title.count < 20 ? series.title : "\(series.title.prefix(18))..."
     }
 
     var header: some View {
