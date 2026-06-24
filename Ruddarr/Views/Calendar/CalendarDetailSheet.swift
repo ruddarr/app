@@ -49,17 +49,19 @@ struct CalendarSheetAwareToolbar: ToolbarContent {
                 .accessibilityLabel("Close")
             }
 
-            if let deeplink {
-                ToolbarItem(placement: deviceType == .phone ? .bottomBar : .automatic) {
-                    Button("Open", systemImage: "arrow.up.forward.app") {
-                        try? QuickActions.Deeplink(url: deeplink)()
-                        inCalendarSheet.dismiss()
+            #if os(iOS)
+                if let deeplink {
+                    ToolbarItem(placement: deviceType == .phone ? .bottomBar : .automatic) {
+                        Button("Open", systemImage: "arrow.up.forward.app") {
+                            try? QuickActions.Deeplink(url: deeplink)()
+                            inCalendarSheet.dismiss()
+                        }
+                        .tint(.primary)
                     }
-                    .tint(.primary)
-                }
 
-                ToolbarSpacer(.flexible, placement: deviceType == .phone ? .bottomBar : .automatic)
-            }
+                    ToolbarSpacer(.flexible, placement: deviceType == .phone ? .bottomBar : .automatic)
+                }
+            #endif
         }
     }
 }
