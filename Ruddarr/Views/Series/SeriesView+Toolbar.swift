@@ -51,15 +51,12 @@ extension SeriesView {
                 }
             }.pickerStyle(.menu)
         } label: {
-            if sort.filter != .all || sort.folder != .all {
-                Image("filters.badge")
-                    .offset(y: 3)
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(.tint, .primary)
-            } else {
-                Image(systemName: "line.3.horizontal.decrease")
-            }
+            Image(systemName: "line.3.horizontal.decrease")
         }
+        .toolbarFilterIndicator(
+            active: sort.filter != .all || sort.folder != .all,
+            tint: settings.theme.tint
+        )
     }
 
     var toolbarSortingButton: some View {

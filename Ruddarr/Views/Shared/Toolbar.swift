@@ -35,3 +35,19 @@ struct ToolbarActionButton: View {
         Image(systemName: "ellipsis")
     }
 }
+
+extension View {
+    /// Indicates an active toolbar filter using a prominent, tinted Liquid Glass
+    /// background (iOS 26) instead of a custom badge glyph. Inactive buttons keep
+    /// the standard toolbar glass styling.
+    @ViewBuilder
+    func toolbarFilterIndicator(active: Bool, tint: Color) -> some View {
+        if active {
+            self
+                .tint(tint)
+                .buttonStyle(.glassProminent)
+        } else {
+            self
+        }
+    }
+}

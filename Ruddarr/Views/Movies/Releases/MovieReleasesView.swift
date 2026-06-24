@@ -173,15 +173,9 @@ extension MovieReleasesView {
                 )
             }
         } label: {
-            if sort.hasFilter {
-                Image("filters.badge")
-                    .offset(y: 3)
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(.tint, .primary)
-            } else{
-                Image(systemName: "line.3.horizontal.decrease")
-            }
+            Image(systemName: "line.3.horizontal.decrease")
         }
+        .toolbarFilterIndicator(active: sort.hasFilter, tint: settings.theme.tint)
         .menuIndicator(.hidden)
     }
 

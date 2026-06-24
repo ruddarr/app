@@ -74,15 +74,9 @@ extension ActivityView {
                 Toggle("Issues", systemImage: "exclamationmark.triangle", isOn: $sort.issues)
             }
         } label: {
-            if sort.hasFilter {
-                Image("filters.badge")
-                    .offset(y: 3)
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(settings.theme.tint, .primary)
-            } else {
-                Image(systemName: "line.3.horizontal.decrease")
-            }
+            Image(systemName: "line.3.horizontal.decrease")
         }
+        .toolbarFilterIndicator(active: sort.hasFilter, tint: settings.theme.tint)
     }
 
     var instancePicker: some View {
