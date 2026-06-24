@@ -9,7 +9,6 @@ struct CalendarView: View {
     @State private var hideCalendarView: Bool = true
     @State private var isRetrying: Bool = false
     @State private var selectedMedia: CalendarSelection?
-    @State private var sheetDetent: PresentationDetent = .fraction(0.8)
 
     @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
     @AppStorage("calendarSpecials", store: dependencies.store) private var hideSpecials: Bool = false
@@ -19,6 +18,7 @@ struct CalendarView: View {
     @State private var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.deviceType) private var deviceType
 
     private let firstWeekday = Calendar.current.firstWeekday
 
@@ -119,7 +119,8 @@ struct CalendarView: View {
             #if os(iOS)
                 .sheet(item: $selectedMedia) { selection in
                     CalendarDetailSheet(selection: selection)
-                        .presentationDetents(dynamic: [.medium, .fraction(0.8), .large], selection: $sheetDetent)
+                        .presentationDetents(dynamic: deviceType == .pad ? [.large] : [.fraction(0.8), .large])
+                        .presentationSizing(.page)
                         .presentationDragIndicator(.visible)
                         .presentationBackground(.sheetBackground)
                 }
@@ -386,7 +387,6 @@ struct CalendarView: View {
 
     func open(_ selection: CalendarSelection) {
         #if os(iOS)
-            sheetDetent = .fraction(0.8) // always open at the default height
             selectedMedia = selection
         #else
             selection.jumpToTab()
