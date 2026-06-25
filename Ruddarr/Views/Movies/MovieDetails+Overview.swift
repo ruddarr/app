@@ -1,9 +1,10 @@
 import SwiftUI
+import Nuke
 
 extension MovieDetails {
     var header: some View {
         HStack(alignment: .top) {
-            CachedAsyncImage(.poster, movie.remotePoster)
+            CachedAsyncImage(.poster, movie.remotePoster, priority: .veryHigh)
                 .aspectRatio(
                     CGSize(width: 150, height: 225),
                     contentMode: .fill
