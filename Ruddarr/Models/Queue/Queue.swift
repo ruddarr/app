@@ -74,4 +74,20 @@ class Queue {
             }
         }
     }
+
+    var activeItems: [QueueItem] {
+        items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
+    }
+
+    func isDownloading(_ movie: Movie, instanceId: Instance.ID) -> Bool {
+        activeItems.contains { $0.movieId == movie.id && $0.instanceId == instanceId }
+    }
+
+    func isDownloading(_ series: Series, instanceId: Instance.ID) -> Bool {
+        activeItems.contains { $0.seriesId == series.id && $0.instanceId == instanceId }
+    }
+
+    func isDownloading(_ episode: Episode, instanceId: Instance.ID) -> Bool {
+        activeItems.contains { $0.episodeId == episode.id && $0.instanceId == instanceId }
+    }
 }

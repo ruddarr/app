@@ -15,6 +15,7 @@ struct EpisodeView: View {
     @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
     @State private var showDeleteConfirmation = false
+    @State var queue = Queue.shared
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
@@ -81,11 +82,7 @@ struct EpisodeView: View {
 
     var header: some View {
         VStack(alignment: .leading) {
-            Text(episode.statusLabel)
-                .font(.caption)
-                .fontWeight(.semibold)
-                .textCase(.uppercase)
-                .foregroundStyle(settings.theme.tint)
+            detailsState
 
             Text(episode.titleLabel)
                 .font(.largeTitle.bold())
@@ -111,6 +108,26 @@ struct EpisodeView: View {
             .foregroundStyle(.secondary)
             .lineLimit(1)
         }
+    }
+
+    var detailsState: some View {
+        Text(stateLabel)
+            .font(.caption)
+            .fontWeight(.semibold)
+            .textCase(.uppercase)
+            .shimmering(active: isDownloading, color: settings.theme.tint)
+    }
+
+    var stateLabel: String {
+        if isDownloading {
+            return String(localized: "Downloading")
+        }
+
+        return episode.statusLabel
+    }
+
+    var isDownloading: Bool {
+        queue.isDownloading(episode, instanceId: instance.id)
     }
 
     var details: some View {
