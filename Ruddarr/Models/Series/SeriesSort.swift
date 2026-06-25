@@ -60,22 +60,15 @@ struct SeriesSort: Hashable {
             }
         }
 
-        func compare(_ lhs: Series, _ rhs: Series) -> Bool {
+        func sortKey(_ series: Series) -> Double {
             switch self {
-            case .byTitle:
-                lhs.sortTitle < rhs.sortTitle
-            case .byYear:
-                lhs.sortYear < rhs.sortYear
-            case .byAdded:
-                lhs.added < rhs.added
-            case .bySize:
-                lhs.statistics?.sizeOnDisk ?? 0 < rhs.statistics?.sizeOnDisk ?? 0
-            case .byNextAiring:
-                lhs.nextAiring ?? Date.distantFuture > rhs.nextAiring ?? Date.distantFuture
-            case .byPreviousAiring:
-                lhs.previousAiring ?? Date.distantPast < rhs.previousAiring ?? Date.distantPast
-            case .byRating:
-                lhs.ratingScore < rhs.ratingScore
+            case .byTitle: 0
+            case .byYear: series.sortYear
+            case .byAdded: series.added.timeIntervalSince1970
+            case .bySize: Double(series.statistics?.sizeOnDisk ?? 0)
+            case .byNextAiring: -((series.nextAiring ?? .distantFuture).timeIntervalSince1970)
+            case .byPreviousAiring: (series.previousAiring ?? .distantPast).timeIntervalSince1970
+            case .byRating: Double(series.ratingScore)
             }
         }
     }
