@@ -21,6 +21,7 @@ struct SeriesView: View {
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
+    @State private var searchRequest: SearchRequest?
 
     @State private var error: API.Error?
     @State private var alertPresented = false
@@ -95,6 +96,10 @@ struct SeriesView: View {
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
             .onChange(of: instance.series.items, updateDisplayedSeries)
+            .task(id: searchRequest) {
+                guard let searchRequest, await searchRequest.waitForDebounce() else { return }
+                updateDisplayedSeries()
+            }
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
@@ -245,7 +250,7 @@ struct SeriesView: View {
         }
 
         scrollToTop()
-        updateDisplayedSeries()
+        searchRequest = SearchRequest(query: searchQuery, isDebounced: true)
     }
 
     func becameActive() {
