@@ -54,10 +54,14 @@ struct SeriesGridPoster: View {
 struct SeriesPosterOverlay: View {
     var series: Series
 
+    @State private var isDownloading = false
+
     var body: some View {
         MediaGridPosterOverlay {
             Group {
-                if series.isDownloaded {
+                if isDownloading {
+                    Downloading()
+                } else if series.isDownloaded {
                     Image(systemName: "checkmark").symbolVariant(.circle.fill)
                 } else if series.isWaiting {
                     Image(systemName: "clock")
@@ -78,6 +82,10 @@ struct SeriesPosterOverlay: View {
                 .symbolVariant(series.monitored ? .fill : .none)
                 .foregroundStyle(.white)
                 .imageScale(.gridItem)
+        }
+        .onReceive(Queue.shared.downloadingKeys) { keys in
+            let value = keys.contains("s:\(series.instanceId?.uuidString ?? ""):\(series.id)")
+            if value != isDownloading { isDownloading = value }
         }
     }
 }

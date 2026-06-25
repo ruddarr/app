@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 import Sentry
 
 @MainActor
@@ -17,6 +18,8 @@ class Queue {
     var items: [Instance.ID: [QueueItem]] = [:]
     var itemsWithIssues: Int = 0
 
+    let downloadingKeys = CurrentValueSubject<Set<String>, Never>([])
+
     private init() {
         let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
 
@@ -31,6 +34,10 @@ class Queue {
                 }
             }
         }
+    }
+
+    var activeItems: [QueueItem] {
+        items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
     }
 
     func fetchTasks() async {
@@ -60,7 +67,23 @@ class Queue {
             itemsWithIssues = uniqueIssues
         }
 
+        let keys = downloadingKeySet()
+
+        if downloadingKeys.value != keys {
+            downloadingKeys.send(keys)
+        }
+
         isLoading = false
+    }
+
+    private func downloadingKeySet() -> Set<String> {
+        Set(activeItems.flatMap { item -> [String] in
+            guard let instance = item.instanceId?.uuidString else { return [] }
+            var keys: [String] = []
+            if let movieId = item.movieId { keys.append("m:\(instance):\(movieId)") }
+            if let seriesId = item.seriesId { keys.append("s:\(instance):\(seriesId)") }
+            return keys
+        })
     }
 
     func refreshDownloadClients() async {
@@ -73,10 +96,6 @@ class Queue {
                 leaveBreadcrumb(.error, category: "queue", message: "Refresh failed", data: ["error": error])
             }
         }
-    }
-
-    var activeItems: [QueueItem] {
-        items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
     }
 
     func isDownloading(_ movie: Movie, instanceId: Instance.ID) -> Bool {
