@@ -173,15 +173,6 @@ struct CalendarView: View {
 
         return calendar.episodes.mapValues { items in
             let filtered = items.filter(includeEpisodeInCalendar)
-
-            guard filtered.count > 1 else {
-                return filtered.map { episode in
-                    var episode = episode
-                    episode.isDownloadingInCalendar = isDownloading(\.episodeId, episode.id, episode.instanceId, in: active)
-                    return episode
-                }
-            }
-
             let grouped = Dictionary(grouping: filtered, by: \.calendarGroup)
             let episodes = grouped.values.compactMap { group -> Episode? in
                 guard var episode = group.first else { return nil }
