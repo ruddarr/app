@@ -20,6 +20,7 @@ struct MoviesView: View {
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
+    @State private var searchRequest: SearchRequest?
 
     @State private var error: API.Error?
     @State private var alertPresented = false
@@ -94,6 +95,10 @@ struct MoviesView: View {
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
             .onChange(of: instance.movies.items, updateDisplayedMovies)
+            .task(id: searchRequest) {
+                guard let searchRequest, await searchRequest.waitForDebounce() else { return }
+                updateDisplayedMovies()
+            }
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
@@ -244,7 +249,7 @@ struct MoviesView: View {
         }
 
         scrollToTop()
-        updateDisplayedMovies()
+        searchRequest = SearchRequest(query: searchQuery, isDebounced: true)
     }
 
     func becameActive() {
