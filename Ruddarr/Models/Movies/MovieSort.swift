@@ -60,22 +60,15 @@ struct MovieSort: Hashable {
             }
         }
 
-        func compare(_ lhs: Movie, _ rhs: Movie) -> Bool {
+        func sortKey(_ movie: Movie) -> Double {
             switch self {
-            case .byTitle:
-                lhs.sortTitle < rhs.sortTitle
-            case .byYear:
-                lhs.sortYear < rhs.sortYear
-            case .bySize:
-                lhs.sizeOnDisk ?? 0 < rhs.sizeOnDisk ?? 0
-            case .byAdded:
-                lhs.added < rhs.added
-            case .byGrabbed:
-                lhs.movieFile?.dateAdded ?? Date.distantPast < rhs.movieFile?.dateAdded ?? Date.distantPast
-            case .byRelease:
-                lhs.digitalRelease ?? Date.distantPast < rhs.digitalRelease ?? Date.distantPast
-            case .byRating:
-                lhs.ratingScore < rhs.ratingScore
+            case .byTitle: 0
+            case .byYear: movie.sortYear
+            case .bySize: Double(movie.sizeOnDisk ?? 0)
+            case .byAdded: movie.added.timeIntervalSince1970
+            case .byGrabbed: (movie.movieFile?.dateAdded ?? .distantPast).timeIntervalSince1970
+            case .byRelease: (movie.digitalRelease ?? .distantPast).timeIntervalSince1970
+            case .byRating: Double(movie.ratingScore)
             }
         }
     }
