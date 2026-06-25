@@ -19,7 +19,7 @@ class Images {
         _ priority: ImageRequest.Priority = .normal
     ) -> ImageRequest {
         ImageRequest(
-            urlRequest: URLRequest(url: url, timeoutInterval: 5),
+            urlRequest: URLRequest(url: sized(url), timeoutInterval: 5),
             processors: [
                 .resize(
                     size: type.size,
@@ -30,6 +30,23 @@ class Images {
             ],
             priority: priority
         )
+    }
+
+    /// Maps a TMDB poster URL to a smaller official rendition so we don't download and decode the
+    /// multi-megabyte `original`. Other hosts (TheTVDB, self-hosted artwork) pass through untouched —
+    /// Nuke's resize processor still caps them at the display size. Full-resolution QuickLook/share
+    /// reads `remotePoster` directly.
+    private static func sized(_ url: URL) -> URL {
+        guard let host = url.host else { return url }
+
+        // TMDB: official width-constrained renditions (configuration `poster_sizes`). w780 ≥ our
+        // retina resize target (250pt × 3 = 750px), so Nuke downscales — never upscales — on @3x.
+        if host.hasSuffix("image.tmdb.org") {
+            let sized = url.absoluteString.replacingOccurrences(of: "/t/p/original/", with: "/t/p/w780/")
+            return URL(string: sized) ?? url
+        }
+
+        return url
     }
 
     static func thumbnail(_ poster: String?, _ priority: ImageRequest.Priority = .normal) async -> URL? {
