@@ -51,8 +51,7 @@ struct EpisodeRow: View {
             Spacer()
 
             if isDownloading {
-                Image(systemName: "arrow.down.circle")
-                    .symbolEffect(.pulse.byLayer, options: .repeat(.periodic(delay: 1.0)))
+                Downloading()
                     .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
             }
 

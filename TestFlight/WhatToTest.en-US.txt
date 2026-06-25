@@ -1,3 +1,4 @@
+- Display "Downloading" state in various places
 - Display calendar items inside sheet
-- Display Quick Look of posters
+- Tap posters for full size Quick Look
 - Dozens of internal code improvements

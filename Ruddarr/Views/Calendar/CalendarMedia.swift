@@ -50,8 +50,7 @@ struct CalendarMovie: View {
     @ViewBuilder
     var statusIcon: some View {
         if isDownloading {
-            Image(systemName: "arrow.down.circle")
-                .symbolEffect(.pulse.byLayer, options: .repeat(.periodic(delay: 1.0)))
+            Downloading()
         } else if movie.isDownloaded {
             Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !movie.monitored {
@@ -147,8 +146,7 @@ struct CalendarEpisode: View {
     @ViewBuilder
     var statusIcon: some View {
         if isDownloading {
-            Image(systemName: "arrow.down.circle")
-                .symbolEffect(.pulse.byLayer, options: .repeat(.periodic(delay: 1.0)))
+            Downloading()
         } else if episode.isDownloaded {
             Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !episode.monitored || episode.series?.monitored == false {
