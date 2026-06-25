@@ -3,6 +3,7 @@ import SwiftUI
 struct CalendarMovie: View {
     var date: Date
     var movie: Movie
+    var isDownloading: Bool
     var open: (CalendarSelection) -> Void
 
     @EnvironmentObject var settings: AppSettings
@@ -48,7 +49,10 @@ struct CalendarMovie: View {
 
     @ViewBuilder
     var statusIcon: some View {
-        if movie.isDownloaded {
+        if isDownloading {
+            Image(systemName: "arrow.down.circle")
+                .symbolEffect(.pulse.byLayer, options: .repeat(.periodic(delay: 1.0)))
+        } else if movie.isDownloaded {
             Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !movie.monitored {
             Image(systemName: "bookmark").symbolVariant(.slash)
@@ -62,6 +66,7 @@ struct CalendarMovie: View {
 
 struct CalendarEpisode: View {
     var episode: Episode
+    var isDownloading: Bool
     var open: (CalendarSelection) -> Void
 
     @EnvironmentObject var settings: AppSettings
@@ -141,7 +146,10 @@ struct CalendarEpisode: View {
 
     @ViewBuilder
     var statusIcon: some View {
-        if episode.isDownloaded {
+        if isDownloading {
+            Image(systemName: "arrow.down.circle")
+                .symbolEffect(.pulse.byLayer, options: .repeat(.periodic(delay: 1.0)))
+        } else if episode.isDownloaded {
             Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !episode.monitored || episode.series?.monitored == false {
             Image(systemName: "bookmark").symbolVariant(.slash)
