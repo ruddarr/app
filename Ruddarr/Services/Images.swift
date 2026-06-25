@@ -32,15 +32,10 @@ class Images {
         )
     }
 
-    /// Maps a TMDB poster URL to a smaller official rendition so we don't download and decode the
-    /// multi-megabyte `original`. Other hosts (TheTVDB, self-hosted artwork) pass through untouched —
-    /// Nuke's resize processor still caps them at the display size. Full-resolution QuickLook/share
-    /// reads `remotePoster` directly.
     private static func sized(_ url: URL) -> URL {
         guard let host = url.host else { return url }
 
-        // TMDB: official width-constrained renditions (configuration `poster_sizes`). w780 ≥ our
-        // retina resize target (250pt × 3 = 750px), so Nuke downscales — never upscales — on @3x.
+        // use w780 as source for TMDb posters
         if host.hasSuffix("image.tmdb.org") {
             let sized = url.absoluteString.replacingOccurrences(of: "/t/p/original/", with: "/t/p/w780/")
             return URL(string: sized) ?? url
