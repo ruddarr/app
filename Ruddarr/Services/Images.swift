@@ -5,12 +5,13 @@ import Nuke
 class Images {
     static let cacheName: String = "com.ruddarr.images"
 
-    static func pipeline() -> ImagePipeline {
+    static let shared: ImagePipeline = {
         var config = ImagePipeline.Configuration.withDataCache(name: cacheName)
         config.dataCachePolicy = .automatic
+        config.imageCache = ImageCache.shared
 
         return ImagePipeline(configuration: config)
-    }
+    }()
 
     static func request(
         _ url: URL,
@@ -35,7 +36,7 @@ class Images {
         guard let poster = poster else { return nil }
         guard let url = URL(string: poster) else { return nil }
 
-        let pipeline = self.pipeline()
+        let pipeline = Self.shared
         let request = self.request(url, .poster, priority)
 
         let cacheKey = pipeline.cache.makeDataCacheKey(for: request)

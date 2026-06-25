@@ -28,9 +28,7 @@ struct CachedAsyncImage: View {
                 } else {
                     PlaceholderImage(text: placeholder)
                 }
-            }.pipeline(
-                Images.pipeline()
-            )
+            }.pipeline(Images.shared)
         } else {
             PlaceholderImage(text: placeholder)
         }
