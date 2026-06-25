@@ -1,5 +1,11 @@
 import Foundation
+import Combine
 import Sentry
+
+enum QueueKey: Hashable {
+    case movie(instanceId: UUID, id: Int)
+    case series(instanceId: UUID, id: Int)
+}
 
 @MainActor
 @Observable
@@ -16,6 +22,12 @@ class Queue {
     var instances: [Instance] = []
     var items: [Instance.ID: [QueueItem]] = [:]
     var itemsWithIssues: Int = 0
+
+    let downloading = CurrentValueSubject<Set<QueueKey>, Never>([])
+
+    var active: [QueueItem] {
+        items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
+    }
 
     private init() {
         let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
@@ -60,7 +72,23 @@ class Queue {
             itemsWithIssues = uniqueIssues
         }
 
+        let keys = downloadingKeySet()
+
+        if downloading.value != keys {
+            downloading.send(keys)
+        }
+
         isLoading = false
+    }
+
+    private func downloadingKeySet() -> Set<QueueKey> {
+        Set(active.flatMap { item -> [QueueKey] in
+            guard let instanceId = item.instanceId else { return [] }
+            var keys: [QueueKey] = []
+            if let movieId = item.movieId { keys.append(.movie(instanceId: instanceId, id: movieId)) }
+            if let seriesId = item.seriesId { keys.append(.series(instanceId: instanceId, id: seriesId)) }
+            return keys
+        })
     }
 
     func refreshDownloadClients() async {
@@ -72,6 +100,24 @@ class Queue {
             } catch {
                 leaveBreadcrumb(.error, category: "queue", message: "Refresh failed", data: ["error": error])
             }
+        }
+    }
+
+    func isDownloading(_ movie: Movie, instanceId: Instance.ID) -> Bool {
+        active.contains { $0.movieId == movie.id && $0.instanceId == instanceId }
+    }
+
+    func isDownloading(_ series: Series, instanceId: Instance.ID) -> Bool {
+        active.contains { $0.seriesId == series.id && $0.instanceId == instanceId }
+    }
+
+    func isDownloading(_ episode: Episode, instanceId: Instance.ID) -> Bool {
+        active.contains { $0.episodeId == episode.id && $0.instanceId == instanceId }
+    }
+
+    func isDownloading(season seasonNumber: Int, of series: Series, instanceId: Instance.ID) -> Bool {
+        active.contains {
+            $0.seriesId == series.id && $0.seasonNumber == seasonNumber && $0.instanceId == instanceId
         }
     }
 }

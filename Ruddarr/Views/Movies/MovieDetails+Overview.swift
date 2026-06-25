@@ -44,11 +44,23 @@ extension MovieDetails {
     }
 
     var detailsState: some View {
-        Text(movie.stateLabel)
+        Text(stateLabel)
             .font(.caption)
             .fontWeight(.semibold)
             .textCase(.uppercase)
-            .foregroundStyle(settings.theme.tint)
+            .shimmering(active: isDownloading, color: settings.theme.tint)
+    }
+
+    var stateLabel: String {
+        if isDownloading {
+            return String(localized: "Downloading")
+        }
+
+        return movie.stateLabel
+    }
+
+    var isDownloading: Bool {
+        queue.isDownloading(movie, instanceId: instance.id)
     }
 
     var detailsTitle: some View {

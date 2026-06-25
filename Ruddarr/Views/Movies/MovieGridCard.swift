@@ -6,6 +6,8 @@ struct MovieGridCard: View {
     @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance
 
+    @State private var isDownloading = false
+
     var body: some View {
         HStack(alignment: .top, spacing: deviceType == .phone ? 10 : 14) {
             poster
@@ -62,6 +64,7 @@ struct MovieGridCard: View {
         } preview: {
             poster.frame(width: 300, height: 450)
         }
+        .tracksDownloading(movie.queueKey, into: $isDownloading)
     }
 
     var poster: some View {
@@ -85,7 +88,9 @@ struct MovieGridCard: View {
                 .imageScale(iconScale)
 
             Group {
-                if movie.isDownloaded {
+                if isDownloading {
+                    Downloading()
+                } else if movie.isDownloaded {
                     Image(systemName: "checkmark").symbolVariant(.circle.fill)
                 } else if movie.isWaiting {
                     Image(systemName: "clock")

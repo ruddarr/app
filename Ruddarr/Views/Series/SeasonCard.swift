@@ -3,6 +3,7 @@ import SwiftUI
 struct SeasonCard: View {
     @Binding var series: Series
     var season: Season
+    var isDownloading: Bool = false
 
     @State private var isWorking: Bool = false
 
@@ -23,6 +24,11 @@ struct SeasonCard: View {
                 }
 
                 Spacer()
+
+                if isDownloading {
+                    Downloading()
+                        .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
+                }
 
                 Button {
                     Task {

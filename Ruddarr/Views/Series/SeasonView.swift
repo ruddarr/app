@@ -11,6 +11,7 @@ struct SeasonView: View {
     @State private var hasFetched: Bool = false
     @State private var dispatchingSearch: Bool = false
     @State private var showDeleteConfirmation = false
+    @State private var queue = Queue.shared
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
@@ -192,7 +193,7 @@ struct SeasonView: View {
                         NavigationLink(
                             value: SeriesPath.episode(episode.seriesId, episode.id)
                         ) {
-                            EpisodeRow(episode: episode)
+                            EpisodeRow(episode: episode, isDownloading: queue.isDownloading(episode, instanceId: instance.id))
                                 .environment(instance)
                                 .environmentObject(settings)
                         }

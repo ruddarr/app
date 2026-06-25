@@ -25,6 +25,14 @@ extension View {
         return self.environment(instance)
     }
 
+    @MainActor
+    func tracksDownloading(_ key: QueueKey?, into isDownloading: Binding<Bool>) -> some View {
+        onReceive(Queue.shared.downloading) { keys in
+            let value = key.map(keys.contains) ?? false
+            if value != isDownloading.wrappedValue { isDownloading.wrappedValue = value }
+        }
+    }
+
     func viewBottomPadding() -> some View {
         self.modifier(ViewBottomPadding())
     }

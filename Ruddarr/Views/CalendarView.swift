@@ -9,6 +9,7 @@ struct CalendarView: View {
     @State private var hideCalendarView: Bool = true
     @State private var isRetrying: Bool = false
     @State private var selectedMedia: CalendarSelection?
+    @State private var queue = Queue.shared
 
     @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
     @AppStorage("calendarSpecials", store: dependencies.store) private var hideSpecials: Bool = false
@@ -38,6 +39,7 @@ struct CalendarView: View {
                         ScrollView {
                             let moviesByDate = displayMovies ? filteredMovies : [:]
                             let episodesByDate = displaySeries ? filteredEpisodes : [:]
+                            let active = displayMovies ? queue.active : []
 
                             LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
                                 ForEach(calendar.dates, id: \.self) { timestamp in
@@ -49,7 +51,13 @@ struct CalendarView: View {
                                     }
 
                                     CalendarDate(date: date).offset(x: -6)
-                                    media(date: date, movies: moviesByDate[timestamp], episodes: episodesByDate[timestamp])
+
+                                    media(
+                                        date: date,
+                                        movies: moviesByDate[timestamp],
+                                        episodes: episodesByDate[timestamp],
+                                        active: active
+                                    )
                                 }
                             }
 
@@ -161,21 +169,28 @@ struct CalendarView: View {
     }
 
     var filteredEpisodes: [TimeInterval: [Episode]] {
-        calendar.episodes.mapValues { items in
+        let active = queue.active
+
+        return calendar.episodes.mapValues { items in
             let filtered = items.filter(includeEpisodeInCalendar)
-
-            guard filtered.count > 1 else { return filtered }
-
             let grouped = Dictionary(grouping: filtered, by: \.calendarGroup)
             let episodes = grouped.values.compactMap { group -> Episode? in
                 guard var episode = group.first else { return nil }
                 episode.calendarGroupCount = group.count
+                episode.isDownloadingInCalendar = group.contains {
+                    isDownloading(\.episodeId, $0.id, $0.instanceId, in: active)
+                }
                 return episode
             }
 
             guard episodes.count > 1 else { return episodes }
             return episodes.sorted(by: areEpisodesInCalendarOrder)
         }
+    }
+
+    func isDownloading(_ idKey: KeyPath<QueueItem, Int?>, _ id: Int, _ instanceId: Instance.ID?, in items: [QueueItem]) -> Bool {
+        guard let instanceId else { return false }
+        return items.contains { $0[keyPath: idKey] == id && $0.instanceId == instanceId }
     }
 
     func includeEpisodeInCalendar(_ episode: Episode) -> Bool {
@@ -252,17 +267,26 @@ struct CalendarView: View {
         scrollView?.scrollTo(timestamp, anchor: .center)
     }
 
-    func media(date: Date, movies: [Movie]?, episodes: [Episode]?) -> some View {
+    func media(date: Date, movies: [Movie]?, episodes: [Episode]?, active: [QueueItem]) -> some View {
         VStack(spacing: 8) {
             if let movies {
                 ForEach(movies) { movie in
-                    CalendarMovie(date: date, movie: movie, open: open)
+                    CalendarMovie(
+                        date: date,
+                        movie: movie,
+                        isDownloading: isDownloading(\.movieId, movie.id, movie.instanceId, in: active),
+                        open: open
+                    )
                 }
             }
 
             if let episodes {
                 ForEach(episodes) { episode in
-                    CalendarEpisode(episode: episode, open: open)
+                    CalendarEpisode(
+                        episode: episode,
+                        isDownloading: episode.isDownloadingInCalendar ?? false,
+                        open: open
+                    )
                 }
             }
 

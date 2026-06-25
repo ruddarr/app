@@ -45,11 +45,23 @@ extension SeriesDetails {
     }
 
     var detailsState: some View {
-        Text(series.stateLabel)
+        Text(stateLabel)
             .font(.caption)
             .fontWeight(.semibold)
             .textCase(.uppercase)
-            .foregroundStyle(settings.theme.tint)
+            .shimmering(active: isDownloading, color: settings.theme.tint)
+    }
+
+    var stateLabel: LocalizedStringKey {
+        if isDownloading {
+            return "Downloading"
+        }
+
+        return series.stateLabel
+    }
+
+    var isDownloading: Bool {
+        queue.isDownloading(series, instanceId: instance.id)
     }
 
     var detailsTitle: some View {

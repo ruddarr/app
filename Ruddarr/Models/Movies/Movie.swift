@@ -125,6 +125,10 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         return QuickActions.Deeplink.openMovie(id, instanceId.uuidString).url
     }
 
+    var queueKey: QueueKey? {
+        instanceId.map { .movie(instanceId: $0, id: id) }
+    }
+
     var stateLabel: String {
         if isDownloaded {
             return String(localized: "Downloaded", comment: "State of media item")

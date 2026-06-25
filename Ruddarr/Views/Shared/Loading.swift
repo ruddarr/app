@@ -7,6 +7,13 @@ struct Loading: View {
     }
 }
 
+struct Downloading: View {
+    var body: some View {
+        Image(systemName: "arrow.down.circle")
+            .symbolEffect(.pulse.byLayer, options: .repeat(.periodic(delay: 1.0)))
+    }
+}
+
 #Preview {
     Loading()
 }
