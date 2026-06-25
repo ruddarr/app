@@ -146,7 +146,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
         return nil
     }
 
-    var downloadKey: QueueKey? {
+    var queueKey: QueueKey? {
         instanceId.map { .series(instanceId: $0, id: id) }
     }
 

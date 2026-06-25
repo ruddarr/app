@@ -64,7 +64,7 @@ struct SeriesGridCard: View {
         } preview: {
             poster.frame(width: 300, height: 450)
         }
-        .tracksDownloading(series.downloadKey, into: $isDownloading)
+        .tracksDownloading(series.queueKey, into: $isDownloading)
     }
 
     var poster: some View {

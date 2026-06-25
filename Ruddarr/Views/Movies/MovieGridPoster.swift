@@ -58,7 +58,7 @@ struct MoviePosterOverlay: View {
                 .foregroundStyle(.white)
                 .imageScale(.gridItem)
         }
-        .tracksDownloading(movie.downloadKey, into: $isDownloading)
+        .tracksDownloading(movie.queueKey, into: $isDownloading)
     }
 }
 

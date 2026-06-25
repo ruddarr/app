@@ -83,7 +83,7 @@ struct SeriesPosterOverlay: View {
                 .foregroundStyle(.white)
                 .imageScale(.gridItem)
         }
-        .tracksDownloading(series.downloadKey, into: $isDownloading)
+        .tracksDownloading(series.queueKey, into: $isDownloading)
     }
 }
 

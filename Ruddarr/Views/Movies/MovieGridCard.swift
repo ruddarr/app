@@ -64,7 +64,7 @@ struct MovieGridCard: View {
         } preview: {
             poster.frame(width: 300, height: 450)
         }
-        .tracksDownloading(movie.downloadKey, into: $isDownloading)
+        .tracksDownloading(movie.queueKey, into: $isDownloading)
     }
 
     var poster: some View {
