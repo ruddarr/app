@@ -58,10 +58,7 @@ struct MoviePosterOverlay: View {
                 .foregroundStyle(.white)
                 .imageScale(.gridItem)
         }
-        .onReceive(Queue.shared.downloadingKeys) { keys in
-            let value = keys.contains("m:\(movie.instanceId?.uuidString ?? ""):\(movie.id)")
-            if value != isDownloading { isDownloading = value }
-        }
+        .tracksDownloading(movie.downloadKey, into: $isDownloading)
     }
 }
 

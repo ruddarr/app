@@ -83,10 +83,7 @@ struct SeriesPosterOverlay: View {
                 .foregroundStyle(.white)
                 .imageScale(.gridItem)
         }
-        .onReceive(Queue.shared.downloadingKeys) { keys in
-            let value = keys.contains("s:\(series.instanceId?.uuidString ?? ""):\(series.id)")
-            if value != isDownloading { isDownloading = value }
-        }
+        .tracksDownloading(series.downloadKey, into: $isDownloading)
     }
 }
 

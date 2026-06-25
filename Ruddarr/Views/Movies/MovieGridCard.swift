@@ -64,10 +64,7 @@ struct MovieGridCard: View {
         } preview: {
             poster.frame(width: 300, height: 450)
         }
-        .onReceive(Queue.shared.downloadingKeys) { keys in
-            let value = keys.contains("m:\(movie.instanceId?.uuidString ?? ""):\(movie.id)")
-            if value != isDownloading { isDownloading = value }
-        }
+        .tracksDownloading(movie.downloadKey, into: $isDownloading)
     }
 
     var poster: some View {

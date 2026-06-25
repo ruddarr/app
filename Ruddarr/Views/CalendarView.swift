@@ -39,7 +39,7 @@ struct CalendarView: View {
                         ScrollView {
                             let moviesByDate = displayMovies ? filteredMovies : [:]
                             let episodesByDate = displaySeries ? filteredEpisodes : [:]
-                            let active = displayMovies ? queue.activeItems : []
+                            let active = displayMovies ? queue.active : []
 
                             LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
                                 ForEach(calendar.dates, id: \.self) { timestamp in
@@ -169,7 +169,7 @@ struct CalendarView: View {
     }
 
     var filteredEpisodes: [TimeInterval: [Episode]] {
-        let active = queue.activeItems
+        let active = queue.active
 
         return calendar.episodes.mapValues { items in
             let filtered = items.filter(includeEpisodeInCalendar)

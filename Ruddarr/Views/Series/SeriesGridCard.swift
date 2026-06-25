@@ -64,10 +64,7 @@ struct SeriesGridCard: View {
         } preview: {
             poster.frame(width: 300, height: 450)
         }
-        .onReceive(Queue.shared.downloadingKeys) { keys in
-            let value = keys.contains("s:\(series.instanceId?.uuidString ?? ""):\(series.id)")
-            if value != isDownloading { isDownloading = value }
-        }
+        .tracksDownloading(series.downloadKey, into: $isDownloading)
     }
 
     var poster: some View {

@@ -2,6 +2,11 @@ import Foundation
 import Combine
 import Sentry
 
+enum QueueKey: Hashable {
+    case movie(instanceId: UUID, id: Int)
+    case series(instanceId: UUID, id: Int)
+}
+
 @MainActor
 @Observable
 class Queue {
@@ -18,7 +23,11 @@ class Queue {
     var items: [Instance.ID: [QueueItem]] = [:]
     var itemsWithIssues: Int = 0
 
-    let downloadingKeys = CurrentValueSubject<Set<String>, Never>([])
+    let downloading = CurrentValueSubject<Set<QueueKey>, Never>([])
+
+    var active: [QueueItem] {
+        items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
+    }
 
     private init() {
         let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
@@ -34,10 +43,6 @@ class Queue {
                 }
             }
         }
-    }
-
-    var activeItems: [QueueItem] {
-        items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
     }
 
     func fetchTasks() async {
@@ -69,19 +74,19 @@ class Queue {
 
         let keys = downloadingKeySet()
 
-        if downloadingKeys.value != keys {
-            downloadingKeys.send(keys)
+        if downloading.value != keys {
+            downloading.send(keys)
         }
 
         isLoading = false
     }
 
-    private func downloadingKeySet() -> Set<String> {
-        Set(activeItems.flatMap { item -> [String] in
-            guard let instance = item.instanceId?.uuidString else { return [] }
-            var keys: [String] = []
-            if let movieId = item.movieId { keys.append("m:\(instance):\(movieId)") }
-            if let seriesId = item.seriesId { keys.append("s:\(instance):\(seriesId)") }
+    private func downloadingKeySet() -> Set<QueueKey> {
+        Set(active.flatMap { item -> [QueueKey] in
+            guard let instanceId = item.instanceId else { return [] }
+            var keys: [QueueKey] = []
+            if let movieId = item.movieId { keys.append(.movie(instanceId: instanceId, id: movieId)) }
+            if let seriesId = item.seriesId { keys.append(.series(instanceId: instanceId, id: seriesId)) }
             return keys
         })
     }
@@ -99,19 +104,19 @@ class Queue {
     }
 
     func isDownloading(_ movie: Movie, instanceId: Instance.ID) -> Bool {
-        activeItems.contains { $0.movieId == movie.id && $0.instanceId == instanceId }
+        active.contains { $0.movieId == movie.id && $0.instanceId == instanceId }
     }
 
     func isDownloading(_ series: Series, instanceId: Instance.ID) -> Bool {
-        activeItems.contains { $0.seriesId == series.id && $0.instanceId == instanceId }
+        active.contains { $0.seriesId == series.id && $0.instanceId == instanceId }
     }
 
     func isDownloading(_ episode: Episode, instanceId: Instance.ID) -> Bool {
-        activeItems.contains { $0.episodeId == episode.id && $0.instanceId == instanceId }
+        active.contains { $0.episodeId == episode.id && $0.instanceId == instanceId }
     }
 
     func isDownloading(season seasonNumber: Int, of series: Series, instanceId: Instance.ID) -> Bool {
-        activeItems.contains {
+        active.contains {
             $0.seriesId == series.id && $0.seasonNumber == seasonNumber && $0.instanceId == instanceId
         }
     }

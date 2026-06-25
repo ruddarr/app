@@ -146,6 +146,10 @@ struct Series: Media, Identifiable, Equatable, Codable {
         return nil
     }
 
+    var downloadKey: QueueKey? {
+        instanceId.map { .series(instanceId: $0, id: id) }
+    }
+
     var posterFilename: String {
         year > 0 ? "\(title) (\(year))" : title
     }
