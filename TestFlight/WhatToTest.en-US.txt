@@ -1,4 +1,6 @@
-- Display "Downloading" state in various places
-- Display calendar items inside sheet
-- Tap posters for full size Quick Look
+- Display download indicators
+- Switched to sheets for calendar navigation
+- Support Quick Look of posters
+- Improved image loading performance
+- Improved grid filter/sort performance
 - Dozens of internal code improvements
