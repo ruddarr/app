@@ -158,7 +158,11 @@ struct SeriesDetails: View {
             LazyVStack(alignment: .leading, spacing: 12) {
                 ForEach(series.seasons.reversed()) { season in
                     NavigationLink(value: SeriesPath.season(series.id, season.id)) {
-                        SeasonCard(series: $series, season: season)
+                        SeasonCard(
+                            series: $series,
+                            season: season,
+                            isDownloading: queue.isDownloading(season: season.seasonNumber, of: series, instanceId: instance.id)
+                        )
                     }.buttonStyle(.plain)
                 }
             }

@@ -90,4 +90,10 @@ class Queue {
     func isDownloading(_ episode: Episode, instanceId: Instance.ID) -> Bool {
         activeItems.contains { $0.episodeId == episode.id && $0.instanceId == instanceId }
     }
+
+    func isDownloading(season seasonNumber: Int, of series: Series, instanceId: Instance.ID) -> Bool {
+        activeItems.contains {
+            $0.seriesId == series.id && $0.seasonNumber == seasonNumber && $0.instanceId == instanceId
+        }
+    }
 }

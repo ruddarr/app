@@ -2,6 +2,7 @@ import SwiftUI
 
 struct EpisodeRow: View {
     var episode: Episode
+    var isDownloading: Bool = false
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
@@ -48,6 +49,12 @@ struct EpisodeRow: View {
             }.padding(.trailing)
 
             Spacer()
+
+            if isDownloading {
+                Image(systemName: "arrow.down.circle")
+                    .symbolEffect(.pulse.byLayer, options: .repeat(.periodic(delay: 1.0)))
+                    .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
+            }
 
             monitorButton
         }
