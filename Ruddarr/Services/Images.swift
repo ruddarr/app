@@ -19,7 +19,7 @@ class Images {
         _ priority: ImageRequest.Priority = .normal
     ) -> ImageRequest {
         ImageRequest(
-            urlRequest: URLRequest(url: url, timeoutInterval: 5),
+            urlRequest: URLRequest(url: sized(url), timeoutInterval: 5),
             processors: [
                 .resize(
                     size: type.size,
@@ -30,6 +30,18 @@ class Images {
             ],
             priority: priority
         )
+    }
+
+    private static func sized(_ url: URL) -> URL {
+        guard let host = url.host else { return url }
+
+        // use w780 as source for TMDb posters
+        if host.hasSuffix("image.tmdb.org") {
+            let sized = url.absoluteString.replacingOccurrences(of: "/t/p/original/", with: "/t/p/w780/")
+            return URL(string: sized) ?? url
+        }
+
+        return url
     }
 
     static func thumbnail(_ poster: String?, _ priority: ImageRequest.Priority = .normal) async -> URL? {
