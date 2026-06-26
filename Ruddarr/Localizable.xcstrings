@@ -1103,6 +1103,17 @@
         }
       }
     },
+    "Contribute" : {
+      "comment" : "Preferences section title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contribute"
+          }
+        }
+      }
+    },
     "Contribute on GitHub" : {
       "localizations" : {
         "en" : {

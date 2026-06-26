@@ -9,11 +9,7 @@ struct SettingsAboutSection: View {
         Section {
             share
             review
-            discord
-            contribute
-            reportIssues
             macOS
-            translate
         } header: {
             Text("About", comment: "Preferences section title")
         }
@@ -36,34 +32,6 @@ struct SettingsAboutSection: View {
             Label("Leave a Review", systemImage: "star.fill")
                 .labelStyle(SettingsIconLabelStyle())
         }
-    }
-
-    var discord: some View {
-        Link(destination: Links.Discord) {
-            Label("Join the Discord", systemImage: "text.bubble")
-                .labelStyle(SettingsIconLabelStyle())
-        }
-    }
-
-    var contribute: some View {
-        Link(destination: Links.GitHub, label: {
-            Label("Contribute on GitHub", systemImage: "curlybraces")
-                .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
-        })
-    }
-
-    var reportIssues: some View {
-        Link(destination: Links.GitHubIssues, label: {
-            Label("Report an Issue", systemImage: "exclamationmark.bubble")
-                .labelStyle(SettingsIconLabelStyle())
-        })
-    }
-
-    var translate: some View {
-        Link(destination: Links.Crowdin, label: {
-            Label("Translate the App", systemImage: "globe.europe.africa")
-                .labelStyle(SettingsIconLabelStyle())
-        })
     }
 
     var macOS: some View {

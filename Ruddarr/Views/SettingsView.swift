@@ -24,6 +24,7 @@ struct SettingsView: View {
                 SettingsPreferencesSection()
                 SettingsDisplaySection()
                 SettingsAboutSection()
+                SettingsContributeSection()
                 SettingsLinksSection()
                 SettingsSystemSection()
             }
