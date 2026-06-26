@@ -30,11 +30,6 @@ struct ContentView: View {
         }
         .tabViewStyle(.sidebarAdaptable)
         .tabBarMinimizeBehavior(.never)
-        .tabViewSidebarHeader {
-            Text(verbatim: Ruddarr.name)
-                .font(.largeTitle.bold())
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
         .onAppear {
             if !isRunningIn(.preview) {
                 dependencies.router.selectedTab = settings.tab
