@@ -21,8 +21,15 @@ struct SettingsAboutSection: View {
 
     var releases: some View {
         NavigationLink(value: SettingsView.Path.changelog) {
-            Label("Release Notes", systemImage: "sparkles.rectangle.stack")
-                .labelStyle(SettingsIconLabelStyle())
+
+            Label {
+                Text("Release Notes")
+            } icon: {
+                Image(systemName: "sparkles.rectangle.stack")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(settings.theme.tint, .primary)
+            }
+            .labelStyle(SettingsIconLabelStyle())
         }
     }
 

@@ -107,6 +107,8 @@ struct SettingsPreferencesSection: View {
                         }
                     } icon: {
                         Image(systemName: "bubbles.and.sparkles")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.primary, settings.theme.tint)
                     }
                     .labelStyle(SettingsIconLabelStyle())
                 }
