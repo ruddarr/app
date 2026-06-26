@@ -97,6 +97,7 @@ extension InstanceView {
                 }
             }
         }
+        .listSectionSpacing(diskSpaceExpanded ? .default : .compact)
     }
 
     func loadingHeader(_ title: Text, loading: Bool) -> some View {
