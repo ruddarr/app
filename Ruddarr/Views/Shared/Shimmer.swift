@@ -28,11 +28,9 @@ private struct ShimmerModifier: ViewModifier {
     let pause: Double
     let width: Double
 
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
     @ViewBuilder
     func body(content: Content) -> some View {
-        if active && !reduceMotion {
+        if active {
             TimelineView(.animation) { context in
                 let total = duration + pause
                 let elapsed = context.date.timeIntervalSinceReferenceDate
