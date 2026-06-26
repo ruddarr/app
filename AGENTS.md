@@ -28,7 +28,7 @@ Guidance for AI agents working in this repository.
 - Respect the existing SwiftLint configuration in `.swiftlint.yml`. Do not introduce a separate formatting style.
 - Preserve `.xcstrings` string catalog structure. Be careful with generated or Crowdin-managed localization data.
 - Use existing preview fixtures in `Ruddarr/Preview Content` before adding new mock data.
-- **User-facing changes must add a `TestFlight/WhatToTest.en-US.txt` entry**. Docs, CI, and tooling-only changes don't need one.
+- **User-facing changes must add a `TestFlight/WhatToTest.en-US.txt` entry**. Every change must be documented in `CHANGELOG.md`.
 
 ## Build and test
 

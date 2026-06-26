@@ -312,6 +312,7 @@
 		BB2370E12DCE76F500261710 /* QueueItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueItem.swift; sourceTree = "<group>"; };
 		BB2370E32DCE76F600261710 /* ImportableFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportableFile.swift; sourceTree = "<group>"; };
 		BB25B5EC2FEEF06A00A31109 /* SettingsContributeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsContributeSection.swift; sourceTree = "<group>"; };
+		BB25B5EE2FEEF1C300A31109 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		BB25DC602B62ECF700FE55A0 /* InstanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceRow.swift; sourceTree = "<group>"; };
 		BB25DC652B62EDC700FE55A0 /* MovieGridPoster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGridPoster.swift; sourceTree = "<group>"; };
 		BB25DC672B630B9000FE55A0 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
@@ -866,6 +867,7 @@
 				BB000000000000000000AAA4 /* Tests */,
 				BBCF001B2F0000000000AAA1 /* TestFlight */,
 				BBC78DC02D70E2D700EA0AF5 /* README.md */,
+				BB25B5EE2FEEF1C300A31109 /* CHANGELOG.md */,
 				BB778B4E2FEB0DE30077A26A /* AGENTS.md */,
 				BBF8E1202D8B9DB70018C5D7 /* LICENSE */,
 				BBE828542B4F2C7000C1E1D9 /* Products */,

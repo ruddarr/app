@@ -102,6 +102,11 @@ extension WhatsNew {
             title: "Performance",
             subtitle: "Improved image loading as well as grid filtering and sorting performance."
         ),
+        .init(
+            image: "ladybug",
+            title: "Fixes & Improvements",
+            subtitle: "Various internal code improvements and refinements for iPadOS."
+        )
     ]
 }
 
