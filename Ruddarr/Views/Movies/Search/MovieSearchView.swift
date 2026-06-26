@@ -5,6 +5,7 @@ struct MovieSearchView: View {
     @State private var searchPresented: Bool = true
     @State private var searchRequest: SearchRequest?
 
+    @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
@@ -17,7 +18,7 @@ struct MovieSearchView: View {
                     DiscoveryGridPoster(item: item)
                 } header: {
                     Text("Popular This Week")
-                        .padding(.top, 12)
+                        .padding(.top, deviceType == .pad ? 32 : 12)
                 }
                 .viewBottomPadding()
                 .scenePadding(.horizontal)
