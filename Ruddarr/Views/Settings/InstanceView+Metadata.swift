@@ -52,24 +52,29 @@ extension InstanceView {
         .animation(.snappy, value: summaryParts)
     }
 
+    var diskSpaceIsEmpty: Bool {
+        if case .loaded(let locations) = diskSpaceState {
+            return locations.isEmpty
+        }
+
+        return false
+    }
+
     @ViewBuilder
     var diskSpaceSection: some View {
         Section {
             if diskSpaceExpanded {
                 switch diskSpaceState {
                 case .loaded(let locations):
-                    if locations.isEmpty {
-                        Text("No locations found").foregroundStyle(.secondary)
-                    } else {
-                        ForEach(locations) { location in
-                            LabeledContent {
-                                Text(verbatim: "\(formatBytes(Int(location.freeSpace))) / \(formatBytes(Int(location.totalSpace)))")
-                                    .foregroundStyle(.secondary)
-                            } label: {
-                                Text(location.displayLabel)
-                                    .lineLimit(2)
-                                    .truncationMode(.middle)
-                            }
+                    ForEach(locations) { location in
+                        LabeledContent {
+                            Text(verbatim: "\(formatBytes(Int(location.freeSpace))) / \(formatBytes(Int(location.totalSpace)))")
+                                .foregroundStyle(.secondary)
+                                .font(.subheadline)
+                        } label: {
+                            Text(location.displayLabel)
+                                .lineLimit(2)
+                                .truncationMode(.middle)
                         }
                     }
                 case .failed:
@@ -80,7 +85,15 @@ extension InstanceView {
             }
         } header: {
             HStack {
-                loadingHeader(Text("Disk Space"), loading: diskSpaceState.isLoading)
+                HStack(spacing: 4) {
+                    Text("Disk Space")
+
+                    if diskSpaceState.isLoading {
+                        ProgressView()
+                            .controlSize(.small)
+                            .tint(.secondary)
+                    }
+                }
 
                 Spacer()
 
@@ -98,18 +111,6 @@ extension InstanceView {
             }
         }
         .listSectionSpacing(diskSpaceExpanded ? .default : .compact)
-    }
-
-    func loadingHeader(_ title: Text, loading: Bool) -> some View {
-        HStack(spacing: 4) {
-            title
-
-            if loading {
-                ProgressView()
-                    .controlSize(.small)
-                    .tint(.secondary)
-            }
-        }
     }
 
     @ViewBuilder

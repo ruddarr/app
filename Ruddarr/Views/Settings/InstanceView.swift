@@ -33,7 +33,9 @@ struct InstanceView: View {
         Form {
             instanceDetails
 
-            diskSpaceSection
+            if !diskSpaceIsEmpty {
+                diskSpaceSection
+            }
 
             if !instance.headers.isEmpty {
                 instanceHeaders

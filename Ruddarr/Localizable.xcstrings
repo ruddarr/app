@@ -1430,6 +1430,16 @@
         }
       }
     },
+    "Disk Space" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disk Space"
+          }
+        }
+      }
+    },
     "Display" : {
       "comment" : "Preferences section title",
       "localizations" : {
