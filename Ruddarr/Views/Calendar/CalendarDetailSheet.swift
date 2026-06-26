@@ -87,8 +87,11 @@ private struct CalendarMovieSheet: View {
     var body: some View {
         NavigationStack(path: $path) {
             MovieView(movie: instance.movies.byId(movieId))
-                .navigationDestination(for: MoviesPath.self) {
-                    destination(for: $0)
+                .navigationDestination(for: MoviesPath.self) { path in
+                    let needsToolbar = if case .movie = path { false } else { true }
+
+                    MoviesDestination(path: path)
+                        .calendarSheetToolbar(needsToolbar)
                 }
         }
         .environment(instance)
@@ -96,13 +99,6 @@ private struct CalendarMovieSheet: View {
             dismiss()
         }
         .displayToasts()
-    }
-
-    func destination(for path: MoviesPath) -> some View {
-        let needsToolbar = if case .movie = path { false } else { true }
-
-        return MoviesDestination(path: path)
-            .calendarSheetToolbar(needsToolbar)
     }
 }
 
@@ -141,8 +137,14 @@ private struct CalendarEpisodeSheet: View {
     var body: some View {
         NavigationStack(path: $path) {
             SeriesDetailView(series: instance.series.byId(seriesId))
-                .navigationDestination(for: SeriesPath.self) {
-                    destination(for: $0)
+                .navigationDestination(for: SeriesPath.self) { destination in
+                    let needsToolbar: Bool = switch destination {
+                    case .series, .season, .episode: false
+                    default: true
+                    }
+
+                    SeriesDestination(path: destination, navigate: { path.append($0) })
+                        .calendarSheetToolbar(needsToolbar)
                 }
         }
         .environment(instance)
@@ -150,16 +152,6 @@ private struct CalendarEpisodeSheet: View {
             dismiss()
         }
         .displayToasts()
-    }
-
-    func destination(for destination: SeriesPath) -> some View {
-        let needsToolbar: Bool = switch destination {
-        case .series, .season, .episode: false
-        default: true
-        }
-
-        return SeriesDestination(path: destination, navigate: { path.append($0) })
-            .calendarSheetToolbar(needsToolbar)
     }
 }
 

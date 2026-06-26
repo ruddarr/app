@@ -299,41 +299,6 @@ struct MoviesView: View {
     }
 }
 
-struct MoviesDestination: View {
-    var path: MoviesPath
-
-    @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) var instance
-
-    var body: some View {
-        switch path {
-        case .search(let query):
-            MovieSearchView(searchQuery: query)
-                .environment(instance)
-        case .preview(let data):
-            if let data, let movie = try? JSONDecoder().decode(Movie.self, from: data) {
-                MoviePreviewView(movie: movie)
-                    .environment(instance)
-                    .environmentObject(settings)
-            }
-        case .movie(let id):
-            MovieView(movie: instance.movies.byId(id))
-                .environment(instance)
-                .environmentObject(settings)
-        case .edit(let id):
-            MovieEditView(movie: instance.movies.byId(id))
-                .environment(instance)
-        case .releases(let id):
-            MovieReleasesView(movie: instance.movies.byId(id))
-                .environment(instance)
-                .environmentObject(settings)
-        case .metadata(let id):
-            MovieMetadataView(movie: instance.movies.byId(id))
-                .environment(instance)
-        }
-    }
-}
-
 #Preview {
     ContentView()
         .withAppState()

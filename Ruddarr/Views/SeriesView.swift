@@ -314,56 +314,6 @@ struct SeriesView: View {
     }
 }
 
-struct SeriesDestination: View {
-    var path: SeriesPath
-    var navigate: (SeriesPath) -> Void = { dependencies.router.seriesPath.append($0) }
-
-    @EnvironmentObject var settings: AppSettings
-    @Environment(SonarrInstance.self) var instance
-
-    var body: some View {
-        switch path {
-        case .search(let query):
-            SeriesSearchView(searchQuery: query)
-                .environment(instance)
-        case .preview(let data):
-            if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
-                SeriesPreviewView(series: series)
-                    .environment(instance)
-                    .environmentObject(settings)
-            }
-        case .series(let id):
-            SeriesDetailView(series: instance.series.byId(id))
-                .environment(instance)
-                .environmentObject(settings)
-        case .edit(let id):
-            SeriesEditView(series: instance.series.byId(id))
-                .environment(instance)
-        case .releases(let id, let season, let episode):
-            SeriesReleasesView(
-                series: instance.series.byId(id),
-                seasonId: season,
-                episodeId: episode
-            )
-            .environment(instance)
-            .environmentObject(settings)
-        case .season(let id, let season, let episode):
-            SeasonView(
-                series: instance.series.byId(id),
-                seasonId: season,
-                navigate: navigate,
-                jumpToEpisode: episode
-            )
-                .environment(instance)
-                .environmentObject(settings)
-        case .episode(let id, let episode):
-            EpisodeView(series: instance.series.byId(id), episodeId: episode)
-                .environment(instance)
-                .environmentObject(settings)
-        }
-    }
-}
-
 #Preview {
     dependencies.router.selectedTab = .series
 
