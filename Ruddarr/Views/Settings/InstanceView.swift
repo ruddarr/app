@@ -33,7 +33,7 @@ struct InstanceView: View {
         Form {
             instanceDetails
 
-            if !diskSpaceIsEmpty {
+            if !diskSpaceUnavailable {
                 diskSpaceSection
             }
 

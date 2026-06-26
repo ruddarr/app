@@ -52,12 +52,13 @@ extension InstanceView {
         .animation(.snappy, value: summaryParts)
     }
 
-    var diskSpaceIsEmpty: Bool {
-        if case .loaded(let locations) = diskSpaceState {
-            return locations.isEmpty
+    // Hide the whole section if the instance reports no disk locations, or the fetch failed.
+    var diskSpaceUnavailable: Bool {
+        switch diskSpaceState {
+        case .loaded(let locations): return locations.isEmpty
+        case .failed: return true
+        case .idle, .loading: return false
         }
-
-        return false
     }
 
     @ViewBuilder
@@ -77,9 +78,7 @@ extension InstanceView {
                                 .truncationMode(.middle)
                         }
                     }
-                case .failed:
-                    retryRow { await loadDiskSpace() }
-                case .idle, .loading:
+                case .idle, .loading, .failed:
                     EmptyView()
                 }
             }
@@ -111,22 +110,6 @@ extension InstanceView {
             }
         }
         .listSectionSpacing(diskSpaceExpanded ? .default : .compact)
-    }
-
-    @ViewBuilder
-    func retryRow(_ action: @escaping () async -> Void) -> some View {
-        Button {
-            Task { await action() }
-        } label: {
-            HStack {
-                Text("Couldn't load data", comment: "Inline metadata load error")
-                Spacer()
-                Image(systemName: "arrow.clockwise")
-            }
-            .foregroundStyle(.secondary)
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
     }
 
     func loadSummary() async {

@@ -38,16 +38,6 @@ func formatRuntime(_ minutes: Int) -> String? {
         ?? formatter.string(from: 0)
 }
 
-func formatTags(_ ids: [Int], tags: [Tag]) -> String {
-    guard !ids.isEmpty else {
-        return String(localized: "None")
-    }
-
-    return ids.map { id in
-        tags.first { $0.id == id }?.label ?? String(id)
-    }.joined(separator: ", ")
-}
-
 func formatRemainingTime(_ date: Date) -> String? {
     let seconds = date.timeIntervalSince(Date.now)
     let formatter = DateComponentsFormatter()

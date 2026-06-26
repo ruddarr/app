@@ -39,6 +39,7 @@
 		BB0FE1132BED33A800D1D847 /* series-episode-files.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0FE1122BED33A800D1D847 /* series-episode-files.json */; };
 		BB0FE1152BED3E3700D1D847 /* MediaFileSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */; };
 		BB1273D22D9317DB004F6E23 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1273D12D9317DB004F6E23 /* Formatters.swift */; };
+		FADD00000000000000000023 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1273D12D9317DB004F6E23 /* Formatters.swift */; };
 		BB181D6F2F48E8DF00981037 /* popular-series.json in Resources */ = {isa = PBXBuildFile; fileRef = BB181D6E2F48E8DF00981037 /* popular-series.json */; };
 		BB19BF872BE3E3E900F3E7AC /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BB19BF862BE3E3E900F3E7AC /* Settings.bundle */; };
 		BB204F592CBCE2CD00ACDC0B /* LinkContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB204F582CBCE2CA00ACDC0B /* LinkContextMenu.swift */; };
@@ -190,6 +191,7 @@
 		BBCEA1200000000000000003 /* Changelog.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCEA1200000000000000001 /* Changelog.swift */; };
 		BBCEA1300000000000000002 /* DateDecodingStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCEA1300000000000000001 /* DateDecodingStrategyTests.swift */; };
 		BBCEA1300000000000000004 /* ChangelogParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCEA1300000000000000003 /* ChangelogParserTests.swift */; };
+		FADD00000000000000000022 /* FormatBytesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD00000000000000000021 /* FormatBytesTests.swift */; };
 		BBD3F2D42BFA520700DE5D8E /* series-episode-history.json in Resources */ = {isa = PBXBuildFile; fileRef = BBD3F2D32BFA520700DE5D8E /* series-episode-history.json */; };
 		BBD3F2D62BFA55FE00DE5D8E /* MediaQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F2D52BFA55FE00DE5D8E /* MediaQuality.swift */; };
 		BBD3F2D82BFA578000DE5D8E /* MediaHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F2D72BFA578000DE5D8E /* MediaHistory.swift */; };
@@ -467,6 +469,7 @@
 		BBCEA1200000000000000001 /* Changelog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changelog.swift; sourceTree = "<group>"; };
 		BBCEA1300000000000000001 /* DateDecodingStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDecodingStrategyTests.swift; sourceTree = "<group>"; };
 		BBCEA1300000000000000003 /* ChangelogParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogParserTests.swift; sourceTree = "<group>"; };
+		FADD00000000000000000021 /* FormatBytesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatBytesTests.swift; sourceTree = "<group>"; };
 		BBCF001A2F0000000000AAA1 /* WhatToTest.en-US.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "WhatToTest.en-US.txt"; sourceTree = "<group>"; };
 		BBD3F2D32BFA520700DE5D8E /* series-episode-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-episode-history.json"; sourceTree = "<group>"; };
 		BBD3F2D52BFA55FE00DE5D8E /* MediaQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaQuality.swift; sourceTree = "<group>"; };
@@ -586,6 +589,7 @@
 				BB000000000000000000AAA3 /* RuddarrTests.swift */,
 				BBCEA1300000000000000001 /* DateDecodingStrategyTests.swift */,
 				BBCEA1300000000000000003 /* ChangelogParserTests.swift */,
+				FADD00000000000000000021 /* FormatBytesTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1256,6 +1260,8 @@
 				BB000000000000000000AAA1 /* RuddarrTests.swift in Sources */,
 				BBCEA1300000000000000002 /* DateDecodingStrategyTests.swift in Sources */,
 				BBCEA1300000000000000004 /* ChangelogParserTests.swift in Sources */,
+				FADD00000000000000000023 /* Formatters.swift in Sources */,
+				FADD00000000000000000022 /* FormatBytesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
