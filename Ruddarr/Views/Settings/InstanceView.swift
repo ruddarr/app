@@ -21,15 +21,19 @@ struct InstanceView: View {
     @State var cloudKitStatus: CKAccountStatus = .couldNotDetermine
     @State var cloudKitUserId: CKRecord.ID?
 
-    @State var showSonarrNoiseAlert = false
+    @State var libraryState: MetadataState<InstanceStats> = .idle
+    @State var diskSpaceState: MetadataState<[InstanceDiskSpace]> = .idle
+    @State var diskSpaceExpanded: Bool = false
 
     @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) private var radarrInstance
-    @Environment(SonarrInstance.self) private var sonarrInstance
+    @Environment(RadarrInstance.self) var radarrInstance
+    @Environment(SonarrInstance.self) var sonarrInstance
 
     var body: some View {
         Form {
             instanceDetails
+
+            diskSpaceSection
 
             if !instance.headers.isEmpty {
                 instanceHeaders
@@ -94,6 +98,8 @@ struct InstanceView: View {
 
             LabeledContent("URL", value: instance.url)
                 .textSelection(.enabled)
+        } footer: {
+            metadataFooter
         }
     }
 

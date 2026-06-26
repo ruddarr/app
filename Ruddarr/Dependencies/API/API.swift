@@ -42,6 +42,7 @@ struct API {
     var systemStatus: (Instance) async throws -> InstanceStatus
     var rootFolders: (Instance) async throws -> [InstanceRootFolder]
     var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
+    var fetchDiskSpace: (Instance) async throws -> [InstanceDiskSpace]
     var getTags: (Instance) async throws -> [Tag]
 
     var fetchQueueTasks: (Instance) async throws -> QueueItems

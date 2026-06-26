@@ -75,6 +75,10 @@ class RadarrInstance {
             return nil
         }
 
+        if !movies.items.isEmpty {
+            instance.stats = InstanceStats(movies: movies.items)
+        }
+
         return instance
     }
 }

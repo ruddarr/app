@@ -78,6 +78,10 @@ class SonarrInstance {
             return nil
         }
 
+        if !series.items.isEmpty {
+            instance.stats = InstanceStats(series: series.items)
+        }
+
         return instance
     }
 }
