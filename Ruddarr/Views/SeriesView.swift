@@ -149,12 +149,12 @@ struct SeriesView: View {
     }
 
     var mediaCount: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 4) {
             Text("\(instance.series.cachedItems.count) Series")
 
             if episodeCount > 0 {
                 Bullet()
-                Text("\(episodeCount) Episode")
+                Text("\(episodeCount) Episodes")
             }
         }
         .font(.footnote)
