@@ -7,16 +7,19 @@ struct CalendarView: View {
     @State private var initializationError: API.Error?
     @State private var alertPresented = false
     @State private var hideCalendarView: Bool = true
-    @State private var isRetrying: Bool = false
+    @State var isRetrying: Bool = false
+    @State private var selectedMedia: CalendarSelection?
+    @State private var queue = Queue.shared
 
-    @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
-    @AppStorage("calendarSpecials", store: dependencies.store) private var hideSpecials: Bool = false
+    @AppStorage("calendarMonitored", store: dependencies.store) var onlyMonitored: Bool = false
+    @AppStorage("calendarSpecials", store: dependencies.store) var hideSpecials: Bool = false
 
-    @State private var onlyPremieres: Bool = false
-    @State private var displayedInstance: String = .all
-    @State private var displayedMediaType: CalendarMediaType = .all
+    @State var onlyPremieres: Bool = false
+    @State var displayedInstance: String = .all
+    @State var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.deviceType) private var deviceType
 
     private let firstWeekday = Calendar.current.firstWeekday
 
@@ -32,42 +35,7 @@ struct CalendarView: View {
                 if settings.configuredInstances.isEmpty {
                     NoInstance()
                 } else {
-                    ScrollViewReader { proxy in
-                        ScrollView {
-                            LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
-                                ForEach(calendar.dates, id: \.self) { timestamp in
-                                    let date = Date(timeIntervalSince1970: timestamp)
-                                    let weekday = Calendar.current.component(.weekday, from: date)
-
-                                    if firstWeekday == weekday {
-                                        CalendarWeekRange(date: date)
-                                    }
-
-                                    CalendarDate(date: date).offset(x: -6)
-                                    media(for: timestamp, date: date)
-                                }
-                            }
-
-                            Group {
-                                if calendar.isLoadingFuture {
-                                    ProgressView().tint(.secondary)
-                                } else if !calendar.dates.isEmpty {
-                                    Button("Load More") {
-                                        calendar.loadMoreDates()
-                                    }
-                                    .buttonStyle(.bordered)
-                                    .tint(.buttonTint)
-                                }
-                            }.padding(.bottom, 32)
-                        }
-                        .opacity(hideCalendarView ? 0 : 1)
-                        .onAppear {
-                            scrollView = proxy
-                        }
-                        .onBecomeActive {
-                            await load()
-                        }
-                    }
+                    calendarScrollView
                 }
             }
             .scenePadding(.horizontal)
@@ -79,13 +47,7 @@ struct CalendarView: View {
                 errorIndicator
                 todayButton
             }
-            .onAppear {
-                if Set(calendar.instances.map(\.id)) != Set(settings.instances.map(\.id)) {
-                    calendar.reset()
-                    calendar.instances = settings.instances
-                    hideCalendarView = true
-                }
-            }
+            .onAppear(perform: syncInstances)
             .onReceive(NotificationCenter.default.publisher(for: .scrollToToday)) { _ in
                 withAnimation(.smooth) {
                     scrollTo(calendar.today())
@@ -111,7 +73,79 @@ struct CalendarView: View {
                     contentUnavailable
                 }
             }
+            #if os(iOS)
+                .sheet(item: $selectedMedia) { selection in
+                    CalendarDetailSheet(selection: selection)
+                        .presentationDetents(dynamic: deviceType == .pad ? [.large] : [.fraction(0.8), .large])
+                        .presentationSizing(.page)
+                        .presentationDragIndicator(.visible)
+                        .presentationBackground(.sheetBackground)
+                }
+            #endif
         }
+    }
+
+    var calendarScrollView: some View {
+        ScrollViewReader { proxy in
+            ScrollView {
+                calendarGrid
+
+                Group {
+                    if calendar.isLoadingFuture {
+                        ProgressView().tint(.secondary)
+                    } else if !calendar.dates.isEmpty {
+                        Button("Load More") {
+                            calendar.loadMoreDates()
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(.buttonTint)
+                    }
+                }.padding(.bottom, 32)
+            }
+            .opacity(hideCalendarView ? 0 : 1)
+            .onAppear {
+                scrollView = proxy
+            }
+            .onBecomeActive {
+                await load()
+            }
+        }
+    }
+
+    var calendarGrid: some View {
+        let moviesByDate = displayMovies ? filteredMovies : [:]
+        let episodesByDate = displaySeries ? filteredEpisodes : [:]
+        let active = displayMovies ? queue.active : []
+
+        return LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
+            ForEach(calendar.dates, id: \.self) { timestamp in
+                let date = Date(timeIntervalSince1970: timestamp)
+                let weekday = Calendar.current.component(.weekday, from: date)
+
+                if firstWeekday == weekday {
+                    CalendarWeekRange(date: date)
+                }
+
+                CalendarDate(date: date).offset(x: -6)
+
+                media(
+                    date: date,
+                    movies: moviesByDate[timestamp],
+                    episodes: episodesByDate[timestamp],
+                    active: active
+                )
+            }
+        }
+    }
+
+    func syncInstances() {
+        guard Set(calendar.instances.map(\.id)) != Set(settings.instances.map(\.id)) else {
+            return
+        }
+
+        calendar.reset()
+        calendar.instances = settings.instances
+        hideCalendarView = true
     }
 
     var notConnectedToInternet: Bool {
@@ -134,64 +168,72 @@ struct CalendarView: View {
     }
 
     var filteredMovies: [TimeInterval: [Movie]] {
-        var movies = calendar.movies
-
-        if displayedInstance != .all {
-            movies = movies.mapValues { items in
-                items.filter { $0.instanceId?.isEqual(to: displayedInstance) == true }
+        calendar.movies.mapValues { items in
+            let filtered = items.filter { movie in
+                if displayedInstance != .all, movie.instanceId?.isEqual(to: displayedInstance) != true { return false }
+                if onlyMonitored, !movie.monitored { return false }
+                return true
             }
-        }
 
-        if onlyMonitored {
-            movies = movies.mapValues { items in
-                items.filter { $0.monitored }
-            }
+            guard filtered.count > 1 else { return filtered }
+            return filtered.sorted(by: areMoviesInCalendarOrder)
         }
-
-        return movies
     }
 
     var filteredEpisodes: [TimeInterval: [Episode]] {
-        var episodes = calendar.episodes
+        let active = queue.active
 
-        episodes = episodes.mapValues { items in
-            let grouped = Dictionary(grouping: items, by: \.calendarGroup)
-
-            return grouped.values.compactMap { group in
-                guard var dummy = group.first else { return group[0] }
-                dummy.calendarGroupCount = group.count
-                return dummy
-            }.sorted {
-                ($0.airDateUtc ?? Date.distantPast, $0.episodeNumber) <
-                ($1.airDateUtc ?? Date.distantPast, $1.episodeNumber)
+        return calendar.episodes.mapValues { items in
+            let filtered = items.filter(includeEpisodeInCalendar)
+            let grouped = Dictionary(grouping: filtered, by: \.calendarGroup)
+            let episodes = grouped.values.compactMap { group -> Episode? in
+                guard var episode = group.first else { return nil }
+                episode.calendarGroupCount = group.count
+                episode.isDownloadingInCalendar = group.contains {
+                    isDownloading(\.episodeId, $0.id, $0.instanceId, in: active)
+                }
+                return episode
             }
+
+            guard episodes.count > 1 else { return episodes }
+            return episodes.sorted(by: areEpisodesInCalendarOrder)
+        }
+    }
+
+    func isDownloading(_ idKey: KeyPath<QueueItem, Int?>, _ id: Int, _ instanceId: Instance.ID?, in items: [QueueItem]) -> Bool {
+        guard let instanceId else { return false }
+        return items.contains { $0[keyPath: idKey] == id && $0.instanceId == instanceId }
+    }
+
+    func includeEpisodeInCalendar(_ episode: Episode) -> Bool {
+        if displayedInstance != .all, episode.instanceId?.isEqual(to: displayedInstance) != true { return false }
+        if onlyMonitored, !episode.isMonitoredInCalendar { return false }
+        if onlyPremieres, !episode.isPremiere { return false }
+        if hideSpecials, episode.isSpecial { return false }
+        return true
+    }
+
+    func areMoviesInCalendarOrder(_ lhs: Movie, _ rhs: Movie) -> Bool {
+        if lhs.monitored != rhs.monitored {
+            return lhs.monitored
         }
 
-        if displayedInstance != .all {
-            episodes = episodes.mapValues { items in
-                items.filter { $0.instanceId?.isEqual(to: displayedInstance) == true }
-            }
+        return lhs.title.localizedStandardCompare(rhs.title) == .orderedAscending
+    }
+
+    func areEpisodesInCalendarOrder(_ lhs: Episode, _ rhs: Episode) -> Bool {
+        let lhsDate = lhs.airDateUtc ?? .distantPast
+        let rhsDate = rhs.airDateUtc ?? .distantPast
+
+        if lhsDate != rhsDate {
+            return lhsDate < rhsDate
         }
 
-        if onlyMonitored {
-            episodes = episodes.mapValues { items in
-                items.filter { $0.monitored }
-            }
+        if lhs.isMonitoredInCalendar != rhs.isMonitoredInCalendar {
+            return lhs.isMonitoredInCalendar
         }
 
-        if onlyPremieres {
-            episodes = episodes.mapValues { items in
-                items.filter { $0.isPremiere }
-            }
-        }
-
-        if hideSpecials {
-            episodes = episodes.mapValues { items in
-                items.filter { !$0.isSpecial }
-            }
-        }
-
-        return episodes
+        return lhs.episodeNumber < rhs.episodeNumber
     }
 
     func load(force: Bool = false) async {
@@ -237,62 +279,32 @@ struct CalendarView: View {
         scrollView?.scrollTo(timestamp, anchor: .center)
     }
 
-    func media(for timestamp: TimeInterval, date: Date) -> some View {
+    func media(date: Date, movies: [Movie]?, episodes: [Episode]?, active: [QueueItem]) -> some View {
         VStack(spacing: 8) {
-            if displayMovies, let movies = filteredMovies[timestamp] {
+            if let movies {
                 ForEach(movies) { movie in
-                    CalendarMovie(date: date, movie: movie)
+                    CalendarMovie(
+                        date: date,
+                        movie: movie,
+                        isDownloading: isDownloading(\.movieId, movie.id, movie.instanceId, in: active),
+                        open: open
+                    )
                 }
             }
 
-            if displaySeries, let episodes = filteredEpisodes[timestamp] {
+            if let episodes {
                 ForEach(episodes) { episode in
-                    CalendarEpisode(episode: episode)
+                    CalendarEpisode(
+                        episode: episode,
+                        isDownloading: episode.isDownloadingInCalendar ?? false,
+                        open: open
+                    )
                 }
             }
 
             Spacer()
         }
         .padding(.top, 4)
-    }
-
-    var todayButton: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            Button("Today", systemImage: "calendar.day.timeline.left") {
-                Task { @MainActor in
-                    withAnimation(.smooth) {
-                        self.scrollTo(self.calendar.today())
-                    }
-                }
-            }
-            .tint(.primary)
-        }
-    }
-
-    @ToolbarContentBuilder
-    var errorIndicator: some ToolbarContent {
-        if !calendar.dates.isEmpty && (!calendar.errors.isEmpty || isRetrying) {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    Task {
-                        isRetrying = true
-                        await load(force: true)
-                        isRetrying = false
-                    }
-                } label: {
-                    if isRetrying {
-                        ProgressView()
-                    } else {
-                        Label("Error", systemImage: "externaldrive.trianglebadge.exclamationmark")
-                    }
-                }
-                .tint(isRetrying ? .primary : .red)
-                .contentTransition(.symbolEffect)
-                .disabled(isRetrying)
-            }
-
-            ToolbarSpacer(placement: .primaryAction)
-        }
     }
 
     var contentUnavailable: some View {
@@ -307,71 +319,15 @@ struct CalendarView: View {
         }
     }
 
-    var filtersMenu: some ToolbarContent {
-        ToolbarItem(placement: .navigation) {
-            Menu {
-                if calendar.instances.count > 1 {
-                    instancePicker
-                }
-
-                Picker(selection: $displayedMediaType, label: Text("Media Type")) {
-                    ForEach(CalendarMediaType.allCases, id: \.self) { type in
-                        type.label
-                    }
-                }
-                .pickerStyle(.inline)
-
-                Toggle(isOn: $onlyMonitored) {
-                    Label("Monitored", systemImage: "bookmark")
-                        .symbolVariant(onlyMonitored ? .fill : .none)
-                }
-
-                Toggle(isOn: $onlyPremieres) {
-                    Label("Premieres", systemImage: "play")
-                        .symbolVariant(onlyPremieres ? .fill : .none)
-                }
-
-                Section {
-                    Toggle(isOn: $hideSpecials) {
-                        Label("Hide Specials", systemImage: "star")
-                            .symbolVariant(hideSpecials ? .slash.fill : .slash)
-                    }
-                }
-            } label: {
-                if displayedMediaType != .all || onlyPremieres || onlyMonitored || hideSpecials {
-                    Image("filters.badge")
-                        .offset(y: 3)
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.tint, .primary)
-                } else {
-                    Image(systemName: "line.3.horizontal.decrease")
-                }
-            }
-            .menuIndicator(.hidden)
-        }
-    }
-
-    var instancePicker: some View {
-        Menu {
-            Picker("Instance", selection: $displayedInstance) {
-                Text("Any Instance").tag(String.all)
-
-                ForEach(calendar.instances) { instance in
-                    Text(instance.label).tag(instance.id.uuidString)
-                }
-            }
-            .pickerStyle(.inline)
-        } label: {
-            let label = calendar.instances.first {
-                $0.id.uuidString == displayedInstance
-            }?.label ?? String(localized: "Instance")
-
-            Label(label, systemImage: "internaldrive")
-        }
+    func open(_ selection: CalendarSelection) {
+        #if os(iOS)
+            selectedMedia = selection
+        #else
+            selection.jumpToTab()
+        #endif
     }
 }
 
-// swiftlint:disable file_length
 #Preview {
     dependencies.router.selectedTab = .calendar
 
@@ -402,4 +358,3 @@ struct CalendarView: View {
     return ContentView()
         .withAppState()
 }
-// swiftlint:enable file_length

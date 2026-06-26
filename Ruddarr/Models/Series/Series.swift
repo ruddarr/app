@@ -146,6 +146,14 @@ struct Series: Media, Identifiable, Equatable, Codable {
         return nil
     }
 
+    var queueKey: QueueKey? {
+        instanceId.map { .series(instanceId: $0, id: id) }
+    }
+
+    var posterFilename: String {
+        year > 0 ? "\(title) (\(year))" : title
+    }
+
     var genreLabel: String {
         genres.prefix(3)
             .map { $0.replacingOccurrences(of: "Science Fiction", with: "Sci-Fi") }

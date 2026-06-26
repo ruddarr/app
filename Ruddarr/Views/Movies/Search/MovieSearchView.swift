@@ -5,6 +5,7 @@ struct MovieSearchView: View {
     @State private var searchPresented: Bool = true
     @State private var searchRequest: SearchRequest?
 
+    @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
@@ -12,12 +13,12 @@ struct MovieSearchView: View {
         @Bindable var movieLookup = instance.lookup
 
         ScrollView {
-            if movieLookup.sortedItems.isEmpty && searchQuery.isEmpty {
+            if shouldShowDiscoveryGrid {
                 MediaGrid(items: discovery.movies) { item in
                     DiscoveryGridPoster(item: item)
                 } header: {
                     Text("Popular This Week")
-                        .padding(.top, 12)
+                        .padding(.top, deviceType == .pad ? 32 : 12)
                 }
                 .viewBottomPadding()
                 .scenePadding(.horizontal)
@@ -44,7 +45,7 @@ struct MovieSearchView: View {
             placement: .drawerOrToolbar(.always),
             prompt: Text(
                 "e.g. \("Interstellar, tmdb:157336, imdb:tt0816692")",
-                comment: "Placeholder in the search field on the Add Movie and Add Series screens. %@ is a fixed example (a title plus tmdb/tvdb/imdb ids) — do not translate it; translate only \"e.g.\""
+                comment: "Placeholder in the search field on the Add Movie/Series screens (translate only \"e.g.\", short form of \"for example\")"
             )
         )
         .disabled(instance.isVoid)
@@ -81,6 +82,10 @@ struct MovieSearchView: View {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
+    }
+
+    var shouldShowDiscoveryGrid: Bool {
+        instance.lookup.isEmpty() && searchQuery.isEmpty
     }
 
     func performSearch(debounced: Bool = false) {

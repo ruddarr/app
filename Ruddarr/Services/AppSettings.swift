@@ -1,6 +1,7 @@
 import SwiftUI
 import Foundation
 import CloudStorage
+import Combine
 
 // We can't migrate this to `@Observable` because `@AppStorage` isn't supported
 // We could use https://github.com/sindresorhus/Defaults instead maybe

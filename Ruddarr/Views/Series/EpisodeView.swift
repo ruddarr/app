@@ -1,25 +1,25 @@
 import SwiftUI
+import TipKit
 import TelemetryDeck
 
 struct EpisodeView: View {
     @Binding var series: Series
     var episodeId: Episode.ID
 
-    @State private var episode: Episode = Episode.void
-    @State private var episodeFile: MediaFile?
+    @State var queue = Queue.shared
+    @State var episode: Episode = Episode.void
+    @State var episodeFile: MediaFile?
+    @State var dispatchingSearch: Bool = false
 
     @State private var fileSheet: MediaFile?
-    @State private var eventSheet: MediaHistoryEvent?
-
-    @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
     @State private var showDeleteConfirmation = false
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
 
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     var startOfToday = Calendar.current.startOfDay(for: Date())
 
@@ -45,18 +45,17 @@ struct EpisodeView: View {
                 }
 
                 if !instance.episodes.history.isEmpty {
-                    history
+                    EpisodeHistory(episode: episode)
                 }
             }
             .onAppear(perform: setEpisodeState)
             .padding(.vertical)
             .scenePadding(.horizontal)
         }
-        .navigationTitle(
-            series.title.count < 20 ? series.title : "\(series.title.prefix(18))..."
-        )
+        .navigationTitle(navigationTitle)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
+            CalendarSheetAwareToolbar(deeplink: episode.deeplink)
             toolbarMonitorButton
             toolbarMenu
         }
@@ -71,13 +70,17 @@ struct EpisodeView: View {
         }
     }
 
+    var navigationTitle: String {
+        if inCalendarSheet != nil {
+            return ""
+        }
+
+        return series.title.count < 20 ? series.title : "\(series.title.prefix(18))..."
+    }
+
     var header: some View {
         VStack(alignment: .leading) {
-            Text(episode.statusLabel)
-                .font(.caption)
-                .fontWeight(.semibold)
-                .textCase(.uppercase)
-                .foregroundStyle(settings.theme.tint)
+            detailsState
 
             Text(episode.titleLabel)
                 .font(.largeTitle.bold())
@@ -103,6 +106,26 @@ struct EpisodeView: View {
             .foregroundStyle(.secondary)
             .lineLimit(1)
         }
+    }
+
+    var detailsState: some View {
+        Text(stateLabel)
+            .font(.caption)
+            .fontWeight(.semibold)
+            .textCase(.uppercase)
+            .shimmering(active: isDownloading, color: settings.theme.tint)
+    }
+
+    var stateLabel: String {
+        if isDownloading {
+            return String(localized: "Downloading")
+        }
+
+        return episode.statusLabel
+    }
+
+    var isDownloading: Bool {
+        queue.isDownloading(episode, instanceId: instance.id)
     }
 
     var details: some View {
@@ -271,83 +294,6 @@ struct EpisodeView: View {
         } message: {
             Text("This will permanently erase the episode file.")
         }.tint(nil)
-    }
-
-    var history: some View {
-        Section {
-            ForEach(instance.episodes.history.filter { $0.episodeId == episode.id }) { event in
-                MediaHistoryItem(event: event)
-                    .padding(.bottom, 4)
-                    .onTapGesture { eventSheet = event }
-            }
-        } header: {
-            Text("History").font(.title2.bold()).padding(.bottom, 6)
-        }
-        .sheet(item: $eventSheet) { event in
-            MediaEventSheet(event: event)
-                .presentationDetents(
-                    dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
-                )
-                .presentationBackground(.sheetBackground)
-        }
-    }
-}
-
-extension EpisodeView {
-    func setEpisodeState() {
-        if let episode = instance.episodes.items.first(where: { $0.id == episodeId }) {
-            self.episode = episode
-            self.episodeFile = instance.files.items.first { $0.id == episode.episodeFileId }
-        }
-    }
-
-    func toggleMonitor() async {
-        guard let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) else {
-            return
-        }
-
-        episode.monitored.toggle()
-        instance.episodes.items[index].monitored.toggle()
-
-        guard await instance.episodes.monitor([episode.id], episode.monitored) else {
-            return
-        }
-
-        dependencies.toast.show(episode.monitored ? .monitored : .unmonitored)
-    }
-
-    func reload() async {
-        async let fetchEpisodes: () = instance.episodes.fetch(series)
-        async let fetchFiles: () = instance.files.fetch(series)
-        async let fetchHistory: () = instance.episodes.fetchHistory(episode)
-
-        (_, _, _) = await (fetchEpisodes, fetchFiles, fetchHistory)
-
-        setEpisodeState()
-    }
-
-    func dispatchSearch() async {
-        defer { dispatchingSearch = false }
-        dispatchingSearch = true
-
-        guard await instance.series.command(
-            .episodeSearch([episode.id])) else {
-            return
-        }
-
-        dependencies.toast.show(.episodeSearchQueued)
-
-        Telemetry.record(.episodeSearchDispatched)
-        maybeAskForReview()
-    }
-
-    func deleteEpisode() async {
-        guard let episodeFile else { return }
-
-        if await instance.files.delete(episodeFile) {
-            dependencies.toast.show(.fileDeleted)
-            await reload()
-        }
     }
 }
 

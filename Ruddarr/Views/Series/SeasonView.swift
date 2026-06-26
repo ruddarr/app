@@ -1,14 +1,17 @@
 import SwiftUI
 import TelemetryDeck
+import TipKit
 
 struct SeasonView: View {
     @Binding var series: Series
     var seasonId: Season.ID
-    @State var jumpToEpisode: Episode.ID?
+    var navigate: (SeriesPath) -> Void = { dependencies.router.seriesPath.append($0) }
 
+    @State var jumpToEpisode: Episode.ID?
     @State private var hasFetched: Bool = false
     @State private var dispatchingSearch: Bool = false
     @State private var showDeleteConfirmation = false
+    @State private var queue = Queue.shared
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
@@ -34,6 +37,7 @@ struct SeasonView: View {
             .padding(.vertical)
         #endif
         .toolbar {
+            CalendarSheetAwareToolbar(deeplink: deeplink)
             toolbarMonitorButton
             toolbarMenu
         }
@@ -75,6 +79,11 @@ struct SeasonView: View {
         } message: {
             Text("This will permanently erase all episode files of this season.")
         }.tint(nil)
+    }
+
+    var deeplink: URL? {
+        guard let instanceId = series.instanceId else { return nil }
+        return QuickActions.Deeplink.openSeason(series.id, seasonId, instanceId.uuidString).url
     }
 
     var season: Season {
@@ -184,7 +193,7 @@ struct SeasonView: View {
                         NavigationLink(
                             value: SeriesPath.episode(episode.seriesId, episode.id)
                         ) {
-                            EpisodeRow(episode: episode)
+                            EpisodeRow(episode: episode, isDownloading: queue.isDownloading(episode, instanceId: instance.id))
                                 .environment(instance)
                                 .environmentObject(settings)
                         }
@@ -297,9 +306,7 @@ extension SeasonView {
 
         jumpToEpisode = nil
 
-        dependencies.router.seriesPath.append(
-            SeriesPath.episode(series.id, episode.id)
-        )
+        navigate(SeriesPath.episode(series.id, episode.id))
     }
 
     func deleteSeason() async {

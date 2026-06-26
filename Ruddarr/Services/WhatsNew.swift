@@ -85,13 +85,15 @@ struct WhatsNewView: View {
                 Spacer()
 
                 VStack {
-                    if isRunningIn(.appstore) {
-                        Link(destination: Links.GitHubReleases) {
-                            Text("Release Notes", comment: "Also know as changelog")
-                        }
-                        .foregroundStyle(.tint)
-                        .padding(.bottom, 10)
+                    Button {
+                        dependencies.router.selectedTab = .settings
+                        dependencies.router.settingsPath.append(SettingsView.Path.changelog)
+                        dismiss()
+                    } label: {
+                        Text("Release Notes", comment: "Also know as changelog")
                     }
+                    .foregroundStyle(.tint)
+                    .padding(.bottom, 10)
 
                     Button {
                         #if os(iOS)

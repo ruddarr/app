@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreSpotlight
 import TipKit
+import Sentry
 
 @main
 struct Ruddarr: App {
@@ -62,38 +63,66 @@ struct Ruddarr: App {
 
         let parts = identifier.split(separator: ":").map(String.init) // `<type>:<id>:<instance>`
 
-        switch parts[0] {
-        case "movie": openDeeplink(url: URL(string: "ruddarr://movies/open/\(parts[1])?instance=\(parts[2])")!)
-        case "series": openDeeplink(url: URL(string: "ruddarr://series/open/\(parts[1])?instance=\(parts[2])")!)
-        default: leaveBreadcrumb(.error, category: "spotlight", message: "Invalid identifier", data: ["openSearchableItem": identifier])
+        let deeplink: QuickActions.Deeplink? = switch parts[0] {
+        case "movie": Movie.ID(parts[1]).map { .openMovie($0, parts[2]) }
+        case "series": Series.ID(parts[1]).map { .openSeries($0, parts[2]) }
+        default: nil
         }
+
+        guard let deeplink else {
+            return leaveBreadcrumb(.error, category: "spotlight", message: "Invalid identifier", data: ["openSearchableItem": identifier])
+        }
+
+        deeplink()
     }
 }
 
 extension WhatsNew {
-    static let version: String = "1.8.1"
+    static let version: String = "1.8.4"
 
     // ----------------------------------------------------------------------------------------------⌄⌄⌄
     static let features: [WhatsNewFeature] = [
         .init(
-            image: "globe",
-            title: "Translations",
-            subtitle: "Added Italian and Turkish translations. Removed Chinese translation."
+            image: "arrow.down.circle",
+            title: "Download Indicators",
+            subtitle: "Display queue status for movies, seasons and episodes in various places."
         ),
         .init(
-            image: "eye.slash",
-            title: "Faded Items",
-            subtitle: "Fade items in the calendar and discovery grid to indicate their status."
+            image: "calendar",
+            title: "Calendar Navigation",
+            subtitle: "Switched to using sheets to display calendar items for better navigation."
         ),
         .init(
-            image: "film.stack",
-            title: "Dual Audio",
-            subtitle: "Releases with dual audio are now included in the Multilingual language filter."
+            image: "magnifyingglass",
+            title: "Quick Look",
+            subtitle: "Tap on media posters to preview it in full size using Quick Look."
+        ),
+        .init(
+            image: "bolt",
+            title: "Performance",
+            subtitle: "Improved image loading as well as grid filtering and sorting performance."
         ),
         .init(
             image: "ladybug",
             title: "Fixes & Improvements",
-            subtitle: "Various internal code improvements, bug fixes, and refinements for macOS."
-        ),
+            subtitle: "Various internal code improvements and refinements for iPadOS."
+        )
     ]
+}
+
+#Preview {
+    ContentView()
+        .withAppState()
+}
+
+#Preview("What's New") {
+    @Previewable @State var show: Bool = true
+
+    return NavigationView {
+        Text(verbatim: "Cupidatat adipisicing elit dolor cillum.")
+    }.sheet(isPresented: $show, content: {
+        WhatsNewView()
+            // .environment(\.sizeCategory, .extraExtraLarge)
+    })
+    .tint(.brown)
 }

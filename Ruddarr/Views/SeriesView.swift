@@ -21,6 +21,7 @@ struct SeriesView: View {
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
+    @State private var searchRequest: SearchRequest?
 
     @State private var error: API.Error?
     @State private var alertPresented = false
@@ -64,7 +65,7 @@ struct SeriesView: View {
             }
             .safeNavigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: SeriesPath.self) {
-                destination(for: $0)
+                SeriesDestination(path: $0)
             }
             .onAppear {
                 // if a deeplink set an instance, try to switch to it
@@ -99,6 +100,10 @@ struct SeriesView: View {
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
             .onChange(of: instance.series.items, updateDisplayedSeries)
+            .task(id: searchRequest) {
+                guard let searchRequest, await searchRequest.waitForDebounce() else { return }
+                updateDisplayedSeries()
+            }
             .alert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
@@ -117,44 +122,6 @@ struct SeriesView: View {
                     contentUnavailable
                 }
             }
-        }
-    }
-
-    @ViewBuilder
-    func destination(for path: SeriesPath) -> some View {
-        switch path {
-        case .search(let query):
-            SeriesSearchView(searchQuery: query)
-                .environment(instance)
-        case .preview(let data):
-            if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
-                SeriesPreviewView(series: series)
-                    .environment(instance)
-                    .environmentObject(settings)
-            }
-        case .series(let id):
-            SeriesDetailView(series: instance.series.byId(id))
-                .environment(instance)
-                .environmentObject(settings)
-        case .edit(let id):
-            SeriesEditView(series: instance.series.byId(id))
-                .environment(instance)
-        case .releases(let id, let season, let episode):
-            SeriesReleasesView(
-                series: instance.series.byId(id),
-                seasonId: season,
-                episodeId: episode
-            )
-            .environment(instance)
-            .environmentObject(settings)
-        case .season(let id, let season, let episode):
-            SeasonView(series: instance.series.byId(id), seasonId: season, jumpToEpisode: episode)
-                .environment(instance)
-                .environmentObject(settings)
-        case .episode(let id, let episode):
-            EpisodeView(series: instance.series.byId(id), episodeId: episode)
-                .environment(instance)
-                .environmentObject(settings)
         }
     }
 
@@ -306,7 +273,7 @@ struct SeriesView: View {
         }
 
         scrollToTop()
-        updateDisplayedSeries()
+        searchRequest = SearchRequest(query: searchQuery, isDebounced: true)
     }
 
     func becameActive() {
@@ -370,6 +337,64 @@ struct SeriesView: View {
     }
 }
 
+struct SeriesDestination: View {
+    var path: SeriesPath
+    var navigate: (SeriesPath) -> Void = { dependencies.router.seriesPath.append($0) }
+
+    @EnvironmentObject var settings: AppSettings
+    @Environment(SonarrInstance.self) var instance
+
+    var body: some View {
+        switch path {
+        case .search(let query):
+            SeriesSearchView(searchQuery: query)
+                .environment(instance)
+        case .preview(let data):
+            if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
+                SeriesPreviewView(series: series)
+                    .environment(instance)
+                    .environmentObject(settings)
+            }
+        case .series(let id):
+            SeriesDetailView(series: instance.series.byId(id))
+                .environment(instance)
+                .environmentObject(settings)
+        case .edit(let id):
+            SeriesEditView(series: instance.series.byId(id))
+                .environment(instance)
+        case .releases(let id, let season, let episode):
+            SeriesReleasesView(
+                series: instance.series.byId(id),
+                seasonId: season,
+                episodeId: episode
+            )
+            .environment(instance)
+            .environmentObject(settings)
+        case .season(let id, let season, let episode):
+            SeasonView(
+                series: instance.series.byId(id),
+                seasonId: season,
+                navigate: navigate,
+                jumpToEpisode: episode
+            )
+                .environment(instance)
+                .environmentObject(settings)
+        case .episode(let id, let episode):
+            EpisodeView(series: instance.series.byId(id), episodeId: episode)
+                .environment(instance)
+                .environmentObject(settings)
+        }
+    }
+}
+
+#Preview {
+    dependencies.router.selectedTab = .series
+
+    return ContentView()
+        .withAppState()
+        // .frame(minWidth: 900, minHeight: 600)
+}
+
 #Preview("Offline") {
     dependencies.api.fetchSeries = { _ in
         throw API.Error.notConnectedToInternet
@@ -379,12 +404,4 @@ struct SeriesView: View {
 
     return ContentView()
         .withAppState()
-}
-
-#Preview {
-    dependencies.router.selectedTab = .series
-
-    return ContentView()
-        .withAppState()
-        .frame(minWidth: 900, minHeight: 600)
 }

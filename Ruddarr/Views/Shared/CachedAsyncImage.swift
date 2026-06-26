@@ -1,23 +1,29 @@
+import SwiftUI
 import Nuke
 import NukeUI
-
-import SwiftUI
 
 struct CachedAsyncImage: View {
     let url: String?
     let type: ImageType
     let placeholder: String?
+    let priority: ImageRequest.Priority
 
-    init(_ type: ImageType, _ url: String?, placeholder: String? = nil) {
+    init(
+        _ type: ImageType,
+        _ url: String?,
+        placeholder: String? = nil,
+        priority: ImageRequest.Priority = .normal
+    ) {
         self.url = url
         self.type = type
         self.placeholder = placeholder
+        self.priority = priority
     }
 
     var body: some View {
         if let imageUrl = URL(string: url ?? "") {
             LazyImage(
-                request: Images.request(imageUrl, type, .veryHigh),
+                request: Images.request(imageUrl, type, priority),
                 transaction: .init(animation: .smooth)
             ) { state in
                 if let image = state.image {
@@ -29,9 +35,7 @@ struct CachedAsyncImage: View {
                 } else {
                     PlaceholderImage(text: placeholder)
                 }
-            }.pipeline(
-                Images.pipeline()
-            )
+            }.pipeline(Images.shared)
         } else {
             PlaceholderImage(text: placeholder)
         }

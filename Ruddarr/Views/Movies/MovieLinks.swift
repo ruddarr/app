@@ -27,7 +27,11 @@ struct MovieLinks: View {
     }
 
     var traktUrl: String {
-        "https://trakt.tv/search/tmdb/\(movie.tmdbId)?id_type=movie"
+        if let imdbId = movie.imdbId {
+            return "https://app.trakt.tv/movies/\(imdbId)"
+        }
+
+        return "https://app.trakt.tv/search?m=movie&q=\(encodedTitle)"
     }
 
     var imdbUrl: String {

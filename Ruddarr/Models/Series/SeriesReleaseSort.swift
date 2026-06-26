@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct SeriesReleaseSort: Equatable {
     var isAscending: Bool = true

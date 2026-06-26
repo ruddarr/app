@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct TaskImportView: View {
     var item: QueueItem

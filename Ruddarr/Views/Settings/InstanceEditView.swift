@@ -395,5 +395,5 @@ extension InstanceError: LocalizedError {
 
     return ContentView()
         .withAppState()
-        .frame(minWidth: 900, minHeight: 600)
+        // .frame(minWidth: 900, minHeight: 600)
 }

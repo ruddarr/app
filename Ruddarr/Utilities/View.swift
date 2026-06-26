@@ -25,6 +25,14 @@ extension View {
         return self.environment(instance)
     }
 
+    @MainActor
+    func tracksDownloading(_ key: QueueKey?, into isDownloading: Binding<Bool>) -> some View {
+        onReceive(Queue.shared.downloading) { keys in
+            let value = key.map(keys.contains) ?? false
+            if value != isDownloading.wrappedValue { isDownloading.wrappedValue = value }
+        }
+    }
+
     func viewBottomPadding() -> some View {
         self.modifier(ViewBottomPadding())
     }
@@ -39,6 +47,13 @@ extension View {
 
     func presentationDetents(dynamic: Set<PresentationDetent>) -> some View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
+    }
+
+    func presentationDetents(
+        dynamic: Set<PresentationDetent>,
+        selection: Binding<PresentationDetent>
+    ) -> some View {
+        self.modifier(DynamicPresentationDetents(detents: dynamic, selection: selection))
     }
 }
 
@@ -127,11 +142,17 @@ struct HideIconOnMac: ViewModifier {
 
 private struct DynamicPresentationDetents: ViewModifier {
     var detents: Set<PresentationDetent>
+    var selection: Binding<PresentationDetent>?
 
     @Environment(\.sizeCategory) var sizeCategory
 
+    @ViewBuilder
     func body(content: Content) -> some View {
-        content.presentationDetents(adjustedDetents)
+        if let selection {
+            content.presentationDetents(adjustedDetents, selection: selection)
+        } else {
+            content.presentationDetents(adjustedDetents)
+        }
     }
 
     var adjustedDetents: Set<PresentationDetent> {
@@ -187,11 +208,9 @@ extension SearchFieldPlacement {
     enum DrawerDisplayMode { case automatic, always }
 
     static var drawerOrToolbar: SearchFieldPlacement {
-        #if os(macOS)
-            .toolbar
-        #else
-            .navigationBarDrawer(displayMode: .automatic)
-        #endif
+        // This used to be `.navigationBarDrawer(displayMode: .automatic)`
+        // but that started crashing in iOS 26.4
+        .toolbar
     }
 
     static func drawerOrToolbar(_ displayMode: DrawerDisplayMode) -> SearchFieldPlacement {
@@ -272,10 +291,13 @@ extension ShapeStyle where Self == Color {
     static var secondarySystemBackground: Color { Color(UIColor.secondarySystemBackground) }
     static var tertiarySystemBackground: Color { Color(UIColor.tertiarySystemBackground) }
 
+    static var systemGroupedBackground: Color { Color(UIColor.systemGroupedBackground) }
+    static var secondarySystemGroupedBackground: Color { Color(UIColor.secondarySystemGroupedBackground) }
+
     static var buttonTint: Color { Color(UIColor.systemGray2) }
 #else
     static var card: Color { .tertiarySystemFill }
-    static var label: Color { Color(nsColor: .labelColor) }
+    static var label: Color { Color(NSColor.labelColor) }
 
     static var darkGray: Color { Color(NSColor.darkGray) }
     static var darkText: Color { Color(NSColor.secondaryLabelColor) }
@@ -291,6 +313,9 @@ extension ShapeStyle where Self == Color {
     static var systemBackground: Color { Color(NSColor.windowBackgroundColor) }
     static var secondarySystemBackground: Color { Color(NSColor.controlBackgroundColor) }
     static var tertiarySystemBackground: Color { Color(NSColor.underPageBackgroundColor) }
+
+    static var systemGroupedBackground: Color { Color(NSColor.windowBackgroundColor) }
+    static var secondarySystemGroupedBackground: Color { Color(NSColor.controlBackgroundColor) }
 
     static var buttonTint: Color { Color.primary }
 #endif

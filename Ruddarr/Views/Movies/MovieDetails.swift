@@ -1,5 +1,6 @@
 import SwiftUI
 import TelemetryDeck
+import TipKit
 
 struct MovieDetails: View {
     var movie: Movie
@@ -7,6 +8,7 @@ struct MovieDetails: View {
     @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
     @State private var fileSheet: MediaFile?
+    @State var queue = Queue.shared
 
     @EnvironmentObject var settings: AppSettings
 

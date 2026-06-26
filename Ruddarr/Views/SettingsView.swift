@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 
 struct SettingsView: View {
     @State private var showInstanceNameWarning: Bool = false
@@ -10,6 +11,7 @@ struct SettingsView: View {
 
     enum Path: Hashable {
         case icons
+        case changelog
         case createInstance
         case viewInstance(Instance.ID)
         case editInstance(Instance.ID)
@@ -23,6 +25,7 @@ struct SettingsView: View {
                 SettingsPreferencesSection()
                 SettingsDisplaySection()
                 SettingsAboutSection()
+                SettingsContributeSection()
                 SettingsLinksSection()
                 SettingsSystemSection()
             }
@@ -32,30 +35,7 @@ struct SettingsView: View {
             #endif
             .navigationTitle("Settings")
             .navigationDestination(for: Path.self) {
-                switch $0 {
-                case .icons:
-                    IconsView()
-                        .environmentObject(settings)
-                case .createInstance:
-                    InstanceEditView(mode: .create, instance: Instance())
-                        .environment(radarrInstance)
-                        .environment(sonarrInstance)
-                        .environmentObject(settings)
-                case .viewInstance(let instanceId):
-                    if let instance = settings.instanceById(instanceId) {
-                        InstanceView(instance: instance)
-                            .environment(radarrInstance)
-                            .environment(sonarrInstance)
-                            .environmentObject(settings)
-                    }
-                case .editInstance(let instanceId):
-                    if let instance = settings.instanceById(instanceId) {
-                        InstanceEditView(mode: .update, instance: instance)
-                            .environment(radarrInstance)
-                            .environment(sonarrInstance)
-                            .environmentObject(settings)
-                    }
-                }
+                SettingsDestination(path: $0)
             }
         }
     }
@@ -145,6 +125,43 @@ struct SettingsView: View {
         let localNetworkDenied = await NetworkMonitor.shared.localNetworkDenied
 
         showLocalNetworkWarning = hasLocalInstances && localNetworkDenied
+    }
+}
+
+struct SettingsDestination: View {
+    var path: SettingsView.Path
+
+    @EnvironmentObject var settings: AppSettings
+    @Environment(RadarrInstance.self) private var radarrInstance
+    @Environment(SonarrInstance.self) private var sonarrInstance
+
+    var body: some View {
+        switch path {
+        case .icons:
+            IconsView()
+                .environmentObject(settings)
+        case .changelog:
+            ChangelogView()
+        case .createInstance:
+            InstanceEditView(mode: .create, instance: Instance())
+                .environment(radarrInstance)
+                .environment(sonarrInstance)
+                .environmentObject(settings)
+        case .viewInstance(let instanceId):
+            if let instance = settings.instanceById(instanceId) {
+                InstanceView(instance: instance)
+                    .environment(radarrInstance)
+                    .environment(sonarrInstance)
+                    .environmentObject(settings)
+            }
+        case .editInstance(let instanceId):
+            if let instance = settings.instanceById(instanceId) {
+                InstanceEditView(mode: .update, instance: instance)
+                    .environment(radarrInstance)
+                    .environment(sonarrInstance)
+                    .environmentObject(settings)
+            }
+        }
     }
 }
 

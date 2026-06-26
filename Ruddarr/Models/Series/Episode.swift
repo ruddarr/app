@@ -34,12 +34,27 @@ struct Episode: Identifiable, Codable, Equatable {
     let sceneSeasonNumber: Int?
     let unverifiedSceneNumbering: Bool
 
-    let series: Series?
+    var series: Series?
 
     var calendarGroupCount: Int?
+    var isDownloadingInCalendar: Bool?
 
     var calendarGroup: String {
         "\(seriesId):\(seasonNumber):\(airDateUtc?.formatted(.iso8601) ?? "")"
+    }
+
+    var isGroupedInCalendar: Bool {
+        (calendarGroupCount ?? 0) > 2
+    }
+
+    var deeplink: URL? {
+        guard let instanceId else { return nil }
+
+        if isGroupedInCalendar {
+            return QuickActions.Deeplink.openSeason(seriesId, seasonNumber, instanceId.uuidString).url
+        }
+
+        return QuickActions.Deeplink.openEpisode(seriesId, seasonNumber, episodeNumber, instanceId.uuidString).url
     }
 
     var titleLabel: String {
@@ -81,6 +96,10 @@ struct Episode: Identifiable, Codable, Equatable {
 
     var isPremiere: Bool {
         episodeNumber == 1 && seasonNumber > 0
+    }
+
+    var isMonitoredInCalendar: Bool {
+        monitored && series?.monitored != false
     }
 
     var isDownloaded: Bool {

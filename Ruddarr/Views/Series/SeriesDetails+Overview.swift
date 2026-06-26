@@ -1,9 +1,10 @@
 import SwiftUI
+import Nuke
 
 extension SeriesDetails {
     var header: some View {
         HStack(alignment: .top) {
-            CachedAsyncImage(.poster, series.remotePoster)
+            CachedAsyncImage(.poster, series.remotePoster, priority: .veryHigh)
                 .aspectRatio(
                     CGSize(width: 150, height: 225),
                     contentMode: .fill
@@ -11,6 +12,7 @@ extension SeriesDetails {
                 .modifier(MediaDetailsPosterModifier())
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 14))
+                .posterQuickLook(series.remotePoster, named: series.posterFilename)
                 .padding(.trailing, deviceType == .phone ? 8 : 16)
 
             VStack(alignment: .leading, spacing: 0) {
@@ -44,11 +46,23 @@ extension SeriesDetails {
     }
 
     var detailsState: some View {
-        Text(series.stateLabel)
+        Text(stateLabel)
             .font(.caption)
             .fontWeight(.semibold)
             .textCase(.uppercase)
-            .foregroundStyle(settings.theme.tint)
+            .shimmering(active: isDownloading, color: settings.theme.tint)
+    }
+
+    var stateLabel: LocalizedStringKey {
+        if isDownloading {
+            return "Downloading"
+        }
+
+        return series.stateLabel
+    }
+
+    var isDownloading: Bool {
+        queue.isDownloading(series, instanceId: instance.id)
     }
 
     var detailsTitle: some View {

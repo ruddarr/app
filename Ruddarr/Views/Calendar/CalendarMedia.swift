@@ -3,6 +3,8 @@ import SwiftUI
 struct CalendarMovie: View {
     var date: Date
     var movie: Movie
+    var isDownloading: Bool
+    var open: (CalendarSelection) -> Void
 
     @EnvironmentObject var settings: AppSettings
 
@@ -37,13 +39,7 @@ struct CalendarMovie: View {
             .background(.card.opacity(shouldFade ? 0.6 : 1))
             .clipShape(RoundedRectangle(cornerRadius: 14))
             .onTapGesture {
-                let deeplink = String(
-                    format: "ruddarr://movies/open/%d?instance=%@",
-                    movie.id,
-                    movie.instanceId!.uuidString
-                )
-
-                try? QuickActions.Deeplink(url: URL(string: deeplink)!)()
+                open(.movie(movie))
             }
     }
 
@@ -53,7 +49,9 @@ struct CalendarMovie: View {
 
     @ViewBuilder
     var statusIcon: some View {
-        if movie.isDownloaded {
+        if isDownloading {
+            Downloading()
+        } else if movie.isDownloaded {
             Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !movie.monitored {
             Image(systemName: "bookmark").symbolVariant(.slash)
@@ -67,6 +65,8 @@ struct CalendarMovie: View {
 
 struct CalendarEpisode: View {
     var episode: Episode
+    var isDownloading: Bool
+    var open: (CalendarSelection) -> Void
 
     @EnvironmentObject var settings: AppSettings
 
@@ -113,18 +113,7 @@ struct CalendarEpisode: View {
         .background(.card.opacity(shouldFade ? 0.6 : 1))
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .onTapGesture {
-            var deeplink = String(
-                format: "ruddarr://series/open/%d?season=%d&instance=%@",
-                episode.seriesId,
-                episode.seasonNumber,
-                episode.instanceId!.uuidString
-            )
-
-            if !isGrouped {
-                deeplink.append("&episode=\(episode.episodeNumber)")
-            }
-
-            try? QuickActions.Deeplink(url: URL(string: deeplink)!)()
+            open(.episode(episode))
         }
     }
 
@@ -135,7 +124,7 @@ struct CalendarEpisode: View {
 
     @ViewBuilder
     var tag: some View {
-        if isGrouped, let hidden = episode.calendarGroupCount {
+        if episode.isGroupedInCalendar, let hidden = episode.calendarGroupCount {
             Text(String(localized: "+\(hidden - 1) more..."))
                 .font(.caption)
                 .foregroundStyle(settings.theme.tint)
@@ -156,7 +145,9 @@ struct CalendarEpisode: View {
 
     @ViewBuilder
     var statusIcon: some View {
-        if episode.isDownloaded {
+        if isDownloading {
+            Downloading()
+        } else if episode.isDownloaded {
             Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !episode.monitored || episode.series?.monitored == false {
             Image(systemName: "bookmark").symbolVariant(.slash)
@@ -165,10 +156,6 @@ struct CalendarEpisode: View {
         } else if episode.monitored {
             Image(systemName: "xmark").symbolVariant(.circle)
         }
-    }
-
-    var isGrouped: Bool {
-        (episode.calendarGroupCount ?? 0) > 2
     }
 }
 

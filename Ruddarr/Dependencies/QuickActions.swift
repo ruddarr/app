@@ -69,10 +69,6 @@ struct QuickActions {
         }
     }
 
-    var openSeries: () -> Void = {
-        dependencies.router.selectedTab = .series
-    }
-
     var openSeriesSearch: (String) -> Void = { query in
         var searchText: String = query
 
@@ -117,8 +113,9 @@ extension QuickActions {
         case openMovies
         case openMovie(_ id: Movie.ID, _ instance: String?)
         case addMovie(_ query: String = "")
-        case openSeries
-        case openSeriesItem(_ id: Movie.ID, _ season: Season.ID?, _ episode: Episode.ID?, _ instance: String?)
+        case openSeries(_ id: Series.ID, _ instance: String?)
+        case openSeason(_ id: Series.ID, _ season: Season.ID, _ instance: String?)
+        case openEpisode(_ id: Series.ID, _ season: Season.ID, _ episode: Episode.ID, _ instance: String?)
         case addSeries(_ query: String = "")
 
         func callAsFunction() {
@@ -135,10 +132,12 @@ extension QuickActions {
                 dependencies.quickActions.openMovieSearch(query)
             case .openMovie(let movie, let instance):
                 dependencies.quickActions.openMovie(movie, instance)
-            case .openSeries:
-                dependencies.quickActions.openSeries()
-            case .openSeriesItem(let series, let season, let episode, let instance):
-                dependencies.quickActions.openSeries(series, season, episode, instance)
+            case .openSeries(let id, let instance):
+                dependencies.quickActions.openSeries(id, nil, nil, instance)
+            case .openSeason(let id, let season, let instance):
+                dependencies.quickActions.openSeries(id, season, nil, instance)
+            case .openEpisode(let id, let season, let episode, let instance):
+                dependencies.quickActions.openSeries(id, season, episode, instance)
             case .addSeries(let query):
                 dependencies.quickActions.openSeriesSearch(query)
             }
@@ -183,12 +182,34 @@ extension QuickActions.Deeplink {
             self = .addSeries(value)
         case _ where action.hasPrefix("series/open/"):
             guard let id = Series.ID(value) else { throw unsupportedURL }
-            let seasonId = components.queryItems?.first { $0.name == "season" }?.value
-            let episodeId = components.queryItems?.first { $0.name == "episode" }?.value
+            let season = (components.queryItems?.first { $0.name == "season" }?.value).flatMap { Int($0) }
+            let episode = (components.queryItems?.first { $0.name == "episode" }?.value).flatMap { Int($0) }
             let instance = components.queryItems?.first { $0.name == "instance" }?.value
-            self = .openSeriesItem(id, Int(seasonId ?? ""), Int(episodeId ?? ""), instance)
+
+            if let season, let episode {
+                self = .openEpisode(id, season, episode, instance)
+            } else if let season {
+                self = .openSeason(id, season, instance)
+            } else {
+                self = .openSeries(id, instance)
+            }
         default:
             throw unsupportedURL
+        }
+    }
+
+    var url: URL? {
+        switch self {
+        case .openMovie(let id, let instance):
+            return URL(string: "ruddarr://movies/open/\(id)?instance=\(instance ?? "")")
+        case .openSeries(let id, let instance):
+            return URL(string: "ruddarr://series/open/\(id)?instance=\(instance ?? "")")
+        case .openSeason(let id, let season, let instance):
+            return URL(string: "ruddarr://series/open/\(id)?season=\(season)&instance=\(instance ?? "")")
+        case .openEpisode(let id, let season, let episode, let instance):
+            return URL(string: "ruddarr://series/open/\(id)?season=\(season)&episode=\(episode)&instance=\(instance ?? "")")
+        default:
+            return nil
         }
     }
 }

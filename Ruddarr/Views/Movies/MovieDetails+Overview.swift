@@ -1,9 +1,10 @@
 import SwiftUI
+import Nuke
 
 extension MovieDetails {
     var header: some View {
         HStack(alignment: .top) {
-            CachedAsyncImage(.poster, movie.remotePoster)
+            CachedAsyncImage(.poster, movie.remotePoster, priority: .veryHigh)
                 .aspectRatio(
                     CGSize(width: 150, height: 225),
                     contentMode: .fill
@@ -11,6 +12,7 @@ extension MovieDetails {
                 .modifier(MediaDetailsPosterModifier())
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 14))
+                .posterQuickLook(movie.remotePoster, named: movie.posterFilename)
                 .padding(.trailing, deviceType == .phone ? 8 : 16)
 
             VStack(alignment: .leading, spacing: 0) {
@@ -43,11 +45,23 @@ extension MovieDetails {
     }
 
     var detailsState: some View {
-        Text(movie.stateLabel)
+        Text(stateLabel)
             .font(.caption)
             .fontWeight(.semibold)
             .textCase(.uppercase)
-            .foregroundStyle(settings.theme.tint)
+            .shimmering(active: isDownloading, color: settings.theme.tint)
+    }
+
+    var stateLabel: String {
+        if isDownloading {
+            return String(localized: "Downloading")
+        }
+
+        return movie.stateLabel
+    }
+
+    var isDownloading: Bool {
+        queue.isDownloading(movie, instanceId: instance.id)
     }
 
     var detailsTitle: some View {

@@ -1,5 +1,6 @@
 import SwiftUI
 import StoreKit
+import Sentry
 
 struct IconsView: View {
     @EnvironmentObject var settings: AppSettings

@@ -1,5 +1,7 @@
-- Added support for downgrade notifications
-- Added Brazilian Portuguese localization
-- Clarified search placeholder text
-- Fixed various small iOS 27 issues
-- Fixed negative custom format scores double minus sign
+- Display download indicators
+- Switched to sheets for calendar navigation
+- Added Quick Look to media posters
+- Added "Release Notes" to settings
+- Improved image loading performance
+- Improved grid filter/sort performance
+- Various improvements for iPad

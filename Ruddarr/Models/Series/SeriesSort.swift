@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct SeriesSort: Hashable {
     var isAscending: Bool = false
@@ -59,22 +60,15 @@ struct SeriesSort: Hashable {
             }
         }
 
-        func compare(_ lhs: Series, _ rhs: Series) -> Bool {
+        func sortKey(_ series: Series) -> Double {
             switch self {
-            case .byTitle:
-                lhs.sortTitle < rhs.sortTitle
-            case .byYear:
-                lhs.sortYear < rhs.sortYear
-            case .byAdded:
-                lhs.added < rhs.added
-            case .bySize:
-                lhs.statistics?.sizeOnDisk ?? 0 < rhs.statistics?.sizeOnDisk ?? 0
-            case .byNextAiring:
-                lhs.nextAiring ?? Date.distantFuture > rhs.nextAiring ?? Date.distantFuture
-            case .byPreviousAiring:
-                lhs.previousAiring ?? Date.distantPast < rhs.previousAiring ?? Date.distantPast
-            case .byRating:
-                lhs.ratingScore < rhs.ratingScore
+            case .byTitle: 0
+            case .byYear: series.sortYear
+            case .byAdded: series.added.timeIntervalSince1970
+            case .bySize: Double(series.statistics?.sizeOnDisk ?? 0)
+            case .byNextAiring: -((series.nextAiring ?? .distantFuture).timeIntervalSince1970)
+            case .byPreviousAiring: (series.previousAiring ?? .distantPast).timeIntervalSince1970
+            case .byRating: Double(series.ratingScore)
             }
         }
     }
@@ -113,7 +107,7 @@ extension SeriesSort: RawRepresentable {
             let result = try JSONDecoder().decode(SeriesSort.self, from: data)
             self = result
         } catch {
-            leaveBreadcrumb(.fatal, category: "series.sort", message: "JSON decode failed: \(error)", data: ["error": error, "rawValue": rawValue])
+            leaveBreadcrumb(.warning, category: "series.sort", message: "JSON decode failed: \(error)", data: ["error": error, "rawValue": rawValue])
 
             return nil
         }
@@ -145,7 +139,7 @@ extension SeriesSort: Codable {
             isAscending: container.decode(Bool.self, forKey: .isAscending),
             option: container.decode(Option.self, forKey: .option),
             filter: container.decode(Filter.self, forKey: .filter),
-            folder: container.decode(String.self, forKey: .folder)
+            folder: container.decodeIfPresent(String.self, forKey: .folder) ?? .all
         )
     }
 
