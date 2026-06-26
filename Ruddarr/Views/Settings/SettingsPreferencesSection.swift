@@ -83,7 +83,12 @@ struct SettingsPreferencesSection: View {
         .tint(.secondary)
     }
 
+    @ViewBuilder
     var manageSubscription: some View {
+        let icon = Image(systemName: "bubbles.and.sparkles")
+            .symbolRenderingMode(.palette)
+            .foregroundStyle(.primary, settings.theme.tint)
+
         #if os(macOS)
             Link(destination: URL(string: "itms-apps://apps.apple.com/account/subscriptions")!) {
                 Label {
@@ -91,7 +96,7 @@ struct SettingsPreferencesSection: View {
                         Text(subscriptionStatus.label)
                     }
                 } icon: {
-                    Image(systemName: "bubbles.and.sparkles")
+                    icon
                 }
                 .labelStyle(SettingsIconLabelStyle())
             }
@@ -106,9 +111,7 @@ struct SettingsPreferencesSection: View {
                             Text(subscriptionStatus.label).foregroundStyle(.secondary)
                         }
                     } icon: {
-                        Image(systemName: "bubbles.and.sparkles")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle(.primary, settings.theme.tint)
+                        icon
                     }
                     .labelStyle(SettingsIconLabelStyle())
                 }
