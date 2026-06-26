@@ -5,8 +5,26 @@ All notable changes to Ruddarr are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.8.3 - 2026-06-23
+## Unreleased
+### Added
+- Display download queue status in various places
+- Switched to sheets for calendar navigation
+- Added quick look preview to media posters
+- Added "History" to sidebar on iPadOS
 
+### Changed
+- Animate discovery grid loading indicator
+- Improved performance of image loading
+- Debounce library search queries
+- Improved media grid sorting/filtering performance
+- Removed sidebar header on iPadOS
+- Refined sections in settings view
+
+### Changed
+- Fixed sidebar colors on macOS 27
+- Fixed blurry discovery headline on iPadOS
+
+## 1.8.3 - 2026-06-23
 ### Added
 - Added Brazilian Portuguese localization
 - Added episode links to Callsheet
@@ -25,7 +43,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed various small iOS 27 issues
 
 ## 1.8.2 - 2026-05-15
-
 ### Added
 - Added Norwegian localization
 
@@ -36,7 +53,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed language label for Multilingual releases
 
 ## 1.8.1 - 2026-04-09
-
 ### Added
 - Added Italian and Turkish translations
 
@@ -58,7 +74,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed sheet titles when "Reduce Transparency" is enabled
 
 ## 1.8.0 - 2026-02-25
-
 ### Added
 - Added "Popular This Week" section
 - Restored native macOS app for TestFlight
@@ -79,7 +94,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed translation issue of open app shortcut
 
 ## 1.7.2 - 2025-12-02
-
 ### Added
 - Allow iPad version to run on macOS
 
@@ -89,7 +103,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Several minor improvements and fixes
 
 ## 1.7.1 - 2025-10-12
-
 ### Changed
 - Adjust spacing on media info sheet
 - Don't minimize tab bar when scrolling on iOS
@@ -98,7 +111,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed Radarr instance switching on iOS
 
 ## 1.7.0 - 2025-10-05
-
 ### Added
 - Support deleting season episodes
 
@@ -117,7 +129,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed current date not updating in calendar
 
 ## 1.6.1 - 2025-09-08
-
 ### Added
 - Added basic support for managing tags for media
 - Added Chinese translation
@@ -133,7 +144,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed poor phase change handling
 
 ## 1.6.0 - 2025-06-02
-
 ### Added
 - Added card-style views for media grids
 - Added support for importing files of pending queue tasks
@@ -153,7 +163,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed rare crash with invalid instance urls
 
 ## 1.5.2 - 2025-04-28
-
 ### Changed
 - Refactored media deletion action
 
@@ -161,7 +170,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed media grid jumping
 
 ## 1.5.1 - 2025-04-24
-
 ### Changed
 - Disable confusing button with identical text
 - Made media grid scrolling a little smoother
@@ -172,7 +180,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed logic of "search for replacement" toggle
 
 ## 1.5.0 - 2025-04-09
-
 ### Added
 - Added German, French and Spanish translations
 
@@ -190,7 +197,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed bottom gap from release lists
 
 ## 1.4.3 - 2025-03-17
-
 ### Added
 - Added preference option to persist release search filters
 
@@ -202,7 +208,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed crash on some devices when trying to render media poster
 
 ## 1.4.2 - 2025-03-11
-
 ### Changed
 - Show loading indicator for more action buttons
 - Animate more state changes around the app
@@ -215,7 +220,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed rare crash due to missing environment object
 
 ## 1.4.1 - 2025-02-28
-
 ### Added
 - Highlight today's episode in episode list
 
@@ -229,7 +233,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed several crashes
 
 ## 1.4.0 - 2024-12-09
-
 ### Added
 - Added History list in Activity tab
 - Jump directly to episode from notifications and calendar events
@@ -259,7 +262,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed `/activity` deeplink
 
 ## 1.3.1 - 2024-11-04
-
 ### Added
 - Show bitrate estimations for files and releases
 - Filter calendar entries by instance
@@ -289,7 +291,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed several crashes
 
 ## 1.3.0 - 2024-10-23
-
 ### Added
 - Support cancelling queue tasks
 - Support long-pressing links to open in Chrome/Firefox
@@ -314,7 +315,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed search actions appearing in "Open In…" menus
 
 ## 1.2.1 - 2024-10-03
-
 ### Added
 - Added series search scopes
 - Added `ManualInteractionRequired` webhook events
@@ -347,7 +347,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed calendar error overlay issue
 
 ## 1.2.0 - 2024-09-16
-
 ### Added
 - Added "Activity" tab for queue and history
 - Added Spotlight integration
@@ -397,7 +396,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed display of history event date
 
 ## 1.1.0 - 2024-05-21
-
 ### Added
 - Added support for Sonarr instances
 - Allow filtering releases by "Original" language
@@ -418,7 +416,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed pull-to-refresh from being cancelled
 
 ## 1.0.3 - 2024-05-03
-
 ### Added
 - Support filtering releases by language
 - Added "Large Instance" Mode
@@ -439,7 +436,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed subtitles list display issue
 
 ## 1.0.2 - 2024-04-28
-
 ### Added
 - Allow sorting by "File Size" and filtering by "Downloaded"
 
@@ -457,7 +453,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed subtitle and language lists alignment
 
 ## 1.0.1 - 2024-04-24
-
 ### Added
 - Support instance URLs with paths
 - Split up "About" section into new "Community" section
@@ -473,6 +468,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed disappearing "Delete Movie" confirmation dialog
 
 ## 1.0.0 - 2024-04-24
-
 ### Added
 - Initial release

@@ -1,6 +1,7 @@
 - Display download indicators
 - Switched to sheets for calendar navigation
-- Support Quick Look of posters
+- Added Quick Look to media posters
+- Added "Release Notes" to settings
 - Improved image loading performance
 - Improved grid filter/sort performance
-- Dozens of internal code improvements
+- Various improvements for iPad

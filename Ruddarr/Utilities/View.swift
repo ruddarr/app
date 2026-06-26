@@ -291,6 +291,9 @@ extension ShapeStyle where Self == Color {
     static var secondarySystemBackground: Color { Color(UIColor.secondarySystemBackground) }
     static var tertiarySystemBackground: Color { Color(UIColor.tertiarySystemBackground) }
 
+    static var systemGroupedBackground: Color { Color(UIColor.systemGroupedBackground) }
+    static var secondarySystemGroupedBackground: Color { Color(UIColor.secondarySystemGroupedBackground) }
+
     static var buttonTint: Color { Color(UIColor.systemGray2) }
 #else
     static var card: Color { .tertiarySystemFill }
@@ -310,6 +313,9 @@ extension ShapeStyle where Self == Color {
     static var systemBackground: Color { Color(NSColor.windowBackgroundColor) }
     static var secondarySystemBackground: Color { Color(NSColor.controlBackgroundColor) }
     static var tertiarySystemBackground: Color { Color(NSColor.underPageBackgroundColor) }
+
+    static var systemGroupedBackground: Color { Color(NSColor.windowBackgroundColor) }
+    static var secondarySystemGroupedBackground: Color { Color(NSColor.controlBackgroundColor) }
 
     static var buttonTint: Color { Color.primary }
 #endif

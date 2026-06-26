@@ -85,7 +85,11 @@ struct WhatsNewView: View {
                 Spacer()
 
                 VStack {
-                    Link(destination: Links.GitHubReleases) {
+                    Button {
+                        dependencies.router.selectedTab = .settings
+                        dependencies.router.settingsPath.append(SettingsView.Path.changelog)
+                        dismiss()
+                    } label: {
                         Text("Release Notes", comment: "Also know as changelog")
                     }
                     .foregroundStyle(.tint)

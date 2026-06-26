@@ -9,6 +9,7 @@ struct SettingsAboutSection: View {
         Section {
             share
             review
+            releases
             macOS
         } header: {
             Text("About", comment: "Preferences section title")
@@ -16,6 +17,13 @@ struct SettingsAboutSection: View {
         #if os(macOS)
             .buttonStyle(.plain)
         #endif
+    }
+
+    var releases: some View {
+        NavigationLink(value: SettingsView.Path.changelog) {
+            Label("Release Notes", systemImage: "sparkles.rectangle.stack")
+                .labelStyle(SettingsIconLabelStyle())
+        }
     }
 
     var share: some View {

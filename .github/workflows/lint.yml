@@ -29,3 +29,61 @@ jobs:
 
       - name: Search for misspellings
         uses: crate-ci/typos@v1
+
+  changelog:
+    name: Changelog
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Validate CHANGELOG.md
+        run: |
+          python3 - <<'PY'
+          import sys
+
+          ALLOWED = ["Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"]
+
+          errors = []
+          in_body = False
+
+          with open("CHANGELOG.md", encoding="utf-8") as handle:
+              lines = handle.read().splitlines()
+
+          for number, line in enumerate(lines, start=1):
+              # Skip the preamble (title + intro prose) before the first release.
+              if not in_body:
+                  if line.startswith("## "):
+                      in_body = True
+                  else:
+                      continue
+
+              if line.strip() == "":
+                  continue
+
+              if line.startswith("## "):  # release heading
+                  continue
+
+              if line.startswith("### "):  # subsection heading
+                  category = line[4:].strip()
+                  if category not in ALLOWED:
+                      errors.append((number, f"unknown subsection '{line}' (allowed: {', '.join(ALLOWED)})"))
+                  continue
+
+              if line.startswith("#"):
+                  errors.append((number, f"headings must be '## ' (release) or '### ' (subsection): {line!r}"))
+                  continue
+
+              if not line.startswith("- "):
+                  errors.append((number, f"entries must begin with '- ': {line!r}"))
+
+          if errors:
+              print("CHANGELOG.md validation failed:")
+              for number, message in errors:
+                  print(f"  CHANGELOG.md:{number}: {message}")
+              sys.exit(1)
+
+          print("CHANGELOG.md is valid.")
+          PY
