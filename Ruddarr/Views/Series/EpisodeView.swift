@@ -10,7 +10,6 @@ struct EpisodeView: View {
     @State private var episodeFile: MediaFile?
 
     @State private var fileSheet: MediaFile?
-    @State private var eventSheet: MediaHistoryEvent?
 
     @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
@@ -47,7 +46,7 @@ struct EpisodeView: View {
                 }
 
                 if !instance.episodes.history.isEmpty {
-                    history
+                    EpisodeHistory(episode: episode)
                 }
             }
             .onAppear(perform: setEpisodeState)
@@ -296,83 +295,6 @@ struct EpisodeView: View {
         } message: {
             Text("This will permanently erase the episode file.")
         }.tint(nil)
-    }
-
-    var history: some View {
-        Section {
-            ForEach(instance.episodes.history.filter { $0.episodeId == episode.id }) { event in
-                MediaHistoryItem(event: event)
-                    .padding(.bottom, 4)
-                    .onTapGesture { eventSheet = event }
-            }
-        } header: {
-            Text("History").font(.title2.bold()).padding(.bottom, 6)
-        }
-        .sheet(item: $eventSheet) { event in
-            MediaEventSheet(event: event)
-                .presentationDetents(
-                    dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
-                )
-                .presentationBackground(.sheetBackground)
-        }
-    }
-}
-
-extension EpisodeView {
-    func setEpisodeState() {
-        if let episode = instance.episodes.items.first(where: { $0.id == episodeId }) {
-            self.episode = episode
-            self.episodeFile = instance.files.items.first { $0.id == episode.episodeFileId }
-        }
-    }
-
-    func toggleMonitor() async {
-        guard let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) else {
-            return
-        }
-
-        episode.monitored.toggle()
-        instance.episodes.items[index].monitored.toggle()
-
-        guard await instance.episodes.monitor([episode.id], episode.monitored) else {
-            return
-        }
-
-        dependencies.toast.show(episode.monitored ? .monitored : .unmonitored)
-    }
-
-    func reload() async {
-        async let fetchEpisodes: () = instance.episodes.fetch(series)
-        async let fetchFiles: () = instance.files.fetch(series)
-        async let fetchHistory: () = instance.episodes.fetchHistory(episode)
-
-        (_, _, _) = await (fetchEpisodes, fetchFiles, fetchHistory)
-
-        setEpisodeState()
-    }
-
-    func dispatchSearch() async {
-        defer { dispatchingSearch = false }
-        dispatchingSearch = true
-
-        guard await instance.series.command(
-            .episodeSearch([episode.id])) else {
-            return
-        }
-
-        dependencies.toast.show(.episodeSearchQueued)
-
-        Telemetry.record(.episodeSearchDispatched)
-        maybeAskForReview()
-    }
-
-    func deleteEpisode() async {
-        guard let episodeFile else { return }
-
-        if await instance.files.delete(episodeFile) {
-            dependencies.toast.show(.fileDeleted)
-            await reload()
-        }
     }
 }
 

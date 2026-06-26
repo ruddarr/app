@@ -7,16 +7,16 @@ struct CalendarView: View {
     @State private var initializationError: API.Error?
     @State private var alertPresented = false
     @State private var hideCalendarView: Bool = true
-    @State private var isRetrying: Bool = false
+    @State var isRetrying: Bool = false
     @State private var selectedMedia: CalendarSelection?
     @State private var queue = Queue.shared
 
-    @AppStorage("calendarMonitored", store: dependencies.store) private var onlyMonitored: Bool = false
-    @AppStorage("calendarSpecials", store: dependencies.store) private var hideSpecials: Bool = false
+    @AppStorage("calendarMonitored", store: dependencies.store) var onlyMonitored: Bool = false
+    @AppStorage("calendarSpecials", store: dependencies.store) var hideSpecials: Bool = false
 
-    @State private var onlyPremieres: Bool = false
-    @State private var displayedInstance: String = .all
-    @State private var displayedMediaType: CalendarMediaType = .all
+    @State var onlyPremieres: Bool = false
+    @State var displayedInstance: String = .all
+    @State var displayedMediaType: CalendarMediaType = .all
 
     @EnvironmentObject var settings: AppSettings
     @Environment(\.deviceType) private var deviceType
@@ -35,52 +35,7 @@ struct CalendarView: View {
                 if settings.configuredInstances.isEmpty {
                     NoInstance()
                 } else {
-                    ScrollViewReader { proxy in
-                        ScrollView {
-                            let moviesByDate = displayMovies ? filteredMovies : [:]
-                            let episodesByDate = displaySeries ? filteredEpisodes : [:]
-                            let active = displayMovies ? queue.active : []
-
-                            LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
-                                ForEach(calendar.dates, id: \.self) { timestamp in
-                                    let date = Date(timeIntervalSince1970: timestamp)
-                                    let weekday = Calendar.current.component(.weekday, from: date)
-
-                                    if firstWeekday == weekday {
-                                        CalendarWeekRange(date: date)
-                                    }
-
-                                    CalendarDate(date: date).offset(x: -6)
-
-                                    media(
-                                        date: date,
-                                        movies: moviesByDate[timestamp],
-                                        episodes: episodesByDate[timestamp],
-                                        active: active
-                                    )
-                                }
-                            }
-
-                            Group {
-                                if calendar.isLoadingFuture {
-                                    ProgressView().tint(.secondary)
-                                } else if !calendar.dates.isEmpty {
-                                    Button("Load More") {
-                                        calendar.loadMoreDates()
-                                    }
-                                    .buttonStyle(.bordered)
-                                    .tint(.buttonTint)
-                                }
-                            }.padding(.bottom, 32)
-                        }
-                        .opacity(hideCalendarView ? 0 : 1)
-                        .onAppear {
-                            scrollView = proxy
-                        }
-                        .onBecomeActive {
-                            await load()
-                        }
-                    }
+                    calendarScrollView
                 }
             }
             .scenePadding(.horizontal)
@@ -92,13 +47,7 @@ struct CalendarView: View {
                 errorIndicator
                 todayButton
             }
-            .onAppear {
-                if Set(calendar.instances.map(\.id)) != Set(settings.instances.map(\.id)) {
-                    calendar.reset()
-                    calendar.instances = settings.instances
-                    hideCalendarView = true
-                }
-            }
+            .onAppear(perform: syncInstances)
             .onReceive(NotificationCenter.default.publisher(for: .scrollToToday)) { _ in
                 withAnimation(.smooth) {
                     scrollTo(calendar.today())
@@ -134,6 +83,69 @@ struct CalendarView: View {
                 }
             #endif
         }
+    }
+
+    var calendarScrollView: some View {
+        ScrollViewReader { proxy in
+            ScrollView {
+                calendarGrid
+
+                Group {
+                    if calendar.isLoadingFuture {
+                        ProgressView().tint(.secondary)
+                    } else if !calendar.dates.isEmpty {
+                        Button("Load More") {
+                            calendar.loadMoreDates()
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(.buttonTint)
+                    }
+                }.padding(.bottom, 32)
+            }
+            .opacity(hideCalendarView ? 0 : 1)
+            .onAppear {
+                scrollView = proxy
+            }
+            .onBecomeActive {
+                await load()
+            }
+        }
+    }
+
+    var calendarGrid: some View {
+        let moviesByDate = displayMovies ? filteredMovies : [:]
+        let episodesByDate = displaySeries ? filteredEpisodes : [:]
+        let active = displayMovies ? queue.active : []
+
+        return LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
+            ForEach(calendar.dates, id: \.self) { timestamp in
+                let date = Date(timeIntervalSince1970: timestamp)
+                let weekday = Calendar.current.component(.weekday, from: date)
+
+                if firstWeekday == weekday {
+                    CalendarWeekRange(date: date)
+                }
+
+                CalendarDate(date: date).offset(x: -6)
+
+                media(
+                    date: date,
+                    movies: moviesByDate[timestamp],
+                    episodes: episodesByDate[timestamp],
+                    active: active
+                )
+            }
+        }
+    }
+
+    func syncInstances() {
+        guard Set(calendar.instances.map(\.id)) != Set(settings.instances.map(\.id)) else {
+            return
+        }
+
+        calendar.reset()
+        calendar.instances = settings.instances
+        hideCalendarView = true
     }
 
     var notConnectedToInternet: Bool {
@@ -295,45 +307,6 @@ struct CalendarView: View {
         .padding(.top, 4)
     }
 
-    var todayButton: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            Button("Today", systemImage: "calendar.day.timeline.left") {
-                Task { @MainActor in
-                    withAnimation(.smooth) {
-                        self.scrollTo(self.calendar.today())
-                    }
-                }
-            }
-            .tint(.primary)
-        }
-    }
-
-    @ToolbarContentBuilder
-    var errorIndicator: some ToolbarContent {
-        if !calendar.dates.isEmpty && (!calendar.errors.isEmpty || isRetrying) {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    Task {
-                        isRetrying = true
-                        await load(force: true)
-                        isRetrying = false
-                    }
-                } label: {
-                    if isRetrying {
-                        ProgressView()
-                    } else {
-                        Label("Error", systemImage: "externaldrive.trianglebadge.exclamationmark")
-                    }
-                }
-                .tint(isRetrying ? .primary : .red)
-                .contentTransition(.symbolEffect)
-                .disabled(isRetrying)
-            }
-
-            ToolbarSpacer(placement: .primaryAction)
-        }
-    }
-
     var contentUnavailable: some View {
         ContentUnavailableView {
             Label("Connection Failure", systemImage: "exclamationmark.triangle")
@@ -346,69 +319,6 @@ struct CalendarView: View {
         }
     }
 
-    var filtersMenu: some ToolbarContent {
-        ToolbarItem(placement: .navigation) {
-            Menu {
-                if calendar.instances.count > 1 {
-                    instancePicker
-                }
-
-                Picker(selection: $displayedMediaType, label: Text("Media Type")) {
-                    ForEach(CalendarMediaType.allCases, id: \.self) { type in
-                        type.label
-                    }
-                }
-                .pickerStyle(.inline)
-
-                Toggle(isOn: $onlyMonitored) {
-                    Label("Monitored", systemImage: "bookmark")
-                        .symbolVariant(onlyMonitored ? .fill : .none)
-                }
-
-                Toggle(isOn: $onlyPremieres) {
-                    Label("Premieres", systemImage: "play")
-                        .symbolVariant(onlyPremieres ? .fill : .none)
-                }
-
-                Section {
-                    Toggle(isOn: $hideSpecials) {
-                        Label("Hide Specials", systemImage: "star")
-                            .symbolVariant(hideSpecials ? .slash.fill : .slash)
-                    }
-                }
-            } label: {
-                if displayedMediaType != .all || onlyPremieres || onlyMonitored || hideSpecials {
-                    Image("filters.badge")
-                        .offset(y: 3)
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.tint, .primary)
-                } else {
-                    Image(systemName: "line.3.horizontal.decrease")
-                }
-            }
-            .menuIndicator(.hidden)
-        }
-    }
-
-    var instancePicker: some View {
-        Menu {
-            Picker("Instance", selection: $displayedInstance) {
-                Text("Any Instance").tag(String.all)
-
-                ForEach(calendar.instances) { instance in
-                    Text(instance.label).tag(instance.id.uuidString)
-                }
-            }
-            .pickerStyle(.inline)
-        } label: {
-            let label = calendar.instances.first {
-                $0.id.uuidString == displayedInstance
-            }?.label ?? String(localized: "Instance")
-
-            Label(label, systemImage: "internaldrive")
-        }
-    }
-
     func open(_ selection: CalendarSelection) {
         #if os(iOS)
             selectedMedia = selection
@@ -418,7 +328,6 @@ struct CalendarView: View {
     }
 }
 
-// swiftlint:disable file_length
 #Preview {
     dependencies.router.selectedTab = .calendar
 
@@ -449,4 +358,3 @@ struct CalendarView: View {
     return ContentView()
         .withAppState()
 }
-// swiftlint:enable file_length

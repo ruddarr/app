@@ -95,6 +95,7 @@
 		BB54D0292E90932400F5CF42 /* AppIconPodcasts.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D0202E90932400F5CF42 /* AppIconPodcasts.icon */; };
 		BB54D02A2E90932400F5CF42 /* AppIconWarp.icon in Resources */ = {isa = PBXBuildFile; fileRef = BB54D0212E90932400F5CF42 /* AppIconWarp.icon */; };
 		BB581D1A2BA0ED5E0070DFFC /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB581D192BA0ED5E0070DFFC /* CalendarView.swift */; };
+		BB0CA1E70071BA0000000ED4 /* CalendarView+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0CA1E70071BA0000000ED3 /* CalendarView+Toolbar.swift */; };
 		BB585E892BF55EF400A9AF25 /* EpisodeContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */; };
 		BB63E1F02C17DE1A00BCCA94 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */; };
 		BB644FCF2B8538A3007C7AD5 /* ci_post_xcodebuild.sh in Resources */ = {isa = PBXBuildFile; fileRef = BB644FCE2B8538A3007C7AD5 /* ci_post_xcodebuild.sh */; };
@@ -132,6 +133,8 @@
 		BB94F1B92B7E7B870050F6A0 /* InstanceWebhook.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB94F1B82B7E7B870050F6A0 /* InstanceWebhook.swift */; };
 		BB94F1BB2B7E8A190050F6A0 /* notifications.json in Resources */ = {isa = PBXBuildFile; fileRef = BB94F1BA2B7E8A190050F6A0 /* notifications.json */; };
 		BB96C3232BE7DEAF00E24C1C /* EpisodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB96C3222BE7DEAF00E24C1C /* EpisodeView.swift */; };
+		BB0EA17A5C7000000000ED02 /* EpisodeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0EA17A5C7000000000ED01 /* EpisodeHistory.swift */; };
+		BB0EA17A5C7000000000ED04 /* EpisodeView+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0EA17A5C7000000000ED03 /* EpisodeView+Actions.swift */; };
 		BB96C3272BE8327500E24C1C /* SeriesSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB96C3262BE8327500E24C1C /* SeriesSearchView.swift */; };
 		BB96C3292BE8337300E24C1C /* SeriesPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB96C3282BE8337300E24C1C /* SeriesPreviewView.swift */; };
 		BB96C32B2BE833AD00E24C1C /* SeriesForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB96C32A2BE833AD00E24C1C /* SeriesForm.swift */; };
@@ -355,6 +358,7 @@
 		BB54D0202E90932400F5CF42 /* AppIconPodcasts.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconPodcasts.icon; sourceTree = "<group>"; };
 		BB54D0212E90932400F5CF42 /* AppIconWarp.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconWarp.icon; sourceTree = "<group>"; };
 		BB581D192BA0ED5E0070DFFC /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		BB0CA1E70071BA0000000ED3 /* CalendarView+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CalendarView+Toolbar.swift"; sourceTree = "<group>"; };
 		BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeContextMenu.swift; sourceTree = "<group>"; };
 		BB63E1EF2C17DE1A00BCCA94 /* Intents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intents.swift; sourceTree = "<group>"; };
 		BB644FCE2B8538A3007C7AD5 /* ci_post_xcodebuild.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = ci_post_xcodebuild.sh; sourceTree = "<group>"; };
@@ -398,6 +402,8 @@
 		BB94F1B82B7E7B870050F6A0 /* InstanceWebhook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceWebhook.swift; sourceTree = "<group>"; };
 		BB94F1BA2B7E8A190050F6A0 /* notifications.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = notifications.json; sourceTree = "<group>"; };
 		BB96C3222BE7DEAF00E24C1C /* EpisodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeView.swift; sourceTree = "<group>"; };
+		BB0EA17A5C7000000000ED01 /* EpisodeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EpisodeHistory.swift"; sourceTree = "<group>"; };
+		BB0EA17A5C7000000000ED03 /* EpisodeView+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EpisodeView+Actions.swift"; sourceTree = "<group>"; };
 		BB96C3262BE8327500E24C1C /* SeriesSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesSearchView.swift; sourceTree = "<group>"; };
 		BB96C3282BE8337300E24C1C /* SeriesPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesPreviewView.swift; sourceTree = "<group>"; };
 		BB96C32A2BE833AD00E24C1C /* SeriesForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesForm.swift; sourceTree = "<group>"; };
@@ -667,6 +673,8 @@
 				BBE640D22BE4554500B436CC /* SeasonView.swift */,
 				BBBCA0592BE93FDF00BAE374 /* SeasonView+Episode.swift */,
 				BB96C3222BE7DEAF00E24C1C /* EpisodeView.swift */,
+				BB0EA17A5C7000000000ED03 /* EpisodeView+Actions.swift */,
+				BB0EA17A5C7000000000ED01 /* EpisodeHistory.swift */,
 				BB585E882BF55EF400A9AF25 /* EpisodeContextMenu.swift */,
 			);
 			path = Series;
@@ -961,6 +969,7 @@
 				BBE828692B4F325400C1E1D9 /* SeriesView.swift */,
 				BBD5D80D2C0135F9008E3B3F /* ActivityView.swift */,
 				BB581D192BA0ED5E0070DFFC /* CalendarView.swift */,
+				BB0CA1E70071BA0000000ED3 /* CalendarView+Toolbar.swift */,
 				BBF477A82B4FA20B00C2DED3 /* SettingsView.swift */,
 			);
 			path = Views;
@@ -1239,6 +1248,8 @@
 				BB25DC682B630B9000FE55A0 /* MovieDetails.swift in Sources */,
 				BB96C32F2BE8889E00E24C1C /* SeriesEditView.swift in Sources */,
 				BB96C3232BE7DEAF00E24C1C /* EpisodeView.swift in Sources */,
+				BB0EA17A5C7000000000ED02 /* EpisodeHistory.swift in Sources */,
+				BB0EA17A5C7000000000ED04 /* EpisodeView+Actions.swift in Sources */,
 				BBE7CE032B91745100431801 /* MovieDetails+Information.swift in Sources */,
 				2B949CEB2CCBC8690088B1A8 /* HistoryView.swift in Sources */,
 				79159D6E2B5953E800F7F997 /* API.swift in Sources */,
@@ -1277,6 +1288,7 @@
 				BB2370E42DCE76F600261710 /* ImportableFile.swift in Sources */,
 				BB507D242BD9709F00EC4016 /* SeriesSort.swift in Sources */,
 				BB581D1A2BA0ED5E0070DFFC /* CalendarView.swift in Sources */,
+				BB0CA1E70071BA0000000ED4 /* CalendarView+Toolbar.swift in Sources */,
 				BBE828572B4F2C7000C1E1D9 /* Ruddarr.swift in Sources */,
 				BB507D2E2BD991E100EC4016 /* SeriesContextMenu.swift in Sources */,
 				BBAFC7E72BB733E800245D10 /* MediaEventSheet.swift in Sources */,
