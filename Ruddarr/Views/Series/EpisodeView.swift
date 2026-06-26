@@ -6,15 +6,14 @@ struct EpisodeView: View {
     @Binding var series: Series
     var episodeId: Episode.ID
 
-    @State private var episode: Episode = Episode.void
-    @State private var episodeFile: MediaFile?
+    @State var queue = Queue.shared
+    @State var episode: Episode = Episode.void
+    @State var episodeFile: MediaFile?
+    @State var dispatchingSearch: Bool = false
 
     @State private var fileSheet: MediaFile?
-
-    @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
     @State private var showDeleteConfirmation = false
-    @State var queue = Queue.shared
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
