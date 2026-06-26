@@ -39,7 +39,7 @@ struct MoviePosterOverlay: View {
         MediaGridPosterOverlay {
             Group {
                 if isDownloading {
-                    Downloading()
+                    Downloading(color: .white)
                 } else if movie.isDownloaded {
                     Image(systemName: "checkmark").symbolVariant(.circle.fill)
                 } else if movie.isWaiting {

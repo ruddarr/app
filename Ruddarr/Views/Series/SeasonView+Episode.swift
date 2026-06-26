@@ -51,8 +51,7 @@ struct EpisodeRow: View {
             Spacer()
 
             if isDownloading {
-                Downloading()
-                    .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
+                Downloading(color: colorScheme == .dark ? .lightGray : .darkGray)
             }
 
             monitorButton
