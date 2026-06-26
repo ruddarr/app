@@ -154,7 +154,7 @@ struct SeriesView: View {
 
             if episodeCount > 0 {
                 Bullet()
-                Text("\(episodeCount) Episodes")
+                Text("\(episodeCount) Episode")
             }
         }
         .font(.footnote)
