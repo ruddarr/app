@@ -2,7 +2,10 @@ import SwiftUI
 
 #if os(iOS)
 struct ContentView: View {
+    @State private var tabCustomization = TabViewCustomization()
+
     @EnvironmentObject var settings: AppSettings
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         TabView(selection: selectedTab) {
@@ -23,12 +26,22 @@ struct ContentView: View {
             }
             .badge(Queue.shared.itemsWithIssues)
 
+            if deviceType == .pad {
+                Tab(history.label, systemImage: history.icon, value: history) {
+                    HistoryView()
+                }
+                .customizationID("tab.history")
+                .defaultVisibility(.hidden, for: .tabBar)
+                // .customizationBehavior(.disabled, for: .tabBar, .sidebar)
+            }
+
             Tab(TabItem.settings.label, systemImage: TabItem.settings.icon, value: TabItem.settings) {
                 SettingsView()
             }
             .defaultVisibility(.hidden, for: .tabBar)
         }
         .tabViewStyle(.sidebarAdaptable)
+        .tabViewCustomization($tabCustomization)
         .tabBarMinimizeBehavior(.never)
         .onAppear {
             if !isRunningIn(.preview) {
@@ -47,6 +60,7 @@ struct ContentView: View {
     var series: TabItem { .series }
     var calendar: TabItem { .calendar }
     var activity: TabItem { .activity }
+    var history: TabItem { .history }
 
     var selectedTab: Binding<TabItem> {
         Binding<TabItem>(
