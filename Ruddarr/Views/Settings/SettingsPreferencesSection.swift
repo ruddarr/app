@@ -55,9 +55,6 @@ struct SettingsPreferencesSection: View {
             .labelStyle(SettingsIconLabelStyle())
         }
         .tint(.secondary)
-        .onChange(of: settings.theme) {
-            dependencies.router.reset()
-        }
     }
 
     var gridPicker: some View {
