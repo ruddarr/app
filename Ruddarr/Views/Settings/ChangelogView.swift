@@ -68,8 +68,7 @@ struct ChangelogView: View {
             VStack(alignment: .leading, spacing: 6) {
                 ForEach(Array(section.bullets.enumerated()), id: \.offset) { _, bullet in
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
-                        Text(verbatim: "•")
-                            .font(.headline)
+                        Bullet().font(.headline)
 
                         Text(bullet.toMarkdown())
                             .fixedSize(horizontal: false, vertical: true)
