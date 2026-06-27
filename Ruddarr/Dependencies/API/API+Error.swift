@@ -102,7 +102,7 @@ extension API.Error: LocalizedError {
         case .nsError(let error):
             error.localizedDescription
         case .error(let error):
-            String(format: String(localized: "An unknown error occurred: %@"), "\(error)")
+            String(localized: "An unknown error occurred: \(String(describing: error))")
         }
     }
 }

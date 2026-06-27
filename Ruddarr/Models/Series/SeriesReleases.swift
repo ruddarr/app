@@ -303,7 +303,7 @@ struct SeriesRelease: Identifiable, Codable {
         guard let bitrate = calculateBitrate(runtime * 60, size) else { return nil }
         guard let label = formatBitrate(bitrate) else { return nil }
 
-        return String(format: "~%@", label)
+        return "~\(label)"
     }
 }
 
