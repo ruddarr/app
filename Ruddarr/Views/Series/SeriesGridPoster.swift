@@ -54,13 +54,13 @@ struct SeriesGridPoster: View {
 struct SeriesPosterOverlay: View {
     var series: Series
 
-    @State private var isDownloading = false
+    @State private var queueStatus: QueueItemStatus?
 
     var body: some View {
         MediaGridPosterOverlay {
             Group {
-                if isDownloading {
-                    Downloading(color: .white)
+                if let queueStatus {
+                    QueueStatusIcon(status: queueStatus, color: .white)
                 } else if series.isDownloaded {
                     Image(systemName: "checkmark").symbolVariant(.circle.fill)
                 } else if series.isWaiting {
@@ -83,7 +83,7 @@ struct SeriesPosterOverlay: View {
                 .foregroundStyle(.white)
                 .imageScale(.gridItem)
         }
-        .tracksDownloading(series.queueKey, into: $isDownloading)
+        .tracksQueueStatus(series.queueKey, into: $queueStatus)
     }
 }
 

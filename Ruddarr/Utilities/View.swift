@@ -26,10 +26,10 @@ extension View {
     }
 
     @MainActor
-    func tracksDownloading(_ key: QueueKey?, into isDownloading: Binding<Bool>) -> some View {
-        onReceive(Queue.shared.downloading) { keys in
-            let value = key.map(keys.contains) ?? false
-            if value != isDownloading.wrappedValue { isDownloading.wrappedValue = value }
+    func tracksQueueStatus(_ key: QueueKey?, into status: Binding<QueueItemStatus?>) -> some View {
+        onReceive(Queue.shared.statuses) { statuses in
+            let value = key.flatMap { statuses[$0] }
+            if value != status.wrappedValue { status.wrappedValue = value }
         }
     }
 

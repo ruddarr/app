@@ -33,13 +33,13 @@ struct MovieGridPoster: View {
 struct MoviePosterOverlay: View {
     var movie: Movie
 
-    @State private var isDownloading = false
+    @State private var queueStatus: QueueItemStatus?
 
     var body: some View {
         MediaGridPosterOverlay {
             Group {
-                if isDownloading {
-                    Downloading(color: .white)
+                if let queueStatus {
+                    QueueStatusIcon(status: queueStatus, color: .white)
                 } else if movie.isDownloaded {
                     Image(systemName: "checkmark").symbolVariant(.circle.fill)
                 } else if movie.isWaiting {
@@ -58,7 +58,7 @@ struct MoviePosterOverlay: View {
                 .foregroundStyle(.white)
                 .imageScale(.gridItem)
         }
-        .tracksDownloading(movie.queueKey, into: $isDownloading)
+        .tracksQueueStatus(movie.queueKey, into: $queueStatus)
     }
 }
 

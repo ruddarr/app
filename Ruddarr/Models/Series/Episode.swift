@@ -37,7 +37,7 @@ struct Episode: Identifiable, Codable, Equatable {
     var series: Series?
 
     var calendarGroupCount: Int?
-    var isDownloadingInCalendar: Bool?
+    var queueStatusInCalendar: QueueItemStatus?
 
     var calendarGroup: String {
         "\(seriesId):\(seasonNumber):\(airDateUtc?.formatted(.iso8601) ?? "")"
@@ -65,16 +65,16 @@ struct Episode: Identifiable, Codable, Equatable {
         String(format: "%dx%02d", seasonNumber, episodeNumber)
     }
 
-    var statusLabel: String {
+    var stateLabel: String {
         if hasFile {
-            return String(localized: "Downloaded", comment: "(Single word) Episode status label")
+            return String(localized: "Downloaded", comment: "(Single word) Episode state label")
         }
 
         if !hasAired {
-            return String(localized: "Unaired", comment: "(Single word) Episode status label")
+            return String(localized: "Unaired", comment: "(Single word) Episode state label")
         }
 
-        return String(localized: "Missing", comment: "(Single word) Episode status label")
+        return String(localized: "Missing", comment: "(Single word) Episode state label")
     }
 
     var runtimeLabel: String? {

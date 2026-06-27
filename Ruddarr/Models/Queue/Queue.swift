@@ -12,7 +12,7 @@ enum QueueKey: Hashable {
 class Queue {
     static let shared = Queue()
 
-    private var timer: Timer?
+    private var pollingTask: Task<Void, Never>?
 
     var error: API.Error?
 
@@ -23,22 +23,21 @@ class Queue {
     var items: [Instance.ID: [QueueItem]] = [:]
     var itemsWithIssues: Int = 0
 
-    let downloading = CurrentValueSubject<Set<QueueKey>, Never>([])
-
-    var active: [QueueItem] {
-        items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
-    }
+    let statuses = CurrentValueSubject<[QueueKey: QueueItemStatus], Never>([:])
+    private(set) var active: [QueueItem] = []
 
     private init() {
         let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
 
-        self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
-            Task {
-                await self.fetchTasks()
-            }
+        pollingTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(interval))
 
-            Task {
-                if await self.performRefresh {
+                guard let self else { return }
+
+                await self.fetchTasks()
+
+                if self.performRefresh {
                     await self.refreshDownloadClients()
                 }
             }
@@ -51,19 +50,30 @@ class Queue {
         error = nil
         isLoading = true
 
-        for instance in instances {
-            do {
-                items[instance.id] = try await dependencies.api.fetchQueueTasks(instance).records
-            } catch is CancellationError {
-                // do nothing
-            } catch let apiError as API.Error {
-                error = apiError
+        await withThrowingTaskGroup(of: (Instance.ID, [QueueItem]).self) { group in
+            for instance in instances {
+                group.addTask {
+                    (instance.id, try await dependencies.api.fetchQueueTasks(instance).records)
+                }
+            }
 
-                leaveBreadcrumb(.error, category: "queue", message: "Fetch failed", data: ["error": apiError])
-            } catch {
-                self.error = API.Error(from: error)
+            while let result = await group.nextResult() {
+                switch result {
+                case .success(let (instanceId, records)):
+                    items[instanceId] = records
+                case .failure(is CancellationError):
+                    break
+                case .failure(let apiError as API.Error):
+                    error = apiError
+                    // leaveBreadcrumb(.error, category: "queue", message: "Fetch failed", data: ["error": apiError])
+                case .failure(let otherError):
+                    error = API.Error(from: otherError)
+                }
             }
         }
+
+        let active = items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
+        if active != self.active { self.active = active }
 
         let issues = items.flatMap { $0.value }.filter { $0.hasIssue }
         let uniqueIssues = Set(issues.map { $0.taskGroup }).count
@@ -72,23 +82,34 @@ class Queue {
             itemsWithIssues = uniqueIssues
         }
 
-        let keys = downloadingKeySet()
+        let statuses = activeStatuses()
 
-        if downloading.value != keys {
-            downloading.send(keys)
+        if self.statuses.value != statuses {
+            self.statuses.send(statuses)
         }
 
         isLoading = false
     }
 
-    private func downloadingKeySet() -> Set<QueueKey> {
-        Set(active.flatMap { item -> [QueueKey] in
-            guard let instanceId = item.instanceId else { return [] }
+    private func activeStatuses() -> [QueueKey: QueueItemStatus] {
+        var statuses: [QueueKey: QueueItemStatus] = [:]
+
+        for item in active {
+            guard let instanceId = item.instanceId else { continue }
+
             var keys: [QueueKey] = []
             if let movieId = item.movieId { keys.append(.movie(instanceId: instanceId, id: movieId)) }
             if let seriesId = item.seriesId { keys.append(.series(instanceId: instanceId, id: seriesId)) }
-            return keys
-        })
+
+            let status = item.queueStatus
+
+            // Keep the highest-precedence status when a key has multiple active items
+            for key in keys {
+                statuses[key] = max(statuses[key] ?? status, status)
+            }
+        }
+
+        return statuses
     }
 
     func refreshDownloadClients() async {
@@ -103,20 +124,20 @@ class Queue {
         }
     }
 
-    func isDownloading(_ movie: Movie, instanceId: Instance.ID) -> Bool {
-        active.contains { $0.movieId == movie.id && $0.instanceId == instanceId }
+    func queueStatus(_ movie: Movie, instanceId: Instance.ID) -> QueueItemStatus? {
+        active.highestStatus { $0.movieId == movie.id && $0.instanceId == instanceId }
     }
 
-    func isDownloading(_ series: Series, instanceId: Instance.ID) -> Bool {
-        active.contains { $0.seriesId == series.id && $0.instanceId == instanceId }
+    func queueStatus(_ series: Series, instanceId: Instance.ID) -> QueueItemStatus? {
+        active.highestStatus { $0.seriesId == series.id && $0.instanceId == instanceId }
     }
 
-    func isDownloading(_ episode: Episode, instanceId: Instance.ID) -> Bool {
-        active.contains { $0.episodeId == episode.id && $0.instanceId == instanceId }
+    func queueStatus(_ episode: Episode, instanceId: Instance.ID) -> QueueItemStatus? {
+        active.highestStatus { $0.episodeId == episode.id && $0.instanceId == instanceId }
     }
 
-    func isDownloading(season seasonNumber: Int, of series: Series, instanceId: Instance.ID) -> Bool {
-        active.contains {
+    func queueStatus(season seasonNumber: Int, of series: Series, instanceId: Instance.ID) -> QueueItemStatus? {
+        active.highestStatus {
             $0.seriesId == series.id && $0.seasonNumber == seasonNumber && $0.instanceId == instanceId
         }
     }

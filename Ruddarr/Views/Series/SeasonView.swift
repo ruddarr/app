@@ -193,7 +193,7 @@ struct SeasonView: View {
                         NavigationLink(
                             value: SeriesPath.episode(episode.seriesId, episode.id)
                         ) {
-                            EpisodeRow(episode: episode, isDownloading: queue.isDownloading(episode, instanceId: instance.id))
+                            EpisodeRow(episode: episode, status: queue.queueStatus(episode, instanceId: instance.id))
                                 .environment(instance)
                                 .environmentObject(settings)
                         }

@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
-- Display download queue status in various places
+- Display queue status for movies, seasons and episodes
 - Switched to sheets for calendar navigation
 - Added quick look preview to media posters
 - Added "History" to sidebar on iPadOS

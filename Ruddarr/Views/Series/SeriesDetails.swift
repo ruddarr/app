@@ -161,7 +161,7 @@ struct SeriesDetails: View {
                         SeasonCard(
                             series: $series,
                             season: season,
-                            isDownloading: queue.isDownloading(season: season.seasonNumber, of: series, instanceId: instance.id)
+                            status: queue.queueStatus(season: season.seasonNumber, of: series, instanceId: instance.id)
                         )
                     }.buttonStyle(.plain)
                 }

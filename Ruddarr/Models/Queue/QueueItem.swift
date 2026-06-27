@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct QueueItems: Codable {
     let page: Int
@@ -258,4 +259,82 @@ enum QueueDownloadState: String, Codable {
     case failedPending
     case failed
     case ignored
+}
+
+enum QueueItemStatus: Int, Codable, Comparable {
+    case unknown
+    case queued
+    case importPending
+    case paused
+    case downloading
+    case importing
+    case warning
+    case importBlocked
+    case failed
+
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+
+    var label: String {
+        switch self {
+        case .downloading, .importPending: String(localized: "Downloading", comment: "(Short) State of task in queue")
+        case .importing: String(localized: "Importing", comment: "(Short) State of task in queue")
+        case .importBlocked: String(localized: "Import Blocked", comment: "(Short) State of task in queue")
+        default: String(localized: "In Queue", comment: "(Short) State of task in queue")
+        }
+    }
+
+    var image: Image {
+        switch self {
+        case .downloading, .importPending:
+            Image(systemName: "arrow.down.circle")
+        case .importing:
+            Image(systemName: "arrow.down.to.line.circle")
+        case .importBlocked, .failed:
+            Image(systemName: "arrow.down.circle.badge.xmark")
+        case .paused:
+            Image(systemName: "arrow.down.circle.badge.pause")
+        default:
+            Image("ecg.circle") // waveform.path.ecg
+        }
+    }
+
+    var pulses: Bool {
+        switch self {
+        case .queued, .downloading, .importing, .importPending: true
+        case .paused, .failed, .importBlocked: false
+        default: true
+        }
+    }
+}
+
+extension QueueItem {
+    var queueStatus: QueueItemStatus {
+        if status != "completed" {
+            return switch status {
+            case "downloading": .downloading
+            case "queued", "delay", "downloadClientUnavailable": .queued
+            case "paused": .paused
+            case "warning": .warning
+            case "failed": .failed
+            default: .unknown
+            }
+        }
+
+        return switch trackedDownloadState {
+        case .importing: .importing
+        case .importPending: .importPending
+        case .importBlocked: .importBlocked
+        case .failedPending, .failed: .failed
+        case .ignored: .warning
+        default: .downloading
+        }
+    }
+}
+
+extension Sequence where Element == QueueItem {
+    func highestStatus(where predicate: (QueueItem) -> Bool) -> QueueItemStatus? {
+        filter(predicate).map(\.queueStatus).max()
+    }
 }

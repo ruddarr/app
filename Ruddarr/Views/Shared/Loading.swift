@@ -1,4 +1,3 @@
-import Combine
 import SwiftUI
 
 struct Loading: View {
@@ -8,15 +7,23 @@ struct Loading: View {
     }
 }
 
-struct Downloading: View {
+struct QueueStatusIcon: View {
+    var status: QueueItemStatus
     var color: Color = .secondary
+
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
-        Image(systemName: "arrow.down.circle")
-            .symbolEffect(.pulse.byLayer, options: .repeat(.periodic(delay: 0.5)))
+        let icon = status.image
             .symbolRenderingMode(.palette)
             .foregroundStyle(settings.theme.tint, color)
+            .accessibilityLabel(status.label)
+
+        if status.pulses {
+            icon.symbolEffect(.pulse.byLayer, options: .repeat(.periodic(delay: 0.2)))
+        } else {
+            icon
+        }
     }
 }
 
@@ -24,11 +31,20 @@ struct Downloading: View {
     Loading()
 }
 
-#Preview("Downloading") {
-    HStack {
-        Downloading()
-        Downloading(color: .lightGray)
-        Downloading(color: .red)
+#Preview("Queue Status") {
+    let statuses: [QueueItemStatus] = [
+        .downloading, .importing, .queued, .importPending,
+        .paused, .warning, .importBlocked, .failed, .unknown,
+    ]
+
+    VStack(spacing: 16) {
+        ForEach(statuses, id: \.self) { status in
+            HStack(spacing: 16) {
+                QueueStatusIcon(status: status)
+                QueueStatusIcon(status: status, color: .lightGray)
+            }
+        }
     }
+    .imageScale(.large)
     .withAppState()
 }
