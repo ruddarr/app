@@ -7,7 +7,7 @@ struct SeriesGridCard: View {
     @Environment(\.deviceType) private var deviceType
     @Environment(SonarrInstance.self) private var instance
 
-    @State private var isDownloading = false
+    @State private var queueStatus: QueueItemStatus?
 
     init(series: Series, model: Series? = nil) {
         self.series = series
@@ -64,7 +64,7 @@ struct SeriesGridCard: View {
         } preview: {
             poster.frame(width: 300, height: 450)
         }
-        .tracksDownloading(series.queueKey, into: $isDownloading)
+        .tracksQueueStatus(series.queueKey, into: $queueStatus)
     }
 
     var poster: some View {
@@ -88,8 +88,8 @@ struct SeriesGridCard: View {
                 .imageScale(iconScale)
 
             Group {
-                if isDownloading {
-                    Downloading()
+                if let queueStatus {
+                    QueueStatusIcon(status: queueStatus)
                 } else if series.isDownloaded {
                     Image(systemName: "checkmark").symbolVariant(.circle.fill)
                 } else if series.isWaiting {

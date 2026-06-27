@@ -259,3 +259,21 @@ enum QueueDownloadState: String, Codable {
     case failed
     case ignored
 }
+
+/// The subset of queue states surfaced as a status symbol across the app.
+/// Cases are ordered by precedence: when a movie/series has multiple active
+/// items, the case declared last wins (see `Queue.activeStatuses()`).
+enum QueueItemStatus: Int, Comparable {
+    case downloading
+    case importBlocked
+
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+}
+
+extension QueueItem {
+    var queueStatus: QueueItemStatus {
+        trackedDownloadState == .importBlocked ? .importBlocked : .downloading
+    }
+}

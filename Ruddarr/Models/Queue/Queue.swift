@@ -23,7 +23,7 @@ class Queue {
     var items: [Instance.ID: [QueueItem]] = [:]
     var itemsWithIssues: Int = 0
 
-    let downloading = CurrentValueSubject<Set<QueueKey>, Never>([])
+    let statuses = CurrentValueSubject<[QueueKey: QueueItemStatus], Never>([:])
 
     var active: [QueueItem] {
         items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
@@ -72,23 +72,34 @@ class Queue {
             itemsWithIssues = uniqueIssues
         }
 
-        let keys = downloadingKeySet()
+        let statuses = activeStatuses()
 
-        if downloading.value != keys {
-            downloading.send(keys)
+        if self.statuses.value != statuses {
+            self.statuses.send(statuses)
         }
 
         isLoading = false
     }
 
-    private func downloadingKeySet() -> Set<QueueKey> {
-        Set(active.flatMap { item -> [QueueKey] in
-            guard let instanceId = item.instanceId else { return [] }
+    private func activeStatuses() -> [QueueKey: QueueItemStatus] {
+        var statuses: [QueueKey: QueueItemStatus] = [:]
+
+        for item in active {
+            guard let instanceId = item.instanceId else { continue }
+
             var keys: [QueueKey] = []
             if let movieId = item.movieId { keys.append(.movie(instanceId: instanceId, id: movieId)) }
             if let seriesId = item.seriesId { keys.append(.series(instanceId: instanceId, id: seriesId)) }
-            return keys
-        })
+
+            let status = item.queueStatus
+
+            // Keep the highest-precedence status when a key has multiple active items
+            for key in keys {
+                statuses[key] = max(statuses[key] ?? status, status)
+            }
+        }
+
+        return statuses
     }
 
     func refreshDownloadClients() async {
