@@ -180,12 +180,12 @@ struct InstanceStats: Equatable, Codable {
         self.size = series.reduce(0) { $0 + ($1.statistics?.sizeOnDisk ?? 0) }
     }
 
-    static func make(movies: [Movie]) async -> Self {
-        await Task.detached(priority: .userInitiated) { Self(movies: movies) }.value
+    @concurrent static func make(movies: [Movie]) async -> Self {
+        Self(movies: movies)
     }
 
-    static func make(series: [Series]) async -> Self {
-        await Task.detached(priority: .userInitiated) { Self(series: series) }.value
+    @concurrent static func make(series: [Series]) async -> Self {
+        Self(series: series)
     }
 }
 
