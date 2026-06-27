@@ -37,13 +37,11 @@ class Movies {
     func updateCachedItems(_ sort: MovieSort, _ searchQuery: String) {
         sortAndFilterTask?.cancel()
 
-        sortAndFilterTask = Task { @MainActor in
+        sortAndFilterTask = Task(priority: .userInitiated) { @MainActor in
             let items = self.items
             let alternateTitles = self.alternateTitles
 
-            cachedItems = await Task.detached(priority: .userInitiated) {
-                Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
-            }.result.get()
+            cachedItems = await Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
         }
     }
 
@@ -163,12 +161,12 @@ class Movies {
         }
     }
 
-    nonisolated private static func filterAndSortItems(
+    @concurrent nonisolated private static func filterAndSortItems(
         _ items: [Movie],
         _ alternateTitles: [Movie.ID: String],
         _ sort: MovieSort,
         _ searchQuery: String
-    ) -> [Movie] {
+    ) async -> [Movie] {
         let query = searchQuery.trimmed()
 
         let filtered = items
