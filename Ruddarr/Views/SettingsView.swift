@@ -128,8 +128,6 @@ struct SettingsView: View {
     }
 }
 
-
-
 #Preview {
     dependencies.router.selectedTab = .settings
 

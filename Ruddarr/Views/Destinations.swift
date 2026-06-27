@@ -94,30 +94,30 @@ struct SettingsDestination: View {
 
     var body: some View {
         switch path {
-            case .icons:
-                IconsView()
-                    .environmentObject(settings)
-            case .changelog:
-                ChangelogView()
-            case .createInstance:
-                InstanceEditView(mode: .create, instance: Instance())
+        case .icons:
+            IconsView()
+                .environmentObject(settings)
+        case .changelog:
+            ChangelogView()
+        case .createInstance:
+            InstanceEditView(mode: .create, instance: Instance())
+                .environment(radarrInstance)
+                .environment(sonarrInstance)
+                .environmentObject(settings)
+        case .viewInstance(let instanceId):
+            if let instance = settings.instanceById(instanceId) {
+                InstanceView(instance: instance)
                     .environment(radarrInstance)
                     .environment(sonarrInstance)
                     .environmentObject(settings)
-            case .viewInstance(let instanceId):
-                if let instance = settings.instanceById(instanceId) {
-                    InstanceView(instance: instance)
-                        .environment(radarrInstance)
-                        .environment(sonarrInstance)
-                        .environmentObject(settings)
-                }
-            case .editInstance(let instanceId):
-                if let instance = settings.instanceById(instanceId) {
-                    InstanceEditView(mode: .update, instance: instance)
-                        .environment(radarrInstance)
-                        .environment(sonarrInstance)
-                        .environmentObject(settings)
-                }
+            }
+        case .editInstance(let instanceId):
+            if let instance = settings.instanceById(instanceId) {
+                InstanceEditView(mode: .update, instance: instance)
+                    .environment(radarrInstance)
+                    .environment(sonarrInstance)
+                    .environmentObject(settings)
+            }
         }
     }
 }
