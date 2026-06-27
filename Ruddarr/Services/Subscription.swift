@@ -59,7 +59,7 @@ class Subscription {
     }
 
     static func status(from statuses: [StoreKit.Product.SubscriptionInfo.Status]) -> SubscriptionStatus {
-        if statuses.count == 0 {
+        if statuses.isEmpty {
             return .notSubscribed
         }
 

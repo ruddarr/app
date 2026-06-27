@@ -177,7 +177,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     func releaseType(for date: Date) -> LocalizedStringKey? {
         let calendar: Calendar = Calendar.current
 
-        if let inCinemas = inCinemas, calendar.isDate(date, inSameDayAs: inCinemas) {
+        if let inCinemas, calendar.isDate(date, inSameDayAs: inCinemas) {
             return "In Cinemas" // popcorn
         }
 
