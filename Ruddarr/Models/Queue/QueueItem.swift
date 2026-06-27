@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct QueueItems: Codable {
     let page: Int
@@ -284,18 +285,26 @@ enum QueueItemStatus: Int, Codable, Comparable {
         }
     }
 
-    var systemImage: String {
+    var image: Image {
         switch self {
-        case .downloading, .importPending: "arrow.down.circle"
-        case .importing: "arrow.down.to.line.circle"
-        default: "waveform.path.ecg"
+        case .downloading, .importPending:
+            Image(systemName: "arrow.down.circle")
+        case .importing:
+            Image(systemName: "arrow.down.to.line.circle")
+        case .importBlocked, .failed:
+            Image(systemName: "arrow.down.circle.badge.xmark")
+        case .paused:
+            Image(systemName: "arrow.down.circle.badge.pause")
+        default:
+            Image("ecg.circle") // waveform.path.ecg
         }
     }
 
     var pulses: Bool {
         switch self {
-        case .downloading, .importPending, .importing: true
-        default: false
+        case .queued, .downloading, .importing, .importPending: true
+        case .paused, .failed, .importBlocked: false
+        default: true
         }
     }
 }

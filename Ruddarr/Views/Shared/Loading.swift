@@ -14,13 +14,13 @@ struct QueueStatusIcon: View {
     @EnvironmentObject var settings: AppSettings
 
     var body: some View {
-        let icon = Image(systemName: status.systemImage)
+        let icon = status.image
             .symbolRenderingMode(.palette)
             .foregroundStyle(settings.theme.tint, color)
             .accessibilityLabel(status.label)
 
         if status.pulses {
-            icon.symbolEffect(.pulse.byLayer, options: .repeat(.periodic(delay: 0.5)))
+            icon.symbolEffect(.pulse.byLayer, options: .repeat(.periodic(delay: 0.2)))
         } else {
             icon
         }
