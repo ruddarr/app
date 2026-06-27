@@ -3,7 +3,7 @@ import SwiftUI
 struct CalendarMovie: View {
     var date: Date
     var movie: Movie
-    var isDownloading: Bool
+    var status: QueueItemStatus?
     var open: (CalendarSelection) -> Void
 
     @EnvironmentObject var settings: AppSettings
@@ -49,8 +49,8 @@ struct CalendarMovie: View {
 
     @ViewBuilder
     var statusIcon: some View {
-        if isDownloading {
-            Downloading()
+        if let status {
+            QueueStatusIcon(status: status)
         } else if movie.isDownloaded {
             Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !movie.monitored {
@@ -65,7 +65,7 @@ struct CalendarMovie: View {
 
 struct CalendarEpisode: View {
     var episode: Episode
-    var isDownloading: Bool
+    var status: QueueItemStatus?
     var open: (CalendarSelection) -> Void
 
     @EnvironmentObject var settings: AppSettings
@@ -145,8 +145,8 @@ struct CalendarEpisode: View {
 
     @ViewBuilder
     var statusIcon: some View {
-        if isDownloading {
-            Downloading()
+        if let status {
+            QueueStatusIcon(status: status)
         } else if episode.isDownloaded {
             Image(systemName: "checkmark").symbolVariant(.circle.fill)
         } else if !episode.monitored || episode.series?.monitored == false {

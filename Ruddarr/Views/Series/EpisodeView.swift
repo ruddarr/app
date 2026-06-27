@@ -113,19 +113,19 @@ struct EpisodeView: View {
             .font(.caption)
             .fontWeight(.semibold)
             .textCase(.uppercase)
-            .shimmering(active: isDownloading, color: settings.theme.tint)
+            .shimmering(active: queueStatus != nil, color: settings.theme.tint)
     }
 
     var stateLabel: String {
-        if isDownloading {
+        if queueStatus != nil {
             return String(localized: "Downloading")
         }
 
         return episode.statusLabel
     }
 
-    var isDownloading: Bool {
-        queue.isDownloading(episode, instanceId: instance.id)
+    var queueStatus: QueueItemStatus? {
+        queue.queueStatus(episode, instanceId: instance.id)
     }
 
     var details: some View {

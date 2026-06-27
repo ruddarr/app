@@ -189,9 +189,9 @@ struct CalendarView: View {
             let episodes = grouped.values.compactMap { group -> Episode? in
                 guard var episode = group.first else { return nil }
                 episode.calendarGroupCount = group.count
-                episode.isDownloadingInCalendar = group.contains {
-                    isDownloading(\.episodeId, $0.id, $0.instanceId, in: active)
-                }
+                episode.queueStatusInCalendar = group
+                    .compactMap { queueStatus(\.episodeId, $0.id, $0.instanceId, in: active) }
+                    .max()
                 return episode
             }
 
@@ -200,9 +200,9 @@ struct CalendarView: View {
         }
     }
 
-    func isDownloading(_ idKey: KeyPath<QueueItem, Int?>, _ id: Int, _ instanceId: Instance.ID?, in items: [QueueItem]) -> Bool {
-        guard let instanceId else { return false }
-        return items.contains { $0[keyPath: idKey] == id && $0.instanceId == instanceId }
+    func queueStatus(_ idKey: KeyPath<QueueItem, Int?>, _ id: Int, _ instanceId: Instance.ID?, in items: [QueueItem]) -> QueueItemStatus? {
+        guard let instanceId else { return nil }
+        return items.highestStatus { $0[keyPath: idKey] == id && $0.instanceId == instanceId }
     }
 
     func includeEpisodeInCalendar(_ episode: Episode) -> Bool {
@@ -286,7 +286,7 @@ struct CalendarView: View {
                     CalendarMovie(
                         date: date,
                         movie: movie,
-                        isDownloading: isDownloading(\.movieId, movie.id, movie.instanceId, in: active),
+                        status: queueStatus(\.movieId, movie.id, movie.instanceId, in: active),
                         open: open
                     )
                 }
@@ -296,7 +296,7 @@ struct CalendarView: View {
                 ForEach(episodes) { episode in
                     CalendarEpisode(
                         episode: episode,
-                        isDownloading: episode.isDownloadingInCalendar ?? false,
+                        status: episode.queueStatusInCalendar,
                         open: open
                     )
                 }

@@ -37,7 +37,7 @@ struct Episode: Identifiable, Codable, Equatable {
     var series: Series?
 
     var calendarGroupCount: Int?
-    var isDownloadingInCalendar: Bool?
+    var queueStatusInCalendar: QueueItemStatus?
 
     var calendarGroup: String {
         "\(seriesId):\(seasonNumber):\(airDateUtc?.formatted(.iso8601) ?? "")"

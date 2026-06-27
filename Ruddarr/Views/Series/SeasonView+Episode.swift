@@ -2,7 +2,7 @@ import SwiftUI
 
 struct EpisodeRow: View {
     var episode: Episode
-    var isDownloading: Bool = false
+    var status: QueueItemStatus?
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
@@ -30,7 +30,7 @@ struct EpisodeRow: View {
                     if let file = episodeFile {
                         Text(file.quality.quality.normalizedName)
                             .foregroundStyle(.secondary)
-                    } else if isDownloading {
+                    } else if status != nil {
                         Text("Downloading")
                             .foregroundStyle(.secondary)
                     } else {
@@ -53,8 +53,8 @@ struct EpisodeRow: View {
 
             Spacer()
 
-            if isDownloading {
-                Downloading(color: colorScheme == .dark ? .lightGray : .darkGray)
+            if let status {
+                QueueStatusIcon(status: status, color: colorScheme == .dark ? .lightGray : .darkGray)
             }
 
             monitorButton

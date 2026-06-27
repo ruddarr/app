@@ -3,7 +3,7 @@ import SwiftUI
 struct SeasonCard: View {
     @Binding var series: Series
     var season: Season
-    var isDownloading: Bool = false
+    var status: QueueItemStatus?
 
     @State private var isWorking: Bool = false
 
@@ -25,8 +25,8 @@ struct SeasonCard: View {
 
                 Spacer()
 
-                if isDownloading {
-                    Downloading(color: colorScheme == .dark ? .lightGray : .darkGray)
+                if let status {
+                    QueueStatusIcon(status: status, color: colorScheme == .dark ? .lightGray : .darkGray)
                 }
 
                 Button {

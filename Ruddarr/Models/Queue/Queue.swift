@@ -24,10 +24,7 @@ class Queue {
     var itemsWithIssues: Int = 0
 
     let statuses = CurrentValueSubject<[QueueKey: QueueItemStatus], Never>([:])
-
-    var active: [QueueItem] {
-        items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
-    }
+    private(set) var active: [QueueItem] = []
 
     private init() {
         let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
@@ -64,6 +61,9 @@ class Queue {
                 self.error = API.Error(from: error)
             }
         }
+
+        let active = items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
+        if active != self.active { self.active = active }
 
         let issues = items.flatMap { $0.value }.filter { $0.hasIssue }
         let uniqueIssues = Set(issues.map { $0.taskGroup }).count
@@ -114,20 +114,20 @@ class Queue {
         }
     }
 
-    func isDownloading(_ movie: Movie, instanceId: Instance.ID) -> Bool {
-        active.contains { $0.movieId == movie.id && $0.instanceId == instanceId }
+    func queueStatus(_ movie: Movie, instanceId: Instance.ID) -> QueueItemStatus? {
+        active.highestStatus { $0.movieId == movie.id && $0.instanceId == instanceId }
     }
 
-    func isDownloading(_ series: Series, instanceId: Instance.ID) -> Bool {
-        active.contains { $0.seriesId == series.id && $0.instanceId == instanceId }
+    func queueStatus(_ series: Series, instanceId: Instance.ID) -> QueueItemStatus? {
+        active.highestStatus { $0.seriesId == series.id && $0.instanceId == instanceId }
     }
 
-    func isDownloading(_ episode: Episode, instanceId: Instance.ID) -> Bool {
-        active.contains { $0.episodeId == episode.id && $0.instanceId == instanceId }
+    func queueStatus(_ episode: Episode, instanceId: Instance.ID) -> QueueItemStatus? {
+        active.highestStatus { $0.episodeId == episode.id && $0.instanceId == instanceId }
     }
 
-    func isDownloading(season seasonNumber: Int, of series: Series, instanceId: Instance.ID) -> Bool {
-        active.contains {
+    func queueStatus(season seasonNumber: Int, of series: Series, instanceId: Instance.ID) -> QueueItemStatus? {
+        active.highestStatus {
             $0.seriesId == series.id && $0.seasonNumber == seasonNumber && $0.instanceId == instanceId
         }
     }

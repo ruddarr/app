@@ -50,19 +50,19 @@ extension SeriesDetails {
             .font(.caption)
             .fontWeight(.semibold)
             .textCase(.uppercase)
-            .shimmering(active: isDownloading, color: settings.theme.tint)
+            .shimmering(active: queueStatus != nil, color: settings.theme.tint)
     }
 
     var stateLabel: LocalizedStringKey {
-        if isDownloading {
+        if queueStatus != nil {
             return "Downloading"
         }
 
         return series.stateLabel
     }
 
-    var isDownloading: Bool {
-        queue.isDownloading(series, instanceId: instance.id)
+    var queueStatus: QueueItemStatus? {
+        queue.queueStatus(series, instanceId: instance.id)
     }
 
     var detailsTitle: some View {

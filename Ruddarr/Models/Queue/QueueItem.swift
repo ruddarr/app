@@ -260,13 +260,7 @@ enum QueueDownloadState: String, Codable {
     case ignored
 }
 
-/// Queue states surfaced as a status symbol across the app.
-///
-/// Cases are declared in ascending precedence: when a movie/series has multiple
-/// active items, the highest-precedence status wins (see `Queue.activeStatuses()`).
-/// Roughly: a state that needs attention (failed, blocked, warning) outranks
-/// active work (downloading, importing), which outranks waiting (queued, pending).
-enum QueueItemStatus: Int, Comparable {
+enum QueueItemStatus: Int, Codable, Comparable {
     case unknown
     case queued
     case importPending
@@ -295,7 +289,6 @@ enum QueueItemStatus: Int, Comparable {
         }
     }
 
-    /// Whether the symbol should pulse, reserved for states with work in flight.
     var pulses: Bool {
         switch self {
         case .downloading, .importing: true
@@ -325,5 +318,11 @@ extension QueueItem {
         case .ignored: .warning
         default: .downloading
         }
+    }
+}
+
+extension Sequence where Element == QueueItem {
+    func highestStatus(where predicate: (QueueItem) -> Bool) -> QueueItemStatus? {
+        filter(predicate).map(\.queueStatus).max()
     }
 }

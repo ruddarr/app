@@ -1,4 +1,3 @@
-import Combine
 import SwiftUI
 
 struct Loading: View {
@@ -8,9 +7,6 @@ struct Loading: View {
     }
 }
 
-/// Renders the symbol for a queue status (see `View.tracksQueueStatus`).
-/// The symbol and whether it pulses are driven by `QueueItemStatus`, so any
-/// state — including ones without a bespoke treatment — resolves to a symbol.
 struct QueueStatusIcon: View {
     var status: QueueItemStatus
     var color: Color = .secondary
@@ -27,15 +23,6 @@ struct QueueStatusIcon: View {
         } else {
             icon
         }
-    }
-}
-
-/// Standalone downloading indicator for item-level views not driven by `Queue.statuses`.
-struct Downloading: View {
-    var color: Color = .secondary
-
-    var body: some View {
-        QueueStatusIcon(status: .downloading, color: color)
     }
 }
 

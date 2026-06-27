@@ -49,19 +49,19 @@ extension MovieDetails {
             .font(.caption)
             .fontWeight(.semibold)
             .textCase(.uppercase)
-            .shimmering(active: isDownloading, color: settings.theme.tint)
+            .shimmering(active: queueStatus != nil, color: settings.theme.tint)
     }
 
     var stateLabel: String {
-        if isDownloading {
+        if queueStatus != nil {
             return String(localized: "Downloading")
         }
 
         return movie.stateLabel
     }
 
-    var isDownloading: Bool {
-        queue.isDownloading(movie, instanceId: instance.id)
+    var queueStatus: QueueItemStatus? {
+        queue.queueStatus(movie, instanceId: instance.id)
     }
 
     var detailsTitle: some View {
