@@ -149,22 +149,21 @@ struct SeriesView: View {
     }
 
     var mediaCount: some View {
-        HStack(spacing: 4) {
-            Text("\(instance.series.cachedItems.count) Series")
+        let items = instance.series.cachedItems
+        let episodes = items.reduce(0) { $0 + $1.episodeCount }
 
-            if episodeCount > 0 {
+        return HStack(spacing: 4) {
+            Text("\(items.count) Series")
+
+            if episodes > 0 {
                 Bullet()
-                Text("\(episodeCount) Episode")
+                Text("\(episodes) Episode")
             }
         }
         .font(.footnote)
         .foregroundStyle(.secondary)
         .frame(maxWidth: .infinity, alignment: .center)
         .padding(.bottom)
-    }
-
-    var episodeCount: Int {
-        instance.series.cachedItems.reduce(0) { $0 + $1.episodeCount }
     }
 
     var notConnectedToInternet: Bool {
