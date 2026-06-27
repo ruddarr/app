@@ -179,11 +179,11 @@ struct SeriesDetails: View {
     }
 
     func triggerTipIfJustAdded() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        Task {
+            try? await Task.sleep(for: .seconds(1))
+
             if series.added.timeIntervalSinceNow > -30 {
-                Task {
-                    await NoAutomaticSearchTip.mediaAdded.donate()
-                }
+                await NoAutomaticSearchTip.mediaAdded.donate()
             }
         }
     }

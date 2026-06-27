@@ -303,13 +303,8 @@ struct SeriesView: View {
 
         let startTime = Date()
 
-        func scheduleNextRun(
-            time: DispatchTime,
-            _ seriesId: Series.ID,
-            _ seasonId: Season.ID?,
-            _ episodeId: Episode.ID?
-        ) {
-            DispatchQueue.main.asyncAfter(deadline: time) {
+        Task { @MainActor in
+            while Date().timeIntervalSince(startTime) < 10 {
                 if let series = instance.series.items.first(where: { $0.id == seriesId }) {
                     dependencies.router.seriesPath = .init([
                         SeriesPath.series(series.id)
@@ -324,13 +319,9 @@ struct SeriesView: View {
                     return
                 }
 
-                if Date().timeIntervalSince(startTime) < 10 {
-                    scheduleNextRun(time: DispatchTime.now() + 0.1, seriesId, seasonId, episodeId)
-                }
+                try? await Task.sleep(for: .seconds(0.1))
             }
         }
-
-        scheduleNextRun(time: DispatchTime.now(), seriesId, seasonId, episodeId)
     }
 }
 
