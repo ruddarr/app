@@ -78,7 +78,7 @@ struct Ruddarr: App {
 }
 
 extension WhatsNew {
-    static let version: String = "1.8.4"
+    static let version: String = "2.0.0"
 
     // ----------------------------------------------------------------------------------------------⌄⌄⌄
     static let features: [WhatsNewFeature] = [
