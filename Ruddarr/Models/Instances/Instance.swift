@@ -98,8 +98,8 @@ enum InstanceMode: Codable {
 
     var value: String {
         switch self {
-        case .normal: return "normal"
-        case .slow, .large: return "slow"
+        case .normal: "normal"
+        case .slow, .large: "slow"
         }
     }
 }

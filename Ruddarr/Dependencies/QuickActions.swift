@@ -201,15 +201,15 @@ extension QuickActions.Deeplink {
     var url: URL? {
         switch self {
         case .openMovie(let id, let instance):
-            return URL(string: "ruddarr://movies/open/\(id)?instance=\(instance ?? "")")
+            URL(string: "ruddarr://movies/open/\(id)?instance=\(instance ?? "")")
         case .openSeries(let id, let instance):
-            return URL(string: "ruddarr://series/open/\(id)?instance=\(instance ?? "")")
+            URL(string: "ruddarr://series/open/\(id)?instance=\(instance ?? "")")
         case .openSeason(let id, let season, let instance):
-            return URL(string: "ruddarr://series/open/\(id)?season=\(season)&instance=\(instance ?? "")")
+            URL(string: "ruddarr://series/open/\(id)?season=\(season)&instance=\(instance ?? "")")
         case .openEpisode(let id, let season, let episode, let instance):
-            return URL(string: "ruddarr://series/open/\(id)?season=\(season)&episode=\(episode)&instance=\(instance ?? "")")
+            URL(string: "ruddarr://series/open/\(id)?season=\(season)&episode=\(episode)&instance=\(instance ?? "")")
         default:
-            return nil
+            nil
         }
     }
 }

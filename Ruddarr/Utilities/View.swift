@@ -234,11 +234,11 @@ enum NavigationBarItemTitleDisplayMode {
     var titleDisplayMode: NavigationBarItem.TitleDisplayMode {
         switch self {
         case .automatic:
-            return .automatic
+            .automatic
         case .inline:
-            return .inline
+            .inline
         case .large:
-            return .large
+            .large
         }
     }
     #endif
