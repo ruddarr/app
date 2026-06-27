@@ -283,15 +283,15 @@ enum QueueItemStatus: Int, Comparable {
 
     var systemImage: String {
         switch self {
-        case .unknown: "questionmark.circle"
-        case .queued: "clock"
-        case .importPending: "tray.and.arrow.down"
-        case .paused: "pause.circle"
         case .downloading: "arrow.down.circle"
-        case .importing: "square.and.arrow.down"
-        case .warning: "exclamationmark.circle"
-        case .importBlocked: "exclamationmark.triangle"
-        case .failed: "xmark.circle"
+        case .unknown: "waveform.path.ecg"
+        case .queued: "waveform.path.ecg"
+        case .importPending: "waveform.path.ecg"
+        case .paused: "waveform.path.ecg"
+        case .importing: "waveform.path.ecg"
+        case .warning: "waveform.path.ecg"
+        case .importBlocked: "waveform.path.ecg"
+        case .failed: "waveform.path.ecg"
         }
     }
 

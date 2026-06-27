@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
-- Display download queue status in various places, with a distinct symbol per queue state
+- Display download queue status in various places
+- Show "Downloading" instead of "Missing" on downloading episode rows
 - Switched to sheets for calendar navigation
 - Added quick look preview to media posters
 - Added "History" to sidebar on iPadOS
