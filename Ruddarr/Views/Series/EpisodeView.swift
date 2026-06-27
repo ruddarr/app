@@ -117,11 +117,8 @@ struct EpisodeView: View {
     }
 
     var stateLabel: String {
-        if queueStatus != nil {
-            return String(localized: "Downloading")
-        }
-
-        return episode.statusLabel
+        if let label = queueStatus?.label { return label }
+        return episode.stateLabel
     }
 
     var queueStatus: QueueItemStatus? {

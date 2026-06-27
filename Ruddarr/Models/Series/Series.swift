@@ -160,20 +160,22 @@ struct Series: Media, Identifiable, Equatable, Codable {
             .formattedList()
     }
 
-    var stateLabel: LocalizedStringKey {
+    var stateLabel: String {
         if isDownloaded {
-            return "Downloaded"
+            return String(localized: "Downloaded", comment: "State of media item")
         }
 
         if isWaiting {
-            return "Unreleased"
+            return String(localized: "Unreleased", comment: "State of media item")
         }
 
         if monitored && percentOfEpisodes < 100 {
-            return episodeFileCount == 0 ? "Missing" : "Missing Episodes"
+            return episodeFileCount == 0
+                ? String(localized: "Missing", comment: "State of media item")
+                : String(localized: "Missing Episodes", comment: "State of media item")
         }
 
-        return "Unwanted"
+        return String(localized: "Unwanted", comment: "State of media item")
     }
 
     var yearLabel: String {

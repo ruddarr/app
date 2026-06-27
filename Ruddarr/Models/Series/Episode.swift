@@ -65,7 +65,7 @@ struct Episode: Identifiable, Codable, Equatable {
         String(format: "%dx%02d", seasonNumber, episodeNumber)
     }
 
-    var statusLabel: String {
+    var stateLabel: String {
         if hasFile {
             return String(localized: "Downloaded", comment: "(Single word) Episode status label")
         }

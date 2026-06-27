@@ -53,11 +53,8 @@ extension SeriesDetails {
             .shimmering(active: queueStatus != nil, color: settings.theme.tint)
     }
 
-    var stateLabel: LocalizedStringKey {
-        if queueStatus != nil {
-            return "Downloading"
-        }
-
+    var stateLabel: String {
+        if let label = queueStatus?.label { return label }
         return series.stateLabel
     }
 

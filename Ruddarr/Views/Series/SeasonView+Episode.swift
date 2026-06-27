@@ -30,11 +30,11 @@ struct EpisodeRow: View {
                     if let file = episodeFile {
                         Text(file.quality.quality.normalizedName)
                             .foregroundStyle(.secondary)
-                    } else if status != nil {
-                        Text("Downloading")
+                    } else if let status {
+                        Text(status.label)
                             .foregroundStyle(.secondary)
                     } else {
-                        Text(episode.statusLabel)
+                        Text(episode.stateLabel)
                             .foregroundStyle(episodeIsMissing ? .red : .secondary)
                     }
 

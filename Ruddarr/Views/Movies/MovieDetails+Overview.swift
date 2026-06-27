@@ -53,10 +53,7 @@ extension MovieDetails {
     }
 
     var stateLabel: String {
-        if queueStatus != nil {
-            return String(localized: "Downloading")
-        }
-
+        if let label = queueStatus?.label { return label }
         return movie.stateLabel
     }
 
