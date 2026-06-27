@@ -206,11 +206,9 @@ struct SeriesView: View {
     }
 
     func updateSortDirection() {
-        switch sort.option {
-        case .byTitle:
-            sort.isAscending = true
-        default:
-            sort.isAscending = false
+        sort.isAscending = switch sort.option {
+        case .byTitle: true
+        default: false
         }
     }
 
