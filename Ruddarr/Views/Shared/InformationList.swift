@@ -89,7 +89,7 @@ struct InformationItem: Hashable {
         hasher.combine(label)
         hasher.combine(value)
 
-        if let link = link {
+        if let link {
             hasher.combine(link)
         } else {
             hasher.combine(0)

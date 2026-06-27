@@ -119,7 +119,7 @@ struct FileMediaInfo: Equatable, Codable {
     }
 
     var audioLanguageCodes: [String]? {
-        guard let languages = audioLanguages, languages.count > 0 else {
+        guard let languages = audioLanguages, !languages.isEmpty else {
             return nil
         }
 
@@ -131,7 +131,7 @@ struct FileMediaInfo: Equatable, Codable {
     }
 
     var subtitleCodes: [String]? {
-        guard let languages = subtitles, languages.count > 0 else {
+        guard let languages = subtitles, !languages.isEmpty else {
             return nil
         }
 

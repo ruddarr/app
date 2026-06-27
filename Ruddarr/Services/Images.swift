@@ -45,7 +45,7 @@ class Images {
     }
 
     static func thumbnail(_ poster: String?, _ priority: ImageRequest.Priority = .normal) async -> URL? {
-        guard let poster = poster else { return nil }
+        guard let poster else { return nil }
         guard let url = URL(string: poster) else { return nil }
 
         let pipeline = Self.shared

@@ -34,7 +34,7 @@ struct TaskImportView: View {
         .overlay {
             if isLoading {
                 Loading()
-            } else if files.count == 0 {
+            } else if files.isEmpty {
                 Text("No importable files found.")
             }
         }

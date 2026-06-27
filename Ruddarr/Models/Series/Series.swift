@@ -200,7 +200,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
     }
 
     var seasonCount: Int {
-        seasons.filter { $0.seasonNumber != 0 }.count
+        seasons.count(where: { $0.seasonNumber != 0 })
     }
 
     var episodeCount: Int {
