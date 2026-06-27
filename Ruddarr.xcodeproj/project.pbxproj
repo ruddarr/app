@@ -1260,8 +1260,8 @@
 				BB000000000000000000AAA1 /* RuddarrTests.swift in Sources */,
 				BBCEA1300000000000000002 /* DateDecodingStrategyTests.swift in Sources */,
 				BBCEA1300000000000000004 /* ChangelogParserTests.swift in Sources */,
-				FADD00000000000000000023 /* Formatters.swift in Sources */,
 				FADD00000000000000000022 /* FormatBytesTests.swift in Sources */,
+				FADD00000000000000000023 /* Formatters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

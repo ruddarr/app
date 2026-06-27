@@ -26,7 +26,7 @@ extension InstanceView {
                 parts.append(String(localized: "\(stats.episodes) Episode"))
             }
 
-            parts.append(formatBytes(stats.size))
+            parts.append(formatBytes(stats.size, adaptive: true))
         }
 
         if let version = instance.version {
@@ -52,7 +52,6 @@ extension InstanceView {
         .animation(.snappy, value: summaryParts)
     }
 
-    // Hide the whole section if the instance reports no disk locations, or the fetch failed.
     var diskSpaceUnavailable: Bool {
         switch diskSpaceState {
         case .loaded(let locations): return locations.isEmpty
@@ -69,9 +68,13 @@ extension InstanceView {
                 case .loaded(let locations):
                     ForEach(locations) { location in
                         LabeledContent {
-                            Text(verbatim: "\(formatBytes(Int(location.freeSpace))) / \(formatBytes(Int(location.totalSpace)))")
-                                .foregroundStyle(.secondary)
-                                .font(.subheadline)
+                            Text(verbatim: String(
+                                format: "%@ / %@",
+                                formatBytes(Int(clamping: location.freeSpace), adaptive: true),
+                                formatBytes(Int(clamping: location.totalSpace), adaptive: true)
+                            ))
+                            .foregroundStyle(.secondary)
+                            .font(.subheadline)
                         } label: {
                             Text(location.displayLabel)
                                 .lineLimit(2)

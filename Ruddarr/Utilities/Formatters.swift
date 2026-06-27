@@ -47,25 +47,24 @@ func formatRemainingTime(_ date: Date) -> String? {
     return formatter.string(from: seconds)
 }
 
-func formatBytes(_ bytes: Int) -> String {
-    if bytes == 0 {
-        return "0 KB"
+func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
+    let formatter = ByteCountFormatter()
+    formatter.countStyle = .file
+    formatter.isAdaptive = adaptive // bytes < 1_000_000_000
+
+    return formatter.string(fromByteCount: Int64(bytes))
+}
+
+func formatBytes(_ bytes: Float) -> String {
+    guard bytes.isFinite, bytes > 0 else {
+        return formatBytes(0)
     }
 
-    let units = ["bytes", "KB", "MB", "GB", "TB", "PB"]
-    var value = Double(bytes)
-    var unit = 0
-
-    while value >= 1_024, unit < units.count - 1 {
-        value /= 1_024
-        unit += 1
+    guard bytes < Float(Int.max) else {
+        return formatBytes(.max)
     }
 
-    if unit == 0 {
-        return "\(bytes.formatted()) \(units[unit])"
-    }
-
-    return "\(value.formatted(.number.precision(.significantDigits(3)))) \(units[unit])"
+    return formatBytes(Int(bytes))
 }
 
 func formatBitrate(_ bitrate: Int) -> String? {
