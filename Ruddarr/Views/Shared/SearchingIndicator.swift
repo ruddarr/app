@@ -18,7 +18,7 @@ struct SearchingIndicator: View {
 
     @State private var player: AVAudioPlayer?
     @State private var seconds: Int = 0
-    @State private var audioTimer: Timer?
+    @State private var fadeTask: Task<Void, Never>?
 
     @AppStorage("elevator", store: dependencies.store) var elevator: Bool = true
 
@@ -114,7 +114,7 @@ struct SearchingIndicator: View {
 
     @MainActor
     private func fadeVolume(to endVolume: Float) {
-        audioTimer?.invalidate()
+        fadeTask?.cancel()
 
         let startVolume = player?.volume ?? 0
         let duration: TimeInterval = 2
@@ -122,8 +122,12 @@ struct SearchingIndicator: View {
         let steps = duration / interval
         let volumeStep = (endVolume - startVolume) / Float(steps)
 
-        audioTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
-            MainActor.assumeIsolated {
+        fadeTask = Task { @MainActor in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(interval))
+
+                if Task.isCancelled { return }
+
                 let currentVolume = player?.volume ?? 0
                 let newVolume = currentVolume + volumeStep
 
@@ -138,10 +142,10 @@ struct SearchingIndicator: View {
                         #endif
                     }
 
-                    audioTimer?.invalidate()
-                } else {
-                    player?.volume = newVolume
+                    return
                 }
+
+                player?.volume = newVolume
             }
         }
     }
