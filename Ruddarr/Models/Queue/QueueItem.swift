@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct QueueItems: Codable {
     let page: Int
@@ -275,23 +276,26 @@ enum QueueItemStatus: Int, Codable, Comparable {
         lhs.rawValue < rhs.rawValue
     }
 
+    var label: String {
+        switch self {
+        case .downloading, .importPending: String(localized: "Downloading")
+        case .importing: String(localized: "Importing")
+        case .importBlocked: String(localized: "Import Blocked")
+        default: String(localized: "In Queue")
+        }
+    }
+
     var systemImage: String {
         switch self {
-        case .downloading: "arrow.down.circle"
-        case .unknown: "waveform.path.ecg"
-        case .queued: "waveform.path.ecg"
-        case .importPending: "waveform.path.ecg"
-        case .paused: "waveform.path.ecg"
-        case .importing: "waveform.path.ecg"
-        case .warning: "waveform.path.ecg"
-        case .importBlocked: "waveform.path.ecg"
-        case .failed: "waveform.path.ecg"
+        case .downloading, .importPending: "arrow.down.circle"
+        case .importing: "arrow.down.to.line.circle"
+        default: "waveform.path.ecg"
         }
     }
 
     var pulses: Bool {
         switch self {
-        case .downloading, .importing: true
+        case .downloading, .importPending, .importing: true
         default: false
         }
     }
