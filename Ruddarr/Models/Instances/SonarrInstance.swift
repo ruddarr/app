@@ -78,6 +78,10 @@ class SonarrInstance {
             return nil
         }
 
+        if !series.items.isEmpty {
+            instance.stats = await InstanceStats.make(series: series.items)
+        }
+
         return instance
     }
 }

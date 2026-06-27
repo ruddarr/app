@@ -244,6 +244,11 @@ extension API {
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/qualityprofile")
             return try await request(url: url, headers: instance.auth)
+        }, fetchDiskSpace: { instance in
+            let url = try instance.baseURL()
+                .appending(path: "/api/v3/diskspace")
+
+            return try await request(url: url, headers: instance.auth)
         }, getTags: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/tag")

@@ -1,7 +1,20 @@
-- Display download indicators
+### Added
+- Display download queue status in various places
 - Switched to sheets for calendar navigation
-- Added Quick Look to media posters
-- Added "Release Notes" to settings
-- Improved image loading performance
-- Improved grid filter/sort performance
-- Various improvements for iPad
+- Added quick look preview to media posters
+- Added "History" to sidebar on iPadOS
+- Display disk space usage and statistics for instances
+- Display counts below media grids
+
+### Changed
+- Animate discovery grid loading indicator
+- Improved byte formatting precision in some places
+- Improved performance of image loading
+- Debounce library search queries
+- Improved media grid sorting/filtering performance
+- Removed sidebar header on iPadOS
+- Refined sections in settings view
+
+### Fixed
+- Fixed sidebar colors on macOS 27
+- Fixed blurry discovery headline on iPadOS

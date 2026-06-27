@@ -19,6 +19,7 @@ struct Instance: Identifiable, Equatable, Codable {
 
     var name: String?
     var version: String?
+    var stats: InstanceStats?
 
     init(id: UUID = UUID()) {
         self.id = id
@@ -39,6 +40,7 @@ struct Instance: Identifiable, Equatable, Codable {
         tags = try values.decodeIfPresent([Tag].self, forKey: .tags) ?? []
         name = try values.decodeIfPresent(String.self, forKey: .name)
         version = try values.decodeIfPresent(String.self, forKey: .version)
+        stats = try values.decodeIfPresent(InstanceStats.self, forKey: .stats)
     }
 
     var auth: [String: String] {
@@ -156,6 +158,57 @@ struct InstanceRootFolder: Identifiable, Equatable, Codable, Hashable {
 struct InstanceQualityProfile: Identifiable, Equatable, Codable {
     let id: Int
     let name: String
+}
+
+struct InstanceStats: Equatable, Codable {
+    let movies: Int
+    let series: Int
+    let episodes: Int
+    let size: Int
+
+    init(movies: [Movie]) {
+        self.movies = movies.count
+        self.series = 0
+        self.episodes = 0
+        self.size = movies.reduce(0) { $0 + ($1.sizeOnDisk ?? 0) }
+    }
+
+    init(series: [Series]) {
+        self.movies = 0
+        self.series = series.count
+        self.episodes = series.reduce(0) { $0 + $1.episodeFileCount }
+        self.size = series.reduce(0) { $0 + ($1.statistics?.sizeOnDisk ?? 0) }
+    }
+
+    @concurrent static func make(movies: [Movie]) async -> Self {
+        Self(movies: movies)
+    }
+
+    @concurrent static func make(series: [Series]) async -> Self {
+        Self(series: series)
+    }
+}
+
+struct InstanceDiskSpace: Identifiable, Equatable, Codable {
+    var id: String { path }
+    let path: String
+    let label: String?
+    let freeSpace: Int64
+    let totalSpace: Int64
+
+    var displayLabel: String {
+        if let label, !label.isEmpty {
+            return label
+        }
+
+        let trimmed = path.untrailingSlashIt ?? path
+
+        return trimmed.isEmpty ? path : trimmed
+    }
+
+    var usedSpace: Int64 {
+        max(0, totalSpace - freeSpace)
+    }
 }
 
 extension Instance {

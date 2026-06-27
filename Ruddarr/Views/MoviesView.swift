@@ -40,6 +40,10 @@ struct MoviesView: View {
                         ScrollView {
                             mediaGrid
 
+                            if instance.movies.cachedItems.count > 42 {
+                                mediaCount
+                            }
+
                             if presentSearchSuggestion {
                                 MovieSearchSuggestion(query: $searchQuery, sort: $sort)
                             }
@@ -141,6 +145,16 @@ struct MoviesView: View {
         #elseif os(macOS)
             .padding(.vertical)
         #endif
+    }
+
+    var mediaCount: some View {
+        HStack(spacing: 6) {
+            Text("\(instance.movies.cachedItems.count) Movie")
+        }
+        .font(.footnote)
+        .foregroundStyle(.secondary)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.bottom)
     }
 
     var notConnectedToInternet: Bool {

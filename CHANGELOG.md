@@ -11,9 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switched to sheets for calendar navigation
 - Added quick look preview to media posters
 - Added "History" to sidebar on iPadOS
+- Display disk space usage and statistics for instances
+- Display counts below media grids
 
 ### Changed
 - Animate discovery grid loading indicator
+- Improved byte formatting precision in some places
 - Improved performance of image loading
 - Debounce library search queries
 - Improved media grid sorting/filtering performance

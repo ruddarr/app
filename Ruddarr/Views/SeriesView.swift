@@ -41,6 +41,10 @@ struct SeriesView: View {
                         ScrollView {
                             mediaGrid
 
+                            if instance.series.cachedItems.count > 42 {
+                                mediaCount
+                            }
+
                             if presentSearchSuggestion {
                                 SeriesSearchSuggestion(query: $searchQuery, sort: $sort)
                             }
@@ -142,6 +146,24 @@ struct SeriesView: View {
         #elseif os(macOS)
             .padding(.vertical)
         #endif
+    }
+
+    var mediaCount: some View {
+        let items = instance.series.cachedItems
+        let episodes = items.reduce(0) { $0 + $1.episodeCount }
+
+        return HStack(spacing: 4) {
+            Text("\(items.count) Series")
+
+            if episodes > 0 {
+                Bullet()
+                Text("\(episodes) Episode")
+            }
+        }
+        .font(.footnote)
+        .foregroundStyle(.secondary)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.bottom)
     }
 
     var notConnectedToInternet: Bool {

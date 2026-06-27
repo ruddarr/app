@@ -148,6 +148,10 @@ extension API {
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "quality-profiles")
+        }, fetchDiskSpace: { _ in
+            try await Task.sleep(for: .seconds(1))
+
+            return loadPreviewData(filename: "disk-space")
         }, getTags: { _ in
             try await Task.sleep(for: .seconds(1))
             let tags: [Tag] = loadPreviewData(filename: "tags")

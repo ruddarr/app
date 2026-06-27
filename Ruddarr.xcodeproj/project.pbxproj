@@ -39,6 +39,7 @@
 		BB0FE1132BED33A800D1D847 /* series-episode-files.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0FE1122BED33A800D1D847 /* series-episode-files.json */; };
 		BB0FE1152BED3E3700D1D847 /* MediaFileSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0FE1142BED3E3700D1D847 /* MediaFileSheet.swift */; };
 		BB1273D22D9317DB004F6E23 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1273D12D9317DB004F6E23 /* Formatters.swift */; };
+		FADD00000000000000000023 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1273D12D9317DB004F6E23 /* Formatters.swift */; };
 		BB181D6F2F48E8DF00981037 /* popular-series.json in Resources */ = {isa = PBXBuildFile; fileRef = BB181D6E2F48E8DF00981037 /* popular-series.json */; };
 		BB19BF872BE3E3E900F3E7AC /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BB19BF862BE3E3E900F3E7AC /* Settings.bundle */; };
 		BB204F592CBCE2CD00ACDC0B /* LinkContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB204F582CBCE2CA00ACDC0B /* LinkContextMenu.swift */; };
@@ -190,6 +191,7 @@
 		BBCEA1200000000000000003 /* Changelog.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCEA1200000000000000001 /* Changelog.swift */; };
 		BBCEA1300000000000000002 /* DateDecodingStrategyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCEA1300000000000000001 /* DateDecodingStrategyTests.swift */; };
 		BBCEA1300000000000000004 /* ChangelogParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCEA1300000000000000003 /* ChangelogParserTests.swift */; };
+		FADD00000000000000000022 /* FormatBytesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD00000000000000000021 /* FormatBytesTests.swift */; };
 		BBD3F2D42BFA520700DE5D8E /* series-episode-history.json in Resources */ = {isa = PBXBuildFile; fileRef = BBD3F2D32BFA520700DE5D8E /* series-episode-history.json */; };
 		BBD3F2D62BFA55FE00DE5D8E /* MediaQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F2D52BFA55FE00DE5D8E /* MediaQuality.swift */; };
 		BBD3F2D82BFA578000DE5D8E /* MediaHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD3F2D72BFA578000DE5D8E /* MediaHistory.swift */; };
@@ -240,6 +242,8 @@
 		BBFDEB842BD5B78B009F002F /* SettingsLinksSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */; };
 		BBFFB5102D72717000AB5EFD /* BugSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFFB50F2D72717000AB5EFD /* BugSheet.swift */; };
 		CE63F57516B93143FBCD1751 /* PosterQuickLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B05CB8795B8D64043875ABB /* PosterQuickLook.swift */; };
+		FADD00000000000000000004 /* InstanceView+Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD00000000000000000003 /* InstanceView+Metadata.swift */; };
+		FADD00000000000000000006 /* disk-space.json in Resources */ = {isa = PBXBuildFile; fileRef = FADD00000000000000000005 /* disk-space.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -466,6 +470,7 @@
 		BBCEA1200000000000000001 /* Changelog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changelog.swift; sourceTree = "<group>"; };
 		BBCEA1300000000000000001 /* DateDecodingStrategyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDecodingStrategyTests.swift; sourceTree = "<group>"; };
 		BBCEA1300000000000000003 /* ChangelogParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogParserTests.swift; sourceTree = "<group>"; };
+		FADD00000000000000000021 /* FormatBytesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatBytesTests.swift; sourceTree = "<group>"; };
 		BBCF001A2F0000000000AAA1 /* WhatToTest.en-US.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "WhatToTest.en-US.txt"; sourceTree = "<group>"; };
 		BBD3F2D32BFA520700DE5D8E /* series-episode-history.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "series-episode-history.json"; sourceTree = "<group>"; };
 		BBD3F2D52BFA55FE00DE5D8E /* MediaQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaQuality.swift; sourceTree = "<group>"; };
@@ -521,6 +526,8 @@
 		BBFBAD5B2BDFF5A4007B70BC /* WhatsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNew.swift; sourceTree = "<group>"; };
 		BBFDEB832BD5B78B009F002F /* SettingsLinksSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLinksSection.swift; sourceTree = "<group>"; };
 		BBFFB50F2D72717000AB5EFD /* BugSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugSheet.swift; sourceTree = "<group>"; };
+		FADD00000000000000000003 /* InstanceView+Metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InstanceView+Metadata.swift"; sourceTree = "<group>"; };
+		FADD00000000000000000005 /* disk-space.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "disk-space.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -584,6 +591,7 @@
 				BB000000000000000000AAA3 /* RuddarrTests.swift */,
 				BBCEA1300000000000000001 /* DateDecodingStrategyTests.swift */,
 				BBCEA1300000000000000003 /* ChangelogParserTests.swift */,
+				FADD00000000000000000021 /* FormatBytesTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -604,6 +612,7 @@
 				BB25DC602B62ECF700FE55A0 /* InstanceRow.swift */,
 				BBC77E232B7AAD3300573EBD /* InstanceView.swift */,
 				BB8A60292B97840F0039CFF6 /* InstanceView+Notifications.swift */,
+				FADD00000000000000000003 /* InstanceView+Metadata.swift */,
 				BB9255CD2B54657900967F84 /* InstanceEditView.swift */,
 				BBF583C52BAD0E0A00AFA7FB /* InstanceEditView+Functions.swift */,
 				BBBB08D32B77FBC700BADBA1 /* IconsView.swift */,
@@ -657,6 +666,7 @@
 			children = (
 				BBB574AF2F4CEFD1009B1DD0 /* Links.swift */,
 				BBC309D92BED7FE4004080FD /* Environment.swift */,
+				BBCEA1200000000000000001 /* Changelog.swift */,
 				BBC309D72BED584C004080FD /* Platform.swift */,
 				BB8A56782C0004D500199DB7 /* Reviews.swift */,
 				BB01B1F32B6465730025FAF4 /* View.swift */,
@@ -667,7 +677,6 @@
 				BB05C9042B86D0EC009B6444 /* Languages.swift */,
 				798010BC2B6268D200BBC056 /* RawRepresentable.swift */,
 				BB6EB88A2BF00FA900066FB4 /* DateDecodingStrategy.swift */,
-				BBCEA1200000000000000001 /* Changelog.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -945,6 +954,7 @@
 				BB6A5D372E3ABB23002E036D /* tags.json */,
 				BB8B3DF32B617FE800B80E2D /* root-folders.json */,
 				BB7602742B62027C006E5A1F /* quality-profiles.json */,
+				FADD00000000000000000005 /* disk-space.json */,
 				BB94F1BA2B7E8A190050F6A0 /* notifications.json */,
 				BBF583C12BACBE1400AFA7FB /* calendar-movies.json */,
 				BBF583C32BACBE5000AFA7FB /* calendar-episodes.json */,
@@ -1209,6 +1219,7 @@
 				BB0FE1132BED33A800D1D847 /* series-episode-files.json in Resources */,
 				BB47E17F2D8F40AC00B8850A /* ci_pre_xcodebuild.sh in Resources */,
 				BB7602752B62027C006E5A1F /* quality-profiles.json in Resources */,
+				FADD00000000000000000006 /* disk-space.json in Resources */,
 				BBF583C22BACBE1400AFA7FB /* calendar-movies.json in Resources */,
 				BB8B3DF42B617FE800B80E2D /* root-folders.json in Resources */,
 				BB19BF872BE3E3E900F3E7AC /* Settings.bundle in Resources */,
@@ -1252,6 +1263,8 @@
 				BB000000000000000000AAA1 /* RuddarrTests.swift in Sources */,
 				BBCEA1300000000000000002 /* DateDecodingStrategyTests.swift in Sources */,
 				BBCEA1300000000000000004 /* ChangelogParserTests.swift in Sources */,
+				FADD00000000000000000022 /* FormatBytesTests.swift in Sources */,
+				FADD00000000000000000023 /* Formatters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1392,6 +1405,7 @@
 				BBF94F632B508F8B00300EBA /* MovieView.swift in Sources */,
 				BBFDEB842BD5B78B009F002F /* SettingsLinksSection.swift in Sources */,
 				BB8A602A2B97840F0039CFF6 /* InstanceView+Notifications.swift in Sources */,
+				FADD00000000000000000004 /* InstanceView+Metadata.swift in Sources */,
 				BBBCA0582BE936F300BAE374 /* Season.swift in Sources */,
 				BB507D322BD99C0300EC4016 /* SeriesDetails+Overview.swift in Sources */,
 				BB9BF4182DCFFE2D00488FCA /* MediaGrid.swift in Sources */,

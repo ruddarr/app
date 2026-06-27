@@ -14,6 +14,16 @@ struct Tag: Identifiable, Equatable, Codable {
     var label: String
 }
 
+func formatTags(_ ids: [Int], tags: [Tag]) -> String {
+    guard !ids.isEmpty else {
+        return String(localized: "None")
+    }
+
+    return ids.map { id in
+        tags.first { $0.id == id }?.label ?? String(id)
+    }.joined(separator: ", ")
+}
+
 struct MediaLanguage: Equatable, Codable {
     let id: Int
     let name: String?

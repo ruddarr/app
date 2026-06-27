@@ -183,6 +183,50 @@
         }
       }
     },
+    "%lld Episode" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Episode"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Episodes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld Movie" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Movie"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Movies"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld Season" : {
       "localizations" : {
         "en" : {
@@ -220,6 +264,28 @@
                 "stringUnit" : {
                   "state" : "new",
                   "value" : "%lld Seasons"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld Series" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Series"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Series"
                 }
               }
             }
@@ -1360,6 +1426,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Discovering new ways of making you wait."
+          }
+        }
+      }
+    },
+    "Disk Space" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disk Space"
           }
         }
       }

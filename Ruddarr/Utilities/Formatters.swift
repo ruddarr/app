@@ -38,16 +38,6 @@ func formatRuntime(_ minutes: Int) -> String? {
         ?? formatter.string(from: 0)
 }
 
-func formatTags(_ ids: [Int], tags: [Tag]) -> String {
-    guard !ids.isEmpty else {
-        return String(localized: "None")
-    }
-
-    return ids.map { id in
-        tags.first { $0.id == id }?.label ?? String(id)
-    }.joined(separator: ", ")
-}
-
 func formatRemainingTime(_ date: Date) -> String? {
     let seconds = date.timeIntervalSince(Date.now)
     let formatter = DateComponentsFormatter()
@@ -60,12 +50,21 @@ func formatRemainingTime(_ date: Date) -> String? {
 func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
     let formatter = ByteCountFormatter()
     formatter.countStyle = .binary
-
-    if adaptive {
-        formatter.isAdaptive = bytes < 1_073_741_824 // 1 GB
-    }
+    formatter.isAdaptive = adaptive // bytes < 1_000_000_000
 
     return formatter.string(fromByteCount: Int64(bytes))
+}
+
+func formatBytes(_ bytes: Float) -> String {
+    guard bytes.isFinite, bytes > 0 else {
+        return formatBytes(0)
+    }
+
+    guard bytes < Float(Int.max) else {
+        return formatBytes(.max)
+    }
+
+    return formatBytes(Int(bytes))
 }
 
 func formatBitrate(_ bitrate: Int) -> String? {

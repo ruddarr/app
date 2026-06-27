@@ -187,7 +187,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
 
     var sizeLabel: String? {
         guard let bytes = statistics?.sizeOnDisk, bytes > 0 else { return nil }
-        return formatBytes(bytes)
+        return formatBytes(bytes, adaptive: true)
     }
 
     var certificationLabel: String {
