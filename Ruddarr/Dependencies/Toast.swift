@@ -59,8 +59,8 @@ extension Toast {
 
         var timeout: Duration {
             switch type {
-            case .notice: return .seconds(4)
-            case .error: return .seconds(8)
+            case .notice: .seconds(4)
+            case .error: .seconds(8)
             }
         }
     }
