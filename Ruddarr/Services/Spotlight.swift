@@ -98,7 +98,9 @@ actor Spotlight {
             unsafe crc32(0, $0.bindMemory(to: Bytef.self).baseAddress, uInt(data.count))
         }
 
-        return String(format: "%08x", checksum)
+        let hex = String(checksum, radix: 16)
+
+        return String(repeating: "0", count: max(0, 8 - hex.count)) + hex
     }
 
     func isIndexed(_ hash: String) -> Bool {
