@@ -2,8 +2,11 @@ import SwiftUI
 import Combine
 import AppIntents
 
+@MainActor
 @Observable
-class Router {
+final class Router {
+    nonisolated init() {}
+
     var selectedTab: TabItem = .movies
 
     var switchToRadarrInstance: String?
