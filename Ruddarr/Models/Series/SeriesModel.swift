@@ -42,11 +42,7 @@ class SeriesModel {
             let items = self.items
             let alternateTitles = self.alternateTitles
 
-            let sortedItems = await Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
-
-            await MainActor.run {
-                cachedItems = sortedItems
-            }
+            cachedItems = await Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
         }
     }
 
