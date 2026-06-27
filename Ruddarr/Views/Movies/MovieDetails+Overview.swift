@@ -36,14 +36,6 @@ extension MovieDetails {
         }
     }
 
-    var shrinkTitle: Bool {
-        if deviceType == .phone {
-            return movie.title.count > 25
-        }
-
-        return false
-    }
-
     var detailsState: some View {
         Text(stateLabel)
             .font(.caption)
@@ -66,7 +58,7 @@ extension MovieDetails {
 
     var detailsTitle: some View {
         Text(movie.title)
-            .font(shrinkTitle ? .title : .largeTitle)
+            .font(deviceType == .phone && movie.title.count > 25 ? .title : .largeTitle)
             .fontWeight(.bold)
             .lineLimit(3)
             .kerning(-0.5)

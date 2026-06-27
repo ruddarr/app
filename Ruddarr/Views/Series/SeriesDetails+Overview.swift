@@ -37,14 +37,6 @@ extension SeriesDetails {
         }
     }
 
-    var shrinkTitle: Bool {
-        if deviceType == .phone {
-            return series.title.count > 25
-        }
-
-        return false
-    }
-
     var detailsState: some View {
         Text(stateLabel)
             .font(.caption)
@@ -67,7 +59,7 @@ extension SeriesDetails {
 
     var detailsTitle: some View {
         Text(series.title)
-            .font(shrinkTitle ? .title : .largeTitle)
+            .font(deviceType == .phone && series.title.count > 25 ? .title : .largeTitle)
             .fontWeight(.bold)
             .lineLimit(3)
             .kerning(-0.5)
