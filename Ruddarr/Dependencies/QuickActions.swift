@@ -15,7 +15,10 @@ import Combine
 [private] ruddarr://series/open/{id}?instance={instanceIdOrName?}
 [private] ruddarr://series/open/{id}/?season={seasonId}&episode={episodeId}&instance={instanceIdOrName?}
 */
-struct QuickActions {
+@MainActor
+final class QuickActions {
+    nonisolated init() {}
+
     let moviePublisher = PassthroughSubject<Movie.ID, Never>()
     var moviePublisherPending: Movie.ID?
 
@@ -30,19 +33,19 @@ struct QuickActions {
         #endif
     }
 
-    var openCalendar: () -> Void = {
+    var openCalendar: @MainActor () -> Void = {
         dependencies.router.selectedTab = .calendar
     }
 
-    var openActivity: () -> Void = {
+    var openActivity: @MainActor () -> Void = {
         dependencies.router.selectedTab = .activity
     }
 
-    var openMovies: () -> Void = {
+    var openMovies: @MainActor () -> Void = {
         dependencies.router.selectedTab = .movies
     }
 
-    var openMovieSearch: (String) -> Void = { query in
+    var openMovieSearch: @MainActor (String) -> Void = { query in
         var searchText: String = query
 
         if let imdb = extractImdbId(query) {
@@ -61,15 +64,17 @@ struct QuickActions {
         dependencies.quickActions.moviePublisherPending = id
 
         dependencies.quickActions.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-            if let id = dependencies.quickActions.moviePublisherPending {
-                dependencies.quickActions.moviePublisher.send(id)
-            } else {
-                dependencies.quickActions.clearTimer()
+            MainActor.assumeIsolated {
+                if let id = dependencies.quickActions.moviePublisherPending {
+                    dependencies.quickActions.moviePublisher.send(id)
+                } else {
+                    dependencies.quickActions.clearTimer()
+                }
             }
         }
     }
 
-    var openSeriesSearch: (String) -> Void = { query in
+    var openSeriesSearch: @MainActor (String) -> Void = { query in
         var searchText: String = query
 
         if let imdb = extractImdbId(query) {
@@ -88,10 +93,12 @@ struct QuickActions {
         dependencies.quickActions.seriesPublisherPending = (id, season, episode)
 
         dependencies.quickActions.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-            if let ids = dependencies.quickActions.seriesPublisherPending {
-                dependencies.quickActions.seriesPublisher.send(ids)
-            } else {
-                dependencies.quickActions.clearTimer()
+            MainActor.assumeIsolated {
+                if let ids = dependencies.quickActions.seriesPublisherPending {
+                    dependencies.quickActions.seriesPublisher.send(ids)
+                } else {
+                    dependencies.quickActions.clearTimer()
+                }
             }
         }
     }
@@ -118,6 +125,7 @@ extension QuickActions {
         case openEpisode(_ id: Series.ID, _ season: Season.ID, _ episode: Episode.ID, _ instance: String?)
         case addSeries(_ query: String = "")
 
+        @MainActor
         func callAsFunction() {
             switch self {
             case .openApp:
@@ -234,6 +242,7 @@ extension QuickActions {
             }
         }
 
+        @MainActor
         func callAsFunction() {
             switch self {
             case .addMovie: dependencies.quickActions.openMovieSearch("")
