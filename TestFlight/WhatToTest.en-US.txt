@@ -8,6 +8,7 @@
 
 ### Changed
 - Animate discovery grid loading indicator
+- Improved byte formatting precision in some places
 - Improved performance of image loading
 - Debounce library search queries
 - Improved media grid sorting/filtering performance
