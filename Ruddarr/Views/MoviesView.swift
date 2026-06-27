@@ -294,20 +294,16 @@ struct MoviesView: View {
 
         let startTime = Date()
 
-        func scheduleNextRun(time: DispatchTime, id: Movie.ID) {
-            DispatchQueue.main.asyncAfter(deadline: time) {
+        Task { @MainActor in
+            while Date().timeIntervalSince(startTime) < 10 {
                 if let movie = instance.movies.items.first(where: { $0.id == id }) {
                     dependencies.router.moviesPath = .init([MoviesPath.movie(movie.id)])
                     return
                 }
 
-                if Date().timeIntervalSince(startTime) < 10 {
-                    scheduleNextRun(time: DispatchTime.now() + 0.1, id: id)
-                }
+                try? await Task.sleep(for: .seconds(0.1))
             }
         }
-
-        scheduleNextRun(time: DispatchTime.now(), id: id)
     }
 }
 
