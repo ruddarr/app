@@ -12,7 +12,7 @@ enum QueueKey: Hashable {
 class Queue {
     static let shared = Queue()
 
-    private var timer: Timer?
+    private var pollingTask: Task<Void, Never>?
 
     var error: API.Error?
 
@@ -29,13 +29,15 @@ class Queue {
     private init() {
         let interval: TimeInterval = isRunningIn(.preview) ? 30 : 5
 
-        self.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
-            Task {
-                await self.fetchTasks()
-            }
+        pollingTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(interval))
 
-            Task {
-                if await self.performRefresh {
+                guard let self else { return }
+
+                await self.fetchTasks()
+
+                if self.performRefresh {
                     await self.refreshDownloadClients()
                 }
             }
@@ -48,17 +50,25 @@ class Queue {
         error = nil
         isLoading = true
 
-        for instance in instances {
-            do {
-                items[instance.id] = try await dependencies.api.fetchQueueTasks(instance).records
-            } catch is CancellationError {
-                // do nothing
-            } catch let apiError as API.Error {
-                error = apiError
+        await withThrowingTaskGroup(of: (Instance.ID, [QueueItem]).self) { group in
+            for instance in instances {
+                group.addTask {
+                    (instance.id, try await dependencies.api.fetchQueueTasks(instance).records)
+                }
+            }
 
-                leaveBreadcrumb(.error, category: "queue", message: "Fetch failed", data: ["error": apiError])
-            } catch {
-                self.error = API.Error(from: error)
+            while let result = await group.nextResult() {
+                switch result {
+                case .success(let (instanceId, records)):
+                    items[instanceId] = records
+                case .failure(is CancellationError):
+                    break
+                case .failure(let apiError as API.Error):
+                    error = apiError
+                    // leaveBreadcrumb(.error, category: "queue", message: "Fetch failed", data: ["error": apiError])
+                case .failure(let otherError):
+                    error = API.Error(from: otherError)
+                }
             }
         }
 
