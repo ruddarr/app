@@ -145,6 +145,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 @discardableResult
+@MainActor
 private func handleShortcutItem(_ item: UIApplicationShortcutItem) -> Bool {
     guard let action = QuickActions.ShortcutItem(shortcutItem: item) else {
         return false

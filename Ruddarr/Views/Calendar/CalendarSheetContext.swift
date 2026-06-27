@@ -13,6 +13,7 @@ enum CalendarSelection: Identifiable {
         }
     }
 
+    @MainActor
     func jumpToTab() {
         guard let deeplink else { return }
         try? QuickActions.Deeplink(url: deeplink)()
