@@ -132,8 +132,7 @@ class Images {
         Insecure.SHA1
             .hash(data: Data(value.utf8))
             .prefix(Insecure.SHA1.byteCount)
-            .map { String(format: "%02hhx", $0) }
-            .joined()
+            .hexEncoded()
     }
 }
 
