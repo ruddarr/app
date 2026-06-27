@@ -143,11 +143,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         performActionFor shortcutItem: UIApplicationShortcutItem,
         completionHandler: @escaping (Bool) -> Void
     ) {
-        handleShortcutItem(shortcutItem)
+        completionHandler(handleShortcutItem(shortcutItem))
     }
 }
 
-private func handleShortcutItem(_ item: UIApplicationShortcutItem) {
-    QuickActions.ShortcutItem(shortcutItem: item)?()
+@discardableResult
+private func handleShortcutItem(_ item: UIApplicationShortcutItem) -> Bool {
+    guard let action = QuickActions.ShortcutItem(shortcutItem: item) else {
+        return false
+    }
+
+    action()
+
+    return true
 }
 #endif
