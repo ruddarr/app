@@ -81,16 +81,13 @@ class AppDelegate:
     // Called after a notification was tapped
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse,
-        withCompletionHandler completionHandler: @escaping () -> Void
-    ) {
+        didReceive response: UNNotificationResponse
+    ) async {
         let payload = response.notification.request.content.userInfo
 
         if let deeplink = payload["deeplink"] as? String, let url = URL(string: deeplink) {
-            UIApplication.shared.open(url)
+            _ = await UIApplication.shared.open(url)
         }
-
-        completionHandler()
     }
 
     func configureSentry() {
