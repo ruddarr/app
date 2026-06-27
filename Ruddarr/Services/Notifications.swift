@@ -147,33 +147,33 @@ actor Notifications {
 // swiftlint:disable closure_body_length file_length
 #Preview {
     let ruddarrTest = [
-        String(format: localized("NOTIFICATION_TEST")),
-        String(format: localized("NOTIFICATION_TEST_BODY")),
+        localized("NOTIFICATION_TEST"),
+        localized("NOTIFICATION_TEST_BODY"),
     ]
 
     let applicationUpdate = [
-        String(format: localized("NOTIFICATION_APPLICATION_UPDATE"), "Synology"),
+        localized("NOTIFICATION_APPLICATION_UPDATE", "Synology"),
         "{payload.message}",
     ]
 
     let health = [
-        String(format: localized("NOTIFICATION_HEALTH"), "Synology"),
+        localized("NOTIFICATION_HEALTH", "Synology"),
         "{payload.message}",
     ]
 
     let healthRestored = [
-        String(format: localized("NOTIFICATION_HEALTH_RESTORED"), "Synology"),
+        localized("NOTIFICATION_HEALTH_RESTORED", "Synology"),
         "{payload.message}",
     ]
 
     let manualInteractionRequired = [
-        String(format: localized("NOTIFICATION_MANUAL_INTERACTION_REQUIRED"), "Synology"),
+        localized("NOTIFICATION_MANUAL_INTERACTION_REQUIRED", "Synology"),
         "{payload.downloadInfo.title}",
         "{payload.downloadStatusMessages[0].title}",
     ]
 
-    func localized(_ key: String) -> String {
-        NSLocalizedString(key, comment: "")
+    func localized(_ key: String, _ args: any CVarArg...) -> String {
+        unsafe String(format: NSLocalizedString(key, comment: ""), arguments: args)
     }
 
     @ViewBuilder
@@ -223,44 +223,44 @@ actor Notifications {
 
 #Preview("Movie") {
     let movieAdded = [
-        String(format: localized("NOTIFICATION_MOVIE_ADDED"), "Synology"),
-        String(format: localized("NOTIFICATION_MOVIE_ADDED_BODY"), "Joker", "2024"),
+        localized("NOTIFICATION_MOVIE_ADDED", "Synology"),
+        localized("NOTIFICATION_MOVIE_ADDED_BODY", "Joker", "2024"),
     ]
 
     let movieGrab = [
-        String(format: localized("NOTIFICATION_MOVIE_GRAB"), "Synology"),
-        String(format: localized("NOTIFICATION_MOVIE_GRAB_SUBTITLE"), "Joker", "2024"),
-        String(format: localized("NOTIFICATION_MOVIE_GRAB_BODY"), "WEBDL-1080p", "BHD"),
+        localized("NOTIFICATION_MOVIE_GRAB", "Synology"),
+        localized("NOTIFICATION_MOVIE_GRAB_SUBTITLE", "Joker", "2024"),
+        localized("NOTIFICATION_MOVIE_GRAB_BODY", "WEBDL-1080p", "BHD"),
     ]
 
     let movieDownload = [
-        String(format: localized("NOTIFICATION_MOVIE_DOWNLOAD"), "Synology"),
-        String(format: localized("NOTIFICATION_MOVIE_DOWNLOAD_BODY"), "Joker", "2024"),
+        localized("NOTIFICATION_MOVIE_DOWNLOAD", "Synology"),
+        localized("NOTIFICATION_MOVIE_DOWNLOAD_BODY", "Joker", "2024"),
     ]
 
     let movieUpgrade = [
-        String(format: localized("NOTIFICATION_MOVIE_UPGRADE"), "Synology"),
-        String(format: localized("NOTIFICATION_MOVIE_UPGRADE_SUBTITLE"), "Joker", "2024"),
-        String(format: localized("NOTIFICATION_MOVIE_UPGRADE_BODY"), "SDTV", "WEBDL-2160p"),
+        localized("NOTIFICATION_MOVIE_UPGRADE", "Synology"),
+        localized("NOTIFICATION_MOVIE_UPGRADE_SUBTITLE", "Joker", "2024"),
+        localized("NOTIFICATION_MOVIE_UPGRADE_BODY", "SDTV", "WEBDL-2160p"),
     ]
 
     let movieDowngrade = [
-        String(format: localized("NOTIFICATION_MOVIE_DOWNGRADE"), "Synology"),
-        String(format: localized("NOTIFICATION_MOVIE_DOWNGRADE_BODY"), "WEBDL-2160p", "SDTV"),
+        localized("NOTIFICATION_MOVIE_DOWNGRADE", "Synology"),
+        localized("NOTIFICATION_MOVIE_DOWNGRADE_BODY", "WEBDL-2160p", "SDTV"),
     ]
 
     let movieDeleted = [
-        String(format: localized("NOTIFICATION_MOVIE_DELETED"), "Synology"),
-        String(format: localized("NOTIFICATION_MOVIE_DELETED_BODY"), "Joker", "2024"),
+        localized("NOTIFICATION_MOVIE_DELETED", "Synology"),
+        localized("NOTIFICATION_MOVIE_DELETED_BODY", "Joker", "2024"),
     ]
 
     let movieFileDeleted = [
-        String(format: localized("NOTIFICATION_MOVIE_FILE_DELETED"), "Synology"),
-        String(format: localized("NOTIFICATION_MOVIE_FILE_DELETED_BODY"), "Joker", "2024"),
+        localized("NOTIFICATION_MOVIE_FILE_DELETED", "Synology"),
+        localized("NOTIFICATION_MOVIE_FILE_DELETED_BODY", "Joker", "2024"),
     ]
 
-    func localized(_ key: String) -> String {
-        NSLocalizedString(key, comment: "")
+    func localized(_ key: String, _ args: any CVarArg...) -> String {
+        unsafe String(format: NSLocalizedString(key, comment: ""), arguments: args)
     }
 
     @ViewBuilder
@@ -318,55 +318,55 @@ actor Notifications {
 
 #Preview("Series") {
     let seriesAdd = [
-        String(format: localized("NOTIFICATION_SERIES_ADDED"), "Synology"),
-        String(format: localized("NOTIFICATION_SERIES_ADDED_BODY"), "Patriot", "2015"),
+        localized("NOTIFICATION_SERIES_ADDED", "Synology"),
+        localized("NOTIFICATION_SERIES_ADDED_BODY", "Patriot", "2015"),
     ]
 
     let seriesDelete = [
-        String(format: localized("NOTIFICATION_SERIES_DELETED"), "Synology"),
-        String(format: localized("NOTIFICATION_SERIES_DELETED_BODY"), "Patriot", "2015"),
+        localized("NOTIFICATION_SERIES_DELETED", "Synology"),
+        localized("NOTIFICATION_SERIES_DELETED_BODY", "Patriot", "2015"),
     ]
 
     let episodeGrab = [
-        String(format: localized("NOTIFICATION_EPISODE_GRAB"), "Synology", "1"),
-        String(format: localized("NOTIFICATION_EPISODE_GRAB_SUBTITLE"), "Patriot", "2", "8"),
-        String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "WEBDL-1080p", "BHD"),
+        localized("NOTIFICATION_EPISODE_GRAB", "Synology", "1"),
+        localized("NOTIFICATION_EPISODE_GRAB_SUBTITLE", "Patriot", "2", "8"),
+        localized("NOTIFICATION_EPISODES_GRAB_BODY", "WEBDL-1080p", "BHD"),
     ]
 
     let episodesGrab = [
-        String(format: localized("NOTIFICATION_EPISODES_GRAB"), "Synology", "8"),
-        String(format: localized("NOTIFICATION_EPISODES_GRAB_SUBTITLE"), "Patriot", "2"),
-        String(format: localized("NOTIFICATION_EPISODES_GRAB_BODY"), "WEBDL-1080p", "BHD"),
+        localized("NOTIFICATION_EPISODES_GRAB", "Synology", "8"),
+        localized("NOTIFICATION_EPISODES_GRAB_SUBTITLE", "Patriot", "2"),
+        localized("NOTIFICATION_EPISODES_GRAB_BODY", "WEBDL-1080p", "BHD"),
     ]
 
     let episodeDownload = [
-        String(format: localized("NOTIFICATION_EPISODE_DOWNLOAD"), "Synology"),
-        String(format: localized("NOTIFICATION_EPISODE_DOWNLOAD_BODY"), "Patriot", "2", "8"),
+        localized("NOTIFICATION_EPISODE_DOWNLOAD", "Synology"),
+        localized("NOTIFICATION_EPISODE_DOWNLOAD_BODY", "Patriot", "2", "8"),
     ]
 
     let episodesDownload = [
-        String(format: localized("NOTIFICATION_EPISODES_DOWNLOAD"), "Synology", "8"),
-        String(format: localized("NOTIFICATION_EPISODES_DOWNLOAD_BODY"), "Patriot", "2"),
+        localized("NOTIFICATION_EPISODES_DOWNLOAD", "Synology", "8"),
+        localized("NOTIFICATION_EPISODES_DOWNLOAD_BODY", "Patriot", "2"),
     ]
 
     let episodeUpgrade = [
-        String(format: localized("NOTIFICATION_EPISODE_UPGRADE"), "Synology"),
-        String(format: localized("NOTIFICATION_EPISODE_UPGRADE_SUBTITLE"), "Patriot", "2", "8"),
-        String(format: localized("NOTIFICATION_EPISODE_UPGRADE_BODY"), "SDTV", "WEBDL-2160p"),
+        localized("NOTIFICATION_EPISODE_UPGRADE", "Synology"),
+        localized("NOTIFICATION_EPISODE_UPGRADE_SUBTITLE", "Patriot", "2", "8"),
+        localized("NOTIFICATION_EPISODE_UPGRADE_BODY", "SDTV", "WEBDL-2160p"),
     ]
 
     let episodeDowngrade = [
-        String(format: localized("NOTIFICATION_EPISODE_DOWNGRADE"), "Synology"),
-        String(format: localized("NOTIFICATION_EPISODE_DOWNGRADE_BODY"), "WEBDL-2160p", "SDTV"),
+        localized("NOTIFICATION_EPISODE_DOWNGRADE", "Synology"),
+        localized("NOTIFICATION_EPISODE_DOWNGRADE_BODY", "WEBDL-2160p", "SDTV"),
     ]
 
     let episodeFileDelete = [
-        String(format: localized("NOTIFICATION_EPISODE_FILE_DELETED"), "Synology"),
-        String(format: localized("NOTIFICATION_EPISODE_FILE_DELETED_BODY"), "Patriot", "2", "8"),
+        localized("NOTIFICATION_EPISODE_FILE_DELETED", "Synology"),
+        localized("NOTIFICATION_EPISODE_FILE_DELETED_BODY", "Patriot", "2", "8"),
     ]
 
-    func localized(_ key: String) -> String {
-        NSLocalizedString(key, comment: "")
+    func localized(_ key: String, _ args: any CVarArg...) -> String {
+        unsafe String(format: NSLocalizedString(key, comment: ""), arguments: args)
     }
 
     @ViewBuilder
