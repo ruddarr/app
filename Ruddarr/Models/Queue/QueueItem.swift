@@ -1,5 +1,4 @@
 import Foundation
-import SwiftUI
 
 struct QueueItems: Codable {
     let page: Int
@@ -278,10 +277,10 @@ enum QueueItemStatus: Int, Codable, Comparable {
 
     var label: String {
         switch self {
-        case .downloading, .importPending: String(localized: "Downloading")
-        case .importing: String(localized: "Importing")
-        case .importBlocked: String(localized: "Import Blocked")
-        default: String(localized: "In Queue")
+        case .downloading, .importPending: String(localized: "Downloading", comment: "(Short) State of task in queue")
+        case .importing: String(localized: "Importing", comment: "(Short) State of task in queue")
+        case .importBlocked: String(localized: "Import Blocked", comment: "(Short) State of task in queue")
+        default: String(localized: "In Queue", comment: "(Short) State of task in queue")
         }
     }
 

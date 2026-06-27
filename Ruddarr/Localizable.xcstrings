@@ -2220,6 +2220,16 @@
         }
       }
     },
+    "In Queue" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Queue"
+          }
+        }
+      }
+    },
     "Inactive" : {
       "comment" : "Status of the app subscription",
       "localizations" : {
@@ -2697,7 +2707,7 @@
       }
     },
     "Missing Episodes" : {
-      "comment" : "Series monitoring option",
+      "comment" : "Series monitoring option\nState of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {

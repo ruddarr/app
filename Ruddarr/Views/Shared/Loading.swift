@@ -17,6 +17,7 @@ struct QueueStatusIcon: View {
         let icon = Image(systemName: status.systemImage)
             .symbolRenderingMode(.palette)
             .foregroundStyle(settings.theme.tint, color)
+            .accessibilityLabel(status.label)
 
         if status.pulses {
             icon.symbolEffect(.pulse.byLayer, options: .repeat(.periodic(delay: 0.5)))
