@@ -27,7 +27,7 @@ class AppDelegateMac:
         _ application: NSApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
     ) {
-        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        let token = deviceToken.hexEncoded()
 
         Task {
             await Notifications.registerDevice(token)
