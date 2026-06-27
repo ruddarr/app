@@ -205,6 +205,7 @@
 		BBD5D8122C014538008E3B3F /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD5D8112C014538008E3B3F /* Queue.swift */; };
 		BBDA77612BDACD3C00568E64 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = BBDA77602BDACD3C00568E64 /* NukeUI */; };
 		BBDBBC692C13A0600087C844 /* QueueSort.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDBBC682C13A0600087C844 /* QueueSort.swift */; };
+		BBDE5701DE57DE57DE571A0F /* Destinations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDE5700DE57DE57DE571A0F /* Destinations.swift */; };
 		BBE1068B2D84F0E0007CB2D9 /* SettingsDisplaySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1068A2D84F0E0007CB2D9 /* SettingsDisplaySection.swift */; };
 		BBE1068D2D84FC8D007CB2D9 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1068C2D84FC8D007CB2D9 /* Events.swift */; };
 		BBE1E43F2B51F61700946222 /* MovieLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE1E43E2B51F61700946222 /* MovieLookup.swift */; };
@@ -483,6 +484,7 @@
 		BBD5D80F2C013E30008E3B3F /* movie-queue.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "movie-queue.json"; sourceTree = "<group>"; };
 		BBD5D8112C014538008E3B3F /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		BBDBBC682C13A0600087C844 /* QueueSort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueSort.swift; sourceTree = "<group>"; };
+		BBDE5700DE57DE57DE571A0F /* Destinations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destinations.swift; sourceTree = "<group>"; };
 		BBE1068A2D84F0E0007CB2D9 /* SettingsDisplaySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisplaySection.swift; sourceTree = "<group>"; };
 		BBE1068C2D84FC8D007CB2D9 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		BBE1E43E2B51F61700946222 /* MovieLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieLookup.swift; sourceTree = "<group>"; };
@@ -994,6 +996,7 @@
 				BBC45B942B57078400AB258F /* Shared */,
 				BB2250F12BEE87D7009EAA6B /* ContentView.swift */,
 				BB92AE312F24495B0048FC16 /* ContentViewMac.swift */,
+				BBDE5700DE57DE57DE571A0F /* Destinations.swift */,
 				BBE828672B4F320F00C1E1D9 /* MoviesView.swift */,
 				BBE828692B4F325400C1E1D9 /* SeriesView.swift */,
 				BBD5D80D2C0135F9008E3B3F /* ActivityView.swift */,
@@ -1316,6 +1319,7 @@
 				796C766D2B62A3B700EF3DB8 /* Store.swift in Sources */,
 				BBFB1F8B2B782D1000181233 /* SettingsPreferencesSection.swift in Sources */,
 				BB507D262BD9718F00EC4016 /* SeriesLookup.swift in Sources */,
+				BBDE5701DE57DE57DE571A0F /* Destinations.swift in Sources */,
 				BBE828682B4F320F00C1E1D9 /* MoviesView.swift in Sources */,
 				BB351D7E2CB4A7CF002AAEBF /* SeriesLinks.swift in Sources */,
 				BBE640D32BE4554500B436CC /* SeasonView.swift in Sources */,
@@ -1527,7 +1531,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.4;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1564,7 +1568,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.4;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr.notifications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1746,7 +1750,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.4;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1812,7 +1816,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 1.8.4;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ruddarr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

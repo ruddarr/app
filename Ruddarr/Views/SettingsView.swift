@@ -128,42 +128,7 @@ struct SettingsView: View {
     }
 }
 
-struct SettingsDestination: View {
-    var path: SettingsView.Path
 
-    @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) private var radarrInstance
-    @Environment(SonarrInstance.self) private var sonarrInstance
-
-    var body: some View {
-        switch path {
-        case .icons:
-            IconsView()
-                .environmentObject(settings)
-        case .changelog:
-            ChangelogView()
-        case .createInstance:
-            InstanceEditView(mode: .create, instance: Instance())
-                .environment(radarrInstance)
-                .environment(sonarrInstance)
-                .environmentObject(settings)
-        case .viewInstance(let instanceId):
-            if let instance = settings.instanceById(instanceId) {
-                InstanceView(instance: instance)
-                    .environment(radarrInstance)
-                    .environment(sonarrInstance)
-                    .environmentObject(settings)
-            }
-        case .editInstance(let instanceId):
-            if let instance = settings.instanceById(instanceId) {
-                InstanceEditView(mode: .update, instance: instance)
-                    .environment(radarrInstance)
-                    .environment(sonarrInstance)
-                    .environmentObject(settings)
-            }
-        }
-    }
-}
 
 #Preview {
     dependencies.router.selectedTab = .settings

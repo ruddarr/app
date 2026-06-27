@@ -116,7 +116,7 @@ class Images {
             .map {
                 $0.components(separatedBy: illegal)
                     .joined(separator: " ")
-                    .replacingOccurrences(of: "  ", with: " ")
+                    .replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
                     .trimmingCharacters(in: .whitespaces)
             }
             .flatMap { $0.isEmpty ? nil : $0 }
