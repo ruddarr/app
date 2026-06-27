@@ -76,7 +76,7 @@ class RadarrInstance {
         }
 
         if !movies.items.isEmpty {
-            instance.stats = InstanceStats(movies: movies.items)
+            instance.stats = await InstanceStats.make(movies: movies.items)
         }
 
         return instance

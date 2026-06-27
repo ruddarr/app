@@ -133,12 +133,12 @@ extension InstanceView {
 
     func loadLibrary() async {
         if instance.type == .radarr, radarrInstance.id == instance.id, !radarrInstance.movies.items.isEmpty {
-            libraryState = .loaded(InstanceStats(movies: radarrInstance.movies.items))
+            libraryState = .loaded(await InstanceStats.make(movies: radarrInstance.movies.items))
             return
         }
 
         if instance.type == .sonarr, sonarrInstance.id == instance.id, !sonarrInstance.series.items.isEmpty {
-            libraryState = .loaded(InstanceStats(series: sonarrInstance.series.items))
+            libraryState = .loaded(await InstanceStats.make(series: sonarrInstance.series.items))
             return
         }
 
