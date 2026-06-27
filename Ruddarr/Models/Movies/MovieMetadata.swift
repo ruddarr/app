@@ -44,8 +44,11 @@ class MovieMetadata {
         filesError = false
 
         do {
-            files = try await dependencies.api.getMovieFiles(movie.id, instance)
-            extraFiles = try await dependencies.api.getMovieExtraFiles(movie.id, instance)
+            async let filesResult = dependencies.api.getMovieFiles(movie.id, instance)
+            async let extraFilesResult = dependencies.api.getMovieExtraFiles(movie.id, instance)
+
+            files = try await filesResult
+            extraFiles = try await extraFilesResult
         } catch is CancellationError {
             // do nothing
         } catch {
@@ -76,8 +79,11 @@ class MovieMetadata {
 
     func refresh(for movie: Movie) async {
         do {
-            files = try await dependencies.api.getMovieFiles(movie.id, instance)
-            extraFiles = try await dependencies.api.getMovieExtraFiles(movie.id, instance)
+            async let filesResult = dependencies.api.getMovieFiles(movie.id, instance)
+            async let extraFilesResult = dependencies.api.getMovieExtraFiles(movie.id, instance)
+
+            files = try await filesResult
+            extraFiles = try await extraFilesResult
         } catch is CancellationError {
             // do nothing
         } catch {
