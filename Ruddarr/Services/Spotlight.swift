@@ -94,8 +94,8 @@ actor Spotlight {
         let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String  ?? "0"
         let data = Data("\(build):\(string)".utf8)
 
-        let checksum = data.withUnsafeBytes {
-            crc32(0, $0.bindMemory(to: Bytef.self).baseAddress, uInt(data.count))
+        let checksum = unsafe data.withUnsafeBytes {
+            unsafe crc32(0, $0.bindMemory(to: Bytef.self).baseAddress, uInt(data.count))
         }
 
         return String(format: "%08x", checksum)
