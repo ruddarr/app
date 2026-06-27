@@ -98,6 +98,11 @@ extension WhatsNew {
             subtitle: "Tap on media posters to preview it in full size using Quick Look."
         ),
         .init(
+            image: "internaldrive",
+            title: "Instance Details",
+            subtitle: "View library statistics and disk space usage for each instances."
+        ),
+        .init(
             image: "bolt",
             title: "Performance",
             subtitle: "Improved image loading as well as grid filtering and sorting performance."

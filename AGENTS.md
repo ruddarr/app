@@ -9,17 +9,11 @@ Guidance for AI agents working in this repository.
 
 ## Ground rules
 
-1. **Ask, don't assume.** If something is unclear, ask before writing a single
-   line. Never make silent assumptions about intent, architecture, or requirements.
-2. **Simplest solution first.** Always implement the simplest thing that could
-   work. Do not add abstractions or flexibility that weren't explicitly requested.
-3. **Don't touch unrelated code.** If a file or function is not directly part of
-   the current task, do not modify it, even if you think it could be improved.
-4. **Flag uncertainty explicitly.** If you are not confident about an approach or
-   technical detail, say so before proceeding. Confidence without certainty causes
-   more damage than admitting a gap.
-5. **I'm always open to ideas on better ways to do things.** Don't hesitate to
-   suggest a better way, or one that has long-lasting impact over a tactical change.
+1. **Ask, don't assume.** If something is unclear, ask before writing a single line. Never make silent assumptions about intent, architecture, or requirements.
+2. **Simplest solution first.** Always implement the simplest thing that could work. Do not add abstractions or flexibility that weren't explicitly requested.
+3. **Don't touch unrelated code.** If a file or function is not directly part of the current task, do not modify it, even if you think it could be improved.
+4. **Flag uncertainty explicitly.** If you are not confident about an approach or technical detail, say so before proceeding. Confidence without certainty causes more damage than admitting a gap.
+5. **I'm always open to ideas on better ways to do things.** Don't hesitate to suggest a better way, or one that has long-lasting impact over a tactical change.
 
 ## Conventions
 
@@ -28,7 +22,7 @@ Guidance for AI agents working in this repository.
 - Respect the existing SwiftLint configuration in `.swiftlint.yml`. Do not introduce a separate formatting style.
 - Preserve `.xcstrings` string catalog structure. Be careful with generated or Crowdin-managed localization data.
 - Use existing preview fixtures in `Ruddarr/Preview Content` before adding new mock data.
-- **User-facing changes must add a `TestFlight/WhatToTest.en-US.txt` entry**. Every change must be documented in `CHANGELOG.md`.
+- **User-facing changes must add a `CHANGELOG.md` entry under `Unreleased`**. The `TestFlight/WhatToTest.en-US.txt` file should match `Unreleased`.
 
 ## Build and test
 

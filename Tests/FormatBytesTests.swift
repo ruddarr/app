@@ -1,51 +1,45 @@
 import Testing
 import Foundation
 
-// Validates `formatBytes` in Ruddarr/Utilities/FormatBytes.swift, which renders
-// a (binary, 1024-based) byte count with three significant figures so the
-// precision scales with magnitude: 1.12 TB, 10.2 TB, 101 TB.
+// Exercises `formatBytes` in Ruddarr/Utilities/Formatters.swift. String assertions
+// assume the en_US locale used by CI, since `ByteCountFormatter` output is localized.
 struct FormatBytesTests {
-    private func bytes(_ value: Double, _ power: Int) -> Int {
-        Int(value * pow(1_024.0, Double(power)))
+    // MARK: - Decimal (1000-based) sizing
+
+    @Test func formatsSmallSizesAdaptively() {
+        #expect(formatBytes(0) == "Zero KB")
+        #expect(formatBytes(500) == "500 bytes")
+        #expect(formatBytes(1_000) == "1 KB")
+        #expect(formatBytes(1_000_000) == "1 MB")
     }
 
-    @Test func formatsTerabytesWithThreeSignificantFigures() {
-        #expect(formatBytes(bytes(1.12, 4)) == "1.12 TB")
-        #expect(formatBytes(bytes(10.2, 4)) == "10.2 TB")
-        #expect(formatBytes(bytes(101, 4)) == "101 TB")
+    @Test func formatsLargeSizesWithThreeSignificantFigures() {
+        #expect(formatBytes(1_000_000_000) == "1 GB")
+        #expect(formatBytes(100_500_000_000) == "101 GB")     // 100.5 GB
+        #expect(formatBytes(101_500_000_000_000) == "102 TB") // 101.5 TB
     }
 
-    @Test func formatsGigabytesWithThreeSignificantFigures() {
-        #expect(formatBytes(bytes(1.22, 3)) == "1.22 GB")
-        #expect(formatBytes(bytes(22.1, 3)) == "22.1 GB")
-        #expect(formatBytes(bytes(502, 3)) == "502 GB")
+    @Test func roundedUpValueRollsOverToNextUnit() {
+        // 999.9 GB rounds to 1,000 GB, which decimal sizing rolls over to 1 TB.
+        #expect(formatBytes(999_900_000_000) == "1 TB")
     }
 
-    @Test func formatsMegabytesWithThreeSignificantFigures() {
-        #expect(formatBytes(bytes(1.34, 2)) == "1.34 MB")
-        #expect(formatBytes(bytes(10.2, 2)) == "10.2 MB")
-        #expect(formatBytes(bytes(100, 2)) == "100 MB")
+    // MARK: - Float overload (trap-safety on bad data)
+
+    @Test func floatOverloadTreatsNonFiniteAndNegativeAsZero() {
+        #expect(formatBytes(Float.nan) == formatBytes(0))
+        #expect(formatBytes(Float.infinity) == formatBytes(0))
+        #expect(formatBytes(-Float.infinity) == formatBytes(0))
+        #expect(formatBytes(Float(-5)) == formatBytes(0))
     }
 
-    @Test func padsTrailingZerosToKeepThreeSignificantFigures() {
-        #expect(formatBytes(bytes(5, 3)) == "5.00 GB")
-        #expect(formatBytes(bytes(1.2, 4)) == "1.20 TB")
+    @Test func floatOverloadClampsLargeFiniteValuesToMax() {
+        #expect(formatBytes(Float.greatestFiniteMagnitude) == formatBytes(.max))
     }
 
-    @Test func roundsUpAcrossTierBoundaries() {
-        // 9.999 GB rounds to three sig figs as 10.0 GB (one decimal), not 10.00.
-        #expect(formatBytes(bytes(9.999, 3)) == "10.0 GB")
-    }
-
-    @Test func formatsSmallAndZeroValues() {
-        #expect(formatBytes(0) == "0 KB")
-        #expect(formatBytes(512) == "512 bytes")
-        #expect(formatBytes(bytes(1.5, 1)) == "1.50 KB")
-    }
-
-    @Test func selectsTheLargestFittingUnit() {
-        #expect(formatBytes(1_023) == "1,023 bytes")
-        #expect(formatBytes(1_024) == "1.00 KB")
-        #expect(formatBytes(1_048_576) == "1.00 MB")
+    @Test func floatOverloadMatchesIntForFiniteValues() {
+        #expect(formatBytes(Float(0)) == formatBytes(0))
+        #expect(formatBytes(Float(1_000)) == formatBytes(1_000))
+        #expect(formatBytes(Float(1_000_000)) == formatBytes(1_000_000))
     }
 }

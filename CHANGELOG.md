@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switched to sheets for calendar navigation
 - Added quick look preview to media posters
 - Added "History" to sidebar on iPadOS
+- Display disk space usage and statistics for instances
+- Display counts below media grids
 
 ### Changed
 - Animate discovery grid loading indicator
@@ -20,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed sidebar header on iPadOS
 - Refined sections in settings view
 
-### Changed
+### Fixed
 - Fixed sidebar colors on macOS 27
 - Fixed blurry discovery headline on iPadOS
 
