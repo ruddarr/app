@@ -260,20 +260,70 @@ enum QueueDownloadState: String, Codable {
     case ignored
 }
 
-/// The subset of queue states surfaced as a status symbol across the app.
-/// Cases are ordered by precedence: when a movie/series has multiple active
-/// items, the case declared last wins (see `Queue.activeStatuses()`).
+/// Queue states surfaced as a status symbol across the app.
+///
+/// Cases are declared in ascending precedence: when a movie/series has multiple
+/// active items, the highest-precedence status wins (see `Queue.activeStatuses()`).
+/// Roughly: a state that needs attention (failed, blocked, warning) outranks
+/// active work (downloading, importing), which outranks waiting (queued, pending).
 enum QueueItemStatus: Int, Comparable {
+    case unknown
+    case queued
+    case importPending
+    case paused
     case downloading
+    case importing
+    case warning
     case importBlocked
+    case failed
 
     static func < (lhs: Self, rhs: Self) -> Bool {
         lhs.rawValue < rhs.rawValue
+    }
+
+    var systemImage: String {
+        switch self {
+        case .unknown: "questionmark.circle"
+        case .queued: "clock"
+        case .importPending: "tray.and.arrow.down"
+        case .paused: "pause.circle"
+        case .downloading: "arrow.down.circle"
+        case .importing: "square.and.arrow.down"
+        case .warning: "exclamationmark.circle"
+        case .importBlocked: "exclamationmark.triangle"
+        case .failed: "xmark.circle"
+        }
+    }
+
+    /// Whether the symbol should pulse, reserved for states with work in flight.
+    var pulses: Bool {
+        switch self {
+        case .downloading, .importing: true
+        default: false
+        }
     }
 }
 
 extension QueueItem {
     var queueStatus: QueueItemStatus {
-        trackedDownloadState == .importBlocked ? .importBlocked : .downloading
+        if status != "completed" {
+            return switch status {
+            case "downloading": .downloading
+            case "queued", "delay", "downloadClientUnavailable": .queued
+            case "paused": .paused
+            case "warning": .warning
+            case "failed": .failed
+            default: .unknown
+            }
+        }
+
+        return switch trackedDownloadState {
+        case .importing: .importing
+        case .importPending: .importPending
+        case .importBlocked: .importBlocked
+        case .failedPending, .failed: .failed
+        case .ignored: .warning
+        default: .downloading
+        }
     }
 }
