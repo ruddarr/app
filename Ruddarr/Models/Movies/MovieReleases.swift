@@ -91,8 +91,9 @@ class MovieReleases {
 
     func setCustomFormats() {
         let customFormatNames = items
-            .filter { $0.hasCustomFormats }
-            .flatMap { $0.customFormats.unsafelyUnwrapped.map { $0.label } }
+            .compactMap { $0.customFormats }
+            .flatMap { $0 }
+            .map { $0.label }
 
         customFormats = Array(Set(customFormatNames))
     }
