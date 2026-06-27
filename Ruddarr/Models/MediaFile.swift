@@ -63,7 +63,7 @@ struct MediaFile: Identifiable, Equatable, Codable {
         guard let bitrate = calculateBitrate(seconds, size) else { return nil }
         guard let label = formatBitrate(bitrate) else { return nil }
 
-        return String(format: "~%@", label)
+        return "~\(label)"
     }
 }
 
