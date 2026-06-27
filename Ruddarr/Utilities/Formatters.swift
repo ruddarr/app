@@ -49,7 +49,7 @@ func formatRemainingTime(_ date: Date) -> String? {
 
 func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
     let formatter = ByteCountFormatter()
-    formatter.countStyle = .file
+    formatter.countStyle = .binary
     formatter.isAdaptive = adaptive // bytes < 1_000_000_000
 
     return formatter.string(fromByteCount: Int64(bytes))
