@@ -13,6 +13,8 @@ struct SeriesDetailView: View {
     @State private var showEditForm = false
     @State private var showDeleteConfirmation = false
 
+    @State private var reloadTask: Task<Void, Never>?
+
     var body: some View {
         ScrollView {
             SeriesDetails(series: $series)
@@ -31,6 +33,9 @@ struct SeriesDetailView: View {
         }
         .onAppear {
             maybeReloadRepeatedly()
+        }
+        .onDisappear {
+            reloadTask?.cancel()
         }
         .task {
             await instance.episodes.maybeFetch(series)
@@ -214,8 +219,12 @@ extension SeriesDetailView {
             return
         }
 
-        Task {
+        reloadTask?.cancel()
+
+        reloadTask = Task {
             for _ in 0..<6 {
+                if Task.isCancelled { return }
+
                 _ = await instance.series.get(series, silent: true)
                 try? await Task.sleep(for: .seconds(1))
             }
