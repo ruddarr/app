@@ -45,6 +45,10 @@ extension View {
         modifier(HideIconOnMac())
     }
 
+    func macPreviewFrame() -> some View {
+        modifier(MacPreviewFrame())
+    }
+
     func presentationDetents(dynamic: Set<PresentationDetent>) -> some View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
     }
@@ -134,6 +138,16 @@ struct HideIconOnMac: ViewModifier {
     func body(content: Content) -> some View {
         #if os(macOS)
             content.labelStyle(.titleOnly)
+        #else
+            content
+        #endif
+    }
+}
+
+struct MacPreviewFrame: ViewModifier {
+    func body(content: Content) -> some View {
+        #if os(macOS)
+            content.frame(minWidth: 900, minHeight: 600)
         #else
             content
         #endif

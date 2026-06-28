@@ -149,5 +149,5 @@ struct MoviePreviewView: View {
     return ContentView()
         .withRadarrInstance(movies: movies)
         .withAppState()
-        // .frame(minWidth: 900, minHeight: 600)
+        .macPreviewFrame()
 }

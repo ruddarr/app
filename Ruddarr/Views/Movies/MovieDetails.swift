@@ -221,4 +221,5 @@ struct MovieDetails: View {
     return MovieView(movie: Binding(get: { movie }, set: { _ in }))
         .withRadarrInstance(movies: movies)
         .withAppState()
+        .macPreviewFrame()
 }
