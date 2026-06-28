@@ -29,7 +29,14 @@ enum CalendarSelection: Identifiable {
 
 struct CalendarSheetContext {
     let dismiss: @MainActor () -> Void
-    let pop: @MainActor () -> Void
+    let path: Binding<NavigationPath>
+
+    @MainActor
+    func pop() {
+        if !path.wrappedValue.isEmpty {
+            path.wrappedValue.removeLast()
+        }
+    }
 }
 
 private struct CalendarSheetContextKey: EnvironmentKey {
@@ -46,8 +53,8 @@ extension EnvironmentValues {
 extension View {
     func inCalendarSheet(
         dismiss: @escaping @MainActor () -> Void,
-        pop: @escaping @MainActor () -> Void
+        path: Binding<NavigationPath>
     ) -> some View {
-        environment(\.inCalendarSheet, CalendarSheetContext(dismiss: dismiss, pop: pop))
+        environment(\.inCalendarSheet, CalendarSheetContext(dismiss: dismiss, path: path))
     }
 }
