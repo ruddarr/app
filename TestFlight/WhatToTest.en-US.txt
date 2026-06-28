@@ -20,3 +20,4 @@
 ### Fixed
 - Fixed sidebar colors on macOS 27
 - Fixed blurry discovery headline on iPadOS
+- Fixed toasts not displaying above some sheets

@@ -64,6 +64,7 @@ struct MediaEventSheet: View {
                 }
             }
         }
+        .displayToasts()
     }
 
     var grabbedDetails: some View {

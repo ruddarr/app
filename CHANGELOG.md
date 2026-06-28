@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed sidebar colors on macOS 27
 - Fixed blurry discovery headline on iPadOS
+- Fixed toasts not displaying above some sheets
 
 ## 1.8.3 - 2026-06-23
 ### Added

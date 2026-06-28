@@ -65,6 +65,7 @@ struct SeriesReleaseSheet: View {
             }
             .tint(nil)
         }
+        .displayToasts()
     }
 
     var header: some View {

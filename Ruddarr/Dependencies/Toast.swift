@@ -168,11 +168,10 @@ extension Toast {
 
 extension View {
     func displayToasts(from toast: Toast = dependencies.toast) -> some View {
-        @Environment(\.colorScheme) var colorScheme
-
-        return overlay(alignment: .bottom) {
+        overlay(alignment: .bottom) {
             if let message = toast.currentMessage {
                 toast.render(message)
+                    .allowsHitTesting(false)
             }
         }
     }
