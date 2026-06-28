@@ -15,6 +15,7 @@ struct SeasonView: View {
 
     @EnvironmentObject var settings: AppSettings
     @Environment(SonarrInstance.self) var instance
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         ScrollView {
@@ -151,7 +152,7 @@ struct SeasonView: View {
     }
 
     var actions: some View {
-        HStack(spacing: 24) {
+        HStack(spacing: 16) {
             Button {
                 Task { await dispatchSearch() }
             } label: {
@@ -160,23 +161,21 @@ struct SeasonView: View {
                     icon: "magnifyingglass",
                     isLoading: dispatchingSearch
                 )
-                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
+            .actionButton()
+            .actionButtonWidth()
             .allowsHitTesting(!instance.series.isWorking)
 
             NavigationLink(
                 value: SeriesPath.releases(series.id, seasonId, nil)
             ) {
                 ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
-                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
+            .actionButton()
+            .actionButtonWidth()
         }
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: 450)
+        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
     }
 
     var episodesList: some View {

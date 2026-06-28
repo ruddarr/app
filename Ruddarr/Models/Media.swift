@@ -219,30 +219,6 @@ func mediaDetailsSubtitles(_ file: MediaFile?, _ deviceType: DeviceType) -> Stri
     return languagesList(codes)
 }
 
-struct MediaPreviewActionModifier: ViewModifier {
-    @Environment(\.deviceType) private var deviceType
-
-    func body(content: Content) -> some View {
-        if deviceType == .phone {
-            content.frame(maxWidth: .infinity)
-        } else {
-            content.frame(maxWidth: 215)
-        }
-    }
-}
-
-struct MediaPreviewActionSpacerModifier: ViewModifier {
-    @Environment(\.deviceType) private var deviceType
-
-    func body(content: Content) -> some View {
-        if deviceType == .phone {
-            content.frame(maxWidth: .infinity)
-        } else {
-            content
-        }
-    }
-}
-
 struct MediaDetailsPosterModifier: ViewModifier {
     @Environment(\.deviceType) private var deviceType
 

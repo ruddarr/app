@@ -94,11 +94,13 @@ struct CalendarView: View {
                     if calendar.isLoadingFuture {
                         ProgressView().tint(.secondary)
                     } else if !calendar.dates.isEmpty {
-                        Button("Load More") {
+                        Button {
                             calendar.loadMoreDates()
+                        } label: {
+                            ButtonLabel(text: "Load More", size: .small)
                         }
-                        .buttonStyle(.bordered)
-                        .tint(.buttonTint)
+                        .actionButton()
+                        .fixedSize()
                     }
                 }.padding(.bottom, 32)
             }

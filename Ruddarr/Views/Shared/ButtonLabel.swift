@@ -1,19 +1,44 @@
 import SwiftUI
 
 struct ButtonLabel: View {
-    private var label: Text
-    private var icon: String
-    private var isLoading: Bool = false
+    enum Size {
+        case regular, small
+    }
 
-    init(text: String, icon: String, isLoading: Bool = false) {
+    static let width: CGFloat = 150 - 8
+
+    #if os(macOS)
+        static let circleSize: CGFloat = 34
+    #else
+        static let circleSize: CGFloat = 44
+    #endif
+
+    private var label: Text?
+    private var icon: String?
+    private var size: Size = .regular
+    private var isLoading: Bool = false
+    private var prominent: Bool = false
+
+    init(text: String, icon: String? = nil, size: Size = .regular, prominent: Bool = false, isLoading: Bool = false) {
         self.label = Text(text)
         self.icon = icon
+        self.size = size
+        self.prominent = prominent
         self.isLoading = isLoading
     }
 
-    init(text: LocalizedStringKey, icon: String, isLoading: Bool = false) {
+    init(text: LocalizedStringKey, icon: String? = nil, size: Size = .regular, prominent: Bool = false, isLoading: Bool = false) {
         self.label = Text(text)
         self.icon = icon
+        self.size = size
+        self.prominent = prominent
+        self.isLoading = isLoading
+    }
+
+    init(icon: String, size: Size = .regular, prominent: Bool = false, isLoading: Bool = false) {
+        self.icon = icon
+        self.size = size
+        self.prominent = prominent
         self.isLoading = isLoading
     }
 
@@ -21,25 +46,74 @@ struct ButtonLabel: View {
 
     var body: some View {
         Label {
-            label
-                .font(.callout)
+            if let label {
+                label
+                    .font(size == .small ? .caption : .callout)
+                    .minimumScaleFactor(0.75)
+            }
         } icon: {
-            Image(systemName: icon)
-                .imageScale(.medium)
+            if let icon {
+                Image(systemName: icon)
+                    .font(iconFont)
+                    .fontWeight(.medium)
+            }
         }
         .lineLimit(1)
         .opacity(isLoading ? 0 : 1)
         .overlay {
             if isLoading {
-                ButtonProgressView()
+                ButtonProgressView(tint: prominent ? .white : nil)
             }
         }
         .fontWeight(.semibold)
-        #if os(iOS)
-            .foregroundStyle(settings.theme.tint)
-        #endif
-        .padding(.vertical, 6)
+        .foregroundStyle(prominent ? Color.white : settings.theme.tint)
+        .padding(.horizontal, 4)
+        .padding(.vertical, size == .small ? 2 : 4)
+        .frame(maxWidth: .infinity)
         .animation(.spring(duration: 0.2), value: isLoading)
+    }
+
+    private var iconFont: Font {
+        let iconOnly = label == nil
+        switch size {
+        case .small: return iconOnly ? .system(size: 14) : .footnote
+        case .regular: return iconOnly ? .title2 : .title3
+        }
+    }
+}
+
+extension View {
+    func actionButton() -> some View {
+        buttonStyle(.borderedProminent)
+            .buttonBorderShape(.capsule)
+            .tint(.buttonFill)
+    }
+
+    func prominentActionButton(_ tint: Color) -> some View {
+        buttonStyle(.borderedProminent)
+            .buttonBorderShape(.capsule)
+            .tint(tint)
+    }
+
+    func circularActionButton(size: CGFloat = ButtonLabel.circleSize) -> some View {
+        buttonStyle(CircleActionButtonStyle(size: size))
+    }
+
+    func actionButtonWidth() -> some View {
+        frame(minWidth: ButtonLabel.width)
+            .fixedSize(horizontal: true, vertical: false)
+    }
+}
+
+private struct CircleActionButtonStyle: ButtonStyle {
+    let size: CGFloat
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(width: size, height: size)
+            .background(.buttonFill, in: Circle())
+            .contentShape(Circle())
+            .opacity(configuration.isPressed ? 0.55 : 1)
     }
 }
 
@@ -75,18 +149,76 @@ struct MacMenuButtonLabelModifier: ViewModifier {
 #Preview {
     @Previewable @State var isLoading: Bool = false
 
-    VStack {
+    let icons = [
+        "arrow.up.forward",
+        "arrow.up.forward.app",
+        "arrow.down.to.line",
+        "bookmark",
+        "trash"
+    ]
+
+    VStack(spacing: 20) {
         Button {
             isLoading.toggle()
         } label: {
             ButtonLabel(text: "Download", icon: "arrow.down.circle", isLoading: isLoading)
         }
         .buttonStyle(.glass)
+        .actionButtonWidth()
 
         Button { } label: {
-            ButtonLabel(text: "Download", icon: "arrow.down.circle", isLoading: true)
+            ButtonLabel(text: "Manual Import", icon: "arrow.down.to.line", prominent: true)
         }
-        .buttonStyle(.bordered)
-        .tint(.buttonTint)
-    }.withAppState()
+        .prominentActionButton(.purple)
+        .actionButtonWidth()
+
+        HStack(spacing: 16) {
+            Button { } label: {
+                ButtonLabel(text: "Automatic", icon: "magnifyingglass")
+            }
+            .actionButton()
+            .actionButtonWidth()
+
+            Button {
+                isLoading.toggle()
+            } label: {
+                ButtonLabel(icon: "magnifyingglass", isLoading: isLoading)
+            }
+            .circularActionButton()
+        }
+
+        Button { } label: {
+            ButtonLabel(text: "Interactive Search", icon: "person.fill")
+        }
+        .actionButton()
+        .actionButtonWidth()
+
+        HStack(spacing: 10) {
+            Button { } label: {
+                ButtonLabel(text: "2h 11m", icon: "play.fill", size: .small)
+            }
+            .actionButton()
+            .fixedSize()
+
+            Button { } label: {
+                ButtonLabel(text: "Load More", size: .small)
+            }
+            .actionButton()
+            .fixedSize()
+        }
+
+        HStack(spacing: 10) {
+            ForEach(icons, id: \.self) { icon in
+                Button {
+                    isLoading.toggle()
+                } label: {
+                    ButtonLabel(icon: icon, isLoading: isLoading)
+                }
+                .circularActionButton()
+            }
+        }
+    }
+    .padding()
+    .withAppState()
+    .macPreviewFrame()
 }

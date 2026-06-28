@@ -215,7 +215,7 @@ struct EpisodeView: View {
     }
 
     var actions: some View {
-        HStack(spacing: 24) {
+        HStack(spacing: 16) {
             Button {
                 Task { await dispatchSearch() }
             } label: {
@@ -224,23 +224,21 @@ struct EpisodeView: View {
                     icon: "magnifyingglass",
                     isLoading: dispatchingSearch
                 )
-                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
+            .actionButton()
+            .actionButtonWidth()
             .allowsHitTesting(!instance.series.isWorking)
 
             NavigationLink(
                 value: SeriesPath.releases(series.id, nil, episodeId)
             ) {
                 ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
-                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
+            .actionButton()
+            .actionButtonWidth()
         }
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: 450)
+        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
     }
 
     var deleteFileButton: some View {
