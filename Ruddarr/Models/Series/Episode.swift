@@ -62,7 +62,7 @@ struct Episode: Identifiable, Codable, Equatable {
     }
 
     var episodeLabel: String {
-        String(format: "%dx%02d", seasonNumber, episodeNumber)
+        "%dx%@".placeholders(seasonNumber, episodeNumber < 10 ? "0\(episodeNumber)" : episodeNumber)
     }
 
     var stateLabel: String {

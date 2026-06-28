@@ -5,10 +5,8 @@ struct NoSeriesSearchResults: View {
     @Binding var sort: SeriesSort
 
     var body: some View {
-        let description = String(
-            format: String(localized: "Check the spelling or try [adding the series](%@)."),
-            "#view"
-        )
+        let description = String(localized: "Check the spelling or try [adding the series](%@).")
+            .placeholders("#view")
 
         ContentUnavailableView {
             Label("No Results for \"\(query)\"", systemImage: "magnifyingglass")
@@ -35,10 +33,8 @@ struct SeriesSearchSuggestion: View {
     @Binding var sort: SeriesSort
 
     var body: some View {
-        let description = String(
-            format: String(localized: "Looking to [add a new series](%@)?"),
-            "#view"
-        )
+        let description = String(localized: "Looking to [add a new series](%@)?")
+            .placeholders("#view")
 
         Text(description.toMarkdown())
             .font(.subheadline)

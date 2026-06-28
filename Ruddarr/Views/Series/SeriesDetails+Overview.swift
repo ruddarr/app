@@ -112,7 +112,7 @@ extension SeriesDetails {
                     .symbolVariant(.fill)
                     .foregroundStyle(.red)
 
-                Text(String(format: "%.0f%%", rating * 10))
+                Text((rating * 10).formatted(.percentageRating))
                     .lineLimit(1)
             }
             .font(.callout)

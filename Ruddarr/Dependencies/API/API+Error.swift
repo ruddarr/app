@@ -80,8 +80,7 @@ extension API.Error: LocalizedError {
         case .badStatusCode(code: let code):
             String(localized: "Server returned \(code) status code.")
         case .decodingError(let error):
-            String(
-                format: "[%@] %@",
+            "[%@] %@".placeholders(
                 error.context.codingPath.map { $0.stringValue }.joined(separator: ", "),
                 error.context.debugDescription
             )
@@ -102,7 +101,7 @@ extension API.Error: LocalizedError {
         case .nsError(let error):
             error.localizedDescription
         case .error(let error):
-            String(localized: "An unknown error occurred: \(String(describing: error))")
+            String(localized: "An unknown error occurred: %@").placeholders("\(error)")
         }
     }
 }

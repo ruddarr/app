@@ -73,12 +73,12 @@ func formatBitrate(_ bitrate: Int) -> String? {
     }
 
     if bitrate < 1_000_000 {
-        return String(format: "%d kbps", bitrate / 1_000)
+        return "%d kbps".placeholders(bitrate / 1_000)
     }
 
     let mbps = Double(bitrate) / 1_000_000.0
 
-    return String(format: "%.\(mbps < 10 ? 1 : 0)f mbps", mbps)
+    return "%@ mbps".placeholders(mbps.formatted(.decimal(mbps < 10 ? 1 : 0)))
 }
 
 func formatAge(_ ageInMinutes: Float) -> String {
@@ -90,16 +90,45 @@ func formatAge(_ ageInMinutes: Float) -> String {
     case -10_000..<1: // less than 1 minute (or bad data from radarr)
         String(localized: "Just now")
     case 1..<119: // less than 120 minutes
-        String(format: String(localized: "%d minutes"), minutes)
+        String(localized: "%d minutes").placeholders(minutes)
     case 120..<2_880: // less than 48 hours
-        String(format: String(localized: "%d hours"), minutes / 60)
+        String(localized: "%d hours").placeholders(minutes / 60)
     case 2_880..<129_600: // less than 90 days
-        String(format: String(localized: "%d days"), days)
+        String(localized: "%d days").placeholders(days)
     case 129_600..<525_600: // less than 365 days
-        String(format: String(localized: "%d months"), days / 30)
+        String(localized: "%d months").placeholders(days / 30)
     case 525_600..<2_628_000: // less than 5 years
-        String(format: String(localized: "%.1f years"), years)
+        String(localized: "%@ years").placeholders(years.formatted(.decimal(1)))
     default:
-        String(format: String(localized: "%d years"), Int(years))
+        String(localized: "%@ years").placeholders(Int(years))
+    }
+}
+
+extension FormatStyle {
+    static func decimal<Value>(_ fractionLength: Int) -> DecimalFormatStyle<Value>
+        where Self == DecimalFormatStyle<Value> {
+        DecimalFormatStyle(fractionLength: fractionLength)
+    }
+}
+
+extension FormatStyle where Self == PercentageRating {
+    static var percentageRating: PercentageRating { .init() }
+}
+
+struct PercentageRating: FormatStyle {
+    func format(_ value: Float) -> String {
+        value.formatted(.decimal(0)) + "%"
+    }
+}
+
+struct DecimalFormatStyle<Value: BinaryFloatingPoint>: FormatStyle {
+    let fractionLength: Int
+
+    func format(_ value: Value) -> String {
+        value.formatted(
+            FloatingPointFormatStyle<Value>()
+                .precision(.fractionLength(fractionLength))
+                .grouping(.never)
+        )
     }
 }

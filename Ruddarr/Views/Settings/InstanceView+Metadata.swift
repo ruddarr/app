@@ -68,8 +68,7 @@ extension InstanceView {
                 case .loaded(let locations):
                     ForEach(locations) { location in
                         LabeledContent {
-                            Text(verbatim: String(
-                                format: "%@ / %@",
+                            Text(verbatim: "%@ / %@".placeholders(
                                 formatBytes(Int(clamping: location.freeSpace), adaptive: true),
                                 formatBytes(Int(clamping: location.totalSpace), adaptive: true)
                             ))

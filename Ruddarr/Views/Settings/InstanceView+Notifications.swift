@@ -6,24 +6,22 @@ import UserNotifications
 extension InstanceView {
     var notificationPath: String {
         #if os(macOS)
-            return String(format: "[%@](#link)", String(localized: "System Settings > Notifications > \(Ruddarr.name)", comment: "macOS notifications path"))
+            return "[\(String(localized: "System Settings > Notifications > \(Ruddarr.name)", comment: "macOS notifications path"))](#link)"
         #else
-            return String(format: "[%@](#link)", String(localized: "System Settings", comment: "Settings app name"))
+            return "[\(String(localized: "System Settings", comment: "Settings app name"))](#link)"
         #endif
     }
 
     var enableNotifications: some View {
-        notificationSettingsLink(String(
-            format: String(localized: "Notifications are disabled, please enable them in %@."),
-            notificationPath
-        ))
+        notificationSettingsLink(
+            String(localized: "Notifications are disabled, please enable them in \(notificationPath).")
+        )
     }
 
     var disableNotifications: some View {
-        notificationSettingsLink(String(
-            format: String(localized: "Notification settings for each instance are shared between devices. To disable notifications for a specific device go to %@."),
-            notificationPath
-        ))
+        notificationSettingsLink(
+            String(localized: "Notification settings for each instance are shared between devices. To disable notifications for a specific device go to \(notificationPath).")
+        )
     }
 
     private func notificationSettingsLink(_ text: String) -> some View {
@@ -43,10 +41,8 @@ extension InstanceView {
     }
 
     var subscribeToService: some View {
-        let text = String(
-            format: String(localized: "Notifications require a subscription to %@."),
-            "[\(Subscription.name)](#link)"
-        )
+        let link = "[\(Subscription.name)](#link)"
+        let text = String(localized: "Notifications require a subscription to \(link).")
 
         return VStack(alignment: .leading, spacing: 8) {
             Text(text.toMarkdown())
@@ -64,12 +60,9 @@ extension InstanceView {
 
     var enableCloudKit: some View {
         let text = String(
-            format: String(
-                localized: "Notifications require an Apple Account. Please sign in, or enable iCloud Drive in the iCloud settings (%1$@).",
-                comment: "1 = CloudKit status"
-            ),
-            cloudKitStatusString(cloudKitStatus)
-        )
+            localized: "Notifications require an Apple Account. Please sign in, or enable iCloud Drive in the iCloud settings (%1$@).",
+            comment: "1 = CloudKit status"
+        ).placeholders(cloudKitStatusString(cloudKitStatus))
 
         return Text(text)
     }

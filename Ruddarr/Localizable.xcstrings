@@ -23,16 +23,6 @@
         }
       }
     },
-    "%.1f years" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%.1f years"
-          }
-        }
-      }
-    },
     "%@ at %@" : {
       "comment" : "(Today/Tomorrow/Yesterday) at (time)",
       "localizations" : {
@@ -50,6 +40,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ does not start an automatic search when adding media, but you can."
+          }
+        }
+      }
+    },
+    "%@ years" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ years"
           }
         }
       }
@@ -169,16 +169,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "%d years" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d years"
           }
         }
       }
@@ -1538,7 +1528,7 @@
       }
     },
     "Downloaded" : {
-      "comment" : "(Single word) Episode status label\nMedia grid filter\nState of media item",
+      "comment" : "(Single word) Episode state label\nMedia grid filter\nState of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2221,6 +2211,7 @@
       }
     },
     "In Queue" : {
+      "comment" : "(Short) State of task in queue",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2696,7 +2687,7 @@
       }
     },
     "Missing" : {
-      "comment" : "(Single word) Episode status label\nMedia grid filter\nState of media item",
+      "comment" : "(Single word) Episode state label\nMedia grid filter\nState of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5326,7 +5317,7 @@
       }
     },
     "Unaired" : {
-      "comment" : "(Single word) Episode status label",
+      "comment" : "(Single word) Episode state label",
       "localizations" : {
         "en" : {
           "stringUnit" : {

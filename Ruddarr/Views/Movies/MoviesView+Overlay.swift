@@ -5,10 +5,8 @@ struct NoMovieSearchResults: View {
     @Binding var sort: MovieSort
 
     var body: some View {
-        let description = String(
-            format: String(localized: "Check the spelling or try [adding the movie](%@)."),
-            "#view"
-        )
+        let description = String(localized: "Check the spelling or try [adding the movie](%@).")
+            .placeholders("#view")
 
         ContentUnavailableView {
             Label("No Results for \"\(query)\"", systemImage: "magnifyingglass")
@@ -35,10 +33,8 @@ struct MovieSearchSuggestion: View {
     @Binding var sort: MovieSort
 
     var body: some View {
-        let description = String(
-            format: String(localized: "Looking to [add a new movie](%@)?"),
-            "#view"
-        )
+        let description = String(localized: "Looking to [add a new movie](%@)?")
+            .placeholders("#view")
 
         Text(description.toMarkdown())
             .font(.subheadline)
