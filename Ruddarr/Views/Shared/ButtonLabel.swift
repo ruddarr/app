@@ -11,8 +11,6 @@ struct ButtonLabel: View {
         static let circleSize: CGFloat = 44
     #endif
 
-    @Environment(\.deviceType) private var deviceType
-
     private var label: Text?
     private var icon: String?
     private var size: Size = .regular
