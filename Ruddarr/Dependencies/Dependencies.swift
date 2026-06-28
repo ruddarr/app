@@ -1,30 +1,44 @@
+import os
 import SwiftUI
 
-struct Dependencies {
-    var api: API
-    var store: UserDefaults
-    var quickActions: QuickActions = .init()
-    var cloudkit: CloudKit = .live
+let dependencies: Dependencies = .live
+
+struct Dependencies: Sendable {
+    static var live: Self {
+        .init(api: .live)
+    }
+
+    static var mock: Self {
+        .init(api: .mock)
+    }
+
+    let quickActions = QuickActions()
+
+    private let apiLock: OSAllocatedUnfairLock<API>
+    private let cloudkitLock: OSAllocatedUnfairLock<CloudKit>
 
     @Bindable var router = Router()
     @Bindable var toast = Toast()
 
-    enum CloudKit {
+    var store: UserDefaults { .live }
+
+    var api: API {
+        get { apiLock.withLock { $0 } }
+        nonmutating set { apiLock.withLock { $0 = newValue } }
+    }
+
+    var cloudkit: CloudKit {
+        get { cloudkitLock.withLock { $0 } }
+        nonmutating set { cloudkitLock.withLock { $0 = newValue } }
+    }
+
+    init(api: API, cloudkit: CloudKit = .live) {
+        self.apiLock = OSAllocatedUnfairLock(initialState: api)
+        self.cloudkitLock = OSAllocatedUnfairLock(initialState: cloudkit)
+    }
+
+    enum CloudKit: Sendable {
         case live
         case mock
     }
 }
-
-extension Dependencies {
-    static var live: Self {
-        .init(api: .live, store: .live)
-    }
-}
-
-extension Dependencies {
-    static var mock: Self {
-        .init(api: .mock, store: .live)
-    }
-}
-
-nonisolated(unsafe) var dependencies: Dependencies = .live

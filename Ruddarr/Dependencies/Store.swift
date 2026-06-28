@@ -4,7 +4,6 @@ extension UserDefaults {
     static var live: UserDefaults { .standard }
 }
 
-// Our `.mock` UserDefaults are broken
 extension UserDefaults {
     static var mock: UserDefaults {
         let suiteName = #file

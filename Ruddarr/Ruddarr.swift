@@ -15,7 +15,7 @@ struct Ruddarr: App {
 
     init() {
         #if DEBUG
-        // dependencies = .mock
+        // dependencies.api = .mock
         // dependencies.cloudkit = .mock
         // Tips.showAllTipsForTesting()
         #endif

@@ -8,7 +8,7 @@ import Combine
 @MainActor
 class AppSettings: ObservableObject {
     #if DEBUG
-        @AppStorage("debugInstances") var instances: [Instance] = []
+        @AppStorage("debugInstances", store: dependencies.store) var instances: [Instance] = []
     #else
         @CloudStorage("instances") var instances: [Instance] = []
     #endif
