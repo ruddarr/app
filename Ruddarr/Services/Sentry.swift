@@ -3,6 +3,7 @@ import CloudKit
 import StoreKit
 
 func setSentryCloudKitContext() async {
+    guard !isRunningIn(.preview) else { return }
     guard dependencies.cloudkit == .live else { return }
 
     let container = CKContainer.default()
