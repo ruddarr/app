@@ -5,13 +5,13 @@ struct ButtonLabel: View {
         case regular, small
     }
 
-    static let width: CGFloat = 150 - 8
-
     #if os(macOS)
         static let circleSize: CGFloat = 34
     #else
         static let circleSize: CGFloat = 44
     #endif
+
+    @Environment(\.deviceType) private var deviceType
 
     private var label: Text?
     private var icon: String?
@@ -67,7 +67,7 @@ struct ButtonLabel: View {
         }
         .fontWeight(.semibold)
         .foregroundStyle(prominent ? Color.white : settings.theme.tint)
-        .padding(.horizontal, 4)
+        .padding(.horizontal, deviceType == mac ? 4 : 8)
         .padding(.vertical, size == .small ? 2 : 4)
         .frame(maxWidth: .infinity)
         .animation(.spring(duration: 0.2), value: isLoading)
@@ -100,8 +100,7 @@ extension View {
     }
 
     func actionButtonWidth() -> some View {
-        frame(minWidth: ButtonLabel.width)
-            .fixedSize(horizontal: true, vertical: false)
+        fixedSize(horizontal: true, vertical: false)
     }
 }
 
@@ -177,6 +176,12 @@ struct MacMenuButtonLabelModifier: ViewModifier {
         HStack(spacing: 16) {
             Button { } label: {
                 ButtonLabel(text: "Automatic", icon: "magnifyingglass")
+            }
+            .actionButton()
+            .actionButtonWidth()
+
+            Button { } label: {
+                ButtonLabel(text: "Interactive", icon: "person.fill")
             }
             .actionButton()
             .actionButtonWidth()

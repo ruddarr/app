@@ -108,7 +108,7 @@ struct MovieDetails: View {
             }
         }
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
     }
 
     var movieActions: some View {
