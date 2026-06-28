@@ -19,6 +19,9 @@ struct ButtonLabel: View {
     private var isLoading: Bool = false
     private var prominent: Bool = false
 
+    @ScaledMetric(relativeTo: .title3) private var regularIconHeight: CGFloat = 18
+    @ScaledMetric(relativeTo: .footnote) private var smallIconHeight: CGFloat = 13
+
     init(text: String, icon: String? = nil, size: Size = .regular, prominent: Bool = false, isLoading: Bool = false) {
         self.label = Text(text)
         self.icon = icon
@@ -56,6 +59,7 @@ struct ButtonLabel: View {
                 Image(systemName: icon)
                     .font(iconFont)
                     .fontWeight(.medium)
+                    .frame(height: label == nil ? nil : (size == .small ? smallIconHeight : regularIconHeight))
             }
         }
         .lineLimit(1)
@@ -67,8 +71,8 @@ struct ButtonLabel: View {
         }
         .fontWeight(.semibold)
         .foregroundStyle(prominent ? Color.white : settings.theme.tint)
-        .padding(.horizontal, deviceType == mac ? 4 : 8)
-        .padding(.vertical, size == .small ? 2 : 4)
+        .padding(.horizontal, deviceType == .mac ? 2 : 4)
+        .padding(.vertical, size == .small ? 3 : 5)
         .frame(maxWidth: .infinity)
         .animation(.spring(duration: 0.2), value: isLoading)
     }
