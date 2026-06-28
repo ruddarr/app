@@ -146,12 +146,14 @@ struct MacMenuButtonLabelModifier: ViewModifier {
     }
 }
 
+// swiftlint:disable closure_body_length
 #Preview {
     @Previewable @State var isLoading: Bool = false
 
     let icons = [
         "arrow.up.forward",
         "arrow.up.forward.app",
+        "arrow.down.app",
         "arrow.down.to.line",
         "bookmark",
         "trash"
@@ -222,3 +224,4 @@ struct MacMenuButtonLabelModifier: ViewModifier {
     .withAppState()
     .macPreviewFrame()
 }
+// swiftlint:enable closure_body_length
