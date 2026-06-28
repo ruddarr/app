@@ -97,6 +97,10 @@ private struct CalendarMovieSheet: View {
         .environment(instance)
         .inCalendarSheet {
             dismiss()
+        } pop: {
+            if !path.isEmpty {
+                path.removeLast()
+            }
         }
         .displayToasts()
     }
@@ -150,6 +154,10 @@ private struct CalendarEpisodeSheet: View {
         .environment(instance)
         .inCalendarSheet {
             dismiss()
+        } pop: {
+            if !path.isEmpty {
+                path.removeLast()
+            }
         }
         .displayToasts()
     }
