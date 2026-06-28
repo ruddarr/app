@@ -111,17 +111,14 @@ extension View {
 private struct ActionButtonWidth: ViewModifier {
     @Environment(\.deviceType) private var deviceType
 
+    @ViewBuilder
     func body(content: Content) -> some View {
-        content
-            .frame(minWidth: width)
-            .fixedSize(horizontal: true, vertical: false)
-    }
-
-    var width: CGFloat {
-        switch deviceType {
-        case .phone: 150
-        case .mac: 150
-        default: 175
+        if deviceType == .phone {
+            content.containerRelativeFrame(.horizontal, count: 2, spacing: 16, alignment: .center)
+        } else {
+            content
+                .frame(minWidth: deviceType == .mac ? 150 : 175)
+                .fixedSize(horizontal: true, vertical: false)
         }
     }
 }
