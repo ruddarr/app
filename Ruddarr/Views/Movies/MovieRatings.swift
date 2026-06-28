@@ -36,7 +36,7 @@ struct MovieRatings: View {
                     .font(.callout)
                     .frame(height: rating > 60 ? 14 : 18)
 
-                Text(String(format: "%.0f%%", rating))
+                Text(rating.formatted(.percentageRating))
                     .lineLimit(1)
             }
         }
@@ -50,7 +50,7 @@ struct MovieRatings: View {
                     .scaledToFit()
                     .frame(height: 13)
 
-                Text(String(format: "%.1f", rating))
+                Text(rating.formatted(.decimal(1)))
                     .font(.callout)
                     .lineLimit(1)
             }
@@ -66,7 +66,7 @@ struct MovieRatings: View {
                     .font(.callout)
                     .frame(height: 12)
 
-                Text(String(format: "%.0f%%", rating * 10))
+                Text((rating * 10).formatted(.percentageRating))
                     .lineLimit(1)
             }
         }
@@ -81,7 +81,7 @@ struct MovieRatings: View {
                     .font(.callout)
                     .frame(height: 14)
 
-                Text(String(format: "%.0f", rating))
+                Text(rating.formatted(.decimal(0)))
             }
         }
     }

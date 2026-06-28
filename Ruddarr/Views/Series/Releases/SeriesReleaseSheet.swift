@@ -193,8 +193,7 @@ struct SeriesReleaseSheet: View {
 
                 if release.isTorrent {
                     Divider()
-                    row("Peers", value: String(
-                        format: "S: %i  L: %i",
+                    row("Peers", value: "S: %i  L: %i".placeholders(
                         release.seeders ?? 0,
                         release.leechers ?? 0
                     ))

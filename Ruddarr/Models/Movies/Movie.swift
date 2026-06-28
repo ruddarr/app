@@ -324,7 +324,7 @@ struct MovieEditorResource: Codable {
 }
 
 func formatCustomScore(_ score: Int) -> String {
-    String(format: "%+d", score)
+    score < 0 ? "\(score)" : "+\(score)"
 }
 
 extension Movie {
