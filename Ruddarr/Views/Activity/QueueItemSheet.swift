@@ -250,7 +250,6 @@ struct QueueItemSheet: View {
 
     func pillLabel(_ text: String, _ icon: String, prominent: Bool = false) -> some View {
         ButtonLabel(text: text, icon: icon, prominent: prominent)
-            .padding(.horizontal, 8)
             .fixedSize(horizontal: true, vertical: false)
     }
 

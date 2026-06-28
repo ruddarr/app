@@ -71,7 +71,7 @@ struct ButtonLabel: View {
         }
         .fontWeight(.semibold)
         .foregroundStyle(prominent ? Color.white : settings.theme.tint)
-        .padding(.horizontal, deviceType == .mac ? 2 : 4)
+        .padding(.horizontal, size == .small ? 2 : 4)
         .padding(.vertical, size == .small ? 3 : 5)
         .frame(maxWidth: .infinity)
         .animation(.spring(duration: 0.2), value: isLoading)
@@ -104,7 +104,25 @@ extension View {
     }
 
     func actionButtonWidth() -> some View {
-        fixedSize(horizontal: true, vertical: false)
+        modifier(ActionButtonWidth())
+    }
+}
+
+private struct ActionButtonWidth: ViewModifier {
+    @Environment(\.deviceType) private var deviceType
+
+    func body(content: Content) -> some View {
+        content
+            .frame(minWidth: width)
+            .fixedSize(horizontal: true, vertical: false)
+    }
+
+    var width: CGFloat {
+        switch deviceType {
+        case .phone: 150
+        case .mac: 150
+        default: 175
+        }
     }
 }
 
@@ -169,13 +187,13 @@ struct MacMenuButtonLabelModifier: ViewModifier {
             ButtonLabel(text: "Download", icon: "arrow.down.circle", isLoading: isLoading)
         }
         .buttonStyle(.glass)
-        .actionButtonWidth()
+        .fixedSize(horizontal: true, vertical: false)
 
         Button { } label: {
             ButtonLabel(text: "Manual Import", icon: "arrow.down.to.line", prominent: true)
         }
         .prominentActionButton(.purple)
-        .actionButtonWidth()
+        .fixedSize(horizontal: true, vertical: false)
 
         HStack(spacing: 16) {
             Button { } label: {
@@ -189,6 +207,14 @@ struct MacMenuButtonLabelModifier: ViewModifier {
             }
             .actionButton()
             .actionButtonWidth()
+        }
+
+        HStack(spacing: 16) {
+            Button { } label: {
+                ButtonLabel(text: "Interactive Search", icon: "person.fill")
+            }
+            .actionButton()
+            .actionButtonWidth()
 
             Button {
                 isLoading.toggle()
@@ -197,12 +223,6 @@ struct MacMenuButtonLabelModifier: ViewModifier {
             }
             .circularActionButton()
         }
-
-        Button { } label: {
-            ButtonLabel(text: "Interactive Search", icon: "person.fill")
-        }
-        .actionButton()
-        .actionButtonWidth()
 
         HStack(spacing: 10) {
             Button { } label: {
