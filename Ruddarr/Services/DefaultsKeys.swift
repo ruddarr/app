@@ -2,10 +2,14 @@ import Defaults
 import Foundation
 
 extension Defaults.Keys {
+    // Stored as a JSON string (the legacy `@CloudStorage`/`@AppStorage` format).
+    // `Defaults`' conditional `Array: Serializable` conformance can't be overridden
+    // for `[Instance]`, and a string keeps the on-disk/iCloud format identical, so
+    // existing data migrates with no conversion. Encoded/decoded in `AppSettings`.
     #if DEBUG
-        static let instances = Key<[Instance]>("debugInstances", default: [])
+        static let instances = Key<String>("debugInstances", default: "[]", suite: dependencies.store)
     #else
-        static let instances = Key<[Instance]>("instances", default: [], iCloud: true)
+        static let instances = Key<String>("instances", default: "[]", suite: dependencies.store, iCloud: true)
     #endif
 
     static let icon = Key<AppIcon>("icon", default: .factory, suite: dependencies.store)

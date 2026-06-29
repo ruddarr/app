@@ -4,22 +4,64 @@ import Foundation
 
 @Observable @MainActor
 final class AppSettings {
-    @ObservationIgnored @Default(.instances) var instances
-    @ObservationIgnored @Default(.icon) var icon
-    @ObservationIgnored @Default(.theme) var theme
-    @ObservationIgnored @Default(.appearance) var appearance
-    @ObservationIgnored @Default(.grid) var grid
-    @ObservationIgnored @Default(.tab) var tab
-    @ObservationIgnored @Default(.releaseFilters) var releaseFilters
-    @ObservationIgnored @Default(.radarrInstanceId) var radarrInstanceId
-    @ObservationIgnored @Default(.sonarrInstanceId) var sonarrInstanceId
+    static let shared = AppSettings()
+
+    // Real stored properties (not `@Default`, which is `DynamicProperty` and
+    // only reactive inside a `View`). Values are seeded from and persisted to
+    // `Defaults`, so SwiftUI tracks them and changes propagate across views.
+    var instances: [Instance] { didSet { Defaults[.instances] = instances.rawValue } }
+
+    var icon: AppIcon { didSet { Defaults[.icon] = icon } }
+    var theme: Theme { didSet { Defaults[.theme] = theme } }
+    var appearance: Appearance { didSet { Defaults[.appearance] = appearance } }
+    var grid: GridStyle { didSet { Defaults[.grid] = grid } }
+    var tab: TabItem { didSet { Defaults[.tab] = tab } }
+    var releaseFilters: ReleaseFilters { didSet { Defaults[.releaseFilters] = releaseFilters } }
+
+    var radarrInstanceId: Instance.ID? { didSet { Defaults[.radarrInstanceId] = radarrInstanceId } }
+    var sonarrInstanceId: Instance.ID? { didSet { Defaults[.sonarrInstanceId] = sonarrInstanceId } }
+
+    @ObservationIgnored private var instancesSync: Task<Void, Never>?
+
+    private init() {
+        instances = [Instance](rawValue: Defaults[.instances]) ?? []
+        icon = Defaults[.icon]
+        theme = Defaults[.theme]
+        appearance = Defaults[.appearance]
+        grid = Defaults[.grid]
+        tab = Defaults[.tab]
+        releaseFilters = Defaults[.releaseFilters]
+        radarrInstanceId = Defaults[.radarrInstanceId]
+        sonarrInstanceId = Defaults[.sonarrInstanceId]
+
+        // Mirror external changes (iCloud sync from other devices) back into the
+        // observable state so the UI updates live. Our own writes re-emit with an
+        // unchanged value and are filtered out by the equality guard.
+        instancesSync = Task { [weak self] in
+            for await raw in Defaults.updates(.instances, initial: false) {
+                let value = [Instance](rawValue: raw) ?? []
+                guard let self, self.instances != value else { continue }
+                self.instances = value
+            }
+        }
+    }
 
     func resetAll() {
-        instances.removeAll()
+        dependencies.store.removePersistentDomain(forName: Ruddarr.group)
 
         if let bundleId = Bundle.main.bundleIdentifier {
-            dependencies.store.removePersistentDomain(forName: bundleId)
+            UserDefaults.standard.removePersistentDomain(forName: bundleId)
         }
+
+        instances = []
+        icon = .factory
+        theme = .factory
+        appearance = .automatic
+        grid = .posters
+        tab = .movies
+        releaseFilters = .reset
+        radarrInstanceId = nil
+        sonarrInstanceId = nil
     }
 }
 

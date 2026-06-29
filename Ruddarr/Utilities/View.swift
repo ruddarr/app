@@ -68,7 +68,7 @@ private struct OnBecomeActiveModifier: ViewModifier {
 }
 
 private struct WithAppStateModifier: ViewModifier {
-    @State private var settings = AppSettings()
+    @State private var settings = AppSettings.shared
 
     func body(content: Content) -> some View {
         let radarrInstance = settings.radarrInstance ?? Instance.radarrVoid

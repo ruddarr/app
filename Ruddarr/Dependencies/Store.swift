@@ -1,7 +1,9 @@
 import Foundation
 
 extension UserDefaults {
-    static var live: UserDefaults { .standard }
+    static var live: UserDefaults {
+        UserDefaults(suiteName: Ruddarr.group) ?? .standard
+    }
 }
 
 // Our `.mock` UserDefaults are broken

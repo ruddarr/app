@@ -11,6 +11,7 @@ struct Ruddarr: App {
     #endif
 
     nonisolated static let name: String = "Ruddarr"
+    nonisolated static let group: String = "group.com.ruddarr"
 
     init() {
         #if DEBUG

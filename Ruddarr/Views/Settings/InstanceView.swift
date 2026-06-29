@@ -172,7 +172,7 @@ struct InstanceView: View {
 }
 
 #Preview {
-    let settings = AppSettings()
+    let settings = AppSettings.shared
 
     dependencies.router.selectedTab = .settings
 

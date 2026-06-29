@@ -208,7 +208,7 @@ private struct FileImportRow: View {
 }
 
 #Preview {
-    let settings = AppSettings()
+    let settings = AppSettings.shared
     let instanceId = settings.radarrInstance?.id
 
     let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
@@ -225,7 +225,7 @@ private struct FileImportRow: View {
 }
 
 #Preview("No Files") {
-    let settings = AppSettings()
+    let settings = AppSettings.shared
     let instanceId = settings.sonarrInstance?.id
 
     let items: QueueItems = PreviewData.loadObject(name: "series-queue")
