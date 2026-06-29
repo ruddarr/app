@@ -56,16 +56,16 @@ extension AppSettings {
 
     /// Mirrors `instances` into the shared App Group suite so extensions can read
     /// them. The mirror is a read-only copy — the source of truth remains
-    /// `@CloudStorage`/`@AppStorage`. Reuses the same JSON serialization as the
-    /// property wrappers (`Array<Instance>.rawValue`), so the format matches and
-    /// extensions can decode with `[Instance](rawValue:)`.
+    /// `@CloudStorage`/`@AppStorage`. Stored as JSON `Data` (not a `String`) so it
+    /// can be read with `UserDefaults.data(forKey:)` + `JSONDecoder` from an
+    /// extension, e.g. `ShareInstanceStore`.
     static func mirrorInstances(_ instances: [Instance]) {
-        let value = instances.rawValue
+        guard let data = try? JSONEncoder().encode(instances) else { return }
 
         // Only write when changed to avoid needless churn (e.g. on every launch).
-        guard dependencies.store.string(forKey: instancesMirrorKey) != value else { return }
+        guard dependencies.store.data(forKey: instancesMirrorKey) != data else { return }
 
-        dependencies.store.set(value, forKey: instancesMirrorKey)
+        dependencies.store.set(data, forKey: instancesMirrorKey)
     }
 
     /// Re-reads the authoritative instances and refreshes the App Group mirror.
