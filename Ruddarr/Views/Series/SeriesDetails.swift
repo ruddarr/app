@@ -118,6 +118,8 @@ struct SeriesDetails: View {
             .allowsHitTesting(!instance.series.isWorking)
             .onAppear(perform: triggerTipIfJustAdded)
             .popoverTip(NoAutomaticSearchTip())
+
+            ActionButtonSpacer()
         }
     }
 
@@ -135,6 +137,8 @@ struct SeriesDetails: View {
             #else
                 .actionButton()
             #endif
+
+            ActionButtonSpacer()
         }
     }
 

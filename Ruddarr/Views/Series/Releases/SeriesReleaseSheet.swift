@@ -147,6 +147,8 @@ struct SeriesReleaseSheet: View {
                 .contextMenu {
                     LinkContextMenu(url)
                 }
+            } else {
+                ActionButtonSpacer()
             }
 
             Button {

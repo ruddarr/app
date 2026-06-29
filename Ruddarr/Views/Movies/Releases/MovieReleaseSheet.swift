@@ -144,6 +144,8 @@ struct MovieReleaseSheet: View {
                 .contextMenu {
                     LinkContextMenu(url)
                 }
+            } else {
+                ActionButtonSpacer()
             }
 
             Button {

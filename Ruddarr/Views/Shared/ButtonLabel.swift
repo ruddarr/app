@@ -106,13 +106,36 @@ extension View {
     }
 }
 
+struct ActionButtonSpacer: View {
+    @Environment(\.deviceType) private var deviceType
+
+    @ViewBuilder
+    var body: some View {
+        if deviceType == .phone {
+            Color.clear.frame(maxWidth: .infinity)
+        }
+    }
+}
+
+struct ButtonProgressView: View {
+    var tint: Color?
+
+    var body: some View {
+        ProgressView()
+            .tint(tint)
+            #if os(macOS)
+                .controlSize(.small)
+            #endif
+    }
+}
+
 private struct ActionButtonWidth: ViewModifier {
     @Environment(\.deviceType) private var deviceType
 
     @ViewBuilder
     func body(content: Content) -> some View {
         if deviceType == .phone {
-            content.containerRelativeFrame(.horizontal, count: 2, spacing: 16, alignment: .center)
+            content.frame(maxWidth: .infinity)
         } else {
             content
                 .frame(minWidth: deviceType == .mac ? 150 : 175)
@@ -130,18 +153,6 @@ private struct CircleActionButtonStyle: ButtonStyle {
             .background(.buttonFill, in: Circle())
             .contentShape(Circle())
             .opacity(configuration.isPressed ? 0.55 : 1)
-    }
-}
-
-struct ButtonProgressView: View {
-    var tint: Color?
-
-    var body: some View {
-        ProgressView()
-            .tint(tint)
-            #if os(macOS)
-                .controlSize(.small)
-            #endif
     }
 }
 

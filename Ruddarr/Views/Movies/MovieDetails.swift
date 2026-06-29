@@ -161,6 +161,8 @@ struct MovieDetails: View {
                 }
                 .actionButton()
                 .actionButtonWidth()
+            } else {
+                ActionButtonSpacer()
             }
         }
     }
