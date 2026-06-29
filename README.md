@@ -58,18 +58,8 @@ Then uncomment the CloudKit mock in `Ruddarr::init()`:
 dependencies.cloudkit = .mock
 ```
 
-Lastly, change `@CloudStorage` to `@AppStorage` in `AppSettings`:
-
-```diff
-- @CloudStorage("instances") private var storedInstances: [Instance] = []
-+ @AppStorage("debugInstances", store: dependencies.store) private var storedInstances: [Instance] = []
-```
-
 > [!NOTE]
-> Instances and other settings are stored in the `group.com.ruddarr` App Group
-> so app extensions can read them. When using your own bundle identifier, update
-> `UserDefaults.appGroup` in `Store.swift` and the `App Groups` entry in both the
-> `Ruddarr` and `NotificationService` entitlements to match.
+> Instances and other settings are stored in the `group.com.ruddarr` App Group so app extensions can read them. When using your own bundle identifier, update `Ruddarr.group` in `Ruddarr.swift` and the `App Groups` entry in both the `Ruddarr` and `NotificationService` entitlements to match.
 
 That's it. Select a run destination and build it. 
 

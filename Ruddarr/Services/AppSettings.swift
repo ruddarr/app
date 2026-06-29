@@ -32,7 +32,7 @@ class AppSettings: ObservableObject {
     func resetAll() {
         InstancesStore.shared.reset()
 
-        dependencies.store.removePersistentDomain(forName: UserDefaults.appGroup)
+        dependencies.store.removePersistentDomain(forName: Ruddarr.group)
 
         if let bundleId = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundleId)

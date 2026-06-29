@@ -1,10 +1,8 @@
 import Foundation
 
 extension UserDefaults {
-    static let appGroup = "group.com.ruddarr"
-
     static var live: UserDefaults {
-        UserDefaults(suiteName: appGroup) ?? .standard
+        UserDefaults(suiteName: Ruddarr.group) ?? .standard
     }
 }
 
