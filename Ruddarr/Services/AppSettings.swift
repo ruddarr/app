@@ -1,28 +1,21 @@
 import SwiftUI
 import Foundation
-import CloudStorage
 import Combine
 
 // We can't migrate this to `@Observable` because `@AppStorage` isn't supported
 // We could use https://github.com/sindresorhus/Defaults instead maybe
 @MainActor
 class AppSettings: ObservableObject {
-    // Source of truth for instances. In production this stays in iCloud
-    // (`@CloudStorage`) so instances keep syncing across a user's devices. Reads
-    // and writes go through the `instances` computed property below, which also
-    // keeps an App Group mirror in sync for extensions to read.
-    #if DEBUG
-        @AppStorage("debugInstances", store: dependencies.store) private var storedInstances: [Instance] = []
-    #else
-        @CloudStorage("instances") private var storedInstances: [Instance] = []
-    #endif
-
     var instances: [Instance] {
-        get { storedInstances }
-        set {
-            storedInstances = newValue
-            AppSettings.mirrorInstances(newValue)
-        }
+        get { InstancesStore.shared.instances }
+        set { InstancesStore.shared.setInstances(newValue) }
+    }
+
+    private var instancesObserver: AnyCancellable?
+
+    init() {
+        instancesObserver = InstancesStore.shared.objectWillChange
+            .sink { [weak self] _ in self?.objectWillChange.send() }
     }
 
     @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
@@ -37,42 +30,13 @@ class AppSettings: ObservableObject {
     @AppStorage("sonarrInstanceId", store: dependencies.store) var sonarrInstanceId: Instance.ID?
 
     func resetAll() {
-        instances.removeAll()
+        InstancesStore.shared.reset()
 
-        // Wipe the App Group suite (where `dependencies.store` now lives)...
         dependencies.store.removePersistentDomain(forName: UserDefaults.appGroup)
 
-        // ...and the legacy standard domain that the App Group migration copied from,
-        // so a reset leaves nothing behind to be re-migrated on next launch.
         if let bundleId = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundleId)
         }
-    }
-}
-
-extension AppSettings {
-    /// Key used for the App Group mirror of `instances`, read by app extensions.
-    static let instancesMirrorKey = "instances"
-
-    /// Mirrors `instances` into the shared App Group suite so extensions can read
-    /// them. The mirror is a read-only copy — the source of truth remains
-    /// `@CloudStorage`/`@AppStorage`. Stored as JSON `Data` (not a `String`) so it
-    /// can be read with `UserDefaults.data(forKey:)` + `JSONDecoder` from an
-    /// extension, e.g. `ShareInstanceStore`.
-    static func mirrorInstances(_ instances: [Instance]) {
-        guard let data = try? JSONEncoder().encode(instances) else { return }
-
-        // Only write when changed to avoid needless churn (e.g. on every launch).
-        guard dependencies.store.data(forKey: instancesMirrorKey) != data else { return }
-
-        dependencies.store.set(data, forKey: instancesMirrorKey)
-    }
-
-    /// Re-reads the authoritative instances and refreshes the App Group mirror.
-    /// Call on launch and whenever iCloud reports an external change.
-    @MainActor
-    static func refreshInstancesMirror() {
-        mirrorInstances(AppSettings().instances)
     }
 }
 

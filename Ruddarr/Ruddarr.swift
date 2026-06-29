@@ -21,25 +21,7 @@ struct Ruddarr: App {
         #endif
 
         Migrations.run()
-
-        #if !DEBUG
-        // Keep the App Group instances mirror fresh when iCloud syncs a change from
-        // another device while the app is running. In-app edits and launch are
-        // already covered by `AppSettings.mirrorInstances`.
-        NotificationCenter.default.addObserver(
-            forName: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
-            object: NSUbiquitousKeyValueStore.default,
-            queue: .main
-        ) { notification in
-            // Only react when `instances` actually changed — except for account
-            // changes, which carry no changed-keys list and may replace everything.
-            let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String]
-            guard keys == nil || keys?.contains("instances") == true else { return }
-
-            Task { @MainActor in AppSettings.refreshInstancesMirror() }
-        }
-        #endif
-
+        Task { @MainActor in _ = InstancesStore.shared }
         try? Tips.configure()
 
         Task {

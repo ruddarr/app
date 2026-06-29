@@ -1,18 +1,11 @@
 import Foundation
 
 extension UserDefaults {
-    /// Shared App Group suite. Data written here is readable by app extensions
-    /// (e.g. `NotificationService`). Must match the `com.apple.security.application-groups`
-    /// entry in every target's entitlements and be registered for the team.
     static let appGroup = "group.com.ruddarr"
 
-    /// The app's primary store. Backed by the shared App Group suite so that
-    /// extensions can read the same settings. Falls back to `.standard` only if
-    /// the suite can't be created (e.g. missing entitlement), which keeps the app
-    /// functional while preventing a half-migrated split between two stores.
-    static let live: UserDefaults = {
+    static var live: UserDefaults {
         UserDefaults(suiteName: appGroup) ?? .standard
-    }()
+    }
 }
 
 extension UserDefaults {

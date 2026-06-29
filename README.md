@@ -45,10 +45,11 @@ Next, select the Apple Account's team for the `Ruddarr` and `NotificationService
 Ruddarr → Signing & Capabilities → Targets → {target} -> Signing -> Team
 ```
 
-Now choose between **a)** creating a provisioning profile on your account for the `iCloud`, `App Groups` and `Push Notification` capabilities and skipping the next steps, or **b)** continuing on and removing the capabilities from:
+Now choose between **a)** creating a provisioning profile on your account for the `iCloud`, `App Groups` and `Push Notification` capabilities and skipping the next steps, or **b)** continuing on and removing the capabilities from both targets (the `NotificationService` target only has `App Groups`):
 
 ```
 Ruddarr → Signing & Capabilities → Targets → Ruddarr
+Ruddarr → Signing & Capabilities → Targets → NotificationService
 ```
 
 Then uncomment the CloudKit mock in `Ruddarr::init()`:
@@ -61,7 +62,7 @@ Lastly, change `@CloudStorage` to `@AppStorage` in `AppSettings`:
 
 ```diff
 - @CloudStorage("instances") private var storedInstances: [Instance] = []
-+ @AppStorage("instances") private var storedInstances: [Instance] = []
++ @AppStorage("debugInstances", store: dependencies.store) private var storedInstances: [Instance] = []
 ```
 
 > [!NOTE]
