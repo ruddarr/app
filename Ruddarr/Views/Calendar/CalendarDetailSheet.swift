@@ -52,7 +52,7 @@ struct CalendarSheetAwareToolbar: ToolbarContent {
             #if os(iOS)
                 if let deeplink {
                     ToolbarItem(placement: deviceType == .phone ? .bottomBar : .automatic) {
-                        Button("Open", systemImage: "arrow.up.forward.app") {
+                        Button("Open", systemImage: "arrow.up.forward") {
                             try? QuickActions.Deeplink(url: deeplink)()
                             inCalendarSheet.dismiss()
                         }

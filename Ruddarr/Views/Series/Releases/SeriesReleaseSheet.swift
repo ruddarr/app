@@ -135,23 +135,20 @@ struct SeriesReleaseSheet: View {
     }
 
     var actions: some View {
-        HStack(spacing: 24) {
-            if deviceType != .phone {
-                Spacer()
-            }
-
+        HStack(spacing: 20) {
             if let url = URL(string: release.infoUrl ?? "") {
                 Link(destination: url, label: {
                     let label: LocalizedStringKey = deviceType == .phone ? "Website" : "Open Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
-                        .modifier(MediaPreviewActionModifier())
                 })
-                .buttonStyle(.bordered)
-                .tint(.buttonTint)
+                .actionButton()
+                .actionButtonWidth()
                 .contextMenu {
                     LinkContextMenu(url)
                 }
+            } else {
+                ActionButtonSpacer()
             }
 
             Button {
@@ -168,17 +165,13 @@ struct SeriesReleaseSheet: View {
                     icon: "arrow.down.circle",
                     isLoading: instance.series.isWorking
                 )
-                .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
+            .actionButton()
+            .actionButtonWidth()
             .allowsHitTesting(!instance.series.isWorking)
-
-            if deviceType != .phone {
-                Spacer()
-            }
         }
         .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
     }
 
     var details: some View {

@@ -5,6 +5,7 @@
 - Added "History" to sidebar on iPadOS
 - Display disk space usage and statistics for instances
 - Display counts below media grids
+- Jump from a queue task to its movie or series
 
 ### Changed
 - Animate discovery grid loading indicator
@@ -15,6 +16,7 @@
 - Debounce library search queries
 - Removed sidebar header on iPadOS
 - Refined sections in settings view
+- Redesigned action buttons across the app
 - Various internal code improvements
 
 ### Fixed

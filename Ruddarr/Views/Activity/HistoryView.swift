@@ -23,12 +23,14 @@ struct HistoryView: View {
                         if history.isLoading {
                             ProgressView().tint(.secondary)
                         } else if history.hasMore.values.contains(true) {
-                            Button("Load More") {
+                            Button {
                                 page += 1
                                 Task { await history.fetch(page, displayedEventType) }
+                            } label: {
+                                ButtonLabel(text: "Load More", size: .small)
                             }
-                            .buttonStyle(.bordered)
-                            .tint(.buttonTint)
+                            .actionButton()
+                            .fixedSize()
                         }
                     }
                     .padding(.vertical, 12)

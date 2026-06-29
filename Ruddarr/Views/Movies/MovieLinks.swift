@@ -16,7 +16,7 @@ struct MovieLinks: View {
 
     func link(name: String, url: String) -> some View {
         Link(destination: URL(string: url)!, label: {
-            Label("Open in \(name)", systemImage: "arrow.up.right.square")
+            Label("Open in \(name)", systemImage: "arrow.up.forward.app")
         })
     }
 

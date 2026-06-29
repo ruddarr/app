@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "History" to sidebar on iPadOS
 - Display disk space usage and statistics for instances
 - Display counts below media grids
+- Jump from a queue task to its movie or series
 
 ### Changed
 - Animate discovery grid loading indicator
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Debounce library search queries
 - Removed sidebar header on iPadOS
 - Refined sections in settings view
+- Redesigned action buttons across the app
 - Various internal code improvements
 
 ### Fixed
