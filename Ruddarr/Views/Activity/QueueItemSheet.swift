@@ -162,7 +162,7 @@ struct QueueItemSheet: View {
     }
 
     var actions: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 12) {
             primaryButton
             secondaryButtons
         }

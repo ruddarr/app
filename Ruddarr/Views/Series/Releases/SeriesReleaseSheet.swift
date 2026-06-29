@@ -135,7 +135,7 @@ struct SeriesReleaseSheet: View {
     }
 
     var actions: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 20) {
             if let url = URL(string: release.infoUrl ?? "") {
                 Link(destination: url, label: {
                     let label: LocalizedStringKey = deviceType == .phone ? "Website" : "Open Website"

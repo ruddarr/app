@@ -152,7 +152,7 @@ struct SeasonView: View {
     }
 
     var actions: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 20) {
             Button {
                 Task { await dispatchSearch() }
             } label: {

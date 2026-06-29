@@ -100,7 +100,7 @@ struct MovieDetails: View {
 
     @ViewBuilder
     var actions: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 20) {
             if movie.exists {
                 movieActions
             } else {
