@@ -4,7 +4,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var tabCustomization = TabViewCustomization()
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {

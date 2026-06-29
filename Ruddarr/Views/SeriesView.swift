@@ -14,7 +14,7 @@ enum SeriesPath: Hashable {
 struct SeriesView: View {
     @AppStorage("seriesSort", store: dependencies.store) var sort: SeriesSort = .init()
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
 
     @State private var scrollView: ScrollViewProxy?

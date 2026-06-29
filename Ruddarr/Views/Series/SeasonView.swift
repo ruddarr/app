@@ -13,7 +13,7 @@ struct SeasonView: View {
     @State private var showDeleteConfirmation = false
     @State private var queue = Queue.shared
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
 
     var body: some View {
@@ -195,7 +195,7 @@ struct SeasonView: View {
                         ) {
                             EpisodeRow(episode: episode, status: queue.queueStatus(episode, instanceId: instance.id))
                                 .environment(instance)
-                                .environmentObject(settings)
+                                .environment(settings)
                         }
                         .buttonStyle(.plain)
 

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SettingsAboutSection: View {
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     @Environment(\.openURL) var openURL
 

@@ -13,7 +13,7 @@ enum MoviesPath: Hashable {
 struct MoviesView: View {
     @AppStorage("movieSort", store: dependencies.store) var sort: MovieSort = .init()
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var instance
 
     @State private var scrollView: ScrollViewProxy?

@@ -15,7 +15,7 @@ struct EpisodeView: View {
     @State private var descriptionTruncated = true
     @State private var showDeleteConfirmation = false
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
 
     @Environment(\.deviceType) private var deviceType

@@ -1,42 +1,67 @@
-import SwiftUI
 import Foundation
-import Combine
+import Observation
 
-// We can't migrate this to `@Observable` because `@AppStorage` isn't supported
-// We could use https://github.com/sindresorhus/Defaults instead maybe
-@MainActor
-class AppSettings: ObservableObject {
+// `instances` is owned by `InstancesStore`; the rest are UserDefaults-backed
+// settings persisted to the App Group suite (`dependencies.store`). They're plain
+// stored properties — not `@AppStorage`, which `@Observable` can't track — whose
+// `didSet` writes the new value straight through to the store.
+@Observable @MainActor
+final class AppSettings {
     var instances: [Instance] {
         get { InstancesStore.shared.instances }
         set { InstancesStore.shared.setInstances(newValue) }
     }
 
-    private var instancesObserver: AnyCancellable?
+    var icon: AppIcon = AppSettings.load("icon", .factory) { didSet { AppSettings.persist(icon, "icon") } }
+    var theme: Theme = AppSettings.load("theme", .factory) { didSet { AppSettings.persist(theme, "theme") } }
+    var appearance: Appearance = AppSettings.load("appearance", .automatic) { didSet { AppSettings.persist(appearance, "appearance") } }
+    var grid: GridStyle = AppSettings.load("grid", .posters) { didSet { AppSettings.persist(grid, "grid") } }
 
-    init() {
-        instancesObserver = InstancesStore.shared.objectWillChange
-            .sink { [weak self] _ in self?.objectWillChange.send() }
-    }
+    var tab: TabItem = AppSettings.load("tab", .movies) { didSet { AppSettings.persist(tab, "tab") } }
+    var releaseFilters: ReleaseFilters = AppSettings.load("releaseFilters", .reset) { didSet { AppSettings.persist(releaseFilters, "releaseFilters") } }
 
-    @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
-    @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
-    @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
-    @AppStorage("grid", store: dependencies.store) var grid: GridStyle = .posters
-
-    @AppStorage("tab", store: dependencies.store) var tab: TabItem = .movies
-    @AppStorage("releaseFilters", store: dependencies.store) var releaseFilters: ReleaseFilters = .reset
-
-    @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
-    @AppStorage("sonarrInstanceId", store: dependencies.store) var sonarrInstanceId: Instance.ID?
+    var radarrInstanceId: Instance.ID? = AppSettings.loadOptional("radarrInstanceId") { didSet { AppSettings.persist(radarrInstanceId, "radarrInstanceId") } }
+    var sonarrInstanceId: Instance.ID? = AppSettings.loadOptional("sonarrInstanceId") { didSet { AppSettings.persist(sonarrInstanceId, "sonarrInstanceId") } }
 
     func resetAll() {
         InstancesStore.shared.reset()
+
+        // `@AppStorage` used to reflect the cleared store automatically; plain
+        // stored properties don't, so restore defaults in-memory first (each
+        // `didSet` re-persists the default) before wiping the store — leaving the
+        // UI reset and nothing behind to re-migrate.
+        icon = .factory
+        theme = .factory
+        appearance = .automatic
+        grid = .posters
+        tab = .movies
+        releaseFilters = .reset
+        radarrInstanceId = nil
+        sonarrInstanceId = nil
 
         dependencies.store.removePersistentDomain(forName: Ruddarr.group)
 
         if let bundleId = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundleId)
         }
+    }
+}
+
+private extension AppSettings {
+    static func load<T: RawRepresentable>(_ key: String, _ fallback: T) -> T where T.RawValue == String {
+        dependencies.store.string(forKey: key).flatMap { T(rawValue: $0) } ?? fallback
+    }
+
+    static func loadOptional<T: RawRepresentable>(_ key: String) -> T? where T.RawValue == String {
+        dependencies.store.string(forKey: key).flatMap { T(rawValue: $0) }
+    }
+
+    static func persist<T: RawRepresentable>(_ value: T, _ key: String) where T.RawValue == String {
+        dependencies.store.set(value.rawValue, forKey: key)
+    }
+
+    static func persist<T: RawRepresentable>(_ value: T?, _ key: String) where T.RawValue == String {
+        dependencies.store.set(value?.rawValue, forKey: key)
     }
 }
 

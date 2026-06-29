@@ -7,7 +7,7 @@ struct SeriesPreviewView: View {
 
     @State private var presentingForm: Bool = false
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     @Environment(SonarrInstance.self) private var instance
     @Environment(\.dismiss) private var dismiss
@@ -21,7 +21,7 @@ struct SeriesPreviewView: View {
             SeriesDetails(series: $series)
                 .padding(.top)
                 .scenePadding(.horizontal)
-                .environmentObject(settings)
+                .environment(settings)
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {

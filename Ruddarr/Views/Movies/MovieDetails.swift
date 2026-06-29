@@ -10,7 +10,7 @@ struct MovieDetails: View {
     @State private var fileSheet: MediaFile?
     @State var queue = Queue.shared
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     @Environment(RadarrInstance.self) var instance
     @Environment(\.deviceType) var deviceType

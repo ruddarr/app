@@ -89,15 +89,18 @@ private struct WithAppStateModifier: ViewModifier {
     @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
     @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
 
+    // Owns the app-wide `@Observable` settings with a stable identity across body
+    // re-renders (an `@Observable` injected via `.environment` must be held in `@State`).
+    @State private var settings = AppSettings()
+
     func body(content: Content) -> some View {
-        let settings = AppSettings()
         let radarrInstance = settings.radarrInstance ?? Instance.radarrVoid
         let sonarrInstance = settings.sonarrInstance ?? Instance.sonarrVoid
 
         content
             .tint(theme.tint)
             .preferredColorScheme(appearance.preferredColorScheme)
-            .environmentObject(settings)
+            .environment(settings)
             .environment(\.deviceType, Platform.deviceType)
             .environment(RadarrInstance(radarrInstance))
             .environment(SonarrInstance(sonarrInstance))

@@ -1,12 +1,12 @@
 import Foundation
-import Combine
+import Observation
 
 #if canImport(UIKit)
 import UIKit
 #endif
 
-@MainActor
-final class InstancesStore: ObservableObject {
+@Observable @MainActor
+final class InstancesStore {
     static let shared = InstancesStore()
 
     #if DEBUG
@@ -15,10 +15,10 @@ final class InstancesStore: ObservableObject {
         nonisolated static let key = "instances"
     #endif
 
-    private let suite: UserDefaults
-    private let cloud: NSUbiquitousKeyValueStore?
+    @ObservationIgnored private let suite: UserDefaults
+    @ObservationIgnored private let cloud: NSUbiquitousKeyValueStore?
 
-    @Published private(set) var instances: [Instance] = []
+    private(set) var instances: [Instance] = []
 
     #if DEBUG
         private static var defaultCloud: NSUbiquitousKeyValueStore? { nil }

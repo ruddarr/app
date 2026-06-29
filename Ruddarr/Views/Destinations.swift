@@ -3,7 +3,7 @@ import SwiftUI
 struct MoviesDestination: View {
     var path: MoviesPath
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var instance
 
     var body: some View {
@@ -15,19 +15,19 @@ struct MoviesDestination: View {
             if let data, let movie = try? JSONDecoder().decode(Movie.self, from: data) {
                 MoviePreviewView(movie: movie)
                     .environment(instance)
-                    .environmentObject(settings)
+                    .environment(settings)
             }
         case .movie(let id):
             MovieView(movie: instance.movies.byId(id))
                 .environment(instance)
-                .environmentObject(settings)
+                .environment(settings)
         case .edit(let id):
             MovieEditView(movie: instance.movies.byId(id))
                 .environment(instance)
         case .releases(let id):
             MovieReleasesView(movie: instance.movies.byId(id))
                 .environment(instance)
-                .environmentObject(settings)
+                .environment(settings)
         case .metadata(let id):
             MovieMetadataView(movie: instance.movies.byId(id))
                 .environment(instance)
@@ -39,7 +39,7 @@ struct SeriesDestination: View {
     var path: SeriesPath
     var navigate: (SeriesPath) -> Void = { dependencies.router.seriesPath.append($0) }
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
 
     var body: some View {
@@ -51,12 +51,12 @@ struct SeriesDestination: View {
             if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
                 SeriesPreviewView(series: series)
                     .environment(instance)
-                    .environmentObject(settings)
+                    .environment(settings)
             }
         case .series(let id):
             SeriesDetailView(series: instance.series.byId(id))
                 .environment(instance)
-                .environmentObject(settings)
+                .environment(settings)
         case .edit(let id):
             SeriesEditView(series: instance.series.byId(id))
                 .environment(instance)
@@ -67,7 +67,7 @@ struct SeriesDestination: View {
                 episodeId: episode
             )
             .environment(instance)
-            .environmentObject(settings)
+            .environment(settings)
         case .season(let id, let season, let episode):
             SeasonView(
                 series: instance.series.byId(id),
@@ -76,11 +76,11 @@ struct SeriesDestination: View {
                 jumpToEpisode: episode
             )
                 .environment(instance)
-                .environmentObject(settings)
+                .environment(settings)
         case .episode(let id, let episode):
             EpisodeView(series: instance.series.byId(id), episodeId: episode)
                 .environment(instance)
-                .environmentObject(settings)
+                .environment(settings)
         }
     }
 }
@@ -88,7 +88,7 @@ struct SeriesDestination: View {
 struct SettingsDestination: View {
     var path: SettingsView.Path
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
 
@@ -96,27 +96,27 @@ struct SettingsDestination: View {
         switch path {
         case .icons:
             IconsView()
-                .environmentObject(settings)
+                .environment(settings)
         case .changelog:
             ChangelogView()
         case .createInstance:
             InstanceEditView(mode: .create, instance: Instance())
                 .environment(radarrInstance)
                 .environment(sonarrInstance)
-                .environmentObject(settings)
+                .environment(settings)
         case .viewInstance(let instanceId):
             if let instance = settings.instanceById(instanceId) {
                 InstanceView(instance: instance)
                     .environment(radarrInstance)
                     .environment(sonarrInstance)
-                    .environmentObject(settings)
+                    .environment(settings)
             }
         case .editInstance(let instanceId):
             if let instance = settings.instanceById(instanceId) {
                 InstanceEditView(mode: .update, instance: instance)
                     .environment(radarrInstance)
                     .environment(sonarrInstance)
-                    .environmentObject(settings)
+                    .environment(settings)
             }
         }
     }

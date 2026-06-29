@@ -7,7 +7,7 @@ struct SeriesReleaseSheet: View {
     var seasonId: Season.ID?
     var episodeId: Episode.ID?
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss

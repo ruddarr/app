@@ -46,7 +46,7 @@ extension ActivityView {
             if !settings.configuredInstances.isEmpty {
                 ToolbarItem(placement: .primaryAction) {
                     NavigationLink {
-                        HistoryView().environmentObject(settings)
+                        HistoryView().environment(settings)
                     } label: {
                         Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
                             .imageScale(.medium)

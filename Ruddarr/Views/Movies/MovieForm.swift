@@ -3,7 +3,7 @@ import SwiftUI
 struct MovieForm: View {
     @Binding var movie: Movie
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
 
     @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance

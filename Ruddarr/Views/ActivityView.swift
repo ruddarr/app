@@ -7,7 +7,7 @@ struct ActivityView: View {
     @State var items: [QueueItem] = []
     @State private var selectedItem: QueueItem?
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {
@@ -76,7 +76,7 @@ struct ActivityView: View {
                         deviceType == .phone ? .fraction(0.7) : .large
                     ])
                     .presentationBackground(.sheetBackground)
-                    .environmentObject(settings)
+                    .environment(settings)
             }
         }
     }
