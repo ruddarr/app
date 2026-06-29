@@ -30,7 +30,12 @@ struct Ruddarr: App {
             forName: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
             object: NSUbiquitousKeyValueStore.default,
             queue: .main
-        ) { _ in
+        ) { notification in
+            // Only react when `instances` actually changed — except for account
+            // changes, which carry no changed-keys list and may replace everything.
+            let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String]
+            guard keys == nil || keys?.contains("instances") == true else { return }
+
             Task { @MainActor in AppSettings.refreshInstancesMirror() }
         }
         #endif
