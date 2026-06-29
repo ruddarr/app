@@ -13,6 +13,7 @@ struct SeriesReleaseSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     @State private var showGrabConfirmation: Bool = false
 
@@ -277,7 +278,9 @@ struct SeriesReleaseSheet: View {
 
         dismiss()
 
-        if !dependencies.router.seriesPath.isEmpty {
+        if let inCalendarSheet {
+            inCalendarSheet.pop()
+        } else if !dependencies.router.seriesPath.isEmpty {
             dependencies.router.seriesPath.removeLast()
         }
 

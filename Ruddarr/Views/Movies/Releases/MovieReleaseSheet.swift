@@ -11,6 +11,7 @@ struct MovieReleaseSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     @State private var showGrabConfirmation: Bool = false
 
@@ -258,7 +259,9 @@ struct MovieReleaseSheet: View {
 
         dismiss()
 
-        if !dependencies.router.moviesPath.isEmpty {
+        if let inCalendarSheet {
+            inCalendarSheet.pop()
+        } else if !dependencies.router.moviesPath.isEmpty {
             dependencies.router.moviesPath.removeLast()
         }
 
