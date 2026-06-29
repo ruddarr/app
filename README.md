@@ -45,7 +45,7 @@ Next, select the Apple Account's team for the `Ruddarr` and `NotificationService
 Ruddarr → Signing & Capabilities → Targets → {target} -> Signing -> Team
 ```
 
-Now choose between **a)** creating a provisioning profile on your account for the `iCloud` and `Push Notification` capabilities and skipping the next steps, or **b)** continuing on and removing the capabilities from:
+Now choose between **a)** creating a provisioning profile on your account for the `iCloud`, `App Groups` and `Push Notification` capabilities and skipping the next steps, or **b)** continuing on and removing the capabilities from:
 
 ```
 Ruddarr → Signing & Capabilities → Targets → Ruddarr
@@ -60,9 +60,15 @@ dependencies.cloudkit = .mock
 Lastly, change `@CloudStorage` to `@AppStorage` in `AppSettings`:
 
 ```diff
-- @CloudStorage("instances") var instances: [Instance] = []
-+ @AppStorage("instances") var instances: [Instance] = []
+- @CloudStorage("instances") private var storedInstances: [Instance] = []
++ @AppStorage("instances") private var storedInstances: [Instance] = []
 ```
+
+> [!NOTE]
+> Instances and other settings are stored in the `group.com.ruddarr` App Group
+> so app extensions can read them. When using your own bundle identifier, update
+> `UserDefaults.appGroup` in `Store.swift` and the `App Groups` entry in both the
+> `Ruddarr` and `NotificationService` entitlements to match.
 
 That's it. Select a run destination and build it. 
 
