@@ -3,7 +3,7 @@ import StoreKit
 import Sentry
 
 struct SettingsPreferencesSection: View {
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(\.colorScheme) var colorScheme
 
     @State private var showSubscriptionSheet: Bool = false
@@ -38,7 +38,8 @@ struct SettingsPreferencesSection: View {
     }
 
     var tabPicker: some View {
-        Picker(selection: $settings.tab) {
+        @Bindable var settings = settings
+        return Picker(selection: $settings.tab) {
             ForEach([
                 TabItem.movies,
                 TabItem.series,
@@ -58,7 +59,8 @@ struct SettingsPreferencesSection: View {
     }
 
     var gridPicker: some View {
-        Picker(selection: $settings.grid) {
+        @Bindable var settings = settings
+        return Picker(selection: $settings.grid) {
             ForEach(GridStyle.allCases) { style in
                 Text(style.label)
             }
@@ -69,7 +71,8 @@ struct SettingsPreferencesSection: View {
     }
 
     var releaseFiltersPicker: some View {
-        Picker(selection: $settings.releaseFilters) {
+        @Bindable var settings = settings
+        return Picker(selection: $settings.releaseFilters) {
             ForEach(ReleaseFilters.allCases) { value in
                 Text(value.label)
             }
