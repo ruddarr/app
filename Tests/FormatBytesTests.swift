@@ -18,6 +18,12 @@ struct FormatBytesTests {
         #expect(formatBytes(1_073_741_824) == "1 GB")
     }
 
+    // Disk-space values arrive as `Int64`; the generic overload accepts them without conversion.
+    @Test func acceptsInt64() {
+        #expect(formatBytes(Int64(1_073_741_824)) == "1 GB")
+        #expect(formatBytes(Int64(bytes(477.76, 3))) == "478 GB")
+    }
+
     // MARK: - Default precision (concise ~3 significant figures)
 
     @Test func defaultUsesThreeSignificantFigures() {
@@ -52,7 +58,7 @@ struct FormatBytesTests {
     }
 
     @Test func floatOverloadClampsLargeFiniteValuesToMax() {
-        #expect(formatBytes(Float.greatestFiniteMagnitude) == formatBytes(.max))
+        #expect(formatBytes(Float.greatestFiniteMagnitude) == formatBytes(Int.max))
     }
 
     @Test func floatOverloadMatchesIntForFiniteValues() {

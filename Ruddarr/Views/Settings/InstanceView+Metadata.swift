@@ -69,8 +69,8 @@ extension InstanceView {
                     ForEach(locations) { location in
                         LabeledContent {
                             Text(verbatim: "%@ / %@".placeholders(
-                                formatBytes(Int(clamping: location.freeSpace)),
-                                formatBytes(Int(clamping: location.totalSpace))
+                                formatBytes(location.freeSpace),
+                                formatBytes(location.totalSpace)
                             ))
                             .foregroundStyle(.secondary)
                             .font(.subheadline)
