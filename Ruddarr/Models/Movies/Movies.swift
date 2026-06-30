@@ -39,7 +39,7 @@ class Movies {
         sortAndFilterTask?.cancel()
         isFiltering = true
 
-        sortAndFilterTask = Task(priority: .userInitiated) { @MainActor in
+        sortAndFilterTask = Task(priority: .userInitiated) {
             let items = self.items
             let alternateTitles = self.alternateTitles
 

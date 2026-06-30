@@ -112,10 +112,10 @@ struct SeriesView: View {
             .overlay {
                 if notConnectedToInternet {
                     NoInternet()
-                } else if hasNoSearchResults {
-                    NoSeriesSearchResults(query: $searchQuery, sort: $sort)
                 } else if isLoadingSeries {
                     Loading()
+                } else if hasNoSearchResults {
+                    NoSeriesSearchResults(query: $searchQuery, sort: $sort)
                 } else if hasNoMatchingResults {
                     NoMatchingSeries(sort: $sort)
                 } else if initialLoadingFailed {
