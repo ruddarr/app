@@ -37,9 +37,11 @@ struct SettingsPreferencesSection: View {
         #endif
     }
 
+    @ViewBuilder
     var tabPicker: some View {
         @Bindable var settings = settings
-        return Picker(selection: $settings.tab) {
+
+        Picker(selection: $settings.tab) {
             ForEach([
                 TabItem.movies,
                 TabItem.series,
@@ -58,9 +60,11 @@ struct SettingsPreferencesSection: View {
         .tint(.secondary)
     }
 
+    @ViewBuilder
     var gridPicker: some View {
         @Bindable var settings = settings
-        return Picker(selection: $settings.grid) {
+
+        Picker(selection: $settings.grid) {
             ForEach(GridStyle.allCases) { style in
                 Text(style.label)
             }
@@ -70,9 +74,11 @@ struct SettingsPreferencesSection: View {
         }.tint(.secondary)
     }
 
+    @ViewBuilder
     var releaseFiltersPicker: some View {
         @Bindable var settings = settings
-        return Picker(selection: $settings.releaseFilters) {
+
+        Picker(selection: $settings.releaseFilters) {
             ForEach(ReleaseFilters.allCases) { value in
                 Text(value.label)
             }

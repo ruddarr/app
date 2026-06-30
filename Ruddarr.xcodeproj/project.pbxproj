@@ -912,12 +912,11 @@
 				BB40712E2C1CDD32006A3FA5 /* NotificationService */,
 				BB000000000000000000AAA4 /* Tests */,
 				BBCF001B2F0000000000AAA1 /* TestFlight */,
+				BBE828542B4F2C7000C1E1D9 /* Products */,
 				BBC78DC02D70E2D700EA0AF5 /* README.md */,
 				BB25B5EE2FEEF1C300A31109 /* CHANGELOG.md */,
 				BB778B4E2FEB0DE30077A26A /* AGENTS.md */,
 				BBF8E1202D8B9DB70018C5D7 /* LICENSE */,
-				BBE828542B4F2C7000C1E1D9 /* Products */,
-				BBFC84212FF2DE3900BB2935 /* InstancesStore.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1087,6 +1086,7 @@
 				BBA06B5A2F47D68200A5F9B4 /* Discovery.swift */,
 				BB7487F22F57627800B0F036 /* Migrations.swift */,
 				BBFBAD5B2BDFF5A4007B70BC /* WhatsNew.swift */,
+				BBFC84212FF2DE3900BB2935 /* InstancesStore.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";

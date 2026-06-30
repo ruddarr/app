@@ -87,6 +87,7 @@ extension SeriesView {
     var bottomBarInstancePicker: some ToolbarContent {
         #if os(iOS)
             @Bindable var settings = settings
+
             ToolbarSpacer(.flexible, placement: .bottomBar)
 
             ToolbarItem(placement: .bottomBar) {
@@ -114,6 +115,7 @@ extension SeriesView {
     @ToolbarContentBuilder
     var toolbarInstancePicker: some ToolbarContent {
         @Bindable var settings = settings
+
         ToolbarSpacer(.fixed, placement: .navigation)
 
         ToolbarItem(placement: .navigation) {

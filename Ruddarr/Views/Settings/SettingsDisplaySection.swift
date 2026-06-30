@@ -18,9 +18,11 @@ struct SettingsDisplaySection: View {
         }
     }
 
+    @ViewBuilder
     var appearancePicker: some View {
         @Bindable var settings = settings
-        return Picker(selection: $settings.appearance) {
+
+        Picker(selection: $settings.appearance) {
             ForEach(Appearance.allCases) { colorScheme in
                 Text(colorScheme.label)
             }
@@ -36,9 +38,11 @@ struct SettingsDisplaySection: View {
         }.tint(.secondary)
     }
 
+    @ViewBuilder
     var themePicker: some View {
         @Bindable var settings = settings
-        return Picker(selection: $settings.theme) {
+
+        Picker(selection: $settings.theme) {
             ForEach(Theme.allCases) { theme in
                 Text(verbatim: theme.label)
             }

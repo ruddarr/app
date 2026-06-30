@@ -109,6 +109,7 @@ struct ContentView: View {
     @ViewBuilder
     var instancesSection: some View {
         @Bindable var settings = settings
+
         if dependencies.router.selectedTab == .movies, settings.radarrInstances.count > 1 {
             Section("Instances") {
                 instanceRow(
