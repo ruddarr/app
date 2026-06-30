@@ -9,3 +9,4 @@
 - Fixed missing top padding on media info sheet on macOS
 - Fixed iOS 26.4+ toolbar crash
 - Fixed various small iOS 27 issues
+- Fixed media grid flicker when while sorting
