@@ -84,7 +84,8 @@ struct EpisodeRow: View {
         } label: {
             ToolbarMonitorButton(
                 monitored: .constant(episode.monitored),
-                loading: instance.episodes.isMonitoring == episode.id
+                loading: instance.episodes.isMonitoring == episode.id,
+                font: .body
             )
             .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
         }

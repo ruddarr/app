@@ -36,7 +36,8 @@ struct SeasonCard: View {
                 } label: {
                     ToolbarMonitorButton(
                         monitored: .constant(season.monitored),
-                        loading: isWorking
+                        loading: isWorking,
+                        font: .body
                     )
                     .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
                 }

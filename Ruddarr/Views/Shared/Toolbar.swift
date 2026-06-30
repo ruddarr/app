@@ -22,6 +22,7 @@ struct ToolbarFilterBadge: View {
 struct ToolbarMonitorButton: View {
     @Binding var monitored: Bool
     var loading: Bool = false
+    var font: Font = .subheadline
 
     @State private var pulsing = false
 
@@ -30,7 +31,7 @@ struct ToolbarMonitorButton: View {
             .symbolVariant(monitored ? .fill : .none)
             .symbolEffect(.pulse, isActive: pulsing)
             .animation(.snappy, value: monitored)
-            .font(.subheadline)
+            .font(font)
             .task(id: loading) {
                 guard loading else {
                     pulsing = false
