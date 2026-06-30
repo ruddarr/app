@@ -3,6 +3,8 @@ import Observation
 
 #if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 
 @MainActor
@@ -45,13 +47,17 @@ final class InstancesStore {
             cloud.synchronize()
 
             #if canImport(UIKit)
-                NotificationCenter.default.addObserver(
-                    cloud,
-                    selector: #selector(NSUbiquitousKeyValueStore.synchronize),
-                    name: UIApplication.willEnterForegroundNotification,
-                    object: nil
-                )
+                let activation = UIApplication.willEnterForegroundNotification
+            #elseif canImport(AppKit)
+                let activation = NSApplication.didBecomeActiveNotification
             #endif
+
+            NotificationCenter.default.addObserver(
+                cloud,
+                selector: #selector(NSUbiquitousKeyValueStore.synchronize),
+                name: activation,
+                object: nil
+            )
         }
 
         reconcile()
@@ -62,11 +68,9 @@ final class InstancesStore {
             NotificationCenter.default.removeObserver(observer)
         }
 
-        #if canImport(UIKit)
-            if let cloud {
-                NotificationCenter.default.removeObserver(cloud)
-            }
-        #endif
+        if let cloud {
+            NotificationCenter.default.removeObserver(cloud)
+        }
     }
 
     nonisolated static func decode(_ raw: String?) -> [Instance] {
@@ -121,9 +125,9 @@ final class InstancesStore {
         guard let cloud else { return }
         let incoming = Self.decode(cloud.string(forKey: Self.key))
 
-        suite.set(incoming.rawValue, forKey: Self.key)
-
         guard incoming != instances else { return }
+
+        suite.set(incoming.rawValue, forKey: Self.key)
         instances = incoming
     }
 }
