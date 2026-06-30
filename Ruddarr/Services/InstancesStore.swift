@@ -79,10 +79,10 @@ final class InstancesStore {
     }
 
     func reset() {
+        let empty = [Instance]().rawValue
         instances = []
-        suite.removeObject(forKey: Self.key)
-        cloud?.removeObject(forKey: Self.key)
-        cloud?.synchronize()
+        suite.set(empty, forKey: Self.key)
+        writeCloud(empty)
     }
 
     private func write(_ new: [Instance]) {
