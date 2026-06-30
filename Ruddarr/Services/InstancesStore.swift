@@ -129,12 +129,13 @@ final class InstancesStore {
 
     private func reconcile() {
         let raw = suite.string(forKey: Self.key)
+        let decoded = Self.decode(raw)
 
-        if raw != nil && Self.decode(raw) == nil {
+        if raw != nil && decoded == nil {
             leaveBreadcrumb(.error, category: "instances", message: "Local instances value could not be decoded", data: ["key": Self.key])
         }
 
-        instances = Self.decode(raw) ?? []
+        instances = decoded ?? []
 
         guard cloud != nil else { return }
 
