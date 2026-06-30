@@ -82,15 +82,12 @@ struct EpisodeRow: View {
         Button {
             Task { await toggleMonitor() }
         } label: {
-            ToolbarMonitorButton(
+            RowMonitorButton(
                 monitored: .constant(episode.monitored),
-                loading: instance.episodes.isMonitoring == episode.id,
-                font: .body
+                loading: instance.episodes.isMonitoring == episode.id
             )
-            .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
         }
         .buttonStyle(.plain)
-        .overlay(Rectangle().padding(18))
         .allowsHitTesting(instance.episodes.isMonitoring == 0)
         .disabled(!series.monitored)
     }

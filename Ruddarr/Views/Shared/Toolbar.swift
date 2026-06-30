@@ -19,10 +19,9 @@ struct ToolbarFilterBadge: View {
     }
 }
 
-struct ToolbarMonitorButton: View {
+struct MonitorBookmark: View {
     @Binding var monitored: Bool
     var loading: Bool = false
-    var font: Font = .subheadline
 
     @State private var pulsing = false
 
@@ -31,7 +30,6 @@ struct ToolbarMonitorButton: View {
             .symbolVariant(monitored ? .fill : .none)
             .symbolEffect(.pulse, isActive: pulsing)
             .animation(.snappy, value: monitored)
-            .font(font)
             .task(id: loading) {
                 guard loading else {
                     pulsing = false
@@ -47,6 +45,31 @@ struct ToolbarMonitorButton: View {
     }
 }
 
+struct ToolbarMonitorButton: View {
+    @Binding var monitored: Bool
+    var loading: Bool = false
+
+    var body: some View {
+        MonitorBookmark(monitored: $monitored, loading: loading)
+            .font(.subheadline)
+            .tint(.primary)
+    }
+}
+
+struct RowMonitorButton: View {
+    @Binding var monitored: Bool
+    var loading: Bool = false
+
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        MonitorBookmark(monitored: $monitored, loading: loading)
+            .font(.body)
+            .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
+            .overlay(Rectangle().padding(18))
+    }
+}
+
 struct ToolbarActionButton: View {
     var body: some View {
         Image(systemName: "ellipsis")
@@ -59,6 +82,7 @@ struct ToolbarActionButton: View {
 
     VStack(spacing: 32) {
         ToolbarMonitorButton(monitored: $monitored, loading: loading)
+        RowMonitorButton(monitored: $monitored, loading: loading)
 
         VStack(spacing: 12) {
             Button("Toggle Monitored") { monitored.toggle() }
