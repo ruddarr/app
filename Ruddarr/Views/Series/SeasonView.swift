@@ -10,6 +10,7 @@ struct SeasonView: View {
     @State var jumpToEpisode: Episode.ID?
     @State private var hasFetched: Bool = false
     @State private var dispatchingSearch: Bool = false
+    @State private var togglingMonitor: Bool = false
     @State private var showDeleteConfirmation = false
     @State private var queue = Queue.shared
 
@@ -213,9 +214,10 @@ struct SeasonView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: .constant(season.monitored))
+                ToolbarMonitorButton(monitored: .constant(season.monitored), loading: togglingMonitor)
+                    .tint(.primary)
             }
-            .allowsHitTesting(!instance.series.isWorking)
+            .allowsHitTesting(!togglingMonitor)
             .disabled(!series.monitored)
             .popoverTip(SeriesMonitoringTip(series.monitored))
             #if os(iOS)
@@ -260,6 +262,9 @@ extension SeasonView {
         }
 
         series.seasons[index].monitored.toggle()
+
+        togglingMonitor = true
+        defer { togglingMonitor = false }
 
         guard await instance.series.push(series) else {
             return

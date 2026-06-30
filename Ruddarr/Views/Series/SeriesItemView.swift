@@ -12,6 +12,7 @@ struct SeriesDetailView: View {
 
     @State private var showEditForm = false
     @State private var showDeleteConfirmation = false
+    @State private var togglingMonitor = false
 
     @State private var reloadTask: Task<Void, Never>?
 
@@ -70,9 +71,10 @@ struct SeriesDetailView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: $series.monitored)
+                ToolbarMonitorButton(monitored: $series.monitored, loading: togglingMonitor)
+                    .tint(.primary)
             }
-            .allowsHitTesting(!instance.series.isWorking)
+            .allowsHitTesting(!togglingMonitor)
             #if os(iOS)
                 .buttonStyle(.plain)
             #endif
@@ -160,6 +162,9 @@ struct SeriesDetailView: View {
 extension SeriesDetailView {
     func toggleMonitor() async {
         series.monitored.toggle()
+
+        togglingMonitor = true
+        defer { togglingMonitor = false }
 
         guard await instance.series.update(series) else {
             return

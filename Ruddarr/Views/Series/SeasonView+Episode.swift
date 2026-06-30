@@ -82,13 +82,11 @@ struct EpisodeRow: View {
         Button {
             Task { await toggleMonitor() }
         } label: {
-            if instance.episodes.isMonitoring == episode.id {
-                ButtonProgressView(tint: .secondary)
-            } else {
-                Image(systemName: "bookmark")
-                    .symbolVariant(episode.monitored ? .fill : .none)
-                    .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
-            }
+            ToolbarMonitorButton(
+                monitored: .constant(episode.monitored),
+                loading: instance.episodes.isMonitoring == episode.id
+            )
+            .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
         }
         .buttonStyle(.plain)
         .overlay(Rectangle().padding(18))

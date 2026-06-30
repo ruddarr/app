@@ -12,6 +12,7 @@ struct MovieView: View {
 
     @State private var showEditForm: Bool = false
     @State private var showDeleteConfirmation = false
+    @State private var togglingMonitor: Bool = false
 
     var body: some View {
         ScrollView {
@@ -58,9 +59,10 @@ struct MovieView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: $movie.monitored)
+                ToolbarMonitorButton(monitored: $movie.monitored, loading: togglingMonitor)
+                    .tint(.primary)
             }
-            .allowsHitTesting(!instance.movies.isWorking)
+            .allowsHitTesting(!togglingMonitor)
             #if os(iOS)
                 .buttonStyle(.plain)
             #endif
@@ -145,6 +147,9 @@ struct MovieView: View {
 extension MovieView {
     func toggleMonitor() async {
         movie.monitored.toggle()
+
+        togglingMonitor = true
+        defer { togglingMonitor = false }
 
         guard await instance.movies.update(movie) else {
             return

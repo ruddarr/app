@@ -180,10 +180,14 @@ struct EpisodeView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: Binding<Bool>(
-                    get: { episode.monitored },
-                    set: { episode.monitored = $0 }
-                ))
+                ToolbarMonitorButton(
+                    monitored: Binding<Bool>(
+                        get: { episode.monitored },
+                        set: { episode.monitored = $0 }
+                    ),
+                    loading: instance.episodes.isMonitoring == episode.id
+                )
+                .tint(.primary)
             }
             .allowsHitTesting(instance.episodes.isMonitoring == 0)
             .disabled(!series.monitored)
