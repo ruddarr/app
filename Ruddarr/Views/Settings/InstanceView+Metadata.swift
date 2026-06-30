@@ -54,9 +54,9 @@ extension InstanceView {
 
     var diskSpaceUnavailable: Bool {
         switch diskSpaceState {
-        case .loaded(let locations): return locations.isEmpty
-        case .failed: return true
-        case .idle, .loading: return false
+        case .loaded(let locations): locations.isEmpty
+        case .failed: true
+        case .idle, .loading: false
         }
     }
 

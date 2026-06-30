@@ -132,8 +132,8 @@ enum ReleaseFilters: String, Identifiable, CaseIterable {
 
     var label: String {
         switch self {
-        case .reset: return String(localized: "Reset", comment: "(Preferences) Reset release filters")
-        case .preserve: return String(localized: "Preserve", comment: "(Preferences) Preserve release filters")
+        case .reset: String(localized: "Reset", comment: "(Preferences) Reset release filters")
+        case .preserve: String(localized: "Preserve", comment: "(Preferences) Preserve release filters")
         }
     }
 }

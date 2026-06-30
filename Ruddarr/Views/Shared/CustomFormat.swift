@@ -8,7 +8,7 @@ struct CustomFormats: View {
     }
 
     init(_ formats: [MediaCustomFormat]) {
-        self.formats = formats.map { $0.label }
+        self.formats = formats.map(\.label)
     }
 
     var body: some View {

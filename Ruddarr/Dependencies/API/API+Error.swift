@@ -81,7 +81,7 @@ extension API.Error: LocalizedError {
             String(localized: "Server returned \(code) status code.")
         case .decodingError(let error):
             "[%@] %@".placeholders(
-                error.context.codingPath.map { $0.stringValue }.joined(separator: ", "),
+                error.context.codingPath.map(\.stringValue).joined(separator: ", "),
                 error.context.debugDescription
             )
         case .errorResponse(code: let code, message: let message):

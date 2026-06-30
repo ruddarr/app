@@ -231,9 +231,9 @@ extension SearchFieldPlacement {
         #if os(macOS)
             return .toolbar
         #else
-            switch displayMode {
-            case .automatic: return .navigationBarDrawer(displayMode: .automatic)
-            case .always: return .navigationBarDrawer(displayMode: .always)
+            return switch displayMode {
+            case .automatic: .navigationBarDrawer(displayMode: .automatic)
+            case .always: .navigationBarDrawer(displayMode: .always)
             }
         #endif
     }
