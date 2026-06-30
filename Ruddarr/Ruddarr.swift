@@ -22,7 +22,8 @@ struct Ruddarr: App {
         #endif
 
         Migrations.run()
-        Task { @MainActor in _ = InstancesStore.shared }
+        _ = InstancesStore.shared
+
         try? Tips.configure()
 
         Task {

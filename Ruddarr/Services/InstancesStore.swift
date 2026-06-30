@@ -5,7 +5,8 @@ import Observation
 import UIKit
 #endif
 
-@Observable @MainActor
+@MainActor
+@Observable
 final class InstancesStore {
     static let shared = InstancesStore()
 

@@ -1,35 +1,49 @@
 import Foundation
 import Observation
 
-// `instances` is owned by `InstancesStore`; the rest are UserDefaults-backed
-// settings persisted to the App Group suite (`dependencies.store`). They're plain
-// stored properties — not `@AppStorage`, which `@Observable` can't track — whose
-// `didSet` writes the new value straight through to the store.
-@Observable @MainActor
+@MainActor
+@Observable
 final class AppSettings {
     var instances: [Instance] {
         get { InstancesStore.shared.instances }
         set { InstancesStore.shared.setInstances(newValue) }
     }
 
-    var icon: AppIcon = AppSettings.load("icon", .factory) { didSet { AppSettings.persist(icon, "icon") } }
-    var theme: Theme = AppSettings.load("theme", .factory) { didSet { AppSettings.persist(theme, "theme") } }
-    var appearance: Appearance = AppSettings.load("appearance", .automatic) { didSet { AppSettings.persist(appearance, "appearance") } }
-    var grid: GridStyle = AppSettings.load("grid", .posters) { didSet { AppSettings.persist(grid, "grid") } }
+    var icon: AppIcon = AppSettings.load("icon", .factory) {
+        didSet { AppSettings.persist(icon, "icon") }
+    }
 
-    var tab: TabItem = AppSettings.load("tab", .movies) { didSet { AppSettings.persist(tab, "tab") } }
-    var releaseFilters: ReleaseFilters = AppSettings.load("releaseFilters", .reset) { didSet { AppSettings.persist(releaseFilters, "releaseFilters") } }
+    var theme: Theme = AppSettings.load("theme", .factory) {
+        didSet { AppSettings.persist(theme, "theme") }
+    }
 
-    var radarrInstanceId: Instance.ID? = AppSettings.loadOptional("radarrInstanceId") { didSet { AppSettings.persist(radarrInstanceId, "radarrInstanceId") } }
-    var sonarrInstanceId: Instance.ID? = AppSettings.loadOptional("sonarrInstanceId") { didSet { AppSettings.persist(sonarrInstanceId, "sonarrInstanceId") } }
+    var appearance: Appearance = AppSettings.load("appearance", .automatic) {
+        didSet { AppSettings.persist(appearance, "appearance") }
+    }
+
+    var grid: GridStyle = AppSettings.load("grid", .posters) {
+        didSet { AppSettings.persist(grid, "grid") }
+    }
+
+    var tab: TabItem = AppSettings.load("tab", .movies) {
+        didSet { AppSettings.persist(tab, "tab") }
+    }
+
+    var releaseFilters: ReleaseFilters = AppSettings.load("releaseFilters", .reset) {
+        didSet { AppSettings.persist(releaseFilters, "releaseFilters") }
+    }
+
+    var radarrInstanceId: Instance.ID? = AppSettings.loadOptional("radarrInstanceId") {
+        didSet { AppSettings.persist(radarrInstanceId, "radarrInstanceId") }
+    }
+
+    var sonarrInstanceId: Instance.ID? = AppSettings.loadOptional("sonarrInstanceId") {
+        didSet { AppSettings.persist(sonarrInstanceId, "sonarrInstanceId") }
+    }
 
     func resetAll() {
         InstancesStore.shared.reset()
 
-        // `@AppStorage` used to reflect the cleared store automatically; plain
-        // stored properties don't, so restore defaults in-memory first (each
-        // `didSet` re-persists the default) before wiping the store — leaving the
-        // UI reset and nothing behind to re-migrate.
         icon = .factory
         theme = .factory
         appearance = .automatic
@@ -44,24 +58,6 @@ final class AppSettings {
         if let bundleId = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundleId)
         }
-    }
-}
-
-private extension AppSettings {
-    static func load<T: RawRepresentable>(_ key: String, _ fallback: T) -> T where T.RawValue == String {
-        dependencies.store.string(forKey: key).flatMap { T(rawValue: $0) } ?? fallback
-    }
-
-    static func loadOptional<T: RawRepresentable>(_ key: String) -> T? where T.RawValue == String {
-        dependencies.store.string(forKey: key).flatMap { T(rawValue: $0) }
-    }
-
-    static func persist<T: RawRepresentable>(_ value: T, _ key: String) where T.RawValue == String {
-        dependencies.store.set(value.rawValue, forKey: key)
-    }
-
-    static func persist<T: RawRepresentable>(_ value: T?, _ key: String) where T.RawValue == String {
-        dependencies.store.set(value?.rawValue, forKey: key)
     }
 }
 
@@ -128,6 +124,24 @@ extension AppSettings {
         }
 
         Queue.shared.instances = instances
+    }
+}
+
+private extension AppSettings {
+    static func load<T: RawRepresentable>(_ key: String, _ fallback: T) -> T where T.RawValue == String {
+        dependencies.store.string(forKey: key).flatMap { T(rawValue: $0) } ?? fallback
+    }
+
+    static func loadOptional<T: RawRepresentable>(_ key: String) -> T? where T.RawValue == String {
+        dependencies.store.string(forKey: key).flatMap { T(rawValue: $0) }
+    }
+
+    static func persist<T: RawRepresentable>(_ value: T, _ key: String) where T.RawValue == String {
+        dependencies.store.set(value.rawValue, forKey: key)
+    }
+
+    static func persist<T: RawRepresentable>(_ value: T?, _ key: String) where T.RawValue == String {
+        dependencies.store.set(value?.rawValue, forKey: key)
     }
 }
 
