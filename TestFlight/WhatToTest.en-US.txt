@@ -1,4 +1,4 @@
-### Added
+Added
 - Display queue status for movies, seasons and episodes
 - Switched to sheets for calendar navigation
 - Added quick look preview to media posters
@@ -7,7 +7,7 @@
 - Display counts below media grids
 - Jump from a queue task to its movie or series
 
-### Changed
+Changed
 - Animate discovery grid loading indicator
 - Improved byte formatting precision in some places
 - Improved image loading performance
@@ -19,7 +19,8 @@
 - Redesigned action buttons across the app
 - Various internal code improvements
 
-### Fixed
+Fixed
 - Fixed sidebar colors on macOS 27
 - Fixed blurry discovery headline on iPadOS
 - Fixed toasts not displaying above some sheets
+- Fixed media grid flicker when while sorting

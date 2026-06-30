@@ -26,7 +26,7 @@ struct SettingsSystemSection: View {
 
                 Spacer()
 
-                Text(formatBytes(imageCacheSize, adaptive: true))
+                Text(formatBytes(imageCacheSize))
                     .foregroundStyle(.secondary)
             }
 

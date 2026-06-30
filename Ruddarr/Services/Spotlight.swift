@@ -19,7 +19,7 @@ actor Spotlight {
 
         Task(priority: .background) {
             let checksum = self.calculateChecksum(
-                entities.map { $0.searchableHash }.joined(separator: "+")
+                entities.map(\.searchableHash).joined(separator: "+")
             )
 
             if self.isIndexed(checksum) {

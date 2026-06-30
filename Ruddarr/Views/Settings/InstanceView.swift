@@ -33,12 +33,12 @@ struct InstanceView: View {
         Form {
             instanceDetails
 
-            if !diskSpaceUnavailable {
-                diskSpaceSection
-            }
-
             if !instance.headers.isEmpty {
                 instanceHeaders
+            }
+
+            if !diskSpaceUnavailable {
+                diskSpaceSection
             }
 
             notifications

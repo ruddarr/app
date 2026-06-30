@@ -22,7 +22,7 @@ struct MediaFile: Identifiable, Equatable, Codable {
     }
 
     var sizeLabel: String {
-        formatBytes(size)
+        formatBytes(size, verbose: true)
     }
 
     var languageLabel: String {
@@ -38,7 +38,7 @@ struct MediaFile: Identifiable, Equatable, Codable {
             return nil
         }
 
-        return formats.map { $0.label }
+        return formats.map(\.label)
     }
 
     var videoResolution: Int? {

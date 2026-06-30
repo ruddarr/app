@@ -130,7 +130,7 @@ struct SeasonView: View {
 
                 if let bytes = season.statistics?.sizeOnDisk, bytes > 0 {
                     Bullet()
-                    Text(formatBytes(bytes, adaptive: true))
+                    Text(formatBytes(bytes))
                 }
             }
             .font(.subheadline)
@@ -148,7 +148,7 @@ struct SeasonView: View {
     var runtime: Int? {
         let items = episodes.map { $0.runtime ?? 0 }.filter { $0 > 0 }
         guard !items.isEmpty else { return nil }
-        return items.sorted(by: <)[items.count / 2]
+        return items.sorted()[items.count / 2]
     }
 
     var actions: some View {

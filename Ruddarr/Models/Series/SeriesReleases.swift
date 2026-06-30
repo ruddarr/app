@@ -68,7 +68,7 @@ class SeriesReleases {
 
         qualities = items
             .sorted { $0.quality.quality.resolution > $1.quality.quality.resolution }
-            .map { $0.quality.quality.normalizedName }
+            .map(\.quality.quality.normalizedName)
             .filter { seen.insert($0).inserted }
     }
 
@@ -76,7 +76,7 @@ class SeriesReleases {
         var seen: Set<String> = []
 
         protocols = items
-            .map { $0.network.label }
+            .map(\.network.label)
             .filter { seen.insert($0).inserted }
     }
 
@@ -84,14 +84,14 @@ class SeriesReleases {
         var seen: Set<String> = []
 
         languages = items
-            .map { $0.languages?.map { $0.label } ?? [] }
+            .map { $0.languages?.map(\.label) ?? [] }
             .flatMap { $0 }
             .filter { seen.insert($0).inserted }
     }
 
     func setCustomFormats() {
         let customFormatNames = items
-            .compactMap { $0.customFormats }
+            .compactMap(\.customFormats)
             .flatMap { $0 }
             .map { $0.label }
 
@@ -262,7 +262,7 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var sizeLabel: String {
-        formatBytes(size)
+        formatBytes(size, verbose: true)
     }
 
     var qualityLabel: String {

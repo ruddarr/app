@@ -18,25 +18,34 @@ struct FormatBytesTests {
         #expect(formatBytes(1_073_741_824) == "1 GB")
     }
 
-    // MARK: - Default precision (3 significant figures)
+    // Disk-space values arrive as `Int64`; the generic overload accepts them without conversion.
+    @Test func acceptsInt64() {
+        #expect(formatBytes(Int64(1_073_741_824)) == "1 GB")
+        #expect(formatBytes(Int64(bytes(477.76, 3))) == "478 GB")
+    }
+
+    // MARK: - Default precision (concise ~3 significant figures)
 
     @Test func defaultUsesThreeSignificantFigures() {
         #expect(formatBytes(bytes(100.5, 3)) == "101 GB")
         #expect(formatBytes(bytes(101.5, 4)) == "102 TB")
+        #expect(formatBytes(bytes(477.76, 3)) == "478 GB")
+        #expect(formatBytes(bytes(27.83, 4)) == "27.8 TB")
     }
 
-    // MARK: - Adaptive sizing (`adaptive: true`)
+    // MARK: - Verbose precision (`verbose: true`)
 
-    @Test func adaptiveKeepsExtraPrecision() {
-        #expect(formatBytes(bytes(100.5, 3), adaptive: true) == "100.5 GB")
-        #expect(formatBytes(bytes(101.5, 4), adaptive: true) == "101.5 TB")
+    @Test func verboseKeepsExtraPrecision() {
+        #expect(formatBytes(bytes(477.76, 3), verbose: true) == "477.76 GB")
+        #expect(formatBytes(bytes(27.83, 4), verbose: true) == "27.83 TB")
+        #expect(formatBytes(bytes(100.5, 3), verbose: true) == "100.5 GB")
     }
 
-    @Test func adaptiveDiffersFromDefaultForPreciseLargeValues() {
-        let value = bytes(100.5, 3) // 100.5 GiB
-        #expect(formatBytes(value) == "101 GB")
-        #expect(formatBytes(value, adaptive: true) == "100.5 GB")
-        #expect(formatBytes(value) != formatBytes(value, adaptive: true))
+    @Test func verboseDiffersFromDefaultForPreciseLargeValues() {
+        let value = bytes(477.76, 3) // 477.76 GiB
+        #expect(formatBytes(value) == "478 GB")
+        #expect(formatBytes(value, verbose: true) == "477.76 GB")
+        #expect(formatBytes(value) != formatBytes(value, verbose: true))
     }
 
     // MARK: - Float overload (trap-safety on bad data)
@@ -49,12 +58,18 @@ struct FormatBytesTests {
     }
 
     @Test func floatOverloadClampsLargeFiniteValuesToMax() {
-        #expect(formatBytes(Float.greatestFiniteMagnitude) == formatBytes(.max))
+        #expect(formatBytes(Float.greatestFiniteMagnitude) == formatBytes(Int.max))
     }
 
     @Test func floatOverloadMatchesIntForFiniteValues() {
         #expect(formatBytes(Float(0)) == formatBytes(0))
         #expect(formatBytes(Float(1_024)) == formatBytes(1_024))
         #expect(formatBytes(Float(1_048_576)) == formatBytes(1_048_576))
+    }
+
+    @Test func floatOverloadForwardsVerboseFlag() {
+        let value = bytes(477.76, 3) // 477.76 GiB
+        #expect(formatBytes(Float(value), verbose: true) == formatBytes(value, verbose: true))
+        #expect(formatBytes(Float(value), verbose: true) == "477.76 GB")
     }
 }

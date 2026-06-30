@@ -189,7 +189,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
 
     var sizeLabel: String? {
         guard let bytes = statistics?.sizeOnDisk, bytes > 0 else { return nil }
-        return formatBytes(bytes, adaptive: true)
+        return formatBytes(bytes)
     }
 
     var certificationLabel: String {
@@ -222,7 +222,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
     }
 
     func alternateTitlesString() -> String {
-        alternateTitles?.map { $0.title }.joined(separator: " ") ?? ""
+        alternateTitles?.map(\.title).joined(separator: " ") ?? ""
     }
 }
 

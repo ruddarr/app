@@ -26,7 +26,7 @@ extension InstanceView {
                 parts.append(String(localized: "\(stats.episodes) Episode"))
             }
 
-            parts.append(formatBytes(stats.size, adaptive: true))
+            parts.append(formatBytes(stats.size))
         }
 
         if let version = instance.version {
@@ -54,9 +54,9 @@ extension InstanceView {
 
     var diskSpaceUnavailable: Bool {
         switch diskSpaceState {
-        case .loaded(let locations): return locations.isEmpty
-        case .failed: return true
-        case .idle, .loading: return false
+        case .loaded(let locations): locations.isEmpty
+        case .failed: true
+        case .idle, .loading: false
         }
     }
 
@@ -69,8 +69,8 @@ extension InstanceView {
                     ForEach(locations) { location in
                         LabeledContent {
                             Text(verbatim: "%@ / %@".placeholders(
-                                formatBytes(Int(clamping: location.freeSpace), adaptive: true),
-                                formatBytes(Int(clamping: location.totalSpace), adaptive: true)
+                                formatBytes(location.freeSpace),
+                                formatBytes(location.totalSpace)
                             ))
                             .foregroundStyle(.secondary)
                             .font(.subheadline)
@@ -94,13 +94,21 @@ extension InstanceView {
                             .controlSize(.small)
                             .tint(.secondary)
                     }
+
+                    if diskSpaceExpanded {
+                        Spacer()
+                        Text(verbatim: "Free / Total")
+                            .font(.caption)
+                    }
                 }
 
-                Spacer()
+                if !diskSpaceExpanded {
+                    Spacer()
 
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .rotationEffect(.degrees(diskSpaceExpanded ? 90 : 0))
+                    Image(systemName: "chevron.right")
+                        .font(.caption.weight(.semibold))
+                        .rotationEffect(.degrees(diskSpaceExpanded ? 90 : 0))
+                }
             }
             .contentShape(Rectangle())
             .onTapGesture {

@@ -84,7 +84,7 @@ class MovieReleases {
         var seen: Set<String> = []
 
         languages = items
-            .map { $0.languages.map { $0.label } }
+            .map { $0.languages.map(\.label) }
             .flatMap { $0 }
             .filter { seen.insert($0).inserted }
     }
@@ -239,7 +239,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var sizeLabel: String {
-        formatBytes(size)
+        formatBytes(size, verbose: true)
     }
 
     var qualityLabel: String {

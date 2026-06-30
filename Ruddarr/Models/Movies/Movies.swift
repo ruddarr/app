@@ -16,6 +16,7 @@ class Movies {
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
     var isWorking: Bool = false
+    var isFiltering: Bool = false
 
     private var alternateTitles: [Movie.ID: String] = [:]
     private var sortAndFilterTask: Task<Void, Never>?
@@ -36,12 +37,18 @@ class Movies {
 
     func updateCachedItems(_ sort: MovieSort, _ searchQuery: String) {
         sortAndFilterTask?.cancel()
+        isFiltering = true
 
-        sortAndFilterTask = Task(priority: .userInitiated) { @MainActor in
+        sortAndFilterTask = Task(priority: .userInitiated) {
             let items = self.items
             let alternateTitles = self.alternateTitles
 
-            cachedItems = await Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
+            let result = await Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
+
+            guard !Task.isCancelled else { return }
+
+            cachedItems = result
+            isFiltering = false
         }
     }
 
@@ -177,6 +184,8 @@ class Movies {
                     || $0.studio?.localizedCaseInsensitiveContains(query) ?? false
                     || alternateTitles[$0.id]?.localizedCaseInsensitiveContains(query) ?? false
             }
+
+        if Task.isCancelled { return [] }
 
         if sort.option == .byTitle {
             return filtered.sorted {

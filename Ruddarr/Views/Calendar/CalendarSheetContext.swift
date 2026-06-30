@@ -32,17 +32,6 @@ struct CalendarSheetContext {
     let pop: @MainActor () -> Void
 }
 
-private struct CalendarSheetContextKey: EnvironmentKey {
-    static let defaultValue: CalendarSheetContext? = nil
-}
-
-extension EnvironmentValues {
-    var inCalendarSheet: CalendarSheetContext? {
-        get { self[CalendarSheetContextKey.self] }
-        set { self[CalendarSheetContextKey.self] = newValue }
-    }
-}
-
 extension View {
     func inCalendarSheet(
         dismiss: @escaping @MainActor () -> Void,
