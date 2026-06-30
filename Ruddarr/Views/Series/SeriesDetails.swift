@@ -90,9 +90,8 @@ struct SeriesDetails: View {
         }
     }
 
-    @ViewBuilder
     var actions: some View {
-        HStack(spacing: 24) {
+        HStack(spacing: 20) {
             if series.exists {
                 seriesActions
             } else {
@@ -100,7 +99,7 @@ struct SeriesDetails: View {
             }
         }
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: 450)
+        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
     }
 
     var seriesActions: some View {
@@ -113,16 +112,14 @@ struct SeriesDetails: View {
                     icon: "magnifyingglass",
                     isLoading: dispatchingSearch
                 )
-                    .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
+            .actionButton()
+            .actionButtonWidth()
             .allowsHitTesting(!instance.series.isWorking)
             .onAppear(perform: triggerTipIfJustAdded)
             .popoverTip(NoAutomaticSearchTip())
 
-            Spacer()
-                .modifier(MediaPreviewActionSpacerModifier())
+            ActionButtonSpacer()
         }
     }
 
@@ -131,19 +128,17 @@ struct SeriesDetails: View {
             Menu {
                 SeriesLinks(series: series)
             } label: {
-                ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.right.square")
-                    .modifier(MediaPreviewActionModifier())
+                ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.forward.app")
                     .modifier(MacMenuButtonLabelModifier())
             }
+            .actionButtonWidth()
             #if os(macOS)
                 .buttonStyle(.plain)
             #else
-                .buttonStyle(.bordered)
+                .actionButton()
             #endif
-            .tint(.buttonTint)
 
-            Spacer()
-                .modifier(MediaPreviewActionSpacerModifier())
+            ActionButtonSpacer()
         }
     }
 

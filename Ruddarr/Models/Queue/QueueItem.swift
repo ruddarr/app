@@ -133,6 +133,33 @@ struct QueueItem: Codable, Identifiable, Equatable {
         (downloadId ?? "") + (title ?? "") + String(seasonNumber ?? id) + String(size)
     }
 
+    var deeplink: URL? {
+        guard let instanceId else { return nil }
+        let instance = instanceId.uuidString
+
+        if let movieId {
+            return QuickActions.Deeplink.openMovie(movieId, instance).url
+        }
+
+        guard let seriesId else { return nil }
+
+        if let count = taskGroupCount, count > 1, let seasonNumber {
+            return QuickActions.Deeplink.openSeason(seriesId, seasonNumber, instance).url
+        }
+
+        if let episode {
+            return QuickActions.Deeplink.openEpisode(
+                seriesId, episode.seasonNumber, episode.episodeNumber, instance
+            ).url
+        }
+
+        if let seasonNumber {
+            return QuickActions.Deeplink.openSeason(seriesId, seasonNumber, instance).url
+        }
+
+        return QuickActions.Deeplink.openSeries(seriesId, instance).url
+    }
+
     var titleLabel: String {
         if let title = movie?.title {
             return title

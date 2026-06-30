@@ -162,46 +162,95 @@ struct QueueItemSheet: View {
     }
 
     var actions: some View {
-        HStack(spacing: 24) {
-            NavigationLink {
-                TaskRemovalView(item: item, onRemove: { dismiss() })
-                    .environment(settings)
-            } label: {
+        HStack(spacing: 12) {
+            primaryButton
+            secondaryButtons
+        }
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: 450, alignment: .leading)
+    }
+
+    @ViewBuilder
+    var primaryButton: some View {
+        if item.needsManualImport {
+            manualImportButton
+        } else {
+            removeButton(wide: true)
+        }
+    }
+
+    @ViewBuilder
+    var secondaryButtons: some View {
+        if item.needsManualImport {
+            removeButton(wide: false)
+        }
+
+        if let deeplink = item.deeplink {
+            openButton(deeplink)
+        }
+
+        if !item.needsManualImport {
+            if item.isSABnzbd && sableInstalled() {
+                sableLink
+            } else if item.isDownloadStation && dsloadInstalled() {
+                dsloadLink
+            }
+        }
+    }
+
+    @ViewBuilder
+    func removeButton(wide: Bool) -> some View {
+        let button = NavigationLink {
+            TaskRemovalView(item: item, onRemove: { dismiss() })
+                .environment(settings)
+        } label: {
+            if wide {
                 let label: String = deviceType == .phone
                     ? String(localized: "Remove", comment: "(Short) Removing a queue task")
                     : String(localized: "Remove Task")
 
-                ButtonLabel(text: label, icon: "trash")
-                    .modifier(MediaPreviewActionModifier())
-            }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
-
-            if item.needsManualImport {
-                NavigationLink {
-                    TaskImportView(item: item, onRemove: { dismiss() })
-                        .environment(settings)
-                } label: {
-                    let label: String = deviceType == .phone
-                        ? String(localized: "Import", comment: "(Short) Importing a queue task")
-                        : String(localized: "Manual Import")
-
-                    ButtonLabel(text: label, icon: "square.and.arrow.down")
-                        .modifier(MediaPreviewActionModifier())
-                }
-                .buttonStyle(.bordered)
-                .tint(.buttonTint)
-            } else if item.isSABnzbd && sableInstalled() {
-                sableLink
-            } else if item.isDownloadStation && dsloadInstalled() {
-                sableLink
+                pillLabel(label, "trash")
             } else {
-                Spacer()
-                    .modifier(MediaPreviewActionSpacerModifier())
+                ButtonLabel(icon: "trash")
             }
         }
-        .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: 450)
+        .accessibilityLabel(Text("Remove Task"))
+
+        if wide {
+            button.actionButton()
+        } else {
+            button.circularActionButton()
+        }
+    }
+
+    var manualImportButton: some View {
+        NavigationLink {
+            TaskImportView(item: item, onRemove: { dismiss() })
+                .environment(settings)
+        } label: {
+            let label: String = deviceType == .phone
+                ? String(localized: "Import", comment: "(Short) Importing a queue task")
+                : String(localized: "Manual Import")
+
+            pillLabel(label, "arrow.down.to.line", prominent: true)
+        }
+        .prominentActionButton(settings.theme.tint)
+    }
+
+    func openButton(_ deeplink: URL) -> some View {
+        Button {
+            try? QuickActions.Deeplink(url: deeplink)()
+            dismiss()
+        } label: {
+            ButtonLabel(icon: "arrow.up.forward")
+        }
+        .accessibilityLabel(Text("Open"))
+        .circularActionButton()
+    }
+
+    func pillLabel(_ text: String, _ icon: String, prominent: Bool = false) -> some View {
+        ButtonLabel(text: text, icon: icon, prominent: prominent)
+            .fixedSize(horizontal: true, vertical: false)
     }
 
     var tags: [String] {
@@ -238,18 +287,6 @@ struct QueueItemSheet: View {
         .padding(.vertical, 4)
     }
 
-    func parseDate(_ string: String) -> Date? {
-        if let date = ISO8601DateFormatter().date(from: string) {
-            return date
-        }
-
-        return nil
-    }
-
-    func formatDate(_ date: Date) -> String {
-        date.formatted(date: .long, time: .shortened)
-    }
-
     func sableInstalled() -> Bool {
         #if os(macOS)
             return false
@@ -267,39 +304,28 @@ struct QueueItemSheet: View {
     }
 
     var sableLink: some View {
-        Link(destination: URL(string: "sable://open")!, label: {
-            ButtonLabel(
-                text: deviceType == .phone
-                    ? String("Sable")
-                    : String(localized: "Open \("Sable")", comment: "Open (app name)"),
-                icon: "arrow.up.right.square"
-            )
-            .modifier(MediaPreviewActionModifier())
-        })
-        .buttonStyle(.bordered)
-        .tint(.buttonTint)
+        Link(destination: URL(string: "sable://open")!) {
+            ButtonLabel(icon: "arrow.down.app")
+        }
+        .circularActionButton()
+        .accessibilityLabel(Text("Open \("Sable")", comment: "Open (app name)"))
     }
 
     var dsloadLink: some View {
-        Link(destination: URL(string: "dsdownload://")!, label: {
-            ButtonLabel(
-                text: deviceType == .phone
-                    ? String("DSLoad")
-                    : String(localized: "Open \("DSLoad")", comment: "Open (app name)"),
-                icon: "arrow.up.right.square"
-            )
-            .modifier(MediaPreviewActionModifier())
-        })
-        .buttonStyle(.bordered)
-        .tint(.buttonTint)
+        Link(destination: URL(string: "dsdownload://")!) {
+            ButtonLabel(icon: "arrow.down.app")
+        }
+        .circularActionButton()
+        .accessibilityLabel(Text("Open \("DSLoad")", comment: "Open (app name)"))
     }
 }
 
 #Preview {
     let items: QueueItems = PreviewData.loadObject(name: "series-queue")
-    let item: QueueItem = items.records[2]
+    var item: QueueItem = items.records[2]
+    item.instanceId = UUID()
 
-    QueueItemSheet(item: item)
+    return QueueItemSheet(item: item)
         .withAppState()
 }
 
@@ -308,6 +334,7 @@ struct QueueItemSheet: View {
     var item: QueueItem = items.records[0]
 
     item.estimatedCompletionTime = Date.now.addingTimeInterval(90)
+    item.instanceId = UUID()
 
     return QueueItemSheet(item: item)
         .withAppState()
@@ -315,16 +342,18 @@ struct QueueItemSheet: View {
 
 #Preview("Waiting + Error") {
     let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
-    let item = items.records[1]
+    var item = items.records[1]
+    item.instanceId = UUID()
 
-    QueueItemSheet(item: item)
+    return QueueItemSheet(item: item)
         .withAppState()
 }
 
 #Preview("Pending + Short") {
     let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
-    let item = items.records[2]
+    var item = items.records[2]
+    item.instanceId = UUID()
 
-    QueueItemSheet(item: item)
+    return QueueItemSheet(item: item)
         .withAppState()
 }
