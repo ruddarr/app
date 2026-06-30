@@ -60,7 +60,6 @@ struct MovieView: View {
                 Task { await toggleMonitor() }
             } label: {
                 ToolbarMonitorButton(monitored: $movie.monitored, loading: togglingMonitor)
-                    .tint(.primary)
             }
             .allowsHitTesting(!togglingMonitor)
             #if os(iOS)

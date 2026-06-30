@@ -72,7 +72,6 @@ struct SeriesDetailView: View {
                 Task { await toggleMonitor() }
             } label: {
                 ToolbarMonitorButton(monitored: $series.monitored, loading: togglingMonitor)
-                    .tint(.primary)
             }
             .allowsHitTesting(!togglingMonitor)
             #if os(iOS)

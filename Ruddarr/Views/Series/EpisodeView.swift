@@ -187,7 +187,6 @@ struct EpisodeView: View {
                     ),
                     loading: instance.episodes.isMonitoring == episode.id
                 )
-                .tint(.primary)
             }
             .allowsHitTesting(instance.episodes.isMonitoring == 0)
             .disabled(!series.monitored)

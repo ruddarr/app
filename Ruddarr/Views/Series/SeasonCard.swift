@@ -34,14 +34,12 @@ struct SeasonCard: View {
                         await toggle()
                     }
                 } label: {
-                    ToolbarMonitorButton(
+                    RowMonitorButton(
                         monitored: .constant(season.monitored),
                         loading: isWorking
                     )
-                    .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
                 }
                 .buttonStyle(.plain)
-                .overlay(Rectangle().padding(18))
                 .allowsHitTesting(!instance.series.isWorking)
             }
         }
