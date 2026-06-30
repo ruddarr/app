@@ -112,7 +112,7 @@ final class InstancesStore {
         cloud.set(raw, forKey: Self.key)
 
         if !cloud.synchronize() {
-            leaveBreadcrumb(.error, category: "instances", message: "iCloud synchronize() returned false")
+            leaveBreadcrumb(.warning, category: "instances", message: "iCloud synchronize() returned false")
         }
     }
 
