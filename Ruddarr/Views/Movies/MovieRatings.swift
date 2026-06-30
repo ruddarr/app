@@ -58,10 +58,11 @@ struct MovieRatings: View {
         switch badge {
         case .rottenTomatoes(let rating):
             HStack(spacing: 4) {
-                Image(rating > 60 ? "rt-fresh" : "rt-rotten").resizable()
+                Image(rating > 60 ? "rt-fresh" : "rt-rotten")
+                    .resizable()
                     .scaledToFit()
                     .font(.callout)
-                    .frame(height: rating > 60 ? 14 : 18)
+                    .frame(height: 14)
                     .offset(y: -0.5)
 
                 Text(rating.formatted(.percentageRating))
@@ -72,6 +73,7 @@ struct MovieRatings: View {
                 Image("imdb").resizable()
                     .scaledToFit()
                     .frame(height: 12)
+                    .offset(y: -0.5)
 
                 Text(rating.formatted(.decimal(1)))
                     .font(.callout)
