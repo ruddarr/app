@@ -46,12 +46,14 @@ struct MonitorBookmark: View {
 }
 
 struct ToolbarMonitorButton: View {
+    static let iconSize: CGFloat = 15
+
     @Binding var monitored: Bool
     var loading: Bool = false
 
     var body: some View {
         MonitorBookmark(monitored: $monitored, loading: loading)
-            .font(.subheadline)
+            .font(.system(size: Self.iconSize))
             .tint(.primary)
     }
 }
