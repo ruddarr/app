@@ -18,6 +18,7 @@ final class InstancesStore {
 
     @ObservationIgnored private let suite: UserDefaults
     @ObservationIgnored private let cloud: NSUbiquitousKeyValueStore?
+    @ObservationIgnored private var observer: (any NSObjectProtocol)?
 
     private(set) var instances: [Instance] = []
 
@@ -32,7 +33,7 @@ final class InstancesStore {
         self.cloud = cloud
 
         if let cloud {
-            NotificationCenter.default.addObserver(
+            observer = NotificationCenter.default.addObserver(
                 forName: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
                 object: nil,
                 queue: .main
@@ -56,6 +57,18 @@ final class InstancesStore {
         reconcile()
     }
 
+    isolated deinit {
+        if let observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
+
+        #if canImport(UIKit)
+            if let cloud {
+                NotificationCenter.default.removeObserver(cloud)
+            }
+        #endif
+    }
+
     nonisolated static func decode(_ raw: String?) -> [Instance] {
         raw.flatMap { [Instance](rawValue: $0) } ?? []
     }
@@ -77,6 +90,10 @@ final class InstancesStore {
         let raw = new.rawValue
 
         suite.set(raw, forKey: Self.key)
+        writeCloud(raw)
+    }
+
+    private func writeCloud(_ raw: String) {
         cloud?.set(raw, forKey: Self.key)
         cloud?.synchronize()
     }
@@ -95,8 +112,7 @@ final class InstancesStore {
             instances = local
 
             if !local.isEmpty {
-                cloud?.set(local.rawValue, forKey: Self.key)
-                cloud?.synchronize()
+                writeCloud(local.rawValue)
             }
         }
     }
@@ -104,9 +120,10 @@ final class InstancesStore {
     private func adoptCloudValue() {
         guard let cloud else { return }
         let incoming = Self.decode(cloud.string(forKey: Self.key))
-        guard incoming != instances else { return }
 
-        instances = incoming
         suite.set(incoming.rawValue, forKey: Self.key)
+
+        guard incoming != instances else { return }
+        instances = incoming
     }
 }
