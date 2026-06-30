@@ -5,7 +5,7 @@ struct SettingsView: View {
     @State private var showInstanceNameWarning: Bool = false
     @State private var showLocalNetworkWarning: Bool = false
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
 
@@ -40,7 +40,10 @@ struct SettingsView: View {
         }
     }
 
+    @ViewBuilder
     var instanceSection: some View {
+        @Bindable var settings = settings
+
         Section {
             ForEach($settings.instances) { $instance in
                 NavigationLink(value: Path.viewInstance(instance.id)) {

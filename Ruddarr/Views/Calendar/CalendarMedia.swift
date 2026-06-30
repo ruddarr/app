@@ -6,7 +6,7 @@ struct CalendarMovie: View {
     var status: QueueItemStatus?
     var open: (CalendarSelection) -> Void
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         HStack {
@@ -68,7 +68,7 @@ struct CalendarEpisode: View {
     var status: QueueItemStatus?
     var open: (CalendarSelection) -> Void
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         VStack(alignment: .leading) {

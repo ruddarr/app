@@ -10,7 +10,7 @@ struct InstanceRow: View {
     @State private var webhook: Webhook = .pending
     @State private var notifications: Bool = false
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     enum Connection {
         case pending

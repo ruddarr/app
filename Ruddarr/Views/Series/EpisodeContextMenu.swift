@@ -3,7 +3,7 @@ import TelemetryDeck
 
 struct EpisodeContextMenu: View {
     var episode: Episode
-    @Environment(SonarrInstance.self) var instance
+    @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
         Group {

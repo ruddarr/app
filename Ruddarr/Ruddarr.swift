@@ -12,6 +12,7 @@ struct Ruddarr: App {
     #endif
 
     nonisolated static let name: String = "Ruddarr"
+    nonisolated static let group = "group.com.ruddarr"
 
     init() {
         #if DEBUG
@@ -22,6 +23,7 @@ struct Ruddarr: App {
 
         startSentry()
         Migrations.run()
+        InstancesStore.shared.start()
 
         try? Tips.configure()
 

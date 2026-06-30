@@ -5,13 +5,13 @@ struct MovieReleaseSheet: View {
     var release: MovieRelease
     var movie: Movie
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Environment(\.inCalendarSheet) private var inCalendarSheet
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @State private var showGrabConfirmation: Bool = false
 

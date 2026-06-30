@@ -7,14 +7,14 @@ struct HistoryView: View {
     @State private var displayedInstance: String = .all
     @State private var displayedEventType: String = .all
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         ScrollView {
             VStack(spacing: 12) {
                 ForEach(events) { event in
                     MediaHistoryItem(event: event)
-                        .environmentObject(settings)
+                        .environment(settings)
                         .onTapGesture { selectedEvent = event }
                 }
 
@@ -66,7 +66,7 @@ struct HistoryView: View {
         .tint(nil)
         .sheet(item: $selectedEvent) { event in
             MediaEventSheet(event: event, instanceId: event.instanceId)
-                .environmentObject(settings)
+                .environment(settings)
                 .presentationDetents(
                     dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )

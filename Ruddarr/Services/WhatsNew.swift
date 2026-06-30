@@ -150,8 +150,8 @@ struct WhatsNewFeature {
 }
 
 struct WhatsNewFooterPadding: ViewModifier {
-    @Environment(\.verticalSizeClass) var verticalSizeClass
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     func body(content: Content) -> some View {
         #if os(macOS)
@@ -177,8 +177,8 @@ struct WhatsNewFooterPadding: ViewModifier {
 }
 
 struct WhatsNewFeaturesPadding: ViewModifier {
-    @Environment(\.verticalSizeClass) var verticalSizeClass
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     func body(content: Content) -> some View {
         #if os(macOS)

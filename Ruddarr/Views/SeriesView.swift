@@ -14,8 +14,10 @@ enum SeriesPath: Hashable {
 struct SeriesView: View {
     @AppStorage("seriesSort", store: dependencies.store) var sort: SeriesSort = .init()
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
+
+    @Environment(\.deviceType) private var deviceType
 
     @State private var scrollView: ScrollViewProxy?
 
@@ -27,8 +29,6 @@ struct SeriesView: View {
     @State private var alertPresented = false
 
     @State private var lastFetch: Date = .distantPast
-
-    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         // swiftlint:disable:next closure_body_length

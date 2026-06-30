@@ -18,7 +18,7 @@ struct CalendarView: View {
     @State var displayedInstance: String = .all
     @State var displayedMediaType: CalendarMediaType = .all
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
     @Environment(\.deviceType) private var deviceType
 
     private let firstWeekday = Calendar.current.firstWeekday
@@ -141,7 +141,7 @@ struct CalendarView: View {
     }
 
     func syncInstances() {
-        guard Set(calendar.instances.map(\.id)) != Set(settings.instances.map(\.id)) else {
+        guard !calendar.instances.sameConfiguration(as: settings.instances) else {
             return
         }
 

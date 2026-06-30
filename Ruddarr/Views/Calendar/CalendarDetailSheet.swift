@@ -3,7 +3,7 @@ import SwiftUI
 struct CalendarDetailSheet: View {
     var selection: CalendarSelection
 
-    @EnvironmentObject private var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         switch selection {

@@ -9,9 +9,9 @@ struct MovieReleasesView: View {
 
     @AppStorage("movieReleaseSort", store: dependencies.store) private var sort: MovieReleaseSort = .init()
 
-    @EnvironmentObject var settings: AppSettings
-    @Environment(\.deviceType) private var deviceType
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         List {
@@ -21,7 +21,7 @@ struct MovieReleasesView: View {
                 } label: {
                     MovieReleaseRow(release: release, movie: movie)
                         .environment(instance)
-                        .environmentObject(settings)
+                        .environment(settings)
                 }
                 .buttonStyle(.plain)
             }
@@ -68,7 +68,7 @@ struct MovieReleasesView: View {
                 .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
                 .presentationBackground(.systemBackground)
                 .environment(instance)
-                .environmentObject(settings)
+                .environment(settings)
         }
     }
 

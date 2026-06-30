@@ -11,7 +11,7 @@ struct QueueStatusIcon: View {
     var status: QueueItemStatus
     var color: Color = .secondary
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         let icon = status.image

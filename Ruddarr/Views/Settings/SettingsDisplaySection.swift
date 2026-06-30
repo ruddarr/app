@@ -2,8 +2,8 @@ import SwiftUI
 import StoreKit
 
 struct SettingsDisplaySection: View {
-    @EnvironmentObject var settings: AppSettings
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(AppSettings.self) private var settings
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         Section {
@@ -18,7 +18,10 @@ struct SettingsDisplaySection: View {
         }
     }
 
+    @ViewBuilder
     var appearancePicker: some View {
+        @Bindable var settings = settings
+
         Picker(selection: $settings.appearance) {
             ForEach(Appearance.allCases) { colorScheme in
                 Text(colorScheme.label)
@@ -35,7 +38,10 @@ struct SettingsDisplaySection: View {
         }.tint(.secondary)
     }
 
+    @ViewBuilder
     var themePicker: some View {
+        @Bindable var settings = settings
+
         Picker(selection: $settings.theme) {
             ForEach(Theme.allCases) { theme in
                 Text(verbatim: theme.label)

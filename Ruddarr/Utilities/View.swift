@@ -1,5 +1,4 @@
 import SwiftUI
-import CloudKit
 
 extension View {
     func onBecomeActive(perform action: @escaping () async -> Void) -> some View {
@@ -87,25 +86,33 @@ private struct OnBecomeActiveModifier: ViewModifier {
 }
 
 private struct WithAppStateModifier: ViewModifier {
-    @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
-    @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
+    @State private var settings: AppSettings
+    @State private var radarrInstance: RadarrInstance
+    @State private var sonarrInstance: SonarrInstance
+
+    @MainActor
+    init() {
+        let settings = AppSettings()
+        _settings = State(initialValue: settings)
+        _radarrInstance = State(initialValue: RadarrInstance(settings.radarrInstance ?? .radarrVoid))
+        _sonarrInstance = State(initialValue: SonarrInstance(settings.sonarrInstance ?? .sonarrVoid))
+    }
 
     func body(content: Content) -> some View {
-        let settings = AppSettings()
-        let radarrInstance = settings.radarrInstance ?? Instance.radarrVoid
-        let sonarrInstance = settings.sonarrInstance ?? Instance.sonarrVoid
-
         content
-            .tint(theme.tint)
-            .preferredColorScheme(appearance.preferredColorScheme)
-            .environmentObject(settings)
+            .tint(settings.theme.tint)
+            .preferredColorScheme(settings.appearance.preferredColorScheme)
+            .environment(settings)
             .environment(\.deviceType, Platform.deviceType)
-            .environment(RadarrInstance(radarrInstance))
-            .environment(SonarrInstance(sonarrInstance))
+            .environment(radarrInstance)
+            .environment(sonarrInstance)
             .task {
                 Queue.shared.instances = settings.instances
                 setSentryContext(for: "Configuration", settings.context())
                 await setSentryCloudKitContext()
+            }
+            .onChange(of: settings.instances) {
+                Queue.shared.instances = settings.instances
             }
     }
 }
@@ -158,7 +165,7 @@ private struct DynamicPresentationDetents: ViewModifier {
     var detents: Set<PresentationDetent>
     var selection: Binding<PresentationDetent>?
 
-    @Environment(\.sizeCategory) var sizeCategory
+    @Environment(\.sizeCategory) private var sizeCategory
 
     @ViewBuilder
     func body(content: Content) -> some View {

@@ -1,15 +1,6 @@
 {
-  "originHash" : "73e98d3869eff6e64d5c6ee5af75daf2fcc2e9b5e75eabe1d86e028492cb3d52",
+  "originHash" : "04bd0cb732971fa4309296c776f85d10b99107d26332c9cc39d1b073bc2f75c0",
   "pins" : [
-    {
-      "identity" : "cloudstorage",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nonstrict-hq/CloudStorage",
-      "state" : {
-        "revision" : "d94cb14e563c1a20edeba8a861395c60c2b9d064",
-        "version" : "0.7.0"
-      }
-    },
     {
       "identity" : "nuke",
       "kind" : "remoteSourceControl",

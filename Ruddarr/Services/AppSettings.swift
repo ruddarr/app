@@ -1,35 +1,65 @@
-import SwiftUI
 import Foundation
-import CloudStorage
-import Combine
+import Observation
 
-// We can't migrate this to `@Observable` because `@AppStorage` isn't supported
-// We could use https://github.com/sindresorhus/Defaults instead maybe
 @MainActor
-class AppSettings: ObservableObject {
-    #if DEBUG
-        @AppStorage("debugInstances", store: dependencies.store) var instances: [Instance] = []
-    #else
-        @CloudStorage("instances") var instances: [Instance] = []
-    #endif
+@Observable
+final class AppSettings {
+    var instances: [Instance] {
+        get { InstancesStore.shared.instances }
+        set { InstancesStore.shared.setInstances(newValue) }
+    }
 
-    @AppStorage("icon", store: dependencies.store) var icon: AppIcon = .factory
-    @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
-    @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
-    @AppStorage("grid", store: dependencies.store) var grid: GridStyle = .posters
+    var icon: AppIcon = AppSettings.load("icon", .factory) {
+        didSet { AppSettings.persist(icon, "icon") }
+    }
 
-    @AppStorage("tab", store: dependencies.store) var tab: TabItem = .movies
-    @AppStorage("releaseFilters", store: dependencies.store) var releaseFilters: ReleaseFilters = .reset
+    var theme: Theme = AppSettings.load("theme", .factory) {
+        didSet { AppSettings.persist(theme, "theme") }
+    }
 
-    @AppStorage("radarrInstanceId", store: dependencies.store) var radarrInstanceId: Instance.ID?
-    @AppStorage("sonarrInstanceId", store: dependencies.store) var sonarrInstanceId: Instance.ID?
+    var appearance: Appearance = AppSettings.load("appearance", .automatic) {
+        didSet { AppSettings.persist(appearance, "appearance") }
+    }
+
+    var grid: GridStyle = AppSettings.load("grid", .posters) {
+        didSet { AppSettings.persist(grid, "grid") }
+    }
+
+    var tab: TabItem = AppSettings.load("tab", .movies) {
+        didSet { AppSettings.persist(tab, "tab") }
+    }
+
+    var releaseFilters: ReleaseFilters = AppSettings.load("releaseFilters", .reset) {
+        didSet { AppSettings.persist(releaseFilters, "releaseFilters") }
+    }
+
+    var radarrInstanceId: Instance.ID? = AppSettings.loadOptional("radarrInstanceId") {
+        didSet { AppSettings.persist(radarrInstanceId, "radarrInstanceId") }
+    }
+
+    var sonarrInstanceId: Instance.ID? = AppSettings.loadOptional("sonarrInstanceId") {
+        didSet { AppSettings.persist(sonarrInstanceId, "sonarrInstanceId") }
+    }
 
     func resetAll() {
-        instances.removeAll()
+        dependencies.store.removePersistentDomain(forName: Ruddarr.group)
 
         if let bundleId = Bundle.main.bundleIdentifier {
-            dependencies.store.removePersistentDomain(forName: bundleId)
+            UserDefaults.standard.removePersistentDomain(forName: bundleId)
         }
+
+        dependencies.store.set(true, forKey: Migrations.appGroupKey)
+
+        InstancesStore.shared.reset()
+
+        icon = .factory
+        theme = .factory
+        appearance = .automatic
+        grid = .posters
+        tab = .movies
+        releaseFilters = .reset
+        radarrInstanceId = nil
+        sonarrInstanceId = nil
     }
 }
 
@@ -96,6 +126,24 @@ extension AppSettings {
         }
 
         Queue.shared.instances = instances
+    }
+}
+
+private extension AppSettings {
+    static func load<T: RawRepresentable>(_ key: String, _ fallback: T) -> T where T.RawValue == String {
+        dependencies.store.string(forKey: key).flatMap { T(rawValue: $0) } ?? fallback
+    }
+
+    static func loadOptional<T: RawRepresentable>(_ key: String) -> T? where T.RawValue == String {
+        dependencies.store.string(forKey: key).flatMap { T(rawValue: $0) }
+    }
+
+    static func persist<T: RawRepresentable>(_ value: T, _ key: String) where T.RawValue == String {
+        dependencies.store.set(value.rawValue, forKey: key)
+    }
+
+    static func persist<T: RawRepresentable>(_ value: T?, _ key: String) where T.RawValue == String {
+        dependencies.store.set(value?.rawValue, forKey: key)
     }
 }
 

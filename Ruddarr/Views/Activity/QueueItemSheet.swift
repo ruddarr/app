@@ -4,7 +4,7 @@ import Combine
 struct QueueItemSheet: View {
     var item: QueueItem
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
@@ -202,7 +202,7 @@ struct QueueItemSheet: View {
     func removeButton(wide: Bool) -> some View {
         let button = NavigationLink {
             TaskRemovalView(item: item, onRemove: { dismiss() })
-                .environmentObject(settings)
+                .environment(settings)
         } label: {
             if wide {
                 let label: String = deviceType == .phone
@@ -226,7 +226,7 @@ struct QueueItemSheet: View {
     var manualImportButton: some View {
         NavigationLink {
             TaskImportView(item: item, onRemove: { dismiss() })
-                .environmentObject(settings)
+                .environment(settings)
         } label: {
             let label: String = deviceType == .phone
                 ? String(localized: "Import", comment: "(Short) Importing a queue task")

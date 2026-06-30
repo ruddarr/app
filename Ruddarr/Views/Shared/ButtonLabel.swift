@@ -5,6 +5,8 @@ struct ButtonLabel: View {
         case regular, small
     }
 
+    @Environment(AppSettings.self) private var settings
+
     #if os(macOS)
         static let circleSize: CGFloat = 34
     #else
@@ -42,8 +44,6 @@ struct ButtonLabel: View {
         self.prominent = prominent
         self.isLoading = isLoading
     }
-
-    @EnvironmentObject var settings: AppSettings
 
     var body: some View {
         Label {

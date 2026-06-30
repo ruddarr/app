@@ -4,9 +4,9 @@ struct EpisodeRow: View {
     var episode: Episode
     var status: QueueItemStatus?
 
-    @EnvironmentObject var settings: AppSettings
-    @Environment(SonarrInstance.self) var instance
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(AppSettings.self) private var settings
+    @Environment(SonarrInstance.self) private var instance
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         HStack {
