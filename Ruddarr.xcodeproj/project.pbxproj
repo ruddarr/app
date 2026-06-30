@@ -254,6 +254,7 @@
 		FADD00000000000000000053 /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD00000000000000000051 /* Placeholder.swift */; };
 		FADD00000000000000000062 /* PlaceholderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD00000000000000000061 /* PlaceholderTests.swift */; };
 		FADD00000000000000000072 /* FormatStringParityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD00000000000000000071 /* FormatStringParityTests.swift */; };
+		FADD00000000000000000082 /* InstanceWireFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD00000000000000000081 /* InstanceWireFormatTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -546,6 +547,7 @@
 		FADD00000000000000000051 /* Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
 		FADD00000000000000000061 /* PlaceholderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTests.swift; sourceTree = "<group>"; };
 		FADD00000000000000000071 /* FormatStringParityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatStringParityTests.swift; sourceTree = "<group>"; };
+		FADD00000000000000000081 /* InstanceWireFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceWireFormatTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -612,6 +614,7 @@
 				FADD00000000000000000031 /* HexEncodingTests.swift */,
 				FADD00000000000000000071 /* FormatStringParityTests.swift */,
 				FADD00000000000000000061 /* PlaceholderTests.swift */,
+				FADD00000000000000000081 /* InstanceWireFormatTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1291,6 +1294,7 @@
 				FADD00000000000000000072 /* FormatStringParityTests.swift in Sources */,
 				FADD00000000000000000053 /* Placeholder.swift in Sources */,
 				FADD00000000000000000062 /* PlaceholderTests.swift in Sources */,
+				FADD00000000000000000082 /* InstanceWireFormatTests.swift in Sources */,
 				FADD00000000000000000023 /* Formatters.swift in Sources */,
 				FADD00000000000000000044 /* HexEncoding.swift in Sources */,
 			);
