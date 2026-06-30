@@ -42,6 +42,14 @@ final class AppSettings {
     }
 
     func resetAll() {
+        dependencies.store.removePersistentDomain(forName: Ruddarr.group)
+
+        if let bundleId = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleId)
+        }
+
+        dependencies.store.set(true, forKey: Migrations.appGroupKey)
+
         InstancesStore.shared.reset()
 
         icon = .factory
@@ -52,12 +60,6 @@ final class AppSettings {
         releaseFilters = .reset
         radarrInstanceId = nil
         sonarrInstanceId = nil
-
-        dependencies.store.removePersistentDomain(forName: Ruddarr.group)
-
-        if let bundleId = Bundle.main.bundleIdentifier {
-            UserDefaults.standard.removePersistentDomain(forName: bundleId)
-        }
     }
 }
 
