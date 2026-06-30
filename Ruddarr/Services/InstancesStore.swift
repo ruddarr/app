@@ -66,6 +66,10 @@ final class InstancesStore {
         reconcile()
     }
 
+    func start() {
+        //
+    }
+
     isolated deinit {
         if let observer {
             NotificationCenter.default.removeObserver(observer)

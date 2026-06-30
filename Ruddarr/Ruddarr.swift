@@ -22,7 +22,7 @@ struct Ruddarr: App {
         #endif
 
         Migrations.run()
-        _ = InstancesStore.shared
+        InstancesStore.shared.start()
 
         try? Tips.configure()
 
