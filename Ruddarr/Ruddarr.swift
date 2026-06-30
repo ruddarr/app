@@ -20,6 +20,7 @@ struct Ruddarr: App {
         // Tips.showAllTipsForTesting()
         #endif
 
+        startSentry()
         Migrations.run()
 
         try? Tips.configure()
