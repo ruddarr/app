@@ -1,0 +1,18 @@
+[
+  {
+    "type": "radarr",
+    "label": "Home Radarr",
+    "url": "https://radarr.example.com",
+    "apiKey": "0000000000000000000000000000000000000000",
+    "mode": "normal",
+    "headers": [
+      { "name": "CF-Access-Client-Id", "value": "example.cloudflareaccess.com" }
+    ]
+  },
+  {
+    "type": "sonarr",
+    "label": "Home Sonarr",
+    "url": "https://sonarr.example.com",
+    "apiKey": "0000000000000000000000000000000000000000"
+  }
+]

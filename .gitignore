@@ -86,3 +86,6 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# Ruddarr instance seeding (real credentials, never committed)
+seed-instances.json
