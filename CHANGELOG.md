@@ -9,29 +9,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Display queue status for movies, seasons and episodes
 - Switched to sheets for calendar navigation
+- Display disk space usage and statistics for instances
+- Added Trakt movie ratings
 - Added quick look preview to media posters
 - Added "History" to sidebar on iPadOS
-- Display disk space usage and statistics for instances
-- Display counts below media grids
+- Show counts below media grids
 - Jump from a queue task to its movie or series
 
 ### Changed
-- Animate discovery grid loading indicator
-- Improved byte formatting precision in some places
+- Improved byte formatting precision
 - Improved image loading performance
 - Improved media grid sorting/filtering performance
 - Improved performance of loading movie files
+- Animate discovery grid loading indicator
 - Debounce library search queries
 - Removed sidebar header on iPadOS
 - Refined sections in settings view
-- Redesigned action buttons across the app
-- Various internal code improvements
+- Refined various buttons designs across the app
+- Several dozen internal code improvements
 
 ### Fixed
-- Fixed sidebar colors on macOS 27
-- Fixed blurry discovery headline on iPadOS
 - Fixed toasts not displaying above some sheets
 - Fixed media grid flicker when while sorting
+- Fixed calendar/queue not updating instances when changed
+- Fixed sidebar colors on macOS 27
+- Fixed blurry discovery headline on iPadOS
 
 ## 1.8.3 - 2026-06-23
 ### Added

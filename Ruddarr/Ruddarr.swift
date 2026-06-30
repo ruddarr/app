@@ -96,11 +96,6 @@ extension WhatsNew {
             subtitle: "Switched to using sheets to display calendar items for better navigation."
         ),
         .init(
-            image: "magnifyingglass",
-            title: "Quick Look",
-            subtitle: "Tap on media posters to preview it in full size using Quick Look."
-        ),
-        .init(
             image: "internaldrive",
             title: "Instance Details",
             subtitle: "View library statistics and disk space usage for each instances."
@@ -113,7 +108,7 @@ extension WhatsNew {
         .init(
             image: "ladybug",
             title: "Fixes & Improvements",
-            subtitle: "Various internal code improvements and refinements for iPadOS."
+            subtitle: "Several dozens of refinements, fixes and code improvements."
         )
     ]
 }
