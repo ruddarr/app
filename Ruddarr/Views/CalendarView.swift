@@ -141,7 +141,7 @@ struct CalendarView: View {
     }
 
     func syncInstances() {
-        guard Set(calendar.instances.map(\.id)) != Set(settings.instances.map(\.id)) else {
+        guard !calendar.instances.sameConfiguration(as: settings.instances) else {
             return
         }
 

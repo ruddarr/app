@@ -94,11 +94,7 @@ final class InstancesStore {
     }
 
     private func write(_ new: [Instance]) {
-        func withoutStats(_ list: [Instance]) -> [Instance] {
-            list.map { var copy = $0; copy.stats = nil; return copy }
-        }
-
-        let syncWorthy = withoutStats(new) != withoutStats(instances)
+        let syncWorthy = !new.sameConfiguration(as: instances)
 
         instances = new
         let raw = new.rawValue

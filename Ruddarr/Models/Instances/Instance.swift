@@ -81,6 +81,20 @@ struct Instance: Identifiable, Equatable, Codable {
     }
 }
 
+extension [Instance] {
+    func sameConfiguration(as other: [Instance]) -> Bool {
+        func stripped(_ list: [Instance]) -> [Instance] {
+            list.map {
+                var copy = $0
+                copy.stats = nil
+                return copy
+            }
+        }
+
+        return stripped(self) == stripped(other)
+    }
+}
+
 enum InstanceType: String, Identifiable, CaseIterable, Codable {
     case radarr = "Radarr"
     case sonarr = "Sonarr"
