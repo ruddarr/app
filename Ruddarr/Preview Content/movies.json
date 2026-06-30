@@ -127,6 +127,11 @@
                 "votes": 0,
                 "value": 88,
                 "type": "user"
+            },
+            "trakt": {
+                "votes": 15774,
+                "value": 7.60574,
+                "type": "user"
             }
         },
         "movieFile": {
