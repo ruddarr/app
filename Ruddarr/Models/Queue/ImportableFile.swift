@@ -27,7 +27,7 @@ struct ImportableFile: Identifiable, Codable {
     }
 
     var sizeLabel: String {
-        formatBytes(size)
+        formatBytes(size, verbose: true)
     }
 
     var languageLabel: String {

@@ -130,7 +130,7 @@ struct SeasonView: View {
 
                 if let bytes = season.statistics?.sizeOnDisk, bytes > 0 {
                     Bullet()
-                    Text(formatBytes(bytes, adaptive: true))
+                    Text(formatBytes(bytes))
                 }
             }
             .font(.subheadline)

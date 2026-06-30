@@ -80,7 +80,7 @@ struct QueueItemSheet: View {
         HStack(spacing: 6) {
             Text(item.quality.quality.label)
             Bullet()
-            Text(formatBytes(item.size))
+            Text(formatBytes(item.size, verbose: true))
         }
         .font(.subheadline)
         .foregroundStyle(.secondary)

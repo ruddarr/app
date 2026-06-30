@@ -26,7 +26,7 @@ extension InstanceView {
                 parts.append(String(localized: "\(stats.episodes) Episode"))
             }
 
-            parts.append(formatBytes(stats.size, adaptive: true))
+            parts.append(formatBytes(stats.size))
         }
 
         if let version = instance.version {
@@ -69,8 +69,8 @@ extension InstanceView {
                     ForEach(locations) { location in
                         LabeledContent {
                             Text(verbatim: "%@ / %@".placeholders(
-                                formatBytes(Int(clamping: location.freeSpace), adaptive: true),
-                                formatBytes(Int(clamping: location.totalSpace), adaptive: true)
+                                formatBytes(Int(clamping: location.freeSpace)),
+                                formatBytes(Int(clamping: location.totalSpace))
                             ))
                             .foregroundStyle(.secondary)
                             .font(.subheadline)

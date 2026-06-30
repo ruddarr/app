@@ -22,7 +22,7 @@ struct MediaFile: Identifiable, Equatable, Codable {
     }
 
     var sizeLabel: String {
-        formatBytes(size)
+        formatBytes(size, verbose: true)
     }
 
     var languageLabel: String {
