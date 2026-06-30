@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import Sentry
 
 #if canImport(UIKit)
 import UIKit
@@ -40,8 +41,10 @@ final class InstancesStore {
                 object: nil,
                 queue: .main
             ) { [weak self] note in
-                let keys = note.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String]
-                MainActor.assumeIsolated { self?.cloudChangedExternally(keys: keys) }
+                let info = note.userInfo
+                let reason = info?[NSUbiquitousKeyValueStoreChangeReasonKey] as? Int
+                let keys = info?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String]
+                MainActor.assumeIsolated { self?.cloudChangedExternally(reason: reason, keys: keys) }
             }
 
             cloud.synchronize()
@@ -73,8 +76,9 @@ final class InstancesStore {
         }
     }
 
-    nonisolated static func decode(_ raw: String?) -> [Instance] {
-        raw.flatMap { [Instance](rawValue: $0) } ?? []
+    nonisolated static func decode(_ raw: String?) -> [Instance]? {
+        guard let raw else { return nil }
+        return [Instance](rawValue: raw)
     }
 
     func setInstances(_ new: [Instance]) {
@@ -90,40 +94,71 @@ final class InstancesStore {
     }
 
     private func write(_ new: [Instance]) {
+        func withoutStats(_ list: [Instance]) -> [Instance] {
+            list.map { var copy = $0; copy.stats = nil; return copy }
+        }
+
+        let syncWorthy = withoutStats(new) != withoutStats(instances)
+
         instances = new
         let raw = new.rawValue
 
         suite.set(raw, forKey: Self.key)
-        writeCloud(raw)
+
+        if syncWorthy {
+            writeCloud(raw)
+        }
     }
 
     private func writeCloud(_ raw: String) {
-        cloud?.set(raw, forKey: Self.key)
-        cloud?.synchronize()
+        guard let cloud else { return }
+
+        cloud.set(raw, forKey: Self.key)
+
+        if !cloud.synchronize() {
+            leaveBreadcrumb(.error, category: "instances", message: "iCloud synchronize() returned false")
+        }
     }
 
-    private func cloudChangedExternally(keys: [String]?) {
+    private func cloudChangedExternally(reason: Int?, keys: [String]?) {
+        if reason == NSUbiquitousKeyValueStoreAccountChange {
+            leaveBreadcrumb(.warning, category: "instances", message: "Ignored iCloud account change")
+            return
+        }
+
         guard keys == nil || keys?.contains(Self.key) == true else { return }
 
         adoptCloudValue()
     }
 
     private func reconcile() {
-        if cloud?.object(forKey: Self.key) != nil {
-            adoptCloudValue()
-        } else {
-            let local = Self.decode(suite.string(forKey: Self.key))
-            instances = local
+        let raw = suite.string(forKey: Self.key)
 
-            if !local.isEmpty {
-                writeCloud(local.rawValue)
-            }
+        if raw != nil && Self.decode(raw) == nil {
+            leaveBreadcrumb(.error, category: "instances", message: "Local instances value could not be decoded", data: ["key": Self.key])
         }
+
+        instances = Self.decode(raw) ?? []
+
+        guard cloud != nil else { return }
+
+        adoptCloudValue()
     }
 
     private func adoptCloudValue() {
         guard let cloud else { return }
-        let incoming = Self.decode(cloud.string(forKey: Self.key))
+
+        guard let incoming = Self.decode(cloud.string(forKey: Self.key)) else {
+            if cloud.object(forKey: Self.key) != nil {
+                leaveBreadcrumb(.error, category: "instances", message: "Ignored undecodable iCloud value", data: ["key": Self.key])
+            }
+
+            if !instances.isEmpty {
+                writeCloud(instances.rawValue)
+            }
+
+            return
+        }
 
         guard incoming != instances else { return }
 

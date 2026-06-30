@@ -111,6 +111,9 @@ private struct WithAppStateModifier: ViewModifier {
                 setSentryContext(for: "Configuration", settings.context())
                 await setSentryCloudKitContext()
             }
+            .onChange(of: settings.instances) {
+                Queue.shared.instances = settings.instances
+            }
     }
 }
 
