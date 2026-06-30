@@ -185,7 +185,8 @@ struct SeriesView: View {
     }
 
     var isLoadingSeries: Bool {
-        instance.series.isWorking && instance.series.cachedItems.isEmpty
+        (instance.series.isWorking || instance.series.isFiltering) &&
+        instance.series.cachedItems.isEmpty
     }
 
     var initialLoadingFailed: Bool {

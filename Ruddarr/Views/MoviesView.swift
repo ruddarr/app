@@ -176,7 +176,8 @@ struct MoviesView: View {
     }
 
     var isLoadingMovies: Bool {
-        instance.movies.isWorking && instance.movies.cachedItems.isEmpty
+        (instance.movies.isWorking || instance.movies.isFiltering) &&
+        instance.movies.cachedItems.isEmpty
     }
 
     var initialLoadingFailed: Bool {
