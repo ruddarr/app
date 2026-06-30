@@ -94,13 +94,21 @@ extension InstanceView {
                             .controlSize(.small)
                             .tint(.secondary)
                     }
+
+                    if diskSpaceExpanded {
+                        Spacer()
+                        Text(verbatim: "Free / Total")
+                            .font(.caption)
+                    }
                 }
 
-                Spacer()
+                if !diskSpaceExpanded {
+                    Spacer()
 
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .rotationEffect(.degrees(diskSpaceExpanded ? 90 : 0))
+                    Image(systemName: "chevron.right")
+                        .font(.caption.weight(.semibold))
+                        .rotationEffect(.degrees(diskSpaceExpanded ? 90 : 0))
+                }
             }
             .contentShape(Rectangle())
             .onTapGesture {
