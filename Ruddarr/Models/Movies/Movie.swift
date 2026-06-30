@@ -234,6 +234,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         let tmdb: MovieRating?
         let metacritic: MovieRating?
         let rottenTomatoes: MovieRating?
+        let trakt: MovieRating?
     }
 }
 
