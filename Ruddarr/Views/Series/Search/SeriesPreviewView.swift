@@ -7,9 +7,9 @@ struct SeriesPreviewView: View {
 
     @State private var presentingForm: Bool = false
 
-    @Environment(AppSettings.self) var settings
-
+    @Environment(AppSettings.self) private var settings
     @Environment(SonarrInstance.self) private var instance
+
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
 

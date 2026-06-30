@@ -2,8 +2,8 @@ import SwiftUI
 import StoreKit
 
 struct SettingsDisplaySection: View {
-    @Environment(AppSettings.self) var settings
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(AppSettings.self) private var settings
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         Section {

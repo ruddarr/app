@@ -3,7 +3,7 @@ import SwiftUI
 struct SeriesForm: View {
     @Binding var series: Series
 
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
     @Environment(SonarrInstance.self) private var instance
 
     @Environment(\.deviceType) private var deviceType

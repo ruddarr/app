@@ -9,7 +9,7 @@ struct BugSheet: View {
     @AppStorage("reportEmail") private var email: String = ""
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         NavigationStack {

@@ -8,7 +8,7 @@ struct MediaDeleteSheet: View {
     @State private var exclude: Bool = false
     @State private var isWorking: Bool = false
 
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {

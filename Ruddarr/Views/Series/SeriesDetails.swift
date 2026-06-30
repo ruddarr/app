@@ -11,7 +11,6 @@ struct SeriesDetails: View {
 
     @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
-
     @Environment(\.deviceType) var deviceType
 
     var body: some View {

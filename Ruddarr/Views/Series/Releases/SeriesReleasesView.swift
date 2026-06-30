@@ -11,9 +11,9 @@ struct SeriesReleasesView: View {
 
     @AppStorage("seriesReleaseSort", store: dependencies.store) private var sort: SeriesReleaseSort = .init()
 
-    @Environment(AppSettings.self) var settings
-    @Environment(\.deviceType) private var deviceType
+    @Environment(AppSettings.self) private var settings
     @Environment(SonarrInstance.self) private var instance
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         List {

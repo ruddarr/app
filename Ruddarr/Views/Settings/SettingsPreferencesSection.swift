@@ -3,8 +3,8 @@ import StoreKit
 import Sentry
 
 struct SettingsPreferencesSection: View {
-    @Environment(AppSettings.self) var settings
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(AppSettings.self) private var settings
+    @Environment(\.colorScheme) private var colorScheme
 
     @State private var showSubscriptionSheet: Bool = false
     @State private var subscriptionStatus: SubscriptionStatus = .unknown

@@ -5,11 +5,12 @@ struct InstanceEditView: View {
 
     @State var instance: Instance
 
-    @Environment(\.dismiss) var dismiss
-    @Environment(\.deviceType) var deviceType
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
-    @Environment(AppSettings.self) var settings
+
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.deviceType) private var deviceType
 
     @State var isLoading = false
     @State var showingAlert = false

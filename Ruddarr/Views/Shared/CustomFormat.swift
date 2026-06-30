@@ -31,7 +31,7 @@ struct CustomFormat: View {
         self.style = style
     }
 
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         Text(label)

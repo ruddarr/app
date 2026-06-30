@@ -12,7 +12,7 @@ struct TaskImportView: View {
     @State private var files: [ImportableFile] = []
     @State private var selected = Set<ImportableFile.ID>()
 
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         List(files, selection: $selected) { file in

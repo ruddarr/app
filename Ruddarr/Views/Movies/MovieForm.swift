@@ -3,10 +3,9 @@ import SwiftUI
 struct MovieForm: View {
     @Binding var movie: Movie
 
-    @Environment(AppSettings.self) var settings
-
-    @Environment(\.deviceType) private var deviceType
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
+    @Environment(\.deviceType) private var deviceType
 
     @State private var defaultsSet = false
     @State private var showingConfirmation = false

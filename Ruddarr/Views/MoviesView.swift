@@ -16,6 +16,8 @@ struct MoviesView: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var instance
 
+    @Environment(\.deviceType) private var deviceType
+
     @State private var scrollView: ScrollViewProxy?
 
     @State private var searchQuery = ""
@@ -26,8 +28,6 @@ struct MoviesView: View {
     @State private var alertPresented = false
 
     @State private var lastFetch: Date = .distantPast
-
-    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         // swiftlint:disable:next closure_body_length

@@ -4,7 +4,7 @@ import TelemetryDeck
 struct MovieView: View {
     @Binding var movie: Movie
 
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.deviceType) private var deviceType

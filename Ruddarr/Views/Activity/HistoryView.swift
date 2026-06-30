@@ -7,7 +7,7 @@ struct HistoryView: View {
     @State private var displayedInstance: String = .all
     @State private var displayedEventType: String = .all
 
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         ScrollView {

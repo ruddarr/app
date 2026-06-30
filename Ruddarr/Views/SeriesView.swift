@@ -17,6 +17,8 @@ struct SeriesView: View {
     @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
 
+    @Environment(\.deviceType) private var deviceType
+
     @State private var scrollView: ScrollViewProxy?
 
     @State private var searchQuery = ""
@@ -27,8 +29,6 @@ struct SeriesView: View {
     @State private var alertPresented = false
 
     @State private var lastFetch: Date = .distantPast
-
-    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         // swiftlint:disable:next closure_body_length

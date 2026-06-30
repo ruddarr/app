@@ -13,8 +13,8 @@ struct SeasonView: View {
     @State private var showDeleteConfirmation = false
     @State private var queue = Queue.shared
 
-    @Environment(AppSettings.self) var settings
-    @Environment(SonarrInstance.self) var instance
+    @Environment(AppSettings.self) private var settings
+    @Environment(SonarrInstance.self) private var instance
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {

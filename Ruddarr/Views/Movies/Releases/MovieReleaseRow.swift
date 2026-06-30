@@ -4,7 +4,7 @@ struct MovieReleaseRow: View {
     var release: MovieRelease
     var movie: Movie
 
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {

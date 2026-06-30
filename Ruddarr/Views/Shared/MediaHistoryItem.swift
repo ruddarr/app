@@ -3,7 +3,7 @@ import SwiftUI
 struct MediaHistoryItem: View {
     var event: MediaHistoryEvent
 
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         LabeledGroupBox {

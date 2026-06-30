@@ -12,7 +12,7 @@ struct TaskRemovalView: View {
     @State private var error: API.Error?
     @State private var isWorking: Bool = false
 
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         Form {

@@ -162,7 +162,7 @@ private struct DynamicPresentationDetents: ViewModifier {
     var detents: Set<PresentationDetent>
     var selection: Binding<PresentationDetent>?
 
-    @Environment(\.sizeCategory) var sizeCategory
+    @Environment(\.sizeCategory) private var sizeCategory
 
     @ViewBuilder
     func body(content: Content) -> some View {

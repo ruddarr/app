@@ -7,13 +7,13 @@ struct SeriesReleaseSheet: View {
     var seasonId: Season.ID?
     var episodeId: Episode.ID?
 
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
     @Environment(SonarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Environment(\.inCalendarSheet) private var inCalendarSheet
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @State private var showGrabConfirmation: Bool = false
 

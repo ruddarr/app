@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SettingsLinksSection: View {
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         Section(header: Text("Integrations")) {

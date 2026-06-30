@@ -4,7 +4,7 @@ import Combine
 struct QueueItemSheet: View {
     var item: QueueItem
 
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL

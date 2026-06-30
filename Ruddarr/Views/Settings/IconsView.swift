@@ -3,7 +3,7 @@ import StoreKit
 import Sentry
 
 struct IconsView: View {
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
 
     @State var showSubscription: Bool = false
     @State var entitledToService: Bool = false

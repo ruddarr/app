@@ -4,7 +4,7 @@ struct MediaEventSheet: View {
     var event: MediaHistoryEvent
     var instanceId: Instance.ID?
 
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType

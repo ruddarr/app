@@ -1,9 +1,8 @@
 import SwiftUI
 
 struct SettingsContributeSection: View {
-    @Environment(AppSettings.self) var settings
-
-    @Environment(\.openURL) var openURL
+    @Environment(AppSettings.self) private var settings
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         Section {

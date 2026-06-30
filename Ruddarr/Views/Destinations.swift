@@ -3,8 +3,8 @@ import SwiftUI
 struct MoviesDestination: View {
     var path: MoviesPath
 
-    @Environment(AppSettings.self) var settings
-    @Environment(RadarrInstance.self) var instance
+    @Environment(AppSettings.self) private var settings
+    @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
         switch path {
@@ -39,8 +39,8 @@ struct SeriesDestination: View {
     var path: SeriesPath
     var navigate: (SeriesPath) -> Void = { dependencies.router.seriesPath.append($0) }
 
-    @Environment(AppSettings.self) var settings
-    @Environment(SonarrInstance.self) var instance
+    @Environment(AppSettings.self) private var settings
+    @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
         switch path {
@@ -88,7 +88,7 @@ struct SeriesDestination: View {
 struct SettingsDestination: View {
     var path: SettingsView.Path
 
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
 

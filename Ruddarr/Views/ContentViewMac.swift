@@ -2,7 +2,7 @@ import SwiftUI
 
 #if os(macOS)
 struct ContentView: View {
-    @Environment(AppSettings.self) var settings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         NavigationSplitView {
