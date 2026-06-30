@@ -33,6 +33,10 @@ func startSentry() {
         options.beforeBreadcrumb = { crumb in
             shouldRecordBreadcrumb(crumb) ? crumb : nil
         }
+
+        options.beforeSend = { event in
+            Bundle.main.bundleIdentifier == "com.ruddarr" ? event : nil
+        }
     }
 
     setSentryContext(for: "device", ["identifier": Platform.deviceId])
