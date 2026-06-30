@@ -75,8 +75,8 @@ class Queue {
         let active = items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
         if active != self.active { self.active = active }
 
-        let issues = items.flatMap { $0.value }.filter { $0.hasIssue }
-        let uniqueIssues = Set(issues.map { $0.taskGroup }).count
+        let issues = items.flatMap { $0.value }.filter(\.hasIssue)
+        let uniqueIssues = Set(issues.map(\.taskGroup)).count
 
         if itemsWithIssues != uniqueIssues {
             itemsWithIssues = uniqueIssues

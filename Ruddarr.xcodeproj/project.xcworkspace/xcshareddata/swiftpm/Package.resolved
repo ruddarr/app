@@ -4,7 +4,7 @@
     {
       "identity" : "cloudstorage",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/nonstrict-hq/CloudStorage.git",
+      "location" : "https://github.com/nonstrict-hq/CloudStorage",
       "state" : {
         "revision" : "d94cb14e563c1a20edeba8a861395c60c2b9d064",
         "version" : "0.7.0"

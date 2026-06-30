@@ -38,7 +38,7 @@ struct MediaFile: Identifiable, Equatable, Codable {
             return nil
         }
 
-        return formats.map { $0.label }
+        return formats.map(\.label)
     }
 
     var videoResolution: Int? {

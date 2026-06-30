@@ -222,7 +222,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
     }
 
     func alternateTitlesString() -> String {
-        alternateTitles?.map { $0.title }.joined(separator: " ") ?? ""
+        alternateTitles?.map(\.title).joined(separator: " ") ?? ""
     }
 }
 

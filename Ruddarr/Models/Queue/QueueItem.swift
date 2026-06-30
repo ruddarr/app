@@ -197,7 +197,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
             return String(localized: "Unknown")
         }
 
-        return codes.map { $0.label }.formattedList()
+        return codes.map(\.label).formattedList()
     }
 
     var scoreLabel: String? {

@@ -75,13 +75,10 @@ struct InformationItem: Hashable {
             return false
         }
 
-        switch (lhs.link, rhs.link) {
-        case (nil, nil):
-            return true
-        case let (lhsLink?, rhsLink?):
-            return lhsLink.equals(rhsLink)
-        default:
-            return false
+        return switch (lhs.link, rhs.link) {
+        case (nil, nil): true
+        case let (lhsLink?, rhsLink?): lhsLink.equals(rhsLink)
+        default: false
         }
     }
 

@@ -113,7 +113,7 @@ struct SettingsView: View {
 
     func checkInstance() async {
         let status = await Notifications.authorizationStatus()
-        let uniqueNames = Set(settings.instances.map { $0.name })
+        let uniqueNames = Set(settings.instances.map(\.name))
 
         if status == .authorized {
             showInstanceNameWarning = settings.instances.count != uniqueNames.count

@@ -45,7 +45,7 @@ class MovieLookup {
     }
 
     func isEmpty() -> Bool {
-        items == nil || items?.count == 0
+        items?.isEmpty ?? true
     }
 
     func noResults(_ query: String) -> Bool {
