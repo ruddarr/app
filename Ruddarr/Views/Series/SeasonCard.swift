@@ -34,13 +34,11 @@ struct SeasonCard: View {
                         await toggle()
                     }
                 } label: {
-                    if isWorking {
-                        ButtonProgressView(tint: .secondary).offset(x: 1.5)
-                    } else {
-                        Image(systemName: "bookmark")
-                            .symbolVariant(season.monitored ? .fill : .none)
-                            .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
-                    }
+                    ToolbarMonitorButton(
+                        monitored: .constant(season.monitored),
+                        loading: isWorking
+                    )
+                    .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
                 }
                 .buttonStyle(.plain)
                 .overlay(Rectangle().padding(18))

@@ -2,6 +2,42 @@ import Sentry
 import CloudKit
 import StoreKit
 
+@MainActor
+func startSentry() {
+    SentrySDK.start { options in
+        options.enabled = true
+        options.debug = false
+        options.environment = runningIn().rawValue
+
+        options.dsn = Secrets.SentryDsn
+        options.sendDefaultPii = false
+
+        options.swiftAsyncStacktraces = true
+
+        options.enableSigtermReporting = true
+        options.enableWatchdogTerminationTracking = true
+        options.enableMetricKit = false
+        options.enableAppHangTracking = false
+        options.appHangTimeoutInterval = 3
+        options.enableCaptureFailedRequests = false
+        options.enableTimeToFullDisplayTracing = true
+
+        options.tracesSampleRate = 1
+
+        #if os(iOS)
+            options.attachViewHierarchy = false
+            options.enablePreWarmedAppStartTracing = true
+            options.enablePersistingTracesWhenCrashing = true
+        #endif
+
+        options.beforeBreadcrumb = { crumb in
+            shouldRecordBreadcrumb(crumb) ? crumb : nil
+        }
+    }
+
+    setSentryContext(for: "device", ["identifier": Platform.deviceId])
+}
+
 func setSentryCloudKitContext() async {
     guard !isRunningIn(.preview) else { return }
     guard dependencies.cloudkit == .live else { return }

@@ -21,6 +21,7 @@ struct Ruddarr: App {
         // Tips.showAllTipsForTesting()
         #endif
 
+        startSentry()
         Migrations.run()
         InstancesStore.shared.start()
 

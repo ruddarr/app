@@ -20,7 +20,6 @@ class AppDelegate:
 
         URLSession.shared.configuration.waitsForConnectivity = true
 
-        configureSentry()
         configureTelemetryDeck()
 
         QuickActions().registerShortcutItems()
@@ -88,38 +87,6 @@ class AppDelegate:
         if let deeplink = payload["deeplink"] as? String, let url = URL(string: deeplink) {
             _ = await UIApplication.shared.open(url)
         }
-    }
-
-    func configureSentry() {
-        SentrySDK.start { options in
-            options.enabled = true
-            options.debug = false
-            options.environment = runningIn().rawValue
-
-            options.dsn = Secrets.SentryDsn
-            options.sendDefaultPii = false
-
-            options.attachViewHierarchy = false
-            options.swiftAsyncStacktraces = true
-
-            options.enableSigtermReporting = true
-            options.enableWatchdogTerminationTracking = true
-            options.enableMetricKit = false
-            options.enableAppHangTracking = false
-            options.appHangTimeoutInterval = 3
-            options.enableCaptureFailedRequests = false
-            options.enablePreWarmedAppStartTracing = true
-            options.enableTimeToFullDisplayTracing = true
-            options.enablePersistingTracesWhenCrashing = true
-
-            options.tracesSampleRate = 1
-
-            options.beforeBreadcrumb = { crumb in
-                shouldRecordBreadcrumb(crumb) ? crumb : nil
-            }
-        }
-
-        setSentryContext(for: "device", ["identifier": Platform.deviceId])
     }
 
     func configureTelemetryDeck() {
