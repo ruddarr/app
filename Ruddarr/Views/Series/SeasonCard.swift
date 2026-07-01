@@ -41,6 +41,7 @@ struct SeasonCard: View {
                 }
                 .buttonStyle(.plain)
                 .allowsHitTesting(!instance.series.isWorking)
+                .disabled(!series.monitored)
             }
         }
     }
