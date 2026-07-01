@@ -214,7 +214,7 @@ struct SeasonView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: .constant(season.monitored), loading: togglingMonitor)
+                ToolbarMonitorButton(monitored: season.monitored, loading: togglingMonitor)
             }
             .allowsHitTesting(!togglingMonitor)
             .disabled(!series.monitored)

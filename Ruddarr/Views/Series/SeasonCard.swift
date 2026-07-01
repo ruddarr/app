@@ -35,7 +35,7 @@ struct SeasonCard: View {
                     }
                 } label: {
                     RowMonitorButton(
-                        monitored: seasonMonitoredBinding,
+                        monitored: seasonMonitored,
                         loading: isWorking
                     )
                 }
@@ -46,14 +46,8 @@ struct SeasonCard: View {
         }
     }
 
-    private var seasonMonitoredBinding: Binding<Bool> {
-        Binding(get: {
-            series.seasons.first(where: { $0.id == season.id })?.monitored ?? season.monitored
-        }, set: { newValue in
-            if let index = series.seasons.firstIndex(where: { $0.id == season.id }) {
-                series.seasons[index].monitored = newValue
-            }
-        })
+    private var seasonMonitored: Bool {
+        series.seasons.first(where: { $0.id == season.id })?.monitored ?? season.monitored
     }
 
     func toggle() async {

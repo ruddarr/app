@@ -181,10 +181,7 @@ struct EpisodeView: View {
                 Task { await toggleMonitor() }
             } label: {
                 ToolbarMonitorButton(
-                    monitored: Binding<Bool>(
-                        get: { episode.monitored },
-                        set: { episode.monitored = $0 }
-                    ),
+                    monitored: episode.monitored,
                     loading: instance.episodes.isMonitoring == episode.id
                 )
             }

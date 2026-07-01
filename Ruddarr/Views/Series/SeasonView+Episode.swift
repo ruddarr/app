@@ -62,14 +62,8 @@ struct EpisodeRow: View {
         .contentShape(Rectangle())
     }
 
-    private var episodeMonitoredBinding: Binding<Bool> {
-        Binding(get: {
-                instance.episodes.items.first(where: { $0.id == episode.id })?.monitored ?? episode.monitored
-        }, set: { newValue in
-            if let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) {
-                instance.episodes.items[index].monitored = newValue
-            }
-        })
+    private var episodeMonitored: Bool {
+        instance.episodes.items.first(where: { $0.id == episode.id })?.monitored ?? episode.monitored
     }
 
     var series: Series {
@@ -93,7 +87,7 @@ struct EpisodeRow: View {
             Task { await toggleMonitor() }
         } label: {
             RowMonitorButton(
-                monitored: episodeMonitoredBinding,
+                monitored: episodeMonitored,
                 loading: instance.episodes.isMonitoring == episode.id
             )
         }
