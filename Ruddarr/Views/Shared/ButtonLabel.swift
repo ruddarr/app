@@ -8,9 +8,9 @@ struct ButtonLabel: View {
     @Environment(AppSettings.self) private var settings
 
     #if os(macOS)
-        static let circleSize: CGFloat = 34
+        static let circleSize: CGFloat = 36
     #else
-        static let circleSize: CGFloat = 46
+        static let circleSize: CGFloat = 48
     #endif
 
     private var label: Text?
