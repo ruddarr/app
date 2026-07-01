@@ -69,19 +69,9 @@ struct ButtonLabel: View {
         }
         .fontWeight(.semibold)
         .foregroundStyle(prominent ? Color.white : settings.theme.tint)
-        .padding(.horizontal, size == .small ? 3 : 6)
-        .padding(.vertical, verticalPadding)
+        .padding(size == .small ? 3 : 6)
         .frame(maxWidth: .infinity)
         .animation(.spring(duration: 0.2), value: isLoading)
-    }
-
-    private var verticalPadding: CGFloat {
-        guard size != .small else { return 3 }
-        #if os(macOS)
-            return 5
-        #else
-            return 6
-        #endif
     }
 
     private var iconFont: Font {
