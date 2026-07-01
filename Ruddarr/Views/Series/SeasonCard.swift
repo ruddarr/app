@@ -59,21 +59,23 @@ struct SeasonCard: View {
             return
         }
 
-        series.seasons[index].monitored.toggle()
+        let original = series.seasons[index].monitored
+        series.seasons[index].monitored = !original
 
         isWorking = true
 
         guard await instance.series.push(series) else {
-            series.seasons[index].monitored.toggle()
+            if let i = series.seasons.firstIndex(where: { $0.id == season.id }),
+               series.seasons[i].monitored == !original {
+                series.seasons[i].monitored = original
+            }
             isWorking = false
             return
         }
 
         isWorking = false
 
-        dependencies.toast.show(
-            series.seasons[index].monitored ? .monitored : .unmonitored
-        )
+        dependencies.toast.show(!original ? .monitored : .unmonitored)
 
         await instance.episodes.fetch(series)
     }

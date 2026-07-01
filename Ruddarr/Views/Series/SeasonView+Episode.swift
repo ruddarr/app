@@ -101,10 +101,14 @@ struct EpisodeRow: View {
             return
         }
 
-        instance.episodes.items[index].monitored.toggle()
+        let original = instance.episodes.items[index].monitored
+        instance.episodes.items[index].monitored = !original
 
         guard await instance.episodes.monitor([episode.id], !episode.monitored) else {
-            instance.episodes.items[index].monitored.toggle()
+            if let i = instance.episodes.items.firstIndex(where: { $0.id == episode.id }),
+               instance.episodes.items[i].monitored == !original {
+                instance.episodes.items[i].monitored = original
+            }
             return
         }
 

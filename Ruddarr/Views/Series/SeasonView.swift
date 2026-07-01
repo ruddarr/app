@@ -260,13 +260,17 @@ extension SeasonView {
             return
         }
 
-        series.seasons[index].monitored.toggle()
+        let original = series.seasons[index].monitored
+        series.seasons[index].monitored = !original
 
         togglingMonitor = true
         defer { togglingMonitor = false }
 
         guard await instance.series.push(series) else {
-            series.seasons[index].monitored.toggle()
+            if let i = series.seasons.firstIndex(where: { $0.id == season.id }),
+               series.seasons[i].monitored == !original {
+                series.seasons[i].monitored = original
+            }
             return
         }
 
