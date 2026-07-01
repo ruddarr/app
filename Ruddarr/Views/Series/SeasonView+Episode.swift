@@ -8,23 +8,6 @@ struct EpisodeRow: View {
     @Environment(SonarrInstance.self) private var instance
     @Environment(\.colorScheme) private var colorScheme
 
-    private var episodeMonitoredBinding: Binding<Bool> {
-        Binding(
-            get: {
-                guard let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) else {
-                    return episode.monitored
-                }
-                return instance.episodes.items[index].monitored
-            },
-            set: { newValue in
-                guard let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) else {
-                    return
-                }
-                instance.episodes.items[index].monitored = newValue
-            }
-        )
-    }
-
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -77,6 +60,16 @@ struct EpisodeRow: View {
             monitorButton
         }
         .contentShape(Rectangle())
+    }
+
+    private var episodeMonitoredBinding: Binding<Bool> {
+        Binding(get: {
+                instance.episodes.items.first(where: { $0.id == episode.id })?.monitored ?? episode.monitored
+        }, set: { newValue in
+            if let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) {
+                instance.episodes.items[index].monitored = newValue
+            }
+        })
     }
 
     var series: Series {
