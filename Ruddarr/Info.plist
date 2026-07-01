@@ -114,5 +114,7 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Ruddarr connects to *arr instances on your local network.</string>
 </dict>
 </plist>
