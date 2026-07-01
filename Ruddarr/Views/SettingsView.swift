@@ -52,6 +52,10 @@ struct SettingsView: View {
             }
 
             addInstanceButton
+
+            #if DEBUG
+                seedInstancesButton
+            #endif
         } header: {
             Text("Instances")
         } footer: {
@@ -74,6 +78,26 @@ struct SettingsView: View {
             .foregroundStyle(settings.theme.tint)
         #endif
     }
+
+    #if DEBUG
+        var seedInstancesButton: some View {
+            Button {
+                let count = settings.seedInstances()
+
+                if count > 0 {
+                    dependencies.toast.notice(text: "Seeded \(count) instance(s)", icon: "checkmark.circle.fill")
+                } else {
+                    dependencies.toast.error(text: "No seed-instances.json in bundle", icon: "exclamationmark.circle.fill")
+                }
+            } label: {
+                Text(verbatim: "Seed Instances")
+            }
+            #if os(macOS)
+                .buttonStyle(.link)
+                .foregroundStyle(settings.theme.tint)
+            #endif
+        }
+    #endif
 
     var instanceNameWarning: some View {
         Text("Notifications will not route reliably until each instance has been given a unique \"Instance Name\" in the web interface under \"Settings > General\".")
@@ -131,6 +155,8 @@ struct SettingsView: View {
 
 #Preview {
     dependencies.router.selectedTab = .settings
+
+    InstancesStore.shared.setInstances([.radarrDummy, .sonarrDummy])
 
     return ContentView()
         .withAppState()
