@@ -10,6 +10,23 @@ struct SeasonCard: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(SonarrInstance.self) private var instance
 
+    private var seasonMonitoredBinding: Binding<Bool> {
+        Binding(
+            get: {
+                guard let index = series.seasons.firstIndex(where: { $0.id == season.id }) else {
+                    return season.monitored
+                }
+                return series.seasons[index].monitored
+            },
+            set: { newValue in
+                guard let index = series.seasons.firstIndex(where: { $0.id == season.id }) else {
+                    return
+                }
+                series.seasons[index].monitored = newValue
+            }
+        )
+    }
+
     var body: some View {
         LabeledGroupBox {
             HStack(spacing: 12) {
@@ -35,7 +52,7 @@ struct SeasonCard: View {
                     }
                 } label: {
                     RowMonitorButton(
-                        monitored: .constant(season.monitored),
+                        monitored: seasonMonitoredBinding,
                         loading: isWorking
                     )
                 }
