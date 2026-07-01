@@ -104,7 +104,7 @@ struct SeriesView: View {
                 guard let searchRequest, await searchRequest.waitForDebounce() else { return }
                 updateDisplayedSeries()
             }
-            .alert(isPresented: $alertPresented, error: error) { _ in
+            .sensoryAlert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
                 Text(error.recoverySuggestionFallback)

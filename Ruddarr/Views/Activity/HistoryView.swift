@@ -55,7 +55,7 @@ struct HistoryView: View {
         .onChange(of: displayedEventType) {
             Task { await history.fetch(1, displayedEventType) }
         }
-        .alert(
+        .sensoryAlert(
             isPresented: history.errorBinding,
             error: history.error
         ) { _ in

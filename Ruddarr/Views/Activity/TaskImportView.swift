@@ -38,11 +38,8 @@ struct TaskImportView: View {
                 Text("No importable files found.")
             }
         }
-        .alert(
-            isPresented: Binding(
-                get: { self.error != nil },
-                set: { _ in }
-            ),
+        .sensoryAlert(
+            isPresented: Binding(get: { self.error != nil }, set: { _ in }),
             error: error
         ) { _ in
             Button("OK") { error = nil }

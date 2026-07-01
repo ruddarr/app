@@ -67,7 +67,7 @@ struct MovieSearchView: View {
 
             await instance.lookup.search(query: searchRequest.query)
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.lookup.errorBinding,
             error: instance.lookup.error
         ) { _ in

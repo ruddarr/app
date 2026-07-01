@@ -7,6 +7,7 @@ Added
 - Added "History" to sidebar on iPadOS
 - Show counts below media grids
 - Jump from a queue task to its movie or series
+- Play haptic feedback when an error is shown
 
 Changed
 - Improved byte formatting precision

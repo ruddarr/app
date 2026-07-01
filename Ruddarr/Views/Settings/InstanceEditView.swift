@@ -60,7 +60,7 @@ struct InstanceEditView: View {
                 await createOrUpdateInstance()
             }
         }
-        .alert(isPresented: $showingAlert, error: error) { _ in
+        .sensoryAlert(isPresented: $showingAlert, error: error) { _ in
             Button("OK") { error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)

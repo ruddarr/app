@@ -58,6 +58,19 @@ extension View {
     ) -> some View {
         self.modifier(DynamicPresentationDetents(detents: dynamic, selection: selection))
     }
+
+    func sensoryAlert<E: LocalizedError, A: View, M: View>(
+        isPresented: Binding<Bool>,
+        error: E?,
+        @ViewBuilder actions: (E) -> A,
+        @ViewBuilder message: (E) -> M
+    ) -> some View {
+        self
+            .alert(isPresented: isPresented, error: error, actions: actions, message: message)
+            .sensoryFeedback(.error, trigger: isPresented.wrappedValue) { _, presented in
+                presented
+            }
+    }
 }
 
 private struct OnBecomeActiveModifier: ViewModifier {

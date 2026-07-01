@@ -103,7 +103,7 @@ struct MoviesView: View {
                 guard let searchRequest, await searchRequest.waitForDebounce() else { return }
                 updateDisplayedMovies()
             }
-            .alert(isPresented: $alertPresented, error: error) { _ in
+            .sensoryAlert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
                 Text(error.recoverySuggestionFallback)

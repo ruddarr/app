@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "History" to sidebar on iPadOS
 - Show counts below media grids
 - Jump from a queue task to its movie or series
+- Play haptic feedback when an error is shown
 
 ### Changed
 - Improved byte formatting precision

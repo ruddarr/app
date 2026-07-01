@@ -56,7 +56,7 @@ struct CalendarView: View {
             .task {
                 await load()
             }
-            .alert(
+            .sensoryAlert(
                 isPresented: $alertPresented,
                 error: calendar.error
             ) { _ in
