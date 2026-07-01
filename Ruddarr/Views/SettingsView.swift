@@ -87,7 +87,7 @@ struct SettingsView: View {
                 if count > 0 {
                     dependencies.toast.notice(text: "Seeded \(count) instance(s)", icon: "checkmark.circle.fill")
                 } else {
-                    dependencies.toast.error(text: "No seed-instances.json in Documents", icon: "exclamationmark.circle.fill")
+                    dependencies.toast.error(text: "No seed-instances.json in bundle", icon: "exclamationmark.circle.fill")
                 }
             } label: {
                 Text(verbatim: "Seed Instances")
@@ -155,6 +155,8 @@ struct SettingsView: View {
 
 #Preview {
     dependencies.router.selectedTab = .settings
+
+    InstancesStore.shared.setInstances([.radarrDummy, .sonarrDummy])
 
     return ContentView()
         .withAppState()
