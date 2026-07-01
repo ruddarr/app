@@ -63,45 +63,70 @@ extension InstanceView {
     @ViewBuilder
     var diskSpaceSection: some View {
         Section {
-            if diskSpaceExpanded {
-                switch diskSpaceState {
-                case .loaded(let locations):
-                    ForEach(locations) { location in
-                        LabeledContent {
-                            Text(verbatim: "%@ / %@".placeholders(
-                                formatBytes(location.freeSpace),
-                                formatBytes(location.totalSpace)
-                            ))
-                            .foregroundStyle(.secondary)
-                            .font(.subheadline)
-                        } label: {
-                            Text(location.displayLabel)
-                                .lineLimit(2)
-                                .truncationMode(.middle)
-                        }
-                    }
-                case .idle, .loading, .failed:
-                    EmptyView()
-                }
-            }
+            diskSpaceLocations
         } header: {
-            HStack {
-                HStack(spacing: 4) {
-                    Text("Disk Space")
+            diskSpaceHeader
+        }
+        #if os(iOS)
+            .listSectionSpacing(diskSpaceExpanded ? .default : .compact)
+        #endif
+    }
 
+    @ViewBuilder
+    var diskSpaceLocations: some View {
+        if diskSpaceExpanded || deviceType == .mac {
+            switch diskSpaceState {
+            case .loaded(let locations):
+                ForEach(locations) { location in
+                    LabeledContent {
+                        Text(verbatim: "%@ / %@".placeholders(
+                            formatBytes(location.freeSpace),
+                            formatBytes(location.totalSpace)
+                        ))
+                        .foregroundStyle(.secondary)
+                        .font(.subheadline)
+                    } label: {
+                        Text(location.displayLabel)
+                            .lineLimit(2)
+                            .truncationMode(.middle)
+                    }
+                }
+            case .idle, .loading:
+                #if os(macOS)
+                    ProgressView()
+                        .controlSize(.small)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                #else
+                    EmptyView()
+                #endif
+            case .failed:
+                EmptyView()
+            }
+        }
+    }
+
+    @ViewBuilder
+    var diskSpaceHeader: some View {
+        HStack {
+            HStack(spacing: 4) {
+                Text("Disk Space")
+
+                #if !os(macOS)
                     if diskSpaceState.isLoading {
                         ProgressView()
                             .controlSize(.small)
                             .tint(.secondary)
                     }
+                #endif
 
-                    if diskSpaceExpanded {
-                        Spacer()
-                        Text(verbatim: "Free / Total")
-                            .font(.caption)
-                    }
+                if diskSpaceExpanded {
+                    Spacer()
+                    Text(verbatim: "Free / Total")
+                        .font(.caption)
                 }
+            }
 
+            #if !os(macOS)
                 if !diskSpaceExpanded {
                     Spacer()
 
@@ -109,7 +134,9 @@ extension InstanceView {
                         .font(.caption.weight(.semibold))
                         .rotationEffect(.degrees(diskSpaceExpanded ? 90 : 0))
                 }
-            }
+            #endif
+        }
+        #if !os(macOS)
             .contentShape(Rectangle())
             .onTapGesture {
                 withAnimation { diskSpaceExpanded.toggle() }
@@ -118,9 +145,6 @@ extension InstanceView {
                     Task { await loadDiskSpaceIfNeeded() }
                 }
             }
-        }
-        #if os(iOS)
-            .listSectionSpacing(diskSpaceExpanded ? .default : .compact)
         #endif
     }
 

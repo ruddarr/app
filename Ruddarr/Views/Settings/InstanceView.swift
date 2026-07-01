@@ -28,6 +28,7 @@ struct InstanceView: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
+    @Environment(\.deviceType) var deviceType
 
     var body: some View {
         Form {
