@@ -18,12 +18,18 @@ extension InstanceView {
 
         if case .loaded(let stats) = libraryState {
             if instance.type == .radarr {
-                parts.append(String(localized: "\(stats.movies) Movie"))
+                parts.append(String(
+                    localized: "metadata.movies.count \(stats.movies)"
+                ))
             }
 
             if instance.type == .sonarr {
-                parts.append(String(localized: "\(stats.series) Series"))
-                parts.append(String(localized: "\(stats.episodes) Episode"))
+                parts.append(String(
+                    localized: "metadata.series.count \(stats.series)"
+                ))
+                parts.append(String(
+                    localized: "metadata.episodes.count \(stats.episodes)"
+                ))
             }
 
             parts.append(formatBytes(stats.size))
