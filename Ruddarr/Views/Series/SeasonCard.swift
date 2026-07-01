@@ -9,6 +9,7 @@ struct SeasonCard: View {
 
     @Environment(\.colorScheme) private var colorScheme
     @Environment(SonarrInstance.self) private var instance
+    @Environment(Dependencies.self) private var dependencies
 
     private var seasonMonitoredBinding: Binding<Bool> {
         Binding(
