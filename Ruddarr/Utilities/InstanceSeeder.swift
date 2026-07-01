@@ -1,12 +1,6 @@
 import Foundation
 
 #if DEBUG
-// MARK: - Instance seeding (debug builds only)
-//
-// The "Seed Instances" button (Settings → Instances) reads `seed-instances.json`
-// from the app bundle and upserts the instances it describes. The real file lives
-// in `Ruddarr/Preview Content/` and is gitignored, so credentials never enter the
-// repo — see `seed-instances.example.json` for the format.
 struct InstanceSeed: Decodable {
     var id: UUID?
     var type: InstanceType
@@ -73,9 +67,6 @@ struct InstanceSeed: Decodable {
 }
 
 extension AppSettings {
-    /// Upserts every instance described in the bundled `seed-instances.json`. Existing
-    /// instances (matched by `id`, otherwise by type + URL) are updated in place;
-    /// missing ones are added. Returns the number of instances seeded.
     @discardableResult
     func seedInstances() -> Int {
         let seeds = InstanceSeed.load()
