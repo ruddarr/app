@@ -57,7 +57,7 @@ struct ButtonLabel: View {
                 Image(systemName: icon)
                     .font(iconFont)
                     .fontWeight(.medium)
-                    .frame(height: label == nil ? nil : (size == .small ? smallIconHeight : regularIconHeight))
+                    .frame(height: iconHeight)
             }
         }
         .lineLimit(1)
@@ -72,6 +72,11 @@ struct ButtonLabel: View {
         .padding(size == .small ? 3 : 6)
         .frame(maxWidth: .infinity)
         .animation(.spring(duration: 0.2), value: isLoading)
+    }
+
+    private var iconHeight: CGFloat? {
+        guard label != nil else { return nil }
+        return size == .small ? smallIconHeight : regularIconHeight
     }
 
     private var iconFont: Font {
