@@ -23,22 +23,17 @@ struct ButtonLabel: View {
     @ScaledMetric(relativeTo: .footnote) private var smallIconHeight: CGFloat = 13
 
     init(text: String, icon: String? = nil, size: Size = .regular, prominent: Bool = false, isLoading: Bool = false) {
+        self.init(icon: icon, size: size, prominent: prominent, isLoading: isLoading)
         self.label = Text(text)
-        self.icon = icon
-        self.size = size
-        self.prominent = prominent
-        self.isLoading = isLoading
     }
 
     init(text: LocalizedStringKey, icon: String? = nil, size: Size = .regular, prominent: Bool = false, isLoading: Bool = false) {
+        self.init(icon: icon, size: size, prominent: prominent, isLoading: isLoading)
         self.label = Text(text)
-        self.icon = icon
-        self.size = size
-        self.prominent = prominent
-        self.isLoading = isLoading
     }
 
-    init(icon: String, size: Size = .regular, prominent: Bool = false, isLoading: Bool = false) {
+    init(icon: String? = nil, size: Size = .regular, prominent: Bool = false, isLoading: Bool = false) {
+        self.label = nil
         self.icon = icon
         self.size = size
         self.prominent = prominent
