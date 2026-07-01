@@ -38,7 +38,12 @@ actor NetworkMonitor {
         self.unsatisfiedReason = path.unsatisfiedReason
 
         let signature = Self.signature(of: path)
+
         if signature != pathSignature {
+            if pathSignature != nil {
+                InstanceResolver.shared.networkChanged()
+            }
+
             pathSignature = signature
         }
     }
