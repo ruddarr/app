@@ -206,8 +206,7 @@ extension InstanceView {
             updated.stats = stats
             settings.saveInstance(updated)
         } catch is CancellationError {
-            // Task cancellation is expected when the view disappears or a newer load supersedes this one.
-            // Intentionally ignore to avoid incorrectly showing a failure state.
+            //
         } catch {
             libraryState = .failed
         }
@@ -219,8 +218,7 @@ extension InstanceView {
         do {
             diskSpaceState = .loaded(try await dependencies.api.fetchDiskSpace(instance))
         } catch is CancellationError {
-            // Task cancellation is expected when the view disappears or a newer load supersedes this one.
-            // Intentionally ignore to avoid incorrectly showing a failure state.
+            //
         } catch {
             diskSpaceState = .failed
         }
