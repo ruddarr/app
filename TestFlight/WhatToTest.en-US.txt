@@ -23,7 +23,7 @@ Changed
 
 Fixed
 - Fixed toasts not displaying above some sheets
-- Fixed media grid flicker when while sorting
+- Fixed media grid flicker while sorting
 - Fixed calendar/queue not updating instances when changed
 - Fixed sidebar colors on macOS 27
 - Fixed blurry discovery headline on iPadOS

@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "History" to sidebar on iPadOS
 - Show counts below media grids
 - Jump from a queue task to its movie or series
-- Play haptic feedback when an error is shown
+- Play haptic feedback when an alert is shown
 
 ### Changed
 - Improved byte formatting precision
@@ -31,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed toasts not displaying above some sheets
-- Fixed media grid flicker when while sorting
+- Fixed media grid flicker while sorting
 - Fixed calendar/queue not updating instances when changed
 - Fixed sidebar colors on macOS 27
 - Fixed blurry discovery headline on iPadOS
