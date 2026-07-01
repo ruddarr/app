@@ -10,7 +10,7 @@ struct ButtonLabel: View {
     #if os(macOS)
         static let circleSize: CGFloat = 34
     #else
-        static let circleSize: CGFloat = 44
+        static let circleSize: CGFloat = 46
     #endif
 
     private var label: Text?
@@ -69,10 +69,19 @@ struct ButtonLabel: View {
         }
         .fontWeight(.semibold)
         .foregroundStyle(prominent ? Color.white : settings.theme.tint)
-        .padding(.horizontal, size == .small ? 2 : 4)
-        .padding(.vertical, size == .small ? 3 : 5)
+        .padding(.horizontal, size == .small ? 3 : 6)
+        .padding(.vertical, verticalPadding)
         .frame(maxWidth: .infinity)
         .animation(.spring(duration: 0.2), value: isLoading)
+    }
+
+    private var verticalPadding: CGFloat {
+        guard size != .small else { return 3 }
+        #if os(macOS)
+            return 5
+        #else
+            return 6
+        #endif
     }
 
     private var iconFont: Font {
