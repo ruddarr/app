@@ -8,6 +8,23 @@ struct EpisodeRow: View {
     @Environment(SonarrInstance.self) private var instance
     @Environment(\.colorScheme) private var colorScheme
 
+    private var episodeMonitoredBinding: Binding<Bool> {
+        Binding(
+            get: {
+                guard let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) else {
+                    return episode.monitored
+                }
+                return instance.episodes.items[index].monitored
+            },
+            set: { newValue in
+                guard let index = instance.episodes.items.firstIndex(where: { $0.id == episode.id }) else {
+                    return
+                }
+                instance.episodes.items[index].monitored = newValue
+            }
+        )
+    }
+
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -83,7 +100,7 @@ struct EpisodeRow: View {
             Task { await toggleMonitor() }
         } label: {
             RowMonitorButton(
-                monitored: .constant(episode.monitored),
+                monitored: episodeMonitoredBinding,
                 loading: instance.episodes.isMonitoring == episode.id
             )
         }
@@ -100,6 +117,7 @@ struct EpisodeRow: View {
         instance.episodes.items[index].monitored.toggle()
 
         guard await instance.episodes.monitor([episode.id], !episode.monitored) else {
+            instance.episodes.items[index].monitored.toggle()
             return
         }
 

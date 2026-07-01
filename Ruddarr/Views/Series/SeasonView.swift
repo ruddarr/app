@@ -266,6 +266,7 @@ extension SeasonView {
         defer { togglingMonitor = false }
 
         guard await instance.series.push(series) else {
+            series.seasons[index].monitored.toggle()
             return
         }
 
