@@ -27,7 +27,7 @@ struct SeriesPreviewView: View {
         .toolbar {
             toolbarNextButton
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.series.errorBinding,
             error: instance.series.error
         ) { _ in

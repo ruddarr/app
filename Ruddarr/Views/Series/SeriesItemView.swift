@@ -45,7 +45,7 @@ struct SeriesDetailView: View {
         .onBecomeActive {
             await reload()
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.series.errorBinding,
             error: instance.series.error
         ) { _ in

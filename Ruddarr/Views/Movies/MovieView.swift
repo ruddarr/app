@@ -33,7 +33,7 @@ struct MovieView: View {
         .onBecomeActive {
             await reload()
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.movies.errorBinding,
             error: instance.movies.error
         ) { _ in

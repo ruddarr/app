@@ -54,7 +54,7 @@ struct SeasonView: View {
         .onBecomeActive {
             await reload()
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.episodes.errorBinding,
             error: instance.episodes.error
         ) { _ in
@@ -62,7 +62,7 @@ struct SeasonView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.files.errorBinding,
             error: instance.files.error
         ) { _ in

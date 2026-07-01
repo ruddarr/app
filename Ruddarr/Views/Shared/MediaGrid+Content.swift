@@ -81,11 +81,8 @@ struct DiscoveryGridPoster: View {
         }
         .animation(.easeInOut(duration: 0.2), value: isLoading)
         .clipShape(RoundedRectangle(cornerRadius: 14))
-        .alert(
-            isPresented: Binding(
-                get: { self.error != nil },
-                set: { _ in }
-            ),
+        .sensoryAlert(
+            isPresented: Binding(get: { self.error != nil }, set: { _ in }),
             error: error
         ) { _ in
             Button("OK") { error = nil }
