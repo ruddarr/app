@@ -160,12 +160,16 @@ struct SeriesDetailView: View {
 
 extension SeriesDetailView {
     func toggleMonitor() async {
-        series.monitored.toggle()
+        let original = series.monitored
+        series.monitored = !original
 
         togglingMonitor = true
         defer { togglingMonitor = false }
 
         guard await instance.series.update(series) else {
+            if series.monitored == !original {
+                series.monitored = original
+            }
             return
         }
 

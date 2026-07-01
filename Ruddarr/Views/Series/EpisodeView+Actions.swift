@@ -14,10 +14,16 @@ extension EpisodeView {
             return
         }
 
-        episode.monitored.toggle()
-        instance.episodes.items[index].monitored.toggle()
+        let original = episode.monitored
+        episode.monitored = !original
+        instance.episodes.items[index].monitored = !original
 
         guard await instance.episodes.monitor([episode.id], episode.monitored) else {
+            episode.monitored = original
+            if let i = instance.episodes.items.firstIndex(where: { $0.id == episode.id }),
+               instance.episodes.items[i].monitored == !original {
+                instance.episodes.items[i].monitored = original
+            }
             return
         }
 
