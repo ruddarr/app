@@ -60,6 +60,7 @@ struct SeasonCard: View {
         isWorking = true
 
         guard await instance.series.push(series) else {
+            series.seasons[index].monitored.toggle()
             isWorking = false
             return
         }
