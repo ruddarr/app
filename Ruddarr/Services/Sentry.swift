@@ -31,7 +31,8 @@ func startSentry() {
         #endif
 
         options.beforeBreadcrumb = { crumb in
-            shouldRecordBreadcrumb(crumb) ? crumb : nil
+            guard shouldRecordBreadcrumb(crumb) else { return nil }
+            return maskRequestURL(crumb)
         }
 
         options.beforeSend = { event in
@@ -153,6 +154,16 @@ func shouldRecordBreadcrumb( _ crumb: Breadcrumb) -> Bool {
     }
 
     return true
+}
+
+/// The SDK's automatic HTTP breadcrumbs carry the request URL. Mask only its host so the real
+/// address never leaves the device, while the path and query stay intact for debugging.
+func maskRequestURL( _ crumb: Breadcrumb) -> Breadcrumb {
+    guard crumb.category == "http", let url = crumb.data?["url"] as? String else { return crumb }
+
+    crumb.data?["url"] = maskedURL(url)
+
+    return crumb
 }
 
 enum EnvironmentType: String {

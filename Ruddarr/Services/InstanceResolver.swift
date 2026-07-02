@@ -120,7 +120,7 @@ final class InstanceResolver: Sendable {
                 let key = "\(instance.type.rawValue.lowercased())-\(instance.id.shortened)"
 
                 guard candidates.count > 1 else {
-                    return DiagnosticRow(key: key, selected: candidates.first ?? instance.url, lines: nil)
+                    return DiagnosticRow(key: key, selected: maskedURL(candidates.first ?? instance.url), lines: nil)
                 }
 
                 let resolved = ResolverRouting.cachedRoles(resolvedHosts, for: candidates, fingerprint: fingerprint)
@@ -130,12 +130,12 @@ final class InstanceResolver: Sendable {
 
                 let lines = ranked.map { entry -> String in
                     let wasResolved = NetworkInterfaces.host(of: entry.base).map { resolved[$0] != nil } ?? false
-                    return "\(entry.base) — \(Self.label(entry, resolved: wasResolved))"
+                    return "\(maskedURL(entry.base)) — \(Self.label(entry, resolved: wasResolved))"
                 }
 
                 return DiagnosticRow(
                     key: key,
-                    selected: ranked.first?.base ?? candidates.first ?? instance.url,
+                    selected: maskedURL(ranked.first?.base ?? candidates.first ?? instance.url),
                     lines: lines
                 )
             }
