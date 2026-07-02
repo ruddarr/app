@@ -90,6 +90,7 @@ extension Instance {
         config.url = url
         config.apiKey = apiKey
         config.headers = headers
+        config.name = name
         return config
     }
 }
