@@ -170,6 +170,14 @@ struct NetworkInterfacesTests {
         #expect(ordered.last == localURL)
     }
 
+    @Test func prefersLoopbackOverRemoteEvenWithNoLAN() {
+        // A server on this device (127.0.0.1 / ::1) is always reachable and must beat a
+        // remote URL on every network, LAN up or not.
+        let cellular = NetworkSnapshot(tailnetUp: false, lanV4: [])
+        #expect(NetworkInterfaces.orderedBases(["https://remote.example.com", "http://127.0.0.1:7878"], snapshot: cellular).first == "http://127.0.0.1:7878")
+        #expect(NetworkInterfaces.orderedBases(["https://remote.example.com", "http://[::1]:7878"], snapshot: cellular).first == "http://[::1]:7878")
+    }
+
     // MARK: - Resolved-host classification (split-horizon DNS, IPv4 + IPv6)
 
     @Test func classifiesResolvedOnLinkIPv4AsLAN() {
@@ -183,6 +191,14 @@ struct NetworkInterfacesTests {
         let home = NetworkSnapshot(tailnetUp: false, lanV4: [], lanV6: [subnet6("2001:db8:abcd:1::", 64)])
         let resolved = NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("2001:db8:abcd:1::50")], snapshot: home)
         #expect(resolved == ResolvedHost(role: .lan, onLink: true))
+    }
+
+    @Test func classifiesResolvedLoopbackAsOnLinkLAN() {
+        // A name that resolves to loopback (e.g. `localhost`) is the server on this device —
+        // on-link LAN, not off-link (which would lose to a remote URL) — on any network.
+        let away = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("10.20.30.0", 24)])
+        #expect(NetworkInterfaces.classify(ipv4: [ipv4("127.0.0.1")], ipv6: [], snapshot: away) == ResolvedHost(role: .lan, onLink: true))
+        #expect(NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("::1")], snapshot: away) == ResolvedHost(role: .lan, onLink: true))
     }
 
     @Test func classifiesOffLinkPrivateAsLANNotOnLink() {

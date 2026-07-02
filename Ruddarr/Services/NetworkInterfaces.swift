@@ -18,6 +18,12 @@ enum NetworkInterfaces {
         (ip & 0xFF00_0000) == 0x7F00_0000      // 127.0.0.0/8 (loopback)
     }
 
+    /// Loopback (`127.0.0.0/8`). Always reachable — it *is* this device — so it must rank as
+    /// on-link on every network, ahead of any remote URL (a server on the same Mac).
+    static func isLoopbackV4(_ ip: UInt32) -> Bool {
+        (ip & 0xFF00_0000) == 0x7F00_0000
+    }
+
     /// `fd7a:115c:a1e0::/48` — Tailscale's IPv6 ULA range.
     static func isTailscaleULA(bytes: [UInt8]) -> Bool {
         bytes.count >= 6
@@ -41,6 +47,11 @@ enum NetworkInterfaces {
         if bytes.dropLast().allSatisfy({ $0 == 0 }), bytes[15] == 1 { return true } // ::1
 
         return false
+    }
+
+    /// Loopback (`::1`) — same rationale as `isLoopbackV4`, always reachable locally.
+    static func isLoopbackV6(bytes: [UInt8]) -> Bool {
+        bytes.count == 16 && bytes.dropLast().allSatisfy { $0 == 0 } && bytes[15] == 1
     }
 
     /// The 16 network-order bytes of an `in6_addr`.
@@ -104,6 +115,10 @@ enum NetworkInterfaces {
     static func classify(ipv4: [UInt32], ipv6: [in6_addr], snapshot: NetworkSnapshot) -> ResolvedHost {
         let v6 = ipv6.map(ipv6Bytes)
 
+        if ipv4.contains(where: isLoopbackV4) || v6.contains(where: { isLoopbackV6(bytes: $0) }) {
+            return ResolvedHost(role: .lan, onLink: true) // a name that resolves to loopback (e.g. `localhost`)
+        }
+
         if ipv4.contains(where: { snapshot.isOnLink($0) }) || v6.contains(where: { snapshot.isOnLink($0) }) {
             return ResolvedHost(role: .lan, onLink: true)
         }
@@ -133,8 +148,11 @@ enum NetworkInterfaces {
     /// On-link test for a *literal* IP host (v4 or v6) — used when a candidate is an IP
     /// address rather than a name that needs resolving.
     private static func literalOnLink(_ host: String, snapshot: NetworkSnapshot) -> Bool {
-        if let v4 = parseIPv4(host) { return snapshot.isOnLink(v4) }
-        if let v6 = IPv6Address(host)?.rawValue, v6.count == 16 { return snapshot.isOnLink([UInt8](v6)) }
+        if let v4 = parseIPv4(host) { return isLoopbackV4(v4) || snapshot.isOnLink(v4) }
+        if let v6 = IPv6Address(host)?.rawValue, v6.count == 16 {
+            let bytes = [UInt8](v6)
+            return isLoopbackV6(bytes: bytes) || snapshot.isOnLink(bytes)
+        }
         return false
     }
 
