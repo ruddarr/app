@@ -10,6 +10,7 @@ struct Instance: Identifiable, Equatable, Codable {
     var mode: InstanceMode = .normal
     var label: String = ""
     var url: String = ""
+    var fallbackURL: String = ""
     var apiKey: String = ""
     var headers: [InstanceHeader] = []
     var rootFolders: [InstanceRootFolder] = []
@@ -38,6 +39,7 @@ struct Instance: Identifiable, Equatable, Codable {
         rootFolders = try values.decode([InstanceRootFolder].self, forKey: .rootFolders)
         qualityProfiles = try values.decode([InstanceQualityProfile].self, forKey: .qualityProfiles)
         tags = try values.decodeIfPresent([Tag].self, forKey: .tags) ?? []
+        fallbackURL = try values.decodeIfPresent(String.self, forKey: .fallbackURL) ?? ""
         name = try values.decodeIfPresent(String.self, forKey: .name)
         version = try values.decodeIfPresent(String.self, forKey: .version)
         stats = try values.decodeIfPresent(InstanceStats.self, forKey: .stats)
@@ -59,7 +61,7 @@ struct Instance: Identifiable, Equatable, Codable {
         var seen: Set<String> = []
         var result: [String] = []
 
-        for raw in [url] {
+        for raw in [url, fallbackURL] {
             var normalized = raw.trimmingCharacters(in: .whitespacesAndNewlines)
             while normalized.hasSuffix("/") { normalized.removeLast() }
 
@@ -104,6 +106,7 @@ extension Instance {
         config.mode = mode
         config.label = label
         config.url = url
+        config.fallbackURL = fallbackURL
         config.apiKey = apiKey
         config.headers = headers
         config.name = name
