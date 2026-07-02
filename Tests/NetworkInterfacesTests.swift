@@ -205,6 +205,15 @@ struct NetworkInterfacesTests {
         #expect(NetworkInterfaces.orderedBases([a, b, remoteURL], snapshot: home, demoted: [a, b]) == [remoteURL, a, b])
     }
 
+    @Test func localNetworkDeniedDropsLANButKeepsLoopback() {
+        // Local Network denied: an on-link LAN URL would only time out, so a routable remote
+        // must win instead of being preferred.
+        let denied = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.1.0", 24)], localNetworkDenied: true)
+        #expect(NetworkInterfaces.orderedBases(["http://192.168.1.50:7878", remoteURL], snapshot: denied).first == remoteURL)
+        // Loopback is not gated by the Local Network permission, so it stays preferred.
+        #expect(NetworkInterfaces.orderedBases([remoteURL, "http://127.0.0.1:7878"], snapshot: denied).first == "http://127.0.0.1:7878")
+    }
+
     // MARK: - Resolved-host classification (split-horizon DNS, IPv4 + IPv6)
 
     @Test func classifiesResolvedOnLinkIPv4AsLAN() {

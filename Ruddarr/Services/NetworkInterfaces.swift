@@ -137,11 +137,16 @@ enum NetworkInterfaces {
 
     /// Maps a `(role, on-link)` pair to its selection score — the single source of the
     /// ladder: on-link LAN (home) ► Tailscale up ► remote ► off-link/ambiguous private ►
-    /// Tailscale down (a `*.ts.net` with the tunnel off would only NXDOMAIN).
-    private static func score(role: InstanceURLRole, onLink: Bool, tailnetUp: Bool) -> Int {
+    /// Tailscale down (a `*.ts.net` with the tunnel off would only NXDOMAIN). When Local
+    /// Network access is denied, an on-link LAN address (except loopback, which isn't gated)
+    /// can't be reached, so it drops to the off-link score and a routable remote wins instead
+    /// of the request timing out.
+    private static func score(role: InstanceURLRole, onLink: Bool, snapshot: NetworkSnapshot, isLoopback: Bool) -> Int {
         switch role {
-        case .lan: return onLink ? 100 : 30
-        case .tailscale: return tailnetUp ? 90 : 5
+        case .lan:
+            let reachable = onLink && (isLoopback || !snapshot.localNetworkDenied)
+            return reachable ? 100 : 30
+        case .tailscale: return snapshot.tailnetUp ? 90 : 5
         case .remote: return 50
         }
     }
@@ -154,6 +159,14 @@ enum NetworkInterfaces {
             let bytes = [UInt8](v6)
             return isLoopbackV6(bytes: bytes) || snapshot.isOnLink(bytes)
         }
+        return false
+    }
+
+    /// Whether a *literal* IP host is loopback (`127.0.0.0/8` or `::1`). Loopback is not gated
+    /// by the Local Network permission, so it stays preferred even when access is denied.
+    private static func literalLoopback(_ host: String) -> Bool {
+        if let v4 = parseIPv4(host) { return isLoopbackV4(v4) }
+        if let v6 = IPv6Address(host)?.rawValue, v6.count == 16 { return isLoopbackV6(bytes: [UInt8](v6)) }
         return false
     }
 
@@ -204,7 +217,7 @@ enum NetworkInterfaces {
                 }
             }
 
-            return (chosenRole, onLink, score(role: chosenRole, onLink: onLink, tailnetUp: snapshot.tailnetUp))
+            return (chosenRole, onLink, score(role: chosenRole, onLink: onLink, snapshot: snapshot, isLoopback: literalLoopback(host)))
         }
 
         return candidates.enumerated().map { offset, base -> (offset: Int, ranking: CandidateRanking) in

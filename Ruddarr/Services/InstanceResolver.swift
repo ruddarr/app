@@ -143,6 +143,7 @@ final class InstanceResolver: Sendable {
 
         var context: [String: Any] = [
             "tailscale": snapshot.tailnetUp ? "up" : "down",
+            "local_network": snapshot.localNetworkDenied ? "denied" : "allowed",
             "lan_v4": snapshot.lanV4.isEmpty ? "none" : snapshot.lanV4.map(\.cidr).joined(separator: ", "),
             "lan_v6": snapshot.lanV6.isEmpty ? "none" : snapshot.lanV6.map(\.cidr).joined(separator: ", "),
         ]

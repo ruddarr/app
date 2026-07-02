@@ -36,6 +36,7 @@ actor NetworkMonitor {
     private func update(from path: NWPath) {
         self.status = path.status
         self.unsatisfiedReason = path.unsatisfiedReason
+        LocalNetworkAccess.setDenied(path.unsatisfiedReason == .localNetworkDenied)
 
         let signature = Self.signature(of: path)
 

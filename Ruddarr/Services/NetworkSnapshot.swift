@@ -1,3 +1,4 @@
+import os
 import Network
 import Foundation
 
@@ -42,6 +43,12 @@ struct NetworkSnapshot: Equatable {
     var lanV4: [IPv4Subnet] = []
     var lanV6: [IPv6Subnet] = []
 
+    /// Whether the OS has denied this app Local Network access. Mirrored synchronously from
+    /// `NetworkMonitor` via `LocalNetworkAccess`, so selection can avoid a LAN candidate that
+    /// would only time out. Deliberately not part of `fingerprint`: a denial toggle re-scores
+    /// on the next selection, it does not need to invalidate demotions/resolutions.
+    var localNetworkDenied: Bool = false
+
     /// A stable token for the current network. Demotions (URLs that just failed) and
     /// resolved hostnames are scoped to this, so anything learned on one network is
     /// dropped the moment the network changes (the fingerprint changes with it). IPv6
@@ -74,6 +81,17 @@ struct NetworkSnapshot: Equatable {
     }
 }
 
+/// A process-wide, synchronously-readable mirror of `NWPathMonitor`'s `.localNetworkDenied`
+/// reason: `NetworkMonitor` writes it on every path update, `NetworkSnapshot.capture()` reads
+/// it. The bridge exists because selection is synchronous while `NetworkMonitor` is an actor.
+enum LocalNetworkAccess {
+    private static let deniedFlag = OSAllocatedUnfairLock(initialState: false)
+
+    static var isDenied: Bool { deniedFlag.withLock { $0 } }
+
+    static func setDenied(_ value: Bool) { deniedFlag.withLock { $0 = value } }
+}
+
 extension NetworkSnapshot {
     /// Reads the live interface table. Cheap enough (microseconds) to call fresh on
     /// every selection, which sidesteps any stale-cache race — important because a
@@ -81,6 +99,7 @@ extension NetworkSnapshot {
     /// `NWPathMonitor` update.
     static func capture() -> NetworkSnapshot {
         var snapshot = NetworkSnapshot()
+        snapshot.localNetworkDenied = LocalNetworkAccess.isDenied
 
         var head: UnsafeMutablePointer<ifaddrs>?
         guard getifaddrs(&head) == 0, let first = head else { return snapshot }
