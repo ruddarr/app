@@ -9,10 +9,12 @@ import Foundation
 // trigger for the Local Network prompt).
 //
 // Two facts drive the choice, both read straight from the interface table:
-//   1. Is the tailnet up?  → a `utun*` interface holding a 100.64.0.0/10 (CGNAT) IPv4
-//      or an `fd7a:115c:a1e0::/48` IPv6. The interface-name AND address-range
-//      conjunction is what rejects carrier-grade NAT (which hands `pdp_ip0` a
-//      100.64/10 address too) and bare system utuns.
+//   1. Is the tailnet up?  → a `utun*` interface holding an `fd7a:115c:a1e0::/48` IPv6
+//      ULA. The 100.64.0.0/10 (CGNAT) IPv4 Tailscale also assigns is deliberately NOT a
+//      tailnet signal: other utun-based VPNs (NetBird, Cloudflare WARP, Pangolin, …) reuse
+//      that exact CGNAT block, and carrier-grade NAT hands `pdp*` a 100.64/10 too, so an
+//      IPv4 check false-positives. Only the fd7a ULA is Tailscale-specific, so it alone
+//      flips `tailnetUp`.
 //   2. Is a server's LAN on-link?  → does any real broadcast interface (`en*`) sit in
 //      the same subnet as the server, i.e. `(deviceIP & mask) == (serverIP & mask)`.
 //
@@ -64,6 +66,23 @@ struct NetworkSnapshot: Equatable {
             .joined(separator: ",")
 
         return "ts:\(tailnetUp)|lan4:\(v4)|lan6:\(v6)"
+    }
+
+    /// A finer-grained network identity than `fingerprint`, used by `NetworkMonitor` to decide
+    /// whether the network *changed* and cached routing state must be dropped. Where
+    /// `fingerprint` masks IPv4 to the subnet — so a URL demoted on one LAN stays demoted across
+    /// that whole LAN — this keeps the device's full IPv4 host address.
+    var identity: String {
+        let v4 = Set(lanV4.map(\.address))
+            .sorted()
+            .map(String.init)
+            .joined(separator: ",")
+
+        let v6 = Set(lanV6.map { $0.network.map(String.init).joined(separator: ".") })
+            .sorted()
+            .joined(separator: ",")
+
+        return "ts:\(tailnetUp)|v4:\(v4)|v6:\(v6)"
     }
 
     func isOnLink(_ ip: UInt32) -> Bool {
@@ -130,8 +149,10 @@ extension NetworkSnapshot {
         }
     }
 
-    /// A Tailscale `utun` (a CGNAT address) flips `tailnetUp`; a real `en*` link records
-    /// its on-link IPv4 subnet. Anything else (bridge, AirDrop, tethering, …) is ignored.
+    /// A real `en*` link records its on-link IPv4 subnet. A `utun`'s CGNAT address does
+    /// NOT flip `tailnetUp` — that would false-positive every other utun VPN reusing
+    /// 100.64/10 (NetBird, WARP, …); tailnet detection is IPv6-fd7a-only (see `ingestIPv6`).
+    /// Anything else (bridge, AirDrop, tethering, …) is ignored.
     private static func ingestIPv4(
         name: String,
         flags: Int32,
@@ -147,24 +168,23 @@ extension NetworkSnapshot {
         } ?? 0xFFFF_FFFF
 
         switch classifyV4(name: name, flags: flags, address: value, mask: mask) {
-        case .tailnet: snapshot.tailnetUp = true
         case .lan(let subnet): snapshot.lanV4.append(subnet)
         case .ignored: break
         }
     }
 
-    /// What one decoded IPv4 interface contributes. A `utun` carrying a CGNAT address is the
-    /// tailnet — the name AND range conjunction is what rejects carrier-grade NAT on `pdp*`
-    /// and bare tunnels; a real `en*` link records its subnet; anything else is ignored.
+    /// What one decoded IPv4 interface contributes. Only a real `en*` link contributes (its
+    /// subnet); everything else — including a `utun` carrying a 100.64/10 CGNAT address — is
+    /// ignored. IPv4 is deliberately NOT a tailnet signal: Tailscale's CGNAT range is shared
+    /// by NetBird/WARP/Pangolin and by carrier-grade NAT on `pdp*`, so the tailnet is
+    /// identified only by its `fd7a:115c:a1e0::/48` IPv6 ULA (see `classifyV6`).
     /// Pure and testable — the `getifaddrs` pointer decoding stays in `ingestIPv4`.
     enum V4Contribution: Equatable {
-        case tailnet
         case lan(IPv4Subnet)
         case ignored
     }
 
     static func classifyV4(name: String, flags: Int32, address: UInt32, mask: UInt32) -> V4Contribution {
-        if name.hasPrefix("utun"), NetworkInterfaces.isCarrierGradeNAT(address) { return .tailnet }
         if isLANEthernet(name: name, flags: flags) { return .lan(IPv4Subnet(address: address, mask: mask)) }
         return .ignored
     }

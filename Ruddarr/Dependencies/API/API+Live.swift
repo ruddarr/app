@@ -14,7 +14,7 @@ extension API {
                 .appending(path: "/api/v3/movie/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.sluggish))
         }, lookupMovieReleases: { movieId, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/release")
@@ -110,7 +110,7 @@ extension API {
                 .appending(path: "/api/v3/series/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.sluggish))
         }, lookupSeriesReleases: { seriesId, seasonId, episodeId, instance in
             var url = try instance.baseURL()
                 .appending(path: "/api/v3/release")
@@ -229,7 +229,7 @@ extension API {
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/release")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: payload, timeout: instance.timeout(.releaseDownload))
+            return try await request(method: .post, url: url, headers: instance.auth, body: payload, timeout: instance.timeout(.sluggish))
         }, systemStatus: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/system/status")
@@ -286,7 +286,7 @@ extension API {
                     .init(name: "filterExistingFiles", value: "false"),
                 ])
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.sluggish))
         }, fetchHistory: { type, page, limit, instance in
             var url = try instance.baseURL()
                 .appending(path: "/api/v3/history")

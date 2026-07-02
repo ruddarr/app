@@ -89,12 +89,12 @@ struct Instance: Identifiable, Equatable, Codable {
         }
     }
 
-    func timeout(_ call: InstanceTimeout) -> Double {
+    func timeout(_ call: InstanceTimeout) -> RequestTimeout {
         switch call {
-        case .normal: 10
-        case .slow: mode.isSlow ? 300 : 10
-        case .releaseSearch: mode.isSlow ? 180 : 90
-        case .releaseDownload: 15
+        case .normal: .init(local: 2.5, remote: 10)
+        case .sluggish: .init(15)
+        case .slow: .init(mode.isSlow ? 300 : 10)
+        case .releaseSearch: .init(mode.isSlow ? 180 : 90)
         }
     }
 }
@@ -145,9 +145,9 @@ enum InstanceMode: Codable {
 
 enum InstanceTimeout: Codable {
     case normal
+    case sluggish
     case slow
     case releaseSearch
-    case releaseDownload
 }
 
 struct InstanceHeader: Equatable, Identifiable, Codable {
