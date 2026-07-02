@@ -105,4 +105,16 @@ struct DiscoveryItem: Identifiable, Codable, Equatable {
         case movie
         case series
     }
+
+    @MainActor
+    func libraryMovie(in instance: RadarrInstance) -> Movie? {
+        guard type == .movie else { return nil }
+        return instance.movies.cachedItems.first { $0.tmdbId == id }
+    }
+
+    @MainActor
+    func librarySeries(in instance: SonarrInstance) -> Series? {
+        guard type == .series else { return nil }
+        return instance.series.cachedItems.first { $0.tmdbId == id }
+    }
 }

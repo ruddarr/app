@@ -36,6 +36,31 @@ struct MediaGridPosterOverlay<Content: View>: View {
     }
 }
 
+struct DiscoveryGridHeader: View {
+    @Binding var hideLibraryItems: Bool
+
+    var body: some View {
+        HStack {
+            Text("Popular This Week")
+
+            Spacer()
+
+            Button {
+                hideLibraryItems.toggle()
+            } label: {
+                Image(systemName: "eye")
+                    .symbolVariant(hideLibraryItems ? .slash : .none)
+                    .contentTransition(.symbolEffect)
+                    .animation(.smooth, value: hideLibraryItems)
+                    .font(.subheadline)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
 struct DiscoveryGridPoster: View {
     var item: DiscoveryItem
 
@@ -96,13 +121,11 @@ struct DiscoveryGridPoster: View {
     }
 
     var movie: Movie? {
-        guard item.type == .movie else { return nil }
-        return radarrInstance.movies.cachedItems.first { $0.tmdbId == item.id }
+        item.libraryMovie(in: radarrInstance)
     }
 
     var series: Series? {
-        guard item.type == .series else { return nil }
-        return sonarrInstance.series.cachedItems.first { $0.tmdbId == item.id }
+        item.librarySeries(in: sonarrInstance)
     }
 
     func navigate() async {
