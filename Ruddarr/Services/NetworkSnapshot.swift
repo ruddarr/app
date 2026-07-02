@@ -48,13 +48,11 @@ struct NetworkSnapshot: Equatable {
     /// uses the masked prefix, not the live address, so privacy-address rotation on an
     /// otherwise unchanged network does not churn the fingerprint.
     var fingerprint: String {
-        let v4 = lanV4
-            .map { "\($0.address & $0.mask)/\($0.mask)" }
+        let v4 = Set(lanV4.map { "\($0.address & $0.mask)/\($0.mask)" })
             .sorted()
             .joined(separator: ",")
 
-        let v6 = lanV6
-            .map { "\($0.network.map(String.init).joined(separator: "."))/\($0.prefix)" }
+        let v6 = Set(lanV6.map { "\($0.network.map(String.init).joined(separator: "."))/\($0.prefix)" })
             .sorted()
             .joined(separator: ",")
 

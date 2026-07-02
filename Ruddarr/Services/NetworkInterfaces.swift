@@ -104,7 +104,8 @@ enum NetworkInterfaces {
     /// stripping any IPv6 brackets.
     static func host(of base: String) -> String? {
         guard let host = URLComponents(string: base)?.host else { return nil }
-        return host.replacingOccurrences(of: "[", with: "").replacingOccurrences(of: "]", with: "")
+        let unbracketed = host.replacingOccurrences(of: "[", with: "").replacingOccurrences(of: "]", with: "")
+        return unbracketed.hasSuffix(".") ? String(unbracketed.dropLast()) : unbracketed // FQDN root dot: nas.local. == nas.local
     }
 
     /// Buckets a host by the addresses it actually resolves to on the current network.

@@ -81,6 +81,7 @@ struct NetworkInterfacesTests {
     @Test func extractsHostFromBaseURL() {
         #expect(NetworkInterfaces.host(of: "https://10.0.0.5:7878") == "10.0.0.5")
         #expect(NetworkInterfaces.host(of: "http://nas.local") == "nas.local")
+        #expect(NetworkInterfaces.host(of: "http://nas.local.:7878") == "nas.local") // FQDN root dot stripped
         #expect(NetworkInterfaces.host(of: "http://[fd7a:115c:a1e0::1]:8989") == "fd7a:115c:a1e0::1")
         #expect(NetworkInterfaces.host(of: "not a url") == nil)
     }
@@ -158,6 +159,15 @@ struct NetworkInterfacesTests {
         let home = NetworkSnapshot(tailnetUp: true, lanV4: [subnet("192.168.1.0", 24)])
         let ordered = NetworkInterfaces.orderedBases([remoteURL, tailscaleURL, localURL], snapshot: home)
         #expect(ordered.first == localURL)
+    }
+
+    @Test func dotLocalWithTrailingRootDotStillPrefersLAN() {
+        // `nas.local.` (FQDN root dot) must normalize to `nas.local`: classified LAN and
+        // preferred on-link at home, not misread as remote nor sent to getaddrinfo.
+        let localDot = "http://nas.local.:7878"
+        let home = NetworkSnapshot(tailnetUp: true, lanV4: [subnet("192.168.1.0", 24)])
+        let ordered = NetworkInterfaces.orderedBases([remoteURL, tailscaleURL, localDot], snapshot: home)
+        #expect(ordered.first == localDot)
     }
 
     @Test func dotLocalLosesToRemoteWhenNoLAN() {
@@ -294,6 +304,21 @@ struct NetworkInterfacesTests {
         #expect(a.fingerprint == b.fingerprint)
         #expect(a.fingerprint != c.fingerprint) // tailnet toggled
         #expect(a.fingerprint != d.fingerprint) // different subnet
+    }
+
+    @Test func fingerprintIgnoresIPv6PrivacyAddressRotation() {
+        // Two addresses in the same /64 (RFC 4941 temporary-address rotation, or Wi-Fi +
+        // Ethernet on one LAN) collapse to a single masked prefix, so the fingerprint holds.
+        let single = NetworkSnapshot(tailnetUp: false, lanV6: [subnet6("2001:db8:abcd:1::1111", 64)])
+        let rotated = NetworkSnapshot(tailnetUp: false, lanV6: [
+            subnet6("2001:db8:abcd:1::1111", 64),
+            subnet6("2001:db8:abcd:1::2222", 64),
+        ])
+        #expect(single.fingerprint == rotated.fingerprint)
+
+        // A genuinely different /64 must still change it.
+        let other = NetworkSnapshot(tailnetUp: false, lanV6: [subnet6("2001:db8:abcd:2::1111", 64)])
+        #expect(single.fingerprint != other.fingerprint)
     }
 
     // MARK: - Live capture smoke test
