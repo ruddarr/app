@@ -31,7 +31,8 @@ func startSentry() {
         #endif
 
         options.beforeBreadcrumb = { crumb in
-            shouldRecordBreadcrumb(crumb) ? crumb : nil
+            guard shouldRecordBreadcrumb(crumb) else { return nil }
+            return maskRequestURL(crumb)
         }
 
         options.beforeSend = { event in
@@ -141,7 +142,7 @@ func shouldReportEvent( _ crumb: Breadcrumb) -> Bool {
     return true
 }
 
-func shouldRecordBreadcrumb( _ crumb: Breadcrumb) -> Bool {
+private func shouldRecordBreadcrumb( _ crumb: Breadcrumb) -> Bool {
     // drop `GET /api/v3/queue` spam
     if crumb.category == "http" {
         let url = crumb.data?["url"] as? String
@@ -153,6 +154,14 @@ func shouldRecordBreadcrumb( _ crumb: Breadcrumb) -> Bool {
     }
 
     return true
+}
+
+private func maskRequestURL( _ crumb: Breadcrumb) -> Breadcrumb {
+    guard crumb.category == "http", let url = crumb.data?["url"] as? String else { return crumb }
+
+    crumb.data?["url"] = maskedURL(url)
+
+    return crumb
 }
 
 enum EnvironmentType: String {
