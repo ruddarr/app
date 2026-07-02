@@ -138,6 +138,15 @@ enum NetworkInterfaces {
         return false
     }
 
+    /// A `.local` (mDNS/Bonjour) name resolves only over the local link, and is never sent
+    /// to `getaddrinfo`, so it can't be classified by address. Treat it as on-link exactly
+    /// when the device has an `en*` LAN up: at home that makes it outrank remote/Tailscale
+    /// as intended; away (no LAN) it stays off-link and correctly loses, since it couldn't
+    /// resolve there anyway. A wrong pick on some other LAN fails fast and demotes.
+    private static func dotLocalOnLink(_ host: String, snapshot: NetworkSnapshot) -> Bool {
+        host.lowercased().hasSuffix(".local") && snapshot.hasLAN
+    }
+
     /// One candidate's standing on the current network: its role, whether it is on-link,
     /// its selection score, and whether it is currently demoted. Backs both the ordering
     /// and the bug-report breakdown, so the report explains exactly what selection saw.
@@ -170,7 +179,7 @@ enum NetworkInterfaces {
                 onLink = resolution.onLink
             } else {
                 switch role(forHost: host) {
-                case .lan: chosenRole = .lan; onLink = literalOnLink(host, snapshot: snapshot)
+                case .lan: chosenRole = .lan; onLink = literalOnLink(host, snapshot: snapshot) || dotLocalOnLink(host, snapshot: snapshot)
                 case .tailscale: chosenRole = .tailscale; onLink = false
                 case .remote: chosenRole = .remote; onLink = false
                 }

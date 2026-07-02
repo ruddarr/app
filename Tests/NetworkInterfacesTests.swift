@@ -151,6 +151,25 @@ struct NetworkInterfacesTests {
         #expect(NetworkInterfaces.orderedBases([b, a], snapshot: snapshot) == [b, a])
     }
 
+    @Test func prefersDotLocalOverTailscaleAndRemoteWhenHome() {
+        // `.local` is link-only and never resolved; with a LAN up it must outrank both a
+        // tunnel (up) and remote, so the home mDNS name is the pick.
+        let localURL = "http://nas.local:7878"
+        let home = NetworkSnapshot(tailnetUp: true, lanV4: [subnet("192.168.1.0", 24)])
+        let ordered = NetworkInterfaces.orderedBases([remoteURL, tailscaleURL, localURL], snapshot: home)
+        #expect(ordered.first == localURL)
+    }
+
+    @Test func dotLocalLosesToRemoteWhenNoLAN() {
+        // Away with no LAN interface, a `.local` name can't resolve, so it must never be
+        // chosen over a reachable remote URL.
+        let localURL = "http://nas.local:7878"
+        let cellular = NetworkSnapshot(tailnetUp: false, lanV4: [])
+        let ordered = NetworkInterfaces.orderedBases([localURL, remoteURL], snapshot: cellular)
+        #expect(ordered.first == remoteURL)
+        #expect(ordered.last == localURL)
+    }
+
     // MARK: - Resolved-host classification (split-horizon DNS, IPv4 + IPv6)
 
     @Test func classifiesResolvedOnLinkIPv4AsLAN() {

@@ -68,6 +68,12 @@ struct NetworkSnapshot: Equatable {
     func isOnLink(_ ip: [UInt8]) -> Bool {
         lanV6.contains { $0.contains(ip) }
     }
+
+    /// Whether any real LAN interface (`en*`) is up — i.e. the device is on some local
+    /// network, so a link-only `.local` name has a link it could be reachable on.
+    var hasLAN: Bool {
+        !lanV4.isEmpty || !lanV6.isEmpty
+    }
 }
 
 extension NetworkSnapshot {
