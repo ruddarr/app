@@ -198,7 +198,7 @@ extension InstanceView {
 
             var updated = instance
             updated.stats = stats
-            settings.saveInstance(updated)
+            settings.saveInstanceMetadata(updated)
         } catch is CancellationError {
             //
         } catch {
