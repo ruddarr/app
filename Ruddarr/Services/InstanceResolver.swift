@@ -47,6 +47,12 @@ final class InstanceResolver: Sendable {
 
         /// "fingerprint\u{1}host" keys with a lookup in flight (de-dupes concurrent work).
         var resolving: Set<String> = []
+
+        /// Bumped on every `networkChanged()`. A background lookup captures it at dispatch
+        /// and writes its result back only if it still matches, so a resolution computed for
+        /// the old network can't land in the new one's cache — the two can share a
+        /// fingerprint when different LANs use the same private subnet.
+        var epoch = 0
     }
 
     private let lock = OSAllocatedUnfairLock(initialState: State())
@@ -78,6 +84,7 @@ final class InstanceResolver: Sendable {
             state.resolveAttemptedAt.removeAll()
             state.resolving.removeAll()
             state.demotedUntil.removeAll()
+            state.epoch += 1
         }
     }
 
@@ -91,7 +98,7 @@ final class InstanceResolver: Sendable {
         let snapshot = NetworkSnapshot.capture()
         let fingerprint = snapshot.fingerprint
 
-        let (chosen, pending): (String, [String]) = lock.withLock { state in
+        let (chosen, pending, epoch): (String, [String], Int) = lock.withLock { state in
             Self.pruneResolution(in: &state, keeping: fingerprint)
 
             let demoted = Self.activeDemotions(in: &state, for: fingerprint)
@@ -106,10 +113,10 @@ final class InstanceResolver: Sendable {
 
             let pending = Self.claimHostsNeedingResolution(in: &state, candidates, fingerprint: fingerprint)
 
-            return (ordered.first ?? candidates.first ?? instance.url, pending)
+            return (ordered.first ?? candidates.first ?? instance.url, pending, state.epoch)
         }
 
-        dispatchResolution(pending, snapshot: snapshot, fingerprint: fingerprint)
+        dispatchResolution(pending, snapshot: snapshot, fingerprint: fingerprint, epoch: epoch)
 
         return chosen
     }
@@ -309,7 +316,7 @@ final class InstanceResolver: Sendable {
 
     // MARK: - DNS resolution (off the lock, on `resolutionQueue`)
 
-    private func dispatchResolution(_ hosts: [String], snapshot: NetworkSnapshot, fingerprint: String) {
+    private func dispatchResolution(_ hosts: [String], snapshot: NetworkSnapshot, fingerprint: String, epoch: Int) {
         guard !hosts.isEmpty else { return }
 
         for host in hosts {
@@ -318,6 +325,8 @@ final class InstanceResolver: Sendable {
                 let key = "\(fingerprint)\u{1}\(host)"
 
                 lock.withLock { state in
+                    guard state.epoch == epoch else { return } // network changed since dispatch; drop stale result
+
                     state.resolving.remove(key)
                     state.resolveAttemptedAt[key] = Date()
 
