@@ -89,6 +89,7 @@
 				Utilities/Formatters.swift,
 				Utilities/Networking.swift,
 				Utilities/Placeholder.swift,
+				Utilities/Privacy.swift,
 			);
 			target = BB000000000000000000AAA8 /* Tests */;
 		};
