@@ -87,6 +87,7 @@
 				Utilities/DateDecodingStrategy.swift,
 				Utilities/Extensions.swift,
 				Utilities/Formatters.swift,
+				Utilities/Networking.swift,
 				Utilities/Placeholder.swift,
 			);
 			target = BB000000000000000000AAA8 /* Tests */;
