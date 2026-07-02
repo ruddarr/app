@@ -267,10 +267,8 @@ extension SeasonView {
         defer { togglingMonitor = false }
 
         guard await instance.series.push(series) else {
-            if let i = series.seasons.firstIndex(where: { $0.id == season.id }),
-               series.seasons[i].monitored == !original {
-                series.seasons[i].monitored = original
-            }
+            series.seasons.revert(\.monitored, to: original, id: season.id)
+
             return
         }
 

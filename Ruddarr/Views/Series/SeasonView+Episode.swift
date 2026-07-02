@@ -105,10 +105,8 @@ struct EpisodeRow: View {
         instance.episodes.items[index].monitored = !original
 
         guard await instance.episodes.monitor([episode.id], !original) else {
-            if let i = instance.episodes.items.firstIndex(where: { $0.id == episode.id }),
-               instance.episodes.items[i].monitored == !original {
-                instance.episodes.items[i].monitored = original
-            }
+            instance.episodes.items.revert(\.monitored, to: original, id: episode.id)
+
             return
         }
 

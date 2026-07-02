@@ -155,6 +155,7 @@ extension MovieView {
             if movie.monitored == !original {
                 movie.monitored = original
             }
+
             return
         }
 

@@ -74,7 +74,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Localizable.xcstrings,
-				Utilities/HexEncoding.swift,
+				Utilities/Extensions.swift,
 				Utilities/Links.swift,
 			);
 			target = BB40712C2C1CDD32006A3FA5 /* NotificationService */;
@@ -84,8 +84,8 @@
 			membershipExceptions = (
 				Utilities/Changelog.swift,
 				Utilities/DateDecodingStrategy.swift,
+				Utilities/Extensions.swift,
 				Utilities/Formatters.swift,
-				Utilities/HexEncoding.swift,
 				Utilities/Placeholder.swift,
 			);
 			target = BB000000000000000000AAA8 /* Tests */;

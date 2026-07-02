@@ -170,6 +170,7 @@ extension SeriesDetailView {
             if series.monitored == !original {
                 series.monitored = original
             }
+
             return
         }
 
