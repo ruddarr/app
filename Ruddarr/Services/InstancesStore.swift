@@ -122,8 +122,8 @@ final class InstancesStore {
 
     private func cloudChangedExternally(reason: Int?, keys: [String]?) {
         if reason == NSUbiquitousKeyValueStoreAccountChange {
-            leaveBreadcrumb(.warning, category: "instances", message: "Ignored iCloud account change")
-            return
+            leaveBreadcrumb(.warning, category: "instances", message: "iCloud account changed")
+            return adoptCloudValue()
         }
 
         guard keys == nil || keys?.contains(Self.key) == true else { return }
