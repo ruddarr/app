@@ -149,21 +149,19 @@ final class InstancesStore {
     private func adoptCloudValue() {
         guard let cloud else { return }
 
-        guard let incoming = Self.decode(cloud.string(forKey: Self.key)) else {
+        guard let raw = cloud.string(forKey: Self.key), let incoming = Self.decode(raw) else {
             if cloud.object(forKey: Self.key) != nil {
                 leaveBreadcrumb(.error, category: "instances", message: "Ignored undecodable iCloud value", data: ["key": Self.key])
-            }
-
-            if !instances.isEmpty {
+            } else if !instances.isEmpty {
                 writeCloud(instances.rawValue)
             }
 
             return
         }
 
-        guard incoming != instances else { return }
+        guard !incoming.sameConfiguration(as: instances) else { return }
 
-        suite.set(incoming.rawValue, forKey: Self.key)
+        suite.set(raw, forKey: Self.key)
         instances = incoming
     }
 }
