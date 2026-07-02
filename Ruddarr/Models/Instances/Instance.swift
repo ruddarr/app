@@ -55,20 +55,36 @@ struct Instance: Identifiable, Equatable, Codable {
         return map
     }
 
+    var candidateURLs: [String] {
+        var seen: Set<String> = []
+        var result: [String] = []
+
+        for raw in [url] {
+            var normalized = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+            while normalized.hasSuffix("/") { normalized.removeLast() }
+
+            guard !normalized.isEmpty, seen.insert(normalized).inserted else { continue }
+            result.append(normalized)
+        }
+
+        return result
+    }
+
     func baseURL() throws -> URL {
-        guard let url = URL(string: url) else {
-            throw API.Error.invalidUrl(url)
+        let resolved = InstanceResolver.shared.resolve(self)
+
+        guard let url = URL(string: resolved) else {
+            throw API.Error.invalidUrl(resolved)
         }
 
         return url
     }
 
     func isPrivateIp() -> Bool {
-        guard let instanceUrl = URL(string: url) else {
-            return false
+        candidateURLs.contains { base in
+            guard let host = URL(string: base)?.host() else { return false }
+            return isPrivateIpAddress(host)
         }
-
-        return isPrivateIpAddress(instanceUrl.host() ?? "")
     }
 
     func timeout(_ call: InstanceTimeout) -> Double {

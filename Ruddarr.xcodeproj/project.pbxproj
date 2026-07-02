@@ -84,6 +84,7 @@
 			membershipExceptions = (
 				Services/NetworkInterfaces.swift,
 				Services/NetworkSnapshot.swift,
+				Services/ResolverRouting.swift,
 				Utilities/Changelog.swift,
 				Utilities/DateDecodingStrategy.swift,
 				Utilities/Extensions.swift,

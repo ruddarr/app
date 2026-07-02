@@ -140,6 +140,8 @@ extension API {
         let httpResponse: HTTPURLResponse? = response as? HTTPURLResponse
         let statusCode: Int = httpResponse?.statusCode ?? 599
 
+        InstanceResolver.shared.noteSuccess(for: url)
+
         // print(String(data: data, encoding: .utf8) ?? "non-utf8 response")
         // leaveBreadcrumb(.debug, category: "api", message: "Response headers (\(statusCode))", data: parseResponseHeaders(httpResponse))
 
