@@ -52,7 +52,7 @@ if [[ "$CI_PRODUCT_PLATFORM" == "macOS" ]]; then
 fi
 
 # Remove languages that are not exported from *.xcstrings catalogs
-for file in Localizable.xcstrings AppShortcuts.xcstrings; do
+for file in Localizable.xcstrings AppShortcuts.xcstrings InfoPlist.xcstrings; do
   for lang in $(jq -r '.strings[].localizations | keys[]' "$file" | sort -u); do
     if [[ " ${EXPORTED[*]} " != *" $lang "* ]]; then
       jq "del(.strings[].localizations.\"${lang}\")" "$file" > "${file}.json"
