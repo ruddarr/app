@@ -14,12 +14,18 @@ extension UUID: @retroactive RawRepresentable {
 
 extension Array<Instance>: @retroactive RawRepresentable {
     public init?(rawValue: String) {
-        guard let data = rawValue.data(using: .utf8),
-            let result = try? JSONDecoder().decode([Element].self, from: data)
-        else {
+        guard let data = rawValue.data(using: .utf8) else { return nil }
+
+        if let result = try? JSONDecoder().decode([Element].self, from: data) {
+            self = result
+            return
+        }
+
+        guard let salvaged = try? JSONDecoder().decode([FailableInstance].self, from: data) else {
             return nil
         }
-        self = result
+
+        self = salvaged.compactMap(\.value)
     }
 
     public var rawValue: String {
@@ -29,5 +35,13 @@ extension Array<Instance>: @retroactive RawRepresentable {
             return "[]"
         }
         return result
+    }
+}
+
+private struct FailableInstance: Decodable {
+    let value: Instance?
+
+    init(from decoder: any Decoder) throws {
+        value = try? Instance(from: decoder)
     }
 }

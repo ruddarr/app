@@ -15,7 +15,8 @@ import Foundation
 // The fixtures below freeze a payload exactly as a shipped build persists it. The
 // asserted keys are the ones `Instance.init(from:)` decodes with non-optional
 // `decode(...)` — the set whose removal, rename, or retype breaks in-field builds.
-// `tags`, `name`, `version`, and `stats` are decoded optionally and may be absent.
+// `tags`, `fallbackURL`, `name`, `version`, and `stats` are decoded optionally and
+// may be absent.
 //
 // CONTRACT: do not edit a fixture just to make a failing build pass. A change here
 // means the wire format changed — and that change must be additive (new keys read
@@ -79,6 +80,28 @@ struct InstanceWireFormatTests {
         "label": "",
         "url": "https://example.com",
         "apiKey": "key",
+        "headers": [],
+        "rootFolders": [],
+        "qualityProfiles": []
+      }
+    ]
+    """
+
+    // A record written by a fallback-aware build: the additive `fallbackURL` key
+    // holds a second address for the same server. Old strict decoders ignore the
+    // unknown key; the current decoder reads it with `decodeIfPresent(String.self)
+    // ?? ""`, so a record that lacks it (every pre-fallback record) defaults to ""
+    // rather than failing to decode.
+    private let fallbackPayload = """
+    [
+      {
+        "id": "0FA11BAC-0000-1111-2222-333344445555",
+        "type": "Radarr",
+        "mode": { "normal": {} },
+        "label": "Home",
+        "url": "https://radarr.example.com",
+        "fallbackURL": "https://radarr.tailnet.ts.net",
+        "apiKey": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
         "headers": [],
         "rootFolders": [],
         "qualityProfiles": []
@@ -150,5 +173,26 @@ struct InstanceWireFormatTests {
         for key in requiredKeys {
             #expect(instance[key] != nil, "missing required key: \(key)")
         }
+    }
+
+    // `fallbackURL` is additive, not required: every pre-fallback record (golden,
+    // minimal) is fully valid without it. This is the anti-wipe guarantee at the
+    // spec level — the key's absence defaults to "" via `decodeIfPresent`, it never
+    // fails to decode.
+    @Test func fallbackURLIsOptionalAndAbsentFromLegacyRecords() throws {
+        #expect(!requiredKeys.contains("fallbackURL"))
+
+        for instance in try instances(minimalPayload) + instances(goldenPayload) {
+            #expect(instance["fallbackURL"] == nil, "legacy fixtures predate the key")
+        }
+    }
+
+    // When a fallback-aware build writes the key, it is a plain string — the shape
+    // `decodeIfPresent(String.self, ...)` requires. A retype (e.g. to an array) would
+    // make the current decoder throw and, because the array decode falls back to
+    // per-element salvage, silently drop the record instead of carrying its URL.
+    @Test func fallbackURLWhenPresentIsAString() throws {
+        let instance = try #require(try instances(fallbackPayload).first)
+        #expect(instance["fallbackURL"] as? String == "https://radarr.tailnet.ts.net")
     }
 }
