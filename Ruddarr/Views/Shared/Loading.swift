@@ -10,13 +10,14 @@ struct Loading: View {
 struct QueueStatusIcon: View {
     var status: QueueItemStatus
     var color: Color = .secondary
+    var tint: Color?
 
     @Environment(AppSettings.self) private var settings
 
     var body: some View {
         let icon = status.image
             .symbolRenderingMode(.palette)
-            .foregroundStyle(settings.theme.tint, color)
+            .foregroundStyle(tint ?? settings.theme.tint, color)
             .accessibilityLabel(status.label)
 
         if status.pulses {
@@ -42,6 +43,7 @@ struct QueueStatusIcon: View {
             HStack(spacing: 16) {
                 QueueStatusIcon(status: status)
                 QueueStatusIcon(status: status, color: .lightGray)
+                QueueStatusIcon(status: status, color: .primary, tint: .primary)
             }
         }
     }

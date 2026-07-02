@@ -60,7 +60,7 @@ struct SeriesPosterOverlay: View {
         MediaGridPosterOverlay {
             Group {
                 if let queueStatus {
-                    QueueStatusIcon(status: queueStatus, color: .white)
+                    QueueStatusIcon(status: queueStatus, color: .white, tint: .white)
                 } else if series.isDownloaded {
                     Image(systemName: "checkmark").symbolVariant(.circle.fill)
                 } else if series.isWaiting {
