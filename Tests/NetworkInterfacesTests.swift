@@ -188,6 +188,23 @@ struct NetworkInterfacesTests {
         #expect(NetworkInterfaces.orderedBases(["https://remote.example.com", "http://[::1]:7878"], snapshot: cellular).first == "http://[::1]:7878")
     }
 
+    @Test func hostlessCandidateSinksToBack() {
+        // A malformed base (no host) scores 0 and must rank below any real candidate.
+        let snapshot = NetworkSnapshot(tailnetUp: false, lanV4: [])
+        let ordered = NetworkInterfaces.orderedBases(["not a url", remoteURL], snapshot: snapshot)
+        #expect(ordered.first == remoteURL)
+        #expect(ordered.last == "not a url")
+    }
+
+    @Test func demotedCandidatesKeepCanonicalOrderAmongThemselves() {
+        // Two demoted on-link bases both sink behind the healthy remote, but keep canonical
+        // order between them.
+        let home = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.1.0", 24)])
+        let a = "http://192.168.1.10:7878"
+        let b = "http://192.168.1.11:7878"
+        #expect(NetworkInterfaces.orderedBases([a, b, remoteURL], snapshot: home, demoted: [a, b]) == [remoteURL, a, b])
+    }
+
     // MARK: - Resolved-host classification (split-horizon DNS, IPv4 + IPv6)
 
     @Test func classifiesResolvedOnLinkIPv4AsLAN() {
@@ -228,6 +245,22 @@ struct NetworkInterfacesTests {
         let snapshot = NetworkSnapshot(tailnetUp: false, lanV4: [])
         #expect(NetworkInterfaces.classify(ipv4: [ipv4("1.2.3.4")], ipv6: [], snapshot: snapshot) == ResolvedHost(role: .remote, onLink: false))
         #expect(NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("2606:4700::1111")], snapshot: snapshot) == ResolvedHost(role: .remote, onLink: false))
+    }
+
+    @Test func classifyPrefersOnLinkAcrossMultipleRecords() {
+        // Multi-record A/AAAA: an on-link address wins regardless of position among public or
+        // off-link siblings — the split-horizon "points home" case.
+        let home = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.1.0", 24)])
+        #expect(NetworkInterfaces.classify(ipv4: [ipv4("1.2.3.4"), ipv4("192.168.1.50")], ipv6: [], snapshot: home) == ResolvedHost(role: .lan, onLink: true))
+        #expect(NetworkInterfaces.classify(ipv4: [ipv4("192.168.1.50"), ipv4("1.2.3.4")], ipv6: [], snapshot: home) == ResolvedHost(role: .lan, onLink: true))
+    }
+
+    @Test func classifyPrecedenceTailscaleThenOffLinkPrivateThenRemote() {
+        // No on-link record: CGNAT (tailnet) outranks a merely-private off-link address, which
+        // in turn outranks a public one.
+        let away = NetworkSnapshot(tailnetUp: true, lanV4: [subnet("10.20.30.0", 24)])
+        #expect(NetworkInterfaces.classify(ipv4: [ipv4("192.168.1.50"), ipv4("100.100.1.1")], ipv6: [], snapshot: away).role == .tailscale)
+        #expect(NetworkInterfaces.classify(ipv4: [ipv4("1.2.3.4"), ipv4("192.168.1.50")], ipv6: [], snapshot: away) == ResolvedHost(role: .lan, onLink: false))
     }
 
     // MARK: - Resolution-aware ordering (one local domain, one remote domain)
@@ -293,6 +326,40 @@ struct NetworkInterfacesTests {
         #expect(ranked.contains { $0.base == remoteURL && $0.role == .remote && $0.score == 50 })
     }
 
+    // MARK: - Interface contribution (the CGNAT-vs-Tailscale wall)
+
+    @Test func classifyV4TailnetNeedsUtunAndCGNAT() {
+        // The load-bearing conjunction: only a `utun` carrying a CGNAT address is the tailnet.
+        #expect(NetworkSnapshot.classifyV4(name: "utun3", flags: 0, address: ipv4("100.100.3.7"), mask: 0xFFFF_FFFF) == .tailnet)
+        // CGNAT on a carrier interface (pdp) must NOT be read as the tailnet.
+        #expect(NetworkSnapshot.classifyV4(name: "pdp_ip0", flags: 0, address: ipv4("100.100.3.7"), mask: 0xFFFF_FFFF) == .ignored)
+        // A non-CGNAT tunnel is not the tailnet either.
+        #expect(NetworkSnapshot.classifyV4(name: "utun0", flags: 0, address: ipv4("10.0.0.1"), mask: 0xFF00_0000) == .ignored)
+    }
+
+    @Test func classifyV4RecordsOnlyRealEthernetLANs() {
+        let en = NetworkSnapshot.classifyV4(name: "en0", flags: 0, address: ipv4("192.168.1.5"), mask: 0xFFFF_FF00)
+        #expect(en == .lan(IPv4Subnet(address: ipv4("192.168.1.5"), mask: 0xFFFF_FF00)))
+        // VM / bridge / AirDrop-style interfaces never masquerade as a LAN.
+        #expect(NetworkSnapshot.classifyV4(name: "bridge100", flags: 0, address: ipv4("192.168.5.1"), mask: 0xFFFF_FF00) == .ignored)
+        // A point-to-point `en` (tunnel) is excluded.
+        #expect(NetworkSnapshot.classifyV4(name: "en5", flags: Int32(IFF_POINTOPOINT), address: ipv4("192.168.1.5"), mask: 0xFFFF_FF00) == .ignored)
+    }
+
+    @Test func classifyV6TailnetNeedsUtunAndTailscaleULA() {
+        let ula = NetworkInterfaces.ipv6Bytes(ipv6("fd7a:115c:a1e0::1"))
+        #expect(NetworkSnapshot.classifyV6(name: "utun3", flags: 0, address: ula, prefix: 128) == .tailnet)
+        // A different ULA on a utun (e.g. NetBird) is not Tailscale.
+        #expect(NetworkSnapshot.classifyV6(name: "utun3", flags: 0, address: NetworkInterfaces.ipv6Bytes(ipv6("fd00:dead::1")), prefix: 128) == .ignored)
+    }
+
+    @Test func classifyV6RecordsGlobalEthernetPrefixSkipsLinkLocal() {
+        let global = NetworkInterfaces.ipv6Bytes(ipv6("2001:db8:abcd:1::5"))
+        #expect(NetworkSnapshot.classifyV6(name: "en0", flags: 0, address: global, prefix: 64) == .lan(IPv6Subnet(address: global, prefix: 64)))
+        // Link-local on en* is skipped (unaddressable without a zone id).
+        #expect(NetworkSnapshot.classifyV6(name: "en0", flags: 0, address: NetworkInterfaces.ipv6Bytes(ipv6("fe80::1")), prefix: 64) == .ignored)
+    }
+
     // MARK: - Fingerprint
 
     @Test func fingerprintIsStablePerNetwork() {
@@ -323,10 +390,13 @@ struct NetworkInterfacesTests {
 
     // MARK: - Live capture smoke test
 
-    @Test func captureReturnsWithoutCrashing() {
-        let snapshot = NetworkSnapshot.capture()
-        for subnet in snapshot.lanV4 {
-            #expect(subnet.mask != 0, "an en* interface should report a netmask")
-        }
+    @Test func captureProducesWellFormedFingerprint() {
+        // capture() reads the live interface table; rather than assert machine specifics (which
+        // is flaky on CI), require only that its fingerprint is well-formed — the token that
+        // scopes demotions and resolutions.
+        let fingerprint = NetworkSnapshot.capture().fingerprint
+        #expect(fingerprint.hasPrefix("ts:"))
+        #expect(fingerprint.contains("|lan4:"))
+        #expect(fingerprint.contains("|lan6:"))
     }
 }

@@ -123,16 +123,31 @@ extension NetworkSnapshot {
         let value = address.withMemoryRebound(to: sockaddr_in.self, capacity: 1) {
             UInt32(bigEndian: $0.pointee.sin_addr.s_addr)
         }
+        let mask = netmask?.withMemoryRebound(to: sockaddr_in.self, capacity: 1) {
+            UInt32(bigEndian: $0.pointee.sin_addr.s_addr)
+        } ?? 0xFFFF_FFFF
 
-        if name.hasPrefix("utun"), NetworkInterfaces.isCarrierGradeNAT(value) {
-            snapshot.tailnetUp = true
-        } else if isLANEthernet(name: name, flags: flags) {
-            let mask = netmask?.withMemoryRebound(to: sockaddr_in.self, capacity: 1) {
-                UInt32(bigEndian: $0.pointee.sin_addr.s_addr)
-            } ?? 0xFFFF_FFFF
-
-            snapshot.lanV4.append(IPv4Subnet(address: value, mask: mask))
+        switch classifyV4(name: name, flags: flags, address: value, mask: mask) {
+        case .tailnet: snapshot.tailnetUp = true
+        case .lan(let subnet): snapshot.lanV4.append(subnet)
+        case .ignored: break
         }
+    }
+
+    /// What one decoded IPv4 interface contributes. A `utun` carrying a CGNAT address is the
+    /// tailnet — the name AND range conjunction is what rejects carrier-grade NAT on `pdp*`
+    /// and bare tunnels; a real `en*` link records its subnet; anything else is ignored.
+    /// Pure and testable — the `getifaddrs` pointer decoding stays in `ingestIPv4`.
+    enum V4Contribution: Equatable {
+        case tailnet
+        case lan(IPv4Subnet)
+        case ignored
+    }
+
+    static func classifyV4(name: String, flags: Int32, address: UInt32, mask: UInt32) -> V4Contribution {
+        if name.hasPrefix("utun"), NetworkInterfaces.isCarrierGradeNAT(address) { return .tailnet }
+        if isLANEthernet(name: name, flags: flags) { return .lan(IPv4Subnet(address: address, mask: mask)) }
+        return .ignored
     }
 
     /// A Tailscale `utun` (its `fd7a:115c:a1e0::/48` ULA) flips `tailnetUp`; a real `en*`
@@ -148,18 +163,33 @@ extension NetworkSnapshot {
         let bytes = address.withMemoryRebound(to: sockaddr_in6.self, capacity: 1) {
             NetworkInterfaces.ipv6Bytes($0.pointee.sin6_addr)
         }
+        let prefix = netmask?.withMemoryRebound(to: sockaddr_in6.self, capacity: 1) {
+            NetworkInterfaces.prefixLength(of: $0.pointee.sin6_addr)
+        } ?? 128
 
-        if name.hasPrefix("utun"), NetworkInterfaces.isTailscaleULA(bytes: bytes) {
-            snapshot.tailnetUp = true
-        } else if isLANEthernet(name: name, flags: flags) {
-            guard !NetworkInterfaces.isLinkLocalV6(bytes: bytes) else { return }
-
-            let prefix = netmask?.withMemoryRebound(to: sockaddr_in6.self, capacity: 1) {
-                NetworkInterfaces.prefixLength(of: $0.pointee.sin6_addr)
-            } ?? 128
-
-            snapshot.lanV6.append(IPv6Subnet(address: bytes, prefix: prefix))
+        switch classifyV6(name: name, flags: flags, address: bytes, prefix: prefix) {
+        case .tailnet: snapshot.tailnetUp = true
+        case .lan(let subnet): snapshot.lanV6.append(subnet)
+        case .ignored: break
         }
+    }
+
+    /// What one decoded IPv6 interface contributes. A `utun` carrying the `fd7a:115c:a1e0::/48`
+    /// ULA is the tailnet; a real `en*` link records its routable prefix (link-local skipped —
+    /// unaddressable without a zone id); anything else is ignored. Pure and testable.
+    enum V6Contribution: Equatable {
+        case tailnet
+        case lan(IPv6Subnet)
+        case ignored
+    }
+
+    static func classifyV6(name: String, flags: Int32, address: [UInt8], prefix: Int) -> V6Contribution {
+        if name.hasPrefix("utun"), NetworkInterfaces.isTailscaleULA(bytes: address) { return .tailnet }
+        if isLANEthernet(name: name, flags: flags) {
+            if NetworkInterfaces.isLinkLocalV6(bytes: address) { return .ignored }
+            return .lan(IPv6Subnet(address: address, prefix: prefix))
+        }
+        return .ignored
     }
 
     /// Wi-Fi / wired Ethernet (`en*`) that can host a home LAN — excluding
