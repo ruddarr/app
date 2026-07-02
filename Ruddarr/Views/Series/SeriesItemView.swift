@@ -71,7 +71,7 @@ struct SeriesDetailView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: $series.monitored, loading: togglingMonitor)
+                ToolbarMonitorButton(monitored: series.monitored, loading: togglingMonitor)
             }
             .allowsHitTesting(!togglingMonitor)
             #if os(iOS)
@@ -160,12 +160,17 @@ struct SeriesDetailView: View {
 
 extension SeriesDetailView {
     func toggleMonitor() async {
-        series.monitored.toggle()
+        let original = series.monitored
+        series.monitored = !original
 
         togglingMonitor = true
         defer { togglingMonitor = false }
 
         guard await instance.series.update(series) else {
+            if series.monitored == !original {
+                series.monitored = original
+            }
+
             return
         }
 

@@ -20,7 +20,7 @@ struct ToolbarFilterBadge: View {
 }
 
 struct MonitorBookmark: View {
-    @Binding var monitored: Bool
+    var monitored: Bool
     var loading: Bool = false
 
     @State private var pulsing = false
@@ -46,24 +46,24 @@ struct MonitorBookmark: View {
 }
 
 struct ToolbarMonitorButton: View {
-    @Binding var monitored: Bool
+    var monitored: Bool
     var loading: Bool = false
 
     var body: some View {
-        MonitorBookmark(monitored: $monitored, loading: loading)
+        MonitorBookmark(monitored: monitored, loading: loading)
             .font(.subheadline)
             .tint(.primary)
     }
 }
 
 struct RowMonitorButton: View {
-    @Binding var monitored: Bool
+    var monitored: Bool
     var loading: Bool = false
 
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
-        MonitorBookmark(monitored: $monitored, loading: loading)
+        MonitorBookmark(monitored: monitored, loading: loading)
             .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
             .overlay(Rectangle().padding(18))
     }
@@ -80,8 +80,8 @@ struct ToolbarActionButton: View {
     @Previewable @State var loading = false
 
     VStack(spacing: 32) {
-        ToolbarMonitorButton(monitored: $monitored, loading: loading)
-        RowMonitorButton(monitored: $monitored, loading: loading)
+        ToolbarMonitorButton(monitored: monitored, loading: loading)
+        RowMonitorButton(monitored: monitored, loading: loading)
 
         VStack(spacing: 12) {
             Button("Toggle Monitored") { monitored.toggle() }

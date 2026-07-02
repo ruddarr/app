@@ -35,7 +35,7 @@ struct SeasonCard: View {
                     }
                 } label: {
                     RowMonitorButton(
-                        monitored: .constant(season.monitored),
+                        monitored: seasonMonitored,
                         loading: isWorking
                     )
                 }
@@ -44,6 +44,10 @@ struct SeasonCard: View {
                 .disabled(!series.monitored)
             }
         }
+    }
+
+    private var seasonMonitored: Bool {
+        series.seasons.first(where: { $0.id == season.id })?.monitored ?? season.monitored
     }
 
     func toggle() async {
@@ -55,20 +59,21 @@ struct SeasonCard: View {
             return
         }
 
-        series.seasons[index].monitored.toggle()
+        let original = series.seasons[index].monitored
+        series.seasons[index].monitored = !original
 
         isWorking = true
 
         guard await instance.series.push(series) else {
+            series.seasons.revert(\.monitored, to: original, id: season.id)
             isWorking = false
+
             return
         }
 
         isWorking = false
 
-        dependencies.toast.show(
-            series.seasons[index].monitored ? .monitored : .unmonitored
-        )
+        dependencies.toast.show(!original ? .monitored : .unmonitored)
 
         await instance.episodes.fetch(series)
     }

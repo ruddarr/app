@@ -62,6 +62,10 @@ struct EpisodeRow: View {
         .contentShape(Rectangle())
     }
 
+    private var episodeMonitored: Bool {
+        instance.episodes.items.first(where: { $0.id == episode.id })?.monitored ?? episode.monitored
+    }
+
     var series: Series {
         instance.series.byId(episode.seriesId) ?? Series.void
     }
@@ -83,7 +87,7 @@ struct EpisodeRow: View {
             Task { await toggleMonitor() }
         } label: {
             RowMonitorButton(
-                monitored: .constant(episode.monitored),
+                monitored: episodeMonitored,
                 loading: instance.episodes.isMonitoring == episode.id
             )
         }
@@ -97,13 +101,16 @@ struct EpisodeRow: View {
             return
         }
 
-        instance.episodes.items[index].monitored.toggle()
+        let original = instance.episodes.items[index].monitored
+        instance.episodes.items[index].monitored = !original
 
-        guard await instance.episodes.monitor([episode.id], !episode.monitored) else {
+        guard await instance.episodes.monitor([episode.id], !original) else {
+            instance.episodes.items.revert(\.monitored, to: original, id: episode.id)
+
             return
         }
 
-        dependencies.toast.show(!episode.monitored ? .monitored : .unmonitored)
+        dependencies.toast.show(!original ? .monitored : .unmonitored)
     }
 }
 
