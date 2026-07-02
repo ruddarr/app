@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Play haptic feedback when an alert is shown
 
 ### Changed
+- Improved instance synchronization across devices
 - Improved byte formatting precision
 - Improved image loading performance
 - Improved media grid sorting/filtering performance
