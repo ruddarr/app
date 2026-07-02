@@ -46,7 +46,7 @@ struct MovieReleasesView: View {
         }
         .onChange(of: sort.option, updateSortDirection)
         .onChange(of: sort, updateDisplayedReleases)
-        .alert(
+        .sensoryAlert(
             isPresented: instance.releases.errorBinding,
             error: instance.releases.error
         ) { _ in

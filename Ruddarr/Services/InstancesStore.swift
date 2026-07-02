@@ -91,14 +91,11 @@ final class InstancesStore {
     }
 
     func reset() {
-        let empty = [Instance]().rawValue
-        instances = []
-        suite.set(empty, forKey: Self.key)
-        writeCloud(empty)
+        write([], forceCloud: true)
     }
 
-    private func write(_ new: [Instance]) {
-        let syncWorthy = !new.sameConfiguration(as: instances)
+    private func write(_ new: [Instance], forceCloud: Bool = false) {
+        let syncWorthy = forceCloud || !new.sameConfiguration(as: instances)
 
         instances = new
         let raw = new.rawValue
@@ -122,8 +119,8 @@ final class InstancesStore {
 
     private func cloudChangedExternally(reason: Int?, keys: [String]?) {
         if reason == NSUbiquitousKeyValueStoreAccountChange {
-            leaveBreadcrumb(.warning, category: "instances", message: "Ignored iCloud account change")
-            return
+            leaveBreadcrumb(.warning, category: "instances", message: "iCloud account changed")
+            return adoptCloudValue()
         }
 
         guard keys == nil || keys?.contains(Self.key) == true else { return }
@@ -149,21 +146,19 @@ final class InstancesStore {
     private func adoptCloudValue() {
         guard let cloud else { return }
 
-        guard let incoming = Self.decode(cloud.string(forKey: Self.key)) else {
+        guard let raw = cloud.string(forKey: Self.key), let incoming = Self.decode(raw) else {
             if cloud.object(forKey: Self.key) != nil {
                 leaveBreadcrumb(.error, category: "instances", message: "Ignored undecodable iCloud value", data: ["key": Self.key])
-            }
-
-            if !instances.isEmpty {
+            } else if !instances.isEmpty {
                 writeCloud(instances.rawValue)
             }
 
             return
         }
 
-        guard incoming != instances else { return }
+        guard !incoming.sameConfiguration(as: instances) else { return }
 
-        suite.set(incoming.rawValue, forKey: Self.key)
+        suite.set(raw, forKey: Self.key)
         instances = incoming
     }
 }

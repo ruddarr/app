@@ -74,7 +74,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Localizable.xcstrings,
-				Utilities/HexEncoding.swift,
+				Utilities/Extensions.swift,
 				Utilities/Links.swift,
 			);
 			target = BB40712C2C1CDD32006A3FA5 /* NotificationService */;
@@ -86,8 +86,8 @@
 				Services/NetworkSnapshot.swift,
 				Utilities/Changelog.swift,
 				Utilities/DateDecodingStrategy.swift,
+				Utilities/Extensions.swift,
 				Utilities/Formatters.swift,
-				Utilities/HexEncoding.swift,
 				Utilities/Networking.swift,
 				Utilities/Placeholder.swift,
 			);
@@ -846,7 +846,7 @@
 			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.61.0;
+				minimumVersion = 0.65.0;
 			};
 		};
 		BBA54BE12B563E2000CA0F3E /* XCRemoteSwiftPackageReference "Nuke" */ = {

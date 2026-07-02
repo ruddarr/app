@@ -5,8 +5,10 @@ Added
 - Added Trakt movie ratings
 - Added quick look preview to media posters
 - Added "History" to sidebar on iPadOS
+- Added discovery grid toggle for library items
 - Show counts below media grids
 - Jump from a queue task to its movie or series
+- Play haptic feedback when an error is shown
 
 Changed
 - Improved byte formatting precision
@@ -22,7 +24,8 @@ Changed
 
 Fixed
 - Fixed toasts not displaying above some sheets
-- Fixed media grid flicker when while sorting
+- Fixed media grid flicker while sorting
 - Fixed calendar/queue not updating instances when changed
 - Fixed sidebar colors on macOS 27
 - Fixed blurry discovery headline on iPadOS
+- Fixed monitor toggles not reverting on failure

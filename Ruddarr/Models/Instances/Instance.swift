@@ -98,17 +98,23 @@ struct Instance: Identifiable, Equatable, Codable {
     }
 }
 
+extension Instance {
+    var configuration: Instance {
+        var config = Instance(id: id)
+        config.type = type
+        config.mode = mode
+        config.label = label
+        config.url = url
+        config.apiKey = apiKey
+        config.headers = headers
+        config.name = name
+        return config
+    }
+}
+
 extension [Instance] {
     func sameConfiguration(as other: [Instance]) -> Bool {
-        func stripped(_ list: [Instance]) -> [Instance] {
-            list.map {
-                var copy = $0
-                copy.stats = nil
-                return copy
-            }
-        }
-
-        return stripped(self) == stripped(other)
+        map(\.configuration) == other.map(\.configuration)
     }
 }
 

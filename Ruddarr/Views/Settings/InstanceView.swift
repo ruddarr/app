@@ -66,7 +66,7 @@ struct InstanceView: View {
         .onBecomeActive {
             await setup()
         }
-        .alert(
+        .sensoryAlert(
             isPresented: webhook.errorBinding,
             error: webhook.error
         ) { _ in

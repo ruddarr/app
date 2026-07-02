@@ -13,10 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Trakt movie ratings
 - Added quick look preview to media posters
 - Added "History" to sidebar on iPadOS
+- Added discovery grid toggle for library items
 - Show counts below media grids
 - Jump from a queue task to its movie or series
+- Play haptic feedback when an alert is shown
 
 ### Changed
+- Improved instance synchronization across devices
 - Improved byte formatting precision
 - Improved image loading performance
 - Improved media grid sorting/filtering performance
@@ -30,10 +33,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed toasts not displaying above some sheets
-- Fixed media grid flicker when while sorting
+- Fixed media grid flicker while sorting
 - Fixed calendar/queue not updating instances when changed
 - Fixed sidebar colors on macOS 27
 - Fixed blurry discovery headline on iPadOS
+- Fixed monitor toggles not reverting on failure
 
 ## 1.8.3 - 2026-06-23
 ### Added

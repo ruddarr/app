@@ -33,7 +33,7 @@ struct MovieView: View {
         .onBecomeActive {
             await reload()
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.movies.errorBinding,
             error: instance.movies.error
         ) { _ in
@@ -59,7 +59,7 @@ struct MovieView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: $movie.monitored, loading: togglingMonitor)
+                ToolbarMonitorButton(monitored: movie.monitored, loading: togglingMonitor)
             }
             .allowsHitTesting(!togglingMonitor)
             #if os(iOS)
@@ -145,12 +145,17 @@ struct MovieView: View {
 
 extension MovieView {
     func toggleMonitor() async {
-        movie.monitored.toggle()
+        let original = movie.monitored
+        movie.monitored = !original
 
         togglingMonitor = true
         defer { togglingMonitor = false }
 
         guard await instance.movies.update(movie) else {
+            if movie.monitored == !original {
+                movie.monitored = original
+            }
+
             return
         }
 

@@ -27,7 +27,7 @@ struct MoviePreviewView: View {
         .toolbar {
             toolbarNextButton
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.movies.errorBinding,
             error: instance.movies.error
         ) { _ in

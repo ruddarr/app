@@ -103,7 +103,7 @@ struct MoviesView: View {
                 guard let searchRequest, await searchRequest.waitForDebounce() else { return }
                 updateDisplayedMovies()
             }
-            .alert(isPresented: $alertPresented, error: error) { _ in
+            .sensoryAlert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
                 Text(error.recoverySuggestionFallback)
@@ -138,6 +138,7 @@ struct MoviesView: View {
             .buttonStyle(.plain)
             .id(movie.id)
         }
+        .animation(.snappy, value: instance.movies.cachedItems.map(\.id))
         .viewBottomPadding()
         .scenePadding(.horizontal)
         #if os(iOS)
@@ -218,7 +219,7 @@ struct MoviesView: View {
 
             if Occurrence.since(lastMetadataFetch) > cacheInSeconds {
                 if let model = await instance.fetchMetadata() {
-                    settings.saveInstance(model)
+                    settings.saveInstanceMetadata(model)
                     Occurrence.occurred(lastMetadataFetch)
                 }
             }

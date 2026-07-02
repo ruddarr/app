@@ -54,7 +54,7 @@ struct SeasonView: View {
         .onBecomeActive {
             await reload()
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.episodes.errorBinding,
             error: instance.episodes.error
         ) { _ in
@@ -62,7 +62,7 @@ struct SeasonView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.files.errorBinding,
             error: instance.files.error
         ) { _ in
@@ -214,7 +214,7 @@ struct SeasonView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: .constant(season.monitored), loading: togglingMonitor)
+                ToolbarMonitorButton(monitored: season.monitored, loading: togglingMonitor)
             }
             .allowsHitTesting(!togglingMonitor)
             .disabled(!series.monitored)
@@ -260,12 +260,15 @@ extension SeasonView {
             return
         }
 
-        series.seasons[index].monitored.toggle()
+        let original = series.seasons[index].monitored
+        series.seasons[index].monitored = !original
 
         togglingMonitor = true
         defer { togglingMonitor = false }
 
         guard await instance.series.push(series) else {
+            series.seasons.revert(\.monitored, to: original, id: season.id)
+
             return
         }
 
