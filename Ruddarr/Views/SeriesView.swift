@@ -139,6 +139,7 @@ struct SeriesView: View {
             .buttonStyle(.plain)
             .id(series.id)
         }
+        .animation(.snappy, value: instance.series.cachedItems.map(\.id))
         .viewBottomPadding()
         .scenePadding(.horizontal)
         #if os(iOS)

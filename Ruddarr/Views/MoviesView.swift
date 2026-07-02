@@ -138,6 +138,7 @@ struct MoviesView: View {
             .buttonStyle(.plain)
             .id(movie.id)
         }
+        .animation(.snappy, value: instance.movies.cachedItems.map(\.id))
         .viewBottomPadding()
         .scenePadding(.horizontal)
         #if os(iOS)
