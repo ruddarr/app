@@ -104,7 +104,7 @@ struct EpisodeRow: View {
         let original = instance.episodes.items[index].monitored
         instance.episodes.items[index].monitored = !original
 
-        guard await instance.episodes.monitor([episode.id], !episode.monitored) else {
+        guard await instance.episodes.monitor([episode.id], !original) else {
             if let i = instance.episodes.items.firstIndex(where: { $0.id == episode.id }),
                instance.episodes.items[i].monitored == !original {
                 instance.episodes.items[i].monitored = original
@@ -112,7 +112,7 @@ struct EpisodeRow: View {
             return
         }
 
-        dependencies.toast.show(!episode.monitored ? .monitored : .unmonitored)
+        dependencies.toast.show(!original ? .monitored : .unmonitored)
     }
 }
 
