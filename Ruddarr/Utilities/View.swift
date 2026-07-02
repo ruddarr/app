@@ -105,7 +105,7 @@ private struct WithAppStateModifier: ViewModifier {
 
     @MainActor
     init() {
-        let settings = AppSettings()
+        let settings = AppSettings.shared
         _settings = State(initialValue: settings)
         _radarrInstance = State(initialValue: RadarrInstance(settings.radarrInstance ?? .radarrVoid))
         _sonarrInstance = State(initialValue: SonarrInstance(settings.sonarrInstance ?? .sonarrVoid))

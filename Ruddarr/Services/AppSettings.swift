@@ -4,6 +4,8 @@ import Observation
 @MainActor
 @Observable
 final class AppSettings {
+    static let shared = AppSettings()
+
     var instances: [Instance] {
         get { InstancesStore.shared.instances }
         set { InstancesStore.shared.setInstances(newValue) }
