@@ -94,6 +94,7 @@ struct SeriesView: View {
                 isPresented: $searchPresented,
                 placement: .drawerOrToolbar
             )
+            .dismissSearchWhenLeavingForeground($searchPresented)
             .autocorrectionDisabled(true)
             .onChange(of: settings.sonarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)

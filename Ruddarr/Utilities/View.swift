@@ -71,7 +71,31 @@ extension View {
                 presented
             }
     }
+
+    // Collapses a `.searchable` search bar before the app leaves the foreground.
+    func dismissSearchWhenLeavingForeground(_ isPresented: Binding<Bool>) -> some View {
+        #if os(iOS)
+            modifier(DismissSearchWhenLeavingForeground(isPresented: isPresented))
+        #else
+            self
+        #endif
+    }
 }
+
+#if os(iOS)
+private struct DismissSearchWhenLeavingForeground: ViewModifier {
+    @Binding var isPresented: Bool
+    @Environment(\.scenePhase) private var scenePhase
+
+    func body(content: Content) -> some View {
+        content.onChange(of: scenePhase) { _, phase in
+            if phase != .active, isPresented {
+                isPresented = false
+            }
+        }
+    }
+}
+#endif
 
 private struct OnBecomeActiveModifier: ViewModifier {
     let action: () async -> Void
