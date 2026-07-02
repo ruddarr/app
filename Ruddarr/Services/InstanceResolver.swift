@@ -125,6 +125,9 @@ final class InstanceResolver: Sendable {
     /// that just failed. Returns `nil` when there is nothing left to try.
     func nextCandidate(afterFailing failedURL: URL) -> URL? {
         let absolute = failedURL.absoluteString
+
+        guard (lock.withLock { Self.matchingBase($0.routes, for: absolute) }) != nil else { return nil }
+
         let fingerprint = NetworkSnapshot.capture().fingerprint
         let expiry = Date().addingTimeInterval(Self.demotionTTL)
 
@@ -152,11 +155,21 @@ final class InstanceResolver: Sendable {
     /// the host is reachable again.
     func noteSuccess(for url: URL) {
         let absolute = url.absoluteString
-        let fingerprint = NetworkSnapshot.capture().fingerprint
 
+        guard let base = (lock.withLock { Self.matchingBase($0.routes, for: absolute) }) else { return }
+
+        let fingerprint = NetworkSnapshot.capture().fingerprint
         lock.withLock { state in
-            guard let base = Self.matchingBase(state.routes, for: absolute) else { return }
             state.demotedUntil["\(fingerprint)\u{1}\(base)"] = nil
+        }
+    }
+
+    /// Drops route entries whose base no longer belongs to any current instance — call when
+    /// instances are edited or removed so a stale base can't keep matching failed requests.
+    func pruneRoutes(keeping instances: [Instance]) {
+        let live = Set(instances.flatMap { $0.candidateURLs })
+        lock.withLock { state in
+            state.routes = state.routes.filter { live.contains($0.key) }
         }
     }
 
