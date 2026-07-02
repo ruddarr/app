@@ -152,7 +152,7 @@ extension SeriesView {
             await fetchSeriesWithAlert()
 
             if let model = await instance.fetchMetadata() {
-                settings.saveInstance(model)
+                settings.saveInstanceMetadata(model)
             }
         }
     }

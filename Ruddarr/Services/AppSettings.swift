@@ -110,6 +110,17 @@ extension AppSettings {
         }
     }
 
+    func saveInstanceMetadata(_ instance: Instance) {
+        guard var stored = instanceById(instance.id) else { return }
+
+        stored.rootFolders = instance.rootFolders
+        stored.qualityProfiles = instance.qualityProfiles
+        stored.tags = instance.tags
+        stored.stats = instance.stats
+
+        saveInstance(stored)
+    }
+
     func deleteInstance(_ instance: Instance) {
         var deletedInstance = instance
         deletedInstance.id = UUID()
