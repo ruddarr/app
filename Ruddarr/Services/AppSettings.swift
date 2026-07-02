@@ -108,8 +108,6 @@ extension AppSettings {
         } else {
             instances.append(instance)
         }
-
-        Queue.shared.instances = instances
     }
 
     func deleteInstance(_ instance: Instance) {
@@ -126,22 +124,16 @@ extension AppSettings {
         if let index = instances.firstIndex(where: { $0.id == instance.id }) {
             instances.remove(at: index)
         }
-
-        Queue.shared.instances = instances
     }
 }
 
 private extension AppSettings {
     static func load<T: RawRepresentable>(_ key: String, _ fallback: T) -> T where T.RawValue == String {
-        dependencies.store.string(forKey: key).flatMap { T(rawValue: $0) } ?? fallback
+        loadOptional(key) ?? fallback
     }
 
     static func loadOptional<T: RawRepresentable>(_ key: String) -> T? where T.RawValue == String {
         dependencies.store.string(forKey: key).flatMap { T(rawValue: $0) }
-    }
-
-    static func persist<T: RawRepresentable>(_ value: T, _ key: String) where T.RawValue == String {
-        dependencies.store.set(value.rawValue, forKey: key)
     }
 
     static func persist<T: RawRepresentable>(_ value: T?, _ key: String) where T.RawValue == String {

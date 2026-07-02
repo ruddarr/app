@@ -56,7 +56,6 @@ struct ActivityView: View {
             .onChange(of: queue.items, updateDisplayedItems)
             .onChange(of: queue.items, updateSelectedItem)
             .onAppear {
-                queue.instances = settings.instances
                 queue.performRefresh = true
                 updateDisplayedItems()
             }
