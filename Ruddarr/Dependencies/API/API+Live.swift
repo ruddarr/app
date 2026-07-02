@@ -112,7 +112,7 @@ extension API {
 
             return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
         }, lookupSeriesReleases: { seriesId, seasonId, episodeId, instance in
-            var url = URL(string: instance.url)!
+            var url = try instance.baseURL()
                 .appending(path: "/api/v3/release")
 
             if let episode = episodeId {
@@ -288,7 +288,7 @@ extension API {
 
             return try await request(url: url, headers: instance.auth)
         }, fetchHistory: { type, page, limit, instance in
-            var url = URL(string: instance.url)!
+            var url = try instance.baseURL()
                 .appending(path: "/api/v3/history")
                 .appending(queryItems: [
                     .init(name: "page", value: String(page)),

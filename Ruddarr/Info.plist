@@ -115,6 +115,6 @@
 		<true/>
 	</dict>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>Ruddarr connects to *arr instances on your local network.</string>
+	<string>Ruddarr uses the local network when connecting to local *arr instances.</string>
 </dict>
 </plist>
