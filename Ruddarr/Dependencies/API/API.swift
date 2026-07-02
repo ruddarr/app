@@ -67,7 +67,7 @@ extension API {
         url: URL,
         headers: [String: String] = [:],
         body: Body? = nil,
-        timeout: Double = 10,
+        timeout: RequestTimeout = .default,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared
@@ -78,7 +78,7 @@ extension API {
         try await NetworkMonitor.shared.checkReachability()
 
         var request = URLRequest(url: url)
-        request.timeoutInterval = timeout
+        request.timeoutInterval = Self.effectiveTimeout(for: url, method: method, timeout: timeout)
         request.httpMethod = method.rawValue.uppercased()
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -190,7 +190,7 @@ extension API {
         method: HTTPMethod = .get,
         url: URL,
         headers: [String: String] = [:],
-        timeout: Double = 10,
+        timeout: RequestTimeout = .default,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared
@@ -205,6 +205,11 @@ extension API {
             encoder: encoder,
             session: session
         )
+    }
+
+    private static func effectiveTimeout(for url: URL, method: HTTPMethod, timeout: RequestTimeout) -> Double {
+        guard method == .get, timeout.local != timeout.remote, let host = url.host() else { return timeout.remote }
+        return timeout.interval(isLocal: NetworkInterfaces.role(forHost: host) == .lan)
     }
 
     private static func parseResponseHeaders(_ response: HTTPURLResponse?) -> [String: Any] {

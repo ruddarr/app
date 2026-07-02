@@ -38,7 +38,7 @@ actor NetworkMonitor {
         self.unsatisfiedReason = path.unsatisfiedReason
         LocalNetworkAccess.setDenied(path.unsatisfiedReason == .localNetworkDenied)
 
-        let signature = Self.signature(of: path)
+        let signature = Self.signature(of: path, identity: NetworkSnapshot.capture().identity)
 
         if signature != pathSignature {
             if pathSignature != nil {
@@ -49,13 +49,13 @@ actor NetworkMonitor {
         }
     }
 
-    private static func signature(of path: NWPath) -> String {
+    private static func signature(of path: NWPath, identity: String) -> String {
         let interfaces = path.availableInterfaces
             .map { "\($0.name):\($0.type)" }
             .sorted()
             .joined(separator: ",")
 
-        return "\(path.status)|\(interfaces)"
+        return "\(path.status)|\(interfaces)|\(identity)"
     }
 
     func checkReachability() throws {

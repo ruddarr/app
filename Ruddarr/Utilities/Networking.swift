@@ -1,6 +1,34 @@
 import Network
 import Foundation
 
+/// The wait budget for an API request, split by the candidate URL's locality: a LAN candidate
+/// uses the short `local` budget so a dead/absent local URL fails over fast, while remote and
+/// Tailscale candidates keep `remote`. `local < remote` is reserved for reachability-bound calls —
+/// `URLRequest.timeoutInterval` is a "max interval with no data" ceiling, so server-processing-bound
+/// calls (lookups, searches, large fetches) must be symmetric (`init(_:)`) or a slow-but-alive LAN
+/// response would be truncated.
+struct RequestTimeout: Sendable, Equatable {
+    let local: Double
+    let remote: Double
+
+    init(_ both: Double) {
+        local = both
+        remote = both
+    }
+
+    init(local: Double, remote: Double) {
+        assert(local <= remote, "local is a reachability budget; server-processing-bound calls must be symmetric")
+        self.local = min(local, remote)
+        self.remote = remote
+    }
+
+    static let `default` = RequestTimeout(local: 2.5, remote: 10)
+
+    func interval(isLocal: Bool) -> Double {
+        isLocal ? local : remote
+    }
+}
+
 /// Whether a host is a private / non-routable address — RFC1918, link-local, loopback,
 /// CGNAT, or a Tailscale ULA. Delegates to the `NetworkInterfaces` address primitives so
 /// the CIDR ranges live in exactly one place (the ones covered by the test suite).

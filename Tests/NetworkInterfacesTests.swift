@@ -335,14 +335,16 @@ struct NetworkInterfacesTests {
         #expect(ranked.contains { $0.base == remoteURL && $0.role == .remote && $0.score == 50 })
     }
 
-    // MARK: - Interface contribution (the CGNAT-vs-Tailscale wall)
+    // MARK: - Interface contribution (tailnet = fd7a ULA only)
 
-    @Test func classifyV4TailnetNeedsUtunAndCGNAT() {
-        // The load-bearing conjunction: only a `utun` carrying a CGNAT address is the tailnet.
-        #expect(NetworkSnapshot.classifyV4(name: "utun3", flags: 0, address: ipv4("100.100.3.7"), mask: 0xFFFF_FFFF) == .tailnet)
-        // CGNAT on a carrier interface (pdp) must NOT be read as the tailnet.
+    @Test func classifyV4NeverSignalsTailnet() {
+        // IPv4 is not a tailnet signal: Tailscale's 100.64/10 CGNAT block is shared by
+        // NetBird, Cloudflare WARP, Pangolin, etc., so a `utun` carrying a CGNAT address
+        // must NOT flip tailnetUp — only the fd7a ULA does (see classifyV6 below).
+        #expect(NetworkSnapshot.classifyV4(name: "utun3", flags: 0, address: ipv4("100.100.3.7"), mask: 0xFFFF_FFFF) == .ignored)
+        // CGNAT on a carrier interface (pdp) is ignored for the same reason.
         #expect(NetworkSnapshot.classifyV4(name: "pdp_ip0", flags: 0, address: ipv4("100.100.3.7"), mask: 0xFFFF_FFFF) == .ignored)
-        // A non-CGNAT tunnel is not the tailnet either.
+        // A non-CGNAT tunnel is ignored too.
         #expect(NetworkSnapshot.classifyV4(name: "utun0", flags: 0, address: ipv4("10.0.0.1"), mask: 0xFF00_0000) == .ignored)
     }
 
@@ -395,6 +397,45 @@ struct NetworkInterfacesTests {
         // A genuinely different /64 must still change it.
         let other = NetworkSnapshot(tailnetUp: false, lanV6: [subnet6("2001:db8:abcd:2::1111", 64)])
         #expect(single.fingerprint != other.fingerprint)
+    }
+
+    // MARK: - Identity (change detection)
+
+    @Test func identityDistinguishesSameSubnetLANs() {
+        // The point of the fix: two different Wi-Fi LANs that both reuse 192.168.1.0/24 share a
+        // fingerprint (so demotions persist within one LAN), but must NOT share an identity, or
+        // NetworkMonitor's interface-only signature would never fire networkChanged() on the switch.
+        let home = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.1.42", 24)])
+        let cafe = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.1.99", 24)])
+
+        #expect(home.fingerprint == cafe.fingerprint) // same subnet — the coarse fingerprint can't tell them apart
+        #expect(home.identity != cafe.identity)        // different lease — the identity can
+    }
+
+    @Test func identityIsStableForOneLease() {
+        let a = NetworkSnapshot(tailnetUp: true, lanV4: [subnet("192.168.1.42", 24)])
+        let b = NetworkSnapshot(tailnetUp: true, lanV4: [subnet("192.168.1.42", 24)])
+        #expect(a.identity == b.identity)
+    }
+
+    @Test func identityIgnoresIPv6PrivacyAddressRotation() {
+        // Like the fingerprint: host-bit rotation within one /64 must not churn the identity, or
+        // every RFC 4941 rotation would needlessly drop the resolver cache on an unchanged network.
+        let single = NetworkSnapshot(tailnetUp: false, lanV6: [subnet6("2001:db8:abcd:1::1111", 64)])
+        let rotated = NetworkSnapshot(tailnetUp: false, lanV6: [
+            subnet6("2001:db8:abcd:1::1111", 64),
+            subnet6("2001:db8:abcd:1::2222", 64),
+        ])
+        #expect(single.identity == rotated.identity)
+
+        let other = NetworkSnapshot(tailnetUp: false, lanV6: [subnet6("2001:db8:abcd:2::1111", 64)])
+        #expect(single.identity != other.identity)
+    }
+
+    @Test func identityTracksTailnetToggle() {
+        let up = NetworkSnapshot(tailnetUp: true, lanV4: [subnet("192.168.1.42", 24)])
+        let down = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.1.42", 24)])
+        #expect(up.identity != down.identity)
     }
 
     // MARK: - Live capture smoke test
