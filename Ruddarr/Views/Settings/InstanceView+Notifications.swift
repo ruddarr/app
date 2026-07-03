@@ -233,16 +233,6 @@ extension InstanceView {
 }
 
 extension InstanceView {
-    func setup() async {
-        async let summary: Void = loadSummary()
-
-        await setAppNotificationsStatus()
-        await setCloudKitAccountStatus()
-        await setSubscriptionStatus()
-        await initialWebhookSync()
-        await summary
-    }
-
     func setAppNotificationsStatus() async {
         let status = await Notifications.authorizationStatus()
 

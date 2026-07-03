@@ -80,17 +80,21 @@ struct InstanceView: View {
         }
         .tint(nil)
         .subscriptionStatusTask(for: Subscription.group, action: handleSubscriptionStatusChange)
-        .sheet(isPresented: $showSubscription) { RuddarrPlusSheet() }
+        .sheet(isPresented: $showSubscription) {
+            RuddarrPlusSheet()
+        }
     }
 
-    @ToolbarContentBuilder
-    var toolbarEditButton: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            NavigationLink(value: SettingsView.Path.editInstance(instance.id)) {
-                Label("Edit", systemImage: "pencil")
-                    .hideIconOnMac()
-            }.tint(.primary)
-        }
+    func setup() async {
+        connectingVia = InstanceResolver.shared.currentSelection(for: instance)
+
+        async let summary: Void = loadSummary()
+
+        await setAppNotificationsStatus()
+        await setCloudKitAccountStatus()
+        await setSubscriptionStatus()
+        await initialWebhookSync()
+        await summary
     }
 
     var instanceDetails: some View {
@@ -166,6 +170,16 @@ struct InstanceView: View {
             } else {
                 disableNotifications
             }
+        }
+    }
+
+    @ToolbarContentBuilder
+    var toolbarEditButton: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            NavigationLink(value: SettingsView.Path.editInstance(instance.id)) {
+                Label("Edit", systemImage: "pencil")
+                    .hideIconOnMac()
+            }.tint(.primary)
         }
     }
 
