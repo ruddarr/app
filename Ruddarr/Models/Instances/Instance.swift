@@ -45,6 +45,24 @@ struct Instance: Identifiable, Equatable, Codable {
         stats = try values.decodeIfPresent(InstanceStats.self, forKey: .stats)
     }
 
+    var configuration: Instance {
+        var config = Instance(id: id)
+        config.type = type
+        config.mode = mode
+        config.label = label
+        config.url = url
+        config.fallbackURL = fallbackURL
+        config.apiKey = apiKey
+        config.headers = headers
+        config.name = name
+
+        return config
+    }
+
+    var contextKey: String {
+        "\(type.rawValue.lowercased())-\(id.shortened)"
+    }
+
     var auth: [String: String] {
         var map: [String: String] = [:]
 
@@ -62,10 +80,13 @@ struct Instance: Identifiable, Equatable, Codable {
         var result: [String] = []
 
         for raw in [url, fallbackURL] {
-            var normalized = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-            while normalized.hasSuffix("/") { normalized.removeLast() }
+            guard var normalized = raw.trimmed().untrailingSlashIt, !normalized.isEmpty else { continue }
 
-            guard !normalized.isEmpty, seen.insert(normalized).inserted else { continue }
+            if let canonical = URL(string: normalized)?.absoluteString {
+                normalized = canonical
+            }
+
+            guard seen.insert(normalized).inserted else { continue }
             result.append(normalized)
         }
 
@@ -82,9 +103,11 @@ struct Instance: Identifiable, Equatable, Codable {
         return url
     }
 
-    func isPrivateIp() -> Bool {
-        candidateURLs.contains { base in
-            guard let host = URL(string: base)?.host() else { return false }
+    func isPrivateIp(primaryOnly: Bool = false) -> Bool {
+        let bases = primaryOnly ? Array(candidateURLs.prefix(1)) : candidateURLs
+
+        return bases.contains { base in
+            guard let host = NetworkInterfaces.host(of: base) else { return false }
             return isPrivateIpAddress(host)
         }
     }
@@ -96,21 +119,6 @@ struct Instance: Identifiable, Equatable, Codable {
         case .slow: .init(mode.isSlow ? 300 : 10)
         case .releaseSearch: .init(mode.isSlow ? 180 : 90)
         }
-    }
-}
-
-extension Instance {
-    var configuration: Instance {
-        var config = Instance(id: id)
-        config.type = type
-        config.mode = mode
-        config.label = label
-        config.url = url
-        config.fallbackURL = fallbackURL
-        config.apiKey = apiKey
-        config.headers = headers
-        config.name = name
-        return config
     }
 }
 

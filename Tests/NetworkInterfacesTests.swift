@@ -66,6 +66,7 @@ struct NetworkInterfacesTests {
         #expect(NetworkInterfaces.role(forHost: "192.168.1.50") == .lan)
         #expect(NetworkInterfaces.role(forHost: "172.16.4.4") == .lan)
         #expect(NetworkInterfaces.role(forHost: "nas.local") == .lan)
+        #expect(NetworkInterfaces.role(forHost: "nas") == .lan) // single-label name, like `.local`
         #expect(NetworkInterfaces.role(forHost: "fd00::1") == .lan)
         #expect(NetworkInterfaces.role(forHost: "fe80::1") == .lan)
 
@@ -76,6 +77,28 @@ struct NetworkInterfacesTests {
         #expect(NetworkInterfaces.role(forHost: "1.2.3.4") == .remote)
         #expect(NetworkInterfaces.role(forHost: "radarr.example.com") == .remote)
         #expect(NetworkInterfaces.role(forHost: "home.duckdns.org") == .remote)
+    }
+
+    @Test func literalLoopbackCoversTheWholeV4RangeAndV6() {
+        #expect(NetworkInterfaces.literalLoopback("127.0.0.1"))
+        #expect(NetworkInterfaces.literalLoopback("127.0.0.2")) // whole 127.0.0.0/8, not just .1
+        #expect(NetworkInterfaces.literalLoopback("::1"))
+        #expect(!NetworkInterfaces.literalLoopback("192.168.1.50"))
+        #expect(!NetworkInterfaces.literalLoopback("localhost")) // a name, not a literal
+    }
+
+    @Test func singleLabelHostRanksOnLinkAtHomeAndRemoteAway() {
+        // A dotless host (e.g. `http://nas`) is treated like `.local`: on-link at home, and it
+        // loses to a routable remote away, where it couldn't resolve over mDNS anyway.
+        let home = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.1.0", 24)])
+        #expect(NetworkInterfaces.orderedBases(["http://nas:7878", remoteURL], snapshot: home).first == "http://nas:7878")
+
+        let away = NetworkSnapshot(tailnetUp: false, lanV4: [])
+        #expect(NetworkInterfaces.orderedBases(["http://nas:7878", remoteURL], snapshot: away).first == remoteURL)
+
+        // An IPv6 literal has no dots but is NOT a single-label name — it must rank by real
+        // on-link status (off-link here), never promoted like `nas`.
+        #expect(NetworkInterfaces.orderedBases(["http://[fd00::5]:7878", remoteURL], snapshot: home).first == remoteURL)
     }
 
     @Test func extractsHostFromBaseURL() {
@@ -233,8 +256,17 @@ struct NetworkInterfacesTests {
         // A name that resolves to loopback (e.g. `localhost`) is the server on this device —
         // on-link LAN, not off-link (which would lose to a remote URL) — on any network.
         let away = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("10.20.30.0", 24)])
-        #expect(NetworkInterfaces.classify(ipv4: [ipv4("127.0.0.1")], ipv6: [], snapshot: away) == ResolvedHost(role: .lan, onLink: true))
-        #expect(NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("::1")], snapshot: away) == ResolvedHost(role: .lan, onLink: true))
+        #expect(NetworkInterfaces.classify(ipv4: [ipv4("127.0.0.1")], ipv6: [], snapshot: away) == ResolvedHost(role: .lan, onLink: true, isLoopback: true))
+        #expect(NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("::1")], snapshot: away) == ResolvedHost(role: .lan, onLink: true, isLoopback: true))
+    }
+
+    @Test func resolvedLoopbackStaysPreferredUnderLocalNetworkDenial() {
+        // A name resolving to loopback is the server on this device — always reachable, so the
+        // Local Network denial must NOT drop it below a routable remote (unlike a real LAN name).
+        let denied = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.1.0", 24)], localNetworkDenied: true)
+        let resolved = ["localhost": ResolvedHost(role: .lan, onLink: true, isLoopback: true)]
+        let ordered = NetworkInterfaces.orderedBases(["http://localhost:7878", remoteURL], snapshot: denied, resolved: resolved)
+        #expect(ordered.first == "http://localhost:7878")
     }
 
     @Test func classifiesOffLinkPrivateAsLANNotOnLink() {
@@ -341,20 +373,20 @@ struct NetworkInterfacesTests {
         // IPv4 is not a tailnet signal: Tailscale's 100.64/10 CGNAT block is shared by
         // NetBird, Cloudflare WARP, Pangolin, etc., so a `utun` carrying a CGNAT address
         // must NOT flip tailnetUp — only the fd7a ULA does (see classifyV6 below).
-        #expect(NetworkSnapshot.classifyV4(name: "utun3", flags: 0, address: ipv4("100.100.3.7"), mask: 0xFFFF_FFFF) == .ignored)
+        #expect(NetworkSnapshot.classifyV4(name: "utun3", flags: 0, address: ipv4("100.100.3.7"), mask: 0xFFFF_FFFF) == nil)
         // CGNAT on a carrier interface (pdp) is ignored for the same reason.
-        #expect(NetworkSnapshot.classifyV4(name: "pdp_ip0", flags: 0, address: ipv4("100.100.3.7"), mask: 0xFFFF_FFFF) == .ignored)
+        #expect(NetworkSnapshot.classifyV4(name: "pdp_ip0", flags: 0, address: ipv4("100.100.3.7"), mask: 0xFFFF_FFFF) == nil)
         // A non-CGNAT tunnel is ignored too.
-        #expect(NetworkSnapshot.classifyV4(name: "utun0", flags: 0, address: ipv4("10.0.0.1"), mask: 0xFF00_0000) == .ignored)
+        #expect(NetworkSnapshot.classifyV4(name: "utun0", flags: 0, address: ipv4("10.0.0.1"), mask: 0xFF00_0000) == nil)
     }
 
     @Test func classifyV4RecordsOnlyRealEthernetLANs() {
         let en = NetworkSnapshot.classifyV4(name: "en0", flags: 0, address: ipv4("192.168.1.5"), mask: 0xFFFF_FF00)
-        #expect(en == .lan(IPv4Subnet(address: ipv4("192.168.1.5"), mask: 0xFFFF_FF00)))
+        #expect(en == IPv4Subnet(address: ipv4("192.168.1.5"), mask: 0xFFFF_FF00))
         // VM / bridge / AirDrop-style interfaces never masquerade as a LAN.
-        #expect(NetworkSnapshot.classifyV4(name: "bridge100", flags: 0, address: ipv4("192.168.5.1"), mask: 0xFFFF_FF00) == .ignored)
+        #expect(NetworkSnapshot.classifyV4(name: "bridge100", flags: 0, address: ipv4("192.168.5.1"), mask: 0xFFFF_FF00) == nil)
         // A point-to-point `en` (tunnel) is excluded.
-        #expect(NetworkSnapshot.classifyV4(name: "en5", flags: Int32(IFF_POINTOPOINT), address: ipv4("192.168.1.5"), mask: 0xFFFF_FF00) == .ignored)
+        #expect(NetworkSnapshot.classifyV4(name: "en5", flags: Int32(IFF_POINTOPOINT), address: ipv4("192.168.1.5"), mask: 0xFFFF_FF00) == nil)
     }
 
     @Test func classifyV6TailnetNeedsUtunAndTailscaleULA() {

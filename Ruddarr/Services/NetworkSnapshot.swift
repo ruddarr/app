@@ -37,6 +37,7 @@ enum InstanceURLRole: Equatable {
 struct ResolvedHost: Equatable {
     var role: InstanceURLRole
     var onLink: Bool
+    var isLoopback: Bool = false
 }
 
 /// An instant, permission-free read of the network facts that decide URL selection.
@@ -167,26 +168,19 @@ extension NetworkSnapshot {
             UInt32(bigEndian: $0.pointee.sin_addr.s_addr)
         } ?? 0xFFFF_FFFF
 
-        switch classifyV4(name: name, flags: flags, address: value, mask: mask) {
-        case .lan(let subnet): snapshot.lanV4.append(subnet)
-        case .ignored: break
+        if let subnet = classifyV4(name: name, flags: flags, address: value, mask: mask) {
+            snapshot.lanV4.append(subnet)
         }
     }
 
-    /// What one decoded IPv4 interface contributes. Only a real `en*` link contributes (its
-    /// subnet); everything else — including a `utun` carrying a 100.64/10 CGNAT address — is
-    /// ignored. IPv4 is deliberately NOT a tailnet signal: Tailscale's CGNAT range is shared
-    /// by NetBird/WARP/Pangolin and by carrier-grade NAT on `pdp*`, so the tailnet is
-    /// identified only by its `fd7a:115c:a1e0::/48` IPv6 ULA (see `classifyV6`).
-    /// Pure and testable — the `getifaddrs` pointer decoding stays in `ingestIPv4`.
-    enum V4Contribution: Equatable {
-        case lan(IPv4Subnet)
-        case ignored
-    }
-
-    static func classifyV4(name: String, flags: Int32, address: UInt32, mask: UInt32) -> V4Contribution {
-        if isLANEthernet(name: name, flags: flags) { return .lan(IPv4Subnet(address: address, mask: mask)) }
-        return .ignored
+    /// The on-link IPv4 subnet a decoded interface contributes, or `nil` when it isn't a real
+    /// `en*` LAN link (a `utun` carrying a 100.64/10 CGNAT address included). IPv4 is
+    /// deliberately NOT a tailnet signal: Tailscale's CGNAT range is shared by NetBird/WARP/
+    /// Pangolin and by carrier-grade NAT on `pdp*`, so the tailnet is identified only by its
+    /// `fd7a:115c:a1e0::/48` IPv6 ULA (see `classifyV6`). Pure and testable — the `getifaddrs`
+    /// pointer decoding stays in `ingestIPv4`.
+    static func classifyV4(name: String, flags: Int32, address: UInt32, mask: UInt32) -> IPv4Subnet? {
+        isLANEthernet(name: name, flags: flags) ? IPv4Subnet(address: address, mask: mask) : nil
     }
 
     /// A Tailscale `utun` (its `fd7a:115c:a1e0::/48` ULA) flips `tailnetUp`; a real `en*`

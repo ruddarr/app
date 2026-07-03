@@ -92,11 +92,16 @@ func leaveBreadcrumb(
     crumb.message = message
     crumb.data = data
 
+    let shouldReport = isRunningIn(.testflight) && shouldReportEvent(crumb)
+
+    crumb.message = message.map(maskURLs(in:))
+    crumb.data = maskedBreadcrumbData(data)
+
     SentrySDK.addBreadcrumb(crumb)
 
-    if isRunningIn(.testflight) && shouldReportEvent(crumb) {
+    if shouldReport {
         let event = Event(level: level)
-        event.message = SentryMessage(formatted: message ?? "")
+        event.message = SentryMessage(formatted: crumb.message ?? "")
         SentrySDK.capture(event: event)
     }
 
@@ -162,6 +167,26 @@ private func maskRequestURL( _ crumb: Breadcrumb) -> Breadcrumb {
     crumb.data?["url"] = maskedURL(url)
 
     return crumb
+}
+
+private func maskURLs(in string: String) -> String {
+    string.replacing(/https?:\/\/[^\s"'<>)\]};,]+/) { match in
+        maskedURL(String(match.output))
+    }
+}
+
+private func maskedBreadcrumbData(_ data: [String: Any]) -> [String: Any] {
+    data.mapValues { value -> Any in
+        if let string = value as? String {
+            return maskURLs(in: string)
+        }
+
+        if let error = value as? any Swift.Error {
+            return maskURLs(in: String(describing: error))
+        }
+
+        return value
+    }
 }
 
 enum EnvironmentType: String {

@@ -1,4 +1,3 @@
-import Network
 import Foundation
 
 func maskedURL(_ string: String) -> String {
@@ -6,30 +5,46 @@ func maskedURL(_ string: String) -> String {
         return "•"
     }
 
-    let masked = maskHost(host)
-    let replacement = masked.contains(":") ? "[\(masked)]" : masked
-    let original = string.contains("[\(host)]") ? "[\(host)]" : host
+    let maskedHost = maskHost(host)
+    let hostField = maskedHost.contains(":") ? "[\(maskedHost)]" : maskedHost
 
-    guard let range = string.range(of: original) else { return "•" }
-    return string.replacingCharacters(in: range, with: replacement)
+    var result = ""
+    if let scheme = components.scheme { result += "\(scheme)://" }
+
+    if components.user != nil {
+        result += components.password != nil ? "*****:*****@" : "*****@"
+    }
+
+    result += hostField
+    if let port = components.port { result += ":\(port)" }
+    result += components.percentEncodedPath
+    if let query = components.percentEncodedQuery { result += "?\(query)" }
+    if let fragment = components.percentEncodedFragment { result += "#\(fragment)" }
+
+    return result
+}
+
+func maskedCIDR(_ cidr: String) -> String {
+    let parts = cidr.split(separator: "/", maxSplits: 1)
+    guard let address = parts.first else { return cidr }
+
+    let masked = maskHost(String(address))
+    return parts.count > 1 ? "\(masked)/\(parts[1])" : masked
 }
 
 private func maskHost(_ host: String) -> String {
-    let bare = host
-        .replacingOccurrences(of: "[", with: "")
-        .replacingOccurrences(of: "]", with: "")
-    let cleaned = bare.hasSuffix(".") ? String(bare.dropLast()) : bare
+    let cleaned = NetworkInterfaces.bareHost(host)
 
     if let v4 = NetworkInterfaces.parseIPv4(cleaned) {
         return maskIPv4(cleaned, v4)
     }
 
-    if let raw = IPv6Address(cleaned)?.rawValue, raw.count == 16 {
-        return maskIPv6(cleaned, [UInt8](raw))
+    if let bytes = NetworkInterfaces.parseIPv6(cleaned) {
+        return maskIPv6(cleaned, bytes)
     }
 
     let lower = cleaned.lowercased()
-    for suffix in [".ts.net", ".local"] where lower.hasSuffix(suffix) {
+    for suffix in [NetworkInterfaces.tailnetSuffix, NetworkInterfaces.mdnsSuffix] where lower.hasSuffix(suffix) {
         return maskLabels(String(cleaned.dropLast(suffix.count)), keepingTLD: false) + suffix
     }
 
