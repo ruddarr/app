@@ -49,6 +49,10 @@ actor NetworkMonitor {
         if signature != pathSignature {
             if pathSignature != nil {
                 InstanceResolver.shared.networkChanged()
+
+                Task { @MainActor in
+                    NotificationCenter.default.post(name: .networkChanged)
+                }
             }
 
             pathSignature = signature

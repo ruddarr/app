@@ -2,6 +2,7 @@ import Foundation
 
 extension Notification.Name {
     static let scrollToToday = Notification.Name("scrollToTodayInCalendar")
+    static let networkChanged = Notification.Name("networkConditionsChanged")
 }
 
 extension NotificationCenter {

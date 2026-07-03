@@ -86,8 +86,6 @@ struct InstanceView: View {
     }
 
     func setup() async {
-        connectingVia = InstanceResolver.shared.currentSelection(for: instance)
-
         async let summary: Void = loadSummary()
 
         await setAppNotificationsStatus()

@@ -7,6 +7,7 @@ struct InstanceRow: View {
     @Binding var instance: Instance
 
     @State private var connection: Connection = .pending
+    @State private var currentURL: String = ""
     @State private var webhook: Webhook = .pending
     @State private var notifications: Bool = false
 
@@ -40,33 +41,61 @@ struct InstanceRow: View {
                 }
             }
 
-            HStack {
-                switch connection {
-                case .pending: Text("Connecting...")
-                case .reachable: Text("Connected")
-                case .unreachable: Text("Connection Failed").foregroundStyle(.red)
+            Group {
+                if instance.candidateURLs.count > 1 {
+                    switch connection {
+                    case .pending: Text("Connecting to \(currentURL)...")
+                    case .reachable: Text("Connected to \(currentURL)")
+                    case .unreachable: Text("Connection Failed").foregroundStyle(.red)
+                    }
+                } else {
+                    switch connection {
+                    case .pending: Text("Connecting...")
+                    case .reachable: Text("Connected")
+                    case .unreachable: Text("Connection Failed").foregroundStyle(.red)
+                    }
                 }
             }
             .font(.footnote)
             .foregroundStyle(.gray)
+            .transition(.opacity)
+            .contentTransition(.opacity)
         }
+        .animation(.default, value: connection)
+        .animation(.default, value: currentURL)
         .task {
             await checkInstanceConnection()
         }
-        .animation(.default, value: connection)
+        .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
+            Task { await checkInstanceConnection() }
+        }
+    }
+
+    private func hostPort(_ urlString: String) -> String {
+        guard let components = URLComponents(string: urlString), let host = components.host else {
+            return urlString
+        }
+
+        if let port = components.port {
+            return "\(host):\(port)"
+        }
+
+        return host
     }
 
     func checkInstanceConnection() async {
+        let selection = hostPort(InstanceResolver.shared.currentSelection(for: instance))
+
         await checkNotificationsStatus()
 
         do {
             let lastCheck = "instanceCheck:\(instance.id)"
 
-            if connection == .reachable, Occurrence.since(lastCheck) < 60 {
-                connection = .reachable
+            if connection == .reachable, selection == currentURL, Occurrence.since(lastCheck) < 60 {
                 return
             }
 
+            currentURL = selection
             connection = .pending
 
             async let systemStatus = try dependencies.api.systemStatus(instance)
@@ -90,6 +119,7 @@ struct InstanceRow: View {
             await webhook.synchronize()
             self.webhook = webhook.isEnabled ? .enabled : .disabled
 
+            currentURL = hostPort(InstanceResolver.shared.currentSelection(for: instance))
             connection = .reachable
         } catch is CancellationError {
             // do nothing
