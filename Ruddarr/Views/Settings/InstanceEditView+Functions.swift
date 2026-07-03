@@ -48,12 +48,17 @@ extension InstanceEditView {
     }
 
     func hasEmptyFields() -> Bool {
-        instance.url.isEmpty || instance.apiKey.isEmpty
+        (instance.url.isEmpty && instance.alternateURL.isEmpty) || instance.apiKey.isEmpty
     }
 
     func sanitizeInstanceUrl() {
         instance.url = sanitizedUrl(instance.url)
         instance.alternateURL = sanitizedUrl(instance.alternateURL)
+
+        if instance.url.isEmpty {
+            instance.url = instance.alternateURL
+            instance.alternateURL = ""
+        }
     }
 
     func sanitizedUrl(_ string: String) -> String {
