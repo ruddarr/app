@@ -109,7 +109,7 @@ extension API {
         var response: URLResponse?
 
         do {
-            (json, response) = try await session.data(for: request)
+            (json, response) = try await Self.data(for: request, session: session)
         } catch let cancellationError as CancellationError {
             // re-throw `CancellationError` so they can be handled elsewhere
             throw cancellationError
@@ -118,12 +118,22 @@ extension API {
             throw CancellationError()
         } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
             throw Error.notConnectedToInternet
-        } catch let urlError as URLError where urlError.code == .timedOut {
-            guard isPrivateIpAddress(url.host() ?? "") else {
-                throw Error.urlError(urlError)
-            }
-            throw Error.timeoutOnPrivateIp(urlError)
         } catch let urlError as URLError {
+            if Self.isCandidateFailure(urlError.code), let instance,
+               let fallback = InstanceResolver.shared.failover(afterFailing: url, for: instance)
+            {
+                leaveBreadcrumb(.info, category: "api", message: "Switching to next instance URL", data: ["code": urlError.code.rawValue])
+
+                return try await Self.request(
+                    method: method, url: fallback, headers: headers, body: body, instance: instance,
+                    timeout: timeout, decoder: decoder, encoder: encoder, session: session
+                )
+            }
+
+            if urlError.code == .timedOut, isPrivateIpAddress(url.host() ?? "") {
+                throw Error.timeoutOnPrivateIp(urlError)
+            }
+
             throw Error.urlError(urlError)
         } catch let localizedError as any LocalizedError {
             throw Error.localizedError(localizedError)
@@ -201,15 +211,8 @@ extension API {
         session: URLSession = .shared
     ) async throws -> Response {
         try await request(
-            method: method,
-            url: url,
-            headers: headers,
-            body: Empty?.none,
-            instance: instance,
-            timeout: timeout,
-            decoder: decoder,
-            encoder: encoder,
-            session: session
+            method: method, url: url, headers: headers, body: Empty?.none, instance: instance,
+            timeout: timeout, decoder: decoder, encoder: encoder, session: session
         )
     }
 
@@ -225,15 +228,8 @@ extension API {
         session: URLSession = .shared
     ) async throws -> Response {
         try await request(
-            method: method,
-            url: url,
-            headers: headers,
-            body: body,
-            instance: instance,
-            timeout: instance?.timeout(timeout) ?? .default,
-            decoder: decoder,
-            encoder: encoder,
-            session: session
+            method: method, url: url, headers: headers, body: body, instance: instance,
+            timeout: instance?.timeout(timeout) ?? .default, decoder: decoder, encoder: encoder, session: session
         )
     }
 
@@ -248,20 +244,31 @@ extension API {
         session: URLSession = .shared
     ) async throws -> Response {
         try await request(
-            method: method,
-            url: url,
-            headers: headers,
-            instance: instance,
-            timeout: instance?.timeout(timeout) ?? .default,
-            decoder: decoder,
-            encoder: encoder,
-            session: session
+            method: method, url: url, headers: headers, instance: instance,
+            timeout: instance?.timeout(timeout) ?? .default, decoder: decoder, encoder: encoder, session: session
         )
     }
 
     private static func effectiveTimeout(for url: URL, method: HTTPMethod, timeout: RequestTimeout) -> Double {
         guard method == .get, timeout.local != timeout.remote, let host = url.host() else { return timeout.remote }
         return timeout.interval(isLocal: NetworkInterfaces.role(forHost: host) == .lan)
+    }
+
+    private static func data(for request: URLRequest, session: URLSession) async throws -> (Data, URLResponse) {
+        do {
+            return try await session.data(for: request)
+        } catch let urlError as URLError where urlError.code == .networkConnectionLost {
+            return try await session.data(for: request)
+        }
+    }
+
+    private static func isCandidateFailure(_ code: URLError.Code) -> Bool {
+        switch code {
+        case .timedOut, .cannotConnectToHost, .cannotFindHost, .dnsLookupFailed, .networkConnectionLost:
+            return true
+        default:
+            return false
+        }
     }
 
     private static func parseResponseHeaders(_ response: HTTPURLResponse?) -> [String: Any] {
