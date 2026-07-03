@@ -20,10 +20,14 @@ struct MovieRatings: View {
     }
 
     private func row(_ badges: ArraySlice<Badge>) -> some View {
-        HStack(spacing: deviceType == .phone ? 10 : 12) {
-            ForEach(badges) { badge in
-                view(for: badge)
-            }
+        let badges = Array(badges)
+
+        return HStack(spacing: deviceType == .phone ? 10 : 12) {
+            if badges.count > 0 { view(for: badges[0]) }
+            if badges.count > 1 { view(for: badges[1]) }
+            if badges.count > 2 { view(for: badges[2]) }
+            if badges.count > 3 { view(for: badges[3]) }
+            if badges.count > 4 { view(for: badges[4]) }
         }
     }
 
