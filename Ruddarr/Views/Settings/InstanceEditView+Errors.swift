@@ -9,7 +9,6 @@ enum InstanceError: Error {
     case alternateUrlSchemeMissing
     case alternateSameAsUrl
 
-    case labelEmpty
     case localNetworkDenied
     case badAppName(_ reported: String, _ expected: String)
     case apiError(_ error: API.Error)
@@ -22,8 +21,6 @@ extension InstanceError: LocalizedError {
             String(localized: "Invalid URL")
         case .alternateUrlNotValid, .alternateSameAsUrl, .alternateUrlSchemeMissing:
             String(localized: "Invalid Alternate URL")
-        case .labelEmpty:
-            String(localized: "Invalid Instance Label")
         case .localNetworkDenied:
             String(localized: "Local Network Access Denied")
         case .badAppName:
@@ -43,8 +40,6 @@ extension InstanceError: LocalizedError {
             String(localized: "URL must start with \"http://\" or \"https://\".")
         case .alternateSameAsUrl:
             String(localized: "The Alternate URL must be different from the primary URL.")
-        case .labelEmpty:
-            String(localized: "Enter an instance label.")
         case .localNetworkDenied:
             String(localized: "Local network access must be granted in System Settings to connect to instances on private IP addresses.")
         case .badAppName(let reported, let expected):

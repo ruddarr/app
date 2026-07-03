@@ -8,6 +8,8 @@ extension InstanceEditView {
             sanitizeInstanceUrl()
             try await validateInstance()
 
+            instance.label = instance.label.trimmed()
+
             if instance.label.isEmpty {
                 instance.label = instance.type.rawValue
             }

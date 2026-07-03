@@ -1653,16 +1653,6 @@
         }
       }
     },
-    "Enter an instance label." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter an instance label."
-          }
-        }
-      }
-    },
     "Episode" : {
       "localizations" : {
         "en" : {
@@ -2371,16 +2361,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Invalid Alternate URL"
-          }
-        }
-      }
-    },
-    "Invalid Instance Label" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Invalid Instance Label"
           }
         }
       }
