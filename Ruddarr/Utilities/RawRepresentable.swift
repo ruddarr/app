@@ -25,7 +25,10 @@ extension Array<Instance>: @retroactive RawRepresentable {
             return nil
         }
 
-        self = salvaged.compactMap(\.value)
+        let recovered = salvaged.compactMap(\.value)
+        guard !recovered.isEmpty else { return nil }
+
+        self = recovered
     }
 
     public var rawValue: String {

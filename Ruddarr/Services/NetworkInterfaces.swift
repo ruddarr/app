@@ -79,19 +79,47 @@ enum NetworkInterfaces {
         return result
     }
 
+    /// A single-label host — no dots, no colons (e.g. `nas`). The system resolver treats it as
+    /// an implicit mDNS name, so it is handled like `.local`: never sent to `getaddrinfo`.
+    static func isSingleLabel(_ host: String) -> Bool {
+        !host.contains(".") && !host.contains(":")
+    }
+
+    /// The link-only mDNS/Bonjour suffix and the Tailscale MagicDNS suffix — the single source
+    /// for the special-name knowledge shared by `role`, `dotLocalOnLink`, `shouldResolve` and
+    /// `maskHost`, which must all agree on what never goes to `getaddrinfo`.
+    static let mdnsSuffix = ".local"
+    static let tailnetSuffix = ".ts.net"
+
+    static func isMDNSName(_ host: String) -> Bool { host.lowercased().hasSuffix(mdnsSuffix) }
+    static func isTailnetName(_ host: String) -> Bool { host.lowercased().hasSuffix(tailnetSuffix) }
+
+    /// The 16 network-order bytes of an IPv6 literal, or `nil` for anything that isn't one.
+    static func parseIPv6(_ host: String) -> [UInt8]? {
+        guard let raw = IPv6Address(host)?.rawValue, raw.count == 16 else { return nil }
+        return [UInt8](raw)
+    }
+
+    /// A URL host reduced to its bare form: IPv6 brackets removed and any FQDN root dot dropped
+    /// (`[fd00::1]` → `fd00::1`, `nas.local.` → `nas.local`).
+    static func bareHost(_ host: String) -> String {
+        let unbracketed = host.replacingOccurrences(of: "[", with: "").replacingOccurrences(of: "]", with: "")
+        return unbracketed.hasSuffix(".") ? String(unbracketed.dropLast()) : unbracketed
+    }
+
     static func role(forHost host: String) -> InstanceURLRole {
         let host = host.lowercased()
 
-        if host.hasSuffix(".ts.net") { return .tailscale }
-        if host.hasSuffix(".local") { return .lan }
+        if isTailnetName(host) { return .tailscale }
+        if isMDNSName(host) { return .lan }
+        if isSingleLabel(host) { return .lan } // single-label name — implicit mDNS, like `.local`
 
         if let v4 = parseIPv4(host) {
             if isCarrierGradeNAT(v4) { return .tailscale }
             return isPrivateV4(v4) ? .lan : .remote
         }
 
-        if let raw = IPv6Address(host)?.rawValue, raw.count == 16 {
-            let bytes = [UInt8](raw)
+        if let bytes = parseIPv6(host) {
             if isTailscaleULA(bytes: bytes) { return .tailscale } // fd7a:115c:a1e0::/48
             if isPrivateV6(bytes: bytes) { return .lan }          // fc00::/7, fe80::/10, ::1
             return .remote
@@ -101,11 +129,10 @@ enum NetworkInterfaces {
     }
 
     /// Extracts the host from a base URL string (e.g. `https://10.0.0.5:7878`),
-    /// stripping any IPv6 brackets.
+    /// stripping any IPv6 brackets and FQDN root dot.
     static func host(of base: String) -> String? {
         guard let host = URLComponents(string: base)?.host else { return nil }
-        let unbracketed = host.replacingOccurrences(of: "[", with: "").replacingOccurrences(of: "]", with: "")
-        return unbracketed.hasSuffix(".") ? String(unbracketed.dropLast()) : unbracketed // FQDN root dot: nas.local. == nas.local
+        return bareHost(host)
     }
 
     /// Buckets a host by the addresses it actually resolves to on the current network.
@@ -117,7 +144,7 @@ enum NetworkInterfaces {
         let v6 = ipv6.map(ipv6Bytes)
 
         if ipv4.contains(where: isLoopbackV4) || v6.contains(where: { isLoopbackV6(bytes: $0) }) {
-            return ResolvedHost(role: .lan, onLink: true) // a name that resolves to loopback (e.g. `localhost`)
+            return ResolvedHost(role: .lan, onLink: true, isLoopback: true) // a name that resolves to loopback (e.g. `localhost`)
         }
 
         if ipv4.contains(where: { snapshot.isOnLink($0) }) || v6.contains(where: { snapshot.isOnLink($0) }) {
@@ -151,32 +178,36 @@ enum NetworkInterfaces {
         }
     }
 
-    /// On-link test for a *literal* IP host (v4 or v6) — used when a candidate is an IP
-    /// address rather than a name that needs resolving.
-    private static func literalOnLink(_ host: String, snapshot: NetworkSnapshot) -> Bool {
-        if let v4 = parseIPv4(host) { return isLoopbackV4(v4) || snapshot.isOnLink(v4) }
-        if let v6 = IPv6Address(host)?.rawValue, v6.count == 16 {
-            let bytes = [UInt8](v6)
-            return isLoopbackV6(bytes: bytes) || snapshot.isOnLink(bytes)
+    /// A *literal* IP host's on-link and loopback facts from a single parse, or `nil` when the
+    /// host isn't an IP literal (a name classified lexically / by resolution instead).
+    private static func literalReachability(_ host: String, snapshot: NetworkSnapshot) -> (onLink: Bool, isLoopback: Bool)? {
+        if let v4 = parseIPv4(host) {
+            let loopback = isLoopbackV4(v4)
+            return (loopback || snapshot.isOnLink(v4), loopback)
         }
-        return false
+        if let bytes = parseIPv6(host) {
+            let loopback = isLoopbackV6(bytes: bytes)
+            return (loopback || snapshot.isOnLink(bytes), loopback)
+        }
+        return nil
     }
 
     /// Whether a *literal* IP host is loopback (`127.0.0.0/8` or `::1`). Loopback is not gated
     /// by the Local Network permission, so it stays preferred even when access is denied.
-    private static func literalLoopback(_ host: String) -> Bool {
+    static func literalLoopback(_ host: String) -> Bool {
         if let v4 = parseIPv4(host) { return isLoopbackV4(v4) }
-        if let v6 = IPv6Address(host)?.rawValue, v6.count == 16 { return isLoopbackV6(bytes: [UInt8](v6)) }
+        if let bytes = parseIPv6(host) { return isLoopbackV6(bytes: bytes) }
         return false
     }
 
-    /// A `.local` (mDNS/Bonjour) name resolves only over the local link, and is never sent
-    /// to `getaddrinfo`, so it can't be classified by address. Treat it as on-link exactly
-    /// when the device has an `en*` LAN up: at home that makes it outrank remote/Tailscale
-    /// as intended; away (no LAN) it stays off-link and correctly loses, since it couldn't
-    /// resolve there anyway. A wrong pick on some other LAN fails fast and demotes.
+    /// A `.local` (mDNS/Bonjour) name — or a single-label host, which the resolver treats the
+    /// same way (`shouldResolve` sends neither to `getaddrinfo`) — resolves only over the local
+    /// link, so it can't be classified by address. Treat it as on-link exactly when the device
+    /// has an `en*` LAN up: at home that makes it outrank remote/Tailscale as intended; away
+    /// (no LAN) it stays off-link and correctly loses, since it couldn't resolve there anyway.
+    /// A wrong pick on some other LAN fails fast and demotes.
     private static func dotLocalOnLink(_ host: String, snapshot: NetworkSnapshot) -> Bool {
-        host.lowercased().hasSuffix(".local") && snapshot.hasLAN
+        (isMDNSName(host) || isSingleLabel(host)) && snapshot.hasLAN
     }
 
     /// One candidate's standing on the current network: its role, whether it is on-link,
@@ -205,19 +236,23 @@ enum NetworkInterfaces {
 
             let chosenRole: InstanceURLRole
             let onLink: Bool
+            let isLoopback: Bool
 
             if let resolution = resolved[host] {
                 chosenRole = resolution.role
                 onLink = resolution.onLink
+                isLoopback = resolution.isLoopback
             } else {
+                let literal = literalReachability(host, snapshot: snapshot)
                 switch role(forHost: host) {
-                case .lan: chosenRole = .lan; onLink = literalOnLink(host, snapshot: snapshot) || dotLocalOnLink(host, snapshot: snapshot)
+                case .lan: chosenRole = .lan; onLink = literal?.onLink ?? dotLocalOnLink(host, snapshot: snapshot)
                 case .tailscale: chosenRole = .tailscale; onLink = false
                 case .remote: chosenRole = .remote; onLink = false
                 }
+                isLoopback = literal?.isLoopback ?? false
             }
 
-            return (chosenRole, onLink, score(role: chosenRole, onLink: onLink, snapshot: snapshot, isLoopback: literalLoopback(host)))
+            return (chosenRole, onLink, score(role: chosenRole, onLink: onLink, snapshot: snapshot, isLoopback: isLoopback))
         }
 
         return candidates.enumerated().map { offset, base -> (offset: Int, ranking: CandidateRanking) in

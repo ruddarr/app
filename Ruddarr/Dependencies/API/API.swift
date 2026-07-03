@@ -67,6 +67,7 @@ extension API {
         url: URL,
         headers: [String: String] = [:],
         body: Body? = nil,
+        instance: Instance? = nil,
         timeout: RequestTimeout = .default,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
@@ -87,10 +88,11 @@ extension API {
             request.httpBody = try encoder.encode(body)
         }
 
-        if !headers.isEmpty {
-            for (key, value) in headers.sorted(by: { $0.key < $1.key }) {
-                request.addValue(value, forHTTPHeaderField: key)
-            }
+        var effectiveHeaders = instance?.auth ?? [:]
+        effectiveHeaders.merge(headers) { _, explicit in explicit }
+
+        for (key, value) in effectiveHeaders.sorted(by: { $0.key < $1.key }) {
+            request.addValue(value, forHTTPHeaderField: key)
         }
 
         // leaveBreadcrumb(.debug, category: "api", message: "Sending request", data: [
@@ -140,7 +142,9 @@ extension API {
         let httpResponse: HTTPURLResponse? = response as? HTTPURLResponse
         let statusCode: Int = httpResponse?.statusCode ?? 599
 
-        InstanceResolver.shared.noteSuccess(for: url)
+        if let instance {
+            InstanceResolver.shared.noteSuccess(for: url, instance: instance)
+        }
 
         // print(String(data: data, encoding: .utf8) ?? "non-utf8 response")
         // leaveBreadcrumb(.debug, category: "api", message: "Response headers (\(statusCode))", data: parseResponseHeaders(httpResponse))
@@ -190,6 +194,7 @@ extension API {
         method: HTTPMethod = .get,
         url: URL,
         headers: [String: String] = [:],
+        instance: Instance? = nil,
         timeout: RequestTimeout = .default,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
@@ -200,7 +205,54 @@ extension API {
             url: url,
             headers: headers,
             body: Empty?.none,
+            instance: instance,
             timeout: timeout,
+            decoder: decoder,
+            encoder: encoder,
+            session: session
+        )
+    }
+
+    static func request<Body: Encodable, Response: Decodable>(
+        method: HTTPMethod = .get,
+        url: URL,
+        headers: [String: String] = [:],
+        body: Body? = nil,
+        instance: Instance? = nil,
+        timeout: InstanceTimeout,
+        decoder: JSONDecoder = .init(),
+        encoder: JSONEncoder = .init(),
+        session: URLSession = .shared
+    ) async throws -> Response {
+        try await request(
+            method: method,
+            url: url,
+            headers: headers,
+            body: body,
+            instance: instance,
+            timeout: instance?.timeout(timeout) ?? .default,
+            decoder: decoder,
+            encoder: encoder,
+            session: session
+        )
+    }
+
+    static func request<Response: Decodable>(
+        method: HTTPMethod = .get,
+        url: URL,
+        headers: [String: String] = [:],
+        instance: Instance? = nil,
+        timeout: InstanceTimeout,
+        decoder: JSONDecoder = .init(),
+        encoder: JSONEncoder = .init(),
+        session: URLSession = .shared
+    ) async throws -> Response {
+        try await request(
+            method: method,
+            url: url,
+            headers: headers,
+            instance: instance,
+            timeout: instance?.timeout(timeout) ?? .default,
             decoder: decoder,
             encoder: encoder,
             session: session

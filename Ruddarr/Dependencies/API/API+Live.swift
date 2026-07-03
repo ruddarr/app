@@ -6,7 +6,7 @@ extension API {
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/movie")
 
-            var movies: [Movie] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            var movies: [Movie] = try await request(url: url, instance: instance, timeout: .slow)
             for i in movies.indices { movies[i].instanceId = instance.id }
             return movies
         }, lookupMovies: { instance, query in
@@ -14,19 +14,19 @@ extension API {
                 .appending(path: "/api/v3/movie/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.sluggish))
+            return try await request(url: url, instance: instance, timeout: .sluggish)
         }, lookupMovieReleases: { movieId, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/release")
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
+            return try await request(url: url, instance: instance, timeout: .releaseSearch)
         }, getMovie: { movieId, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/movie")
                 .appending(path: String(movieId))
 
-            var movie: Movie = try await request(url: url, headers: instance.auth)
+            var movie: Movie = try await request(url: url, instance: instance)
             movie.instanceId = instance.id
             return movie
         }, getMovieHistory: { movieId, instance in
@@ -34,24 +34,24 @@ extension API {
                 .appending(path: "/api/v3/history/movie")
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, instance: instance)
         }, getMovieFiles: { movieId, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/moviefile")
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, instance: instance)
         }, getMovieExtraFiles: { movieId, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/extrafile")
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, instance: instance)
         }, addMovie: { movie, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/movie")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: movie)
+            return try await request(method: .post, url: url, body: movie, instance: instance)
         }, updateMovie: { movie, moveFiles, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/movie/editor")
@@ -67,7 +67,7 @@ extension API {
                 moveFiles: moveFiles ? true : nil
             )
 
-            return try await request(method: .put, url: url, headers: instance.auth, body: body)
+            return try await request(method: .put, url: url, body: body, instance: instance)
         }, deleteMovie: { movie, addExclusion, deleteFildes, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/movie")
@@ -77,18 +77,18 @@ extension API {
                     .init(name: "addImportExclusion", value: addExclusion ? "true" : "false"),
                 ])
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
+            return try await request(method: .delete, url: url, instance: instance)
         }, deleteMovieFile: { file, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/moviefile")
                 .appending(path: String(file.id))
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
+            return try await request(method: .delete, url: url, instance: instance)
         }, fetchSeries: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/series")
 
-            var series: [Series] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            var series: [Series] = try await request(url: url, instance: instance, timeout: .slow)
             for i in series.indices { series[i].instanceId = instance.id }
             return series
         }, fetchEpisodes: { seriesId, instance in
@@ -96,7 +96,7 @@ extension API {
                 .appending(path: "/api/v3/episode")
                 .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
 
-            var episodes: [Episode] = try await request(url: url, headers: instance.auth)
+            var episodes: [Episode] = try await request(url: url, instance: instance)
             for i in episodes.indices { episodes[i].instanceId = instance.id; episodes[i].series?.instanceId = instance.id }
             return episodes
         }, fetchEpisodeFiles: { seriesId, instance in
@@ -104,13 +104,13 @@ extension API {
                 .appending(path: "/api/v3/episodeFile")
                 .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, instance: instance)
         }, lookupSeries: { instance, query in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/series/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.sluggish))
+            return try await request(url: url, instance: instance, timeout: .sluggish)
         }, lookupSeriesReleases: { seriesId, seasonId, episodeId, instance in
             var url = try instance.baseURL()
                 .appending(path: "/api/v3/release")
@@ -121,26 +121,26 @@ extension API {
                 url = url.appending(queryItems: [.init(name: "seriesId", value: String(seriesId!)), .init(name: "seasonNumber", value: String(seasonId!))])
             }
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.releaseSearch))
+            return try await request(url: url, instance: instance, timeout: .releaseSearch)
         }, getSeries: { seriesId, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/series")
                 .appending(path: String(seriesId))
 
-            var series: Series = try await request(url: url, headers: instance.auth)
+            var series: Series = try await request(url: url, instance: instance)
             series.instanceId = instance.id
             return series
         }, addSeries: { series, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/series")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: series)
+            return try await request(method: .post, url: url, body: series, instance: instance)
         }, pushSeries: { series, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/series")
                 .appending(path: String(series.id))
 
-            return try await request(method: .put, url: url, headers: instance.auth, body: series)
+            return try await request(method: .put, url: url, body: series, instance: instance)
         }, updateSeries: { series, moveFiles, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/series/editor")
@@ -158,7 +158,7 @@ extension API {
                 moveFiles: moveFiles ? true : nil
             )
 
-            return try await request(method: .put, url: url, headers: instance.auth, body: body)
+            return try await request(method: .put, url: url, body: body, instance: instance)
         }, deleteSeries: { series, addExclusion, deleteFiles, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/series")
@@ -168,33 +168,33 @@ extension API {
                     .init(name: "addImportListExclusion", value: addExclusion ? "true" : "false"),
                 ])
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
+            return try await request(method: .delete, url: url, instance: instance)
         }, monitorEpisode: { ids, monitored, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/episode/monitor")
 
             let body = EpisodesMonitorResource(episodeIds: ids, monitored: monitored)
 
-            return try await request(method: .put, url: url, headers: instance.auth, body: body)
+            return try await request(method: .put, url: url, body: body, instance: instance)
         }, getEpisodeHistory: { id, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/history")
                 .appending(queryItems: [.init(name: "episodeId", value: String(id))])
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, instance: instance)
         }, deleteEpisodeFile: { file, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/episodefile")
                 .appending(path: String(file.id))
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
+            return try await request(method: .delete, url: url, instance: instance)
         }, deleteEpisodeFiles: { files, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/episodefile/bulk")
 
             let body = EpisodeDeleteResource(episodeFileIds: files.map(\.id))
 
-            return try await request(method: .delete, url: url, headers: instance.auth, body: body)
+            return try await request(method: .delete, url: url, body: body, instance: instance)
         }, movieCalendar: { start, end, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/calendar")
@@ -204,7 +204,7 @@ extension API {
                     .init(name: "end", value: end.formatted(.iso8601)),
                 ])
 
-            var movies: [Movie] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            var movies: [Movie] = try await request(url: url, instance: instance, timeout: .slow)
             for i in movies.indices { movies[i].instanceId = instance.id }
             return movies
         }, episodeCalendar: { start, end, instance in
@@ -217,43 +217,43 @@ extension API {
                     .init(name: "end", value: end.formatted(.iso8601)),
                 ])
 
-            var episodes: [Episode] = try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            var episodes: [Episode] = try await request(url: url, instance: instance, timeout: .slow)
             for i in episodes.indices { episodes[i].instanceId = instance.id; episodes[i].series?.instanceId = instance.id }
             return episodes
         }, command: { command, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/command")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: command.payload)
+            return try await request(method: .post, url: url, body: command.payload, instance: instance)
         }, downloadRelease: { payload, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/release")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: payload, timeout: instance.timeout(.sluggish))
+            return try await request(method: .post, url: url, body: payload, instance: instance, timeout: .sluggish)
         }, systemStatus: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/system/status")
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, instance: instance)
         }, rootFolders: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/rootfolder")
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.slow))
+            return try await request(url: url, instance: instance, timeout: .slow)
         }, qualityProfiles: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/qualityprofile")
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, instance: instance)
         }, fetchDiskSpace: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/diskspace")
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, instance: instance)
         }, getTags: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/tag")
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, instance: instance)
         }, fetchQueueTasks: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/queue")
@@ -264,7 +264,7 @@ extension API {
                     .init(name: "pageSize", value: "100"),
                 ])
 
-            var items: QueueItems = try await request(url: url, headers: instance.auth)
+            var items: QueueItems = try await request(url: url, instance: instance)
             for i in items.records.indices { items.records[i].instanceId = instance.id }
             return items
         }, deleteQueueTask: { task, remove, block, search, instance in
@@ -277,7 +277,7 @@ extension API {
                     .init(name: "skipRedownload", value: search ? "false" : "true"),
                 ])
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
+            return try await request(method: .delete, url: url, instance: instance)
         }, fetchImportableFiles: { downloadId, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/manualimport")
@@ -286,7 +286,7 @@ extension API {
                     .init(name: "filterExistingFiles", value: "false"),
                 ])
 
-            return try await request(url: url, headers: instance.auth, timeout: instance.timeout(.sluggish))
+            return try await request(url: url, instance: instance, timeout: .sluggish)
         }, fetchHistory: { type, page, limit, instance in
             var url = try instance.baseURL()
                 .appending(path: "/api/v3/history")
@@ -299,31 +299,31 @@ extension API {
                 url = url.appending(queryItems: [.init(name: "eventType", value: String(type))])
             }
 
-            var history: MediaHistory = try await request(url: url, headers: instance.auth)
+            var history: MediaHistory = try await request(url: url, instance: instance)
             for i in history.records.indices { history.records[i].instanceId = instance.id }
             return history
         }, fetchNotifications: { instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/notification")
 
-            return try await request(url: url, headers: instance.auth)
+            return try await request(url: url, instance: instance)
         }, createNotification: { model, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/notification")
 
-            return try await request(method: .post, url: url, headers: instance.auth, body: model)
+            return try await request(method: .post, url: url, body: model, instance: instance)
         }, updateNotification: { model, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/notification")
                 .appending(path: String(model.id ?? 0))
 
-            return try await request(method: .put, url: url, headers: instance.auth, body: model)
+            return try await request(method: .put, url: url, body: model, instance: instance)
         }, deleteNotification: { model, instance in
             let url = try instance.baseURL()
                 .appending(path: "/api/v3/notification")
                 .appending(path: String(model.id ?? 0))
 
-            return try await request(method: .delete, url: url, headers: instance.auth)
+            return try await request(method: .delete, url: url, instance: instance)
         })
     }
 }

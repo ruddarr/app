@@ -1,4 +1,3 @@
-import Network
 import Foundation
 
 /// The wait budget for an API request, split by the candidate URL's locality: a LAN candidate
@@ -37,8 +36,7 @@ func isPrivateIpAddress(_ ipAddress: String) -> Bool {
         return NetworkInterfaces.isPrivateV4(v4) || NetworkInterfaces.isCarrierGradeNAT(v4)
     }
 
-    if let v6 = IPv6Address(ipAddress)?.rawValue, v6.count == 16 {
-        let bytes = [UInt8](v6)
+    if let bytes = NetworkInterfaces.parseIPv6(ipAddress) {
         return NetworkInterfaces.isPrivateV6(bytes: bytes) || NetworkInterfaces.isTailscaleULA(bytes: bytes)
     }
 

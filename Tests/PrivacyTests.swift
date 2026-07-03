@@ -28,8 +28,24 @@ struct PrivacyTests {
         #expect(maskedURL("https://[2600:1700:abcd:1::50]/x") == "https://[2600::*]/x")                 // global: a little shown
     }
 
-    @Test func masksOnlyTheHostLeavingUserinfoAndQuery() {
+    @Test func masksUserinfoAndHostKeepingPathAndQuery() {
+        // Credentials are fully replaced by five stars each, regardless of their length.
         #expect(maskedURL("https://user:pass@radarr.myddns.net/api/v3/movie?term=dune&page=2")
-            == "https://user:pass@rad***.myd***.net/api/v3/movie?term=dune&page=2")
+            == "https://*****:*****@rad***.myd***.net/api/v3/movie?term=dune&page=2")
+        #expect(maskedURL("http://admin:supersecretlongpassword@10.0.1.5:7878/x")
+            == "http://*****:*****@10.0.*.*:7878/x")
+        // Username only, no password.
+        #expect(maskedURL("http://tokenonly@nas.local:8989/api")
+            == "http://*****@na*.local:8989/api")
+        // A username equal to the host no longer leaks the real host (rebuilt from the authority
+        // component, not a first-occurrence string search).
+        #expect(maskedURL("https://radarr.myddns.net@radarr.myddns.net/api")
+            == "https://*****@rad***.myd***.net/api")
+    }
+
+    @Test func masksSubnetCIDRsWithTheSamePolicyAsHosts() {
+        #expect(maskedCIDR("192.168.42.0/24") == "192.168.*.*/24")
+        #expect(maskedCIDR("10.0.1.0/24") == "10.0.*.*/24")
+        #expect(maskedCIDR("2001:db8:abcd:1:0:0:0:0/64") == "2001::*/64")
     }
 }

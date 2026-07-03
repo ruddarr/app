@@ -1,3 +1,4 @@
+import os
 import Network
 import Foundation
 
@@ -7,21 +8,24 @@ actor NetworkMonitor {
     let monitor = NWPathMonitor()
 
     private var status: NWPath.Status = .requiresConnection
-    private var unsatisfiedReason: NWPath.UnsatisfiedReason?
     private var pathSignature: String?
+
+    private let pathSequence = OSAllocatedUnfairLock(initialState: 0)
+    private var lastSequence = 0
 
     var isReachable: Bool {
         status == .satisfied
     }
 
     var localNetworkDenied: Bool {
-        unsatisfiedReason == .localNetworkDenied
+        LocalNetworkAccess.isDenied
     }
 
     func start() {
         monitor.pathUpdateHandler = { path in
+            let sequence = self.pathSequence.withLock { $0 += 1; return $0 }
             Task {
-                await self.update(from: path)
+                await self.update(from: path, sequence: sequence)
             }
         }
 
@@ -33,9 +37,11 @@ actor NetworkMonitor {
         monitor.cancel()
     }
 
-    private func update(from path: NWPath) {
+    private func update(from path: NWPath, sequence: Int) {
+        guard sequence > lastSequence else { return }
+        lastSequence = sequence
+
         self.status = path.status
-        self.unsatisfiedReason = path.unsatisfiedReason
         LocalNetworkAccess.setDenied(path.unsatisfiedReason == .localNetworkDenied)
 
         let signature = Self.signature(of: path, identity: NetworkSnapshot.capture().identity)

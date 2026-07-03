@@ -162,10 +162,7 @@ extension AppSettings {
         ]
 
         for instance in configuredInstances {
-            let id = instance.id.shortened
-            let type = instance.type.rawValue.lowercased()
-
-            context["\(type)-\(id)"] = [
+            context[instance.contextKey] = [
                 "mode": instance.mode.value,
                 "version": instance.version as Any,
                 "webhook": Occurrence.date(of: "webhookUpdated:\(instance.id)")?

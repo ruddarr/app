@@ -88,7 +88,6 @@ final class InstancesStore {
     func setInstances(_ new: [Instance]) {
         guard new != instances else { return }
         write(new)
-        InstanceResolver.shared.pruneRoutes(keeping: new)
     }
 
     func reset() {
