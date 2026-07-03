@@ -129,6 +129,7 @@ struct CalendarView: View {
                 }
 
                 CalendarDate(date: date).offset(x: -6)
+                    .geometryGroup()
 
                 media(
                     date: date,
@@ -138,6 +139,11 @@ struct CalendarView: View {
                 )
             }
         }
+        .animation(.snappy, value: CalendarContentSignature(
+            dates: calendar.dates,
+            movies: moviesByDate.mapValues { $0.map(\.id) },
+            episodes: episodesByDate.mapValues { $0.map(\.id) }
+        ))
     }
 
     func syncInstances() {
@@ -307,6 +313,7 @@ struct CalendarView: View {
             Spacer()
         }
         .padding(.top, 4)
+        .geometryGroup()
     }
 
     var contentUnavailable: some View {
@@ -328,6 +335,12 @@ struct CalendarView: View {
             selection.jumpToTab()
         #endif
     }
+}
+
+private struct CalendarContentSignature: Equatable {
+    var dates: [TimeInterval]
+    var movies: [TimeInterval: [Movie.ID]]
+    var episodes: [TimeInterval: [Episode.ID]]
 }
 
 #Preview {
