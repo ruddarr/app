@@ -44,6 +44,17 @@
         }
       }
     },
+    "%@ free" : {
+      "comment" : "%@ = Available disk space",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ free"
+          }
+        }
+      }
+    },
     "%@ years" : {
       "localizations" : {
         "en" : {
@@ -1440,6 +1451,9 @@
           }
         }
       }
+    },
+    "Displayed storage reflects the available space." : {
+
     },
     "Download" : {
       "comment" : "Short version of Download Release",

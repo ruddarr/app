@@ -116,7 +116,8 @@ struct SeriesForm: View {
     var rootFolderField: some View {
         Picker("Root Folder", selection: $series.rootFolderPath) {
             ForEach(instance.rootFolders) { folder in
-                Text(folder.label).tag(folder.path)
+                folder.labelWithSpace
+                    .tag(folder.path)
             }
         }
         .pickerStyle(.inline)

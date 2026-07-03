@@ -200,6 +200,24 @@ struct InstanceRootFolder: Identifiable, Equatable, Codable, Hashable {
 
         return String(last)
     }
+
+    var labelWithSpace: Text {
+        var string = AttributedString(label)
+
+        if let freeSpace {
+            string += AttributedString("\u{00A0}\u{00A0}")
+
+            var size = AttributedString(
+                String(localized: "\(formatBytes(freeSpace)) free", comment: "%@ = Available disk space")
+            )
+
+            size.font = .footnote
+            size.foregroundColor = .secondary
+            string += size
+        }
+
+        return Text(string)
+    }
 }
 
 struct InstanceQualityProfile: Identifiable, Equatable, Codable {
@@ -280,6 +298,7 @@ extension Instance {
         instance.apiKey = "3b0600c1b3aa42bfb0222f4e13a81f39"
         instance.rootFolders = [
             InstanceRootFolder(id: 1, accessible: true, path: "/volume1/Media/Movies", freeSpace: 1_000_000_000),
+            InstanceRootFolder(id: 2, accessible: true, path: "/Media/Films", freeSpace: 50_000_000_000),
         ]
         instance.qualityProfiles = [
             InstanceQualityProfile(id: 1, name: "Any"),
@@ -302,7 +321,7 @@ extension Instance {
         instance.apiKey = "f8e3682b3b984cddbaa00047a09d0fbd"
         instance.rootFolders = [
             InstanceRootFolder(id: 1, accessible: true, path: "/volume1/Media/TV Series", freeSpace: 2_000_000_000),
-            InstanceRootFolder(id: 2, accessible: true, path: "/volume2/Media/Docuseries", freeSpace: 2_000_000_000),
+            InstanceRootFolder(id: 2, accessible: true, path: "/Media/Docuseries", freeSpace: 20_000_000_000),
         ]
         instance.qualityProfiles = [
             InstanceQualityProfile(id: 1, name: "Any"),

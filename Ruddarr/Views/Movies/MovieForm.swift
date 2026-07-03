@@ -117,10 +117,11 @@ struct MovieForm: View {
     var rootFolderField: some View {
         Picker("Root Folder", selection: $movie.rootFolderPath) {
             ForEach(instance.rootFolders) { folder in
-                Text(folder.label).tag(folder.path)
+                folder.labelWithSpace
+                    .tag(folder.path)
             }
         }
-        .pickerStyle(InlinePickerStyle())
+        .pickerStyle(.inline)
         .tint(settings.theme.tint)
         .accentColor(settings.theme.tint) // `.tint()` is broken on inline pickers
     }
