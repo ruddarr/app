@@ -84,12 +84,22 @@ struct InstanceEditView: View {
             typeField
             labelField
             urlField
+
+            if showAdvanced || !instance.alternateURL.isEmpty {
+                alternateField
+            }
         } footer: {
-            Text("The URL used to access the \(instance.type.rawValue) web interface.")
-                #if os(macOS)
-                .foregroundStyle(.secondary)
-                .font(.footnote)
-                #endif
+            VStack(alignment: .leading, spacing: 6) {
+                Text("The URL used to access the \(instance.type.rawValue) web interface.")
+
+                if showAdvanced || !instance.alternateURL.isEmpty {
+                    Text("When using an Alternate URL, \(Ruddarr.name) automatically connects to the best URL for the network, whether local, VPN, or remote.")
+                }
+            }
+            #if os(macOS)
+            .foregroundStyle(.secondary)
+            .font(.footnote)
+            #endif
         }
     }
 
@@ -146,7 +156,7 @@ struct InstanceEditView: View {
             Text("URL")
                 .layoutPriority(2)
 
-            TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
+            TextField(text: $instance.url, prompt: urlPlaceholder) { EmptyView() }
                 .truncationMode(.head)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)
@@ -157,6 +167,23 @@ struct InstanceEditView: View {
                 .keyboardType(.URL)
                 #endif
 
+        }
+    }
+
+    var alternateField: some View {
+        HStack(spacing: 24) {
+            Text("Alternate URL")
+                .layoutPriority(2)
+
+            TextField(text: $instance.alternateURL, prompt: alternateUrlPlaceholder) { EmptyView() }
+                .truncationMode(.head)
+                .autocorrectionDisabled(true)
+                .textCase(.lowercase)
+                #if os(iOS)
+                .multilineTextAlignment(.trailing)
+                .textInputAutocapitalization(.never)
+                .keyboardType(.URL)
+                #endif
         }
     }
 
@@ -244,11 +271,26 @@ struct InstanceEditView: View {
         }
     }
 
-    var urlPlaceholder: String {
+    var ipPlaceholder: String {
         switch instance.type {
         case .radarr: "http://10.0.1.1:7878"
         case .sonarr: "http://10.0.1.1:8989"
         }
+    }
+
+    var tldPlaceholder: String {
+        switch instance.type {
+        case .radarr: "https://radarr.home.net"
+        case .sonarr: "https://sonarr.home.net"
+        }
+    }
+
+    var urlPlaceholder: Text {
+        Text(showAdvanced ? tldPlaceholder : ipPlaceholder)
+    }
+
+    var alternateUrlPlaceholder: Text {
+        Text(showAdvanced ? ipPlaceholder : tldPlaceholder)
     }
 
     var deleteButton: some View {

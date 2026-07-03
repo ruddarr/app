@@ -52,24 +52,33 @@ extension InstanceEditView {
     }
 
     func sanitizeInstanceUrl() {
-        if let url = URL(string: instance.url) {
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+        instance.url = sanitizedUrl(instance.url)
+        instance.alternateURL = sanitizedUrl(instance.alternateURL)
+    }
 
+    func sanitizedUrl(_ string: String) -> String {
+        var value = string.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !value.isEmpty else { return "" }
+
+        if let url = URL(string: value), var components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
             components.path = stripAfter("/system", in: components.path)
             components.path = stripAfter("/settings", in: components.path)
             components.path = stripAfter("/activity", in: components.path)
             components.path = stripAfter("/calendar", in: components.path)
 
             if let urlWithoutPath = components.url {
-                instance.url = urlWithoutPath.absoluteString
+                value = urlWithoutPath.absoluteString
             }
         }
 
-        instance.url = instance.url.lowercased()
+        value = value.lowercased()
 
-        if instance.url.hasSuffix("/") {
-            instance.url = String(instance.url.dropLast())
+        if value.hasSuffix("/") {
+            value = String(value.dropLast())
         }
+
+        return value
     }
 
     func stripAfter(_ path: String, in string: String) -> String {
@@ -81,19 +90,10 @@ extension InstanceEditView {
     }
 
     func validateInstance() async throws {
-        guard instance.url.starts(with: /https?:\/\//) else {
-            throw InstanceError.urlSchemeMissing
-        }
+        try validatePrimaryURL()
+        try validateAlternateURL()
 
-        guard let url = URL(string: instance.url) else {
-            throw InstanceError.urlNotValid
-        }
-
-        if ["localhost", "127.0.0.1"].contains(url.host()) {
-            throw InstanceError.urlIsLocal
-        }
-
-        if instance.isPrivateIp(), await NetworkMonitor.shared.localNetworkDenied {
+        if instance.isPrivateIp(primaryOnly: true), await NetworkMonitor.shared.localNetworkDenied {
             throw InstanceError.localNetworkDenied
         }
 
@@ -118,6 +118,43 @@ extension InstanceEditView {
         if let status {
             instance.name = status.instanceName
             instance.version = status.version
+        }
+    }
+
+    func validatePrimaryURL() throws {
+        guard instance.url.starts(with: /https?:\/\//) else {
+            throw InstanceError.urlSchemeMissing
+        }
+
+        guard let url = URL(string: instance.url) else {
+            throw InstanceError.urlNotValid
+        }
+
+        let host = NetworkInterfaces.host(of: instance.url) ?? url.host() ?? ""
+        if host == "localhost" || NetworkInterfaces.literalLoopback(host) {
+            throw InstanceError.urlIsLocal
+        }
+    }
+
+    func validateAlternateURL() throws {
+        guard !instance.alternateURL.isEmpty else { return }
+
+        guard instance.alternateURL.starts(with: /https?:\/\//) else {
+            throw InstanceError.alternateUrlSchemeMissing
+        }
+
+        guard let alternateURL = URL(string: instance.alternateURL) else {
+            throw InstanceError.alternateUrlNotValid
+        }
+
+        let alternateHost = NetworkInterfaces.host(of: instance.alternateURL) ?? alternateURL.host() ?? ""
+
+        if alternateHost == "localhost" || NetworkInterfaces.literalLoopback(alternateHost) {
+            throw InstanceError.alternateUrlNotValid
+        }
+
+        if instance.candidateURLs.count < 2 {
+            throw InstanceError.alternateSameAsUrl
         }
     }
 

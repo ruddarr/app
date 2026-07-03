@@ -37,14 +37,10 @@ extension InstanceError: LocalizedError {
         switch self {
         case .urlIsLocal:
             String(localized: "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work.")
-        case .urlNotValid:
+        case .urlNotValid, .alternateUrlNotValid:
             String(localized: "Enter a valid URL.")
-        case .urlSchemeMissing:
+        case .urlSchemeMissing, .alternateUrlSchemeMissing:
             String(localized: "URL must start with \"http://\" or \"https://\".")
-        case .alternateUrlNotValid:
-            String(localized: "Enter a valid Alternate URL.")
-        case .alternateUrlSchemeMissing:
-            String(localized: "Alternate URL must start with \"http://\" or \"https://\".")
         case .alternateSameAsUrl:
             String(localized: "The Alternate URL must be different from the primary URL.")
         case .labelEmpty:
