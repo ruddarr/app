@@ -118,6 +118,10 @@ extension AppSettings {
         stored.tags = instance.tags
         stored.stats = instance.stats
 
+        if let version = instance.version {
+            stored.version = version
+        }
+
         saveInstance(stored)
     }
 

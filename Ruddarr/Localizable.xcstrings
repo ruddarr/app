@@ -1452,8 +1452,15 @@
         }
       }
     },
-    "Displayed storage reflects the available space." : {
-
+    "Displayed storage reflects the available and total disk space." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Displayed storage reflects the available and total disk space."
+          }
+        }
+      }
     },
     "Download" : {
       "comment" : "Short version of Download Release",

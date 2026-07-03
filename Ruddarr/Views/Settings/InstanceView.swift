@@ -14,21 +14,24 @@ struct InstanceView: View {
 
     @State var webhook: InstanceWebhook
 
-    @State var notificationsAllowed: Bool = false
-    @State var instanceNotifications: Bool = false
     @State var entitledToService: Bool = false
     @State var showSubscription: Bool = false
+
+    @State var notificationsAllowed: Bool = false
+    @State var instanceNotifications: Bool = false
+
     @State var cloudKitStatus: CKAccountStatus = .couldNotDetermine
     @State var cloudKitUserId: CKRecord.ID?
 
+    @State var version: String?
     @State var libraryState: MetadataState<InstanceStats> = .idle
+    @State var libraryRefreshing: Bool = false
     @State var diskSpaceState: MetadataState<[InstanceDiskSpace]> = .idle
     @State var diskSpaceExpanded: Bool = false
 
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
-    @Environment(\.deviceType) var deviceType
 
     var body: some View {
         Form {

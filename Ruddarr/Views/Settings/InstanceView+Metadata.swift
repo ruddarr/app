@@ -1,17 +1,5 @@
 import SwiftUI
 
-enum MetadataState<Value> {
-    case idle
-    case loading
-    case loaded(Value)
-    case failed
-
-    var isLoading: Bool {
-        if case .loading = self { return true }
-        return false
-    }
-}
-
 extension InstanceView {
     var summaryParts: [String] {
         var parts: [String] = []
@@ -23,14 +11,19 @@ extension InstanceView {
 
             if instance.type == .sonarr {
                 parts.append(String(localized: "\(stats.series) Series"))
-                parts.append(String(localized: "\(stats.episodes) Episode"))
+
+                if stats.episodes > 0 {
+                    parts.append(String(localized: "\(stats.episodes) Episode"))
+                }
             }
 
-            parts.append(formatBytes(stats.size))
+            if stats.size > 0 {
+                parts.append(formatBytes(stats.size))
+            }
         }
 
-        if let version = instance.version {
-            parts.append(version)
+        if let version = version ?? instance.version {
+            parts.append("v\(version)")
         }
 
         return parts
@@ -38,114 +31,20 @@ extension InstanceView {
 
     @ViewBuilder
     var metadataFooter: some View {
-        HStack(spacing: 6) {
-            Text(verbatim: summaryParts.joined(separator: " • "))
-                .contentTransition(.numericText())
-
-            if libraryState.isLoading {
+        ZStack(alignment: .leading) {
+            if metadataReady {
+                Text(verbatim: summaryParts.joined(separator: " • "))
+                    .contentTransition(.numericText())
+                    .transition(.opacity)
+            } else {
                 ProgressView()
                     .controlSize(.small)
                     .tint(.secondary)
                     .transition(.opacity)
             }
         }
+        .animation(.snappy, value: metadataReady)
         .animation(.snappy, value: summaryParts)
-    }
-
-    var diskSpaceUnavailable: Bool {
-        switch diskSpaceState {
-        case .loaded(let locations): locations.isEmpty
-        case .failed: true
-        case .idle, .loading: false
-        }
-    }
-
-    @ViewBuilder
-    var diskSpaceSection: some View {
-        Section {
-            diskSpaceLocations
-        } header: {
-            diskSpaceHeader
-        }
-        #if os(iOS)
-            .listSectionSpacing(diskSpaceExpanded ? .default : .compact)
-        #endif
-    }
-
-    @ViewBuilder
-    var diskSpaceLocations: some View {
-        if diskSpaceExpanded || deviceType == .mac {
-            switch diskSpaceState {
-            case .loaded(let locations):
-                ForEach(locations) { location in
-                    LabeledContent {
-                        Text(verbatim: "%@ / %@".placeholders(
-                            formatBytes(location.freeSpace),
-                            formatBytes(location.totalSpace)
-                        ))
-                        .foregroundStyle(.secondary)
-                        .font(.subheadline)
-                    } label: {
-                        Text(location.displayLabel)
-                            .lineLimit(2)
-                            .truncationMode(.middle)
-                    }
-                }
-            case .idle, .loading:
-                #if os(macOS)
-                    ProgressView()
-                        .controlSize(.small)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                #else
-                    EmptyView()
-                #endif
-            case .failed:
-                EmptyView()
-            }
-        }
-    }
-
-    @ViewBuilder
-    var diskSpaceHeader: some View {
-        HStack {
-            HStack(spacing: 4) {
-                Text("Disk Space")
-
-                #if !os(macOS)
-                    if diskSpaceState.isLoading {
-                        ProgressView()
-                            .controlSize(.small)
-                            .tint(.secondary)
-                    }
-                #endif
-
-                if diskSpaceExpanded {
-                    Spacer()
-                    Text(verbatim: "Free / Total")
-                        .font(.caption)
-                }
-            }
-
-            #if !os(macOS)
-                if !diskSpaceExpanded {
-                    Spacer()
-
-                    Image(systemName: "chevron.right")
-                        .font(.caption.weight(.semibold))
-                        .rotationEffect(.degrees(diskSpaceExpanded ? 90 : 0))
-                }
-            #endif
-        }
-        #if !os(macOS)
-            .contentShape(Rectangle())
-            .onTapGesture {
-                withAnimation { diskSpaceExpanded.toggle() }
-
-                if diskSpaceExpanded {
-                    Task { await loadDiskSpaceIfNeeded() }
-                }
-            }
-        #endif
     }
 
     func loadSummary() async {
@@ -156,9 +55,98 @@ extension InstanceView {
     }
 
     func loadLibraryIfNeeded() async {
-        if case .loaded = libraryState { return }
-        if libraryState.isLoading { return }
+        if libraryRefreshing { return }
         await loadLibrary()
+    }
+
+    private var cachedStats: InstanceStats? {
+        get async {
+            switch instance.type {
+            case .radarr where radarrInstance.id == instance.id && !radarrInstance.movies.items.isEmpty:
+                await InstanceStats.make(movies: radarrInstance.movies.items)
+            case .sonarr where sonarrInstance.id == instance.id && !sonarrInstance.series.items.isEmpty:
+                await InstanceStats.make(series: sonarrInstance.series.items)
+            default:
+                instance.stats
+            }
+        }
+    }
+
+    private func fetchStats() async throws -> InstanceStats {
+        switch instance.type {
+        case .radarr: await InstanceStats.make(movies: try await dependencies.api.fetchMovies(instance))
+        case .sonarr: await InstanceStats.make(series: try await dependencies.api.fetchSeries(instance))
+        }
+    }
+
+    func loadLibrary() async {
+        libraryRefreshing = true
+        defer { libraryRefreshing = false }
+
+        if !libraryState.isLoaded {
+            libraryState = if let stats = await cachedStats { .loaded(stats) } else { .loading }
+        }
+
+        do {
+            async let statusTask = dependencies.api.systemStatus(instance)
+
+            let stats = try await fetchStats()
+
+            if let status = try? await statusTask {
+                version = status.version
+            }
+
+            libraryState = .loaded(stats)
+
+            var updated = instance
+            updated.stats = stats
+            updated.version = version
+            settings.saveInstanceMetadata(updated)
+        } catch is CancellationError {
+                //
+        } catch {
+            if !libraryState.isLoaded {
+                libraryState = .failed
+            }
+        }
+    }
+
+    var metadataReady: Bool {
+        switch libraryState {
+        case .loaded, .failed: true
+        case .idle, .loading: false
+        }
+    }
+
+    enum MetadataState<Value> {
+        case idle
+        case loading
+        case loaded(Value)
+        case failed
+
+        var isLoading: Bool {
+            if case .loading = self { return true }
+            return false
+        }
+
+        var isLoaded: Bool {
+            if case .loaded = self { return true }
+            return false
+        }
+    }
+}
+
+extension InstanceView {
+    func loadDiskSpace() async {
+        diskSpaceState = .loading
+
+        do {
+            diskSpaceState = .loaded(try await dependencies.api.fetchDiskSpace(instance))
+        } catch is CancellationError {
+                //
+        } catch {
+            diskSpaceState = .failed
+        }
     }
 
     func loadDiskSpaceIfNeeded() async {
@@ -167,55 +155,97 @@ extension InstanceView {
         await loadDiskSpace()
     }
 
-    func loadLibrary() async {
-        if instance.type == .radarr, radarrInstance.id == instance.id, !radarrInstance.movies.items.isEmpty {
-            libraryState = .loaded(await InstanceStats.make(movies: radarrInstance.movies.items))
-            return
-        }
-
-        if instance.type == .sonarr, sonarrInstance.id == instance.id, !sonarrInstance.series.items.isEmpty {
-            libraryState = .loaded(await InstanceStats.make(series: sonarrInstance.series.items))
-            return
-        }
-
-        if let stats = instance.stats {
-            libraryState = .loaded(stats)
-            return
-        }
-
-        libraryState = .loading
-
-        do {
-            let stats: InstanceStats
-
-            if instance.type == .radarr {
-                stats = await InstanceStats.make(movies: try await dependencies.api.fetchMovies(instance))
-            } else {
-                stats = await InstanceStats.make(series: try await dependencies.api.fetchSeries(instance))
-            }
-
-            libraryState = .loaded(stats)
-
-            var updated = instance
-            updated.stats = stats
-            settings.saveInstanceMetadata(updated)
-        } catch is CancellationError {
-            //
-        } catch {
-            libraryState = .failed
+    var diskSpaceUnavailable: Bool {
+        switch diskSpaceState {
+        case .loaded(let locations): locations.isEmpty
+        case .failed: true
+        case .idle, .loading: false
         }
     }
 
-    func loadDiskSpace() async {
-        diskSpaceState = .loading
-
-        do {
-            diskSpaceState = .loaded(try await dependencies.api.fetchDiskSpace(instance))
-        } catch is CancellationError {
-            //
-        } catch {
-            diskSpaceState = .failed
+#if os(macOS)
+    var diskSpaceSection: some View {
+        Section {
+            switch diskSpaceState {
+            case .loaded(let locations):
+                diskSpaceRows(locations)
+            case .idle, .loading:
+                ProgressView()
+                    .controlSize(.small)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            case .failed:
+                EmptyView()
+            }
+        } header: {
+            Text("Disk Space")
+        } footer: {
+            diskSpaceFooter
         }
+    }
+#else
+    var diskSpaceSection: some View {
+        Section {
+            if diskSpaceExpanded, case .loaded(let locations) = diskSpaceState {
+                diskSpaceRows(locations)
+            }
+        } header: {
+            diskSpaceHeader
+        } footer: {
+            if diskSpaceExpanded {
+                diskSpaceFooter
+            }
+        }
+        .listSectionSpacing(diskSpaceExpanded ? .default : .compact)
+    }
+
+    var diskSpaceHeader: some View {
+        HStack {
+            HStack(spacing: 4) {
+                Text("Disk Space")
+
+                if diskSpaceState.isLoading {
+                    ProgressView()
+                        .controlSize(.small)
+                        .tint(.secondary)
+                }
+            }
+
+            Spacer()
+
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.semibold))
+                .rotationEffect(.degrees(diskSpaceExpanded ? 90 : 0))
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            withAnimation { diskSpaceExpanded.toggle() }
+
+            if diskSpaceExpanded {
+                Task { await loadDiskSpaceIfNeeded() }
+            }
+        }
+    }
+#endif
+
+    func diskSpaceRows(_ locations: [InstanceDiskSpace]) -> some View {
+        ForEach(locations) { location in
+            LabeledContent {
+                Text(verbatim: "%@ / %@".placeholders(
+                    formatBytes(location.freeSpace),
+                    formatBytes(location.totalSpace)
+                ))
+                .foregroundStyle(.secondary)
+                .font(.subheadline)
+            } label: {
+                Text(location.displayLabel)
+                    .lineLimit(2)
+                    .truncationMode(.middle)
+            }
+        }
+    }
+
+    var diskSpaceFooter: some View {
+        Text("Displayed storage reflects the available and total disk space.")
     }
 }
 
