@@ -109,6 +109,11 @@ struct InstanceView: View {
 
             LabeledContent("URL", value: instance.url)
                 .textSelection(.enabled)
+
+            if instance.candidateURLs.count > 1 {
+                LabeledContent("Alternate URL", value: instance.alternateURL)
+                    .textSelection(.enabled)
+            }
         } footer: {
             metadataFooter
         }
