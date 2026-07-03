@@ -324,52 +324,6 @@ struct InstanceHeaderRow: View {
     }
 }
 
-enum InstanceError: Error {
-    case urlIsLocal
-    case urlNotValid
-    case urlSchemeMissing
-    case labelEmpty
-    case localNetworkDenied
-    case badAppName(_ reported: String, _ expected: String)
-    case apiError(_ error: API.Error)
-}
-
-extension InstanceError: LocalizedError {
-    var errorDescription: String? {
-        switch self {
-        case .urlIsLocal, .urlNotValid, .urlSchemeMissing:
-            String(localized: "Invalid URL")
-        case .labelEmpty:
-            String(localized: "Invalid Instance Label")
-        case .localNetworkDenied:
-            String(localized: "Local Network Access Denied")
-        case .badAppName:
-            String(localized: "Wrong Instance Type")
-        case .apiError(let error):
-            error.errorDescription
-        }
-    }
-
-    var recoverySuggestion: String? {
-        switch self {
-        case .urlIsLocal:
-            String(localized: "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work.")
-        case .urlNotValid:
-            String(localized: "Enter a valid URL.")
-        case .urlSchemeMissing:
-            String(localized: "URL must start with \"http://\" or \"https://\".")
-        case .labelEmpty:
-            String(localized: "Enter an instance label.")
-        case .localNetworkDenied:
-            String(localized: "Local network access must be granted in System Settings to connect to instances on private IP addresses.")
-        case .badAppName(let reported, let expected):
-            String(localized: "URL identified itself as a \(reported) instance, not a \(expected) instance.")
-        case .apiError(let error):
-            error.recoverySuggestion
-        }
-    }
-}
-
 #Preview {
     dependencies.router.selectedTab = .settings
 
