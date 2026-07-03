@@ -58,7 +58,6 @@ struct InstanceRow: View {
             }
             .font(.footnote)
             .foregroundStyle(.gray)
-            .transition(.opacity)
             .contentTransition(.opacity)
         }
         .animation(.default, value: connection)
