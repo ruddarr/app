@@ -55,6 +55,7 @@ struct InstanceView: View {
                 }
             #endif
         }
+        .contentMargins(.bottom, 32, for: .scrollContent)
         .formStyle(.grouped)
         .toolbar {
             toolbarEditButton

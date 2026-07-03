@@ -45,6 +45,7 @@ struct InstanceEditView: View {
                 }
             #endif
         }
+        .contentMargins(.bottom, 32, for: .scrollContent)
         .formStyle(.grouped)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
