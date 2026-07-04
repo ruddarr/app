@@ -78,13 +78,11 @@ final class InstanceResolver: Sendable {
         let candidates = instance.candidateURLs
         guard candidates.count > 1 else { return nil }
 
-        let snapshot = NetworkSnapshot.capture()
-        let fingerprint = snapshot.fingerprint
-
         return lock.withLock {
-            ResolverRouting.failover(
+            let snapshot = NetworkSnapshot.capture()
+            return ResolverRouting.failover(
                 &$0, afterFailing: failedURL.absoluteString, candidates: candidates,
-                snapshot: snapshot, fingerprint: fingerprint, now: Date()
+                snapshot: snapshot, fingerprint: snapshot.fingerprint, now: Date()
             )
         }
     }
