@@ -31,4 +31,4 @@ Fixed
 - Fixed sidebar colors on macOS 27
 - Fixed blurry discovery headline on iPadOS
 - Fixed monitor toggles not reverting on failure
-- Fixed grabbing releases that couldn't be matched to a series
+- Fixed force  grabbing season releases
