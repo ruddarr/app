@@ -24,6 +24,10 @@ func maskedURL(_ string: String) -> String {
     return result
 }
 
+func maskedIP(_ address: String) -> String {
+    maskHost(address)
+}
+
 func maskedCIDR(_ cidr: String) -> String {
     let parts = cidr.split(separator: "/", maxSplits: 1)
     guard let address = parts.first else { return cidr }

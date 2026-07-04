@@ -28,6 +28,11 @@ struct NetworkInterfacesTests {
         IPv6Subnet(address: NetworkInterfaces.ipv6Bytes(ipv6(address)), prefix: prefix)
     }
 
+    // The canonical strings `classify` records in `ResolvedHost.addresses`, built through the
+    // same formatters so expectations can't drift from the production encoding.
+    private func v4str(_ string: String) -> String { NetworkInterfaces.string(fromIPv4: ipv4(string)) }
+    private func v6str(_ string: String) -> String { NetworkInterfaces.string(fromIPv6: ipv6(string)) }
+
     // MARK: - CGNAT / Tailscale range
 
     @Test func recognizesCarrierGradeNATRange() {
@@ -242,22 +247,22 @@ struct NetworkInterfacesTests {
     @Test func classifiesResolvedOnLinkIPv4AsLAN() {
         let home = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.1.0", 24)])
         let resolved = NetworkInterfaces.classify(ipv4: [ipv4("192.168.1.50")], ipv6: [], snapshot: home)
-        #expect(resolved == ResolvedHost(role: .lan, onLink: true))
+        #expect(resolved == ResolvedHost(role: .lan, onLink: true, addresses: [v4str("192.168.1.50")]))
     }
 
     @Test func classifiesResolvedOnLinkIPv6AsLAN() {
         // IPv6 does not NAT: a server sharing the device's /64 is reachable directly.
         let home = NetworkSnapshot(tailnetUp: false, lanV4: [], lanV6: [subnet6("2001:db8:abcd:1::", 64)])
         let resolved = NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("2001:db8:abcd:1::50")], snapshot: home)
-        #expect(resolved == ResolvedHost(role: .lan, onLink: true))
+        #expect(resolved == ResolvedHost(role: .lan, onLink: true, addresses: [v6str("2001:db8:abcd:1::50")]))
     }
 
     @Test func classifiesResolvedLoopbackAsOnLinkLAN() {
         // A name that resolves to loopback (e.g. `localhost`) is the server on this device —
         // on-link LAN, not off-link (which would lose to a remote URL) — on any network.
         let away = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("10.20.30.0", 24)])
-        #expect(NetworkInterfaces.classify(ipv4: [ipv4("127.0.0.1")], ipv6: [], snapshot: away) == ResolvedHost(role: .lan, onLink: true, isLoopback: true))
-        #expect(NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("::1")], snapshot: away) == ResolvedHost(role: .lan, onLink: true, isLoopback: true))
+        #expect(NetworkInterfaces.classify(ipv4: [ipv4("127.0.0.1")], ipv6: [], snapshot: away) == ResolvedHost(role: .lan, onLink: true, isLoopback: true, addresses: [v4str("127.0.0.1")]))
+        #expect(NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("::1")], snapshot: away) == ResolvedHost(role: .lan, onLink: true, isLoopback: true, addresses: [v6str("::1")]))
     }
 
     @Test func resolvedLoopbackStaysPreferredUnderLocalNetworkDenial() {
@@ -272,8 +277,8 @@ struct NetworkInterfacesTests {
     @Test func classifiesOffLinkPrivateAsLANNotOnLink() {
         // Away: the name's record is a private address for some *other* network.
         let away = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("10.20.30.0", 24)], lanV6: [subnet6("2001:db8:1::", 64)])
-        #expect(NetworkInterfaces.classify(ipv4: [ipv4("192.168.1.50")], ipv6: [], snapshot: away) == ResolvedHost(role: .lan, onLink: false))
-        #expect(NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("fd12:3456::1")], snapshot: away) == ResolvedHost(role: .lan, onLink: false))
+        #expect(NetworkInterfaces.classify(ipv4: [ipv4("192.168.1.50")], ipv6: [], snapshot: away) == ResolvedHost(role: .lan, onLink: false, addresses: [v4str("192.168.1.50")]))
+        #expect(NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("fd12:3456::1")], snapshot: away) == ResolvedHost(role: .lan, onLink: false, addresses: [v6str("fd12:3456::1")]))
     }
 
     @Test func classifiesTailscaleAddresses() {
@@ -284,16 +289,16 @@ struct NetworkInterfacesTests {
 
     @Test func classifiesPublicAddressesAsRemote() {
         let snapshot = NetworkSnapshot(tailnetUp: false, lanV4: [])
-        #expect(NetworkInterfaces.classify(ipv4: [ipv4("1.2.3.4")], ipv6: [], snapshot: snapshot) == ResolvedHost(role: .remote, onLink: false))
-        #expect(NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("2606:4700::1111")], snapshot: snapshot) == ResolvedHost(role: .remote, onLink: false))
+        #expect(NetworkInterfaces.classify(ipv4: [ipv4("1.2.3.4")], ipv6: [], snapshot: snapshot) == ResolvedHost(role: .remote, onLink: false, addresses: [v4str("1.2.3.4")]))
+        #expect(NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("2606:4700::1111")], snapshot: snapshot) == ResolvedHost(role: .remote, onLink: false, addresses: [v6str("2606:4700::1111")]))
     }
 
     @Test func classifyPrefersOnLinkAcrossMultipleRecords() {
         // Multi-record A/AAAA: an on-link address wins regardless of position among public or
         // off-link siblings — the split-horizon "points home" case.
         let home = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.1.0", 24)])
-        #expect(NetworkInterfaces.classify(ipv4: [ipv4("1.2.3.4"), ipv4("192.168.1.50")], ipv6: [], snapshot: home) == ResolvedHost(role: .lan, onLink: true))
-        #expect(NetworkInterfaces.classify(ipv4: [ipv4("192.168.1.50"), ipv4("1.2.3.4")], ipv6: [], snapshot: home) == ResolvedHost(role: .lan, onLink: true))
+        #expect(NetworkInterfaces.classify(ipv4: [ipv4("1.2.3.4"), ipv4("192.168.1.50")], ipv6: [], snapshot: home) == ResolvedHost(role: .lan, onLink: true, addresses: [v4str("1.2.3.4"), v4str("192.168.1.50")]))
+        #expect(NetworkInterfaces.classify(ipv4: [ipv4("192.168.1.50"), ipv4("1.2.3.4")], ipv6: [], snapshot: home) == ResolvedHost(role: .lan, onLink: true, addresses: [v4str("192.168.1.50"), v4str("1.2.3.4")]))
     }
 
     @Test func classifyPrecedenceTailscaleThenOffLinkPrivateThenRemote() {
@@ -301,7 +306,7 @@ struct NetworkInterfacesTests {
         // in turn outranks a public one.
         let away = NetworkSnapshot(tailnetUp: true, lanV4: [subnet("10.20.30.0", 24)])
         #expect(NetworkInterfaces.classify(ipv4: [ipv4("192.168.1.50"), ipv4("100.100.1.1")], ipv6: [], snapshot: away).role == .tailscale)
-        #expect(NetworkInterfaces.classify(ipv4: [ipv4("1.2.3.4"), ipv4("192.168.1.50")], ipv6: [], snapshot: away) == ResolvedHost(role: .lan, onLink: false))
+        #expect(NetworkInterfaces.classify(ipv4: [ipv4("1.2.3.4"), ipv4("192.168.1.50")], ipv6: [], snapshot: away) == ResolvedHost(role: .lan, onLink: false, addresses: [v4str("1.2.3.4"), v4str("192.168.1.50")]))
     }
 
     // MARK: - Resolution-aware ordering (one local domain, one remote domain)

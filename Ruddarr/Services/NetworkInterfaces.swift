@@ -100,6 +100,21 @@ enum NetworkInterfaces {
         return [UInt8](raw)
     }
 
+    /// A host-order IPv4 as dotted-quad (`0xC0A8_010A` → `192.168.1.10`).
+    static func string(fromIPv4 ip: UInt32) -> String {
+        "\((ip >> 24) & 0xFF).\((ip >> 16) & 0xFF).\((ip >> 8) & 0xFF).\(ip & 0xFF)"
+    }
+
+    /// An `in6_addr` as an (uncompressed) hextet string — the inverse of `parseIPv6`, which
+    /// round-trips it back. Uncompressed keeps this dependency-free (no `inet_ntop`); the bug
+    /// report masks it to the leading hextet anyway.
+    static func string(fromIPv6 address: in6_addr) -> String {
+        let bytes = ipv6Bytes(address)
+        return stride(from: 0, to: 16, by: 2)
+            .map { String((UInt16(bytes[$0]) << 8) | UInt16(bytes[$0 + 1]), radix: 16) }
+            .joined(separator: ":")
+    }
+
     /// A URL host reduced to its bare form: IPv6 brackets removed and any FQDN root dot dropped
     /// (`[fd00::1]` → `fd00::1`, `nas.local.` → `nas.local`).
     static func bareHost(_ host: String) -> String {
@@ -142,24 +157,23 @@ enum NetworkInterfaces {
     /// distinguishes a split-horizon name (private A/AAAA record) from a public one.
     static func classify(ipv4: [UInt32], ipv6: [in6_addr], snapshot: NetworkSnapshot) -> ResolvedHost {
         let v6 = ipv6.map(ipv6Bytes)
+        let addresses = ipv4.map(string(fromIPv4:)) + ipv6.map(string(fromIPv6:))
 
+        var result: ResolvedHost
         if ipv4.contains(where: isLoopbackV4) || v6.contains(where: { isLoopbackV6(bytes: $0) }) {
-            return ResolvedHost(role: .lan, onLink: true, isLoopback: true) // a name that resolves to loopback (e.g. `localhost`)
+            result = ResolvedHost(role: .lan, onLink: true, isLoopback: true) // a name that resolves to loopback (e.g. `localhost`)
+        } else if ipv4.contains(where: { snapshot.isOnLink($0) }) || v6.contains(where: { snapshot.isOnLink($0) }) {
+            result = ResolvedHost(role: .lan, onLink: true)
+        } else if ipv4.contains(where: isCarrierGradeNAT) || v6.contains(where: { isTailscaleULA(bytes: $0) }) {
+            result = ResolvedHost(role: .tailscale, onLink: false)
+        } else if ipv4.contains(where: isPrivateV4) || v6.contains(where: { isPrivateV6(bytes: $0) }) {
+            result = ResolvedHost(role: .lan, onLink: false)
+        } else {
+            result = ResolvedHost(role: .remote, onLink: false)
         }
 
-        if ipv4.contains(where: { snapshot.isOnLink($0) }) || v6.contains(where: { snapshot.isOnLink($0) }) {
-            return ResolvedHost(role: .lan, onLink: true)
-        }
-
-        if ipv4.contains(where: isCarrierGradeNAT) || v6.contains(where: { isTailscaleULA(bytes: $0) }) {
-            return ResolvedHost(role: .tailscale, onLink: false)
-        }
-
-        if ipv4.contains(where: isPrivateV4) || v6.contains(where: { isPrivateV6(bytes: $0) }) {
-            return ResolvedHost(role: .lan, onLink: false)
-        }
-
-        return ResolvedHost(role: .remote, onLink: false)
+        result.addresses = addresses
+        return result
     }
 
     /// Maps a `(role, on-link)` pair to its selection score — the single source of the

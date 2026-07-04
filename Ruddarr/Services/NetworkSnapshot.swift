@@ -38,6 +38,12 @@ struct ResolvedHost: Equatable {
     var role: InstanceURLRole
     var onLink: Bool
     var isLoopback: Bool = false
+
+    /// The addresses this host actually resolved to, as canonical strings. Retained so a bug
+    /// report can show what a split-horizon name pointed at, and so scoring can tell an off-link
+    /// private address that shares the device's home network (a sibling VLAN) from one on a
+    /// foreign LAN. Empty for literal-IP or unresolved candidates.
+    var addresses: [String] = []
 }
 
 /// An instant, permission-free read of the network facts that decide URL selection.

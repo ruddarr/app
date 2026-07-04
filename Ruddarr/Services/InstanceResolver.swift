@@ -133,8 +133,13 @@ final class InstanceResolver: Sendable {
             let ranked = NetworkInterfaces.ranking(candidates, snapshot: snapshot, demoted: demoted, resolved: resolved)
 
             let lines = ranked.map { entry -> String in
-                let wasResolved = NetworkInterfaces.host(of: entry.base).map { resolved[$0] != nil } ?? false
-                return "\(maskedURL(entry.base)) — \(Self.label(entry, resolved: wasResolved))"
+                let resolution = NetworkInterfaces.host(of: entry.base).flatMap { resolved[$0] }
+                let primary = entry.base == candidates.first
+                var line = "\(maskedURL(entry.base)) — \(Self.label(entry, resolved: resolution != nil, primary: primary))"
+                if let addresses = resolution?.addresses, !addresses.isEmpty {
+                    line += " → \(addresses.map(maskedIP).joined(separator: ", "))"
+                }
+                return line
             }
 
             context[instance.contextKey] = [
@@ -146,7 +151,7 @@ final class InstanceResolver: Sendable {
         return context
     }
 
-    private static func label(_ entry: NetworkInterfaces.CandidateRanking, resolved: Bool) -> String {
+    private static func label(_ entry: NetworkInterfaces.CandidateRanking, resolved: Bool, primary: Bool) -> String {
         let role: String
         switch entry.role {
         case .lan: role = entry.onLink ? "on-link LAN" : "off-link LAN"
@@ -156,6 +161,7 @@ final class InstanceResolver: Sendable {
 
         var parts = [role, "score \(entry.score)", resolved ? "resolved" : "lexical"]
         if entry.demoted { parts.append("demoted") }
+        if primary { parts.append("primary") }
 
         return parts.joined(separator: ", ")
     }
