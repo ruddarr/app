@@ -42,24 +42,10 @@ struct InstanceRow: View {
                 }
             }
 
-            Group {
-                if instance.candidateURLs.count > 1 {
-                    switch connection {
-                    case .pending: Text("Connecting to \(currentURL)...")
-                    case .reachable: Text("Connected to \(currentURL)")
-                    case .unreachable: Text("Connection Failed").foregroundStyle(.red)
-                    }
-                } else {
-                    switch connection {
-                    case .pending: Text("Connecting...")
-                    case .reachable: Text("Connected")
-                    case .unreachable: Text("Connection Failed").foregroundStyle(.red)
-                    }
-                }
-            }
-            .font(.footnote)
-            .foregroundStyle(.gray)
-            .contentTransition(.opacity)
+            statusText
+                .font(.footnote)
+                .foregroundStyle(connection == .unreachable ? Color.red : Color.gray)
+                .contentTransition(.opacity)
         }
         .animation(.default, value: connection)
         .animation(.default, value: currentURL)
@@ -71,6 +57,19 @@ struct InstanceRow: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
             networkToken += 1
+        }
+    }
+
+    private var statusText: Text {
+        let multiURL = instance.candidateURLs.count > 1
+
+        switch connection {
+        case .pending:
+            return multiURL ? Text("Connecting to \(currentURL)...") : Text("Connecting...")
+        case .reachable:
+            return multiURL ? Text("Connected to \(currentURL)") : Text("Connected")
+        case .unreachable:
+            return Text("Connection Failed")
         }
     }
 
