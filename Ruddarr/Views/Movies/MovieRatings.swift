@@ -103,6 +103,7 @@ struct MovieRatings: View {
                     .offset(y: -0.5)
 
                 Text(rating.formatted(.decimal(0)))
+                    .lineLimit(1)
             }
         case .trakt(let rating):
             HStack(spacing: 5) {
