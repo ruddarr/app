@@ -61,7 +61,7 @@ struct InstanceRow: View {
     }
 
     private var statusText: Text {
-        let multiURL = instance.candidateURLs.count > 1
+        let multiURL = instance.candidateURLs.count > 1 && !currentURL.isEmpty
 
         switch connection {
         case .pending:
