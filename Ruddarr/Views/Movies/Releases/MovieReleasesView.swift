@@ -6,6 +6,7 @@ struct MovieReleasesView: View {
     @State private var releases: [MovieRelease] = []
     @State private var fetched: Movie.ID?
     @State private var selectedRelease: MovieRelease?
+    @State private var searchPresented = false
 
     @AppStorage("movieReleaseSort", store: dependencies.store) private var sort: MovieReleaseSort = .init()
 
@@ -31,7 +32,8 @@ struct MovieReleasesView: View {
             }
         }
         .listStyle(.inset)
-        .searchable(text: $sort.search, placement: .drawerOrToolbar)
+        .searchable(text: $sort.search, isPresented: $searchPresented, placement: .drawerOrToolbar)
+        .dismissSearchWhenHidden($searchPresented)
         .toolbar {
             toolbarButtons
         }

@@ -72,10 +72,12 @@ extension View {
             }
     }
 
-    // Collapses a `.searchable` search bar before the app leaves the foreground.
-    func dismissSearchWhenLeavingForeground(_ isPresented: Binding<Bool>) -> some View {
+    // Collapses a `.searchable` search bar before the app leaves the foreground,
+    // or the screen leaves the window because another tab was selected. UIKit
+    // traps when restoring a suspended search presentation on iOS 26.4+.
+    func dismissSearchWhenHidden(_ isPresented: Binding<Bool>) -> some View {
         #if os(iOS)
-            modifier(DismissSearchWhenLeavingForeground(isPresented: isPresented))
+            modifier(DismissSearchWhenHidden(isPresented: isPresented))
         #else
             self
         #endif
@@ -83,15 +85,32 @@ extension View {
 }
 
 #if os(iOS)
-private struct DismissSearchWhenLeavingForeground: ViewModifier {
+private struct DismissSearchWhenHidden: ViewModifier {
     @Binding var isPresented: Bool
+
+    @State private var tab: TabItem?
     @Environment(\.scenePhase) private var scenePhase
 
     func body(content: Content) -> some View {
-        content.onChange(of: scenePhase) { _, phase in
-            if phase != .active, isPresented {
-                isPresented = false
+        content
+            .onAppear {
+                tab = dependencies.router.selectedTab
             }
+            .onChange(of: scenePhase) { _, phase in
+                if phase != .active {
+                    collapse()
+                }
+            }
+            .onDisappear {
+                if tab != dependencies.router.selectedTab {
+                    collapse()
+                }
+            }
+    }
+
+    private func collapse() {
+        if isPresented {
+            isPresented = false
         }
     }
 }
