@@ -153,37 +153,45 @@ extension InstanceEditView {
         }
     }
 
-    func validatePrimaryURL() throws {
-        guard instance.url.starts(with: /https?:\/\//) else {
-            throw InstanceError.urlSchemeMissing
+    func validateURL(
+        _ string: String,
+        schemeMissing: InstanceError,
+        notValid: InstanceError,
+        isLocal: InstanceError
+    ) throws {
+        guard string.starts(with: /https?:\/\//) else {
+            throw schemeMissing
         }
 
-        guard let url = URL(string: instance.url) else {
-            throw InstanceError.urlNotValid
+        guard let url = URL(string: string) else {
+            throw notValid
         }
 
-        let host = NetworkInterfaces.host(of: instance.url) ?? url.host() ?? ""
+        let host = NetworkInterfaces.host(of: string) ?? url.host() ?? ""
+
         if host == "localhost" || NetworkInterfaces.literalLoopback(host) {
-            throw InstanceError.urlIsLocal
+            throw isLocal
         }
+    }
+
+    func validatePrimaryURL() throws {
+        try validateURL(
+            instance.url,
+            schemeMissing: .urlSchemeMissing,
+            notValid: .urlNotValid,
+            isLocal: .urlIsLocal
+        )
     }
 
     func validateAlternateURL() throws {
         guard !instance.alternateURL.isEmpty else { return }
 
-        guard instance.alternateURL.starts(with: /https?:\/\//) else {
-            throw InstanceError.alternateUrlSchemeMissing
-        }
-
-        guard let alternateURL = URL(string: instance.alternateURL) else {
-            throw InstanceError.alternateUrlNotValid
-        }
-
-        let alternateHost = NetworkInterfaces.host(of: instance.alternateURL) ?? alternateURL.host() ?? ""
-
-        if alternateHost == "localhost" || NetworkInterfaces.literalLoopback(alternateHost) {
-            throw InstanceError.alternateUrlIsLocal
-        }
+        try validateURL(
+            instance.alternateURL,
+            schemeMissing: .alternateUrlSchemeMissing,
+            notValid: .alternateUrlNotValid,
+            isLocal: .alternateUrlIsLocal
+        )
 
         if instance.candidateURLs.count < 2 {
             throw InstanceError.alternateSameAsUrl
