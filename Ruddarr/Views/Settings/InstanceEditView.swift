@@ -80,20 +80,24 @@ struct InstanceEditView: View {
         .tint(nil)
     }
 
+    var showsAlternateURL: Bool {
+        showAdvanced || !instance.alternateURL.isEmpty
+    }
+
     var instanceSection: some View {
         Section {
             typeField
             labelField
             urlField
 
-            if showAdvanced || !instance.alternateURL.isEmpty {
+            if showsAlternateURL {
                 alternateField
             }
         } footer: {
             VStack(alignment: .leading, spacing: 6) {
                 Text("The URL used to access the \(instance.type.rawValue) web interface.")
 
-                if showAdvanced || !instance.alternateURL.isEmpty {
+                if showsAlternateURL {
                     Text("When using an Alternate URL, \(Ruddarr.name) automatically connects to the best URL for the network, whether local, VPN, or remote.")
                 }
             }
