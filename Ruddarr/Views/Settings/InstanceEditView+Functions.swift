@@ -65,7 +65,7 @@ extension InstanceEditView {
     }
 
     func sanitizedUrl(_ string: String) -> String {
-        var value = string.trimmingCharacters(in: .whitespacesAndNewlines)
+        var value = string.trimmed()
 
         guard !value.isEmpty else { return "" }
 
@@ -82,11 +82,7 @@ extension InstanceEditView {
 
         value = value.lowercased()
 
-        if value.hasSuffix("/") {
-            value = String(value.dropLast())
-        }
-
-        return value
+        return value.untrailingSlashIt ?? value
     }
 
     func stripAfter(_ path: String, in string: String) -> String {
