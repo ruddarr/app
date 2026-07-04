@@ -100,7 +100,7 @@ extension InstanceEditView {
         try validatePrimaryURL()
         try validateAlternateURL()
 
-        if instance.isPrivateIp(primaryOnly: true), await NetworkMonitor.shared.localNetworkDenied {
+        if instance.hasOnlyPrivateIpCandidates(), await NetworkMonitor.shared.localNetworkDenied {
             throw InstanceError.localNetworkDenied
         }
 

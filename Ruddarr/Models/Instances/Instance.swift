@@ -112,6 +112,16 @@ struct Instance: Identifiable, Equatable, Codable {
         }
     }
 
+    func hasOnlyPrivateIpCandidates() -> Bool {
+        let bases = candidateURLs
+        guard !bases.isEmpty else { return false }
+
+        return bases.allSatisfy { base in
+            guard let host = NetworkInterfaces.host(of: base) else { return false }
+            return isPrivateIpAddress(host)
+        }
+    }
+
     func timeout(_ call: InstanceTimeout) -> RequestTimeout {
         switch call {
         case .normal: .init(local: 2.5, remote: 10)
