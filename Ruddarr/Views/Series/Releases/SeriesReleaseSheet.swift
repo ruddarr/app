@@ -269,8 +269,12 @@ struct SeriesReleaseSheet: View {
         guard await instance.series.download(
             guid: release.guid,
             indexerId: release.indexerId,
-            seriesId: force && episodeId != nil ? seriesId : nil,
-            seasonId: force && episodeId != nil ? seasonId : nil,
+            // On a forced grab Sonarr couldn't map the release itself (e.g. "Unknown
+            // Series"), so hand it the series the sheet was opened under. Without this
+            // it returns a 404 asking for the mapping to be provided manually, which
+            // previously happened for every season/full-season grab.
+            seriesId: force ? (release.mappedSeriesId ?? release.seriesId ?? seriesId) : nil,
+            seasonId: force ? seasonId : nil,
             episodeId: force && episodeId != nil ? episodeId : nil
         ) else {
             return
