@@ -269,7 +269,7 @@ struct SeriesReleaseSheet: View {
         guard await instance.series.download(
             guid: release.guid,
             indexerId: release.indexerId,
-            seriesId: force ? (release.mappedSeriesId ?? release.seriesId ?? seriesId) : nil,
+            seriesId: force ? seriesId : nil,
             seasonId: force ? seasonId : nil,
             episodeId: force && episodeId != nil ? episodeId : nil
         ) else {
