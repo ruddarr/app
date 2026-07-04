@@ -62,6 +62,7 @@ final class InstanceResolver: Sendable {
             let result = ResolverRouting.register(
                 &state, candidates: candidates, snapshot: snapshot, fingerprint: snapshot.fingerprint, now: Date()
             )
+
             return (result.ordered, result.pending, state.epoch, snapshot)
         }
 
@@ -80,6 +81,7 @@ final class InstanceResolver: Sendable {
 
         return lock.withLock {
             let snapshot = NetworkSnapshot.capture()
+
             return ResolverRouting.failover(
                 &$0, afterFailing: failedURL.absoluteString, candidates: candidates,
                 snapshot: snapshot, fingerprint: snapshot.fingerprint, now: Date()
