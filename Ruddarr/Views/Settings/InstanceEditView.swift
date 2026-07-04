@@ -45,6 +45,7 @@ struct InstanceEditView: View {
                 }
             #endif
         }
+        .contentMargins(.bottom, 32, for: .scrollContent)
         .formStyle(.grouped)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -79,17 +80,31 @@ struct InstanceEditView: View {
         .tint(nil)
     }
 
+    var showsAlternateURL: Bool {
+        showAdvanced || !instance.alternateURL.isEmpty
+    }
+
     var instanceSection: some View {
         Section {
             typeField
             labelField
             urlField
+
+            if showsAlternateURL {
+                alternateField
+            }
         } footer: {
-            Text("The URL used to access the \(instance.type.rawValue) web interface.")
-                #if os(macOS)
-                .foregroundStyle(.secondary)
-                .font(.footnote)
-                #endif
+            VStack(alignment: .leading, spacing: 6) {
+                Text("The URL used to access the \(instance.type.rawValue) web interface.")
+
+                if showsAlternateURL {
+                    Text("When using an Alternate URL, \(Ruddarr.name) automatically connects to the best URL for the network, whether local, VPN, or remote.")
+                }
+            }
+            #if os(macOS)
+            .foregroundStyle(.secondary)
+            .font(.footnote)
+            #endif
         }
     }
 
@@ -146,7 +161,7 @@ struct InstanceEditView: View {
             Text("URL")
                 .layoutPriority(2)
 
-            TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
+            TextField(text: $instance.url, prompt: urlPlaceholders.url) { EmptyView() }
                 .truncationMode(.head)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)
@@ -157,6 +172,23 @@ struct InstanceEditView: View {
                 .keyboardType(.URL)
                 #endif
 
+        }
+    }
+
+    var alternateField: some View {
+        HStack(spacing: 24) {
+            Text("Alternate URL")
+                .layoutPriority(2)
+
+            TextField(text: $instance.alternateURL, prompt: urlPlaceholders.alternate) { EmptyView() }
+                .truncationMode(.head)
+                .autocorrectionDisabled(true)
+                .textCase(.lowercase)
+                #if os(iOS)
+                .multilineTextAlignment(.trailing)
+                .textInputAutocapitalization(.never)
+                .keyboardType(.URL)
+                #endif
         }
     }
 
@@ -244,11 +276,25 @@ struct InstanceEditView: View {
         }
     }
 
-    var urlPlaceholder: String {
+    var ipPlaceholder: String {
         switch instance.type {
         case .radarr: "http://10.0.1.1:7878"
         case .sonarr: "http://10.0.1.1:8989"
         }
+    }
+
+    var tldPlaceholder: String {
+        switch instance.type {
+        case .radarr: "https://radarr.home.net"
+        case .sonarr: "https://sonarr.home.net"
+        }
+    }
+
+    var urlPlaceholders: (url: Text, alternate: Text) {
+        let ip = Text(verbatim: ipPlaceholder)
+        let tld = Text(verbatim: tldPlaceholder)
+
+        return showAdvanced ? (url: tld, alternate: ip) : (url: ip, alternate: tld)
     }
 
     var deleteButton: some View {
@@ -320,52 +366,6 @@ struct InstanceHeaderRow: View {
             #if os(iOS)
                 .textInputAutocapitalization(.never)
             #endif
-        }
-    }
-}
-
-enum InstanceError: Error {
-    case urlIsLocal
-    case urlNotValid
-    case urlSchemeMissing
-    case labelEmpty
-    case localNetworkDenied
-    case badAppName(_ reported: String, _ expected: String)
-    case apiError(_ error: API.Error)
-}
-
-extension InstanceError: LocalizedError {
-    var errorDescription: String? {
-        switch self {
-        case .urlIsLocal, .urlNotValid, .urlSchemeMissing:
-            String(localized: "Invalid URL")
-        case .labelEmpty:
-            String(localized: "Invalid Instance Label")
-        case .localNetworkDenied:
-            String(localized: "Local Network Access Denied")
-        case .badAppName:
-            String(localized: "Wrong Instance Type")
-        case .apiError(let error):
-            error.errorDescription
-        }
-    }
-
-    var recoverySuggestion: String? {
-        switch self {
-        case .urlIsLocal:
-            String(localized: "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work.")
-        case .urlNotValid:
-            String(localized: "Enter a valid URL.")
-        case .urlSchemeMissing:
-            String(localized: "URL must start with \"http://\" or \"https://\".")
-        case .labelEmpty:
-            String(localized: "Enter an instance label.")
-        case .localNetworkDenied:
-            String(localized: "Local network access must be granted in System Settings to connect to instances on private IP addresses.")
-        case .badAppName(let reported, let expected):
-            String(localized: "URL identified itself as a \(reported) instance, not a \(expected) instance.")
-        case .apiError(let error):
-            error.recoverySuggestion
         }
     }
 }

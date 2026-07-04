@@ -55,6 +55,7 @@ struct InstanceView: View {
                 }
             #endif
         }
+        .contentMargins(.bottom, 32, for: .scrollContent)
         .formStyle(.grouped)
         .toolbar {
             toolbarEditButton
@@ -79,17 +80,19 @@ struct InstanceView: View {
         }
         .tint(nil)
         .subscriptionStatusTask(for: Subscription.group, action: handleSubscriptionStatusChange)
-        .sheet(isPresented: $showSubscription) { RuddarrPlusSheet() }
+        .sheet(isPresented: $showSubscription) {
+            RuddarrPlusSheet()
+        }
     }
 
-    @ToolbarContentBuilder
-    var toolbarEditButton: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            NavigationLink(value: SettingsView.Path.editInstance(instance.id)) {
-                Label("Edit", systemImage: "pencil")
-                    .hideIconOnMac()
-            }.tint(.primary)
-        }
+    func setup() async {
+        async let summary: Void = loadSummary()
+
+        await setAppNotificationsStatus()
+        await setCloudKitAccountStatus()
+        await setSubscriptionStatus()
+        await initialWebhookSync()
+        await summary
     }
 
     var instanceDetails: some View {
@@ -104,6 +107,11 @@ struct InstanceView: View {
 
             LabeledContent("URL", value: instance.url)
                 .textSelection(.enabled)
+
+            if instance.candidateURLs.count > 1 {
+                LabeledContent("Alternate URL", value: instance.alternateURL)
+                    .textSelection(.enabled)
+            }
         } footer: {
             metadataFooter
         }
@@ -165,6 +173,16 @@ struct InstanceView: View {
             } else {
                 disableNotifications
             }
+        }
+    }
+
+    @ToolbarContentBuilder
+    var toolbarEditButton: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            NavigationLink(value: SettingsView.Path.editInstance(instance.id)) {
+                Label("Edit", systemImage: "pencil")
+                    .hideIconOnMac()
+            }.tint(.primary)
         }
     }
 

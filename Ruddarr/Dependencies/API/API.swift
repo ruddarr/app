@@ -71,7 +71,8 @@ extension API {
         timeout: RequestTimeout = .default,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
-        session: URLSession = .shared
+        session: URLSession = .shared,
+        allowFailover: Bool = true
     ) async throws -> Response {
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601extended
@@ -107,32 +108,50 @@ extension API {
 
         var json: Data?
         var response: URLResponse?
+        var attemptedURL = url
+        let maxFailovers = (instance?.candidateURLs.count ?? 1) - 1
+        var failovers = 0
 
-        do {
-            (json, response) = try await session.data(for: request)
-        } catch let cancellationError as CancellationError {
-            // re-throw `CancellationError` so they can be handled elsewhere
-            throw cancellationError
-        } catch let urlError as URLError where urlError.code == .cancelled {
-            // re-throw `URLError.cancelled` as `CancellationError`
-            throw CancellationError()
-        } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
-            throw Error.notConnectedToInternet
-        } catch let urlError as URLError where urlError.code == .timedOut {
-            guard isPrivateIpAddress(url.host() ?? "") else {
+        attempts: while true {
+            do {
+                (json, response) = try await Self.data(for: request, session: session, retryOnConnectionLost: method == .get)
+                break attempts
+            } catch let cancellationError as CancellationError {
+                // re-throw `CancellationError` so they can be handled elsewhere
+                throw cancellationError
+            } catch let urlError as URLError where urlError.code == .cancelled {
+                // re-throw `URLError.cancelled` as `CancellationError`
+                throw CancellationError()
+            } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
+                throw Error.notConnectedToInternet
+            } catch let urlError as URLError {
+                if allowFailover, failovers < maxFailovers, Self.canFailover(urlError.code, method: method), let instance,
+                   let fallback = InstanceResolver.shared.failover(afterFailing: attemptedURL, for: instance)
+                {
+                    leaveBreadcrumb(.info, category: "api", message: "Switching to next instance URL", data: ["code": urlError.code.rawValue])
+
+                    failovers += 1
+                    attemptedURL = fallback
+                    request.url = fallback
+                    request.timeoutInterval = Self.effectiveTimeout(for: fallback, method: method, timeout: timeout)
+
+                    continue attempts
+                }
+
+                if urlError.code == .timedOut, isPrivateIpAddress(attemptedURL.host() ?? "") {
+                    throw Error.timeoutOnPrivateIp(urlError)
+                }
+
                 throw Error.urlError(urlError)
-            }
-            throw Error.timeoutOnPrivateIp(urlError)
-        } catch let urlError as URLError {
-            throw Error.urlError(urlError)
-        } catch let localizedError as any LocalizedError {
-            throw Error.localizedError(localizedError)
-        } catch let nsError as NSError {
-            throw Error.nsError(nsError)
-        } catch {
-            leaveBreadcrumb(.fatal, category: "api", message: "Unhandled error type", data: ["error": error])
+            } catch let localizedError as any LocalizedError {
+                throw Error.localizedError(localizedError)
+            } catch let nsError as NSError {
+                throw Error.nsError(nsError)
+            } catch {
+                leaveBreadcrumb(.fatal, category: "api", message: "Unhandled error type", data: ["error": error])
 
-            throw Error(from: error)
+                throw Error(from: error)
+            }
         }
 
         guard let data = json else {
@@ -143,7 +162,7 @@ extension API {
         let statusCode: Int = httpResponse?.statusCode ?? 599
 
         if let instance {
-            InstanceResolver.shared.noteSuccess(for: url, instance: instance)
+            InstanceResolver.shared.noteSuccess(for: attemptedURL, instance: instance)
         }
 
         // print(String(data: data, encoding: .utf8) ?? "non-utf8 response")
@@ -158,7 +177,7 @@ extension API {
             do {
                 return try decoder.decode(Response.self, from: data)
             } catch let decodingError as DecodingError {
-                leaveAttachment(url, data)
+                leaveAttachment(attemptedURL, data)
                 leaveBreadcrumb(.fatal, category: "api", message: decodingError.context.debugDescription, data: ["error": decodingError])
 
                 throw Error.decodingError(decodingError)
@@ -198,18 +217,12 @@ extension API {
         timeout: RequestTimeout = .default,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
-        session: URLSession = .shared
+        session: URLSession = .shared,
+        allowFailover: Bool = true
     ) async throws -> Response {
         try await request(
-            method: method,
-            url: url,
-            headers: headers,
-            body: Empty?.none,
-            instance: instance,
-            timeout: timeout,
-            decoder: decoder,
-            encoder: encoder,
-            session: session
+            method: method, url: url, headers: headers, body: Empty?.none, instance: instance,
+            timeout: timeout, decoder: decoder, encoder: encoder, session: session, allowFailover: allowFailover
         )
     }
 
@@ -225,15 +238,8 @@ extension API {
         session: URLSession = .shared
     ) async throws -> Response {
         try await request(
-            method: method,
-            url: url,
-            headers: headers,
-            body: body,
-            instance: instance,
-            timeout: instance?.timeout(timeout) ?? .default,
-            decoder: decoder,
-            encoder: encoder,
-            session: session
+            method: method, url: url, headers: headers, body: body, instance: instance,
+            timeout: instance?.timeout(timeout) ?? .default, decoder: decoder, encoder: encoder, session: session
         )
     }
 
@@ -248,20 +254,33 @@ extension API {
         session: URLSession = .shared
     ) async throws -> Response {
         try await request(
-            method: method,
-            url: url,
-            headers: headers,
-            instance: instance,
-            timeout: instance?.timeout(timeout) ?? .default,
-            decoder: decoder,
-            encoder: encoder,
-            session: session
+            method: method, url: url, headers: headers, instance: instance,
+            timeout: instance?.timeout(timeout) ?? .default, decoder: decoder, encoder: encoder, session: session
         )
     }
 
     private static func effectiveTimeout(for url: URL, method: HTTPMethod, timeout: RequestTimeout) -> Double {
         guard method == .get, timeout.local != timeout.remote, let host = url.host() else { return timeout.remote }
         return timeout.interval(isLocal: NetworkInterfaces.role(forHost: host) == .lan)
+    }
+
+    private static func data(for request: URLRequest, session: URLSession, retryOnConnectionLost: Bool) async throws -> (Data, URLResponse) {
+        do {
+            return try await session.data(for: request)
+        } catch let urlError as URLError where retryOnConnectionLost && urlError.code == .networkConnectionLost {
+            return try await session.data(for: request)
+        }
+    }
+
+    private static func canFailover(_ code: URLError.Code, method: HTTPMethod) -> Bool {
+        switch code {
+        case .cannotConnectToHost, .cannotFindHost, .dnsLookupFailed:
+            return true
+        case .timedOut, .networkConnectionLost:
+            return method == .get
+        default:
+            return false
+        }
     }
 
     private static func parseResponseHeaders(_ response: HTTPURLResponse?) -> [String: Any] {

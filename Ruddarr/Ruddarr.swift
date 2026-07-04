@@ -86,9 +86,14 @@ extension WhatsNew {
     // ----------------------------------------------------------------------------------------------⌄⌄⌄
     static let features: [WhatsNewFeature] = [
         .init(
+            image: "point.3.connected.trianglepath.dotted",
+            title: "Alternate URLs",
+            subtitle: "Set an Alternate URL to automagically connect using to the best URL."
+        ),
+        .init(
             image: "arrow.down.circle",
             title: "Download Indicators",
-            subtitle: "Display queue status for movies, seasons and episodes in various places."
+            subtitle: "See the queue status for movies, seasons and episodes in various places."
         ),
         .init(
             image: "calendar",
@@ -103,12 +108,12 @@ extension WhatsNew {
         .init(
             image: "bolt",
             title: "Performance",
-            subtitle: "Improved image loading as well as grid filtering and sorting performance."
+            subtitle: "Improved image loading and grid filtering/sorting performance."
         ),
         .init(
             image: "ladybug",
-            title: "Fixes & Improvements",
-            subtitle: "Several dozens of refinements, fixes and code improvements."
+            title: "Improvements & Fixes",
+            subtitle: "Many dozens of quality-of-life improvements and bug fixes throughout the app."
         )
     ]
 }

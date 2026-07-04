@@ -7,17 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
+- Support alternate instance URLs and automatic network detection
 - Display queue status for movies, seasons and episodes
 - Switched to sheets for calendar navigation
+- Display available storage for root folders
 - Display disk space usage and statistics for instances
 - Added Trakt movie ratings
 - Added quick look preview to media posters
 - Added "History" to sidebar on iPadOS
 - Added discovery grid toggle for library items
-- Show counts below media grids
+- Show library counts below media grids
 - Jump from a queue task to its movie or series
-- Play haptic feedback when an alert is shown
-- Display available storage for root folders
+- Trigger haptic feedback when an alert is displayed
 
 ### Changed
 - Improved instance synchronization across devices
@@ -25,7 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved image loading performance
 - Improved media grid sorting/filtering performance
 - Improved performance of loading movie files
-- Animate discovery grid loading indicator
+- Animate media grids, calendar and loading indicators
 - Debounce library search queries
 - Removed sidebar header on iPadOS
 - Refined sections in settings view

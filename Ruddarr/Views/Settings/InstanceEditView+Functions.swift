@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 extension InstanceEditView {
     func createOrUpdateInstance() async {
@@ -7,6 +8,8 @@ extension InstanceEditView {
 
             sanitizeInstanceUrl()
             try await validateInstance()
+
+            instance.label = instance.label.trimmed()
 
             if instance.label.isEmpty {
                 instance.label = instance.type.rawValue
@@ -48,28 +51,38 @@ extension InstanceEditView {
     }
 
     func hasEmptyFields() -> Bool {
-        instance.url.isEmpty || instance.apiKey.isEmpty
+        (instance.url.isEmpty && instance.alternateURL.isEmpty) || instance.apiKey.isEmpty
     }
 
     func sanitizeInstanceUrl() {
-        if let url = URL(string: instance.url) {
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+        instance.url = sanitizedUrl(instance.url)
+        instance.alternateURL = sanitizedUrl(instance.alternateURL)
 
+        if instance.url.isEmpty {
+            instance.url = instance.alternateURL
+            instance.alternateURL = ""
+        }
+    }
+
+    func sanitizedUrl(_ string: String) -> String {
+        var value = string.trimmed()
+
+        guard !value.isEmpty else { return "" }
+
+        if let url = URL(string: value), var components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
             components.path = stripAfter("/system", in: components.path)
             components.path = stripAfter("/settings", in: components.path)
             components.path = stripAfter("/activity", in: components.path)
             components.path = stripAfter("/calendar", in: components.path)
 
             if let urlWithoutPath = components.url {
-                instance.url = urlWithoutPath.absoluteString
+                value = urlWithoutPath.absoluteString
             }
         }
 
-        instance.url = instance.url.lowercased()
+        value = value.lowercased()
 
-        if instance.url.hasSuffix("/") {
-            instance.url = String(instance.url.dropLast())
-        }
+        return value.untrailingSlashIt ?? value
     }
 
     func stripAfter(_ path: String, in string: String) -> String {
@@ -81,19 +94,10 @@ extension InstanceEditView {
     }
 
     func validateInstance() async throws {
-        guard instance.url.starts(with: /https?:\/\//) else {
-            throw InstanceError.urlSchemeMissing
-        }
+        try validatePrimaryURL()
+        try validateAlternateURL()
 
-        guard let url = URL(string: instance.url) else {
-            throw InstanceError.urlNotValid
-        }
-
-        if ["localhost", "127.0.0.1"].contains(url.host()) {
-            throw InstanceError.urlIsLocal
-        }
-
-        if instance.isPrivateIp(), await NetworkMonitor.shared.localNetworkDenied {
+        if instance.hasOnlyPrivateIpCandidates(), await NetworkMonitor.shared.localNetworkDenied {
             throw InstanceError.localNetworkDenied
         }
 
@@ -115,9 +119,82 @@ extension InstanceEditView {
             throw InstanceError.badAppName(appName, instance.type.rawValue)
         }
 
+        try await validateCandidateAppNames()
+
         if let status {
             instance.name = status.instanceName
             instance.version = status.version
+        }
+    }
+
+    func validateCandidateAppNames() async throws {
+        let candidates = instance.candidateURLs
+        guard candidates.count > 1 else { return }
+
+        let selected = InstanceResolver.shared.currentSelection(for: instance)
+
+        for base in candidates where base != selected {
+            guard let statusURL = URL(string: base)?.appending(path: "/api/v3/system/status") else { continue }
+
+            let status: InstanceStatus
+            do {
+                status = try await API.request(
+                    url: statusURL, instance: instance,
+                    timeout: RequestTimeout(local: 2.5, remote: 5), allowFailover: false
+                )
+            } catch {
+                leaveBreadcrumb(.info, category: "instance", message: "Candidate URL unreachable during validation", data: ["error": error])
+                continue
+            }
+
+            if status.appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
+                throw InstanceError.badAppName(status.appName, instance.type.rawValue)
+            }
+        }
+    }
+
+    func validateURL(
+        _ string: String,
+        schemeMissing: InstanceError,
+        notValid: InstanceError,
+        isLocal: InstanceError
+    ) throws {
+        guard string.starts(with: /https?:\/\//) else {
+            throw schemeMissing
+        }
+
+        guard let url = URL(string: string) else {
+            throw notValid
+        }
+
+        let host = NetworkInterfaces.host(of: string) ?? url.host() ?? ""
+
+        if host == "localhost" || NetworkInterfaces.literalLoopback(host) {
+            throw isLocal
+        }
+    }
+
+    func validatePrimaryURL() throws {
+        try validateURL(
+            instance.url,
+            schemeMissing: .urlSchemeMissing,
+            notValid: .urlNotValid,
+            isLocal: .urlIsLocal
+        )
+    }
+
+    func validateAlternateURL() throws {
+        guard !instance.alternateURL.isEmpty else { return }
+
+        try validateURL(
+            instance.alternateURL,
+            schemeMissing: .alternateUrlSchemeMissing,
+            notValid: .alternateUrlNotValid,
+            isLocal: .alternateUrlIsLocal
+        )
+
+        if instance.candidateURLs.count < 2 {
+            throw InstanceError.alternateSameAsUrl
         }
     }
 

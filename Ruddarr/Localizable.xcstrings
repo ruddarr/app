@@ -562,6 +562,16 @@
         }
       }
     },
+    "Alternate URL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternate URL"
+          }
+        }
+      }
+    },
     "Alternatively, %@ comes with many notification integrations that can be self-hosted." : {
       "localizations" : {
         "en" : {
@@ -1118,6 +1128,26 @@
         }
       }
     },
+    "Connected to %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connected to %@"
+          }
+        }
+      }
+    },
+    "Connecting to %@..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecting to %@..."
+          }
+        }
+      }
+    },
     "Connecting..." : {
       "localizations" : {
         "en" : {
@@ -1639,16 +1669,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enter a valid URL."
-          }
-        }
-      }
-    },
-    "Enter an instance label." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter an instance label."
           }
         }
       }
@@ -2355,12 +2375,12 @@
         }
       }
     },
-    "Invalid Instance Label" : {
+    "Invalid Alternate URL" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Invalid Instance Label"
+            "value" : "Invalid Alternate URL"
           }
         }
       }
@@ -5132,6 +5152,16 @@
         }
       }
     },
+    "The Alternate URL must be different from the primary URL." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Alternate URL must be different from the primary URL."
+          }
+        }
+      }
+    },
     "The API Key can be found in the web interface under \"Settings > General > Security\"." : {
       "localizations" : {
         "en" : {
@@ -5714,6 +5744,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "What's New in %@"
+          }
+        }
+      }
+    },
+    "When using an Alternate URL, %@ automatically connects to the best URL for the network, whether local, VPN, or remote." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When using an Alternate URL, %@ automatically connects to the best URL for the network, whether local, VPN, or remote."
           }
         }
       }

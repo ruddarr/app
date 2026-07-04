@@ -35,12 +35,10 @@ extension InstanceView {
             if metadataReady {
                 Text(verbatim: summaryParts.joined(separator: " • "))
                     .contentTransition(.numericText())
-                    .transition(.opacity)
             } else {
                 ProgressView()
                     .controlSize(.small)
                     .tint(.secondary)
-                    .transition(.opacity)
             }
         }
         .animation(.snappy, value: metadataReady)

@@ -10,7 +10,7 @@ struct Instance: Identifiable, Equatable, Codable {
     var mode: InstanceMode = .normal
     var label: String = ""
     var url: String = ""
-    var fallbackURL: String = ""
+    var alternateURL: String = ""
     var apiKey: String = ""
     var headers: [InstanceHeader] = []
     var rootFolders: [InstanceRootFolder] = []
@@ -39,7 +39,7 @@ struct Instance: Identifiable, Equatable, Codable {
         rootFolders = try values.decode([InstanceRootFolder].self, forKey: .rootFolders)
         qualityProfiles = try values.decode([InstanceQualityProfile].self, forKey: .qualityProfiles)
         tags = try values.decodeIfPresent([Tag].self, forKey: .tags) ?? []
-        fallbackURL = try values.decodeIfPresent(String.self, forKey: .fallbackURL) ?? ""
+        alternateURL = try values.decodeIfPresent(String.self, forKey: .alternateURL) ?? ""
         name = try values.decodeIfPresent(String.self, forKey: .name)
         version = try values.decodeIfPresent(String.self, forKey: .version)
         stats = try values.decodeIfPresent(InstanceStats.self, forKey: .stats)
@@ -51,7 +51,7 @@ struct Instance: Identifiable, Equatable, Codable {
         config.mode = mode
         config.label = label
         config.url = url
-        config.fallbackURL = fallbackURL
+        config.alternateURL = alternateURL
         config.apiKey = apiKey
         config.headers = headers
         config.name = name
@@ -79,7 +79,7 @@ struct Instance: Identifiable, Equatable, Codable {
         var seen: Set<String> = []
         var result: [String] = []
 
-        for raw in [url, fallbackURL] {
+        for raw in [url, alternateURL] {
             guard var normalized = raw.trimmed().untrailingSlashIt, !normalized.isEmpty else { continue }
 
             if let canonical = URL(string: normalized)?.absoluteString {
@@ -107,6 +107,16 @@ struct Instance: Identifiable, Equatable, Codable {
         let bases = primaryOnly ? Array(candidateURLs.prefix(1)) : candidateURLs
 
         return bases.contains { base in
+            guard let host = NetworkInterfaces.host(of: base) else { return false }
+            return isPrivateIpAddress(host)
+        }
+    }
+
+    func hasOnlyPrivateIpCandidates() -> Bool {
+        let bases = candidateURLs
+        guard !bases.isEmpty else { return false }
+
+        return bases.allSatisfy { base in
             guard let host = NetworkInterfaces.host(of: base) else { return false }
             return isPrivateIpAddress(host)
         }
