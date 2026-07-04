@@ -5,6 +5,7 @@ enum InstanceError: Error {
     case urlNotValid
     case urlSchemeMissing
 
+    case alternateUrlIsLocal
     case alternateUrlNotValid
     case alternateUrlSchemeMissing
     case alternateSameAsUrl
@@ -19,7 +20,7 @@ extension InstanceError: LocalizedError {
         switch self {
         case .urlIsLocal, .urlNotValid, .urlSchemeMissing:
             String(localized: "Invalid URL")
-        case .alternateUrlNotValid, .alternateSameAsUrl, .alternateUrlSchemeMissing:
+        case .alternateUrlIsLocal, .alternateUrlNotValid, .alternateSameAsUrl, .alternateUrlSchemeMissing:
             String(localized: "Invalid Alternate URL")
         case .localNetworkDenied:
             String(localized: "Local Network Access Denied")
@@ -32,7 +33,7 @@ extension InstanceError: LocalizedError {
 
     var recoverySuggestion: String? {
         switch self {
-        case .urlIsLocal:
+        case .urlIsLocal, .alternateUrlIsLocal:
             String(localized: "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work.")
         case .urlNotValid, .alternateUrlNotValid:
             String(localized: "Enter a valid URL.")

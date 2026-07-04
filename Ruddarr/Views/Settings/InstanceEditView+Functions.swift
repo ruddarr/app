@@ -157,7 +157,7 @@ extension InstanceEditView {
         let alternateHost = NetworkInterfaces.host(of: instance.alternateURL) ?? alternateURL.host() ?? ""
 
         if alternateHost == "localhost" || NetworkInterfaces.literalLoopback(alternateHost) {
-            throw InstanceError.alternateUrlNotValid
+            throw InstanceError.alternateUrlIsLocal
         }
 
         if instance.candidateURLs.count < 2 {
