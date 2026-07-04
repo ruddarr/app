@@ -71,7 +71,8 @@ extension API {
         timeout: RequestTimeout = .default,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
-        session: URLSession = .shared
+        session: URLSession = .shared,
+        allowFailover: Bool = true
     ) async throws -> Response {
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601extended
@@ -124,7 +125,7 @@ extension API {
             } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
                 throw Error.notConnectedToInternet
             } catch let urlError as URLError {
-                if failovers < maxFailovers, Self.canFailover(urlError.code, method: method), let instance,
+                if allowFailover, failovers < maxFailovers, Self.canFailover(urlError.code, method: method), let instance,
                    let fallback = InstanceResolver.shared.failover(afterFailing: attemptedURL, for: instance)
                 {
                     leaveBreadcrumb(.info, category: "api", message: "Switching to next instance URL", data: ["code": urlError.code.rawValue])
@@ -216,11 +217,12 @@ extension API {
         timeout: RequestTimeout = .default,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
-        session: URLSession = .shared
+        session: URLSession = .shared,
+        allowFailover: Bool = true
     ) async throws -> Response {
         try await request(
             method: method, url: url, headers: headers, body: Empty?.none, instance: instance,
-            timeout: timeout, decoder: decoder, encoder: encoder, session: session
+            timeout: timeout, decoder: decoder, encoder: encoder, session: session, allowFailover: allowFailover
         )
     }
 

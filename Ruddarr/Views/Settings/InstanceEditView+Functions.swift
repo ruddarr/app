@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 extension InstanceEditView {
     func createOrUpdateInstance() async {
@@ -122,9 +123,37 @@ extension InstanceEditView {
             throw InstanceError.badAppName(appName, instance.type.rawValue)
         }
 
+        try await validateCandidateAppNames()
+
         if let status {
             instance.name = status.instanceName
             instance.version = status.version
+        }
+    }
+
+    func validateCandidateAppNames() async throws {
+        let candidates = instance.candidateURLs
+        guard candidates.count > 1 else { return }
+
+        let selected = InstanceResolver.shared.currentSelection(for: instance)
+
+        for base in candidates where base != selected {
+            guard let statusURL = URL(string: base)?.appending(path: "/api/v3/system/status") else { continue }
+
+            let status: InstanceStatus
+            do {
+                status = try await API.request(
+                    url: statusURL, instance: instance,
+                    timeout: RequestTimeout(local: 2.5, remote: 5), allowFailover: false
+                )
+            } catch {
+                leaveBreadcrumb(.info, category: "instance", message: "Candidate URL unreachable during validation", data: ["error": error])
+                continue
+            }
+
+            if status.appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
+                throw InstanceError.badAppName(status.appName, instance.type.rawValue)
+            }
         }
     }
 
