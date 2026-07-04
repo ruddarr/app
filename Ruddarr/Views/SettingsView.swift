@@ -52,12 +52,15 @@ struct SettingsView: View {
             }
 
             addInstanceButton
-
-            #if DEBUG
-                seedInstancesButton
-            #endif
         } header: {
-            Text("Instances")
+            HStack {
+                Text("Instances")
+                Spacer()
+
+                #if DEBUG
+                    seedInstancesButton
+                #endif
+            }
         } footer: {
             if showLocalNetworkWarning {
                 localNetworkWarning
@@ -91,6 +94,7 @@ struct SettingsView: View {
                 }
             } label: {
                 Text(verbatim: "Seed Instances")
+                    .font(.callout)
             }
             #if os(macOS)
                 .buttonStyle(.link)
