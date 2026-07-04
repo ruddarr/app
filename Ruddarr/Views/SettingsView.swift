@@ -146,7 +146,7 @@ struct SettingsView: View {
             showInstanceNameWarning = settings.instances.count != uniqueNames.count
         }
 
-        let hasLocalInstances = settings.instances.contains { $0.isPrivateIp() }
+        let hasLocalInstances = settings.instances.contains { $0.hasOnlyPrivateIpCandidates() }
         let localNetworkDenied = await NetworkMonitor.shared.localNetworkDenied
 
         showLocalNetworkWarning = hasLocalInstances && localNetworkDenied
