@@ -1118,6 +1118,16 @@
         }
       }
     },
+    "Connected" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connected"
+          }
+        }
+      }
+    },
     "Connected to %@" : {
       "localizations" : {
         "en" : {
@@ -1134,6 +1144,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Connecting to %@..."
+          }
+        }
+      }
+    },
+    "Connecting..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecting..."
           }
         }
       }

@@ -10,7 +10,7 @@ struct InstanceRow: View {
     @State private var currentURL: String = ""
     @State private var webhook: Webhook = .pending
     @State private var notifications: Bool = false
-    @State private var networkToken: Int = 0
+    @State private var networkToken = UUID()
 
     @Environment(AppSettings.self) private var settings
 
@@ -56,7 +56,7 @@ struct InstanceRow: View {
             await checkInstanceConnection()
         }
         .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
-            networkToken += 1
+            networkToken = UUID()
         }
     }
 
