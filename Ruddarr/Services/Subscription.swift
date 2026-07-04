@@ -88,7 +88,7 @@ class Subscription {
     }
 }
 
-enum SubscriptionStatus {
+enum SubscriptionStatus: String {
     case subscribed
     case notSubscribed
     case expired

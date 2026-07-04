@@ -7,7 +7,7 @@ struct SettingsPreferencesSection: View {
     @Environment(\.colorScheme) private var colorScheme
 
     @State private var showSubscriptionSheet: Bool = false
-    @State private var subscriptionStatus: SubscriptionStatus = .unknown
+    @AppStorage("subscription", store: dependencies.store) private var subscriptionStatus: SubscriptionStatus = .unknown
 
     var body: some View {
         Section {
