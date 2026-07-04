@@ -63,6 +63,9 @@ struct InstanceRow: View {
         }
         .animation(.default, value: connection)
         .animation(.default, value: currentURL)
+        .task {
+            await checkNotificationsStatus()
+        }
         .task(id: networkToken) {
             await checkInstanceConnection()
         }
@@ -85,8 +88,6 @@ struct InstanceRow: View {
 
     func checkInstanceConnection() async {
         let selection = hostPort(InstanceResolver.shared.currentSelection(for: instance))
-
-        await checkNotificationsStatus()
 
         do {
             let lastCheck = "instanceCheck:\(instance.id)"
