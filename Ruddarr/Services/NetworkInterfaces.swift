@@ -177,19 +177,64 @@ enum NetworkInterfaces {
     }
 
     /// Maps a `(role, on-link)` pair to its selection score — the single source of the
-    /// ladder: on-link LAN (home) ► Tailscale up ► remote ► off-link/ambiguous private ►
-    /// Tailscale down (a `*.ts.net` with the tunnel off would only NXDOMAIN). When Local
-    /// Network access is denied, an on-link LAN address (except loopback, which isn't gated)
-    /// can't be reached, so it drops to the off-link score and a routable remote wins instead
-    /// of the request timing out.
-    private static func score(role: InstanceURLRole, onLink: Bool, snapshot: NetworkSnapshot, isLoopback: Bool) -> Int {
+    /// ladder: on-link LAN (home) ► Tailscale up ► off-link private sharing the home network
+    /// (a sibling VLAN) ► remote ► off-link private elsewhere ► Tailscale down (a `*.ts.net`
+    /// with the tunnel off would only NXDOMAIN). When Local Network access is denied, a LAN
+    /// address (except loopback, which isn't gated) can't be reached, so it drops to the
+    /// off-link score and a routable remote wins instead of the request timing out.
+    private static func score(
+        role: InstanceURLRole, onLink: Bool, snapshot: NetworkSnapshot, isLoopback: Bool, sharesHomeNetwork: Bool = false
+    ) -> Int {
         switch role {
         case .lan:
-            let reachable = onLink && (isLoopback || !snapshot.localNetworkDenied)
-            return reachable ? 100 : 30
+            if isLoopback { return 100 }                                    // this device — always reachable, never gated
+            if onLink { return snapshot.localNetworkDenied ? 30 : 100 }     // same subnet, gated only by Local Network access
+            // Off-link private address (a different subnet). When it shares an RFC1918 block /
+            // ULA /48 with one of the device's own on-link subnets it is most likely a sibling
+            // VLAN behind the same router — inter-VLAN routed and reachable — so rank it ABOVE a
+            // remote URL (60 > 50), the case a home user with split-horizon DNS expects. A
+            // foreign LAN whose private range merely overlaps won't share the aggregate and
+            // stays at 30, below remote, so selection still never picks something that only times
+            // out away from home. A wrong guess fails fast and demotes.
+            return (sharesHomeNetwork && !snapshot.localNetworkDenied) ? 60 : 30
         case .tailscale: return snapshot.tailnetUp ? 90 : 5
         case .remote: return 50
         }
+    }
+
+    /// Whether an off-link *private* address plausibly sits on the same home network as one of
+    /// the device's own on-link subnets — same RFC1918 top-level block (10/8, 172.16/12,
+    /// 192.168/16) or same ULA /48. This is the signal that separates "another VLAN behind my
+    /// router" (routed, reachable) from a foreign LAN whose private range merely overlaps, so
+    /// only the former is allowed to outrank a remote URL. Non-private / unresolved candidates
+    /// (empty or public `addresses`) never match.
+    static func sharesHomeNetwork(addresses: [String], snapshot: NetworkSnapshot) -> Bool {
+        addresses.contains { address in
+            if let v4 = parseIPv4(address), let block = privateBlockV4(v4) {
+                return snapshot.lanV4.contains { privateBlockV4($0.address) == block }
+            }
+            if let bytes = parseIPv6(address), isUniqueLocalV6(bytes) {
+                let globalID = bytes.prefix(6)                              // fd00::/8 + 40-bit global ID = /48
+                return snapshot.lanV6.contains { $0.address.count >= 6 && $0.address.prefix(6).elementsEqual(globalID) }
+            }
+            return false
+        }
+    }
+
+    /// The canonical key for an address's RFC1918 top-level block, or `nil` if it isn't private.
+    /// The whole 172.16/12 and 192.168/16 ranges each collapse to a single key so two addresses
+    /// anywhere within one behave as same-home.
+    private static func privateBlockV4(_ ip: UInt32) -> UInt32? {
+        if (ip & 0xFF00_0000) == 0x0A00_0000 { return 0x0A00_0000 }   // 10.0.0.0/8
+        if (ip & 0xFFF0_0000) == 0xAC10_0000 { return 0xAC10_0000 }   // 172.16.0.0/12
+        if (ip & 0xFFFF_0000) == 0xC0A8_0000 { return 0xC0A8_0000 }   // 192.168.0.0/16
+        return nil
+    }
+
+    /// `fc00::/7` unique-local — the routable-only-on-a-link IPv6 analogue of RFC1918, excluding
+    /// link-local and loopback (handled elsewhere), used to match a ULA name against a ULA LAN.
+    private static func isUniqueLocalV6(_ bytes: [UInt8]) -> Bool {
+        bytes.count == 16 && (bytes[0] & 0xFE) == 0xFC
     }
 
     /// A *literal* IP host's on-link and loopback facts from a single parse, or `nil` when the
@@ -251,11 +296,13 @@ enum NetworkInterfaces {
             let chosenRole: InstanceURLRole
             let onLink: Bool
             let isLoopback: Bool
+            let addresses: [String]
 
             if let resolution = resolved[host] {
                 chosenRole = resolution.role
                 onLink = resolution.onLink
                 isLoopback = resolution.isLoopback
+                addresses = resolution.addresses
             } else {
                 let literal = literalReachability(host, snapshot: snapshot)
                 switch role(forHost: host) {
@@ -264,9 +311,15 @@ enum NetworkInterfaces {
                 case .remote: chosenRole = .remote; onLink = false
                 }
                 isLoopback = literal?.isLoopback ?? false
+                addresses = [host] // a literal IP scores off itself; a name has no addresses until resolved
             }
 
-            return (chosenRole, onLink, score(role: chosenRole, onLink: onLink, snapshot: snapshot, isLoopback: isLoopback))
+            // Only an off-link LAN candidate can be rescued by sharing the device's home network.
+            let sharesHome = chosenRole == .lan && !onLink && sharesHomeNetwork(addresses: addresses, snapshot: snapshot)
+
+            return (chosenRole, onLink, score(
+                role: chosenRole, onLink: onLink, snapshot: snapshot, isLoopback: isLoopback, sharesHomeNetwork: sharesHome
+            ))
         }
 
         return candidates.enumerated().map { offset, base -> (offset: Int, ranking: CandidateRanking) in

@@ -338,6 +338,45 @@ struct NetworkInterfacesTests {
         #expect(ordered.last == localDomain)
     }
 
+    @Test func offLinkPrivateSharingHomeBlockBeatsRemoteOnLAN() {
+        // Home with VLANs: the device sits on 192.168.1.0/24 and the split-horizon name resolves
+        // off-link to 192.168.10.20 — a sibling subnet behind the same router. Sharing the
+        // 192.168/16 block, it is treated as reachable and outranks the remote URL, the behaviour
+        // a user who set the internal name as primary expects on their home network.
+        let home = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.1.0", 24)])
+        let resolved = [
+            "radarr.examplehomelab.com": ResolvedHost(role: .lan, onLink: false, addresses: [v4str("192.168.10.20")]),
+            "radarr.external.com": ResolvedHost(role: .remote, onLink: false),
+        ]
+        let ordered = NetworkInterfaces.orderedBases([localDomain, remoteDomain], snapshot: home, resolved: resolved)
+        #expect(ordered.first == localDomain)
+    }
+
+    @Test func offLinkPrivateInDifferentBlockStaysBelowRemote() {
+        // Foreign LAN: the device is on 172.16.9.0/24 and the name resolves off-link to
+        // 192.168.1.50 — a different private block, so almost certainly not routable from here.
+        // It must stay below the remote URL so selection never picks something that only times out.
+        let foreign = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("172.16.9.0", 24)])
+        let resolved = [
+            "radarr.examplehomelab.com": ResolvedHost(role: .lan, onLink: false, addresses: [v4str("192.168.1.50")]),
+            "radarr.external.com": ResolvedHost(role: .remote, onLink: false),
+        ]
+        let ordered = NetworkInterfaces.orderedBases([localDomain, remoteDomain], snapshot: foreign, resolved: resolved)
+        #expect(ordered.first == remoteDomain)
+    }
+
+    @Test func offLinkPrivateSharingHomeBlockStaysBelowRemoteWhenLocalNetworkDenied() {
+        // Same sibling-VLAN address, but Local Network access is denied: it can't be reached, so
+        // the boost is withheld and the routable remote wins — mirroring the on-link denial rule.
+        let denied = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.1.0", 24)], localNetworkDenied: true)
+        let resolved = [
+            "radarr.examplehomelab.com": ResolvedHost(role: .lan, onLink: false, addresses: [v4str("192.168.10.20")]),
+            "radarr.external.com": ResolvedHost(role: .remote, onLink: false),
+        ]
+        let ordered = NetworkInterfaces.orderedBases([localDomain, remoteDomain], snapshot: denied, resolved: resolved)
+        #expect(ordered.first == remoteDomain)
+    }
+
     @Test func unresolvedHostnamesKeepCanonicalOrder() {
         // Before any lookup lands, two hostnames are lexically both `.remote`: keep the
         // canonical URL first and let resolution / self-correct refine.
