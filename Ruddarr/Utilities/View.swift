@@ -72,9 +72,7 @@ extension View {
             }
     }
 
-    // Collapses a `.searchable` search bar before the app leaves the foreground,
-    // or the screen leaves the window because another tab was selected. UIKit
-    // traps when restoring a suspended search presentation on iOS 26.4+.
+    // Attempt to fix UIKit crash: https://github.com/ruddarr/app/issues/719
     func dismissSearchWhenHidden(_ isPresented: Binding<Bool>) -> some View {
         #if os(iOS)
             modifier(DismissSearchWhenHidden(isPresented: isPresented))
@@ -83,38 +81,6 @@ extension View {
         #endif
     }
 }
-
-#if os(iOS)
-private struct DismissSearchWhenHidden: ViewModifier {
-    @Binding var isPresented: Bool
-
-    @State private var tab: TabItem?
-    @Environment(\.scenePhase) private var scenePhase
-
-    func body(content: Content) -> some View {
-        content
-            .onAppear {
-                tab = dependencies.router.selectedTab
-            }
-            .onChange(of: scenePhase) { _, phase in
-                if phase != .active {
-                    collapse()
-                }
-            }
-            .onDisappear {
-                if tab != dependencies.router.selectedTab {
-                    collapse()
-                }
-            }
-    }
-
-    private func collapse() {
-        if isPresented {
-            isPresented = false
-        }
-    }
-}
-#endif
 
 private struct OnBecomeActiveModifier: ViewModifier {
     let action: () async -> Void
@@ -280,6 +246,38 @@ private struct DynamicPresentationDetents: ViewModifier {
         }
     }
 }
+
+#if os(iOS)
+private struct DismissSearchWhenHidden: ViewModifier {
+    @Binding var isPresented: Bool
+
+    @State private var tab: TabItem?
+    @Environment(\.scenePhase) private var scenePhase
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear {
+                tab = dependencies.router.selectedTab
+            }
+            .onChange(of: scenePhase) { _, phase in
+                if phase != .active {
+                    collapse()
+                }
+            }
+            .onDisappear {
+                if tab != dependencies.router.selectedTab {
+                    collapse()
+                }
+            }
+    }
+
+    private func collapse() {
+        if isPresented {
+            isPresented = false
+        }
+    }
+}
+#endif
 
 extension SearchFieldPlacement {
     enum DrawerDisplayMode { case automatic, always }
