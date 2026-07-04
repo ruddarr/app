@@ -34,6 +34,8 @@ struct WhatsNewView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
 
+    @State private var locked: Bool = true
+
     var body: some View {
         ZStack {
             ScrollView(.vertical, showsIndicators: false) {
@@ -92,7 +94,7 @@ struct WhatsNewView: View {
                     } label: {
                         Text("Release Notes", comment: "Also know as changelog")
                     }
-                    .foregroundStyle(.tint)
+                    .foregroundStyle(locked ? AnyShapeStyle(.gray) : AnyShapeStyle(.tint))
                     .padding(.bottom, 10)
 
                     Button {
@@ -109,9 +111,15 @@ struct WhatsNewView: View {
                     }
                     .buttonStyle(.glassProminent)
                 }
+                .disabled(locked)
+                .animation(.easeIn, value: locked)
 
                 Spacer()
             }
+        }
+        .task {
+            try? await Task.sleep(for: .seconds(3))
+            locked = false
         }
     }
 

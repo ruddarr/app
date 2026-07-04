@@ -88,7 +88,7 @@ extension WhatsNew {
         .init(
             image: "point.3.connected.trianglepath.dotted",
             title: "Alternate URLs",
-            subtitle: "Set an Alternate URL to automagically connect using to the best URL."
+            subtitle: "Automagically connect using the best URL for the current network."
         ),
         .init(
             image: "arrow.down.circle",
