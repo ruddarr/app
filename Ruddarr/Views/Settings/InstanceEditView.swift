@@ -161,7 +161,7 @@ struct InstanceEditView: View {
             Text("URL")
                 .layoutPriority(2)
 
-            TextField(text: $instance.url, prompt: urlPlaceholder) { EmptyView() }
+            TextField(text: $instance.url, prompt: urlPlaceholders.url) { EmptyView() }
                 .truncationMode(.head)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)
@@ -180,7 +180,7 @@ struct InstanceEditView: View {
             Text("Alternate URL")
                 .layoutPriority(2)
 
-            TextField(text: $instance.alternateURL, prompt: alternateUrlPlaceholder) { EmptyView() }
+            TextField(text: $instance.alternateURL, prompt: urlPlaceholders.alternate) { EmptyView() }
                 .truncationMode(.head)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)
@@ -290,12 +290,11 @@ struct InstanceEditView: View {
         }
     }
 
-    var urlPlaceholder: Text {
-        Text(showAdvanced ? tldPlaceholder : ipPlaceholder)
-    }
+    var urlPlaceholders: (url: Text, alternate: Text) {
+        let ip = Text(verbatim: ipPlaceholder)
+        let tld = Text(verbatim: tldPlaceholder)
 
-    var alternateUrlPlaceholder: Text {
-        Text(showAdvanced ? ipPlaceholder : tldPlaceholder)
+        return showAdvanced ? (url: tld, alternate: ip) : (url: ip, alternate: tld)
     }
 
     var deleteButton: some View {
