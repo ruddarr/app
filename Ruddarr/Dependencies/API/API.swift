@@ -107,42 +107,50 @@ extension API {
 
         var json: Data?
         var response: URLResponse?
+        var attemptedURL = url
+        let maxFailovers = (instance?.candidateURLs.count ?? 1) - 1
+        var failovers = 0
 
-        do {
-            (json, response) = try await Self.data(for: request, session: session)
-        } catch let cancellationError as CancellationError {
-            // re-throw `CancellationError` so they can be handled elsewhere
-            throw cancellationError
-        } catch let urlError as URLError where urlError.code == .cancelled {
-            // re-throw `URLError.cancelled` as `CancellationError`
-            throw CancellationError()
-        } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
-            throw Error.notConnectedToInternet
-        } catch let urlError as URLError {
-            if Self.isCandidateFailure(urlError.code), let instance,
-               let fallback = InstanceResolver.shared.failover(afterFailing: url, for: instance)
-            {
-                leaveBreadcrumb(.info, category: "api", message: "Switching to next instance URL", data: ["code": urlError.code.rawValue])
+        attempts: while true {
+            do {
+                (json, response) = try await Self.data(for: request, session: session, retryOnConnectionLost: method == .get)
+                break attempts
+            } catch let cancellationError as CancellationError {
+                // re-throw `CancellationError` so they can be handled elsewhere
+                throw cancellationError
+            } catch let urlError as URLError where urlError.code == .cancelled {
+                // re-throw `URLError.cancelled` as `CancellationError`
+                throw CancellationError()
+            } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
+                throw Error.notConnectedToInternet
+            } catch let urlError as URLError {
+                if failovers < maxFailovers, Self.canFailover(urlError.code, method: method), let instance,
+                   let fallback = InstanceResolver.shared.failover(afterFailing: attemptedURL, for: instance)
+                {
+                    leaveBreadcrumb(.info, category: "api", message: "Switching to next instance URL", data: ["code": urlError.code.rawValue])
 
-                return try await Self.request(
-                    method: method, url: fallback, headers: headers, body: body, instance: instance,
-                    timeout: timeout, decoder: decoder, encoder: encoder, session: session
-                )
+                    failovers += 1
+                    attemptedURL = fallback
+                    request.url = fallback
+                    request.timeoutInterval = Self.effectiveTimeout(for: fallback, method: method, timeout: timeout)
+
+                    continue attempts
+                }
+
+                if urlError.code == .timedOut, isPrivateIpAddress(attemptedURL.host() ?? "") {
+                    throw Error.timeoutOnPrivateIp(urlError)
+                }
+
+                throw Error.urlError(urlError)
+            } catch let localizedError as any LocalizedError {
+                throw Error.localizedError(localizedError)
+            } catch let nsError as NSError {
+                throw Error.nsError(nsError)
+            } catch {
+                leaveBreadcrumb(.fatal, category: "api", message: "Unhandled error type", data: ["error": error])
+
+                throw Error(from: error)
             }
-
-            if urlError.code == .timedOut, isPrivateIpAddress(url.host() ?? "") {
-                throw Error.timeoutOnPrivateIp(urlError)
-            }
-
-            throw Error.urlError(urlError)
-        } catch let localizedError as any LocalizedError {
-            throw Error.localizedError(localizedError)
-        } catch let nsError as NSError {
-            throw Error.nsError(nsError)
-        } catch {
-            leaveBreadcrumb(.fatal, category: "api", message: "Unhandled error type", data: ["error": error])
-
-            throw Error(from: error)
         }
 
         guard let data = json else {
@@ -153,7 +161,7 @@ extension API {
         let statusCode: Int = httpResponse?.statusCode ?? 599
 
         if let instance {
-            InstanceResolver.shared.noteSuccess(for: url, instance: instance)
+            InstanceResolver.shared.noteSuccess(for: attemptedURL, instance: instance)
         }
 
         // print(String(data: data, encoding: .utf8) ?? "non-utf8 response")
@@ -168,7 +176,7 @@ extension API {
             do {
                 return try decoder.decode(Response.self, from: data)
             } catch let decodingError as DecodingError {
-                leaveAttachment(url, data)
+                leaveAttachment(attemptedURL, data)
                 leaveBreadcrumb(.fatal, category: "api", message: decodingError.context.debugDescription, data: ["error": decodingError])
 
                 throw Error.decodingError(decodingError)
@@ -254,18 +262,20 @@ extension API {
         return timeout.interval(isLocal: NetworkInterfaces.role(forHost: host) == .lan)
     }
 
-    private static func data(for request: URLRequest, session: URLSession) async throws -> (Data, URLResponse) {
+    private static func data(for request: URLRequest, session: URLSession, retryOnConnectionLost: Bool) async throws -> (Data, URLResponse) {
         do {
             return try await session.data(for: request)
-        } catch let urlError as URLError where urlError.code == .networkConnectionLost {
+        } catch let urlError as URLError where retryOnConnectionLost && urlError.code == .networkConnectionLost {
             return try await session.data(for: request)
         }
     }
 
-    private static func isCandidateFailure(_ code: URLError.Code) -> Bool {
+    private static func canFailover(_ code: URLError.Code, method: HTTPMethod) -> Bool {
         switch code {
-        case .timedOut, .cannotConnectToHost, .cannotFindHost, .dnsLookupFailed, .networkConnectionLost:
+        case .cannotConnectToHost, .cannotFindHost, .dnsLookupFailed:
             return true
+        case .timedOut, .networkConnectionLost:
+            return method == .get
         default:
             return false
         }
