@@ -73,20 +73,8 @@ struct InstanceRow: View {
         }
     }
 
-    private func hostPort(_ urlString: String) -> String {
-        guard let components = URLComponents(string: urlString), let host = components.host else {
-            return urlString
-        }
-
-        if let port = components.port {
-            return "\(host):\(port)"
-        }
-
-        return host
-    }
-
     func checkInstanceConnection() async {
-        let selection = hostPort(InstanceResolver.shared.currentSelection(for: instance))
+        let selection = InstanceResolver.shared.currentSelection(for: instance)
 
         do {
             let lastCheck = "instanceCheck:\(instance.id)"
@@ -119,7 +107,7 @@ struct InstanceRow: View {
             await webhook.synchronize()
             self.webhook = webhook.isEnabled ? .enabled : .disabled
 
-            currentURL = hostPort(InstanceResolver.shared.currentSelection(for: instance))
+            currentURL = InstanceResolver.shared.currentSelection(for: instance)
             connection = .reachable
         } catch is CancellationError {
             // do nothing
