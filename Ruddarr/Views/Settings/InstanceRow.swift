@@ -10,6 +10,7 @@ struct InstanceRow: View {
     @State private var currentURL: String = ""
     @State private var webhook: Webhook = .pending
     @State private var notifications: Bool = false
+    @State private var networkToken: Int = 0
 
     @Environment(AppSettings.self) private var settings
 
@@ -62,11 +63,11 @@ struct InstanceRow: View {
         }
         .animation(.default, value: connection)
         .animation(.default, value: currentURL)
-        .task {
+        .task(id: networkToken) {
             await checkInstanceConnection()
         }
         .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
-            Task { await checkInstanceConnection() }
+            networkToken += 1
         }
     }
 
