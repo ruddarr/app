@@ -8,6 +8,7 @@ struct NetworkReport: Equatable, Sendable {
         let score: Int
         let resolved: Bool
         let addresses: [String]
+        let probe: ProbeOutcome?
         let demoted: Bool
         let primary: Bool
         let selected: Bool
@@ -16,14 +17,25 @@ struct NetworkReport: Equatable, Sendable {
 
         var roleDescription: String {
             switch role {
-            case .lan: return onLink ? "LAN (on-link)" : "(LAN off-link)"
+            case .lan:
+                if onLink { return "LAN (on-link)" }
+                return probe?.reachable == true ? "LAN (routed)" : "(LAN off-link)"
             case .tailscale: return "Tailscale"
             case .remote: return "remote"
             }
         }
 
+        var probeDescription: String? {
+            guard let probe else { return nil }
+            guard probe.reachable else { return "unreachable" }
+            guard let latency = probe.latency else { return "reachable" }
+
+            return "reachable (\(Int((latency * 1_000).rounded())) ms)"
+        }
+
         var summary: String {
             var parts = [roleDescription, "score \(score)", resolved ? "resolved" : "lexical"]
+            if let probeDescription { parts.append("probe \(probeDescription)") }
             if demoted { parts.append("demoted") }
             if primary { parts.append("primary") }
 
@@ -96,7 +108,6 @@ struct NetworkReport: Equatable, Sendable {
         lines.append("")
         lines.append("[Device]")
         lines.append("Connection: \(connection)")
-        lines.append("Expensive: \(expensive ? "yes" : "no")")
         lines.append("Low Data Mode: \(constrained ? "on" : "off")")
         lines.append("Local Network: \(localNetworkDenied ? "denied" : "allowed")")
         lines.append("IPv4 Address: \(mask.list(deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))")
@@ -125,6 +136,10 @@ struct NetworkReport: Equatable, Sendable {
                 if candidate.hasHostname {
                     lines.append("  Classification: \(candidate.resolved ? "resolved" : "lexical")")
                     lines.append("  Resolved IPs: \(mask.list(candidate.addresses.map(mask.ip)))")
+                }
+
+                if let probeDescription = candidate.probeDescription {
+                    lines.append("  Probe: \(probeDescription)")
                 }
 
                 lines.append("  Position: \(candidate.primary ? "primary" : "alternate")")

@@ -46,6 +46,15 @@ struct ResolvedHost: Equatable {
     var addresses: [String] = []
 }
 
+/// The verdict of a background `/ping` probe of an off-link private candidate — a server that
+/// may sit on a sibling VLAN behind the same router. `reachable` means the address answered
+/// with a genuine Radarr/Sonarr ping response on the *current* network; like every resolver
+/// cache it is scoped to the network fingerprint and never persisted.
+struct ProbeOutcome: Equatable, Sendable {
+    var reachable: Bool
+    var latency: TimeInterval?
+}
+
 /// An instant, permission-free read of the network facts that decide URL selection.
 struct NetworkSnapshot: Equatable {
     var tailnetUp: Bool = false

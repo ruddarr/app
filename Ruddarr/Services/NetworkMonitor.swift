@@ -42,7 +42,9 @@ actor NetworkMonitor {
         lastSequence = sequence
 
         self.status = path.status
+
         LocalNetworkAccess.setDenied(path.unsatisfiedReason == .localNetworkDenied)
+
         NetworkPathFacts.update(NetworkPathFacts.Facts(
             connection: Self.connectionDescription(of: path),
             constrained: path.isConstrained,
@@ -64,9 +66,10 @@ actor NetworkMonitor {
         }
     }
 
-    /// The interface type(s) the current path actually uses, for the diagnostics screen.
     private static func connectionDescription(of path: NWPath) -> String {
-        guard path.status == .satisfied else { return "offline" }
+        guard path.status == .satisfied else {
+            return "Offline"
+        }
 
         let types: [(NWInterface.InterfaceType, String)] = [
             (.wiredEthernet, "Ethernet"),
@@ -78,7 +81,7 @@ actor NetworkMonitor {
 
         let used = types.filter { path.usesInterfaceType($0.0) }.map(\.1)
 
-        return used.isEmpty ? "unknown" : used.joined(separator: ", ")
+        return used.isEmpty ? "Unknown" : used.joined(separator: ", ")
     }
 
     private static func signature(of path: NWPath, identity: String) -> String {
@@ -97,10 +100,6 @@ actor NetworkMonitor {
     }
 }
 
-/// A process-wide, synchronously-readable mirror of the `NWPath` facts only the monitor sees —
-/// interface type, Low Data Mode (constrained) and expensive (cellular/hotspot) flags — for the
-/// diagnostics report. Same bridge pattern as `LocalNetworkAccess`: `NetworkMonitor` writes on
-/// every path update, readers never touch the actor.
 enum NetworkPathFacts {
     struct Facts: Equatable, Sendable {
         var connection: String = "unknown"

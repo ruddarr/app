@@ -13,7 +13,8 @@ struct DiagnosticsView: View {
     var body: some View {
         List {
             if let report {
-                deviceSection(report)
+                device(report)
+                network(report)
 
                 ForEach(report.instances) { entry in
                     instanceSection(entry)
@@ -65,18 +66,25 @@ struct DiagnosticsView: View {
         }
     }
 
-    func deviceSection(_ report: NetworkReport) -> some View {
+    func device(_ report: NetworkReport) -> some View {
         Section {
             networkDiagnosticsRow("Connection", report.connection)
             networkDiagnosticsRow("Local Network", report.localNetworkDenied ? "denied" : "allowed")
             networkDiagnosticsRow("Tailscale", report.tailnetUp ? "up" : "down")
+            networkDiagnosticsRow("Low Data Mode", report.constrained ? "on" : "off")
+            networkDiagnosticsRow("Expensive", report.expensive ? "yes" : "no")
+        } header: {
+            Text(verbatim: "Device")
+        }
+    }
+
+    func network(_ report: NetworkReport) -> some View {
+        Section {
             networkDiagnosticsRow("IPv4 Address", mask.list(report.deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))
             networkDiagnosticsRow("IPv4 Subnets", report.subnetRowsV4(mask))
             networkDiagnosticsRow("IPv6 Address", mask.list(report.deviceV6.map { mask.ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }))
             networkDiagnosticsRow("IPv6 Subnets", report.subnetRowsV6(mask))
             networkDiagnosticsRow("Gateway", report.gatewayRows(mask))
-            networkDiagnosticsRow("Low Data Mode", report.constrained ? "on" : "off")
-            networkDiagnosticsRow("Expensive", report.expensive ? "yes" : "no")
         } header: {
             Text(verbatim: "Device")
         }
@@ -92,6 +100,10 @@ struct DiagnosticsView: View {
 
                     if candidate.hasHostname {
                         networkDiagnosticsRow("Resolved IPs", candidateAddressesText(candidate))
+                    }
+
+                    if candidate.probeDescription != nil {
+                        networkDiagnosticsRow("Probe", probeText(candidate))
                     }
                 } label: {
                     HStack(spacing: 5) {
@@ -149,7 +161,7 @@ struct DiagnosticsView: View {
             return Text(verbatim: shown)
         }
 
-        return coloredAddress(shown, highlightMismatch: !candidate.onLink)
+        return coloredAddress(shown, highlightMismatch: highlightsMismatch(candidate))
     }
 
     func candidateAddressesText(_ candidate: NetworkReport.Candidate) -> Text {
@@ -159,15 +171,28 @@ struct DiagnosticsView: View {
             return Text(verbatim: shown.isEmpty ? "none" : shown.joined(separator: ", "))
         }
 
-        return coloredAddressList(shown, highlightMismatch: !candidate.onLink)
+        return coloredAddressList(shown, highlightMismatch: highlightsMismatch(candidate))
+    }
+
+    /// A verified routed candidate's mismatching octets are expected (that's the sibling VLAN),
+    /// so only an off-link address that is NOT proven reachable gets the orange warning.
+    func highlightsMismatch(_ candidate: NetworkReport.Candidate) -> Bool {
+        !candidate.onLink && candidate.probe?.reachable != true
     }
 
     func roleText(_ candidate: NetworkReport.Candidate) -> Text {
         var value = AttributedString(candidate.roleDescription)
 
         if candidate.role == .lan {
-            value.foregroundColor = candidate.onLink ? .green : .orange
+            value.foregroundColor = candidate.onLink || candidate.probe?.reachable == true ? .green : .orange
         }
+
+        return Text(value)
+    }
+
+    func probeText(_ candidate: NetworkReport.Candidate) -> Text {
+        var value = AttributedString(candidate.probeDescription ?? "")
+        value.foregroundColor = candidate.probe?.reachable == true ? .green : .orange
 
         return Text(value)
     }

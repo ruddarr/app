@@ -121,7 +121,8 @@ enum RouteTable {
         var name = [CChar](repeating: 0, count: Int(IFNAMSIZ) + 1)
         guard if_indextoname(UInt32(index), &name) != nil else { return "#\(index)" }
 
-        return String(cString: name)
+        let bytes = name.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }
+        return String(bytes: bytes, encoding: .utf8) ?? "#\(index)"
     }
 
     // Header fields are host-order in the sysctl buffer; every Apple platform is little-endian.
