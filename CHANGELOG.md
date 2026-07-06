@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved byte formatting precision
 - Improved image loading performance
 - Improved media grid sorting/filtering performance
+- Disambiguate root folder filter labels sharing the same folder name
 - Improved performance of loading movie files
 - Animate media grids, calendar and loading indicators
 - Debounce library search queries
