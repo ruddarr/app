@@ -80,8 +80,8 @@ actor NetworkMonitor {
 
         var used = types.filter { path.usesInterfaceType($0.0) }.map(\.1)
 
-        // A VPN/tunnel surfaces as the catch-all `.other` interface type. Name what it
-        // actually is (`VPN (utun3)`) instead of the opaque "other" it maps to by default.
+        // A VPN/tunnel surfaces as the catch-all `.other` interface type. Name the actual
+        // interface(s) (`utun3`) instead of the opaque "other" it maps to by default.
         if path.usesInterfaceType(.other) {
             used.append(otherInterfaceDescription(of: path))
         }
@@ -89,22 +89,12 @@ actor NetworkMonitor {
         return used.isEmpty ? "unknown" : used.joined(separator: ", ")
     }
 
-    /// Prefixes of the tunnel interfaces the OS classifies as `.other`: IKEv2/WireGuard/Tailscale
-    /// and other packet tunnels (`utun*`), IPsec (`ipsec*`) and legacy PPP/`tun`/`tap` VPNs.
-    private static let tunnelPrefixes = ["utun", "ipsec", "ppp", "tun", "tap"]
-
     private static func otherInterfaceDescription(of path: NWPath) -> String {
         let names = path.availableInterfaces
             .filter { $0.type == .other }
             .map(\.name)
 
-        let tunnels = names.filter { name in tunnelPrefixes.contains { name.hasPrefix($0) } }
-
-        if !tunnels.isEmpty {
-            return "VPN (\(tunnels.sorted().joined(separator: ", ")))"
-        }
-
-        return names.isEmpty ? "other" : "other (\(names.sorted().joined(separator: ", ")))"
+        return names.isEmpty ? "other" : names.sorted().joined(separator: ", ")
     }
 
     private static func signature(of path: NWPath, identity: String) -> String {
