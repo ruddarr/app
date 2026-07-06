@@ -46,6 +46,15 @@ struct ResolvedHost: Equatable {
     var addresses: [String] = []
 }
 
+/// The verdict of a background `/ping` probe of an off-link private candidate — a server that
+/// may sit on a sibling VLAN behind the same router. `reachable` means the address answered
+/// with a genuine Radarr/Sonarr ping response on the *current* network; like every resolver
+/// cache it is scoped to the network fingerprint and never persisted.
+struct ProbeOutcome: Equatable, Sendable {
+    var reachable: Bool
+    var latency: TimeInterval?
+}
+
 /// An instant, permission-free read of the network facts that decide URL selection.
 struct NetworkSnapshot: Equatable {
     var tailnetUp: Bool = false
@@ -186,7 +195,7 @@ extension NetworkSnapshot {
     /// `fd7a:115c:a1e0::/48` IPv6 ULA (see `classifyV6`). Pure and testable — the `getifaddrs`
     /// pointer decoding stays in `ingestIPv4`.
     static func classifyV4(name: String, flags: Int32, address: UInt32, mask: UInt32) -> IPv4Subnet? {
-        isLANEthernet(name: name, flags: flags) ? IPv4Subnet(address: address, mask: mask) : nil
+        isLANEthernet(name: name, flags: flags) ? IPv4Subnet(address: address, mask: mask, interface: name) : nil
     }
 
     /// A Tailscale `utun` (its `fd7a:115c:a1e0::/48` ULA) flips `tailnetUp`; a real `en*`
@@ -226,7 +235,7 @@ extension NetworkSnapshot {
         if name.hasPrefix("utun"), NetworkInterfaces.isTailscaleULA(bytes: address) { return .tailnet }
         if isLANEthernet(name: name, flags: flags) {
             if NetworkInterfaces.isLinkLocalV6(bytes: address) { return .ignored }
-            return .lan(IPv6Subnet(address: address, prefix: prefix))
+            return .lan(IPv6Subnet(address: address, prefix: prefix, interface: name))
         }
         return .ignored
     }

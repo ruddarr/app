@@ -13,8 +13,13 @@ import Foundation
 /// - Resolution-aware: a candidate addressed by *hostname* is looked up with `getaddrinfo` on
 ///   a background queue and classified by where its A/AAAA records actually point, so a
 ///   split-horizon name is picked as on-link LAN while the public/tunnel name stays remote.
-/// - Once per network: a lookup runs at most once per network condition, cached by the
-///   fingerprint until `networkChanged()` drops the cache on a Wi-Fi/VPN/cellular transition.
+/// - Probe-verified: an off-link private candidate (a server on a sibling VLAN behind the same
+///   router) gets a background, unauthenticated `GET /ping`; a genuine Radarr/Sonarr answer
+///   from that address promotes it above remote. The probe carries no credentials, selection
+///   never waits on it — the verdict lands in the cache and the next `resolve` picks it up.
+/// - Once per network: a lookup or probe runs at most once per network condition, cached by
+///   the fingerprint until `networkChanged()` drops the cache on a Wi-Fi/VPN/cellular
+///   transition (failed probes retry on the same throttle as failed lookups).
 /// - Self-correcting: on a fast failure, `API.request` calls `failover(afterFailing:for:)`,
 ///   which demotes that base for the current network and returns the instance's next-best one.
 ///
@@ -57,16 +62,17 @@ final class InstanceResolver: Sendable {
         // consistent with lock-acquisition order — a thread preempted between capture and lock
         // can't enter with a stale fingerprint and evict resolutions freshly cached for the
         // current network. `getaddrinfo`-free interface read, microseconds, no blocking.
-        let (ordered, pending, epoch, snapshot): ([String], [String], Int, NetworkSnapshot) = lock.withLock { state in
+        let (ordered, pending, probes, epoch, snapshot): ([String], [String], [String], Int, NetworkSnapshot) = lock.withLock { state in
             let snapshot = NetworkSnapshot.capture()
             let result = ResolverRouting.register(
                 &state, candidates: candidates, snapshot: snapshot, fingerprint: snapshot.fingerprint, now: Date()
             )
 
-            return (result.ordered, result.pending, state.epoch, snapshot)
+            return (result.ordered, result.pending, result.probes, state.epoch, snapshot)
         }
 
         dispatchResolution(pending, snapshot: snapshot, epoch: epoch)
+        dispatchProbes(probes, epoch: epoch)
 
         return ordered.first ?? candidates.first ?? fallback
     }
@@ -111,14 +117,16 @@ final class InstanceResolver: Sendable {
     func report(for instances: [Instance]) -> NetworkReport {
         let snapshot = NetworkSnapshot.capture()
 
-        let (demoted, resolvedHosts): (Set<String>, [String: ResolvedHost]) = lock.withLock { state in
-            (ResolverRouting.activeDemotions(&state, now: Date()), state.resolvedHosts)
+        let (demoted, resolvedHosts, probes): (Set<String>, [String: ResolvedHost], [String: ProbeOutcome]) = lock.withLock { state in
+            (ResolverRouting.activeDemotions(&state, now: Date()), state.resolvedHosts, state.probeOutcomes)
         }
 
         let entries = instances.map { instance -> NetworkReport.InstanceEntry in
             let candidates = instance.candidateURLs
             let resolved = ResolverRouting.cachedRoles(resolvedHosts, for: candidates)
-            let ranked = NetworkInterfaces.ranking(candidates, snapshot: snapshot, demoted: demoted, resolved: resolved)
+            let ranked = NetworkInterfaces.ranking(
+                candidates, snapshot: snapshot, demoted: demoted, resolved: resolved, probed: probes
+            )
             let selected = ranked.first?.base ?? candidates.first ?? instance.url
 
             let rows = ranked.map { entry -> NetworkReport.Candidate in
@@ -131,6 +139,7 @@ final class InstanceResolver: Sendable {
                     score: entry.score,
                     resolved: resolution != nil,
                     addresses: resolution?.addresses ?? [],
+                    probe: probes[entry.base],
                     demoted: entry.demoted,
                     primary: entry.base == candidates.first,
                     selected: entry.base == selected
@@ -148,13 +157,19 @@ final class InstanceResolver: Sendable {
             )
         }
 
+        let facts = NetworkPathFacts.current
+
         return NetworkReport(
             tailnetUp: snapshot.tailnetUp,
             localNetworkDenied: snapshot.localNetworkDenied,
+            connection: facts.connection,
+            constrained: facts.constrained,
+            expensive: facts.expensive,
             lanV4: snapshot.lanV4.map(\.cidr),
             lanV6: snapshot.lanV6.map(\.cidr),
             deviceV4: snapshot.lanV4,
             deviceV6: snapshot.lanV6,
+            gatewaysV4: RouteTable.defaultGatewaysV4(),
             fingerprint: snapshot.fingerprint,
             instances: entries
         )
@@ -192,6 +207,60 @@ final class InstanceResolver: Sendable {
         }
 
         return context
+    }
+
+    /// Probes each claimed base's unauthenticated `/ping` in the background and records the
+    /// verdict for the current network. Selection never waits on this: the verdict lands in
+    /// the cache and the next `resolve` call promotes a verified base.
+    private func dispatchProbes(_ bases: [String], epoch: Int) {
+        guard !bases.isEmpty else { return }
+
+        for base in bases {
+            Task(priority: .utility) { [self] in
+                let outcome = await Self.probe(base)
+
+                lock.withLock { state in
+                    ResolverRouting.recordProbe(&state, base: base, epoch: epoch, outcome: outcome, now: Date())
+                }
+            }
+        }
+    }
+
+    /// Ephemeral (no cookies, no cache) and bounded by the probe timeout, so an unreachable
+    /// VLAN address costs one silent, short-lived connection attempt in the background.
+    private static let probeSession: URLSession = {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.timeoutIntervalForRequest = ResolverRouting.probeTimeout
+        configuration.timeoutIntervalForResource = ResolverRouting.probeTimeout
+        configuration.waitsForConnectivity = false
+
+        return URLSession(configuration: configuration)
+    }()
+
+    private static func probe(_ base: String) async -> ProbeOutcome {
+        guard let url = ResolverRouting.probeURL(for: base) else {
+            return ProbeOutcome(reachable: false)
+        }
+
+        let clock = ContinuousClock()
+        let started = clock.now
+
+        guard let (data, response) = try? await probeSession.data(from: url),
+              let http = response as? HTTPURLResponse,
+              ResolverRouting.probeVerdict(
+                  status: http.statusCode,
+                  finalHost: http.url?.host(percentEncoded: false),
+                  probedHost: url.host(percentEncoded: false),
+                  body: data
+              )
+        else {
+            return ProbeOutcome(reachable: false)
+        }
+
+        let elapsed = started.duration(to: clock.now)
+        let latency = Double(elapsed.components.seconds) + Double(elapsed.components.attoseconds) / 1e18
+
+        return ProbeOutcome(reachable: true, latency: latency)
     }
 
     private func dispatchResolution(_ hosts: [String], snapshot: NetworkSnapshot, epoch: Int) {

@@ -24,6 +24,12 @@ enum NetworkInterfaces {
         (ip & 0xFF00_0000) == 0x7F00_0000
     }
 
+    /// `169.254.0.0/16` — IPv4 link-local. On-link only by definition, so it can never be
+    /// routed to from another subnet and is never worth a cross-VLAN probe.
+    static func isLinkLocalV4(_ ip: UInt32) -> Bool {
+        (ip & 0xFFFF_0000) == 0xA9FE_0000
+    }
+
     /// `fd7a:115c:a1e0::/48` — Tailscale's IPv6 ULA range.
     static func isTailscaleULA(bytes: [UInt8]) -> Bool {
         bytes.count >= 6
@@ -183,16 +189,21 @@ enum NetworkInterfaces {
     }
 
     /// Maps a `(role, on-link)` pair to its selection score — the single source of the
-    /// ladder: on-link LAN (home) ► Tailscale up ► remote ► off-link/ambiguous private ►
-    /// Tailscale down (a `*.ts.net` with the tunnel off would only NXDOMAIN). When Local
-    /// Network access is denied, an on-link LAN address (except loopback, which isn't gated)
-    /// can't be reached, so it drops to the off-link score and a routable remote wins instead
-    /// of the request timing out.
-    private static func score(role: InstanceURLRole, onLink: Bool, snapshot: NetworkSnapshot, isLoopback: Bool) -> Int {
+    /// ladder: on-link LAN (home) ► verified routed LAN (a sibling VLAN whose `/ping` probe
+    /// answered) ► Tailscale up ► remote ► off-link/ambiguous private ► Tailscale down (a
+    /// `*.ts.net` with the tunnel off would only NXDOMAIN). When Local Network access is
+    /// denied, an on-link LAN address (except loopback, which isn't gated) can't be reached,
+    /// so it drops to the off-link score and a routable remote wins instead of the request
+    /// timing out. A probe-verified routed candidate is exempt from that drop: routed traffic
+    /// goes to the gateway, not the local broadcast domain, and the probe just proved it works.
+    private static func score(
+        role: InstanceURLRole, onLink: Bool, snapshot: NetworkSnapshot, isLoopback: Bool, routedVerified: Bool
+    ) -> Int {
         switch role {
         case .lan:
             let reachable = onLink && (isLoopback || !snapshot.localNetworkDenied)
-            return reachable ? 100 : 30
+            if reachable { return 100 }
+            return routedVerified ? 95 : 30
         case .tailscale: return snapshot.tailnetUp ? 90 : 5
         case .remote: return 50
         }
@@ -243,13 +254,16 @@ enum NetworkInterfaces {
 
     /// Scores and sorts candidates, best-first. A host in `resolved` is judged by where it
     /// really points (split-horizon names included); otherwise the lexical role is used,
-    /// so a name whose lookup has not landed yet is never ranked worse than before.
-    /// `demoted` bases sink to the back; ties keep the caller's order (canonical first).
+    /// so a name whose lookup has not landed yet is never ranked worse than before. An
+    /// off-link private base with a reachable verdict in `probed` is a verified routed LAN
+    /// (sibling VLAN) and outranks remote. `demoted` bases sink to the back; ties keep the
+    /// caller's order (canonical first).
     static func ranking(
         _ candidates: [String],
         snapshot: NetworkSnapshot,
         demoted: Set<String> = [],
-        resolved: [String: ResolvedHost] = [:]
+        resolved: [String: ResolvedHost] = [:],
+        probed: [String: ProbeOutcome] = [:]
     ) -> [CandidateRanking] {
         func evaluate(_ base: String) -> (role: InstanceURLRole, onLink: Bool, score: Int) {
             guard let host = host(of: base) else { return (.remote, false, 0) }
@@ -272,7 +286,11 @@ enum NetworkInterfaces {
                 isLoopback = literal?.isLoopback ?? false
             }
 
-            return (chosenRole, onLink, score(role: chosenRole, onLink: onLink, snapshot: snapshot, isLoopback: isLoopback))
+            let routedVerified = chosenRole == .lan && !onLink && probed[base]?.reachable == true
+
+            return (chosenRole, onLink, score(
+                role: chosenRole, onLink: onLink, snapshot: snapshot, isLoopback: isLoopback, routedVerified: routedVerified
+            ))
         }
 
         return candidates.enumerated().map { offset, base -> (offset: Int, ranking: CandidateRanking) in
@@ -296,8 +314,9 @@ enum NetworkInterfaces {
         _ candidates: [String],
         snapshot: NetworkSnapshot,
         demoted: Set<String> = [],
-        resolved: [String: ResolvedHost] = [:]
+        resolved: [String: ResolvedHost] = [:],
+        probed: [String: ProbeOutcome] = [:]
     ) -> [String] {
-        ranking(candidates, snapshot: snapshot, demoted: demoted, resolved: resolved).map(\.base)
+        ranking(candidates, snapshot: snapshot, demoted: demoted, resolved: resolved, probed: probed).map(\.base)
     }
 }

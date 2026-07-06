@@ -8,6 +8,7 @@ struct NetworkReport: Equatable, Sendable {
         let score: Int
         let resolved: Bool
         let addresses: [String]
+        let probe: ProbeOutcome?
         let demoted: Bool
         let primary: Bool
         let selected: Bool
@@ -16,14 +17,25 @@ struct NetworkReport: Equatable, Sendable {
 
         var roleDescription: String {
             switch role {
-            case .lan: return onLink ? "LAN (on-link)" : "(LAN off-link)"
+            case .lan:
+                if onLink { return "LAN (on-link)" }
+                return probe?.reachable == true ? "LAN (routed)" : "(LAN off-link)"
             case .tailscale: return "Tailscale"
             case .remote: return "remote"
             }
         }
 
+        var probeDescription: String? {
+            guard let probe else { return nil }
+            guard probe.reachable else { return "unreachable" }
+            guard let latency = probe.latency else { return "reachable" }
+
+            return "reachable (\(Int((latency * 1_000).rounded())) ms)"
+        }
+
         var summary: String {
             var parts = [roleDescription, "score \(score)", resolved ? "resolved" : "lexical"]
+            if let probeDescription { parts.append("probe \(probeDescription)") }
             if demoted { parts.append("demoted") }
             if primary { parts.append("primary") }
 
@@ -48,15 +60,41 @@ struct NetworkReport: Equatable, Sendable {
 
     let tailnetUp: Bool
     let localNetworkDenied: Bool
+
+    let connection: String
+    let constrained: Bool
+    let expensive: Bool
+
     let lanV4: [String]
     let lanV6: [String]
 
     let deviceV4: [IPv4Subnet]
     let deviceV6: [IPv6Subnet]
 
+    let gatewaysV4: [RouteTable.Gateway]
+
     let fingerprint: String
 
     let instances: [InstanceEntry]
+
+    /// The device's subnets annotated with their interface (`192.168.1.0/24 (en0)`) — shared by
+    /// the diagnostics screen and the export so the two renderings can't drift.
+    func subnetRowsV4(_ mask: NetworkDiagnosticsMask) -> String {
+        mask.list(deviceV4.map { annotated(mask.cidr($0.cidr), interface: $0.interface) })
+    }
+
+    func subnetRowsV6(_ mask: NetworkDiagnosticsMask) -> String {
+        mask.list(deviceV6.map { annotated(mask.cidr($0.cidr), interface: $0.interface) })
+    }
+
+    /// The IPv4 default gateway(s) with their interface (`192.168.1.1 (en0)`).
+    func gatewayRows(_ mask: NetworkDiagnosticsMask) -> String {
+        mask.list(gatewaysV4.map { annotated(mask.ip($0.address), interface: $0.interface) })
+    }
+
+    private func annotated(_ value: String, interface: String) -> String {
+        interface.isEmpty ? value : "\(value) (\(interface))"
+    }
 
     func exportText(masked: Bool) -> String {
         let mask = NetworkDiagnosticsMask(masked: masked)
@@ -69,11 +107,14 @@ struct NetworkReport: Equatable, Sendable {
 
         lines.append("")
         lines.append("[Device]")
+        lines.append("Connection: \(connection)")
+        lines.append("Low Data Mode: \(constrained ? "on" : "off")")
         lines.append("Local Network: \(localNetworkDenied ? "denied" : "allowed")")
         lines.append("IPv4 Address: \(mask.list(deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))")
-        lines.append("IPv4 Subnets: \(mask.list(lanV4.map(mask.cidr)))")
+        lines.append("IPv4 Subnets: \(subnetRowsV4(mask))")
         lines.append("IPv6 Address: \(mask.list(deviceV6.map { mask.ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }))")
-        lines.append("IPv6 Subnets: \(mask.list(lanV6.map(mask.cidr)))")
+        lines.append("IPv6 Subnets: \(subnetRowsV6(mask))")
+        lines.append("Gateway: \(gatewayRows(mask))")
         lines.append("Network ID: \(masked ? "hidden" : fingerprint)")
         lines.append("Tailscale: \(tailnetUp ? "up" : "down")")
 
@@ -95,6 +136,10 @@ struct NetworkReport: Equatable, Sendable {
                 if candidate.hasHostname {
                     lines.append("  Classification: \(candidate.resolved ? "resolved" : "lexical")")
                     lines.append("  Resolved IPs: \(mask.list(candidate.addresses.map(mask.ip)))")
+                }
+
+                if let probeDescription = candidate.probeDescription {
+                    lines.append("  Probe: \(probeDescription)")
                 }
 
                 lines.append("  Position: \(candidate.primary ? "primary" : "alternate")")

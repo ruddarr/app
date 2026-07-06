@@ -42,7 +42,14 @@ actor NetworkMonitor {
         lastSequence = sequence
 
         self.status = path.status
+
         LocalNetworkAccess.setDenied(path.unsatisfiedReason == .localNetworkDenied)
+
+        NetworkPathFacts.update(NetworkPathFacts.Facts(
+            connection: Self.connectionDescription(of: path),
+            constrained: path.isConstrained,
+            expensive: path.isExpensive
+        ))
 
         let signature = Self.signature(of: path, identity: NetworkSnapshot.capture().identity)
 
@@ -59,6 +66,24 @@ actor NetworkMonitor {
         }
     }
 
+    private static func connectionDescription(of path: NWPath) -> String {
+        guard path.status == .satisfied else {
+            return "offline"
+        }
+
+        let types: [(NWInterface.InterfaceType, String)] = [
+            (.wiredEthernet, "ethernet"),
+            (.wifi, "wifi"),
+            (.cellular, "cellular"),
+            (.loopback, "loopback"),
+            (.other, "other"),
+        ]
+
+        let used = types.filter { path.usesInterfaceType($0.0) }.map(\.1)
+
+        return used.isEmpty ? "unknown" : used.joined(separator: ", ")
+    }
+
     private static func signature(of path: NWPath, identity: String) -> String {
         let interfaces = path.availableInterfaces
             .map { "\($0.name):\($0.type)" }
@@ -73,4 +98,18 @@ actor NetworkMonitor {
             throw API.Error.notConnectedToInternet
         }
     }
+}
+
+enum NetworkPathFacts {
+    struct Facts: Equatable, Sendable {
+        var connection: String = "unknown"
+        var constrained: Bool = false
+        var expensive: Bool = false
+    }
+
+    private static let state = OSAllocatedUnfairLock(initialState: Facts())
+
+    static var current: Facts { state.withLock { $0 } }
+
+    static func update(_ facts: Facts) { state.withLock { $0 = facts } }
 }
