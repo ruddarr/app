@@ -37,12 +37,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed toasts not displaying above some sheets
-- Fixed media grid flicker while sorting
 - Fixed calendar/queue not updating instances when changed
 - Fixed sidebar colors on macOS 27
 - Fixed blurry discovery headline on iPadOS
 - Fixed monitor toggles not reverting on failure
-- Fixed force  grabbing season releases
 
 ## 1.8.3 - 2026-06-23
 ### Added
