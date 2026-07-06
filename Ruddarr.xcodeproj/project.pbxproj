@@ -92,6 +92,7 @@
 				Utilities/Networking.swift,
 				Utilities/Placeholder.swift,
 				Utilities/Privacy.swift,
+				Utilities/RootFolderLabel.swift,
 			);
 			target = BB000000000000000000AAA8 /* Tests */;
 		};

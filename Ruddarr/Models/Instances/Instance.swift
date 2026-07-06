@@ -202,29 +202,11 @@ struct InstanceRootFolder: Identifiable, Equatable, Codable, Hashable {
             return "Folder (\(id))"
         }
 
-        let components = path.split(separator: "/")
-
-        guard !components.isEmpty else {
-            return path
-        }
-
         let others = folders
             .filter { $0.id != id }
-            .compactMap { $0.path?.untrailingSlashIt?.split(separator: "/") }
+            .compactMap { $0.path?.untrailingSlashIt }
 
-        var depth = 1
-
-        while depth < components.count {
-            let suffix = components.suffix(depth)
-
-            if !others.contains(where: { $0.suffix(depth) == suffix }) {
-                break
-            }
-
-            depth += 1
-        }
-
-        return components.suffix(depth).joined(separator: "/\u{200B}")
+        return RootFolderLabel.disambiguate(path, among: others)
     }
 
     var labelWithSpace: Text {
