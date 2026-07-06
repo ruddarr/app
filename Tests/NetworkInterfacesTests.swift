@@ -387,7 +387,7 @@ struct NetworkInterfacesTests {
 
     @Test func classifyV4RecordsOnlyRealEthernetLANs() {
         let en = NetworkSnapshot.classifyV4(name: "en0", flags: 0, address: ipv4("192.168.1.5"), mask: 0xFFFF_FF00)
-        #expect(en == IPv4Subnet(address: ipv4("192.168.1.5"), mask: 0xFFFF_FF00))
+        #expect(en == IPv4Subnet(address: ipv4("192.168.1.5"), mask: 0xFFFF_FF00, interface: "en0"))
         // VM / bridge / AirDrop-style interfaces never masquerade as a LAN.
         #expect(NetworkSnapshot.classifyV4(name: "bridge100", flags: 0, address: ipv4("192.168.5.1"), mask: 0xFFFF_FF00) == nil)
         // A point-to-point `en` (tunnel) is excluded.
@@ -403,7 +403,7 @@ struct NetworkInterfacesTests {
 
     @Test func classifyV6RecordsGlobalEthernetPrefixSkipsLinkLocal() {
         let global = NetworkInterfaces.ipv6Bytes(ipv6("2001:db8:abcd:1::5"))
-        #expect(NetworkSnapshot.classifyV6(name: "en0", flags: 0, address: global, prefix: 64) == .lan(IPv6Subnet(address: global, prefix: 64)))
+        #expect(NetworkSnapshot.classifyV6(name: "en0", flags: 0, address: global, prefix: 64) == .lan(IPv6Subnet(address: global, prefix: 64, interface: "en0")))
         // Link-local on en* is skipped (unaddressable without a zone id).
         #expect(NetworkSnapshot.classifyV6(name: "en0", flags: 0, address: NetworkInterfaces.ipv6Bytes(ipv6("fe80::1")), prefix: 64) == .ignored)
     }

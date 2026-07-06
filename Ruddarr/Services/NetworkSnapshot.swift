@@ -186,7 +186,7 @@ extension NetworkSnapshot {
     /// `fd7a:115c:a1e0::/48` IPv6 ULA (see `classifyV6`). Pure and testable — the `getifaddrs`
     /// pointer decoding stays in `ingestIPv4`.
     static func classifyV4(name: String, flags: Int32, address: UInt32, mask: UInt32) -> IPv4Subnet? {
-        isLANEthernet(name: name, flags: flags) ? IPv4Subnet(address: address, mask: mask) : nil
+        isLANEthernet(name: name, flags: flags) ? IPv4Subnet(address: address, mask: mask, interface: name) : nil
     }
 
     /// A Tailscale `utun` (its `fd7a:115c:a1e0::/48` ULA) flips `tailnetUp`; a real `en*`
@@ -226,7 +226,7 @@ extension NetworkSnapshot {
         if name.hasPrefix("utun"), NetworkInterfaces.isTailscaleULA(bytes: address) { return .tailnet }
         if isLANEthernet(name: name, flags: flags) {
             if NetworkInterfaces.isLinkLocalV6(bytes: address) { return .ignored }
-            return .lan(IPv6Subnet(address: address, prefix: prefix))
+            return .lan(IPv6Subnet(address: address, prefix: prefix, interface: name))
         }
         return .ignored
     }

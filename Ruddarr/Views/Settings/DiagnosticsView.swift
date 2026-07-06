@@ -67,12 +67,16 @@ struct DiagnosticsView: View {
 
     func deviceSection(_ report: NetworkReport) -> some View {
         Section {
+            networkDiagnosticsRow("Connection", report.connection)
             networkDiagnosticsRow("Local Network", report.localNetworkDenied ? "denied" : "allowed")
             networkDiagnosticsRow("Tailscale", report.tailnetUp ? "up" : "down")
             networkDiagnosticsRow("IPv4 Address", mask.list(report.deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))
-            networkDiagnosticsRow("IPv4 Subnets", mask.list(report.lanV4.map(mask.cidr)))
+            networkDiagnosticsRow("IPv4 Subnets", report.subnetRowsV4(mask))
             networkDiagnosticsRow("IPv6 Address", mask.list(report.deviceV6.map { mask.ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }))
-            networkDiagnosticsRow("IPv6 Subnets", mask.list(report.lanV6.map(mask.cidr)))
+            networkDiagnosticsRow("IPv6 Subnets", report.subnetRowsV6(mask))
+            networkDiagnosticsRow("Gateway", report.gatewayRows(mask))
+            networkDiagnosticsRow("Low Data Mode", report.constrained ? "on" : "off")
+            networkDiagnosticsRow("Expensive", report.expensive ? "yes" : "no")
         } header: {
             Text(verbatim: "Device")
         }

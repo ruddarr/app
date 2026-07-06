@@ -148,13 +148,19 @@ final class InstanceResolver: Sendable {
             )
         }
 
+        let facts = NetworkPathFacts.current
+
         return NetworkReport(
             tailnetUp: snapshot.tailnetUp,
             localNetworkDenied: snapshot.localNetworkDenied,
+            connection: facts.connection,
+            constrained: facts.constrained,
+            expensive: facts.expensive,
             lanV4: snapshot.lanV4.map(\.cidr),
             lanV6: snapshot.lanV6.map(\.cidr),
             deviceV4: snapshot.lanV4,
             deviceV6: snapshot.lanV6,
+            gatewaysV4: RouteTable.defaultGatewaysV4(),
             fingerprint: snapshot.fingerprint,
             instances: entries
         )

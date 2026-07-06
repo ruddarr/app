@@ -85,6 +85,7 @@
 				Services/NetworkInterfaces.swift,
 				Services/NetworkSnapshot.swift,
 				Services/ResolverRouting.swift,
+				Services/RouteTable.swift,
 				Utilities/Changelog.swift,
 				Utilities/DateDecodingStrategy.swift,
 				Utilities/Extensions.swift,

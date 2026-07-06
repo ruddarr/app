@@ -48,6 +48,10 @@ struct IPv4Subnet: Equatable, Hashable, Sendable {
     let address: UInt32
     let mask: UInt32
 
+    /// The interface this subnet was read from (e.g. `en0`) — diagnostics display only,
+    /// never part of membership tests or the network fingerprint.
+    var interface: String = ""
+
     func contains(_ ip: UInt32) -> Bool {
         (ip & mask) == (address & mask)
     }
@@ -92,6 +96,10 @@ struct IPv4Subnet: Equatable, Hashable, Sendable {
 struct IPv6Subnet: Equatable, Hashable, Sendable {
     let address: [UInt8]
     let prefix: Int
+
+    /// The interface this subnet was read from (e.g. `en0`) — diagnostics display only,
+    /// never part of membership tests or the network fingerprint.
+    var interface: String = ""
 
     func contains(_ other: [UInt8]) -> Bool {
         guard address.count == 16, other.count == 16, (0...128).contains(prefix) else { return false }

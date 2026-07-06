@@ -48,15 +48,41 @@ struct NetworkReport: Equatable, Sendable {
 
     let tailnetUp: Bool
     let localNetworkDenied: Bool
+
+    let connection: String
+    let constrained: Bool
+    let expensive: Bool
+
     let lanV4: [String]
     let lanV6: [String]
 
     let deviceV4: [IPv4Subnet]
     let deviceV6: [IPv6Subnet]
 
+    let gatewaysV4: [RouteTable.Gateway]
+
     let fingerprint: String
 
     let instances: [InstanceEntry]
+
+    /// The device's subnets annotated with their interface (`192.168.1.0/24 (en0)`) — shared by
+    /// the diagnostics screen and the export so the two renderings can't drift.
+    func subnetRowsV4(_ mask: NetworkDiagnosticsMask) -> String {
+        mask.list(deviceV4.map { annotated(mask.cidr($0.cidr), interface: $0.interface) })
+    }
+
+    func subnetRowsV6(_ mask: NetworkDiagnosticsMask) -> String {
+        mask.list(deviceV6.map { annotated(mask.cidr($0.cidr), interface: $0.interface) })
+    }
+
+    /// The IPv4 default gateway(s) with their interface (`192.168.1.1 (en0)`).
+    func gatewayRows(_ mask: NetworkDiagnosticsMask) -> String {
+        mask.list(gatewaysV4.map { annotated(mask.ip($0.address), interface: $0.interface) })
+    }
+
+    private func annotated(_ value: String, interface: String) -> String {
+        interface.isEmpty ? value : "\(value) (\(interface))"
+    }
 
     func exportText(masked: Bool) -> String {
         let mask = NetworkDiagnosticsMask(masked: masked)
@@ -69,11 +95,15 @@ struct NetworkReport: Equatable, Sendable {
 
         lines.append("")
         lines.append("[Device]")
+        lines.append("Connection: \(connection)")
+        lines.append("Expensive: \(expensive ? "yes" : "no")")
+        lines.append("Low Data Mode: \(constrained ? "on" : "off")")
         lines.append("Local Network: \(localNetworkDenied ? "denied" : "allowed")")
         lines.append("IPv4 Address: \(mask.list(deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))")
-        lines.append("IPv4 Subnets: \(mask.list(lanV4.map(mask.cidr)))")
+        lines.append("IPv4 Subnets: \(subnetRowsV4(mask))")
         lines.append("IPv6 Address: \(mask.list(deviceV6.map { mask.ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }))")
-        lines.append("IPv6 Subnets: \(mask.list(lanV6.map(mask.cidr)))")
+        lines.append("IPv6 Subnets: \(subnetRowsV6(mask))")
+        lines.append("Gateway: \(gatewayRows(mask))")
         lines.append("Network ID: \(masked ? "hidden" : fingerprint)")
         lines.append("Tailscale: \(tailnetUp ? "up" : "down")")
 
