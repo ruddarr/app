@@ -1429,6 +1429,16 @@
         }
       }
     },
+    "Diagnostics" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnostics"
+          }
+        }
+      }
+    },
     "Digital Release" : {
       "comment" : "Media grid sorting",
       "localizations" : {

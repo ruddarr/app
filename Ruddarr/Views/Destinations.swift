@@ -99,6 +99,9 @@ struct SettingsDestination: View {
                 .environment(settings)
         case .changelog:
             ChangelogView()
+        case .diagnostics:
+            DiagnosticsView()
+                .environment(settings)
         case .createInstance:
             InstanceEditView(mode: .create, instance: Instance())
                 .environment(radarrInstance)

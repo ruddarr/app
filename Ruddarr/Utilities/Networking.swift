@@ -44,7 +44,7 @@ func isPrivateIpAddress(_ ipAddress: String) -> Bool {
 }
 
 /// An IPv4 subnet in host byte order, used for on-link membership tests.
-struct IPv4Subnet: Equatable, Hashable {
+struct IPv4Subnet: Equatable, Hashable, Sendable {
     let address: UInt32
     let mask: UInt32
 
@@ -63,7 +63,7 @@ struct IPv4Subnet: Equatable, Hashable {
 // An IPv6 subnet, stored as 16 network-order bytes plus a prefix length. IPv6 does not
 // NAT, so a server that shares the device's prefix is reachable directly — the same
 // "are we on the same link?" question as IPv4.
-struct IPv6Subnet: Equatable, Hashable {
+struct IPv6Subnet: Equatable, Hashable, Sendable {
     let address: [UInt8]
     let prefix: Int
 

@@ -76,6 +76,11 @@ private func maskIPv4(_ host: String, _ ip: UInt32) -> String {
 
     let octets = host.split(separator: ".")
     guard octets.count == 4 else { return host }
+
+    if NetworkInterfaces.isPrivateV4(ip) {
+        return "\(octets[0]).\(octets[1]).\(octets[2]).*"
+    }
+
     return "\(octets[0]).\(octets[1]).*.*"
 }
 

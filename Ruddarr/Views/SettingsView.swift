@@ -12,6 +12,7 @@ struct SettingsView: View {
     enum Path: Hashable {
         case icons
         case changelog
+        case diagnostics
         case createInstance
         case viewInstance(Instance.ID)
         case editInstance(Instance.ID)

@@ -13,6 +13,8 @@ struct SettingsSystemSection: View {
 
     var body: some View {
         Section {
+            diagnostics
+
             HStack {
                 Button("Clear Image Cache", role: .destructive) {
                     clearImageCache()
@@ -69,6 +71,12 @@ struct SettingsSystemSection: View {
                     presentBugSheet.wrappedValue = true
                 }
             }
+        }
+    }
+
+    var diagnostics: some View {
+        NavigationLink(value: SettingsView.Path.diagnostics) {
+            Text("Diagnostics")
         }
     }
 
