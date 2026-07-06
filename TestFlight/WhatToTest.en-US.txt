@@ -1,13 +1,3 @@
-- Added support for downgrade notifications
-- Added Brazilian Portuguese localization
-- Added episode links to Callsheet
-- Improved calendar filtering/ordering 
-- Clarified search placeholder text
-- Fixed broken Trakt links
-- Fixed poster size when screen sharing
-- Fixed negative custom format scores double minus sign
-- Fixed missing top padding on media info sheet on macOS
-- Fixed iOS 26.4+ toolbar crash
-- Fixed various small iOS 27 issues
+- Fixed force grabbing season releases
 - Fixed media grid flicker when while sorting
-- Fixed force  grabbing season releases
+- Fixed iOS 26.4+ toolbar crash
