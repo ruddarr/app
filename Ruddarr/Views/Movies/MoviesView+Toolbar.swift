@@ -41,11 +41,11 @@ extension MoviesView {
                 Text("Any Folder").tag(String.all)
 
                 ForEach(instance.rootFolders) { folder in
-                    Text(folder.menuLabel).tag(folder.path ?? "")
+                    Text(folder.menuLabel(among: instance.rootFolders)).tag(folder.path ?? "")
                 }
             } label: {
                 if let folder = instance.rootFolders.first(where: { $0.path == sort.folder }) {
-                    Label(folder.menuLabel, systemImage: "folder")
+                    Label(folder.menuLabel(among: instance.rootFolders), systemImage: "folder")
                 } else {
                     Label("Root Folder", systemImage: "folder")
                 }

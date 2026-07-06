@@ -197,18 +197,16 @@ struct InstanceRootFolder: Identifiable, Equatable, Codable, Hashable {
         path?.untrailingSlashIt ?? "Folder (\(id))"
     }
 
-    var menuLabel: String {
+    func menuLabel(among folders: [InstanceRootFolder]) -> String {
         guard let path = path?.untrailingSlashIt else {
             return "Folder (\(id))"
         }
 
-        let components = path.split(separator: "/")
+        let others = folders
+            .filter { $0.id != id }
+            .compactMap { $0.path?.untrailingSlashIt }
 
-        guard let last = components.last else {
-            return path
-        }
-
-        return String(last)
+        return RootFolderLabel.disambiguate(path, among: others)
     }
 
     var labelWithSpace: Text {

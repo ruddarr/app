@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed sidebar header on iPadOS
 - Refined sections in settings view
 - Refined various buttons designs across the app
+- Disambiguate root folder filter labels
 - Reworked the networking layer
 - Several dozen internal code improvements
 
