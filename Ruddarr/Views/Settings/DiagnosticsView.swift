@@ -32,6 +32,9 @@ struct DiagnosticsView: View {
                 try? await Task.sleep(for: .seconds(2))
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
+            refresh()
+        }
     }
 
     var mask: NetworkDiagnosticsMask {
@@ -77,10 +80,29 @@ struct DiagnosticsView: View {
 
     func instanceSection(_ entry: NetworkReport.InstanceEntry) -> some View {
         Section(isExpanded: expansion(for: entry.id)) {
-            networkDiagnosticsRow("Type", entry.type)
-
             ForEach(entry.candidates) { candidate in
-                candidateDisclosure(candidate, instanceID: entry.id)
+                DisclosureGroup(isExpanded: candidateExpansion(for: "\(entry.id)|\(candidate.url)")) {
+                    networkDiagnosticsRow("Host", candidateHostText(candidate))
+                    networkDiagnosticsRow("Role", roleText(candidate))
+                    networkDiagnosticsRow("Score", "\(candidate.score)")
+
+                    if candidate.hasHostname {
+                        networkDiagnosticsRow("Resolved IPs", candidateAddressesText(candidate))
+                    }
+                } label: {
+                    HStack(spacing: 5) {
+                        Text(verbatim: mask.url(candidate.url))
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+
+                        if candidate.selected {
+                            Spacer()
+                            Image(systemName: "checkmark")
+                                .symbolVariant(.circle)
+                                .foregroundStyle(.green)
+                        }
+                    }
+                }
             }
         } header: {
             Text(verbatim: entry.label)
@@ -117,76 +139,52 @@ struct DiagnosticsView: View {
         )
     }
 
-    func candidateDisclosure(_ candidate: NetworkReport.Candidate, instanceID: Instance.ID) -> some View {
-        DisclosureGroup(isExpanded: candidateExpansion(for: "\(instanceID)|\(candidate.url)")) {
-            networkDiagnosticsRow("Host", candidateHostText(candidate))
-            networkDiagnosticsRow("Position", candidate.primary ? "primary" : "alternate")
-            networkDiagnosticsRow("Role", candidate.roleDescription)
-            networkDiagnosticsRow("On-Link", onLinkText(candidate))
-            networkDiagnosticsRow("Score", "\(candidate.score)")
-            if candidate.hasHostname {
-                networkDiagnosticsRow("Resolved IPs", candidateAddressesText(candidate))
-            }
-        } label: {
-            candidateHeader(candidate)
-        }
-    }
-
-    func candidateHeader(_ candidate: NetworkReport.Candidate) -> some View {
-        HStack(spacing: 5) {
-            Text(verbatim: mask.url(candidate.url))
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .lineLimit(1)
-                .truncationMode(.middle)
-                .contentTransition(.opacity)
-
-            Image(systemName: candidate.selected ? "checkmark.circle.fill" : "circle")
-                .font(.body)
-                .foregroundStyle(candidate.selected ? AnyShapeStyle(settings.theme.tint) : AnyShapeStyle(.tertiary))
-        }
-    }
-
     func candidateHostText(_ candidate: NetworkReport.Candidate) -> Text {
         let shown = mask.host(of: candidate.url)
-        return candidate.role == .lan ? coloredAddress(shown) : Text(verbatim: shown)
+        guard candidate.role == .lan else {
+            return Text(verbatim: shown)
+        }
+
+        return coloredAddress(shown, highlightMismatch: !candidate.onLink)
     }
 
     func candidateAddressesText(_ candidate: NetworkReport.Candidate) -> Text {
         let shown = candidate.addresses.map(mask.ip)
+
         guard candidate.role == .lan else {
             return Text(verbatim: shown.isEmpty ? "none" : shown.joined(separator: ", "))
         }
-        return coloredAddressList(shown)
+
+        return coloredAddressList(shown, highlightMismatch: !candidate.onLink)
     }
 
-    func onLinkText(_ candidate: NetworkReport.Candidate) -> Text {
-        var value = AttributedString(candidate.onLink ? "yes" : "no")
-        if candidate.onLink {
-            value.foregroundColor = .green
-        } else if candidate.role == .lan {
-            value.foregroundColor = .orange
+    func roleText(_ candidate: NetworkReport.Candidate) -> Text {
+        var value = AttributedString(candidate.roleDescription)
+
+        if candidate.role == .lan {
+            value.foregroundColor = candidate.onLink ? .green : .orange
         }
+
         return Text(value)
     }
 
-    func coloredAddress(_ shown: String) -> Text {
-        Text(attributedIPv4(shown))
+    func coloredAddress(_ shown: String, highlightMismatch: Bool) -> Text {
+        Text(attributedIPv4(shown, highlightMismatch: highlightMismatch))
     }
 
-    func coloredAddressList(_ shown: [String]) -> Text {
+    func coloredAddressList(_ shown: [String], highlightMismatch: Bool) -> Text {
         guard !shown.isEmpty else { return Text(verbatim: "none") }
 
         var result = AttributedString()
         for (index, value) in shown.enumerated() {
             if index > 0 { result += AttributedString(", ") }
-            result += attributedIPv4(value)
+            result += attributedIPv4(value, highlightMismatch: highlightMismatch)
         }
 
         return Text(result)
     }
 
-    func attributedIPv4(_ shown: String) -> AttributedString {
+    func attributedIPv4(_ shown: String, highlightMismatch: Bool) -> AttributedString {
         guard let octets = ipv4Octets(shown), let subnet = referenceSubnet(for: octets) else {
             return AttributedString(shown)
         }
@@ -197,7 +195,7 @@ struct DiagnosticsView: View {
         for (index, part) in parts.enumerated() {
             if index > 0 { result += AttributedString(".") }
             var piece = AttributedString(part)
-            if let color = octetColor(index: index, octet: octets[index], subnet: subnet) {
+            if let color = octetColor(index: index, octet: octets[index], subnet: subnet, highlightMismatch: highlightMismatch) {
                 piece.foregroundColor = color
             }
             result += piece
@@ -228,31 +226,13 @@ struct DiagnosticsView: View {
         let subnets = report?.deviceV4 ?? []
         guard !subnets.isEmpty else { return nil }
 
-        return subnets.max { commonNetworkOctets(octets, $0) < commonNetworkOctets(octets, $1) }
+        return subnets.max { $0.commonNetworkOctets(with: octets) < $1.commonNetworkOctets(with: octets) }
     }
 
-    func commonNetworkOctets(_ octets: [UInt8?], _ subnet: IPv4Subnet) -> Int {
-        var count = 0
-        for index in 0..<4 {
-            guard octetMatch(index: index, octet: octets[index], subnet: subnet) == true else { break }
-            count += 1
-        }
-        return count
-    }
-
-    func octetMatch(index: Int, octet: UInt8?, subnet: IPv4Subnet) -> Bool? {
-        let shift = 24 - 8 * index
-        let maskByte = UInt8((subnet.mask >> shift) & 0xFF)
-        guard maskByte != 0, let octet else { return nil }
-
-        let networkByte = UInt8(((subnet.address & subnet.mask) >> shift) & 0xFF)
-        return (octet & maskByte) == (networkByte & maskByte)
-    }
-
-    func octetColor(index: Int, octet: UInt8?, subnet: IPv4Subnet) -> Color? {
-        switch octetMatch(index: index, octet: octet, subnet: subnet) {
+    func octetColor(index: Int, octet: UInt8?, subnet: IPv4Subnet, highlightMismatch: Bool) -> Color? {
+        switch subnet.networkOctetMatches(octet, at: index) {
         case .some(true): return .green
-        case .some(false): return .orange
+        case .some(false): return highlightMismatch ? .orange : nil
         case .none: return nil
         }
     }
@@ -272,7 +252,7 @@ struct DiagnosticsView: View {
     }
 
     var exportFilename: String {
-        "ruddarr-network-diagnostics"
+        networkDiagnosticsExportURL.deletingPathExtension().lastPathComponent
     }
 }
 
@@ -283,25 +263,27 @@ func networkDiagnosticsRow(_ label: String, _ value: String) -> some View {
 func networkDiagnosticsRow(_ label: String, _ valueText: Text) -> some View {
     LabeledContent {
         valueText
-            .multilineTextAlignment(.trailing)
+            .multilineTextAlignment(.leading)
             .textSelection(.enabled)
-            .contentTransition(.opacity)
+            .monospaced()
+            .font(.subheadline)
+            .tracking(-0.5)
     } label: {
         Text(verbatim: label)
     }
 }
+
+let networkDiagnosticsExportURL = FileManager.default.temporaryDirectory
+    .appendingPathComponent("ruddarr-diagnostics.txt")
 
 struct NetworkDiagnosticsExport: Transferable {
     let text: String
 
     static var transferRepresentation: some TransferRepresentation {
         FileRepresentation(exportedContentType: .plainText) { export in
-            let url = FileManager.default.temporaryDirectory
-                .appendingPathComponent("ruddarr-diagnostics.txt")
+            try export.text.write(to: networkDiagnosticsExportURL, atomically: true, encoding: .utf8)
 
-            try export.text.write(to: url, atomically: true, encoding: .utf8)
-
-            return SentTransferredFile(url)
+            return SentTransferredFile(networkDiagnosticsExportURL)
         }
     }
 }

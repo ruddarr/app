@@ -52,6 +52,32 @@ struct IPv4Subnet: Equatable, Hashable, Sendable {
         (ip & mask) == (address & mask)
     }
 
+    /// For diagnostics octet coloring: whether this subnet's network agrees with `octet` at byte
+    /// `index` (0 = high byte … 3 = low byte). `nil` when the octet is unknown (a masked `*`) or
+    /// lies wholly in the host portion (mask byte 0) — neither confirms nor denies a match, so the
+    /// caller leaves it uncolored.
+    func networkOctetMatches(_ octet: UInt8?, at index: Int) -> Bool? {
+        guard (0..<4).contains(index) else { return nil }
+
+        let shift = 24 - 8 * index
+        let maskByte = UInt8((mask >> shift) & 0xFF)
+        guard maskByte != 0, let octet else { return nil }
+
+        let networkByte = UInt8(((address & mask) >> shift) & 0xFF)
+        return (octet & maskByte) == (networkByte & maskByte)
+    }
+
+    /// The number of leading network octets that match `octets` — how the diagnostics screen picks
+    /// the closest reference subnet for an address.
+    func commonNetworkOctets(with octets: [UInt8?]) -> Int {
+        var count = 0
+        for index in 0..<min(4, octets.count) {
+            guard networkOctetMatches(octets[index], at: index) == true else { break }
+            count += 1
+        }
+        return count
+    }
+
     /// `network/prefix` for display, e.g. `192.168.1.0/24`.
     var cidr: String {
         let net = address & mask

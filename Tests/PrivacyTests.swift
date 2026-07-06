@@ -55,4 +55,18 @@ struct PrivacyTests {
         #expect(maskedCIDR("10.0.1.0/24") == "10.0.1.*/24")
         #expect(maskedCIDR("2001:db8:abcd:1:0:0:0:0/64") == "2001::*/64")
     }
+
+    @Test func hidesInlineCredentialsButKeepsTopologyVerbatim() {
+        // The unmasked diagnostics export shows topology in full but must never reveal a stored
+        // password: userinfo is redacted while scheme/host/port/path stay exactly as configured.
+        #expect(urlHidingUserinfo("http://admin:supersecretlongpassword@10.0.1.5:7878/api")
+            == "http://*****:*****@10.0.1.5:7878/api")
+        #expect(urlHidingUserinfo("http://tokenonly@nas.local:8989/api")
+            == "http://*****@nas.local:8989/api")
+        // No credentials → returned unchanged, so ordinary URLs stay byte-for-byte intact.
+        #expect(urlHidingUserinfo("https://radarr.example.com/api/v3/movie?term=dune")
+            == "https://radarr.example.com/api/v3/movie?term=dune")
+        #expect(urlHidingUserinfo("http://192.168.1.50:7878/api/v3/movie")
+            == "http://192.168.1.50:7878/api/v3/movie")
+    }
 }

@@ -24,6 +24,30 @@ func maskedURL(_ string: String) -> String {
     return result
 }
 
+/// A URL with any inline `user:password@` credentials replaced by `*****`, but scheme, host,
+/// port, path and query shown verbatim — for the unmasked diagnostics export, where revealing
+/// network topology must never reveal stored passwords. Returns the input unchanged when it
+/// carries no credentials (or can't be parsed), so ordinary URLs stay byte-for-byte intact.
+func urlHidingUserinfo(_ string: String) -> String {
+    guard let components = URLComponents(string: string),
+          let host = components.host,
+          components.user != nil
+    else { return string }
+
+    let hostField = host.contains(":") ? "[\(host)]" : host
+
+    var result = ""
+    if let scheme = components.scheme { result += "\(scheme)://" }
+    result += components.password != nil ? "*****:*****@" : "*****@"
+    result += hostField
+    if let port = components.port { result += ":\(port)" }
+    result += components.percentEncodedPath
+    if let query = components.percentEncodedQuery { result += "?\(query)" }
+    if let fragment = components.percentEncodedFragment { result += "#\(fragment)" }
+
+    return result
+}
+
 func maskedIP(_ address: String) -> String {
     maskHost(address)
 }

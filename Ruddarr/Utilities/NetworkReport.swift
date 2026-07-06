@@ -1,9 +1,8 @@
-import os
 import Foundation
 
 /// Everything URL selection sees on the current network, unmasked: the device's snapshot
 /// facts plus every candidate's standing per instance. Rendered masked into the Sentry
-/// context by `diagnostics(for:)` and mask-toggled by `NetworkDiagnosticsView`.
+/// context by `diagnostics(for:)` and mask-toggled by `DiagnosticsView`.
 struct NetworkReport: Equatable, Sendable {
     struct Candidate: Identifiable, Equatable, Sendable {
         let url: String
@@ -70,8 +69,8 @@ struct NetworkReport: Equatable, Sendable {
 }
 
 /// String masking for the diagnostics screen and its shared report: applies the `Privacy` helpers
-/// when `masked`, and passes values through untouched otherwise. Shared by `NetworkDiagnosticsView`
-/// (row values) and `NetworkDiagnosticsReport.exportText`, so both mask identically.
+/// when `masked`, and passes values through untouched otherwise. Shared by `DiagnosticsView`
+/// (row values) and `NetworkReport.exportText`, so both mask identically.
 struct NetworkDiagnosticsMask {
     let masked: Bool
 
@@ -84,7 +83,7 @@ struct NetworkDiagnosticsMask {
         return !masked ? host : maskedIP(host)
     }
 
-    func url(_ value: String) -> String { !masked ? value : maskedURL(value) }
+    func url(_ value: String) -> String { !masked ? urlHidingUserinfo(value) : maskedURL(value) }
     func ip(_ value: String) -> String { !masked ? value : maskedIP(value) }
     func cidr(_ value: String) -> String { !masked ? value : maskedCIDR(value) }
 }
@@ -96,24 +95,22 @@ extension NetworkReport {
     /// to resolve) — the same rule the UI uses.
     func exportText(masked: Bool) -> String {
         let mask = NetworkDiagnosticsMask(masked: masked)
-        var lines: [String] = ["# Ruddarr Network Diagnostics"]
+        var lines: [String] = ["# Ruddarr Diagnostics"]
 
         if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String,
            let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
             lines.append("Version: \(version) (\(build))")
         }
 
-        lines.append("Values: \(masked ? "masked" : "shown")")
-
         lines.append("")
         lines.append("[Device]")
         lines.append("Local Network: \(localNetworkDenied ? "denied" : "allowed")")
-        lines.append("Tailscale: \(tailnetUp ? "up" : "down")")
         lines.append("IPv4 Address: \(mask.list(deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))")
         lines.append("IPv4 Subnets: \(mask.list(lanV4.map(mask.cidr)))")
         lines.append("IPv6 Address: \(mask.list(deviceV6.map { mask.ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }))")
         lines.append("IPv6 Subnets: \(mask.list(lanV6.map(mask.cidr)))")
         lines.append("Network ID: \(masked ? "hidden" : fingerprint)")
+        lines.append("Tailscale: \(tailnetUp ? "up" : "down")")
 
         for entry in instances {
             lines.append("")
@@ -121,21 +118,21 @@ extension NetworkReport {
             lines.append("Type: \(entry.type)")
             lines.append("Mode: \(entry.mode)")
             lines.append("Context: \(entry.contextKey)")
-            lines.append("Candidates: \(entry.candidates.count)")
             lines.append("Selected: \(mask.url(entry.selected))")
 
             for candidate in entry.candidates {
                 lines.append("")
                 lines.append("- URL: \(mask.url(candidate.url))")
                 lines.append("  Host: \(mask.host(of: candidate.url))")
-                lines.append("  Position: \(candidate.primary ? "primary" : "alternate")")
                 lines.append("  Role: \(candidate.roleDescription)")
-                lines.append("  On-Link: \(candidate.onLink ? "yes" : "no")")
                 lines.append("  Score: \(candidate.score)")
-                lines.append("  Classification: \(candidate.resolved ? "resolved" : "lexical")")
+
                 if candidate.hasHostname {
+                    lines.append("  Classification: \(candidate.resolved ? "resolved" : "lexical")")
                     lines.append("  Resolved IPs: \(mask.list(candidate.addresses.map(mask.ip)))")
                 }
+
+                lines.append("  Position: \(candidate.primary ? "primary" : "alternate")")
                 lines.append("  Demoted: \(candidate.demoted ? "yes" : "no")")
                 lines.append("  Selected: \(candidate.selected ? "yes" : "no")")
             }

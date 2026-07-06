@@ -486,4 +486,31 @@ struct NetworkInterfacesTests {
         #expect(fingerprint.contains("|lan4:"))
         #expect(fingerprint.contains("|lan6:"))
     }
+
+    // MARK: - Diagnostics octet matching
+
+    @Test func networkOctetMatchesComparesPerOctetWithinTheMask() {
+        let lan = subnet("192.168.1.0", 24)
+        #expect(lan.networkOctetMatches(192, at: 0) == true)
+        #expect(lan.networkOctetMatches(168, at: 1) == true)
+        #expect(lan.networkOctetMatches(1, at: 2) == true)
+        #expect(lan.networkOctetMatches(5, at: 2) == false)
+        #expect(lan.networkOctetMatches(50, at: 3) == nil)   // host portion, mask byte 0
+        #expect(lan.networkOctetMatches(nil, at: 2) == nil)  // masked '*'
+        #expect(lan.networkOctetMatches(192, at: 9) == nil)  // index out of range
+
+        // A /12 fixes only the top four bits of the second octet.
+        let twelve = subnet("172.16.0.0", 12)
+        #expect(twelve.networkOctetMatches(31, at: 1) == true)   // 172.31 still inside /12
+        #expect(twelve.networkOctetMatches(32, at: 1) == false)  // 172.32 outside /12
+    }
+
+    @Test func commonNetworkOctetsCountsLeadingMatches() {
+        let lan = subnet("192.168.1.0", 24)
+        #expect(lan.commonNetworkOctets(with: [192, 168, 1, nil]) == 3)
+        #expect(lan.commonNetworkOctets(with: [192, 168, 5, nil]) == 2)
+        #expect(lan.commonNetworkOctets(with: [10, 0, 1, nil]) == 0)
+        // A /8 fixes only the first octet, so at most one leading match.
+        #expect(subnet("10.0.0.0", 8).commonNetworkOctets(with: [10, 0, 1, nil]) == 1)
+    }
 }
