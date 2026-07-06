@@ -303,6 +303,7 @@ extension Instance {
         instance.type = .radarr
         instance.label = ".radarr"
         instance.url = "http://10.0.1.5:8310"
+        instance.alternateURL = "https://radarr.example.com"
         instance.apiKey = "3b0600c1b3aa42bfb0222f4e13a81f39"
         instance.rootFolders = [
             InstanceRootFolder(id: 1, accessible: true, path: "/volume1/Media/Movies", freeSpace: 1_000_000_000),
@@ -326,6 +327,7 @@ extension Instance {
         instance.type = .sonarr
         instance.label = ".sonarr"
         instance.url = "http://10.0.1.5:8989"
+        instance.alternateURL = "https://sonarr.example.com"
         instance.apiKey = "f8e3682b3b984cddbaa00047a09d0fbd"
         instance.rootFolders = [
             InstanceRootFolder(id: 1, accessible: true, path: "/volume1/Media/TV Series", freeSpace: 2_000_000_000),

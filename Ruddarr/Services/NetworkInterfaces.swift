@@ -109,7 +109,13 @@ enum NetworkInterfaces {
     /// round-trips it back. Uncompressed keeps this dependency-free (no `inet_ntop`); the bug
     /// report masks it to the leading hextet anyway.
     static func string(fromIPv6 address: in6_addr) -> String {
-        let bytes = ipv6Bytes(address)
+        string(fromIPv6Bytes: ipv6Bytes(address))
+    }
+
+    /// The 16 network-order bytes of an IPv6 address as that same uncompressed hextet string —
+    /// used for the device's own address rows, whose bytes come from `IPv6Subnet`.
+    static func string(fromIPv6Bytes bytes: [UInt8]) -> String {
+        guard bytes.count == 16 else { return "invalid" }
         return stride(from: 0, to: 16, by: 2)
             .map { String((UInt16(bytes[$0]) << 8) | UInt16(bytes[$0 + 1]), radix: 16) }
             .joined(separator: ":")

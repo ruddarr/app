@@ -102,68 +102,96 @@ final class InstanceResolver: Sendable {
         }
     }
 
-    /// A human-readable snapshot of the current network and, for each instance, why every
-    /// candidate URL ranks where it does — for attaching to a bug report. Read-only: it
-    /// reflects what selection currently sees (cached resolutions, active demotions) and
-    /// triggers no lookups. Only the two Sendable caches are read under the lock; ranking,
-    /// normalization and masking run outside it so requests don't contend while a report builds.
-    func diagnostics(for instances: [Instance]) -> [String: Any] {
+    /// A structured snapshot of the current network and, for each instance, why every candidate
+    /// URL ranks where it does — unmasked, for the diagnostics screen to mask on demand.
+    /// Read-only: it reflects what selection currently sees (cached resolutions, active
+    /// demotions) and triggers no lookups. Only the two Sendable caches are read under the
+    /// lock; ranking and normalization run outside it so requests don't contend while a
+    /// report builds.
+    func report(for instances: [Instance]) -> NetworkReport {
         let snapshot = NetworkSnapshot.capture()
 
         let (demoted, resolvedHosts): (Set<String>, [String: ResolvedHost]) = lock.withLock { state in
             (ResolverRouting.activeDemotions(&state, now: Date()), state.resolvedHosts)
         }
 
+        let entries = instances.map { instance -> NetworkReport.InstanceEntry in
+            let candidates = instance.candidateURLs
+            let resolved = ResolverRouting.cachedRoles(resolvedHosts, for: candidates)
+            let ranked = NetworkInterfaces.ranking(candidates, snapshot: snapshot, demoted: demoted, resolved: resolved)
+            let selected = ranked.first?.base ?? candidates.first ?? instance.url
+
+            let rows = ranked.map { entry -> NetworkReport.Candidate in
+                let resolution = NetworkInterfaces.host(of: entry.base).flatMap { resolved[$0] }
+
+                return NetworkReport.Candidate(
+                    url: entry.base,
+                    role: entry.role,
+                    onLink: entry.onLink,
+                    score: entry.score,
+                    resolved: resolution != nil,
+                    addresses: resolution?.addresses ?? [],
+                    demoted: entry.demoted,
+                    primary: entry.base == candidates.first,
+                    selected: entry.base == selected
+                )
+            }
+
+            return NetworkReport.InstanceEntry(
+                id: instance.id,
+                label: instance.label,
+                type: instance.type.rawValue,
+                mode: instance.mode.value,
+                contextKey: instance.contextKey,
+                selected: selected,
+                candidates: rows
+            )
+        }
+
+        return NetworkReport(
+            tailnetUp: snapshot.tailnetUp,
+            localNetworkDenied: snapshot.localNetworkDenied,
+            lanV4: snapshot.lanV4.map(\.cidr),
+            lanV6: snapshot.lanV6.map(\.cidr),
+            deviceV4: snapshot.lanV4,
+            deviceV6: snapshot.lanV6,
+            fingerprint: snapshot.fingerprint,
+            instances: entries
+        )
+    }
+
+    /// The masked, Sentry-shaped rendering of `report(for:)` — for attaching to a bug report.
+    func diagnostics(for instances: [Instance]) -> [String: Any] {
+        let report = report(for: instances)
+
         var context: [String: Any] = [
-            "tailscale": snapshot.tailnetUp ? "up" : "down",
-            "local_network": snapshot.localNetworkDenied ? "denied" : "allowed",
-            "lan_v4": snapshot.lanV4.isEmpty ? "none" : snapshot.lanV4.map { maskedCIDR($0.cidr) }.joined(separator: ", "),
-            "lan_v6": snapshot.lanV6.isEmpty ? "none" : snapshot.lanV6.map { maskedCIDR($0.cidr) }.joined(separator: ", "),
+            "tailscale": report.tailnetUp ? "up" : "down",
+            "local_network": report.localNetworkDenied ? "denied" : "allowed",
+            "lan_v4": report.lanV4.isEmpty ? "none" : report.lanV4.map(maskedCIDR).joined(separator: ", "),
+            "lan_v6": report.lanV6.isEmpty ? "none" : report.lanV6.map(maskedCIDR).joined(separator: ", "),
         ]
 
-        for instance in instances {
-            let candidates = instance.candidateURLs
-
-            guard candidates.count > 1 else {
-                context[instance.contextKey] = ["selected": maskedURL(candidates.first ?? instance.url), "candidates": "single URL"]
+        for entry in report.instances {
+            guard entry.candidates.count > 1 else {
+                context[entry.contextKey] = ["selected": maskedURL(entry.selected), "candidates": "single URL"]
                 continue
             }
 
-            let resolved = ResolverRouting.cachedRoles(resolvedHosts, for: candidates)
-            let ranked = NetworkInterfaces.ranking(candidates, snapshot: snapshot, demoted: demoted, resolved: resolved)
-
-            let lines = ranked.map { entry -> String in
-                let resolution = NetworkInterfaces.host(of: entry.base).flatMap { resolved[$0] }
-                let primary = entry.base == candidates.first
-                var line = "\(maskedURL(entry.base)) — \(Self.label(entry, resolved: resolution != nil, primary: primary))"
-                if let addresses = resolution?.addresses, !addresses.isEmpty {
-                    line += " → \(addresses.map(maskedIP).joined(separator: ", "))"
+            let lines = entry.candidates.map { candidate -> String in
+                var line = "\(maskedURL(candidate.url)) — \(candidate.summary)"
+                if !candidate.addresses.isEmpty {
+                    line += " → \(candidate.addresses.map(maskedIP).joined(separator: ", "))"
                 }
                 return line
             }
 
-            context[instance.contextKey] = [
-                "selected": maskedURL(ranked.first?.base ?? candidates.first ?? instance.url),
+            context[entry.contextKey] = [
+                "selected": maskedURL(entry.selected),
                 "candidates": lines,
             ]
         }
 
         return context
-    }
-
-    private static func label(_ entry: NetworkInterfaces.CandidateRanking, resolved: Bool, primary: Bool) -> String {
-        let role: String
-        switch entry.role {
-        case .lan: role = entry.onLink ? "on-link LAN" : "off-link LAN"
-        case .tailscale: role = "Tailscale"
-        case .remote: role = "remote"
-        }
-
-        var parts = [role, "score \(entry.score)", resolved ? "resolved" : "lexical"]
-        if entry.demoted { parts.append("demoted") }
-        if primary { parts.append("primary") }
-
-        return parts.joined(separator: ", ")
     }
 
     private func dispatchResolution(_ hosts: [String], snapshot: NetworkSnapshot, epoch: Int) {
