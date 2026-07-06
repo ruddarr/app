@@ -71,10 +71,8 @@ struct DiagnosticsView: View {
             networkDiagnosticsRow("Connection", report.connection)
             networkDiagnosticsRow("Local Network", report.localNetworkDenied ? "denied" : "allowed")
             networkDiagnosticsRow("Tailscale", report.tailnetUp ? "up" : "down")
-            networkDiagnosticsRow("Low Data Mode", report.constrained ? "on" : "off")
-            networkDiagnosticsRow("Expensive", report.expensive ? "yes" : "no")
         } header: {
-            Text(verbatim: "Device")
+            Text(verbatim: "Network")
         }
     }
 
@@ -174,8 +172,6 @@ struct DiagnosticsView: View {
         return coloredAddressList(shown, highlightMismatch: highlightsMismatch(candidate))
     }
 
-    /// A verified routed candidate's mismatching octets are expected (that's the sibling VLAN),
-    /// so only an off-link address that is NOT proven reachable gets the orange warning.
     func highlightsMismatch(_ candidate: NetworkReport.Candidate) -> Bool {
         !candidate.onLink && candidate.probe?.reachable != true
     }

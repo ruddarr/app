@@ -68,20 +68,20 @@ actor NetworkMonitor {
 
     private static func connectionDescription(of path: NWPath) -> String {
         guard path.status == .satisfied else {
-            return "Offline"
+            return "offline"
         }
 
         let types: [(NWInterface.InterfaceType, String)] = [
-            (.wiredEthernet, "Ethernet"),
-            (.wifi, "Wi-Fi"),
-            (.cellular, "Cellular"),
-            (.loopback, "Loopback"),
-            (.other, "Other"),
+            (.wiredEthernet, "ethernet"),
+            (.wifi, "wifi"),
+            (.cellular, "cellular"),
+            (.loopback, "loopback"),
+            (.other, "other"),
         ]
 
         let used = types.filter { path.usesInterfaceType($0.0) }.map(\.1)
 
-        return used.isEmpty ? "Unknown" : used.joined(separator: ", ")
+        return used.isEmpty ? "unknown" : used.joined(separator: ", ")
     }
 
     private static func signature(of path: NWPath, identity: String) -> String {

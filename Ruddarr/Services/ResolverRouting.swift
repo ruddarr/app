@@ -9,9 +9,9 @@ import Foundation
 /// only ever be re-issued against a URL belonging to that same instance — there is no global
 /// URL→instance registry to go stale or to let one instance's request reach another's host.
 enum ResolverRouting {
+    static let probeTimeout: TimeInterval = 2
     static let demotionTTL: TimeInterval = 600
     static let resolveRetryInterval: TimeInterval = 30
-    static let probeTimeout: TimeInterval = 2.5
 
     /// Everything the resolver learns about the current network. `InstanceResolver` guards it
     /// behind a lock; here it is a plain value so the transitions are directly testable. Every
