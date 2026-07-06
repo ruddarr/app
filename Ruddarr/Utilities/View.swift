@@ -40,6 +40,15 @@ extension View {
     func presentationDetents(dynamic: Set<PresentationDetent>) -> some View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
     }
+
+    // Attempt to fix UIKit crash: https://github.com/ruddarr/app/issues/719
+    func dismissSearchWhenHidden(_ isPresented: Binding<Bool>) -> some View {
+        #if os(iOS)
+            modifier(DismissSearchWhenHidden(isPresented: isPresented))
+        #else
+            self
+        #endif
+    }
 }
 
 private struct OnBecomeActiveModifier: ViewModifier {
@@ -182,6 +191,38 @@ private struct DynamicPresentationDetents: ViewModifier {
         }
     }
 }
+
+#if os(iOS)
+private struct DismissSearchWhenHidden: ViewModifier {
+    @Binding var isPresented: Bool
+
+    @State private var tab: TabItem?
+    @Environment(\.scenePhase) private var scenePhase
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear {
+                tab = dependencies.router.selectedTab
+            }
+            .onChange(of: scenePhase) { _, phase in
+                if phase != .active {
+                    collapse()
+                }
+            }
+            .onDisappear {
+                if tab != dependencies.router.selectedTab {
+                    collapse()
+                }
+            }
+    }
+
+    private func collapse() {
+        if isPresented {
+            isPresented = false
+        }
+    }
+}
+#endif
 
 extension SearchFieldPlacement {
     enum DrawerDisplayMode { case automatic, always }

@@ -8,6 +8,7 @@ struct SeriesReleasesView: View {
     @State private var releases: [SeriesRelease] = []
     @State private var fetched: (Series.ID?, Season.ID?, Episode.ID?) = (nil, nil, nil)
     @State private var selectedRelease: SeriesRelease?
+    @State private var searchPresented = false
 
     @AppStorage("seriesReleaseSort", store: dependencies.store) private var sort: SeriesReleaseSort = .init()
 
@@ -33,7 +34,8 @@ struct SeriesReleasesView: View {
             }
         }
         .listStyle(.inset)
-        .searchable(text: $sort.search, placement: .drawerOrToolbar)
+        .searchable(text: $sort.search, isPresented: $searchPresented, placement: .drawerOrToolbar)
+        .dismissSearchWhenHidden($searchPresented)
         .toolbar {
             toolbarButtons
         }

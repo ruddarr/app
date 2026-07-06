@@ -89,6 +89,7 @@ struct SeriesView: View {
                 isPresented: $searchPresented,
                 placement: .drawerOrToolbar
             )
+            .dismissSearchWhenHidden($searchPresented)
             .autocorrectionDisabled(true)
             .onChange(of: settings.sonarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
@@ -103,10 +104,10 @@ struct SeriesView: View {
             .overlay {
                 if notConnectedToInternet {
                     NoInternet()
-                } else if hasNoSearchResults {
-                    NoSeriesSearchResults(query: $searchQuery, sort: $sort)
                 } else if isLoadingSeries {
                     Loading()
+                } else if hasNoSearchResults {
+                    NoSeriesSearchResults(query: $searchQuery, sort: $sort)
                 } else if hasNoMatchingResults {
                     NoMatchingSeries(sort: $sort)
                 } else if initialLoadingFailed {
@@ -196,7 +197,8 @@ struct SeriesView: View {
     }
 
     var isLoadingSeries: Bool {
-        instance.series.isWorking && instance.series.cachedItems.isEmpty
+        (instance.series.isWorking || instance.series.isFiltering) &&
+        instance.series.cachedItems.isEmpty
     }
 
     var initialLoadingFailed: Bool {

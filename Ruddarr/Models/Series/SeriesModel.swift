@@ -15,6 +15,7 @@ class SeriesModel {
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
     var isWorking: Bool = false
+    var isFiltering: Bool = false
 
     private var alternateTitles: [Series.ID: String] = [:]
     private var sortAndFilterTask: Task<Void, Never>?
@@ -36,6 +37,7 @@ class SeriesModel {
 
     func updateCachedItems(_ sort: SeriesSort, _ searchQuery: String) {
         sortAndFilterTask?.cancel()
+        isFiltering = true
 
         sortAndFilterTask = Task {
             let items = self.items
@@ -45,8 +47,11 @@ class SeriesModel {
                 Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
             }.value
 
+            guard !Task.isCancelled else { return }
+
             await MainActor.run {
                 cachedItems = sortedItems
+                isFiltering = false
             }
         }
     }
@@ -192,6 +197,8 @@ class SeriesModel {
     ) -> [Series] {
         let query = searchQuery.trimmed()
         let comparator = sort.option.compare
+
+        if Task.isCancelled { return [] }
 
         return items
             .filter(sort.filter)
