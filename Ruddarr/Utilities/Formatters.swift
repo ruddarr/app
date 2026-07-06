@@ -104,6 +104,32 @@ func formatAge(_ ageInMinutes: Float) -> String {
     }
 }
 
+enum RootFolderLabel {
+    static func disambiguate(_ path: String, among others: [String]) -> String {
+        let components = path.split(separator: "/")
+
+        guard !components.isEmpty else {
+            return path
+        }
+
+        let others = others.map { $0.split(separator: "/") }
+
+        var depth = 1
+
+        while depth < components.count {
+            let suffix = components.suffix(depth)
+
+            if !others.contains(where: { $0.suffix(depth) == suffix }) {
+                break
+            }
+
+            depth += 1
+        }
+
+        return components.suffix(depth).joined(separator: "/\u{200B}")
+    }
+}
+
 extension FormatStyle {
     static func decimal<Value>(_ fractionLength: Int) -> DecimalFormatStyle<Value>
         where Self == DecimalFormatStyle<Value> {
