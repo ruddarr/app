@@ -68,6 +68,7 @@ struct DiagnosticsView: View {
                     .contentTransition(.symbolEffect(.replace))
                     .animation(.snappy, value: masked)
             }
+            .tint(.primary)
         }
     }
 
@@ -79,6 +80,7 @@ struct DiagnosticsView: View {
                     item: NetworkDiagnosticsExport(text: report.exportText(masked: masked)),
                     preview: SharePreview(exportFilename)
                 )
+                .tint(.primary)
             }
         }
     }

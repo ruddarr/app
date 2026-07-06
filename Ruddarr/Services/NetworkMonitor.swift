@@ -76,12 +76,25 @@ actor NetworkMonitor {
             (.wifi, "wifi"),
             (.cellular, "cellular"),
             (.loopback, "loopback"),
-            (.other, "other"),
         ]
 
-        let used = types.filter { path.usesInterfaceType($0.0) }.map(\.1)
+        var used = types.filter { path.usesInterfaceType($0.0) }.map(\.1)
+
+        // A VPN/tunnel surfaces as the catch-all `.other` interface type. Name the actual
+        // interface(s) (`utun3`) instead of the opaque "other" it maps to by default.
+        if path.usesInterfaceType(.other) {
+            used.append(otherInterfaceDescription(of: path))
+        }
 
         return used.isEmpty ? "unknown" : used.joined(separator: ", ")
+    }
+
+    private static func otherInterfaceDescription(of path: NWPath) -> String {
+        let names = path.availableInterfaces
+            .filter { $0.type == .other }
+            .map(\.name)
+
+        return names.isEmpty ? "other" : names.sorted().joined(separator: ", ")
     }
 
     private static func signature(of path: NWPath, identity: String) -> String {
