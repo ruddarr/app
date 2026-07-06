@@ -1,8 +1,5 @@
 import Foundation
 
-/// Everything URL selection sees on the current network, unmasked: the device's snapshot
-/// facts plus every candidate's standing per instance. Rendered masked into the Sentry
-/// context by `diagnostics(for:)` and mask-toggled by `DiagnosticsView`.
 struct NetworkReport: Equatable, Sendable {
     struct Candidate: Identifiable, Equatable, Sendable {
         let url: String
@@ -19,7 +16,7 @@ struct NetworkReport: Equatable, Sendable {
 
         var roleDescription: String {
             switch role {
-            case .lan: return onLink ? "on-link LAN" : "off-link LAN"
+            case .lan: return onLink ? "LAN (on-link)" : "(LAN off-link)"
             case .tailscale: return "Tailscale"
             case .remote: return "remote"
             }
@@ -33,8 +30,6 @@ struct NetworkReport: Equatable, Sendable {
             return parts.joined(separator: ", ")
         }
 
-        /// Whether the URL's host is a DNS name rather than an IP literal — the only case where
-        /// "resolved IPs" is meaningful, since a literal address has nothing to resolve.
         var hasHostname: Bool {
             guard let host = NetworkInterfaces.host(of: url) else { return false }
             return NetworkInterfaces.parseIPv4(host) == nil && NetworkInterfaces.parseIPv6(host) == nil
@@ -56,43 +51,13 @@ struct NetworkReport: Equatable, Sendable {
     let lanV4: [String]
     let lanV6: [String]
 
-    /// The device's own LAN interfaces, structured — the reference the diagnostics screen colors
-    /// each candidate address against, octet by octet, and the source of the device host-address
-    /// rows. `lanV4`/`lanV6` above are the same interfaces rendered as `network/prefix` strings.
     let deviceV4: [IPv4Subnet]
     let deviceV6: [IPv6Subnet]
 
-    /// The network identity token demotions and resolutions are scoped to (see `NetworkSnapshot`).
     let fingerprint: String
 
     let instances: [InstanceEntry]
-}
 
-/// String masking for the diagnostics screen and its shared report: applies the `Privacy` helpers
-/// when `masked`, and passes values through untouched otherwise. Shared by `DiagnosticsView`
-/// (row values) and `NetworkReport.exportText`, so both mask identically.
-struct NetworkDiagnosticsMask {
-    let masked: Bool
-
-    func list(_ values: [String]) -> String {
-        values.isEmpty ? "none" : values.joined(separator: ", ")
-    }
-
-    func host(of base: String) -> String {
-        guard let host = NetworkInterfaces.host(of: base) else { return "invalid" }
-        return !masked ? host : maskedIP(host)
-    }
-
-    func url(_ value: String) -> String { !masked ? urlHidingUserinfo(value) : maskedURL(value) }
-    func ip(_ value: String) -> String { !masked ? value : maskedIP(value) }
-    func cidr(_ value: String) -> String { !masked ? value : maskedCIDR(value) }
-}
-
-extension NetworkReport {
-    /// The full plaintext report shared from the diagnostics screen, masked or plain. The screen
-    /// shows a trimmed subset of these fields; the report keeps every one so a bug report is
-    /// complete. `Resolved IPs` is emitted only for hostname candidates (a literal IP has nothing
-    /// to resolve) — the same rule the UI uses.
     func exportText(masked: Bool) -> String {
         let mask = NetworkDiagnosticsMask(masked: masked)
         var lines: [String] = ["# Ruddarr Diagnostics"]
@@ -140,4 +105,21 @@ extension NetworkReport {
 
         return lines.joined(separator: "\n")
     }
+}
+
+struct NetworkDiagnosticsMask {
+    let masked: Bool
+
+    func list(_ values: [String]) -> String {
+        values.isEmpty ? "none" : values.joined(separator: ", ")
+    }
+
+    func host(of base: String) -> String {
+        guard let host = NetworkInterfaces.host(of: base) else { return "invalid" }
+        return !masked ? host : maskedIP(host)
+    }
+
+    func url(_ value: String) -> String { !masked ? urlHidingUserinfo(value) : maskedURL(value) }
+    func ip(_ value: String) -> String { !masked ? value : maskedIP(value) }
+    func cidr(_ value: String) -> String { !masked ? value : maskedCIDR(value) }
 }
