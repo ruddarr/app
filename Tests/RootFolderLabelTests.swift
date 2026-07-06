@@ -5,9 +5,9 @@ import Foundation
 // `InstanceRootFolder.menuLabel(among:)`. Covers the two folder layouts from #720: mounts
 // that share a leaf directory, and mounts whose leaf already differs.
 struct RootFolderLabelTests {
-    // A zero-width space trails each separator in a multi-element label; rebuild the expected
-    // values with the same constant so the assertions stay readable.
-    private let sep = RootFolderLabel.separator
+    // `disambiguate` joins elements with a slash followed by a zero-width space (so long labels
+    // can wrap); rebuild the expected values with the same separator so the assertions stay readable.
+    private let sep = "/\u{200B}"
 
     // Two mounts ending in the same ".../Media/Videos" leaf grow their labels from the leaf
     // toward the root until they differ.
