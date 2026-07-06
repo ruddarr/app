@@ -65,6 +65,7 @@ struct DiagnosticsView: View {
                 masked.toggle()
             } label: {
                 Image(systemName: masked ? "eye" : "eye.slash")
+                    .imageScale(.medium)
                     .contentTransition(.symbolEffect(.replace))
                     .animation(.snappy, value: masked)
             }
