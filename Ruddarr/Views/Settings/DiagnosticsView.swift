@@ -11,30 +11,47 @@ struct DiagnosticsView: View {
     @State private var expandedCandidates: Set<String> = []
 
     var body: some View {
-        List {
-            if let report {
-                device(report)
-                network(report)
-
-                ForEach(report.instances) { entry in
-                    instanceSection(entry)
+        diagnosticsList
+            .animation(.snappy, value: masked)
+            .toolbar {
+                toolbarMaskButton
+                toolbarShareButton
+            }
+            .task {
+                while !Task.isCancelled {
+                    refresh()
+                    try? await Task.sleep(for: .seconds(2))
                 }
             }
-        }
-        .listStyle(.sidebar)
-        .animation(.snappy, value: masked)
-        .toolbar {
-            toolbarMaskButton
-            toolbarShareButton
-        }
-        .task {
-            while !Task.isCancelled {
+            .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
                 refresh()
-                try? await Task.sleep(for: .seconds(2))
             }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
-            refresh()
+    }
+
+    @ViewBuilder
+    var diagnosticsList: some View {
+        #if os(macOS)
+            Form {
+                diagnosticsContent
+            }
+            .formStyle(.grouped)
+        #else
+            List {
+                diagnosticsContent
+            }
+            .listStyle(.sidebar)
+        #endif
+    }
+
+    @ViewBuilder
+    var diagnosticsContent: some View {
+        if let report {
+            device(report)
+            network(report)
+
+            ForEach(report.instances) { entry in
+                instanceSection(entry)
+            }
         }
     }
 
@@ -80,9 +97,13 @@ struct DiagnosticsView: View {
         Section {
             networkDiagnosticsRow("IPv4 Address", mask.list(report.deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))
             networkDiagnosticsRow("IPv4 Subnets", report.subnetRowsV4(mask))
-            networkDiagnosticsRow("IPv6 Address", mask.list(report.deviceV6.map { mask.ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }))
-            networkDiagnosticsRow("IPv6 Subnets", report.subnetRowsV6(mask))
-            networkDiagnosticsRow("Gateway", report.gatewayRows(mask))
+
+            if !report.deviceV6.isEmpty {
+                networkDiagnosticsRow("IPv6 Address", mask.list(report.deviceV6.map { mask.ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }))
+                networkDiagnosticsRow("IPv6 Subnets", report.subnetRowsV6(mask))
+            }
+
+            networkDiagnosticsRow("Gateway", report.lanGatewayRows(mask))
         } header: {
             Text(verbatim: "Device")
         }
@@ -112,8 +133,7 @@ struct DiagnosticsView: View {
                         if candidate.selected {
                             Spacer()
                             Image(systemName: "checkmark")
-                                .symbolVariant(.circle)
-                                .foregroundStyle(.green)
+                                .foregroundStyle(.tint)
                         }
                     }
                 }

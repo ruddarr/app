@@ -92,6 +92,17 @@ struct NetworkReport: Equatable, Sendable {
         mask.list(gatewaysV4.map { annotated(mask.ip($0.address), interface: $0.interface) })
     }
 
+    /// The default gateway(s) on the device's own LAN interfaces — the `en*` links that carry an
+    /// on-link subnet. The diagnostics *screen* shows only these, dropping cellular/VPN default
+    /// routes (`pdp*`, `utun*`) that are irrelevant to reaching a LAN instance. The export keeps
+    /// the full `gatewayRows` so a bug report still records every default route.
+    func lanGatewayRows(_ mask: NetworkDiagnosticsMask) -> String {
+        let interfaces = Set(deviceV4.map(\.interface)).union(deviceV6.map(\.interface))
+        let gateways = gatewaysV4.filter { interfaces.contains($0.interface) }
+
+        return mask.list(gateways.map { annotated(mask.ip($0.address), interface: $0.interface) })
+    }
+
     private func annotated(_ value: String, interface: String) -> String {
         interface.isEmpty ? value : "\(value) (\(interface))"
     }
