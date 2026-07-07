@@ -22,6 +22,7 @@ final class InstancesStore {
     @ObservationIgnored private let suite: UserDefaults
     @ObservationIgnored private let cloud: NSUbiquitousKeyValueStore?
     @ObservationIgnored private var observer: (any NSObjectProtocol)?
+    @ObservationIgnored private var foregroundObserver: (any NSObjectProtocol)?
 
     private(set) var instances: [Instance] = []
 
@@ -44,10 +45,11 @@ final class InstancesStore {
                 let info = note.userInfo
                 let reason = info?[NSUbiquitousKeyValueStoreChangeReasonKey] as? Int
                 let keys = info?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String]
+
                 MainActor.assumeIsolated { self?.cloudChangedExternally(reason: reason, keys: keys) }
             }
 
-            cloud.synchronize()
+            Self.synchronizeCloud()
 
             #if canImport(UIKit)
                 let activation = UIApplication.willEnterForegroundNotification
@@ -55,12 +57,13 @@ final class InstancesStore {
                 let activation = NSApplication.didBecomeActiveNotification
             #endif
 
-            NotificationCenter.default.addObserver(
-                cloud,
-                selector: #selector(NSUbiquitousKeyValueStore.synchronize),
-                name: activation,
-                object: nil
-            )
+            foregroundObserver = NotificationCenter.default.addObserver(
+                forName: activation,
+                object: nil,
+                queue: nil
+            ) { _ in
+                Self.synchronizeCloud()
+            }
         }
 
         reconcile()
@@ -75,8 +78,16 @@ final class InstancesStore {
             NotificationCenter.default.removeObserver(observer)
         }
 
-        if let cloud {
-            NotificationCenter.default.removeObserver(cloud)
+        if let foregroundObserver {
+            NotificationCenter.default.removeObserver(foregroundObserver)
+        }
+    }
+
+    private nonisolated static func synchronizeCloud() {
+        Task.detached(priority: .utility) {
+            if !NSUbiquitousKeyValueStore.default.synchronize() {
+                leaveBreadcrumb(.warning, category: "instances", message: "iCloud synchronize() returned false")
+            }
         }
     }
 
@@ -112,9 +123,7 @@ final class InstancesStore {
 
         cloud.set(raw, forKey: Self.key)
 
-        if !cloud.synchronize() {
-            leaveBreadcrumb(.warning, category: "instances", message: "iCloud synchronize() returned false")
-        }
+        Self.synchronizeCloud()
     }
 
     private func cloudChangedExternally(reason: Int?, keys: [String]?) {
