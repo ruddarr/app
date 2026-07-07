@@ -210,13 +210,18 @@ struct InstanceRootFolder: Identifiable, Equatable, Codable, Hashable {
     }
 
     var labelWithSpace: Text {
-        var string = AttributedString(label)
+        // Allow the path to wrap only after its slashes (zero-width space), so a long
+        // path breaks across lines the way a file path naturally reads.
+        var string = AttributedString(label.replacingOccurrences(of: "/", with: "/\u{200B}"))
 
         if let freeSpace {
             string += AttributedString("\u{00A0}\u{00A0}")
 
+            // Keep the free-space value on a single line by joining its words with
+            // non-breaking spaces (e.g. "27.6 TB free" never splits mid-value).
             var size = AttributedString(
                 String(localized: "\(formatBytes(freeSpace)) free", comment: "%@ = Available disk space")
+                    .replacingOccurrences(of: " ", with: "\u{00A0}")
             )
 
             size.font = .footnote
