@@ -17,12 +17,16 @@ func startSentry() {
         options.enableSigtermReporting = true
         options.enableWatchdogTerminationTracking = true
         options.enableMetricKit = false
-        options.enableAppHangTracking = false
+        options.enableAppHangTracking = isRunningIn(.testflight)
         options.appHangTimeoutInterval = 3
+        #if os(iOS)
+            options.enableReportNonFullyBlockingAppHangs = isRunningIn(.testflight)
+        #endif
         options.enableCaptureFailedRequests = false
-        options.enableTimeToFullDisplayTracing = true
+        options.enableTimeToFullDisplayTracing = false
 
         options.tracesSampleRate = 1
+        options.tracePropagationTargets = []
 
         #if os(iOS)
             options.attachViewHierarchy = false
