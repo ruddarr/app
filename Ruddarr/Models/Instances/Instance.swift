@@ -210,13 +210,14 @@ struct InstanceRootFolder: Identifiable, Equatable, Codable, Hashable {
     }
 
     var labelWithSpace: Text {
-        var string = AttributedString(label)
+        var string = AttributedString(label.replacingOccurrences(of: "/", with: "/\u{200B}"))
 
         if let freeSpace {
             string += AttributedString("\u{00A0}\u{00A0}")
 
             var size = AttributedString(
                 String(localized: "\(formatBytes(freeSpace)) free", comment: "%@ = Available disk space")
+                    .replacingOccurrences(of: " ", with: "\u{00A0}")
             )
 
             size.font = .footnote
