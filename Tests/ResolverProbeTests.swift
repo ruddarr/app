@@ -155,22 +155,30 @@ struct ResolverProbeTests {
         #expect(state.probeOutcomes[routed] == ProbeOutcome(reachable: true))
     }
 
-    @Test func fingerprintChangeForgetsVerdictsButKeepsThrottle() {
+    @Test func fingerprintChangeForgetsVerdictsAndReprobesAtOnce() {
         var state = ResolverRouting.State()
 
         _ = ResolverRouting.register(&state, candidates: [remote, routed], snapshot: home, fingerprint: home.fingerprint, now: t0)
         ResolverRouting.recordProbe(&state, base: routed, epoch: state.epoch, outcome: ProbeOutcome(reachable: true, latency: 0.01), now: t0)
         #expect(state.probeOutcomes[routed]?.reachable == true)
 
-        // A different network drops the verdict (a foreign 192.168.20.5 is a different machine),
-        // but the attempt throttle survives the flap, exactly like the DNS one.
-        _ = ResolverRouting.register(&state, candidates: [remote, routed], snapshot: away, fingerprint: away.fingerprint, now: t0.addingTimeInterval(1))
+        // A different network drops the verdict (a foreign 192.168.20.5 is a different machine)
+        // AND the probe throttle: the wiped verdict must be re-earnable at once, or selection
+        // blacks out (95 → 30) for the whole retry interval on every fingerprint swing.
+        let otherLAN = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("192.168.30.0", 24)])
+        let swung = ResolverRouting.register(&state, candidates: [remote, routed], snapshot: otherLAN, fingerprint: otherLAN.fingerprint, now: t0.addingTimeInterval(1))
         #expect(state.probeOutcomes.isEmpty)
-        #expect(state.probeAttemptedAt[routed] != nil)
+        #expect(swung.probes == [routed])
 
-        // Only a real network change clears the throttle too.
+        // The DNS throttle is different — `getaddrinfo` is unbounded, so it survives the swing.
+        state.resolveAttemptedAt["radarr.example.com"] = t0
+        _ = ResolverRouting.register(&state, candidates: [remote, routed], snapshot: home, fingerprint: home.fingerprint, now: t0.addingTimeInterval(2))
+        #expect(state.resolveAttemptedAt["radarr.example.com"] != nil)
+
+        // A real network change clears both throttles.
         ResolverRouting.networkChanged(&state)
         #expect(state.probeAttemptedAt.isEmpty)
+        #expect(state.resolveAttemptedAt.isEmpty)
     }
 
     // MARK: - Ranking with verdicts

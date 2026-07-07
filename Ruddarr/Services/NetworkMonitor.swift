@@ -10,6 +10,7 @@ actor NetworkMonitor {
 
     private var status: NWPath.Status = .requiresConnection
     private var pathSignature: String?
+    private var pendingSignature: String?
     private var pendingChange: Task<Void, Never>?
 
     private(set) var pathFacts = NetworkPathFacts()
@@ -55,13 +56,20 @@ actor NetworkMonitor {
         let signature = Self.signature(of: path, identity: NetworkSnapshot.capture().identity)
 
         guard pathSignature != nil else {
-            pathSignature = signature // the baseline; nothing has been learned yet that a change could invalidate
+            pathSignature = signature
             return
         }
 
-        pendingChange?.cancel()
+        guard signature != pathSignature else {
+            pendingChange?.cancel()
+            pendingSignature = nil
+            return
+        }
 
-        guard signature != pathSignature else { return }
+        guard signature != pendingSignature else { return }
+
+        pendingChange?.cancel()
+        pendingSignature = signature
 
         pendingChange = Task {
             try? await Task.sleep(for: Self.settleInterval)
@@ -73,6 +81,7 @@ actor NetworkMonitor {
 
     private func commit(_ signature: String) {
         pathSignature = signature
+        pendingSignature = nil
 
         Task {
             await InstanceResolver.shared.networkChanged()
@@ -113,20 +122,7 @@ actor NetworkMonitor {
     }
 
     private static func signature(of path: NWPath, identity: String) -> String {
-        let transports: [(NWInterface.InterfaceType, String)] = [
-            (.wiredEthernet, "wired"),
-            (.wifi, "wifi"),
-            (.cellular, "cellular"),
-            (.loopback, "loopback"),
-            (.other, "tunnel"),
-        ]
-
-        let used = transports
-            .filter { path.usesInterfaceType($0.0) }
-            .map(\.1)
-            .joined(separator: ",")
-
-        return "\(path.status)|\(used)|\(identity)"
+        "\(path.status)|\(identity)"
     }
 
     func checkReachability() throws {

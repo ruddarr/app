@@ -349,6 +349,12 @@ enum ResolverRouting {
     /// throttle (`resolveAttemptedAt`) is deliberately kept: a flapping fingerprint (tailnet
     /// reconnecting) would otherwise re-storm `getaddrinfo` on every swing. Only a real
     /// `networkChanged()` clears the throttle, so a genuine transition still re-resolves at once.
+    ///
+    /// The probe throttle is NOT kept: a wiped verdict must be re-earnable at once, or the
+    /// verified candidate scores 30 instead of 95 for up to `resolveRetryInterval` and every
+    /// instance row flips selection and re-checks against a slower fallback — a visible
+    /// blackout on every fingerprint swing. Unlike `getaddrinfo`, a probe is bounded (2s
+    /// timeout), single-flight per base, and gated off entirely while an on-link sibling wins.
     private static func syncFingerprint(_ state: inout State, to fingerprint: String) {
         guard state.fingerprint != fingerprint else { return }
 
@@ -356,6 +362,7 @@ enum ResolverRouting {
         state.demotedUntil.removeAll()
         state.resolvedHosts.removeAll()
         state.probeOutcomes.removeAll()
+        state.probeAttemptedAt.removeAll()
         state.epoch += 1
     }
 }
