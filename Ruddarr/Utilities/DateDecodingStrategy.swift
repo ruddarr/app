@@ -19,3 +19,12 @@ extension JSONDecoder.DateDecodingStrategy {
         ))
     }
 }
+
+extension KeyedDecodingContainer {
+    func decodeLossyArrayIfPresent<T: Decodable>(
+        _ type: [T].Type,
+        forKey key: Key
+    ) throws -> [T]? {
+        try decodeIfPresent([T?].self, forKey: key)?.compactMap { $0 }
+    }
+}
