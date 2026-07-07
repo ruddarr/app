@@ -131,7 +131,7 @@ extension InstanceEditView {
         let candidates = instance.candidateURLs
         guard candidates.count > 1 else { return }
 
-        let selected = InstanceResolver.shared.currentSelection(for: instance)
+        let selected = await InstanceResolver.shared.currentSelection(for: instance)
 
         for base in candidates where base != selected {
             guard let statusURL = URL(string: base)?.appending(path: "/api/v3/system/status") else { continue }

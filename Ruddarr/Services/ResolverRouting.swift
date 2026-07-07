@@ -34,20 +34,49 @@ enum ResolverRouting {
         var resolvedHosts: [String: ResolvedHost] = [:]
 
         /// host → when a lookup was last attempted (stamped at claim), so a name is re-sent to
-        /// `getaddrinfo` at most once per `resolveRetryInterval` — this doubles as the in-flight
-        /// guard, so no separate "resolving" set is needed. Unlike the maps above it survives a
-        /// fingerprint change (cleared only by `networkChanged`), so a flapping fingerprint can't
-        /// wipe the throttle and storm lookups.
+        /// `getaddrinfo` at most once per `resolveRetryInterval`. Unlike the maps above it
+        /// survives a fingerprint change (cleared only by `networkChanged`), so a flapping
+        /// fingerprint can't wipe the throttle and storm lookups.
         var resolveAttemptedAt: [String: Date] = [:]
+
+        /// Hosts with a lookup currently in flight. Claims skip these, and unlike the attempt
+        /// stamps the set survives even `networkChanged`, so a burst of path updates can never
+        /// stack a second blocking `getaddrinfo` for the same host onto the resolution queue —
+        /// completion always clears the entry, even when the result lands stale and is dropped.
+        var resolveInFlight: Set<String> = []
 
         /// base URL → the `/ping` verdict for an off-link private candidate on this network. A
         /// reachable verdict promotes the base above remote (the router demonstrably routes into
         /// its VLAN); a failed one is retried at most once per `resolveRetryInterval`.
         var probeOutcomes: [String: ProbeOutcome] = [:]
 
-        /// base URL → when a probe was last dispatched or completed — the in-flight guard and
-        /// retry throttle, with the same fingerprint-flap semantics as `resolveAttemptedAt`.
+        /// base URL → when a probe was last dispatched or completed — the retry throttle, with
+        /// the same fingerprint-flap semantics as `resolveAttemptedAt`.
         var probeAttemptedAt: [String: Date] = [:]
+
+        /// Bases with a `/ping` probe currently in flight — same semantics as `resolveInFlight`.
+        var probeInFlight: Set<String> = []
+    }
+
+    /// Ranks `candidates` for the current network from cached state alone — the same
+    /// fingerprint sync and ordering as `register`, but it claims nothing and dispatches
+    /// nothing, so a passive caller (an instance row displaying the selection) can read it
+    /// without generating lookup or probe traffic.
+    static func rank(
+        _ state: inout State,
+        candidates: [String],
+        snapshot: NetworkSnapshot,
+        fingerprint: String,
+        now: Date
+    ) -> [String] {
+        syncFingerprint(&state, to: fingerprint)
+
+        let demoted = activeDemotions(&state, now: now)
+        let resolved = cachedRoles(state.resolvedHosts, for: candidates)
+
+        return NetworkInterfaces.orderedBases(
+            candidates, snapshot: snapshot, demoted: demoted, resolved: resolved, probed: state.probeOutcomes
+        )
     }
 
     /// Ranks `candidates` for the current network and claims any hostnames that still need a
@@ -60,16 +89,13 @@ enum ResolverRouting {
         fingerprint: String,
         now: Date
     ) -> (ordered: [String], pending: [String], probes: [String]) {
-        syncFingerprint(&state, to: fingerprint)
-
-        let demoted = activeDemotions(&state, now: now)
-        let resolved = cachedRoles(state.resolvedHosts, for: candidates)
-        let ordered = NetworkInterfaces.orderedBases(
-            candidates, snapshot: snapshot, demoted: demoted, resolved: resolved, probed: state.probeOutcomes
-        )
+        let ordered = rank(&state, candidates: candidates, snapshot: snapshot, fingerprint: fingerprint, now: now)
 
         let pending = claimHostsNeedingResolution(&state, candidates, now: now)
-        let probes = claimProbesNeeded(&state, candidates, snapshot: snapshot, resolved: resolved, now: now)
+        let probes = claimProbesNeeded(
+            &state, candidates, snapshot: snapshot, resolved: cachedRoles(state.resolvedHosts, for: candidates), now: now
+        )
+
         return (ordered, pending, probes)
     }
 
@@ -123,8 +149,11 @@ enum ResolverRouting {
     }
 
     /// Writes back a completed lookup, but only if the caches haven't been cleared since it was
-    /// dispatched (`epoch` still matches) — otherwise the stale result is dropped.
+    /// dispatched (`epoch` still matches) — otherwise the stale result is dropped. The in-flight
+    /// guard clears either way; the lookup is over.
     static func recordResolution(_ state: inout State, host: String, epoch: Int, resolved: ResolvedHost?, now: Date) {
+        state.resolveInFlight.remove(host)
+
         guard state.epoch == epoch else { return }
 
         state.resolveAttemptedAt[host] = now
@@ -170,9 +199,11 @@ enum ResolverRouting {
             guard seen.insert(host).inserted else { continue }
 
             if state.resolvedHosts[host] != nil { continue }
+            if state.resolveInFlight.contains(host) { continue }
             if let last = state.resolveAttemptedAt[host], now.timeIntervalSince(last) < resolveRetryInterval { continue }
 
             state.resolveAttemptedAt[host] = now
+            state.resolveInFlight.insert(host)
             hosts.append(host)
         }
 
@@ -198,13 +229,13 @@ enum ResolverRouting {
     /// hostname resolved to — that is NOT on any of the device's own links. Such a server may
     /// sit on a sibling VLAN behind the same router, reachable only if the router routes into
     /// it, which is exactly what the probe finds out. Loopback is always on-link, link-local
-    /// can never route, CGNAT / the Tailscale ULA belong to the tunnel, and mDNS / single-label
-    /// names can't resolve off-link — none of those are probed.
+    /// can never route (resolved names included), CGNAT / the Tailscale ULA belong to the
+    /// tunnel, and mDNS / single-label names can't resolve off-link — none of those are probed.
     static func probeCandidate(_ base: String, resolved: [String: ResolvedHost], snapshot: NetworkSnapshot) -> Bool {
         guard let host = NetworkInterfaces.host(of: base) else { return false }
 
         if let resolution = resolved[host] {
-            return resolution.role == .lan && !resolution.onLink && !resolution.isLoopback
+            return resolution.role == .lan && !resolution.onLink && !resolution.isLoopback && !resolution.isLinkLocal
         }
 
         if let v4 = NetworkInterfaces.parseIPv4(host) {
@@ -228,7 +259,10 @@ enum ResolverRouting {
     /// Collects off-link private bases worth a fresh `/ping` — skipping verified bases,
     /// in-flight probes and recent failures — stamping each as attempted, exactly like
     /// `claimHostsNeedingResolution` does for lookups. Probing needs a LAN: away from any
-    /// local network there is no router that could route into the server's VLAN.
+    /// local network there is no router that could route into the server's VLAN. And it
+    /// needs a reason: while a sibling candidate is reachable on-link (score 100), a verified
+    /// routed verdict (95) could never change selection, so nothing is claimed — without
+    /// stamping the throttle, so the first claim after that sibling demotes fires at once.
     static func claimProbesNeeded(
         _ state: inout State,
         _ candidates: [String],
@@ -238,15 +272,24 @@ enum ResolverRouting {
     ) -> [String] {
         guard snapshot.hasLAN else { return [] }
 
+        let demoted = activeDemotions(&state, now: now)
+        let ranked = NetworkInterfaces.ranking(
+            candidates, snapshot: snapshot, demoted: demoted, resolved: resolved, probed: state.probeOutcomes
+        )
+
+        guard !ranked.contains(where: { !$0.demoted && $0.score == NetworkInterfaces.onLinkScore }) else { return [] }
+
         var bases: [String] = []
 
         for base in candidates {
             guard probeCandidate(base, resolved: resolved, snapshot: snapshot) else { continue }
 
             if state.probeOutcomes[base]?.reachable == true { continue }
+            if state.probeInFlight.contains(base) { continue }
             if let last = state.probeAttemptedAt[base], now.timeIntervalSince(last) < resolveRetryInterval { continue }
 
             state.probeAttemptedAt[base] = now
+            state.probeInFlight.insert(base)
             bases.append(base)
         }
 
@@ -256,8 +299,10 @@ enum ResolverRouting {
     /// Writes back a completed probe, unless the caches were cleared since it was dispatched
     /// (`epoch` no longer matches). Failures are recorded too — the diagnostics screen shows
     /// them — and re-stamping the attempt schedules the next retry a full interval after
-    /// *completion*, not dispatch.
+    /// *completion*, not dispatch. The in-flight guard clears either way; the probe is over.
     static func recordProbe(_ state: inout State, base: String, epoch: Int, outcome: ProbeOutcome, now: Date) {
+        state.probeInFlight.remove(base)
+
         guard state.epoch == epoch else { return }
 
         state.probeAttemptedAt[base] = now

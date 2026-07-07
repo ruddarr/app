@@ -1,5 +1,6 @@
 import Foundation
 import CloudKit
+import UserNotifications
 
 protocol OptionalProtocol {
     associatedtype Wrapped
@@ -127,6 +128,17 @@ func cloudKitStatusString(_ status: CKAccountStatus?) -> String {
     case .noAccount: "no-account"
     case .temporarilyUnavailable: "temporarily-unavailable"
     case .none: "nil"
+    @unknown default: "unknown"
+    }
+}
+
+func pushAuthorizationStatusString(_ status: UNAuthorizationStatus) -> String {
+    switch status {
+    case .notDetermined: "not-determined"
+    case .denied: "denied"
+    case .authorized: "authorized"
+    case .provisional: "provisional"
+    case .ephemeral: "ephemeral"
     @unknown default: "unknown"
     }
 }

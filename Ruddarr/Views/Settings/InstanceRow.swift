@@ -10,7 +10,7 @@ struct InstanceRow: View {
     @State private var currentURL: String = ""
     @State private var webhook: Webhook = .pending
     @State private var notifications: Bool = false
-    @State private var networkToken = UUID()
+    @State private var networkToken: UUID?
 
     @Environment(AppSettings.self) private var settings
 
@@ -53,6 +53,11 @@ struct InstanceRow: View {
             await checkNotificationsStatus()
         }
         .task(id: networkToken) {
+            if networkToken != nil {
+                try? await Task.sleep(for: .milliseconds(500))
+                guard !Task.isCancelled else { return }
+            }
+
             await checkInstanceConnection()
         }
         .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
@@ -86,7 +91,7 @@ struct InstanceRow: View {
     }
 
     func checkInstanceConnection() async {
-        let selection = hostPort(InstanceResolver.shared.currentSelection(for: instance))
+        let selection = hostPort(await InstanceResolver.shared.currentSelection(for: instance))
 
         do {
             let lastCheck = "instanceCheck:\(instance.id)"
@@ -105,13 +110,16 @@ struct InstanceRow: View {
 
             let data = try await systemStatus
 
-            instance.name = data.instanceName
-            instance.version = data.version
-            instance.rootFolders = try await rootFolders
-            instance.qualityProfiles = try await qualityProfiles
-            instance.tags = try await tags
+            var updated = instance
+            updated.name = data.instanceName
+            updated.version = data.version
+            updated.rootFolders = try await rootFolders
+            updated.qualityProfiles = try await qualityProfiles
+            updated.tags = try await tags
 
-            settings.saveInstance(instance)
+            instance = updated
+
+            settings.saveInstance(updated)
 
             Occurrence.occurred(lastCheck)
 
@@ -119,7 +127,7 @@ struct InstanceRow: View {
             await webhook.synchronize()
             self.webhook = webhook.isEnabled ? .enabled : .disabled
 
-            currentURL = hostPort(InstanceResolver.shared.currentSelection(for: instance))
+            currentURL = hostPort(await InstanceResolver.shared.currentSelection(for: instance))
             connection = .reachable
         } catch is CancellationError {
             // do nothing

@@ -107,7 +107,7 @@ struct NetworkReport: Equatable, Sendable {
         interface.isEmpty ? value : "\(value) (\(interface))"
     }
 
-    func exportText(masked: Bool) -> String {
+    func exportText(masked: Bool, app appLines: [String] = []) -> String {
         let mask = NetworkDiagnosticsMask(masked: masked)
         var lines: [String] = ["# Ruddarr Diagnostics"]
 
@@ -115,6 +115,8 @@ struct NetworkReport: Equatable, Sendable {
            let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
             lines.append("Version: \(version) (\(build))")
         }
+
+        lines.append(contentsOf: appLines)
 
         lines.append("")
         lines.append("[Device]")

@@ -39,6 +39,11 @@ struct ResolvedHost: Equatable {
     var onLink: Bool
     var isLoopback: Bool = false
 
+    /// Whether the host's only private addresses are link-local (`169.254/16`, `fe80::/10`) —
+    /// on-link by definition, so never worth a cross-VLAN probe. A literal link-local host is
+    /// gated in `probeCandidate` directly; this carries the same fact for resolved names.
+    var isLinkLocal: Bool = false
+
     /// The addresses this host actually resolved to, as canonical strings. Retained so a bug
     /// report can show what a split-horizon name pointed at, and so scoring can tell an off-link
     /// private address that shares the device's home network (a sibling VLAN) from one on a

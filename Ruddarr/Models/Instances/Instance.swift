@@ -93,8 +93,8 @@ struct Instance: Identifiable, Equatable, Codable {
         return result
     }
 
-    func baseURL() throws -> URL {
-        let resolved = InstanceResolver.shared.resolve(self)
+    func baseURL() async throws -> URL {
+        let resolved = await InstanceResolver.shared.resolve(self)
 
         guard let url = URL(string: resolved) else {
             throw API.Error.invalidUrl(resolved)

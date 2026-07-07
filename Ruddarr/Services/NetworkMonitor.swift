@@ -1,4 +1,3 @@
-import os
 import Network
 import Foundation
 
@@ -7,11 +6,13 @@ actor NetworkMonitor {
 
     let monitor = NWPathMonitor()
 
+    static let settleInterval: Duration = .milliseconds(1_500)
+
     private var status: NWPath.Status = .requiresConnection
     private var pathSignature: String?
+    private var pendingChange: Task<Void, Never>?
 
-    private let pathSequence = OSAllocatedUnfairLock(initialState: 0)
-    private var lastSequence = 0
+    private(set) var pathFacts = NetworkPathFacts()
 
     var isReachable: Bool {
         status == .satisfied
@@ -22,47 +23,63 @@ actor NetworkMonitor {
     }
 
     func start() {
-        monitor.pathUpdateHandler = { path in
-            let sequence = self.pathSequence.withLock { $0 += 1; return $0 }
-            Task {
-                await self.update(from: path, sequence: sequence)
-            }
+        let updates = AsyncStream<NWPath> { continuation in
+            monitor.pathUpdateHandler = { continuation.yield($0) }
         }
 
-        let queue = DispatchQueue(label: "Monitor")
-        monitor.start(queue: queue)
+        monitor.start(queue: DispatchQueue(label: "Monitor"))
+
+        Task {
+            for await path in updates {
+                ingest(path)
+            }
+        }
     }
 
     func stop() {
+        pendingChange?.cancel()
         monitor.cancel()
     }
 
-    private func update(from path: NWPath, sequence: Int) {
-        guard sequence > lastSequence else { return }
-        lastSequence = sequence
-
-        self.status = path.status
+    private func ingest(_ path: NWPath) {
+        status = path.status
 
         LocalNetworkAccess.setDenied(path.unsatisfiedReason == .localNetworkDenied)
 
-        NetworkPathFacts.update(NetworkPathFacts.Facts(
+        pathFacts = NetworkPathFacts(
             connection: Self.connectionDescription(of: path),
             constrained: path.isConstrained,
             expensive: path.isExpensive
-        ))
+        )
 
         let signature = Self.signature(of: path, identity: NetworkSnapshot.capture().identity)
 
-        if signature != pathSignature {
-            if pathSignature != nil {
-                InstanceResolver.shared.networkChanged()
+        guard pathSignature != nil else {
+            pathSignature = signature // the baseline; nothing has been learned yet that a change could invalidate
+            return
+        }
 
-                Task { @MainActor in
-                    NotificationCenter.default.post(name: .networkChanged)
-                }
+        pendingChange?.cancel()
+
+        guard signature != pathSignature else { return }
+
+        pendingChange = Task {
+            try? await Task.sleep(for: Self.settleInterval)
+            guard !Task.isCancelled else { return }
+
+            commit(signature)
+        }
+    }
+
+    private func commit(_ signature: String) {
+        pathSignature = signature
+
+        Task {
+            await InstanceResolver.shared.networkChanged()
+
+            await MainActor.run {
+                NotificationCenter.default.post(name: .networkChanged)
             }
-
-            pathSignature = signature
         }
     }
 
@@ -80,8 +97,6 @@ actor NetworkMonitor {
 
         var used = types.filter { path.usesInterfaceType($0.0) }.map(\.1)
 
-        // A VPN/tunnel surfaces as the catch-all `.other` interface type. Name the actual
-        // interface(s) (`utun3`) instead of the opaque "other" it maps to by default.
         if path.usesInterfaceType(.other) {
             used.append(otherInterfaceDescription(of: path))
         }
@@ -98,12 +113,20 @@ actor NetworkMonitor {
     }
 
     private static func signature(of path: NWPath, identity: String) -> String {
-        let interfaces = path.availableInterfaces
-            .map { "\($0.name):\($0.type)" }
-            .sorted()
+        let transports: [(NWInterface.InterfaceType, String)] = [
+            (.wiredEthernet, "wired"),
+            (.wifi, "wifi"),
+            (.cellular, "cellular"),
+            (.loopback, "loopback"),
+            (.other, "tunnel"),
+        ]
+
+        let used = transports
+            .filter { path.usesInterfaceType($0.0) }
+            .map(\.1)
             .joined(separator: ",")
 
-        return "\(path.status)|\(interfaces)|\(identity)"
+        return "\(path.status)|\(used)|\(identity)"
     }
 
     func checkReachability() throws {
@@ -113,16 +136,8 @@ actor NetworkMonitor {
     }
 }
 
-enum NetworkPathFacts {
-    struct Facts: Equatable, Sendable {
-        var connection: String = "unknown"
-        var constrained: Bool = false
-        var expensive: Bool = false
-    }
-
-    private static let state = OSAllocatedUnfairLock(initialState: Facts())
-
-    static var current: Facts { state.withLock { $0 } }
-
-    static func update(_ facts: Facts) { state.withLock { $0 = facts } }
+struct NetworkPathFacts: Equatable, Sendable {
+    var connection: String = "unknown"
+    var constrained: Bool = false
+    var expensive: Bool = false
 }

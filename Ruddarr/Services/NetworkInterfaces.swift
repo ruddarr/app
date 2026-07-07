@@ -179,7 +179,9 @@ enum NetworkInterfaces {
         } else if ipv4.contains(where: isCarrierGradeNAT) || v6.contains(where: { isTailscaleULA(bytes: $0) }) {
             result = ResolvedHost(role: .tailscale, onLink: false)
         } else if ipv4.contains(where: isPrivateV4) || v6.contains(where: { isPrivateV6(bytes: $0) }) {
-            result = ResolvedHost(role: .lan, onLink: false)
+            let routable = ipv4.contains { isPrivateV4($0) && !isLinkLocalV4($0) }
+                || v6.contains { isPrivateV6(bytes: $0) && !isLinkLocalV6(bytes: $0) }
+            result = ResolvedHost(role: .lan, onLink: false, isLinkLocal: !routable)
         } else {
             result = ResolvedHost(role: .remote, onLink: false)
         }
@@ -187,6 +189,11 @@ enum NetworkInterfaces {
         result.addresses = addresses
         return result
     }
+
+    /// The score of a reachable on-link LAN candidate — the top of the ladder. Nothing can
+    /// outrank it, which is what lets `claimProbesNeeded` skip probing an instance's other
+    /// candidates while one scoring this is standing.
+    static let onLinkScore = 100
 
     /// Maps a `(role, on-link)` pair to its selection score — the single source of the
     /// ladder: on-link LAN (home) ► verified routed LAN (a sibling VLAN whose `/ping` probe
@@ -202,7 +209,7 @@ enum NetworkInterfaces {
         switch role {
         case .lan:
             let reachable = onLink && (isLoopback || !snapshot.localNetworkDenied)
-            if reachable { return 100 }
+            if reachable { return onLinkScore }
             return routedVerified ? 95 : 30
         case .tailscale: return snapshot.tailnetUp ? 90 : 5
         case .remote: return 50

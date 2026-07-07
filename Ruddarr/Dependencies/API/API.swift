@@ -126,7 +126,7 @@ extension API {
                 throw Error.notConnectedToInternet
             } catch let urlError as URLError {
                 if allowFailover, failovers < maxFailovers, Self.canFailover(urlError.code, method: method), let instance,
-                   let fallback = InstanceResolver.shared.failover(afterFailing: attemptedURL, for: instance)
+                   let fallback = await InstanceResolver.shared.failover(afterFailing: attemptedURL, for: instance)
                 {
                     leaveBreadcrumb(.info, category: "api", message: "Switching to next instance URL", data: ["code": urlError.code.rawValue])
 
@@ -162,7 +162,7 @@ extension API {
         let statusCode: Int = httpResponse?.statusCode ?? 599
 
         if let instance {
-            InstanceResolver.shared.noteSuccess(for: attemptedURL, instance: instance)
+            await InstanceResolver.shared.noteSuccess(for: attemptedURL, instance: instance)
         }
 
         // print(String(data: data, encoding: .utf8) ?? "non-utf8 response")

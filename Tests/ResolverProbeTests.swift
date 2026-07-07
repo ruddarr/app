@@ -43,11 +43,13 @@ struct ResolverProbeTests {
         let offLink = ["radarr.example.com": ResolvedHost(role: .lan, onLink: false)]
         let onLink = ["radarr.example.com": ResolvedHost(role: .lan, onLink: true)]
         let loopback = ["radarr.example.com": ResolvedHost(role: .lan, onLink: false, isLoopback: true)]
+        let linkLocal = ["radarr.example.com": ResolvedHost(role: .lan, onLink: false, isLinkLocal: true)]
         let tunnel = ["radarr.example.com": ResolvedHost(role: .tailscale, onLink: false)]
 
         #expect(ResolverRouting.probeCandidate(remote, resolved: offLink, snapshot: home))
         #expect(!ResolverRouting.probeCandidate(remote, resolved: onLink, snapshot: home))
         #expect(!ResolverRouting.probeCandidate(remote, resolved: loopback, snapshot: home))
+        #expect(!ResolverRouting.probeCandidate(remote, resolved: linkLocal, snapshot: home)) // e.g. a stale name pointing at 169.254/fe80
         #expect(!ResolverRouting.probeCandidate(remote, resolved: tunnel, snapshot: home))
     }
 
@@ -70,6 +72,76 @@ struct ResolverProbeTests {
         // A verified base is done for this network — never re-claimed.
         ResolverRouting.recordProbe(&state, base: routed, epoch: state.epoch, outcome: ProbeOutcome(reachable: true, latency: 0.012), now: t0.addingTimeInterval(34))
         #expect(ResolverRouting.claimProbesNeeded(&state, [routed], snapshot: home, resolved: [:], now: t0.addingTimeInterval(300)).isEmpty)
+    }
+
+    @Test func onLinkSiblingSuppressesProbes() {
+        var state = ResolverRouting.State()
+        let onLink = "http://192.168.10.5:7878"
+
+        // A reachable on-link sibling (100) outranks any probe verdict (95), so the routed
+        // candidate is not probed — and no throttle is stamped, so nothing delays the claim
+        // once that changes.
+        #expect(ResolverRouting.claimProbesNeeded(&state, [onLink, routed], snapshot: home, resolved: [:], now: t0).isEmpty)
+        #expect(state.probeAttemptedAt.isEmpty)
+
+        // Once the on-link sibling demotes (a request just failed), the probe matters at once.
+        state.demotedUntil[onLink] = t0.addingTimeInterval(60)
+        #expect(ResolverRouting.claimProbesNeeded(&state, [onLink, routed], snapshot: home, resolved: [:], now: t0) == [routed])
+    }
+
+    @Test func resolvedOnLinkSiblingSuppressesProbes() {
+        var state = ResolverRouting.State()
+        let resolved = ["radarr.example.com": ResolvedHost(role: .lan, onLink: true)]
+
+        #expect(ResolverRouting.claimProbesNeeded(&state, [remote, routed], snapshot: home, resolved: resolved, now: t0).isEmpty)
+    }
+
+    @Test func localNetworkDenialLiftsTheOnLinkProbeSuppression() {
+        var state = ResolverRouting.State()
+        var denied = home
+        denied.localNetworkDenied = true
+
+        // Denied local network makes the on-link sibling unreachable (score 30), so a routed
+        // verdict (95) could win the ranking — the probe is claimed after all.
+        #expect(ResolverRouting.claimProbesNeeded(&state, ["http://192.168.10.5:7878", routed], snapshot: denied, resolved: [:], now: t0) == [routed])
+    }
+
+    @Test func rankReadsWithoutClaimingLookupsOrProbes() {
+        var state = ResolverRouting.State()
+
+        let ordered = ResolverRouting.rank(&state, candidates: [remote, routed], snapshot: home, fingerprint: home.fingerprint, now: t0)
+
+        #expect(ordered == [remote, routed])
+        #expect(state.resolveAttemptedAt.isEmpty && state.resolveInFlight.isEmpty)
+        #expect(state.probeAttemptedAt.isEmpty && state.probeInFlight.isEmpty)
+    }
+
+    @Test func inFlightLookupIsNeverStackedByANetworkChange() {
+        var state = ResolverRouting.State()
+
+        #expect(ResolverRouting.claimHostsNeedingResolution(&state, [remote], now: t0) == ["radarr.example.com"])
+
+        // The change wipes the retry throttle, but the running lookup must not be re-dispatched.
+        ResolverRouting.networkChanged(&state)
+        #expect(ResolverRouting.claimHostsNeedingResolution(&state, [remote], now: t0.addingTimeInterval(1)).isEmpty)
+
+        // Completion clears the guard even though the stale result is dropped.
+        ResolverRouting.recordResolution(&state, host: "radarr.example.com", epoch: 0, resolved: ResolvedHost(role: .lan, onLink: true), now: t0.addingTimeInterval(2))
+        #expect(state.resolvedHosts.isEmpty)
+        #expect(ResolverRouting.claimHostsNeedingResolution(&state, [remote], now: t0.addingTimeInterval(3)) == ["radarr.example.com"])
+    }
+
+    @Test func inFlightProbeIsNeverStackedByANetworkChange() {
+        var state = ResolverRouting.State()
+
+        #expect(ResolverRouting.claimProbesNeeded(&state, [routed], snapshot: home, resolved: [:], now: t0) == [routed])
+
+        ResolverRouting.networkChanged(&state)
+        #expect(ResolverRouting.claimProbesNeeded(&state, [routed], snapshot: home, resolved: [:], now: t0.addingTimeInterval(1)).isEmpty)
+
+        ResolverRouting.recordProbe(&state, base: routed, epoch: 0, outcome: ProbeOutcome(reachable: true), now: t0.addingTimeInterval(2))
+        #expect(state.probeOutcomes.isEmpty)
+        #expect(ResolverRouting.claimProbesNeeded(&state, [routed], snapshot: home, resolved: [:], now: t0.addingTimeInterval(3)) == [routed])
     }
 
     @Test func recordProbeDropsResultsFromASupersededEpoch() {

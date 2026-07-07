@@ -1,17 +1,19 @@
-import os
 import Foundation
 
 /// Chooses which of an instance's URLs to use for the current network, and recovers fast
 /// when that choice turns out to be wrong. The routing / self-correction state machine lives
-/// in `ResolverRouting` (pure, unit-tested); this type owns the lock, reads the live
-/// `NetworkSnapshot`, runs the background DNS lookups, and bridges `Instance` to plain
-/// candidate URLs.
+/// in `ResolverRouting` (pure, unit-tested); this actor owns the state — every transition is
+/// serialized by actor isolation, no locks — reads the live `NetworkSnapshot`, and runs the
+/// background DNS lookups and `/ping` probes.
 ///
 /// - Proactive: `resolve(_:)` reads a fresh `NetworkSnapshot` and returns the most reachable
 ///   base URL (on-link LAN at home, Tailscale when the tunnel is up, else remote) — no
-///   request sent, nothing waits on a timeout.
+///   request sent, nothing waits on a timeout. It is the *converging* call: it also claims
+///   any pending hostname lookups and `/ping` probes. `currentSelection(for:)` is the
+///   *passive* read for UI — same ranking, but it never generates network traffic.
 /// - Resolution-aware: a candidate addressed by *hostname* is looked up with `getaddrinfo` on
-///   a background queue and classified by where its A/AAAA records actually point, so a
+///   a dedicated background queue (a blocking syscall must never run on an actor or the
+///   cooperative pool) and classified by where its A/AAAA records actually point, so a
 ///   split-horizon name is picked as on-link LAN while the public/tunnel name stays remote.
 /// - Probe-verified: an off-link private candidate (a server on a sibling VLAN behind the same
 ///   router) gets a background, unauthenticated `GET /ping`; a genuine Radarr/Sonarr answer
@@ -25,56 +27,59 @@ import Foundation
 ///
 /// The resolved URL is purely runtime state and is never persisted, so it can never reach
 /// iCloud, the App Group, or another device.
-final class InstanceResolver: Sendable {
+actor InstanceResolver {
     static let shared = InstanceResolver()
 
-    /// The routing state, reachable only through `lock.withLock`, so the class is
-    /// checked-`Sendable` with no `@unchecked`.
-    private let lock = OSAllocatedUnfairLock(initialState: ResolverRouting.State())
+    private var state = ResolverRouting.State()
 
-    private let resolutionQueue = DispatchQueue(label: "io.ruddarr.url-resolution", qos: .utility, attributes: .concurrent)
+    /// Blocking `getaddrinfo` calls run here — a plain queue is the right executor for a
+    /// syscall that can stall for ~30s, keeping it off this actor and the cooperative pool.
+    private static let resolutionQueue = DispatchQueue(label: "io.ruddarr.url-resolution", qos: .utility, attributes: .concurrent)
 
     /// Returns the best base URL string for `instance` on the current network, and kicks off
-    /// any pending hostname lookups in the background.
+    /// any pending hostname lookups and `/ping` probes in the background.
     func resolve(_ instance: Instance) -> String {
-        select(instance.candidateURLs, fallback: instance.url)
+        let candidates = instance.candidateURLs
+
+        guard candidates.count > 1 else {
+            return candidates.first ?? instance.url
+        }
+
+        // Snapshot and registration happen in one non-suspending actor section, so the
+        // fingerprint used to sync the caches is always the one the ranking saw.
+        let snapshot = NetworkSnapshot.capture()
+        let result = ResolverRouting.register(
+            &state, candidates: candidates, snapshot: snapshot, fingerprint: snapshot.fingerprint, now: Date()
+        )
+
+        dispatchResolution(result.pending, snapshot: snapshot, epoch: state.epoch)
+        dispatchProbes(result.probes, epoch: state.epoch)
+
+        return result.ordered.first ?? candidates.first ?? instance.url
     }
 
-    /// Read-only from the caller's view: the base URL `resolve` would return right now. May
-    /// still schedule a background DNS refresh so the displayed selection converges.
+    /// The base URL `resolve` would return right now, ranked from cached state only — a pure
+    /// read for passive UI that claims no lookups and dispatches no probes.
     func currentSelection(for instance: Instance) -> String {
-        select(instance.candidateURLs, fallback: instance.url)
+        let candidates = instance.candidateURLs
+
+        guard candidates.count > 1 else {
+            return candidates.first ?? instance.url
+        }
+
+        let snapshot = NetworkSnapshot.capture()
+        let ordered = ResolverRouting.rank(
+            &state, candidates: candidates, snapshot: snapshot, fingerprint: snapshot.fingerprint, now: Date()
+        )
+
+        return ordered.first ?? candidates.first ?? instance.url
     }
 
     /// The network changed (Wi-Fi/VPN/cellular). Drop everything learned about the old one so
     /// the next selection re-resolves once — catches transitions the subnet fingerprint can't
     /// tell apart (two different LANs sharing the same private subnet).
     func networkChanged() {
-        lock.withLock { ResolverRouting.networkChanged(&$0) }
-    }
-
-    private func select(_ candidates: [String], fallback: String) -> String {
-        guard candidates.count > 1 else {
-            return candidates.first ?? fallback
-        }
-
-        // Capture the snapshot INSIDE the lock so the fingerprint used to sync the caches is
-        // consistent with lock-acquisition order — a thread preempted between capture and lock
-        // can't enter with a stale fingerprint and evict resolutions freshly cached for the
-        // current network. `getaddrinfo`-free interface read, microseconds, no blocking.
-        let (ordered, pending, probes, epoch, snapshot): ([String], [String], [String], Int, NetworkSnapshot) = lock.withLock { state in
-            let snapshot = NetworkSnapshot.capture()
-            let result = ResolverRouting.register(
-                &state, candidates: candidates, snapshot: snapshot, fingerprint: snapshot.fingerprint, now: Date()
-            )
-
-            return (result.ordered, result.pending, result.probes, state.epoch, snapshot)
-        }
-
-        dispatchResolution(pending, snapshot: snapshot, epoch: epoch)
-        dispatchProbes(probes, epoch: epoch)
-
-        return ordered.first ?? candidates.first ?? fallback
+        ResolverRouting.networkChanged(&state)
     }
 
     /// Demotes the base that served `failedURL` and returns `instance`'s next-best candidate
@@ -85,14 +90,12 @@ final class InstanceResolver: Sendable {
         let candidates = instance.candidateURLs
         guard candidates.count > 1 else { return nil }
 
-        return lock.withLock {
-            let snapshot = NetworkSnapshot.capture()
+        let snapshot = NetworkSnapshot.capture()
 
-            return ResolverRouting.failover(
-                &$0, afterFailing: failedURL.absoluteString, candidates: candidates,
-                snapshot: snapshot, fingerprint: snapshot.fingerprint, now: Date()
-            )
-        }
+        return ResolverRouting.failover(
+            &state, afterFailing: failedURL.absoluteString, candidates: candidates,
+            snapshot: snapshot, fingerprint: snapshot.fingerprint, now: Date()
+        )
     }
 
     /// Clears any demotion for the base that served this URL — any HTTP response proves the host
@@ -102,24 +105,21 @@ final class InstanceResolver: Sendable {
         let candidates = instance.candidateURLs
         guard candidates.count > 1 else { return }
 
-        lock.withLock { state in
-            guard !state.demotedUntil.isEmpty else { return }
-            ResolverRouting.noteSuccess(&state, for: url.absoluteString, candidates: candidates)
-        }
+        guard !state.demotedUntil.isEmpty else { return }
+        ResolverRouting.noteSuccess(&state, for: url.absoluteString, candidates: candidates)
     }
 
     /// A structured snapshot of the current network and, for each instance, why every candidate
     /// URL ranks where it does — unmasked, for the diagnostics screen to mask on demand.
     /// Read-only: it reflects what selection currently sees (cached resolutions, active
-    /// demotions) and triggers no lookups. Only the two Sendable caches are read under the
-    /// lock; ranking and normalization run outside it so requests don't contend while a
-    /// report builds.
-    func report(for instances: [Instance]) -> NetworkReport {
-        let snapshot = NetworkSnapshot.capture()
+    /// demotions) and triggers no lookups or probes.
+    func report(for instances: [Instance]) async -> NetworkReport {
+        let facts = await NetworkMonitor.shared.pathFacts
 
-        let (demoted, resolvedHosts, probes): (Set<String>, [String: ResolvedHost], [String: ProbeOutcome]) = lock.withLock { state in
-            (ResolverRouting.activeDemotions(&state, now: Date()), state.resolvedHosts, state.probeOutcomes)
-        }
+        let snapshot = NetworkSnapshot.capture()
+        let demoted = ResolverRouting.activeDemotions(&state, now: Date())
+        let resolvedHosts = state.resolvedHosts
+        let probes = state.probeOutcomes
 
         let entries = instances.map { instance -> NetworkReport.InstanceEntry in
             let candidates = instance.candidateURLs
@@ -157,8 +157,6 @@ final class InstanceResolver: Sendable {
             )
         }
 
-        let facts = NetworkPathFacts.current
-
         return NetworkReport(
             tailnetUp: snapshot.tailnetUp,
             localNetworkDenied: snapshot.localNetworkDenied,
@@ -176,8 +174,10 @@ final class InstanceResolver: Sendable {
     }
 
     /// The masked, Sentry-shaped rendering of `report(for:)` — for attaching to a bug report.
-    func diagnostics(for instances: [Instance]) -> [String: Any] {
-        let report = report(for: instances)
+    /// Nonisolated so the non-`Sendable` dictionary never crosses the actor boundary: it runs
+    /// on the caller and only awaits the `Sendable` report.
+    nonisolated func diagnostics(for instances: [Instance]) async -> [String: Any] {
+        let report = await report(for: instances)
 
         var context: [String: Any] = [
             "tailscale": report.tailnetUp ? "up" : "down",
@@ -216,14 +216,15 @@ final class InstanceResolver: Sendable {
         guard !bases.isEmpty else { return }
 
         for base in bases {
-            Task(priority: .utility) { [self] in
+            Task(priority: .utility) {
                 let outcome = await Self.probe(base)
-
-                lock.withLock { state in
-                    ResolverRouting.recordProbe(&state, base: base, epoch: epoch, outcome: outcome, now: Date())
-                }
+                recordProbe(base: base, epoch: epoch, outcome: outcome)
             }
         }
+    }
+
+    private func recordProbe(base: String, epoch: Int, outcome: ProbeOutcome) {
+        ResolverRouting.recordProbe(&state, base: base, epoch: epoch, outcome: outcome, now: Date())
     }
 
     /// Ephemeral (no cookies, no cache) and bounded by the probe timeout, so an unreachable
@@ -267,20 +268,33 @@ final class InstanceResolver: Sendable {
         guard !hosts.isEmpty else { return }
 
         for host in hosts {
-            resolutionQueue.async { [self] in
-                let outcome = Self.lookup(host)
-                let resolved = outcome.ok
-                    ? NetworkInterfaces.classify(ipv4: outcome.ipv4, ipv6: outcome.ipv6, snapshot: snapshot)
-                    : nil
-
-                lock.withLock { state in
-                    ResolverRouting.recordResolution(&state, host: host, epoch: epoch, resolved: resolved, now: Date())
-                }
+            Task(priority: .utility) {
+                let resolved = await Self.lookup(host, snapshot: snapshot)
+                recordResolution(host: host, epoch: epoch, resolved: resolved)
             }
         }
     }
 
-    private static func lookup(_ host: String) -> (ipv4: [UInt32], ipv6: [in6_addr], ok: Bool) {
+    private func recordResolution(host: String, epoch: Int, resolved: ResolvedHost?) {
+        ResolverRouting.recordResolution(&state, host: host, epoch: epoch, resolved: resolved, now: Date())
+    }
+
+    /// Resolves and classifies `host` on the dedicated queue, suspending the caller instead of
+    /// blocking it while `getaddrinfo` waits on DNS.
+    private static func lookup(_ host: String, snapshot: NetworkSnapshot) async -> ResolvedHost? {
+        await withCheckedContinuation { continuation in
+            resolutionQueue.async {
+                let outcome = resolveAddresses(host)
+                let resolved = outcome.ok
+                    ? NetworkInterfaces.classify(ipv4: outcome.ipv4, ipv6: outcome.ipv6, snapshot: snapshot)
+                    : nil
+
+                continuation.resume(returning: resolved)
+            }
+        }
+    }
+
+    private static func resolveAddresses(_ host: String) -> (ipv4: [UInt32], ipv6: [in6_addr], ok: Bool) {
         var hints = addrinfo()
         hints.ai_family = AF_UNSPEC
         hints.ai_socktype = SOCK_STREAM

@@ -1,4 +1,5 @@
 import SwiftUI
+import CloudKit
 import CoreTransferable
 import UniformTypeIdentifiers
 
@@ -6,9 +7,13 @@ struct DiagnosticsView: View {
     @Environment(AppSettings.self) private var settings
 
     @State private var report: NetworkReport?
+    @State private var appDiagnostics: AppDiagnostics?
     @State private var masked: Bool = true
     @State private var collapsedInstances: Set<Instance.ID> = []
     @State private var expandedCandidates: Set<String> = []
+    @State private var networkToken: UUID?
+
+    @AppStorage("elevator", store: dependencies.store) var elevator: Bool = true
 
     var body: some View {
         diagnosticsList
@@ -17,14 +22,25 @@ struct DiagnosticsView: View {
                 toolbarMaskButton
                 toolbarShareButton
             }
+            .onBecomeActive {
+                appDiagnostics = await AppDiagnostics.load()
+            }
             .task {
                 while !Task.isCancelled {
-                    refresh()
+                    await refresh()
                     try? await Task.sleep(for: .seconds(2))
                 }
             }
+            .task(id: networkToken) {
+                guard networkToken != nil else { return }
+
+                try? await Task.sleep(for: .milliseconds(500))
+                guard !Task.isCancelled else { return }
+
+                await refresh()
+            }
             .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
-                refresh()
+                networkToken = UUID()
             }
     }
 
@@ -32,25 +48,89 @@ struct DiagnosticsView: View {
     var diagnosticsList: some View {
         #if os(macOS)
             Form {
-                diagnosticsContent
+                content
             }
             .formStyle(.grouped)
         #else
             List {
-                diagnosticsContent
+                content
             }
             .listStyle(.sidebar)
         #endif
     }
 
     @ViewBuilder
-    var diagnosticsContent: some View {
-        if let report {
-            device(report)
-            network(report)
+    var content: some View {
+        app
+        // notifications
+        device
+        network
 
+        if let report {
             ForEach(report.instances) { entry in
                 instanceSection(entry)
+            }
+        }
+    }
+
+    var app: some View {
+        Section {
+            Toggle(isOn: $elevator) {
+                Text(verbatim: "Elevator Music")
+            }
+
+//            if let appDiagnostics {
+//                networkDiagnosticsRow("Locale", appDiagnostics.locale)
+//                networkDiagnosticsRow("Region", appDiagnostics.region)
+//            }
+        } header: {
+            Text(verbatim: "App")
+        }
+    }
+
+//    @ViewBuilder
+//    var notifications: some View {
+//        if let appDiagnostics {
+//            Section {
+//                networkDiagnosticsRow("Subscription", appDiagnostics.subscription)
+//                networkDiagnosticsRow("Entitled", appDiagnostics.entitled)
+//                networkDiagnosticsRow("Entitled At", appDiagnostics.entitledAt)
+//                networkDiagnosticsRow("Push Authorization", appDiagnostics.pushAuthorization)
+//                networkDiagnosticsRow("iCloud Account", appDiagnostics.iCloudAccount)
+//            } header: {
+//                Text(verbatim: "Notifications")
+//            }
+//        }
+//    }
+
+    @ViewBuilder
+    var device: some View {
+        if let report {
+            Section {
+                networkDiagnosticsRow("Connection", report.connection)
+                networkDiagnosticsRow("Local Network", report.localNetworkDenied ? "denied" : "allowed")
+                networkDiagnosticsRow("Tailscale", report.tailnetUp ? "up" : "down")
+            } header: {
+                Text(verbatim: "Network")
+            }
+        }
+    }
+
+    @ViewBuilder
+    var network: some View {
+        if let report {
+            Section {
+                networkDiagnosticsRow("IPv4 Address", mask.list(report.deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))
+                networkDiagnosticsRow("IPv4 Subnets", report.subnetRowsV4(mask))
+
+                if !report.deviceV6.isEmpty {
+                    networkDiagnosticsRow("IPv6 Address", mask.list(report.deviceV6.map { mask.ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }))
+                    networkDiagnosticsRow("IPv6 Subnets", report.subnetRowsV6(mask))
+                }
+
+                networkDiagnosticsRow("Gateway", report.lanGatewayRows(mask))
+            } header: {
+                Text(verbatim: "Device")
             }
         }
     }
@@ -77,37 +157,13 @@ struct DiagnosticsView: View {
         if let report {
             ToolbarItem(placement: .primaryAction) {
                 ShareLink(
-                    item: NetworkDiagnosticsExport(text: report.exportText(masked: masked)),
+                    item: NetworkDiagnosticsExport(
+                        text: report.exportText(masked: masked, app: appDiagnostics?.exportLines() ?? [])
+                    ),
                     preview: SharePreview(exportFilename)
                 )
                 .tint(.primary)
             }
-        }
-    }
-
-    func device(_ report: NetworkReport) -> some View {
-        Section {
-            networkDiagnosticsRow("Connection", report.connection)
-            networkDiagnosticsRow("Local Network", report.localNetworkDenied ? "denied" : "allowed")
-            networkDiagnosticsRow("Tailscale", report.tailnetUp ? "up" : "down")
-        } header: {
-            Text(verbatim: "Network")
-        }
-    }
-
-    func network(_ report: NetworkReport) -> some View {
-        Section {
-            networkDiagnosticsRow("IPv4 Address", mask.list(report.deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))
-            networkDiagnosticsRow("IPv4 Subnets", report.subnetRowsV4(mask))
-
-            if !report.deviceV6.isEmpty {
-                networkDiagnosticsRow("IPv6 Address", mask.list(report.deviceV6.map { mask.ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }))
-                networkDiagnosticsRow("IPv6 Subnets", report.subnetRowsV6(mask))
-            }
-
-            networkDiagnosticsRow("Gateway", report.lanGatewayRows(mask))
-        } header: {
-            Text(verbatim: "Device")
         }
     }
 
@@ -284,14 +340,17 @@ struct DiagnosticsView: View {
         }
     }
 
-    func refresh() {
+    /// `resolve` (not the passive `currentSelection`) is deliberate: this screen is the one
+    /// place that should keep claiming lookups and probes, so the rows it renders converge
+    /// while it is open. All the syscall work runs on the resolver actor, off the MainActor.
+    func refresh() async {
         let instances = settings.configuredInstances
 
         for instance in instances {
-            _ = InstanceResolver.shared.currentSelection(for: instance)
+            _ = await InstanceResolver.shared.resolve(instance)
         }
 
-        let updated = InstanceResolver.shared.report(for: instances)
+        let updated = await InstanceResolver.shared.report(for: instances)
 
         if updated != report {
             report = updated

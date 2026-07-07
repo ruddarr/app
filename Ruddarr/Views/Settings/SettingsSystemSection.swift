@@ -18,8 +18,8 @@ struct SettingsSystemSection: View {
             HStack {
                 Button("Clear Image Cache", role: .destructive) {
                     clearImageCache()
-                }.onAppear {
-                    calculateImageCacheSize()
+                }.task {
+                    await calculateImageCacheSize()
                 }
                 #if os(macOS)
                     .buttonStyle(.link)
@@ -96,9 +96,14 @@ struct SettingsSystemSection: View {
         return String(localized: "Version \(appVersion) (\(buildNumber))", comment: "$1 = version, $2 = build")
     }
 
-    func calculateImageCacheSize() {
+    func calculateImageCacheSize() async {
+        imageCacheSize = await Self.readImageCacheSize()
+    }
+
+    @concurrent
+    private nonisolated static func readImageCacheSize() async -> Int {
         let dataCache = try? DataCache(name: "com.ruddarr.images")
-        imageCacheSize = dataCache?.totalSize ?? 0
+        return dataCache?.totalSize ?? 0
     }
 
     func clearImageCache() {

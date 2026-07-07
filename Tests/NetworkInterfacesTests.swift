@@ -281,6 +281,22 @@ struct NetworkInterfacesTests {
         #expect(NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("fd12:3456::1")], snapshot: away) == ResolvedHost(role: .lan, onLink: false, addresses: [v6str("fd12:3456::1")]))
     }
 
+    @Test func classifiesLinkLocalOnlyResolutionsAsUnroutable() {
+        let away = NetworkSnapshot(tailnetUp: false, lanV4: [subnet("10.20.30.0", 24)])
+
+        // A name whose only records are link-local (a server that lost DHCP, a stale AAAA)
+        // can never be routed to from another subnet, so it must never be probed.
+        let v4 = NetworkInterfaces.classify(ipv4: [ipv4("169.254.10.5")], ipv6: [], snapshot: away)
+        #expect(v4 == ResolvedHost(role: .lan, onLink: false, isLinkLocal: true, addresses: [v4str("169.254.10.5")]))
+
+        let v6 = NetworkInterfaces.classify(ipv4: [], ipv6: [ipv6("fe80::1")], snapshot: away)
+        #expect(v6 == ResolvedHost(role: .lan, onLink: false, isLinkLocal: true, addresses: [v6str("fe80::1")]))
+
+        // A routable private sibling record keeps the host probeworthy.
+        let mixed = NetworkInterfaces.classify(ipv4: [ipv4("169.254.10.5"), ipv4("192.168.1.50")], ipv6: [], snapshot: away)
+        #expect(!mixed.isLinkLocal)
+    }
+
     @Test func classifiesTailscaleAddresses() {
         let snapshot = NetworkSnapshot(tailnetUp: true, lanV4: [])
         #expect(NetworkInterfaces.classify(ipv4: [ipv4("100.100.1.1")], ipv6: [], snapshot: snapshot).role == .tailscale)
