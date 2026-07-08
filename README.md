@@ -19,6 +19,14 @@ Ruddarr is a beautifully designed, open source, companion app for Radarr and Son
 - Use Spotlight search to quickly jump to media
 - Fully localized, ready to be translated
 
+## Screenshots
+<p>
+  <a href="https://github.com/user-attachments/assets/9b8e1509-88e4-49f8-a22d-c30b0dc8f2db"><img src="https://github.com/user-attachments/assets/9b8e1509-88e4-49f8-a22d-c30b0dc8f2db" alt="Movies library" width="24%"></a>
+  <a href="https://github.com/user-attachments/assets/ad590837-15bf-4f17-b35d-33b33959eb53"><img src="https://github.com/user-attachments/assets/ad590837-15bf-4f17-b35d-33b33959eb53" alt="Series details" width="24%"></a>
+  <a href="https://github.com/user-attachments/assets/b6c5c15f-e508-48fc-80f0-2429307f3419"><img src="https://github.com/user-attachments/assets/b6c5c15f-e508-48fc-80f0-2429307f3419" alt="Calendar" width="24%"></a>
+  <a href="https://github.com/user-attachments/assets/576de4dc-0e6f-4816-8d65-b62142fe8b80"><img src="https://github.com/user-attachments/assets/576de4dc-0e6f-4816-8d65-b62142fe8b80" alt="Discover movies" width="24%"></a>
+</p>
+
 ## Localization
 
 Help [translate Ruddarr](https://crowdin.com/project/ruddarr) into any language. Check the `#translators` channel [on Discord](https://discord.gg/UksvtDQUBA). Unfortunately, [some messages](https://github.com/ruddarr/app/issues/433) cannot be translated by Ruddarr.
