@@ -1,7 +1,5 @@
 import SwiftUI
 import CloudKit
-import CoreTransferable
-import UniformTypeIdentifiers
 
 struct DiagnosticsView: View {
     @Environment(AppSettings.self) private var settings
@@ -139,6 +137,10 @@ struct DiagnosticsView: View {
         NetworkDiagnosticsMask(masked: masked)
     }
 
+    var highlighter: NetworkDiagnosticsHighlighter {
+        NetworkDiagnosticsHighlighter(subnets: report?.deviceV4 ?? [])
+    }
+
     var toolbarMaskButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button {
@@ -237,7 +239,7 @@ struct DiagnosticsView: View {
             return Text(verbatim: shown)
         }
 
-        return coloredAddress(shown, highlightMismatch: highlightsMismatch(candidate))
+        return highlighter.address(shown, highlightMismatch: highlightsMismatch(candidate))
     }
 
     func candidateAddressesText(_ candidate: NetworkReport.Candidate) -> Text {
@@ -247,7 +249,7 @@ struct DiagnosticsView: View {
             return Text(verbatim: shown.isEmpty ? "none" : shown.joined(separator: ", "))
         }
 
-        return coloredAddressList(shown, highlightMismatch: highlightsMismatch(candidate))
+        return highlighter.addressList(shown, highlightMismatch: highlightsMismatch(candidate))
     }
 
     func highlightsMismatch(_ candidate: NetworkReport.Candidate) -> Bool {
@@ -271,75 +273,6 @@ struct DiagnosticsView: View {
         return Text(value)
     }
 
-    func coloredAddress(_ shown: String, highlightMismatch: Bool) -> Text {
-        Text(attributedIPv4(shown, highlightMismatch: highlightMismatch))
-    }
-
-    func coloredAddressList(_ shown: [String], highlightMismatch: Bool) -> Text {
-        guard !shown.isEmpty else { return Text(verbatim: "none") }
-
-        var result = AttributedString()
-        for (index, value) in shown.enumerated() {
-            if index > 0 { result += AttributedString(", ") }
-            result += attributedIPv4(value, highlightMismatch: highlightMismatch)
-        }
-
-        return Text(result)
-    }
-
-    func attributedIPv4(_ shown: String, highlightMismatch: Bool) -> AttributedString {
-        guard let octets = ipv4Octets(shown), let subnet = referenceSubnet(for: octets) else {
-            return AttributedString(shown)
-        }
-
-        let parts = shown.split(separator: ".", omittingEmptySubsequences: false).map(String.init)
-
-        var result = AttributedString()
-        for (index, part) in parts.enumerated() {
-            if index > 0 { result += AttributedString(".") }
-            var piece = AttributedString(part)
-            if let color = octetColor(index: index, octet: octets[index], subnet: subnet, highlightMismatch: highlightMismatch) {
-                piece.foregroundColor = color
-            }
-            result += piece
-        }
-
-        return result
-    }
-
-    func ipv4Octets(_ shown: String) -> [UInt8?]? {
-        let parts = shown.split(separator: ".", omittingEmptySubsequences: false)
-        guard parts.count == 4 else { return nil }
-
-        var octets: [UInt8?] = []
-        for part in parts {
-            if part == "*" {
-                octets.append(nil)
-            } else if let value = UInt8(part) {
-                octets.append(value)
-            } else {
-                return nil
-            }
-        }
-
-        return octets
-    }
-
-    func referenceSubnet(for octets: [UInt8?]) -> IPv4Subnet? {
-        let subnets = report?.deviceV4 ?? []
-        guard !subnets.isEmpty else { return nil }
-
-        return subnets.max { $0.commonNetworkOctets(with: octets) < $1.commonNetworkOctets(with: octets) }
-    }
-
-    func octetColor(index: Int, octet: UInt8?, subnet: IPv4Subnet, highlightMismatch: Bool) -> Color? {
-        switch subnet.networkOctetMatches(octet, at: index) {
-        case .some(true): return .green
-        case .some(false): return highlightMismatch ? .orange : nil
-        case .none: return nil
-        }
-    }
-
     /// `resolve` (not the passive `currentSelection`) is deliberate: this screen is the one
     /// place that should keep claiming lookups and probes, so the rows it renders converge
     /// while it is open. All the syscall work runs on the resolver actor, off the MainActor.
@@ -355,10 +288,6 @@ struct DiagnosticsView: View {
         if updated != report {
             report = updated
         }
-    }
-
-    var exportFilename: String {
-        networkDiagnosticsExportURL.deletingPathExtension().lastPathComponent
     }
 }
 
@@ -376,21 +305,6 @@ func networkDiagnosticsRow(_ label: String, _ valueText: Text) -> some View {
             .tracking(-0.5)
     } label: {
         Text(verbatim: label)
-    }
-}
-
-let networkDiagnosticsExportURL = FileManager.default.temporaryDirectory
-    .appendingPathComponent("ruddarr-diagnostics.txt")
-
-struct NetworkDiagnosticsExport: Transferable {
-    let text: String
-
-    static var transferRepresentation: some TransferRepresentation {
-        FileRepresentation(exportedContentType: .plainText) { export in
-            try export.text.write(to: networkDiagnosticsExportURL, atomically: true, encoding: .utf8)
-
-            return SentTransferredFile(networkDiagnosticsExportURL)
-        }
     }
 }
 
