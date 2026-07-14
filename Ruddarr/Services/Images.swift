@@ -13,6 +13,33 @@ class Images {
         return ImagePipeline(configuration: config)
     }()
 
+    private static var dataCache: DataCache? {
+        shared.configuration.dataCache as? DataCache
+    }
+
+    @concurrent
+    static func clearCache() async {
+        shared.cache.removeAll()
+        dataCache?.flush()
+
+        URLCache.shared.removeAllCachedResponses()
+
+        try? FileManager.default.removeItem(at: localCopies)
+    }
+
+    @concurrent
+    static func cacheSize() async -> Int {
+        let keys: Set<URLResourceKey> = [.totalFileAllocatedSizeKey]
+
+        let copies = FileManager.default.enumerator(
+            at: localCopies, includingPropertiesForKeys: Array(keys)
+        )?.compactMap { $0 as? URL } ?? []
+
+        return copies.reduce(dataCache?.totalSize ?? 0) { total, file in
+            total + ((try? file.resourceValues(forKeys: keys).totalFileAllocatedSize) ?? 0)
+        }
+    }
+
     static func request(
         _ url: URL,
         _ type: ImageType,
@@ -74,6 +101,10 @@ class Images {
             .appendingPathComponent("com.ruddarr.images/\(sha1(of: key))")
     }
 
+    private static let localCopies: URL = FileManager.default
+        .temporaryDirectory
+        .appendingPathComponent("com.ruddarr.quicklook")
+
     static func localCopy(of remote: String?, named filename: String? = nil) async -> URL? {
         guard let remote, let url = URL(string: remote) else { return nil }
 
@@ -119,10 +150,11 @@ class Images {
                     .replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
                     .trimmingCharacters(in: .whitespaces)
             }
-            .flatMap { $0.isEmpty ? nil : $0 }
-            ?? url.deletingPathExtension().lastPathComponent
+            .flatMap {
+                $0.isEmpty ? nil : $0
+            } ?? url.deletingPathExtension().lastPathComponent
 
-        return FileManager.default.temporaryDirectory
+        return localCopies
             .appendingPathComponent(sha1(of: url.absoluteString))
             .appendingPathComponent(name)
             .appendingPathExtension(pathExtension)

@@ -1,6 +1,5 @@
 import SwiftUI
 import CoreSpotlight
-import Nuke
 
 struct SettingsSystemSection: View {
     @Environment(AppSettings.self) private var settings
@@ -97,18 +96,13 @@ struct SettingsSystemSection: View {
     }
 
     func calculateImageCacheSize() async {
-        imageCacheSize = await Self.readImageCacheSize()
-    }
-
-    @concurrent
-    private nonisolated static func readImageCacheSize() async -> Int {
-        let dataCache = try? DataCache(name: "com.ruddarr.images")
-        return dataCache?.totalSize ?? 0
+        imageCacheSize = await Images.cacheSize()
     }
 
     func clearImageCache() {
-        let dataCache = try? DataCache(name: "com.ruddarr.images")
-        dataCache?.removeAll()
+        Task {
+            await Images.clearCache()
+        }
 
         withAnimation(.interactiveSpring) {
             imageCacheSize = 0
