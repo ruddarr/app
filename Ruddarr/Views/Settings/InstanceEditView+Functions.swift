@@ -6,8 +6,8 @@ extension InstanceEditView {
         do {
             isLoading = true
 
-            sanitizeInstanceUrl()
-            try await validateInstance()
+            let schemeless = sanitizeInstanceUrl()
+            try await validateInstance(schemeless: schemeless)
 
             instance.label = instance.label.trimmed()
 
@@ -54,20 +54,41 @@ extension InstanceEditView {
         (instance.url.isEmpty && instance.alternateURL.isEmpty) || instance.apiKey.isEmpty
     }
 
-    func sanitizeInstanceUrl() {
+    /// Normalizes both URL fields, provisionally assuming `https://` where no scheme was typed, and
+    /// reports which fields got that provisional scheme so `validateInstance` knows it may fall back
+    /// to `http://` for them.
+    func sanitizeInstanceUrl() -> (url: Bool, alternate: Bool) {
+        var schemeless = (url: isSchemeless(instance.url), alternate: isSchemeless(instance.alternateURL))
+
         instance.url = sanitizedUrl(instance.url)
         instance.alternateURL = sanitizedUrl(instance.alternateURL)
 
         if instance.url.isEmpty {
             instance.url = instance.alternateURL
             instance.alternateURL = ""
+            schemeless = (url: schemeless.alternate, alternate: false)
         }
+
+        return schemeless
     }
 
+    func isSchemeless(_ string: String) -> Bool {
+        let value = string.trimmed()
+
+        return !value.isEmpty && !value.contains("://")
+    }
+
+    /// Strips the web UI paths a pasted URL may carry, and gives scheme-less input a provisional
+    /// `https://` before anything parses it: a scheme may contain dots, so `URL(string:)` reads a
+    /// bare `sonarr.home.net:8989` as the scheme `sonarr.home.net` with the path `8989`.
     func sanitizedUrl(_ string: String) -> String {
         var value = string.trimmed()
 
         guard !value.isEmpty else { return "" }
+
+        if isSchemeless(value) {
+            value = "https://" + value
+        }
 
         if let url = URL(string: value), var components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
             components.path = stripAfter("/system", in: components.path)
@@ -93,7 +114,7 @@ extension InstanceEditView {
         return String(string[..<range.lowerBound])
     }
 
-    func validateInstance() async throws {
+    func validateInstance(schemeless: (url: Bool, alternate: Bool)) async throws {
         try validatePrimaryURL()
         try validateAlternateURL()
 
@@ -103,12 +124,22 @@ extension InstanceEditView {
 
         var status: InstanceStatus?
 
-        do {
-            status = try await dependencies.api.systemStatus(instance)
-        } catch let apiError as API.Error {
-            throw InstanceError.apiError(apiError)
-        } catch {
-            throw InstanceError.apiError(API.Error(from: error))
+        if schemeless.url {
+            (instance.url, status) = try await resolveScheme(of: instance.url)
+        }
+
+        if schemeless.alternate {
+            (instance.alternateURL, _) = try await resolveScheme(of: instance.alternateURL)
+        }
+
+        if status == nil {
+            do {
+                status = try await dependencies.api.systemStatus(instance)
+            } catch let apiError as API.Error {
+                throw InstanceError.apiError(apiError)
+            } catch {
+                throw InstanceError.apiError(API.Error(from: error))
+            }
         }
 
         guard let appName = status?.appName else {
@@ -153,6 +184,58 @@ extension InstanceEditView {
         }
     }
 
+    /// Determines whether a URL the user entered without a scheme answers over HTTPS or HTTP, and
+    /// returns it with the winning scheme along with the status it responded with.
+    ///
+    /// HTTPS is always tried first, and never concurrently: a TLS handshake against a plaintext port
+    /// fails before the request is sent, so the API key stays off the wire, whereas a plaintext
+    /// request to a TLS port puts the key there in the clear. Only a transport failure falls through
+    /// to HTTP — an HTTP response of any kind, including a 401, proves the scheme is right and the
+    /// fault lies elsewhere, so that error is surfaced instead of retrying the key unencrypted.
+    func resolveScheme(of url: String) async throws -> (String, InstanceStatus) {
+        var transportFailure: API.Error?
+
+        for scheme in ["https", "http"] {
+            guard let candidate = replacingScheme(scheme, in: url) else {
+                throw InstanceError.apiError(.invalidUrl(url))
+            }
+
+            do {
+                return (candidate, try await instanceStatus(of: candidate))
+            } catch let apiError as API.Error where apiError.isTransportFailure {
+                leaveBreadcrumb(.info, category: "instance", message: "Scheme unreachable", data: ["scheme": scheme, "error": apiError])
+
+                transportFailure = apiError
+            } catch let apiError as API.Error {
+                throw InstanceError.apiError(apiError)
+            } catch {
+                throw InstanceError.apiError(API.Error(from: error))
+            }
+        }
+
+        throw InstanceError.apiError(transportFailure ?? .void)
+    }
+
+    func replacingScheme(_ scheme: String, in url: String) -> String? {
+        guard var components = URLComponents(string: url) else { return nil }
+
+        components.scheme = scheme
+
+        return components.url?.absoluteString
+    }
+
+    func instanceStatus(of base: String) async throws -> InstanceStatus {
+        guard let url = URL(string: base)?.appending(path: "/api/v3/system/status") else {
+            throw API.Error.invalidUrl(base)
+        }
+
+        var probe = instance
+        probe.url = base
+        probe.alternateURL = ""
+
+        return try await API.request(url: url, instance: probe, allowFailover: false)
+    }
+
     func validateURL(
         _ string: String,
         schemeMissing: InstanceError,
@@ -168,6 +251,10 @@ extension InstanceEditView {
         }
 
         let host = NetworkInterfaces.host(of: string) ?? url.host() ?? ""
+
+        guard !host.isEmpty else {
+            throw notValid
+        }
 
         if host == "localhost" || NetworkInterfaces.literalLoopback(host) {
             throw isLocal

@@ -278,15 +278,15 @@ struct InstanceEditView: View {
 
     var ipPlaceholder: String {
         switch instance.type {
-        case .radarr: "http://10.0.1.1:7878"
-        case .sonarr: "http://10.0.1.1:8989"
+        case .radarr: "10.0.1.1:7878"
+        case .sonarr: "10.0.1.1:8989"
         }
     }
 
     var tldPlaceholder: String {
         switch instance.type {
-        case .radarr: "https://radarr.home.net"
-        case .sonarr: "https://sonarr.home.net"
+        case .radarr: "radarr.home.net"
+        case .sonarr: "sonarr.home.net"
         }
     }
 
