@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed blurry discovery headline on iPadOS
 - Fixed monitor toggles not reverting on failure
 - Fixed series files failing to load when a language was missing
+- Fixed a freeze when opening some movie and series details
 
 ## 1.8.3 - 2026-06-23
 ### Added

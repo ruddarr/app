@@ -36,7 +36,7 @@ final class InstancesStore {
         self.suite = suite
         self.cloud = cloud
 
-        if let cloud {
+        if cloud != nil {
             observer = NotificationCenter.default.addObserver(
                 forName: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
                 object: nil,
