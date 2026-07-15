@@ -2,15 +2,17 @@ import Testing
 import Foundation
 import CryptoKit
 
-// Covers the reproducible output of `InstancesStore.decodeFailure(_:)` — the forensics it
-// attaches to the breadcrumb when the persisted / iCloud `instances` value won't decode.
-// `InstancesStore` is not a member of the host-less Tests target (it pulls in SwiftUI /
-// Sentry — the same constraint that makes `InstanceWireFormatTests` a Foundation-only spec),
-// so its heal / adopt / reconcile paths can't be driven here. What IS reachable: the `digest`
-// field, built with the real `hexEncoded()` helper (`Utilities/Extensions.swift`, shared into
-// Tests), and the PII-safety of the `path` / `reason` it reads off the decoder's error.
+// Covers the reproducible, PII-free output of `InstancesStore.decodeFailure(_:)` — the forensics
+// it attaches to the breadcrumb when the persisted / iCloud `instances` value won't decode.
+// `InstancesStore` is not a member of the host-less Tests target (it pulls in SwiftUI / Sentry —
+// the same constraint that makes `InstanceWireFormatTests` a Foundation-only spec), so this can't
+// call `decodeFailure` directly. It exercises the reachable pieces: the `digest`, built with the
+// real `hexEncoded()` helper (shared into Tests), and the value-free classification the diagnostic
+// derives from the decoder's `DecodingError` — never its `debugDescription`, which a raw-value
+// enum bakes the rejected value into.
 struct InstanceDecodeDiagnosticsTests {
-    // The exact expression `decodeFailure(_:)` uses for its `digest` field.
+    // MARK: digest — the exact expression `decodeFailure(_:)` uses, via the real helper
+
     private func digest(_ raw: String) -> String {
         String(SHA256.hash(data: Data(raw.utf8)).hexEncoded().prefix(8))
     }
@@ -43,33 +45,71 @@ struct InstanceDecodeDiagnosticsTests {
         #expect(!digest(#"[{"apiKey": "\#(apiKey)"}]"#).contains(apiKey))
     }
 
-    // `path` / `reason` come from the `DecodingError` context — key names, indices and type
-    // names, never a stored value. A minimal record (NOT an `Instance` replica) forces the
-    // error; the secret sits in the mistyped value, and must not surface in either field.
-    private struct Record: Decodable {
-        let url: String
+    // MARK: classification — value-free, mirrors `InstancesStore.describe(_:)`
+
+    // A raw-value enum, like `Instance.type`: its decode failure is `dataCorrupted` whose
+    // debugDescription embeds the rejected value — the exact leak the diagnostic must avoid.
+    // NOT an `Instance` replica.
+    private enum Category: String, Decodable { case radarr, sonarr }
+    private struct Record: Decodable { let category: Category }
+
+    private func failure(_ raw: String) -> DecodingError? {
+        do {
+            _ = try JSONDecoder().decode([Record].self, from: Data(raw.utf8))
+            return nil
+        } catch let error as DecodingError {
+            return error
+        } catch {
+            return nil
+        }
     }
 
-    @Test func loggedFieldsCarryNoStoredValues() throws {
-        let secret = "5ec4e7-api-key"
-        let payload = #"[{"url": {"leak": "\#(secret)"}}]"#
-
-        let context: DecodingError.Context
-        do {
-            _ = try JSONDecoder().decode([Record].self, from: Data(payload.utf8))
-            Issue.record("expected the decode to fail")
-            return
-        } catch let error as DecodingError {
-            switch error {
-            case .keyNotFound(_, let ctx), .valueNotFound(_, let ctx), .typeMismatch(_, let ctx): context = ctx
-            case .dataCorrupted(let ctx): context = ctx
-            @unknown default: context = DecodingError.Context(codingPath: [], debugDescription: "")
-            }
+    private func context(_ error: DecodingError) -> DecodingError.Context {
+        switch error {
+        case .keyNotFound(_, let ctx), .valueNotFound(_, let ctx), .typeMismatch(_, let ctx): return ctx
+        case .dataCorrupted(let ctx): return ctx
+        @unknown default: return DecodingError.Context(codingPath: [], debugDescription: "")
         }
+    }
 
-        let path = context.codingPath.map(\.stringValue).joined(separator: ".")
+    private func classify(_ error: DecodingError) -> String {
+        switch error {
+        case .keyNotFound(let key, _): return "keyNotFound(\(key.stringValue))"
+        case .typeMismatch(let type, _): return "typeMismatch(\(type))"
+        case .valueNotFound(let type, _): return "valueNotFound(\(type))"
+        case .dataCorrupted: return "dataCorrupted"
+        @unknown default: return "unknown"
+        }
+    }
 
-        #expect(!path.contains(secret))
-        #expect(!context.debugDescription.contains(secret))
+    // The hazard, made explicit: `debugDescription` DOES carry the rejected value. This is what
+    // the diagnostic's old `reason` field surfaced, and why it is no longer logged.
+    @Test func debugDescriptionExposesTheRejectedValue() throws {
+        let error = try #require(failure(#"[{"category": "5ec4e7-api-key"}]"#))
+
+        #expect(context(error).debugDescription.contains("5ec4e7-api-key"))
+    }
+
+    // The fix: the fields the diagnostic actually emits — `kind` and `path` — never carry a
+    // stored value, for the raw-enum leak vector or a plain type mismatch.
+    @Test(arguments: [
+        #"[{"category": "5ec4e7-api-key"}]"#,
+        #"[{"category": {"leak": "5ec4e7-api-key"}}]"#,
+    ])
+    func emittedFieldsOmitStoredValues(_ payload: String) throws {
+        let error = try #require(failure(payload))
+
+        let kind = classify(error)
+        let path = context(error).codingPath.map(\.stringValue).joined(separator: ".")
+
+        #expect(!kind.contains("5ec4e7-api-key"))
+        #expect(!path.contains("5ec4e7-api-key"))
+    }
+
+    // Still useful: a missing key is localized by its schema name, never a value.
+    @Test func classificationNamesTheSchemaKey() throws {
+        let error = try #require(failure(#"[{}]"#))
+
+        #expect(classify(error) == "keyNotFound(category)")
     }
 }

@@ -209,13 +209,28 @@ final class InstancesStore {
 
         do {
             _ = try JSONDecoder().decode([Instance].self, from: bytes)
+            data["kind"] = "decoded"
         } catch let error as DecodingError {
+            data["kind"] = describe(error)
             data["path"] = error.context.codingPath.map(\.stringValue).joined(separator: ".")
-            data["reason"] = error.context.debugDescription
         } catch {
-            data["reason"] = String(describing: error)
+            data["kind"] = "unknown"
         }
 
         return data
+    }
+
+    // A value-free classification of the failure: the case plus the schema key or expected type
+    // it concerns — never the rejected value. `Context.debugDescription` is deliberately not read:
+    // a `RawRepresentable` enum bakes its invalid raw value into it ("...invalid String value
+    // <secret>"), which would leak stored payload contents into the breadcrumb.
+    private nonisolated static func describe(_ error: DecodingError) -> String {
+        switch error {
+        case .keyNotFound(let key, _): "keyNotFound(\(key.stringValue))"
+        case .typeMismatch(let type, _): "typeMismatch(\(type))"
+        case .valueNotFound(let type, _): "valueNotFound(\(type))"
+        case .dataCorrupted: "dataCorrupted"
+        @unknown default: "unknown"
+        }
     }
 }
