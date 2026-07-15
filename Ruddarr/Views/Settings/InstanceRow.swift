@@ -45,6 +45,7 @@ struct InstanceRow: View {
             statusText
                 .font(.footnote)
                 .foregroundStyle(connection == .unreachable ? Color.red : Color.gray)
+                .lineLimit(1)
                 .contentTransition(.opacity)
         }
         .animation(.default, value: connection)
