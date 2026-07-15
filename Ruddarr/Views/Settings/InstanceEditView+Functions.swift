@@ -122,40 +122,32 @@ extension InstanceEditView {
             throw InstanceError.localNetworkDenied
         }
 
-        var status: InstanceStatus?
-
         if schemeless.url {
-            (instance.url, status) = try await resolveScheme(of: instance.url)
+            instance.url = try await resolveScheme(of: instance.url)
         }
 
         if schemeless.alternate {
-            (instance.alternateURL, _) = try await resolveScheme(of: instance.alternateURL)
+            instance.alternateURL = try await resolveScheme(of: instance.alternateURL)
         }
 
-        if status == nil {
-            do {
-                status = try await dependencies.api.systemStatus(instance)
-            } catch let apiError as API.Error {
-                throw InstanceError.apiError(apiError)
-            } catch {
-                throw InstanceError.apiError(API.Error(from: error))
-            }
+        let status: InstanceStatus
+
+        do {
+            status = try await dependencies.api.systemStatus(instance)
+        } catch let apiError as API.Error {
+            throw InstanceError.apiError(apiError)
+        } catch {
+            throw InstanceError.apiError(API.Error(from: error))
         }
 
-        guard let appName = status?.appName else {
-            return
-        }
-
-        if appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
-            throw InstanceError.badAppName(appName, instance.type.rawValue)
+        if status.appName.caseInsensitiveCompare(instance.type.rawValue) != .orderedSame {
+            throw InstanceError.badAppName(status.appName, instance.type.rawValue)
         }
 
         try await validateCandidateAppNames()
 
-        if let status {
-            instance.name = status.instanceName
-            instance.version = status.version
-        }
+        instance.name = status.instanceName
+        instance.version = status.version
     }
 
     func validateCandidateAppNames() async throws {
@@ -185,15 +177,15 @@ extension InstanceEditView {
     }
 
     /// Determines whether a URL the user entered without a scheme answers over HTTPS or HTTP, and
-    /// returns it with the winning scheme along with the status it responded with.
+    /// returns it with the winning scheme.
     ///
     /// HTTPS is always tried first, and never concurrently: a TLS handshake against a plaintext port
     /// fails before the request is sent, so the API key stays off the wire, whereas a plaintext
     /// request to a TLS port puts the key there in the clear. Only a transport failure falls through
     /// to HTTP — an HTTP response of any kind, including a 401, proves the scheme is right and the
     /// fault lies elsewhere, so that error is surfaced instead of retrying the key unencrypted.
-    func resolveScheme(of url: String) async throws -> (String, InstanceStatus) {
-        var transportFailure: API.Error?
+    func resolveScheme(of url: String) async throws -> String {
+        var transportFailure: API.Error = .void
 
         for scheme in ["https", "http"] {
             guard let candidate = replacingScheme(scheme, in: url) else {
@@ -201,7 +193,9 @@ extension InstanceEditView {
             }
 
             do {
-                return (candidate, try await instanceStatus(of: candidate))
+                _ = try await instanceStatus(of: candidate)
+
+                return candidate
             } catch let apiError as API.Error where apiError.isTransportFailure {
                 leaveBreadcrumb(.info, category: "instance", message: "Scheme unreachable", data: ["scheme": scheme, "error": apiError])
 
@@ -213,7 +207,7 @@ extension InstanceEditView {
             }
         }
 
-        throw InstanceError.apiError(transportFailure ?? .void)
+        throw InstanceError.apiError(transportFailure)
     }
 
     func replacingScheme(_ scheme: String, in url: String) -> String? {
