@@ -54,9 +54,6 @@ extension InstanceEditView {
         (instance.url.isEmpty && instance.alternateURL.isEmpty) || instance.apiKey.isEmpty
     }
 
-    /// Normalizes both URL fields, provisionally assuming `https://` where no scheme was typed, and
-    /// reports which fields got that provisional scheme so `validateInstance` knows it may fall back
-    /// to `http://` for them.
     func sanitizeInstanceUrl() -> (url: Bool, alternate: Bool) {
         var schemeless = (url: isSchemeless(instance.url), alternate: isSchemeless(instance.alternateURL))
 
@@ -78,9 +75,6 @@ extension InstanceEditView {
         return !value.isEmpty && !value.contains("://")
     }
 
-    /// Strips the web UI paths a pasted URL may carry, and gives scheme-less input a provisional
-    /// `https://` before anything parses it: a scheme may contain dots, so `URL(string:)` reads a
-    /// bare `sonarr.home.net:8989` as the scheme `sonarr.home.net` with the path `8989`.
     func sanitizedUrl(_ string: String) -> String {
         var value = string.trimmed()
 
@@ -176,17 +170,7 @@ extension InstanceEditView {
         }
     }
 
-    /// Determines whether a URL the user entered without a scheme answers over HTTPS or HTTP, and
-    /// returns it with the winning scheme.
-    ///
-    /// HTTPS is always tried first, and never concurrently: a TLS handshake against a plaintext port
-    /// fails before the request is sent, so the API key stays off the wire, whereas a plaintext
-    /// request to a TLS port puts the key there in the clear. Only a transport failure falls through
-    /// to HTTP — an HTTP response of any kind, including a 401, proves the scheme is right and the
-    /// fault lies elsewhere, so that error is surfaced instead of retrying the key unencrypted.
     func resolveScheme(of url: String) async throws -> String {
-        var transportFailure: API.Error = .void
-
         for scheme in ["https", "http"] {
             guard let candidate = replacingScheme(scheme, in: url) else {
                 throw InstanceError.apiError(.invalidUrl(url))
@@ -196,18 +180,19 @@ extension InstanceEditView {
                 _ = try await instanceStatus(of: candidate)
 
                 return candidate
-            } catch let apiError as API.Error where apiError.isTransportFailure {
-                leaveBreadcrumb(.info, category: "instance", message: "Scheme unreachable", data: ["scheme": scheme, "error": apiError])
-
-                transportFailure = apiError
             } catch let apiError as API.Error {
-                throw InstanceError.apiError(apiError)
+                switch apiError {
+                case .urlError, .timeoutOnPrivateIp:
+                    leaveBreadcrumb(.info, category: "instance", message: "Scheme unreachable", data: ["scheme": scheme, "error": apiError])
+                default:
+                    return candidate
+                }
             } catch {
                 throw InstanceError.apiError(API.Error(from: error))
             }
         }
 
-        throw InstanceError.apiError(transportFailure)
+        return url
     }
 
     func replacingScheme(_ scheme: String, in url: String) -> String? {
@@ -286,51 +271,6 @@ extension InstanceEditView {
 
         if [":8989", "sonar"].contains(where: instance.url.contains) {
             instance.type = .sonarr
-        }
-    }
-
-    func pasteHeader() {
-        #if os(macOS)
-            let string = ""
-        #else
-            guard let string = UIPasteboard.general.string else { return }
-        #endif
-
-        let lines = string.components(separatedBy: .newlines)
-
-        for line in lines {
-            if line.contains(":") {
-                createHeader(from: line)
-            } else {
-                appendHeader(from: line)
-            }
-        }
-    }
-
-    func createHeader(from line: String) {
-        let components = line.components(separatedBy: ":")
-
-        instance.headers.append(InstanceHeader(
-            name: components[0],
-            value: components[1]
-        ))
-    }
-
-    func appendHeader(from value: String) {
-        if var header = instance.headers.last {
-            let index = instance.headers.count - 1
-
-            if header.name.isEmpty {
-                header.name = value
-                instance.headers[index] = header
-            } else if header.value.isEmpty {
-                header.value = value
-                instance.headers[index] = header
-            } else {
-                instance.headers.append(InstanceHeader(name: value, value: ""))
-            }
-        } else {
-            instance.headers.append(InstanceHeader(name: value, value: ""))
         }
     }
 }

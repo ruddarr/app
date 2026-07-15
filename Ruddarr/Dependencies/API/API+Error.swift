@@ -37,18 +37,6 @@ extension API {
     }
 }
 
-extension API.Error {
-    /// Whether the request never reached an HTTP server: refused, TLS failure, DNS failure or
-    /// timeout. Any actual response — a 401, a 404 — proves the address answers, so callers
-    /// probing candidate URLs must not treat it as a dead end.
-    var isTransportFailure: Bool {
-        switch self {
-        case .urlError, .timeoutOnPrivateIp: true
-        default: false
-        }
-    }
-}
-
 extension API.Error: LocalizedError {
     var errorDescription: String? {
         let fallback = String(localized: "Something Went Wrong")
