@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import CryptoKit
 import Sentry
 
 #if canImport(UIKit)
@@ -141,8 +142,11 @@ final class InstancesStore {
         let raw = suite.string(forKey: Self.key)
         let decoded = Self.decode(raw)
 
-        if raw != nil && decoded == nil {
-            leaveBreadcrumb(.error, category: "instances", message: "Local instances value could not be decoded", data: ["key": Self.key])
+        if let raw, decoded == nil {
+            var data = Self.decodeFailure(raw)
+            data["key"] = Self.key
+
+            leaveBreadcrumb(.error, category: "instances", message: "Local instances value could not be decoded", data: data)
         }
 
         instances = decoded ?? []
@@ -155,12 +159,30 @@ final class InstancesStore {
     private func adoptCloudValue() {
         guard let cloud else { return }
 
-        guard let raw = cloud.string(forKey: Self.key), let incoming = Self.decode(raw) else {
-            if cloud.object(forKey: Self.key) != nil {
-                leaveBreadcrumb(.error, category: "instances", message: "Ignored undecodable iCloud value", data: ["key": Self.key])
+        guard let raw = cloud.string(forKey: Self.key) else {
+            if let object = cloud.object(forKey: Self.key) {
+                leaveBreadcrumb(.error, category: "instances", message: "Ignored non-string iCloud value", data: [
+                    "key": Self.key,
+                    "class": String(describing: type(of: object)),
+                    "local": instances.count,
+                ])
+
+                healCloudValue()
             } else if !instances.isEmpty {
                 writeCloud(instances.rawValue)
             }
+
+            return
+        }
+
+        guard let incoming = Self.decode(raw) else {
+            var data = Self.decodeFailure(raw)
+            data["key"] = Self.key
+            data["local"] = instances.count
+
+            leaveBreadcrumb(.error, category: "instances", message: "Ignored undecodable iCloud value", data: data)
+
+            healCloudValue()
 
             return
         }
@@ -169,5 +191,46 @@ final class InstancesStore {
 
         suite.set(raw, forKey: Self.key)
         instances = incoming
+    }
+
+    private func healCloudValue() {
+        guard !instances.isEmpty else { return }
+
+        writeCloud(instances.rawValue)
+    }
+
+    private nonisolated static func decodeFailure(_ raw: String) -> [String: Any] {
+        let bytes = Data(raw.utf8)
+
+        var data: [String: Any] = [
+            "bytes": bytes.count,
+            "digest": String(SHA256.hash(data: bytes).hexEncoded().prefix(8)),
+        ]
+
+        do {
+            _ = try JSONDecoder().decode([Instance].self, from: bytes)
+            data["kind"] = "decoded"
+        } catch let error as DecodingError {
+            data["kind"] = describe(error)
+            data["path"] = error.context.codingPath.map(\.stringValue).joined(separator: ".")
+        } catch {
+            data["kind"] = "unknown"
+        }
+
+        return data
+    }
+
+    // A value-free classification of the failure: the case plus the schema key or expected type
+    // it concerns — never the rejected value. `Context.debugDescription` is deliberately not read:
+    // a `RawRepresentable` enum bakes its invalid raw value into it ("...invalid String value
+    // <secret>"), which would leak stored payload contents into the breadcrumb.
+    private nonisolated static func describe(_ error: DecodingError) -> String {
+        switch error {
+        case .keyNotFound(let key, _): "keyNotFound(\(key.stringValue))"
+        case .typeMismatch(let type, _): "typeMismatch(\(type))"
+        case .valueNotFound(let type, _): "valueNotFound(\(type))"
+        case .dataCorrupted: "dataCorrupted"
+        @unknown default: "unknown"
+        }
     }
 }
