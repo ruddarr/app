@@ -3,6 +3,9 @@ import Sentry
 
 extension InstanceEditView {
     func createOrUpdateInstance() async {
+        let typedUrl = instance.url
+        let typedAlternate = instance.alternateURL
+
         do {
             isLoading = true
 
@@ -27,6 +30,8 @@ extension InstanceEditView {
                 dismiss()
             #endif
         } catch let error as InstanceError {
+            instance.url = typedUrl
+            instance.alternateURL = typedAlternate
             isLoading = false
             showingAlert = true
             self.error = error
@@ -57,8 +62,8 @@ extension InstanceEditView {
     func sanitizeInstanceUrl() -> (url: Bool, alternate: Bool) {
         var schemeless = (url: isSchemeless(instance.url), alternate: isSchemeless(instance.alternateURL))
 
-        instance.url = sanitizedUrl(instance.url)
-        instance.alternateURL = sanitizedUrl(instance.alternateURL)
+        instance.url = normalizedBaseUrl(instance.url)
+        instance.alternateURL = normalizedBaseUrl(instance.alternateURL)
 
         if instance.url.isEmpty {
             instance.url = instance.alternateURL
@@ -75,7 +80,7 @@ extension InstanceEditView {
         return !value.isEmpty && !value.contains("://")
     }
 
-    func sanitizedUrl(_ string: String) -> String {
+    private func normalizedBaseUrl(_ string: String) -> String {
         var value = string.trimmed()
 
         guard !value.isEmpty else { return "" }
@@ -182,7 +187,7 @@ extension InstanceEditView {
                 return candidate
             } catch let apiError as API.Error {
                 switch apiError {
-                case .urlError, .timeoutOnPrivateIp:
+                case .urlError, .timeoutOnPrivateIp, .notConnectedToInternet:
                     leaveBreadcrumb(.info, category: "instance", message: "Scheme unreachable", data: ["scheme": scheme, "error": apiError])
                 default:
                     return candidate
@@ -212,7 +217,9 @@ extension InstanceEditView {
         probe.url = base
         probe.alternateURL = ""
 
-        return try await API.request(url: url, instance: probe, timeout: RequestTimeout(2), allowFailover: false)
+        let timeout = RequestTimeout(instance.mode.isSlow ? 5 : 2)
+
+        return try await API.request(url: url, instance: probe, timeout: timeout, allowFailover: false)
     }
 
     func validateURL(
