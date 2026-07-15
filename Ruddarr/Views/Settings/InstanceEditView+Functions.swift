@@ -233,7 +233,7 @@ extension InstanceEditView {
         probe.url = base
         probe.alternateURL = ""
 
-        return try await API.request(url: url, instance: probe, allowFailover: false)
+        return try await API.request(url: url, instance: probe, timeout: RequestTimeout(2), allowFailover: false)
     }
 
     func validateURL(
