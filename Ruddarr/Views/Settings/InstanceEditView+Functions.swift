@@ -221,9 +221,6 @@ extension InstanceEditView {
         return components.url?.absoluteString
     }
 
-    /// Whether `url`'s host is a literal private/loopback address, i.e. safe to probe
-    /// (and send credentials to) over cleartext http. Public hosts and private hostnames
-    /// return `false`, so the API key is never auto-downgraded onto http for them.
     func isLocalNetworkURL(_ url: String) -> Bool {
         guard let host = NetworkInterfaces.host(of: url) else { return false }
 
