@@ -1,3 +1,1 @@
-- Fixed force grabbing season releases
-- Fixed media grid flicker when while sorting
-- Fixed iOS 26.4+ toolbar crash
+- Fixed a freeze when opening some movie/series

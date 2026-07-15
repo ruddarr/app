@@ -221,11 +221,20 @@ struct MediaDetailsPosterModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         if deviceType == .phone {
-            content.containerRelativeFrame(.horizontal) { width, _ in
-                width * 0.4
-            }
+            content.frame(width: posterWidth, height: posterWidth * 1.5)
         } else {
             content.frame(width: 200, height: 300)
         }
+    }
+
+    @MainActor private var posterWidth: CGFloat {
+        #if os(iOS)
+            let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+            let scene = scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
+
+            return (scene?.keyWindow?.bounds.width ?? 390) * 0.4
+        #else
+            return 200
+        #endif
     }
 }
