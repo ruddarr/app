@@ -185,7 +185,11 @@ extension InstanceEditView {
     }
 
     func resolveScheme(of url: String) async throws -> String {
-        for scheme in ["https", "http"] {
+        // Only auto-downgrade to cleartext http for hosts on a trusted local
+        // network; never send the API key over http to a public host.
+        let schemes = isLocalNetworkURL(url) ? ["https", "http"] : ["https"]
+
+        for scheme in schemes {
             guard let candidate = replacingScheme(scheme, in: url) else {
                 throw InstanceError.apiError(.invalidUrl(url))
             }
@@ -215,6 +219,15 @@ extension InstanceEditView {
         components.scheme = scheme
 
         return components.url?.absoluteString
+    }
+
+    /// Whether `url`'s host is a literal private/loopback address, i.e. safe to probe
+    /// (and send credentials to) over cleartext http. Public hosts and private hostnames
+    /// return `false`, so the API key is never auto-downgraded onto http for them.
+    func isLocalNetworkURL(_ url: String) -> Bool {
+        guard let host = NetworkInterfaces.host(of: url) else { return false }
+
+        return isPrivateIpAddress(host) || NetworkInterfaces.literalLoopback(host)
     }
 
     func instanceStatus(of base: String) async throws -> InstanceStatus {
