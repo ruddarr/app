@@ -3,6 +3,8 @@ import Sentry
 
 extension InstanceEditView {
     func createOrUpdateInstance() async {
+        guard !isLoading else { return }
+
         let typedUrl = instance.url
         let typedAlternate = instance.alternateURL
 
@@ -90,10 +92,9 @@ extension InstanceEditView {
         }
 
         if let url = URL(string: value), var components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
-            components.path = stripAfter("/system", in: components.path)
-            components.path = stripAfter("/settings", in: components.path)
-            components.path = stripAfter("/activity", in: components.path)
-            components.path = stripAfter("/calendar", in: components.path)
+            for segment in ["/system", "/settings", "/activity", "/calendar"] {
+                components.path = stripAfter(segment, in: components.path)
+            }
 
             if let urlWithoutPath = components.url {
                 value = urlWithoutPath.absoluteString
@@ -107,6 +108,12 @@ extension InstanceEditView {
 
     func stripAfter(_ path: String, in string: String) -> String {
         guard let range = string.range(of: path) else {
+            return string
+        }
+
+        let after = string[range.upperBound...]
+
+        guard after.isEmpty || after.hasPrefix("/") else {
             return string
         }
 
@@ -127,6 +134,10 @@ extension InstanceEditView {
 
         if schemeless.alternate {
             instance.alternateURL = try await resolveScheme(of: instance.alternateURL)
+        }
+
+        if instance.url == instance.alternateURL {
+            instance.alternateURL = ""
         }
 
         let status: InstanceStatus
@@ -153,9 +164,7 @@ extension InstanceEditView {
         let candidates = instance.candidateURLs
         guard candidates.count > 1 else { return }
 
-        let selected = await InstanceResolver.shared.currentSelection(for: instance)
-
-        for base in candidates where base != selected {
+        for base in candidates {
             guard let statusURL = URL(string: base)?.appending(path: "/api/v3/system/status") else { continue }
 
             let status: InstanceStatus
