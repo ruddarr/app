@@ -2,6 +2,7 @@ import SwiftUI
 
 struct InstanceEditView: View {
     let mode: Mode
+    var openAdvanced: Bool = false
 
     @State var instance: Instance
 
@@ -52,7 +53,7 @@ struct InstanceEditView: View {
             toolbarButton
         }
         .onAppear {
-            showAdvanced = instance.mode.isSlow || !instance.headers.isEmpty
+            showAdvanced = openAdvanced || instance.mode.isSlow || !instance.headers.isEmpty
         }
         .onSubmit {
             guard !hasEmptyFields() else { return }
@@ -294,7 +295,15 @@ struct InstanceEditView: View {
         let ip = Text(verbatim: ipPlaceholder)
         let tld = Text(verbatim: tldPlaceholder)
 
-        return showAdvanced ? (url: tld, alternate: ip) : (url: ip, alternate: tld)
+        let alternate = hostIsIPAddress(instance.url) == false ? ip : tld
+        let url = hostIsIPAddress(instance.alternateURL) == true ? tld : ip
+
+        return (url: url, alternate: alternate)
+    }
+
+    func hostIsIPAddress(_ string: String) -> Bool? {
+        guard let host = NetworkInterfaces.host(of: string) else { return nil }
+        return NetworkInterfaces.parseIPv4(host) != nil || NetworkInterfaces.parseIPv6(host) != nil
     }
 
     var deleteButton: some View {

@@ -3280,6 +3280,16 @@
         }
       }
     },
+    "Not Set" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Set"
+          }
+        }
+      }
+    },
     "Not Subscribed" : {
       "comment" : "Status of the app subscription",
       "localizations" : {

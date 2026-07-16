@@ -114,9 +114,9 @@ struct SettingsDestination: View {
                     .environment(sonarrInstance)
                     .environment(settings)
             }
-        case .editInstance(let instanceId):
+        case .editInstance(let instanceId, let advanced):
             if let instance = settings.instanceById(instanceId) {
-                InstanceEditView(mode: .update, instance: instance)
+                InstanceEditView(mode: .update, openAdvanced: advanced, instance: instance)
                     .environment(radarrInstance)
                     .environment(sonarrInstance)
                     .environment(settings)
