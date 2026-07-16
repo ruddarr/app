@@ -35,3 +35,4 @@ Fixed
 - Fixed blurry discovery headline on iPadOS
 - Fixed monitor toggles not reverting on failure
 - Fixed series files failing to load when a language was missing
+- Fixed navigation title randomly disappearing when jumping to an episode

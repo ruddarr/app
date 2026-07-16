@@ -309,21 +309,36 @@ struct SeriesView: View {
         Task { @MainActor in
             while Date().timeIntervalSince(startTime) < 10 {
                 if let series = instance.series.items.first(where: { $0.id == seriesId }) {
-                    dependencies.router.seriesPath = .init([
-                        SeriesPath.series(series.id)
-                    ])
+                    var path: [SeriesPath] = [.series(series.id)]
 
                     if let seasonId {
-                        dependencies.router.seriesPath.append(
-                            SeriesPath.season(seriesId, seasonId, episodeId)
-                        )
+                        // resolve the episode upfront and set the entire path in one assignment,
+                        // a staged `.episode` push can land mid-transition and blank the nav bar title
+                        if let episode = await resolveEpisode(series, seasonId, episodeId) {
+                            path.append(SeriesPath.season(seriesId, seasonId))
+                            path.append(SeriesPath.episode(seriesId, episode.id))
+                        } else {
+                            path.append(SeriesPath.season(seriesId, seasonId, episodeId))
+                        }
                     }
+
+                    dependencies.router.seriesPath = .init(path)
 
                     return
                 }
 
                 try? await Task.sleep(for: .seconds(0.1))
             }
+        }
+    }
+
+    func resolveEpisode(_ series: Series, _ seasonId: Season.ID, _ episodeNumber: Episode.ID?) async -> Episode? {
+        guard let episodeNumber else { return nil }
+
+        await instance.episodes.maybeFetch(series)
+
+        return instance.episodes.items.first {
+            $0.seriesId == series.id && $0.seasonNumber == seasonId && $0.episodeNumber == episodeNumber
         }
     }
 }
