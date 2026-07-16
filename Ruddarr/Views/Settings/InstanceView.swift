@@ -97,24 +97,47 @@ struct InstanceView: View {
 
     var instanceDetails: some View {
         Section {
-            LabeledContent {
-                Text(instance.label)
-            } label: {
-                Text("Label", comment: "Instance label/name")
+            editRow {
+                LabeledContent {
+                    Text(instance.label)
+                } label: {
+                    Text("Label", comment: "Instance label/name")
+                }
             }
 
-            LabeledContent("Type", value: instance.type.rawValue)
+            editRow {
+                LabeledContent("Type", value: instance.type.rawValue)
+            }
 
-            LabeledContent("URL", value: instance.url)
-                .textSelection(.enabled)
+            editRow {
+                LabeledContent("URL", value: instance.url)
+            }
 
-            if instance.candidateURLs.count > 1 {
-                LabeledContent("Alternate URL", value: instance.alternateURL)
-                    .textSelection(.enabled)
+            editRow(advanced: instance.alternateURL.isEmpty) {
+                LabeledContent("Alternate URL") {
+                    if instance.alternateURL.isEmpty {
+                        Text("Not Set").foregroundStyle(.secondary)
+                    } else {
+                        Text(instance.alternateURL)
+                    }
+                }
             }
         } footer: {
             metadataFooter
         }
+    }
+
+    func editRow<Content: View>(
+        advanced: Bool = false,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        content()
+            .contentShape(Rectangle())
+            .onTapGesture {
+                dependencies.router.settingsPath.append(
+                    SettingsView.Path.editInstance(instance.id, advanced: advanced)
+                )
+            }
     }
 
     var instanceHeaders: some View {

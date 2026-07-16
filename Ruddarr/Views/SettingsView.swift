@@ -15,7 +15,7 @@ struct SettingsView: View {
         case diagnostics
         case createInstance
         case viewInstance(Instance.ID)
-        case editInstance(Instance.ID)
+        case editInstance(Instance.ID, advanced: Bool = false)
     }
 
     var body: some View {
