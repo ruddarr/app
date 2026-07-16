@@ -24,6 +24,12 @@ Guidance for AI agents working in this repository.
 - Use existing preview fixtures in `Ruddarr/Preview Content` before adding new mock data.
 - **User-facing changes must add a `CHANGELOG.md` entry under `Unreleased`**. The `TestFlight/WhatToTest.en-US.txt` file should match `Unreleased`.
 
+## Local instances
+
+- To see which local Radarr and Sonarr instances are available for development, inspect `Ruddarr/seed-instances.json`. This file is git-ignored because it contains private URLs, API keys, and potentially authentication headers; never commit or expose its contents.
+- To configure it, copy `Ruddarr/Preview Content/seed-instances.example.json` to `Ruddarr/seed-instances.json` and replace the example values.
+- In a debug build, open Settings and use **Seed Instances** in the Instances section to load or update the configured instances.
+
 ## Build and test
 
 CI runs iOS tests with:

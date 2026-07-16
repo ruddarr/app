@@ -6,6 +6,10 @@ struct WhatsNew {
     }
 
     static func shouldPresent() -> Bool {
+        guard !isRunningIn(.simulator) else {
+            return false
+        }
+
         guard !WhatsNew.features.isEmpty else {
             return false
         }
