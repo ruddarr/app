@@ -105,6 +105,13 @@ struct EpisodeView: View {
             .font(.subheadline)
             .foregroundStyle(.secondary)
             .lineLimit(1)
+
+            if inCalendarSheet != nil {
+                Text(series.title)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
         }
     }
 
