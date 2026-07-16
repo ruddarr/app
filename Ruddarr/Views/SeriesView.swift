@@ -312,8 +312,6 @@ struct SeriesView: View {
                     var path: [SeriesPath] = [.series(series.id)]
 
                     if let seasonId {
-                        // resolve the episode upfront and set the entire path in one assignment,
-                        // a staged `.episode` push can land mid-transition and blank the nav bar title
                         if let episode = await resolveEpisode(series, seasonId, episodeId) {
                             path.append(SeriesPath.season(seriesId, seasonId))
                             path.append(SeriesPath.episode(seriesId, episode.id))

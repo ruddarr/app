@@ -43,7 +43,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed blurry discovery headline on iPadOS
 - Fixed monitor toggles not reverting on failure
 - Fixed series files failing to load when a language was missing
-- Fixed navigation title randomly disappearing when jumping to an episode
 
 ## 1.8.3 - 2026-06-23
 ### Added
