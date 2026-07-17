@@ -18,7 +18,6 @@ struct API: Sendable {
 
     var fetchSeries: @Sendable (Instance) async throws -> [Series]
     var fetchEpisodes: @Sendable (Series.ID, Instance) async throws -> [Episode]
-    var fetchEpisodeFiles: @Sendable (Series.ID, Instance) async throws -> [MediaFile]
     var lookupSeries: @Sendable (_ instance: Instance, _ query: String) async throws -> [Series]
     var lookupSeriesReleases: @Sendable (Series.ID?, Series.ID?, Episode.ID?, Instance) async throws -> [SeriesRelease]
 

@@ -94,17 +94,14 @@ extension API {
         }, fetchEpisodes: { seriesId, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/episode")
-                .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
+                .appending(queryItems: [
+                    .init(name: "seriesId", value: String(seriesId)),
+                    .init(name: "includeEpisodeFile", value: "true"),
+                ])
 
             var episodes: [Episode] = try await request(url: url, instance: instance)
             for i in episodes.indices { episodes[i].instanceId = instance.id; episodes[i].series?.instanceId = instance.id }
             return episodes
-        }, fetchEpisodeFiles: { seriesId, instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/episodeFile")
-                .appending(queryItems: [.init(name: "seriesId", value: String(seriesId))])
-
-            return try await request(url: url, instance: instance)
         }, lookupSeries: { instance, query in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/series/lookup")

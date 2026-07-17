@@ -40,7 +40,6 @@ struct SeriesDetailView: View {
         }
         .task {
             await instance.episodes.maybeFetch(series)
-            await instance.files.maybeFetch(series)
         }
         .onBecomeActive {
             await reload()
@@ -180,7 +179,6 @@ extension SeriesDetailView {
     func reload() async {
         _ = await instance.series.get(series)
         await instance.episodes.fetch(series)
-        await instance.files.fetch(series)
     }
 
     func refresh() async {

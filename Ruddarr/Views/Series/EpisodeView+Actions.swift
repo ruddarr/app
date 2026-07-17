@@ -5,7 +5,7 @@ extension EpisodeView {
     func setEpisodeState() {
         if let episode = instance.episodes.items.first(where: { $0.id == episodeId }) {
             self.episode = episode
-            self.episodeFile = instance.files.items.first { $0.id == episode.episodeFileId }
+            self.episodeFile = episode.episodeFile
         }
     }
 
@@ -33,12 +33,11 @@ extension EpisodeView {
 
     func reload() async {
         async let fetchEpisodes: () = instance.episodes.fetch(series)
-        async let fetchFiles: () = instance.files.fetch(series)
         async let fetchHistory: () = instance.episodes.fetchHistory(episode)
 
-        (_, _, _) = await (fetchEpisodes, fetchFiles, fetchHistory)
-
+        await fetchEpisodes
         setEpisodeState()
+        await fetchHistory
     }
 
     func dispatchSearch() async {
