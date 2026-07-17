@@ -230,6 +230,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
         }
 
         return switch trackedDownloadState {
+        case .importPending where trackedDownloadStatus == .warning: String(localized: "Import Blocked", comment: "(Short) State of task in queue")
         case .importPending: String(localized: "Import Pending", comment: "(Short) State of task in queue")
         case .importBlocked: String(localized: "Import Blocked", comment: "(Short) State of task in queue")
         case .importing: String(localized: "Importing", comment: "(Short) State of task in queue")
@@ -257,6 +258,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
         }
 
         return switch trackedDownloadState {
+        case .importPending where trackedDownloadStatus == .warning: String(localized: "Unable to Import Automatically", comment: "State of task in queue")
         case .importPending: String(localized: "Waiting to Import", comment: "State of task in queue")
         case .importBlocked: String(localized: "Unable to Import Automatically", comment: "State of task in queue")
         case .importing: String(localized: "Importing", comment: "State of task in queue")
@@ -351,6 +353,7 @@ extension QueueItem {
 
         return switch trackedDownloadState {
         case .importing: .importing
+        case .importPending where trackedDownloadStatus == .warning: .importBlocked
         case .importPending: .importPending
         case .importBlocked: .importBlocked
         case .failedPending, .failed: .failed
