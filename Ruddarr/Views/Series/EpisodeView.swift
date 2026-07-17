@@ -48,7 +48,6 @@ struct EpisodeView: View {
                     EpisodeHistory(episode: episode)
                 }
             }
-            .onAppear(perform: setEpisodeState)
             .padding(.vertical)
             .scenePadding(.horizontal)
         }
@@ -62,7 +61,13 @@ struct EpisodeView: View {
         .refreshable {
             await Task { await reload() }.value
         }
-        .task {
+        .task(id: episodeId) {
+            setEpisodeState()
+
+            guard let episode = instance.episodes.byId(episodeId) else {
+                return
+            }
+
             await instance.episodes.fetchHistory(episode)
         }
         .onBecomeActive {

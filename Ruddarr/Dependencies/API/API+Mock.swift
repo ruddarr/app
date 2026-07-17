@@ -62,10 +62,6 @@ extension API {
             try await Task.sleep(for: .seconds(2))
 
             return loadPreviewData(filename: "series-episodes")
-        }, fetchEpisodeFiles: { _, _ in
-            try await Task.sleep(for: .seconds(1))
-
-            return loadPreviewData(filename: "series-episode-files")
         }, lookupSeries: { _, _ in
             try await Task.sleep(for: .seconds(1))
 

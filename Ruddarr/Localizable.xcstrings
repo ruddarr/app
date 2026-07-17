@@ -5539,12 +5539,13 @@
         }
       }
     },
-    "Upgrade to Sonarr v4.0.5 or newer." : {
+    "Upgrade to %@ v%@ or newer." : {
+      "comment" : "Placeholders are instance type (Radarr/Sonarr) and version number",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upgrade to Sonarr v4.0.5 or newer."
+            "value" : "Upgrade to %@ v%@ or newer."
           }
         }
       }

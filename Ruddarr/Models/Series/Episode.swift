@@ -8,6 +8,7 @@ struct Episode: Identifiable, Codable, Equatable {
 
     let seriesId: Int
     let episodeFileId: Int
+    @LenientDecoded var episodeFile: MediaFile?
     let tvdbId: Int
 
     let seasonNumber: Int
@@ -225,7 +226,7 @@ enum EpisodeReleaseType: String, Equatable, Codable {
 extension Episode {
     static var void: Self {
         .init(
-            id: 0, seriesId: 0, episodeFileId: 0, tvdbId: 0, seasonNumber: 0, episodeNumber: 0, runtime: 0, title: nil, overview: nil,
+            id: 0, seriesId: 0, episodeFileId: 0, episodeFile: nil, tvdbId: 0, seasonNumber: 0, episodeNumber: 0, runtime: 0, title: nil, overview: nil,
             hasFile: false, monitored: false, grabbed: false, finaleType: nil, airDateUtc: nil, endTime: nil, grabDate: nil, absoluteEpisodeNumber: nil,
             sceneAbsoluteEpisodeNumber: nil, sceneEpisodeNumber: nil, sceneSeasonNumber: nil, unverifiedSceneNumbering: false, series: nil
         )

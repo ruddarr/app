@@ -44,10 +44,7 @@ struct SeasonView: View {
             toolbarMenu
         }
         .task {
-            async let maybeFetchEpisodes: () = instance.episodes.maybeFetch(series)
-            async let maybeFetchFiles: () = instance.files.maybeFetch(series)
-
-            (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
+            await instance.episodes.maybeFetch(series)
             hasFetched = true
             maybeNavigateToEpisode()
         }
@@ -102,11 +99,7 @@ struct SeasonView: View {
     var seasonFiles: [MediaFile] {
         episodes.filter {
             $0.hasFile
-        }.compactMap { episode in
-            instance.files.items.first { file in
-                file.id == episode.episodeFileId
-            }
-        }
+        }.compactMap(\.episodeFile)
     }
 
     var header: some View {
@@ -181,7 +174,7 @@ struct SeasonView: View {
 
     var episodesList: some View {
         Section {
-            if !hasFetched && (instance.episodes.isFetching || instance.files.isFetching) {
+            if !hasFetched && instance.episodes.isFetching {
                 HStack {
                     Spacer()
                     ProgressView().tint(.secondary)
@@ -282,7 +275,6 @@ extension SeasonView {
     func reload() async {
         _ = await instance.series.get(series)
         await instance.episodes.fetch(series)
-        await instance.files.fetch(series)
     }
 
     func dispatchSearch() async {

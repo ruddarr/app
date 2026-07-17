@@ -75,7 +75,7 @@ struct EpisodeRow: View {
     }
 
     var episodeFile: MediaFile? {
-        instance.files.items.first(where: { $0.id == episode.episodeFileId })
+        episode.episodeFile
     }
 
     var episodeIsMissing: Bool {

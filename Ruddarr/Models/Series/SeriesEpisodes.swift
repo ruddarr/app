@@ -57,6 +57,10 @@ class SeriesEpisodes {
             if items != newItems {
                 items = newItems
             }
+
+            if instance.version?.hasPrefix("3.") == true, newItems.contains(where: \.hasFile) {
+                error = API.Error(from: AppError.upgradeRequired(.sonarr, to: "4.0"))
+            }
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {

@@ -207,6 +207,56 @@
         "seriesId": 15,
         "tvdbId": 1078961,
         "episodeFileId": 300,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 1,
+            "relativePath": "Bored to Death - S01E01 - Stockholm Syndrome.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S01E01 - Stockholm Syndrome.mkv",
+            "size": 3519411768,
+            "dateAdded": "2024-02-10T05:56:07Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "unknown",
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "43:05",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 300
+        },
         "seasonNumber": 1,
         "episodeNumber": 1,
         "title": "Stockholm Syndrome",
@@ -225,6 +275,56 @@
         "seriesId": 15,
         "tvdbId": 1078971,
         "episodeFileId": 306,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 1,
+            "relativePath": "Bored to Death - S01E02 - The Alanon Case.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S01E02 - The Alanon Case.mkv",
+            "size": 3518516110,
+            "dateAdded": "2024-02-10T05:56:07Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "unknown",
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "46:10",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 306
+        },
         "seasonNumber": 1,
         "episodeNumber": 2,
         "title": "The Alanon Case",
@@ -243,6 +343,56 @@
         "seriesId": 15,
         "tvdbId": 1078981,
         "episodeFileId": 314,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 1,
+            "relativePath": "Bored to Death - S01E03 - The Case of the Missing Screenplay.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S01E03 - The Case of the Missing Screenplay.mkv",
+            "size": 3518707716,
+            "dateAdded": "2024-02-10T05:56:07Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": 0,
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "44:08",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 314
+        },
         "seasonNumber": 1,
         "episodeNumber": 3,
         "title": "The Case of the Missing Screenplay",
@@ -261,6 +411,56 @@
         "seriesId": 15,
         "tvdbId": 1078991,
         "episodeFileId": 319,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 1,
+            "relativePath": "Bored to Death - S01E04 - The Case of the Stolen Skateboard.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S01E04 - The Case of the Stolen Skateboard.mkv",
+            "size": 4263588833,
+            "dateAdded": "2024-02-10T05:56:08Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "unknown",
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "51:12",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 319
+        },
         "seasonNumber": 1,
         "episodeNumber": 4,
         "title": "The Case of the Stolen Skateboard",
@@ -279,6 +479,56 @@
         "seriesId": 15,
         "tvdbId": 1079001,
         "episodeFileId": 320,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 1,
+            "relativePath": "Bored to Death - S01E05 - The Case of the Lonely White Dove.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S01E05 - The Case of the Lonely White Dove.mkv",
+            "size": 3518979727,
+            "dateAdded": "2024-02-10T05:56:08Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": 0,
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "46:19",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 320
+        },
         "seasonNumber": 1,
         "episodeNumber": 5,
         "title": "The Case of the Lonely White Dove",
@@ -297,6 +547,56 @@
         "seriesId": 15,
         "tvdbId": 1079011,
         "episodeFileId": 323,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 1,
+            "relativePath": "Bored to Death - S01E06 - The Case of the Beautiful Blackmailer.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S01E06 - The Case of the Beautiful Blackmailer.mkv",
+            "size": 3518636553,
+            "dateAdded": "2024-02-10T05:56:08Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "unknown",
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "38:00",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 323
+        },
         "seasonNumber": 1,
         "episodeNumber": 6,
         "title": "The Case of the Beautiful Blackmailer",
@@ -315,6 +615,58 @@
         "seriesId": 15,
         "tvdbId": 1079021,
         "episodeFileId": 326,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 1,
+            "relativePath": "Bored to Death - S01E07 - The Case of the Stolen Sperm.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S01E07 - The Case of the Stolen Sperm.mkv",
+            "size": 2769987707,
+            "dateAdded": "2024-04-22T09:22:58Z",
+            "sceneName": "The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E01.Why.Are.You.Still.Here.1080p.AMZN.WEB-DL.DDP5.1.H.264-FLUX",
+            "releaseGroup": "FLUX",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "singleEpisode",
+            "mediaInfo": {
+                "audioBitrate": 640000,
+                "audioChannels": 5.1,
+                "audioCodec": "EAC3",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "h264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "47:10",
+                "scanType": "Progressive",
+                "subtitles": "eng/eng/spa"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 326
+        },
         "seasonNumber": 1,
         "episodeNumber": 7,
         "title": "The Case of the Stolen Sperm",
@@ -333,6 +685,58 @@
         "seriesId": 15,
         "tvdbId": 1079031,
         "episodeFileId": 330,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 1,
+            "relativePath": "Bored to Death - S01E08 - Take a Dive.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S01E08 - Take a Dive.mkv",
+            "size": 1346051156,
+            "dateAdded": "2024-04-29T20:02:35Z",
+            "sceneName": "The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E02.Friendships.Die.Hard.720p.HMAX.WEB-DL.DD5.1.H.264-playWEB",
+            "releaseGroup": "playWEB",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 5,
+                    "name": "WEBDL-720p",
+                    "source": "web",
+                    "resolution": 720
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 9,
+            "releaseType": "singleEpisode",
+            "mediaInfo": {
+                "audioBitrate": 384000,
+                "audioChannels": 5.1,
+                "audioCodec": "AC3",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 25,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1280x720",
+                "runTime": "47:26",
+                "scanType": "Progressive",
+                "subtitles": "bul/cze/dan/eng/spa/est/fin/hrv/hun/lit/lav/mac/dut/nor/pol/por/rum/slv/srp/swe"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 330
+        },
         "seasonNumber": 1,
         "episodeNumber": 8,
         "title": "Take a Dive",
@@ -352,6 +756,58 @@
         "seriesId": 15,
         "tvdbId": 1705751,
         "episodeFileId": 301,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 2,
+            "relativePath": "Bored to Death - S02E01 - Escape from the Dungeon!.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S02E01 - Escape from the Dungeon!.mkv",
+            "size": 3267603739,
+            "dateAdded": "2024-05-06T07:21:28Z",
+            "sceneName": "The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E03.Saving.My.Tears.Until.Its.Official.1080p.AMZN.WEB-DL.DDP5.1.H.264-FLUX",
+            "releaseGroup": "FLUX",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 9,
+            "releaseType": "singleEpisode",
+            "mediaInfo": {
+                "audioBitrate": 640000,
+                "audioChannels": 5.1,
+                "audioCodec": "EAC3",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "h264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "57:36",
+                "scanType": "Progressive",
+                "subtitles": "eng/eng/spa"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 301
+        },
         "seasonNumber": 2,
         "episodeNumber": 1,
         "title": "Escape from the Dungeon!",
@@ -370,6 +826,56 @@
         "seriesId": 15,
         "tvdbId": 1724081,
         "episodeFileId": 307,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 2,
+            "relativePath": "Bored to Death - S02E02 - Make It Quick, Fitzgerald!.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S02E02 - Make It Quick, Fitzgerald!.mkv",
+            "size": 3519411768,
+            "dateAdded": "2024-02-10T05:56:07Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "unknown",
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "43:05",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 307
+        },
         "seasonNumber": 2,
         "episodeNumber": 2,
         "title": "Make It Quick, Fitzgerald!",
@@ -388,6 +894,56 @@
         "seriesId": 15,
         "tvdbId": 2721581,
         "episodeFileId": 313,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 2,
+            "relativePath": "Bored to Death - S02E03 - The Gowanus Canal Has Gonorrhea!.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S02E03 - The Gowanus Canal Has Gonorrhea!.mkv",
+            "size": 3518516110,
+            "dateAdded": "2024-02-10T05:56:07Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "unknown",
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "46:10",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 313
+        },
         "seasonNumber": 2,
         "episodeNumber": 3,
         "title": "The Gowanus Canal Has Gonorrhea!",
@@ -406,6 +962,56 @@
         "seriesId": 15,
         "tvdbId": 2765231,
         "episodeFileId": 317,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 2,
+            "relativePath": "Bored to Death - S02E04 - I've Been Living Like a Demented God!.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S02E04 - I've Been Living Like a Demented God!.mkv",
+            "size": 3518707716,
+            "dateAdded": "2024-02-10T05:56:07Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": 0,
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "44:08",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 317
+        },
         "seasonNumber": 2,
         "episodeNumber": 4,
         "title": "I've Been Living Like a Demented God!",
@@ -424,6 +1030,56 @@
         "seriesId": 15,
         "tvdbId": 2802901,
         "episodeFileId": 321,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 2,
+            "relativePath": "Bored to Death - S02E05 - Forty-Two Down!.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S02E05 - Forty-Two Down!.mkv",
+            "size": 4263588833,
+            "dateAdded": "2024-02-10T05:56:08Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "unknown",
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "51:12",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 321
+        },
         "seasonNumber": 2,
         "episodeNumber": 5,
         "title": "Forty-Two Down!",
@@ -442,6 +1098,56 @@
         "seriesId": 15,
         "tvdbId": 2802911,
         "episodeFileId": 324,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 2,
+            "relativePath": "Bored to Death - S02E06 - The Case of the Grievous Clerical Error!.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S02E06 - The Case of the Grievous Clerical Error!.mkv",
+            "size": 3518979727,
+            "dateAdded": "2024-02-10T05:56:08Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": 0,
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "46:19",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 324
+        },
         "seasonNumber": 2,
         "episodeNumber": 6,
         "title": "The Case of the Grievous Clerical Error!",
@@ -460,6 +1166,56 @@
         "seriesId": 15,
         "tvdbId": 2958901,
         "episodeFileId": 329,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 2,
+            "relativePath": "Bored to Death - S02E07 - Escape from the Castle!.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S02E07 - Escape from the Castle!.mkv",
+            "size": 3518636553,
+            "dateAdded": "2024-02-10T05:56:08Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "unknown",
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "38:00",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 329
+        },
         "seasonNumber": 2,
         "episodeNumber": 7,
         "title": "Escape from the Castle!",
@@ -478,6 +1234,58 @@
         "seriesId": 15,
         "tvdbId": 2958921,
         "episodeFileId": 331,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 2,
+            "relativePath": "Bored to Death - S02E08 - Super Ray Is Mortal!.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S02E08 - Super Ray Is Mortal!.mkv",
+            "size": 2769987707,
+            "dateAdded": "2024-04-22T09:22:58Z",
+            "sceneName": "The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E01.Why.Are.You.Still.Here.1080p.AMZN.WEB-DL.DDP5.1.H.264-FLUX",
+            "releaseGroup": "FLUX",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "singleEpisode",
+            "mediaInfo": {
+                "audioBitrate": 640000,
+                "audioChannels": 5.1,
+                "audioCodec": "EAC3",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "h264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "47:10",
+                "scanType": "Progressive",
+                "subtitles": "eng/eng/spa"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 331
+        },
         "seasonNumber": 2,
         "episodeNumber": 8,
         "title": "Super Ray Is Mortal!",
@@ -497,6 +1305,58 @@
         "seriesId": 15,
         "tvdbId": 4140529,
         "episodeFileId": 305,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 3,
+            "relativePath": "Bored to Death - S03E01 - The Blonde in the Woods.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S03E01 - The Blonde in the Woods.mkv",
+            "size": 1346051156,
+            "dateAdded": "2024-04-29T20:02:35Z",
+            "sceneName": "The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E02.Friendships.Die.Hard.720p.HMAX.WEB-DL.DD5.1.H.264-playWEB",
+            "releaseGroup": "playWEB",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 5,
+                    "name": "WEBDL-720p",
+                    "source": "web",
+                    "resolution": 720
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 9,
+            "releaseType": "singleEpisode",
+            "mediaInfo": {
+                "audioBitrate": 384000,
+                "audioChannels": 5.1,
+                "audioCodec": "AC3",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 25,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1280x720",
+                "runTime": "47:26",
+                "scanType": "Progressive",
+                "subtitles": "bul/cze/dan/eng/spa/est/fin/hrv/hun/lit/lav/mac/dut/nor/pol/por/rum/slv/srp/swe"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 305
+        },
         "seasonNumber": 3,
         "episodeNumber": 1,
         "title": "The Blonde in the Woods",
@@ -515,6 +1375,58 @@
         "seriesId": 15,
         "tvdbId": 4186600,
         "episodeFileId": 312,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 3,
+            "relativePath": "Bored to Death - S03E02 - Gumball!.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S03E02 - Gumball!.mkv",
+            "size": 3267603739,
+            "dateAdded": "2024-05-06T07:21:28Z",
+            "sceneName": "The.Jinx.The.Life.and.Deaths.of.Robert.Durst.S02E03.Saving.My.Tears.Until.Its.Official.1080p.AMZN.WEB-DL.DDP5.1.H.264-FLUX",
+            "releaseGroup": "FLUX",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 3,
+                    "name": "WEBDL-1080p",
+                    "source": "web",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 9,
+            "releaseType": "singleEpisode",
+            "mediaInfo": {
+                "audioBitrate": 640000,
+                "audioChannels": 5.1,
+                "audioCodec": "EAC3",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "h264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "57:36",
+                "scanType": "Progressive",
+                "subtitles": "eng/eng/spa"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 312
+        },
         "seasonNumber": 3,
         "episodeNumber": 2,
         "title": "Gumball!",
@@ -533,6 +1445,56 @@
         "seriesId": 15,
         "tvdbId": 4190457,
         "episodeFileId": 316,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 3,
+            "relativePath": "Bored to Death - S03E03 - The Black Clock of Time.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S03E03 - The Black Clock of Time.mkv",
+            "size": 3519411768,
+            "dateAdded": "2024-02-10T05:56:07Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "unknown",
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "43:05",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 316
+        },
         "seasonNumber": 3,
         "episodeNumber": 3,
         "title": "The Black Clock of Time",
@@ -551,6 +1513,56 @@
         "seriesId": 15,
         "tvdbId": 4190591,
         "episodeFileId": 318,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 3,
+            "relativePath": "Bored to Death - S03E04 - We Could Sing a Duet.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S03E04 - We Could Sing a Duet.mkv",
+            "size": 3518516110,
+            "dateAdded": "2024-02-10T05:56:07Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "unknown",
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "46:10",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 318
+        },
         "seasonNumber": 3,
         "episodeNumber": 4,
         "title": "We Could Sing a Duet",
@@ -569,6 +1581,56 @@
         "seriesId": 15,
         "tvdbId": 4195053,
         "episodeFileId": 322,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 3,
+            "relativePath": "Bored to Death - S03E05 - I Keep Taking Baths Like Lady Macbeth.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S03E05 - I Keep Taking Baths Like Lady Macbeth.mkv",
+            "size": 3518707716,
+            "dateAdded": "2024-02-10T05:56:07Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": 0,
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "44:08",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 322
+        },
         "seasonNumber": 3,
         "episodeNumber": 5,
         "title": "I Keep Taking Baths Like Lady Macbeth",
@@ -587,6 +1649,56 @@
         "seriesId": 15,
         "tvdbId": 4195054,
         "episodeFileId": 325,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 3,
+            "relativePath": "Bored to Death - S03E06 - Two Large Pearls and a Bar of Gold.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S03E06 - Two Large Pearls and a Bar of Gold.mkv",
+            "size": 4263588833,
+            "dateAdded": "2024-02-10T05:56:08Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "unknown",
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "51:12",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 325
+        },
         "seasonNumber": 3,
         "episodeNumber": 6,
         "title": "Two Large Pearls and a Bar of Gold",
@@ -605,6 +1717,56 @@
         "seriesId": 15,
         "tvdbId": 4195055,
         "episodeFileId": 328,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 3,
+            "relativePath": "Bored to Death - S03E07 - Forget the Herring.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S03E07 - Forget the Herring.mkv",
+            "size": 3518979727,
+            "dateAdded": "2024-02-10T05:56:08Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": 0,
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "46:19",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 328
+        },
         "seasonNumber": 3,
         "episodeNumber": 7,
         "title": "Forget the Herring",
@@ -623,6 +1785,56 @@
         "seriesId": 15,
         "tvdbId": 4195056,
         "episodeFileId": 338,
+        "episodeFile": {
+            "seriesId": 15,
+            "seasonNumber": 3,
+            "relativePath": "Bored to Death - S03E08 - Nothing I Can't Handle by Running Away.mkv",
+            "path": "/volume2/Media/TV Series/Bored to Death/Bored to Death - S03E08 - Nothing I Can't Handle by Running Away.mkv",
+            "size": 3518636553,
+            "dateAdded": "2024-02-10T05:56:08Z",
+            "languages": [
+                {
+                    "id": 1,
+                    "name": "English"
+                }
+            ],
+            "quality": {
+                "quality": {
+                    "id": 9,
+                    "name": "HDTV-1080p",
+                    "source": "television",
+                    "resolution": 1080
+                },
+                "revision": {
+                    "version": 1,
+                    "real": 0,
+                    "isRepack": false
+                }
+            },
+            "customFormats": [],
+            "customFormatScore": 0,
+            "indexerFlags": 0,
+            "releaseType": "unknown",
+            "mediaInfo": {
+                "audioBitrate": 1536000,
+                "audioChannels": 5.1,
+                "audioCodec": "DTS",
+                "audioLanguages": "eng",
+                "audioStreamCount": 1,
+                "videoBitDepth": 8,
+                "videoBitrate": 0,
+                "videoCodec": "x264",
+                "videoFps": 23.976,
+                "videoDynamicRange": "",
+                "videoDynamicRangeType": "",
+                "resolution": "1920x1080",
+                "runTime": "38:00",
+                "scanType": "Progressive",
+                "subtitles": "eng"
+            },
+            "qualityCutoffNotMet": false,
+            "id": 338
+        },
         "seasonNumber": 3,
         "episodeNumber": 8,
         "title": "Nothing I Can't Handle by Running Away",
