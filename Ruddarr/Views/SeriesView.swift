@@ -30,6 +30,8 @@ struct SeriesView: View {
 
     @State private var lastFetch: Date = .distantPast
 
+    @State private var navigationTask: Task<Void, Never>?
+
     var body: some View {
         // swiftlint:disable:next closure_body_length
         NavigationStack(path: dependencies.$router.seriesPath) {
@@ -306,8 +308,13 @@ struct SeriesView: View {
 
         let startTime = Date()
 
-        Task { @MainActor in
+        navigationTask?.cancel()
+        navigationTask = Task { @MainActor in
             while Date().timeIntervalSince(startTime) < 10 {
+                if Task.isCancelled {
+                    return
+                }
+
                 if let series = instance.series.items.first(where: { $0.id == seriesId }) {
                     var path: [SeriesPath] = [.series(series.id)]
 
@@ -318,6 +325,10 @@ struct SeriesView: View {
                         } else {
                             path.append(SeriesPath.season(seriesId, seasonId, episodeId))
                         }
+                    }
+
+                    if Task.isCancelled {
+                        return
                     }
 
                     dependencies.router.seriesPath = .init(path)

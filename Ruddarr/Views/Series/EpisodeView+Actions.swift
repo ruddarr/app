@@ -61,6 +61,7 @@ extension EpisodeView {
         if await instance.files.delete(episodeFile) {
             dependencies.toast.show(.fileDeleted)
             await reload()
+            self.episodeFile = nil
         }
     }
 }

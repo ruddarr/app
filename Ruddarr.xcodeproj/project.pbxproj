@@ -87,7 +87,7 @@
 				Services/ResolverRouting.swift,
 				Services/RouteTable.swift,
 				Utilities/Changelog.swift,
-				Utilities/DateDecodingStrategy.swift,
+				Utilities/Decoders.swift,
 				Utilities/Extensions.swift,
 				Utilities/Formatters.swift,
 				Utilities/Networking.swift,
