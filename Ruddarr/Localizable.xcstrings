@@ -5539,13 +5539,13 @@
         }
       }
     },
-    "Upgrade to %@ v%@ or newer." : {
-      "comment" : "Placeholders are instance type (Radarr/Sonarr) and version number",
+    "Upgrade to %@ or newer." : {
+      "comment" : "Placeholder is the instance type and minimum version (e.g. Sonarr v4.0.5)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upgrade to %@ v%@ or newer."
+            "value" : "Upgrade to %@ or newer."
           }
         }
       }

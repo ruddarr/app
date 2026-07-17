@@ -19,10 +19,11 @@ extension AppError {
 
     static func upgradeRequired(_ type: InstanceType, to version: String) -> Self {
         let number = String(version.trimmingPrefix("v"))
+        let target = "\(type.rawValue) v\(number)"
 
         return .init(String(
-            localized: "Upgrade to \(type.rawValue) v\(number) or newer.",
-            comment: "Placeholders are instance type (Radarr/Sonarr) and version number"
+            localized: "Upgrade to \(target) or newer.",
+            comment: "Placeholder is the instance type and minimum version (e.g. Sonarr v4.0.5)"
         ))
     }
 }
