@@ -49,7 +49,6 @@ struct SeriesSearchView: View {
                 comment: "Placeholder in the search field on the Add Movie/Series screens (translate only \"e.g.\", short form of \"for example\")"
             )
         )
-        .dismissSearchWhenHidden($searchPresented)
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
         .searchScopes($seriesLookup.sort) {
