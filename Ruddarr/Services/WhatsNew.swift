@@ -98,6 +98,9 @@ struct WhatsNewView: View {
                     } label: {
                         Text("Release Notes", comment: "Also know as changelog")
                     }
+                    #if os(macOS)
+                        .buttonStyle(.link)
+                    #endif
                     .foregroundStyle(locked ? AnyShapeStyle(.gray) : AnyShapeStyle(.tint))
                     .padding(.bottom, 10)
 
