@@ -115,7 +115,6 @@ struct QueueItem: Codable, Identifiable, Equatable {
         [.importPending, .importBlocked].contains(trackedDownloadState)
     }
 
-    /// Optimistically reflect a queued manual import until the next poll refreshes the queue.
     mutating func markImporting() {
         status = "completed"
         trackedDownloadStatus = .ok

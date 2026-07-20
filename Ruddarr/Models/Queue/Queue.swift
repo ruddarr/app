@@ -77,7 +77,6 @@ class Queue {
         isLoading = false
     }
 
-    /// Recompute the state derived from `items` (active tasks, issue count and per-media statuses).
     private func recomputeDerivedState() {
         let active = items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
         if active != self.active { self.active = active }
@@ -117,8 +116,6 @@ class Queue {
         return statuses
     }
 
-    /// Optimistically mark a download's queue task(s) as importing after a manual
-    /// import is sent, so the UI updates immediately instead of waiting for the next poll.
     func markImporting(_ item: QueueItem) {
         guard let instanceId = item.instanceId, let downloadId = item.downloadId else { return }
         guard var records = items[instanceId] else { return }
