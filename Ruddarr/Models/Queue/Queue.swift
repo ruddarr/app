@@ -72,6 +72,13 @@ class Queue {
             }
         }
 
+        recomputeDerivedState()
+
+        isLoading = false
+    }
+
+    /// Recompute the state derived from `items` (active tasks, issue count and per-media statuses).
+    private func recomputeDerivedState() {
         let active = items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
         if active != self.active { self.active = active }
 
@@ -87,8 +94,6 @@ class Queue {
         if self.statuses.value != statuses {
             self.statuses.send(statuses)
         }
-
-        isLoading = false
     }
 
     private func activeStatuses() -> [QueueKey: QueueItemStatus] {
@@ -123,6 +128,8 @@ class Queue {
         }
 
         items[instanceId] = records
+
+        recomputeDerivedState()
     }
 
     func refreshDownloadClients() async {
