@@ -63,6 +63,7 @@ struct MovieForm: View {
             .tint(.secondary)
             .onChange(of: addOptions.monitor, initial: true) {
                 movie.addOptions?.monitor = addOptions.monitor
+                movie.monitored = addOptions.monitor != .none
             }
         }
     }
@@ -134,7 +135,7 @@ struct MovieForm: View {
             addOptions.monitor = movieDefaults.monitor
 
             movie.addOptions = addOptions
-            movie.monitored = movieDefaults.monitored
+            movie.monitored = movieDefaults.monitor != .none
             movie.rootFolderPath = movieDefaults.rootFolder
             movie.qualityProfileId = movieDefaults.qualityProfile
             movie.minimumAvailability = movieDefaults.minimumAvailability
