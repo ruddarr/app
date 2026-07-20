@@ -125,6 +125,8 @@ struct TaskImportView: View {
         do {
             _ = try await dependencies.api.command(.manualImport(selectedFiles), instance)
 
+            Queue.shared.markImporting(item)
+
             dependencies.toast.show(.importQueued)
         } catch is CancellationError {
             // do nothing

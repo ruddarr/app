@@ -72,6 +72,12 @@ class Queue {
             }
         }
 
+        recomputeDerivedState()
+
+        isLoading = false
+    }
+
+    private func recomputeDerivedState() {
         let active = items.values.flatMap { $0 }.filter { $0.trackedDownloadState != .imported }
         if active != self.active { self.active = active }
 
@@ -87,8 +93,6 @@ class Queue {
         if self.statuses.value != statuses {
             self.statuses.send(statuses)
         }
-
-        isLoading = false
     }
 
     private func activeStatuses() -> [QueueKey: QueueItemStatus] {
@@ -110,6 +114,19 @@ class Queue {
         }
 
         return statuses
+    }
+
+    func markImporting(_ item: QueueItem) {
+        guard let instanceId = item.instanceId, let downloadId = item.downloadId else { return }
+        guard var records = items[instanceId] else { return }
+
+        for index in records.indices where records[index].downloadId == downloadId {
+            records[index].markImporting()
+        }
+
+        items[instanceId] = records
+
+        recomputeDerivedState()
     }
 
     func refreshDownloadClients() async {
