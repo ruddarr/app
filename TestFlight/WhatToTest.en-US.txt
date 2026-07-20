@@ -26,6 +26,7 @@ Changed
 - Refined various buttons designs across the app
 - Disambiguate root folder filter labels
 - Reworked the networking layer
+- Reflect queued manual imports immediately in the queue
 - Several dozen internal code improvements
 
 Fixed

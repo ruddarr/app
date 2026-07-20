@@ -48,12 +48,12 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let added: Date?
     var estimatedCompletionTime: Date?
 
-    let status: String?
+    var status: String?
     let statusMessages: [QueueStatusMessage]?
     let errorMessage: String?
 
-    let trackedDownloadStatus: QueueDownloadStatus?
-    let trackedDownloadState: QueueDownloadState?
+    var trackedDownloadStatus: QueueDownloadStatus?
+    var trackedDownloadState: QueueDownloadState?
 
     let outputPath: String?
     let downloadClientHasPostImportCategory: Bool?
@@ -113,6 +113,13 @@ struct QueueItem: Codable, Identifiable, Equatable {
         downloadId != nil &&
         trackedDownloadStatus == .warning &&
         [.importPending, .importBlocked].contains(trackedDownloadState)
+    }
+
+    /// Optimistically reflect a queued manual import until the next poll refreshes the queue.
+    mutating func markImporting() {
+        status = "completed"
+        trackedDownloadStatus = .ok
+        trackedDownloadState = .importing
     }
 
     var isSABnzbd: Bool {

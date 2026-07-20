@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refined various buttons designs across the app
 - Disambiguate root folder filter labels
 - Reworked the networking layer
+- Reflect queued manual imports immediately in the queue
 - Several dozen internal code improvements
 
 ### Fixed

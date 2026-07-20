@@ -112,6 +112,19 @@ class Queue {
         return statuses
     }
 
+    /// Optimistically mark a download's queue task(s) as importing after a manual
+    /// import is sent, so the UI updates immediately instead of waiting for the next poll.
+    func markImporting(_ item: QueueItem) {
+        guard let instanceId = item.instanceId, let downloadId = item.downloadId else { return }
+        guard var records = items[instanceId] else { return }
+
+        for index in records.indices where records[index].downloadId == downloadId {
+            records[index].markImporting()
+        }
+
+        items[instanceId] = records
+    }
+
     func refreshDownloadClients() async {
         for instance in instances {
             do {
