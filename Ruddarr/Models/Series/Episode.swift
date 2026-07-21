@@ -37,8 +37,8 @@ struct Episode: Identifiable, Codable, Equatable {
 
     var series: Series?
 
-    var calendarGroupCount: Int?
-    var queueStatusInCalendar: QueueItemStatus?
+    private(set) var calendarGroupCount: Int?
+    private(set) var queueStatusInCalendar: QueueItemStatus?
 
     var calendarGroup: String {
         "\(seriesId):\(seasonNumber):\(airDateUtc?.formatted(.iso8601) ?? "")"
@@ -46,6 +46,11 @@ struct Episode: Identifiable, Codable, Equatable {
 
     var isGroupedInCalendar: Bool {
         (calendarGroupCount ?? 0) > 2
+    }
+
+    mutating func groupInCalendar(_ count: Int, status: QueueItemStatus?) {
+        calendarGroupCount = count
+        queueStatusInCalendar = status
     }
 
     var deeplink: URL? {
