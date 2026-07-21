@@ -73,7 +73,8 @@ extension MediaGrid where Header == Never {
     }
 }
 
-@MainActor @Observable
+@MainActor
+@Observable
 final class PosterMetrics {
     static let shared = PosterMetrics()
 

@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed series files failing to load when a language was missing
 - Fixed episode file details missing when opening episodes directly
 - Fixed newly added movies not being monitored
-- Fixed poster size changing between the library grid and details on macOS
+- Fixed poster size changing between grids and details on macOS
 
 ### Removed
 - Dropped support for Sonarr v3
