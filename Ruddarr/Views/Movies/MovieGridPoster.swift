@@ -18,6 +18,7 @@ struct MovieGridPoster: View {
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 14))
+            .tracksGridPosterWidth()
     }
 
     var poster: some View {
