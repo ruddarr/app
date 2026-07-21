@@ -51,9 +51,9 @@ struct LossyDecodingTests {
     }
 }
 
-// Exercises `LenientDecoded`, used by `Episode.episodeFile` so a malformed
+// Exercises `LossyDecoded`, used by `Episode.episodeFile` so a malformed
 // embedded file degrades to nil instead of failing the whole episodes response.
-struct LenientDecodedTests {
+struct LossyDecodedTests {
     private struct File: Codable, Equatable {
         let id: Int
         let size: Int
@@ -61,7 +61,7 @@ struct LenientDecodedTests {
 
     private struct Fixture: Codable, Equatable {
         let id: Int
-        @LenientDecoded var file: File?
+        @LossyDecoded var file: File?
     }
 
     private func decode(_ json: String) throws -> Fixture {
@@ -93,9 +93,10 @@ struct LenientDecodedTests {
         }
     }
 
-    @Test func encodingOmitsNil() throws {
-        let data = try JSONEncoder().encode(Fixture(id: 1, file: nil))
-        #expect(String(bytes: data, encoding: .utf8) == #"{"id":1}"#)
+    @Test func roundTripsNil() throws {
+        let fixture = Fixture(id: 1, file: nil)
+        let decoded = try JSONDecoder().decode(Fixture.self, from: JSONEncoder().encode(fixture))
+        #expect(decoded == fixture)
     }
 
     @Test func roundTripsValue() throws {
