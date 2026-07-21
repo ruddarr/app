@@ -4,7 +4,7 @@ struct Episode: Identifiable, Codable, Equatable {
     let id: Int
 
     // used by deeplinks to switch instances
-    var instanceId: Instance.ID?
+    private(set) var instanceId: Instance.ID?
 
     let seriesId: Int
     let episodeFileId: Int
@@ -177,6 +177,13 @@ struct Episode: Identifiable, Codable, Equatable {
         return days < 7
             ? String(localized: "\(weekday) at \(time)")
             : date.formatted(date: .abbreviated, time: .shortened)
+    }
+}
+
+extension Episode: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        instanceId = instance
+        series?.stamp(instance)
     }
 }
 

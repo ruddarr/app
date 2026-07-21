@@ -13,7 +13,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let id: Int
 
     // used for filtering
-    var instanceId: Instance.ID?
+    private(set) var instanceId: Instance.ID?
 
     let downloadId: String?
     let downloadClient: String?
@@ -58,7 +58,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let outputPath: String?
     let downloadClientHasPostImportCategory: Bool?
 
-    var taskGroupCount: Int?
+    private(set) var taskGroupCount: Int?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -119,6 +119,10 @@ struct QueueItem: Codable, Identifiable, Equatable {
         status = "completed"
         trackedDownloadStatus = .ok
         trackedDownloadState = .importing
+    }
+
+    mutating func groupTasks(_ count: Int) {
+        taskGroupCount = count
     }
 
     var isSABnzbd: Bool {
@@ -341,6 +345,12 @@ enum QueueItemStatus: Int, Codable, Comparable {
         case .paused, .failed, .importBlocked: false
         default: true
         }
+    }
+}
+
+extension QueueItem: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        instanceId = instance
     }
 }
 

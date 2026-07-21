@@ -227,7 +227,7 @@ private func modifyQueueItems(_ items: QueueItems, _ instance: Instance) -> Queu
     modifiedItems.records = items.records.map { record in
         var record = record
 
-        record.instanceId = instance.id
+        record.stamp(instance.id)
 
         // set `estimatedCompletionTime` to be in the future for testing
         if let timeLeft = record.timeleft {
@@ -251,7 +251,7 @@ private func modifyCalendarMovies(_ items: [Movie], _ instance: Instance) -> [Mo
     return items.map { item in
         var movie = item
 
-        movie.instanceId = instance.id
+        movie.stamp(instance.id)
 
         if let inCinemas = item.inCinemas {
             movie.inCinemas = Calendar.current.date(byAdding: .day, value: Int(days), to: inCinemas)!
@@ -276,7 +276,7 @@ private func modifyCalendarEpisodes(_ items: [Episode], _ instance: Instance) ->
     return items.map { item in
         var episode = item
 
-        episode.instanceId = instance.id
+        episode.stamp(instance.id)
 
         if let airDateUtc = item.airDateUtc {
             episode.airDateUtc = Calendar.current.date(byAdding: .day, value: Int(days), to: airDateUtc)!

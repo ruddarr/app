@@ -14,7 +14,7 @@ struct MediaHistoryEvent: Identifiable, Codable {
     let date: Date
 
     // used for filtering
-    var instanceId: Instance.ID?
+    private(set) var instanceId: Instance.ID?
 
     let sourceTitle: String?
 
@@ -135,6 +135,12 @@ struct MediaHistoryEvent: Identifiable, Codable {
         }
 
         return value
+    }
+}
+
+extension MediaHistoryEvent: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        instanceId = instance
     }
 }
 

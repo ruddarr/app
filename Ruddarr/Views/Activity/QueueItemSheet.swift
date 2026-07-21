@@ -323,7 +323,7 @@ struct QueueItemSheet: View {
 #Preview {
     let items: QueueItems = PreviewData.loadObject(name: "series-queue")
     var item: QueueItem = items.records[2]
-    item.instanceId = UUID()
+    item.stamp(UUID())
 
     return QueueItemSheet(item: item)
         .withAppState()
@@ -334,7 +334,7 @@ struct QueueItemSheet: View {
     var item: QueueItem = items.records[0]
 
     item.estimatedCompletionTime = Date.now.addingTimeInterval(90)
-    item.instanceId = UUID()
+    item.stamp(UUID())
 
     return QueueItemSheet(item: item)
         .withAppState()
@@ -343,7 +343,7 @@ struct QueueItemSheet: View {
 #Preview("Waiting + Error") {
     let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
     var item = items.records[1]
-    item.instanceId = UUID()
+    item.stamp(UUID())
 
     return QueueItemSheet(item: item)
         .withAppState()
@@ -352,7 +352,7 @@ struct QueueItemSheet: View {
 #Preview("Pending + Short") {
     let items: QueueItems = PreviewData.loadObject(name: "movie-queue")
     var item = items.records[2]
-    item.instanceId = UUID()
+    item.stamp(UUID())
 
     return QueueItemSheet(item: item)
         .withAppState()

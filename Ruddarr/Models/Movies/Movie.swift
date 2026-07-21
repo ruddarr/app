@@ -10,7 +10,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     private(set) var guid: Int?
 
     // used by deeplinks to switch instances
-    var instanceId: Instance.ID?
+    private(set) var instanceId: Instance.ID?
 
     let tmdbId: Int
     let imdbId: String?
@@ -326,6 +326,12 @@ struct MovieEditorResource: Codable {
 
 func formatCustomScore(_ score: Int) -> String {
     score < 0 ? "\(score)" : "+\(score)"
+}
+
+extension Movie: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        instanceId = instance
+    }
 }
 
 extension Movie {

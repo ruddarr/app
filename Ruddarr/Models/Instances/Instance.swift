@@ -168,6 +168,18 @@ enum InstanceTimeout: Codable {
     case releaseSearch
 }
 
+protocol InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?)
+}
+
+extension Array where Element: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        for index in indices {
+            self[index].stamp(instance)
+        }
+    }
+}
+
 struct InstanceHeader: Equatable, Identifiable, Codable {
     var id = UUID()
     var name: String

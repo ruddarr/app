@@ -213,7 +213,7 @@ private struct FileImportRow: View {
 
     let item = {
         var record = items.records[0]
-        record.instanceId = instanceId
+        record.stamp(instanceId)
         return record
     }()
 
@@ -230,7 +230,7 @@ private struct FileImportRow: View {
 
     let item = {
         var record = items.records.first!
-        record.instanceId = instanceId
+        record.stamp(instanceId)
         return record
     }()
 

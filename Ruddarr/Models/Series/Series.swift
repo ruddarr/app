@@ -9,7 +9,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
     private(set) var guid: Int?
 
     // used by deeplinks to switch instances
-    var instanceId: Instance.ID?
+    private(set) var instanceId: Instance.ID?
 
     let title: String
     let titleSlug: String?
@@ -372,6 +372,12 @@ struct SeriesEditorResource: Codable {
     let tags: [Int]
     let applyTags: String
     let moveFiles: Bool?
+}
+
+extension Series: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        instanceId = instance
+    }
 }
 
 extension Series {

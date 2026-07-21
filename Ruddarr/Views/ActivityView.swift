@@ -122,7 +122,7 @@ struct ActivityView: View {
         ).mapValues { items -> [QueueItem] in
             guard var dummy = items.first else { return items }
             guard items.count > 1 else { return items }
-            dummy.taskGroupCount = items.count
+            dummy.groupTasks(items.count)
             return [dummy]
         }
 
