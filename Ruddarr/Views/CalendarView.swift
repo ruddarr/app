@@ -196,10 +196,8 @@ struct CalendarView: View {
             let grouped = Dictionary(grouping: filtered, by: \.calendarGroup)
             let episodes = grouped.values.compactMap { group -> Episode? in
                 guard var episode = group.first else { return nil }
-                episode.calendarGroupCount = group.count
-                episode.queueStatusInCalendar = group
-                    .compactMap { queueStatus(\.episodeId, $0.id, $0.instanceId, in: active) }
-                    .max()
+                let status = group.compactMap { queueStatus(\.episodeId, $0.id, $0.instanceId, in: active) }.max()
+                episode.groupInCalendar(group.count, status: status)
                 return episode
             }
 

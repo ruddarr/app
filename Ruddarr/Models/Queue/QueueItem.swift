@@ -13,7 +13,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let id: Int
 
     // used for filtering
-    var instanceId: Instance.ID?
+    private(set) var instanceId: Instance.ID?
 
     let downloadId: String?
     let downloadClient: String?
@@ -36,7 +36,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let type: ReleaseProtocol
 
     let size: Float
-    var sizeleft: Float
+    let sizeleft: Float
     let timeleft: String?
 
     let languages: [MediaLanguage]?
@@ -48,17 +48,17 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let added: Date?
     var estimatedCompletionTime: Date?
 
-    var status: String?
+    private(set) var status: String?
     let statusMessages: [QueueStatusMessage]?
     let errorMessage: String?
 
-    var trackedDownloadStatus: QueueDownloadStatus?
-    var trackedDownloadState: QueueDownloadState?
+    private(set) var trackedDownloadStatus: QueueDownloadStatus?
+    private(set) var trackedDownloadState: QueueDownloadState?
 
     let outputPath: String?
     let downloadClientHasPostImportCategory: Bool?
 
-    var taskGroupCount: Int?
+    private(set) var taskGroupCount: Int?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -119,6 +119,10 @@ struct QueueItem: Codable, Identifiable, Equatable {
         status = "completed"
         trackedDownloadStatus = .ok
         trackedDownloadState = .importing
+    }
+
+    mutating func groupTasks(_ count: Int) {
+        taskGroupCount = count
     }
 
     var isSABnzbd: Bool {
@@ -341,6 +345,12 @@ enum QueueItemStatus: Int, Codable, Comparable {
         case .paused, .failed, .importBlocked: false
         default: true
         }
+    }
+}
+
+extension QueueItem: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        instanceId = instance
     }
 }
 

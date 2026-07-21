@@ -7,7 +7,7 @@ extension API {
                 .appending(path: "/api/v3/movie")
 
             var movies: [Movie] = try await request(url: url, instance: instance, timeout: .slow)
-            for i in movies.indices { movies[i].instanceId = instance.id }
+            movies.stamp(instance.id)
             return movies
         }, lookupMovies: { instance, query in
             let url = try await instance.baseURL()
@@ -27,7 +27,7 @@ extension API {
                 .appending(path: String(movieId))
 
             var movie: Movie = try await request(url: url, instance: instance)
-            movie.instanceId = instance.id
+            movie.stamp(instance.id)
             return movie
         }, getMovieHistory: { movieId, instance in
             let url = try await instance.baseURL()
@@ -89,7 +89,7 @@ extension API {
                 .appending(path: "/api/v3/series")
 
             var series: [Series] = try await request(url: url, instance: instance, timeout: .slow)
-            for i in series.indices { series[i].instanceId = instance.id }
+            series.stamp(instance.id)
             return series
         }, fetchEpisodes: { seriesId, instance in
             let url = try await instance.baseURL()
@@ -100,7 +100,7 @@ extension API {
                 ])
 
             var episodes: [Episode] = try await request(url: url, instance: instance)
-            for i in episodes.indices { episodes[i].instanceId = instance.id; episodes[i].series?.instanceId = instance.id }
+            episodes.stamp(instance.id)
             return episodes
         }, lookupSeries: { instance, query in
             let url = try await instance.baseURL()
@@ -125,7 +125,7 @@ extension API {
                 .appending(path: String(seriesId))
 
             var series: Series = try await request(url: url, instance: instance)
-            series.instanceId = instance.id
+            series.stamp(instance.id)
             return series
         }, addSeries: { series, instance in
             let url = try await instance.baseURL()
@@ -202,7 +202,7 @@ extension API {
                 ])
 
             var movies: [Movie] = try await request(url: url, instance: instance, timeout: .slow)
-            for i in movies.indices { movies[i].instanceId = instance.id }
+            movies.stamp(instance.id)
             return movies
         }, episodeCalendar: { start, end, instance in
             let url = try await instance.baseURL()
@@ -215,7 +215,7 @@ extension API {
                 ])
 
             var episodes: [Episode] = try await request(url: url, instance: instance, timeout: .slow)
-            for i in episodes.indices { episodes[i].instanceId = instance.id; episodes[i].series?.instanceId = instance.id }
+            episodes.stamp(instance.id)
             return episodes
         }, command: { command, instance in
             let url = try await instance.baseURL()
@@ -262,7 +262,7 @@ extension API {
                 ])
 
             var items: QueueItems = try await request(url: url, instance: instance)
-            for i in items.records.indices { items.records[i].instanceId = instance.id }
+            items.records.stamp(instance.id)
             return items
         }, deleteQueueTask: { task, remove, block, search, instance in
             let url = try await instance.baseURL()
@@ -297,7 +297,7 @@ extension API {
             }
 
             var history: MediaHistory = try await request(url: url, instance: instance)
-            for i in history.records.indices { history.records[i].instanceId = instance.id }
+            history.records.stamp(instance.id)
             return history
         }, fetchNotifications: { instance in
             let url = try await instance.baseURL()

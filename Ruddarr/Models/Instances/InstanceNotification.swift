@@ -1,10 +1,10 @@
 import Foundation
 
 struct InstanceNotification: Identifiable, Codable {
-    var id: Int?
+    private(set) var id: Int?
     var name: String?
-    var implementation: String = "Webhook"
-    var configContract: String = "WebhookSettings"
+    private(set) var implementation: String = "Webhook"
+    private(set) var configContract: String = "WebhookSettings"
     var fields: [InstanceNotificationField] = []
 
     // `Grab`: Release sent to download client
@@ -35,27 +35,27 @@ struct InstanceNotification: Identifiable, Codable {
 
     var onApplicationUpdate: Bool = false
 
-    var supportsOnGrab: Bool? = false
-    var supportsOnDownload: Bool? = false
-    var supportsOnUpgrade: Bool? = false
-    var supportsOnRename: Bool? = false
-    var supportsOnHealthIssue: Bool? = false
-    var supportsOnHealthRestored: Bool? = false
-    var supportsOnApplicationUpdate: Bool? = false
+    private(set) var supportsOnGrab: Bool? = false
+    private(set) var supportsOnDownload: Bool? = false
+    private(set) var supportsOnUpgrade: Bool? = false
+    private(set) var supportsOnRename: Bool? = false
+    private(set) var supportsOnHealthIssue: Bool? = false
+    private(set) var supportsOnHealthRestored: Bool? = false
+    private(set) var supportsOnApplicationUpdate: Bool? = false
 
     // Radarr
-    var supportsOnMovieAdded: Bool? = false
-    var supportsOnMovieDelete: Bool? = false
-    var supportsOnMovieFileDelete: Bool? = false
-    var supportsOnMovieFileDeleteForUpgrade: Bool? = false
+    private(set) var supportsOnMovieAdded: Bool? = false
+    private(set) var supportsOnMovieDelete: Bool? = false
+    private(set) var supportsOnMovieFileDelete: Bool? = false
+    private(set) var supportsOnMovieFileDeleteForUpgrade: Bool? = false
 
     // Sonarr
-    var supportsOnSeriesAdd: Bool? = false
-    var supportsOnSeriesDelete: Bool? = false
-    var supportsOnEpisodeFileDelete: Bool? = false
-    var supportsOnEpisodeFileDeleteForUpgrade: Bool? = false
-    var supportsOnImportComplete: Bool? = false
-    var supportsOnManualInteractionRequired: Bool? = false
+    private(set) var supportsOnSeriesAdd: Bool? = false
+    private(set) var supportsOnSeriesDelete: Bool? = false
+    private(set) var supportsOnEpisodeFileDelete: Bool? = false
+    private(set) var supportsOnEpisodeFileDeleteForUpgrade: Bool? = false
+    private(set) var supportsOnImportComplete: Bool? = false
+    private(set) var supportsOnManualInteractionRequired: Bool? = false
 
     var isEnabled: Bool {
         onGrab
@@ -116,7 +116,7 @@ struct InstanceNotification: Identifiable, Codable {
 
 struct InstanceNotificationField: Codable {
     let name: String
-    var value: String = ""
+    private(set) var value: String = ""
 
     enum CodingKeys: String, CodingKey {
         case name

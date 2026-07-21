@@ -4,11 +4,11 @@ struct Episode: Identifiable, Codable, Equatable {
     let id: Int
 
     // used by deeplinks to switch instances
-    var instanceId: Instance.ID?
+    private(set) var instanceId: Instance.ID?
 
     let seriesId: Int
     let episodeFileId: Int
-    @LossyDecoded var episodeFile: MediaFile?
+    @LossyDecoded private(set) var episodeFile: MediaFile?
     let tvdbId: Int
 
     let seasonNumber: Int
@@ -37,8 +37,8 @@ struct Episode: Identifiable, Codable, Equatable {
 
     var series: Series?
 
-    var calendarGroupCount: Int?
-    var queueStatusInCalendar: QueueItemStatus?
+    private(set) var calendarGroupCount: Int?
+    private(set) var queueStatusInCalendar: QueueItemStatus?
 
     var calendarGroup: String {
         "\(seriesId):\(seasonNumber):\(airDateUtc?.formatted(.iso8601) ?? "")"
@@ -46,6 +46,11 @@ struct Episode: Identifiable, Codable, Equatable {
 
     var isGroupedInCalendar: Bool {
         (calendarGroupCount ?? 0) > 2
+    }
+
+    mutating func groupInCalendar(_ count: Int, status: QueueItemStatus?) {
+        calendarGroupCount = count
+        queueStatusInCalendar = status
     }
 
     var deeplink: URL? {
@@ -177,6 +182,13 @@ struct Episode: Identifiable, Codable, Equatable {
         return days < 7
             ? String(localized: "\(weekday) at \(time)")
             : date.formatted(date: .abbreviated, time: .shortened)
+    }
+}
+
+extension Episode: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        instanceId = instance
+        series?.stamp(instance)
     }
 }
 
