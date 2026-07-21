@@ -73,6 +73,32 @@ extension MediaGrid where Header == Never {
     }
 }
 
+@MainActor
+@Observable
+final class PosterMetrics {
+    static let shared = PosterMetrics()
+
+    private init() {}
+
+    var gridWidth: CGFloat = 200
+}
+
+extension View {
+    func tracksGridPosterWidth() -> some View {
+        #if os(macOS)
+            onGeometryChange(for: CGFloat.self) { proxy in
+                proxy.size.width
+            } action: { width in
+                if width > 0, abs(PosterMetrics.shared.gridWidth - width) > 0.5 {
+                    PosterMetrics.shared.gridWidth = width
+                }
+            }
+        #else
+            self
+        #endif
+    }
+}
+
 #Preview {
     let movies: [Movie] = PreviewData.load(name: "movies")
 
