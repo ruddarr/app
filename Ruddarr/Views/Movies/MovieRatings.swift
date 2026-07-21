@@ -79,10 +79,7 @@ struct MovieRatings: View {
                     .frame(height: 12)
                     .offset(y: -0.5)
 
-                Text(rating.formatted(
-                    .number.precision(.fractionLength(1)).grouping(.never)
-                        .locale(Locale(identifier: "en_US_POSIX"))
-                ))
+                Text(rating.formatted(.number.precision(.fractionLength(1)).locale(Locale(identifier: "en_US_POSIX"))))
                     .font(.callout)
                     .lineLimit(1)
             }
