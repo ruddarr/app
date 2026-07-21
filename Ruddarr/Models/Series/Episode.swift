@@ -8,7 +8,7 @@ struct Episode: Identifiable, Codable, Equatable {
 
     let seriesId: Int
     let episodeFileId: Int
-    @LenientDecoded var episodeFile: MediaFile?
+    @LenientDecoded private(set) var episodeFile: MediaFile?
     let tvdbId: Int
 
     let seasonNumber: Int

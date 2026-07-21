@@ -36,7 +36,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let type: ReleaseProtocol
 
     let size: Float
-    var sizeleft: Float
+    let sizeleft: Float
     let timeleft: String?
 
     let languages: [MediaLanguage]?
@@ -48,12 +48,12 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let added: Date?
     var estimatedCompletionTime: Date?
 
-    var status: String?
+    private(set) var status: String?
     let statusMessages: [QueueStatusMessage]?
     let errorMessage: String?
 
-    var trackedDownloadStatus: QueueDownloadStatus?
-    var trackedDownloadState: QueueDownloadState?
+    private(set) var trackedDownloadStatus: QueueDownloadStatus?
+    private(set) var trackedDownloadState: QueueDownloadState?
 
     let outputPath: String?
     let downloadClientHasPostImportCategory: Bool?

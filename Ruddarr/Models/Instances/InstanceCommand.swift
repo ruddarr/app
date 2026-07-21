@@ -78,14 +78,14 @@ struct DownloadReleaseCommand: Codable {
     let indexerId: Int
 
     // Radarr
-    var movieId: Int?
+    private(set) var movieId: Int?
 
     // Sonarr (season)
-    var seriesId: Int?
-    var seasonNumber: Int?
+    private(set) var seriesId: Int?
+    private(set) var seasonNumber: Int?
 
     // Sonarr (episode)
-    var episodeId: Int?
+    private(set) var episodeId: Int?
 
     init(guid: String, indexerId: Int, movieId: Int?) {
         self.guid = guid

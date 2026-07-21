@@ -7,7 +7,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     var id: Int { guid ?? (tmdbId + 100_000) }
 
     // the remapped `id` field
-    var guid: Int?
+    private(set) var guid: Int?
 
     // used by deeplinks to switch instances
     var instanceId: Instance.ID?
@@ -39,9 +39,9 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     let sizeOnDisk: Int?
     let hasFile: Bool?
 
-    var path: String?
-    var relativePath: String?
-    var folderName: String?
+    let path: String?
+    private(set) var relativePath: String?
+    let folderName: String?
     var rootFolderPath: String?
 
     let added: Date

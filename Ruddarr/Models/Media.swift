@@ -11,7 +11,7 @@ protocol Media: Identifiable, Sendable where ID: Sendable {
 
 struct Tag: Identifiable, Equatable, Codable {
     let id: Int
-    var label: String
+    let label: String
 }
 
 func formatTags(_ ids: [Int], tags: [Tag]) -> String {
@@ -117,8 +117,8 @@ func languageSingleLabel(_ languages: [MediaLanguage]) -> String {
 }
 
 struct MediaDetailsRow: View {
-    var label: String
-    var value: String
+    let label: String
+    let value: String
 
     init(_ label: String, value: String) {
         self.label = label

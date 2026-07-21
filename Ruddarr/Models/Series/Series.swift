@@ -6,7 +6,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
     var id: Int { guid ?? (tvdbId + 100_000) }
 
     // the remapped `id` field
-    var guid: Int?
+    private(set) var guid: Int?
 
     // used by deeplinks to switch instances
     var instanceId: Instance.ID?
