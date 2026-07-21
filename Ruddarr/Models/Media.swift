@@ -230,7 +230,8 @@ struct MediaDetailsPosterModifier: ViewModifier {
         }
     }
 
-    @MainActor private var posterWidth: CGFloat {
+    @MainActor
+    private var posterWidth: CGFloat {
         #if os(iOS)
             let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
             let scene = scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
