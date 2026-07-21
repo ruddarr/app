@@ -131,9 +131,9 @@ enum RootFolderLabel {
 }
 
 extension FormatStyle {
-    static func decimal<Value>(_ fractionLength: Int, locale: Locale? = nil) -> DecimalFormatStyle<Value>
+    static func decimal<Value>(_ fractionLength: Int) -> DecimalFormatStyle<Value>
         where Self == DecimalFormatStyle<Value> {
-        DecimalFormatStyle(fractionLength: fractionLength, locale: locale)
+        DecimalFormatStyle(fractionLength: fractionLength)
     }
 }
 
@@ -149,17 +149,12 @@ struct PercentageRating: FormatStyle {
 
 struct DecimalFormatStyle<Value: BinaryFloatingPoint>: FormatStyle {
     let fractionLength: Int
-    var locale: Locale?
 
     func format(_ value: Value) -> String {
-        var style = FloatingPointFormatStyle<Value>()
-            .precision(.fractionLength(fractionLength))
-            .grouping(.never)
-
-        if let locale {
-            style = style.locale(locale)
-        }
-
-        return value.formatted(style)
+        value.formatted(
+            FloatingPointFormatStyle<Value>()
+                .precision(.fractionLength(fractionLength))
+                .grouping(.never)
+        )
     }
 }
