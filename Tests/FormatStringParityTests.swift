@@ -100,12 +100,14 @@ struct MovieRatingFormatParityTests {
 // Covers MovieRatings.swift `imdb`, where
 //   Text(String(format: "%.1f", rating))
 // became
-//   Text(rating.formatted(.decimal(1)))
+//   Text(rating.formatted(.decimal(1, locale: Locale(identifier: "en_US_POSIX"))))
 //
 // Same `Float` rating, but rounded to ONE decimal — a finer boundary than the percent
 // suites above (ties fall at X.X5, not X.5), so its parity does not follow from them and
-// is pinned separately. Both expressions still round halves to even, and the same en_US
-// /Latin-digit locale assumption applies. (The non-finite divergence is identical to the
+// is pinned separately. Both expressions still round halves to even. Unlike the percent
+// suites, the IMDb badge pins `en_US_POSIX` so the rating always reads "6.9" with a period
+// (never a localized "6,9") — which also matches `String(format:)`'s always-period output
+// regardless of the test host's locale. (The non-finite divergence is identical to the
 // percent suite and is documented there.)
 struct MovieRatingOneDecimalParityTests {
     /// Pre-change expression from `imdb`, kept as a reference oracle.
@@ -115,7 +117,7 @@ struct MovieRatingOneDecimalParityTests {
 
     /// The shipping expression under test.
     private func current(_ rating: Float) -> String {
-        rating.formatted(.decimal(1))
+        rating.formatted(.decimal(1, locale: Locale(identifier: "en_US_POSIX")))
     }
 
     // IMDb supplies a 0.0...10.0 score, normally to one decimal place.
@@ -124,6 +126,21 @@ struct MovieRatingOneDecimalParityTests {
             let rating = Float(tenths) / 10
             #expect(current(rating) == legacy(rating), "mismatch at \(rating)")
         }
+    }
+
+    // Regression: the IMDb badge must always read "6.9" with a period, even under a locale
+    // whose decimal separator is a comma (e.g. German), where an un-pinned `.decimal(1)`
+    // would render "6,9". The `en_US_POSIX` pin is what guarantees the period.
+    @Test func rendersPeriodUnderCommaSeparatorLocale() {
+        let german = Locale(identifier: "de_DE")
+
+        // Sanity check: without the pin, a comma-separator locale localizes to "6,9".
+        #expect((6.9 as Float).formatted(.decimal(1, locale: german)) == "6,9")
+
+        // The shipping IMDb expression stays "6.9" regardless of the surrounding locale.
+        #expect(current(6.9) == "6.9")
+        #expect(current(10.0) == "10.0")
+        #expect(current(0.0) == "0.0")
     }
 
     // Exactly-representable X.25 / X.75 inputs are true first-decimal ties; both
