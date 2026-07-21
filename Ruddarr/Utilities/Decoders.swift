@@ -21,8 +21,8 @@ extension JSONDecoder.DateDecodingStrategy {
 }
 
 extension KeyedDecodingContainer {
-    func decode<T>(_ type: LenientDecoded<T>.Type, forKey key: Key) throws -> LenientDecoded<T> {
-        try decodeIfPresent(type, forKey: key) ?? LenientDecoded(wrappedValue: nil)
+    func decode<T>(_ type: LossyDecoded<T>.Type, forKey key: Key) throws -> LossyDecoded<T> {
+        try decodeIfPresent(type, forKey: key) ?? LossyDecoded(wrappedValue: nil)
     }
 
     func decodeLossyArrayIfPresent<T: Decodable>(
@@ -33,14 +33,8 @@ extension KeyedDecodingContainer {
     }
 }
 
-extension KeyedEncodingContainer {
-    mutating func encode<T>(_ value: LenientDecoded<T>, forKey key: Key) throws {
-        try encodeIfPresent(value.wrappedValue, forKey: key)
-    }
-}
-
 @propertyWrapper
-struct LenientDecoded<Wrapped: Codable & Equatable>: Codable, Equatable {
+struct LossyDecoded<Wrapped: Codable & Equatable>: Codable, Equatable {
     var wrappedValue: Wrapped?
 
     init(wrappedValue: Wrapped?) {
@@ -58,4 +52,4 @@ struct LenientDecoded<Wrapped: Codable & Equatable>: Codable, Equatable {
     }
 }
 
-extension LenientDecoded: Sendable where Wrapped: Sendable {}
+extension LossyDecoded: Sendable where Wrapped: Sendable {}
