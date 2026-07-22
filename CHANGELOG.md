@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show library counts below media grids
 - Jump from a queue task to its movie or series
 - Trigger haptic feedback when an alert is displayed
+- Support landscape orientation on iPhone
 
 ### Changed
 - Improved instance synchronization across devices
