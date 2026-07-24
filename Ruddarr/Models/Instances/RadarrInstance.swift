@@ -1,5 +1,6 @@
 import os
 import SwiftUI
+import Sentry
 import Foundation
 
 @MainActor
@@ -63,17 +64,40 @@ class RadarrInstance {
             return nil
         }
 
-        do {
-            async let rootFolders = dependencies.api.rootFolders(instance)
-            async let qualityProfiles = dependencies.api.qualityProfiles(instance)
-            async let tags = dependencies.api.getTags(instance)
+        async let rootFolders = dependencies.api.rootFolders(instance)
+        async let qualityProfiles = dependencies.api.qualityProfiles(instance)
+        async let tags = dependencies.api.getTags(instance)
 
+        var updated = false
+
+        do {
             instance.rootFolders = try await rootFolders
-            instance.qualityProfiles = try await qualityProfiles
-            instance.tags = try await tags
-        } catch {
+            updated = true
+        } catch is CancellationError {
             return nil
+        } catch {
+            leaveBreadcrumb(.error, category: "instance.metadata", message: "Root folders fetch failed", data: ["error": error])
         }
+
+        do {
+            instance.qualityProfiles = try await qualityProfiles
+            updated = true
+        } catch is CancellationError {
+            return nil
+        } catch {
+            leaveBreadcrumb(.error, category: "instance.metadata", message: "Quality profiles fetch failed", data: ["error": error])
+        }
+
+        do {
+            instance.tags = try await tags
+            updated = true
+        } catch is CancellationError {
+            return nil
+        } catch {
+            leaveBreadcrumb(.error, category: "instance.metadata", message: "Tags fetch failed", data: ["error": error])
+        }
+
+        guard updated else { return nil }
 
         if !movies.items.isEmpty {
             instance.stats = await InstanceStats.make(movies: movies.items)
