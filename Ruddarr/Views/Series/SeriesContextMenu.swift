@@ -10,9 +10,9 @@ struct SeriesContextMenu: View {
         Group {
             SeriesLinks(series: series)
 
-            Divider()
+            if series.exists && series.monitored {
+                Divider()
 
-            if series.monitored {
                 Button("Search Monitored", systemImage: "magnifyingglass") {
                     Task { await dispatchSearch() }
                 }
