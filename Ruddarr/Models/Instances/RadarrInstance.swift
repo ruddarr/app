@@ -1,5 +1,6 @@
 import os
 import SwiftUI
+import Sentry
 import Foundation
 
 @MainActor
@@ -71,7 +72,11 @@ class RadarrInstance {
             instance.rootFolders = try await rootFolders
             instance.qualityProfiles = try await qualityProfiles
             instance.tags = try await tags
+        } catch is CancellationError {
+            return nil
         } catch {
+            leaveBreadcrumb(.error, category: "radarr.metadata", message: "Metadata fetch failed", data: ["error": error])
+
             return nil
         }
 

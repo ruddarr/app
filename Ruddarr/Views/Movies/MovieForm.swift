@@ -83,18 +83,25 @@ struct MovieForm: View {
         .tint(.secondary)
     }
 
+    @ViewBuilder
     var qualityProfileField: some View {
-        Picker(selection: $movie.qualityProfileId) {
-            ForEach(instance.qualityProfiles) { profile in
-                Text(profile.name)
+        if instance.qualityProfiles.isEmpty {
+            LabeledContent("Quality Profile") {
+                Text("Error")
             }
-        } label: {
-            ViewThatFits(in: .horizontal) {
-                Text("Quality Profile")
-                Text("Quality")
+        } else {
+            Picker(selection: $movie.qualityProfileId) {
+                ForEach(instance.qualityProfiles) { profile in
+                    Text(profile.name)
+                }
+            } label: {
+                ViewThatFits(in: .horizontal) {
+                    Text("Quality Profile")
+                    Text("Quality")
+                }
             }
+            .tint(.secondary)
         }
-        .tint(.secondary)
     }
 
 #if os(macOS)
