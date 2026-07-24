@@ -107,7 +107,7 @@ struct NetworkReport: Equatable, Sendable {
         interface.isEmpty ? value : "\(value) (\(interface))"
     }
 
-    func exportText(masked: Bool, app appLines: [String] = []) -> String {
+    func exportText(masked: Bool, app appLines: [String] = [], failed failedLines: [String] = []) -> String {
         let mask = NetworkDiagnosticsMask(masked: masked)
         var lines: [String] = ["# Ruddarr Diagnostics"]
 
@@ -160,6 +160,8 @@ struct NetworkReport: Equatable, Sendable {
                 lines.append("  Selected: \(candidate.selected ? "yes" : "no")")
             }
         }
+
+        lines.append(contentsOf: failedLines)
 
         return lines.joined(separator: "\n")
     }

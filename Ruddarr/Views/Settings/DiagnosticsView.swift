@@ -6,10 +6,13 @@ struct DiagnosticsView: View {
 
     @State private var report: NetworkReport?
     @State private var appDiagnostics: AppDiagnostics?
+    @State private var failedRequests: [FailedRequest] = []
+    @State private var networkToken: UUID?
+
     @State private var masked: Bool = true
+
     @State private var collapsedInstances: Set<Instance.ID> = []
     @State private var expandedCandidates: Set<String> = []
-    @State private var networkToken: UUID?
 
     @AppStorage("elevator", store: dependencies.store) var elevator: Bool = true
 
@@ -59,19 +62,33 @@ struct DiagnosticsView: View {
 
     @ViewBuilder
     var content: some View {
-        app
-        // notifications
-        device
-        network
+        appSection
+        deviceSection
+        networkSection
 
         if let report {
             ForEach(report.instances) { entry in
                 instanceSection(entry)
             }
         }
+
+        requestsSection
     }
 
-    var app: some View {
+    @ViewBuilder
+    var requestsSection: some View {
+        if !failedRequests.isEmpty {
+            Section {
+                ForEach(failedRequests) { request in
+                    requestRow(request)
+                }
+            } header: {
+                Text(verbatim: "Failed Requests")
+            }
+        }
+    }
+
+    var appSection: some View {
         Section {
             Toggle(isOn: $elevator) {
                 Text(verbatim: "Elevator Music")
@@ -86,36 +103,21 @@ struct DiagnosticsView: View {
         }
     }
 
-//    @ViewBuilder
-//    var notifications: some View {
-//        if let appDiagnostics {
-//            Section {
-//                networkDiagnosticsRow("Subscription", appDiagnostics.subscription)
-//                networkDiagnosticsRow("Entitled", appDiagnostics.entitled)
-//                networkDiagnosticsRow("Entitled At", appDiagnostics.entitledAt)
-//                networkDiagnosticsRow("Push Authorization", appDiagnostics.pushAuthorization)
-//                networkDiagnosticsRow("iCloud Account", appDiagnostics.iCloudAccount)
-//            } header: {
-//                Text(verbatim: "Notifications")
-//            }
-//        }
-//    }
-
     @ViewBuilder
-    var device: some View {
+    var deviceSection: some View {
         if let report {
             Section {
                 networkDiagnosticsRow("Connection", report.connection)
                 networkDiagnosticsRow("Local Network", report.localNetworkDenied ? "denied" : "allowed")
                 networkDiagnosticsRow("Tailscale", report.tailnetUp ? "up" : "down")
             } header: {
-                Text(verbatim: "Network")
+                Text(verbatim: "Device")
             }
         }
     }
 
     @ViewBuilder
-    var network: some View {
+    var networkSection: some View {
         if let report {
             Section {
                 networkDiagnosticsRow("IPv4 Address", mask.list(report.deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))
@@ -128,7 +130,7 @@ struct DiagnosticsView: View {
 
                 networkDiagnosticsRow("Gateway", report.lanGatewayRows(mask))
             } header: {
-                Text(verbatim: "Device")
+                Text(verbatim: "Network")
             }
         }
     }
@@ -160,7 +162,11 @@ struct DiagnosticsView: View {
             ToolbarItem(placement: .primaryAction) {
                 ShareLink(
                     item: NetworkDiagnosticsExport(
-                        text: report.exportText(masked: masked, app: appDiagnostics?.exportLines() ?? [])
+                        text: report.exportText(
+                            masked: masked,
+                            app: appDiagnostics?.exportLines() ?? [],
+                            failed: failedRequestsExportLines()
+                        )
                     ),
                     preview: SharePreview(exportFilename)
                 )
@@ -273,9 +279,6 @@ struct DiagnosticsView: View {
         return Text(value)
     }
 
-    /// `resolve` (not the passive `currentSelection`) is deliberate: this screen is the one
-    /// place that should keep claiming lookups and probes, so the rows it renders converge
-    /// while it is open. All the syscall work runs on the resolver actor, off the MainActor.
     func refresh() async {
         let instances = settings.configuredInstances
 
@@ -288,23 +291,88 @@ struct DiagnosticsView: View {
         if updated != report {
             report = updated
         }
+
+        let failures = await RequestDiagnostics.shared.snapshot()
+
+        if failures != failedRequests {
+            failedRequests = failures
+        }
     }
-}
 
-func networkDiagnosticsRow(_ label: String, _ value: String) -> some View {
-    networkDiagnosticsRow(label, Text(verbatim: value))
-}
+    func failedRequestsExportLines() -> [String] {
+        guard !failedRequests.isEmpty else { return [] }
 
-func networkDiagnosticsRow(_ label: String, _ valueText: Text) -> some View {
-    LabeledContent {
-        valueText
-            .multilineTextAlignment(.leading)
-            .textSelection(.enabled)
-            .monospaced()
+        var lines: [String] = ["", "[Failed Requests]"]
+
+        for request in failedRequests {
+            var parts = [request.date.formatted(date: .omitted, time: .standard), request.method, request.badge]
+            if let instance = request.instance { parts.append("(\(instance))") }
+
+            lines.append("- \(parts.joined(separator: " "))")
+            lines.append("  URL: \(mask.url(request.url))")
+
+            if let detail = request.detail, !detail.isEmpty {
+                lines.append("  Error: \(detail)")
+            }
+        }
+
+        return lines
+    }
+
+    private func networkDiagnosticsRow(_ label: String, _ value: String) -> some View {
+        networkDiagnosticsRow(label, Text(verbatim: value))
+    }
+
+    private func networkDiagnosticsRow(_ label: String, _ valueText: Text) -> some View {
+        LabeledContent {
+            valueText
+                .multilineTextAlignment(.leading)
+                .textSelection(.enabled)
+                .monospaced()
+                .font(.subheadline)
+                .tracking(-0.5)
+        } label: {
+            Text(verbatim: label)
+        }
+    }
+
+    private func requestRow(_ request: FailedRequest) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 6) {
+                Text(verbatim: request.badge)
+                    .fontWeight(.semibold)
+
+                Bullet()
+                Text(verbatim: request.method)
+
+                if let instance = request.instance {
+                    Bullet()
+                    Text(verbatim: instance)
+                        .lineLimit(1)
+                }
+
+                Spacer()
+
+                Text(request.date.formatted(date: .omitted, time: .standard))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             .font(.subheadline)
-            .tracking(-0.5)
-    } label: {
-        Text(verbatim: label)
+
+            Text(verbatim: mask.url(request.url))
+                .font(.footnote.monospaced())
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .truncationMode(.middle)
+
+            if let detail = request.detail, !detail.isEmpty {
+                Text(verbatim: detail)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(3)
+            }
+        }
+        .textSelection(.enabled)
     }
 }
 

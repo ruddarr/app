@@ -60,8 +60,37 @@ struct API: Sendable {
 extension API {
     struct Empty: Encodable, Decodable { }
 
-    // swiftlint:disable:next cyclomatic_complexity function_body_length
     static func request<Body: Encodable, Response: Decodable>(
+        method: HTTPMethod = .get,
+        url: URL,
+        headers: [String: String] = [:],
+        body: Body? = nil,
+        instance: Instance? = nil,
+        timeout: RequestTimeout = .default,
+        decoder: JSONDecoder = .init(),
+        encoder: JSONEncoder = .init(),
+        session: URLSession = .shared,
+        allowFailover: Bool = true
+    ) async throws -> Response {
+        do {
+            return try await send(
+                method: method, url: url, headers: headers, body: body, instance: instance,
+                timeout: timeout, decoder: decoder, encoder: encoder, session: session, allowFailover: allowFailover
+            )
+        } catch let error as API.Error {
+            await RequestDiagnostics.shared.record(
+                method: method.rawValue.uppercased(),
+                url: url.absoluteString,
+                instance: instance?.label,
+                error: error
+            )
+
+            throw error
+        }
+    }
+
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
+    private static func send<Body: Encodable, Response: Decodable>(
         method: HTTPMethod = .get,
         url: URL,
         headers: [String: String] = [:],
