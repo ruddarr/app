@@ -77,93 +77,12 @@ struct NetworkReport: Equatable, Sendable {
 
     let instances: [InstanceEntry]
 
-    /// The device's subnets annotated with their interface (`192.168.1.0/24 (en0)`) — shared by
-    /// the diagnostics screen and the export so the two renderings can't drift.
-    func subnetRowsV4(_ mask: NetworkDiagnosticsMask) -> String {
-        mask.list(deviceV4.map { annotated(mask.cidr($0.cidr), interface: $0.interface) })
-    }
-
-    func subnetRowsV6(_ mask: NetworkDiagnosticsMask) -> String {
-        mask.list(deviceV6.map { annotated(mask.cidr($0.cidr), interface: $0.interface) })
-    }
-
-    /// The IPv4 default gateway(s) with their interface (`192.168.1.1 (en0)`).
-    func gatewayRows(_ mask: NetworkDiagnosticsMask) -> String {
-        mask.list(gatewaysV4.map { annotated(mask.ip($0.address), interface: $0.interface) })
-    }
-
     /// The default gateway(s) on the device's own LAN interfaces — the `en*` links that carry an
-    /// on-link subnet. The diagnostics *screen* shows only these, dropping cellular/VPN default
-    /// routes (`pdp*`, `utun*`) that are irrelevant to reaching a LAN instance. The export keeps
-    /// the full `gatewayRows` so a bug report still records every default route.
-    func lanGatewayRows(_ mask: NetworkDiagnosticsMask) -> String {
+    /// on-link subnet, dropping cellular/VPN default routes (`pdp*`, `utun*`) irrelevant to
+    /// reaching a LAN instance.
+    var lanGateways: [RouteTable.Gateway] {
         let interfaces = Set(deviceV4.map(\.interface)).union(deviceV6.map(\.interface))
-        let gateways = gatewaysV4.filter { interfaces.contains($0.interface) }
-
-        return mask.list(gateways.map { annotated(mask.ip($0.address), interface: $0.interface) })
-    }
-
-    private func annotated(_ value: String, interface: String) -> String {
-        interface.isEmpty ? value : "\(value) (\(interface))"
-    }
-
-    func exportText(masked: Bool, app appLines: [String] = [], failed failedLines: [String] = []) -> String {
-        let mask = NetworkDiagnosticsMask(masked: masked)
-        var lines: [String] = ["# Ruddarr Diagnostics"]
-
-        if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String,
-           let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String {
-            lines.append("Version: \(version) (\(build))")
-        }
-
-        lines.append(contentsOf: appLines)
-
-        lines.append("")
-        lines.append("[Device]")
-        lines.append("Connection: \(connection)")
-        lines.append("Low Data Mode: \(constrained ? "on" : "off")")
-        lines.append("Local Network: \(localNetworkDenied ? "denied" : "allowed")")
-        lines.append("IPv4 Address: \(mask.list(deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))")
-        lines.append("IPv4 Subnets: \(subnetRowsV4(mask))")
-        lines.append("IPv6 Address: \(mask.list(deviceV6.map { mask.ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }))")
-        lines.append("IPv6 Subnets: \(subnetRowsV6(mask))")
-        lines.append("Gateway: \(gatewayRows(mask))")
-        lines.append("Network ID: \(masked ? "hidden" : fingerprint)")
-        lines.append("Tailscale: \(tailnetUp ? "up" : "down")")
-
-        for entry in instances {
-            lines.append("")
-            lines.append("[\(entry.label)]")
-            lines.append("Type: \(entry.type)")
-            lines.append("Mode: \(entry.mode)")
-            lines.append("Context: \(entry.contextKey)")
-            lines.append("Selected: \(mask.url(entry.selected))")
-
-            for candidate in entry.candidates {
-                lines.append("")
-                lines.append("- URL: \(mask.url(candidate.url))")
-                lines.append("  Host: \(mask.host(of: candidate.url))")
-                lines.append("  Role: \(candidate.roleDescription)")
-                lines.append("  Score: \(candidate.score)")
-
-                if candidate.hasHostname {
-                    lines.append("  Classification: \(candidate.resolved ? "resolved" : "lexical")")
-                    lines.append("  Resolved IPs: \(mask.list(candidate.addresses.map(mask.ip)))")
-                }
-
-                if let probeDescription = candidate.probeDescription {
-                    lines.append("  Probe: \(probeDescription)")
-                }
-
-                lines.append("  Position: \(candidate.primary ? "primary" : "alternate")")
-                lines.append("  Demoted: \(candidate.demoted ? "yes" : "no")")
-                lines.append("  Selected: \(candidate.selected ? "yes" : "no")")
-            }
-        }
-
-        lines.append(contentsOf: failedLines)
-
-        return lines.joined(separator: "\n")
+        return gatewaysV4.filter { interfaces.contains($0.interface) }
     }
 }
 

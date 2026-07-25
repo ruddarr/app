@@ -60,11 +60,15 @@ struct DiagnosticsView: View {
         #endif
     }
 
+    var model: DiagnosticsReport {
+        DiagnosticsReport(report: report, app: appDiagnostics, requests: failedRequests)
+    }
+
     @ViewBuilder
     var content: some View {
-        appSection
-        deviceSection
-        networkSection
+        ForEach(model.sections) { section in
+            fieldSection(section)
+        }
 
         if let report {
             ForEach(report.instances) { entry in
@@ -76,6 +80,32 @@ struct DiagnosticsView: View {
     }
 
     @ViewBuilder
+    func fieldSection(_ section: FieldSection) -> some View {
+        let rows = section.screenRows
+
+        if !rows.isEmpty {
+            Section {
+                ForEach(rows) { row in
+                    rowView(row)
+                }
+            } header: {
+                Text(verbatim: section.title)
+            }
+        }
+    }
+
+    @ViewBuilder
+    func rowView(_ row: DiagnosticRow) -> some View {
+        if row.control == .elevator {
+            Toggle(isOn: $elevator) {
+                Text(verbatim: row.label)
+            }
+        } else {
+            networkDiagnosticsRow(row.label, row.value.string(masked: masked))
+        }
+    }
+
+    @ViewBuilder
     var requestsSection: some View {
         if !failedRequests.isEmpty {
             Section {
@@ -84,53 +114,6 @@ struct DiagnosticsView: View {
                 }
             } header: {
                 Text(verbatim: "Failed Requests")
-            }
-        }
-    }
-
-    var appSection: some View {
-        Section {
-            Toggle(isOn: $elevator) {
-                Text(verbatim: "Elevator Music")
-            }
-
-//            if let appDiagnostics {
-//                networkDiagnosticsRow("Locale", appDiagnostics.locale)
-//                networkDiagnosticsRow("Region", appDiagnostics.region)
-//            }
-        } header: {
-            Text(verbatim: "App")
-        }
-    }
-
-    @ViewBuilder
-    var deviceSection: some View {
-        if let report {
-            Section {
-                networkDiagnosticsRow("Connection", report.connection)
-                networkDiagnosticsRow("Local Network", report.localNetworkDenied ? "denied" : "allowed")
-                networkDiagnosticsRow("Tailscale", report.tailnetUp ? "up" : "down")
-            } header: {
-                Text(verbatim: "Device")
-            }
-        }
-    }
-
-    @ViewBuilder
-    var networkSection: some View {
-        if let report {
-            Section {
-                networkDiagnosticsRow("IPv4 Address", mask.list(report.deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))
-                networkDiagnosticsRow("IPv4 Subnets", report.subnetRowsV4(mask))
-
-                if !report.deviceV6.isEmpty {
-                    networkDiagnosticsRow("IPv6 Address", mask.list(report.deviceV6.map { mask.ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }))
-                    networkDiagnosticsRow("IPv6 Subnets", report.subnetRowsV6(mask))
-                }
-
-                networkDiagnosticsRow("Gateway", report.lanGatewayRows(mask))
-            } header: {
-                Text(verbatim: "Network")
             }
         }
     }
@@ -158,15 +141,11 @@ struct DiagnosticsView: View {
 
     @ToolbarContentBuilder
     var toolbarShareButton: some ToolbarContent {
-        if let report {
+        if report != nil {
             ToolbarItem(placement: .primaryAction) {
                 ShareLink(
                     item: NetworkDiagnosticsExport(
-                        text: report.exportText(
-                            masked: masked,
-                            app: appDiagnostics?.exportLines() ?? [],
-                            failed: failedRequestsExportLines()
-                        )
+                        text: DiagnosticsExport.text(from: model, masked: masked)
                     ),
                     preview: SharePreview(exportFilename)
                 )
@@ -297,26 +276,6 @@ struct DiagnosticsView: View {
         if failures != failedRequests {
             failedRequests = failures
         }
-    }
-
-    func failedRequestsExportLines() -> [String] {
-        guard !failedRequests.isEmpty else { return [] }
-
-        var lines: [String] = ["", "[Failed Requests]"]
-
-        for request in failedRequests {
-            var parts = [request.date.formatted(date: .omitted, time: .standard), request.method, request.badge]
-            if let instance = request.instance { parts.append("(\(instance))") }
-
-            lines.append("- \(parts.joined(separator: " "))")
-            lines.append("  URL: \(mask.url(request.url))")
-
-            if let detail = request.detail, !detail.isEmpty {
-                lines.append("  Error: \(detail)")
-            }
-        }
-
-        return lines
     }
 
     private func networkDiagnosticsRow(_ label: String, _ value: String) -> some View {
