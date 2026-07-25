@@ -18,12 +18,10 @@ func startSentry() {
         options.enableWatchdogTerminationTracking = true
         options.enableMetricKit = false
         options.enableAppHangTracking = isRunningIn(.testflight)
-        options.appHangTimeoutInterval = 3
-        #if os(iOS)
-            options.enableReportNonFullyBlockingAppHangs = isRunningIn(.testflight)
-        #endif
         options.enableCaptureFailedRequests = false
         options.enableTimeToFullDisplayTracing = false
+
+        options.appHangTimeoutInterval = 3
 
         options.tracesSampleRate = 1
         options.tracePropagationTargets = []
@@ -32,6 +30,7 @@ func startSentry() {
             options.attachViewHierarchy = false
             options.enablePreWarmedAppStartTracing = true
             options.enablePersistingTracesWhenCrashing = true
+            options.enableReportNonFullyBlockingAppHangs = isRunningIn(.testflight)
         #endif
 
         options.beforeBreadcrumb = { crumb in
