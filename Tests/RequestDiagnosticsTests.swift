@@ -4,7 +4,7 @@ import Foundation
 // Covers `RequestDiagnostics` — the in-memory ring buffer behind the "Failed Requests" diagnostics
 // section: newest-first ordering, keyed duplicate collapsing (a repeat replaces its older entry at
 // the head with a fresh date), and the 50-entry cap. The actor is Foundation-only (the `API.Error`
-// → `Reason` mapping lives in `RequestDiagnostics+API`, an app-only file), so these can construct
+// → `Reason` mapping lives in `API+Error.swift`, an app-only file), so these can construct
 // `FailedRequest.Reason` values directly.
 struct RequestDiagnosticsTests {
     @Test func recordsNewestFirst() async {
