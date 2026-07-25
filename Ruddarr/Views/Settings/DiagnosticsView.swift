@@ -6,10 +6,13 @@ struct DiagnosticsView: View {
 
     @State private var report: NetworkReport?
     @State private var appDiagnostics: AppDiagnostics?
+    @State private var failedRequests: [FailedRequest] = []
+    @State private var networkToken: UUID?
+
     @State private var masked: Bool = true
+
     @State private var collapsedInstances: Set<Instance.ID> = []
     @State private var expandedCandidates: Set<String> = []
-    @State private var networkToken: UUID?
 
     @AppStorage("elevator", store: dependencies.store) var elevator: Bool = true
 
@@ -57,78 +60,57 @@ struct DiagnosticsView: View {
         #endif
     }
 
-    @ViewBuilder
-    var content: some View {
-        app
-        // notifications
-        device
-        network
-
-        if let report {
-            ForEach(report.instances) { entry in
-                instanceSection(entry)
-            }
-        }
+    var model: DiagnosticsReport {
+        DiagnosticsReport(report: report, app: appDiagnostics, requests: failedRequests)
     }
 
-    var app: some View {
+    @ViewBuilder
+    var content: some View {
+        let model = model
+
         Section {
             Toggle(isOn: $elevator) {
                 Text(verbatim: "Elevator Music")
             }
-
-//            if let appDiagnostics {
-//                networkDiagnosticsRow("Locale", appDiagnostics.locale)
-//                networkDiagnosticsRow("Region", appDiagnostics.region)
-//            }
         } header: {
             Text(verbatim: "App")
         }
+
+        ForEach(model.sections) { section in
+            diagnosticSection(section)
+        }
+
+        ForEach(model.instances) { entry in
+            instanceSection(entry)
+        }
+
+        requestsSection(model.failedRequests)
     }
 
-//    @ViewBuilder
-//    var notifications: some View {
-//        if let appDiagnostics {
-//            Section {
-//                networkDiagnosticsRow("Subscription", appDiagnostics.subscription)
-//                networkDiagnosticsRow("Entitled", appDiagnostics.entitled)
-//                networkDiagnosticsRow("Entitled At", appDiagnostics.entitledAt)
-//                networkDiagnosticsRow("Push Authorization", appDiagnostics.pushAuthorization)
-//                networkDiagnosticsRow("iCloud Account", appDiagnostics.iCloudAccount)
-//            } header: {
-//                Text(verbatim: "Notifications")
-//            }
-//        }
-//    }
-
     @ViewBuilder
-    var device: some View {
-        if let report {
+    func diagnosticSection(_ section: DiagnosticSection) -> some View {
+        let rows = section.screenRows
+
+        if !rows.isEmpty {
             Section {
-                networkDiagnosticsRow("Connection", report.connection)
-                networkDiagnosticsRow("Local Network", report.localNetworkDenied ? "denied" : "allowed")
-                networkDiagnosticsRow("Tailscale", report.tailnetUp ? "up" : "down")
+                ForEach(rows) { row in
+                    networkDiagnosticsRow(row.label, row.value.string(masked: masked))
+                }
             } header: {
-                Text(verbatim: "Network")
+                Text(verbatim: section.title)
             }
         }
     }
 
     @ViewBuilder
-    var network: some View {
-        if let report {
+    func requestsSection(_ requests: [FailedRequest]) -> some View {
+        if !requests.isEmpty {
             Section {
-                networkDiagnosticsRow("IPv4 Address", mask.list(report.deviceV4.map { mask.ip(NetworkInterfaces.string(fromIPv4: $0.address)) }))
-                networkDiagnosticsRow("IPv4 Subnets", report.subnetRowsV4(mask))
-
-                if !report.deviceV6.isEmpty {
-                    networkDiagnosticsRow("IPv6 Address", mask.list(report.deviceV6.map { mask.ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }))
-                    networkDiagnosticsRow("IPv6 Subnets", report.subnetRowsV6(mask))
+                ForEach(requests) { request in
+                    requestRow(request)
                 }
-
-                networkDiagnosticsRow("Gateway", report.lanGatewayRows(mask))
             } header: {
-                Text(verbatim: "Device")
+                Text(verbatim: "Failed Requests")
             }
         }
     }
@@ -156,11 +138,11 @@ struct DiagnosticsView: View {
 
     @ToolbarContentBuilder
     var toolbarShareButton: some ToolbarContent {
-        if let report {
+        if report != nil {
             ToolbarItem(placement: .primaryAction) {
                 ShareLink(
                     item: NetworkDiagnosticsExport(
-                        text: report.exportText(masked: masked, app: appDiagnostics?.exportLines() ?? [])
+                        text: DiagnosticsExport.text(from: model, masked: masked)
                     ),
                     preview: SharePreview(exportFilename)
                 )
@@ -273,9 +255,6 @@ struct DiagnosticsView: View {
         return Text(value)
     }
 
-    /// `resolve` (not the passive `currentSelection`) is deliberate: this screen is the one
-    /// place that should keep claiming lookups and probes, so the rows it renders converge
-    /// while it is open. All the syscall work runs on the resolver actor, off the MainActor.
     func refresh() async {
         let instances = settings.configuredInstances
 
@@ -288,23 +267,68 @@ struct DiagnosticsView: View {
         if updated != report {
             report = updated
         }
+
+        let failures = await RequestDiagnostics.shared.snapshot()
+
+        if failures != failedRequests {
+            failedRequests = failures
+        }
     }
-}
 
-func networkDiagnosticsRow(_ label: String, _ value: String) -> some View {
-    networkDiagnosticsRow(label, Text(verbatim: value))
-}
+    private func networkDiagnosticsRow(_ label: String, _ value: String) -> some View {
+        networkDiagnosticsRow(label, Text(verbatim: value))
+    }
 
-func networkDiagnosticsRow(_ label: String, _ valueText: Text) -> some View {
-    LabeledContent {
-        valueText
-            .multilineTextAlignment(.leading)
-            .textSelection(.enabled)
-            .monospaced()
+    private func networkDiagnosticsRow(_ label: String, _ valueText: Text) -> some View {
+        LabeledContent {
+            valueText
+                .multilineTextAlignment(.leading)
+                .textSelection(.enabled)
+                .monospaced()
+                .font(.subheadline)
+                .tracking(-0.5)
+        } label: {
+            Text(verbatim: label)
+        }
+    }
+
+    private func requestRow(_ request: FailedRequest) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 6) {
+                Text(verbatim: request.badge)
+                    .fontWeight(.semibold)
+
+                Bullet()
+                Text(verbatim: request.method)
+
+                if let instance = request.instance {
+                    Bullet()
+                    Text(verbatim: instance)
+                        .lineLimit(1)
+                }
+
+                Spacer()
+
+                Text(request.date.formatted(date: .omitted, time: .standard))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             .font(.subheadline)
-            .tracking(-0.5)
-    } label: {
-        Text(verbatim: label)
+
+            Text(verbatim: mask.url(request.url))
+                .font(.footnote.monospaced())
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .truncationMode(.middle)
+
+            if let detail = request.detail, !detail.isEmpty {
+                Text(verbatim: mask.text(detail, for: request.url))
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(3)
+            }
+        }
+        .textSelection(.enabled)
     }
 }
 
@@ -320,6 +344,10 @@ func networkDiagnosticsRow(_ label: String, _ valueText: Text) -> some View {
     sonarr.id = UUID()
 
     InstancesStore.shared.setInstances([radarr, sonarr])
+
+    #if DEBUG
+    Task { await RequestDiagnostics.shared.seed(FailedRequest.previews) }
+    #endif
 
     return ContentView().withAppState()
 }
