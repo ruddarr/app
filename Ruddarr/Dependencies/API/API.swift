@@ -77,12 +77,14 @@ extension API {
                 method: method, url: url, headers: headers, body: body, instance: instance,
                 timeout: timeout, decoder: decoder, encoder: encoder, session: session, allowFailover: allowFailover
             )
-        } catch let error as API.Error {
+        } catch let error as CancellationError {
+            throw error
+        } catch {
             await RequestDiagnostics.shared.record(
                 method: method.rawValue.uppercased(),
                 url: url.absoluteString,
                 instance: instance?.label,
-                error: error
+                reason: FailedRequest.Reason((error as? API.Error) ?? API.Error(from: error))
             )
 
             throw error
