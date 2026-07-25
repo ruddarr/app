@@ -47,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed episode file details missing when opening episodes directly
 - Fixed newly added movies not being monitored
 - Fixed poster size changing between grids and details on macOS
+- Fixed root folder filters ignoring trailing slashes
 
 ### Removed
 - Dropped support for Sonarr v3
