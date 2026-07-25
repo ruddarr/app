@@ -72,14 +72,14 @@ enum DiagnosticsExport {
         var lines: [String] = ["", "[Failed Requests]"]
 
         for request in requests {
-            var parts = [request.date.formatted(date: .omitted, time: .standard), request.method, request.badge]
+            var parts = [request.date.formatted(date: .abbreviated, time: .standard), request.method, request.badge]
             if let instance = request.instance { parts.append("(\(instance))") }
 
             lines.append("- \(parts.joined(separator: " "))")
             lines.append("  URL: \(mask.url(request.url))")
 
             if let detail = request.detail, !detail.isEmpty {
-                lines.append("  Error: \(mask.masked ? maskURLs(in: detail) : detail)")
+                lines.append("  Error: \(mask.text(detail, for: request.url))")
             }
         }
 

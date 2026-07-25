@@ -68,8 +68,16 @@ struct DiagnosticsView: View {
     var content: some View {
         let model = model
 
+        Section {
+            Toggle(isOn: $elevator) {
+                Text(verbatim: "Elevator Music")
+            }
+        } header: {
+            Text(verbatim: "App")
+        }
+
         ForEach(model.sections) { section in
-            fieldSection(section)
+            diagnosticSection(section)
         }
 
         ForEach(model.instances) { entry in
@@ -80,28 +88,17 @@ struct DiagnosticsView: View {
     }
 
     @ViewBuilder
-    func fieldSection(_ section: FieldSection) -> some View {
+    func diagnosticSection(_ section: DiagnosticSection) -> some View {
         let rows = section.screenRows
 
         if !rows.isEmpty {
             Section {
                 ForEach(rows) { row in
-                    rowView(row)
+                    networkDiagnosticsRow(row.label, row.value.string(masked: masked))
                 }
             } header: {
                 Text(verbatim: section.title)
             }
-        }
-    }
-
-    @ViewBuilder
-    func rowView(_ row: DiagnosticRow) -> some View {
-        if row.control == .elevator {
-            Toggle(isOn: $elevator) {
-                Text(verbatim: row.label)
-            }
-        } else {
-            networkDiagnosticsRow(row.label, row.value.string(masked: masked))
         }
     }
 
@@ -325,7 +322,7 @@ struct DiagnosticsView: View {
                 .truncationMode(.middle)
 
             if let detail = request.detail, !detail.isEmpty {
-                Text(verbatim: masked ? maskURLs(in: detail) : detail)
+                Text(verbatim: mask.text(detail, for: request.url))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .lineLimit(3)
@@ -347,6 +344,10 @@ struct DiagnosticsView: View {
     sonarr.id = UUID()
 
     InstancesStore.shared.setInstances([radarr, sonarr])
+
+    #if DEBUG
+    Task { await RequestDiagnostics.shared.seed(FailedRequest.previews) }
+    #endif
 
     return ContentView().withAppState()
 }

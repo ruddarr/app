@@ -24,10 +24,11 @@ func maskedURL(_ string: String) -> String {
     return result
 }
 
-/// Query parameter names whose values carry user-identifying data — search text and download
-/// identifiers. Only these are redacted from a masked URL; everything else is kept so a shared
-/// diagnostics report still shows the failing endpoint and its non-sensitive parameters.
-private let sensitiveQueryKeys: Set<String> = ["term", "downloadid"]
+/// Query parameter names whose values carry user-identifying data or credentials — search text,
+/// download identifiers, and the query-string API keys of Newznab/Torznab-style URLs that server
+/// error messages can embed. Only these are redacted from a masked URL; everything else is kept
+/// so a shared diagnostics report still shows the failing endpoint and its non-sensitive parameters.
+private let sensitiveQueryKeys: Set<String> = ["term", "downloadid", "apikey", "api_key"]
 
 private func maskedQueryValues(_ query: String) -> String {
     query.split(separator: "&", omittingEmptySubsequences: false).map { pair in

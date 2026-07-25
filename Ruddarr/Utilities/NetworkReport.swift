@@ -101,4 +101,18 @@ struct NetworkDiagnosticsMask {
     func url(_ value: String) -> String { !masked ? urlHidingUserinfo(value) : maskedURL(value) }
     func ip(_ value: String) -> String { !masked ? value : maskedIP(value) }
     func cidr(_ value: String) -> String { !masked ? value : maskedCIDR(value) }
+
+    /// Free text rendered next to a request URL: masks embedded scheme-prefixed URLs, plus bare
+    /// occurrences of the request's host — TLS errors quote the hostname without a scheme.
+    func text(_ value: String, for url: String) -> String {
+        guard masked else { return value }
+
+        var result = maskURLs(in: value)
+
+        if let host = NetworkInterfaces.host(of: url) {
+            result = result.replacing(host, with: maskedIP(host))
+        }
+
+        return result
+    }
 }

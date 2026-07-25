@@ -1,14 +1,15 @@
 import Foundation
 
 struct DiagnosticsReport: Sendable {
-    let sections: [FieldSection]
+    let sections: [DiagnosticSection]
     let instances: [NetworkReport.InstanceEntry]
     let failedRequests: [FailedRequest]
 
     init(report: NetworkReport?, app: AppDiagnostics?, requests: [FailedRequest]) {
-        var sections: [FieldSection] = [Self.appSection(app)]
+        var sections: [DiagnosticSection] = []
 
         if let app {
+            sections.append(Self.appSection(app))
             sections.append(Self.notificationsSection(app))
         }
 
@@ -22,21 +23,15 @@ struct DiagnosticsReport: Sendable {
         self.failedRequests = requests
     }
 
-    private static func appSection(_ app: AppDiagnostics?) -> FieldSection {
-        var rows: [DiagnosticRow] = [
-            DiagnosticRow("Elevator Music", .plain(""), control: .elevator, appearance: .screenOnly),
-        ]
-
-        if let app {
-            rows.append(DiagnosticRow("Locale", .plain(app.locale), appearance: .exportOnly))
-            rows.append(DiagnosticRow("Region", .plain(app.region), appearance: .exportOnly))
-        }
-
-        return FieldSection("App", rows)
+    private static func appSection(_ app: AppDiagnostics) -> DiagnosticSection {
+        DiagnosticSection("App", [
+            DiagnosticRow("Locale", .plain(app.locale), appearance: .exportOnly),
+            DiagnosticRow("Region", .plain(app.region), appearance: .exportOnly),
+        ])
     }
 
-    private static func notificationsSection(_ app: AppDiagnostics) -> FieldSection {
-        FieldSection("Notifications", [
+    private static func notificationsSection(_ app: AppDiagnostics) -> DiagnosticSection {
+        DiagnosticSection("Notifications", [
             DiagnosticRow("Subscription", .plain(app.subscription), appearance: .exportOnly),
             DiagnosticRow("Entitled", .plain(app.entitled), appearance: .exportOnly),
             DiagnosticRow("Entitled At", .plain(app.entitledAt), appearance: .exportOnly),
@@ -45,8 +40,8 @@ struct DiagnosticsReport: Sendable {
         ])
     }
 
-    private static func deviceSection(_ report: NetworkReport) -> FieldSection {
-        FieldSection("Device", [
+    private static func deviceSection(_ report: NetworkReport) -> DiagnosticSection {
+        DiagnosticSection("Device", [
             DiagnosticRow("Connection", .plain(report.connection)),
             DiagnosticRow("Low Data Mode", .plain(report.constrained ? "on" : "off"), appearance: .exportOnly),
             DiagnosticRow("Local Network", .plain(report.localNetworkDenied ? "denied" : "allowed")),
@@ -54,10 +49,10 @@ struct DiagnosticsReport: Sendable {
         ])
     }
 
-    private static func networkSection(_ report: NetworkReport) -> FieldSection {
+    private static func networkSection(_ report: NetworkReport) -> DiagnosticSection {
         let v6: DiagnosticVisibility = report.deviceV6.isEmpty ? .exportOnly : .both
 
-        return FieldSection("Network", [
+        return DiagnosticSection("Network", [
             DiagnosticRow("IPv4 Address", .list(report.deviceV4.map { .ip(NetworkInterfaces.string(fromIPv4: $0.address)) })),
             DiagnosticRow("IPv4 Subnets", .list(report.deviceV4.map { .annotated(.cidr($0.cidr), interface: $0.interface) })),
             DiagnosticRow("IPv6 Address", .list(report.deviceV6.map { .ip(NetworkInterfaces.string(fromIPv6Bytes: $0.address)) }), appearance: v6),
@@ -69,7 +64,7 @@ struct DiagnosticsReport: Sendable {
     }
 }
 
-struct FieldSection: Identifiable, Sendable {
+struct DiagnosticSection: Identifiable, Sendable {
     let title: String
     let rows: [DiagnosticRow]
 
@@ -86,13 +81,11 @@ struct FieldSection: Identifiable, Sendable {
 struct DiagnosticRow: Identifiable, Sendable {
     let label: String
     let value: DiagnosticValue
-    let control: DiagnosticControl?
     let appearance: DiagnosticVisibility
 
-    init(_ label: String, _ value: DiagnosticValue, control: DiagnosticControl? = nil, appearance: DiagnosticVisibility = .both) {
+    init(_ label: String, _ value: DiagnosticValue, appearance: DiagnosticVisibility = .both) {
         self.label = label
         self.value = value
-        self.control = control
         self.appearance = appearance
     }
 
@@ -101,11 +94,8 @@ struct DiagnosticRow: Identifiable, Sendable {
 
 enum DiagnosticVisibility: Sendable, Hashable { case both, screenOnly, exportOnly }
 
-enum DiagnosticControl: Sendable { case elevator }
-
 enum DiagnosticValue: Sendable {
     case plain(String)
-    case url(String)
     case ip(String)
     case cidr(String)
     case fingerprint(String)
@@ -119,7 +109,6 @@ enum DiagnosticValue: Sendable {
     private func render(_ mask: NetworkDiagnosticsMask) -> String {
         switch self {
         case .plain(let value): return value
-        case .url(let value): return mask.url(value)
         case .ip(let value): return mask.ip(value)
         case .cidr(let value): return mask.cidr(value)
         case .fingerprint(let value): return mask.masked ? "hidden" : value

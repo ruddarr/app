@@ -58,6 +58,11 @@ struct PrivacyTests {
             == "https://rad***.myd***.net/api/v3/manualimport?downloadId=•&filterExistingFiles=false")
         #expect(maskedURL("https://radarr.myddns.net/api/v3/history?page=2&sortKey=date")
             == "https://rad***.myd***.net/api/v3/history?page=2&sortKey=date")
+        // Query-string API keys of indexer/download-client URLs embedded in server error messages.
+        #expect(maskedURL("https://indexer.example.net/api?t=search&apikey=secret123")
+            == "https://inde***.exam***.net/api?t=search&apikey=•")
+        #expect(maskedURL("http://sab.local:8080/api?mode=queue&api_key=deadbeef")
+            == "http://sa*.local:8080/api?mode=queue&api_key=•")
     }
 
     @Test func masksSubnetCIDRsWithTheSamePolicyAsHosts() {
