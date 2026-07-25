@@ -66,17 +66,17 @@ struct DiagnosticsView: View {
 
     @ViewBuilder
     var content: some View {
+        let model = model
+
         ForEach(model.sections) { section in
             fieldSection(section)
         }
 
-        if let report {
-            ForEach(report.instances) { entry in
-                instanceSection(entry)
-            }
+        ForEach(model.instances) { entry in
+            instanceSection(entry)
         }
 
-        requestsSection
+        requestsSection(model.failedRequests)
     }
 
     @ViewBuilder
@@ -106,10 +106,10 @@ struct DiagnosticsView: View {
     }
 
     @ViewBuilder
-    var requestsSection: some View {
-        if !failedRequests.isEmpty {
+    func requestsSection(_ requests: [FailedRequest]) -> some View {
+        if !requests.isEmpty {
             Section {
-                ForEach(failedRequests) { request in
+                ForEach(requests) { request in
                     requestRow(request)
                 }
             } header: {
