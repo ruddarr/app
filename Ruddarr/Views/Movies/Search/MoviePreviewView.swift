@@ -13,7 +13,6 @@ struct MoviePreviewView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
 
-    @AppStorage("movieSort", store: dependencies.store) var movieSort: MovieSort = .init()
     @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
 
     var body: some View {
@@ -114,7 +113,6 @@ struct MoviePreviewView: View {
         #endif
 
         presentingForm = false
-        movieSort.filter = .all
 
         let moviePath = MoviesPath.movie(addedMovie.id)
 
