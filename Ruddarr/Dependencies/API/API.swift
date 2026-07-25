@@ -72,17 +72,20 @@ extension API {
         session: URLSession = .shared,
         allowFailover: Bool = true
     ) async throws -> Response {
+        var attemptedURL = url
+
         do {
             return try await send(
                 method: method, url: url, headers: headers, body: body, instance: instance,
-                timeout: timeout, decoder: decoder, encoder: encoder, session: session, allowFailover: allowFailover
+                timeout: timeout, decoder: decoder, encoder: encoder, session: session,
+                allowFailover: allowFailover, onAttempt: { attemptedURL = $0 }
             )
         } catch let error as CancellationError {
             throw error
         } catch {
             await RequestDiagnostics.shared.record(
                 method: method.rawValue.uppercased(),
-                url: url.absoluteString,
+                url: attemptedURL.absoluteString,
                 instance: instance?.label,
                 reason: FailedRequest.Reason((error as? API.Error) ?? API.Error(from: error))
             )
@@ -102,7 +105,8 @@ extension API {
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared,
-        allowFailover: Bool = true
+        allowFailover: Bool = true,
+        onAttempt: (URL) -> Void = { _ in }
     ) async throws -> Response {
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601extended
@@ -162,6 +166,7 @@ extension API {
 
                     failovers += 1
                     attemptedURL = fallback
+                    onAttempt(fallback)
                     request.url = fallback
                     request.timeoutInterval = Self.effectiveTimeout(for: fallback, method: method, timeout: timeout)
 
