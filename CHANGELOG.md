@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed newly added movies not being monitored
 - Fixed poster size changing between grids and details on macOS
 - Fixed root folder filters ignoring trailing slashes
+- Fixed "Clear Filters" not appearing or clearing when filtering by root folder
 
 ### Removed
 - Dropped support for Sonarr v3
