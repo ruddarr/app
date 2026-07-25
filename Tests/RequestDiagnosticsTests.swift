@@ -2,9 +2,10 @@ import Testing
 import Foundation
 
 // Covers `RequestDiagnostics` — the in-memory ring buffer behind the "Failed Requests" diagnostics
-// section: newest-first ordering, consecutive-duplicate collapsing, and the 50-entry cap. The
-// actor is Foundation-only (the `API.Error` → `Reason` mapping lives in `RequestDiagnostics+API`,
-// an app-only file), so these can construct `FailedRequest.Reason` values directly.
+// section: newest-first ordering, keyed duplicate collapsing (a repeat replaces its older entry at
+// the head with a fresh date), and the 50-entry cap. The actor is Foundation-only (the `API.Error`
+// → `Reason` mapping lives in `RequestDiagnostics+API`, an app-only file), so these can construct
+// `FailedRequest.Reason` values directly.
 struct RequestDiagnosticsTests {
     @Test func recordsNewestFirst() async {
         let store = RequestDiagnostics()
@@ -19,7 +20,7 @@ struct RequestDiagnosticsTests {
         #expect(entries[1].url == "https://a")
     }
 
-    @Test func collapsesConsecutiveIdenticalFailures() async {
+    @Test func collapsesRepeatedIdenticalFailures() async {
         let store = RequestDiagnostics()
 
         for _ in 0..<5 {
@@ -31,16 +32,23 @@ struct RequestDiagnosticsTests {
         #expect(entries.count == 1)
     }
 
-    @Test func recordsIdenticalFailureAgainAfterADifferentOne() async {
+    @Test func duplicateMovesToTheFrontWithAFreshEntry() async {
         let store = RequestDiagnostics()
 
         await store.record(method: "GET", url: "https://a", instance: nil, reason: .transport("offline"))
         await store.record(method: "GET", url: "https://b", instance: nil, reason: .transport("offline"))
+
+        let before = await store.snapshot()
+
         await store.record(method: "GET", url: "https://a", instance: nil, reason: .transport("offline"))
 
         let entries = await store.snapshot()
 
-        #expect(entries.count == 3)
+        #expect(entries.count == 2)
+        #expect(entries[0].url == "https://a")
+        #expect(entries[1].url == "https://b")
+        #expect(entries[0].id != before[1].id)
+        #expect(entries[0].date >= before[1].date)
     }
 
     @Test func distinguishesByReason() async {

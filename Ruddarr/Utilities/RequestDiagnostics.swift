@@ -9,9 +9,8 @@ actor RequestDiagnostics {
     func record(method: String, url: String, instance: String?, reason: FailedRequest.Reason) {
         let instance = (instance?.isEmpty == false) ? instance : nil
 
-        if let last = entries.first,
-           last.method == method, last.url == url, last.instance == instance, last.reason == reason {
-            return
+        entries.removeAll {
+            $0.method == method && $0.url == url && $0.instance == instance && $0.reason == reason
         }
 
         entries.insert(
@@ -39,9 +38,11 @@ actor RequestDiagnostics {
         entries.removeAll()
     }
 
+#if DEBUG
     func seed(_ entries: [FailedRequest]) {
         self.entries = entries
     }
+#endif
 }
 
 struct FailedRequest: Identifiable, Equatable, Sendable {

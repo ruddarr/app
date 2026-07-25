@@ -82,6 +82,8 @@ extension API {
             )
         } catch let error as CancellationError {
             throw error
+        } catch API.Error.notConnectedToInternet {
+            throw API.Error.notConnectedToInternet
         } catch {
             await RequestDiagnostics.shared.record(
                 method: method.rawValue.uppercased(),
