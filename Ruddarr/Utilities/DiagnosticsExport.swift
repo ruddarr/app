@@ -79,7 +79,7 @@ enum DiagnosticsExport {
             lines.append("  URL: \(mask.url(request.url))")
 
             if let detail = request.detail, !detail.isEmpty {
-                lines.append("  Error: \(detail)")
+                lines.append("  Error: \(mask.masked ? maskURLs(in: detail) : detail)")
             }
         }
 

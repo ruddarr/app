@@ -173,12 +173,6 @@ private func maskRequestURL( _ crumb: Breadcrumb) -> Breadcrumb {
     return crumb
 }
 
-private func maskURLs(in string: String) -> String {
-    string.replacing(/https?:\/\/[^\s"'<>)\]};,]+/) { match in
-        maskedURL(String(match.output))
-    }
-}
-
 private func maskedBreadcrumbData(_ data: [String: Any]) -> [String: Any] {
     data.mapValues { value -> Any in
         if let string = value as? String {

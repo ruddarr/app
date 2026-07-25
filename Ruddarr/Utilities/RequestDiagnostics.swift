@@ -7,7 +7,10 @@ actor RequestDiagnostics {
     private let limit = 50
 
     func record(method: String, url: String, instance: String?, reason: FailedRequest.Reason) {
-        if let last = entries.first, last.method == method, last.url == url, last.reason == reason {
+        let instance = (instance?.isEmpty == false) ? instance : nil
+
+        if let last = entries.first,
+           last.method == method, last.url == url, last.instance == instance, last.reason == reason {
             return
         }
 
@@ -17,7 +20,7 @@ actor RequestDiagnostics {
                 date: Date(),
                 method: method,
                 url: url,
-                instance: (instance?.isEmpty == false) ? instance : nil,
+                instance: instance,
                 reason: reason
             ),
             at: 0

@@ -325,7 +325,7 @@ struct DiagnosticsView: View {
                 .truncationMode(.middle)
 
             if let detail = request.detail, !detail.isEmpty {
-                Text(verbatim: detail)
+                Text(verbatim: masked ? maskURLs(in: detail) : detail)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .lineLimit(3)

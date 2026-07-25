@@ -24,6 +24,12 @@ func maskedURL(_ string: String) -> String {
     return result
 }
 
+func maskURLs(in string: String) -> String {
+    string.replacing(/https?:\/\/[^\s"'<>)\]};,]+/) { match in
+        maskedURL(String(match.output))
+    }
+}
+
 /// A URL with any inline `user:password@` credentials replaced by `*****`, but scheme, host,
 /// port, path and query shown verbatim — for the unmasked diagnostics export, where revealing
 /// network topology must never reveal stored passwords. Returns the input unchanged when it

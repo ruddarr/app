@@ -54,6 +54,17 @@ struct RequestDiagnosticsTests {
         #expect(entries.count == 2)
     }
 
+    @Test func distinguishesByInstance() async {
+        let store = RequestDiagnostics()
+
+        await store.record(method: "GET", url: "https://a", instance: "Radarr", reason: .transport("offline"))
+        await store.record(method: "GET", url: "https://a", instance: "Sonarr", reason: .transport("offline"))
+
+        let entries = await store.snapshot()
+
+        #expect(entries.count == 2)
+    }
+
     @Test func capsAtFiftyKeepingNewest() async {
         let store = RequestDiagnostics()
 
