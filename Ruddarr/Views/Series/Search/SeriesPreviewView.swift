@@ -13,7 +13,6 @@ struct SeriesPreviewView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
 
-    @AppStorage("seriesSort", store: dependencies.store) var seriesSort: SeriesSort = .init()
     @AppStorage("seriesDefaults", store: dependencies.store) var seriesDefaults: SeriesDefaults = .init()
 
     var body: some View {
@@ -115,7 +114,6 @@ struct SeriesPreviewView: View {
         #endif
 
         presentingForm = false
-        seriesSort.filter = .all
 
         let seriesPath = SeriesPath.series(addedSeries.id)
 
