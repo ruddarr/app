@@ -118,11 +118,6 @@ extension DecodingError {
         }
     }
 
-    // A failure at the root of the payload — a JSON array where an object was expected (or vice
-    // versa), or a body that isn't JSON at all — means the response isn't shaped like our API,
-    // typically a reverse proxy, auth gateway or tunnel answering instead of the instance. That is
-    // a server-side/config problem, not schema drift in a specific field, so it is not worth
-    // reporting as an app bug.
     var isUnexpectedResponseShape: Bool {
         switch self {
         case .typeMismatch, .dataCorrupted: context.codingPath.isEmpty

@@ -83,7 +83,6 @@ func reportDecodingFailure(_ error: DecodingError, url: URL, body: Data) {
         contentType: "application/json"
     )
 
-    // Attach the body to this event's scope only, so it never leaks onto later events.
     SentrySDK.capture(event: event) { scope in
         scope.addAttachment(attachment)
     }

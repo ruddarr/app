@@ -214,10 +214,8 @@ extension API {
             do {
                 return try decoder.decode(Response.self, from: data)
             } catch let decodingError as DecodingError {
-                leaveBreadcrumb(.warning, category: "api", message: decodingError.context.debugDescription, data: ["error": decodingError])
+                leaveBreadcrumb(.error, category: "api", message: decodingError.context.debugDescription, data: ["error": decodingError])
 
-                // A top-level shape mismatch is a non-API response (proxy/gateway/tunnel); it is
-                // surfaced in the diagnostics failed-requests list but not reported as schema drift.
                 if !decodingError.isUnexpectedResponseShape {
                     reportDecodingFailure(decodingError, url: attemptedURL, body: data)
                 }
