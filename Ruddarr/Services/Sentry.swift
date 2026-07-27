@@ -1,6 +1,7 @@
 import Sentry
 import CloudKit
 import StoreKit
+import Synchronization
 
 @MainActor
 func startSentry() {
@@ -66,21 +67,41 @@ func setSentryContext(for key: String, _ value: [String: Any]) {
     }
 }
 
+private let decodingFailureBodyLimit = 64 * 1_024
+private let reportedDecodingFailures = Mutex<Set<String>>([])
+
 func reportDecodingFailure(_ error: DecodingError, url: URL, body: Data) {
     guard isRunningIn(.testflight) else { return }
 
-    let path = error.context.codingPath.map(\.stringValue).joined(separator: ".")
+    let endpoint = url.relativePath
+    let signature = error.codingPathSignature
+    let fingerprint = ["api-decoding", endpoint, signature.isEmpty ? "root" : signature]
+
+    let unreported = reportedDecodingFailures.withLock {
+        $0.insert(fingerprint.joined(separator: " ")).inserted
+    }
+
+    guard unreported else { return }
 
     let event = Event(level: .error)
-    event.message = SentryMessage(formatted: error.context.debugDescription)
-    event.fingerprint = ["api-decoding", path.isEmpty ? "root" : path]
+    event.message = SentryMessage(formatted: maskURLs(in: error.context.debugDescription))
+    event.fingerprint = fingerprint
+    event.tags = ["endpoint": endpoint]
 
-    let basename = url.relativePath.replacingOccurrences(of: "/", with: "-")
+    let basename = endpoint.replacingOccurrences(of: "/", with: "-")
+    let truncated = body.count > decodingFailureBodyLimit
+
+    let payload: Data = if truncated {
+        // swiftlint:disable:next optional_data_string_conversion
+        Data(String(decoding: body.prefix(decodingFailureBodyLimit), as: UTF8.self).utf8)
+    } else {
+        body
+    }
 
     let attachment = Attachment(
-        data: Data(body.prefix(64 * 1_024)),
-        filename: "\(basename).json",
-        contentType: "application/json"
+        data: payload,
+        filename: truncated ? "\(basename)-truncated.txt" : "\(basename).json",
+        contentType: truncated ? "text/plain" : "application/json"
     )
 
     SentrySDK.capture(event: event) { scope in

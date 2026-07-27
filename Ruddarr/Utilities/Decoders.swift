@@ -20,6 +20,40 @@ extension JSONDecoder.DateDecodingStrategy {
     }
 }
 
+extension DecodingError {
+    var context: DecodingError.Context {
+        switch self {
+        case .dataCorrupted(let context): context
+        case .keyNotFound(_, let context): context
+        case .typeMismatch(_, let context): context
+        case .valueNotFound(_, let context): context
+        @unknown default:
+            DecodingError.Context(codingPath: [], debugDescription: "Unhandled decoding error occurred")
+        }
+    }
+
+    var isUnexpectedResponseShape: Bool {
+        switch self {
+        case .typeMismatch, .dataCorrupted, .valueNotFound: context.codingPath.isEmpty
+        default: false
+        }
+    }
+
+    var codingPathDescription: String {
+        context.codingPath.map(\.stringValue).joined(separator: ".")
+    }
+
+    var codingPathSignature: String {
+        var components = context.codingPath.filter { $0.intValue == nil }.map(\.stringValue)
+
+        if case .keyNotFound(let key, _) = self {
+            components.append(key.stringValue)
+        }
+
+        return components.joined(separator: ".")
+    }
+}
+
 extension KeyedDecodingContainer {
     func decode<T>(_ type: LossyDecoded<T>.Type, forKey key: Key) throws -> LossyDecoded<T> {
         try decodeIfPresent(type, forKey: key) ?? LossyDecoded(wrappedValue: nil)
