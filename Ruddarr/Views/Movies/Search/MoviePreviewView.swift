@@ -91,7 +91,7 @@ struct MoviePreviewView: View {
                 }
             }
             .prominentGlassButtonStyle(!instance.movies.isWorking)
-            .disabled(instance.movies.isWorking)
+            .disabled(instance.movies.isWorking || instance.rootFolders.isEmpty || instance.qualityProfiles.isEmpty)
         }
     }
 

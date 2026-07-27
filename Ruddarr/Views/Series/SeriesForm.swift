@@ -155,10 +155,11 @@ struct SeriesForm: View {
         // remove trailing slashes
         series.rootFolderPath = series.rootFolderPath?.untrailingSlashIt
 
-        if !instance.rootFolders.contains(where: {
-            $0.path?.untrailingSlashIt == series.rootFolderPath
-        }) {
-            series.rootFolderPath = instance.rootFolders.first?.path ?? ""
+        if let fallback = instance.rootFolders.first?.path,
+           !instance.rootFolders.contains(where: {
+               $0.path?.untrailingSlashIt == series.rootFolderPath
+           }) {
+            series.rootFolderPath = fallback
         }
     }
 

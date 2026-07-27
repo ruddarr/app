@@ -160,10 +160,11 @@ struct MovieForm: View {
 
         movie.rootFolderPath = movie.rootFolderPath?.untrailingSlashIt
 
-        if !instance.rootFolders.contains(where: {
-            $0.path?.untrailingSlashIt == movie.rootFolderPath
-        }) {
-            movie.rootFolderPath = instance.rootFolders.first?.path ?? ""
+        if let fallback = instance.rootFolders.first?.path,
+           !instance.rootFolders.contains(where: {
+               $0.path?.untrailingSlashIt == movie.rootFolderPath
+           }) {
+            movie.rootFolderPath = fallback
         }
     }
 

@@ -92,7 +92,7 @@ struct SeriesPreviewView: View {
                 }
             }
             .prominentGlassButtonStyle(!instance.series.isWorking)
-            .disabled(instance.series.isWorking)
+            .disabled(instance.series.isWorking || instance.rootFolders.isEmpty || instance.qualityProfiles.isEmpty)
         }
     }
 
