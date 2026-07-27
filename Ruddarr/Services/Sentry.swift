@@ -66,17 +66,25 @@ func setSentryContext(for key: String, _ value: [String: Any]) {
     }
 }
 
-func leaveAttachment(_ url: URL, _ json: Data) {
+func reportDecodingFailure(_ error: DecodingError, url: URL, body: Data) {
+    guard isRunningIn(.testflight) else { return }
+
+    let path = error.context.codingPath.map(\.stringValue).joined(separator: ".")
+
+    let event = Event(level: .error)
+    event.message = SentryMessage(formatted: error.context.debugDescription)
+    event.fingerprint = ["api-decoding", path.isEmpty ? "root" : path]
+
     let basename = url.relativePath.replacingOccurrences(of: "/", with: "-")
-    let timestamp = Date().timeIntervalSince1970
 
     let attachment = Attachment(
-        data: json,
-        filename: "\(basename)-\(timestamp).json",
+        data: Data(body.prefix(64 * 1_024)),
+        filename: "\(basename).json",
         contentType: "application/json"
     )
 
-    SentrySDK.configureScope { scope in
+    // Attach the body to this event's scope only, so it never leaks onto later events.
+    SentrySDK.capture(event: event) { scope in
         scope.addAttachment(attachment)
     }
 }

@@ -117,6 +117,18 @@ extension DecodingError {
             DecodingError.Context(codingPath: [], debugDescription: "Unhandled decoding error occurred")
         }
     }
+
+    // A failure at the root of the payload — a JSON array where an object was expected (or vice
+    // versa), or a body that isn't JSON at all — means the response isn't shaped like our API,
+    // typically a reverse proxy, auth gateway or tunnel answering instead of the instance. That is
+    // a server-side/config problem, not schema drift in a specific field, so it is not worth
+    // reporting as an app bug.
+    var isUnexpectedResponseShape: Bool {
+        switch self {
+        case .typeMismatch, .dataCorrupted: context.codingPath.isEmpty
+        default: false
+        }
+    }
 }
 
 extension FailedRequest.Reason {
@@ -127,9 +139,13 @@ extension FailedRequest.Reason {
         case .errorResponse(let code, let message):
             self = .status(code: code, message: message)
         case .decodingError(let error):
-            let path = error.context.codingPath.map(\.stringValue).joined(separator: ".")
-            let description = error.context.debugDescription
-            self = .decoding(path.isEmpty ? description : "\(path): \(description)")
+            if error.isUnexpectedResponseShape {
+                self = .decoding("Instance returned an unexpected response (a reverse proxy or gateway may be intercepting API requests)")
+            } else {
+                let path = error.context.codingPath.map(\.stringValue).joined(separator: ".")
+                let description = error.context.debugDescription
+                self = .decoding(path.isEmpty ? description : "\(path): \(description)")
+            }
         case .notConnectedToInternet:
             self = .transport("Not connected to the internet")
         case .timeoutOnPrivateIp(let error):
