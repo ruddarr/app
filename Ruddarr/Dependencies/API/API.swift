@@ -214,8 +214,11 @@ extension API {
             do {
                 return try decoder.decode(Response.self, from: data)
             } catch let decodingError as DecodingError {
-                leaveAttachment(attemptedURL, data)
-                leaveBreadcrumb(.fatal, category: "api", message: decodingError.context.debugDescription, data: ["error": decodingError])
+                leaveBreadcrumb(.warning, category: "api", message: decodingError.context.debugDescription, data: ["error": decodingError])
+
+                if !decodingError.isUnexpectedResponseShape {
+                    reportDecodingFailure(decodingError, url: attemptedURL, body: data)
+                }
 
                 throw Error.decodingError(decodingError)
             } catch {

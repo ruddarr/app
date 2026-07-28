@@ -1,6 +1,7 @@
 import Sentry
 import CloudKit
 import StoreKit
+import Synchronization
 
 @MainActor
 func startSentry() {
@@ -66,17 +67,44 @@ func setSentryContext(for key: String, _ value: [String: Any]) {
     }
 }
 
-func leaveAttachment(_ url: URL, _ json: Data) {
-    let basename = url.relativePath.replacingOccurrences(of: "/", with: "-")
-    let timestamp = Date().timeIntervalSince1970
+private let decodingFailureBodyLimit = 64 * 1_024
+private let reportedDecodingFailures = Mutex<Set<String>>([])
+
+func reportDecodingFailure(_ error: DecodingError, url: URL, body: Data) {
+    guard isRunningIn(.testflight) else { return }
+
+    let endpoint = url.relativePath
+    let signature = error.codingPathSignature
+    let fingerprint = ["api-decoding", endpoint, signature.isEmpty ? "root" : signature]
+
+    let unreported = reportedDecodingFailures.withLock {
+        $0.insert(fingerprint.joined(separator: " ")).inserted
+    }
+
+    guard unreported else { return }
+
+    let event = Event(level: .error)
+    event.message = SentryMessage(formatted: maskURLs(in: error.context.debugDescription))
+    event.fingerprint = fingerprint
+    event.tags = ["endpoint": endpoint]
+
+    let basename = endpoint.replacingOccurrences(of: "/", with: "-")
+    let truncated = body.count > decodingFailureBodyLimit
+
+    let payload: Data = if truncated {
+        // swiftlint:disable:next optional_data_string_conversion
+        Data(String(decoding: body.prefix(decodingFailureBodyLimit), as: UTF8.self).utf8)
+    } else {
+        body
+    }
 
     let attachment = Attachment(
-        data: json,
-        filename: "\(basename)-\(timestamp).json",
-        contentType: "application/json"
+        data: payload,
+        filename: truncated ? "\(basename)-truncated.txt" : "\(basename).json",
+        contentType: truncated ? "text/plain" : "application/json"
     )
 
-    SentrySDK.configureScope { scope in
+    SentrySDK.capture(event: event) { scope in
         scope.addAttachment(attachment)
     }
 }

@@ -106,19 +106,6 @@ extension API.Error: LocalizedError {
     }
 }
 
-extension DecodingError {
-    var context: DecodingError.Context {
-        switch self {
-        case .dataCorrupted(let context): context
-        case .keyNotFound(_, let context): context
-        case .typeMismatch(_, let context): context
-        case .valueNotFound(_, let context): context
-        @unknown default:
-            DecodingError.Context(codingPath: [], debugDescription: "Unhandled decoding error occurred")
-        }
-    }
-}
-
 extension FailedRequest.Reason {
     init(_ error: API.Error) { // swiftlint:disable:this cyclomatic_complexity
         switch error {
@@ -127,9 +114,14 @@ extension FailedRequest.Reason {
         case .errorResponse(let code, let message):
             self = .status(code: code, message: message)
         case .decodingError(let error):
-            let path = error.context.codingPath.map(\.stringValue).joined(separator: ".")
             let description = error.context.debugDescription
-            self = .decoding(path.isEmpty ? description : "\(path): \(description)")
+
+            if error.isUnexpectedResponseShape {
+                self = .decoding("Unexpected response, a reverse proxy or gateway may be intercepting API requests: \(description)")
+            } else {
+                let path = error.codingPathDescription
+                self = .decoding(path.isEmpty ? description : "\(path): \(description)")
+            }
         case .notConnectedToInternet:
             self = .transport("Not connected to the internet")
         case .timeoutOnPrivateIp(let error):
