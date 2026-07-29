@@ -222,7 +222,7 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var releaseFlags: [SeriesReleaseFlag] {
-        guard let flags = indexerFlags, flags > 1 else {
+        guard let flags = indexerFlags, flags > 0 else {
             return []
         }
 
