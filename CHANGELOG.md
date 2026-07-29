@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed newly added movies not being monitored
 - Fixed poster size changing between grids and details on macOS
 - Fixed library filters being reset after adding a movie or series
+- Fixed freeleech flag missing from series releases
 
 ### Removed
 - Dropped support for Sonarr v3
