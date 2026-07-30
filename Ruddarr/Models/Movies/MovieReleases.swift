@@ -19,6 +19,7 @@ class MovieReleases {
     var protocols: [String] = []
     var languages: [String] = []
     var customFormats: [String] = []
+    var releaseGroups: [String] = []
 
     init(_ instance: Instance) {
         self.instance = instance
@@ -52,6 +53,7 @@ class MovieReleases {
         setProtocols()
         setLanguages()
         setCustomFormats()
+        setReleaseGroups()
     }
 
     func setIndexers() {
@@ -89,6 +91,15 @@ class MovieReleases {
             .filter { seen.insert($0).inserted }
     }
 
+    func setReleaseGroups() {
+        var seen: Set<String> = []
+
+        releaseGroups = items
+            .compactMap { $0.releaseGroupLabel }
+            .filter { seen.insert($0).inserted }
+            .sorted()
+    }
+
     func setCustomFormats() {
         let customFormatNames = items
             .compactMap { $0.customFormats }
@@ -109,6 +120,7 @@ struct MovieRelease: Identifiable, Codable {
     let ageMinutes: Float
     let rejected: Bool
     let downloadAllowed: Bool
+    let releaseGroup: String?
 
     let customFormats: [MediaCustomFormat]?
     let customFormatScore: Int
@@ -137,6 +149,7 @@ struct MovieRelease: Identifiable, Codable {
         case ageMinutes
         case rejected
         case downloadAllowed
+        case releaseGroup
         case customFormats
         case customFormatScore
         case network = "protocol"
@@ -205,6 +218,24 @@ struct MovieRelease: Identifiable, Codable {
         }
 
         return formatIndexer(name)
+    }
+
+    func matches(_ query: String) -> Bool {
+        if title.localizedCaseInsensitiveContains(query) {
+            return true
+        }
+
+        if cleanIndexerFlags.contains(where: { $0.localizedCaseInsensitiveContains(query) }) {
+            return true
+        }
+
+        return customFormats?.contains { $0.label.localizedCaseInsensitiveContains(query) } ?? false
+    }
+
+    var releaseGroupLabel: String? {
+        guard let group = releaseGroup?.trimmed(), !group.isEmpty else { return nil }
+
+        return group
     }
 
     var indexerFlagsLabel: String? {

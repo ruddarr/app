@@ -19,6 +19,7 @@ class SeriesReleases {
     var protocols: [String] = []
     var languages: [String] = []
     var customFormats: [String] = []
+    var releaseGroups: [String] = []
 
     init(_ instance: Instance) {
         self.instance = instance
@@ -52,6 +53,7 @@ class SeriesReleases {
         setProtocols()
         setLanguages()
         setCustomFormats()
+        setReleaseGroups()
     }
 
     func setIndexers() {
@@ -89,6 +91,15 @@ class SeriesReleases {
             .filter { seen.insert($0).inserted }
     }
 
+    func setReleaseGroups() {
+        var seen: Set<String> = []
+
+        releaseGroups = items
+            .compactMap { $0.releaseGroupLabel }
+            .filter { seen.insert($0).inserted }
+            .sorted()
+    }
+
     func setCustomFormats() {
         let customFormatNames = items
             .compactMap(\.customFormats)
@@ -110,6 +121,7 @@ struct SeriesRelease: Identifiable, Codable {
     let ageMinutes: Float
     let rejected: Bool
     let downloadAllowed: Bool
+    let releaseGroup: String?
 
     let customFormats: [MediaCustomFormat]?
     let customFormatScore: Int?
@@ -158,6 +170,7 @@ struct SeriesRelease: Identifiable, Codable {
         case age
         case ageMinutes
         case rejected
+        case releaseGroup
         case customFormats
         case customFormatScore
         case network = "protocol"
@@ -235,6 +248,36 @@ struct SeriesRelease: Identifiable, Codable {
         }
 
         return formatIndexer(name)
+    }
+
+    func matches(_ query: String) -> Bool {
+        if title.localizedCaseInsensitiveContains(query) {
+            return true
+        }
+
+        if releaseFlags.contains(where: { $0.label.localizedCaseInsensitiveContains(query) }) {
+            return true
+        }
+
+        return customFormats?.contains { $0.label.localizedCaseInsensitiveContains(query) } ?? false
+    }
+
+    var releaseGroupLabel: String? {
+        guard let group = releaseGroup?.trimmed(), !group.isEmpty else { return nil }
+
+        return group
+    }
+
+    var episodeCount: Int {
+        if let numbers = mappedEpisodeNumbers, !numbers.isEmpty {
+            return numbers.count
+        }
+
+        if let numbers = episodeNumbers, !numbers.isEmpty {
+            return numbers.count
+        }
+
+        return fullSeason ? 0 : 1
     }
 
     var languageLabel: String {
@@ -327,7 +370,7 @@ struct SeriesReleaseFlags {
     ]
 
     static func parse(_ value: Int) -> [SeriesReleaseFlag] {
-        map.keys.filter { value & $0 != 0 }.compactMap { map[$0] }
+        map.keys.sorted().filter { value & $0 != 0 }.compactMap { map[$0] }
     }
 }
 
