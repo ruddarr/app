@@ -56,7 +56,7 @@ struct SettingsPreferencesSection: View {
                 String(localized: "Home", comment: "(Preferences) Home tab"),
                 systemImage: "house"
             )
-            .labelStyle(SettingsIconLabelStyle())
+            .labelStyle(.settingsIcon)
         }
         .tint(.secondary)
     }
@@ -71,7 +71,7 @@ struct SettingsPreferencesSection: View {
             }
         } label: {
             Label("Grid", systemImage: "rectangle.grid.3x2")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }.tint(.secondary)
     }
 
@@ -85,7 +85,7 @@ struct SettingsPreferencesSection: View {
             }
         } label: {
             Label("Releases", systemImage: "rectangle.grid.1x3")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }
         .tint(.secondary)
     }
@@ -100,7 +100,7 @@ struct SettingsPreferencesSection: View {
             }
         } label: {
             Label("Release Filters", systemImage: "line.3.horizontal.decrease")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }
         .tint(.secondary)
     }
@@ -120,7 +120,7 @@ struct SettingsPreferencesSection: View {
                 } icon: {
                     icon
                 }
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
             }
             .buttonStyle(.plain)
         #else
@@ -135,7 +135,7 @@ struct SettingsPreferencesSection: View {
                     } icon: {
                         icon
                     }
-                    .labelStyle(SettingsIconLabelStyle())
+                    .labelStyle(.settingsIcon)
                 }
             }
             .foregroundStyle(.label)

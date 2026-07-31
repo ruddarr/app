@@ -21,28 +21,28 @@ struct SettingsContributeSection: View {
     var discord: some View {
         Link(destination: Links.Discord) {
             Label("Join the Discord", systemImage: "text.bubble")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }
     }
 
     var translate: some View {
         Link(destination: Links.Crowdin, label: {
             Label("Translate the App", systemImage: "globe.europe.africa")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         })
     }
 
     var contribute: some View {
         Link(destination: Links.GitHub, label: {
             Label("Contribute on GitHub", systemImage: "curlybraces")
-                .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
+                .labelStyle(.settingsIcon(iconScale: 0.85))
         })
     }
 
     var reportIssues: some View {
         Link(destination: Links.GitHubIssues, label: {
             Label("Report an Issue", systemImage: "exclamationmark.bubble")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         })
     }
 }
