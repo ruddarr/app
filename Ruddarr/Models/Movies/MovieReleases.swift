@@ -238,6 +238,32 @@ struct MovieRelease: Identifiable, Codable {
         return group
     }
 
+    var flagLabels: [String] {
+        var labels: [String] = cleanIndexerFlags
+
+        if isProper {
+            labels.append(String(localized: "Proper", comment: "The PROPER flag"))
+        }
+
+        if isRepack {
+            labels.append(String(localized: "Repack", comment: "The REPACK flag"))
+        }
+
+        return labels
+    }
+
+    var formatLabels: [String] {
+        var labels: [String] = []
+
+        if customFormatScore != 0 {
+            labels.append(scoreLabel)
+        }
+
+        labels.append(contentsOf: (customFormats ?? []).map(\.label))
+
+        return labels
+    }
+
     var indexerFlagsLabel: String? {
         guard !(indexerFlags ?? []).isEmpty else { return nil }
 

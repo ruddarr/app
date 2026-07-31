@@ -268,6 +268,32 @@ struct SeriesRelease: Identifiable, Codable {
         return group
     }
 
+    var flagLabels: [String] {
+        var labels: [String] = releaseFlags.map(\.label)
+
+        if isProper {
+            labels.append(String(localized: "Proper", comment: "The PROPER flag"))
+        }
+
+        if isRepack {
+            labels.append(String(localized: "Repack", comment: "The REPACK flag"))
+        }
+
+        return labels
+    }
+
+    var formatLabels: [String] {
+        var labels: [String] = []
+
+        if let score = scoreLabel, customFormatScore != 0 {
+            labels.append(score)
+        }
+
+        labels.append(contentsOf: (customFormats ?? []).map(\.label))
+
+        return labels
+    }
+
     var episodeCount: Int {
         if let numbers = mappedEpisodeNumbers, !numbers.isEmpty {
             return numbers.count
