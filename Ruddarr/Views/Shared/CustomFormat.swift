@@ -56,17 +56,32 @@ struct OverflowLayout: Layout {
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         let containerWidth = proposal.replacingUnspecifiedDimensions().width
-        let sizes = subviews.map { $0.sizeThatFits(.unspecified) }
+        let sizes = subviewSizes(of: subviews, clampedTo: proposal.width)
 
         return layout(sizes: sizes, containerWidth: containerWidth).size
     }
 
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        let sizes = subviews.map { $0.sizeThatFits(.unspecified) }
+        let sizes = subviewSizes(of: subviews, clampedTo: proposal.width)
         let offsets = layout(sizes: sizes, containerWidth: bounds.width).offsets
 
-        for (offset, subview) in zip(offsets, subviews) {
-            subview.place(at: CGPoint(x: offset.x + bounds.minX, y: offset.y + bounds.minY), proposal: .unspecified)
+        for (index, subview) in subviews.enumerated() {
+            subview.place(
+                at: CGPoint(x: offsets[index].x + bounds.minX, y: offsets[index].y + bounds.minY),
+                proposal: ProposedViewSize(sizes[index])
+            )
+        }
+    }
+
+    func subviewSizes(of subviews: Subviews, clampedTo width: CGFloat?) -> [CGSize] {
+        subviews.map { subview in
+            let size = subview.sizeThatFits(.unspecified)
+
+            guard let width, width > 0, size.width > width else {
+                return size
+            }
+
+            return subview.sizeThatFits(ProposedViewSize(width: width, height: nil))
         }
     }
 
