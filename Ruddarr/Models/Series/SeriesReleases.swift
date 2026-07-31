@@ -97,7 +97,7 @@ class SeriesReleases {
         releaseGroups = items
             .compactMap { $0.releaseGroupLabel }
             .filter { seen.insert($0).inserted }
-            .sorted()
+            .sorted { $0.localizedStandardCompare($1) == .orderedAscending }
     }
 
     func setCustomFormats() {
