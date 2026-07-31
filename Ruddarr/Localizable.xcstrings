@@ -676,6 +676,16 @@
         }
       }
     },
+    "Any Group" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Group"
+          }
+        }
+      }
+    },
     "Any Indexer" : {
       "localizations" : {
         "en" : {
