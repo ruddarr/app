@@ -86,7 +86,7 @@ struct MovieReleaseSort: Equatable {
 
         return items
             .filter { release in
-                (search.isEmpty || release.matches(query)) &&
+                (query.isEmpty || release.matches(query)) &&
                 [release.network.label, .all].contains(network) &&
                 [release.indexerLabel, .all].contains(indexer) &&
                 [release.quality.quality.normalizedName, .all].contains(quality) &&
