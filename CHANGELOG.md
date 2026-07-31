@@ -10,19 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support alternate instance URLs and automatic network detection
 - Detect instance protocol automatically when none is set
 - Display queue status for movies, seasons and episodes
+- Added settings for a more detailed releases layout
 - Switched to sheets for calendar navigation
 - Display available storage for root folders
 - Display disk space usage and statistics for instances
 - Added Trakt movie ratings
 - Added quick look preview to media posters
 - Added "History" to sidebar on iPadOS
-- Added discovery grid toggle for library items
+- Added discovery grid toggle for items already in library
+- Added a release group filter to movie and series releases
 - Show library counts below media grids
 - Jump from a queue task to its movie or series
 - Trigger haptic feedback when an alert is displayed
 - Show colors in the accent color picker
-- Added a detailed release layout showing bitrate, indexer flags and custom formats
-- Added a release group filter to movie and series releases
 
 ### Changed
 - Improved instance synchronization across devices
@@ -53,8 +53,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed poster size changing between grids and details on macOS
 - Fixed library filters being reset after adding a movie or series
 - Fixed freeleech flag missing from series releases
-- Fixed long custom format labels overflowing their row
-- Fixed release lists showing no results when searching for whitespace
 
 ### Removed
 - Dropped support for Sonarr v3
