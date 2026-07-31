@@ -17,23 +17,6 @@ struct MovieReleaseSort: Equatable {
     var freeleech: Bool = false
     var originalLanguage: Bool = false
 
-    static func == (lhs: MovieReleaseSort, rhs: MovieReleaseSort) -> Bool {
-        lhs.isAscending == rhs.isAscending &&
-        lhs.option == rhs.option &&
-        lhs.search == rhs.search &&
-
-        lhs.indexer == rhs.indexer &&
-        lhs.quality == rhs.quality &&
-        lhs.language == rhs.language &&
-        lhs.network == rhs.network &&
-        lhs.customFormat == rhs.customFormat &&
-        lhs.releaseGroup == rhs.releaseGroup &&
-
-        lhs.approved == rhs.approved &&
-        lhs.freeleech == rhs.freeleech &&
-        lhs.originalLanguage == rhs.originalLanguage
-    }
-
     enum Option: Codable, Hashable, Identifiable, CaseIterable {
         var id: Self { self }
 
