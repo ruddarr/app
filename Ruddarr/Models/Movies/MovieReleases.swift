@@ -96,7 +96,7 @@ class MovieReleases {
 
         releaseGroups = items
             .compactMap { $0.releaseGroupLabel }
-            .filter { seen.insert($0).inserted }
+            .filter { seen.insert($0.lowercased()).inserted }
             .sorted { $0.localizedStandardCompare($1) == .orderedAscending }
     }
 
