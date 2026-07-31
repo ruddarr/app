@@ -2,20 +2,89 @@ import SwiftUI
 
 struct SeriesReleaseRow: View {
     var release: SeriesRelease
+    var series: Series
+
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
+        switch settings.releaseLayout {
+        case .compact: compactRow
+        case .detailed: detailedRow
+        }
+    }
+
+    var compactRow: some View {
         VStack(alignment: .leading) {
-            HStack(spacing: 4) {
-                Text(release.title)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .lineLimit(1)
-            }
+            Text(release.title)
+                .font(.headline)
+                .fontWeight(.semibold)
+                .lineLimit(1)
 
             secondRow
             thirdRow
         }
         .contentShape(Rectangle())
+    }
+
+    var detailedRow: some View {
+        VStack(alignment: .leading) {
+            if !flagLabels.isEmpty {
+                Text(flagLabels.joined(separator: "  "))
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .tracking(1.1)
+                    .textCase(.uppercase)
+                    .foregroundStyle(.secondary)
+            }
+
+            Text(release.title.breakable())
+                .font(.headline)
+                .fontWeight(.semibold)
+
+            qualityRow
+            sourceRow
+
+            CustomFormats(release.formatLabels)
+        }
+        .contentShape(Rectangle())
+    }
+
+    var qualityRow: some View {
+        HStack(spacing: 6) {
+            Text(release.qualityLabel)
+            Bullet()
+            Text(release.sizeLabel)
+
+            if let bitrate = release.bitrateLabel(series.runtime * release.episodeCount) {
+                Bullet()
+                Text(bitrate)
+            }
+        }
+        .foregroundStyle(.secondary)
+        .lineLimit(1)
+        .font(.subheadline)
+    }
+
+    var sourceRow: some View {
+        HStack(spacing: 6) {
+            Text(release.typeLabel)
+                .foregroundStyle(peerColor)
+                .truncationMode(.head)
+
+            Group {
+                Bullet()
+                Text(release.languageLabel)
+
+                Bullet()
+                Text(release.ageLabel)
+
+                Bullet()
+                Text(release.indexerLabel)
+            }
+            .foregroundStyle(.secondary)
+        }
+        .lineLimit(1)
+        .font(.subheadline)
     }
 
     var secondRow: some View {
@@ -37,6 +106,7 @@ struct SeriesReleaseRow: View {
         HStack(spacing: 6) {
             Text(release.typeLabel)
                 .foregroundStyle(peerColor)
+                .truncationMode(.head)
 
             Group {
                 Bullet()
@@ -80,6 +150,16 @@ struct SeriesReleaseRow: View {
         .symbolVariant(.fill)
         .imageScale(.medium)
         .foregroundStyle(.secondary)
+    }
+
+    var flagLabels: [String] {
+        var labels = release.flagLabels
+
+        if release.rejected {
+            labels.insert(String(localized: "Rejected", comment: "Rejected release"), at: 0)
+        }
+
+        return labels
     }
 
     var peerColor: any ShapeStyle {

@@ -21,7 +21,7 @@ struct SeriesReleasesView: View {
                 Button {
                     selectedRelease = release
                 } label: {
-                    SeriesReleaseRow(release: release)
+                    SeriesReleaseRow(release: release, series: series)
                         .environment(instance)
                         .environment(settings)
                 }

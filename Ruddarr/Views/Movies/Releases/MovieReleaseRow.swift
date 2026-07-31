@@ -5,9 +5,15 @@ struct MovieReleaseRow: View {
     var movie: Movie
 
     @Environment(AppSettings.self) private var settings
-    @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
+        switch settings.releaseLayout {
+        case .compact: compactRow
+        case .detailed: detailedRow
+        }
+    }
+
+    var compactRow: some View {
         VStack(alignment: .leading) {
             Text(release.title)
                 .font(.headline)
@@ -18,6 +24,67 @@ struct MovieReleaseRow: View {
             thirdRow
         }
         .contentShape(Rectangle())
+    }
+
+    var detailedRow: some View {
+        VStack(alignment: .leading) {
+            if !flagLabels.isEmpty {
+                Text(flagLabels.joined(separator: "  "))
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .tracking(1.1)
+                    .textCase(.uppercase)
+                    .foregroundStyle(.secondary)
+            }
+
+            Text(release.title.breakable())
+                .font(.headline)
+                .fontWeight(.semibold)
+
+            qualityRow
+            sourceRow
+
+            CustomFormats(release.formatLabels)
+        }
+        .contentShape(Rectangle())
+    }
+
+    var qualityRow: some View {
+        HStack(spacing: 6) {
+            Text(release.qualityLabel)
+            Bullet()
+            Text(release.sizeLabel)
+
+            if let bitrate = release.bitrateLabel(movie.runtime) {
+                Bullet()
+                Text(bitrate)
+            }
+        }
+        .foregroundStyle(.secondary)
+        .lineLimit(1)
+        .font(.subheadline)
+    }
+
+    var sourceRow: some View {
+        HStack(spacing: 6) {
+            Text(release.typeLabel)
+                .foregroundStyle(peerColor)
+                .truncationMode(.head)
+
+            Group {
+                Bullet()
+                Text(release.languageLabel)
+
+                Bullet()
+                Text(release.ageLabel)
+
+                Bullet()
+                Text(release.indexerLabel)
+            }
+            .foregroundStyle(.secondary)
+        }
+        .lineLimit(1)
+        .font(.subheadline)
     }
 
     var secondRow: some View {
@@ -83,6 +150,16 @@ struct MovieReleaseRow: View {
         .symbolVariant(.fill)
         .imageScale(.medium)
         .foregroundStyle(.secondary)
+    }
+
+    var flagLabels: [String] {
+        var labels = release.flagLabels
+
+        if release.rejected {
+            labels.insert(String(localized: "Rejected", comment: "Rejected release"), at: 0)
+        }
+
+        return labels
     }
 
     var peerColor: any ShapeStyle {
