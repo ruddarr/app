@@ -46,7 +46,7 @@ struct SeriesReleaseRow: View {
 
                 Spacer()
 
-                releaseIcons
+                compactReleaseIcons
             }
             .lineLimit(1)
             .font(.subheadline)
@@ -58,24 +58,32 @@ struct SeriesReleaseRow: View {
         // swiftlint:disable:next closure_body_length
         VStack(alignment: .leading) {
             if !release.flagLabels.isEmpty {
-                Text(release.flagLabels.joined(separator: "  "))
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .tracking(1.1)
-                    .textCase(.uppercase)
-                    .foregroundStyle(.secondary)
+                HStack(alignment: .top, spacing: 2) {
+                    Text(release.flagLabels.joined(separator: "  "))
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .tracking(1.1)
+                        .textCase(.uppercase)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+
+                    Spacer()
+
+                    if release.rejected {
+                        rejectedIcon
+                    }
+                }
             }
 
-            HStack(spacing: 2) {
+            HStack(alignment: .top, spacing: 2) {
                 Text(release.title.breakable())
                     .font(.headline)
                     .fontWeight(.semibold)
 
-                if release.rejected {
-                    Image(systemName: "exclamationmark.square")
-                        .symbolVariant(.fill)
-                        .imageScale(.medium)
-                        .foregroundStyle(.secondary)
+                Spacer()
+
+                if release.rejected && release.flagLabels.isEmpty {
+                    rejectedIcon
                 }
             }
 
@@ -116,7 +124,15 @@ struct SeriesReleaseRow: View {
         .contentShape(Rectangle())
     }
 
-    var releaseIcons: some View {
+    var rejectedIcon: some View {
+        Image(systemName: "exclamationmark.square")
+            .symbolVariant(.fill)
+            .font(.subheadline)
+            .imageScale(.medium)
+            .foregroundStyle(.secondary)
+    }
+
+    var compactReleaseIcons: some View {
         HStack(spacing: 2) {
             if release.isFreeleech {
                 Image(systemName: "f.square")
