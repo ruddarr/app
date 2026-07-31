@@ -13,7 +13,7 @@ struct SettingsPreferencesSection: View {
         Section {
             tabPicker
             gridPicker
-            releaseLayoutPicker
+            releasesPicker
             releaseFiltersPicker
 
             if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
@@ -76,7 +76,7 @@ struct SettingsPreferencesSection: View {
     }
 
     @ViewBuilder
-    var releaseLayoutPicker: some View {
+    var releasesPicker: some View {
         @Bindable var settings = settings
 
         Picker(selection: $settings.releases) {
