@@ -7,7 +7,7 @@ struct MovieReleaseRow: View {
     @Environment(AppSettings.self) private var settings
 
     var body: some View {
-        switch settings.releaseLayout {
+        switch settings.releases {
         case .compact: compactRow
         case .detailed: detailedRow
         }

@@ -79,7 +79,7 @@ struct SettingsPreferencesSection: View {
     var releaseLayoutPicker: some View {
         @Bindable var settings = settings
 
-        Picker(selection: $settings.releaseLayout) {
+        Picker(selection: $settings.releases) {
             ForEach(ReleaseLayout.allCases) { value in
                 Text(value.label)
             }

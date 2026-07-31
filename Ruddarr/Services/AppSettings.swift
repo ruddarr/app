@@ -31,8 +31,8 @@ final class AppSettings {
         didSet { AppSettings.persist(tab, "tab") }
     }
 
-    var releaseLayout: ReleaseLayout = AppSettings.load("releaseLayout", .compact) {
-        didSet { AppSettings.persist(releaseLayout, "releaseLayout") }
+    var releases: ReleaseLayout = AppSettings.load("releases", .compact) {
+        didSet { AppSettings.persist(releases, "releases") }
     }
 
     var releaseFilters: ReleaseFilters = AppSettings.load("releaseFilters", .reset) {
@@ -63,7 +63,7 @@ final class AppSettings {
         appearance = .automatic
         grid = .posters
         tab = .movies
-        releaseLayout = .compact
+        releases = .compact
         releaseFilters = .reset
         radarrInstanceId = nil
         sonarrInstanceId = nil
