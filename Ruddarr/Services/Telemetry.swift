@@ -69,6 +69,7 @@ actor Telemetry {
                 "tab": settings.tab.rawValue,
                 "appearance": settings.appearance.rawValue,
                 "grid": settings.grid.rawValue,
+                "releaseLayout": settings.releaseLayout.rawValue,
                 "releaseFilters": settings.releaseFilters.rawValue,
                 "deviceType": Platform.deviceType.rawValue,
                 "radarrInstances": String(settings.radarrInstances.count),

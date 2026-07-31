@@ -13,6 +13,7 @@ struct SettingsPreferencesSection: View {
         Section {
             tabPicker
             gridPicker
+            releaseLayoutPicker
             releaseFiltersPicker
 
             if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
@@ -72,6 +73,21 @@ struct SettingsPreferencesSection: View {
             Label("Grid", systemImage: "square.grid.2x2")
                 .labelStyle(SettingsIconLabelStyle())
         }.tint(.secondary)
+    }
+
+    @ViewBuilder
+    var releaseLayoutPicker: some View {
+        @Bindable var settings = settings
+
+        Picker(selection: $settings.releaseLayout) {
+            ForEach(ReleaseLayout.allCases) { value in
+                Text(value.label)
+            }
+        } label: {
+            Label("Release Layout", systemImage: "list.bullet.below.rectangle")
+                .labelStyle(SettingsIconLabelStyle())
+        }
+        .tint(.secondary)
     }
 
     @ViewBuilder

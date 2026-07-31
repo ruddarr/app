@@ -31,6 +31,10 @@ final class AppSettings {
         didSet { AppSettings.persist(tab, "tab") }
     }
 
+    var releaseLayout: ReleaseLayout = AppSettings.load("releaseLayout", .compact) {
+        didSet { AppSettings.persist(releaseLayout, "releaseLayout") }
+    }
+
     var releaseFilters: ReleaseFilters = AppSettings.load("releaseFilters", .reset) {
         didSet { AppSettings.persist(releaseFilters, "releaseFilters") }
     }
@@ -59,6 +63,7 @@ final class AppSettings {
         appearance = .automatic
         grid = .posters
         tab = .movies
+        releaseLayout = .compact
         releaseFilters = .reset
         radarrInstanceId = nil
         sonarrInstanceId = nil
@@ -175,6 +180,20 @@ extension AppSettings {
         }
 
         return context
+    }
+}
+
+enum ReleaseLayout: String, Identifiable, CaseIterable {
+    var id: Self { self }
+
+    case compact
+    case detailed
+
+    var label: String {
+        switch self {
+        case .compact: String(localized: "Compact", comment: "(Preferences) Compact release layout")
+        case .detailed: String(localized: "Detailed", comment: "(Preferences) Detailed release layout")
+        }
     }
 }
 

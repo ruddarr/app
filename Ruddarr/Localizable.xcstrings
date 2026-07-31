@@ -1108,6 +1108,17 @@
         }
       }
     },
+    "Compact" : {
+      "comment" : "(Preferences) Compact release layout",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compact"
+          }
+        }
+      }
+    },
     "Connect a %@ instance under %@." : {
       "localizations" : {
         "en" : {
@@ -1415,6 +1426,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descending"
+          }
+        }
+      }
+    },
+    "Detailed" : {
+      "comment" : "(Preferences) Detailed release layout",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detailed"
           }
         }
       }
@@ -4338,6 +4360,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Release Group"
+          }
+        }
+      }
+    },
+    "Release Layout" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Release Layout"
           }
         }
       }
