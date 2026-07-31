@@ -70,7 +70,7 @@ struct SettingsPreferencesSection: View {
                 Text(style.label)
             }
         } label: {
-            Label("Grid", systemImage: "square.grid.2x2")
+            Label("Grid", systemImage: "rectangle.grid.3x2")
                 .labelStyle(SettingsIconLabelStyle())
         }.tint(.secondary)
     }
@@ -84,7 +84,7 @@ struct SettingsPreferencesSection: View {
                 Text(value.label)
             }
         } label: {
-            Label("Releases", systemImage: "list.bullet.below.rectangle")
+            Label("Releases", systemImage: "rectangle.grid.1x3")
                 .labelStyle(SettingsIconLabelStyle())
         }
         .tint(.secondary)
