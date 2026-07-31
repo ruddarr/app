@@ -55,9 +55,10 @@ struct SeriesReleaseRow: View {
     }
 
     var detailedRow: some View {
+        // swiftlint:disable:next closure_body_length
         VStack(alignment: .leading) {
-            if !flagLabels.isEmpty {
-                Text(flagLabels.joined(separator: "  "))
+            if !release.flagLabels.isEmpty {
+                Text(release.flagLabels.joined(separator: "  "))
                     .font(.caption)
                     .fontWeight(.semibold)
                     .tracking(1.1)
@@ -65,9 +66,18 @@ struct SeriesReleaseRow: View {
                     .foregroundStyle(.secondary)
             }
 
-            Text(release.title.breakable())
-                .font(.headline)
-                .fontWeight(.semibold)
+            HStack(spacing: 2) {
+                Text(release.title.breakable())
+                    .font(.headline)
+                    .fontWeight(.semibold)
+
+                if release.rejected {
+                    Image(systemName: "exclamationmark.square")
+                        .symbolVariant(.fill)
+                        .imageScale(.medium)
+                        .foregroundStyle(.secondary)
+                }
+            }
 
             HStack(spacing: 6) {
                 Text(release.qualityLabel)
@@ -131,16 +141,6 @@ struct SeriesReleaseRow: View {
         .symbolVariant(.fill)
         .imageScale(.medium)
         .foregroundStyle(.secondary)
-    }
-
-    var flagLabels: [String] {
-        var labels = release.flagLabels
-
-        if release.rejected {
-            labels.insert(String(localized: "Rejected", comment: "Rejected release"), at: 0)
-        }
-
-        return labels
     }
 
     var peerColor: any ShapeStyle {

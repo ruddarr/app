@@ -4333,17 +4333,6 @@
         }
       }
     },
-    "Rejected" : {
-      "comment" : "Rejected release",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rejected"
-          }
-        }
-      }
-    },
     "Release Downloading" : {
       "localizations" : {
         "en" : {
