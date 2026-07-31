@@ -202,17 +202,15 @@ struct SeriesReleaseSheet: View {
     }
 
     var runtime: Int {
-        guard let episodeNumbers = release.mappedEpisodeNumbers else {
-            return 0
-        }
-
         let seriesRuntime: Int = instance.series.byId(seriesId)?.runtime ?? 0
 
-        let episodes: [Int] = episodeNumbers.map { id in
-            instance.episodes.byId(id)?.runtime ?? seriesRuntime
+        if let episodeNumbers = release.mappedEpisodeNumbers, !episodeNumbers.isEmpty {
+            return episodeNumbers
+                .map { instance.episodes.byId($0)?.runtime ?? seriesRuntime }
+                .reduce(0, +)
         }
 
-        return episodes.reduce(0, +)
+        return seriesRuntime * release.episodeCount
     }
 
     func row(_ label: LocalizedStringKey, value: String) -> some View {
