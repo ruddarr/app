@@ -180,19 +180,19 @@ extension SeriesReleaseSort: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         try self.init(
-            isAscending: container.decode(Bool.self, forKey: .isAscending),
-            option: container.decode(Option.self, forKey: .option),
-            search: container.decode(String.self, forKey: .search),
-            indexer: container.decode(String.self, forKey: .indexer),
-            quality: container.decode(String.self, forKey: .quality),
-            language: container.decode(String.self, forKey: .language),
-            network: container.decode(String.self, forKey: .network),
-            customFormat: container.decode(String.self, forKey: .customFormat),
+            isAscending: container.decodeIfPresent(Bool.self, forKey: .isAscending) ?? true,
+            option: container.decodeIfPresent(Option.self, forKey: .option) ?? .byWeight,
+            search: container.decodeIfPresent(String.self, forKey: .search) ?? "",
+            indexer: container.decodeIfPresent(String.self, forKey: .indexer) ?? .all,
+            quality: container.decodeIfPresent(String.self, forKey: .quality) ?? .all,
+            language: container.decodeIfPresent(String.self, forKey: .language) ?? .all,
+            network: container.decodeIfPresent(String.self, forKey: .network) ?? .all,
+            customFormat: container.decodeIfPresent(String.self, forKey: .customFormat) ?? .all,
             releaseGroup: container.decodeIfPresent(String.self, forKey: .releaseGroup) ?? .all,
-            seasonPack: container.decode(SeasonPack.self, forKey: .seasonPack),
-            approved: container.decode(Bool.self, forKey: .approved),
-            freeleech: container.decode(Bool.self, forKey: .freeleech),
-            originalLanguage: container.decode(Bool.self, forKey: .originalLanguage)
+            seasonPack: container.decodeIfPresent(SeasonPack.self, forKey: .seasonPack) ?? .any,
+            approved: container.decodeIfPresent(Bool.self, forKey: .approved) ?? false,
+            freeleech: container.decodeIfPresent(Bool.self, forKey: .freeleech) ?? false,
+            originalLanguage: container.decodeIfPresent(Bool.self, forKey: .originalLanguage) ?? false
         )
     }
 
