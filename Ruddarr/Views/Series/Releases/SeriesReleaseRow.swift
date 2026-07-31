@@ -20,8 +20,36 @@ struct SeriesReleaseRow: View {
                 .fontWeight(.semibold)
                 .lineLimit(1)
 
-            secondRow
-            thirdRow
+            HStack(spacing: 6) {
+                Text(release.qualityLabel)
+                Bullet()
+                Text(release.sizeLabel)
+                Bullet()
+                Text(release.ageLabel)
+            }
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .font(.subheadline)
+
+            HStack(spacing: 6) {
+                Text(release.typeLabel)
+                    .foregroundStyle(peerColor)
+                    .truncationMode(.head)
+
+                Group {
+                    Bullet()
+                    Text(release.languageLabel)
+                    Bullet()
+                    Text(release.indexerLabel)
+                }
+                .foregroundStyle(.secondary)
+
+                Spacer()
+
+                releaseIcons
+            }
+            .lineLimit(1)
+            .font(.subheadline)
         }
         .contentShape(Rectangle())
     }
@@ -41,88 +69,41 @@ struct SeriesReleaseRow: View {
                 .font(.headline)
                 .fontWeight(.semibold)
 
-            qualityRow
-            sourceRow
+            HStack(spacing: 6) {
+                Text(release.qualityLabel)
+                Bullet()
+                Text(release.sizeLabel)
+
+                if let bitrate = release.bitrateLabel(series.runtime * release.episodeCount) {
+                    Bullet()
+                    Text(bitrate)
+                }
+            }
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .font(.subheadline)
+
+            HStack(spacing: 6) {
+                Text(release.typeLabel)
+                    .foregroundStyle(peerColor)
+                    .truncationMode(.head)
+
+                Group {
+                    Bullet()
+                    Text(release.languageLabel)
+                    Bullet()
+                    Text(release.ageLabel)
+                    Bullet()
+                    Text(release.indexerLabel)
+                }
+                .foregroundStyle(.secondary)
+            }
+            .lineLimit(1)
+            .font(.subheadline)
 
             CustomFormats(release.formatLabels)
         }
         .contentShape(Rectangle())
-    }
-
-    var qualityRow: some View {
-        HStack(spacing: 6) {
-            Text(release.qualityLabel)
-            Bullet()
-            Text(release.sizeLabel)
-
-            if let bitrate = release.bitrateLabel(series.runtime * release.episodeCount) {
-                Bullet()
-                Text(bitrate)
-            }
-        }
-        .foregroundStyle(.secondary)
-        .lineLimit(1)
-        .font(.subheadline)
-    }
-
-    var sourceRow: some View {
-        HStack(spacing: 6) {
-            Text(release.typeLabel)
-                .foregroundStyle(peerColor)
-                .truncationMode(.head)
-
-            Group {
-                Bullet()
-                Text(release.languageLabel)
-
-                Bullet()
-                Text(release.ageLabel)
-
-                Bullet()
-                Text(release.indexerLabel)
-            }
-            .foregroundStyle(.secondary)
-        }
-        .lineLimit(1)
-        .font(.subheadline)
-    }
-
-    var secondRow: some View {
-        HStack(spacing: 6) {
-            Text(release.qualityLabel)
-
-            Bullet()
-            Text(release.sizeLabel)
-
-            Bullet()
-            Text(release.ageLabel)
-        }
-        .foregroundStyle(.secondary)
-        .lineLimit(1)
-        .font(.subheadline)
-    }
-
-    var thirdRow: some View {
-        HStack(spacing: 6) {
-            Text(release.typeLabel)
-                .foregroundStyle(peerColor)
-                .truncationMode(.head)
-
-            Group {
-                Bullet()
-                Text(release.languageLabel)
-
-                Bullet()
-                Text(release.indexerLabel)
-            }
-            .foregroundStyle(.secondary)
-
-            Spacer()
-
-            releaseIcons
-        }
-        .lineLimit(1)
-        .font(.subheadline)
     }
 
     var releaseIcons: some View {
