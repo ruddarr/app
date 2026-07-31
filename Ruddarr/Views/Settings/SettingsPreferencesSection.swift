@@ -84,7 +84,7 @@ struct SettingsPreferencesSection: View {
                 Text(value.label)
             }
         } label: {
-            Label("Release Layout", systemImage: "list.bullet.below.rectangle")
+            Label("Releases", systemImage: "list.bullet.below.rectangle")
                 .labelStyle(SettingsIconLabelStyle())
         }
         .tint(.secondary)

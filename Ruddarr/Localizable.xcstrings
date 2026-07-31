@@ -4385,16 +4385,6 @@
         }
       }
     },
-    "Release Layout" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Release Layout"
-          }
-        }
-      }
-    },
     "Release Notes" : {
       "comment" : "Also know as changelog",
       "localizations" : {
@@ -4444,6 +4434,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Released"
+          }
+        }
+      }
+    },
+    "Releases" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Releases"
           }
         }
       }
