@@ -46,7 +46,7 @@ extension String {
         var glue: Index?
 
         if minimumTail > 0 {
-            for index in indices.reversed() where " .-}/".contains(self[index]) {
+            for index in indices.reversed() where " ._-}/".contains(self[index]) {
                 if distance(from: self.index(after: index), to: endIndex) >= minimumTail {
                     glue = index
                     break
@@ -55,17 +55,27 @@ extension String {
         }
 
         guard let glue else {
-            return self.replacingOccurrences(of: ".", with: ".\u{200B}")
+            return self
+                .replacingOccurrences(of: ".", with: ".\u{200B}")
+                .replacingOccurrences(of: "_", with: "_\u{200B}")
         }
 
-        let head = String(self[...glue]).replacingOccurrences(of: ".", with: ".\u{200B}")
+        let head = String(self[...glue])
+            .replacingOccurrences(of: ".", with: ".\u{200B}")
+            .replacingOccurrences(of: "_", with: "_\u{200B}")
 
-        let tail = String(self[index(after: glue)...])
+        var tail = String(self[index(after: glue)...])
             .replacingOccurrences(of: " ", with: "\u{A0}")
             .replacingOccurrences(of: "-", with: "-\u{2060}")
             .replacingOccurrences(of: "}", with: "}\u{2060}")
             .replacingOccurrences(of: "/", with: "/\u{2060}")
-            .replacingOccurrences(of: "][", with: "]\u{2060}[")
+            .replacingOccurrences(of: "[", with: "\u{2060}[")
+            .replacingOccurrences(of: "(", with: "\u{2060}(")
+            .replacingOccurrences(of: "{", with: "\u{2060}{")
+
+        if tail.hasPrefix("\u{2060}") {
+            tail.removeFirst()
+        }
 
         return head + tail
     }
