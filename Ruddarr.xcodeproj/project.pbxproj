@@ -90,6 +90,7 @@
 				Utilities/Decoders.swift,
 				Utilities/Extensions.swift,
 				Utilities/Formatters.swift,
+				Utilities/Helpers.swift,
 				Utilities/Networking.swift,
 				Utilities/Placeholder.swift,
 				Utilities/Privacy.swift,

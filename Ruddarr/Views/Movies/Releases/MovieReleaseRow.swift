@@ -76,7 +76,7 @@ struct MovieReleaseRow: View {
             }
 
             HStack(alignment: .top, spacing: 2) {
-                Text(release.title.breakable())
+                Text(release.title.breakable(minimumTail: 10))
                     .font(.headline)
                     .fontWeight(.semibold)
 
