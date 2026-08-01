@@ -211,7 +211,19 @@ struct SeriesRelease: Identifiable, Codable {
     }
 
     var isFreeleech: Bool {
-        releaseFlags.contains(.freeleech)
+        releaseFlags.contains { [.freeleech, .halfleech, .freeleech75, .freeleech25].contains($0) }
+    }
+
+    var isScene: Bool {
+        releaseFlags.contains(.scene)
+    }
+
+    var isNuked: Bool {
+        releaseFlags.contains(.nuked)
+    }
+
+    var isInternal: Bool {
+        releaseFlags.contains(.internal)
     }
 
     var isProper: Bool {
@@ -230,8 +242,10 @@ struct SeriesRelease: Identifiable, Codable {
         return false
     }
 
-    var hasNonFreeleechFlags: Bool {
-        releaseFlags.contains { $0 != .freeleech }
+    var hasOtherFlags: Bool {
+        releaseFlags.contains {
+            ![.freeleech, .halfleech, .freeleech75, .freeleech25, .scene, .nuked, .internal].contains($0)
+        }
     }
 
     var releaseFlags: [SeriesReleaseFlag] {

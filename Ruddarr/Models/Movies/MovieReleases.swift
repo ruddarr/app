@@ -177,7 +177,19 @@ struct MovieRelease: Identifiable, Codable {
     var isFreeleech: Bool {
         guard !(indexerFlags ?? []).isEmpty else { return false }
 
-        return cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }
+        return cleanIndexerFlags.contains { $0.lowercased().contains("leech") }
+    }
+
+    var isScene: Bool {
+        cleanIndexerFlags.contains { $0.lowercased().contains("scene") }
+    }
+
+    var isNuked: Bool {
+        cleanIndexerFlags.contains { $0.lowercased().contains("nuked") }
+    }
+
+    var isInternal: Bool {
+        cleanIndexerFlags.contains { $0.lowercased().contains("internal") }
     }
 
     var isProper: Bool {
@@ -196,11 +208,13 @@ struct MovieRelease: Identifiable, Codable {
         return false
     }
 
-    var hasNonFreeleechFlags: Bool {
-        guard let flags = indexerFlags else { return false }
-        guard !flags.isEmpty else { return false }
+    var hasOtherFlags: Bool {
+        cleanIndexerFlags.contains {
+            let flag = $0.lowercased()
 
-        return !(flags.count == 1 && isFreeleech)
+            return !flag.contains("leech") && !flag.contains("scene")
+                && !flag.contains("nuked") && !flag.contains("internal")
+        }
     }
 
     var cleanIndexerFlags: [String] {

@@ -46,7 +46,7 @@ struct SeriesReleaseRow: View {
 
                 Spacer()
 
-                compactReleaseIcons
+                releaseIcons
             }
             .lineLimit(1)
             .font(.subheadline)
@@ -57,35 +57,13 @@ struct SeriesReleaseRow: View {
     var detailedRow: some View {
         // swiftlint:disable:next closure_body_length
         VStack(alignment: .leading) {
-            if !release.flagLabels.isEmpty {
-                HStack(alignment: .top, spacing: 2) {
-                    Text(release.flagLabels.joined(separator: "  "))
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .tracking(1.1)
-                        .textCase(.uppercase)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-
-                    Spacer()
-
-                    if release.rejected {
-                        rejectedIcon
-                    }
-                }
+            if !release.flagLabels.isEmpty || release.rejected {
+                releaseIcons
             }
 
-            HStack(alignment: .top, spacing: 2) {
-                Text(release.title.breakable(minimumTail: 10))
-                    .font(.headline)
-                    .fontWeight(.semibold)
-
-                Spacer()
-
-                if release.rejected && release.flagLabels.isEmpty {
-                    rejectedIcon
-                }
-            }
+            Text(release.title.breakable(minimumTail: 10))
+                .font(.headline)
+                .fontWeight(.semibold)
 
             HStack(spacing: 6) {
                 Text(release.qualityLabel)
@@ -124,15 +102,7 @@ struct SeriesReleaseRow: View {
         .contentShape(Rectangle())
     }
 
-    var rejectedIcon: some View {
-        Image(systemName: "exclamationmark.square")
-            .symbolVariant(.fill)
-            .font(.subheadline)
-            .imageScale(.medium)
-            .foregroundStyle(.secondary)
-    }
-
-    var compactReleaseIcons: some View {
+    var releaseIcons: some View {
         HStack(spacing: 2) {
             if release.isFreeleech {
                 Image(systemName: "f.square")
@@ -146,17 +116,31 @@ struct SeriesReleaseRow: View {
                 Image(systemName: "r.square")
             }
 
-            if release.hasNonFreeleechFlags {
+            if release.isInternal {
+                Image(systemName: "i.square")
+            }
+
+            if release.isScene {
+                Image(systemName: "s.square")
+            }
+
+            if release.isNuked {
+                Image(systemName: "trash.square")
+            }
+
+            if release.hasOtherFlags {
                 Image(systemName: "flag.square")
             }
 
             if release.rejected {
                 Image(systemName: "exclamationmark.square")
+                    .foregroundStyle(.orange)
             }
         }
         .symbolVariant(.fill)
         .imageScale(.medium)
         .foregroundStyle(.secondary)
+        .font(.subheadline)
     }
 
     var peerColor: any ShapeStyle {
