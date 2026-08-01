@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support alternate instance URLs and automatic network detection
 - Detect instance protocol automatically when none is set
 - Display queue status for movies, seasons and episodes
-- Added settings for a more detailed releases layout
+- Added a detailed releases layout, enabled by default
 - Switched to sheets for calendar navigation
 - Display available storage for root folders
 - Display disk space usage and statistics for instances

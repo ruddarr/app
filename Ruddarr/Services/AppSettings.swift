@@ -31,7 +31,7 @@ final class AppSettings {
         didSet { AppSettings.persist(tab, "tab") }
     }
 
-    var releases: ReleaseLayout = AppSettings.load("releases", .compact) {
+    var releases: ReleaseLayout = AppSettings.load("releases", .detailed) {
         didSet { AppSettings.persist(releases, "releases") }
     }
 
@@ -63,7 +63,7 @@ final class AppSettings {
         appearance = .automatic
         grid = .posters
         tab = .movies
-        releases = .compact
+        releases = .detailed
         releaseFilters = .reset
         radarrInstanceId = nil
         sonarrInstanceId = nil
@@ -186,8 +186,8 @@ extension AppSettings {
 enum ReleaseLayout: String, Identifiable, CaseIterable {
     var id: Self { self }
 
-    case compact
     case detailed
+    case compact
 
     var label: String {
         switch self {
