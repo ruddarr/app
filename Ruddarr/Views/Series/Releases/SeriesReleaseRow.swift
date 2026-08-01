@@ -57,27 +57,9 @@ struct SeriesReleaseRow: View {
     var detailedRow: some View {
         // swiftlint:disable:next closure_body_length
         VStack(alignment: .leading) {
-            if !release.flagLabels.isEmpty || release.rejected {
-                releaseIcons
-            }
-
             Text(release.title.breakable(minimumTail: 10))
                 .font(.headline)
                 .fontWeight(.semibold)
-
-            HStack(spacing: 6) {
-                Text(release.qualityLabel)
-                Bullet()
-                Text(release.sizeLabel)
-
-                if let bitrate = release.bitrateLabel(series.runtime * release.episodeCount) {
-                    Bullet()
-                    Text(bitrate)
-                }
-            }
-            .foregroundStyle(.secondary)
-            .lineLimit(1)
-            .font(.subheadline)
 
             HStack(spacing: 6) {
                 Text(release.typeLabel)
@@ -94,6 +76,26 @@ struct SeriesReleaseRow: View {
                 }
                 .foregroundStyle(.secondary)
             }
+            .lineLimit(1)
+            .font(.subheadline)
+
+            HStack(spacing: 6) {
+                Text(release.qualityLabel)
+                Bullet()
+                Text(release.sizeLabel)
+
+                if let bitrate = release.bitrateLabel(series.runtime * release.episodeCount) {
+                    Bullet()
+                    Text(bitrate)
+                }
+
+                Spacer(minLength: 0)
+
+                if !release.flagLabels.isEmpty || release.rejected {
+                    releaseIcons
+                }
+            }
+            .foregroundStyle(.secondary)
             .lineLimit(1)
             .font(.subheadline)
 
