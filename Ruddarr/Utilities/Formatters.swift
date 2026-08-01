@@ -67,6 +67,23 @@ func formatBytes(_ bytes: Float, verbose: Bool = false) -> String {
     return formatBytes(Int(bytes), verbose: verbose)
 }
 
+func formatSize(_ bytes: Int) -> String {
+    let units = ["bytes", "KB", "MB", "GB", "TB"]
+    var value = Double(bytes)
+    var unit = 0
+
+    while value >= 1_024, unit < units.count - 1 {
+        value /= 1_024
+        unit += 1
+    }
+
+    let number = value.formatted(
+        .number.precision(.significantDigits(1...3)).grouping(.never)
+    )
+
+    return "\(number) \(units[unit])"
+}
+
 func formatBitrate(_ bitrate: Int) -> String? {
     if bitrate == 0 {
         return nil

@@ -73,3 +73,29 @@ struct FormatBytesTests {
         #expect(formatBytes(Float(value), verbose: true) == "477.76 GB")
     }
 }
+
+// Exercises `formatSize` in Ruddarr/Utilities/Formatters.swift, which renders
+// release sizes with three significant digits and binary (1024-based) units.
+struct FormatSizeTests {
+    private func bytes(_ value: Double, _ power: Int) -> Int {
+        Int(value * pow(1_024.0, Double(power)))
+    }
+
+    @Test func usesThreeSignificantDigits() {
+        #expect(formatSize(bytes(14.28, 3)) == "14.3 GB")
+        #expect(formatSize(bytes(1.419, 3)) == "1.42 GB")
+        #expect(formatSize(bytes(853.4, 2)) == "853 MB")
+        #expect(formatSize(bytes(477.76, 3)) == "478 GB")
+    }
+
+    @Test func omitsTrailingZeros() {
+        #expect(formatSize(bytes(2, 3)) == "2 GB")
+        #expect(formatSize(bytes(56, 3)) == "56 GB")
+    }
+
+    @Test func formatsSmallValues() {
+        #expect(formatSize(0) == "0 bytes")
+        #expect(formatSize(512) == "512 bytes")
+        #expect(formatSize(1_024) == "1 KB")
+    }
+}

@@ -310,7 +310,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var sizeLabel: String {
-        formatBytes(size, verbose: true)
+        formatSize(size)
     }
 
     var qualityLabel: String {
