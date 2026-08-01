@@ -79,27 +79,32 @@ struct MovieReleaseRow: View {
             .lineLimit(1)
             .font(.subheadline)
 
-            HStack(spacing: 6) {
-                Text(release.qualityLabel)
-                Bullet()
-                Text(release.sizeLabel)
-
-                if let bitrate = release.bitrateLabel(movie.runtime) {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 6) {
+                    Text(release.qualityLabel)
                     Bullet()
-                    Text(bitrate)
-                }
+                    Text(release.sizeLabel)
 
-                Spacer(minLength: 0)
+                    if let bitrate = release.bitrateLabel(movie.runtime) {
+                        Group {
+                            Bullet()
+                            Text(bitrate)
+                        }
+                        .layoutPriority(-1)
+                    }
 
-                if !release.flagLabels.isEmpty || release.rejected {
-                    releaseIcons
+                    Spacer(minLength: 0)
+
+                    if !release.flagLabels.isEmpty || release.rejected {
+                        releaseIcons
+                    }
                 }
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .font(.subheadline)
+
+                CustomFormats(release.formatLabels, small: true)
             }
-            .foregroundStyle(.secondary)
-            .lineLimit(1)
-            .font(.subheadline)
-
-            CustomFormats(release.formatLabels)
         }
         .contentShape(Rectangle())
     }
