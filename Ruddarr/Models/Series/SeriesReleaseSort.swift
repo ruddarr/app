@@ -142,7 +142,7 @@ struct SeriesReleaseSort: Equatable {
                 (seasonPack != .season || release.fullSeason) &&
                 (seasonPack != .episode || !release.fullSeason) &&
                 (!approved || !release.rejected) &&
-                (!freeleech || release.releaseFlags.contains(.freeleech)) &&
+                (!freeleech || release.isFreeleech) &&
                 (!originalLanguage || release.languages?.contains { $0.id == series.originalLanguage?.id } ?? false)
             }
             .sorted {

@@ -112,7 +112,7 @@ struct MovieReleaseSort: Equatable {
                 (customFormat == .all || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
                 (releaseGroup == .all || release.releaseGroupLabel?.caseInsensitiveCompare(releaseGroup) == .orderedSame) &&
                 (!approved || !release.rejected) &&
-                (!freeleech || release.cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }) &&
+                (!freeleech || release.isFreeleech) &&
                 (!originalLanguage || release.languages.contains { $0.id == movie.originalLanguage?.id })
             }
             .sorted {
