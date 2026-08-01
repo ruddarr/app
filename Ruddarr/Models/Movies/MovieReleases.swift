@@ -175,9 +175,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var isFreeleech: Bool {
-        guard !(indexerFlags ?? []).isEmpty else { return false }
-
-        return cleanIndexerFlags.contains { $0.lowercased().contains("leech") }
+        cleanIndexerFlags.contains { $0.lowercased().contains("leech") }
     }
 
     var isScene: Bool {
@@ -239,7 +237,7 @@ struct MovieRelease: Identifiable, Codable {
             return true
         }
 
-        if cleanIndexerFlags.contains(where: { $0.localizedCaseInsensitiveContains(query) }) {
+        if flagLabels.contains(where: { $0.localizedCaseInsensitiveContains(query) }) {
             return true
         }
 

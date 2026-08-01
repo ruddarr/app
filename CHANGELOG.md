@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reworked the networking layer
 - Reflect queued manual imports immediately in the queue
 - Release search now also matches indexer flags and custom formats
+- The FreeLeech filter now also matches partial freeleech releases
 - Several dozen internal code improvements
 
 ### Fixed

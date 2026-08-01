@@ -269,7 +269,7 @@ struct SeriesRelease: Identifiable, Codable {
             return true
         }
 
-        if releaseFlags.contains(where: { $0.label.localizedCaseInsensitiveContains(query) }) {
+        if flagLabels.contains(where: { $0.localizedCaseInsensitiveContains(query) }) {
             return true
         }
 
