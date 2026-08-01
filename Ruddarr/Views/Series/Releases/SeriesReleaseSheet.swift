@@ -202,9 +202,7 @@ struct SeriesReleaseSheet: View {
     }
 
     var runtime: Int {
-        guard let series = instance.series.byId(seriesId) else { return 0 }
-
-        return release.runtime(of: series, episodes: instance.episodes.items)
+        (instance.series.byId(seriesId)?.runtime ?? 0) * release.episodeCount
     }
 
     func row(_ label: LocalizedStringKey, value: String) -> some View {

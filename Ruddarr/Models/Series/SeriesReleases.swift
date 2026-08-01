@@ -320,18 +320,6 @@ struct SeriesRelease: Identifiable, Codable {
         return fullSeason ? 0 : 1
     }
 
-    func runtime(of series: Series, episodes: [Episode]) -> Int {
-        guard let mapped = mappedEpisodeInfo, !mapped.isEmpty else {
-            return series.runtime * episodeCount
-        }
-
-        return mapped.reduce(0) { minutes, episode in
-            let runtime = episodes.first { $0.id == episode.id }?.runtime ?? 0
-
-            return minutes + (runtime > 0 ? runtime : series.runtime)
-        }
-    }
-
     var languageLabel: String {
         if (languages ?? []).count <= 1 && title.hasMultiLanguageTag {
             return String(localized: "Multilingual")

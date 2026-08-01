@@ -5,7 +5,6 @@ struct SeriesReleaseRow: View {
     var series: Series
 
     @Environment(AppSettings.self) private var settings
-    @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
         switch settings.releases {
@@ -86,7 +85,7 @@ struct SeriesReleaseRow: View {
                     Bullet()
                     Text(release.sizeLabel)
 
-                    if let bitrate = release.bitrateLabel(release.runtime(of: series, episodes: instance.episodes.items)) {
+                    if let bitrate = release.bitrateLabel(series.runtime * release.episodeCount) {
                         Group {
                             Bullet()
                             Text(bitrate)
