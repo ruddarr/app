@@ -31,7 +31,7 @@ final class AppSettings {
         didSet { AppSettings.persist(tab, "tab") }
     }
 
-    var releases: ReleaseLayout = AppSettings.load("releases", .detailed) {
+    var releases: ReleaseLayout = AppSettings.load("releases", .compact) {
         didSet { AppSettings.persist(releases, "releases") }
     }
 
@@ -186,13 +186,20 @@ extension AppSettings {
 enum ReleaseLayout: String, Identifiable, CaseIterable {
     var id: Self { self }
 
-    case detailed
     case compact
+    case detailed
 
     var label: String {
         switch self {
         case .compact: String(localized: "Compact", comment: "(Preferences) Compact release layout")
         case .detailed: String(localized: "Detailed", comment: "(Preferences) Detailed release layout")
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .compact: "rectangle.grid.1x3"
+        case .detailed: "rectangle.grid.1x2"
         }
     }
 }
