@@ -48,26 +48,14 @@ func formatRemainingTime(_ date: Date) -> String? {
 }
 
 func formatBytes(_ bytes: some BinaryInteger, verbose: Bool = false) -> String {
-    let formatter = ByteCountFormatter()
-    formatter.countStyle = .binary
-    formatter.isAdaptive = verbose
+    if verbose {
+        let formatter = ByteCountFormatter()
+        formatter.countStyle = .binary
+        formatter.isAdaptive = true
 
-    return formatter.string(fromByteCount: Int64(clamping: bytes))
-}
-
-func formatBytes(_ bytes: Float, verbose: Bool = false) -> String {
-    guard bytes.isFinite, bytes > 0 else {
-        return formatBytes(0, verbose: verbose)
+        return formatter.string(fromByteCount: Int64(clamping: bytes))
     }
 
-    guard bytes < Float(Int.max) else {
-        return formatBytes(Int.max, verbose: verbose)
-    }
-
-    return formatBytes(Int(bytes), verbose: verbose)
-}
-
-func formatSize(_ bytes: Int) -> String {
     let units = ["bytes", "KB", "MB", "GB", "TB"]
     var value = Double(bytes)
     var unit = 0
@@ -82,6 +70,18 @@ func formatSize(_ bytes: Int) -> String {
     )
 
     return "\(number) \(units[unit])"
+}
+
+func formatBytes(_ bytes: Float, verbose: Bool = false) -> String {
+    guard bytes.isFinite, bytes > 0 else {
+        return formatBytes(0, verbose: verbose)
+    }
+
+    guard bytes < Float(Int.max) else {
+        return formatBytes(Int.max, verbose: verbose)
+    }
+
+    return formatBytes(Int(bytes), verbose: verbose)
 }
 
 func formatBitrate(_ bitrate: Int) -> String? {
