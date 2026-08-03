@@ -34,7 +34,7 @@ struct SettingsDisplaySection: View {
             }
 
             Label("Appearance", systemImage: icon)
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }.tint(.secondary)
     }
 
@@ -53,7 +53,7 @@ struct SettingsDisplaySection: View {
             }
         } label: {
             Label("Accent Color", systemImage: "paintpalette")
-                .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
+                .labelStyle(.settingsIcon(iconScale: 0.85))
         } currentValueLabel: {
             Text(verbatim: settings.theme.label)
         }
@@ -69,7 +69,7 @@ struct SettingsDisplaySection: View {
                 Text(settings.icon.label)
             } label: {
                 Label("App Icon", systemImage: "app.grid")
-                    .labelStyle(SettingsIconLabelStyle(iconScale: 1.05))
+                    .labelStyle(.settingsIcon(iconScale: 1.05))
             }
         }
     }
