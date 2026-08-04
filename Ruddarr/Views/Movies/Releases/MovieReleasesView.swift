@@ -41,7 +41,7 @@ struct MovieReleasesView: View {
             releases = []
             sort.search = ""
             await instance.releases.search(movie)
-            updateDisplayedReleases()
+            releases = sort.filterAndSortItems(instance.releases.items, movie)
             fetched = movie.id
         }
         .onChange(of: sort.option, updateSortDirection)

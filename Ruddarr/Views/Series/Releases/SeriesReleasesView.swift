@@ -48,7 +48,7 @@ struct SeriesReleasesView: View {
             sort.search = ""
             sort.seasonPack = seasonId == nil ? .episode : .season
             await instance.releases.search(series, seasonId, episodeId)
-            updateDisplayedReleases()
+            releases = sort.filterAndSortItems(instance.releases.items, series)
             fetched = (series.id, seasonId, episodeId)
         }
         .onChange(of: sort.option, updateSortDirection)
