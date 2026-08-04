@@ -44,7 +44,7 @@ struct MovieReleaseRow: View {
                 }
                 .foregroundStyle(.secondary)
 
-                Spacer()
+                Spacer(minLength: 0)
 
                 releaseIcons
             }
@@ -55,7 +55,6 @@ struct MovieReleaseRow: View {
     }
 
     var detailedRow: some View {
-        // swiftlint:disable:next closure_body_length
         VStack(alignment: .leading) {
             Text(release.title.breakable(minimumTail: 10))
                 .font(.headline)
@@ -95,9 +94,7 @@ struct MovieReleaseRow: View {
 
                     Spacer(minLength: 0)
 
-                    if !release.flagLabels.isEmpty || release.rejected {
-                        releaseIcons
-                    }
+                    releaseIcons
                 }
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
@@ -109,45 +106,48 @@ struct MovieReleaseRow: View {
         .contentShape(Rectangle())
     }
 
+    @ViewBuilder
     var releaseIcons: some View {
-        HStack(spacing: 2) {
-            if release.isFreeleech {
-                Image(systemName: "f.square")
-            }
+        if !release.flagLabels.isEmpty || release.rejected {
+            HStack(spacing: 2) {
+                if release.isFreeleech {
+                    Image(systemName: "f.square")
+                }
 
-            if release.isProper {
-                Image(systemName: "p.square")
-            }
+                if release.isProper {
+                    Image(systemName: "p.square")
+                }
 
-            if release.isRepack {
-                Image(systemName: "r.square")
-            }
+                if release.isRepack {
+                    Image(systemName: "r.square")
+                }
 
-            if release.isInternal {
-                Image(systemName: "i.square")
-            }
+                if release.isInternal {
+                    Image(systemName: "i.square")
+                }
 
-            if release.isScene {
-                Image(systemName: "s.square")
-            }
+                if release.isScene {
+                    Image(systemName: "s.square")
+                }
 
-            if release.isNuked {
-                Image(systemName: "trash.square")
-            }
+                if release.isNuked {
+                    Image(systemName: "trash.square")
+                }
 
-            if release.hasOtherFlags {
-                Image(systemName: "flag.square")
-            }
+                if release.hasOtherFlags {
+                    Image(systemName: "flag.square")
+                }
 
-            if release.rejected {
-                Image(systemName: "exclamationmark.square")
-                    .foregroundStyle(.orange)
+                if release.rejected {
+                    Image(systemName: "exclamationmark.square")
+                        .foregroundStyle(.orange)
+                }
             }
+            .symbolVariant(.fill)
+            .imageScale(.medium)
+            .foregroundStyle(.secondary)
+            .font(.subheadline)
         }
-        .symbolVariant(.fill)
-        .imageScale(.medium)
-        .foregroundStyle(.secondary)
-        .font(.subheadline)
     }
 
     var peerColor: any ShapeStyle {
