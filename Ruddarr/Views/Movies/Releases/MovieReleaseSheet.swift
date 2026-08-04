@@ -68,9 +68,9 @@ struct MovieReleaseSheet: View {
 
     var header: some View {
         VStack(alignment: .leading) {
-            if !flags().isEmpty {
+            if !release.flagLabels.isEmpty {
                 HStack {
-                    ForEach(flags(), id: \.self) { flag in
+                    ForEach(release.flagLabels, id: \.self) { flag in
                         Text(flag).textCase(.uppercase)
                     }
                 }
@@ -88,7 +88,7 @@ struct MovieReleaseSheet: View {
             HStack(spacing: 6) {
                 Text(release.qualityLabel)
                 Bullet()
-                Text(release.sizeLabel)
+                Text(formatBytes(release.size, verbose: true))
                 Bullet()
                 Text(release.ageLabel)
             }
@@ -96,7 +96,7 @@ struct MovieReleaseSheet: View {
             .foregroundStyle(.secondary)
             .lineLimit(1)
 
-            CustomFormats(tags())
+            CustomFormats(release.formatLabels)
         }
     }
 
@@ -198,38 +198,6 @@ struct MovieReleaseSheet: View {
             Text("Information")
                 .font(.title2.bold())
         }
-    }
-
-    func flags() -> [String] {
-        var flags: [String] = []
-
-        if let indexerFlags = release.indexerFlags, !indexerFlags.isEmpty {
-            flags.append(contentsOf: release.cleanIndexerFlags)
-        }
-
-        if release.isProper {
-            flags.append(String(localized: "Proper", comment: "The PROPER flag"))
-        }
-
-        if release.isRepack {
-            flags.append(String(localized: "Repack", comment: "The REPACK flag"))
-        }
-
-        return flags
-    }
-
-    func tags() -> [String] {
-        var tags: [String] = []
-
-        if release.customFormatScore != 0 {
-            tags.append(release.scoreLabel)
-        }
-
-        if let formats = release.customFormats, !formats.isEmpty {
-            tags.append(contentsOf: formats.map { $0.label })
-        }
-
-        return tags
     }
 
     func row(_ label: LocalizedStringKey, value: String) -> some View {

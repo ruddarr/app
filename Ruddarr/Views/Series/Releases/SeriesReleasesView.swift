@@ -18,10 +18,14 @@ struct SeriesReleasesView: View {
     var body: some View {
         List {
             ForEach(releases) { release in
+                let runtime = release.runtime(seriesRuntime: series.runtime) {
+                    instance.episodes.runtime(for: $0)
+                }
+
                 Button {
                     selectedRelease = release
                 } label: {
-                    SeriesReleaseRow(release: release)
+                    SeriesReleaseRow(release: release, runtime: runtime)
                         .environment(instance)
                         .environment(settings)
                 }
@@ -153,6 +157,10 @@ extension SeriesReleasesView {
 
             indexersPicker
 
+            if !instance.releases.releaseGroups.isEmpty {
+                releaseGroupPicker
+            }
+
             qualityPicker
 
             if !instance.releases.languages.isEmpty {
@@ -224,6 +232,24 @@ extension SeriesReleasesView {
             Label(
                 sort.indexer == .all ? String(localized: "Indexer") : sort.indexer,
                 systemImage: "building.2"
+            )
+        }
+    }
+
+    var releaseGroupPicker: some View {
+        Menu {
+            Picker("Release Group", selection: $sort.releaseGroup) {
+                Text("Any Group").tag(String.all)
+
+                ForEach(instance.releases.releaseGroups, id: \.self) { group in
+                    Text(group).tag(Optional.some(group))
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label(
+                sort.releaseGroup == .all ? String(localized: "Release Group") : sort.releaseGroup,
+                systemImage: "person.2"
             )
         }
     }

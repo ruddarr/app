@@ -71,9 +71,9 @@ struct SeriesReleaseSheet: View {
 
     var header: some View {
         VStack(alignment: .leading) {
-            if !flags().isEmpty {
+            if !release.flagLabels.isEmpty {
                 HStack {
-                    ForEach(flags(), id: \.self) { flag in
+                    ForEach(release.flagLabels, id: \.self) { flag in
                         Text(flag).textCase(.uppercase)
                     }
                 }
@@ -91,7 +91,7 @@ struct SeriesReleaseSheet: View {
             HStack(spacing: 6) {
                 Text(release.qualityLabel)
                 Bullet()
-                Text(release.sizeLabel)
+                Text(formatBytes(release.size, verbose: true))
                 Bullet()
                 Text(release.ageLabel)
             }
@@ -99,7 +99,7 @@ struct SeriesReleaseSheet: View {
             .foregroundStyle(.secondary)
             .lineLimit(1)
 
-            CustomFormats(tags())
+            CustomFormats(release.formatLabels)
         }
     }
 
@@ -202,51 +202,11 @@ struct SeriesReleaseSheet: View {
     }
 
     var runtime: Int {
-        guard let episodeNumbers = release.mappedEpisodeNumbers else {
-            return 0
-        }
-
         let seriesRuntime: Int = instance.series.byId(seriesId)?.runtime ?? 0
 
-        let episodes: [Int] = episodeNumbers.map { id in
-            instance.episodes.byId(id)?.runtime ?? seriesRuntime
+        return release.runtime(seriesRuntime: seriesRuntime) {
+            instance.episodes.runtime(for: $0)
         }
-
-        return episodes.reduce(0, +)
-    }
-
-    func flags() -> [String] {
-        var flags: [String] = []
-
-        let indexerFlags = release.releaseFlags
-
-        if !indexerFlags.isEmpty {
-            flags.append(contentsOf: indexerFlags.map { $0.label })
-        }
-
-        if release.isProper {
-            flags.append(String(localized: "Proper"))
-        }
-
-        if release.isRepack {
-            flags.append(String(localized: "Repack"))
-        }
-
-        return flags
-    }
-
-    func tags() -> [String] {
-        var tags: [String] = []
-
-        if let score = release.scoreLabel, release.customFormatScore != 0 {
-            tags.append(score)
-        }
-
-        if let formats = release.customFormats, !formats.isEmpty {
-            tags.append(contentsOf: formats.map { $0.label })
-        }
-
-        return tags
     }
 
     func row(_ label: LocalizedStringKey, value: String) -> some View {

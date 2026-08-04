@@ -24,13 +24,21 @@ struct FormatBytesTests {
         #expect(formatBytes(Int64(bytes(477.76, 3))) == "478 GB")
     }
 
-    // MARK: - Default precision (concise ~3 significant figures)
+    // MARK: - Default precision (three significant figures)
 
     @Test func defaultUsesThreeSignificantFigures() {
+        #expect(formatBytes(bytes(1.419, 3)) == "1.42 GB")
+        #expect(formatBytes(bytes(14.28, 3)) == "14.3 GB")
         #expect(formatBytes(bytes(100.5, 3)) == "101 GB")
         #expect(formatBytes(bytes(101.5, 4)) == "102 TB")
         #expect(formatBytes(bytes(477.76, 3)) == "478 GB")
         #expect(formatBytes(bytes(27.83, 4)) == "27.8 TB")
+        #expect(formatBytes(bytes(853.4, 2)) == "853 MB")
+    }
+
+    @Test func defaultOmitsTrailingZeros() {
+        #expect(formatBytes(bytes(2, 3)) == "2 GB")
+        #expect(formatBytes(bytes(56, 3)) == "56 GB")
     }
 
     // MARK: - Verbose precision (`verbose: true`)

@@ -8,15 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Added
 - Support alternate instance URLs and automatic network detection
-- Detect instance protocol automatically when none is set
 - Display queue status for movies, seasons and episodes
+- Added option to display a more detailed releases layout
 - Switched to sheets for calendar navigation
 - Display available storage for root folders
 - Display disk space usage and statistics for instances
 - Added Trakt movie ratings
 - Added quick look preview to media posters
 - Added "History" to sidebar on iPadOS
-- Added discovery grid toggle for library items
+- Added discovery grid toggle for items already in library
+- Added a release group filter for releases
 - Show library counts below media grids
 - Jump from a queue task to its movie or series
 - Trigger haptic feedback when an alert is displayed
@@ -29,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved media grid sorting/filtering performance
 - Improved performance of loading movie files
 - Animate media grids, calendar and loading indicators
+- Detect instance protocol automatically when none is set
 - Debounce library search queries
 - Removed sidebar header on iPadOS
 - Refined sections in settings view
@@ -36,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Disambiguate root folder filter labels
 - Reworked the networking layer
 - Reflect queued manual imports immediately in the queue
+- Release search now also matches indexer flags and custom formats
+- The FreeLeech filter now also matches partial freeleech releases
 - Several dozen internal code improvements
 
 ### Fixed

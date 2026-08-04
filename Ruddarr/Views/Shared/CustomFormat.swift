@@ -2,20 +2,23 @@ import SwiftUI
 
 struct CustomFormats: View {
     var formats: [String]
+    var small: Bool
 
-    init(_ formats: [String]) {
+    init(_ formats: [String], small: Bool = false) {
         self.formats = formats
+        self.small = small
     }
 
     init(_ formats: [MediaCustomFormat]) {
         self.formats = formats.map(\.label)
+        self.small = false
     }
 
     var body: some View {
         if !formats.isEmpty {
             OverflowLayout {
                 ForEach(formats, id: \.self) { tag in
-                    CustomFormat(tag)
+                    CustomFormat(tag, small: small)
                 }
             }
         }
@@ -25,23 +28,26 @@ struct CustomFormats: View {
 struct CustomFormat: View {
     var label: String
     var style: CustomFormatStyle
+    var small: Bool
 
-    init(_ label: String, style: CustomFormatStyle = .secondary) {
+    init(_ label: String, style: CustomFormatStyle = .secondary, small: Bool = false) {
         self.label = label
         self.style = style
+        self.small = small
     }
 
     @Environment(\.colorScheme) private var colorScheme
+    @ScaledMetric(relativeTo: .caption2) private var smallSize: CGFloat = 10
 
     var body: some View {
         Text(label)
-            .font(.caption2)
+            .font(small ? .system(size: smallSize) : .caption2)
             .fontWeight(.semibold)
             .foregroundStyle(colorScheme == .dark ? .lightText : .darkGray)
-            .padding(.vertical, 4)
-            .padding(.horizontal, 8)
+            .padding(.vertical, small ? 3 : 4)
+            .padding(.horizontal, small ? 6 : 8)
             .background(
-                RoundedRectangle(cornerRadius: 4).fill(.card)
+                RoundedRectangle(cornerRadius: small ? 3.5 : 4).fill(.card)
             )
     }
 }
@@ -56,17 +62,32 @@ struct OverflowLayout: Layout {
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
         let containerWidth = proposal.replacingUnspecifiedDimensions().width
-        let sizes = subviews.map { $0.sizeThatFits(.unspecified) }
+        let sizes = subviewSizes(of: subviews, clampedTo: proposal.width)
 
         return layout(sizes: sizes, containerWidth: containerWidth).size
     }
 
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        let sizes = subviews.map { $0.sizeThatFits(.unspecified) }
+        let sizes = subviewSizes(of: subviews, clampedTo: proposal.width)
         let offsets = layout(sizes: sizes, containerWidth: bounds.width).offsets
 
-        for (offset, subview) in zip(offsets, subviews) {
-            subview.place(at: CGPoint(x: offset.x + bounds.minX, y: offset.y + bounds.minY), proposal: .unspecified)
+        for (index, subview) in subviews.enumerated() {
+            subview.place(
+                at: CGPoint(x: offsets[index].x + bounds.minX, y: offsets[index].y + bounds.minY),
+                proposal: ProposedViewSize(sizes[index])
+            )
+        }
+    }
+
+    func subviewSizes(of subviews: Subviews, clampedTo width: CGFloat?) -> [CGSize] {
+        subviews.map { subview in
+            let size = subview.sizeThatFits(.unspecified)
+
+            guard let width, width > 0, size.width > width else {
+                return size
+            }
+
+            return subview.sizeThatFits(ProposedViewSize(width: width, height: nil))
         }
     }
 

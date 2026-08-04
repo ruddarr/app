@@ -5,57 +5,108 @@ struct MovieReleaseRow: View {
     var movie: Movie
 
     @Environment(AppSettings.self) private var settings
-    @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
+        switch settings.releases {
+        case .compact: compactRow
+        case .detailed: detailedRow
+        }
+    }
+
+    var compactRow: some View {
         VStack(alignment: .leading) {
             Text(release.title)
                 .font(.headline)
                 .fontWeight(.semibold)
                 .lineLimit(1)
 
-            secondRow
-            thirdRow
+            HStack(spacing: 6) {
+                Text(release.qualityLabel)
+                Bullet()
+                Text(release.sizeLabel)
+                Bullet()
+                Text(release.ageLabel)
+            }
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .font(.subheadline)
+
+            HStack(spacing: 6) {
+                Text(release.typeLabel)
+                    .foregroundStyle(peerColor)
+                    .truncationMode(.head)
+
+                Group {
+                    Bullet()
+                    Text(release.languageLabel)
+                    Bullet()
+                    Text(release.indexerLabel)
+                }
+                .foregroundStyle(.secondary)
+
+                Spacer()
+
+                releaseIcons
+            }
+            .lineLimit(1)
+            .font(.subheadline)
         }
         .contentShape(Rectangle())
     }
 
-    var secondRow: some View {
-        HStack(spacing: 6) {
-            Text(release.qualityLabel)
+    var detailedRow: some View {
+        // swiftlint:disable:next closure_body_length
+        VStack(alignment: .leading) {
+            Text(release.title.breakable(minimumTail: 10))
+                .font(.headline)
+                .fontWeight(.semibold)
 
-            Bullet()
-            Text(release.sizeLabel)
+            HStack(spacing: 6) {
+                Text(release.typeLabel)
+                    .foregroundStyle(peerColor)
+                    .truncationMode(.head)
 
-            Bullet()
-            Text(release.ageLabel)
-        }
-        .foregroundStyle(.secondary)
-        .lineLimit(1)
-        .font(.subheadline)
-    }
-
-    var thirdRow: some View {
-        HStack(spacing: 6) {
-            Text(release.typeLabel)
-                .foregroundStyle(peerColor)
-                .truncationMode(.head)
-
-            Group {
-                Bullet()
-                Text(release.languageLabel)
-
-                Bullet()
-                Text(release.indexerLabel)
+                Group {
+                    Bullet()
+                    Text(release.languageLabel)
+                    Bullet()
+                    Text(release.ageLabel)
+                    Bullet()
+                    Text(release.indexerLabel)
+                }
+                .foregroundStyle(.secondary)
             }
-            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .font(.subheadline)
 
-            Spacer()
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 6) {
+                    Text(release.qualityLabel)
+                    Bullet()
+                    Text(release.sizeLabel)
 
-            releaseIcons
+                    if let bitrate = release.bitrateLabel(movie.runtime) {
+                        Group {
+                            Bullet()
+                            Text(bitrate)
+                        }
+                        .layoutPriority(-1)
+                    }
+
+                    Spacer(minLength: 0)
+
+                    if !release.flagLabels.isEmpty || release.rejected {
+                        releaseIcons
+                    }
+                }
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .font(.subheadline)
+
+                CustomFormats(release.formatLabels, small: true)
+            }
         }
-        .lineLimit(1)
-        .font(.subheadline)
+        .contentShape(Rectangle())
     }
 
     var releaseIcons: some View {
@@ -72,17 +123,31 @@ struct MovieReleaseRow: View {
                 Image(systemName: "r.square")
             }
 
-            if release.hasNonFreeleechFlags {
+            if release.isInternal {
+                Image(systemName: "i.square")
+            }
+
+            if release.isScene {
+                Image(systemName: "s.square")
+            }
+
+            if release.isNuked {
+                Image(systemName: "trash.square")
+            }
+
+            if release.hasOtherFlags {
                 Image(systemName: "flag.square")
             }
 
             if release.rejected {
                 Image(systemName: "exclamationmark.square")
+                    .foregroundStyle(.orange)
             }
         }
         .symbolVariant(.fill)
         .imageScale(.medium)
         .foregroundStyle(.secondary)
+        .font(.subheadline)
     }
 
     var peerColor: any ShapeStyle {

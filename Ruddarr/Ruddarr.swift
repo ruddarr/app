@@ -111,6 +111,11 @@ extension WhatsNew {
             subtitle: "Improved image loading and grid filtering/sorting performance."
         ),
         .init(
+            image: "list.bullet.below.rectangle",
+            title: "Release Layouts",
+            subtitle: "Switch releases to a detailed layout showing bitrate, flags and custom formats."
+        ),
+        .init(
             image: "ladybug",
             title: "Improvements & Fixes",
             subtitle: "Many dozens of quality-of-life improvements and bug fixes throughout the app."
