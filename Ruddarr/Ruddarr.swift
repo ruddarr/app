@@ -101,6 +101,11 @@ extension WhatsNew {
             subtitle: "Switched to using sheets to display calendar items for better navigation."
         ),
         .init(
+            image: "list.bullet.below.rectangle",
+            title: "Release Layouts",
+            subtitle: "Switch releases to a detailed layout showing titles, bitrate, and custom formats."
+        ),
+        .init(
             image: "internaldrive",
             title: "Instance Details",
             subtitle: "View library statistics and disk space usage for each instances."
@@ -111,14 +116,9 @@ extension WhatsNew {
             subtitle: "Improved image loading and grid filtering/sorting performance."
         ),
         .init(
-            image: "list.bullet.below.rectangle",
-            title: "Release Layouts",
-            subtitle: "Switch releases to a detailed layout showing bitrate, flags and custom formats."
-        ),
-        .init(
             image: "ladybug",
             title: "Improvements & Fixes",
-            subtitle: "Many dozens of quality-of-life improvements and bug fixes throughout the app."
+            subtitle: "Several dozens of quality-of-life improvements and bug fixes throughout the app."
         )
     ]
 }

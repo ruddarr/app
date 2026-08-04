@@ -40,13 +40,19 @@ struct WhatsNewView: View {
 
     @State private var locked: Bool = true
 
+    #if os(macOS)
+        private let featureSpacing: CGFloat = 18
+    #else
+        private let featureSpacing: CGFloat = 25
+    #endif
+
     var body: some View {
         ZStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 60) {
                     title
 
-                    VStack(alignment: .leading, spacing: 25) {
+                    VStack(alignment: .leading, spacing: featureSpacing) {
                         ForEach(WhatsNew.features, id: \.title, content: feature)
                     }
                     .modifier(WhatsNewFeaturesPadding())
@@ -57,18 +63,14 @@ struct WhatsNewView: View {
 
                 Color.clear.padding(.bottom, 150)
             }
-            #if os(iOS)
-                .background(.systemBackground)
-            #endif
+            .background(.systemBackground)
 
             VStack {
                 Spacer()
 
                 footer
                     .modifier(WhatsNewFooterPadding())
-                    #if os(iOS)
-                        .background(.systemBackground)
-                    #endif
+                    .background(.systemBackground)
             }
             .edgesIgnoringSafeArea(.bottom)
         }
@@ -171,7 +173,7 @@ struct WhatsNewFooterPadding: ViewModifier {
     func body(content: Content) -> some View {
         #if os(macOS)
             content.padding(
-                .init(top: 0, leading: 30, bottom: 30, trailing: 30)
+                .init(top: 15, leading: 30, bottom: 30, trailing: 30)
             )
         #else
             if self.horizontalSizeClass == .regular {
@@ -222,7 +224,11 @@ private struct WhatsNewSheetViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         if WhatsNew.shouldPresent() {
             content.sheet(isPresented: $isPresented) {
-                WhatsNewView()
+                if Platform.deviceType == .pad {
+                    WhatsNewView().presentationSizing(.form)
+                } else {
+                    WhatsNewView()
+                }
             }
         } else {
             content
