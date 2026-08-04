@@ -48,28 +48,11 @@ func formatRemainingTime(_ date: Date) -> String? {
 }
 
 func formatBytes(_ bytes: some BinaryInteger, verbose: Bool = false) -> String {
-    if verbose {
-        let formatter = ByteCountFormatter()
-        formatter.countStyle = .binary
-        formatter.isAdaptive = true
+    let formatter = ByteCountFormatter()
+    formatter.countStyle = .binary
+    formatter.isAdaptive = verbose
 
-        return formatter.string(fromByteCount: Int64(clamping: bytes))
-    }
-
-    let units = ["bytes", "KB", "MB", "GB", "TB"]
-    var value = Double(bytes)
-    var unit = 0
-
-    while value >= 1_024, unit < units.count - 1 {
-        value /= 1_024
-        unit += 1
-    }
-
-    let number = value.formatted(
-        .number.precision(.significantDigits(1...3)).grouping(.never)
-    )
-
-    return "\(number) \(units[unit])"
+    return formatter.string(fromByteCount: Int64(clamping: bytes))
 }
 
 func formatBytes(_ bytes: Float, verbose: Bool = false) -> String {

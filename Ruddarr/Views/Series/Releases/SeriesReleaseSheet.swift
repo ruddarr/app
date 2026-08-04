@@ -91,7 +91,7 @@ struct SeriesReleaseSheet: View {
             HStack(spacing: 6) {
                 Text(release.qualityLabel)
                 Bullet()
-                Text(release.sizeLabel)
+                Text(formatBytes(release.size, verbose: true))
                 Bullet()
                 Text(release.ageLabel)
             }
