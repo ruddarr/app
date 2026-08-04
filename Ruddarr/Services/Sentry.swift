@@ -121,12 +121,18 @@ func leaveBreadcrumb(
     )
 
     crumb.message = message
-    crumb.data = data
+
+    for (key, value) in data {
+        crumb.setData(value: value, key: key)
+    }
 
     let shouldReport = isRunningIn(.testflight) && shouldReportEvent(crumb)
 
     crumb.message = message.map(maskURLs(in:))
-    crumb.data = maskedBreadcrumbData(data)
+
+    for (key, value) in maskedBreadcrumbData(data) {
+        crumb.setData(value: value, key: key)
+    }
 
     SentrySDK.addBreadcrumb(crumb)
 
@@ -195,7 +201,7 @@ private func shouldRecordBreadcrumb( _ crumb: Breadcrumb) -> Bool {
 private func maskRequestURL( _ crumb: Breadcrumb) -> Breadcrumb {
     guard crumb.category == "http", let url = crumb.data?["url"] as? String else { return crumb }
 
-    crumb.data?["url"] = maskedURL(url)
+    crumb.setData(value: maskedURL(url), key: "url")
 
     return crumb
 }
