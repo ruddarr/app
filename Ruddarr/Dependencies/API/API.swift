@@ -1,5 +1,3 @@
-import os
-import SwiftUI
 import Sentry
 
 struct API: Sendable {

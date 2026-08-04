@@ -1,5 +1,4 @@
 import SwiftUI
-import CloudKit
 
 struct DiagnosticsView: View {
     @Environment(AppSettings.self) private var settings

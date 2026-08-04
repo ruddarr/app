@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryDeck
 
 struct MovieLinks: View {
     var movie: Movie

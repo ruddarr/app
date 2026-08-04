@@ -1,6 +1,4 @@
-import Sentry
 import SwiftUI
-import CloudKit
 import MetricKit
 import TelemetryDeck
 import UserNotifications

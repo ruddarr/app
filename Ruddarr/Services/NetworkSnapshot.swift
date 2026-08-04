@@ -1,5 +1,4 @@
 import os
-import Network
 import Foundation
 
 // Proactively picks the right instance URL by reading the device's own network

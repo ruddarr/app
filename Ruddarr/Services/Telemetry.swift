@@ -1,4 +1,3 @@
-import os
 import Foundation
 import CloudKit
 import TelemetryDeck

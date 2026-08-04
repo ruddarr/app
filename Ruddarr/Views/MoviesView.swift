@@ -1,5 +1,4 @@
 import SwiftUI
-import Combine
 
 enum MoviesPath: Hashable {
     case search(String = "")

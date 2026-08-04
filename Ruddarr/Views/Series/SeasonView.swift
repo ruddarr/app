@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryDeck
 import TipKit
 
 struct SeasonView: View {

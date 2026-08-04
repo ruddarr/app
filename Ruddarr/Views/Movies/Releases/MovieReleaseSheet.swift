@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryDeck
 
 struct MovieReleaseSheet: View {
     var release: MovieRelease

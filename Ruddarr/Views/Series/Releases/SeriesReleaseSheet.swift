@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryDeck
 
 struct SeriesReleaseSheet: View {
     var release: SeriesRelease

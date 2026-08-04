@@ -1,5 +1,4 @@
 import SwiftUI
-import StoreKit
 
 struct SettingsDisplaySection: View {
     @Environment(AppSettings.self) private var settings

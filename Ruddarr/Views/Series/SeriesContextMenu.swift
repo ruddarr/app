@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryDeck
 
 struct SeriesContextMenu: View {
     var series: Series

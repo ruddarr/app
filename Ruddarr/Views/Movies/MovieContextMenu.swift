@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryDeck
 
 struct MovieContextMenu: View {
     var movie: Movie

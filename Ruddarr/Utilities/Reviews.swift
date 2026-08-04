@@ -1,4 +1,3 @@
-import SwiftUI
 import StoreKit
 
 func maybeAskForReview() {
