@@ -7,7 +7,12 @@ import Sentry
 class SeriesEpisodes {
     var instance: Instance
 
-    var items: [Episode] = []
+    var items: [Episode] = [] {
+        didSet { indexRuntimes() }
+    }
+
+    private var runtimes: [Episode.ID: Int] = [:]
+
     var history: [MediaHistoryEvent] = []
 
     var error: API.Error?
@@ -22,6 +27,10 @@ class SeriesEpisodes {
 
     func byId(_ id: Episode.ID) -> Episode? {
         items.first { $0.id == id }
+    }
+
+    func runtime(for id: Episode.ID) -> Int? {
+        runtimes[id]
     }
 
     func bySeasonId(_ season: Season.ID) -> [Episode] {
@@ -107,5 +116,14 @@ class SeriesEpisodes {
         } catch {
             self.error = API.Error(from: error)
         }
+    }
+
+    private func indexRuntimes() {
+        runtimes = Dictionary(
+            items.compactMap { episode in
+                episode.runtime.map { (episode.id, $0) }
+            },
+            uniquingKeysWith: { first, _ in first }
+        )
     }
 }

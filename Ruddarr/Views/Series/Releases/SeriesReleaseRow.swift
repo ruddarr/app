@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SeriesReleaseRow: View {
     var release: SeriesRelease
-    var series: Series
+    var runtime: Int
 
     @Environment(AppSettings.self) private var settings
 
@@ -85,7 +85,7 @@ struct SeriesReleaseRow: View {
                     Bullet()
                     Text(release.sizeLabel)
 
-                    if let bitrate = release.bitrateLabel(series.runtime * release.episodeCount) {
+                    if let bitrate = release.bitrateLabel(runtime) {
                         Group {
                             Bullet()
                             Text(bitrate)

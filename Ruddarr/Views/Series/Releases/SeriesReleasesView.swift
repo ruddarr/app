@@ -18,10 +18,14 @@ struct SeriesReleasesView: View {
     var body: some View {
         List {
             ForEach(releases) { release in
+                let runtime = release.runtime(seriesRuntime: series.runtime) {
+                    instance.episodes.runtime(for: $0)
+                }
+
                 Button {
                     selectedRelease = release
                 } label: {
-                    SeriesReleaseRow(release: release, series: series)
+                    SeriesReleaseRow(release: release, runtime: runtime)
                         .environment(instance)
                         .environment(settings)
                 }

@@ -380,6 +380,16 @@ struct SeriesRelease: Identifiable, Codable {
         return formatCustomScore(score)
     }
 
+    func runtime(seriesRuntime: Int, episodeRuntime: (Episode.ID) -> Int?) -> Int {
+        if let episodes = mappedEpisodeInfo, !episodes.isEmpty {
+            return episodes
+                .map { episodeRuntime($0.id) ?? seriesRuntime }
+                .reduce(0, +)
+        }
+
+        return seriesRuntime * episodeCount
+    }
+
     func bitrateLabel(_ runtime: Int) -> String? {
         guard runtime > 0 else { return nil }
 
