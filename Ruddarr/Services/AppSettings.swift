@@ -63,7 +63,7 @@ final class AppSettings {
         appearance = .automatic
         grid = .posters
         tab = .movies
-        releases = .detailed
+        releases = .compact
         releaseFilters = .reset
         radarrInstanceId = nil
         sonarrInstanceId = nil
@@ -193,13 +193,6 @@ enum ReleaseLayout: String, Identifiable, CaseIterable {
         switch self {
         case .compact: String(localized: "Compact", comment: "(Preferences) Compact release layout")
         case .detailed: String(localized: "Detailed", comment: "(Preferences) Detailed release layout")
-        }
-    }
-
-    var icon: String {
-        switch self {
-        case .compact: "rectangle.grid.1x3"
-        case .detailed: "rectangle.grid.1x2"
         }
     }
 }

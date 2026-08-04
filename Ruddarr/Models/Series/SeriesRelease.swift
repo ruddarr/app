@@ -1,6 +1,4 @@
-import os
-import SwiftUI
-import Sentry
+import Foundation
 
 struct SeriesRelease: Identifiable, Codable {
     var id: String { guid }

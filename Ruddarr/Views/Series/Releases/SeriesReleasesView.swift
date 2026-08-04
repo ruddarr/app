@@ -210,30 +210,12 @@ extension SeriesReleasesView {
                     Label("Descending", systemImage: "arrowtriangle.down").tag(false)
                 }.pickerStyle(.inline)
             }
-
-            Section {
-                ControlGroup {
-                    ForEach(ReleaseLayout.allCases) { value in
-                        Toggle(isOn: layoutBinding(value)) {
-                            Label(value.label, systemImage: value.icon)
-                        }
-                    }
-                }
-                .labelStyle(.titleAndIcon)
-            }
         } label: {
             Image(systemName: "arrow.up.arrow.down")
                 .imageScale(.medium)
         }
         .tint(.primary)
         .menuIndicator(.hidden)
-    }
-
-    func layoutBinding(_ value: ReleaseLayout) -> Binding<Bool> {
-        Binding(
-            get: { settings.releases == value },
-            set: { if $0 { settings.releases = value } }
-        )
     }
 
     var indexersPicker: some View {
