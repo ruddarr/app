@@ -5,7 +5,7 @@ struct SeriesReleasesView: View {
     var seasonId: Season.ID?
     var episodeId: Episode.ID?
 
-    @State private var releases: [SeriesRelease] = []
+    @State private var releases: [(release: SeriesRelease, runtime: Int)] = []
     @State private var fetched: (Series.ID?, Season.ID?, Episode.ID?) = (nil, nil, nil)
     @State private var selectedRelease: SeriesRelease?
 
@@ -17,15 +17,11 @@ struct SeriesReleasesView: View {
 
     var body: some View {
         List {
-            ForEach(releases) { release in
-                let runtime = release.runtime(seriesRuntime: series.runtime) {
-                    instance.episodes.runtime(for: $0)
-                }
-
+            ForEach(releases, id: \.release.id) { item in
                 Button {
-                    selectedRelease = release
+                    selectedRelease = item.release
                 } label: {
-                    SeriesReleaseRow(release: release, runtime: runtime)
+                    SeriesReleaseRow(release: item.release, runtime: item.runtime)
                         .environment(instance)
                         .environment(settings)
                 }
@@ -48,7 +44,7 @@ struct SeriesReleasesView: View {
             sort.search = ""
             sort.seasonPack = seasonId == nil ? .episode : .season
             await instance.releases.search(series, seasonId, episodeId)
-            releases = sort.filterAndSortItems(instance.releases.items, series)
+            releases = displayedReleases()
             fetched = (series.id, seasonId, episodeId)
         }
         .onChange(of: sort.option, updateSortDirection)
@@ -120,6 +116,14 @@ struct SeriesReleasesView: View {
         }
     }
 
+    func displayedReleases() -> [(release: SeriesRelease, runtime: Int)] {
+        sort.filterAndSortItems(instance.releases.items, series).map { release in
+            (release, release.runtime(seriesRuntime: series.runtime) {
+                instance.episodes.runtime(for: $0)
+            })
+        }
+    }
+
     func updateSortDirection() {
         switch sort.option {
         case .bySeeders, .byQuality, .byCustomScore:
@@ -132,7 +136,7 @@ struct SeriesReleasesView: View {
     func updateDisplayedReleases() {
         Task {
             try? await Task.sleep(for: .milliseconds(10))
-            releases = sort.filterAndSortItems(instance.releases.items, series)
+            releases = displayedReleases()
         }
     }
 }
