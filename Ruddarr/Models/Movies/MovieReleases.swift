@@ -209,8 +209,7 @@ struct MovieRelease: Identifiable, Codable {
         cleanIndexerFlags.contains {
             let flag = $0.lowercased()
 
-            return !flag.contains("leech") && !flag.contains("scene")
-                && !flag.contains("nuked") && !flag.contains("internal")
+            return !flag.contains("leech") && !flag.contains("nuked")
         }
     }
 

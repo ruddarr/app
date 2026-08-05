@@ -44,7 +44,7 @@ struct SeriesReleaseRow: View {
                 }
                 .foregroundStyle(.secondary)
 
-                Spacer(minLength: 0)
+                Spacer()
 
                 releaseIcons
             }
@@ -56,54 +56,72 @@ struct SeriesReleaseRow: View {
 
     var detailedRow: some View {
         VStack(alignment: .leading) {
-            Text(release.title.breakable(minimumTail: 10))
+            titleRow
+            qualityRow
+            metadataRow
+            formatsRow
+        }
+        .contentShape(Rectangle())
+    }
+
+    var metadataRow: some View {
+        HStack(spacing: 6) {
+            Text(release.typeLabel)
+                .foregroundStyle(peerColor)
+                .truncationMode(.head)
+
+            Group {
+                Bullet()
+                Text(release.languageLabel)
+                Bullet()
+                Text(release.ageLabel)
+                Bullet()
+                Text(release.indexerLabel)
+            }
+            .foregroundStyle(.secondary)
+        }
+        .lineLimit(1)
+        .font(.subheadline)
+    }
+
+    var titleRow: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 6) {
+            Text(release.title.breakable(minimumTail: 8))
                 .font(.headline)
                 .fontWeight(.semibold)
 
-            HStack(spacing: 6) {
-                Text(release.typeLabel)
-                    .foregroundStyle(peerColor)
-                    .truncationMode(.head)
+            Spacer()
 
+            releaseIcons
+        }
+    }
+
+    var qualityRow: some View {
+        HStack(spacing: 6) {
+            Text(release.qualityLabel)
+            Bullet()
+            Text(release.sizeLabel)
+
+            if let bitrate = release.bitrateLabel(runtime) {
                 Group {
                     Bullet()
-                    Text(release.languageLabel)
-                    Bullet()
-                    Text(release.ageLabel)
-                    Bullet()
-                    Text(release.indexerLabel)
+                    Text(bitrate)
                 }
-                .foregroundStyle(.secondary)
+                .layoutPriority(-1)
             }
-            .lineLimit(1)
-            .font(.subheadline)
 
-            VStack(alignment: .leading, spacing: 6) {
-                HStack(spacing: 6) {
-                    Text(release.qualityLabel)
-                    Bullet()
-                    Text(release.sizeLabel)
-
-                    if let bitrate = release.bitrateLabel(runtime) {
-                        Group {
-                            Bullet()
-                            Text(bitrate)
-                        }
-                        .layoutPriority(-1)
-                    }
-
-                    Spacer(minLength: 0)
-
-                    releaseIcons
-                }
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
-                .font(.subheadline)
-
-                CustomFormats(release.formatLabels, small: true)
-            }
+            Spacer()
         }
-        .contentShape(Rectangle())
+        .foregroundStyle(.secondary)
+        .lineLimit(1)
+        .font(.subheadline)
+    }
+
+    @ViewBuilder
+    var formatsRow: some View {
+        if !release.formatLabels.isEmpty {
+            CustomFormats(release.formatLabels, small: true)
+        }
     }
 
     @ViewBuilder
@@ -122,14 +140,6 @@ struct SeriesReleaseRow: View {
                     Image(systemName: "r.square")
                 }
 
-                if release.isInternal {
-                    Image(systemName: "i.square")
-                }
-
-                if release.isScene {
-                    Image(systemName: "s.square")
-                }
-
                 if release.isNuked {
                     Image(systemName: "trash.square")
                 }
@@ -146,7 +156,9 @@ struct SeriesReleaseRow: View {
             .symbolVariant(.fill)
             .imageScale(.medium)
             .foregroundStyle(.secondary)
-            .font(.subheadline)
+            .font(
+                settings.releases == .detailed ? .callout : .subheadline
+            )
         }
     }
 
