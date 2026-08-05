@@ -31,6 +31,7 @@ struct InstanceView: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
+    @Environment(\.presentInstanceWeb) var presentInstanceWeb
 
     var body: some View {
         Form {
@@ -57,6 +58,7 @@ struct InstanceView: View {
         .contentMargins(.bottom, 32, for: .scrollContent)
         .formStyle(.grouped)
         .toolbar {
+            toolbarWebButton
             toolbarEditButton
         }
         .safeNavigationBarTitleDisplayMode(.inline)
@@ -195,6 +197,17 @@ struct InstanceView: View {
             } else {
                 disableNotifications
             }
+        }
+    }
+
+    @ToolbarContentBuilder
+    var toolbarWebButton: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Button("Web Interface", systemImage: "safari") {
+                presentInstanceWeb.wrappedValue = InstanceWebPresentation(instance: instance)
+            }
+            .tint(.primary)
+            .hideIconOnMac()
         }
     }
 

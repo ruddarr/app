@@ -3,6 +3,7 @@ import SwiftUI
 extension EnvironmentValues {
     @Entry var deviceType: DeviceType = .unspecified
     @Entry var presentBugSheet: Binding<Bool> = .constant(false)
+    @Entry var presentInstanceWeb: Binding<InstanceWebPresentation?> = .constant(nil)
 
     // swiftlint:disable:next implicit_optional_initialization
     @Entry var inCalendarSheet: CalendarSheetContext? = nil

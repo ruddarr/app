@@ -45,6 +45,7 @@ struct ContentView: View {
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
+        .instanceWebSheet()
         .onBecomeActive(perform: handleScenePhaseChange)
     }
 
