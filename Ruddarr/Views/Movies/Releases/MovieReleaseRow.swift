@@ -76,8 +76,6 @@ struct MovieReleaseRow: View {
                 Bullet()
                 Text(release.languageLabel)
                 Bullet()
-                Text(release.ageLabel)
-                Bullet()
                 Text(release.indexerLabel)
             }
             .foregroundStyle(.secondary)
@@ -115,7 +113,8 @@ struct MovieReleaseRow: View {
                 .layoutPriority(-1)
             }
 
-            Spacer()
+            Bullet()
+            Text(release.ageLabel)
         }
         .foregroundStyle(.secondary)
         .lineLimit(1)
@@ -178,8 +177,7 @@ struct MovieReleaseRow: View {
         }
 
         return switch release.seeders ?? 0 {
-        case 50...: .green
-        case 10..<50: .blue
+        case 10...: .green
         case 1..<10: .orange
         default: .red
         }
