@@ -127,7 +127,6 @@ struct SettingsSystemSection: View {
         radarrInstance.switchTo(.radarrVoid)
         sonarrInstance.switchTo(.sonarrVoid)
         settings.resetAll()
-        InstanceWebView.clearWebsiteData()
     }
 }
 

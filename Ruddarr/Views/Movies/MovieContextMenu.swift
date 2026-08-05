@@ -5,7 +5,7 @@ struct MovieContextMenu: View {
 
     @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
-    @Environment(\.presentInstanceWeb) private var presentInstanceWeb
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         Group {
@@ -13,10 +13,11 @@ struct MovieContextMenu: View {
 
             if movie.exists, let config = settings.instanceById(instance.id) {
                 Button("Open in \(config.label)", systemImage: "safari") {
-                    presentInstanceWeb.wrappedValue = InstanceWebPresentation(
-                        instance: config,
-                        path: "movie/\(movie.tmdbId)"
-                    )
+                    Task {
+                        if let url = await config.webURL(path: "movie/\(movie.tmdbId)") {
+                            openURL(url, prefersInApp: true)
+                        }
+                    }
                 }
             }
 

@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Jump from a queue task to its movie or series
 - Trigger haptic feedback when an alert is displayed
 - Show colors in the accent color picker
-- Open instance web interfaces within the app, with persistent logins
+- Open instance web interfaces from settings and media context menus
 
 ### Changed
 - Improved instance synchronization across devices

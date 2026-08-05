@@ -54,7 +54,6 @@ struct ContentView: View {
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
-        .instanceWebSheet()
     }
 
     var movies: TabItem { .movies }

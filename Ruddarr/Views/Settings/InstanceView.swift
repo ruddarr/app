@@ -31,7 +31,7 @@ struct InstanceView: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
-    @Environment(\.presentInstanceWeb) var presentInstanceWeb
+    @Environment(\.openURL) var openURL
 
     var body: some View {
         Form {
@@ -204,7 +204,11 @@ struct InstanceView: View {
     var toolbarWebButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button {
-                presentInstanceWeb.wrappedValue = InstanceWebPresentation(instance: instance)
+                Task {
+                    if let url = await instance.webURL() {
+                        openURL(url, prefersInApp: true)
+                    }
+                }
             } label: {
                 Image(systemName: "safari")
             }

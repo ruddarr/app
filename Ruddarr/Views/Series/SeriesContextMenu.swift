@@ -5,7 +5,7 @@ struct SeriesContextMenu: View {
 
     @Environment(AppSettings.self) private var settings
     @Environment(SonarrInstance.self) private var instance
-    @Environment(\.presentInstanceWeb) private var presentInstanceWeb
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         Group {
@@ -13,10 +13,11 @@ struct SeriesContextMenu: View {
 
             if series.exists, let config = settings.instanceById(instance.id) {
                 Button("Open in \(config.label)", systemImage: "safari") {
-                    presentInstanceWeb.wrappedValue = InstanceWebPresentation(
-                        instance: config,
-                        path: webPath
-                    )
+                    Task {
+                        if let url = await config.webURL(path: webPath) {
+                            openURL(url, prefersInApp: true)
+                        }
+                    }
                 }
             }
 
