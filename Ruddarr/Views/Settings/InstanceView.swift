@@ -203,11 +203,12 @@ struct InstanceView: View {
     @ToolbarContentBuilder
     var toolbarWebButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            Button("Web Interface", systemImage: "safari") {
+            Button {
                 presentInstanceWeb.wrappedValue = InstanceWebPresentation(instance: instance)
+            } label: {
+                Image(systemName: "safari")
             }
             .tint(.primary)
-            .hideIconOnMac()
         }
     }
 

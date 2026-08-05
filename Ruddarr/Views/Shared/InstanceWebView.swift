@@ -45,29 +45,32 @@ struct InstanceWebView: View {
     @ToolbarContentBuilder
     var toolbarButtons: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
-            Button("Done", systemImage: "xmark") {
+            Button {
                 dismiss()
+            } label: {
+                Image(systemName: "xmark")
             }
             .tint(.primary)
-            .hideIconOnMac()
         }
 
         ToolbarItem(placement: .primaryAction) {
-            Button("Open in Browser", systemImage: "safari") {
+            Button {
                 if let url = page.url ?? URL(string: instance.url) {
                     openURL(url)
                 }
+            } label: {
+                Image(systemName: "safari")
             }
             .tint(.primary)
-            .hideIconOnMac()
         }
 
         ToolbarItem(placement: .primaryAction) {
-            Button("Reload", systemImage: "arrow.clockwise") {
+            Button {
                 page.reload()
+            } label: {
+                Image(systemName: "arrow.clockwise")
             }
             .tint(.primary)
-            .hideIconOnMac()
         }
     }
 
