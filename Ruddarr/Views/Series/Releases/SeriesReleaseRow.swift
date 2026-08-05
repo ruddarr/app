@@ -6,6 +6,8 @@ struct SeriesReleaseRow: View {
 
     @Environment(AppSettings.self) private var settings
 
+    @ScaledMetric(relativeTo: .callout) private var iconBaselineRaise: CGFloat = 1
+
     var body: some View {
         switch settings.releases {
         case .compact: compactRow
@@ -55,7 +57,7 @@ struct SeriesReleaseRow: View {
     }
 
     var detailedRow: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 2) {
             titleRow
             qualityRow
             metadataRow
@@ -93,6 +95,9 @@ struct SeriesReleaseRow: View {
             Spacer()
 
             releaseIcons
+                .alignmentGuide(.firstTextBaseline) {
+                    $0[.firstTextBaseline] + iconBaselineRaise
+                }
         }
     }
 
@@ -121,6 +126,7 @@ struct SeriesReleaseRow: View {
     var formatsRow: some View {
         if !release.formatLabels.isEmpty {
             CustomFormats(release.formatLabels, small: true)
+                .padding(.top, 4)
         }
     }
 

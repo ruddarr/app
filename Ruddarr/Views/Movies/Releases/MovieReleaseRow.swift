@@ -6,6 +6,8 @@ struct MovieReleaseRow: View {
 
     @Environment(AppSettings.self) private var settings
 
+    @ScaledMetric(relativeTo: .callout) private var iconBaselineRaise: CGFloat = 1
+
     var body: some View {
         switch settings.releases {
         case .compact: compactRow
@@ -55,14 +57,11 @@ struct MovieReleaseRow: View {
     }
 
     var detailedRow: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 2) {
             titleRow
             qualityRow
-
-            VStack(alignment: .leading, spacing: 6) {
-                metadataRow
-                formatsRow
-            }
+            metadataRow
+            formatsRow
         }
         .contentShape(Rectangle())
     }
@@ -96,6 +95,9 @@ struct MovieReleaseRow: View {
             Spacer()
 
             releaseIcons
+                .alignmentGuide(.firstTextBaseline) {
+                    $0[.firstTextBaseline] + iconBaselineRaise
+                }
         }
     }
 
@@ -124,6 +126,7 @@ struct MovieReleaseRow: View {
     var formatsRow: some View {
         if !release.formatLabels.isEmpty {
             CustomFormats(release.formatLabels, small: true)
+                .padding(.top, 4)
         }
     }
 
