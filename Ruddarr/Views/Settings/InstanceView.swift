@@ -31,7 +31,10 @@ struct InstanceView: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
-    @Environment(\.openURL) var openURL
+
+    #if os(iOS)
+        @Environment(\.openURL) var openURL
+    #endif
 
     var body: some View {
         Form {
@@ -58,7 +61,9 @@ struct InstanceView: View {
         .contentMargins(.bottom, 32, for: .scrollContent)
         .formStyle(.grouped)
         .toolbar {
-            toolbarWebButton
+            #if os(iOS)
+                toolbarWebButton
+            #endif
             toolbarEditButton
         }
         .safeNavigationBarTitleDisplayMode(.inline)
@@ -200,21 +205,23 @@ struct InstanceView: View {
         }
     }
 
-    @ToolbarContentBuilder
-    var toolbarWebButton: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            Button {
-                Task {
-                    if let url = await instance.webURL() {
-                        openURL(url, prefersInApp: true)
+    #if os(iOS)
+        @ToolbarContentBuilder
+        var toolbarWebButton: some ToolbarContent {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    Task {
+                        if let url = await instance.webURL() {
+                            openURL(url, prefersInApp: true)
+                        }
                     }
+                } label: {
+                    Image(systemName: "safari")
                 }
-            } label: {
-                Image(systemName: "safari")
+                .tint(.primary)
             }
-            .tint(.primary)
         }
-    }
+    #endif
 
     @ToolbarContentBuilder
     var toolbarEditButton: some ToolbarContent {

@@ -3,23 +3,28 @@ import SwiftUI
 struct MovieContextMenu: View {
     var movie: Movie
 
-    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
-    @Environment(\.openURL) private var openURL
+
+    #if os(iOS)
+        @Environment(AppSettings.self) private var settings
+        @Environment(\.openURL) private var openURL
+    #endif
 
     var body: some View {
         Group {
             MovieLinks(movie: movie)
 
-            if movie.exists, let config = settings.instanceById(instance.id) {
-                Button("Open in \(config.label)", systemImage: "safari") {
-                    Task {
-                        if let url = await config.webURL(path: "movie/\(movie.tmdbId)") {
-                            openURL(url, prefersInApp: true)
+            #if os(iOS)
+                if movie.exists, let config = settings.instanceById(instance.id) {
+                    Button("Open in \(config.label)", systemImage: "safari") {
+                        Task {
+                            if let url = await config.webURL(path: "movie/\(movie.tmdbId)") {
+                                openURL(url, prefersInApp: true)
+                            }
                         }
                     }
                 }
-            }
+            #endif
 
             if movie.exists {
                 Divider()
