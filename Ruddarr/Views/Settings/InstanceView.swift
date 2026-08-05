@@ -63,7 +63,9 @@ struct InstanceView: View {
         .toolbar {
             #if os(iOS)
                 toolbarWebButton
+                ToolbarSpacer(.fixed, placement: .primaryAction)
             #endif
+
             toolbarEditButton
         }
         .safeNavigationBarTitleDisplayMode(.inline)
