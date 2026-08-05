@@ -134,7 +134,7 @@ struct SeriesRelease: Identifiable, Codable {
 
     var hasOtherFlags: Bool {
         releaseFlags.contains {
-            ![.freeleech, .halfleech, .freeleech75, .freeleech25, .scene, .nuked, .internal].contains($0)
+            ![.freeleech, .halfleech, .freeleech75, .freeleech25, .nuked].contains($0)
         }
     }
 

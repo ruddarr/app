@@ -6,6 +6,8 @@ struct MovieReleaseRow: View {
 
     @Environment(AppSettings.self) private var settings
 
+    @ScaledMetric(relativeTo: .callout) private var iconBaselineRaise: CGFloat = 1
+
     var body: some View {
         switch settings.releases {
         case .compact: compactRow
@@ -55,99 +57,115 @@ struct MovieReleaseRow: View {
     }
 
     var detailedRow: some View {
-        // swiftlint:disable:next closure_body_length
-        VStack(alignment: .leading) {
-            Text(release.title.breakable(minimumTail: 10))
-                .font(.headline)
-                .fontWeight(.semibold)
-
-            HStack(spacing: 6) {
-                Text(release.typeLabel)
-                    .foregroundStyle(peerColor)
-                    .truncationMode(.head)
-
-                Group {
-                    Bullet()
-                    Text(release.languageLabel)
-                    Bullet()
-                    Text(release.ageLabel)
-                    Bullet()
-                    Text(release.indexerLabel)
-                }
-                .foregroundStyle(.secondary)
-            }
-            .lineLimit(1)
-            .font(.subheadline)
-
-            VStack(alignment: .leading, spacing: 6) {
-                HStack(spacing: 6) {
-                    Text(release.qualityLabel)
-                    Bullet()
-                    Text(release.sizeLabel)
-
-                    if let bitrate = release.bitrateLabel(movie.runtime) {
-                        Group {
-                            Bullet()
-                            Text(bitrate)
-                        }
-                        .layoutPriority(-1)
-                    }
-
-                    Spacer(minLength: 0)
-
-                    if !release.flagLabels.isEmpty || release.rejected {
-                        releaseIcons
-                    }
-                }
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
-                .font(.subheadline)
-
-                CustomFormats(release.formatLabels, small: true)
-            }
+        VStack(alignment: .leading, spacing: 2) {
+            titleRow
+            qualityRow
+            metadataRow
+            formatsRow
         }
         .contentShape(Rectangle())
     }
 
-    var releaseIcons: some View {
-        HStack(spacing: 2) {
-            if release.isFreeleech {
-                Image(systemName: "f.square")
-            }
+    var metadataRow: some View {
+        HStack(spacing: 6) {
+            Text(release.typeLabel)
+                .foregroundStyle(peerColor)
+                .truncationMode(.head)
 
-            if release.isProper {
-                Image(systemName: "p.square")
+            Group {
+                Bullet()
+                Text(release.languageLabel)
+                Bullet()
+                Text(release.ageLabel)
+                Bullet()
+                Text(release.indexerLabel)
             }
-
-            if release.isRepack {
-                Image(systemName: "r.square")
-            }
-
-            if release.isInternal {
-                Image(systemName: "i.square")
-            }
-
-            if release.isScene {
-                Image(systemName: "s.square")
-            }
-
-            if release.isNuked {
-                Image(systemName: "trash.square")
-            }
-
-            if release.hasOtherFlags {
-                Image(systemName: "flag.square")
-            }
-
-            if release.rejected {
-                Image(systemName: "exclamationmark.square")
-                    .foregroundStyle(.orange)
-            }
+            .foregroundStyle(.secondary)
         }
-        .symbolVariant(.fill)
-        .imageScale(.medium)
-        .foregroundStyle(.secondary)
+        .lineLimit(1)
         .font(.subheadline)
+    }
+
+    var titleRow: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 6) {
+            Text(release.title.breakable(minimumTail: 8))
+                .font(.headline)
+                .fontWeight(.semibold)
+
+            Spacer()
+
+            releaseIcons
+                .alignmentGuide(.firstTextBaseline) {
+                    $0[.firstTextBaseline] + iconBaselineRaise
+                }
+        }
+    }
+
+    var qualityRow: some View {
+        HStack(spacing: 6) {
+            Text(release.qualityLabel)
+            Bullet()
+            Text(release.sizeLabel)
+
+            if let bitrate = release.bitrateLabel(movie.runtime) {
+                Group {
+                    Bullet()
+                    Text(bitrate)
+                }
+                .layoutPriority(-1)
+            }
+
+            Spacer()
+        }
+        .foregroundStyle(.secondary)
+        .lineLimit(1)
+        .font(.subheadline)
+    }
+
+    @ViewBuilder
+    var formatsRow: some View {
+        if !release.formatLabels.isEmpty {
+            CustomFormats(release.formatLabels, small: true)
+                .padding(.top, 4)
+        }
+    }
+
+    @ViewBuilder
+    var releaseIcons: some View {
+        if !release.flagLabels.isEmpty || release.rejected {
+            HStack(spacing: 2) {
+                if release.isFreeleech {
+                    Image(systemName: "f.square")
+                }
+
+                if release.isProper {
+                    Image(systemName: "p.square")
+                }
+
+                if release.isRepack {
+                    Image(systemName: "r.square")
+                }
+
+                if release.isNuked {
+                    Image(systemName: "trash.square")
+                }
+
+                if release.hasOtherFlags {
+                    Image(systemName: "flag.square")
+                }
+
+                if release.rejected {
+                    Image(systemName: "exclamationmark.square")
+                        .foregroundStyle(.orange)
+                }
+            }
+            .symbolVariant(.fill)
+            .imageScale(.medium)
+            .foregroundStyle(.secondary)
+            .font(
+                settings.releases == .detailed ? .callout : .subheadline
+            )
+        }
     }
 
     var peerColor: any ShapeStyle {
