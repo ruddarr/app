@@ -115,8 +115,6 @@ struct MovieReleaseRow: View {
 
             Bullet()
             Text(release.ageLabel)
-
-            Spacer()
         }
         .foregroundStyle(.secondary)
         .lineLimit(1)
