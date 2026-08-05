@@ -40,6 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reflect queued manual imports immediately in the queue
 - Release search now also matches indexer flags and custom formats
 - The FreeLeech filter now also matches partial freeleech releases
+- Torrents with 10 or more seeders are now shown in green
+- Abbreviate the "AnimeBytes" indexer as "AB"
 - Several dozen internal code improvements
 
 ### Fixed
