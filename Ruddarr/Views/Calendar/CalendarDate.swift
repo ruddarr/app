@@ -35,6 +35,9 @@ struct CalendarDate: View {
         .onBecomeActive {
             isToday = Calendar.current.isDateInToday(date)
         }
+        .onReceive(NotificationCenter.default.publisher(for: .NSCalendarDayChanged).receive(on: DispatchQueue.main)) { _ in
+            isToday = Calendar.current.isDateInToday(date)
+        }
         .transaction { transaction in
             transaction.animation = nil // disable animation
         }
