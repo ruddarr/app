@@ -111,8 +111,7 @@ the observers moved to the app level.
 
 The trigger is only one of several entry points into the same fetches — `.task`,
 `.refreshable`, and instance switching hit them too. `SeriesEpisodes.maybeFetch` coalesces
-concurrent callers, but the movie and series library fetches do not, and the `lastFetch`
-throttle stamp is set by `fetchMoviesThrottled` and not by `fetchMoviesWithMetadata`. A
+concurrent same-series callers, but the movie and series library fetches do not coalesce. A
 resume with a detail view open can still issue overlapping requests for the same endpoint —
 with the series/season/episode stack installed, one resume fires up to three concurrent
 episode fetches, since the resume reloads call `fetch(_:)` directly rather than a joinable
