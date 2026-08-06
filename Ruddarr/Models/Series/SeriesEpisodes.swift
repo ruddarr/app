@@ -58,6 +58,8 @@ class SeriesEpisodes {
             return await maybeFetchTask.value
         }
 
+        maybeFetchTask?.cancel()
+
         let task = Task { await fetch(series) }
         maybeFetchTask = task
         maybeFetchSeriesId = series.id
