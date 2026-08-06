@@ -114,6 +114,11 @@ struct Series: Media, Identifiable, Equatable, Codable {
         guid != nil
     }
 
+    var webPath: String {
+        guard let slug = titleSlug, !slug.isEmpty else { return "" }
+        return "series/\(slug)"
+    }
+
     var ratingScore: Float {
         guard let votes = ratings?.votes, votes > 0 else { return 0 }
         guard let rating = ratings?.value else { return 0 }

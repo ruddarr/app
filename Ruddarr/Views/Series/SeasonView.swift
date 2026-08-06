@@ -230,6 +230,12 @@ struct SeasonView: View {
                 }
 
                 Section {
+                    if let config = settings.instanceById(instance.id) {
+                        InstanceWebLink(instance: config, path: series.webPath)
+                    }
+                }
+
+                Section {
                     deleteSeasonButton
                 }
             } label: {

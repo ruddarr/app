@@ -14,7 +14,7 @@ Added
 - Jump from a queue task to its movie or series
 - Trigger haptic feedback when an alert is displayed
 - Show colors in the accent color picker
-- Open instance web interfaces from settings and media context menus on iOS and iPadOS
+- Open instance web interfaces from settings and media menus on iOS and iPadOS
 
 Changed
 - Improved instance synchronization across devices

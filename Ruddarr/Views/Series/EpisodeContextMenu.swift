@@ -2,6 +2,8 @@ import SwiftUI
 
 struct EpisodeContextMenu: View {
     var episode: Episode
+
+    @Environment(AppSettings.self) private var settings
     @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
@@ -16,6 +18,10 @@ struct EpisodeContextMenu: View {
 
             if let callsheetUrl = callsheet {
                 link(name: "Callsheet", url: callsheetUrl)
+            }
+
+            if let config = settings.instanceById(instance.id) {
+                InstanceWebLink(instance: config, path: seriesWebPath)
             }
 
             Divider()
@@ -40,6 +46,10 @@ struct EpisodeContextMenu: View {
         dependencies.toast.show(.episodeSearchQueued)
 
         Telemetry.record(.episodeSearchDispatched)
+    }
+
+    var seriesWebPath: String {
+        instance.series.byId(episode.seriesId)?.webPath ?? ""
     }
 
     var encodedTitle: String? {

@@ -132,6 +132,10 @@ struct MovieView: View {
             }
 
             MovieLinks(movie: movie)
+
+            if let config = settings.instanceById(instance.id) {
+                InstanceWebLink(instance: config, path: movie.webPath)
+            }
         }
     }
 

@@ -89,6 +89,10 @@ struct SeriesDetailView: View {
 
                 Section {
                     SeriesLinks(series: series)
+
+                    if let config = settings.instanceById(instance.id) {
+                        InstanceWebLink(instance: config, path: series.webPath)
+                    }
                 }
 
                 Section {

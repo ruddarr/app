@@ -31,10 +31,7 @@ struct InstanceView: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
-
-    #if os(iOS)
-        @Environment(\.openURL) var openURL
-    #endif
+    @Environment(\.openURL) var openURL
 
     var body: some View {
         Form {
@@ -207,23 +204,21 @@ struct InstanceView: View {
         }
     }
 
-    #if os(iOS)
-        @ToolbarContentBuilder
-        var toolbarWebButton: some ToolbarContent {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    Task {
-                        if let url = await instance.webURL() {
-                            openURL(url, prefersInApp: true)
-                        }
+    @ToolbarContentBuilder
+    var toolbarWebButton: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Button {
+                Task {
+                    if let url = await instance.webURL() {
+                        openURL(url, prefersInApp: true)
                     }
-                } label: {
-                    Image(systemName: "safari")
                 }
-                .tint(.primary)
+            } label: {
+                Image(systemName: "safari")
             }
+            .tint(.primary)
         }
-    #endif
+    }
 
     @ToolbarContentBuilder
     var toolbarEditButton: some ToolbarContent {

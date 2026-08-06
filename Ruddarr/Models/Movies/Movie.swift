@@ -124,6 +124,10 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         return QuickActions.Deeplink.openMovie(id, instanceId.uuidString).url
     }
 
+    var webPath: String {
+        "movie/\(tmdbId)"
+    }
+
     var queueKey: QueueKey? {
         instanceId.map { .movie(instanceId: $0, id: id) }
     }
