@@ -57,6 +57,7 @@ struct SeriesView: View {
                     .task {
                         guard !instance.isVoid else { return }
                         await fetchSeriesThrottled()
+                        await fetchInstanceMetadata()
                     }
                     .refreshable {
                         await Task { await fetchSeriesWithAlert() }.value
@@ -223,16 +224,19 @@ struct SeriesView: View {
         Task { @MainActor in
             _ = await instance.series.fetch()
             updateDisplayedSeries()
+            await fetchInstanceMetadata()
+        }
+    }
 
-            let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
-            let cacheInSeconds: Double = instance.isSlow ? 300 : 30
+    func fetchInstanceMetadata() async {
+        let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
+        let cacheInSeconds: Double = instance.isSlow ? 300 : 30
 
-            if Occurrence.since(lastMetadataFetch) > cacheInSeconds {
-                if let model = await instance.fetchMetadata() {
-                    settings.saveInstanceMetadata(model)
-                    Occurrence.occurred(lastMetadataFetch)
-                }
-            }
+        guard Occurrence.since(lastMetadataFetch) > cacheInSeconds else { return }
+
+        if let model = await instance.fetchMetadata() {
+            settings.saveInstanceMetadata(model)
+            Occurrence.occurred(lastMetadataFetch)
         }
     }
 

@@ -3,6 +3,7 @@ import SwiftUI
 #if os(macOS)
 struct ContentView: View {
     @Environment(AppSettings.self) private var settings
+    @Environment(\.appearsActive) private var appearsActive
 
     var body: some View {
         NavigationSplitView {
@@ -45,7 +46,19 @@ struct ContentView: View {
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
-        .onBecomeActive(perform: handleScenePhaseChange)
+        .onChange(of: appearsActive, initial: true) {
+            // the app's single window focus observer, see `Lifecycle`.
+            // `initial` arms unfocused launches, it can never fire the event itself
+            if appearsActive {
+                Lifecycle.shared.becameActive()
+            } else {
+                Lifecycle.shared.resignedActive()
+            }
+        }
+        .task {
+            updateTelemetryAndWebhooks()
+        }
+        .onBecomeActive(perform: updateTelemetryAndWebhooks)
     }
 
     var movies: TabItem { .movies }
@@ -54,7 +67,7 @@ struct ContentView: View {
     var activity: TabItem { .activity }
     var history: TabItem { .history }
 
-    func handleScenePhaseChange() {
+    func updateTelemetryAndWebhooks() {
         Telemetry.maybePing(with: settings)
         Notifications.maybeUpdateWebhooks(settings)
     }

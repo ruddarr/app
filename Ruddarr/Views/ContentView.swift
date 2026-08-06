@@ -6,6 +6,7 @@ struct ContentView: View {
 
     @Environment(AppSettings.self) private var settings
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         TabView(selection: selectedTab) {
@@ -50,7 +51,19 @@ struct ContentView: View {
 
             UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
         }
-        .onBecomeActive(perform: handleScenePhaseChange)
+        .onChange(of: scenePhase, initial: true) {
+            // the app's single scene phase observer, see `Lifecycle`.
+            // `initial` arms background launches, it can never fire the event itself
+            switch scenePhase {
+            case .background: Lifecycle.shared.resignedActive()
+            case .active: Lifecycle.shared.becameActive()
+            default: break
+            }
+        }
+        .task {
+            await updateTelemetryAndWebhooks()
+        }
+        .onBecomeActive(perform: updateTelemetryAndWebhooks)
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
@@ -75,7 +88,7 @@ struct ContentView: View {
         )
     }
 
-    func handleScenePhaseChange() async {
+    func updateTelemetryAndWebhooks() async {
         Telemetry.maybePing(with: settings)
         Notifications.maybeUpdateWebhooks(settings)
     }
