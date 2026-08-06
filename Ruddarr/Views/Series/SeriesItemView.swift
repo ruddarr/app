@@ -41,6 +41,7 @@ struct SeriesDetailView: View {
             await instance.episodes.maybeFetch(series)
         }
         .onBecomeActive {
+            print("[SeriesDetailView] onBecomeActive → reload()")
             await reload()
         }
         .sensoryAlert(

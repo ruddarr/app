@@ -45,7 +45,7 @@ struct ContentView: View {
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
-        .onBecomeActive(perform: handleScenePhaseChange)
+        .onBecomeActive(initial: true, perform: handleScenePhaseChange)
     }
 
     var movies: TabItem { .movies }

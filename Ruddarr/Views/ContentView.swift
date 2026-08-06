@@ -50,7 +50,7 @@ struct ContentView: View {
 
             UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
         }
-        .onBecomeActive(perform: handleScenePhaseChange)
+        .onBecomeActive(initial: true, perform: handleScenePhaseChange)
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()

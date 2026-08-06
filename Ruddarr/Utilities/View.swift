@@ -1,8 +1,8 @@
 import SwiftUI
 
 extension View {
-    func onBecomeActive(perform action: @escaping () async -> Void) -> some View {
-        self.modifier(OnBecomeActiveModifier(action: action))
+    func onBecomeActive(initial: Bool = false, perform action: @escaping () async -> Void) -> some View {
+        self.modifier(OnBecomeActiveModifier(initial: initial, action: action))
     }
 
     func withAppState() -> some View {
@@ -74,14 +74,16 @@ extension View {
 }
 
 private struct OnBecomeActiveModifier: ViewModifier {
+    let initial: Bool
     let action: () async -> Void
 
 #if os(macOS)
     @Environment(\.appearsActive) private var appearsActive
 
     func body(content: Content) -> some View {
-        content.onChange(of: appearsActive, initial: true) {
-            guard appearsActive else { return }
+        content.onChange(of: appearsActive, initial: initial) { oldValue, newValue in
+            guard newValue else { return }
+            print("[onBecomeActive] fired\(oldValue == newValue ? " (initial, on appear)" : " (transition)")")
             Task { await action() }
         }
     }
@@ -89,9 +91,10 @@ private struct OnBecomeActiveModifier: ViewModifier {
     @Environment(\.scenePhase) private var scenePhase
 
     func body(content: Content) -> some View {
-        content.onChange(of: scenePhase, initial: true) {
-            guard scenePhase == .active else { return }
+        content.onChange(of: scenePhase, initial: initial) { oldPhase, newPhase in
+            guard newPhase == .active else { return }
 
+            print("[onBecomeActive] fired\(oldPhase == newPhase ? " (initial, on appear)" : " (transition: \(oldPhase) → \(newPhase))")")
             Task { await action() }
         }
     }

@@ -19,6 +19,7 @@ class Movies {
 
     private var alternateTitles: [Movie.ID: String] = [:]
     private var sortAndFilterTask: Task<Void, Never>?
+    private var fetchTask: Task<Bool, Never>?
 
     enum Operation {
         case fetch
@@ -81,7 +82,15 @@ class Movies {
     }
 
     func fetch() async -> Bool {
-        await request(.fetch)
+        if let fetchTask {
+            return await fetchTask.value
+        }
+
+        let task = Task { await request(.fetch) }
+        fetchTask = task
+        defer { fetchTask = nil }
+
+        return await task.value
     }
 
     func get(_ movie: Movie) async -> Bool {
