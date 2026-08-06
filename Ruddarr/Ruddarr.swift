@@ -51,13 +51,7 @@ struct Ruddarr: App {
                     .onOpenURL(perform: openDeeplink)
                     .onContinueUserActivity(CSSearchableItemActionType, perform: openSearchableItem)
             }
-            .onChange(of: scenePhase, initial: true) {
-                switch scenePhase {
-                case .background: Lifecycle.shared.resignedActive()
-                case .active: Lifecycle.shared.becameActive()
-                default: break
-                }
-            }
+            .onChange(of: scenePhase, initial: true, Lifecycle.shared.phaseChanged)
         #endif
     }
 

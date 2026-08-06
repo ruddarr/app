@@ -27,6 +27,14 @@ class Lifecycle {
 
     private var leftForeground: Bool = false
 
+    func phaseChanged(_: ScenePhase, _ phase: ScenePhase) {
+        switch phase {
+        case .background: resignedActive()
+        case .active: becameActive()
+        default: break
+        }
+    }
+
     func resignedActive() {
         leftForeground = true
     }
