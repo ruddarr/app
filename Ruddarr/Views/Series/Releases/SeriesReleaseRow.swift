@@ -85,7 +85,9 @@ struct SeriesReleaseRow: View {
     }
 
     var titleRow: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 6) {
+        let iconBaseline = iconBaselineRaise
+
+        return HStack(alignment: .firstTextBaseline, spacing: 6) {
             Text(release.title.breakable(minimumTail: 8))
                 .font(.headline)
                 .fontWeight(.semibold)
@@ -94,7 +96,7 @@ struct SeriesReleaseRow: View {
 
             releaseIcons
                 .alignmentGuide(.firstTextBaseline) {
-                    $0[.firstTextBaseline] + iconBaselineRaise
+                    $0[.firstTextBaseline] + iconBaseline
                 }
         }
     }
