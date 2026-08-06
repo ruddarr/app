@@ -81,9 +81,8 @@ private struct OnBecomeActiveModifier: ViewModifier {
     @Environment(\.appearsActive) private var appearsActive
 
     func body(content: Content) -> some View {
-        content.onChange(of: appearsActive, initial: initial) { oldValue, newValue in
-            guard newValue else { return }
-            print("[onBecomeActive] fired\(oldValue == newValue ? " (initial, on appear)" : " (transition)")")
+        content.onChange(of: appearsActive, initial: initial) {
+            guard appearsActive else { return }
             Task { await action() }
         }
     }
@@ -91,10 +90,9 @@ private struct OnBecomeActiveModifier: ViewModifier {
     @Environment(\.scenePhase) private var scenePhase
 
     func body(content: Content) -> some View {
-        content.onChange(of: scenePhase, initial: initial) { oldPhase, newPhase in
-            guard newPhase == .active else { return }
+        content.onChange(of: scenePhase, initial: initial) {
+            guard scenePhase == .active else { return }
 
-            print("[onBecomeActive] fired\(oldPhase == newPhase ? " (initial, on appear)" : " (transition: \(oldPhase) → \(newPhase))")")
             Task { await action() }
         }
     }

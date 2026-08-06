@@ -58,8 +58,7 @@ extension API {
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "series")
-        }, fetchEpisodes: { seriesId, _ in
-            print("[API.mock] fetchEpisodes(\(seriesId)) requested")
+        }, fetchEpisodes: { _, _ in
             try await Task.sleep(for: .seconds(2))
 
             return loadPreviewData(filename: "series-episodes")
@@ -72,7 +71,6 @@ extension API {
 
             return loadPreviewData(filename: "series-releases")
         }, getSeries: { seriesId, _ in
-            print("[API.mock] getSeries(\(seriesId)) requested")
             let series: [Series] = loadPreviewData(filename: "series")
             try await Task.sleep(for: .seconds(1))
 
