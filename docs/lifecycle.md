@@ -34,14 +34,21 @@ incremented once per return to the foreground.
 Exactly one observer per platform drives it, because the two platforms watch different
 signals:
 
-| Platform | Observer         | Signal          |
-| -------- | ---------------- | --------------- |
-| iOS      | `ContentView`    | `scenePhase`    |
-| macOS    | `ContentViewMac` | `appearsActive` |
+| Platform | Observer             | Signal                                             |
+| -------- | -------------------- | -------------------------------------------------- |
+| iOS      | `Ruddarr` App struct | `scenePhase` (App-level: aggregate of all scenes)  |
+| macOS    | `AppDelegateMac`     | `applicationDidResignActive`/`DidBecomeActive`     |
 
 The observer calls `resignedActive()` when the app leaves the foreground and
 `becameActive()` when it returns. `becameActive()` only fires if it was armed first, so
 a cold launch — which never left the foreground — stays silent.
+
+Both observers deliberately sit at the app level, not in a view. App-level `scenePhase`
+is documented to be `.background` only when *every* scene is backgrounded, so on iPadOS
+one window closing or backgrounding never arms the flag while another window keeps the
+app in the foreground. macOS app activation is similarly unambiguous where window focus
+is not: closing and reopening the window, or dismissing panels, is not a resign/become
+cycle.
 
 `.onBecomeActive()` is then just `onChange(of: Lifecycle.shared.resumeCount)`. Views
 installed after the event fired never see it, which is what prevents the install-time
@@ -67,17 +74,18 @@ action when only the visible screen should react (see `MoviesView.becameActive`)
   `.background`. Pulling down a notification banner or control center goes
   `.active → .inactive → .active` and does not refresh. This was deliberate — those
   interruptions are frequent and a full app-wide refetch is too expensive for them.
-- **`initial: true` on the central observer only arms in a fresh process.** The initial
-  evaluation cannot fire the event at cold launch because the flag starts unarmed, and it
-  is load-bearing for background launches (the app refreshes when the user brings it up).
-  But the flag is process-global while the observer is scene-local, so the guarantee does
-  not hold across scene or window teardown — see known issues.
+- **Background launches still refresh on first foregrounding.** On iOS, `initial: true`
+  on the App-level observer arms the flag when the app launches into `.background`; on
+  macOS, `applicationDidFinishLaunching` arms when `NSApp.isActive` is false (e.g. a
+  login item). In a fresh, normally-foregrounded launch neither path arms, so the event
+  stays silent at cold start.
 - **Why not `UIApplication.willEnterForegroundNotification`?** Considered and rejected:
   in scene-based apps it also fires during cold launch (only legacy non-scene apps get
   launch silence), so observing it would reintroduce the launch double-fetch as a timing
-  race.
-- **macOS counts losing window focus** as leaving the foreground, so switching to another
-  app and back refreshes. That matches the pre-existing macOS behaviour.
+  race. macOS is different: `NSApplicationDelegate`'s resign/become-active pair has the
+  arm/fire structure built into its semantics, which is why the delegate is used there.
+- **macOS counts app deactivation** — switching to another app and back refreshes.
+  Window focus changes within the app (panels, sheets) do not.
 - **Seeded data is not fetched data.** The calendar sheets seed a model with a partial
   payload from the calendar endpoint. `SeriesEpisodes` tracks `fetchedSeriesId` so those
   seeded items do not satisfy `fetched()` and get backfilled by `.task`. Previews that
@@ -85,38 +93,25 @@ action when only the visible screen should react (see `MoviesView.becameActive`)
 
 ## Known issues
 
-Found by a scenario review of the mechanism (2026-08-06); fixes are planned but not
-yet applied. The core single-window iPhone paths — cold launch, killed→relaunch,
-suspend→resume, transient interruptions — all verified correct.
+Found by a scenario review of the mechanism (2026-08-06). The core single-window
+iPhone paths — cold launch, killed→relaunch, suspend→resume, transient interruptions —
+verified correct, as did iPad multi-window and the macOS launch/reopen family after
+the observers moved to the app level.
 
-- **iPad multi-window misfires.** Multi-scene is enabled (Xcode's generated scene
-  manifest), so each window installs its own observer and they all drive the one armed
-  flag. A window backgrounding or closing arms it even though the app never left the
-  foreground; a later `.inactive → .active` blip on a surviving window (control center,
-  app-switcher peek) then fires a spurious app-wide refresh. Planned fix: move the iOS
-  observer to the `App` struct, where `scenePhase` is documented to aggregate all
-  scenes (`.background` only when every scene is backgrounded).
-- **The armed flag outlives the views.** The flag lives in the process-wide singleton;
-  the observers and `.task` state live in scenes. When the system tears down the scene
-  of a backgrounded app and reconnects it (iOS memory reclaim), or a closed macOS
-  window is reopened from the Dock, the rebuilt views run `.task` and then receive the
-  still-armed event — a duplicate fetch, and on macOS the reopened window's
-  `initial: true` pass itself can fire it.
-- **macOS cold launch is probably not silent.** `appearsActive` is likely `false`
-  during the initial evaluation (Apple does not document the initial value), which arms
-  the flag; the window becoming key then fires it — a spurious refresh right after the
-  `.task` loads. Not worse than the previous behavior, but against the stated intent.
-  Both macOS items point at the same fix: drive `Lifecycle` from `AppDelegateMac`'s
-  `applicationDidResignActive`/`applicationDidBecomeActive` instead of window focus.
 - **`SeriesEpisodes.maybeFetch` joins across series.** The single-flight task is not
   keyed by series: push series X, pop, push series Y while X's fetch is still in flight
   on a slow instance — Y joins X's task, never issues its own fetch, and Y's season
   lists X's episodes (`bySeasonId` filters by season number only) with no self-heal
   until a resume or pull-to-refresh. Planned fix: track the in-flight series id and
   only join a matching fetch.
-- **macOS sleep or screen lock with the app frontmost may never transition
-  `appearsActive`** (unverified), which would mean no refresh on wake. Needs an
-  on-device check before acting on it.
+- **A resume that coincides with view reinstallation still double-fetches.** If the
+  system disconnected the scene while the app was backgrounded, the reconnect rebuilds
+  the views (`.task` runs) and then delivers the legitimate resume event. Rare, low
+  cost, and the remedy is the model-layer coalescing described under known gaps — not
+  more lifecycle machinery.
+- **macOS sleep or screen lock with the app frontmost may not deactivate the app**
+  (unverified), which would mean no refresh on wake. Needs an on-device check before
+  acting on it.
 
 ## Known gaps
 

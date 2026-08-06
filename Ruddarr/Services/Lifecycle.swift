@@ -2,8 +2,10 @@ import SwiftUI
 
 /// App-wide "the app returned to the foreground" event.
 ///
-/// The scene phase is observed in exactly one place (`ContentView`, per platform), which
-/// arms `resignedActive()` when the app leaves the foreground and fires `becameActive()`
+/// The app's foreground state is observed in exactly one place per platform — the
+/// `Ruddarr` App struct on iOS, where `scenePhase` aggregates all scenes, and
+/// `AppDelegateMac` on macOS, using app-level activation — which arms
+/// `resignedActive()` when the app leaves the foreground and fires `becameActive()`
 /// when it comes back. Views react to it with `.onBecomeActive()`.
 ///
 /// This is deliberately an event and not a state: a view installed after the app resumed

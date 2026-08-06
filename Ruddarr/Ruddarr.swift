@@ -9,6 +9,7 @@ struct Ruddarr: App {
         @NSApplicationDelegateAdaptor(AppDelegateMac.self) var appDelegate
     #else
         @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+        @Environment(\.scenePhase) private var scenePhase
     #endif
 
     nonisolated static let name: String = "Ruddarr"
@@ -49,6 +50,18 @@ struct Ruddarr: App {
                     .withAppState()
                     .onOpenURL(perform: openDeeplink)
                     .onContinueUserActivity(CSSearchableItemActionType, perform: openSearchableItem)
+            }
+            .onChange(of: scenePhase, initial: true) {
+                // the app's single scene phase observer, see `Lifecycle`.
+                // read at the `App` level, `scenePhase` aggregates all scenes, so on
+                // iPadOS one window closing or backgrounding never arms the flag while
+                // another window keeps the app in the foreground.
+                // `initial` arms background launches, it can never fire the event itself
+                switch scenePhase {
+                case .background: Lifecycle.shared.resignedActive()
+                case .active: Lifecycle.shared.becameActive()
+                default: break
+                }
             }
         #endif
     }

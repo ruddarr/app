@@ -3,7 +3,6 @@ import SwiftUI
 #if os(macOS)
 struct ContentView: View {
     @Environment(AppSettings.self) private var settings
-    @Environment(\.appearsActive) private var appearsActive
 
     var body: some View {
         NavigationSplitView {
@@ -46,15 +45,6 @@ struct ContentView: View {
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
-        .onChange(of: appearsActive, initial: true) {
-            // the app's single window focus observer, see `Lifecycle`.
-            // `initial` arms unfocused launches, it can never fire the event itself
-            if appearsActive {
-                Lifecycle.shared.becameActive()
-            } else {
-                Lifecycle.shared.resignedActive()
-            }
-        }
         .task {
             updateTelemetryAndWebhooks()
         }
