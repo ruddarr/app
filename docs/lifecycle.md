@@ -98,12 +98,6 @@ iPhone paths — cold launch, killed→relaunch, suspend→resume, transient int
 verified correct, as did iPad multi-window and the macOS launch/reopen family after
 the observers moved to the app level.
 
-- **`SeriesEpisodes.maybeFetch` joins across series.** The single-flight task is not
-  keyed by series: push series X, pop, push series Y while X's fetch is still in flight
-  on a slow instance — Y joins X's task, never issues its own fetch, and Y's season
-  lists X's episodes (`bySeasonId` filters by season number only) with no self-heal
-  until a resume or pull-to-refresh. Planned fix: track the in-flight series id and
-  only join a matching fetch.
 - **A resume that coincides with view reinstallation still double-fetches.** If the
   system disconnected the scene while the app was backgrounded, the reconnect rebuilds
   the views (`.task` runs) and then delivers the legitimate resume event. Rare, low

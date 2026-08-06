@@ -16,6 +16,7 @@ class SeriesEpisodes {
     // so track which series was actually fetched from the instance
     private var fetchedSeriesId: Series.ID?
     private var maybeFetchTask: Task<Void, Never>?
+    private var maybeFetchSeriesId: Series.ID?
 
     var history: [MediaHistoryEvent] = []
 
@@ -58,14 +59,15 @@ class SeriesEpisodes {
         guard !fetched(series) || force else { return }
 
         // the calendar sheet installs the series, season and episode views at once,
-        // join an in-flight load instead of issuing the same request three times.
+        // join an in-flight load of the same series instead of issuing it three times.
         // `fetch(_:)` is left alone so pull-to-refresh always hits the instance
-        if let maybeFetchTask {
+        if let maybeFetchTask, maybeFetchSeriesId == series.id {
             return await maybeFetchTask.value
         }
 
         let task = Task { await fetch(series) }
         maybeFetchTask = task
+        maybeFetchSeriesId = series.id
         defer { maybeFetchTask = nil }
 
         await task.value
