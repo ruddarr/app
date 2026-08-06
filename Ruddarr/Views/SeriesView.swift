@@ -224,6 +224,7 @@ struct SeriesView: View {
         Task { @MainActor in
             _ = await instance.series.fetch()
             updateDisplayedSeries()
+            lastFetch = .now
             await fetchInstanceMetadata()
         }
     }

@@ -75,10 +75,7 @@ class SeriesEpisodes {
         error = nil
         isFetching = true
 
-        if let episode = items.first,
-           episode.seriesId != series.id,
-           episode.instanceId != series.instanceId
-        {
+        if let episode = items.first, episode.seriesId != series.id {
             items = []
             fetchedSeriesId = nil
         }

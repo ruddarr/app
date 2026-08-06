@@ -213,6 +213,7 @@ struct MoviesView: View {
         Task { @MainActor in
             _ = await instance.movies.fetch()
             updateDisplayedMovies()
+            lastFetch = .now
             await fetchInstanceMetadata()
         }
     }
