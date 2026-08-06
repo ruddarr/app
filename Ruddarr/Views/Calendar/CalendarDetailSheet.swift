@@ -146,7 +146,6 @@ private struct CalendarEpisodeSheet: View {
                 }
         }
         .task {
-            // the seeded calendar series carries no `statistics`, fetch the full record
             guard let series: Series = instance.series.byId(seriesId) else { return }
             _ = await instance.series.get(series)
         }

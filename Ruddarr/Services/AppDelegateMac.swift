@@ -18,13 +18,11 @@ class AppDelegateMac:
 
         configureTelemetryDeck()
 
-        // arm unfocused launches (e.g. login item), see `Lifecycle`
         if !NSApp.isActive {
             Lifecycle.shared.resignedActive()
         }
     }
 
-    // the app's single activation observer, see `Lifecycle`
     func applicationDidResignActive(_ notification: Notification) {
         Lifecycle.shared.resignedActive()
     }

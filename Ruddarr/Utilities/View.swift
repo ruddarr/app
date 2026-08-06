@@ -1,10 +1,6 @@
 import SwiftUI
 
 extension View {
-    /// Runs `action` when the app returns to the foreground, on every installed instance —
-    /// including inactive tabs and views covered by a pushed destination; guard inside the
-    /// action if only the visible screen should react. Never fires on installation or at
-    /// launch, use `.task` for the initial load.
     func onBecomeActive(perform action: @escaping () async -> Void) -> some View {
         self.modifier(OnBecomeActiveModifier(action: action))
     }

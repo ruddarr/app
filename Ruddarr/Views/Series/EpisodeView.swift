@@ -63,7 +63,6 @@ struct EpisodeView: View {
         .task(id: episodeId) {
             setEpisodeState()
 
-            // a seeded calendar episode carries no `episodeFile`, backfill it
             await instance.episodes.maybeFetch(series)
             setEpisodeState()
 

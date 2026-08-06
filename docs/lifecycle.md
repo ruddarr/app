@@ -87,9 +87,15 @@ action when only the visible screen should react (see `MoviesView.becameActive`)
 - **macOS counts app deactivation** — switching to another app and back refreshes.
   Window focus changes within the app (panels, sheets) do not.
 - **Seeded data is not fetched data.** The calendar sheets seed a model with a partial
-  payload from the calendar endpoint. `SeriesEpisodes` tracks `fetchedSeriesId` so those
-  seeded items do not satisfy `fetched()` and get backfilled by `.task`. Previews that
-  want fully-formed data use `seed(_:)`, which marks it fetched.
+  payload from the calendar endpoint — the embedded series carries no `statistics` and
+  the episode no `episodeFile`. `SeriesEpisodes` tracks `fetchedSeriesId` so seeded items
+  do not satisfy `fetched()`; the sheet's `.task` fetches the full series record and
+  `EpisodeView`'s `.task` backfills the episodes. Previews that want fully-formed data
+  use `seed(_:)`, which marks it fetched.
+- **`SeriesEpisodes.maybeFetch` joins an in-flight load of the same series** instead of
+  issuing it again — the calendar sheet installs the series, season and episode views at
+  once, which would otherwise fire the identical request three times. `fetch(_:)` is
+  deliberately left un-coalesced so pull-to-refresh always reaches the instance.
 
 ## Known issues
 

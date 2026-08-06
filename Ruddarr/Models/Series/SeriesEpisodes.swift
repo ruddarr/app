@@ -12,8 +12,6 @@ class SeriesEpisodes {
 
     private var runtimes: [Episode.ID: Int] = [:]
 
-    // `items` can be seeded with partial data (e.g. by the calendar sheets),
-    // so track which series was actually fetched from the instance
     private var fetchedSeriesId: Series.ID?
     private var maybeFetchTask: Task<Void, Never>?
     private var maybeFetchSeriesId: Series.ID?
@@ -46,8 +44,6 @@ class SeriesEpisodes {
         fetchedSeriesId == series.id
     }
 
-    /// Seeds `items` as if they had been fetched, unlike the partial data
-    /// the calendar sheets seed, which is meant to be backfilled.
     func seed(_ episodes: [Episode]) {
         items = episodes
         fetchedSeriesId = episodes.first?.seriesId
@@ -58,9 +54,6 @@ class SeriesEpisodes {
 
         guard !fetched(series) || force else { return }
 
-        // the calendar sheet installs the series, season and episode views at once,
-        // join an in-flight load of the same series instead of issuing it three times.
-        // `fetch(_:)` is left alone so pull-to-refresh always hits the instance
         if let maybeFetchTask, maybeFetchSeriesId == series.id {
             return await maybeFetchTask.value
         }
