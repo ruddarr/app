@@ -63,7 +63,7 @@ class SeriesEpisodes {
         let task = Task { await fetch(series) }
         maybeFetchTask = task
         maybeFetchSeriesId = series.id
-        defer { maybeFetchTask = nil }
+        defer { if maybeFetchTask == task { maybeFetchTask = nil } }
 
         await task.value
     }
