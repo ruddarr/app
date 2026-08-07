@@ -103,9 +103,8 @@ struct Instance: Identifiable, Equatable, Codable {
         return url
     }
 
-    func webURL(path: String = "") async -> URL? {
-        guard let base = (try? await baseURL()) ?? URL(string: url) else { return nil }
-        return path.isEmpty ? base : base.appending(path: path)
+    func webURL() async -> URL? {
+        (try? await baseURL()) ?? URL(string: url)
     }
 
     func isPrivateIp(primaryOnly: Bool = false) -> Bool {

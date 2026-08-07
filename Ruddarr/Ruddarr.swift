@@ -25,8 +25,6 @@ struct Ruddarr: App {
         startSentry()
         InstancesStore.shared.start()
 
-        dependencies.router.selectedTab = AppSettings.shared.tab
-
         try? Tips.configure()
 
         Task {
