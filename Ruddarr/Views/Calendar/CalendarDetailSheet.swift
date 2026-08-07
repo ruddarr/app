@@ -145,6 +145,10 @@ private struct CalendarEpisodeSheet: View {
                         .calendarSheetToolbar(needsToolbar)
                 }
         }
+        .task {
+            guard let series: Series = instance.series.byId(seriesId) else { return }
+            _ = await instance.series.get(series)
+        }
         .environment(instance)
         .inCalendarSheet(dismiss: { dismiss() }, path: $path)
         .displayToasts()

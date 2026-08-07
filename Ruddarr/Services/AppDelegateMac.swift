@@ -17,6 +17,18 @@ class AppDelegateMac:
         NSWindow.allowsAutomaticWindowTabbing = false
 
         configureTelemetryDeck()
+
+        if !NSApp.isActive {
+            Lifecycle.shared.resignedActive()
+        }
+    }
+
+    func applicationDidResignActive(_ notification: Notification) {
+        Lifecycle.shared.resignedActive()
+    }
+
+    func applicationDidBecomeActive(_ notification: Notification) {
+        Lifecycle.shared.becameActive()
     }
 
     // Called after successful registration with APNs

@@ -63,6 +63,9 @@ struct EpisodeView: View {
         .task(id: episodeId) {
             setEpisodeState()
 
+            await instance.episodes.maybeFetch(series)
+            setEpisodeState()
+
             guard let episode = instance.episodes.byId(episodeId) else {
                 return
             }

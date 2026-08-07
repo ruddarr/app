@@ -9,6 +9,7 @@ struct Ruddarr: App {
         @NSApplicationDelegateAdaptor(AppDelegateMac.self) var appDelegate
     #else
         @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+        @Environment(\.scenePhase) private var scenePhase
     #endif
 
     nonisolated static let name: String = "Ruddarr"
@@ -50,6 +51,7 @@ struct Ruddarr: App {
                     .onOpenURL(perform: openDeeplink)
                     .onContinueUserActivity(CSSearchableItemActionType, perform: openSearchableItem)
             }
+            .onChange(of: scenePhase, initial: true, Lifecycle.shared.phaseChanged)
         #endif
     }
 

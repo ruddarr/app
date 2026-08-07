@@ -19,7 +19,7 @@ extension View {
     func withSonarrInstance(series: [Series] = [], episodes: [Episode] = []) -> some View {
         let instance = SonarrInstance(.sonarrDummy)
         instance.series.items = series
-        instance.episodes.items = episodes
+        instance.episodes.seed(episodes)
 
         return self.environment(instance)
     }
@@ -76,26 +76,11 @@ extension View {
 private struct OnBecomeActiveModifier: ViewModifier {
     let action: () async -> Void
 
-#if os(macOS)
-    @Environment(\.appearsActive) private var appearsActive
-
     func body(content: Content) -> some View {
-        content.onChange(of: appearsActive, initial: true) {
-            guard appearsActive else { return }
+        content.onChange(of: Lifecycle.shared.resumeCount) {
             Task { await action() }
         }
     }
-#else
-    @Environment(\.scenePhase) private var scenePhase
-
-    func body(content: Content) -> some View {
-        content.onChange(of: scenePhase, initial: true) {
-            guard scenePhase == .active else { return }
-
-            Task { await action() }
-        }
-    }
-#endif
 }
 
 private struct WithAppStateModifier: ViewModifier {

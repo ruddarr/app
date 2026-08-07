@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 struct CalendarDate: View {
     var date: Date
@@ -33,6 +34,9 @@ struct CalendarDate: View {
             isToday = Calendar.current.isDateInToday(date)
         }
         .onBecomeActive {
+            isToday = Calendar.current.isDateInToday(date)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .NSCalendarDayChanged).receive(on: DispatchQueue.main)) { _ in
             isToday = Calendar.current.isDateInToday(date)
         }
         .transaction { transaction in

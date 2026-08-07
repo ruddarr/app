@@ -26,6 +26,8 @@ struct DiagnosticsView: View {
                 appDiagnostics = await AppDiagnostics.load()
             }
             .task {
+                appDiagnostics = await AppDiagnostics.load()
+
                 while !Task.isCancelled {
                     await refresh()
                     try? await Task.sleep(for: .seconds(2))

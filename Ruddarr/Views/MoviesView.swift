@@ -54,6 +54,7 @@ struct MoviesView: View {
                     .task {
                         guard !instance.isVoid else { return }
                         await fetchMoviesThrottled()
+                        await fetchInstanceMetadata()
                     }
                     .refreshable {
                         await Task { await fetchMoviesWithAlert() }.value
@@ -212,16 +213,20 @@ struct MoviesView: View {
         Task { @MainActor in
             _ = await instance.movies.fetch()
             updateDisplayedMovies()
+            lastFetch = .now
+            await fetchInstanceMetadata()
+        }
+    }
 
-            let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
-            let cacheInSeconds: Double = instance.isSlow ? 300 : 30
+    func fetchInstanceMetadata() async {
+        let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
+        let cacheInSeconds: Double = instance.isSlow ? 300 : 30
 
-            if Occurrence.since(lastMetadataFetch) > cacheInSeconds {
-                if let model = await instance.fetchMetadata() {
-                    settings.saveInstanceMetadata(model)
-                    Occurrence.occurred(lastMetadataFetch)
-                }
-            }
+        guard Occurrence.since(lastMetadataFetch) > cacheInSeconds else { return }
+
+        if let model = await instance.fetchMetadata() {
+            settings.saveInstanceMetadata(model)
+            Occurrence.occurred(lastMetadataFetch)
         }
     }
 
