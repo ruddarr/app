@@ -31,6 +31,7 @@ struct InstanceView: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
+    @Environment(\.openURL) var openURL
 
     var body: some View {
         Form {
@@ -57,6 +58,11 @@ struct InstanceView: View {
         .contentMargins(.bottom, 32, for: .scrollContent)
         .formStyle(.grouped)
         .toolbar {
+            #if os(iOS)
+                toolbarWebButton
+                ToolbarSpacer(.fixed, placement: .primaryAction)
+            #endif
+
             toolbarEditButton
         }
         .safeNavigationBarTitleDisplayMode(.inline)
@@ -195,6 +201,22 @@ struct InstanceView: View {
             } else {
                 disableNotifications
             }
+        }
+    }
+
+    @ToolbarContentBuilder
+    var toolbarWebButton: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Button {
+                Task {
+                    if let url = await instance.webURL() {
+                        openURL(url, prefersInApp: true)
+                    }
+                }
+            } label: {
+                Image(systemName: "safari")
+            }
+            .tint(.primary)
         }
     }
 

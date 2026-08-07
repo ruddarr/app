@@ -103,6 +103,10 @@ struct Instance: Identifiable, Equatable, Codable {
         return url
     }
 
+    func webURL() async -> URL? {
+        (try? await baseURL()) ?? URL(string: url)
+    }
+
     func isPrivateIp(primaryOnly: Bool = false) -> Bool {
         let bases = primaryOnly ? Array(candidateURLs.prefix(1)) : candidateURLs
 
