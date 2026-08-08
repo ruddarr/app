@@ -28,8 +28,6 @@ struct InstanceView: View {
     @State var diskSpaceState: MetadataState<[InstanceDiskSpace]> = .idle
     @State var diskSpaceExpanded: Bool = false
 
-    /// The instance's web interface at a URL a browser can open, or `nil` while the check is
-    /// still running and when nothing answered — the button is disabled for both.
     @State var webAccessURL: URL?
 
     @Environment(AppSettings.self) var settings
@@ -225,8 +223,6 @@ struct InstanceView: View {
         }
     }
 
-    /// Re-checks on every appearance and foreground resume, because the answer is a property of
-    /// the network the device is on right now, not of the instance.
     func checkWebAccess() async {
         webAccessURL = await instance.reachableWebURL()
     }
