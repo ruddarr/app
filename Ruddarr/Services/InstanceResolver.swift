@@ -158,15 +158,23 @@ actor InstanceResolver {
     /// an address a browser would be turned away from. A genuine Radarr/Sonarr answer (the same
     /// verdict the routing probe uses: HTTP success, from the host that was asked, carrying
     /// `{"status": "OK"}`) is `verified`; anything else that still produced a response is
-    /// `answered` rather than dead, because the browser may hold a session this check cannot see.
+    /// `answered` rather than dead, because the browser may hold a session this check cannot see —
+    /// including a request that only failed once it had been redirected off the probed host.
     private static func webVerdict(_ base: String) async -> WebVerdict {
         guard let url = ResolverRouting.probeURL(for: base) else { return .dead }
 
-        guard let (data, response) = try? await webCheckSession.data(from: url),
-              let http = response as? HTTPURLResponse
-        else {
+        let data: Data
+        let response: URLResponse
+
+        do {
+            (data, response) = try await webCheckSession.data(from: url)
+        } catch let error as URLError {
+            return failedPastOrigin(error, probing: url) ? .answered : .dead
+        } catch {
             return .dead
         }
+
+        guard let http = response as? HTTPURLResponse else { return .dead }
 
         let verified = ResolverRouting.probeVerdict(
             status: http.statusCode,
@@ -176,6 +184,22 @@ actor InstanceResolver {
         )
 
         return verified ? .verified : .answered
+    }
+
+    /// Whether the request got *past* the probed host before failing: the origin answered with a
+    /// redirect and it was the chain that broke — a dead identity provider, or a loop between the
+    /// two. The candidate is alive, and a browser holding a session would never be sent down that
+    /// chain at all, so it is `answered` rather than `dead`.
+    private static func failedPastOrigin(_ error: URLError, probing url: URL) -> Bool {
+        if error.code == .httpTooManyRedirects { return true }
+
+        guard let failing = error.failingURL?.host(percentEncoded: false),
+              let probed = url.host(percentEncoded: false)
+        else {
+            return false
+        }
+
+        return failing.caseInsensitiveCompare(probed) != .orderedSame
     }
 
     /// Ephemeral (no cookies, no cache) so nothing stored can make a dead URL look alive, and
