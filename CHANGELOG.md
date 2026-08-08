@@ -22,8 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Jump from a queue task to its movie or series
 - Trigger haptic feedback when an alert is displayed
 - Show colors in the accent color picker
-- Open the instance web interface from its settings, when it's reachable
-- Show web interface reachability for every instance URL in diagnostics
+- Open the instance web interface from its settings
 
 ### Changed
 - Improved instance synchronization across devices
