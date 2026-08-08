@@ -28,26 +28,9 @@ struct InstanceView: View {
     @State var diskSpaceState: MetadataState<[InstanceDiskSpace]> = .idle
     @State var diskSpaceExpanded: Bool = false
 
-    @State var webAccess: WebAccess = .checking
-
-    /// Whether the instance's web interface can be opened from here. `checking` is its own case
-    /// so the button starts plain and disabled instead of flashing a slash on every appearance,
-    /// before the check has had a chance to answer.
-    enum WebAccess {
-        case checking
-        case reachable(URL)
-        case unreachable
-
-        var url: URL? {
-            if case .reachable(let url) = self { return url }
-            return nil
-        }
-
-        var isUnreachable: Bool {
-            if case .unreachable = self { return true }
-            return false
-        }
-    }
+    /// The instance's web interface at a URL a browser can open, or `nil` while the check is
+    /// still running and when nothing answered — the button is disabled for both.
+    @State var webAccessURL: URL?
 
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
@@ -231,14 +214,13 @@ struct InstanceView: View {
     var toolbarWebButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button {
-                if let url = webAccess.url {
+                if let url = webAccessURL {
                     openURL(url, prefersInApp: true)
                 }
             } label: {
                 Image(systemName: "safari")
-                    .symbolVariant(webAccess.isUnreachable ? .slash : .none)
             }
-            .disabled(webAccess.url == nil)
+            .disabled(webAccessURL == nil)
             .tint(.primary)
         }
     }
@@ -246,11 +228,7 @@ struct InstanceView: View {
     /// Re-checks on every appearance and foreground resume, because the answer is a property of
     /// the network the device is on right now, not of the instance.
     func checkWebAccess() async {
-        if let url = await instance.reachableWebURL() {
-            webAccess = .reachable(url)
-        } else {
-            webAccess = .unreachable
-        }
+        webAccessURL = await instance.reachableWebURL()
     }
 
     @ToolbarContentBuilder
