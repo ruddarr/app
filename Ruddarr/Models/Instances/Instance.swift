@@ -103,8 +103,8 @@ struct Instance: Identifiable, Equatable, Codable {
         return url
     }
 
-    func webURL() async -> URL? {
-        (try? await baseURL()) ?? URL(string: url)
+    func reachableWebURL() async -> URL? {
+        await InstanceResolver.shared.reachableWebURL(for: self)
     }
 
     func isPrivateIp(primaryOnly: Bool = false) -> Bool {

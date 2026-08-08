@@ -24,6 +24,11 @@ import Foundation
 ///   transition (failed probes retry on the same throttle as failed lookups).
 /// - Self-correcting: on a fast failure, `API.request` calls `failover(afterFailing:for:)`,
 ///   which demotes that base for the current network and returns the instance's next-best one.
+/// - Browser-aware: `reachableWebURL(for:)` answers a different question — which URL a *browser*
+///   can open — by checking every candidate unauthenticated, so the app's own credentials and
+///   headers can't vouch for a URL Safari would be turned away from. Safari's own cookies are
+///   outside the app container and unreadable, so a host that answers *anything* is preferred
+///   over one that answers nothing; only a URL nothing can reach is treated as unreachable.
 ///
 /// The resolved URL is purely runtime state and is never persisted, so it can never reach
 /// iCloud, the App Group, or another device.
@@ -58,13 +63,14 @@ actor InstanceResolver {
         return result.ordered.first ?? candidates.first ?? instance.url
     }
 
-    /// The base URL `resolve` would return right now, ranked from cached state only — a pure
-    /// read for passive UI that claims no lookups and dispatches no probes.
-    func currentSelection(for instance: Instance) -> String {
+    /// Every candidate of `instance`, best first, ranked from cached state only — a pure read
+    /// that claims no lookups and dispatches no probes, for passive UI and for the web-interface
+    /// check, which wants the whole ladder rather than just its top.
+    func rankedCandidates(for instance: Instance) -> [String] {
         let candidates = instance.candidateURLs
 
         guard candidates.count > 1 else {
-            return candidates.first ?? instance.url
+            return candidates
         }
 
         let snapshot = NetworkSnapshot.capture()
@@ -72,7 +78,13 @@ actor InstanceResolver {
             &state, candidates: candidates, snapshot: snapshot, fingerprint: snapshot.fingerprint, now: Date()
         )
 
-        return ordered.first ?? candidates.first ?? instance.url
+        return ordered.isEmpty ? candidates : ordered
+    }
+
+    /// The base URL `resolve` would return right now, ranked from cached state only — a pure
+    /// read for passive UI that claims no lookups and dispatches no probes.
+    func currentSelection(for instance: Instance) -> String {
+        rankedCandidates(for: instance).first ?? instance.url
     }
 
     /// The network changed (Wi-Fi/VPN/cellular). Drop everything learned about the old one so
@@ -108,6 +120,77 @@ actor InstanceResolver {
         guard !state.demotedUntil.isEmpty else { return }
         ResolverRouting.noteSuccess(&state, for: url.absoluteString, candidates: candidates)
     }
+
+    /// What a candidate's check found, in preference order. The middle case is the one that
+    /// matters: the app cannot see Safari's cookies (they live outside the app container, and
+    /// neither `URLSession` nor `WKWebView` can read them), so an address that turns *us* away
+    /// may still let the browser straight in on a session it already holds. A host that answers
+    /// at all is therefore never written off — only outranked.
+    private enum WebVerdict {
+        case verified   // a genuine Radarr/Sonarr `/ping` — the interface is served here
+        case answered   // some response: a redirect to an identity provider, a 403, a login page
+        case dead       // nothing at all — refused, timed out, or the name didn't resolve
+    }
+
+    /// The instance's web interface at a URL worth handing to a browser, or `nil` when nothing
+    /// answered anywhere. Selection alone can't decide this: it knows which address the *app*
+    /// should talk to, having authenticated, and says nothing about what a browser gets there.
+    ///
+    /// Candidates are checked best-ranked first, and a verified one ends it — so at home the LAN
+    /// URL wins outright and the remote is never even contacted. Falling back to a host that
+    /// merely answered is what keeps an access-proxied URL usable away from home.
+    nonisolated func reachableWebURL(for instance: Instance) async -> URL? {
+        var answered: String?
+
+        for base in await rankedCandidates(for: instance) {
+            switch await Self.webVerdict(base) {
+            case .verified: return URL(string: base)
+            case .answered: answered = answered ?? base
+            case .dead: continue
+            }
+        }
+
+        return answered.flatMap { URL(string: $0) }
+    }
+
+    /// One candidate's browser-facing check: an unauthenticated `GET {base}/ping` — no API key,
+    /// no custom headers, no stored cookies — so the instance's own credentials can't vouch for
+    /// an address a browser would be turned away from. A genuine Radarr/Sonarr answer (the same
+    /// verdict the routing probe uses: HTTP success, from the host that was asked, carrying
+    /// `{"status": "OK"}`) is `verified`; anything else that still produced a response is
+    /// `answered` rather than dead, because the browser may hold a session this check cannot see.
+    private static func webVerdict(_ base: String) async -> WebVerdict {
+        guard let url = ResolverRouting.probeURL(for: base) else { return .dead }
+
+        guard let (data, response) = try? await webCheckSession.data(from: url),
+              let http = response as? HTTPURLResponse
+        else {
+            return .dead
+        }
+
+        let verified = ResolverRouting.probeVerdict(
+            status: http.statusCode,
+            finalHost: http.url?.host(percentEncoded: false),
+            probedHost: url.host(percentEncoded: false),
+            body: data
+        )
+
+        return verified ? .verified : .answered
+    }
+
+    /// Ephemeral (no cookies, no cache) so nothing stored can make a dead URL look alive, and
+    /// more patient than the routing probe: nothing waits on this check, but a candidate wrongly
+    /// called dead greys out the button, so a slow remote host is given room to answer.
+    private static let webCheckSession: URLSession = {
+        let timeout: TimeInterval = 5
+
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.timeoutIntervalForRequest = timeout
+        configuration.timeoutIntervalForResource = timeout
+        configuration.waitsForConnectivity = false
+
+        return URLSession(configuration: configuration)
+    }()
 
     /// A structured snapshot of the current network and, for each instance, why every candidate
     /// URL ranks where it does — unmasked, for the diagnostics screen to mask on demand.

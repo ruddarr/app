@@ -28,6 +28,8 @@ struct InstanceView: View {
     @State var diskSpaceState: MetadataState<[InstanceDiskSpace]> = .idle
     @State var diskSpaceExpanded: Bool = false
 
+    @State var webAccessURL: URL?
+
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
@@ -92,12 +94,14 @@ struct InstanceView: View {
 
     func setup() async {
         async let summary: Void = loadSummary()
+        async let webAccess: Void = checkWebAccess()
 
         await setAppNotificationsStatus()
         await setCloudKitAccountStatus()
         await setSubscriptionStatus()
         await initialWebhookSync()
         await summary
+        await webAccess
     }
 
     var instanceDetails: some View {
@@ -208,16 +212,19 @@ struct InstanceView: View {
     var toolbarWebButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button {
-                Task {
-                    if let url = await instance.webURL() {
-                        openURL(url, prefersInApp: true)
-                    }
+                if let url = webAccessURL {
+                    openURL(url, prefersInApp: true)
                 }
             } label: {
                 Image(systemName: "safari")
             }
             .tint(.primary)
+            .disabled(webAccessURL == nil)
         }
+    }
+
+    func checkWebAccess() async {
+        webAccessURL = await instance.reachableWebURL()
     }
 
     @ToolbarContentBuilder
