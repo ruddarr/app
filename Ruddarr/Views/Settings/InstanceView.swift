@@ -29,7 +29,6 @@ struct InstanceView: View {
     @State var diskSpaceExpanded: Bool = false
 
     @State var webAccessURL: URL?
-    @State var webAccessToken: UUID?
 
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
@@ -77,17 +76,6 @@ struct InstanceView: View {
         }
         .onBecomeActive {
             await setup()
-        }
-        .task(id: webAccessToken) {
-            guard webAccessToken != nil else { return }
-
-            try? await Task.sleep(for: .milliseconds(500))
-            guard !Task.isCancelled else { return }
-
-            await checkWebAccess()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
-            webAccessToken = UUID()
         }
         .sensoryAlert(
             isPresented: webhook.errorBinding,
@@ -224,14 +212,13 @@ struct InstanceView: View {
     var toolbarWebButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button {
-                if let url = webAccessURL {
+                if let url = webAccessURL ?? URL(string: instance.url) {
                     openURL(url, prefersInApp: true)
                 }
             } label: {
                 Image(systemName: "safari")
             }
             .tint(.primary)
-            .disabled(webAccessURL == nil)
         }
     }
 
