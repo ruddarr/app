@@ -274,12 +274,6 @@ struct DiagnosticsView: View {
             _ = await InstanceResolver.shared.resolve(instance)
         }
 
-        Task {
-            for instance in instances {
-                _ = await InstanceResolver.shared.reachableWebURL(for: instance)
-            }
-        }
-
         let updated = await InstanceResolver.shared.report(for: instances)
 
         if updated != report {
@@ -290,6 +284,10 @@ struct DiagnosticsView: View {
 
         if failures != failedRequests {
             failedRequests = failures
+        }
+
+        for instance in instances {
+            _ = await InstanceResolver.shared.reachableWebURL(for: instance)
         }
     }
 
