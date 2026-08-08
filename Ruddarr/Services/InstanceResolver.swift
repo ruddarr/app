@@ -26,9 +26,10 @@ import Foundation
 ///   which demotes that base for the current network and returns the instance's next-best one.
 /// - Browser-aware: `reachableWebURL(for:)` answers a different question — which URL a *browser*
 ///   can open — by checking every candidate unauthenticated, so the app's own credentials and
-///   headers can't vouch for a URL Safari would be turned away from. Safari's own cookies are
-///   outside the app container and unreadable, so a host that answers *anything* is preferred
-///   over one that answers nothing; only a URL nothing can reach is treated as unreachable.
+///   headers can't vouch for a URL Safari would be turned away from. Reachable means pingable:
+///   only a genuine `/ping` counts, and when no candidate answers one the web button is
+///   disabled rather than pointed at a URL that would fail to load. These verdicts are cached
+///   separately from the routing probes and never feed ranking.
 ///
 /// The resolved URL is purely runtime state and is never persisted, so it can never reach
 /// iCloud, the App Group, or another device.
@@ -121,63 +122,78 @@ actor InstanceResolver {
         ResolverRouting.noteSuccess(&state, for: url.absoluteString, candidates: candidates)
     }
 
-    /// What a candidate's check found, in preference order. The middle case is the one that
-    /// matters: the app cannot see Safari's cookies (they live outside the app container, and
-    /// neither `URLSession` nor `WKWebView` can read them), so an address that turns *us* away
-    /// may still let the browser straight in on a session it already holds. A host that answers
-    /// at all is therefore never written off — only outranked.
-    private enum WebVerdict {
-        case verified   // a genuine Radarr/Sonarr `/ping` — the interface is served here
-        case answered   // some response: a redirect to an identity provider, a 403, a login page
-        case dead       // nothing at all — refused, timed out, or the name didn't resolve
-    }
-
-    /// The instance's web interface at a URL worth handing to a browser, or `nil` when nothing
-    /// answered anywhere. Selection alone can't decide this: it knows which address the *app*
-    /// should talk to, having authenticated, and says nothing about what a browser gets there.
+    /// The instance's web interface at a URL a browser can actually open, or `nil` when none of
+    /// its candidates is reachable — which is what disables the web button in `InstanceView`.
+    /// Selection alone can't answer this: it knows which address the *app* should talk to,
+    /// having authenticated, and says nothing about what a browser would get there.
     ///
-    /// Candidates are checked best-ranked first, and a verified one ends it — so at home the LAN
-    /// URL wins outright and the remote is never even contacted. Falling back to a host that
-    /// merely answered is what keeps an access-proxied URL usable away from home.
-    nonisolated func reachableWebURL(for instance: Instance) async -> URL? {
-        var answered: String?
+    /// Reachable means *pingable*. Only a genuine Radarr/Sonarr `/ping` counts, so a candidate
+    /// that merely answers — a redirect to an identity provider, a 403, a login page — is never
+    /// offered: the button is handed a URL that demonstrably serves the interface, or none.
+    ///
+    /// Every candidate is checked rather than stopping at the first hit, so the diagnostics
+    /// screen can show a verdict for each one; the checks run concurrently and at most once per
+    /// `resolveRetryInterval` per network, and land in a cache that never feeds routing.
+    func reachableWebURL(for instance: Instance) async -> URL? {
+        let candidates = rankedCandidates(for: instance)
+        let epoch = state.epoch
+        let pending = ResolverRouting.claimWebChecksNeeded(&state, candidates, now: Date())
 
-        for base in await rankedCandidates(for: instance) {
-            switch await Self.webVerdict(base) {
-            case .verified: return URL(string: base)
-            case .answered: answered = answered ?? base
-            case .dead: continue
+        if !pending.isEmpty {
+            let outcomes = await withTaskGroup(of: (String, ProbeOutcome).self) { group in
+                for base in pending {
+                    group.addTask { (base, await Self.webCheck(base)) }
+                }
+
+                var results: [(String, ProbeOutcome)] = []
+                for await result in group { results.append(result) }
+                return results
+            }
+
+            let now = Date()
+
+            for (base, outcome) in outcomes {
+                ResolverRouting.recordWebCheck(&state, base: base, epoch: epoch, outcome: outcome, now: now)
             }
         }
 
-        return answered.flatMap { URL(string: $0) }
+        for base in candidates where state.webOutcomes[base]?.reachable == true {
+            if let url = URL(string: base) { return url }
+        }
+
+        return nil
     }
 
     /// One candidate's browser-facing check: an unauthenticated `GET {base}/ping` — no API key,
     /// no custom headers, no stored cookies — so the instance's own credentials can't vouch for
-    /// an address a browser would be turned away from. A genuine Radarr/Sonarr answer (the same
-    /// verdict the routing probe uses: HTTP success, from the host that was asked, carrying
-    /// `{"status": "OK"}`) is `verified`; any other response — a redirect, a 403, a login page —
-    /// is `answered` rather than dead, because the browser may hold a session this check cannot
-    /// see. Redirects are never followed, so the verdict is the origin's own answer and can't
-    /// turn on whether some host further down a chain happens to be up.
-    private static func webVerdict(_ base: String) async -> WebVerdict {
-        guard let url = ResolverRouting.probeURL(for: base) else { return .dead }
-
-        guard let (data, response) = try? await webCheckSession.data(from: url),
-              let http = response as? HTTPURLResponse
-        else {
-            return .dead
+    /// an address a browser would be turned away from. Judged by exactly the verdict the routing
+    /// probe uses: HTTP success, from the host that was asked, carrying `{"status": "OK"}`.
+    /// Redirects are never followed, so the answer is the origin's own and can't turn on whether
+    /// some host further down a chain happens to be up.
+    private static func webCheck(_ base: String) async -> ProbeOutcome {
+        guard let url = ResolverRouting.probeURL(for: base) else {
+            return ProbeOutcome(reachable: false)
         }
 
-        let verified = ResolverRouting.probeVerdict(
-            status: http.statusCode,
-            finalHost: http.url?.host(percentEncoded: false),
-            probedHost: url.host(percentEncoded: false),
-            body: data
-        )
+        let clock = ContinuousClock()
+        let started = clock.now
 
-        return verified ? .verified : .answered
+        guard let (data, response) = try? await webCheckSession.data(from: url),
+              let http = response as? HTTPURLResponse,
+              ResolverRouting.probeVerdict(
+                  status: http.statusCode,
+                  finalHost: http.url?.host(percentEncoded: false),
+                  probedHost: url.host(percentEncoded: false),
+                  body: data
+              )
+        else {
+            return ProbeOutcome(reachable: false)
+        }
+
+        let elapsed = started.duration(to: clock.now)
+        let latency = Double(elapsed.components.seconds) + Double(elapsed.components.attoseconds) / 1e18
+
+        return ProbeOutcome(reachable: true, latency: latency)
     }
 
     /// Hands the origin's redirect back as the task's response instead of following it, so a
@@ -194,8 +210,8 @@ actor InstanceResolver {
     }
 
     /// Ephemeral (no cookies, no cache) so nothing stored can make a dead URL look alive, and
-    /// more patient than the routing probe: nothing waits on this check, but a candidate wrongly
-    /// called dead is passed over for a worse one, so a slow remote host is given room to answer.
+    /// more patient than the routing probe: a candidate wrongly called dead takes the web button
+    /// down with it, so a slow remote host is given room to answer.
     private static let webCheckSession: URLSession = {
         let timeout: TimeInterval = 5
 
@@ -218,6 +234,7 @@ actor InstanceResolver {
         let demoted = ResolverRouting.activeDemotions(&state, now: Date())
         let resolvedHosts = state.resolvedHosts
         let probes = state.probeOutcomes
+        let webChecks = state.webOutcomes
 
         let entries = instances.map { instance -> NetworkReport.InstanceEntry in
             let candidates = instance.candidateURLs
@@ -238,6 +255,7 @@ actor InstanceResolver {
                     resolved: resolution != nil,
                     addresses: resolution?.addresses ?? [],
                     probe: probes[entry.base],
+                    web: webChecks[entry.base],
                     demoted: entry.demoted,
                     primary: entry.base == candidates.first,
                     selected: entry.base == selected

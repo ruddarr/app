@@ -28,7 +28,26 @@ struct InstanceView: View {
     @State var diskSpaceState: MetadataState<[InstanceDiskSpace]> = .idle
     @State var diskSpaceExpanded: Bool = false
 
-    @State var webAccessURL: URL?
+    @State var webAccess: WebAccess = .checking
+
+    /// Whether the instance's web interface can be opened from here. `checking` is its own case
+    /// so the button starts plain and disabled instead of flashing a slash on every appearance,
+    /// before the check has had a chance to answer.
+    enum WebAccess {
+        case checking
+        case reachable(URL)
+        case unreachable
+
+        var url: URL? {
+            if case .reachable(let url) = self { return url }
+            return nil
+        }
+
+        var isUnreachable: Bool {
+            if case .unreachable = self { return true }
+            return false
+        }
+    }
 
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
@@ -212,18 +231,26 @@ struct InstanceView: View {
     var toolbarWebButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button {
-                if let url = webAccessURL ?? URL(string: instance.url) {
+                if let url = webAccess.url {
                     openURL(url, prefersInApp: true)
                 }
             } label: {
                 Image(systemName: "safari")
+                    .symbolVariant(webAccess.isUnreachable ? .slash : .none)
             }
+            .disabled(webAccess.url == nil)
             .tint(.primary)
         }
     }
 
+    /// Re-checks on every appearance and foreground resume, because the answer is a property of
+    /// the network the device is on right now, not of the instance.
     func checkWebAccess() async {
-        webAccessURL = await instance.reachableWebURL()
+        if let url = await instance.reachableWebURL() {
+            webAccess = .reachable(url)
+        } else {
+            webAccess = .unreachable
+        }
     }
 
     @ToolbarContentBuilder

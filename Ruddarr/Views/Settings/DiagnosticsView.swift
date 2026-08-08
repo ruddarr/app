@@ -167,6 +167,10 @@ struct DiagnosticsView: View {
                     if candidate.probeDescription != nil {
                         networkDiagnosticsRow("Probe", probeText(candidate))
                     }
+
+                    if candidate.webDescription != nil {
+                        networkDiagnosticsRow("Web", webText(candidate))
+                    }
                 } label: {
                     HStack(spacing: 5) {
                         Text(verbatim: mask.url(candidate.url))
@@ -256,11 +260,30 @@ struct DiagnosticsView: View {
         return Text(value)
     }
 
+    /// Whether a browser could open this candidate — the verdict behind the web button being
+    /// enabled or struck through, which is otherwise invisible from the outside.
+    func webText(_ candidate: NetworkReport.Candidate) -> Text {
+        var value = AttributedString(candidate.webDescription ?? "")
+        value.foregroundColor = candidate.web?.reachable == true ? .green : .orange
+
+        return Text(value)
+    }
+
     func refresh() async {
         let instances = settings.configuredInstances
 
         for instance in instances {
             _ = await InstanceResolver.shared.resolve(instance)
+        }
+
+        // Populates the Web rows — the same check the instance web button reads. Deliberately
+        // not awaited: it can sit on a 5s timeout, and the report should not wait on that. The
+        // resolver throttles it per network, so this tick-rate cannot storm the hosts, and the
+        // verdicts land in time for a later pass of this loop.
+        Task {
+            for instance in instances {
+                _ = await InstanceResolver.shared.reachableWebURL(for: instance)
+            }
         }
 
         let updated = await InstanceResolver.shared.report(for: instances)

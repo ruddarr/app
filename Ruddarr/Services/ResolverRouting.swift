@@ -56,6 +56,20 @@ enum ResolverRouting {
 
         /// Bases with a `/ping` probe currently in flight — same semantics as `resolveInFlight`.
         var probeInFlight: Set<String> = []
+
+        /// base URL → whether a *browser* can reach this candidate on this network. Kept apart
+        /// from `probeOutcomes` on purpose: it answers "could Safari open this?", not "where
+        /// should the app talk?", it covers every candidate rather than only off-link private
+        /// ones, and it never feeds ranking — so a check made for the UI can never move the
+        /// app's own routing.
+        var webOutcomes: [String: ProbeOutcome] = [:]
+
+        /// base URL → when a web check was last dispatched or completed — the retry throttle,
+        /// with the same fingerprint-flap semantics as `probeAttemptedAt`.
+        var webAttemptedAt: [String: Date] = [:]
+
+        /// Bases with a web check currently in flight — same semantics as `probeInFlight`.
+        var webInFlight: Set<String> = []
     }
 
     /// Ranks `candidates` for the current network from cached state alone — the same
@@ -145,6 +159,8 @@ enum ResolverRouting {
         state.resolveAttemptedAt.removeAll()
         state.probeOutcomes.removeAll()
         state.probeAttemptedAt.removeAll()
+        state.webOutcomes.removeAll()
+        state.webAttemptedAt.removeAll()
         state.epoch += 1
     }
 
@@ -309,6 +325,39 @@ enum ResolverRouting {
         state.probeOutcomes[base] = outcome
     }
 
+    /// Collects candidates due a fresh browser-facing `/ping`. Unlike `claimProbesNeeded` this
+    /// takes *every* candidate and needs no LAN: the question is whether a browser could open
+    /// the URL from wherever the device is right now, which is as meaningful on cellular as it
+    /// is at home. A verified base is re-checked on the same throttle as a failed one — the web
+    /// button reflects reachability, so an instance that went down has to stop counting without
+    /// waiting for a network change.
+    static func claimWebChecksNeeded(_ state: inout State, _ candidates: [String], now: Date) -> [String] {
+        var bases: [String] = []
+
+        for base in candidates {
+            if state.webInFlight.contains(base) { continue }
+            if let last = state.webAttemptedAt[base], now.timeIntervalSince(last) < resolveRetryInterval { continue }
+
+            state.webAttemptedAt[base] = now
+            state.webInFlight.insert(base)
+            bases.append(base)
+        }
+
+        return bases
+    }
+
+    /// Writes back a completed web check, dropping a result whose caches were cleared since it
+    /// was dispatched (`epoch` no longer matches) — the same contract as `recordProbe`, and the
+    /// same reason the in-flight guard clears either way.
+    static func recordWebCheck(_ state: inout State, base: String, epoch: Int, outcome: ProbeOutcome, now: Date) {
+        state.webInFlight.remove(base)
+
+        guard state.epoch == epoch else { return }
+
+        state.webAttemptedAt[base] = now
+        state.webOutcomes[base] = outcome
+    }
+
     /// The unauthenticated `{base}/ping` endpoint (Radarr and Sonarr both serve it), with any
     /// inline credentials stripped — no secret ever rides along to an address that isn't
     /// verified yet.
@@ -350,6 +399,10 @@ enum ResolverRouting {
     /// reconnecting) would otherwise re-storm `getaddrinfo` on every swing. Only a real
     /// `networkChanged()` clears the throttle, so a genuine transition still re-resolves at once.
     ///
+    /// The web-check caches follow the probe rules for the same reason, one step more visible:
+    /// a verdict earned at home must never vouch for a URL on cellular, and keeping its throttle
+    /// would leave the web button disabled for up to `resolveRetryInterval` after every swing.
+    ///
     /// The probe throttle is NOT kept: a wiped verdict must be re-earnable at once, or the
     /// verified candidate scores 30 instead of 95 for up to `resolveRetryInterval` and every
     /// instance row flips selection and re-checks against a slower fallback — a visible
@@ -363,6 +416,8 @@ enum ResolverRouting {
         state.resolvedHosts.removeAll()
         state.probeOutcomes.removeAll()
         state.probeAttemptedAt.removeAll()
+        state.webOutcomes.removeAll()
+        state.webAttemptedAt.removeAll()
         state.epoch += 1
     }
 }

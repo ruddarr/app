@@ -9,6 +9,7 @@ struct NetworkReport: Equatable, Sendable {
         let resolved: Bool
         let addresses: [String]
         let probe: ProbeOutcome?
+        let web: ProbeOutcome?
         let demoted: Bool
         let primary: Bool
         let selected: Bool
@@ -33,9 +34,21 @@ struct NetworkReport: Equatable, Sendable {
             return "reachable (\(Int((latency * 1_000).rounded())) ms)"
         }
 
+        /// The browser-facing verdict: whether this candidate answered a `/ping` unauthenticated,
+        /// and so whether the web button may hand it to Safari. `nil` until the check has run on
+        /// this network — distinct from a check that ran and found nothing.
+        var webDescription: String? {
+            guard let web else { return nil }
+            guard web.reachable else { return "unreachable" }
+            guard let latency = web.latency else { return "reachable" }
+
+            return "reachable (\(Int((latency * 1_000).rounded())) ms)"
+        }
+
         var summary: String {
             var parts = [roleDescription, "score \(score)", resolved ? "resolved" : "lexical"]
             if let probeDescription { parts.append("probe \(probeDescription)") }
+            if let webDescription { parts.append("web \(webDescription)") }
             if demoted { parts.append("demoted") }
             if primary { parts.append("primary") }
 
