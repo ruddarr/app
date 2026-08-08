@@ -157,24 +157,18 @@ actor InstanceResolver {
     /// no custom headers, no stored cookies — so the instance's own credentials can't vouch for
     /// an address a browser would be turned away from. A genuine Radarr/Sonarr answer (the same
     /// verdict the routing probe uses: HTTP success, from the host that was asked, carrying
-    /// `{"status": "OK"}`) is `verified`; anything else that still produced a response is
-    /// `answered` rather than dead, because the browser may hold a session this check cannot see —
-    /// including a request that only failed once it had been redirected off the probed host.
+    /// `{"status": "OK"}`) is `verified`; any other response — a redirect, a 403, a login page —
+    /// is `answered` rather than dead, because the browser may hold a session this check cannot
+    /// see. Redirects are never followed, so the verdict is the origin's own answer and can't
+    /// turn on whether some host further down a chain happens to be up.
     private static func webVerdict(_ base: String) async -> WebVerdict {
         guard let url = ResolverRouting.probeURL(for: base) else { return .dead }
 
-        let data: Data
-        let response: URLResponse
-
-        do {
-            (data, response) = try await webCheckSession.data(from: url)
-        } catch let error as URLError {
-            return failedPastOrigin(error, probing: url) ? .answered : .dead
-        } catch {
+        guard let (data, response) = try? await webCheckSession.data(from: url),
+              let http = response as? HTTPURLResponse
+        else {
             return .dead
         }
-
-        guard let http = response as? HTTPURLResponse else { return .dead }
 
         let verified = ResolverRouting.probeVerdict(
             status: http.statusCode,
@@ -186,25 +180,22 @@ actor InstanceResolver {
         return verified ? .verified : .answered
     }
 
-    /// Whether the request got *past* the probed host before failing: the origin answered with a
-    /// redirect and it was the chain that broke — a dead identity provider, or a loop between the
-    /// two. The candidate is alive, and a browser holding a session would never be sent down that
-    /// chain at all, so it is `answered` rather than `dead`.
-    private static func failedPastOrigin(_ error: URLError, probing url: URL) -> Bool {
-        if error.code == .httpTooManyRedirects { return true }
-
-        guard let failing = error.failingURL?.host(percentEncoded: false),
-              let probed = url.host(percentEncoded: false)
-        else {
-            return false
+    /// Hands the origin's redirect back as the task's response instead of following it, so a
+    /// candidate is judged only by the host that was actually asked.
+    private final class NoRedirects: NSObject, URLSessionTaskDelegate {
+        func urlSession(
+            _ session: URLSession,
+            task: URLSessionTask,
+            willPerformHTTPRedirection response: HTTPURLResponse,
+            newRequest request: URLRequest
+        ) async -> URLRequest? {
+            nil
         }
-
-        return failing.caseInsensitiveCompare(probed) != .orderedSame
     }
 
     /// Ephemeral (no cookies, no cache) so nothing stored can make a dead URL look alive, and
     /// more patient than the routing probe: nothing waits on this check, but a candidate wrongly
-    /// called dead greys out the button, so a slow remote host is given room to answer.
+    /// called dead is passed over for a worse one, so a slow remote host is given room to answer.
     private static let webCheckSession: URLSession = {
         let timeout: TimeInterval = 5
 
@@ -213,7 +204,7 @@ actor InstanceResolver {
         configuration.timeoutIntervalForResource = timeout
         configuration.waitsForConnectivity = false
 
-        return URLSession(configuration: configuration)
+        return URLSession(configuration: configuration, delegate: NoRedirects(), delegateQueue: nil)
     }()
 
     /// A structured snapshot of the current network and, for each instance, why every candidate
