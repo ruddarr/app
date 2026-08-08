@@ -262,6 +262,21 @@ extension API {
                 ])
 
             var items: QueueItems = try await request(url: url, instance: instance)
+            var page = 1
+
+            while items.records.count < items.totalRecords, page < 5 {
+                page += 1
+
+                let next: QueueItems = try await request(
+                    url: url.appending(queryItems: [.init(name: "page", value: String(page))]),
+                    instance: instance
+                )
+
+                guard !next.records.isEmpty else { break }
+
+                items.records += next.records
+            }
+
             items.records.stamp(instance.id)
             return items
         }, deleteQueueTask: { task, remove, block, search, instance in
