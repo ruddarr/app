@@ -358,6 +358,22 @@ enum ResolverRouting {
         state.webOutcomes[base] = outcome
     }
 
+    /// The candidate the web button should open, from cached web verdicts alone: the best-ranked
+    /// verified base, else the best-ranked one that answered at all — Safari may hold a session
+    /// the unauthenticated check cannot see, so an answering host is never written off — else
+    /// `nil`, which is what disables the button. `candidates` must already be in ranked order.
+    static func webSelection(_ candidates: [String], outcomes: [String: ProbeOutcome]) -> String? {
+        var answered: String?
+
+        for base in candidates {
+            guard let outcome = outcomes[base] else { continue }
+            if outcome.reachable { return base }
+            if answered == nil && outcome.answered { answered = base }
+        }
+
+        return answered
+    }
+
     /// The unauthenticated `{base}/ping` endpoint (Radarr and Sonarr both serve it), with any
     /// inline credentials stripped — no secret ever rides along to an address that isn't
     /// verified yet.

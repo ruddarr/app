@@ -26,10 +26,11 @@ import Foundation
 ///   which demotes that base for the current network and returns the instance's next-best one.
 /// - Browser-aware: `reachableWebURL(for:)` answers a different question — which URL a *browser*
 ///   can open — by checking every candidate unauthenticated, so the app's own credentials and
-///   headers can't vouch for a URL Safari would be turned away from. Reachable means pingable:
-///   only a genuine `/ping` counts, and when no candidate answers one the web button is
-///   disabled rather than pointed at a URL that would fail to load. These verdicts are cached
-///   separately from the routing probes and never feed ranking.
+///   headers can't vouch for a URL Safari would be turned away from. Safari's own cookies are
+///   outside the app container and unreadable, so a host that answers *anything* stays worth
+///   opening; only when nothing answers anywhere is the web button disabled rather than pointed
+///   at a URL that would fail to load. These verdicts are cached separately from the routing
+///   probes and never feed ranking.
 ///
 /// The resolved URL is purely runtime state and is never persisted, so it can never reach
 /// iCloud, the App Group, or another device.
@@ -122,14 +123,15 @@ actor InstanceResolver {
         ResolverRouting.noteSuccess(&state, for: url.absoluteString, candidates: candidates)
     }
 
-    /// The instance's web interface at a URL a browser can actually open, or `nil` when none of
-    /// its candidates is reachable — which is what disables the web button in `InstanceView`.
-    /// Selection alone can't answer this: it knows which address the *app* should talk to,
-    /// having authenticated, and says nothing about what a browser would get there.
+    /// The instance's web interface at a URL worth handing to a browser, or `nil` when nothing
+    /// answered anywhere — which is what disables the web button in `InstanceView`. Selection
+    /// alone can't answer this: it knows which address the *app* should talk to, having
+    /// authenticated, and says nothing about what a browser would get there.
     ///
-    /// Reachable means *pingable*. Only a genuine Radarr/Sonarr `/ping` counts, so a candidate
-    /// that merely answers — a redirect to an identity provider, a 403, a login page — is never
-    /// offered: the button is handed a URL that demonstrably serves the interface, or none.
+    /// A verified candidate — a genuine Radarr/Sonarr `/ping` — wins over one that merely
+    /// answered, but an answering host (a redirect to an identity provider, a 403, a login
+    /// page) is never written off: Safari may hold a session this check cannot see and walk
+    /// straight in. Only a candidate nothing can reach is treated as unreachable.
     ///
     /// Every candidate is checked rather than stopping at the first hit, so the diagnostics
     /// screen can show a verdict for each one; the checks run concurrently and at most once per
@@ -142,7 +144,7 @@ actor InstanceResolver {
         if !pending.isEmpty {
             let outcomes = await withTaskGroup(of: (String, ProbeOutcome).self) { group in
                 for base in pending {
-                    group.addTask { (base, await Self.webCheck(base)) }
+                    group.addTask { (base, await Self.probe(base, via: webCheckSession)) }
                 }
 
                 var results: [(String, ProbeOutcome)] = []
@@ -157,43 +159,8 @@ actor InstanceResolver {
             }
         }
 
-        for base in candidates where state.webOutcomes[base]?.reachable == true {
-            if let url = URL(string: base) { return url }
-        }
-
-        return nil
-    }
-
-    /// One candidate's browser-facing check: an unauthenticated `GET {base}/ping` — no API key,
-    /// no custom headers, no stored cookies — so the instance's own credentials can't vouch for
-    /// an address a browser would be turned away from. Judged by exactly the verdict the routing
-    /// probe uses: HTTP success, from the host that was asked, carrying `{"status": "OK"}`.
-    /// Redirects are never followed, so the answer is the origin's own and can't turn on whether
-    /// some host further down a chain happens to be up.
-    private static func webCheck(_ base: String) async -> ProbeOutcome {
-        guard let url = ResolverRouting.probeURL(for: base) else {
-            return ProbeOutcome(reachable: false)
-        }
-
-        let clock = ContinuousClock()
-        let started = clock.now
-
-        guard let (data, response) = try? await webCheckSession.data(from: url),
-              let http = response as? HTTPURLResponse,
-              ResolverRouting.probeVerdict(
-                  status: http.statusCode,
-                  finalHost: http.url?.host(percentEncoded: false),
-                  probedHost: url.host(percentEncoded: false),
-                  body: data
-              )
-        else {
-            return ProbeOutcome(reachable: false)
-        }
-
-        let elapsed = started.duration(to: clock.now)
-        let latency = Double(elapsed.components.seconds) + Double(elapsed.components.attoseconds) / 1e18
-
-        return ProbeOutcome(reachable: true, latency: latency)
+        return ResolverRouting.webSelection(candidates, outcomes: state.webOutcomes)
+            .flatMap { URL(string: $0) }
     }
 
     /// Hands the origin's redirect back as the task's response instead of following it, so a
@@ -210,8 +177,9 @@ actor InstanceResolver {
     }
 
     /// Ephemeral (no cookies, no cache) so nothing stored can make a dead URL look alive, and
-    /// more patient than the routing probe: a candidate wrongly called dead takes the web button
-    /// down with it, so a slow remote host is given room to answer.
+    /// more patient than the routing probe: a candidate wrongly called dead is passed over for
+    /// a worse one — or, when nothing else answers, takes the web button down with it — so a
+    /// slow remote host is given room to answer.
     private static let webCheckSession: URLSession = {
         let timeout: TimeInterval = 5
 
@@ -333,7 +301,7 @@ actor InstanceResolver {
 
         for base in bases {
             Task(priority: .utility) {
-                let outcome = await Self.probe(base)
+                let outcome = await Self.probe(base, via: probeSession)
                 recordProbe(base: base, epoch: epoch, outcome: outcome)
             }
         }
@@ -354,7 +322,13 @@ actor InstanceResolver {
         return URLSession(configuration: configuration)
     }()
 
-    private static func probe(_ base: String) async -> ProbeOutcome {
+    /// One candidate's `/ping`, timed — unauthenticated by design (no API key, no custom
+    /// headers, no stored cookies), which is what both callers need: the routing probe because
+    /// no secret may ride along to an unverified address, the web check because the instance's
+    /// own credentials can't vouch for an address a browser would be turned away from.
+    /// `reachable` carries the strict verdict (HTTP success, from the host that was asked,
+    /// carrying `{"status": "OK"}`); `answered` records that any response came back at all.
+    private static func probe(_ base: String, via session: URLSession) async -> ProbeOutcome {
         guard let url = ResolverRouting.probeURL(for: base) else {
             return ProbeOutcome(reachable: false)
         }
@@ -362,14 +336,8 @@ actor InstanceResolver {
         let clock = ContinuousClock()
         let started = clock.now
 
-        guard let (data, response) = try? await probeSession.data(from: url),
-              let http = response as? HTTPURLResponse,
-              ResolverRouting.probeVerdict(
-                  status: http.statusCode,
-                  finalHost: http.url?.host(percentEncoded: false),
-                  probedHost: url.host(percentEncoded: false),
-                  body: data
-              )
+        guard let (data, response) = try? await session.data(from: url),
+              let http = response as? HTTPURLResponse
         else {
             return ProbeOutcome(reachable: false)
         }
@@ -377,7 +345,14 @@ actor InstanceResolver {
         let elapsed = started.duration(to: clock.now)
         let latency = Double(elapsed.components.seconds) + Double(elapsed.components.attoseconds) / 1e18
 
-        return ProbeOutcome(reachable: true, latency: latency)
+        let verified = ResolverRouting.probeVerdict(
+            status: http.statusCode,
+            finalHost: http.url?.host(percentEncoded: false),
+            probedHost: url.host(percentEncoded: false),
+            body: data
+        )
+
+        return ProbeOutcome(reachable: verified, answered: true, latency: verified ? latency : nil)
     }
 
     private func dispatchResolution(_ hosts: [String], snapshot: NetworkSnapshot, epoch: Int) {
