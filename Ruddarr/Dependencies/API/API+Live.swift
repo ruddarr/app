@@ -258,7 +258,7 @@ extension API {
                     .init(name: "includeMovie", value: "true"),
                     .init(name: "includeSeries", value: "true"),
                     .init(name: "includeEpisode", value: "true"),
-                    .init(name: "pageSize", value: "100"),
+                    .init(name: "pageSize", value: "250"),
                 ])
 
             var items: QueueItems = try await request(url: url, instance: instance)
