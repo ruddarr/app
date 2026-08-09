@@ -165,11 +165,11 @@ struct DiagnosticsView: View {
                     }
 
                     if candidate.probeDescription != nil {
-                        networkDiagnosticsRow("Probe", probeText(candidate))
+                        networkDiagnosticsRow("Probe", outcomeText(candidate.probeDescription, reachable: candidate.probe?.reachable == true))
                     }
 
                     if candidate.webDescription != nil {
-                        networkDiagnosticsRow("Web", webText(candidate))
+                        networkDiagnosticsRow("Web", outcomeText(candidate.webDescription, reachable: candidate.web?.reachable == true))
                     }
                 } label: {
                     HStack(spacing: 5) {
@@ -253,16 +253,9 @@ struct DiagnosticsView: View {
         return Text(value)
     }
 
-    func probeText(_ candidate: NetworkReport.Candidate) -> Text {
-        var value = AttributedString(candidate.probeDescription ?? "")
-        value.foregroundColor = candidate.probe?.reachable == true ? .green : .orange
-
-        return Text(value)
-    }
-
-    func webText(_ candidate: NetworkReport.Candidate) -> Text {
-        var value = AttributedString(candidate.webDescription ?? "")
-        value.foregroundColor = candidate.web?.reachable == true ? .green : .orange
+    func outcomeText(_ description: String?, reachable: Bool) -> Text {
+        var value = AttributedString(description ?? "")
+        value.foregroundColor = reachable ? .green : .orange
 
         return Text(value)
     }
@@ -286,8 +279,10 @@ struct DiagnosticsView: View {
             failedRequests = failures
         }
 
+        // Fire-and-forget: verdicts land in the resolver's cache and the next two-second tick
+        // renders them, so a dead host's timeout can never stall this refresh loop.
         for instance in instances {
-            _ = await InstanceResolver.shared.reachableWebURL(for: instance)
+            Task { _ = await InstanceResolver.shared.reachableWebURL(for: instance) }
         }
     }
 

@@ -323,4 +323,29 @@ struct ResolverProbeTests {
         let ordered = ResolverRouting.rank(&state, candidates: [remote, routed], snapshot: home, fingerprint: home.fingerprint, now: t0)
         #expect(ordered == [remote, routed])
     }
+
+    @Test func webSelectionPrefersVerifiedOverAnswered() {
+        let verdicts = [
+            remote: ProbeOutcome(reachable: false, answered: true),
+            routed: ProbeOutcome(reachable: true, latency: 0.01),
+        ]
+
+        // A genuine `/ping` outranks a mere answer, even from a better-ranked candidate.
+        #expect(ResolverRouting.webSelection([remote, routed], outcomes: verdicts) == routed)
+    }
+
+    @Test func webSelectionKeepsAnsweredHostsOpenable() {
+        // Safari may hold a session the unauthenticated check cannot see, so a host that
+        // answered — a 403, a login page, an identity-provider redirect — is still offered.
+        let verdicts = [
+            remote: ProbeOutcome(reachable: false, answered: true),
+            routed: ProbeOutcome(reachable: false),
+        ]
+
+        #expect(ResolverRouting.webSelection([routed, remote], outcomes: verdicts) == remote)
+
+        // Only when nothing answers anywhere is there no URL — the disabled web button.
+        #expect(ResolverRouting.webSelection([routed], outcomes: [routed: ProbeOutcome(reachable: false)]) == nil)
+        #expect(ResolverRouting.webSelection([remote], outcomes: [:]) == nil)
+    }
 }

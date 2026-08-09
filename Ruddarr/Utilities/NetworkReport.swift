@@ -27,20 +27,24 @@ struct NetworkReport: Equatable, Sendable {
         }
 
         var probeDescription: String? {
-            guard let probe else { return nil }
-            guard probe.reachable else { return "unreachable" }
-            guard let latency = probe.latency else { return "reachable" }
-
-            return "reachable (\(Int((latency * 1_000).rounded())) ms)"
+            Self.outcomeDescription(probe)
         }
 
-        /// The browser-facing verdict: whether this candidate answered a `/ping` unauthenticated,
-        /// and so whether the web button may hand it to Safari. `nil` until the check has run on
-        /// this network — distinct from a check that ran and found nothing.
+        /// The browser-facing verdict: whether the web button may hand this candidate to Safari.
+        /// "answered" is a host that responded without proving it serves the interface — still
+        /// openable, since Safari may hold a session the check cannot see. `nil` until the check
+        /// has run on this network — distinct from a check that ran and found nothing.
         var webDescription: String? {
             guard let web else { return nil }
-            guard web.reachable else { return "unreachable" }
-            guard let latency = web.latency else { return "reachable" }
+            if web.answered && !web.reachable { return "answered" }
+
+            return Self.outcomeDescription(web)
+        }
+
+        private static func outcomeDescription(_ outcome: ProbeOutcome?) -> String? {
+            guard let outcome else { return nil }
+            guard outcome.reachable else { return "unreachable" }
+            guard let latency = outcome.latency else { return "reachable" }
 
             return "reachable (\(Int((latency * 1_000).rounded())) ms)"
         }

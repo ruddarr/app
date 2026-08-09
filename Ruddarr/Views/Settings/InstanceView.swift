@@ -29,6 +29,7 @@ struct InstanceView: View {
     @State var diskSpaceExpanded: Bool = false
 
     @State var webAccessState: MetadataState<URL> = .idle
+    @State var networkToken: UUID?
 
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
@@ -71,11 +72,22 @@ struct InstanceView: View {
         .task {
             await setup()
         }
+        .task(id: networkToken) {
+            guard networkToken != nil else { return }
+
+            try? await Task.sleep(for: .milliseconds(500))
+            guard !Task.isCancelled else { return }
+
+            await checkWebAccess()
+        }
         .onChange(of: instanceNotifications) {
             Task { await notificationsToggled() }
         }
         .onBecomeActive {
             await setup()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
+            networkToken = UUID()
         }
         .sensoryAlert(
             isPresented: webhook.errorBinding,
@@ -233,7 +245,13 @@ struct InstanceView: View {
     func checkWebAccess() async {
         webAccessState = .loading
 
-        if let url = await instance.reachableWebURL() {
+        let url = await instance.reachableWebURL()
+
+        // A superseded re-check (the network flapped again mid-flight) must not overwrite
+        // the verdict the fresher task is about to write.
+        guard !Task.isCancelled else { return }
+
+        if let url {
             webAccessState = .loaded(url)
         } else {
             webAccessState = .failed

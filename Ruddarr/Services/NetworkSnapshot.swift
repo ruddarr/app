@@ -50,12 +50,16 @@ struct ResolvedHost: Equatable {
     var addresses: [String] = []
 }
 
-/// The verdict of a background `/ping` probe of an off-link private candidate — a server that
-/// may sit on a sibling VLAN behind the same router. `reachable` means the address answered
-/// with a genuine Radarr/Sonarr ping response on the *current* network; like every resolver
-/// cache it is scoped to the network fingerprint and never persisted.
+/// The verdict of a background `/ping` check — the routing probe of an off-link private
+/// candidate, or the browser-facing web check of any candidate. `reachable` means the address
+/// answered with a genuine Radarr/Sonarr ping response on the *current* network; `answered`
+/// records the weaker fact that *some* HTTP response came back — a redirect, a 403, a login
+/// page. Routing reads `reachable` alone; the web check also reads `answered`, because Safari
+/// may hold a session the app cannot see, so an answering host stays worth opening. Like every
+/// resolver cache these are scoped to the network fingerprint and never persisted.
 struct ProbeOutcome: Equatable, Sendable {
     var reachable: Bool
+    var answered: Bool = false
     var latency: TimeInterval?
 }
 
