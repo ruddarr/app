@@ -279,8 +279,6 @@ struct DiagnosticsView: View {
             failedRequests = failures
         }
 
-        // Fire-and-forget: verdicts land in the resolver's cache and the next two-second tick
-        // renders them, so a dead host's timeout can never stall this refresh loop.
         for instance in instances {
             Task { _ = await InstanceResolver.shared.reachableWebURL(for: instance) }
         }

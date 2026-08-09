@@ -247,8 +247,6 @@ struct InstanceView: View {
 
         let url = await instance.reachableWebURL()
 
-        // A superseded re-check (the network flapped again mid-flight) must not overwrite
-        // the verdict the fresher task is about to write.
         guard !Task.isCancelled else { return }
 
         if let url {
