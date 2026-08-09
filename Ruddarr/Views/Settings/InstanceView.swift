@@ -28,7 +28,7 @@ struct InstanceView: View {
     @State var diskSpaceState: MetadataState<[InstanceDiskSpace]> = .idle
     @State var diskSpaceExpanded: Bool = false
 
-    @State var webAccessURL: URL?
+    @State var webAccessState: MetadataState<URL> = .idle
 
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
@@ -212,19 +212,32 @@ struct InstanceView: View {
     var toolbarWebButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button {
-                if let url = webAccessURL {
+                if case .loaded(let url) = webAccessState {
                     openURL(url, prefersInApp: true)
                 }
             } label: {
-                Image(systemName: "safari")
+                switch webAccessState {
+                case .idle, .loading:
+                    ProgressView()
+                        .controlSize(.small)
+                        .tint(.secondary)
+                case .loaded, .failed:
+                    Image(systemName: "safari")
+                }
             }
-            .disabled(webAccessURL == nil)
+            .disabled(!webAccessState.isLoaded)
             .tint(.primary)
         }
     }
 
     func checkWebAccess() async {
-        webAccessURL = await instance.reachableWebURL()
+        webAccessState = .loading
+
+        if let url = await instance.reachableWebURL() {
+            webAccessState = .loaded(url)
+        } else {
+            webAccessState = .failed
+        }
     }
 
     @ToolbarContentBuilder
