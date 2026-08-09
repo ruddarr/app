@@ -1,30 +1,22 @@
 import Foundation
 
-/// The pure routing / self-correction state machine behind `InstanceResolver`, with no
-/// `Instance` dependency (candidates are plain base-URL strings) and every clock reading
-/// injected as `now`. That is what lets this logic compile into the Tests target — which has
-/// no `@testable import` — and be exercised deterministically.
-///
-/// Failover carries the instance's own candidate list on every call, so a failed request can
-/// only ever be re-issued against a URL belonging to that same instance — there is no global
-/// URL→instance registry to go stale or to let one instance's request reach another's host.
+/// The pure routing state machine behind `InstanceResolver`: no `Instance` dependency
+/// (candidates are plain base-URL strings) and every clock reading injected as `now`, which is
+/// what lets it compile into the Tests target and be exercised deterministically. Failover
+/// carries the instance's own candidates, so a failure can't be retried against another's host.
 enum ResolverRouting {
     static let probeTimeout: TimeInterval = 2
     static let demotionTTL: TimeInterval = 600
     static let resolveRetryInterval: TimeInterval = 30
 
-    /// Everything the resolver learns about the current network. `InstanceResolver` guards it
-    /// behind a lock; here it is a plain value so the transitions are directly testable. Every
-    /// cache below describes reachability on the network identified by `fingerprint`, and is
-    /// dropped the moment that changes — so the maps are keyed by plain base/host, not by a
-    /// composite that would only ever hold one generation anyway.
+    /// Everything the resolver learns about the current network — a plain value, so the
+    /// transitions are directly testable. Every cache below is dropped when `fingerprint` changes.
     struct State {
         /// The network these caches belong to. When it changes they are all cleared.
         var fingerprint = ""
 
-        /// Bumped whenever the caches are cleared. A background lookup captures it at dispatch
-        /// and writes back only if it still matches, so a resolution computed for a superseded
-        /// network can't land in the current cache (two different LANs can share a fingerprint).
+        /// Bumped whenever the caches are cleared. A background lookup captures it at dispatch and
+        /// writes back only if it still matches, so a superseded result can't land in the cache.
         var epoch = 0
 
         /// base URL → the moment its demotion (after a failed request) expires.
@@ -33,49 +25,38 @@ enum ResolverRouting {
         /// host → how that hostname resolves on the current network.
         var resolvedHosts: [String: ResolvedHost] = [:]
 
-        /// host → when a lookup was last attempted (stamped at claim), so a name is re-sent to
-        /// `getaddrinfo` at most once per `resolveRetryInterval`. Unlike the maps above it
-        /// survives a fingerprint change (cleared only by `networkChanged`), so a flapping
-        /// fingerprint can't wipe the throttle and storm lookups.
+        /// host → when a lookup was last attempted (stamped at claim), throttling `getaddrinfo` to
+        /// once per `resolveRetryInterval`. Cleared only by `networkChanged`, so a flap can't storm it.
         var resolveAttemptedAt: [String: Date] = [:]
 
-        /// Hosts with a lookup currently in flight. Claims skip these, and unlike the attempt
-        /// stamps the set survives even `networkChanged`, so a burst of path updates can never
-        /// stack a second blocking `getaddrinfo` for the same host onto the resolution queue —
-        /// completion always clears the entry, even when the result lands stale and is dropped.
+        /// Hosts with a lookup in flight — claims skip these, and the set survives even
+        /// `networkChanged`, so a burst of path updates can't stack blocking `getaddrinfo` calls.
         var resolveInFlight: Set<String> = []
 
         /// base URL → the `/ping` verdict for an off-link private candidate on this network. A
-        /// reachable verdict promotes the base above remote (the router demonstrably routes into
-        /// its VLAN); a failed one is retried at most once per `resolveRetryInterval`.
+        /// reachable verdict promotes the base above remote; a failed one is retried on throttle.
         var probeOutcomes: [String: ProbeOutcome] = [:]
 
-        /// base URL → when a probe was last dispatched or completed — the retry throttle, with
-        /// the same fingerprint-flap semantics as `resolveAttemptedAt`.
+        /// base URL → when a probe was last dispatched or completed — the retry throttle.
         var probeAttemptedAt: [String: Date] = [:]
 
         /// Bases with a `/ping` probe currently in flight — same semantics as `resolveInFlight`.
         var probeInFlight: Set<String> = []
 
-        /// base URL → whether a *browser* can reach this candidate on this network. Kept apart
-        /// from `probeOutcomes` on purpose: it answers "could Safari open this?", not "where
-        /// should the app talk?", it covers every candidate rather than only off-link private
-        /// ones, and it never feeds ranking — so a check made for the UI can never move the
-        /// app's own routing.
+        /// base URL → whether a *browser* can reach this candidate. Kept apart from
+        /// `probeOutcomes`: it covers every candidate and never feeds ranking, so a check made
+        /// for the UI can never move the app's own routing.
         var webOutcomes: [String: ProbeOutcome] = [:]
 
-        /// base URL → when a web check was last dispatched or completed — the retry throttle,
-        /// with the same fingerprint-flap semantics as `probeAttemptedAt`.
+        /// base URL → when a web check was last dispatched or completed — the retry throttle.
         var webAttemptedAt: [String: Date] = [:]
 
         /// Bases with a web check currently in flight — same semantics as `probeInFlight`.
         var webInFlight: Set<String> = []
     }
 
-    /// Ranks `candidates` for the current network from cached state alone — the same
-    /// fingerprint sync and ordering as `register`, but it claims nothing and dispatches
-    /// nothing, so a passive caller (an instance row displaying the selection) can read it
-    /// without generating lookup or probe traffic.
+    /// Ranks `candidates` from cached state alone — the same fingerprint sync and ordering as
+    /// `register`, but claims nothing and dispatches nothing, so a passive caller stays silent.
     static func rank(
         _ state: inout State,
         candidates: [String],
@@ -93,9 +74,8 @@ enum ResolverRouting {
         )
     }
 
-    /// Ranks `candidates` for the current network and claims any hostnames that still need a
-    /// background lookup, plus any off-link private bases that still need a `/ping` probe.
-    /// Clears the caches first if the network changed since the last call.
+    /// Ranks `candidates` and claims any hostnames still needing a background lookup, plus any
+    /// off-link private bases still needing a probe. Clears the caches first if the network changed.
     static func register(
         _ state: inout State,
         candidates: [String],
@@ -114,9 +94,8 @@ enum ResolverRouting {
     }
 
     /// Demotes the candidate that served `absolute` and returns the next-best sibling (same
-    /// request path re-attached), or `nil` when nothing else is reachable. Ranking is redone
-    /// against the fresh snapshot with the new demotion applied, so failover follows the same
-    /// ladder as proactive selection.
+    /// request path re-attached), or `nil`. Ranking is redone against the fresh snapshot with the
+    /// demotion applied, so failover follows the same ladder as proactive selection.
     static func failover( // swiftlint:disable:this function_parameter_count
         _ state: inout State,
         afterFailing absolute: String,
@@ -164,9 +143,8 @@ enum ResolverRouting {
         state.epoch += 1
     }
 
-    /// Writes back a completed lookup, but only if the caches haven't been cleared since it was
-    /// dispatched (`epoch` still matches) — otherwise the stale result is dropped. The in-flight
-    /// guard clears either way; the lookup is over.
+    /// Writes back a completed lookup, dropping it if the caches were cleared since dispatch
+    /// (`epoch` no longer matches). The in-flight guard clears either way; the lookup is over.
     static func recordResolution(_ state: inout State, host: String, epoch: Int, resolved: ResolvedHost?, now: Date) {
         state.resolveInFlight.remove(host)
 
@@ -177,8 +155,8 @@ enum ResolverRouting {
         if let resolved { state.resolvedHosts[host] = resolved }
     }
 
-    /// The candidate that is the longest (most specific) base-URL prefix of `absolute`, honouring
-    /// a `/`, `?` or end-of-string boundary so a sibling origin or a `-suffixed` path can't match.
+    /// The longest (most specific) candidate that prefixes `absolute`, honouring a `/`, `?` or
+    /// end-of-string boundary so a sibling origin or a `-suffixed` path can't match.
     static func matchingBase(_ candidates: [String], for absolute: String) -> String? {
         candidates
             .filter { base in
@@ -204,8 +182,7 @@ enum ResolverRouting {
     }
 
     /// Collects hostnames worth a fresh lookup — skipping literal IPs, `.local`, `.ts.net`,
-    /// single-label names, already-cached, in-flight and recently-failed names — stamping each
-    /// as attempted so a repeat within `resolveRetryInterval` (in flight or just failed) skips.
+    /// single-label, cached, in-flight and recently-failed names — stamping each as attempted.
     static func claimHostsNeedingResolution(_ state: inout State, _ candidates: [String], now: Date) -> [String] {
         var hosts: [String] = []
         var seen: Set<String> = []
@@ -226,10 +203,9 @@ enum ResolverRouting {
         return hosts
     }
 
-    /// `true` for plain hostnames worth resolving. Literal IPs already classify exactly;
-    /// `.local` goes through Bonjour (which would trigger the Local Network prompt), `.ts.net`
-    /// is handled by the tunnel-up signal, and a single-label name resolves via implicit mDNS —
-    /// none should be sent to `getaddrinfo`.
+    /// `true` for plain hostnames worth resolving. Literal IPs already classify exactly; `.local`
+    /// goes through Bonjour (triggering the Local Network prompt), `.ts.net` is covered by the
+    /// tunnel-up signal, and a single-label name resolves via implicit mDNS.
     static func shouldResolve(_ host: String) -> Bool {
         let host = host.lowercased()
         if host.isEmpty { return false }
@@ -242,11 +218,8 @@ enum ResolverRouting {
     // MARK: - Off-link probing
 
     /// Whether `base` is worth a background `/ping`: a private address — literal, or what its
-    /// hostname resolved to — that is NOT on any of the device's own links. Such a server may
-    /// sit on a sibling VLAN behind the same router, reachable only if the router routes into
-    /// it, which is exactly what the probe finds out. Loopback is always on-link, link-local
-    /// can never route (resolved names included), CGNAT / the Tailscale ULA belong to the
-    /// tunnel, and mDNS / single-label names can't resolve off-link — none of those are probed.
+    /// hostname resolved to — NOT on any of the device's own links, so it may sit on a sibling
+    /// VLAN the router might route into. Loopback, link-local and the tunnel ranges are skipped.
     static func probeCandidate(_ base: String, resolved: [String: ResolvedHost], snapshot: NetworkSnapshot) -> Bool {
         guard let host = NetworkInterfaces.host(of: base) else { return false }
 
@@ -272,13 +245,11 @@ enum ResolverRouting {
         return false
     }
 
-    /// Collects off-link private bases worth a fresh `/ping` — skipping verified bases,
-    /// in-flight probes and recent failures — stamping each as attempted, exactly like
-    /// `claimHostsNeedingResolution` does for lookups. Probing needs a LAN: away from any
-    /// local network there is no router that could route into the server's VLAN. And it
-    /// needs a reason: while a sibling candidate is reachable on-link (score 100), a verified
-    /// routed verdict (95) could never change selection, so nothing is claimed — without
-    /// stamping the throttle, so the first claim after that sibling demotes fires at once.
+    /// Collects off-link private bases worth a fresh `/ping` — skipping verified, in-flight and
+    /// recently-failed ones — stamping each as attempted, like `claimHostsNeedingResolution`.
+    /// Probing needs a LAN (no local network, no router to route into the VLAN) and a reason:
+    /// while a sibling is reachable on-link (100) a routed verdict (95) can't change selection,
+    /// so nothing is claimed and the throttle stays unstamped.
     static func claimProbesNeeded(
         _ state: inout State,
         _ candidates: [String],
@@ -312,10 +283,9 @@ enum ResolverRouting {
         return bases
     }
 
-    /// Writes back a completed probe, unless the caches were cleared since it was dispatched
-    /// (`epoch` no longer matches). Failures are recorded too — the diagnostics screen shows
-    /// them — and re-stamping the attempt schedules the next retry a full interval after
-    /// *completion*, not dispatch. The in-flight guard clears either way; the probe is over.
+    /// Writes back a completed probe, unless the caches were cleared since dispatch. Failures are
+    /// recorded too (diagnostics shows them), and re-stamping the attempt schedules the next retry
+    /// a full interval after *completion*, not dispatch.
     static func recordProbe(_ state: inout State, base: String, epoch: Int, outcome: ProbeOutcome, now: Date) {
         state.probeInFlight.remove(base)
 
@@ -326,11 +296,10 @@ enum ResolverRouting {
     }
 
     /// Collects candidates due a fresh browser-facing `/ping`. Unlike `claimProbesNeeded` this
-    /// takes *every* candidate and needs no LAN: the question is whether a browser could open
-    /// the URL from wherever the device is right now, which is as meaningful on cellular as it
-    /// is at home. A verified base is re-checked on the same throttle as a failed one — the web
-    /// button reflects reachability, so an instance that went down has to stop counting without
-    /// waiting for a network change.
+    /// takes *every* candidate and needs no LAN — the question is whether a browser could open the
+    /// URL from wherever the device is, as meaningful on cellular as at home. A verified base is
+    /// re-checked on the same throttle as a failed one, so an instance that went down stops
+    /// counting without waiting for a network change.
     static func claimWebChecksNeeded(_ state: inout State, _ candidates: [String], now: Date) -> [String] {
         var bases: [String] = []
 
@@ -346,9 +315,8 @@ enum ResolverRouting {
         return bases
     }
 
-    /// Writes back a completed web check, dropping a result whose caches were cleared since it
-    /// was dispatched (`epoch` no longer matches) — the same contract as `recordProbe`, and the
-    /// same reason the in-flight guard clears either way.
+    /// Writes back a completed web check, dropping a result whose caches were cleared since
+    /// dispatch — the same contract as `recordProbe`.
     static func recordWebCheck(_ state: inout State, base: String, epoch: Int, outcome: ProbeOutcome, now: Date) {
         state.webInFlight.remove(base)
 
@@ -359,9 +327,8 @@ enum ResolverRouting {
     }
 
     /// The candidate the web button should open, from cached web verdicts alone: the best-ranked
-    /// verified base, else the best-ranked one that answered at all — Safari may hold a session
-    /// the unauthenticated check cannot see, so an answering host is never written off — else
-    /// `nil`, which is what disables the button. `candidates` must already be in ranked order.
+    /// verified base, else the best-ranked one that answered at all (Safari may hold a session the
+    /// unauthenticated check can't see), else `nil`. `candidates` must already be ranked.
     static func webSelection(_ candidates: [String], outcomes: [String: ProbeOutcome]) -> String? {
         var answered: String?
 
@@ -374,9 +341,8 @@ enum ResolverRouting {
         return answered
     }
 
-    /// The unauthenticated `{base}/ping` endpoint (Radarr and Sonarr both serve it), with any
-    /// inline credentials stripped — no secret ever rides along to an address that isn't
-    /// verified yet.
+    /// The unauthenticated `{base}/ping` endpoint (Radarr and Sonarr both serve it), with inline
+    /// credentials stripped — no secret rides along to an address that isn't verified yet.
     static func probeURL(for base: String) -> URL? {
         guard var components = URLComponents(string: base), components.host != nil else { return nil }
 
@@ -390,10 +356,9 @@ enum ResolverRouting {
     }
 
     /// Whether a probe response proves a live *arr instance at the probed address: HTTP success
-    /// from the SAME host (a redirect elsewhere proves nothing about this address) with the
-    /// exact `{"status": "OK"}` shape `/ping` returns. A captive portal, a stranger's web UI or
-    /// a lookalike health endpoint fails this, so no promotion — and therefore no authenticated
-    /// request — ever follows from an answer that isn't Radarr/Sonarr.
+    /// from the SAME host (a redirect elsewhere proves nothing) with the exact `{"status": "OK"}`
+    /// shape `/ping` returns. A captive portal or lookalike health endpoint fails this, so no
+    /// promotion — and therefore no authenticated request — follows from a stranger's answer.
     static func probeVerdict(status: Int, finalHost: String?, probedHost: String?, body: Data) -> Bool {
         guard (200...299).contains(status) else { return false }
 
@@ -408,22 +373,16 @@ enum ResolverRouting {
         return value.caseInsensitiveCompare("OK") == .orderedSame
     }
 
-    /// Drops the network-specific caches (resolutions, demotions and probe verdicts) when the
-    /// fingerprint changes, so anything learned on one network never leaks into the next, and bumps `epoch`
-    /// so in-flight lookups for the old network are discarded on completion. The DNS-retry
-    /// throttle (`resolveAttemptedAt`) is deliberately kept: a flapping fingerprint (tailnet
-    /// reconnecting) would otherwise re-storm `getaddrinfo` on every swing. Only a real
-    /// `networkChanged()` clears the throttle, so a genuine transition still re-resolves at once.
+    /// Drops the network-specific caches when the fingerprint changes, so nothing learned on one
+    /// network leaks into the next, and bumps `epoch` so in-flight lookups are discarded.
     ///
-    /// The web-check caches follow the probe rules for the same reason, one step more visible:
-    /// a verdict earned at home must never vouch for a URL on cellular, and keeping its throttle
-    /// would leave the web button disabled for up to `resolveRetryInterval` after every swing.
-    ///
-    /// The probe throttle is NOT kept: a wiped verdict must be re-earnable at once, or the
+    /// The DNS-retry throttle (`resolveAttemptedAt`) is deliberately kept: a flapping fingerprint
+    /// (tailnet reconnecting) would otherwise re-storm `getaddrinfo` on every swing. Only a real
+    /// `networkChanged()` clears it, so a genuine transition still re-resolves at once. The probe
+    /// and web-check throttles are NOT kept: a wiped verdict must be re-earnable at once, or the
     /// verified candidate scores 30 instead of 95 for up to `resolveRetryInterval` and every
-    /// instance row flips selection and re-checks against a slower fallback — a visible
-    /// blackout on every fingerprint swing. Unlike `getaddrinfo`, a probe is bounded (2s
-    /// timeout), single-flight per base, and gated off entirely while an on-link sibling wins.
+    /// instance row flips to a slower fallback. Unlike `getaddrinfo`, a probe is bounded,
+    /// single-flight per base, and gated off while an on-link sibling wins.
     private static func syncFingerprint(_ state: inout State, to fingerprint: String) {
         guard state.fingerprint != fingerprint else { return }
 
