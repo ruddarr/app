@@ -9,6 +9,7 @@ struct NetworkReport: Equatable, Sendable {
         let resolved: Bool
         let addresses: [String]
         let probe: ProbeOutcome?
+        let web: ProbeOutcome?
         let demoted: Bool
         let primary: Bool
         let selected: Bool
@@ -26,9 +27,24 @@ struct NetworkReport: Equatable, Sendable {
         }
 
         var probeDescription: String? {
-            guard let probe else { return nil }
-            guard probe.reachable else { return "unreachable" }
-            guard let latency = probe.latency else { return "reachable" }
+            Self.outcomeDescription(probe)
+        }
+
+        /// The browser-facing verdict: whether the web button may hand this candidate to Safari.
+        /// "answered" is a host that responded without proving it serves the interface — still
+        /// openable, since Safari may hold a session the check cannot see. `nil` until the check
+        /// has run on this network — distinct from a check that ran and found nothing.
+        var webDescription: String? {
+            guard let web else { return nil }
+            if web.answered && !web.reachable { return "answered" }
+
+            return Self.outcomeDescription(web)
+        }
+
+        private static func outcomeDescription(_ outcome: ProbeOutcome?) -> String? {
+            guard let outcome else { return nil }
+            guard outcome.reachable else { return "unreachable" }
+            guard let latency = outcome.latency else { return "reachable" }
 
             return "reachable (\(Int((latency * 1_000).rounded())) ms)"
         }
@@ -36,6 +52,7 @@ struct NetworkReport: Equatable, Sendable {
         var summary: String {
             var parts = [roleDescription, "score \(score)", resolved ? "resolved" : "lexical"]
             if let probeDescription { parts.append("probe \(probeDescription)") }
+            if let webDescription { parts.append("web \(webDescription)") }
             if demoted { parts.append("demoted") }
             if primary { parts.append("primary") }
 

@@ -165,7 +165,11 @@ struct DiagnosticsView: View {
                     }
 
                     if candidate.probeDescription != nil {
-                        networkDiagnosticsRow("Probe", probeText(candidate))
+                        networkDiagnosticsRow("Probe", outcomeText(candidate.probeDescription, reachable: candidate.probe?.reachable == true))
+                    }
+
+                    if candidate.webDescription != nil {
+                        networkDiagnosticsRow("Web", outcomeText(candidate.webDescription, reachable: candidate.web?.reachable == true))
                     }
                 } label: {
                     HStack(spacing: 5) {
@@ -249,9 +253,9 @@ struct DiagnosticsView: View {
         return Text(value)
     }
 
-    func probeText(_ candidate: NetworkReport.Candidate) -> Text {
-        var value = AttributedString(candidate.probeDescription ?? "")
-        value.foregroundColor = candidate.probe?.reachable == true ? .green : .orange
+    func outcomeText(_ description: String?, reachable: Bool) -> Text {
+        var value = AttributedString(description ?? "")
+        value.foregroundColor = reachable ? .green : .orange
 
         return Text(value)
     }
@@ -273,6 +277,10 @@ struct DiagnosticsView: View {
 
         if failures != failedRequests {
             failedRequests = failures
+        }
+
+        for instance in instances {
+            Task { _ = await InstanceResolver.shared.reachableWebURL(for: instance) }
         }
     }
 

@@ -28,7 +28,8 @@ struct InstanceView: View {
     @State var diskSpaceState: MetadataState<[InstanceDiskSpace]> = .idle
     @State var diskSpaceExpanded: Bool = false
 
-    @State var webAccessURL: URL?
+    @State var webAccessState: MetadataState<URL> = .idle
+    @State var networkToken: UUID?
 
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
@@ -71,11 +72,22 @@ struct InstanceView: View {
         .task {
             await setup()
         }
+        .task(id: networkToken) {
+            guard networkToken != nil else { return }
+
+            try? await Task.sleep(for: .milliseconds(500))
+            guard !Task.isCancelled else { return }
+
+            await checkWebAccess()
+        }
         .onChange(of: instanceNotifications) {
             Task { await notificationsToggled() }
         }
         .onBecomeActive {
             await setup()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
+            networkToken = UUID()
         }
         .sensoryAlert(
             isPresented: webhook.errorBinding,
@@ -212,18 +224,36 @@ struct InstanceView: View {
     var toolbarWebButton: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button {
-                if let url = webAccessURL ?? URL(string: instance.url) {
+                if case .loaded(let url) = webAccessState {
                     openURL(url, prefersInApp: true)
                 }
             } label: {
-                Image(systemName: "safari")
+                switch webAccessState {
+                case .idle, .loading:
+                    ProgressView()
+                        .controlSize(.small)
+                        .tint(.secondary)
+                case .loaded, .failed:
+                    Image(systemName: "safari")
+                }
             }
+            .disabled(!webAccessState.isLoaded)
             .tint(.primary)
         }
     }
 
     func checkWebAccess() async {
-        webAccessURL = await instance.reachableWebURL()
+        webAccessState = .loading
+
+        let url = await instance.reachableWebURL()
+
+        guard !Task.isCancelled else { return }
+
+        if let url {
+            webAccessState = .loaded(url)
+        } else {
+            webAccessState = .failed
+        }
     }
 
     @ToolbarContentBuilder

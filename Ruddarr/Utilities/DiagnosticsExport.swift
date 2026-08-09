@@ -59,6 +59,10 @@ enum DiagnosticsExport {
             lines.append("  Probe: \(probeDescription)")
         }
 
+        if let webDescription = candidate.webDescription {
+            lines.append("  Web: \(webDescription)")
+        }
+
         lines.append("  Position: \(candidate.primary ? "primary" : "alternate")")
         lines.append("  Demoted: \(candidate.demoted ? "yes" : "no")")
         lines.append("  Selected: \(candidate.selected ? "yes" : "no")")
