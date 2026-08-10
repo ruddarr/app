@@ -106,6 +106,21 @@ extension API.Error: LocalizedError {
     }
 }
 
+extension API.Error {
+    /// The underlying transport error number, e.g. `-1001` for a timeout. Foundation renders its
+    /// descriptions in the device's language, so on a report from a non-English device the number
+    /// is the only part of a transport failure that stays searchable — and it separates a timeout
+    /// from `cannotConnectToHost` (-1004) or an ATS refusal (-1022), which read alike in prose.
+    var transportCode: Int? {
+        switch self {
+        case .timeoutOnPrivateIp(let error), .urlError(let error): error.code.rawValue
+        case .nsError(let error): error.code
+        case .notConnectedToInternet: URLError.notConnectedToInternet.rawValue
+        default: nil
+        }
+    }
+}
+
 extension FailedRequest.Reason {
     init(_ error: API.Error) { // swiftlint:disable:this cyclomatic_complexity
         switch error {

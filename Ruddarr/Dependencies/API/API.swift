@@ -71,23 +71,28 @@ extension API {
         allowFailover: Bool = true
     ) async throws -> Response {
         var attemptedURL = url
+        var transport = TransportTrace()
 
         do {
             return try await send(
                 method: method, url: url, headers: headers, body: body, instance: instance,
                 timeout: timeout, decoder: decoder, encoder: encoder, session: session,
-                allowFailover: allowFailover, onAttempt: { attemptedURL = $0 }
+                allowFailover: allowFailover, onAttempt: { attemptedURL = $0 }, onTransport: { transport = $0 }
             )
         } catch let error as CancellationError {
             throw error
         } catch API.Error.notConnectedToInternet {
             throw API.Error.notConnectedToInternet
         } catch {
+            let apiError = (error as? API.Error) ?? API.Error(from: error)
+
             await RequestDiagnostics.shared.record(
                 method: method.rawValue.uppercased(),
                 url: attemptedURL.absoluteString,
                 instance: instance?.label,
-                reason: FailedRequest.Reason((error as? API.Error) ?? API.Error(from: error))
+                reason: FailedRequest.Reason(apiError),
+                code: apiError.transportCode,
+                trace: transport
             )
 
             throw error
@@ -106,7 +111,8 @@ extension API {
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared,
         allowFailover: Bool = true,
-        onAttempt: (URL) -> Void = { _ in }
+        onAttempt: (URL) -> Void = { _ in },
+        onTransport: (TransportTrace) -> Void = { _ in }
     ) async throws -> Response {
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601extended
@@ -147,8 +153,10 @@ extension API {
         var failovers = 0
 
         attempts: while true {
+            let metrics = RequestMetricsCollector()
+
             do {
-                (json, response) = try await Self.data(for: request, session: session, retryOnConnectionLost: method == .get)
+                (json, response) = try await Self.data(for: request, session: session, metrics: metrics, retryOnConnectionLost: method == .get)
                 break attempts
             } catch let cancellationError as CancellationError {
                 // re-throw `CancellationError` so they can be handled elsewhere
@@ -159,6 +167,10 @@ extension API {
             } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
                 throw Error.notConnectedToInternet
             } catch let urlError as URLError {
+                // Stamped for every failing attempt, so whichever one ends up being the last leaves
+                // its measurements behind — a failover that then succeeds records nothing at all.
+                onTransport(metrics.trace(budget: request.timeoutInterval))
+
                 if allowFailover, failovers < maxFailovers, Self.canFailover(urlError.code, method: method), let instance,
                    let fallback = await InstanceResolver.shared.failover(afterFailing: attemptedURL, for: instance)
                 {
@@ -302,11 +314,16 @@ extension API {
         return timeout.interval(isLocal: NetworkInterfaces.role(forHost: host) == .lan)
     }
 
-    private static func data(for request: URLRequest, session: URLSession, retryOnConnectionLost: Bool) async throws -> (Data, URLResponse) {
+    private static func data(
+        for request: URLRequest,
+        session: URLSession,
+        metrics: RequestMetricsCollector,
+        retryOnConnectionLost: Bool
+    ) async throws -> (Data, URLResponse) {
         do {
-            return try await session.data(for: request)
+            return try await session.data(for: request, delegate: metrics)
         } catch let urlError as URLError where retryOnConnectionLost && urlError.code == .networkConnectionLost {
-            return try await session.data(for: request)
+            return try await session.data(for: request, delegate: metrics)
         }
     }
 

@@ -6,9 +6,18 @@ actor RequestDiagnostics {
     private var entries: [FailedRequest] = []
     private let limit = 50
 
-    func record(method: String, url: String, instance: String?, reason: FailedRequest.Reason) {
+    func record(
+        method: String,
+        url: String,
+        instance: String?,
+        reason: FailedRequest.Reason,
+        code: Int? = nil,
+        trace: TransportTrace = .init()
+    ) {
         let instance = (instance?.isEmpty == false) ? instance : nil
 
+        // Matched on the reason alone, not the measurements: `trace` carries wall times that differ
+        // on every attempt, so including it would turn one repeating failure into 50 near-duplicates.
         entries.removeAll {
             $0.method == method && $0.url == url && $0.instance == instance && $0.reason == reason
         }
@@ -20,7 +29,9 @@ actor RequestDiagnostics {
                 method: method,
                 url: url,
                 instance: instance,
-                reason: reason
+                reason: reason,
+                code: code,
+                trace: trace
             ),
             at: 0
         )
@@ -53,6 +64,14 @@ struct FailedRequest: Identifiable, Equatable, Sendable {
     let instance: String?
     let reason: Reason
 
+    /// The underlying `URLError`/`NSError` code. Kept beside the localized description because that
+    /// text is rendered in the device's language — a report from a non-English device is otherwise
+    /// impossible to search or triage on the error alone.
+    var code: Int?
+
+    /// What the transport measured, when the failure got far enough to measure anything.
+    var trace: TransportTrace = .init()
+
     enum Reason: Equatable, Sendable {
         case status(code: Int, message: String?)
         case decoding(String)
@@ -74,6 +93,12 @@ struct FailedRequest: Identifiable, Equatable, Sendable {
         case .transport(let text): text
         }
     }
+
+    /// The numeric code rendered for display, e.g. ` (-1001)`. Appended by the diagnostics screen
+    /// and export *after* masking, since a number never needs masking.
+    var codeSuffix: String {
+        code.map { " (\($0))" } ?? ""
+    }
 }
 
 #if DEBUG
@@ -93,7 +118,9 @@ extension FailedRequest {
             FailedRequest(
                 id: UUID(), date: Date().addingTimeInterval(-190), method: "GET",
                 url: "https://radarr.example.com/api/v3/system/status",
-                instance: "Radarr", reason: .transport("The request timed out.")
+                instance: "Radarr", reason: .transport("The request timed out."),
+                code: URLError.timedOut.rawValue,
+                trace: TransportTrace(budget: 2.5, elapsed: 2.51, phase: .waiting, cellular: false)
             ),
             FailedRequest(
                 id: UUID(), date: Date().addingTimeInterval(-360), method: "GET",

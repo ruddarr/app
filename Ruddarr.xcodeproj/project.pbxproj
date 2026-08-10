@@ -95,6 +95,7 @@
 				Utilities/Placeholder.swift,
 				Utilities/Privacy.swift,
 				Utilities/RequestDiagnostics.swift,
+				Utilities/RequestMetrics.swift,
 			);
 			target = BB000000000000000000AAA8 /* Tests */;
 		};
