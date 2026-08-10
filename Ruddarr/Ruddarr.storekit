@@ -27,7 +27,7 @@
     "_developerTeamID" : "B9ZZ8GLWRA",
     "_disableDialogs" : false,
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 808091394.90494895,
+    "_lastSynchronizedDate" : 808092540.19977403,
     "_locale" : "en_US",
     "_renewalBillingIssuesEnabled" : false,
     "_storefront" : "USA",
@@ -86,6 +86,11 @@
           "description" : "",
           "displayName" : "Ruddarr+",
           "locale" : "en_US"
+        },
+        {
+          "description" : "",
+          "displayName" : "Ruddarr+",
+          "locale" : "en_US"
         }
       ],
       "name" : "Ruddarr+",
@@ -115,14 +120,24 @@
           ],
           "localizations" : [
             {
-              "description" : "Access to push notifications and app icons.",
+              "description" : "Bildirimler ve uygulama ikonlarına erişin.",
               "displayName" : "Ruddarr+",
-              "locale" : "en_US"
+              "locale" : "tr"
             },
             {
-              "description" : "Zugriff auf Push-Mitteilungen u. App-Symbole.",
+              "description" : "Acesso a notificações push e ícones do app.",
               "displayName" : "Ruddarr+",
-              "locale" : "de"
+              "locale" : "pt_BR"
+            },
+            {
+              "description" : "访问推送通知和应用程序图标。",
+              "displayName" : "Ruddarr+",
+              "locale" : "zh_Hans"
+            },
+            {
+              "description" : "Accesso a notifiche push e icone delle app.",
+              "displayName" : "Ruddarr+",
+              "locale" : "it"
             },
             {
               "description" : "Acceso a notificaciones push e iconos de app.",
@@ -135,19 +150,34 @@
               "locale" : "fr"
             },
             {
-              "description" : "Accesso a notifiche push e icone delle app.",
+              "description" : "Zugriff auf Push-Mitteilungen u. App-Symbole.",
               "displayName" : "Ruddarr+",
-              "locale" : "it"
+              "locale" : "de"
             },
             {
-              "description" : "Acesso a notificações push e ícones do app.",
+              "description" : "Access to push notifications and app icons.",
               "displayName" : "Ruddarr+",
-              "locale" : "pt_BR"
+              "locale" : "en_US"
             },
             {
-              "description" : "Bildirimler ve uygulama ikonlarına erişin.",
+              "description" : "Acceso a notificaciones push e iconos de app.",
               "displayName" : "Ruddarr+",
-              "locale" : "tr"
+              "locale" : "es_ES"
+            },
+            {
+              "description" : "Zugriff auf Push-Mitteilungen u. App-Symbole.",
+              "displayName" : "Ruddarr+",
+              "locale" : "de"
+            },
+            {
+              "description" : "Accéder aux notifications et aux icônes.",
+              "displayName" : "Ruddarr+",
+              "locale" : "fr"
+            },
+            {
+              "description" : "Access to push notifications and app icons.",
+              "displayName" : "Ruddarr+",
+              "locale" : "en_US"
             }
           ],
           "productID" : "plus_yearly",
