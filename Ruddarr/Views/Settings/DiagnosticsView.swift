@@ -137,18 +137,16 @@ struct DiagnosticsView: View {
         }
     }
 
-    @ToolbarContentBuilder
     var toolbarShareButton: some ToolbarContent {
-        if report != nil {
-            ToolbarItem(placement: .primaryAction) {
-                ShareLink(
-                    item: NetworkDiagnosticsExport(
-                        text: DiagnosticsExport.text(from: model, masked: masked)
-                    ),
-                    preview: SharePreview(exportFilename)
-                )
-                .tint(.primary)
-            }
+        ToolbarItem(placement: .primaryAction) {
+            ShareLink(
+                item: NetworkDiagnosticsExport(
+                    text: DiagnosticsExport.text(from: model, masked: masked)
+                ),
+                preview: SharePreview(exportFilename)
+            )
+            .tint(.primary)
+            .disabled(report == nil)
         }
     }
 
