@@ -74,11 +74,13 @@ extension API {
         let metrics = RequestMetricsCollector()
 
         do {
-            return try await send(
-                method: method, url: url, headers: headers, body: body, instance: instance,
-                timeout: timeout, decoder: decoder, encoder: encoder, session: session,
-                allowFailover: allowFailover, onAttempt: { attemptedURL = $0 }, metrics: metrics
-            )
+            return try await RequestMetricsCollector.$current.withValue(metrics) {
+                try await send(
+                    method: method, url: url, headers: headers, body: body, instance: instance,
+                    timeout: timeout, decoder: decoder, encoder: encoder, session: session,
+                    allowFailover: allowFailover, onAttempt: { attemptedURL = $0 }
+                )
+            }
         } catch let error as CancellationError {
             throw error
         } catch API.Error.notConnectedToInternet {
@@ -108,8 +110,7 @@ extension API {
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared,
         allowFailover: Bool = true,
-        onAttempt: (URL) -> Void = { _ in },
-        metrics: RequestMetricsCollector = .init()
+        onAttempt: (URL) -> Void = { _ in }
     ) async throws -> Response {
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601extended
@@ -151,7 +152,7 @@ extension API {
 
         attempts: while true {
             do {
-                (json, response) = try await Self.data(for: request, session: session, metrics: metrics, retryOnConnectionLost: method == .get)
+                (json, response) = try await Self.data(for: request, session: session, retryOnConnectionLost: method == .get)
                 break attempts
             } catch let cancellationError as CancellationError {
                 // re-throw `CancellationError` so they can be handled elsewhere
@@ -305,12 +306,9 @@ extension API {
         return timeout.interval(isLocal: NetworkInterfaces.role(forHost: host) == .lan)
     }
 
-    private static func data(
-        for request: URLRequest,
-        session: URLSession,
-        metrics: RequestMetricsCollector,
-        retryOnConnectionLost: Bool
-    ) async throws -> (Data, URLResponse) {
+    private static func data(for request: URLRequest, session: URLSession, retryOnConnectionLost: Bool) async throws -> (Data, URLResponse) {
+        let metrics = RequestMetricsCollector.current
+
         do {
             return try await session.data(for: request, delegate: metrics)
         } catch let urlError as URLError where retryOnConnectionLost && urlError.code == .networkConnectionLost {

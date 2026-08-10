@@ -85,6 +85,10 @@ struct FailedRequest: Identifiable, Equatable, Sendable {
 /// reached the server, a timeout while waiting means the server answered too slowly. `URLError`
 /// alone cannot tell those apart. Metrics are not `Sendable`, so only the summary escapes.
 final class RequestMetricsCollector: NSObject, URLSessionTaskDelegate, Sendable {
+    /// Set for the duration of one `API.request`, so the transport can pick up the collector for
+    /// the request it is running without every function in between passing it along.
+    @TaskLocal static var current: RequestMetricsCollector?
+
     private let captured = OSAllocatedUnfairLock<String?>(initialState: nil)
 
     /// What the last attempt measured, `nil` when it ran to completion and has nothing to explain.
