@@ -184,7 +184,7 @@ struct DiagnosticsView: View {
                 }
             }
         } header: {
-            Text(verbatim: entry.label)
+            Text(verbatim: entry.title(masked: masked))
         }
     }
 

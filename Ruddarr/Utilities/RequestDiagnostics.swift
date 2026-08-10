@@ -140,23 +140,23 @@ extension FailedRequest {
             FailedRequest(
                 id: UUID(), date: Date(), method: "GET",
                 url: "https://radarr.example.com/api/v3/movie",
-                instance: "Radarr", reason: .status(code: 401, message: "Unauthorized")
+                instance: "radarr-a1b2c3d4", reason: .status(code: 401, message: "Unauthorized")
             ),
             FailedRequest(
                 id: UUID(), date: Date().addingTimeInterval(-42), method: "POST",
                 url: "http://192.168.1.10:8989/api/v3/release",
-                instance: "Sonarr", reason: .status(code: 500, message: "Internal Server Error")
+                instance: "sonarr-e5f6a7b8", reason: .status(code: 500, message: "Internal Server Error")
             ),
             FailedRequest(
                 id: UUID(), date: Date().addingTimeInterval(-190), method: "GET",
                 url: "https://radarr.example.com/api/v3/system/status",
-                instance: "Radarr", reason: .transport("The request timed out. (-1001)"),
+                instance: "radarr-a1b2c3d4", reason: .transport("The request timed out. (-1001)"),
                 transport: "waiting for response • 2.51s of 2.50s"
             ),
             FailedRequest(
                 id: UUID(), date: Date().addingTimeInterval(-360), method: "GET",
                 url: "https://sonarr.example.com/api/v3/series",
-                instance: "Sonarr", reason: .decoding("images.0.remoteUrl: Expected String but found null.")
+                instance: "sonarr-e5f6a7b8", reason: .decoding("images.0.remoteUrl: Expected String but found null.")
             ),
         ]
     }

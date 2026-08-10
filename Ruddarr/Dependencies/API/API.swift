@@ -89,7 +89,7 @@ extension API {
             await RequestDiagnostics.shared.record(
                 method: method.rawValue.uppercased(),
                 url: attemptedURL.absoluteString,
-                instance: instance?.label,
+                instance: instance?.contextKey,
                 reason: FailedRequest.Reason((error as? API.Error) ?? API.Error(from: error)),
                 transport: metrics.summary
             )
