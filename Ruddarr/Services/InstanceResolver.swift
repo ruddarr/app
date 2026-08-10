@@ -155,6 +155,7 @@ actor InstanceResolver {
         configuration.timeoutIntervalForRequest = timeout
         configuration.timeoutIntervalForResource = timeout
         configuration.waitsForConnectivity = false
+        configuration.urlCache = nil
 
         return URLSession(configuration: configuration, delegate: NoRedirects(), delegateQueue: nil)
     }()
@@ -282,6 +283,7 @@ actor InstanceResolver {
         configuration.timeoutIntervalForRequest = ResolverRouting.probeTimeout
         configuration.timeoutIntervalForResource = ResolverRouting.probeTimeout
         configuration.waitsForConnectivity = false
+        configuration.urlCache = nil
 
         return URLSession(configuration: configuration)
     }()
