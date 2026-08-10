@@ -1,4 +1,14 @@
 {
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : "https://ruddarr.com/privacy"
+      }
+    ]
+  },
   "identifier" : "5995E11D",
   "nonRenewingSubscriptions" : [
 
@@ -8,42 +18,41 @@
   ],
   "settings" : {
     "_applicationInternalID" : "6476240130",
+    "_askToBuyEnabled" : false,
+    "_billingGracePeriodEnabled" : false,
+    "_billingIssuesEnabled" : false,
     "_compatibilityTimeRate" : {
       "3" : 6
     },
     "_developerTeamID" : "B9ZZ8GLWRA",
+    "_disableDialogs" : false,
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 736296131.38246799,
+    "_lastSynchronizedDate" : 808091394.90494895,
     "_locale" : "en_US",
+    "_renewalBillingIssuesEnabled" : false,
     "_storefront" : "USA",
     "_storeKitErrors" : [
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Load Products"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Purchase"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Verification"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "App Store Sync"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Subscription Status"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "App Transaction"
       },
@@ -56,29 +65,43 @@
         "name" : "Manage Subscriptions Sheet"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Refund Request Sheet"
       },
       {
-        "current" : null,
         "enabled" : false,
         "name" : "Offer Code Redeem Sheet"
       }
     ],
     "_timeRate" : 15
   },
+  "subscriptionBundleGroups" : [
+
+  ],
   "subscriptionGroups" : [
     {
       "id" : "21452440",
       "localizations" : [
-
+        {
+          "description" : "",
+          "displayName" : "Ruddarr+",
+          "locale" : "en_US"
+        }
       ],
       "name" : "Ruddarr+",
       "subscriptions" : [
         {
           "adHocOffers" : [
 
+          ],
+          "billingPlans" : [
+            {
+              "billingPlanType" : "BILLED_UPFRONT",
+              "commitmentDisplayPrice" : "5.99",
+              "displayPrice" : "5.99",
+              "internalID" : "6478978286_BILLED_UPFRONT",
+              "isEnabled" : true
+            }
           ],
           "codeOffers" : [
 
@@ -87,25 +110,63 @@
           "familyShareable" : true,
           "groupNumber" : 1,
           "internalID" : "6478978286",
-          "introductoryOffer" : null,
+          "introductoryOffers" : [
+
+          ],
           "localizations" : [
             {
               "description" : "Access to push notifications and app icons.",
               "displayName" : "Ruddarr+",
               "locale" : "en_US"
+            },
+            {
+              "description" : "Zugriff auf Push-Mitteilungen u. App-Symbole.",
+              "displayName" : "Ruddarr+",
+              "locale" : "de"
+            },
+            {
+              "description" : "Acceso a notificaciones push e iconos de app.",
+              "displayName" : "Ruddarr+",
+              "locale" : "es_ES"
+            },
+            {
+              "description" : "Accéder aux notifications et aux icônes.",
+              "displayName" : "Ruddarr+",
+              "locale" : "fr"
+            },
+            {
+              "description" : "Accesso a notifiche push e icone delle app.",
+              "displayName" : "Ruddarr+",
+              "locale" : "it"
+            },
+            {
+              "description" : "Acesso a notificações push e ícones do app.",
+              "displayName" : "Ruddarr+",
+              "locale" : "pt_BR"
+            },
+            {
+              "description" : "Bildirimler ve uygulama ikonlarına erişin.",
+              "displayName" : "Ruddarr+",
+              "locale" : "tr"
             }
           ],
           "productID" : "plus_yearly",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Plus (Yearly)",
           "subscriptionGroupID" : "21452440",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         }
       ]
     }
   ],
+  "subscriptionSuiteGroups" : [
+
+  ],
   "version" : {
-    "major" : 3,
-    "minor" : 0
+    "major" : 6,
+    "minor" : 3
   }
 }
