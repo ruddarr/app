@@ -57,6 +57,12 @@ final class QuickActions {
     }
 
     func openMovie(_ id: Movie.ID, _ instance: String?) {
+        if dependencies.router.moviesPath == [.movie(id)], staysOnInstance(instance, AppSettings.shared.radarrInstanceId) {
+            dependencies.router.selectedTab = .movies
+
+            return
+        }
+
         dependencies.router.switchToRadarrInstance = instance
         dependencies.router.selectedTab = .movies
         dependencies.router.moviesPath = .init()
@@ -86,6 +92,12 @@ final class QuickActions {
     }
 
     func openSeries(_ id: Series.ID, _ season: Season.ID?, _ episode: Episode.ID?, _ instance: String?) {
+        if episode == nil, isShowing(id, season), staysOnInstance(instance, AppSettings.shared.sonarrInstanceId) {
+            dependencies.router.selectedTab = .series
+
+            return
+        }
+
         dependencies.router.switchToSonarrInstance = instance
         dependencies.router.selectedTab = .series
         dependencies.router.seriesPath = .init()
@@ -101,6 +113,22 @@ final class QuickActions {
                 }
             }
         }
+    }
+
+    private func isShowing(_ id: Series.ID, _ season: Season.ID?) -> Bool {
+        guard let season else {
+            return dependencies.router.seriesPath == [.series(id)]
+        }
+
+        return dependencies.router.seriesPath == [.series(id), .season(id, season)]
+    }
+
+    private func staysOnInstance(_ requested: String?, _ selected: Instance.ID?) -> Bool {
+        guard let instance = AppSettings.shared.instanceBy(requested) else {
+            return true
+        }
+
+        return instance.id == selected
     }
 
     func clearTimer() {
