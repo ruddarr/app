@@ -127,7 +127,7 @@ extension FailedRequest.Reason {
         case .timeoutOnPrivateIp(let error), .urlError(let error):
             self = .transport("\(error.localizedDescription) (\(error.errorCode))")
         case .nsError(let error):
-            self = .transport("\(error.localizedDescription) (\(error.code))")
+            self = .transport("\(error.localizedDescription) (\(error.domain) \(error.code))")
         case .localizedError(let error):
             self = .transport(error.errorDescription ?? String(describing: error))
         case .appError(let error):

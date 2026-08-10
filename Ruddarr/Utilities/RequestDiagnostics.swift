@@ -106,6 +106,12 @@ final class RequestMetricsCollector: NSObject, URLSessionTaskDelegate, Sendable 
         attempted.withLock { $0 = url }
     }
 
+    /// Metrics are not delivered for every task, so what the previous attempt measured is dropped
+    /// before the next one starts instead of being reported against the attempt that outlived it.
+    func beginAttempt() {
+        captured.withLock { $0 = nil }
+    }
+
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         let summary = Self.describe(metrics, budget: task.originalRequest?.timeoutInterval)
         captured.withLock { $0 = summary }

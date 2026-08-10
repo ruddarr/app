@@ -85,16 +85,27 @@ extension API {
         } catch API.Error.notConnectedToInternet {
             throw API.Error.notConnectedToInternet
         } catch {
+            let key = await diagnosticsKey(of: instance)
+
             await RequestDiagnostics.shared.record(
                 method: method.rawValue.uppercased(),
                 url: (metrics.attemptedURL ?? url).absoluteString,
-                instance: instance?.contextKey,
+                instance: key,
                 reason: FailedRequest.Reason((error as? API.Error) ?? API.Error(from: error)),
                 transport: metrics.summary
             )
 
             throw error
         }
+    }
+
+    @MainActor
+    private static func diagnosticsKey(of instance: Instance?) -> String? {
+        guard let instance, AppSettings.shared.configuredInstances.contains(where: { $0.id == instance.id }) else {
+            return nil
+        }
+
+        return instance.contextKey
     }
 
     // swiftlint:disable:next cyclomatic_complexity function_body_length
@@ -308,8 +319,12 @@ extension API {
         let metrics = RequestMetricsCollector.current
 
         do {
+            metrics?.beginAttempt()
+
             return try await session.data(for: request, delegate: metrics)
         } catch let urlError as URLError where retryOnConnectionLost && urlError.code == .networkConnectionLost {
+            metrics?.beginAttempt()
+
             return try await session.data(for: request, delegate: metrics)
         }
     }
