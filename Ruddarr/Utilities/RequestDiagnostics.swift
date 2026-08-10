@@ -123,10 +123,13 @@ final class RequestMetricsCollector: NSObject, URLSessionTaskDelegate, Sendable 
         }
 
         let elapsed = seconds(metrics.taskInterval.duration)
+        let redirects = metrics.redirectCount
 
         return [
             phase,
             budget.map { "\(elapsed) of \(seconds($0))" } ?? elapsed,
+            redirects > 0 ? "after \(redirects) redirect\(redirects == 1 ? "" : "s")" : nil,
+            transaction.isProxyConnection ? "via proxy" : nil,
             transaction.isCellular ? "over cellular" : nil,
         ].compactMap { $0 }.joined(separator: " • ")
     }
