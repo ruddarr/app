@@ -132,10 +132,14 @@ final class RequestMetricsCollector: NSObject, URLSessionTaskDelegate, Sendable 
     }
 
     /// The stage still open when the transaction stopped: each date is stamped as its stage ends,
-    /// so the first one missing is where it stalled. A reused connection reports no lookup or
-    /// connect dates at all, hence the guard.
+    /// so the first one missing is where it stalled. A cached response never reached the network
+    /// and has nothing to report, and a reused connection reports no lookup or connect dates at
+    /// all, hence the guards. TLS is checked before them, since `connectEndDate` is only stamped
+    /// once the handshake is through.
     private static func phase(_ metrics: URLSessionTaskTransactionMetrics) -> String? {
+        if metrics.resourceFetchType == .localCache { return nil }
         if metrics.domainLookupStartDate != nil, metrics.domainLookupEndDate == nil { return "resolving host" }
+        if metrics.secureConnectionStartDate != nil, metrics.secureConnectionEndDate == nil { return "negotiating TLS" }
         if !metrics.isReusedConnection, metrics.connectEndDate == nil { return "connecting" }
         if metrics.requestEndDate == nil { return "sending request" }
         if metrics.responseStartDate == nil { return "waiting for response" }
