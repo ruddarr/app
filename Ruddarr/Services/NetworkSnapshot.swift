@@ -202,8 +202,14 @@ extension NetworkSnapshot {
     /// Pangolin and by carrier-grade NAT on `pdp*`, so the tailnet is identified only by its
     /// `fd7a:115c:a1e0::/48` IPv6 ULA (see `classifyV6`). Pure and testable — the `getifaddrs`
     /// pointer decoding stays in `ingestIPv4`.
+    ///
+    /// A self-assigned `169.254/16` address is skipped, mirroring the link-local rule in
+    /// `classifyV6`: wired CarPlay and USB tethering bring up an `en*` link that carries nothing
+    /// else, and it can host no instance — it would only flip `hasLAN` and start probing.
     static func classifyV4(name: String, flags: Int32, address: UInt32, mask: UInt32) -> IPv4Subnet? {
-        isLANEthernet(name: name, flags: flags) ? IPv4Subnet(address: address, mask: mask, interface: name) : nil
+        guard isLANEthernet(name: name, flags: flags), !NetworkInterfaces.isLinkLocalV4(address) else { return nil }
+
+        return IPv4Subnet(address: address, mask: mask, interface: name)
     }
 
     /// A Tailscale `utun` (its `fd7a:115c:a1e0::/48` ULA) flips `tailnetUp`; a real `en*`

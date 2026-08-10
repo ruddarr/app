@@ -408,6 +408,8 @@ struct NetworkInterfacesTests {
         #expect(NetworkSnapshot.classifyV4(name: "bridge100", flags: 0, address: ipv4("192.168.5.1"), mask: 0xFFFF_FF00) == nil)
         // A point-to-point `en` (tunnel) is excluded.
         #expect(NetworkSnapshot.classifyV4(name: "en5", flags: Int32(IFF_POINTOPOINT), address: ipv4("192.168.1.5"), mask: 0xFFFF_FF00) == nil)
+        // A self-assigned address (wired CarPlay, USB tethering) hosts no instance and is not a LAN.
+        #expect(NetworkSnapshot.classifyV4(name: "en2", flags: 0, address: ipv4("169.254.31.7"), mask: 0xFFFF_0000) == nil)
     }
 
     @Test func classifyV6TailnetNeedsUtunAndTailscaleULA() {
