@@ -184,7 +184,7 @@ struct DiagnosticsView: View {
                 }
             }
         } header: {
-            Text(verbatim: entry.label)
+            Text(verbatim: entry.title(masked: masked))
         }
     }
 
@@ -333,6 +333,13 @@ struct DiagnosticsView: View {
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .lineLimit(3)
+            }
+
+            if let transport = request.transport {
+                Text(verbatim: transport)
+                    .font(.footnote)
+                    .foregroundStyle(.tertiary)
+                    .lineLimit(1)
             }
         }
         .textSelection(.enabled)

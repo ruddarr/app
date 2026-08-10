@@ -70,28 +70,42 @@ extension API {
         session: URLSession = .shared,
         allowFailover: Bool = true
     ) async throws -> Response {
-        var attemptedURL = url
+        let metrics = RequestMetricsCollector()
 
         do {
-            return try await send(
-                method: method, url: url, headers: headers, body: body, instance: instance,
-                timeout: timeout, decoder: decoder, encoder: encoder, session: session,
-                allowFailover: allowFailover, onAttempt: { attemptedURL = $0 }
-            )
+            return try await RequestMetricsCollector.$current.withValue(metrics) {
+                try await send(
+                    method: method, url: url, headers: headers, body: body, instance: instance,
+                    timeout: timeout, decoder: decoder, encoder: encoder, session: session,
+                    allowFailover: allowFailover
+                )
+            }
         } catch let error as CancellationError {
             throw error
         } catch API.Error.notConnectedToInternet {
             throw API.Error.notConnectedToInternet
         } catch {
+            let key = await diagnosticsKey(of: instance)
+
             await RequestDiagnostics.shared.record(
                 method: method.rawValue.uppercased(),
-                url: attemptedURL.absoluteString,
-                instance: instance?.label,
-                reason: FailedRequest.Reason((error as? API.Error) ?? API.Error(from: error))
+                url: (metrics.attemptedURL ?? url).absoluteString,
+                instance: key,
+                reason: FailedRequest.Reason((error as? API.Error) ?? API.Error(from: error)),
+                transport: metrics.summary
             )
 
             throw error
         }
+    }
+
+    @MainActor
+    private static func diagnosticsKey(of instance: Instance?) -> String? {
+        guard let instance, AppSettings.shared.configuredInstances.contains(where: { $0.id == instance.id }) else {
+            return nil
+        }
+
+        return instance.contextKey
     }
 
     // swiftlint:disable:next cyclomatic_complexity function_body_length
@@ -105,8 +119,7 @@ extension API {
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared,
-        allowFailover: Bool = true,
-        onAttempt: (URL) -> Void = { _ in }
+        allowFailover: Bool = true
     ) async throws -> Response {
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601extended
@@ -166,7 +179,7 @@ extension API {
 
                     failovers += 1
                     attemptedURL = fallback
-                    onAttempt(fallback)
+                    RequestMetricsCollector.current?.noteAttempt(fallback)
                     request.url = fallback
                     request.timeoutInterval = Self.effectiveTimeout(for: fallback, method: method, timeout: timeout)
 
@@ -303,10 +316,16 @@ extension API {
     }
 
     private static func data(for request: URLRequest, session: URLSession, retryOnConnectionLost: Bool) async throws -> (Data, URLResponse) {
+        let metrics = RequestMetricsCollector.current
+
         do {
-            return try await session.data(for: request)
+            metrics?.beginAttempt()
+
+            return try await session.data(for: request, delegate: metrics)
         } catch let urlError as URLError where retryOnConnectionLost && urlError.code == .networkConnectionLost {
-            return try await session.data(for: request)
+            metrics?.beginAttempt()
+
+            return try await session.data(for: request, delegate: metrics)
         }
     }
 

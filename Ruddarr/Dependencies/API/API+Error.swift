@@ -124,12 +124,10 @@ extension FailedRequest.Reason {
             }
         case .notConnectedToInternet:
             self = .transport("Not connected to the internet")
-        case .timeoutOnPrivateIp(let error):
-            self = .transport(error.localizedDescription)
-        case .urlError(let error):
-            self = .transport(error.localizedDescription)
+        case .timeoutOnPrivateIp(let error), .urlError(let error):
+            self = .transport("\(error.localizedDescription) (\(error.errorCode))")
         case .nsError(let error):
-            self = .transport(error.localizedDescription)
+            self = .transport("\(error.localizedDescription) (\(error.domain) \(error.code))")
         case .localizedError(let error):
             self = .transport(error.errorDescription ?? String(describing: error))
         case .appError(let error):

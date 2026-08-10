@@ -25,10 +25,9 @@ enum DiagnosticsExport {
 
         for instance in report.instances {
             lines.append("")
-            lines.append("[\(instance.label)]")
+            lines.append("[\(instance.title(masked: masked))]")
             lines.append("Type: \(instance.type)")
             lines.append("Mode: \(instance.mode)")
-            lines.append("Context: \(instance.contextKey)")
             lines.append("Selected: \(mask.url(instance.selected))")
 
             for candidate in instance.candidates {
@@ -84,6 +83,10 @@ enum DiagnosticsExport {
 
             if let detail = request.detail, !detail.isEmpty {
                 lines.append("  Error: \(mask.text(detail, for: request.url))")
+            }
+
+            if let transport = request.transport {
+                lines.append("  Transport: \(transport)")
             }
         }
 

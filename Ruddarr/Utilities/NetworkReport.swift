@@ -73,6 +73,13 @@ struct NetworkReport: Equatable, Sendable {
         let contextKey: String
         let selected: String
         let candidates: [Candidate]
+
+        /// The section title. `label` is free text the user typed and can name a person or a place,
+        /// so a masked report falls back to the context key, which identifies the instance without
+        /// revealing anything.
+        func title(masked: Bool) -> String {
+            masked ? contextKey : label
+        }
     }
 
     let tailnetUp: Bool
