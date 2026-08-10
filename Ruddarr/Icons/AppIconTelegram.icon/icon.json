@@ -115,7 +115,7 @@
             }
           ],
           "hidden" : false,
-          "image-name" : "ruddarr-warp-clip.png",
+          "image-name" : "ruddarr-telegram-clip.png",
           "name" : "PatternShape",
           "opacity-specializations" : [
             {
@@ -182,8 +182,8 @@
               "value" : false
             }
           ],
-          "image-name" : "cloudflare.png",
-          "name" : "cloudflare",
+          "image-name" : "telegram.png",
+          "name" : "telegram",
           "opacity-specializations" : [
             {
               "appearance" : "dark",
@@ -197,7 +197,7 @@
           "position-specializations" : [
             {
               "value" : {
-                "scale" : 0.46,
+                "scale" : 1,
                 "translation-in-points" : [
                   0,
                   0
@@ -207,7 +207,7 @@
             {
               "idiom" : "square",
               "value" : {
-                "scale" : 0.46,
+                "scale" : 1,
                 "translation-in-points" : [
                   0,
                   0
@@ -217,7 +217,7 @@
             {
               "idiom" : "watchOS",
               "value" : {
-                "scale" : 0.49,
+                "scale" : 1.1,
                 "translation-in-points" : [
                   0,
                   0
