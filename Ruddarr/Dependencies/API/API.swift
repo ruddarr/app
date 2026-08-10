@@ -70,7 +70,6 @@ extension API {
         session: URLSession = .shared,
         allowFailover: Bool = true
     ) async throws -> Response {
-        var attemptedURL = url
         let metrics = RequestMetricsCollector()
 
         do {
@@ -78,7 +77,7 @@ extension API {
                 try await send(
                     method: method, url: url, headers: headers, body: body, instance: instance,
                     timeout: timeout, decoder: decoder, encoder: encoder, session: session,
-                    allowFailover: allowFailover, onAttempt: { attemptedURL = $0 }
+                    allowFailover: allowFailover
                 )
             }
         } catch let error as CancellationError {
@@ -88,7 +87,7 @@ extension API {
         } catch {
             await RequestDiagnostics.shared.record(
                 method: method.rawValue.uppercased(),
-                url: attemptedURL.absoluteString,
+                url: (metrics.attemptedURL ?? url).absoluteString,
                 instance: instance?.contextKey,
                 reason: FailedRequest.Reason((error as? API.Error) ?? API.Error(from: error)),
                 transport: metrics.summary
@@ -109,8 +108,7 @@ extension API {
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared,
-        allowFailover: Bool = true,
-        onAttempt: (URL) -> Void = { _ in }
+        allowFailover: Bool = true
     ) async throws -> Response {
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601extended
@@ -170,7 +168,7 @@ extension API {
 
                     failovers += 1
                     attemptedURL = fallback
-                    onAttempt(fallback)
+                    RequestMetricsCollector.current?.noteAttempt(fallback)
                     request.url = fallback
                     request.timeoutInterval = Self.effectiveTimeout(for: fallback, method: method, timeout: timeout)
 

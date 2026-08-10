@@ -90,10 +90,20 @@ final class RequestMetricsCollector: NSObject, URLSessionTaskDelegate, Sendable 
     @TaskLocal static var current: RequestMetricsCollector?
 
     private let captured = OSAllocatedUnfairLock<String?>(initialState: nil)
+    private let attempted = OSAllocatedUnfairLock<URL?>(initialState: nil)
 
     /// What the last attempt measured, `nil` when it ran to completion and has nothing to explain.
     var summary: String? {
         captured.withLock { $0 }
+    }
+
+    /// Where the request ended up, `nil` until failover moves it off the URL it started on.
+    var attemptedURL: URL? {
+        attempted.withLock { $0 }
+    }
+
+    func noteAttempt(_ url: URL) {
+        attempted.withLock { $0 = url }
     }
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
