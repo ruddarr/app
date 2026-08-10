@@ -329,13 +329,13 @@ struct DiagnosticsView: View {
                 .truncationMode(.middle)
 
             if let detail = request.detail, !detail.isEmpty {
-                Text(verbatim: mask.text(detail, for: request.url) + request.codeSuffix)
+                Text(verbatim: mask.text(detail, for: request.url))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .lineLimit(3)
             }
 
-            if let transport = request.trace.summary {
+            if let transport = request.transport {
                 Text(verbatim: transport)
                     .font(.footnote)
                     .foregroundStyle(.tertiary)

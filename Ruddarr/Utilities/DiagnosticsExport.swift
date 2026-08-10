@@ -83,10 +83,10 @@ enum DiagnosticsExport {
             lines.append("  URL: \(mask.url(request.url))")
 
             if let detail = request.detail, !detail.isEmpty {
-                lines.append("  Error: \(mask.text(detail, for: request.url))\(request.codeSuffix)")
+                lines.append("  Error: \(mask.text(detail, for: request.url))")
             }
 
-            if let transport = request.trace.summary {
+            if let transport = request.transport {
                 lines.append("  Transport: \(transport)")
             }
         }

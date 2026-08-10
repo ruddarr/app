@@ -71,28 +71,25 @@ extension API {
         allowFailover: Bool = true
     ) async throws -> Response {
         var attemptedURL = url
-        var transport = TransportTrace()
+        let metrics = RequestMetricsCollector()
 
         do {
             return try await send(
                 method: method, url: url, headers: headers, body: body, instance: instance,
                 timeout: timeout, decoder: decoder, encoder: encoder, session: session,
-                allowFailover: allowFailover, onAttempt: { attemptedURL = $0 }, onTransport: { transport = $0 }
+                allowFailover: allowFailover, onAttempt: { attemptedURL = $0 }, metrics: metrics
             )
         } catch let error as CancellationError {
             throw error
         } catch API.Error.notConnectedToInternet {
             throw API.Error.notConnectedToInternet
         } catch {
-            let apiError = (error as? API.Error) ?? API.Error(from: error)
-
             await RequestDiagnostics.shared.record(
                 method: method.rawValue.uppercased(),
                 url: attemptedURL.absoluteString,
                 instance: instance?.label,
-                reason: FailedRequest.Reason(apiError),
-                code: apiError.transportCode,
-                trace: transport
+                reason: FailedRequest.Reason((error as? API.Error) ?? API.Error(from: error)),
+                transport: metrics.summary
             )
 
             throw error
@@ -112,7 +109,7 @@ extension API {
         session: URLSession = .shared,
         allowFailover: Bool = true,
         onAttempt: (URL) -> Void = { _ in },
-        onTransport: (TransportTrace) -> Void = { _ in }
+        metrics: RequestMetricsCollector = .init()
     ) async throws -> Response {
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601extended
@@ -153,8 +150,6 @@ extension API {
         var failovers = 0
 
         attempts: while true {
-            let metrics = RequestMetricsCollector()
-
             do {
                 (json, response) = try await Self.data(for: request, session: session, metrics: metrics, retryOnConnectionLost: method == .get)
                 break attempts
@@ -167,10 +162,6 @@ extension API {
             } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
                 throw Error.notConnectedToInternet
             } catch let urlError as URLError {
-                // Stamped for every failing attempt, so whichever one ends up being the last leaves
-                // its measurements behind — a failover that then succeeds records nothing at all.
-                onTransport(metrics.trace(budget: request.timeoutInterval))
-
                 if allowFailover, failovers < maxFailovers, Self.canFailover(urlError.code, method: method), let instance,
                    let fallback = await InstanceResolver.shared.failover(afterFailing: attemptedURL, for: instance)
                 {

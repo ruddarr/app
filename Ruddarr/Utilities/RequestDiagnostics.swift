@@ -1,3 +1,4 @@
+import os
 import Foundation
 
 actor RequestDiagnostics {
@@ -6,18 +7,9 @@ actor RequestDiagnostics {
     private var entries: [FailedRequest] = []
     private let limit = 50
 
-    func record(
-        method: String,
-        url: String,
-        instance: String?,
-        reason: FailedRequest.Reason,
-        code: Int? = nil,
-        trace: TransportTrace = .init()
-    ) {
+    func record(method: String, url: String, instance: String?, reason: FailedRequest.Reason, transport: String? = nil) {
         let instance = (instance?.isEmpty == false) ? instance : nil
 
-        // Matched on the reason alone, not the measurements: `trace` carries wall times that differ
-        // on every attempt, so including it would turn one repeating failure into 50 near-duplicates.
         entries.removeAll {
             $0.method == method && $0.url == url && $0.instance == instance && $0.reason == reason
         }
@@ -30,8 +22,7 @@ actor RequestDiagnostics {
                 url: url,
                 instance: instance,
                 reason: reason,
-                code: code,
-                trace: trace
+                transport: transport
             ),
             at: 0
         )
@@ -64,13 +55,8 @@ struct FailedRequest: Identifiable, Equatable, Sendable {
     let instance: String?
     let reason: Reason
 
-    /// The underlying `URLError`/`NSError` code. Kept beside the localized description because that
-    /// text is rendered in the device's language — a report from a non-English device is otherwise
-    /// impossible to search or triage on the error alone.
-    var code: Int?
-
-    /// What the transport measured, when the failure got far enough to measure anything.
-    var trace: TransportTrace = .init()
+    /// What the transport measured, e.g. `waiting for response • 2.51s of 2.50s`.
+    var transport: String?
 
     enum Reason: Equatable, Sendable {
         case status(code: Int, message: String?)
@@ -93,11 +79,53 @@ struct FailedRequest: Identifiable, Equatable, Sendable {
         case .transport(let text): text
         }
     }
+}
 
-    /// The numeric code rendered for display, e.g. ` (-1001)`. Appended by the diagnostics screen
-    /// and export *after* masking, since a number never needs masking.
-    var codeSuffix: String {
-        code.map { " (\($0))" } ?? ""
+/// Reads back how far a request got from `URLSessionTaskMetrics`: a timeout while connecting never
+/// reached the server, a timeout while waiting means the server answered too slowly. `URLError`
+/// alone cannot tell those apart. Metrics are not `Sendable`, so only the summary escapes.
+final class RequestMetricsCollector: NSObject, URLSessionTaskDelegate, Sendable {
+    private let captured = OSAllocatedUnfairLock<String?>(initialState: nil)
+
+    /// What the last attempt measured, `nil` when it ran to completion and has nothing to explain.
+    var summary: String? {
+        captured.withLock { $0 }
+    }
+
+    func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        let summary = Self.describe(metrics, budget: task.originalRequest?.timeoutInterval)
+        captured.withLock { $0 = summary }
+    }
+
+    private static func describe(_ metrics: URLSessionTaskMetrics, budget: TimeInterval?) -> String? {
+        guard let transaction = metrics.transactionMetrics.last, let phase = phase(transaction) else {
+            return nil
+        }
+
+        let elapsed = seconds(metrics.taskInterval.duration)
+
+        return [
+            phase,
+            budget.map { "\(elapsed) of \(seconds($0))" } ?? elapsed,
+            transaction.isCellular ? "over cellular" : nil,
+        ].compactMap { $0 }.joined(separator: " • ")
+    }
+
+    /// The stage still open when the transaction stopped: each date is stamped as its stage ends,
+    /// so the first one missing is where it stalled. A reused connection reports no lookup or
+    /// connect dates at all, hence the guard.
+    private static func phase(_ metrics: URLSessionTaskTransactionMetrics) -> String? {
+        if metrics.domainLookupStartDate != nil, metrics.domainLookupEndDate == nil { return "resolving host" }
+        if !metrics.isReusedConnection, metrics.connectEndDate == nil { return "connecting" }
+        if metrics.requestEndDate == nil { return "sending request" }
+        if metrics.responseStartDate == nil { return "waiting for response" }
+        if metrics.responseEndDate == nil { return "receiving response" }
+
+        return nil
+    }
+
+    private static func seconds(_ value: TimeInterval) -> String {
+        value.formatted(.number.precision(.fractionLength(value < 10 ? 2 : 0))) + "s"
     }
 }
 
@@ -118,9 +146,8 @@ extension FailedRequest {
             FailedRequest(
                 id: UUID(), date: Date().addingTimeInterval(-190), method: "GET",
                 url: "https://radarr.example.com/api/v3/system/status",
-                instance: "Radarr", reason: .transport("The request timed out."),
-                code: URLError.timedOut.rawValue,
-                trace: TransportTrace(budget: 2.5, elapsed: 2.51, phase: .waiting, cellular: false)
+                instance: "Radarr", reason: .transport("The request timed out. (-1001)"),
+                transport: "waiting for response • 2.51s of 2.50s"
             ),
             FailedRequest(
                 id: UUID(), date: Date().addingTimeInterval(-360), method: "GET",
