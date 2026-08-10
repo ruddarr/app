@@ -47,7 +47,9 @@ struct CustomFormat: View {
             .padding(.vertical, small ? 3 : 4)
             .padding(.horizontal, small ? 6 : 8)
             .background(
-                RoundedRectangle(cornerRadius: small ? 3.5 : 4).fill(.card)
+                RoundedRectangle(cornerRadius: small ? 3.5 : 4).fill(
+                    small && colorScheme == .dark ? .elevatedCard : .card
+                )
             )
     }
 }

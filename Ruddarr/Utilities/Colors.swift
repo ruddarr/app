@@ -19,6 +19,7 @@ extension ShapeStyle where Self == Color {
 
 #if os(iOS)
     static var card: Color { .quaternarySystemFill }
+    static var elevatedCard: Color { .tertiarySystemFill }
     static var label: Color { Color(UIColor.label) }
 
     static var darkGray: Color { Color(UIColor.darkGray) }
@@ -42,6 +43,7 @@ extension ShapeStyle where Self == Color {
     static var buttonFill: Color { Color(UIColor.systemGray5) }
 #else
     static var card: Color { .tertiarySystemFill }
+    static var elevatedCard: Color { .secondarySystemFill }
     static var label: Color { Color(NSColor.labelColor) }
 
     static var darkGray: Color { Color(NSColor.darkGray) }
