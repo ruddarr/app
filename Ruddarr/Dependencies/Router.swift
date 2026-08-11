@@ -11,8 +11,8 @@ final class Router {
     var switchToRadarrInstance: String?
     var switchToSonarrInstance: String?
 
-    var moviesPath: NavigationPath = .init()
-    var seriesPath: NavigationPath = .init()
+    var moviesPath: [MoviesPath] = .init()
+    var seriesPath: [SeriesPath] = .init()
     var calendarPath: NavigationPath = .init()
     var settingsPath: NavigationPath = .init()
 

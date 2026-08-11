@@ -58,6 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed redundant network requests when opening views and at launch
 - Fixed calendar day highlight not updating at midnight
 - Fixed activity tab hiding tasks when many seasons are downloading
+- Fixed deeplinks reloading the movie, series or season already on screen
 
 ### Removed
 - Dropped support for Sonarr v3

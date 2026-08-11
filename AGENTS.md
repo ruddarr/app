@@ -26,8 +26,8 @@ Guidance for AI agents working in this repository.
 
 ## Local instances
 
-- To see which local Radarr and Sonarr instances are available for development, inspect `Ruddarr/seed-instances.json`. This file is git-ignored because it contains private URLs, API keys, and potentially authentication headers; never commit or expose its contents.
-- To configure it, copy `Ruddarr/Preview Content/seed-instances.example.json` to `Ruddarr/seed-instances.json` and replace the example values.
+- To see which local Radarr and Sonarr instances are available for development, inspect `Ruddarr/Preview Content/seed-instances.json`. This file is git-ignored because it contains private URLs, API keys, and potentially authentication headers; never commit or expose its contents.
+- To configure it, copy `Ruddarr/Preview Content/seed-instances.example.json` to `Ruddarr/Preview Content/seed-instances.json` and replace the example values.
 - In a debug build, open Settings and use **Seed Instances** in the Instances section to load or update the configured instances.
 
 ## Build and test
