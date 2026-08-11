@@ -108,6 +108,8 @@ struct SeriesPreviewView: View {
             fatalError("Failed to locate added series by TVDB id")
         }
 
+        instance.lookup.updateItem(addedSeries)
+
         #if os(iOS)
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         #endif

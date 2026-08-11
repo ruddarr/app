@@ -107,6 +107,8 @@ struct MoviePreviewView: View {
             fatalError("Failed to locate added movie by TMDB id")
         }
 
+        instance.lookup.updateItem(addedMovie)
+
         #if os(iOS)
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         #endif

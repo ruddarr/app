@@ -108,6 +108,17 @@ class SeriesLookup {
         return queries[query] ?? nil
     }
 
+    // replace stale lookup records, e.g. after adding a series to the library
+    func updateItem(_ series: Series) {
+        if let index = items?.firstIndex(where: { $0.tvdbId == series.tvdbId }) {
+            items?[index] = series
+        }
+
+        if let tmdbId = series.tmdbId {
+            queries["tmdb:\(tmdbId)"] = series
+        }
+    }
+
     // consider caching this for performance
     var sortedItems: [Series] {
         let items = items ?? []
