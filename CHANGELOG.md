@@ -62,6 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed search results not updating after adding media
 - Fixed home tab preference being ignored on macOS
 - Fixed release search briefly showing an empty state after searching
+- Fixed discovery grid ignoring library items excluded by active filters
 
 ### Removed
 - Dropped support for Sonarr v3
