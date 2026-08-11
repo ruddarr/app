@@ -108,7 +108,6 @@ class MovieLookup {
         return queries[query] ?? nil
     }
 
-    // replace stale lookup records, e.g. after adding a movie to the library
     func updateItem(_ movie: Movie) {
         if let index = items?.firstIndex(where: { $0.tmdbId == movie.tmdbId }) {
             items?[index] = movie
