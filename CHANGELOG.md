@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reflect queued manual imports immediately in the queue
 - Release search now also matches indexer flags and custom formats
 - The FreeLeech filter now also matches partial freeleech releases
-- Several dozen internal code improvements
+- Several dozen of internal code improvements and fixes
 
 ### Fixed
 - Fixed toasts not displaying above some sheets
@@ -59,7 +59,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed calendar day highlight not updating at midnight
 - Fixed activity tab hiding tasks when many seasons are downloading
 - Fixed deeplinks reloading the movie, series or season already on screen
-- Fixed search results not updating after adding a movie or series
+- Fixed search results not updating after adding media
+- Fixed home tab preference being ignored on macOS
+- Fixed release search briefly showing an empty state after searching
 
 ### Removed
 - Dropped support for Sonarr v3
