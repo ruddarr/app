@@ -163,7 +163,7 @@ struct DiscoveryGridPoster: View {
             return
         }
 
-        if !sonarrInstance.series.cachedItems.contains(where: { $0.tmdbId != nil }) {
+        if !sonarrInstance.series.items.contains(where: { $0.tmdbId != nil }) {
             self.error = API.Error(from: AppError.upgradeRequired(.sonarr, to: "4.0.5"))
 
             return
