@@ -118,7 +118,6 @@ class SeriesLookup {
         }
     }
 
-    // consider caching this for performance
     var sortedItems: [Series] {
         let items = items ?? []
 

@@ -116,7 +116,6 @@ class MovieLookup {
         queries["tmdb:\(movie.tmdbId)"] = movie
     }
 
-    // consider caching this for performance
     var sortedItems: [Movie] {
         let items = items ?? []
 
