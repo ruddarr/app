@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
+### Changed
+### Fixed
+
+## 2.0.0 - 2026-08-12
+### Added
 - Support alternate instance URLs and automatic network detection
 - Display queue status for movies, seasons and episodes
 - Added option to display a more detailed releases layout
