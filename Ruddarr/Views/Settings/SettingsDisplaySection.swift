@@ -1,5 +1,4 @@
 import SwiftUI
-import StoreKit
 
 struct SettingsDisplaySection: View {
     @Environment(AppSettings.self) private var settings
@@ -34,7 +33,7 @@ struct SettingsDisplaySection: View {
             }
 
             Label("Appearance", systemImage: icon)
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }.tint(.secondary)
     }
 
@@ -44,11 +43,18 @@ struct SettingsDisplaySection: View {
 
         Picker(selection: $settings.theme) {
             ForEach(Theme.allCases) { theme in
-                Text(verbatim: theme.label)
+                Label {
+                    Text(verbatim: theme.label)
+                } icon: {
+                    Image(systemName: "circle.fill")
+                }
+                .tint(theme.tint)
             }
         } label: {
             Label("Accent Color", systemImage: "paintpalette")
-                .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
+                .labelStyle(.settingsIcon(iconScale: 0.85))
+        } currentValueLabel: {
+            Text(verbatim: settings.theme.label)
         }
         .tint(.secondary)
         .onChange(of: settings.theme) {
@@ -62,7 +68,7 @@ struct SettingsDisplaySection: View {
                 Text(settings.icon.label)
             } label: {
                 Label("App Icon", systemImage: "app.grid")
-                    .labelStyle(SettingsIconLabelStyle(iconScale: 1.05))
+                    .labelStyle(.settingsIcon(iconScale: 1.05))
             }
         }
     }

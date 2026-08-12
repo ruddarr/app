@@ -1,6 +1,6 @@
 import SwiftUI
-import Combine
 import AVFoundation
+import Combine
 
 struct SearchingIndicator: View {
     @State private var messages: [String] = [

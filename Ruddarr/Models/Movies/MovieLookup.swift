@@ -1,4 +1,3 @@
-import os
 import SwiftUI
 import Sentry
 
@@ -109,7 +108,14 @@ class MovieLookup {
         return queries[query] ?? nil
     }
 
-    // consider caching this for performance
+    func updateItem(_ movie: Movie) {
+        if let index = items?.firstIndex(where: { $0.tmdbId == movie.tmdbId }) {
+            items?[index] = movie
+        }
+
+        queries["tmdb:\(movie.tmdbId)"] = movie
+    }
+
     var sortedItems: [Movie] {
         let items = items ?? []
 

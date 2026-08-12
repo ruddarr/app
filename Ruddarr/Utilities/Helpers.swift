@@ -42,8 +42,42 @@ extension String {
         self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    func breakable() -> String {
-        self.replacingOccurrences(of: ".", with: ".\u{200B}")
+    func breakable(minimumTail: Int = 0) -> String {
+        var glue: Index?
+
+        if minimumTail > 0 {
+            for index in indices.reversed() where " ._-}/".contains(self[index]) {
+                if distance(from: self.index(after: index), to: endIndex) >= minimumTail {
+                    glue = index
+                    break
+                }
+            }
+        }
+
+        guard let glue else {
+            return self
+                .replacingOccurrences(of: ".", with: ".\u{200B}")
+                .replacingOccurrences(of: "_", with: "_\u{200B}")
+        }
+
+        let head = String(self[...glue])
+            .replacingOccurrences(of: ".", with: ".\u{200B}")
+            .replacingOccurrences(of: "_", with: "_\u{200B}")
+
+        var tail = String(self[index(after: glue)...])
+            .replacingOccurrences(of: " ", with: "\u{A0}")
+            .replacingOccurrences(of: "-", with: "-\u{2060}")
+            .replacingOccurrences(of: "}", with: "}\u{2060}")
+            .replacingOccurrences(of: "/", with: "/\u{2060}")
+            .replacingOccurrences(of: "[", with: "\u{2060}[")
+            .replacingOccurrences(of: "(", with: "\u{2060}(")
+            .replacingOccurrences(of: "{", with: "\u{2060}{")
+
+        if tail.hasPrefix("\u{2060}") {
+            tail.removeFirst()
+        }
+
+        return head + tail
     }
 
     func isValidEmail() -> Bool {

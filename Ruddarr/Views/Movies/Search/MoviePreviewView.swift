@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryDeck
 import Sentry
 
 struct MoviePreviewView: View {
@@ -13,7 +12,6 @@ struct MoviePreviewView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
 
-    @AppStorage("movieSort", store: dependencies.store) var movieSort: MovieSort = .init()
     @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
 
     var body: some View {
@@ -92,7 +90,7 @@ struct MoviePreviewView: View {
                 }
             }
             .prominentGlassButtonStyle(!instance.movies.isWorking)
-            .disabled(instance.movies.isWorking)
+            .disabled(instance.movies.isWorking || instance.rootFolders.isEmpty || instance.qualityProfiles.isEmpty)
         }
     }
 
@@ -109,12 +107,13 @@ struct MoviePreviewView: View {
             fatalError("Failed to locate added movie by TMDB id")
         }
 
+        instance.lookup.updateItem(addedMovie)
+
         #if os(iOS)
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         #endif
 
         presentingForm = false
-        movieSort.filter = .all
 
         let moviePath = MoviesPath.movie(addedMovie.id)
 

@@ -45,7 +45,10 @@ struct ContentView: View {
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
-        .onBecomeActive(perform: handleScenePhaseChange)
+        .task {
+            updateTelemetryAndWebhooks()
+        }
+        .onBecomeActive(perform: updateTelemetryAndWebhooks)
     }
 
     var movies: TabItem { .movies }
@@ -54,7 +57,7 @@ struct ContentView: View {
     var activity: TabItem { .activity }
     var history: TabItem { .history }
 
-    func handleScenePhaseChange() {
+    func updateTelemetryAndWebhooks() {
         Telemetry.maybePing(with: settings)
         Notifications.maybeUpdateWebhooks(settings)
     }

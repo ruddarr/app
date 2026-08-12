@@ -15,7 +15,7 @@ struct SeriesSort: Hashable {
     }
 
     func filter(_ series: Series) -> Bool {
-        if folder != .all && series.rootFolderPath != folder {
+        if folder != .all && series.rootFolderPath?.untrailingSlashIt != folder.untrailingSlashIt {
             return false
         }
 

@@ -4,7 +4,7 @@ import Foundation
 struct PrivacyTests {
     @Test func masksSubdomainLabelsButKeepsTheTLD() {
         #expect(maskedURL("https://radarr.mydomainfoo.com:7878/api/v3/movie?term=dune")
-            == "https://rad***.mydoma*****.com:7878/api/v3/movie?term=dune")
+            == "https://rad***.mydoma*****.com:7878/api/v3/movie?term=•")
         #expect(maskedURL("http://radarr.myddns.net:7878/api/v3/movie")
             == "http://rad***.myd***.net:7878/api/v3/movie")
     }
@@ -38,7 +38,7 @@ struct PrivacyTests {
     @Test func masksUserinfoAndHostKeepingPathAndQuery() {
         // Credentials are fully replaced by five stars each, regardless of their length.
         #expect(maskedURL("https://user:pass@radarr.myddns.net/api/v3/movie?term=dune&page=2")
-            == "https://*****:*****@rad***.myd***.net/api/v3/movie?term=dune&page=2")
+            == "https://*****:*****@rad***.myd***.net/api/v3/movie?term=•&page=2")
         #expect(maskedURL("http://admin:supersecretlongpassword@10.0.1.5:7878/x")
             == "http://*****:*****@10.0.1.*:7878/x")
         // Username only, no password.
@@ -48,6 +48,21 @@ struct PrivacyTests {
         // component, not a first-occurrence string search).
         #expect(maskedURL("https://radarr.myddns.net@radarr.myddns.net/api")
             == "https://*****@rad***.myd***.net/api")
+    }
+
+    @Test func redactsOnlySensitiveQueryValues() {
+        // Search terms and download identifiers are redacted; the path and other params are kept.
+        #expect(maskedURL("https://radarr.myddns.net/api/v3/movie/lookup?term=the%20matrix")
+            == "https://rad***.myd***.net/api/v3/movie/lookup?term=•")
+        #expect(maskedURL("https://radarr.myddns.net/api/v3/manualimport?downloadId=abc123&filterExistingFiles=false")
+            == "https://rad***.myd***.net/api/v3/manualimport?downloadId=•&filterExistingFiles=false")
+        #expect(maskedURL("https://radarr.myddns.net/api/v3/history?page=2&sortKey=date")
+            == "https://rad***.myd***.net/api/v3/history?page=2&sortKey=date")
+        // Query-string API keys of indexer/download-client URLs embedded in server error messages.
+        #expect(maskedURL("https://indexer.example.net/api?t=search&apikey=secret123")
+            == "https://inde***.exam***.net/api?t=search&apikey=•")
+        #expect(maskedURL("http://sab.local:8080/api?mode=queue&api_key=deadbeef")
+            == "http://sa*.local:8080/api?mode=queue&api_key=•")
     }
 
     @Test func masksSubnetCIDRsWithTheSamePolicyAsHosts() {

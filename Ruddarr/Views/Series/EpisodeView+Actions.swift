@@ -1,6 +1,3 @@
-import SwiftUI
-import TelemetryDeck
-
 extension EpisodeView {
     func setEpisodeState() {
         if let episode = instance.episodes.items.first(where: { $0.id == episodeId }) {

@@ -13,6 +13,7 @@ struct SettingsPreferencesSection: View {
         Section {
             tabPicker
             gridPicker
+            releasesPicker
             releaseFiltersPicker
 
             if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
@@ -55,7 +56,7 @@ struct SettingsPreferencesSection: View {
                 String(localized: "Home", comment: "(Preferences) Home tab"),
                 systemImage: "house"
             )
-            .labelStyle(SettingsIconLabelStyle())
+            .labelStyle(.settingsIcon)
         }
         .tint(.secondary)
     }
@@ -69,9 +70,24 @@ struct SettingsPreferencesSection: View {
                 Text(style.label)
             }
         } label: {
-            Label("Grid", systemImage: "square.grid.2x2")
-                .labelStyle(SettingsIconLabelStyle())
+            Label("Grid", systemImage: "rectangle.grid.3x2")
+                .labelStyle(.settingsIcon)
         }.tint(.secondary)
+    }
+
+    @ViewBuilder
+    var releasesPicker: some View {
+        @Bindable var settings = settings
+
+        Picker(selection: $settings.releases) {
+            ForEach(ReleaseLayout.allCases) { value in
+                Text(value.label)
+            }
+        } label: {
+            Label("Releases", systemImage: "rectangle.grid.1x3")
+                .labelStyle(.settingsIcon)
+        }
+        .tint(.secondary)
     }
 
     @ViewBuilder
@@ -84,7 +100,7 @@ struct SettingsPreferencesSection: View {
             }
         } label: {
             Label("Release Filters", systemImage: "line.3.horizontal.decrease")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }
         .tint(.secondary)
     }
@@ -104,7 +120,7 @@ struct SettingsPreferencesSection: View {
                 } icon: {
                     icon
                 }
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
             }
             .buttonStyle(.plain)
         #else
@@ -119,7 +135,7 @@ struct SettingsPreferencesSection: View {
                     } icon: {
                         icon
                     }
-                    .labelStyle(SettingsIconLabelStyle())
+                    .labelStyle(.settingsIcon)
                 }
             }
             .foregroundStyle(.label)

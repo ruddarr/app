@@ -18,7 +18,17 @@ struct SettingsIconLabelStyle: LabelStyle {
     }
 }
 
+extension LabelStyle where Self == SettingsIconLabelStyle {
+    static var settingsIcon: Self {
+        .init()
+    }
+
+    static func settingsIcon(iconScale: CGFloat) -> Self {
+        .init(iconScale: iconScale)
+    }
+}
+
 #Preview {
     Label(String("Home"), systemImage: "house")
-        .labelStyle(SettingsIconLabelStyle(iconScale: 0.8))
+        .labelStyle(.settingsIcon(iconScale: 0.8))
 }

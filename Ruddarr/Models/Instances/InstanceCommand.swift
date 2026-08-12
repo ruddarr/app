@@ -1,5 +1,3 @@
-import SwiftUI
-
 enum InstanceCommand {
     case refreshMovie(_ ids: [Movie.ID])
     case search(_ ids: [Movie.ID])

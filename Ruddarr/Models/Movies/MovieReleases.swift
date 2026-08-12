@@ -1,4 +1,3 @@
-import os
 import SwiftUI
 import Sentry
 
@@ -19,6 +18,7 @@ class MovieReleases {
     var protocols: [String] = []
     var languages: [String] = []
     var customFormats: [String] = []
+    var releaseGroups: [String] = []
 
     init(_ instance: Instance) {
         self.instance = instance
@@ -52,6 +52,7 @@ class MovieReleases {
         setProtocols()
         setLanguages()
         setCustomFormats()
+        setReleaseGroups()
     }
 
     func setIndexers() {
@@ -89,6 +90,15 @@ class MovieReleases {
             .filter { seen.insert($0).inserted }
     }
 
+    func setReleaseGroups() {
+        var seen: Set<String> = []
+
+        releaseGroups = items
+            .compactMap { $0.releaseGroupLabel }
+            .filter { seen.insert($0.lowercased()).inserted }
+            .sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+    }
+
     func setCustomFormats() {
         let customFormatNames = items
             .compactMap { $0.customFormats }
@@ -109,6 +119,7 @@ struct MovieRelease: Identifiable, Codable {
     let ageMinutes: Float
     let rejected: Bool
     let downloadAllowed: Bool
+    let releaseGroup: String?
 
     let customFormats: [MediaCustomFormat]?
     let customFormatScore: Int
@@ -137,6 +148,7 @@ struct MovieRelease: Identifiable, Codable {
         case ageMinutes
         case rejected
         case downloadAllowed
+        case releaseGroup
         case customFormats
         case customFormatScore
         case network = "protocol"
@@ -162,9 +174,19 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var isFreeleech: Bool {
-        guard !(indexerFlags ?? []).isEmpty else { return false }
+        cleanIndexerFlags.contains { $0.lowercased().contains("leech") }
+    }
 
-        return cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }
+    var isScene: Bool {
+        cleanIndexerFlags.contains { $0.lowercased().contains("scene") }
+    }
+
+    var isNuked: Bool {
+        cleanIndexerFlags.contains { $0.lowercased().contains("nuked") }
+    }
+
+    var isInternal: Bool {
+        cleanIndexerFlags.contains { $0.lowercased().contains("internal") }
     }
 
     var isProper: Bool {
@@ -183,11 +205,12 @@ struct MovieRelease: Identifiable, Codable {
         return false
     }
 
-    var hasNonFreeleechFlags: Bool {
-        guard let flags = indexerFlags else { return false }
-        guard !flags.isEmpty else { return false }
+    var hasOtherFlags: Bool {
+        cleanIndexerFlags.contains {
+            let flag = $0.lowercased()
 
-        return !(flags.count == 1 && isFreeleech)
+            return !flag.contains("leech") && !flag.contains("nuked")
+        }
     }
 
     var cleanIndexerFlags: [String] {
@@ -205,6 +228,50 @@ struct MovieRelease: Identifiable, Codable {
         }
 
         return formatIndexer(name)
+    }
+
+    func matches(_ query: String) -> Bool {
+        if title.localizedCaseInsensitiveContains(query) {
+            return true
+        }
+
+        if flagLabels.contains(where: { $0.localizedCaseInsensitiveContains(query) }) {
+            return true
+        }
+
+        return customFormats?.contains { $0.label.localizedCaseInsensitiveContains(query) } ?? false
+    }
+
+    var releaseGroupLabel: String? {
+        guard let group = releaseGroup?.trimmed(), !group.isEmpty else { return nil }
+
+        return group
+    }
+
+    var flagLabels: [String] {
+        var labels: [String] = cleanIndexerFlags
+
+        if isProper {
+            labels.append(String(localized: "Proper", comment: "The PROPER flag"))
+        }
+
+        if isRepack {
+            labels.append(String(localized: "Repack", comment: "The REPACK flag"))
+        }
+
+        return labels
+    }
+
+    var formatLabels: [String] {
+        var labels: [String] = []
+
+        if customFormatScore != 0 {
+            labels.append(scoreLabel)
+        }
+
+        labels.append(contentsOf: (customFormats ?? []).map(\.label))
+
+        return labels
     }
 
     var indexerFlagsLabel: String? {
@@ -239,7 +306,7 @@ struct MovieRelease: Identifiable, Codable {
     }
 
     var sizeLabel: String {
-        formatBytes(size, verbose: true)
+        formatBytes(size)
     }
 
     var qualityLabel: String {

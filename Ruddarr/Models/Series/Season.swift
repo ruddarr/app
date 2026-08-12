@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 struct Season: Identifiable, Equatable, Codable {
     var id: Int { seasonNumber }

@@ -1,5 +1,3 @@
-import os
-import SwiftUI
 import Sentry
 
 struct API: Sendable {
@@ -60,8 +58,58 @@ struct API: Sendable {
 extension API {
     struct Empty: Encodable, Decodable { }
 
-    // swiftlint:disable:next cyclomatic_complexity function_body_length
     static func request<Body: Encodable, Response: Decodable>(
+        method: HTTPMethod = .get,
+        url: URL,
+        headers: [String: String] = [:],
+        body: Body? = nil,
+        instance: Instance? = nil,
+        timeout: RequestTimeout = .default,
+        decoder: JSONDecoder = .init(),
+        encoder: JSONEncoder = .init(),
+        session: URLSession = .shared,
+        allowFailover: Bool = true
+    ) async throws -> Response {
+        let metrics = RequestMetricsCollector()
+
+        do {
+            return try await RequestMetricsCollector.$current.withValue(metrics) {
+                try await send(
+                    method: method, url: url, headers: headers, body: body, instance: instance,
+                    timeout: timeout, decoder: decoder, encoder: encoder, session: session,
+                    allowFailover: allowFailover
+                )
+            }
+        } catch let error as CancellationError {
+            throw error
+        } catch API.Error.notConnectedToInternet {
+            throw API.Error.notConnectedToInternet
+        } catch {
+            let key = await diagnosticsKey(of: instance)
+
+            await RequestDiagnostics.shared.record(
+                method: method.rawValue.uppercased(),
+                url: (metrics.attemptedURL ?? url).absoluteString,
+                instance: key,
+                reason: FailedRequest.Reason((error as? API.Error) ?? API.Error(from: error)),
+                transport: metrics.summary
+            )
+
+            throw error
+        }
+    }
+
+    @MainActor
+    private static func diagnosticsKey(of instance: Instance?) -> String? {
+        guard let instance, AppSettings.shared.configuredInstances.contains(where: { $0.id == instance.id }) else {
+            return nil
+        }
+
+        return instance.contextKey
+    }
+
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
+    private static func send<Body: Encodable, Response: Decodable>(
         method: HTTPMethod = .get,
         url: URL,
         headers: [String: String] = [:],
@@ -131,6 +179,7 @@ extension API {
 
                     failovers += 1
                     attemptedURL = fallback
+                    RequestMetricsCollector.current?.noteAttempt(fallback)
                     request.url = fallback
                     request.timeoutInterval = Self.effectiveTimeout(for: fallback, method: method, timeout: timeout)
 
@@ -176,8 +225,11 @@ extension API {
             do {
                 return try decoder.decode(Response.self, from: data)
             } catch let decodingError as DecodingError {
-                leaveAttachment(attemptedURL, data)
-                leaveBreadcrumb(.fatal, category: "api", message: decodingError.context.debugDescription, data: ["error": decodingError])
+                leaveBreadcrumb(.warning, category: "api", message: decodingError.context.debugDescription, data: ["error": decodingError])
+
+                if !decodingError.isUnexpectedResponseShape {
+                    reportDecodingFailure(decodingError, url: attemptedURL, body: data)
+                }
 
                 throw Error.decodingError(decodingError)
             } catch {
@@ -264,10 +316,16 @@ extension API {
     }
 
     private static func data(for request: URLRequest, session: URLSession, retryOnConnectionLost: Bool) async throws -> (Data, URLResponse) {
+        let metrics = RequestMetricsCollector.current
+
         do {
-            return try await session.data(for: request)
+            metrics?.beginAttempt()
+
+            return try await session.data(for: request, delegate: metrics)
         } catch let urlError as URLError where retryOnConnectionLost && urlError.code == .networkConnectionLost {
-            return try await session.data(for: request)
+            metrics?.beginAttempt()
+
+            return try await session.data(for: request, delegate: metrics)
         }
     }
 

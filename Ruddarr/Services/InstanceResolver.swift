@@ -1,29 +1,19 @@
 import Foundation
 
-/// Chooses which of an instance's URLs to use for the current network, and recovers fast
-/// when that choice turns out to be wrong. The routing / self-correction state machine lives
-/// in `ResolverRouting` (pure, unit-tested); this actor owns the state — every transition is
-/// serialized by actor isolation, no locks — reads the live `NetworkSnapshot`, and runs the
-/// background DNS lookups and `/ping` probes.
+/// Chooses which of an instance's URLs to use for the current network, and recovers fast when
+/// that choice turns out to be wrong. The routing state machine lives in `ResolverRouting`
+/// (pure, unit-tested); this actor owns the state — serialized by actor isolation — and runs
+/// the background DNS lookups and `/ping` probes.
 ///
-/// - Proactive: `resolve(_:)` reads a fresh `NetworkSnapshot` and returns the most reachable
-///   base URL (on-link LAN at home, Tailscale when the tunnel is up, else remote) — no
-///   request sent, nothing waits on a timeout. It is the *converging* call: it also claims
-///   any pending hostname lookups and `/ping` probes. `currentSelection(for:)` is the
-///   *passive* read for UI — same ranking, but it never generates network traffic.
-/// - Resolution-aware: a candidate addressed by *hostname* is looked up with `getaddrinfo` on
-///   a dedicated background queue (a blocking syscall must never run on an actor or the
-///   cooperative pool) and classified by where its A/AAAA records actually point, so a
-///   split-horizon name is picked as on-link LAN while the public/tunnel name stays remote.
-/// - Probe-verified: an off-link private candidate (a server on a sibling VLAN behind the same
-///   router) gets a background, unauthenticated `GET /ping`; a genuine Radarr/Sonarr answer
-///   from that address promotes it above remote. The probe carries no credentials, selection
-///   never waits on it — the verdict lands in the cache and the next `resolve` picks it up.
-/// - Once per network: a lookup or probe runs at most once per network condition, cached by
-///   the fingerprint until `networkChanged()` drops the cache on a Wi-Fi/VPN/cellular
-///   transition (failed probes retry on the same throttle as failed lookups).
-/// - Self-correcting: on a fast failure, `API.request` calls `failover(afterFailing:for:)`,
-///   which demotes that base for the current network and returns the instance's next-best one.
+/// - `resolve(_:)` ranks against a fresh snapshot and claims pending lookups and probes;
+///   `currentSelection(for:)` is the passive read for UI and generates no traffic.
+/// - A hostname is classified by where its records point, so a split-horizon name ranks as
+///   on-link LAN; an off-link private candidate is promoted above remote once an
+///   unauthenticated `/ping` proves the router routes into its VLAN.
+/// - Lookups and probes run at most once per network, cached by the fingerprint until
+///   `networkChanged()` drops them.
+/// - On a fast failure `API.request` calls `failover(afterFailing:for:)` to demote that base.
+/// - `reachableWebURL(for:)` answers a different question — which URL a *browser* can open.
 ///
 /// The resolved URL is purely runtime state and is never persisted, so it can never reach
 /// iCloud, the App Group, or another device.
@@ -32,12 +22,11 @@ actor InstanceResolver {
 
     private var state = ResolverRouting.State()
 
-    /// Blocking `getaddrinfo` calls run here — a plain queue is the right executor for a
-    /// syscall that can stall for ~30s, keeping it off this actor and the cooperative pool.
+    /// Blocking `getaddrinfo` calls run here, off this actor and the cooperative pool.
     private static let resolutionQueue = DispatchQueue(label: "io.ruddarr.url-resolution", qos: .utility, attributes: .concurrent)
 
-    /// Returns the best base URL string for `instance` on the current network, and kicks off
-    /// any pending hostname lookups and `/ping` probes in the background.
+    /// The best base URL for `instance` on the current network; kicks off any pending hostname
+    /// lookups and `/ping` probes in the background.
     func resolve(_ instance: Instance) -> String {
         let candidates = instance.candidateURLs
 
@@ -45,8 +34,7 @@ actor InstanceResolver {
             return candidates.first ?? instance.url
         }
 
-        // Snapshot and registration happen in one non-suspending actor section, so the
-        // fingerprint used to sync the caches is always the one the ranking saw.
+        // One non-suspending section, so the fingerprint syncing the caches is the one ranking saw.
         let snapshot = NetworkSnapshot.capture()
         let result = ResolverRouting.register(
             &state, candidates: candidates, snapshot: snapshot, fingerprint: snapshot.fingerprint, now: Date()
@@ -58,13 +46,13 @@ actor InstanceResolver {
         return result.ordered.first ?? candidates.first ?? instance.url
     }
 
-    /// The base URL `resolve` would return right now, ranked from cached state only — a pure
-    /// read for passive UI that claims no lookups and dispatches no probes.
-    func currentSelection(for instance: Instance) -> String {
+    /// Every candidate of `instance`, best first, from cached state only — claims no lookups and
+    /// dispatches no probes. For passive UI and the web check, which wants the whole ladder.
+    func rankedCandidates(for instance: Instance) -> [String] {
         let candidates = instance.candidateURLs
 
         guard candidates.count > 1 else {
-            return candidates.first ?? instance.url
+            return candidates
         }
 
         let snapshot = NetworkSnapshot.capture()
@@ -72,20 +60,23 @@ actor InstanceResolver {
             &state, candidates: candidates, snapshot: snapshot, fingerprint: snapshot.fingerprint, now: Date()
         )
 
-        return ordered.first ?? candidates.first ?? instance.url
+        return ordered.isEmpty ? candidates : ordered
     }
 
-    /// The network changed (Wi-Fi/VPN/cellular). Drop everything learned about the old one so
-    /// the next selection re-resolves once — catches transitions the subnet fingerprint can't
-    /// tell apart (two different LANs sharing the same private subnet).
+    /// The base URL `resolve` would return right now, from cached state only — no side effects.
+    func currentSelection(for instance: Instance) -> String {
+        rankedCandidates(for: instance).first ?? instance.url
+    }
+
+    /// The network changed (Wi-Fi/VPN/cellular). Drops everything learned about the old one —
+    /// catches transitions the fingerprint can't tell apart (two LANs sharing one subnet).
     func networkChanged() {
         ResolverRouting.networkChanged(&state)
     }
 
     /// Demotes the base that served `failedURL` and returns `instance`'s next-best candidate
-    /// (same request path re-attached), or `nil` when there is nothing left to try. Only this
-    /// instance's own candidates are ever considered, so a failed request can never be re-issued
-    /// against another instance's host.
+    /// (same request path re-attached), or `nil`. Only this instance's own candidates are
+    /// considered, so a failed request can never be re-issued against another instance's host.
     func failover(afterFailing failedURL: URL, for instance: Instance) -> URL? {
         let candidates = instance.candidateURLs
         guard candidates.count > 1 else { return nil }
@@ -99,8 +90,7 @@ actor InstanceResolver {
     }
 
     /// Clears any demotion for the base that served this URL — any HTTP response proves the host
-    /// is reachable again. The `demotedUntil.isEmpty` check keeps the common (nothing-demoted)
-    /// case off the `matchingBase` path.
+    /// is reachable again. The `demotedUntil.isEmpty` check short-circuits the common case.
     func noteSuccess(for url: URL, instance: Instance) {
         let candidates = instance.candidateURLs
         guard candidates.count > 1 else { return }
@@ -109,10 +99,69 @@ actor InstanceResolver {
         ResolverRouting.noteSuccess(&state, for: url.absoluteString, candidates: candidates)
     }
 
-    /// A structured snapshot of the current network and, for each instance, why every candidate
-    /// URL ranks where it does — unmasked, for the diagnostics screen to mask on demand.
-    /// Read-only: it reflects what selection currently sees (cached resolutions, active
-    /// demotions) and triggers no lookups or probes.
+    /// The instance's web interface at a URL worth handing to a browser, or `nil` when nothing
+    /// answered anywhere — which is what disables the web button in `InstanceView`. Selection
+    /// can't answer this: it knows where the *app* should talk, having authenticated.
+    ///
+    /// A verified `/ping` wins, but a host that merely answered (a redirect to an identity
+    /// provider, a 403, a login page) is never written off: Safari may hold a session this check
+    /// cannot see. Every candidate is checked so diagnostics can show a verdict for each; the
+    /// checks run concurrently, at most once per `resolveRetryInterval`, and never feed routing.
+    func reachableWebURL(for instance: Instance) async -> URL? {
+        let candidates = rankedCandidates(for: instance)
+        let epoch = state.epoch
+        let pending = ResolverRouting.claimWebChecksNeeded(&state, candidates, now: Date())
+
+        if !pending.isEmpty {
+            let outcomes = await withTaskGroup(of: (String, ProbeOutcome).self) { group in
+                for base in pending {
+                    group.addTask { (base, await Self.probe(base, via: Self.webCheckSession)) }
+                }
+
+                var results: [(String, ProbeOutcome)] = []
+                for await result in group { results.append(result) }
+                return results
+            }
+
+            let now = Date()
+
+            for (base, outcome) in outcomes {
+                ResolverRouting.recordWebCheck(&state, base: base, epoch: epoch, outcome: outcome, now: now)
+            }
+        }
+
+        return ResolverRouting.webSelection(candidates, outcomes: state.webOutcomes)
+            .flatMap { URL(string: $0) }
+    }
+
+    /// Doesn't follow redirects, so a candidate is judged only by the host that was asked.
+    private final class NoRedirects: NSObject, URLSessionTaskDelegate {
+        func urlSession(
+            _ session: URLSession,
+            task: URLSessionTask,
+            willPerformHTTPRedirection response: HTTPURLResponse,
+            newRequest request: URLRequest
+        ) async -> URLRequest? {
+            nil
+        }
+    }
+
+    /// Ephemeral (no cookies, no cache) so nothing stored can make a dead URL look alive, and
+    /// more patient than the routing probe: a slow host wrongly called dead loses the button.
+    private static let webCheckSession: URLSession = {
+        let timeout: TimeInterval = 5
+
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.timeoutIntervalForRequest = timeout
+        configuration.timeoutIntervalForResource = timeout
+        configuration.waitsForConnectivity = false
+        configuration.urlCache = nil
+
+        return URLSession(configuration: configuration, delegate: NoRedirects(), delegateQueue: nil)
+    }()
+
+    /// A structured snapshot of the current network and why every candidate ranks where it does —
+    /// unmasked, for the diagnostics screen to mask on demand. Triggers no lookups or probes.
     func report(for instances: [Instance]) async -> NetworkReport {
         let facts = await NetworkMonitor.shared.pathFacts
 
@@ -120,6 +169,7 @@ actor InstanceResolver {
         let demoted = ResolverRouting.activeDemotions(&state, now: Date())
         let resolvedHosts = state.resolvedHosts
         let probes = state.probeOutcomes
+        let webChecks = state.webOutcomes
 
         let entries = instances.map { instance -> NetworkReport.InstanceEntry in
             let candidates = instance.candidateURLs
@@ -140,6 +190,7 @@ actor InstanceResolver {
                     resolved: resolution != nil,
                     addresses: resolution?.addresses ?? [],
                     probe: probes[entry.base],
+                    web: webChecks[entry.base],
                     demoted: entry.demoted,
                     primary: entry.base == candidates.first,
                     selected: entry.base == selected
@@ -173,9 +224,8 @@ actor InstanceResolver {
         )
     }
 
-    /// The masked, Sentry-shaped rendering of `report(for:)` — for attaching to a bug report.
-    /// Nonisolated so the non-`Sendable` dictionary never crosses the actor boundary: it runs
-    /// on the caller and only awaits the `Sendable` report.
+    /// The masked, Sentry-shaped rendering of `report(for:)`. Nonisolated so the non-`Sendable`
+    /// dictionary is built on the caller and never crosses the actor boundary.
     nonisolated func diagnostics(for instances: [Instance]) async -> [String: Any] {
         let report = await report(for: instances)
 
@@ -209,15 +259,14 @@ actor InstanceResolver {
         return context
     }
 
-    /// Probes each claimed base's unauthenticated `/ping` in the background and records the
-    /// verdict for the current network. Selection never waits on this: the verdict lands in
-    /// the cache and the next `resolve` call promotes a verified base.
+    /// Probes each claimed base's unauthenticated `/ping` in the background. Selection never
+    /// waits: the verdict lands in the cache and the next `resolve` promotes a verified base.
     private func dispatchProbes(_ bases: [String], epoch: Int) {
         guard !bases.isEmpty else { return }
 
         for base in bases {
             Task(priority: .utility) {
-                let outcome = await Self.probe(base)
+                let outcome = await Self.probe(base, via: Self.probeSession)
                 recordProbe(base: base, epoch: epoch, outcome: outcome)
             }
         }
@@ -228,17 +277,22 @@ actor InstanceResolver {
     }
 
     /// Ephemeral (no cookies, no cache) and bounded by the probe timeout, so an unreachable
-    /// VLAN address costs one silent, short-lived connection attempt in the background.
+    /// address costs one short-lived background connection attempt.
     private static let probeSession: URLSession = {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.timeoutIntervalForRequest = ResolverRouting.probeTimeout
         configuration.timeoutIntervalForResource = ResolverRouting.probeTimeout
         configuration.waitsForConnectivity = false
+        configuration.urlCache = nil
 
         return URLSession(configuration: configuration)
     }()
 
-    private static func probe(_ base: String) async -> ProbeOutcome {
+    /// One candidate's `/ping`, timed and unauthenticated by design — no secret may ride along to
+    /// an unverified address, and the instance's own credentials can't vouch for an address a
+    /// browser would be turned away from. `reachable` is the strict verdict (HTTP success, from
+    /// the host that was asked, `{"status": "OK"}`); `answered` records any response at all.
+    private static func probe(_ base: String, via session: URLSession) async -> ProbeOutcome {
         guard let url = ResolverRouting.probeURL(for: base) else {
             return ProbeOutcome(reachable: false)
         }
@@ -246,14 +300,8 @@ actor InstanceResolver {
         let clock = ContinuousClock()
         let started = clock.now
 
-        guard let (data, response) = try? await probeSession.data(from: url),
-              let http = response as? HTTPURLResponse,
-              ResolverRouting.probeVerdict(
-                  status: http.statusCode,
-                  finalHost: http.url?.host(percentEncoded: false),
-                  probedHost: url.host(percentEncoded: false),
-                  body: data
-              )
+        guard let (data, response) = try? await session.data(from: url),
+              let http = response as? HTTPURLResponse
         else {
             return ProbeOutcome(reachable: false)
         }
@@ -261,7 +309,14 @@ actor InstanceResolver {
         let elapsed = started.duration(to: clock.now)
         let latency = Double(elapsed.components.seconds) + Double(elapsed.components.attoseconds) / 1e18
 
-        return ProbeOutcome(reachable: true, latency: latency)
+        let verified = ResolverRouting.probeVerdict(
+            status: http.statusCode,
+            finalHost: http.url?.host(percentEncoded: false),
+            probedHost: url.host(percentEncoded: false),
+            body: data
+        )
+
+        return ProbeOutcome(reachable: verified, answered: true, latency: verified ? latency : nil)
     }
 
     private func dispatchResolution(_ hosts: [String], snapshot: NetworkSnapshot, epoch: Int) {
@@ -279,7 +334,7 @@ actor InstanceResolver {
         ResolverRouting.recordResolution(&state, host: host, epoch: epoch, resolved: resolved, now: Date())
     }
 
-    /// Resolves and classifies `host` on the dedicated queue, suspending the caller instead of
+    /// Resolves and classifies `host` on the dedicated queue, suspending the caller rather than
     /// blocking it while `getaddrinfo` waits on DNS.
     private static func lookup(_ host: String, snapshot: NetworkSnapshot) async -> ResolvedHost? {
         await withCheckedContinuation { continuation in

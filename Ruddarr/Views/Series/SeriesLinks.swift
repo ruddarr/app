@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryDeck
 
 struct SeriesLinks: View {
     var series: Series

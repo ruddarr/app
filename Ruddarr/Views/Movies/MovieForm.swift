@@ -83,18 +83,25 @@ struct MovieForm: View {
         .tint(.secondary)
     }
 
+    @ViewBuilder
     var qualityProfileField: some View {
-        Picker(selection: $movie.qualityProfileId) {
-            ForEach(instance.qualityProfiles) { profile in
-                Text(profile.name)
+        if instance.qualityProfiles.isEmpty {
+            LabeledContent("Quality Profile") {
+                Text("Error")
             }
-        } label: {
-            ViewThatFits(in: .horizontal) {
-                Text("Quality Profile")
-                Text("Quality")
+        } else {
+            Picker(selection: $movie.qualityProfileId) {
+                ForEach(instance.qualityProfiles) { profile in
+                    Text(profile.name)
+                }
+            } label: {
+                ViewThatFits(in: .horizontal) {
+                    Text("Quality Profile")
+                    Text("Quality")
+                }
             }
+            .tint(.secondary)
         }
-        .tint(.secondary)
     }
 
 #if os(macOS)
@@ -153,10 +160,11 @@ struct MovieForm: View {
 
         movie.rootFolderPath = movie.rootFolderPath?.untrailingSlashIt
 
-        if !instance.rootFolders.contains(where: {
-            $0.path?.untrailingSlashIt == movie.rootFolderPath
-        }) {
-            movie.rootFolderPath = instance.rootFolders.first?.path ?? ""
+        if let fallback = instance.rootFolders.first?.path,
+           !instance.rootFolders.contains(where: {
+               $0.path?.untrailingSlashIt == movie.rootFolderPath
+           }) {
+            movie.rootFolderPath = fallback
         }
     }
 

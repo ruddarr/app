@@ -676,6 +676,16 @@
         }
       }
     },
+    "Any Group" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Group"
+          }
+        }
+      }
+    },
     "Any Indexer" : {
       "localizations" : {
         "en" : {
@@ -1108,6 +1118,17 @@
         }
       }
     },
+    "Compact" : {
+      "comment" : "(Preferences) Compact release layout",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compact"
+          }
+        }
+      }
+    },
     "Connect a %@ instance under %@." : {
       "localizations" : {
         "en" : {
@@ -1415,6 +1436,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descending"
+          }
+        }
+      }
+    },
+    "Detailed" : {
+      "comment" : "(Preferences) Detailed release layout",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detailed"
           }
         }
       }
@@ -4391,6 +4423,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Released"
+          }
+        }
+      }
+    },
+    "Releases" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Releases"
           }
         }
       }

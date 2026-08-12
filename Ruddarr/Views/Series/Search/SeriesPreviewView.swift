@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryDeck
 import Sentry
 
 struct SeriesPreviewView: View {
@@ -13,7 +12,6 @@ struct SeriesPreviewView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
 
-    @AppStorage("seriesSort", store: dependencies.store) var seriesSort: SeriesSort = .init()
     @AppStorage("seriesDefaults", store: dependencies.store) var seriesDefaults: SeriesDefaults = .init()
 
     var body: some View {
@@ -93,7 +91,7 @@ struct SeriesPreviewView: View {
                 }
             }
             .prominentGlassButtonStyle(!instance.series.isWorking)
-            .disabled(instance.series.isWorking)
+            .disabled(instance.series.isWorking || instance.rootFolders.isEmpty || instance.qualityProfiles.isEmpty)
         }
     }
 
@@ -110,12 +108,13 @@ struct SeriesPreviewView: View {
             fatalError("Failed to locate added series by TVDB id")
         }
 
+        instance.lookup.updateItem(addedSeries)
+
         #if os(iOS)
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         #endif
 
         presentingForm = false
-        seriesSort.filter = .all
 
         let seriesPath = SeriesPath.series(addedSeries.id)
 

@@ -1,5 +1,4 @@
 import SwiftUI
-import AppIntents
 import CoreSpotlight
 
 struct Movie: Media, Identifiable, Equatable, Codable {

@@ -15,7 +15,7 @@ struct MovieSort: Hashable {
     }
 
     func filter(_ movie: Movie) -> Bool {
-        if folder != .all && movie.rootFolderPath != folder {
+        if folder != .all && movie.rootFolderPath?.untrailingSlashIt != folder.untrailingSlashIt {
             return false
         }
 

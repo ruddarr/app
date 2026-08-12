@@ -56,7 +56,9 @@ actor Spotlight {
 
                 leaveBreadcrumb(.info, category: "spotlight", message: "Indexed [\(typeName)]", data: ["count": entities.count, "instance": indexName])
             } catch {
-                leaveBreadcrumb(.error, category: "spotlight", message: "Failed to index [\(typeName)]", data: ["error": error])
+                let level: SentryLevel = (error as? CSIndexError)?.code == .indexUnavailableError ? .warning : .error
+
+                leaveBreadcrumb(level, category: "spotlight", message: "Failed to index [\(typeName)]", data: ["error": error])
             }
         }
     }

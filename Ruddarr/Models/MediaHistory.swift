@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 struct MediaHistory: Codable {
     let page: Int

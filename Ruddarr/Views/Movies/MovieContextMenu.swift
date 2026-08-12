@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryDeck
 
 struct MovieContextMenu: View {
     var movie: Movie
@@ -10,10 +9,12 @@ struct MovieContextMenu: View {
         Group {
             MovieLinks(movie: movie)
 
-            Divider()
+            if movie.exists {
+                Divider()
 
-            Button("Automatic Search", systemImage: "magnifyingglass") {
-                Task { await dispatchSearch() }
+                Button("Automatic Search", systemImage: "magnifyingglass") {
+                    Task { await dispatchSearch() }
+                }
             }
         }.tint(.primary)
     }

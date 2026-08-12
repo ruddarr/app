@@ -1,6 +1,5 @@
 import SwiftUI
 import TipKit
-import TelemetryDeck
 
 struct EpisodeView: View {
     @Binding var series: Series
@@ -62,6 +61,9 @@ struct EpisodeView: View {
             await Task { await reload() }.value
         }
         .task(id: episodeId) {
+            setEpisodeState()
+
+            await instance.episodes.maybeFetch(series)
             setEpisodeState()
 
             guard let episode = instance.episodes.byId(episodeId) else {

@@ -18,10 +18,32 @@ func maskedURL(_ string: String) -> String {
     result += hostField
     if let port = components.port { result += ":\(port)" }
     result += components.percentEncodedPath
-    if let query = components.percentEncodedQuery { result += "?\(query)" }
+    if let query = components.percentEncodedQuery { result += "?\(maskedQueryValues(query))" }
     if let fragment = components.percentEncodedFragment { result += "#\(fragment)" }
 
     return result
+}
+
+/// Query parameter names whose values carry user-identifying data or credentials — search text,
+/// download identifiers, and the query-string API keys of Newznab/Torznab-style URLs that server
+/// error messages can embed. Only these are redacted from a masked URL; everything else is kept
+/// so a shared diagnostics report still shows the failing endpoint and its non-sensitive parameters.
+private let sensitiveQueryKeys: Set<String> = ["term", "downloadid", "apikey", "api_key"]
+
+private func maskedQueryValues(_ query: String) -> String {
+    query.split(separator: "&", omittingEmptySubsequences: false).map { pair in
+        guard let separator = pair.firstIndex(of: "="),
+              sensitiveQueryKeys.contains(pair[..<separator].lowercased())
+        else { return String(pair) }
+
+        return "\(pair[..<separator])=•"
+    }.joined(separator: "&")
+}
+
+func maskURLs(in string: String) -> String {
+    string.replacing(/https?:\/\/[^\s"'<>)\]};,]+/) { match in
+        maskedURL(String(match.output))
+    }
 }
 
 /// A URL with any inline `user:password@` credentials replaced by `*****`, but scheme, host,

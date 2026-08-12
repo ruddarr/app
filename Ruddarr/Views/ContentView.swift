@@ -44,13 +44,12 @@ struct ContentView: View {
         .tabViewCustomization($tabCustomization)
         .tabBarMinimizeBehavior(.never)
         .onAppear {
-            if !isRunningIn(.preview) {
-                dependencies.router.selectedTab = settings.tab
-            }
-
             UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
         }
-        .onBecomeActive(perform: handleScenePhaseChange)
+        .task {
+            await updateTelemetryAndWebhooks()
+        }
+        .onBecomeActive(perform: updateTelemetryAndWebhooks)
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
@@ -75,7 +74,7 @@ struct ContentView: View {
         )
     }
 
-    func handleScenePhaseChange() async {
+    func updateTelemetryAndWebhooks() async {
         Telemetry.maybePing(with: settings)
         Notifications.maybeUpdateWebhooks(settings)
     }

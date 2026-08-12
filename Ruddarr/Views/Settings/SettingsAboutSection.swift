@@ -28,14 +28,14 @@ struct SettingsAboutSection: View {
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(settings.theme.tint, .primary)
             }
-            .labelStyle(SettingsIconLabelStyle())
+            .labelStyle(.settingsIcon)
         }
     }
 
     var share: some View {
         ShareLink(item: Links.AppShare) {
             Label("Share App", systemImage: "square.and.arrow.up")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }
     }
 
@@ -44,14 +44,14 @@ struct SettingsAboutSection: View {
             .init(name: "action", value: "write-review"),
         ])) {
             Label("Leave a Review", systemImage: "star.fill")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }
     }
 
     var macOS: some View {
         Link(destination: Links.TestFlight) {
             Label("TestFlight for macOS", systemImage: "macwindow.and.pointer.arrow")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }
     }
 }

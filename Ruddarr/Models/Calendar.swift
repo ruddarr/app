@@ -1,4 +1,3 @@
-import SwiftUI
 import Sentry
 
 @MainActor

@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 struct Links {
     static let AppShare = URL(string: "https://apps.apple.com/app/ruddarr/id6476240130")!

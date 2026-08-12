@@ -1,6 +1,6 @@
 import Sentry
 import CloudKit
-import StoreKit
+import Synchronization
 
 @MainActor
 func startSentry() {
@@ -18,12 +18,10 @@ func startSentry() {
         options.enableWatchdogTerminationTracking = true
         options.enableMetricKit = false
         options.enableAppHangTracking = isRunningIn(.testflight)
-        options.appHangTimeoutInterval = 3
-        #if os(iOS)
-            options.enableReportNonFullyBlockingAppHangs = isRunningIn(.testflight)
-        #endif
         options.enableCaptureFailedRequests = false
         options.enableTimeToFullDisplayTracing = false
+
+        options.appHangTimeoutInterval = 3
 
         options.tracesSampleRate = 1
         options.tracePropagationTargets = []
@@ -32,6 +30,7 @@ func startSentry() {
             options.attachViewHierarchy = false
             options.enablePreWarmedAppStartTracing = true
             options.enablePersistingTracesWhenCrashing = true
+            options.enableReportNonFullyBlockingAppHangs = isRunningIn(.testflight)
         #endif
 
         options.beforeBreadcrumb = { crumb in
@@ -67,17 +66,44 @@ func setSentryContext(for key: String, _ value: [String: Any]) {
     }
 }
 
-func leaveAttachment(_ url: URL, _ json: Data) {
-    let basename = url.relativePath.replacingOccurrences(of: "/", with: "-")
-    let timestamp = Date().timeIntervalSince1970
+private let decodingFailureBodyLimit = 64 * 1_024
+private let reportedDecodingFailures = Mutex<Set<String>>([])
+
+func reportDecodingFailure(_ error: DecodingError, url: URL, body: Data) {
+    guard isRunningIn(.testflight) else { return }
+
+    let endpoint = url.relativePath
+    let signature = error.codingPathSignature
+    let fingerprint = ["api-decoding", endpoint, signature.isEmpty ? "root" : signature]
+
+    let unreported = reportedDecodingFailures.withLock {
+        $0.insert(fingerprint.joined(separator: " ")).inserted
+    }
+
+    guard unreported else { return }
+
+    let event = Event(level: .error)
+    event.message = SentryMessage(formatted: maskURLs(in: error.context.debugDescription))
+    event.fingerprint = fingerprint
+    event.tags = ["endpoint": endpoint]
+
+    let basename = endpoint.replacingOccurrences(of: "/", with: "-")
+    let truncated = body.count > decodingFailureBodyLimit
+
+    let payload: Data = if truncated {
+        // swiftlint:disable:next optional_data_string_conversion
+        Data(String(decoding: body.prefix(decodingFailureBodyLimit), as: UTF8.self).utf8)
+    } else {
+        body
+    }
 
     let attachment = Attachment(
-        data: json,
-        filename: "\(basename)-\(timestamp).json",
-        contentType: "application/json"
+        data: payload,
+        filename: truncated ? "\(basename)-truncated.txt" : "\(basename).json",
+        contentType: truncated ? "text/plain" : "application/json"
     )
 
-    SentrySDK.configureScope { scope in
+    SentrySDK.capture(event: event) { scope in
         scope.addAttachment(attachment)
     }
 }
@@ -94,12 +120,18 @@ func leaveBreadcrumb(
     )
 
     crumb.message = message
-    crumb.data = data
+
+    for (key, value) in data {
+        crumb.setData(value: value, key: key)
+    }
 
     let shouldReport = isRunningIn(.testflight) && shouldReportEvent(crumb)
 
     crumb.message = message.map(maskURLs(in:))
-    crumb.data = maskedBreadcrumbData(data)
+
+    for (key, value) in maskedBreadcrumbData(data) {
+        crumb.setData(value: value, key: key)
+    }
 
     SentrySDK.addBreadcrumb(crumb)
 
@@ -168,15 +200,9 @@ private func shouldRecordBreadcrumb( _ crumb: Breadcrumb) -> Bool {
 private func maskRequestURL( _ crumb: Breadcrumb) -> Breadcrumb {
     guard crumb.category == "http", let url = crumb.data?["url"] as? String else { return crumb }
 
-    crumb.data?["url"] = maskedURL(url)
+    crumb.setData(value: maskedURL(url), key: "url")
 
     return crumb
-}
-
-private func maskURLs(in string: String) -> String {
-    string.replacing(/https?:\/\/[^\s"'<>)\]};,]+/) { match in
-        maskedURL(String(match.output))
-    }
 }
 
 private func maskedBreadcrumbData(_ data: [String: Any]) -> [String: Any] {
@@ -191,38 +217,4 @@ private func maskedBreadcrumbData(_ data: [String: Any]) -> [String: Any] {
 
         return value
     }
-}
-
-enum EnvironmentType: String {
-    case preview
-    case simulator
-    case debug
-    case testflight
-    case appstore
-
-    static let cached: EnvironmentType = {
-        guard let branch = Bundle.main.object(forInfoDictionaryKey: "CI_BRANCH") as? String else {
-            return .appstore
-        }
-
-        return branch.contains("develop") ? .testflight : .appstore
-    }()
-}
-
-func isRunningIn(_ env: EnvironmentType) -> Bool {
-    runningIn() == env
-}
-
-func runningIn() -> EnvironmentType {
-    if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
-        return .preview
-    }
-
-#if targetEnvironment(simulator)
-    return .simulator
-#elseif DEBUG
-    return .debug
-#else
-    return EnvironmentType.cached
-#endif
 }

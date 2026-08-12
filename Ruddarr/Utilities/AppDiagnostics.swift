@@ -30,20 +30,4 @@ struct AppDiagnostics: Equatable, Sendable {
             region: Locale.current.region?.identifier ?? "unknown"
         )
     }
-
-    func exportLines() -> [String] {
-        [
-            "",
-            "[App]",
-            "Locale: \(locale)",
-            "Region: \(region)",
-            "",
-            "[Notifications]",
-            "Subscription: \(subscription)",
-            "Entitled: \(entitled)",
-            "Entitled At: \(entitledAt)",
-            "Push Authorization: \(pushAuthorization)",
-            "iCloud Account: \(iCloudAccount)",
-        ]
-    }
 }

@@ -13,6 +13,7 @@ func formatIndexer(_ name: String) -> String {
     }
 
     return switch indexer {
+    case "AnimeBytes": "AB"
     case "BeyondHD": "BHD"
     case "Blutopia": "BLU"
     case "BroadcasTheNet": "BTN"

@@ -258,4 +258,94 @@ struct ResolverProbeTests {
         #expect(!ResolverRouting.probeVerdict(status: 500, finalHost: host, probedHost: host, body: ok))
         #expect(!ResolverRouting.probeVerdict(status: 302, finalHost: host, probedHost: host, body: ok))
     }
+
+    // MARK: - Browser-facing web checks
+
+    @Test func webChecksClaimEveryCandidateOnAnyNetwork() {
+        var state = ResolverRouting.State()
+
+        // Unlike probes: no LAN needed and no on-link suppression — "can a browser open this?"
+        // is just as meaningful on cellular, and it has to be answered for every candidate.
+        #expect(ResolverRouting.claimWebChecksNeeded(&state, [remote, routed], now: t0) == [remote, routed])
+    }
+
+    @Test func webChecksThrottleAndReCheckVerifiedBases() {
+        var state = ResolverRouting.State()
+
+        #expect(ResolverRouting.claimWebChecksNeeded(&state, [remote], now: t0) == [remote])
+
+        // In flight, then recently attempted → skipped both times.
+        #expect(ResolverRouting.claimWebChecksNeeded(&state, [remote], now: t0.addingTimeInterval(1)).isEmpty)
+        ResolverRouting.recordWebCheck(&state, base: remote, epoch: state.epoch, outcome: ProbeOutcome(reachable: true, latency: 0.02), now: t0.addingTimeInterval(2))
+        #expect(ResolverRouting.claimWebChecksNeeded(&state, [remote], now: t0.addingTimeInterval(10)).isEmpty)
+
+        // A verified base IS re-checked once the interval elapses — the web button tracks
+        // reachability, so an instance that went down stops counting without a network change.
+        #expect(ResolverRouting.claimWebChecksNeeded(&state, [remote], now: t0.addingTimeInterval(33)) == [remote])
+    }
+
+    @Test func staleWebCheckIsDroppedButClearsItsInFlightGuard() {
+        var state = ResolverRouting.State()
+
+        _ = ResolverRouting.claimWebChecksNeeded(&state, [remote], now: t0)
+        let dispatched = state.epoch
+
+        ResolverRouting.networkChanged(&state)
+        ResolverRouting.recordWebCheck(&state, base: remote, epoch: dispatched, outcome: ProbeOutcome(reachable: true), now: t0.addingTimeInterval(3))
+
+        // The verdict belonged to the old network, so it is discarded — and because the throttle
+        // went with it, the next claim re-checks at once rather than waiting out the interval.
+        #expect(state.webOutcomes[remote] == nil)
+        #expect(state.webInFlight.isEmpty)
+        #expect(ResolverRouting.claimWebChecksNeeded(&state, [remote], now: t0.addingTimeInterval(4)) == [remote])
+    }
+
+    @Test func networkChangeDropsWebVerdicts() {
+        var state = ResolverRouting.State()
+
+        ResolverRouting.recordWebCheck(&state, base: remote, epoch: state.epoch, outcome: ProbeOutcome(reachable: true), now: t0)
+        #expect(state.webOutcomes[remote]?.reachable == true)
+
+        ResolverRouting.networkChanged(&state)
+
+        // A URL a browser could open at home must never vouch for itself on cellular.
+        #expect(state.webOutcomes.isEmpty)
+        #expect(state.webAttemptedAt.isEmpty)
+    }
+
+    @Test func webVerdictsNeverMoveTheAppsOwnRouting() {
+        var state = ResolverRouting.State()
+
+        ResolverRouting.recordWebCheck(&state, base: routed, epoch: state.epoch, outcome: ProbeOutcome(reachable: true, latency: 0.01), now: t0)
+
+        // Ranking reads `probeOutcomes` alone, so a check made for the UI cannot promote a
+        // candidate the routing probe never verified.
+        let ordered = ResolverRouting.rank(&state, candidates: [remote, routed], snapshot: home, fingerprint: home.fingerprint, now: t0)
+        #expect(ordered == [remote, routed])
+    }
+
+    @Test func webSelectionPrefersVerifiedOverAnswered() {
+        let verdicts = [
+            remote: ProbeOutcome(reachable: false, answered: true),
+            routed: ProbeOutcome(reachable: true, latency: 0.01),
+        ]
+
+        // A genuine `/ping` outranks a mere answer, even from a better-ranked candidate.
+        #expect(ResolverRouting.webSelection([remote, routed], outcomes: verdicts) == routed)
+    }
+
+    @Test func webSelectionKeepsAnsweredHostsOpenable() {
+        // Safari may hold a session the unauthenticated check cannot see, so a host that
+        // answered — a 403, a login page, an identity-provider redirect — is still offered.
+        let verdicts = [
+            remote: ProbeOutcome(reachable: false, answered: true),
+            routed: ProbeOutcome(reachable: false),
+        ]
+
+        #expect(ResolverRouting.webSelection([routed, remote], outcomes: verdicts) == remote)
+
+        // Only when nothing answers anywhere is there no URL — the disabled web button.
+        #expect(ResolverRouting.webSelection([routed], outcomes: [routed: ProbeOutcome(reachable: false)]) == nil)
+        #expect(ResolverRouting.webSelection([remote], outcomes: [:]) == nil)
+    }
 }

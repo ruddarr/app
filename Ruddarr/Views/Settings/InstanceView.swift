@@ -1,4 +1,3 @@
-import os
 import SwiftUI
 import CloudKit
 import StoreKit
@@ -29,9 +28,13 @@ struct InstanceView: View {
     @State var diskSpaceState: MetadataState<[InstanceDiskSpace]> = .idle
     @State var diskSpaceExpanded: Bool = false
 
+    @State var webAccessState: MetadataState<URL> = .idle
+    @State var networkToken: UUID?
+
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
+    @Environment(\.openURL) var openURL
 
     var body: some View {
         Form {
@@ -58,17 +61,33 @@ struct InstanceView: View {
         .contentMargins(.bottom, 32, for: .scrollContent)
         .formStyle(.grouped)
         .toolbar {
+            #if os(iOS)
+                toolbarWebButton
+                ToolbarSpacer(.fixed, placement: .primaryAction)
+            #endif
+
             toolbarEditButton
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .task {
             await setup()
         }
+        .task(id: networkToken) {
+            guard networkToken != nil else { return }
+
+            try? await Task.sleep(for: .milliseconds(500))
+            guard !Task.isCancelled else { return }
+
+            await checkWebAccess()
+        }
         .onChange(of: instanceNotifications) {
             Task { await notificationsToggled() }
         }
         .onBecomeActive {
             await setup()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
+            networkToken = UUID()
         }
         .sensoryAlert(
             isPresented: webhook.errorBinding,
@@ -87,12 +106,14 @@ struct InstanceView: View {
 
     func setup() async {
         async let summary: Void = loadSummary()
+        async let webAccess: Void = checkWebAccess()
 
         await setAppNotificationsStatus()
         await setCloudKitAccountStatus()
         await setSubscriptionStatus()
         await initialWebhookSync()
         await summary
+        await webAccess
     }
 
     var instanceDetails: some View {
@@ -196,6 +217,42 @@ struct InstanceView: View {
             } else {
                 disableNotifications
             }
+        }
+    }
+
+    @ToolbarContentBuilder
+    var toolbarWebButton: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Button {
+                if case .loaded(let url) = webAccessState {
+                    openURL(url, prefersInApp: true)
+                }
+            } label: {
+                switch webAccessState {
+                case .idle, .loading:
+                    ProgressView()
+                        .controlSize(.small)
+                        .tint(.secondary)
+                case .loaded, .failed:
+                    Image(systemName: "safari")
+                }
+            }
+            .disabled(!webAccessState.isLoaded)
+            .tint(.primary)
+        }
+    }
+
+    func checkWebAccess() async {
+        webAccessState = .loading
+
+        let url = await instance.reachableWebURL()
+
+        guard !Task.isCancelled else { return }
+
+        if let url {
+            webAccessState = .loaded(url)
+        } else {
+            webAccessState = .failed
         }
     }
 

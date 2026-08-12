@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 enum InstanceError: Error {
     case urlIsLocal

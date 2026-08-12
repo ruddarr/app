@@ -9,6 +9,7 @@ struct Ruddarr: App {
         @NSApplicationDelegateAdaptor(AppDelegateMac.self) var appDelegate
     #else
         @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+        @Environment(\.scenePhase) private var scenePhase
     #endif
 
     nonisolated static let name: String = "Ruddarr"
@@ -24,6 +25,8 @@ struct Ruddarr: App {
         Migrations.run()
         startSentry()
         InstancesStore.shared.start()
+
+        dependencies.router.selectedTab = AppSettings.shared.tab
 
         try? Tips.configure()
 
@@ -50,6 +53,7 @@ struct Ruddarr: App {
                     .onOpenURL(perform: openDeeplink)
                     .onContinueUserActivity(CSSearchableItemActionType, perform: openSearchableItem)
             }
+            .onChange(of: scenePhase, initial: true, Lifecycle.shared.phaseChanged)
         #endif
     }
 
@@ -101,6 +105,11 @@ extension WhatsNew {
             subtitle: "Switched to using sheets to display calendar items for better navigation."
         ),
         .init(
+            image: "list.bullet.below.rectangle",
+            title: "Release Layouts",
+            subtitle: "Switch releases to a detailed layout showing titles, bitrate, and custom formats."
+        ),
+        .init(
             image: "internaldrive",
             title: "Instance Details",
             subtitle: "View library statistics and disk space usage for each instances."
@@ -113,7 +122,7 @@ extension WhatsNew {
         .init(
             image: "ladybug",
             title: "Improvements & Fixes",
-            subtitle: "Many dozens of quality-of-life improvements and bug fixes throughout the app."
+            subtitle: "Several dozens of quality-of-life improvements and bug fixes throughout the app."
         )
     ]
 }
