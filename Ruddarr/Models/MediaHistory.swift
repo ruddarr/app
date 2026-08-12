@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 struct MediaHistory: Codable {
     let page: Int
@@ -14,7 +14,7 @@ struct MediaHistoryEvent: Identifiable, Codable {
     let date: Date
 
     // used for filtering
-    var instanceId: Instance.ID?
+    private(set) var instanceId: Instance.ID?
 
     let sourceTitle: String?
 
@@ -85,18 +85,11 @@ struct MediaHistoryEvent: Identifiable, Codable {
         case .unknown:
             fallback
         case .grabbed:
-            String(format: String(
-                localized: "%1$@ grabbed from %2$@ and sent to %3$@."),
-                mediaNoun,
-                indexerFallbackLabel,
-                downloadClientFallbackLabel
-            )
+            String(localized: "%1$@ grabbed from %2$@ and sent to %3$@.")
+                .placeholders(mediaNoun, indexerFallbackLabel, downloadClientFallbackLabel)
         case .downloadFolderImported:
-            String(format: String(
-                localized: "%1$@ downloaded successfully and imported from %2$@."),
-                mediaNoun,
-                downloadClientFallbackLabel
-            )
+            String(localized: "%1$@ downloaded successfully and imported from %2$@.")
+                .placeholders(mediaNoun, downloadClientFallbackLabel)
         case .downloadFailed:
             data("message") ?? fallback
         case .downloadIgnored:
@@ -142,6 +135,12 @@ struct MediaHistoryEvent: Identifiable, Codable {
         }
 
         return value
+    }
+}
+
+extension MediaHistoryEvent: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        instanceId = instance
     }
 }
 

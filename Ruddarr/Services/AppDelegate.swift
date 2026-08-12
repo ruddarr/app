@@ -1,6 +1,4 @@
-import Sentry
 import SwiftUI
-import CloudKit
 import MetricKit
 import TelemetryDeck
 
@@ -20,7 +18,6 @@ class AppDelegate:
 
         URLSession.shared.configuration.waitsForConnectivity = true
 
-        configureSentry()
         configureTelemetryDeck()
 
         QuickActions().registerShortcutItems()
@@ -52,7 +49,7 @@ class AppDelegate:
         _ application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
     ) {
-        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        let token = deviceToken.hexEncoded()
 
         Task {
             await Notifications.registerDevice(token)
@@ -81,48 +78,13 @@ class AppDelegate:
     // Called after a notification was tapped
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse,
-        withCompletionHandler completionHandler: @escaping () -> Void
-    ) {
+        didReceive response: UNNotificationResponse
+    ) async {
         let payload = response.notification.request.content.userInfo
 
         if let deeplink = payload["deeplink"] as? String, let url = URL(string: deeplink) {
-            UIApplication.shared.open(url)
+            _ = await UIApplication.shared.open(url)
         }
-
-        completionHandler()
-    }
-
-    func configureSentry() {
-        SentrySDK.start { options in
-            options.enabled = true
-            options.debug = false
-            options.environment = runningIn().rawValue
-
-            options.dsn = Secrets.SentryDsn
-            options.sendDefaultPii = false
-
-            options.attachViewHierarchy = false
-            options.swiftAsyncStacktraces = true
-
-            options.enableSigtermReporting = true
-            options.enableWatchdogTerminationTracking = true
-            options.enableMetricKit = false
-            options.enableAppHangTracking = false
-            options.appHangTimeoutInterval = 3
-            options.enableCaptureFailedRequests = false
-            options.enablePreWarmedAppStartTracing = true
-            options.enableTimeToFullDisplayTracing = true
-            options.enablePersistingTracesWhenCrashing = true
-
-            options.tracesSampleRate = 1
-
-            options.beforeBreadcrumb = { crumb in
-                shouldRecordBreadcrumb(crumb) ? crumb : nil
-            }
-        }
-
-        setSentryContext(for: "device", ["identifier": Platform.deviceId])
     }
 
     func configureTelemetryDeck() {
@@ -143,11 +105,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         performActionFor shortcutItem: UIApplicationShortcutItem,
         completionHandler: @escaping (Bool) -> Void
     ) {
-        handleShortcutItem(shortcutItem)
+        completionHandler(handleShortcutItem(shortcutItem))
     }
 }
 
-private func handleShortcutItem(_ item: UIApplicationShortcutItem) {
-    QuickActions.ShortcutItem(shortcutItem: item)?()
+@MainActor
+@discardableResult private func handleShortcutItem(_ item: UIApplicationShortcutItem) -> Bool {
+    guard let action = QuickActions.ShortcutItem(shortcutItem: item) else {
+        return false
+    }
+
+    action()
+
+    return true
 }
 #endif

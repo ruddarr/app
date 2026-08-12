@@ -2,14 +2,16 @@ import SwiftUI
 
 struct InstanceEditView: View {
     let mode: Mode
+    var openAdvanced: Bool = false
 
     @State var instance: Instance
 
-    @Environment(\.dismiss) var dismiss
-    @Environment(\.deviceType) var deviceType
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
-    @EnvironmentObject var settings: AppSettings
+
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.deviceType) private var deviceType
 
     @State var isLoading = false
     @State var showingAlert = false
@@ -43,31 +45,15 @@ struct InstanceEditView: View {
                     }
                 }
             #endif
-
-            #if DEBUG
-                Button {
-                    instance.url = "http://10.0.1.5:8310/settings/general"
-                    instance.apiKey = "3b0600c1b3aa42bfb0222f4e13a81f39"
-                } label: { Text(verbatim: "Radarr") }
-
-                Button {
-                    instance.url = "http://10.0.1.5:8989/"
-                    instance.apiKey = "f8e3682b3b984cddbaa00047a09d0fbd"
-                } label: { Text(verbatim: "Sonarr") }
-
-                Button {
-                    instance.url = "http://10.0.1.5:18988"
-                    instance.apiKey = "8efa9412e9564d588cefadc4d4cd1b06"
-                } label: { Text(verbatim: "Sonarr v3") }
-            #endif
         }
+        .contentMargins(.bottom, 32, for: .scrollContent)
         .formStyle(.grouped)
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarButton
         }
         .onAppear {
-            showAdvanced = instance.mode.isSlow || !instance.headers.isEmpty
+            showAdvanced = openAdvanced || instance.mode.isSlow || !instance.headers.isEmpty
         }
         .onSubmit {
             guard !hasEmptyFields() else { return }
@@ -76,7 +62,7 @@ struct InstanceEditView: View {
                 await createOrUpdateInstance()
             }
         }
-        .alert(isPresented: $showingAlert, error: error) { _ in
+        .sensoryAlert(isPresented: $showingAlert, error: error) { _ in
             Button("OK") { error = nil }
         } message: { error in
             Text(error.recoverySuggestionFallback)
@@ -95,17 +81,31 @@ struct InstanceEditView: View {
         .tint(nil)
     }
 
+    var showsAlternateURL: Bool {
+        showAdvanced || !instance.alternateURL.isEmpty
+    }
+
     var instanceSection: some View {
         Section {
             typeField
             labelField
             urlField
+
+            if showsAlternateURL {
+                alternateField
+            }
         } footer: {
-            Text("The URL used to access the \(instance.type.rawValue) web interface.")
-                #if os(macOS)
-                .foregroundStyle(.secondary)
-                .font(.footnote)
-                #endif
+            VStack(alignment: .leading, spacing: 6) {
+                Text("The URL used to access the \(instance.type.rawValue) web interface.")
+
+                if showsAlternateURL {
+                    Text("When using an Alternate URL, \(Ruddarr.name) automatically connects to the best URL for the network, whether local, VPN, or remote.")
+                }
+            }
+            #if os(macOS)
+            .foregroundStyle(.secondary)
+            .font(.footnote)
+            #endif
         }
     }
 
@@ -162,7 +162,7 @@ struct InstanceEditView: View {
             Text("URL")
                 .layoutPriority(2)
 
-            TextField(text: $instance.url, prompt: Text(verbatim: urlPlaceholder)) { EmptyView() }
+            TextField(text: $instance.url, prompt: urlPlaceholders.url) { EmptyView() }
                 .truncationMode(.head)
                 .autocorrectionDisabled(true)
                 .textCase(.lowercase)
@@ -173,6 +173,23 @@ struct InstanceEditView: View {
                 .keyboardType(.URL)
                 #endif
 
+        }
+    }
+
+    var alternateField: some View {
+        HStack(spacing: 24) {
+            Text("Alternate URL")
+                .layoutPriority(2)
+
+            TextField(text: $instance.alternateURL, prompt: urlPlaceholders.alternate) { EmptyView() }
+                .truncationMode(.head)
+                .autocorrectionDisabled(true)
+                .textCase(.lowercase)
+                #if os(iOS)
+                .multilineTextAlignment(.trailing)
+                .textInputAutocapitalization(.never)
+                .keyboardType(.URL)
+                #endif
         }
     }
 
@@ -211,60 +228,33 @@ struct InstanceEditView: View {
         }
     }
 
-    var headersSection: some View {
-        Section {
-            ForEach($instance.headers.indices, id: \.self) { index in
-                InstanceHeaderRow(header: $instance.headers[index])
-                    .swipeActions {
-                        Button("Delete") {
-                            instance.headers.remove(at: index)
-                        }
-                        .tint(.red)
-                    }
-            }
-
-            Button {
-                instance.headers.append(InstanceHeader())
-            } label: {
-                Text("Add Header", comment: "Add HTTP Header to instance")
-            }
-            #if os(macOS)
-                .buttonStyle(.link)
-                .foregroundStyle(settings.theme.tint)
-            #endif
-
-            Button {
-                showBasicAuthentication = true
-            } label: {
-                Text("Add Authentication", comment: "Add Basic HTTP Authentication to instance")
-            }
-            #if os(macOS)
-                .buttonStyle(.link)
-                .foregroundStyle(settings.theme.tint)
-            #endif
-        } header: {
-            HStack {
-                Text("Headers", comment: "HTTP Headers")
-                Spacer()
-                pasteButton(pasteHeader)
-            }
-        } footer: {
-            VStack(alignment: .leading, spacing: 6) {
-                Text("Custom Headers can be used to access instances protected by Zero Trust services.")
-                Text("Basic Authentication is for advanced server management tools and will not work with regular \(instance.type.rawValue) login credentials.")
-            }
-            #if os(macOS)
-            .foregroundStyle(.secondary)
-            .font(.footnote)
-            #endif
+    var ipPlaceholder: String {
+        switch instance.type {
+        case .radarr: "10.0.1.1:7878"
+        case .sonarr: "10.0.1.1:8989"
         }
     }
 
-    var urlPlaceholder: String {
+    var tldPlaceholder: String {
         switch instance.type {
-        case .radarr: "http://10.0.1.1:7878"
-        case .sonarr: "http://10.0.1.1:8989"
+        case .radarr: "radarr.home.net"
+        case .sonarr: "sonarr.home.net"
         }
+    }
+
+    var urlPlaceholders: (url: Text, alternate: Text) {
+        let ip = Text(verbatim: ipPlaceholder)
+        let tld = Text(verbatim: tldPlaceholder)
+
+        let alternate = hostIsIPAddress(instance.url) == false ? ip : tld
+        let url = hostIsIPAddress(instance.alternateURL) == true ? tld : ip
+
+        return (url: url, alternate: alternate)
+    }
+
+    func hostIsIPAddress(_ string: String) -> Bool? {
+        guard let host = NetworkInterfaces.host(of: string) else { return nil }
+        return NetworkInterfaces.parseIPv4(host) != nil || NetworkInterfaces.parseIPv6(host) != nil
     }
 
     var deleteButton: some View {
@@ -280,16 +270,6 @@ struct InstanceEditView: View {
             Button("Cancel", role: .cancel) { }
         }
         .tint(nil)
-    }
-
-    func pasteButton(_ callback: @escaping () -> Void) -> some View {
-        #if os(macOS)
-            EmptyView()
-        #else
-            Button(String(localized: "Paste", comment: "Paste from clipboard"), action: callback)
-                .buttonStyle(.plain)
-                .foregroundStyle(settings.theme.tint)
-        #endif
     }
 
     @ToolbarContentBuilder
@@ -320,72 +300,6 @@ struct InstanceEditView: View {
     }
 }
 
-struct InstanceHeaderRow: View {
-    @Binding var header: InstanceHeader
-
-    var body: some View {
-        VStack {
-            TextField("Header name", text: $header.name)
-            .autocorrectionDisabled(true)
-            #if os(iOS)
-                .textInputAutocapitalization(.never)
-            #endif
-
-            TextField("Header value", text: $header.value)
-            .autocorrectionDisabled(true)
-            #if os(iOS)
-                .textInputAutocapitalization(.never)
-            #endif
-        }
-    }
-}
-
-enum InstanceError: Error {
-    case urlIsLocal
-    case urlNotValid
-    case urlSchemeMissing
-    case labelEmpty
-    case localNetworkDenied
-    case badAppName(_ reported: String, _ expected: String)
-    case apiError(_ error: API.Error)
-}
-
-extension InstanceError: LocalizedError {
-    var errorDescription: String? {
-        switch self {
-        case .urlIsLocal, .urlNotValid, .urlSchemeMissing:
-            return String(localized: "Invalid URL")
-        case .labelEmpty:
-            return String(localized: "Invalid Instance Label")
-        case .localNetworkDenied:
-            return String(localized: "Local Network Access Denied")
-        case .badAppName:
-            return String(localized: "Wrong Instance Type")
-        case .apiError(let error):
-            return error.errorDescription
-        }
-    }
-
-    var recoverySuggestion: String? {
-        switch self {
-        case .urlIsLocal:
-            return String(localized: "URLs must be non-local, \"localhost\" and \"127.0.0.1\" will not work.")
-        case .urlNotValid:
-            return String(localized: "Enter a valid URL.")
-        case .urlSchemeMissing:
-            return String(localized: "URL must start with \"http://\" or \"https://\".")
-        case .labelEmpty:
-            return String(localized: "Enter an instance label.")
-        case .localNetworkDenied:
-            return String(localized: "Local network access must be granted in System Settings to connect to instances on private IP addresses.")
-        case .badAppName(let reported, let expected):
-            return String(localized: "URL identified itself as a \(reported) instance, not a \(expected) instance.")
-        case .apiError(let error):
-            return error.recoverySuggestion
-        }
-    }
-}
-
 #Preview {
     dependencies.router.selectedTab = .settings
 
@@ -395,5 +309,5 @@ extension InstanceError: LocalizedError {
 
     return ContentView()
         .withAppState()
-        // .frame(minWidth: 900, minHeight: 600)
+        .macPreviewFrame()
 }

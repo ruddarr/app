@@ -1,5 +1,4 @@
 import SwiftUI
-import Combine
 
 enum MoviesPath: Hashable {
     case search(String = "")
@@ -13,20 +12,21 @@ enum MoviesPath: Hashable {
 struct MoviesView: View {
     @AppStorage("movieSort", store: dependencies.store) var sort: MovieSort = .init()
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var instance
+
+    @Environment(\.deviceType) private var deviceType
 
     @State private var scrollView: ScrollViewProxy?
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
+    @State private var searchRequest: SearchRequest?
 
     @State private var error: API.Error?
     @State private var alertPresented = false
 
     @State private var lastFetch: Date = .distantPast
-
-    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         // swiftlint:disable:next closure_body_length
@@ -39,6 +39,10 @@ struct MoviesView: View {
                         ScrollView {
                             mediaGrid
 
+                            if instance.movies.cachedItems.count > 42 {
+                                mediaCount
+                            }
+
                             if presentSearchSuggestion {
                                 MovieSearchSuggestion(query: $searchQuery, sort: $sort)
                             }
@@ -50,6 +54,7 @@ struct MoviesView: View {
                     .task {
                         guard !instance.isVoid else { return }
                         await fetchMoviesThrottled()
+                        await fetchInstanceMetadata()
                     }
                     .refreshable {
                         await Task { await fetchMoviesWithAlert() }.value
@@ -59,7 +64,7 @@ struct MoviesView: View {
             }
             .safeNavigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: MoviesPath.self) {
-                destination(for: $0)
+                MoviesDestination(path: $0)
             }
             .onAppear {
                 // if a deeplink set an instance, try to switch to it
@@ -95,7 +100,11 @@ struct MoviesView: View {
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
             .onChange(of: instance.movies.items, updateDisplayedMovies)
-            .alert(isPresented: $alertPresented, error: error) { _ in
+            .task(id: searchRequest) {
+                guard let searchRequest, await searchRequest.waitForDebounce() else { return }
+                updateDisplayedMovies()
+            }
+            .sensoryAlert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
                 Text(error.recoverySuggestionFallback)
@@ -116,35 +125,6 @@ struct MoviesView: View {
         }
     }
 
-    @ViewBuilder
-    func destination(for path: MoviesPath) -> some View {
-        switch path {
-        case .search(let query):
-            MovieSearchView(searchQuery: query)
-                .environment(instance)
-        case .preview(let data):
-            if let data, let movie = try? JSONDecoder().decode(Movie.self, from: data) {
-                MoviePreviewView(movie: movie)
-                    .environment(instance)
-                    .environmentObject(settings)
-            }
-        case .movie(let id):
-            MovieView(movie: instance.movies.byId(id))
-                .environment(instance)
-                .environmentObject(settings)
-        case .edit(let id):
-            MovieEditView(movie: instance.movies.byId(id))
-                .environment(instance)
-        case .releases(let id):
-            MovieReleasesView(movie: instance.movies.byId(id))
-                .environment(instance)
-                .environmentObject(settings)
-        case .metadata(let id):
-            MovieMetadataView(movie: instance.movies.byId(id))
-                .environment(instance)
-        }
-    }
-
     var mediaGrid: some View {
         MediaGrid(
             items: instance.movies.cachedItems,
@@ -159,6 +139,7 @@ struct MoviesView: View {
             .buttonStyle(.plain)
             .id(movie.id)
         }
+        .animation(.snappy, value: instance.movies.cachedItems.map(\.id))
         .viewBottomPadding()
         .scenePadding(.horizontal)
         #if os(iOS)
@@ -166,6 +147,16 @@ struct MoviesView: View {
         #elseif os(macOS)
             .padding(.vertical)
         #endif
+    }
+
+    var mediaCount: some View {
+        HStack(spacing: 6) {
+            Text("\(instance.movies.cachedItems.count) Movie")
+        }
+        .font(.footnote)
+        .foregroundStyle(.secondary)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.bottom)
     }
 
     var notConnectedToInternet: Bool {
@@ -209,11 +200,9 @@ struct MoviesView: View {
     }
 
     func updateSortDirection() {
-        switch sort.option {
-        case .byTitle:
-            sort.isAscending = true
-        default:
-            sort.isAscending = false
+        sort.isAscending = switch sort.option {
+        case .byTitle: true
+        default: false
         }
     }
 
@@ -225,16 +214,20 @@ struct MoviesView: View {
         Task { @MainActor in
             _ = await instance.movies.fetch()
             updateDisplayedMovies()
+            lastFetch = .now
+            await fetchInstanceMetadata()
+        }
+    }
 
-            let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
-            let cacheInSeconds: Double = instance.isSlow ? 300 : 30
+    func fetchInstanceMetadata() async {
+        let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
+        let cacheInSeconds: Double = instance.isSlow ? 300 : 30
 
-            if Occurrence.since(lastMetadataFetch) > cacheInSeconds {
-                if let model = await instance.fetchMetadata() {
-                    settings.saveInstance(model)
-                    Occurrence.occurred(lastMetadataFetch)
-                }
-            }
+        guard Occurrence.since(lastMetadataFetch) > cacheInSeconds else { return }
+
+        if let model = await instance.fetchMetadata() {
+            settings.saveInstanceMetadata(model)
+            Occurrence.occurred(lastMetadataFetch)
         }
     }
 
@@ -275,7 +268,7 @@ struct MoviesView: View {
         }
 
         scrollToTop()
-        updateDisplayedMovies()
+        searchRequest = SearchRequest(query: searchQuery, isDebounced: true)
     }
 
     func becameActive() {
@@ -308,20 +301,16 @@ struct MoviesView: View {
 
         let startTime = Date()
 
-        func scheduleNextRun(time: DispatchTime, id: Movie.ID) {
-            DispatchQueue.main.asyncAfter(deadline: time) {
+        Task { @MainActor in
+            while Date().timeIntervalSince(startTime) < 10 {
                 if let movie = instance.movies.items.first(where: { $0.id == id }) {
                     dependencies.router.moviesPath = .init([MoviesPath.movie(movie.id)])
                     return
                 }
 
-                if Date().timeIntervalSince(startTime) < 10 {
-                    scheduleNextRun(time: DispatchTime.now() + 0.1, id: id)
-                }
+                try? await Task.sleep(for: .seconds(0.1))
             }
         }
-
-        scheduleNextRun(time: DispatchTime.now(), id: id)
     }
 }
 

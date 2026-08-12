@@ -1,4 +1,5 @@
 import Foundation
+import Sentry
 
 class Languages {
     // https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes

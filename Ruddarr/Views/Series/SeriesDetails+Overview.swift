@@ -1,9 +1,10 @@
 import SwiftUI
+import Nuke
 
 extension SeriesDetails {
     var header: some View {
         HStack(alignment: .top) {
-            CachedAsyncImage(.poster, series.remotePoster)
+            CachedAsyncImage(.poster, series.remotePoster, priority: .veryHigh)
                 .aspectRatio(
                     CGSize(width: 150, height: 225),
                     contentMode: .fill
@@ -11,6 +12,7 @@ extension SeriesDetails {
                 .modifier(MediaDetailsPosterModifier())
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 14))
+                .posterQuickLook(series.remotePoster, named: series.posterFilename)
                 .padding(.trailing, deviceType == .phone ? 8 : 16)
 
             VStack(alignment: .leading, spacing: 0) {
@@ -35,25 +37,26 @@ extension SeriesDetails {
         }
     }
 
-    var shrinkTitle: Bool {
-        if deviceType == .phone {
-            return series.title.count > 25
-        }
-
-        return false
-    }
-
     var detailsState: some View {
-        Text(series.stateLabel)
+        Text(stateLabel)
             .font(.caption)
             .fontWeight(.semibold)
             .textCase(.uppercase)
-            .foregroundStyle(settings.theme.tint)
+            .shimmering(active: queueStatus != nil, color: settings.theme.tint)
+    }
+
+    var stateLabel: String {
+        if let label = queueStatus?.label { return label }
+        return series.stateLabel
+    }
+
+    var queueStatus: QueueItemStatus? {
+        queue.queueStatus(series, instanceId: instance.id)
     }
 
     var detailsTitle: some View {
         Text(series.title)
-            .font(shrinkTitle ? .title : .largeTitle)
+            .font(deviceType == .phone && series.title.count > 25 ? .title : .largeTitle)
             .fontWeight(.bold)
             .lineLimit(3)
             .kerning(-0.5)
@@ -109,7 +112,7 @@ extension SeriesDetails {
                     .symbolVariant(.fill)
                     .foregroundStyle(.red)
 
-                Text(String(format: "%.0f%%", rating * 10))
+                Text((rating * 10).formatted(.percentageRating))
                     .lineLimit(1)
             }
             .font(.callout)

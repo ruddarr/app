@@ -1,15 +1,15 @@
 import SwiftUI
-import TelemetryDeck
+import TipKit
 
 struct SeriesDetails: View {
     @Binding var series: Series
 
     @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
+    @State var queue = Queue.shared
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
-
     @Environment(\.deviceType) var deviceType
 
     var body: some View {
@@ -88,9 +88,8 @@ struct SeriesDetails: View {
         }
     }
 
-    @ViewBuilder
     var actions: some View {
-        HStack(spacing: 24) {
+        HStack(spacing: 20) {
             if series.exists {
                 seriesActions
             } else {
@@ -98,7 +97,7 @@ struct SeriesDetails: View {
             }
         }
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: 450)
+        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
     }
 
     var seriesActions: some View {
@@ -111,16 +110,14 @@ struct SeriesDetails: View {
                     icon: "magnifyingglass",
                     isLoading: dispatchingSearch
                 )
-                    .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
+            .actionButton()
+            .actionButtonWidth()
             .allowsHitTesting(!instance.series.isWorking)
             .onAppear(perform: triggerTipIfJustAdded)
             .popoverTip(NoAutomaticSearchTip())
 
-            Spacer()
-                .modifier(MediaPreviewActionSpacerModifier())
+            ActionButtonSpacer()
         }
     }
 
@@ -129,19 +126,17 @@ struct SeriesDetails: View {
             Menu {
                 SeriesLinks(series: series)
             } label: {
-                ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.right.square")
-                    .modifier(MediaPreviewActionModifier())
+                ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.forward.app")
                     .modifier(MacMenuButtonLabelModifier())
             }
+            .actionButtonWidth()
             #if os(macOS)
                 .buttonStyle(.plain)
             #else
-                .buttonStyle(.bordered)
+                .actionButton()
             #endif
-            .tint(.buttonTint)
 
-            Spacer()
-                .modifier(MediaPreviewActionSpacerModifier())
+            ActionButtonSpacer()
         }
     }
 
@@ -156,7 +151,11 @@ struct SeriesDetails: View {
             LazyVStack(alignment: .leading, spacing: 12) {
                 ForEach(series.seasons.reversed()) { season in
                     NavigationLink(value: SeriesPath.season(series.id, season.id)) {
-                        SeasonCard(series: $series, season: season)
+                        SeasonCard(
+                            series: $series,
+                            season: season,
+                            status: queue.queueStatus(season: season.seasonNumber, of: series, instanceId: instance.id)
+                        )
                     }.buttonStyle(.plain)
                 }
             }
@@ -173,11 +172,11 @@ struct SeriesDetails: View {
     }
 
     func triggerTipIfJustAdded() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        Task {
+            try? await Task.sleep(for: .seconds(1))
+
             if series.added.timeIntervalSinceNow > -30 {
-                Task {
-                    await NoAutomaticSearchTip.mediaAdded.donate()
-                }
+                await NoAutomaticSearchTip.mediaAdded.donate()
             }
         }
     }

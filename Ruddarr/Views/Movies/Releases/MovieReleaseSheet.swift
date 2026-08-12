@@ -1,15 +1,15 @@
 import SwiftUI
-import TelemetryDeck
 
 struct MovieReleaseSheet: View {
     var release: MovieRelease
     var movie: Movie
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.inCalendarSheet) private var inCalendarSheet
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @State private var showGrabConfirmation: Bool = false
@@ -44,7 +44,7 @@ struct MovieReleaseSheet: View {
                     .tint(.primary)
                 }
             }
-            .alert(
+            .sensoryAlert(
                 isPresented: instance.movies.errorBinding,
                 error: instance.movies.error
             ) { _ in
@@ -62,13 +62,14 @@ struct MovieReleaseSheet: View {
                 Text("The release for this movie could not be determined and it may not import automatically. Do you want to grab \"\(release.title)\"?")
             }.tint(nil)
         }
+        .displayToasts()
     }
 
     var header: some View {
         VStack(alignment: .leading) {
-            if !flags().isEmpty {
+            if !release.flagLabels.isEmpty {
                 HStack {
-                    ForEach(flags(), id: \.self) { flag in
+                    ForEach(release.flagLabels, id: \.self) { flag in
                         Text(flag).textCase(.uppercase)
                     }
                 }
@@ -86,7 +87,7 @@ struct MovieReleaseSheet: View {
             HStack(spacing: 6) {
                 Text(release.qualityLabel)
                 Bullet()
-                Text(release.sizeLabel)
+                Text(formatBytes(release.size, verbose: true))
                 Bullet()
                 Text(release.ageLabel)
             }
@@ -94,7 +95,7 @@ struct MovieReleaseSheet: View {
             .foregroundStyle(.secondary)
             .lineLimit(1)
 
-            CustomFormats(tags())
+            CustomFormats(release.formatLabels)
         }
     }
 
@@ -131,23 +132,20 @@ struct MovieReleaseSheet: View {
     }
 
     var actions: some View {
-        HStack(spacing: 24) {
-            if deviceType != .phone {
-                Spacer()
-            }
-
+        HStack(spacing: 20) {
             if let url = URL(string: release.infoUrl ?? "") {
                 Link(destination: url, label: {
                     let label: LocalizedStringKey = deviceType == .phone ? "Website" : "Open Website"
 
                     ButtonLabel(text: label, icon: "arrow.up.right.square")
-                        .modifier(MediaPreviewActionModifier())
                 })
-                .buttonStyle(.bordered)
-                .tint(.buttonTint)
+                .actionButton()
+                .actionButtonWidth()
                 .contextMenu {
                     LinkContextMenu(url)
                 }
+            } else {
+                ActionButtonSpacer()
             }
 
             Button {
@@ -166,17 +164,13 @@ struct MovieReleaseSheet: View {
                     icon: "arrow.down.circle",
                     isLoading: instance.movies.isWorking
                 )
-                .modifier(MediaPreviewActionModifier())
             }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
+            .actionButton()
+            .actionButtonWidth()
             .allowsHitTesting(!instance.movies.isWorking)
-
-            if deviceType != .phone {
-                Spacer()
-            }
         }
         .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
     }
 
     var details: some View {
@@ -192,8 +186,7 @@ struct MovieReleaseSheet: View {
 
                 if release.isTorrent {
                     Divider()
-                    row("Peers", value: String(
-                        format: "S: %i  L: %i",
+                    row("Peers", value: "S: %i  L: %i".placeholders(
                         release.seeders ?? 0,
                         release.leechers ?? 0
                     ))
@@ -204,38 +197,6 @@ struct MovieReleaseSheet: View {
             Text("Information")
                 .font(.title2.bold())
         }
-    }
-
-    func flags() -> [String] {
-        var flags: [String] = []
-
-        if let indexerFlags = release.indexerFlags, !indexerFlags.isEmpty {
-            flags.append(contentsOf: release.cleanIndexerFlags)
-        }
-
-        if release.isProper {
-            flags.append(String(localized: "Proper", comment: "The PROPER flag"))
-        }
-
-        if release.isRepack {
-            flags.append(String(localized: "Repack", comment: "The REPACK flag"))
-        }
-
-        return flags
-    }
-
-    func tags() -> [String] {
-        var tags: [String] = []
-
-        if release.customFormatScore != 0 {
-            tags.append(release.scoreLabel)
-        }
-
-        if let formats = release.customFormats, !formats.isEmpty {
-            tags.append(contentsOf: formats.map { $0.label })
-        }
-
-        return tags
     }
 
     func row(_ label: LocalizedStringKey, value: String) -> some View {
@@ -265,7 +226,9 @@ struct MovieReleaseSheet: View {
 
         dismiss()
 
-        if !dependencies.router.moviesPath.isEmpty {
+        if let inCalendarSheet {
+            inCalendarSheet.pop()
+        } else if !dependencies.router.moviesPath.isEmpty {
             dependencies.router.moviesPath.removeLast()
         }
 

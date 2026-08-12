@@ -6,10 +6,10 @@ struct Series: Media, Identifiable, Equatable, Codable {
     var id: Int { guid ?? (tvdbId + 100_000) }
 
     // the remapped `id` field
-    var guid: Int?
+    private(set) var guid: Int?
 
     // used by deeplinks to switch instances
-    var instanceId: Instance.ID?
+    private(set) var instanceId: Instance.ID?
 
     let title: String
     let titleSlug: String?
@@ -146,26 +146,36 @@ struct Series: Media, Identifiable, Equatable, Codable {
         return nil
     }
 
+    var queueKey: QueueKey? {
+        instanceId.map { .series(instanceId: $0, id: id) }
+    }
+
+    var posterFilename: String {
+        year > 0 ? "\(title) (\(year))" : title
+    }
+
     var genreLabel: String {
         genres.prefix(3)
             .map { $0.replacingOccurrences(of: "Science Fiction", with: "Sci-Fi") }
             .formattedList()
     }
 
-    var stateLabel: LocalizedStringKey {
+    var stateLabel: String {
         if isDownloaded {
-            return "Downloaded"
+            return String(localized: "Downloaded", comment: "State of media item")
         }
 
         if isWaiting {
-            return "Unreleased"
+            return String(localized: "Unreleased", comment: "State of media item")
         }
 
         if monitored && percentOfEpisodes < 100 {
-            return episodeFileCount == 0 ? "Missing" : "Missing Episodes"
+            return episodeFileCount == 0
+                ? String(localized: "Missing", comment: "State of media item")
+                : String(localized: "Missing Episodes", comment: "State of media item")
         }
 
-        return "Unwanted"
+        return String(localized: "Unwanted", comment: "State of media item")
     }
 
     var yearLabel: String {
@@ -192,7 +202,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
     }
 
     var seasonCount: Int {
-        seasons.filter { $0.seasonNumber != 0 }.count
+        seasons.count(where: { $0.seasonNumber != 0 })
     }
 
     var episodeCount: Int {
@@ -212,7 +222,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
     }
 
     func alternateTitlesString() -> String {
-        alternateTitles?.map { $0.title }.joined(separator: " ") ?? ""
+        alternateTitles?.map(\.title).joined(separator: " ") ?? ""
     }
 }
 
@@ -362,6 +372,12 @@ struct SeriesEditorResource: Codable {
     let tags: [Int]
     let applyTags: String
     let moveFiles: Bool?
+}
+
+extension Series: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        instanceId = instance
+    }
 }
 
 extension Series {

@@ -1,19 +1,15 @@
 import SwiftUI
 
 struct SettingsAboutSection: View {
-    @EnvironmentObject var settings: AppSettings
-
-    @Environment(\.openURL) var openURL
+    @Environment(AppSettings.self) private var settings
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         Section {
             share
             review
-            discord
-            contribute
-            reportIssues
+            releases
             macOS
-            translate
         } header: {
             Text("About", comment: "Preferences section title")
         }
@@ -22,10 +18,24 @@ struct SettingsAboutSection: View {
         #endif
     }
 
+    var releases: some View {
+        NavigationLink(value: SettingsView.Path.changelog) {
+
+            Label {
+                Text("Release Notes")
+            } icon: {
+                Image(systemName: "sparkles.rectangle.stack")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(settings.theme.tint, .primary)
+            }
+            .labelStyle(.settingsIcon)
+        }
+    }
+
     var share: some View {
         ShareLink(item: Links.AppShare) {
             Label("Share App", systemImage: "square.and.arrow.up")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }
     }
 
@@ -34,42 +44,14 @@ struct SettingsAboutSection: View {
             .init(name: "action", value: "write-review"),
         ])) {
             Label("Leave a Review", systemImage: "star.fill")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }
-    }
-
-    var discord: some View {
-        Link(destination: Links.Discord) {
-            Label("Join the Discord", systemImage: "text.bubble")
-                .labelStyle(SettingsIconLabelStyle())
-        }
-    }
-
-    var contribute: some View {
-        Link(destination: Links.GitHub, label: {
-            Label("Contribute on GitHub", systemImage: "curlybraces")
-                .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
-        })
-    }
-
-    var reportIssues: some View {
-        Link(destination: Links.GitHubIssues, label: {
-            Label("Report an Issue", systemImage: "exclamationmark.bubble")
-                .labelStyle(SettingsIconLabelStyle())
-        })
-    }
-
-    var translate: some View {
-        Link(destination: Links.Crowdin, label: {
-            Label("Translate the App", systemImage: "globe.europe.africa")
-                .labelStyle(SettingsIconLabelStyle())
-        })
     }
 
     var macOS: some View {
         Link(destination: Links.TestFlight) {
             Label("TestFlight for macOS", systemImage: "macwindow.and.pointer.arrow")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }
     }
 }

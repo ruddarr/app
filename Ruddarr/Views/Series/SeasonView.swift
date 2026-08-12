@@ -1,17 +1,21 @@
 import SwiftUI
-import TelemetryDeck
+import TipKit
 
 struct SeasonView: View {
     @Binding var series: Series
     var seasonId: Season.ID
-    @State var jumpToEpisode: Episode.ID?
+    var navigate: (SeriesPath) -> Void = { dependencies.router.seriesPath.append($0) }
 
+    @State var jumpToEpisode: Episode.ID?
     @State private var hasFetched: Bool = false
     @State private var dispatchingSearch: Bool = false
+    @State private var togglingMonitor: Bool = false
     @State private var showDeleteConfirmation = false
+    @State private var queue = Queue.shared
 
-    @EnvironmentObject var settings: AppSettings
-    @Environment(SonarrInstance.self) var instance
+    @Environment(AppSettings.self) private var settings
+    @Environment(SonarrInstance.self) private var instance
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         ScrollView {
@@ -34,21 +38,19 @@ struct SeasonView: View {
             .padding(.vertical)
         #endif
         .toolbar {
+            CalendarSheetAwareToolbar(deeplink: deeplink)
             toolbarMonitorButton
             toolbarMenu
         }
         .task {
-            async let maybeFetchEpisodes: () = instance.episodes.maybeFetch(series)
-            async let maybeFetchFiles: () = instance.files.maybeFetch(series)
-
-            (_, _) = await (maybeFetchEpisodes, maybeFetchFiles)
+            await instance.episodes.maybeFetch(series)
             hasFetched = true
             maybeNavigateToEpisode()
         }
         .onBecomeActive {
             await reload()
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.episodes.errorBinding,
             error: instance.episodes.error
         ) { _ in
@@ -56,7 +58,7 @@ struct SeasonView: View {
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.files.errorBinding,
             error: instance.files.error
         ) { _ in
@@ -77,6 +79,11 @@ struct SeasonView: View {
         }.tint(nil)
     }
 
+    var deeplink: URL? {
+        guard let instanceId = series.instanceId else { return nil }
+        return QuickActions.Deeplink.openSeason(series.id, seasonId, instanceId.uuidString).url
+    }
+
     var season: Season {
         let fallback = Season(seasonNumber: seasonId, monitored: false, statistics: nil)
         return series.seasonById(seasonId) ?? fallback
@@ -91,11 +98,7 @@ struct SeasonView: View {
     var seasonFiles: [MediaFile] {
         episodes.filter {
             $0.hasFile
-        }.compactMap { episode in
-            instance.files.items.first { file in
-                file.id == episode.episodeFileId
-            }
-        }
+        }.compactMap(\.episodeFile)
     }
 
     var header: some View {
@@ -138,11 +141,11 @@ struct SeasonView: View {
     var runtime: Int? {
         let items = episodes.map { $0.runtime ?? 0 }.filter { $0 > 0 }
         guard !items.isEmpty else { return nil }
-        return items.sorted(by: <)[items.count / 2]
+        return items.sorted()[items.count / 2]
     }
 
     var actions: some View {
-        HStack(spacing: 24) {
+        HStack(spacing: 20) {
             Button {
                 Task { await dispatchSearch() }
             } label: {
@@ -151,28 +154,26 @@ struct SeasonView: View {
                     icon: "magnifyingglass",
                     isLoading: dispatchingSearch
                 )
-                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
+            .actionButton()
+            .actionButtonWidth()
             .allowsHitTesting(!instance.series.isWorking)
 
             NavigationLink(
                 value: SeriesPath.releases(series.id, seasonId, nil)
             ) {
                 ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
-                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
+            .actionButton()
+            .actionButtonWidth()
         }
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: 450)
+        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
     }
 
     var episodesList: some View {
         Section {
-            if !hasFetched && (instance.episodes.isFetching || instance.files.isFetching) {
+            if !hasFetched && instance.episodes.isFetching {
                 HStack {
                     Spacer()
                     ProgressView().tint(.secondary)
@@ -184,9 +185,9 @@ struct SeasonView: View {
                         NavigationLink(
                             value: SeriesPath.episode(episode.seriesId, episode.id)
                         ) {
-                            EpisodeRow(episode: episode)
+                            EpisodeRow(episode: episode, status: queue.queueStatus(episode, instanceId: instance.id))
                                 .environment(instance)
-                                .environmentObject(settings)
+                                .environment(settings)
                         }
                         .buttonStyle(.plain)
 
@@ -205,9 +206,9 @@ struct SeasonView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: .constant(season.monitored))
+                ToolbarMonitorButton(monitored: season.monitored, loading: togglingMonitor)
             }
-            .allowsHitTesting(!instance.series.isWorking)
+            .allowsHitTesting(!togglingMonitor)
             .disabled(!series.monitored)
             .popoverTip(SeriesMonitoringTip(series.monitored))
             #if os(iOS)
@@ -251,9 +252,15 @@ extension SeasonView {
             return
         }
 
-        series.seasons[index].monitored.toggle()
+        let original = series.seasons[index].monitored
+        series.seasons[index].monitored = !original
+
+        togglingMonitor = true
+        defer { togglingMonitor = false }
 
         guard await instance.series.push(series) else {
+            series.seasons.revert(\.monitored, to: original, id: season.id)
+
             return
         }
 
@@ -267,7 +274,6 @@ extension SeasonView {
     func reload() async {
         _ = await instance.series.get(series)
         await instance.episodes.fetch(series)
-        await instance.files.fetch(series)
     }
 
     func dispatchSearch() async {
@@ -297,9 +303,7 @@ extension SeasonView {
 
         jumpToEpisode = nil
 
-        dependencies.router.seriesPath.append(
-            SeriesPath.episode(series.id, episode.id)
-        )
+        navigate(SeriesPath.episode(series.id, episode.id))
     }
 
     func deleteSeason() async {

@@ -1,4 +1,4 @@
-import SwiftUI
+import Sentry
 
 @MainActor
 @Observable
@@ -103,5 +103,17 @@ struct DiscoveryItem: Identifiable, Codable, Equatable {
     enum ItemType: String, Codable {
         case movie
         case series
+    }
+
+    @MainActor
+    func libraryMovie(in instance: RadarrInstance) -> Movie? {
+        guard type == .movie else { return nil }
+        return instance.movies.items.first { $0.tmdbId == id }
+    }
+
+    @MainActor
+    func librarySeries(in instance: SonarrInstance) -> Series? {
+        guard type == .series else { return nil }
+        return instance.series.items.first { $0.tmdbId == id }
     }
 }

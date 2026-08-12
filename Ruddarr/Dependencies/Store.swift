@@ -1,10 +1,11 @@
 import Foundation
 
 extension UserDefaults {
-    static var live: UserDefaults { .standard }
+    // `nonisolated(unsafe)` is sound here: `UserDefaults` is documented thread-safe:
+    // https://developer.apple.com/documentation/foundation/userdefaults
+    nonisolated(unsafe) static let live = UserDefaults(suiteName: Ruddarr.group) ?? .standard
 }
 
-// Our `.mock` UserDefaults are broken
 extension UserDefaults {
     static var mock: UserDefaults {
         let suiteName = #file

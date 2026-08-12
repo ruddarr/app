@@ -2,28 +2,118 @@ import SwiftUI
 
 struct SeriesReleaseRow: View {
     var release: SeriesRelease
+    var runtime: Int
+
+    @Environment(AppSettings.self) private var settings
+
+    @ScaledMetric(relativeTo: .callout) private var iconBaselineRaise: CGFloat = 1
 
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack(spacing: 4) {
-                Text(release.title)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .lineLimit(1)
-            }
+        switch settings.releases {
+        case .compact: compactRow
+        case .detailed: detailedRow
+        }
+    }
 
-            secondRow
-            thirdRow
+    var compactRow: some View {
+        VStack(alignment: .leading) {
+            Text(release.title)
+                .font(.headline)
+                .fontWeight(.semibold)
+                .lineLimit(1)
+
+            HStack(spacing: 6) {
+                Text(release.qualityLabel)
+                Bullet()
+                Text(release.sizeLabel)
+                Bullet()
+                Text(release.ageLabel)
+            }
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .font(.subheadline)
+
+            HStack(spacing: 6) {
+                Text(release.typeLabel)
+                    .foregroundStyle(peerColor)
+                    .truncationMode(.head)
+
+                Group {
+                    Bullet()
+                    Text(release.languageLabel)
+                    Bullet()
+                    Text(release.indexerLabel)
+                }
+                .foregroundStyle(.secondary)
+
+                Spacer()
+
+                releaseIcons
+            }
+            .lineLimit(1)
+            .font(.subheadline)
         }
         .contentShape(Rectangle())
     }
 
-    var secondRow: some View {
+    var detailedRow: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            titleRow
+            qualityRow
+            metadataRow
+            formatsRow
+        }
+        .contentShape(Rectangle())
+    }
+
+    var metadataRow: some View {
+        HStack(spacing: 6) {
+            Text(release.typeLabel)
+                .foregroundStyle(peerColor)
+                .truncationMode(.head)
+
+            Group {
+                Bullet()
+                Text(release.languageLabel)
+                Bullet()
+                Text(release.indexerLabel)
+            }
+            .foregroundStyle(.secondary)
+        }
+        .lineLimit(1)
+        .font(.subheadline)
+    }
+
+    var titleRow: some View {
+        let iconBaseline = iconBaselineRaise
+
+        return HStack(alignment: .firstTextBaseline, spacing: 6) {
+            Text(release.title.breakable(minimumTail: 8))
+                .font(.headline)
+                .fontWeight(.semibold)
+
+            Spacer()
+
+            releaseIcons
+                .alignmentGuide(.firstTextBaseline) {
+                    $0[.firstTextBaseline] + iconBaseline
+                }
+        }
+    }
+
+    var qualityRow: some View {
         HStack(spacing: 6) {
             Text(release.qualityLabel)
-
             Bullet()
             Text(release.sizeLabel)
+
+            if let bitrate = release.bitrateLabel(runtime) {
+                Group {
+                    Bullet()
+                    Text(bitrate)
+                }
+                .layoutPriority(-1)
+            }
 
             Bullet()
             Text(release.ageLabel)
@@ -33,61 +123,57 @@ struct SeriesReleaseRow: View {
         .font(.subheadline)
     }
 
-    var thirdRow: some View {
-        HStack(spacing: 6) {
-            Text(release.typeLabel)
-                .foregroundStyle(peerColor)
-
-            Group {
-                Bullet()
-                Text(release.languageLabel)
-
-                Bullet()
-                Text(release.indexerLabel)
-            }
-            .foregroundStyle(.secondary)
-
-            Spacer()
-
-            releaseIcons
+    @ViewBuilder
+    var formatsRow: some View {
+        if !release.formatLabels.isEmpty {
+            CustomFormats(release.formatLabels, small: true)
+                .padding(.top, 4)
         }
-        .lineLimit(1)
-        .font(.subheadline)
     }
 
+    @ViewBuilder
     var releaseIcons: some View {
-        HStack(spacing: 2) {
-            if release.isFreeleech {
-                Image(systemName: "f.square")
-            }
+        if !release.flagLabels.isEmpty || release.rejected {
+            HStack(spacing: 2) {
+                if release.isFreeleech {
+                    Image(systemName: "f.square")
+                }
 
-            if release.isProper {
-                Image(systemName: "p.square")
-            }
+                if release.isProper {
+                    Image(systemName: "p.square")
+                }
 
-            if release.isRepack {
-                Image(systemName: "r.square")
-            }
+                if release.isRepack {
+                    Image(systemName: "r.square")
+                }
 
-            if release.hasNonFreeleechFlags {
-                Image(systemName: "flag.square")
-            }
+                if release.isNuked {
+                    Image(systemName: "trash.square")
+                }
 
-            if release.rejected {
-                Image(systemName: "exclamationmark.square")
+                if release.hasOtherFlags {
+                    Image(systemName: "flag.square")
+                }
+
+                if release.rejected {
+                    Image(systemName: "exclamationmark.square")
+                        .foregroundStyle(.orange)
+                }
             }
+            .symbolVariant(.fill)
+            .imageScale(.medium)
+            .foregroundStyle(.secondary)
+            .font(
+                settings.releases == .detailed ? .callout : .subheadline
+            )
         }
-        .symbolVariant(.fill)
-        .imageScale(.medium)
-        .foregroundStyle(.secondary)
     }
 
     var peerColor: any ShapeStyle {
         guard release.isTorrent else { return .green }
 
         return switch release.seeders ?? 0 {
-        case 50...: .green
-        case 10..<50: .blue
+        case 10...: .green
         case 1..<10: .orange
         default: .red
         }

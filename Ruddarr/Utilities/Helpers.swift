@@ -1,24 +1,6 @@
 import Foundation
 import CloudKit
-
-struct SearchRequest: Equatable {
-    private let id = UUID()
-
-    let query: String
-    let isDebounced: Bool
-
-    init(query: String, isDebounced: Bool) {
-        self.query = query
-        self.isDebounced = isDebounced
-    }
-
-    func waitForDebounce() async -> Bool {
-        guard isDebounced else { return true }
-
-        try? await Task.sleep(for: .milliseconds(250))
-        return !Task.isCancelled
-    }
-}
+import UserNotifications
 
 protocol OptionalProtocol {
     associatedtype Wrapped
@@ -60,8 +42,42 @@ extension String {
         self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    func breakable() -> String {
-        self.replacingOccurrences(of: ".", with: ".\u{200B}")
+    func breakable(minimumTail: Int = 0) -> String {
+        var glue: Index?
+
+        if minimumTail > 0 {
+            for index in indices.reversed() where " ._-}/".contains(self[index]) {
+                if distance(from: self.index(after: index), to: endIndex) >= minimumTail {
+                    glue = index
+                    break
+                }
+            }
+        }
+
+        guard let glue else {
+            return self
+                .replacingOccurrences(of: ".", with: ".\u{200B}")
+                .replacingOccurrences(of: "_", with: "_\u{200B}")
+        }
+
+        let head = String(self[...glue])
+            .replacingOccurrences(of: ".", with: ".\u{200B}")
+            .replacingOccurrences(of: "_", with: "_\u{200B}")
+
+        var tail = String(self[index(after: glue)...])
+            .replacingOccurrences(of: " ", with: "\u{A0}")
+            .replacingOccurrences(of: "-", with: "-\u{2060}")
+            .replacingOccurrences(of: "}", with: "}\u{2060}")
+            .replacingOccurrences(of: "/", with: "/\u{2060}")
+            .replacingOccurrences(of: "[", with: "\u{2060}[")
+            .replacingOccurrences(of: "(", with: "\u{2060}(")
+            .replacingOccurrences(of: "{", with: "\u{2060}{")
+
+        if tail.hasPrefix("\u{2060}") {
+            tail.removeFirst()
+        }
+
+        return head + tail
     }
 
     func isValidEmail() -> Bool {
@@ -146,6 +162,17 @@ func cloudKitStatusString(_ status: CKAccountStatus?) -> String {
     case .noAccount: "no-account"
     case .temporarilyUnavailable: "temporarily-unavailable"
     case .none: "nil"
+    @unknown default: "unknown"
+    }
+}
+
+func pushAuthorizationStatusString(_ status: UNAuthorizationStatus) -> String {
+    switch status {
+    case .notDetermined: "not-determined"
+    case .denied: "denied"
+    case .authorized: "authorized"
+    case .provisional: "provisional"
+    case .ephemeral: "ephemeral"
     @unknown default: "unknown"
     }
 }

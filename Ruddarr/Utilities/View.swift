@@ -1,5 +1,4 @@
 import SwiftUI
-import CloudKit
 
 extension View {
     func onBecomeActive(perform action: @escaping () async -> Void) -> some View {
@@ -20,9 +19,17 @@ extension View {
     func withSonarrInstance(series: [Series] = [], episodes: [Episode] = []) -> some View {
         let instance = SonarrInstance(.sonarrDummy)
         instance.series.items = series
-        instance.episodes.items = episodes
+        instance.episodes.seed(episodes)
 
         return self.environment(instance)
+    }
+
+    @MainActor
+    func tracksQueueStatus(_ key: QueueKey?, into status: Binding<QueueItemStatus?>) -> some View {
+        onReceive(Queue.shared.statuses) { statuses in
+            let value = key.flatMap { statuses[$0] }
+            if value != status.wrappedValue { status.wrappedValue = value }
+        }
     }
 
     func viewBottomPadding() -> some View {
@@ -37,8 +44,32 @@ extension View {
         modifier(HideIconOnMac())
     }
 
+    func macPreviewFrame() -> some View {
+        modifier(MacPreviewFrame())
+    }
+
     func presentationDetents(dynamic: Set<PresentationDetent>) -> some View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
+    }
+
+    func presentationDetents(
+        dynamic: Set<PresentationDetent>,
+        selection: Binding<PresentationDetent>
+    ) -> some View {
+        self.modifier(DynamicPresentationDetents(detents: dynamic, selection: selection))
+    }
+
+    func sensoryAlert<E: LocalizedError, A: View, M: View>(
+        isPresented: Binding<Bool>,
+        error: E?,
+        @ViewBuilder actions: (E) -> A,
+        @ViewBuilder message: (E) -> M
+    ) -> some View {
+        self
+            .alert(isPresented: isPresented, error: error, actions: actions, message: message)
+            .sensoryFeedback(.error, trigger: isPresented.wrappedValue) { _, presented in
+                presented
+            }
     }
 
     // Attempt to fix UIKit crash: https://github.com/ruddarr/app/issues/719
@@ -54,48 +85,41 @@ extension View {
 private struct OnBecomeActiveModifier: ViewModifier {
     let action: () async -> Void
 
-#if os(macOS)
-    @Environment(\.appearsActive) private var appearsActive
-
     func body(content: Content) -> some View {
-        content.onChange(of: appearsActive, initial: true) {
-            guard appearsActive else { return }
+        content.onChange(of: Lifecycle.shared.resumeCount) {
             Task { await action() }
         }
     }
-#else
-    @Environment(\.scenePhase) private var scenePhase
-
-    func body(content: Content) -> some View {
-        content.onChange(of: scenePhase, initial: true) {
-            guard scenePhase == .active else { return }
-
-            Task { await action() }
-        }
-    }
-#endif
 }
 
 private struct WithAppStateModifier: ViewModifier {
-    @AppStorage("theme", store: dependencies.store) var theme: Theme = .factory
-    @AppStorage("appearance", store: dependencies.store) var appearance: Appearance = .automatic
+    @State private var settings: AppSettings
+    @State private var radarrInstance: RadarrInstance
+    @State private var sonarrInstance: SonarrInstance
+
+    @MainActor
+    init() {
+        let settings = AppSettings.shared
+        _settings = State(initialValue: settings)
+        _radarrInstance = State(initialValue: RadarrInstance(settings.radarrInstance ?? .radarrVoid))
+        _sonarrInstance = State(initialValue: SonarrInstance(settings.sonarrInstance ?? .sonarrVoid))
+    }
 
     func body(content: Content) -> some View {
-        let settings = AppSettings()
-        let radarrInstance = settings.radarrInstance ?? Instance.radarrVoid
-        let sonarrInstance = settings.sonarrInstance ?? Instance.sonarrVoid
-
         content
-            .tint(theme.tint)
-            .preferredColorScheme(appearance.preferredColorScheme)
-            .environmentObject(settings)
+            .tint(settings.theme.tint)
+            .preferredColorScheme(settings.appearance.preferredColorScheme)
+            .environment(settings)
             .environment(\.deviceType, Platform.deviceType)
-            .environment(RadarrInstance(radarrInstance))
-            .environment(SonarrInstance(sonarrInstance))
+            .environment(radarrInstance)
+            .environment(sonarrInstance)
             .task {
                 Queue.shared.instances = settings.instances
                 setSentryContext(for: "Configuration", settings.context())
                 await setSentryCloudKitContext()
+            }
+            .onChange(of: settings.instances) {
+                Queue.shared.instances = settings.instances
             }
     }
 }
@@ -134,13 +158,29 @@ struct HideIconOnMac: ViewModifier {
     }
 }
 
+struct MacPreviewFrame: ViewModifier {
+    func body(content: Content) -> some View {
+        #if os(macOS)
+            content.frame(minWidth: 900, minHeight: 600)
+        #else
+            content
+        #endif
+    }
+}
+
 private struct DynamicPresentationDetents: ViewModifier {
     var detents: Set<PresentationDetent>
+    var selection: Binding<PresentationDetent>?
 
-    @Environment(\.sizeCategory) var sizeCategory
+    @Environment(\.sizeCategory) private var sizeCategory
 
+    @ViewBuilder
     func body(content: Content) -> some View {
-        content.presentationDetents(adjustedDetents)
+        if let selection {
+            content.presentationDetents(adjustedDetents, selection: selection)
+        } else {
+            content.presentationDetents(adjustedDetents)
+        }
     }
 
     var adjustedDetents: Set<PresentationDetent> {
@@ -228,7 +268,7 @@ extension SearchFieldPlacement {
     enum DrawerDisplayMode { case automatic, always }
 
     static var drawerOrToolbar: SearchFieldPlacement {
-        // This used to to be `.navigationBarDrawer(displayMode: .automatic)`
+        // This used to be `.navigationBarDrawer(displayMode: .automatic)`
         // but that started crashing in iOS 26.4
         .toolbar
     }
@@ -237,9 +277,9 @@ extension SearchFieldPlacement {
         #if os(macOS)
             return .toolbar
         #else
-            switch displayMode {
-            case .automatic: return .navigationBarDrawer(displayMode: .automatic)
-            case .always: return .navigationBarDrawer(displayMode: .always)
+            return switch displayMode {
+            case .automatic: .navigationBarDrawer(displayMode: .automatic)
+            case .always: .navigationBarDrawer(displayMode: .always)
             }
         #endif
     }
@@ -254,11 +294,11 @@ enum NavigationBarItemTitleDisplayMode {
     var titleDisplayMode: NavigationBarItem.TitleDisplayMode {
         switch self {
         case .automatic:
-            return .automatic
+            .automatic
         case .inline:
-            return .inline
+            .inline
         case .large:
-            return .large
+            .large
         }
     }
     #endif
@@ -273,64 +313,4 @@ extension View {
             self
         #endif
     }
-}
-
-struct SheetBackgroundStyle: ShapeStyle {
-    func resolve(in env: EnvironmentValues) -> some ShapeStyle {
-        if env.colorScheme == .dark {
-            AnyShapeStyle(.systemBackground)
-        } else {
-            AnyShapeStyle(.ultraThinMaterial)
-        }
-    }
-}
-
-extension ShapeStyle where Self == SheetBackgroundStyle {
-    static var sheetBackground: SheetBackgroundStyle { .init() }
-}
-
-extension ShapeStyle where Self == Color {
-    static var systemPurple: Color { Color(red: 88 / 255, green: 86 / 255, blue: 215 / 255) }
-
-#if os(iOS)
-    static var card: Color { .quaternarySystemFill }
-    static var label: Color { Color(UIColor.label) }
-
-    static var darkGray: Color { Color(UIColor.darkGray) }
-    static var darkText: Color { Color(UIColor.darkText) }
-
-    static var lightGray: Color { Color(UIColor.lightGray) }
-    static var lightText: Color { Color(UIColor.lightText) }
-
-    static var systemFill: Color { Color(UIColor.systemFill) }
-    static var secondarySystemFill: Color { Color(UIColor.secondarySystemFill) }
-    static var tertiarySystemFill: Color { Color(UIColor.tertiarySystemFill) }
-    static var quaternarySystemFill: Color { Color(UIColor.quaternarySystemFill) }
-
-    static var systemBackground: Color { Color(UIColor.systemBackground) }
-    static var secondarySystemBackground: Color { Color(UIColor.secondarySystemBackground) }
-    static var tertiarySystemBackground: Color { Color(UIColor.tertiarySystemBackground) }
-
-    static var buttonTint: Color { Color(UIColor.systemGray2) }
-#else
-    static var card: Color { .tertiarySystemFill }
-    static var label: Color { Color(nsColor: .labelColor) }
-
-    static var darkGray: Color { Color(NSColor.darkGray) }
-    static var darkText: Color { Color(NSColor.secondaryLabelColor) }
-
-    static var lightGray: Color { Color(NSColor.lightGray) }
-    static var lightText: Color { Color(NSColor.secondaryLabelColor) }
-
-    static var systemFill: Color { Color(NSColor.systemFill) }
-    static var secondarySystemFill: Color { Color(NSColor.secondarySystemFill) }
-    static var tertiarySystemFill: Color { Color(NSColor.tertiarySystemFill) }
-    static var quaternarySystemFill: Color { Color(NSColor.quaternarySystemFill) }
-
-    static var systemBackground: Color { Color(NSColor.windowBackgroundColor) }
-    static var secondarySystemBackground: Color { Color(NSColor.controlBackgroundColor) }
-    static var tertiarySystemBackground: Color { Color(NSColor.underPageBackgroundColor) }
-
-    static var buttonTint: Color { Color.primary }
-#endif
 }

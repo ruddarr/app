@@ -23,13 +23,13 @@ struct LinkContextMenu: View {
 
             #if os(iOS)
                 if let url = chromeUrl {
-                    Button("Open in \(String("Chrome"))", systemImage: "arrow.up.right.square") {
+                    Button("Open in \(String("Chrome"))", systemImage: "arrow.up.forward.app") {
                         openURL(url)
                     }
                 }
 
                 if let url = firefoxUrl {
-                    Button("Open in \(String("Firefox"))", systemImage: "arrow.up.right.square") {
+                    Button("Open in \(String("Firefox"))", systemImage: "arrow.up.forward.app") {
                         openURL(url)
                     }
                 }

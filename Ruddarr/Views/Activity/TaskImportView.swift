@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct TaskImportView: View {
     var item: QueueItem
@@ -11,7 +12,7 @@ struct TaskImportView: View {
     @State private var files: [ImportableFile] = []
     @State private var selected = Set<ImportableFile.ID>()
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         List(files, selection: $selected) { file in
@@ -33,15 +34,12 @@ struct TaskImportView: View {
         .overlay {
             if isLoading {
                 Loading()
-            } else if files.count == 0 {
+            } else if files.isEmpty {
                 Text("No importable files found.")
             }
         }
-        .alert(
-            isPresented: Binding(
-                get: { self.error != nil },
-                set: { _ in }
-            ),
+        .sensoryAlert(
+            isPresented: Binding(get: { self.error != nil }, set: { _ in }),
             error: error
         ) { _ in
             Button("OK") { error = nil }
@@ -127,9 +125,9 @@ struct TaskImportView: View {
         do {
             _ = try await dependencies.api.command(.manualImport(selectedFiles), instance)
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                dependencies.toast.show(.importQueued)
-            }
+            Queue.shared.markImporting(item)
+
+            dependencies.toast.show(.importQueued)
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
@@ -215,7 +213,7 @@ private struct FileImportRow: View {
 
     let item = {
         var record = items.records[0]
-        record.instanceId = instanceId
+        record.stamp(instanceId)
         return record
     }()
 
@@ -232,7 +230,7 @@ private struct FileImportRow: View {
 
     let item = {
         var record = items.records.first!
-        record.instanceId = instanceId
+        record.stamp(instanceId)
         return record
     }()
 

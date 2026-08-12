@@ -1,5 +1,7 @@
-import CoreSpotlight
 import zlib
+import CoreSpotlight
+import Nuke
+import Sentry
 
 actor Spotlight {
     var instanceId: Instance.ID
@@ -17,7 +19,7 @@ actor Spotlight {
 
         Task(priority: .background) {
             let checksum = self.calculateChecksum(
-                entities.map { $0.searchableHash }.joined(separator: "+")
+                entities.map(\.searchableHash).joined(separator: "+")
             )
 
             if self.isIndexed(checksum) {
@@ -54,7 +56,9 @@ actor Spotlight {
 
                 leaveBreadcrumb(.info, category: "spotlight", message: "Indexed [\(typeName)]", data: ["count": entities.count, "instance": indexName])
             } catch {
-                leaveBreadcrumb(.error, category: "spotlight", message: "Failed to index [\(typeName)]", data: ["error": error])
+                let level: SentryLevel = (error as? CSIndexError)?.code == .indexUnavailableError ? .warning : .error
+
+                leaveBreadcrumb(level, category: "spotlight", message: "Failed to index [\(typeName)]", data: ["error": error])
             }
         }
     }
@@ -92,11 +96,13 @@ actor Spotlight {
         let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String  ?? "0"
         let data = Data("\(build):\(string)".utf8)
 
-        let checksum = data.withUnsafeBytes {
-            crc32(0, $0.bindMemory(to: Bytef.self).baseAddress, uInt(data.count))
+        let checksum = unsafe data.withUnsafeBytes {
+            unsafe crc32(0, $0.bindMemory(to: Bytef.self).baseAddress, uInt(data.count))
         }
 
-        return String(format: "%08x", checksum)
+        let hex = String(checksum, radix: 16)
+
+        return String(repeating: "0", count: max(0, 8 - hex.count)) + hex
     }
 
     func isIndexed(_ hash: String) -> Bool {

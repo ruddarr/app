@@ -1,74 +1,125 @@
-import os
-import SwiftUI
+import Sentry
 
-struct API {
-    var fetchMovies: (Instance) async throws -> [Movie]
-    var lookupMovies: (_ instance: Instance, _ query: String) async throws -> [Movie]
-    var lookupMovieReleases: (Movie.ID, Instance) async throws -> [MovieRelease]
+struct API: Sendable {
+    var fetchMovies: @Sendable (Instance) async throws -> [Movie]
+    var lookupMovies: @Sendable (_ instance: Instance, _ query: String) async throws -> [Movie]
+    var lookupMovieReleases: @Sendable (Movie.ID, Instance) async throws -> [MovieRelease]
 
-    var getMovie: (Movie.ID, Instance) async throws -> Movie
-    var getMovieHistory: (Movie.ID, Instance) async throws -> [MediaHistoryEvent]
-    var getMovieFiles: (Movie.ID, Instance) async throws -> [MediaFile]
-    var getMovieExtraFiles: (Movie.ID, Instance) async throws -> [MovieExtraFile]
-    var addMovie: (Movie, Instance) async throws -> Movie
-    var updateMovie: (Movie, Bool, Instance) async throws -> Empty
-    var deleteMovie: (Movie, Bool, Bool, Instance) async throws -> Empty
-    var deleteMovieFile: (MediaFile, Instance) async throws -> Empty
+    var getMovie: @Sendable (Movie.ID, Instance) async throws -> Movie
+    var getMovieHistory: @Sendable (Movie.ID, Instance) async throws -> [MediaHistoryEvent]
+    var getMovieFiles: @Sendable (Movie.ID, Instance) async throws -> [MediaFile]
+    var getMovieExtraFiles: @Sendable (Movie.ID, Instance) async throws -> [MovieExtraFile]
+    var addMovie: @Sendable (Movie, Instance) async throws -> Movie
+    var updateMovie: @Sendable (Movie, Bool, Instance) async throws -> Empty
+    var deleteMovie: @Sendable (Movie, Bool, Bool, Instance) async throws -> Empty
+    var deleteMovieFile: @Sendable (MediaFile, Instance) async throws -> Empty
 
-    var fetchSeries: (Instance) async throws -> [Series]
-    var fetchEpisodes: (Series.ID, Instance) async throws -> [Episode]
-    var fetchEpisodeFiles: (Series.ID, Instance) async throws -> [MediaFile]
-    var lookupSeries: (_ instance: Instance, _ query: String) async throws -> [Series]
-    var lookupSeriesReleases: (Series.ID?, Series.ID?, Episode.ID?, Instance) async throws -> [SeriesRelease]
+    var fetchSeries: @Sendable (Instance) async throws -> [Series]
+    var fetchEpisodes: @Sendable (Series.ID, Instance) async throws -> [Episode]
+    var lookupSeries: @Sendable (_ instance: Instance, _ query: String) async throws -> [Series]
+    var lookupSeriesReleases: @Sendable (Series.ID?, Series.ID?, Episode.ID?, Instance) async throws -> [SeriesRelease]
 
-    var getSeries: (Series.ID, Instance) async throws -> Series
-    var addSeries: (Series, Instance) async throws -> Series
-    var pushSeries: (Series, Instance) async throws -> Series
-    var updateSeries: (Series, Bool, Instance) async throws -> Empty
-    var deleteSeries: (Series, Bool, Bool, Instance) async throws -> Empty
+    var getSeries: @Sendable (Series.ID, Instance) async throws -> Series
+    var addSeries: @Sendable (Series, Instance) async throws -> Series
+    var pushSeries: @Sendable (Series, Instance) async throws -> Series
+    var updateSeries: @Sendable (Series, Bool, Instance) async throws -> Empty
+    var deleteSeries: @Sendable (Series, Bool, Bool, Instance) async throws -> Empty
 
-    var monitorEpisode: ([Episode.ID], Bool, Instance) async throws -> Empty
-    var getEpisodeHistory: (Episode.ID, Instance) async throws -> MediaHistory
-    var deleteEpisodeFile: (MediaFile, Instance) async throws -> Empty
-    var deleteEpisodeFiles: ([MediaFile], Instance) async throws -> Empty
+    var monitorEpisode: @Sendable ([Episode.ID], Bool, Instance) async throws -> Empty
+    var getEpisodeHistory: @Sendable (Episode.ID, Instance) async throws -> MediaHistory
+    var deleteEpisodeFile: @Sendable (MediaFile, Instance) async throws -> Empty
+    var deleteEpisodeFiles: @Sendable ([MediaFile], Instance) async throws -> Empty
 
-    var movieCalendar: (Date, Date, Instance) async throws -> [Movie]
-    var episodeCalendar: (Date, Date, Instance) async throws -> [Episode]
+    var movieCalendar: @Sendable (Date, Date, Instance) async throws -> [Movie]
+    var episodeCalendar: @Sendable (Date, Date, Instance) async throws -> [Episode]
 
-    var command: (InstanceCommand, Instance) async throws -> Empty
-    var downloadRelease: (DownloadReleaseCommand, Instance) async throws -> Empty
+    var command: @Sendable (InstanceCommand, Instance) async throws -> Empty
+    var downloadRelease: @Sendable (DownloadReleaseCommand, Instance) async throws -> Empty
 
-    var systemStatus: (Instance) async throws -> InstanceStatus
-    var rootFolders: (Instance) async throws -> [InstanceRootFolder]
-    var qualityProfiles: (Instance) async throws -> [InstanceQualityProfile]
-    var getTags: (Instance) async throws -> [Tag]
+    var systemStatus: @Sendable (Instance) async throws -> InstanceStatus
+    var rootFolders: @Sendable (Instance) async throws -> [InstanceRootFolder]
+    var qualityProfiles: @Sendable (Instance) async throws -> [InstanceQualityProfile]
+    var fetchDiskSpace: @Sendable (Instance) async throws -> [InstanceDiskSpace]
+    var getTags: @Sendable (Instance) async throws -> [Tag]
 
-    var fetchQueueTasks: (Instance) async throws -> QueueItems
-    var deleteQueueTask: (QueueItem.ID, Bool, Bool, Bool, Instance) async throws -> Empty
+    var fetchQueueTasks: @Sendable (Instance) async throws -> QueueItems
+    var deleteQueueTask: @Sendable (QueueItem.ID, Bool, Bool, Bool, Instance) async throws -> Empty
 
-    var fetchImportableFiles: (String, Instance) async throws -> [ImportableFile]
+    var fetchImportableFiles: @Sendable (String, Instance) async throws -> [ImportableFile]
 
-    var fetchHistory: (Int?, Int, Int, Instance) async throws -> MediaHistory
+    var fetchHistory: @Sendable (Int?, Int, Int, Instance) async throws -> MediaHistory
 
-    var fetchNotifications: (Instance) async throws -> [InstanceNotification]
-    var createNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
-    var updateNotification: (InstanceNotification, Instance) async throws -> InstanceNotification
-    var deleteNotification: (InstanceNotification, Instance) async throws -> Empty
+    var fetchNotifications: @Sendable (Instance) async throws -> [InstanceNotification]
+    var createNotification: @Sendable (InstanceNotification, Instance) async throws -> InstanceNotification
+    var updateNotification: @Sendable (InstanceNotification, Instance) async throws -> InstanceNotification
+    var deleteNotification: @Sendable (InstanceNotification, Instance) async throws -> Empty
 }
 
 extension API {
     struct Empty: Encodable, Decodable { }
 
-    // swiftlint:disable:next cyclomatic_complexity function_body_length
     static func request<Body: Encodable, Response: Decodable>(
         method: HTTPMethod = .get,
         url: URL,
         headers: [String: String] = [:],
         body: Body? = nil,
-        timeout: Double = 10,
+        instance: Instance? = nil,
+        timeout: RequestTimeout = .default,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
-        session: URLSession = .shared
+        session: URLSession = .shared,
+        allowFailover: Bool = true
+    ) async throws -> Response {
+        let metrics = RequestMetricsCollector()
+
+        do {
+            return try await RequestMetricsCollector.$current.withValue(metrics) {
+                try await send(
+                    method: method, url: url, headers: headers, body: body, instance: instance,
+                    timeout: timeout, decoder: decoder, encoder: encoder, session: session,
+                    allowFailover: allowFailover
+                )
+            }
+        } catch let error as CancellationError {
+            throw error
+        } catch API.Error.notConnectedToInternet {
+            throw API.Error.notConnectedToInternet
+        } catch {
+            let key = await diagnosticsKey(of: instance)
+
+            await RequestDiagnostics.shared.record(
+                method: method.rawValue.uppercased(),
+                url: (metrics.attemptedURL ?? url).absoluteString,
+                instance: key,
+                reason: FailedRequest.Reason((error as? API.Error) ?? API.Error(from: error)),
+                transport: metrics.summary
+            )
+
+            throw error
+        }
+    }
+
+    @MainActor
+    private static func diagnosticsKey(of instance: Instance?) -> String? {
+        guard let instance, AppSettings.shared.configuredInstances.contains(where: { $0.id == instance.id }) else {
+            return nil
+        }
+
+        return instance.contextKey
+    }
+
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
+    private static func send<Body: Encodable, Response: Decodable>(
+        method: HTTPMethod = .get,
+        url: URL,
+        headers: [String: String] = [:],
+        body: Body? = nil,
+        instance: Instance? = nil,
+        timeout: RequestTimeout = .default,
+        decoder: JSONDecoder = .init(),
+        encoder: JSONEncoder = .init(),
+        session: URLSession = .shared,
+        allowFailover: Bool = true
     ) async throws -> Response {
         encoder.dateEncodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .iso8601extended
@@ -76,7 +127,7 @@ extension API {
         try await NetworkMonitor.shared.checkReachability()
 
         var request = URLRequest(url: url)
-        request.timeoutInterval = timeout
+        request.timeoutInterval = Self.effectiveTimeout(for: url, method: method, timeout: timeout)
         request.httpMethod = method.rawValue.uppercased()
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -85,10 +136,11 @@ extension API {
             request.httpBody = try encoder.encode(body)
         }
 
-        if !headers.isEmpty {
-            for (key, value) in headers.sorted(by: { $0.key < $1.key }) {
-                request.addValue(value, forHTTPHeaderField: key)
-            }
+        var effectiveHeaders = instance?.auth ?? [:]
+        effectiveHeaders.merge(headers) { _, explicit in explicit }
+
+        for (key, value) in effectiveHeaders.sorted(by: { $0.key < $1.key }) {
+            request.addValue(value, forHTTPHeaderField: key)
         }
 
         // leaveBreadcrumb(.debug, category: "api", message: "Sending request", data: [
@@ -103,32 +155,51 @@ extension API {
 
         var json: Data?
         var response: URLResponse?
+        var attemptedURL = url
+        let maxFailovers = (instance?.candidateURLs.count ?? 1) - 1
+        var failovers = 0
 
-        do {
-            (json, response) = try await session.data(for: request)
-        } catch let cancellationError as CancellationError {
-            // re-throw `CancellationError` so they can be handled elsewhere
-            throw cancellationError
-        } catch let urlError as URLError where urlError.code == .cancelled {
-            // re-throw `URLError.cancelled` as `CancellationError`
-            throw CancellationError()
-        } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
-            throw Error.notConnectedToInternet
-        } catch let urlError as URLError where urlError.code == .timedOut {
-            guard isPrivateIpAddress(url.host() ?? "") else {
+        attempts: while true {
+            do {
+                (json, response) = try await Self.data(for: request, session: session, retryOnConnectionLost: method == .get)
+                break attempts
+            } catch let cancellationError as CancellationError {
+                // re-throw `CancellationError` so they can be handled elsewhere
+                throw cancellationError
+            } catch let urlError as URLError where urlError.code == .cancelled {
+                // re-throw `URLError.cancelled` as `CancellationError`
+                throw CancellationError()
+            } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
+                throw Error.notConnectedToInternet
+            } catch let urlError as URLError {
+                if allowFailover, failovers < maxFailovers, Self.canFailover(urlError.code, method: method), let instance,
+                   let fallback = await InstanceResolver.shared.failover(afterFailing: attemptedURL, for: instance)
+                {
+                    leaveBreadcrumb(.info, category: "api", message: "Switching to next instance URL", data: ["code": urlError.code.rawValue])
+
+                    failovers += 1
+                    attemptedURL = fallback
+                    RequestMetricsCollector.current?.noteAttempt(fallback)
+                    request.url = fallback
+                    request.timeoutInterval = Self.effectiveTimeout(for: fallback, method: method, timeout: timeout)
+
+                    continue attempts
+                }
+
+                if urlError.code == .timedOut, isPrivateIpAddress(attemptedURL.host() ?? "") {
+                    throw Error.timeoutOnPrivateIp(urlError)
+                }
+
                 throw Error.urlError(urlError)
-            }
-            throw Error.timeoutOnPrivateIp(urlError)
-        } catch let urlError as URLError {
-            throw Error.urlError(urlError)
-        } catch let localizedError as any LocalizedError {
-            throw Error.localizedError(localizedError)
-        } catch let nsError as NSError {
-            throw Error.nsError(nsError)
-        } catch {
-            leaveBreadcrumb(.fatal, category: "api", message: "Unhandled error type", data: ["error": error])
+            } catch let localizedError as any LocalizedError {
+                throw Error.localizedError(localizedError)
+            } catch let nsError as NSError {
+                throw Error.nsError(nsError)
+            } catch {
+                leaveBreadcrumb(.fatal, category: "api", message: "Unhandled error type", data: ["error": error])
 
-            throw Error(from: error)
+                throw Error(from: error)
+            }
         }
 
         guard let data = json else {
@@ -137,6 +208,10 @@ extension API {
 
         let httpResponse: HTTPURLResponse? = response as? HTTPURLResponse
         let statusCode: Int = httpResponse?.statusCode ?? 599
+
+        if let instance {
+            await InstanceResolver.shared.noteSuccess(for: attemptedURL, instance: instance)
+        }
 
         // print(String(data: data, encoding: .utf8) ?? "non-utf8 response")
         // leaveBreadcrumb(.debug, category: "api", message: "Response headers (\(statusCode))", data: parseResponseHeaders(httpResponse))
@@ -150,8 +225,11 @@ extension API {
             do {
                 return try decoder.decode(Response.self, from: data)
             } catch let decodingError as DecodingError {
-                leaveAttachment(url, data)
-                leaveBreadcrumb(.fatal, category: "api", message: decodingError.context.debugDescription, data: ["error": decodingError])
+                leaveBreadcrumb(.warning, category: "api", message: decodingError.context.debugDescription, data: ["error": decodingError])
+
+                if !decodingError.isUnexpectedResponseShape {
+                    reportDecodingFailure(decodingError, url: attemptedURL, body: data)
+                }
 
                 throw Error.decodingError(decodingError)
             } catch {
@@ -186,21 +264,80 @@ extension API {
         method: HTTPMethod = .get,
         url: URL,
         headers: [String: String] = [:],
-        timeout: Double = 10,
+        instance: Instance? = nil,
+        timeout: RequestTimeout = .default,
+        decoder: JSONDecoder = .init(),
+        encoder: JSONEncoder = .init(),
+        session: URLSession = .shared,
+        allowFailover: Bool = true
+    ) async throws -> Response {
+        try await request(
+            method: method, url: url, headers: headers, body: Empty?.none, instance: instance,
+            timeout: timeout, decoder: decoder, encoder: encoder, session: session, allowFailover: allowFailover
+        )
+    }
+
+    static func request<Body: Encodable, Response: Decodable>(
+        method: HTTPMethod = .get,
+        url: URL,
+        headers: [String: String] = [:],
+        body: Body? = nil,
+        instance: Instance? = nil,
+        timeout: InstanceTimeout,
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init(),
         session: URLSession = .shared
     ) async throws -> Response {
         try await request(
-            method: method,
-            url: url,
-            headers: headers,
-            body: Empty?.none,
-            timeout: timeout,
-            decoder: decoder,
-            encoder: encoder,
-            session: session
+            method: method, url: url, headers: headers, body: body, instance: instance,
+            timeout: instance?.timeout(timeout) ?? .default, decoder: decoder, encoder: encoder, session: session
         )
+    }
+
+    static func request<Response: Decodable>(
+        method: HTTPMethod = .get,
+        url: URL,
+        headers: [String: String] = [:],
+        instance: Instance? = nil,
+        timeout: InstanceTimeout,
+        decoder: JSONDecoder = .init(),
+        encoder: JSONEncoder = .init(),
+        session: URLSession = .shared
+    ) async throws -> Response {
+        try await request(
+            method: method, url: url, headers: headers, instance: instance,
+            timeout: instance?.timeout(timeout) ?? .default, decoder: decoder, encoder: encoder, session: session
+        )
+    }
+
+    private static func effectiveTimeout(for url: URL, method: HTTPMethod, timeout: RequestTimeout) -> Double {
+        guard method == .get, timeout.local != timeout.remote, let host = url.host() else { return timeout.remote }
+        return timeout.interval(isLocal: NetworkInterfaces.role(forHost: host) == .lan)
+    }
+
+    private static func data(for request: URLRequest, session: URLSession, retryOnConnectionLost: Bool) async throws -> (Data, URLResponse) {
+        let metrics = RequestMetricsCollector.current
+
+        do {
+            metrics?.beginAttempt()
+
+            return try await session.data(for: request, delegate: metrics)
+        } catch let urlError as URLError where retryOnConnectionLost && urlError.code == .networkConnectionLost {
+            metrics?.beginAttempt()
+
+            return try await session.data(for: request, delegate: metrics)
+        }
+    }
+
+    private static func canFailover(_ code: URLError.Code, method: HTTPMethod) -> Bool {
+        switch code {
+        case .cannotConnectToHost, .cannotFindHost, .dnsLookupFailed:
+            return true
+        case .timedOut, .networkConnectionLost:
+            return method == .get
+        default:
+            return false
+        }
     }
 
     private static func parseResponseHeaders(_ response: HTTPURLResponse?) -> [String: Any] {

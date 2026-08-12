@@ -1,5 +1,6 @@
 import SwiftUI
 import StoreKit
+import Sentry
 
 class Subscription {
     static let group: String = "21452440"
@@ -58,7 +59,7 @@ class Subscription {
     }
 
     static func status(from statuses: [StoreKit.Product.SubscriptionInfo.Status]) -> SubscriptionStatus {
-        if statuses.count == 0 {
+        if statuses.isEmpty {
             return .notSubscribed
         }
 
@@ -87,7 +88,7 @@ class Subscription {
     }
 }
 
-enum SubscriptionStatus {
+enum SubscriptionStatus: String {
     case subscribed
     case notSubscribed
     case expired

@@ -1,6 +1,4 @@
-import Sentry
 import SwiftUI
-import CloudKit
 import MetricKit
 import TelemetryDeck
 import UserNotifications
@@ -18,8 +16,19 @@ class AppDelegateMac:
 
         NSWindow.allowsAutomaticWindowTabbing = false
 
-        configureSentry()
         configureTelemetryDeck()
+
+        if !NSApp.isActive {
+            Lifecycle.shared.resignedActive()
+        }
+    }
+
+    func applicationDidResignActive(_ notification: Notification) {
+        Lifecycle.shared.resignedActive()
+    }
+
+    func applicationDidBecomeActive(_ notification: Notification) {
+        Lifecycle.shared.becameActive()
     }
 
     // Called after successful registration with APNs
@@ -27,7 +36,7 @@ class AppDelegateMac:
         _ application: NSApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
     ) {
-        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        let token = deviceToken.hexEncoded()
 
         Task {
             await Notifications.registerDevice(token)
@@ -60,47 +69,13 @@ class AppDelegateMac:
     // Called after a notification was tapped
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse,
-        withCompletionHandler completionHandler: @escaping () -> Void
-    ) {
+        didReceive response: UNNotificationResponse
+    ) async {
         let payload = response.notification.request.content.userInfo
 
         if let deeplink = payload["deeplink"] as? String, let url = URL(string: deeplink) {
             NSWorkspace.shared.open(url)
         }
-
-        completionHandler()
-    }
-
-    func configureSentry() {
-        SentrySDK.start { options in
-            options.enabled = true
-            options.debug = false
-            options.environment = runningIn().rawValue
-
-            options.dsn = Secrets.SentryDsn
-            options.sendDefaultPii = false
-
-            // options.attachViewHierarchy = false
-            options.swiftAsyncStacktraces = true
-
-            options.enableSigtermReporting = true
-            options.enableWatchdogTerminationTracking = true
-            options.enableMetricKit = false
-            options.enableAppHangTracking = false
-            options.appHangTimeoutInterval = 3
-            options.enableCaptureFailedRequests = false
-            // options.enablePreWarmedAppStartTracing = true
-            options.enableTimeToFullDisplayTracing = true
-
-            options.tracesSampleRate = 1
-
-            options.beforeBreadcrumb = { crumb in
-                shouldRecordBreadcrumb(crumb) ? crumb : nil
-            }
-        }
-
-        setSentryContext(for: "device", ["identifier": Platform.deviceId])
     }
 
     func configureTelemetryDeck() {

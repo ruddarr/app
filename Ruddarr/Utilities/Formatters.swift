@@ -13,6 +13,7 @@ func formatIndexer(_ name: String) -> String {
     }
 
     return switch indexer {
+    case "AnimeBytes": "AB"
     case "BeyondHD": "BHD"
     case "Blutopia": "BLU"
     case "BroadcasTheNet": "BTN"
@@ -38,16 +39,6 @@ func formatRuntime(_ minutes: Int) -> String? {
         ?? formatter.string(from: 0)
 }
 
-func formatTags(_ ids: [Int], tags: [Tag]) -> String {
-    guard !ids.isEmpty else {
-        return String(localized: "None")
-    }
-
-    return ids.map { id in
-        tags.first { $0.id == id }?.label ?? String(id)
-    }.joined(separator: ", ")
-}
-
 func formatRemainingTime(_ date: Date) -> String? {
     let seconds = date.timeIntervalSince(Date.now)
     let formatter = DateComponentsFormatter()
@@ -57,15 +48,24 @@ func formatRemainingTime(_ date: Date) -> String? {
     return formatter.string(from: seconds)
 }
 
-func formatBytes(_ bytes: Int, adaptive: Bool = false) -> String {
+func formatBytes(_ bytes: some BinaryInteger, verbose: Bool = false) -> String {
     let formatter = ByteCountFormatter()
     formatter.countStyle = .binary
+    formatter.isAdaptive = verbose
 
-    if adaptive {
-        formatter.isAdaptive = bytes < 1_073_741_824 // 1 GB
+    return formatter.string(fromByteCount: Int64(clamping: bytes))
+}
+
+func formatBytes(_ bytes: Float, verbose: Bool = false) -> String {
+    guard bytes.isFinite, bytes > 0 else {
+        return formatBytes(0, verbose: verbose)
     }
 
-    return formatter.string(fromByteCount: Int64(bytes))
+    guard bytes < Float(Int.max) else {
+        return formatBytes(Int.max, verbose: verbose)
+    }
+
+    return formatBytes(Int(bytes), verbose: verbose)
 }
 
 func formatBitrate(_ bitrate: Int) -> String? {
@@ -74,12 +74,12 @@ func formatBitrate(_ bitrate: Int) -> String? {
     }
 
     if bitrate < 1_000_000 {
-        return String(format: "%d kbps", bitrate / 1_000)
+        return "%d kbps".placeholders(bitrate / 1_000)
     }
 
     let mbps = Double(bitrate) / 1_000_000.0
 
-    return String(format: "%.\(mbps < 10 ? 1 : 0)f mbps", mbps)
+    return "%@ mbps".placeholders(mbps.formatted(.decimal(mbps < 10 ? 1 : 0)))
 }
 
 func formatAge(_ ageInMinutes: Float) -> String {
@@ -91,16 +91,71 @@ func formatAge(_ ageInMinutes: Float) -> String {
     case -10_000..<1: // less than 1 minute (or bad data from radarr)
         String(localized: "Just now")
     case 1..<119: // less than 120 minutes
-        String(format: String(localized: "%d minutes"), minutes)
+        String.localizedStringWithFormat(String(localized: "%d minutes"), minutes)
     case 120..<2_880: // less than 48 hours
-        String(format: String(localized: "%d hours"), minutes / 60)
+        String.localizedStringWithFormat(String(localized: "%d hours"), minutes / 60)
     case 2_880..<129_600: // less than 90 days
-        String(format: String(localized: "%d days"), days)
+        String.localizedStringWithFormat(String(localized: "%d days"), days)
     case 129_600..<525_600: // less than 365 days
-        String(format: String(localized: "%d months"), days / 30)
+        String.localizedStringWithFormat(String(localized: "%d months"), days / 30)
     case 525_600..<2_628_000: // less than 5 years
-        String(format: String(localized: "%.1f years"), years)
+        String(localized: "%@ years").placeholders(years.formatted(.decimal(1)))
     default:
-        String(format: String(localized: "%d years"), Int(years))
+        String(localized: "%@ years").placeholders(Int(years))
+    }
+}
+
+enum RootFolderLabel {
+    static func disambiguate(_ path: String, among others: [String]) -> String {
+        let components = path.split(separator: "/")
+
+        guard !components.isEmpty else {
+            return path
+        }
+
+        let others = others.map { $0.split(separator: "/") }
+
+        var depth = 1
+
+        while depth < components.count {
+            let suffix = components.suffix(depth)
+
+            if !others.contains(where: { $0.suffix(depth) == suffix }) {
+                break
+            }
+
+            depth += 1
+        }
+
+        return components.suffix(depth).joined(separator: "/\u{200B}")
+    }
+}
+
+extension FormatStyle {
+    static func decimal<Value>(_ fractionLength: Int) -> DecimalFormatStyle<Value>
+        where Self == DecimalFormatStyle<Value> {
+        DecimalFormatStyle(fractionLength: fractionLength)
+    }
+}
+
+extension FormatStyle where Self == PercentageRating {
+    static var percentageRating: PercentageRating { .init() }
+}
+
+struct PercentageRating: FormatStyle {
+    func format(_ value: Float) -> String {
+        value.formatted(.decimal(0)) + "%"
+    }
+}
+
+struct DecimalFormatStyle<Value: BinaryFloatingPoint>: FormatStyle {
+    let fractionLength: Int
+
+    func format(_ value: Value) -> String {
+        value.formatted(
+            FloatingPointFormatStyle<Value>()
+                .precision(.fractionLength(fractionLength))
+                .grouping(.never)
+        )
     }
 }

@@ -4,7 +4,7 @@ struct MediaEventSheet: View {
     var event: MediaHistoryEvent
     var instanceId: Instance.ID?
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
@@ -64,6 +64,7 @@ struct MediaEventSheet: View {
                 }
             }
         }
+        .displayToasts()
     }
 
     var grabbedDetails: some View {
@@ -117,7 +118,7 @@ struct MediaEventSheet: View {
         }
 
         if let size = event.data("size"), let bytes = Int(size) {
-            data.append(row(String(localized: "File Size"), formatBytes(bytes)))
+            data.append(row(String(localized: "File Size"), formatBytes(bytes, verbose: true)))
         }
 
         if let string = event.data("publishedDate"), let date = parseDate(string) {

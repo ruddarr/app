@@ -1,5 +1,4 @@
 import SwiftUI
-import CloudKit
 import Sentry
 
 struct BugSheet: View {
@@ -9,7 +8,7 @@ struct BugSheet: View {
     @AppStorage("reportEmail") private var email: String = ""
 
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         NavigationStack {
@@ -89,6 +88,7 @@ struct BugSheet: View {
 
             setSentryContext(for: "Configuration", settings.context())
             setSentryContext(for: "Subscription", await Subscription.context())
+            setSentryContext(for: "Network", await InstanceResolver.shared.diagnostics(for: settings.configuredInstances))
             await setSentryCloudKitContext()
 
             let eventId = SentrySDK.capture(message: "Bug Report (\(UUID().shortened))")

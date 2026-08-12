@@ -62,10 +62,6 @@ extension API {
             try await Task.sleep(for: .seconds(2))
 
             return loadPreviewData(filename: "series-episodes")
-        }, fetchEpisodeFiles: { _, _ in
-            try await Task.sleep(for: .seconds(1))
-
-            return loadPreviewData(filename: "series-episode-files")
         }, lookupSeries: { _, _ in
             try await Task.sleep(for: .seconds(1))
 
@@ -148,6 +144,10 @@ extension API {
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "quality-profiles")
+        }, fetchDiskSpace: { _ in
+            try await Task.sleep(for: .seconds(1))
+
+            return loadPreviewData(filename: "disk-space")
         }, getTags: { _ in
             try await Task.sleep(for: .seconds(1))
             let tags: [Tag] = loadPreviewData(filename: "tags")
@@ -227,7 +227,7 @@ private func modifyQueueItems(_ items: QueueItems, _ instance: Instance) -> Queu
     modifiedItems.records = items.records.map { record in
         var record = record
 
-        record.instanceId = instance.id
+        record.stamp(instance.id)
 
         // set `estimatedCompletionTime` to be in the future for testing
         if let timeLeft = record.timeleft {
@@ -251,7 +251,7 @@ private func modifyCalendarMovies(_ items: [Movie], _ instance: Instance) -> [Mo
     return items.map { item in
         var movie = item
 
-        movie.instanceId = instance.id
+        movie.stamp(instance.id)
 
         if let inCinemas = item.inCinemas {
             movie.inCinemas = Calendar.current.date(byAdding: .day, value: Int(days), to: inCinemas)!
@@ -276,7 +276,7 @@ private func modifyCalendarEpisodes(_ items: [Episode], _ instance: Instance) ->
     return items.map { item in
         var episode = item
 
-        episode.instanceId = instance.id
+        episode.stamp(instance.id)
 
         if let airDateUtc = item.airDateUtc {
             episode.airDateUtc = Calendar.current.date(byAdding: .day, value: Int(days), to: airDateUtc)!

@@ -1,4 +1,4 @@
-import SwiftUI
+import Sentry
 
 @MainActor
 @Observable

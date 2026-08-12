@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SettingsLinksSection: View {
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         Section(header: Text("Integrations")) {
@@ -22,7 +22,7 @@ struct SettingsLinksSection: View {
             destination: url,
             label: {
                 Label(name, systemImage: "arrow.up.right")
-                    .labelStyle(SettingsIconLabelStyle(iconScale: 0.85))
+                    .labelStyle(.settingsIcon(iconScale: 0.85))
             }
         )
         #if os(macOS)

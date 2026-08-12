@@ -5,19 +5,18 @@ struct NoMovieSearchResults: View {
     @Binding var sort: MovieSort
 
     var body: some View {
-        let description = String(
-            format: String(localized: "Check the spelling or try [adding the movie](%@)."),
-            "#view"
-        )
+        let description = String(localized: "Check the spelling or try [adding the movie](%@).")
+            .placeholders("#view")
 
         ContentUnavailableView {
             Label("No Results for \"\(query)\"", systemImage: "magnifyingglass")
         } description: {
             Text(description.toMarkdown())
         } actions: {
-            if sort.filter != .all {
+            if sort.filter != .all || sort.folder != .all {
                 Button("Clear Filters") {
                     sort.filter = .all
+                    sort.folder = .all
                 }
             }
         }
@@ -35,10 +34,8 @@ struct MovieSearchSuggestion: View {
     @Binding var sort: MovieSort
 
     var body: some View {
-        let description = String(
-            format: String(localized: "Looking to [add a new movie](%@)?"),
-            "#view"
-        )
+        let description = String(localized: "Looking to [add a new movie](%@)?")
+            .placeholders("#view")
 
         Text(description.toMarkdown())
             .font(.subheadline)
@@ -50,9 +47,10 @@ struct MovieSearchSuggestion: View {
                 return .handled
             })
 
-        if sort.filter != .all {
+        if sort.filter != .all || sort.folder != .all {
             Button("Clear Filters") {
                 sort.filter = .all
+                sort.folder = .all
             }
             .font(.subheadline)
             .padding(.top, 8)
@@ -69,9 +67,10 @@ struct NoMatchingMovies: View {
         } description: {
             Text("No movies match the selected filters.")
         } actions: {
-            if sort.filter != .all {
+            if sort.filter != .all || sort.folder != .all {
                 Button("Clear Filters") {
                     sort.filter = .all
+                    sort.folder = .all
                 }
             }
         }

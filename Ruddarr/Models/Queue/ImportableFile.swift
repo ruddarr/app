@@ -27,7 +27,7 @@ struct ImportableFile: Identifiable, Codable {
     }
 
     var sizeLabel: String {
-        formatBytes(size)
+        formatBytes(size, verbose: true)
     }
 
     var languageLabel: String {
@@ -36,8 +36,7 @@ struct ImportableFile: Identifiable, Codable {
 
     var reasons: [String] {
         rejections
-            .filter { $0.reason != nil }
-            .map(\.reason!)
+            .compactMap(\.reason)
     }
 
     var isSample: Bool {

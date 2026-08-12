@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 extension SeriesView {
     @ToolbarContentBuilder
@@ -40,11 +41,11 @@ extension SeriesView {
                 Text("Any Folder").tag(String.all)
 
                 ForEach(instance.rootFolders) { folder in
-                    Text(folder.menuLabel).tag(folder.path ?? "")
+                    Text(folder.menuLabel(among: instance.rootFolders)).tag(folder.path ?? "")
                 }
             } label: {
                 if let folder = instance.rootFolders.first(where: { $0.path == sort.folder }) {
-                    Label(folder.menuLabel, systemImage: "folder")
+                    Label(folder.menuLabel(among: instance.rootFolders), systemImage: "folder")
                 } else {
                     Label("Root Folder", systemImage: "folder")
                 }
@@ -85,6 +86,8 @@ extension SeriesView {
     @ToolbarContentBuilder
     var bottomBarInstancePicker: some ToolbarContent {
         #if os(iOS)
+            @Bindable var settings = settings
+
             ToolbarSpacer(.flexible, placement: .bottomBar)
 
             ToolbarItem(placement: .bottomBar) {
@@ -111,6 +114,8 @@ extension SeriesView {
 
     @ToolbarContentBuilder
     var toolbarInstancePicker: some ToolbarContent {
+        @Bindable var settings = settings
+
         ToolbarSpacer(.fixed, placement: .navigation)
 
         ToolbarItem(placement: .navigation) {
@@ -147,7 +152,7 @@ extension SeriesView {
             await fetchSeriesWithAlert()
 
             if let model = await instance.fetchMetadata() {
-                settings.saveInstance(model)
+                settings.saveInstanceMetadata(model)
             }
         }
     }

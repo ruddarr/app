@@ -1,10 +1,14 @@
 import SwiftUI
+import Sentry
 
 struct SeriesSearchView: View {
     @State var searchQuery: String
     @State private var searchPresented: Bool = true
     @State private var searchRequest: SearchRequest?
 
+    @AppStorage("discoveryHideItems", store: dependencies.store) private var hideLibraryItems: Bool = false
+
+    @Environment(\.deviceType) private var deviceType
     @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
@@ -12,17 +16,19 @@ struct SeriesSearchView: View {
         @Bindable var seriesLookup = instance.lookup
 
         ScrollView {
-            if seriesLookup.sortedItems.isEmpty, searchQuery.isEmpty, !instance.series.items.isEmpty {
-                MediaGrid(items: discovery.series) { item in
+            if shouldShowDiscoveryGrid {
+                MediaGrid(items: discoveryItems) { item in
                     DiscoveryGridPoster(item: item)
+                        .transition(.opacity.combined(with: .scale(scale: 0.95)))
                 } header: {
-                    Text("Popular This Week")
-                        .padding(.top, 12)
+                    DiscoveryGridHeader(hideLibraryItems: $hideLibraryItems)
+                        .padding(.top, deviceType == .pad ? 32 : 12)
                 }
                 .viewBottomPadding()
                 .scenePadding(.horizontal)
                 .opacity(discovery.series.isEmpty ? 0 : 1)
                 .animation(.easeIn, value: discovery.series)
+                .animation(.snappy, value: hideLibraryItems)
             } else {
                 MediaGrid(items: seriesLookup.sortedItems) { series in
                     SeriesSearchItem(series: series)
@@ -33,8 +39,6 @@ struct SeriesSearchView: View {
                 .viewBottomPadding()
             }
         }
-        .navigationTitle("Search")
-        .safeNavigationBarTitleDisplayMode(.large)
         .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,
@@ -65,7 +69,7 @@ struct SeriesSearchView: View {
 
             await instance.lookup.search(query: searchRequest.query)
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.lookup.errorBinding,
             error: instance.lookup.error
         ) { _ in
@@ -80,6 +84,19 @@ struct SeriesSearchView: View {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
+    }
+
+    var shouldShowDiscoveryGrid: Bool {
+        instance.lookup.isEmpty() &&
+        searchQuery.isEmpty &&
+        !instance.series.items.isEmpty
+    }
+
+    var discoveryItems: [DiscoveryItem] {
+        let items = Discovery.shared.series
+        guard hideLibraryItems else { return items }
+
+        return items.filter { $0.librarySeries(in: instance) == nil }
     }
 
     func performSearch(debounced: Bool = false) {

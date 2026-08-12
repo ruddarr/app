@@ -3,10 +3,9 @@ import SwiftUI
 struct MovieForm: View {
     @Binding var movie: Movie
 
-    @EnvironmentObject var settings: AppSettings
-
-    @Environment(\.deviceType) private var deviceType
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
+    @Environment(\.deviceType) private var deviceType
 
     @State private var defaultsSet = false
     @State private var showingConfirmation = false
@@ -64,6 +63,7 @@ struct MovieForm: View {
             .tint(.secondary)
             .onChange(of: addOptions.monitor, initial: true) {
                 movie.addOptions?.monitor = addOptions.monitor
+                movie.monitored = addOptions.monitor != .none
             }
         }
     }
@@ -83,18 +83,25 @@ struct MovieForm: View {
         .tint(.secondary)
     }
 
+    @ViewBuilder
     var qualityProfileField: some View {
-        Picker(selection: $movie.qualityProfileId) {
-            ForEach(instance.qualityProfiles) { profile in
-                Text(profile.name)
+        if instance.qualityProfiles.isEmpty {
+            LabeledContent("Quality Profile") {
+                Text("Error")
             }
-        } label: {
-            ViewThatFits(in: .horizontal) {
-                Text("Quality Profile")
-                Text("Quality")
+        } else {
+            Picker(selection: $movie.qualityProfileId) {
+                ForEach(instance.qualityProfiles) { profile in
+                    Text(profile.name)
+                }
+            } label: {
+                ViewThatFits(in: .horizontal) {
+                    Text("Quality Profile")
+                    Text("Quality")
+                }
             }
+            .tint(.secondary)
         }
-        .tint(.secondary)
     }
 
 #if os(macOS)
@@ -118,10 +125,11 @@ struct MovieForm: View {
     var rootFolderField: some View {
         Picker("Root Folder", selection: $movie.rootFolderPath) {
             ForEach(instance.rootFolders) { folder in
-                Text(folder.label).tag(folder.path)
+                folder.labelWithSpace
+                    .tag(folder.path)
             }
         }
-        .pickerStyle(InlinePickerStyle())
+        .pickerStyle(.inline)
         .tint(settings.theme.tint)
         .accentColor(settings.theme.tint) // `.tint()` is broken on inline pickers
     }
@@ -134,7 +142,7 @@ struct MovieForm: View {
             addOptions.monitor = movieDefaults.monitor
 
             movie.addOptions = addOptions
-            movie.monitored = movieDefaults.monitored
+            movie.monitored = movieDefaults.monitor != .none
             movie.rootFolderPath = movieDefaults.rootFolder
             movie.qualityProfileId = movieDefaults.qualityProfile
             movie.minimumAvailability = movieDefaults.minimumAvailability
@@ -152,10 +160,11 @@ struct MovieForm: View {
 
         movie.rootFolderPath = movie.rootFolderPath?.untrailingSlashIt
 
-        if !instance.rootFolders.contains(where: {
-            $0.path?.untrailingSlashIt == movie.rootFolderPath
-        }) {
-            movie.rootFolderPath = instance.rootFolders.first?.path ?? ""
+        if let fallback = instance.rootFolders.first?.path,
+           !instance.rootFolders.contains(where: {
+               $0.path?.untrailingSlashIt == movie.rootFolderPath
+           }) {
+            movie.rootFolderPath = fallback
         }
     }
 

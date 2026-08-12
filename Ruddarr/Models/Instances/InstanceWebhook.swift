@@ -1,6 +1,6 @@
-import os
 import SwiftUI
 import CloudKit
+import Sentry
 
 @MainActor
 @Observable
@@ -65,6 +65,8 @@ class InstanceWebhook {
             if let webhook {
                 _ = try await dependencies.api.deleteNotification(webhook, instance)
             }
+        } catch is CancellationError {
+            // do nothing
         } catch {
             leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook delete failed", data: ["error": error])
         }
@@ -89,6 +91,8 @@ class InstanceWebhook {
 
         do {
             model = try await dependencies.api.createNotification(record, instance)
+        } catch is CancellationError {
+            // do nothing
         } catch {
             leaveBreadcrumb(.error, category: "instance.webhook", message: "Webhook creation failed", data: ["error": error])
 

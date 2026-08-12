@@ -2,7 +2,7 @@ import SwiftUI
 
 #if os(macOS)
 struct ContentView: View {
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         NavigationSplitView {
@@ -45,7 +45,10 @@ struct ContentView: View {
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
-        .onBecomeActive(perform: handleScenePhaseChange)
+        .task {
+            updateTelemetryAndWebhooks()
+        }
+        .onBecomeActive(perform: updateTelemetryAndWebhooks)
     }
 
     var movies: TabItem { .movies }
@@ -54,7 +57,7 @@ struct ContentView: View {
     var activity: TabItem { .activity }
     var history: TabItem { .history }
 
-    func handleScenePhaseChange() {
+    func updateTelemetryAndWebhooks() {
         Telemetry.maybePing(with: settings)
         Notifications.maybeUpdateWebhooks(settings)
     }
@@ -83,6 +86,9 @@ struct ContentView: View {
                 tab.image
                     .imageScale(.large)
                     .frame(width: 22, height: 22, alignment: .center)
+                    .foregroundStyle(
+                        dependencies.router.selectedTab == tab ? Color.white : settings.theme.tint
+                    )
             }
             .labelIconToTitleSpacing(8)
             .badge(badge == nil ? nil : renderBadge(badge))
@@ -105,6 +111,8 @@ struct ContentView: View {
 
     @ViewBuilder
     var instancesSection: some View {
+        @Bindable var settings = settings
+
         if dependencies.router.selectedTab == .movies, settings.radarrInstances.count > 1 {
             Section("Instances") {
                 instanceRow(

@@ -1,5 +1,4 @@
 import SwiftUI
-import AppIntents
 import CoreSpotlight
 
 struct Movie: Media, Identifiable, Equatable, Codable {
@@ -7,10 +6,10 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     var id: Int { guid ?? (tmdbId + 100_000) }
 
     // the remapped `id` field
-    var guid: Int?
+    private(set) var guid: Int?
 
     // used by deeplinks to switch instances
-    var instanceId: Instance.ID?
+    private(set) var instanceId: Instance.ID?
 
     let tmdbId: Int
     let imdbId: String?
@@ -39,9 +38,9 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     let sizeOnDisk: Int?
     let hasFile: Bool?
 
-    var path: String?
-    var relativePath: String?
-    var folderName: String?
+    let path: String?
+    private(set) var relativePath: String?
+    let folderName: String?
     var rootFolderPath: String?
 
     let added: Date
@@ -120,6 +119,15 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         return 0
     }
 
+    var deeplink: URL? {
+        guard let instanceId else { return nil }
+        return QuickActions.Deeplink.openMovie(id, instanceId.uuidString).url
+    }
+
+    var queueKey: QueueKey? {
+        instanceId.map { .movie(instanceId: $0, id: id) }
+    }
+
     var stateLabel: String {
         if isDownloaded {
             return String(localized: "Downloaded", comment: "State of media item")
@@ -168,7 +176,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
     func releaseType(for date: Date) -> LocalizedStringKey? {
         let calendar: Calendar = Calendar.current
 
-        if let inCinemas = inCinemas, calendar.isDate(date, inSameDayAs: inCinemas) {
+        if let inCinemas, calendar.isDate(date, inSameDayAs: inCinemas) {
             return "In Cinemas" // popcorn
         }
 
@@ -197,6 +205,10 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         return nil
     }
 
+    var posterFilename: String {
+        year > 0 ? "\(title) (\(year))" : title
+    }
+
     var isDownloaded: Bool {
         movieFile != nil
     }
@@ -221,6 +233,7 @@ struct Movie: Media, Identifiable, Equatable, Codable {
         let tmdb: MovieRating?
         let metacritic: MovieRating?
         let rottenTomatoes: MovieRating?
+        let trakt: MovieRating?
     }
 }
 
@@ -311,7 +324,13 @@ struct MovieEditorResource: Codable {
 }
 
 func formatCustomScore(_ score: Int) -> String {
-    String(format: "%+d", score)
+    score < 0 ? "\(score)" : "+\(score)"
+}
+
+extension Movie: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        instanceId = instance
+    }
 }
 
 extension Movie {

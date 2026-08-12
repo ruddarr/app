@@ -25,7 +25,7 @@ struct MediaGrid<Item: Identifiable, Content: View, Header: View>: View {
             if let header {
                 Section {
                     ForEach(items) { item in
-                        content(item)
+                        content(item).geometryGroup()
                     }
                 } header: {
                     header
@@ -34,7 +34,7 @@ struct MediaGrid<Item: Identifiable, Content: View, Header: View>: View {
                 }
             } else {
                 ForEach(items) { item in
-                    content(item)
+                    content(item).geometryGroup()
                 }
             }
         }
@@ -70,6 +70,32 @@ extension MediaGrid where Header == Never {
         self.style = style
         self.content = content
         self.header = nil
+    }
+}
+
+@MainActor
+@Observable
+final class PosterMetrics {
+    static let shared = PosterMetrics()
+
+    private init() {}
+
+    var gridWidth: CGFloat = 200
+}
+
+extension View {
+    func tracksGridPosterWidth() -> some View {
+        #if os(macOS)
+            onGeometryChange(for: CGFloat.self) { proxy in
+                proxy.size.width
+            } action: { width in
+                if width > 0, abs(PosterMetrics.shared.gridWidth - width) > 0.5 {
+                    PosterMetrics.shared.gridWidth = width
+                }
+            }
+        #else
+            self
+        #endif
     }
 }
 

@@ -15,7 +15,10 @@ import Combine
 [private] ruddarr://series/open/{id}?instance={instanceIdOrName?}
 [private] ruddarr://series/open/{id}/?season={seasonId}&episode={episodeId}&instance={instanceIdOrName?}
 */
-struct QuickActions {
+@MainActor
+final class QuickActions {
+    nonisolated init() {}
+
     let moviePublisher = PassthroughSubject<Movie.ID, Never>()
     var moviePublisherPending: Movie.ID?
 
@@ -30,19 +33,19 @@ struct QuickActions {
         #endif
     }
 
-    var openCalendar: () -> Void = {
+    var openCalendar: @MainActor () -> Void = {
         dependencies.router.selectedTab = .calendar
     }
 
-    var openActivity: () -> Void = {
+    var openActivity: @MainActor () -> Void = {
         dependencies.router.selectedTab = .activity
     }
 
-    var openMovies: () -> Void = {
+    var openMovies: @MainActor () -> Void = {
         dependencies.router.selectedTab = .movies
     }
 
-    var openMovieSearch: (String) -> Void = { query in
+    var openMovieSearch: @MainActor (String) -> Void = { query in
         var searchText: String = query
 
         if let imdb = extractImdbId(query) {
@@ -54,6 +57,12 @@ struct QuickActions {
     }
 
     func openMovie(_ id: Movie.ID, _ instance: String?) {
+        if dependencies.router.moviesPath == [.movie(id)], staysOnInstance(instance, AppSettings.shared.radarrInstanceId) {
+            dependencies.router.selectedTab = .movies
+
+            return
+        }
+
         dependencies.router.switchToRadarrInstance = instance
         dependencies.router.selectedTab = .movies
         dependencies.router.moviesPath = .init()
@@ -61,19 +70,17 @@ struct QuickActions {
         dependencies.quickActions.moviePublisherPending = id
 
         dependencies.quickActions.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-            if let id = dependencies.quickActions.moviePublisherPending {
-                dependencies.quickActions.moviePublisher.send(id)
-            } else {
-                dependencies.quickActions.clearTimer()
+            MainActor.assumeIsolated {
+                if let id = dependencies.quickActions.moviePublisherPending {
+                    dependencies.quickActions.moviePublisher.send(id)
+                } else {
+                    dependencies.quickActions.clearTimer()
+                }
             }
         }
     }
 
-    var openSeries: () -> Void = {
-        dependencies.router.selectedTab = .series
-    }
-
-    var openSeriesSearch: (String) -> Void = { query in
+    var openSeriesSearch: @MainActor (String) -> Void = { query in
         var searchText: String = query
 
         if let imdb = extractImdbId(query) {
@@ -85,6 +92,12 @@ struct QuickActions {
     }
 
     func openSeries(_ id: Series.ID, _ season: Season.ID?, _ episode: Episode.ID?, _ instance: String?) {
+        if episode == nil, isShowing(id, season), staysOnInstance(instance, AppSettings.shared.sonarrInstanceId) {
+            dependencies.router.selectedTab = .series
+
+            return
+        }
+
         dependencies.router.switchToSonarrInstance = instance
         dependencies.router.selectedTab = .series
         dependencies.router.seriesPath = .init()
@@ -92,12 +105,30 @@ struct QuickActions {
         dependencies.quickActions.seriesPublisherPending = (id, season, episode)
 
         dependencies.quickActions.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-            if let ids = dependencies.quickActions.seriesPublisherPending {
-                dependencies.quickActions.seriesPublisher.send(ids)
-            } else {
-                dependencies.quickActions.clearTimer()
+            MainActor.assumeIsolated {
+                if let ids = dependencies.quickActions.seriesPublisherPending {
+                    dependencies.quickActions.seriesPublisher.send(ids)
+                } else {
+                    dependencies.quickActions.clearTimer()
+                }
             }
         }
+    }
+
+    private func isShowing(_ id: Series.ID, _ season: Season.ID?) -> Bool {
+        guard let season else {
+            return dependencies.router.seriesPath == [.series(id)]
+        }
+
+        return dependencies.router.seriesPath == [.series(id), .season(id, season)]
+    }
+
+    private func staysOnInstance(_ requested: String?, _ selected: Instance.ID?) -> Bool {
+        guard let instance = AppSettings.shared.instanceBy(requested) else {
+            return true
+        }
+
+        return instance.id == selected
     }
 
     func clearTimer() {
@@ -117,10 +148,12 @@ extension QuickActions {
         case openMovies
         case openMovie(_ id: Movie.ID, _ instance: String?)
         case addMovie(_ query: String = "")
-        case openSeries
-        case openSeriesItem(_ id: Movie.ID, _ season: Season.ID?, _ episode: Episode.ID?, _ instance: String?)
+        case openSeries(_ id: Series.ID, _ instance: String?)
+        case openSeason(_ id: Series.ID, _ season: Season.ID, _ instance: String?)
+        case openEpisode(_ id: Series.ID, _ season: Season.ID, _ episode: Episode.ID, _ instance: String?)
         case addSeries(_ query: String = "")
 
+        @MainActor
         func callAsFunction() {
             switch self {
             case .openApp:
@@ -135,10 +168,12 @@ extension QuickActions {
                 dependencies.quickActions.openMovieSearch(query)
             case .openMovie(let movie, let instance):
                 dependencies.quickActions.openMovie(movie, instance)
-            case .openSeries:
-                dependencies.quickActions.openSeries()
-            case .openSeriesItem(let series, let season, let episode, let instance):
-                dependencies.quickActions.openSeries(series, season, episode, instance)
+            case .openSeries(let id, let instance):
+                dependencies.quickActions.openSeries(id, nil, nil, instance)
+            case .openSeason(let id, let season, let instance):
+                dependencies.quickActions.openSeries(id, season, nil, instance)
+            case .openEpisode(let id, let season, let episode, let instance):
+                dependencies.quickActions.openSeries(id, season, episode, instance)
             case .addSeries(let query):
                 dependencies.quickActions.openSeriesSearch(query)
             }
@@ -183,12 +218,34 @@ extension QuickActions.Deeplink {
             self = .addSeries(value)
         case _ where action.hasPrefix("series/open/"):
             guard let id = Series.ID(value) else { throw unsupportedURL }
-            let seasonId = components.queryItems?.first { $0.name == "season" }?.value
-            let episodeId = components.queryItems?.first { $0.name == "episode" }?.value
+            let season = (components.queryItems?.first { $0.name == "season" }?.value).flatMap { Int($0) }
+            let episode = (components.queryItems?.first { $0.name == "episode" }?.value).flatMap { Int($0) }
             let instance = components.queryItems?.first { $0.name == "instance" }?.value
-            self = .openSeriesItem(id, Int(seasonId ?? ""), Int(episodeId ?? ""), instance)
+
+            if let season, let episode {
+                self = .openEpisode(id, season, episode, instance)
+            } else if let season {
+                self = .openSeason(id, season, instance)
+            } else {
+                self = .openSeries(id, instance)
+            }
         default:
             throw unsupportedURL
+        }
+    }
+
+    var url: URL? {
+        switch self {
+        case .openMovie(let id, let instance):
+            URL(string: "ruddarr://movies/open/\(id)?instance=\(instance ?? "")")
+        case .openSeries(let id, let instance):
+            URL(string: "ruddarr://series/open/\(id)?instance=\(instance ?? "")")
+        case .openSeason(let id, let season, let instance):
+            URL(string: "ruddarr://series/open/\(id)?season=\(season)&instance=\(instance ?? "")")
+        case .openEpisode(let id, let season, let episode, let instance):
+            URL(string: "ruddarr://series/open/\(id)?season=\(season)&episode=\(episode)&instance=\(instance ?? "")")
+        default:
+            nil
         }
     }
 }
@@ -213,6 +270,7 @@ extension QuickActions {
             }
         }
 
+        @MainActor
         func callAsFunction() {
             switch self {
             case .addMovie: dependencies.quickActions.openMovieSearch("")

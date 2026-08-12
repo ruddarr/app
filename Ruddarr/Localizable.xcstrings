@@ -23,16 +23,6 @@
         }
       }
     },
-    "%.1f years" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%.1f years"
-          }
-        }
-      }
-    },
     "%@ at %@" : {
       "comment" : "(Today/Tomorrow/Yesterday) at (time)",
       "localizations" : {
@@ -50,6 +40,27 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ does not start an automatic search when adding media, but you can."
+          }
+        }
+      }
+    },
+    "%@ free" : {
+      "comment" : "%@ = Available disk space",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ free"
+          }
+        }
+      }
+    },
+    "%@ years" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ years"
           }
         }
       }
@@ -173,12 +184,46 @@
         }
       }
     },
-    "%d years" : {
+    "%lld Episode" : {
       "localizations" : {
         "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d years"
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Episode"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Episodes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld Movie" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Movie"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Movies"
+                }
+              }
+            }
           }
         }
       }
@@ -220,6 +265,28 @@
                 "stringUnit" : {
                   "state" : "new",
                   "value" : "%lld Seasons"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld Series" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Series"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Series"
                 }
               }
             }
@@ -495,6 +562,16 @@
         }
       }
     },
+    "Alternate URL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternate URL"
+          }
+        }
+      }
+    },
     "Alternatively, %@ comes with many notification integrations that can be self-hosted." : {
       "localizations" : {
         "en" : {
@@ -595,6 +672,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Any Format"
+          }
+        }
+      }
+    },
+    "Any Group" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any Group"
           }
         }
       }
@@ -1031,6 +1118,17 @@
         }
       }
     },
+    "Compact" : {
+      "comment" : "(Preferences) Compact release layout",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compact"
+          }
+        }
+      }
+    },
     "Connect a %@ instance under %@." : {
       "localizations" : {
         "en" : {
@@ -1047,6 +1145,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Connected"
+          }
+        }
+      }
+    },
+    "Connected to %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connected to %@"
+          }
+        }
+      }
+    },
+    "Connecting to %@..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecting to %@..."
           }
         }
       }
@@ -1099,6 +1217,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continuing"
+          }
+        }
+      }
+    },
+    "Contribute" : {
+      "comment" : "Preferences section title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contribute"
           }
         }
       }
@@ -1311,12 +1440,33 @@
         }
       }
     },
+    "Detailed" : {
+      "comment" : "(Preferences) Detailed release layout",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detailed"
+          }
+        }
+      }
+    },
     "Details" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Details"
+          }
+        }
+      }
+    },
+    "Diagnostics" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnostics"
           }
         }
       }
@@ -1353,6 +1503,16 @@
         }
       }
     },
+    "Disk Space" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disk Space"
+          }
+        }
+      }
+    },
     "Display" : {
       "comment" : "Preferences section title",
       "localizations" : {
@@ -1360,6 +1520,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Display"
+          }
+        }
+      }
+    },
+    "Displayed storage reflects the available and total disk space." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Displayed storage reflects the available and total disk space."
           }
         }
       }
@@ -1451,7 +1621,7 @@
       }
     },
     "Downloaded" : {
-      "comment" : "(Single word) Episode status label\nMedia grid filter\nState of media item",
+      "comment" : "(Single word) Episode state label\nMedia grid filter\nState of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1541,16 +1711,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enter a valid URL."
-          }
-        }
-      }
-    },
-    "Enter an instance label." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter an instance label."
           }
         }
       }
@@ -2133,6 +2293,17 @@
         }
       }
     },
+    "In Queue" : {
+      "comment" : "(Short) State of task in queue",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Queue"
+          }
+        }
+      }
+    },
     "Inactive" : {
       "comment" : "Status of the app subscription",
       "localizations" : {
@@ -2246,12 +2417,12 @@
         }
       }
     },
-    "Invalid Instance Label" : {
+    "Invalid Alternate URL" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Invalid Instance Label"
+            "value" : "Invalid Alternate URL"
           }
         }
       }
@@ -2599,7 +2770,7 @@
       }
     },
     "Missing" : {
-      "comment" : "(Single word) Episode status label\nMedia grid filter\nState of media item",
+      "comment" : "(Single word) Episode state label\nMedia grid filter\nState of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2610,7 +2781,7 @@
       }
     },
     "Missing Episodes" : {
-      "comment" : "Series monitoring option",
+      "comment" : "Series monitoring option\nState of media item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3137,6 +3308,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "None"
+          }
+        }
+      }
+    },
+    "Not Set" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Set"
           }
         }
       }
@@ -3736,6 +3917,16 @@
         }
       }
     },
+    "Open" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open"
+          }
+        }
+      }
+    },
     "Open %@" : {
       "comment" : "Open (app name)",
       "localizations" : {
@@ -4232,6 +4423,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Released"
+          }
+        }
+      }
+    },
+    "Releases" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Releases"
           }
         }
       }
@@ -5013,6 +5214,16 @@
         }
       }
     },
+    "The Alternate URL must be different from the primary URL." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Alternate URL must be different from the primary URL."
+          }
+        }
+      }
+    },
     "The API Key can be found in the web interface under \"Settings > General > Security\"." : {
       "localizations" : {
         "en" : {
@@ -5219,7 +5430,7 @@
       }
     },
     "Unaired" : {
-      "comment" : "(Single word) Episode status label",
+      "comment" : "(Single word) Episode state label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5370,12 +5581,13 @@
         }
       }
     },
-    "Upgrade to Sonarr v4.0.5 or newer." : {
+    "Upgrade to %@ or newer." : {
+      "comment" : "Placeholder is the instance type and minimum version (e.g. Sonarr v4.0.5)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upgrade to Sonarr v4.0.5 or newer."
+            "value" : "Upgrade to %@ or newer."
           }
         }
       }
@@ -5595,6 +5807,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "What's New in %@"
+          }
+        }
+      }
+    },
+    "When using an Alternate URL, %@ automatically connects to the best URL for the network, whether local, VPN, or remote." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When using an Alternate URL, %@ automatically connects to the best URL for the network, whether local, VPN, or remote."
           }
         }
       }

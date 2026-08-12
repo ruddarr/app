@@ -1,36 +1,38 @@
 import SwiftUI
-import TelemetryDeck
 
 struct MovieView: View {
     @Binding var movie: Movie
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
+    @Environment(RadarrInstance.self) private var instance
 
     @Environment(\.deviceType) private var deviceType
-    @Environment(RadarrInstance.self) private var instance
+    @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     @State private var showEditForm: Bool = false
     @State private var showDeleteConfirmation = false
+    @State private var togglingMonitor: Bool = false
 
     var body: some View {
         ScrollView {
             MovieDetails(movie: movie)
                 .padding(.top)
                 .scenePadding(.horizontal)
-                .environmentObject(settings)
+                .environment(settings)
         }
         .refreshable {
             await Task { await reload() }.value
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
+            CalendarSheetAwareToolbar(deeplink: movie.deeplink)
             toolbarMonitorButton
             toolbarMenu
         }
         .onBecomeActive {
             await reload()
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.movies.errorBinding,
             error: instance.movies.error
         ) { _ in
@@ -56,9 +58,9 @@ struct MovieView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: $movie.monitored)
+                ToolbarMonitorButton(monitored: movie.monitored, loading: togglingMonitor)
             }
-            .allowsHitTesting(!instance.movies.isWorking)
+            .allowsHitTesting(!togglingMonitor)
             #if os(iOS)
                 .buttonStyle(.plain)
             #endif
@@ -77,7 +79,10 @@ struct MovieView: View {
 
                 Section {
                     editAction
-                    deleteMovieButton
+
+                    if inCalendarSheet == nil {
+                        deleteMovieButton
+                    }
                 }
             } label: {
                 ToolbarActionButton()
@@ -139,9 +144,17 @@ struct MovieView: View {
 
 extension MovieView {
     func toggleMonitor() async {
-        movie.monitored.toggle()
+        let original = movie.monitored
+        movie.monitored = !original
+
+        togglingMonitor = true
+        defer { togglingMonitor = false }
 
         guard await instance.movies.update(movie) else {
+            if movie.monitored == !original {
+                movie.monitored = original
+            }
+
             return
         }
 
@@ -159,8 +172,9 @@ extension MovieView {
 
         dependencies.toast.show(.refreshQueued)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            Task { await instance.movies.get(movie) }
+        Task {
+            try? await Task.sleep(for: .seconds(3))
+            _ = await instance.movies.get(movie)
         }
     }
 
@@ -178,7 +192,9 @@ extension MovieView {
     func deleteMovie(exclude: Bool, delete: Bool) async {
         _ = await instance.movies.delete(movie, addExclusion: exclude, deleteFiles: delete)
 
-        if !dependencies.router.moviesPath.isEmpty {
+        if let inCalendarSheet {
+            inCalendarSheet.dismiss()
+        } else if !dependencies.router.moviesPath.isEmpty {
             dependencies.router.moviesPath.removeLast()
         }
 

@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct QueueItems: Codable {
     let page: Int
@@ -12,7 +13,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let id: Int
 
     // used for filtering
-    var instanceId: Instance.ID?
+    private(set) var instanceId: Instance.ID?
 
     let downloadId: String?
     let downloadClient: String?
@@ -35,7 +36,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let type: ReleaseProtocol
 
     let size: Float
-    var sizeleft: Float
+    let sizeleft: Float
     let timeleft: String?
 
     let languages: [MediaLanguage]?
@@ -47,17 +48,17 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let added: Date?
     var estimatedCompletionTime: Date?
 
-    let status: String?
+    private(set) var status: String?
     let statusMessages: [QueueStatusMessage]?
     let errorMessage: String?
 
-    let trackedDownloadStatus: QueueDownloadStatus?
-    let trackedDownloadState: QueueDownloadState?
+    private(set) var trackedDownloadStatus: QueueDownloadStatus?
+    private(set) var trackedDownloadState: QueueDownloadState?
 
     let outputPath: String?
     let downloadClientHasPostImportCategory: Bool?
 
-    var taskGroupCount: Int?
+    private(set) var taskGroupCount: Int?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -114,6 +115,16 @@ struct QueueItem: Codable, Identifiable, Equatable {
         [.importPending, .importBlocked].contains(trackedDownloadState)
     }
 
+    mutating func markImporting() {
+        status = "completed"
+        trackedDownloadStatus = .ok
+        trackedDownloadState = .importing
+    }
+
+    mutating func groupTasks(_ count: Int) {
+        taskGroupCount = count
+    }
+
     var isSABnzbd: Bool {
         downloadId?.contains("SABnzbd_") == true ||
         downloadClient?.localizedCaseInsensitiveContains("SABnzbd") == true
@@ -132,6 +143,33 @@ struct QueueItem: Codable, Identifiable, Equatable {
         (downloadId ?? "") + (title ?? "") + String(seasonNumber ?? id) + String(size)
     }
 
+    var deeplink: URL? {
+        guard let instanceId else { return nil }
+        let instance = instanceId.uuidString
+
+        if let movieId {
+            return QuickActions.Deeplink.openMovie(movieId, instance).url
+        }
+
+        guard let seriesId else { return nil }
+
+        if let count = taskGroupCount, count > 1, let seasonNumber {
+            return QuickActions.Deeplink.openSeason(seriesId, seasonNumber, instance).url
+        }
+
+        if let episode {
+            return QuickActions.Deeplink.openEpisode(
+                seriesId, episode.seasonNumber, episode.episodeNumber, instance
+            ).url
+        }
+
+        if let seasonNumber {
+            return QuickActions.Deeplink.openSeason(seriesId, seasonNumber, instance).url
+        }
+
+        return QuickActions.Deeplink.openSeries(seriesId, instance).url
+    }
+
     var titleLabel: String {
         if let title = movie?.title {
             return title
@@ -139,7 +177,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
 
         if let title = series?.title {
             if let count = taskGroupCount, count > 1, let season = seasonNumber {
-                return String(format: "%@ (%@)", title, String(localized: "Season \(season)"))
+                return "%@ (%@)".placeholders(title, String(localized: "Season \(season)"))
             }
 
             guard let episodeLabel = episode?.episodeLabel else {
@@ -169,7 +207,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
             return String(localized: "Unknown")
         }
 
-        return codes.map { $0.label }.formattedList()
+        return codes.map(\.label).formattedList()
     }
 
     var scoreLabel: String? {
@@ -202,6 +240,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
         }
 
         return switch trackedDownloadState {
+        case .importPending where trackedDownloadStatus == .warning: String(localized: "Import Blocked", comment: "(Short) State of task in queue")
         case .importPending: String(localized: "Import Pending", comment: "(Short) State of task in queue")
         case .importBlocked: String(localized: "Import Blocked", comment: "(Short) State of task in queue")
         case .importing: String(localized: "Importing", comment: "(Short) State of task in queue")
@@ -229,6 +268,7 @@ struct QueueItem: Codable, Identifiable, Equatable {
         }
 
         return switch trackedDownloadState {
+        case .importPending where trackedDownloadStatus == .warning: String(localized: "Unable to Import Automatically", comment: "State of task in queue")
         case .importPending: String(localized: "Waiting to Import", comment: "State of task in queue")
         case .importBlocked: String(localized: "Unable to Import Automatically", comment: "State of task in queue")
         case .importing: String(localized: "Importing", comment: "State of task in queue")
@@ -258,4 +298,89 @@ enum QueueDownloadState: String, Codable {
     case failedPending
     case failed
     case ignored
+}
+
+enum QueueItemStatus: Int, Codable, Comparable {
+    case unknown
+    case queued
+    case importPending
+    case paused
+    case downloading
+    case importing
+    case warning
+    case importBlocked
+    case failed
+
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+
+    var label: String {
+        switch self {
+        case .downloading, .importPending: String(localized: "Downloading", comment: "(Short) State of task in queue")
+        case .importing: String(localized: "Importing", comment: "(Short) State of task in queue")
+        case .importBlocked: String(localized: "Import Blocked", comment: "(Short) State of task in queue")
+        default: String(localized: "In Queue", comment: "(Short) State of task in queue")
+        }
+    }
+
+    var image: Image {
+        switch self {
+        case .downloading, .importPending:
+            Image(systemName: "arrow.down.circle")
+        case .importing:
+            Image(systemName: "arrow.down.to.line.circle")
+        case .importBlocked, .failed:
+            Image(systemName: "arrow.down.circle.badge.xmark")
+        case .paused:
+            Image(systemName: "arrow.down.circle.badge.pause")
+        default:
+            Image("ecg.circle") // waveform.path.ecg
+        }
+    }
+
+    var pulses: Bool {
+        switch self {
+        case .queued, .downloading, .importing, .importPending: true
+        case .paused, .failed, .importBlocked: false
+        default: true
+        }
+    }
+}
+
+extension QueueItem: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        instanceId = instance
+    }
+}
+
+extension QueueItem {
+    var queueStatus: QueueItemStatus {
+        if status != "completed" {
+            return switch status {
+            case "downloading": .downloading
+            case "queued", "delay", "downloadClientUnavailable": .queued
+            case "paused": .paused
+            case "warning": .warning
+            case "failed": .failed
+            default: .unknown
+            }
+        }
+
+        return switch trackedDownloadState {
+        case .importing: .importing
+        case .importPending where trackedDownloadStatus == .warning: .importBlocked
+        case .importPending: .importPending
+        case .importBlocked: .importBlocked
+        case .failedPending, .failed: .failed
+        case .ignored: .warning
+        default: .downloading
+        }
+    }
+}
+
+extension Sequence where Element == QueueItem {
+    func highestStatus(where predicate: (QueueItem) -> Bool) -> QueueItemStatus? {
+        filter(predicate).map(\.queueStatus).max()
+    }
 }

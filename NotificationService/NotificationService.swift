@@ -50,8 +50,7 @@ extension UNNotificationRequest {
         let posterHash = Insecure.MD5
             .hash(data: posterData)
             .prefix(Insecure.MD5.byteCount)
-            .map { String(format: "%02hhx", $0) }
-            .joined()
+            .hexEncoded()
 
         let fileUrl = fileManager.temporaryDirectory.appendingPathComponent(
             "ruddarr-poster-\(posterHash).\(posterUrl.pathExtension)"

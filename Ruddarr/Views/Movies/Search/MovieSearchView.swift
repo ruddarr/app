@@ -5,6 +5,9 @@ struct MovieSearchView: View {
     @State private var searchPresented: Bool = true
     @State private var searchRequest: SearchRequest?
 
+    @AppStorage("discoveryHideItems", store: dependencies.store) private var hideLibraryItems: Bool = false
+
+    @Environment(\.deviceType) private var deviceType
     @Environment(RadarrInstance.self) private var instance
 
     var body: some View {
@@ -12,17 +15,19 @@ struct MovieSearchView: View {
         @Bindable var movieLookup = instance.lookup
 
         ScrollView {
-            if movieLookup.sortedItems.isEmpty && searchQuery.isEmpty {
-                MediaGrid(items: discovery.movies) { item in
+            if shouldShowDiscoveryGrid {
+                MediaGrid(items: discoveryItems) { item in
                     DiscoveryGridPoster(item: item)
+                        .transition(.opacity.combined(with: .scale(scale: 0.95)))
                 } header: {
-                    Text("Popular This Week")
-                        .padding(.top, 12)
+                    DiscoveryGridHeader(hideLibraryItems: $hideLibraryItems)
+                        .padding(.top, deviceType == .pad ? 32 : 12)
                 }
                 .viewBottomPadding()
                 .scenePadding(.horizontal)
                 .opacity(discovery.movies.isEmpty ? 0 : 1)
                 .animation(.easeIn, value: discovery.movies)
+                .animation(.snappy, value: hideLibraryItems)
             } else {
                 MediaGrid(items: movieLookup.sortedItems) { movie in
                     NavigationLink(value: movie.exists
@@ -67,7 +72,7 @@ struct MovieSearchView: View {
 
             await instance.lookup.search(query: searchRequest.query)
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.lookup.errorBinding,
             error: instance.lookup.error
         ) { _ in
@@ -82,6 +87,17 @@ struct MovieSearchView: View {
                 ContentUnavailableView.search(text: searchQuery)
             }
         }
+    }
+
+    var shouldShowDiscoveryGrid: Bool {
+        instance.lookup.isEmpty() && searchQuery.isEmpty
+    }
+
+    var discoveryItems: [DiscoveryItem] {
+        let items = Discovery.shared.movies
+        guard hideLibraryItems else { return items }
+
+        return items.filter { $0.libraryMovie(in: instance) == nil }
     }
 
     func performSearch(debounced: Bool = false) {

@@ -11,7 +11,17 @@ protocol Media: Identifiable, Sendable where ID: Sendable {
 
 struct Tag: Identifiable, Equatable, Codable {
     let id: Int
-    var label: String
+    let label: String
+}
+
+func formatTags(_ ids: [Int], tags: [Tag]) -> String {
+    guard !ids.isEmpty else {
+        return String(localized: "None")
+    }
+
+    return ids.map { id in
+        tags.first { $0.id == id }?.label ?? String(id)
+    }.joined(separator: ", ")
 }
 
 struct MediaLanguage: Equatable, Codable {
@@ -23,19 +33,36 @@ struct MediaLanguage: Equatable, Codable {
             return String(localized: "Unknown")
         }
 
-        let english = Locale(identifier: "en")
+        let key = name.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
 
-        let code = Locale.LanguageCode.isoLanguageCodes.first(where: {
-            guard let language = english.localizedString(forLanguageCode: $0.identifier) else { return false }
-            return language.compare(name, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
-        })
-
-        guard let code, let label = Locale.current.localizedString(forLanguageCode: code.identifier) else {
+        guard
+            let code = Self.codesByEnglishName[key],
+            let label = Locale.current.localizedString(forLanguageCode: code)
+        else {
             return String(localized: "Unknown")
         }
 
         return label
     }
+
+    private static let codesByEnglishName: [String: String] = {
+        let english = Locale(identifier: "en")
+        var map: [String: String] = [:]
+
+        for code in Locale.LanguageCode.isoLanguageCodes {
+            guard let name = english.localizedString(forLanguageCode: code.identifier) else {
+                continue
+            }
+
+            let key = name.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
+
+            if map[key] == nil {
+                map[key] = code.identifier
+            }
+        }
+
+        return map
+    }()
 }
 
 struct MediaAlternateTitle: Equatable, Codable {
@@ -90,8 +117,8 @@ func languageSingleLabel(_ languages: [MediaLanguage]) -> String {
 }
 
 struct MediaDetailsRow: View {
-    var label: String
-    var value: String
+    let label: String
+    let value: String
 
     init(_ label: String, value: String) {
         self.label = label
@@ -179,7 +206,7 @@ func mediaDetailsSubtitles(_ file: MediaFile?, _ deviceType: DeviceType) -> Stri
 
     if codes.count > limit {
         var someCodes = Array(codes.prefix(limit)).map {
-            $0.replacingOccurrences(of: $0, with: Languages.name(byCode: $0))
+            Languages.name(byCode: $0)
         }
 
         someCodes.append(
@@ -192,48 +219,25 @@ func mediaDetailsSubtitles(_ file: MediaFile?, _ deviceType: DeviceType) -> Stri
     return languagesList(codes)
 }
 
-struct MediaPreviewActionModifier: ViewModifier {
-    @Environment(\.deviceType) private var deviceType
-
-    func body(content: Content) -> some View {
-        if deviceType == .phone {
-            content.frame(maxWidth: .infinity)
-        } else {
-            content.frame(maxWidth: 215)
-        }
-    }
-}
-
-struct MediaPreviewActionSpacerModifier: ViewModifier {
-    @Environment(\.deviceType) private var deviceType
-
-    func body(content: Content) -> some View {
-        if deviceType == .phone {
-            content.frame(maxWidth: .infinity)
-        } else {
-            content
-        }
-    }
-}
-
 struct MediaDetailsPosterModifier: ViewModifier {
     @Environment(\.deviceType) private var deviceType
 
     func body(content: Content) -> some View {
-        if deviceType == .phone {
-            content.frame(width: posterWidth, height: posterWidth * 1.5)
-        } else {
-            content.frame(width: 200, height: 300)
-        }
+        content.frame(width: posterWidth, height: posterWidth * 1.5)
     }
 
-    @MainActor private var posterWidth: CGFloat {
-        #if os(iOS)
-            let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
-            let scene = scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
-
-            return (scene?.keyWindow?.bounds.width ?? 390) * 0.4
+    @MainActor
+    private var posterWidth: CGFloat {
+        #if os(macOS)
+            return PosterMetrics.shared.gridWidth
         #else
+            if deviceType == .phone {
+                let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+                let scene = scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
+
+                return (scene?.keyWindow?.bounds.width ?? 390) * 0.4
+            }
+
             return 200
         #endif
     }

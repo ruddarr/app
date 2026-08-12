@@ -18,6 +18,7 @@ struct MovieGridPoster: View {
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 14))
+            .tracksGridPosterWidth()
     }
 
     var poster: some View {
@@ -33,10 +34,14 @@ struct MovieGridPoster: View {
 struct MoviePosterOverlay: View {
     var movie: Movie
 
+    @State private var queueStatus: QueueItemStatus?
+
     var body: some View {
         MediaGridPosterOverlay {
             Group {
-                if movie.isDownloaded {
+                if let queueStatus {
+                    QueueStatusIcon(status: queueStatus, color: .white, tint: .white)
+                } else if movie.isDownloaded {
                     Image(systemName: "checkmark").symbolVariant(.circle.fill)
                 } else if movie.isWaiting {
                     Image(systemName: "clock")
@@ -54,6 +59,7 @@ struct MoviePosterOverlay: View {
                 .foregroundStyle(.white)
                 .imageScale(.gridItem)
         }
+        .tracksQueueStatus(movie.queueKey, into: $queueStatus)
     }
 }
 

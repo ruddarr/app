@@ -7,14 +7,14 @@ struct HistoryView: View {
     @State private var displayedInstance: String = .all
     @State private var displayedEventType: String = .all
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         ScrollView {
             VStack(spacing: 12) {
                 ForEach(events) { event in
                     MediaHistoryItem(event: event)
-                        .environmentObject(settings)
+                        .environment(settings)
                         .onTapGesture { selectedEvent = event }
                 }
 
@@ -23,12 +23,14 @@ struct HistoryView: View {
                         if history.isLoading {
                             ProgressView().tint(.secondary)
                         } else if history.hasMore.values.contains(true) {
-                            Button("Load More") {
+                            Button {
                                 page += 1
                                 Task { await history.fetch(page, displayedEventType) }
+                            } label: {
+                                ButtonLabel(text: "Load More", size: .small)
                             }
-                            .buttonStyle(.bordered)
-                            .tint(.buttonTint)
+                            .actionButton()
+                            .fixedSize()
                         }
                     }
                     .padding(.vertical, 12)
@@ -53,7 +55,7 @@ struct HistoryView: View {
         .onChange(of: displayedEventType) {
             Task { await history.fetch(1, displayedEventType) }
         }
-        .alert(
+        .sensoryAlert(
             isPresented: history.errorBinding,
             error: history.error
         ) { _ in
@@ -64,7 +66,7 @@ struct HistoryView: View {
         .tint(nil)
         .sheet(item: $selectedEvent) { event in
             MediaEventSheet(event: event, instanceId: event.instanceId)
-                .environmentObject(settings)
+                .environment(settings)
                 .presentationDetents(
                     dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )

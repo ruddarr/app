@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreSpotlight
 import TipKit
+import Sentry
 
 @main
 struct Ruddarr: App {
@@ -8,18 +9,24 @@ struct Ruddarr: App {
         @NSApplicationDelegateAdaptor(AppDelegateMac.self) var appDelegate
     #else
         @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+        @Environment(\.scenePhase) private var scenePhase
     #endif
 
     nonisolated static let name: String = "Ruddarr"
+    nonisolated static let group = "group.com.ruddarr"
 
     init() {
         #if DEBUG
-        // dependencies = .mock
+        // dependencies.api = .mock
         // dependencies.cloudkit = .mock
         // Tips.showAllTipsForTesting()
         #endif
 
         Migrations.run()
+        startSentry()
+        InstancesStore.shared.start()
+
+        dependencies.router.selectedTab = AppSettings.shared.tab
 
         try? Tips.configure()
 
@@ -46,6 +53,7 @@ struct Ruddarr: App {
                     .onOpenURL(perform: openDeeplink)
                     .onContinueUserActivity(CSSearchableItemActionType, perform: openSearchableItem)
             }
+            .onChange(of: scenePhase, initial: true, Lifecycle.shared.phaseChanged)
         #endif
     }
 
@@ -62,38 +70,76 @@ struct Ruddarr: App {
 
         let parts = identifier.split(separator: ":").map(String.init) // `<type>:<id>:<instance>`
 
-        switch parts[0] {
-        case "movie": openDeeplink(url: URL(string: "ruddarr://movies/open/\(parts[1])?instance=\(parts[2])")!)
-        case "series": openDeeplink(url: URL(string: "ruddarr://series/open/\(parts[1])?instance=\(parts[2])")!)
-        default: leaveBreadcrumb(.error, category: "spotlight", message: "Invalid identifier", data: ["openSearchableItem": identifier])
+        let deeplink: QuickActions.Deeplink? = switch parts[0] {
+        case "movie": Movie.ID(parts[1]).map { .openMovie($0, parts[2]) }
+        case "series": Series.ID(parts[1]).map { .openSeries($0, parts[2]) }
+        default: nil
         }
+
+        guard let deeplink else {
+            return leaveBreadcrumb(.error, category: "spotlight", message: "Invalid identifier", data: ["openSearchableItem": identifier])
+        }
+
+        deeplink()
     }
 }
 
 extension WhatsNew {
-    static let version: String = "1.8.1"
+    static let version: String = "2.0.0"
 
     // ----------------------------------------------------------------------------------------------⌄⌄⌄
     static let features: [WhatsNewFeature] = [
         .init(
-            image: "globe",
-            title: "Translations",
-            subtitle: "Added Italian and Turkish translations. Removed Chinese translation."
+            image: "point.3.connected.trianglepath.dotted",
+            title: "Alternate URLs",
+            subtitle: "Automagically connect using the best URL for the current network."
         ),
         .init(
-            image: "eye.slash",
-            title: "Faded Items",
-            subtitle: "Fade items in the calendar and discovery grid to indicate their status."
+            image: "arrow.down.circle",
+            title: "Download Indicators",
+            subtitle: "See the queue status for movies, seasons and episodes in various places."
         ),
         .init(
-            image: "film.stack",
-            title: "Dual Audio",
-            subtitle: "Releases with dual audio are now included in the Multilingual language filter."
+            image: "calendar",
+            title: "Calendar Navigation",
+            subtitle: "Switched to using sheets to display calendar items for better navigation."
+        ),
+        .init(
+            image: "list.bullet.below.rectangle",
+            title: "Release Layouts",
+            subtitle: "Switch releases to a detailed layout showing titles, bitrate, and custom formats."
+        ),
+        .init(
+            image: "internaldrive",
+            title: "Instance Details",
+            subtitle: "View library statistics and disk space usage for each instances."
+        ),
+        .init(
+            image: "bolt",
+            title: "Performance",
+            subtitle: "Improved image loading and grid filtering/sorting performance."
         ),
         .init(
             image: "ladybug",
-            title: "Fixes & Improvements",
-            subtitle: "Various internal code improvements, bug fixes, and refinements for macOS."
-        ),
+            title: "Improvements & Fixes",
+            subtitle: "Several dozens of quality-of-life improvements and bug fixes throughout the app."
+        )
     ]
+}
+
+#Preview {
+    ContentView()
+        .withAppState()
+}
+
+#Preview("What's New") {
+    @Previewable @State var show: Bool = true
+
+    return NavigationView {
+        Text(verbatim: "Cupidatat adipisicing elit dolor cillum.")
+    }.sheet(isPresented: $show, content: {
+        WhatsNewView()
+            // .environment(\.sizeCategory, .extraExtraLarge)
+    })
+    .tint(.brown)
 }

@@ -1,0 +1,26 @@
+[
+  {
+    "path": "/",
+    "label": "",
+    "freeSpace": 67114201088,
+    "totalSpace": 105089261568
+  },
+  {
+    "path": "/movies",
+    "label": "Movies",
+    "freeSpace": 2199023255552,
+    "totalSpace": 16492674416640
+  },
+  {
+    "path": "/volume1/Library/Plex/Media/UHR/TV Series/Documentaries/Nature",
+    "label": "",
+    "freeSpace": 1353742012416,
+    "totalSpace": 5905800814592
+  },
+  {
+    "path": "/mnt/remote-backup",
+    "label": "Backup (NFS)",
+    "freeSpace": 0,
+    "totalSpace": 0
+  }
+]

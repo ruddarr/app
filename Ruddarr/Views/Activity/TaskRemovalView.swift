@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct TaskRemovalView: View {
     var item: QueueItem
@@ -11,7 +12,7 @@ struct TaskRemovalView: View {
     @State private var error: API.Error?
     @State private var isWorking: Bool = false
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         Form {
@@ -39,11 +40,8 @@ struct TaskRemovalView: View {
         .toolbar {
             toolbarRemoveButton
         }
-        .alert(
-            isPresented: Binding(
-                get: { self.error != nil },
-                set: { _ in }
-            ),
+        .sensoryAlert(
+            isPresented: Binding(get: { self.error != nil }, set: { _ in }),
             error: error
         ) { _ in
             Button("OK") { error = nil }

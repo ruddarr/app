@@ -1,43 +1,49 @@
 import SwiftUI
-import TelemetryDeck
 
 struct SeriesDetailView: View {
     @Binding var series: Series
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
+    @Environment(SonarrInstance.self) private var instance
 
     @Environment(\.deviceType) private var deviceType
-    @Environment(SonarrInstance.self) private var instance
+    @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     @State private var showEditForm = false
     @State private var showDeleteConfirmation = false
+    @State private var togglingMonitor = false
+
+    @State private var reloadTask: Task<Void, Never>?
 
     var body: some View {
         ScrollView {
             SeriesDetails(series: $series)
                 .padding(.top)
                 .scenePadding(.horizontal)
-                .environmentObject(settings)
+                .environment(settings)
         }
         .refreshable {
             await Task { await reload() }.value
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
+            CalendarSheetAwareToolbar(deeplink: deeplink)
             toolbarMonitorButton
             toolbarMenu
         }
         .onAppear {
             maybeReloadRepeatedly()
         }
+        .onDisappear {
+            reloadTask?.cancel()
+        }
         .task {
             await instance.episodes.maybeFetch(series)
-            await instance.files.maybeFetch(series)
         }
         .onBecomeActive {
             await reload()
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.series.errorBinding,
             error: instance.series.error
         ) { _ in
@@ -63,9 +69,9 @@ struct SeriesDetailView: View {
             Button {
                 Task { await toggleMonitor() }
             } label: {
-                ToolbarMonitorButton(monitored: $series.monitored)
+                ToolbarMonitorButton(monitored: series.monitored, loading: togglingMonitor)
             }
-            .allowsHitTesting(!instance.series.isWorking)
+            .allowsHitTesting(!togglingMonitor)
             #if os(iOS)
                 .buttonStyle(.plain)
             #endif
@@ -87,7 +93,10 @@ struct SeriesDetailView: View {
 
                 Section {
                     editAction
-                    deleteSeriesButton
+
+                    if inCalendarSheet == nil {
+                        deleteSeriesButton
+                    }
                 }
             } label: {
                 ToolbarActionButton()
@@ -106,6 +115,11 @@ struct SeriesDetailView: View {
                 }
             #endif
         }
+    }
+
+    var deeplink: URL? {
+        guard let instanceId = series.instanceId else { return nil }
+        return QuickActions.Deeplink.openSeries(series.id, instanceId.uuidString).url
     }
 
     var refreshAction: some View {
@@ -144,9 +158,17 @@ struct SeriesDetailView: View {
 
 extension SeriesDetailView {
     func toggleMonitor() async {
-        series.monitored.toggle()
+        let original = series.monitored
+        series.monitored = !original
+
+        togglingMonitor = true
+        defer { togglingMonitor = false }
 
         guard await instance.series.update(series) else {
+            if series.monitored == !original {
+                series.monitored = original
+            }
+
             return
         }
 
@@ -156,7 +178,6 @@ extension SeriesDetailView {
     func reload() async {
         _ = await instance.series.get(series)
         await instance.episodes.fetch(series)
-        await instance.files.fetch(series)
     }
 
     func refresh() async {
@@ -166,8 +187,9 @@ extension SeriesDetailView {
 
         dependencies.toast.show(.refreshQueued)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            Task { await instance.series.get(series) }
+        Task {
+            try? await Task.sleep(for: .seconds(3))
+            _ = await instance.series.get(series)
         }
     }
 
@@ -187,7 +209,9 @@ extension SeriesDetailView {
     func deleteSeries(exclude: Bool, delete: Bool) async {
         _ = await instance.series.delete(series, addExclusion: exclude, deleteFiles: delete)
 
-        if !dependencies.router.seriesPath.isEmpty {
+        if let inCalendarSheet {
+            inCalendarSheet.dismiss()
+        } else if !dependencies.router.seriesPath.isEmpty {
             dependencies.router.seriesPath.removeLast()
         }
 
@@ -201,8 +225,12 @@ extension SeriesDetailView {
             return
         }
 
-        Task {
+        reloadTask?.cancel()
+
+        reloadTask = Task {
             for _ in 0..<6 {
+                if Task.isCancelled { return }
+
                 _ = await instance.series.get(series, silent: true)
                 try? await Task.sleep(for: .seconds(1))
             }

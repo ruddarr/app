@@ -7,7 +7,7 @@ struct ActivityView: View {
     @State var items: [QueueItem] = []
     @State private var selectedItem: QueueItem?
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {
@@ -56,7 +56,6 @@ struct ActivityView: View {
             .onChange(of: queue.items, updateDisplayedItems)
             .onChange(of: queue.items, updateSelectedItem)
             .onAppear {
-                queue.instances = settings.instances
                 queue.performRefresh = true
                 updateDisplayedItems()
             }
@@ -76,7 +75,7 @@ struct ActivityView: View {
                         deviceType == .phone ? .fraction(0.7) : .large
                     ])
                     .presentationBackground(.sheetBackground)
-                    .environmentObject(settings)
+                    .environment(settings)
             }
         }
     }
@@ -123,7 +122,7 @@ struct ActivityView: View {
         ).mapValues { items -> [QueueItem] in
             guard var dummy = items.first else { return items }
             guard items.count > 1 else { return items }
-            dummy.taskGroupCount = items.count
+            dummy.groupTasks(items.count)
             return [dummy]
         }
 

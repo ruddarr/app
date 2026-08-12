@@ -1,5 +1,5 @@
-import os
 import SwiftUI
+import Sentry
 
 @MainActor
 @Observable
@@ -38,13 +38,11 @@ class Movies {
         sortAndFilterTask?.cancel()
         isFiltering = true
 
-        sortAndFilterTask = Task { @MainActor in
+        sortAndFilterTask = Task(priority: .userInitiated) {
             let items = self.items
             let alternateTitles = self.alternateTitles
 
-            let result = await Task.detached(priority: .userInitiated) {
-                Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
-            }.result.get()
+            let result = await Self.filterAndSortItems(items, alternateTitles, sort, searchQuery)
 
             guard !Task.isCancelled else { return }
 
@@ -169,18 +167,15 @@ class Movies {
         }
     }
 
-    nonisolated private static func filterAndSortItems(
+    @concurrent nonisolated private static func filterAndSortItems(
         _ items: [Movie],
         _ alternateTitles: [Movie.ID: String],
         _ sort: MovieSort,
         _ searchQuery: String
-    ) -> [Movie] {
+    ) async -> [Movie] {
         let query = searchQuery.trimmed()
-        let comparator = sort.option.compare
 
-        if Task.isCancelled { return [] }
-
-        return items
+        let filtered = items
             .filter(sort.filter)
             .filter {
                 guard !query.isEmpty else { return true }
@@ -188,9 +183,24 @@ class Movies {
                     || $0.studio?.localizedCaseInsensitiveContains(query) ?? false
                     || alternateTitles[$0.id]?.localizedCaseInsensitiveContains(query) ?? false
             }
-            .sorted { lhs, rhs in
-                sort.isAscending ? comparator(lhs, rhs) : comparator(rhs, lhs)
+
+        if Task.isCancelled { return [] }
+
+        if sort.option == .byTitle {
+            return filtered.sorted {
+                sort.isAscending ? $0.sortTitle < $1.sortTitle : $0.sortTitle > $1.sortTitle
             }
+        }
+
+        let keys = filtered.map {
+            sort.option.sortKey($0)
+        }
+
+        let order = filtered.indices.sorted {
+            sort.isAscending ? keys[$0] < keys[$1] : keys[$0] > keys[$1]
+        }
+
+        return order.map { filtered[$0] }
     }
 
     private func computeAlternateTitles() {

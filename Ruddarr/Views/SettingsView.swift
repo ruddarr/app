@@ -1,18 +1,21 @@
 import SwiftUI
+import UserNotifications
 
 struct SettingsView: View {
     @State private var showInstanceNameWarning: Bool = false
     @State private var showLocalNetworkWarning: Bool = false
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
 
     enum Path: Hashable {
         case icons
+        case changelog
+        case diagnostics
         case createInstance
         case viewInstance(Instance.ID)
-        case editInstance(Instance.ID)
+        case editInstance(Instance.ID, advanced: Bool = false)
     }
 
     var body: some View {
@@ -23,6 +26,7 @@ struct SettingsView: View {
                 SettingsPreferencesSection()
                 SettingsDisplaySection()
                 SettingsAboutSection()
+                SettingsContributeSection()
                 SettingsLinksSection()
                 SettingsSystemSection()
             }
@@ -32,35 +36,15 @@ struct SettingsView: View {
             #endif
             .navigationTitle("Settings")
             .navigationDestination(for: Path.self) {
-                switch $0 {
-                case .icons:
-                    IconsView()
-                        .environmentObject(settings)
-                case .createInstance:
-                    InstanceEditView(mode: .create, instance: Instance())
-                        .environment(radarrInstance)
-                        .environment(sonarrInstance)
-                        .environmentObject(settings)
-                case .viewInstance(let instanceId):
-                    if let instance = settings.instanceById(instanceId) {
-                        InstanceView(instance: instance)
-                            .environment(radarrInstance)
-                            .environment(sonarrInstance)
-                            .environmentObject(settings)
-                    }
-                case .editInstance(let instanceId):
-                    if let instance = settings.instanceById(instanceId) {
-                        InstanceEditView(mode: .update, instance: instance)
-                            .environment(radarrInstance)
-                            .environment(sonarrInstance)
-                            .environmentObject(settings)
-                    }
-                }
+                SettingsDestination(path: $0)
             }
         }
     }
 
+    @ViewBuilder
     var instanceSection: some View {
+        @Bindable var settings = settings
+
         Section {
             ForEach($settings.instances) { $instance in
                 NavigationLink(value: Path.viewInstance(instance.id)) {
@@ -70,7 +54,14 @@ struct SettingsView: View {
 
             addInstanceButton
         } header: {
-            Text("Instances")
+            HStack {
+                Text("Instances")
+                Spacer()
+
+                #if DEBUG
+                    seedInstancesButton
+                #endif
+            }
         } footer: {
             if showLocalNetworkWarning {
                 localNetworkWarning
@@ -92,6 +83,27 @@ struct SettingsView: View {
         #endif
     }
 
+    #if DEBUG
+        var seedInstancesButton: some View {
+            Button {
+                let count = settings.seedInstances()
+
+                if count > 0 {
+                    dependencies.toast.notice(text: "Seeded \(count) instance(s)", icon: "checkmark.circle.fill")
+                } else {
+                    dependencies.toast.error(text: "No seed-instances.json in bundle", icon: "exclamationmark.circle.fill")
+                }
+            } label: {
+                Text(verbatim: "Seed Instances")
+                    .font(.callout)
+            }
+            #if os(macOS)
+                .buttonStyle(.link)
+                .foregroundStyle(settings.theme.tint)
+            #endif
+        }
+    #endif
+
     var instanceNameWarning: some View {
         Text("Notifications will not route reliably until each instance has been given a unique \"Instance Name\" in the web interface under \"Settings > General\".")
             .foregroundStyle(.orange)
@@ -104,10 +116,8 @@ struct SettingsView: View {
             let settingsPath = String(localized: "System Settings", comment: "Settings app name")
         #endif
 
-        let text = String(
-            format: String(localized: "Local network access must be granted in %@ to connect to instances using private IP addresses."),
-            "[\(settingsPath)](#link)"
-        )
+        let link = "[\(settingsPath)](#link)"
+        let text = String(localized: "Local network access must be granted in \(link) to connect to instances using private IP addresses.")
 
         var markdown = text.toMarkdown()
 
@@ -135,13 +145,13 @@ struct SettingsView: View {
 
     func checkInstance() async {
         let status = await Notifications.authorizationStatus()
-        let uniqueNames = Set(settings.instances.map { $0.name })
+        let uniqueNames = Set(settings.instances.map(\.name))
 
         if status == .authorized {
             showInstanceNameWarning = settings.instances.count != uniqueNames.count
         }
 
-        let hasLocalInstances = settings.instances.contains { $0.isPrivateIp() }
+        let hasLocalInstances = settings.instances.contains { $0.hasOnlyPrivateIpCandidates() }
         let localNetworkDenied = await NetworkMonitor.shared.localNetworkDenied
 
         showLocalNetworkWarning = hasLocalInstances && localNetworkDenied
@@ -150,6 +160,8 @@ struct SettingsView: View {
 
 #Preview {
     dependencies.router.selectedTab = .settings
+
+    InstancesStore.shared.setInstances([.radarrDummy, .sonarrDummy])
 
     return ContentView()
         .withAppState()

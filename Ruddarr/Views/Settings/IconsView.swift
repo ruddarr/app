@@ -1,8 +1,9 @@
 import SwiftUI
 import StoreKit
+import Sentry
 
 struct IconsView: View {
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
 
     @State var showSubscription: Bool = false
     @State var entitledToService: Bool = false

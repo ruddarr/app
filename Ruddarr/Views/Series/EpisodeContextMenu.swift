@@ -1,9 +1,8 @@
 import SwiftUI
-import TelemetryDeck
 
 struct EpisodeContextMenu: View {
     var episode: Episode
-    @Environment(SonarrInstance.self) var instance
+    @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
         Group {
@@ -29,7 +28,7 @@ struct EpisodeContextMenu: View {
 
     func link(name: String, url: String) -> some View {
         Link(destination: URL(string: url)!, label: {
-            Label("Open in \(name)", systemImage: "arrow.up.right.square")
+            Label("Open in \(name)", systemImage: "arrow.up.forward.app")
         })
     }
 

@@ -10,9 +10,9 @@ struct MovieReleasesView: View {
 
     @AppStorage("movieReleaseSort", store: dependencies.store) private var sort: MovieReleaseSort = .init()
 
-    @EnvironmentObject var settings: AppSettings
-    @Environment(\.deviceType) private var deviceType
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
+    @Environment(\.deviceType) private var deviceType
 
     var body: some View {
         List {
@@ -22,7 +22,7 @@ struct MovieReleasesView: View {
                 } label: {
                     MovieReleaseRow(release: release, movie: movie)
                         .environment(instance)
-                        .environmentObject(settings)
+                        .environment(settings)
                 }
                 .buttonStyle(.plain)
             }
@@ -43,12 +43,12 @@ struct MovieReleasesView: View {
             releases = []
             sort.search = ""
             await instance.releases.search(movie)
-            updateDisplayedReleases()
+            releases = sort.filterAndSortItems(instance.releases.items, movie)
             fetched = movie.id
         }
         .onChange(of: sort.option, updateSortDirection)
         .onChange(of: sort, updateDisplayedReleases)
-        .alert(
+        .sensoryAlert(
             isPresented: instance.releases.errorBinding,
             error: instance.releases.error
         ) { _ in
@@ -70,7 +70,7 @@ struct MovieReleasesView: View {
                 .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
                 .presentationBackground(.systemBackground)
                 .environment(instance)
-                .environmentObject(settings)
+                .environment(settings)
         }
     }
 
@@ -146,6 +146,10 @@ extension MovieReleasesView {
             }
 
             indexersPicker
+
+            if !instance.releases.releaseGroups.isEmpty {
+                releaseGroupPicker
+            }
 
             qualityPicker
 
@@ -226,6 +230,24 @@ extension MovieReleasesView {
             Label(
                 sort.indexer == .all ? String(localized: "Indexer") : sort.indexer,
                 systemImage: "building.2"
+            )
+        }
+    }
+
+    var releaseGroupPicker: some View {
+        Menu {
+            Picker("Release Group", selection: $sort.releaseGroup) {
+                Text("Any Group").tag(String.all)
+
+                ForEach(instance.releases.releaseGroups, id: \.self) { group in
+                    Text(group).tag(Optional.some(group))
+                }
+            }
+            .pickerStyle(.inline)
+        } label: {
+            Label(
+                sort.releaseGroup == .all ? String(localized: "Release Group") : sort.releaseGroup,
+                systemImage: "person.2"
             )
         }
     }

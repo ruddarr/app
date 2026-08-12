@@ -3,7 +3,7 @@ import SwiftUI
 struct SeriesForm: View {
     @Binding var series: Series
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
     @Environment(SonarrInstance.self) private var instance
 
     @Environment(\.deviceType) private var deviceType
@@ -67,18 +67,25 @@ struct SeriesForm: View {
         }
     }
 
+    @ViewBuilder
     var qualityProfileField: some View {
-        Picker(selection: $series.qualityProfileId) {
-            ForEach(instance.qualityProfiles) { profile in
-                Text(profile.name).tag(Optional.some(profile.id))
+        if instance.qualityProfiles.isEmpty {
+            LabeledContent("Quality Profile") {
+                Text("Error")
             }
-        } label: {
-            ViewThatFits(in: .horizontal) {
-                Text("Quality Profile")
-                Text("Quality", comment: "Short version of Quality Profile")
+        } else {
+            Picker(selection: $series.qualityProfileId) {
+                ForEach(instance.qualityProfiles) { profile in
+                    Text(profile.name).tag(Optional.some(profile.id))
+                }
+            } label: {
+                ViewThatFits(in: .horizontal) {
+                    Text("Quality Profile")
+                    Text("Quality", comment: "Short version of Quality Profile")
+                }
             }
+            .tint(.secondary)
         }
-        .tint(.secondary)
     }
 
     var typeField: some View {
@@ -116,7 +123,8 @@ struct SeriesForm: View {
     var rootFolderField: some View {
         Picker("Root Folder", selection: $series.rootFolderPath) {
             ForEach(instance.rootFolders) { folder in
-                Text(folder.label).tag(folder.path)
+                folder.labelWithSpace
+                    .tag(folder.path)
             }
         }
         .pickerStyle(.inline)
@@ -147,10 +155,11 @@ struct SeriesForm: View {
         // remove trailing slashes
         series.rootFolderPath = series.rootFolderPath?.untrailingSlashIt
 
-        if !instance.rootFolders.contains(where: {
-            $0.path?.untrailingSlashIt == series.rootFolderPath
-        }) {
-            series.rootFolderPath = instance.rootFolders.first?.path ?? ""
+        if let fallback = instance.rootFolders.first?.path,
+           !instance.rootFolders.contains(where: {
+               $0.path?.untrailingSlashIt == series.rootFolderPath
+           }) {
+            series.rootFolderPath = fallback
         }
     }
 

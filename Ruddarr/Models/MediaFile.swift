@@ -17,12 +17,29 @@ struct MediaFile: Identifiable, Equatable, Codable {
     let seriesId: Series.ID?
     let episodeReleaseType: EpisodeReleaseType?
 
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        id = try container.decode(Int.self, forKey: .id)
+        size = try container.decode(Int.self, forKey: .size)
+        relativePath = try container.decodeIfPresent(String.self, forKey: .relativePath)
+        dateAdded = try container.decode(Date.self, forKey: .dateAdded)
+        mediaInfo = try container.decodeIfPresent(FileMediaInfo.self, forKey: .mediaInfo)
+        quality = try container.decode(MediaQuality.self, forKey: .quality)
+        customFormats = try container.decodeIfPresent([MediaCustomFormat].self, forKey: .customFormats)
+        customFormatScore = try container.decodeIfPresent(Int.self, forKey: .customFormatScore)
+        seriesId = try container.decodeIfPresent(Series.ID.self, forKey: .seriesId)
+        episodeReleaseType = try container.decodeIfPresent(EpisodeReleaseType.self, forKey: .episodeReleaseType)
+
+        languages = try container.decodeLossyArrayIfPresent([MediaLanguage].self, forKey: .languages)
+    }
+
     var filenameLabel: String {
         relativePath?.components(separatedBy: "/").last?.breakable() ?? "--"
     }
 
     var sizeLabel: String {
-        formatBytes(size)
+        formatBytes(size, verbose: true)
     }
 
     var languageLabel: String {
@@ -38,7 +55,7 @@ struct MediaFile: Identifiable, Equatable, Codable {
             return nil
         }
 
-        return formats.map { $0.label }
+        return formats.map(\.label)
     }
 
     var videoResolution: Int? {
@@ -63,7 +80,7 @@ struct MediaFile: Identifiable, Equatable, Codable {
         guard let bitrate = calculateBitrate(seconds, size) else { return nil }
         guard let label = formatBitrate(bitrate) else { return nil }
 
-        return String(format: "~%@", label)
+        return "~\(label)"
     }
 }
 
@@ -119,7 +136,7 @@ struct FileMediaInfo: Equatable, Codable {
     }
 
     var audioLanguageCodes: [String]? {
-        guard let languages = audioLanguages, languages.count > 0 else {
+        guard let languages = audioLanguages, !languages.isEmpty else {
             return nil
         }
 
@@ -131,7 +148,7 @@ struct FileMediaInfo: Equatable, Codable {
     }
 
     var subtitleCodes: [String]? {
-        guard let languages = subtitles, languages.count > 0 else {
+        guard let languages = subtitles, !languages.isEmpty else {
             return nil
         }
 

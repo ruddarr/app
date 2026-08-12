@@ -1,18 +1,17 @@
 import SwiftUI
-import TelemetryDeck
+import Sentry
 
 struct MoviePreviewView: View {
     @State var movie: Movie
 
     @State private var presentingForm: Bool = false
 
-    @EnvironmentObject var settings: AppSettings
-
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
+
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
 
-    @AppStorage("movieSort", store: dependencies.store) var movieSort: MovieSort = .init()
     @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
 
     var body: some View {
@@ -20,13 +19,13 @@ struct MoviePreviewView: View {
             MovieDetails(movie: movie)
                 .padding(.top)
                 .scenePadding(.horizontal)
-                .environmentObject(settings)
+                .environment(settings)
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             toolbarNextButton
         }
-        .alert(
+        .sensoryAlert(
             isPresented: instance.movies.errorBinding,
             error: instance.movies.error
         ) { _ in
@@ -91,7 +90,7 @@ struct MoviePreviewView: View {
                 }
             }
             .prominentGlassButtonStyle(!instance.movies.isWorking)
-            .disabled(instance.movies.isWorking)
+            .disabled(instance.movies.isWorking || instance.rootFolders.isEmpty || instance.qualityProfiles.isEmpty)
         }
     }
 
@@ -108,12 +107,13 @@ struct MoviePreviewView: View {
             fatalError("Failed to locate added movie by TMDB id")
         }
 
+        instance.lookup.updateItem(addedMovie)
+
         #if os(iOS)
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         #endif
 
         presentingForm = false
-        movieSort.filter = .all
 
         let moviePath = MoviesPath.movie(addedMovie.id)
 
@@ -148,5 +148,5 @@ struct MoviePreviewView: View {
     return ContentView()
         .withRadarrInstance(movies: movies)
         .withAppState()
-        // .frame(minWidth: 900, minHeight: 600)
+        .macPreviewFrame()
 }

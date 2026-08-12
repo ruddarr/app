@@ -29,6 +29,7 @@ struct SeriesGridPoster: View {
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 14))
+            .tracksGridPosterWidth()
     }
 
     var poster: some View {
@@ -54,10 +55,14 @@ struct SeriesGridPoster: View {
 struct SeriesPosterOverlay: View {
     var series: Series
 
+    @State private var queueStatus: QueueItemStatus?
+
     var body: some View {
         MediaGridPosterOverlay {
             Group {
-                if series.isDownloaded {
+                if let queueStatus {
+                    QueueStatusIcon(status: queueStatus, color: .white, tint: .white)
+                } else if series.isDownloaded {
                     Image(systemName: "checkmark").symbolVariant(.circle.fill)
                 } else if series.isWaiting {
                     Image(systemName: "clock")
@@ -79,6 +84,7 @@ struct SeriesPosterOverlay: View {
                 .foregroundStyle(.white)
                 .imageScale(.gridItem)
         }
+        .tracksQueueStatus(series.queueKey, into: $queueStatus)
     }
 }
 

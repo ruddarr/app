@@ -1,9 +1,10 @@
 import SwiftUI
+import Nuke
 
 extension MovieDetails {
     var header: some View {
         HStack(alignment: .top) {
-            CachedAsyncImage(.poster, movie.remotePoster)
+            CachedAsyncImage(.poster, movie.remotePoster, priority: .veryHigh)
                 .aspectRatio(
                     CGSize(width: 150, height: 225),
                     contentMode: .fill
@@ -11,6 +12,7 @@ extension MovieDetails {
                 .modifier(MediaDetailsPosterModifier())
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 14))
+                .posterQuickLook(movie.remotePoster, named: movie.posterFilename)
                 .padding(.trailing, deviceType == .phone ? 8 : 16)
 
             VStack(alignment: .leading, spacing: 0) {
@@ -34,25 +36,26 @@ extension MovieDetails {
         }
     }
 
-    var shrinkTitle: Bool {
-        if deviceType == .phone {
-            return movie.title.count > 25
-        }
-
-        return false
-    }
-
     var detailsState: some View {
-        Text(movie.stateLabel)
+        Text(stateLabel)
             .font(.caption)
             .fontWeight(.semibold)
             .textCase(.uppercase)
-            .foregroundStyle(settings.theme.tint)
+            .shimmering(active: queueStatus != nil, color: settings.theme.tint)
+    }
+
+    var stateLabel: String {
+        if let label = queueStatus?.label { return label }
+        return movie.stateLabel
+    }
+
+    var queueStatus: QueueItemStatus? {
+        queue.queueStatus(movie, instanceId: instance.id)
     }
 
     var detailsTitle: some View {
         Text(movie.title)
-            .font(shrinkTitle ? .title : .largeTitle)
+            .font(deviceType == .phone && movie.title.count > 25 ? .title : .largeTitle)
             .fontWeight(.bold)
             .lineLimit(3)
             .kerning(-0.5)

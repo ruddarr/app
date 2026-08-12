@@ -1,17 +1,19 @@
 import SwiftUI
 import StoreKit
+import Sentry
 
 struct SettingsPreferencesSection: View {
-    @EnvironmentObject var settings: AppSettings
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(AppSettings.self) private var settings
+    @Environment(\.colorScheme) private var colorScheme
 
     @State private var showSubscriptionSheet: Bool = false
-    @State private var subscriptionStatus: SubscriptionStatus = .unknown
+    @AppStorage("subscription", store: dependencies.store) private var subscriptionStatus: SubscriptionStatus = .unknown
 
     var body: some View {
         Section {
             tabPicker
             gridPicker
+            releasesPicker
             releaseFiltersPicker
 
             if ![.unknown, .notSubscribed].contains(subscriptionStatus) {
@@ -36,7 +38,10 @@ struct SettingsPreferencesSection: View {
         #endif
     }
 
+    @ViewBuilder
     var tabPicker: some View {
+        @Bindable var settings = settings
+
         Picker(selection: $settings.tab) {
             ForEach([
                 TabItem.movies,
@@ -51,38 +56,61 @@ struct SettingsPreferencesSection: View {
                 String(localized: "Home", comment: "(Preferences) Home tab"),
                 systemImage: "house"
             )
-            .labelStyle(SettingsIconLabelStyle())
+            .labelStyle(.settingsIcon)
         }
         .tint(.secondary)
-        .onChange(of: settings.theme) {
-            dependencies.router.reset()
-        }
     }
 
+    @ViewBuilder
     var gridPicker: some View {
+        @Bindable var settings = settings
+
         Picker(selection: $settings.grid) {
             ForEach(GridStyle.allCases) { style in
                 Text(style.label)
             }
         } label: {
-            Label("Grid", systemImage: "square.grid.2x2")
-                .labelStyle(SettingsIconLabelStyle())
+            Label("Grid", systemImage: "rectangle.grid.3x2")
+                .labelStyle(.settingsIcon)
         }.tint(.secondary)
     }
 
+    @ViewBuilder
+    var releasesPicker: some View {
+        @Bindable var settings = settings
+
+        Picker(selection: $settings.releases) {
+            ForEach(ReleaseLayout.allCases) { value in
+                Text(value.label)
+            }
+        } label: {
+            Label("Releases", systemImage: "rectangle.grid.1x3")
+                .labelStyle(.settingsIcon)
+        }
+        .tint(.secondary)
+    }
+
+    @ViewBuilder
     var releaseFiltersPicker: some View {
+        @Bindable var settings = settings
+
         Picker(selection: $settings.releaseFilters) {
             ForEach(ReleaseFilters.allCases) { value in
                 Text(value.label)
             }
         } label: {
             Label("Release Filters", systemImage: "line.3.horizontal.decrease")
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
         }
         .tint(.secondary)
     }
 
+    @ViewBuilder
     var manageSubscription: some View {
+        let icon = Image(systemName: "bubbles.and.sparkles")
+            .symbolRenderingMode(.palette)
+            .foregroundStyle(.primary, settings.theme.tint)
+
         #if os(macOS)
             Link(destination: URL(string: "itms-apps://apps.apple.com/account/subscriptions")!) {
                 Label {
@@ -90,9 +118,9 @@ struct SettingsPreferencesSection: View {
                         Text(subscriptionStatus.label)
                     }
                 } icon: {
-                    Image(systemName: "bubbles.and.sparkles")
+                    icon
                 }
-                .labelStyle(SettingsIconLabelStyle())
+                .labelStyle(.settingsIcon)
             }
             .buttonStyle(.plain)
         #else
@@ -105,9 +133,9 @@ struct SettingsPreferencesSection: View {
                             Text(subscriptionStatus.label).foregroundStyle(.secondary)
                         }
                     } icon: {
-                        Image(systemName: "bubbles.and.sparkles")
+                        icon
                     }
-                    .labelStyle(SettingsIconLabelStyle())
+                    .labelStyle(.settingsIcon)
                 }
             }
             .foregroundStyle(.label)
@@ -139,10 +167,6 @@ struct SettingsPreferencesSection: View {
 
             // leaveBreadcrumb(.info, category: "subscription", message: "SubscriptionStatusTask success", data: ["statuses": statuses])
         case .failure(let error):
-            withAnimation {
-                subscriptionStatus = .error
-            }
-
             leaveBreadcrumb(.fatal, category: "subscription", message: "SubscriptionStatusTask failed", data: ["error": error])
         case .loading:
             break

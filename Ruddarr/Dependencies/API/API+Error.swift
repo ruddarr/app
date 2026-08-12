@@ -80,9 +80,8 @@ extension API.Error: LocalizedError {
         case .badStatusCode(code: let code):
             String(localized: "Server returned \(code) status code.")
         case .decodingError(let error):
-            String(
-                format: "[%@] %@",
-                error.context.codingPath.map { $0.stringValue }.joined(separator: ", "),
+            "[%@] %@".placeholders(
+                error.context.codingPath.map(\.stringValue).joined(separator: ", "),
                 error.context.debugDescription
             )
         case .errorResponse(code: let code, message: let message):
@@ -102,20 +101,43 @@ extension API.Error: LocalizedError {
         case .nsError(let error):
             error.localizedDescription
         case .error(let error):
-            String(format: String(localized: "An unknown error occurred: %@"), "\(error)")
+            String(localized: "An unknown error occurred: %@").placeholders("\(error)")
         }
     }
 }
 
-extension DecodingError {
-    var context: DecodingError.Context {
-        switch self {
-        case .dataCorrupted(let context): context
-        case .keyNotFound(_, let context): context
-        case .typeMismatch(_, let context): context
-        case .valueNotFound(_, let context): context
-        @unknown default:
-            DecodingError.Context(codingPath: [], debugDescription: "Unhandled decoding error occurred")
+extension FailedRequest.Reason {
+    init(_ error: API.Error) { // swiftlint:disable:this cyclomatic_complexity
+        switch error {
+        case .badStatusCode(let code):
+            self = .status(code: code, message: nil)
+        case .errorResponse(let code, let message):
+            self = .status(code: code, message: message)
+        case .decodingError(let error):
+            let description = error.context.debugDescription
+
+            if error.isUnexpectedResponseShape {
+                self = .decoding("Unexpected response, a reverse proxy or gateway may be intercepting API requests: \(description)")
+            } else {
+                let path = error.codingPathDescription
+                self = .decoding(path.isEmpty ? description : "\(path): \(description)")
+            }
+        case .notConnectedToInternet:
+            self = .transport("Not connected to the internet")
+        case .timeoutOnPrivateIp(let error), .urlError(let error):
+            self = .transport("\(error.localizedDescription) (\(error.errorCode))")
+        case .nsError(let error):
+            self = .transport("\(error.localizedDescription) (\(error.domain) \(error.code))")
+        case .localizedError(let error):
+            self = .transport(error.errorDescription ?? String(describing: error))
+        case .appError(let error):
+            self = .transport(error.errorDescription ?? String(describing: error))
+        case .invalidUrl(let url):
+            self = .transport("Invalid URL: \(url)")
+        case .error(let error):
+            self = .transport(String(describing: error))
+        case .void:
+            self = .transport("Request failed")
         }
     }
 }

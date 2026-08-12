@@ -1,7 +1,7 @@
-import os
 import SwiftUI
 import CloudKit
 import StoreKit
+import Sentry
 
 struct InstanceView: View {
     var instance: Instance
@@ -13,18 +13,28 @@ struct InstanceView: View {
 
     @State var webhook: InstanceWebhook
 
-    @State var notificationsAllowed: Bool = false
-    @State var instanceNotifications: Bool = false
     @State var entitledToService: Bool = false
     @State var showSubscription: Bool = false
+
+    @State var notificationsAllowed: Bool = false
+    @State var instanceNotifications: Bool = false
+
     @State var cloudKitStatus: CKAccountStatus = .couldNotDetermine
     @State var cloudKitUserId: CKRecord.ID?
 
-    @State var showSonarrNoiseAlert = false
+    @State var version: String?
+    @State var libraryState: MetadataState<InstanceStats> = .idle
+    @State var libraryRefreshing: Bool = false
+    @State var diskSpaceState: MetadataState<[InstanceDiskSpace]> = .idle
+    @State var diskSpaceExpanded: Bool = false
 
-    @EnvironmentObject var settings: AppSettings
-    @Environment(RadarrInstance.self) private var radarrInstance
-    @Environment(SonarrInstance.self) private var sonarrInstance
+    @State var webAccessState: MetadataState<URL> = .idle
+    @State var networkToken: UUID?
+
+    @Environment(AppSettings.self) var settings
+    @Environment(RadarrInstance.self) var radarrInstance
+    @Environment(SonarrInstance.self) var sonarrInstance
+    @Environment(\.openURL) var openURL
 
     var body: some View {
         Form {
@@ -32,6 +42,10 @@ struct InstanceView: View {
 
             if !instance.headers.isEmpty {
                 instanceHeaders
+            }
+
+            if !diskSpaceUnavailable {
+                diskSpaceSection
             }
 
             notifications
@@ -44,13 +58,27 @@ struct InstanceView: View {
                 }
             #endif
         }
+        .contentMargins(.bottom, 32, for: .scrollContent)
         .formStyle(.grouped)
         .toolbar {
+            #if os(iOS)
+                toolbarWebButton
+                ToolbarSpacer(.fixed, placement: .primaryAction)
+            #endif
+
             toolbarEditButton
         }
         .safeNavigationBarTitleDisplayMode(.inline)
         .task {
             await setup()
+        }
+        .task(id: networkToken) {
+            guard networkToken != nil else { return }
+
+            try? await Task.sleep(for: .milliseconds(500))
+            guard !Task.isCancelled else { return }
+
+            await checkWebAccess()
         }
         .onChange(of: instanceNotifications) {
             Task { await notificationsToggled() }
@@ -58,7 +86,10 @@ struct InstanceView: View {
         .onBecomeActive {
             await setup()
         }
-        .alert(
+        .onReceive(NotificationCenter.default.publisher(for: .networkChanged)) { _ in
+            networkToken = UUID()
+        }
+        .sensoryAlert(
             isPresented: webhook.errorBinding,
             error: webhook.error
         ) { _ in
@@ -68,32 +99,66 @@ struct InstanceView: View {
         }
         .tint(nil)
         .subscriptionStatusTask(for: Subscription.group, action: handleSubscriptionStatusChange)
-        .sheet(isPresented: $showSubscription) { RuddarrPlusSheet() }
+        .sheet(isPresented: $showSubscription) {
+            RuddarrPlusSheet()
+        }
     }
 
-    @ToolbarContentBuilder
-    var toolbarEditButton: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            NavigationLink(value: SettingsView.Path.editInstance(instance.id)) {
-                Label("Edit", systemImage: "pencil")
-                    .hideIconOnMac()
-            }.tint(.primary)
-        }
+    func setup() async {
+        async let summary: Void = loadSummary()
+        async let webAccess: Void = checkWebAccess()
+
+        await setAppNotificationsStatus()
+        await setCloudKitAccountStatus()
+        await setSubscriptionStatus()
+        await initialWebhookSync()
+        await summary
+        await webAccess
     }
 
     var instanceDetails: some View {
         Section {
-            LabeledContent {
-                Text(instance.label)
-            } label: {
-                Text("Label", comment: "Instance label/name")
+            editRow {
+                LabeledContent {
+                    Text(instance.label)
+                } label: {
+                    Text("Label", comment: "Instance label/name")
+                }
             }
 
-            LabeledContent("Type", value: instance.type.rawValue)
+            editRow {
+                LabeledContent("Type", value: instance.type.rawValue)
+            }
 
-            LabeledContent("URL", value: instance.url)
-                .textSelection(.enabled)
+            editRow {
+                LabeledContent("URL", value: instance.url)
+            }
+
+            editRow(advanced: instance.alternateURL.isEmpty) {
+                LabeledContent("Alternate URL") {
+                    if instance.alternateURL.isEmpty {
+                        Text("Not Set").foregroundStyle(.secondary)
+                    } else {
+                        Text(instance.alternateURL)
+                    }
+                }
+            }
+        } footer: {
+            metadataFooter
         }
+    }
+
+    func editRow<Content: View>(
+        advanced: Bool = false,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        content()
+            .contentShape(Rectangle())
+            .onTapGesture {
+                dependencies.router.settingsPath.append(
+                    SettingsView.Path.editInstance(instance.id, advanced: advanced)
+                )
+            }
     }
 
     var instanceHeaders: some View {
@@ -152,6 +217,52 @@ struct InstanceView: View {
             } else {
                 disableNotifications
             }
+        }
+    }
+
+    @ToolbarContentBuilder
+    var toolbarWebButton: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Button {
+                if case .loaded(let url) = webAccessState {
+                    openURL(url, prefersInApp: true)
+                }
+            } label: {
+                switch webAccessState {
+                case .idle, .loading:
+                    ProgressView()
+                        .controlSize(.small)
+                        .tint(.secondary)
+                case .loaded, .failed:
+                    Image(systemName: "safari")
+                }
+            }
+            .disabled(!webAccessState.isLoaded)
+            .tint(.primary)
+        }
+    }
+
+    func checkWebAccess() async {
+        webAccessState = .loading
+
+        let url = await instance.reachableWebURL()
+
+        guard !Task.isCancelled else { return }
+
+        if let url {
+            webAccessState = .loaded(url)
+        } else {
+            webAccessState = .failed
+        }
+    }
+
+    @ToolbarContentBuilder
+    var toolbarEditButton: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            NavigationLink(value: SettingsView.Path.editInstance(instance.id)) {
+                Label("Edit", systemImage: "pencil")
+                    .hideIconOnMac()
+            }.tint(.primary)
         }
     }
 

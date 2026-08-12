@@ -1,5 +1,5 @@
 import SwiftUI
-import TelemetryDeck
+import TipKit
 
 struct MovieDetails: View {
     var movie: Movie
@@ -7,12 +7,12 @@ struct MovieDetails: View {
     @State private var dispatchingSearch: Bool = false
     @State private var descriptionTruncated = true
     @State private var fileSheet: MediaFile?
+    @State var queue = Queue.shared
 
-    @EnvironmentObject var settings: AppSettings
-
+    @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var instance
     @Environment(\.deviceType) var deviceType
-    @Environment(\.openURL) var openURL
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -98,7 +98,7 @@ struct MovieDetails: View {
 
     @ViewBuilder
     var actions: some View {
-        HStack(spacing: 24) {
+        HStack(spacing: 20) {
             if movie.exists {
                 movieActions
             } else {
@@ -106,7 +106,7 @@ struct MovieDetails: View {
             }
         }
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: 450)
+        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
     }
 
     var movieActions: some View {
@@ -119,20 +119,18 @@ struct MovieDetails: View {
                     icon: "magnifyingglass",
                     isLoading: dispatchingSearch
                 )
-                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
+            .actionButton()
+            .actionButtonWidth()
             .allowsHitTesting(!instance.movies.isWorking)
             .onAppear(perform: triggerTipIfJustAdded)
             .popoverTip(NoAutomaticSearchTip())
 
             NavigationLink(value: MoviesPath.releases(movie.id)) {
                 ButtonLabel(text: String(localized: "Interactive"), icon: "person.fill")
-                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.bordered)
-            .tint(.buttonTint)
+            .actionButton()
+            .actionButtonWidth()
         }
     }
 
@@ -141,16 +139,15 @@ struct MovieDetails: View {
             Menu {
                 MovieLinks(movie: movie)
             } label: {
-                ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.right.square")
-                    .modifier(MediaPreviewActionModifier())
+                ButtonLabel(text: String(localized: "Open In..."), icon: "arrow.up.forward.app")
                     .modifier(MacMenuButtonLabelModifier())
             }
+            .actionButtonWidth()
             #if os(macOS)
                 .buttonStyle(.plain)
             #else
-                .buttonStyle(.bordered)
+                .actionButton()
             #endif
-            .tint(.buttonTint)
 
             if let trailerUrl = MovieLinks.youTubeTrailer(movie.youTubeTrailerId) {
                 Button {
@@ -159,13 +156,11 @@ struct MovieDetails: View {
                     let label: LocalizedStringKey = deviceType == .phone ? "Trailer" : "Watch Trailer"
 
                     ButtonLabel(text: label, icon: "play.fill")
-                        .modifier(MediaPreviewActionModifier())
                 }
-                .buttonStyle(.bordered)
-                .tint(.buttonTint)
+                .actionButton()
+                .actionButtonWidth()
             } else {
-                Spacer()
-                    .modifier(MediaPreviewActionSpacerModifier())
+                ActionButtonSpacer()
             }
         }
     }
@@ -177,11 +172,11 @@ struct MovieDetails: View {
     }
 
     func triggerTipIfJustAdded() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        Task {
+            try? await Task.sleep(for: .seconds(1))
+
             if movie.added.timeIntervalSinceNow > -30 {
-                Task {
-                    await NoAutomaticSearchTip.mediaAdded.donate()
-                }
+                await NoAutomaticSearchTip.mediaAdded.donate()
             }
         }
     }
@@ -219,4 +214,5 @@ struct MovieDetails: View {
     return MovieView(movie: Binding(get: { movie }, set: { _ in }))
         .withRadarrInstance(movies: movies)
         .withAppState()
+        .macPreviewFrame()
 }

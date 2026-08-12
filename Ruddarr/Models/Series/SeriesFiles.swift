@@ -1,56 +1,16 @@
-import os
 import SwiftUI
+import Sentry
 
 @MainActor
 @Observable
 class SeriesFiles {
     var instance: Instance
 
-    var items: [MediaFile] = []
-
     var error: API.Error?
     var errorBinding: Binding<Bool> { .init(get: { self.error != nil }, set: { _ in }) }
 
-    var isFetching: Bool = false
-
     init(_ instance: Instance) {
         self.instance = instance
-    }
-
-    func fetched(_ series: Series) -> Bool {
-        items.contains { $0.seriesId == series.id }
-    }
-
-    func maybeFetch(_ series: Series) async {
-        guard !fetched(series) else { return }
-        await fetch(series)
-    }
-
-    func fetch(_ series: Series) async {
-        error = nil
-        isFetching = true
-
-        if let file = items.first, file.seriesId != series.id {
-            items = []
-        }
-
-        do {
-            let newItems = try await dependencies.api.fetchEpisodeFiles(series.id, instance)
-
-            if items != newItems {
-                items = newItems
-            }
-        } catch is CancellationError {
-            // do nothing
-        } catch let apiError as API.Error {
-            error = apiError
-
-            leaveBreadcrumb(.error, category: "series.files", message: "Series files fetch failed", data: ["error": apiError])
-        } catch {
-            self.error = API.Error(from: error)
-        }
-
-        isFetching = false
     }
 
     func delete(_ file: MediaFile) async -> Bool {
@@ -58,10 +18,6 @@ class SeriesFiles {
 
         do {
             _ = try await dependencies.api.deleteEpisodeFile(file, instance)
-
-            if let index = items.firstIndex(where: { $0.id == file.id }) {
-                items.remove(at: index)
-            }
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
@@ -80,9 +36,6 @@ class SeriesFiles {
 
         do {
             _ = try await dependencies.api.deleteEpisodeFiles(files, instance)
-
-            let deleted = Set(files.map(\.id))
-            items.removeAll { deleted.contains($0.id) }
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {

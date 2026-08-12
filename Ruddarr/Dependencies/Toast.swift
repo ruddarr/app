@@ -59,8 +59,8 @@ extension Toast {
 
         var timeout: Duration {
             switch type {
-            case .notice: return .seconds(4)
-            case .error: return .seconds(8)
+            case .notice: .seconds(4)
+            case .error: .seconds(8)
             }
         }
     }
@@ -168,11 +168,10 @@ extension Toast {
 
 extension View {
     func displayToasts(from toast: Toast = dependencies.toast) -> some View {
-        @Environment(\.colorScheme) var colorScheme
-
-        return overlay(alignment: .bottom) {
+        overlay(alignment: .bottom) {
             if let message = toast.currentMessage {
                 toast.render(message)
+                    .allowsHitTesting(false)
             }
         }
     }

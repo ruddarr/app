@@ -2,10 +2,11 @@ import SwiftUI
 
 struct EpisodeRow: View {
     var episode: Episode
+    var status: QueueItemStatus?
 
-    @EnvironmentObject var settings: AppSettings
-    @Environment(SonarrInstance.self) var instance
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(AppSettings.self) private var settings
+    @Environment(SonarrInstance.self) private var instance
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         HStack {
@@ -29,8 +30,11 @@ struct EpisodeRow: View {
                     if let file = episodeFile {
                         Text(file.quality.quality.normalizedName)
                             .foregroundStyle(.secondary)
+                    } else if let status {
+                        Text(status.label)
+                            .foregroundStyle(.secondary)
                     } else {
-                        Text(episode.statusLabel)
+                        Text(episode.stateLabel)
                             .foregroundStyle(episodeIsMissing ? .red : .secondary)
                     }
 
@@ -49,9 +53,17 @@ struct EpisodeRow: View {
 
             Spacer()
 
+            if let status {
+                QueueStatusIcon(status: status, color: colorScheme == .dark ? .lightGray : .darkGray)
+            }
+
             monitorButton
         }
         .contentShape(Rectangle())
+    }
+
+    private var episodeMonitored: Bool {
+        instance.episodes.items.first(where: { $0.id == episode.id })?.monitored ?? episode.monitored
     }
 
     var series: Series {
@@ -63,7 +75,7 @@ struct EpisodeRow: View {
     }
 
     var episodeFile: MediaFile? {
-        instance.files.items.first(where: { $0.id == episode.episodeFileId })
+        episode.episodeFile
     }
 
     var episodeIsMissing: Bool {
@@ -74,16 +86,12 @@ struct EpisodeRow: View {
         Button {
             Task { await toggleMonitor() }
         } label: {
-            if instance.episodes.isMonitoring == episode.id {
-                ButtonProgressView(tint: .secondary)
-            } else {
-                Image(systemName: "bookmark")
-                    .symbolVariant(episode.monitored ? .fill : .none)
-                    .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
-            }
+            RowMonitorButton(
+                monitored: episodeMonitored,
+                loading: instance.episodes.isMonitoring == episode.id
+            )
         }
         .buttonStyle(.plain)
-        .overlay(Rectangle().padding(18))
         .allowsHitTesting(instance.episodes.isMonitoring == 0)
         .disabled(!series.monitored)
     }
@@ -93,13 +101,16 @@ struct EpisodeRow: View {
             return
         }
 
-        instance.episodes.items[index].monitored.toggle()
+        let original = instance.episodes.items[index].monitored
+        instance.episodes.items[index].monitored = !original
 
-        guard await instance.episodes.monitor([episode.id], !episode.monitored) else {
+        guard await instance.episodes.monitor([episode.id], !original) else {
+            instance.episodes.items.revert(\.monitored, to: original, id: episode.id)
+
             return
         }
 
-        dependencies.toast.show(!episode.monitored ? .monitored : .unmonitored)
+        dependencies.toast.show(!original ? .monitored : .unmonitored)
     }
 }
 

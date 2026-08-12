@@ -1,8 +1,6 @@
-import os
 import Foundation
 import CloudKit
 import TelemetryDeck
-
 @preconcurrency import Sentry
 
 enum Metric: String {
@@ -70,6 +68,7 @@ actor Telemetry {
                 "tab": settings.tab.rawValue,
                 "appearance": settings.appearance.rawValue,
                 "grid": settings.grid.rawValue,
+                "releases": settings.releases.rawValue,
                 "releaseFilters": settings.releaseFilters.rawValue,
                 "deviceType": Platform.deviceType.rawValue,
                 "radarrInstances": String(settings.radarrInstances.count),

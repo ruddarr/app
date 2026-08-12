@@ -6,6 +6,10 @@ struct WhatsNew {
     }
 
     static func shouldPresent() -> Bool {
+        guard !isRunningIn(.simulator) else {
+            return false
+        }
+
         guard !WhatsNew.features.isEmpty else {
             return false
         }
@@ -34,13 +38,21 @@ struct WhatsNewView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
 
+    @State private var locked: Bool = true
+
+    #if os(macOS)
+        private let featureSpacing: CGFloat = 18
+    #else
+        private let featureSpacing: CGFloat = 25
+    #endif
+
     var body: some View {
         ZStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 60) {
                     title
 
-                    VStack(alignment: .leading, spacing: 25) {
+                    VStack(alignment: .leading, spacing: featureSpacing) {
                         ForEach(WhatsNew.features, id: \.title, content: feature)
                     }
                     .modifier(WhatsNewFeaturesPadding())
@@ -51,18 +63,14 @@ struct WhatsNewView: View {
 
                 Color.clear.padding(.bottom, 150)
             }
-            #if os(iOS)
-                .background(.systemBackground)
-            #endif
+            .background(.systemBackground)
 
             VStack {
                 Spacer()
 
                 footer
                     .modifier(WhatsNewFooterPadding())
-                    #if os(iOS)
-                        .background(.systemBackground)
-                    #endif
+                    .background(.systemBackground)
             }
             .edgesIgnoringSafeArea(.bottom)
         }
@@ -85,13 +93,18 @@ struct WhatsNewView: View {
                 Spacer()
 
                 VStack {
-                    if isRunningIn(.appstore) {
-                        Link(destination: Links.GitHubReleases) {
-                            Text("Release Notes", comment: "Also know as changelog")
-                        }
-                        .foregroundStyle(.tint)
-                        .padding(.bottom, 10)
+                    Button {
+                        dependencies.router.selectedTab = .settings
+                        dependencies.router.settingsPath.append(SettingsView.Path.changelog)
+                        dismiss()
+                    } label: {
+                        Text("Release Notes", comment: "Also know as changelog")
                     }
+                    #if os(macOS)
+                        .buttonStyle(.link)
+                    #endif
+                    .foregroundStyle(locked ? AnyShapeStyle(.gray) : AnyShapeStyle(.tint))
+                    .padding(.bottom, 10)
 
                     Button {
                         #if os(iOS)
@@ -107,9 +120,15 @@ struct WhatsNewView: View {
                     }
                     .buttonStyle(.glassProminent)
                 }
+                .disabled(locked)
+                .animation(.easeIn, value: locked)
 
                 Spacer()
             }
+        }
+        .task {
+            try? await Task.sleep(for: .seconds(3))
+            locked = false
         }
     }
 
@@ -148,13 +167,13 @@ struct WhatsNewFeature {
 }
 
 struct WhatsNewFooterPadding: ViewModifier {
-    @Environment(\.verticalSizeClass) var verticalSizeClass
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     func body(content: Content) -> some View {
         #if os(macOS)
             content.padding(
-                .init(top: 0, leading: 30, bottom: 30, trailing: 30)
+                .init(top: 15, leading: 30, bottom: 30, trailing: 30)
             )
         #else
             if self.horizontalSizeClass == .regular {
@@ -175,8 +194,8 @@ struct WhatsNewFooterPadding: ViewModifier {
 }
 
 struct WhatsNewFeaturesPadding: ViewModifier {
-    @Environment(\.verticalSizeClass) var verticalSizeClass
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     func body(content: Content) -> some View {
         #if os(macOS)
@@ -205,7 +224,11 @@ private struct WhatsNewSheetViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         if WhatsNew.shouldPresent() {
             content.sheet(isPresented: $isPresented) {
-                WhatsNewView()
+                if Platform.deviceType == .pad {
+                    WhatsNewView().presentationSizing(.form)
+                } else {
+                    WhatsNewView()
+                }
             }
         } else {
             content

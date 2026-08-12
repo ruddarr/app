@@ -10,13 +10,16 @@
         "modifier": "brdisk"
       },
       "revision": {
-        "version": 1,
+        "version": 2,
         "real": 0,
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "HDR10"},
+        {"id": 2, "name": "Tier 1"}
+    ],
+    "customFormatScore": 350,
     "qualityWeight": 2401,
     "age": 1153,
     "ageHours": 27694.16477200464,
@@ -50,7 +53,10 @@
     "infoUrl": "https://blutopia.cc/torrents/69333",
     "downloadAllowed": true,
     "releaseWeight": 0,
-    "indexerFlags": [],
+    "indexerFlags": [
+        "G_Freeleech",
+        "G_Internal"
+    ],
     "edition": "",
     "magnetUrl": "",
     "infoHash": "1911dd1fc168032ccba92c713b505a0e3021071f",
@@ -110,7 +116,8 @@
     "downloadAllowed": true,
     "releaseWeight": 1,
     "indexerFlags": [
-      "G_Freeleech"
+        "G_Halfleech",
+        "G_DoubleUpload"
     ],
     "edition": "",
     "magnetUrl": "",
@@ -132,7 +139,7 @@
       "revision": {
         "version": 1,
         "real": 0,
-        "isRepack": false
+        "isRepack": true
       }
     },
     "customFormats": [],
@@ -169,7 +176,11 @@
     "infoUrl": "https://blutopia.cc/torrents/69996",
     "downloadAllowed": true,
     "releaseWeight": 2,
-    "indexerFlags": [],
+    "indexerFlags": [
+        "G_Scene",
+        "G_Freeleech75",
+        "G_Freeleech25"
+    ],
     "edition": "",
     "magnetUrl": "",
     "infoHash": "a1ee4d6cf50fb64dec48f596b5eb8804d1bf8117",
@@ -188,13 +199,16 @@
         "modifier": "brdisk"
       },
       "revision": {
-        "version": 1,
+        "version": 2,
         "real": 0,
-        "isRepack": false
+        "isRepack": true
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "1080p Compact Movie Bluray Tier 1"},
+        {"id": 2, "name": "Dolby Digital"}
+    ],
+    "customFormatScore": 1250,
     "qualityWeight": 2401,
     "age": 132,
     "ageHours": 3174.22699438875,
@@ -229,7 +243,7 @@
     "downloadAllowed": true,
     "releaseWeight": 3,
     "indexerFlags": [
-      "G_Freeleech"
+        "G_Nuked"
     ],
     "edition": "",
     "magnetUrl": "",
@@ -506,8 +520,13 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "Dolby Vision"},
+        {"id": 2, "name": "TrueHD Atmos"},
+        {"id": 3, "name": "HEVC"},
+        {"id": 4, "name": "Tier 2"}
+    ],
+    "customFormatScore": 800,
     "qualityWeight": 2401,
     "age": 1141,
     "ageHours": 27391.37782773078,
@@ -819,8 +838,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "x265"},
+        {"id": 2, "name": "Bad Dual Groups"}
+    ],
+    "customFormatScore": -250,
     "qualityWeight": 2401,
     "age": 1131,
     "ageHours": 27156.000605513418,
@@ -1004,8 +1026,14 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "1080p Efficient Movie Bluray Tier 4"},
+        {"id": 2, "name": "HD Spanish"},
+        {"id": 3, "name": "DTS-HD MA"},
+        {"id": 4, "name": "Scene"},
+        {"id": 5, "name": "Tier 3"}
+    ],
+    "customFormatScore": 120,
     "qualityWeight": 2401,
     "age": 1153,
     "ageHours": 27685.883383294306,
@@ -1189,8 +1217,12 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "2160p Efficient Series Bluray Tier 2"},
+        {"id": 2, "name": "Multi Audio"},
+        {"id": 3, "name": "HDR10+"}
+    ],
+    "customFormatScore": 943400,
     "qualityWeight": 2301,
     "age": 579,
     "ageHours": 13902.716438854472,
@@ -1372,8 +1404,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "HDR10"},
+        {"id": 2, "name": "Tier 1"}
+    ],
+    "customFormatScore": 350,
     "qualityWeight": 2301,
     "age": 1143,
     "ageHours": 27439.004494412777,
@@ -1555,8 +1590,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "1080p Compact Movie Bluray Tier 1"},
+        {"id": 2, "name": "Dolby Digital"}
+    ],
+    "customFormatScore": 1250,
     "qualityWeight": 2301,
     "age": 357,
     "ageHours": 8575.564494415805,
@@ -1741,8 +1779,13 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "Dolby Vision"},
+        {"id": 2, "name": "TrueHD Atmos"},
+        {"id": 3, "name": "HEVC"},
+        {"id": 4, "name": "Tier 2"}
+    ],
+    "customFormatScore": 800,
     "qualityWeight": 2301,
     "age": 1153,
     "ageHours": 27674.550049974307,
@@ -1924,8 +1967,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "x265"},
+        {"id": 2, "name": "Bad Dual Groups"}
+    ],
+    "customFormatScore": -250,
     "qualityWeight": 2301,
     "age": 1153,
     "ageHours": 27685.89032775511,
@@ -2105,8 +2151,14 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "1080p Efficient Movie Bluray Tier 4"},
+        {"id": 2, "name": "HD Spanish"},
+        {"id": 3, "name": "DTS-HD MA"},
+        {"id": 4, "name": "Scene"},
+        {"id": 5, "name": "Tier 3"}
+    ],
+    "customFormatScore": 120,
     "qualityWeight": 2201,
     "age": 1149,
     "ageHours": 27577.72810553714,
@@ -2286,8 +2338,12 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "2160p Efficient Series Bluray Tier 2"},
+        {"id": 2, "name": "Multi Audio"},
+        {"id": 3, "name": "HDR10+"}
+    ],
+    "customFormatScore": 943400,
     "qualityWeight": 2201,
     "age": 1120,
     "ageHours": 26890.57310553989,
@@ -2469,8 +2525,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "HDR10"},
+        {"id": 2, "name": "Tier 1"}
+    ],
+    "customFormatScore": 350,
     "qualityWeight": 2201,
     "age": 1152,
     "ageHours": 27658.109216653946,
@@ -2652,8 +2711,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "1080p Compact Movie Bluray Tier 1"},
+        {"id": 2, "name": "Dolby Digital"}
+    ],
+    "customFormatScore": 1250,
     "qualityWeight": 2201,
     "age": 1152,
     "ageHours": 27665.010883323168,
@@ -2831,8 +2893,13 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "Dolby Vision"},
+        {"id": 2, "name": "TrueHD Atmos"},
+        {"id": 3, "name": "HEVC"},
+        {"id": 4, "name": "Tier 2"}
+    ],
+    "customFormatScore": 800,
     "qualityWeight": 2201,
     "age": 1143,
     "ageHours": 27439.00893888139,
@@ -3016,8 +3083,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "x265"},
+        {"id": 2, "name": "Bad Dual Groups"}
+    ],
+    "customFormatScore": -250,
     "qualityWeight": 2201,
     "age": 1095,
     "ageHours": 26285.81616110683,
@@ -3205,8 +3275,14 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "1080p Efficient Movie Bluray Tier 4"},
+        {"id": 2, "name": "HD Spanish"},
+        {"id": 3, "name": "DTS-HD MA"},
+        {"id": 4, "name": "Scene"},
+        {"id": 5, "name": "Tier 3"}
+    ],
+    "customFormatScore": 120,
     "qualityWeight": 2201,
     "age": 1142,
     "ageHours": 27415.63616110975,
@@ -3389,8 +3465,12 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "2160p Efficient Series Bluray Tier 2"},
+        {"id": 2, "name": "Multi Audio"},
+        {"id": 3, "name": "HDR10+"}
+    ],
+    "customFormatScore": 943400,
     "qualityWeight": 2201,
     "age": 132,
     "ageHours": 3169.000883335,
@@ -3572,8 +3652,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "HDR10"},
+        {"id": 2, "name": "Tier 1"}
+    ],
+    "customFormatScore": 350,
     "qualityWeight": 2201,
     "age": 1131,
     "ageHours": 27156.00060555986,
@@ -3755,8 +3838,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "1080p Compact Movie Bluray Tier 1"},
+        {"id": 2, "name": "Dolby Digital"}
+    ],
+    "customFormatScore": 1250,
     "qualityWeight": 2201,
     "age": 766,
     "ageHours": 18395.999216673918,
@@ -3937,8 +4023,13 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "Dolby Vision"},
+        {"id": 2, "name": "TrueHD Atmos"},
+        {"id": 3, "name": "HEVC"},
+        {"id": 4, "name": "Tier 2"}
+    ],
+    "customFormatScore": 800,
     "qualityWeight": 2201,
     "age": 1095,
     "ageHours": 26280.00060556536,
@@ -4121,8 +4212,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "x265"},
+        {"id": 2, "name": "Bad Dual Groups"}
+    ],
+    "customFormatScore": -250,
     "qualityWeight": 2201,
     "age": 1147,
     "ageHours": 27548.137550014195,
@@ -4303,8 +4397,14 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "1080p Efficient Movie Bluray Tier 4"},
+        {"id": 2, "name": "HD Spanish"},
+        {"id": 3, "name": "DTS-HD MA"},
+        {"id": 4, "name": "Scene"},
+        {"id": 5, "name": "Tier 3"}
+    ],
+    "customFormatScore": 120,
     "qualityWeight": 2201,
     "age": 957,
     "ageHours": 22970.790605574526,
@@ -4485,8 +4585,12 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "2160p Efficient Series Bluray Tier 2"},
+        {"id": 2, "name": "Multi Audio"},
+        {"id": 3, "name": "HDR10+"}
+    ],
+    "customFormatScore": 943400,
     "qualityWeight": 2001,
     "age": 578,
     "ageHours": 13884.201161133917,
@@ -4668,8 +4772,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "HDR10"},
+        {"id": 2, "name": "Tier 1"}
+    ],
+    "customFormatScore": 350,
     "qualityWeight": 1901,
     "age": 1131,
     "ageHours": 27156.000605581554,
@@ -4853,8 +4960,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "1080p Compact Movie Bluray Tier 1"},
+        {"id": 2, "name": "Dolby Digital"}
+    ],
+    "customFormatScore": 1250,
     "qualityWeight": 1801,
     "age": 829,
     "ageHours": 19899.092272252612,
@@ -5032,8 +5142,13 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "Dolby Vision"},
+        {"id": 2, "name": "TrueHD Atmos"},
+        {"id": 3, "name": "HEVC"},
+        {"id": 4, "name": "Tier 2"}
+    ],
+    "customFormatScore": 800,
     "qualityWeight": 1801,
     "age": 1149,
     "ageHours": 27589.419216699887,
@@ -5208,8 +5323,11 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "x265"},
+        {"id": 2, "name": "Bad Dual Groups"}
+    ],
+    "customFormatScore": -250,
     "qualityWeight": 1801,
     "age": 1128,
     "ageHours": 27075.020327813807,
@@ -5331,7 +5449,7 @@
     "customFormats": [
         {"id": 1, "name": "x264"},
         {"id": 2, "name": "HD Spanish"},
-        {"id": 5, "name": "Tier 1"},
+        {"id": 5, "name": "Tier 1"}
     ],
     "customFormatScore": 1234,
     "qualityWeight": 1801,
@@ -5453,8 +5571,14 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "1080p Efficient Movie Bluray Tier 4"},
+        {"id": 2, "name": "HD Spanish"},
+        {"id": 3, "name": "DTS-HD MA"},
+        {"id": 4, "name": "Scene"},
+        {"id": 5, "name": "Tier 3"}
+    ],
+    "customFormatScore": 120,
     "qualityWeight": 1801,
     "age": 1151,
     "ageHours": 27635.698661151084,
@@ -5636,8 +5760,12 @@
         "isRepack": false
       }
     },
-    "customFormats": [],
-    "customFormatScore": 0,
+    "customFormats": [
+        {"id": 1, "name": "2160p Efficient Series Bluray Tier 2"},
+        {"id": 2, "name": "Multi Audio"},
+        {"id": 3, "name": "HDR10+"}
+    ],
+    "customFormatScore": 943400,
     "qualityWeight": 1801,
     "age": 1142,
     "ageHours": 27416.51893893142,

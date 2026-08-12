@@ -108,7 +108,7 @@ struct MediaFileSheet: View {
                     Divider()
                     row(
                         String(localized: "Framerate", comment: "Video frame rate"),
-                        String(format: "%.0f fps", media.videoFps)
+                        "\(media.videoFps.formatted(.decimal(0))) fps"
                     )
                     Divider()
                     row(

@@ -4,10 +4,11 @@ struct Episode: Identifiable, Codable, Equatable {
     let id: Int
 
     // used by deeplinks to switch instances
-    var instanceId: Instance.ID?
+    private(set) var instanceId: Instance.ID?
 
     let seriesId: Int
     let episodeFileId: Int
+    @LossyDecoded private(set) var episodeFile: MediaFile?
     let tvdbId: Int
 
     let seasonNumber: Int
@@ -34,12 +35,32 @@ struct Episode: Identifiable, Codable, Equatable {
     let sceneSeasonNumber: Int?
     let unverifiedSceneNumbering: Bool
 
-    let series: Series?
+    var series: Series?
 
-    var calendarGroupCount: Int?
+    private(set) var calendarGroupCount: Int?
+    private(set) var queueStatusInCalendar: QueueItemStatus?
 
     var calendarGroup: String {
         "\(seriesId):\(seasonNumber):\(airDateUtc?.formatted(.iso8601) ?? "")"
+    }
+
+    var isGroupedInCalendar: Bool {
+        (calendarGroupCount ?? 0) > 2
+    }
+
+    mutating func groupInCalendar(_ count: Int, status: QueueItemStatus?) {
+        calendarGroupCount = count
+        queueStatusInCalendar = status
+    }
+
+    var deeplink: URL? {
+        guard let instanceId else { return nil }
+
+        if isGroupedInCalendar {
+            return QuickActions.Deeplink.openSeason(seriesId, seasonNumber, instanceId.uuidString).url
+        }
+
+        return QuickActions.Deeplink.openEpisode(seriesId, seasonNumber, episodeNumber, instanceId.uuidString).url
     }
 
     var titleLabel: String {
@@ -47,19 +68,19 @@ struct Episode: Identifiable, Codable, Equatable {
     }
 
     var episodeLabel: String {
-        String(format: "%dx%02d", seasonNumber, episodeNumber)
+        "%dx%@".placeholders(seasonNumber, episodeNumber < 10 ? "0\(episodeNumber)" : episodeNumber)
     }
 
-    var statusLabel: String {
+    var stateLabel: String {
         if hasFile {
-            return String(localized: "Downloaded", comment: "(Single word) Episode status label")
+            return String(localized: "Downloaded", comment: "(Single word) Episode state label")
         }
 
         if !hasAired {
-            return String(localized: "Unaired", comment: "(Single word) Episode status label")
+            return String(localized: "Unaired", comment: "(Single word) Episode state label")
         }
 
-        return String(localized: "Missing", comment: "(Single word) Episode status label")
+        return String(localized: "Missing", comment: "(Single word) Episode state label")
     }
 
     var runtimeLabel: String? {
@@ -164,6 +185,13 @@ struct Episode: Identifiable, Codable, Equatable {
     }
 }
 
+extension Episode: InstanceScoped {
+    mutating func stamp(_ instance: Instance.ID?) {
+        instanceId = instance
+        series?.stamp(instance)
+    }
+}
+
 enum EpisodeFinale: String, Codable {
     case series
     case season
@@ -210,7 +238,7 @@ enum EpisodeReleaseType: String, Equatable, Codable {
 extension Episode {
     static var void: Self {
         .init(
-            id: 0, seriesId: 0, episodeFileId: 0, tvdbId: 0, seasonNumber: 0, episodeNumber: 0, runtime: 0, title: nil, overview: nil,
+            id: 0, seriesId: 0, episodeFileId: 0, episodeFile: nil, tvdbId: 0, seasonNumber: 0, episodeNumber: 0, runtime: 0, title: nil, overview: nil,
             hasFile: false, monitored: false, grabbed: false, finaleType: nil, airDateUtc: nil, endTime: nil, grabDate: nil, absoluteEpisodeNumber: nil,
             sceneAbsoluteEpisodeNumber: nil, sceneEpisodeNumber: nil, sceneSeasonNumber: nil, unverifiedSceneNumbering: false, series: nil
         )

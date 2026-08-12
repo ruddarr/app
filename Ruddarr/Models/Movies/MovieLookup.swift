@@ -1,5 +1,5 @@
-import os
 import SwiftUI
+import Sentry
 
 @MainActor
 @Observable
@@ -44,7 +44,7 @@ class MovieLookup {
     }
 
     func isEmpty() -> Bool {
-        items == nil || items?.count == 0
+        items?.isEmpty ?? true
     }
 
     func noResults(_ query: String) -> Bool {
@@ -108,7 +108,14 @@ class MovieLookup {
         return queries[query] ?? nil
     }
 
-    // consider caching this for performance
+    func updateItem(_ movie: Movie) {
+        if let index = items?.firstIndex(where: { $0.tmdbId == movie.tmdbId }) {
+            items?[index] = movie
+        }
+
+        queries["tmdb:\(movie.tmdbId)"] = movie
+    }
+
     var sortedItems: [Movie] {
         let items = items ?? []
 

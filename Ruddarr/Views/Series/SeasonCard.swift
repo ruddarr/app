@@ -3,6 +3,7 @@ import SwiftUI
 struct SeasonCard: View {
     @Binding var series: Series
     var season: Season
+    var status: QueueItemStatus?
 
     @State private var isWorking: Bool = false
 
@@ -24,24 +25,29 @@ struct SeasonCard: View {
 
                 Spacer()
 
+                if let status {
+                    QueueStatusIcon(status: status, color: colorScheme == .dark ? .lightGray : .darkGray)
+                }
+
                 Button {
                     Task {
                         await toggle()
                     }
                 } label: {
-                    if isWorking {
-                        ButtonProgressView(tint: .secondary).offset(x: 1.5)
-                    } else {
-                        Image(systemName: "bookmark")
-                            .symbolVariant(season.monitored ? .fill : .none)
-                            .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
-                    }
+                    RowMonitorButton(
+                        monitored: seasonMonitored,
+                        loading: isWorking
+                    )
                 }
                 .buttonStyle(.plain)
-                .overlay(Rectangle().padding(18))
                 .allowsHitTesting(!instance.series.isWorking)
+                .disabled(!series.monitored)
             }
         }
+    }
+
+    private var seasonMonitored: Bool {
+        series.seasons.first(where: { $0.id == season.id })?.monitored ?? season.monitored
     }
 
     func toggle() async {
@@ -53,20 +59,21 @@ struct SeasonCard: View {
             return
         }
 
-        series.seasons[index].monitored.toggle()
+        let original = series.seasons[index].monitored
+        series.seasons[index].monitored = !original
 
         isWorking = true
 
         guard await instance.series.push(series) else {
+            series.seasons.revert(\.monitored, to: original, id: season.id)
             isWorking = false
+
             return
         }
 
         isWorking = false
 
-        dependencies.toast.show(
-            series.seasons[index].monitored ? .monitored : .unmonitored
-        )
+        dependencies.toast.show(!original ? .monitored : .unmonitored)
 
         await instance.episodes.fetch(series)
     }

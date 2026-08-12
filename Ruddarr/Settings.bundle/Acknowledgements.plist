@@ -18,14 +18,6 @@
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
-        <dict>
-			<key>File</key>
-			<string>Packages/CloudStorage</string>
-			<key>Title</key>
-			<string>CloudStorage</string>
-			<key>Type</key>
-			<string>PSChildPaneSpecifier</string>
-		</dict>
 		<dict>
 			<key>File</key>
 			<string>Packages/Sentry</string>

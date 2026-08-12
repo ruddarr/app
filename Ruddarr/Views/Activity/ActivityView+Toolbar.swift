@@ -6,7 +6,7 @@ extension ActivityView {
 
         return queue.items.values
             .flatMap { $0 }
-            .map { $0.type.label }
+            .map(\.type.label)
             .filter { seen.insert($0).inserted }
     }
 
@@ -15,7 +15,7 @@ extension ActivityView {
 
         return queue.items.values
             .flatMap { $0 }
-            .compactMap { $0.downloadClient }
+            .compactMap(\.downloadClient)
             .filter { seen.insert($0).inserted }
     }
 
@@ -46,7 +46,7 @@ extension ActivityView {
             if !settings.configuredInstances.isEmpty {
                 ToolbarItem(placement: .primaryAction) {
                     NavigationLink {
-                        HistoryView().environmentObject(settings)
+                        HistoryView().environment(settings)
                     } label: {
                         Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
                             .imageScale(.medium)

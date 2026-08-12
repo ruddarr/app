@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct SeriesReleaseSort: Equatable {
     var isAscending: Bool = true
@@ -10,6 +11,7 @@ struct SeriesReleaseSort: Equatable {
     var language: String = .all
     var network: String = .all
     var customFormat: String = .all
+    var releaseGroup: String = .all
     var seasonPack: SeasonPack = .any
 
     var approved: Bool = false
@@ -26,6 +28,7 @@ struct SeriesReleaseSort: Equatable {
         lhs.language == rhs.language &&
         lhs.network == rhs.network &&
         lhs.customFormat == rhs.customFormat &&
+        lhs.releaseGroup == rhs.releaseGroup &&
         lhs.seasonPack == rhs.seasonPack &&
 
         lhs.approved == rhs.approved &&
@@ -102,6 +105,7 @@ struct SeriesReleaseSort: Equatable {
         || quality != .all
         || language != .all
         || customFormat != .all
+        || releaseGroup != .all
         || seasonPack != .any
         || approved
         || freeleech
@@ -114,6 +118,7 @@ struct SeriesReleaseSort: Equatable {
         quality = .all
         language = .all
         customFormat = .all
+        releaseGroup = .all
         seasonPack = .any
         approved = false
         freeleech = false
@@ -126,17 +131,18 @@ struct SeriesReleaseSort: Equatable {
 
         return items
             .filter { release in
-                (search.isEmpty || release.title.localizedCaseInsensitiveContains(query)) &&
+                (query.isEmpty || release.matches(query)) &&
                 [release.network.label, .all].contains(network) &&
                 [release.indexerLabel, .all].contains(indexer) &&
                 [release.quality.quality.normalizedName, .all].contains(quality) &&
                 (language != .multi || ((release.languages?.count ?? 0) > 1 || release.title.hasMultiLanguageTag)) &&
                 ([.all, .multi].contains(language) || release.languages?.contains { $0.label == language } ?? false) &&
                 (customFormat == .all || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
+                (releaseGroup == .all || release.releaseGroupLabel?.caseInsensitiveCompare(releaseGroup) == .orderedSame) &&
                 (seasonPack != .season || release.fullSeason) &&
                 (seasonPack != .episode || !release.fullSeason) &&
                 (!approved || !release.rejected) &&
-                (!freeleech || release.releaseFlags.contains(.freeleech)) &&
+                (!freeleech || release.isFreeleech) &&
                 (!originalLanguage || release.languages?.contains { $0.id == series.originalLanguage?.id } ?? false)
             }
             .sorted {
@@ -180,6 +186,7 @@ extension SeriesReleaseSort: Codable {
         case language
         case network
         case customFormat
+        case releaseGroup
         case seasonPack
 
         case approved
@@ -191,18 +198,19 @@ extension SeriesReleaseSort: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         try self.init(
-            isAscending: container.decode(Bool.self, forKey: .isAscending),
-            option: container.decode(Option.self, forKey: .option),
-            search: container.decode(String.self, forKey: .search),
-            indexer: container.decode(String.self, forKey: .indexer),
-            quality: container.decode(String.self, forKey: .quality),
-            language: container.decode(String.self, forKey: .language),
-            network: container.decode(String.self, forKey: .network),
-            customFormat: container.decode(String.self, forKey: .customFormat),
-            seasonPack: container.decode(SeasonPack.self, forKey: .seasonPack),
-            approved: container.decode(Bool.self, forKey: .approved),
-            freeleech: container.decode(Bool.self, forKey: .freeleech),
-            originalLanguage: container.decode(Bool.self, forKey: .originalLanguage)
+            isAscending: container.decodeIfPresent(Bool.self, forKey: .isAscending) ?? true,
+            option: container.decodeIfPresent(Option.self, forKey: .option) ?? .byWeight,
+            search: container.decodeIfPresent(String.self, forKey: .search) ?? "",
+            indexer: container.decodeIfPresent(String.self, forKey: .indexer) ?? .all,
+            quality: container.decodeIfPresent(String.self, forKey: .quality) ?? .all,
+            language: container.decodeIfPresent(String.self, forKey: .language) ?? .all,
+            network: container.decodeIfPresent(String.self, forKey: .network) ?? .all,
+            customFormat: container.decodeIfPresent(String.self, forKey: .customFormat) ?? .all,
+            releaseGroup: container.decodeIfPresent(String.self, forKey: .releaseGroup) ?? .all,
+            seasonPack: container.decodeIfPresent(SeasonPack.self, forKey: .seasonPack) ?? .any,
+            approved: container.decodeIfPresent(Bool.self, forKey: .approved) ?? false,
+            freeleech: container.decodeIfPresent(Bool.self, forKey: .freeleech) ?? false,
+            originalLanguage: container.decodeIfPresent(Bool.self, forKey: .originalLanguage) ?? false
         )
     }
 
@@ -216,6 +224,7 @@ extension SeriesReleaseSort: Codable {
         try container.encode(language, forKey: .language)
         try container.encode(network, forKey: .network)
         try container.encode(customFormat, forKey: .customFormat)
+        try container.encode(releaseGroup, forKey: .releaseGroup)
         try container.encode(seasonPack, forKey: .seasonPack)
         try container.encode(approved, forKey: .approved)
         try container.encode(freeleech, forKey: .freeleech)

@@ -1,4 +1,5 @@
 import SwiftUI
+import Sentry
 
 struct MovieReleaseSort: Equatable {
     var isAscending: Bool = true
@@ -10,6 +11,7 @@ struct MovieReleaseSort: Equatable {
     var language: String = .all
     var network: String = .all
     var customFormat: String = .all
+    var releaseGroup: String = .all
 
     var approved: Bool = false
     var freeleech: Bool = false
@@ -25,6 +27,7 @@ struct MovieReleaseSort: Equatable {
         lhs.language == rhs.language &&
         lhs.network == rhs.network &&
         lhs.customFormat == rhs.customFormat &&
+        lhs.releaseGroup == rhs.releaseGroup &&
 
         lhs.approved == rhs.approved &&
         lhs.freeleech == rhs.freeleech &&
@@ -76,6 +79,7 @@ struct MovieReleaseSort: Equatable {
         || quality != .all
         || language != .all
         || customFormat != .all
+        || releaseGroup != .all
         || approved
         || freeleech
         || originalLanguage
@@ -87,6 +91,7 @@ struct MovieReleaseSort: Equatable {
         quality = .all
         language = .all
         customFormat = .all
+        releaseGroup = .all
         approved = false
         freeleech = false
         originalLanguage = false
@@ -98,15 +103,16 @@ struct MovieReleaseSort: Equatable {
 
         return items
             .filter { release in
-                (search.isEmpty || release.title.localizedCaseInsensitiveContains(query)) &&
+                (query.isEmpty || release.matches(query)) &&
                 [release.network.label, .all].contains(network) &&
                 [release.indexerLabel, .all].contains(indexer) &&
                 [release.quality.quality.normalizedName, .all].contains(quality) &&
                 (language != .multi || (release.languages.count > 1 || release.title.hasMultiLanguageTag)) &&
                 ([.all, .multi].contains(language) || release.languages.contains { $0.label == language }) &&
                 (customFormat == .all || release.customFormats?.contains { $0.name == customFormat } ?? false) &&
+                (releaseGroup == .all || release.releaseGroupLabel?.caseInsensitiveCompare(releaseGroup) == .orderedSame) &&
                 (!approved || !release.rejected) &&
-                (!freeleech || release.cleanIndexerFlags.contains { $0.lowercased().contains("freeleech") }) &&
+                (!freeleech || release.isFreeleech) &&
                 (!originalLanguage || release.languages.contains { $0.id == movie.originalLanguage?.id })
             }
             .sorted {
@@ -150,6 +156,7 @@ extension MovieReleaseSort: RawRepresentable {
         case language
         case network
         case customFormat
+        case releaseGroup
 
         case approved
         case freeleech
@@ -160,17 +167,18 @@ extension MovieReleaseSort: RawRepresentable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         try self.init(
-            isAscending: container.decode(Bool.self, forKey: .isAscending),
-            option: container.decode(Option.self, forKey: .option),
-            search: container.decode(String.self, forKey: .search),
-            indexer: container.decode(String.self, forKey: .indexer),
-            quality: container.decode(String.self, forKey: .quality),
-            language: container.decode(String.self, forKey: .language),
-            network: container.decode(String.self, forKey: .network),
-            customFormat: container.decode(String.self, forKey: .customFormat),
-            approved: container.decode(Bool.self, forKey: .approved),
-            freeleech: container.decode(Bool.self, forKey: .freeleech),
-            originalLanguage: container.decode(Bool.self, forKey: .originalLanguage)
+            isAscending: container.decodeIfPresent(Bool.self, forKey: .isAscending) ?? true,
+            option: container.decodeIfPresent(Option.self, forKey: .option) ?? .byWeight,
+            search: container.decodeIfPresent(String.self, forKey: .search) ?? "",
+            indexer: container.decodeIfPresent(String.self, forKey: .indexer) ?? .all,
+            quality: container.decodeIfPresent(String.self, forKey: .quality) ?? .all,
+            language: container.decodeIfPresent(String.self, forKey: .language) ?? .all,
+            network: container.decodeIfPresent(String.self, forKey: .network) ?? .all,
+            customFormat: container.decodeIfPresent(String.self, forKey: .customFormat) ?? .all,
+            releaseGroup: container.decodeIfPresent(String.self, forKey: .releaseGroup) ?? .all,
+            approved: container.decodeIfPresent(Bool.self, forKey: .approved) ?? false,
+            freeleech: container.decodeIfPresent(Bool.self, forKey: .freeleech) ?? false,
+            originalLanguage: container.decodeIfPresent(Bool.self, forKey: .originalLanguage) ?? false
         )
     }
 
@@ -184,6 +192,7 @@ extension MovieReleaseSort: RawRepresentable {
         try container.encode(language, forKey: .language)
         try container.encode(network, forKey: .network)
         try container.encode(customFormat, forKey: .customFormat)
+        try container.encode(releaseGroup, forKey: .releaseGroup)
         try container.encode(approved, forKey: .approved)
         try container.encode(freeleech, forKey: .freeleech)
         try container.encode(originalLanguage, forKey: .originalLanguage)

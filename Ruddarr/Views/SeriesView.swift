@@ -1,5 +1,4 @@
 import SwiftUI
-import Combine
 
 enum SeriesPath: Hashable {
     case search(String = "")
@@ -14,20 +13,23 @@ enum SeriesPath: Hashable {
 struct SeriesView: View {
     @AppStorage("seriesSort", store: dependencies.store) var sort: SeriesSort = .init()
 
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
+
+    @Environment(\.deviceType) private var deviceType
 
     @State private var scrollView: ScrollViewProxy?
 
     @State private var searchQuery = ""
     @State private var searchPresented = false
+    @State private var searchRequest: SearchRequest?
 
     @State private var error: API.Error?
     @State private var alertPresented = false
 
     @State private var lastFetch: Date = .distantPast
 
-    @Environment(\.deviceType) private var deviceType
+    @State private var navigationTask: Task<Void, Never>?
 
     var body: some View {
         // swiftlint:disable:next closure_body_length
@@ -40,6 +42,10 @@ struct SeriesView: View {
                         ScrollView {
                             mediaGrid
 
+                            if instance.series.cachedItems.count > 42 {
+                                mediaCount
+                            }
+
                             if presentSearchSuggestion {
                                 SeriesSearchSuggestion(query: $searchQuery, sort: $sort)
                             }
@@ -51,6 +57,7 @@ struct SeriesView: View {
                     .task {
                         guard !instance.isVoid else { return }
                         await fetchSeriesThrottled()
+                        await fetchInstanceMetadata()
                     }
                     .refreshable {
                         await Task { await fetchSeriesWithAlert() }.value
@@ -60,7 +67,7 @@ struct SeriesView: View {
             }
             .safeNavigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: SeriesPath.self) {
-                destination(for: $0)
+                SeriesDestination(path: $0)
             }
             .onAppear {
                 // if a deeplink set an instance, try to switch to it
@@ -96,7 +103,11 @@ struct SeriesView: View {
             .onChange(of: sort, handleFilterChange)
             .onChange(of: searchQuery, handleQueryChange)
             .onChange(of: instance.series.items, updateDisplayedSeries)
-            .alert(isPresented: $alertPresented, error: error) { _ in
+            .task(id: searchRequest) {
+                guard let searchRequest, await searchRequest.waitForDebounce() else { return }
+                updateDisplayedSeries()
+            }
+            .sensoryAlert(isPresented: $alertPresented, error: error) { _ in
                 Button("OK") { error = nil }
             } message: { error in
                 Text(error.recoverySuggestionFallback)
@@ -117,44 +128,6 @@ struct SeriesView: View {
         }
     }
 
-    @ViewBuilder
-    func destination(for path: SeriesPath) -> some View {
-        switch path {
-        case .search(let query):
-            SeriesSearchView(searchQuery: query)
-                .environment(instance)
-        case .preview(let data):
-            if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
-                SeriesPreviewView(series: series)
-                    .environment(instance)
-                    .environmentObject(settings)
-            }
-        case .series(let id):
-            SeriesDetailView(series: instance.series.byId(id))
-                .environment(instance)
-                .environmentObject(settings)
-        case .edit(let id):
-            SeriesEditView(series: instance.series.byId(id))
-                .environment(instance)
-        case .releases(let id, let season, let episode):
-            SeriesReleasesView(
-                series: instance.series.byId(id),
-                seasonId: season,
-                episodeId: episode
-            )
-            .environment(instance)
-            .environmentObject(settings)
-        case .season(let id, let season, let episode):
-            SeasonView(series: instance.series.byId(id), seasonId: season, jumpToEpisode: episode)
-                .environment(instance)
-                .environmentObject(settings)
-        case .episode(let id, let episode):
-            EpisodeView(series: instance.series.byId(id), episodeId: episode)
-                .environment(instance)
-                .environmentObject(settings)
-        }
-    }
-
     var mediaGrid: some View {
         MediaGrid(
             items: instance.series.cachedItems,
@@ -169,6 +142,7 @@ struct SeriesView: View {
             .buttonStyle(.plain)
             .id(series.id)
         }
+        .animation(.snappy, value: instance.series.cachedItems.map(\.id))
         .viewBottomPadding()
         .scenePadding(.horizontal)
         #if os(iOS)
@@ -176,6 +150,24 @@ struct SeriesView: View {
         #elseif os(macOS)
             .padding(.vertical)
         #endif
+    }
+
+    var mediaCount: some View {
+        let items = instance.series.cachedItems
+        let episodes = items.reduce(0) { $0 + $1.episodeCount }
+
+        return HStack(spacing: 4) {
+            Text("\(items.count) Series")
+
+            if episodes > 0 {
+                Bullet()
+                Text("\(episodes) Episode")
+            }
+        }
+        .font(.footnote)
+        .foregroundStyle(.secondary)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .padding(.bottom)
     }
 
     var notConnectedToInternet: Bool {
@@ -219,11 +211,9 @@ struct SeriesView: View {
     }
 
     func updateSortDirection() {
-        switch sort.option {
-        case .byTitle:
-            sort.isAscending = true
-        default:
-            sort.isAscending = false
+        sort.isAscending = switch sort.option {
+        case .byTitle: true
+        default: false
         }
     }
 
@@ -235,16 +225,20 @@ struct SeriesView: View {
         Task { @MainActor in
             _ = await instance.series.fetch()
             updateDisplayedSeries()
+            lastFetch = .now
+            await fetchInstanceMetadata()
+        }
+    }
 
-            let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
-            let cacheInSeconds: Double = instance.isSlow ? 300 : 30
+    func fetchInstanceMetadata() async {
+        let lastMetadataFetch = "instanceMetadataFetch:\(instance.id)"
+        let cacheInSeconds: Double = instance.isSlow ? 300 : 30
 
-            if Occurrence.since(lastMetadataFetch) > cacheInSeconds {
-                if let model = await instance.fetchMetadata() {
-                    settings.saveInstance(model)
-                    Occurrence.occurred(lastMetadataFetch)
-                }
-            }
+        guard Occurrence.since(lastMetadataFetch) > cacheInSeconds else { return }
+
+        if let model = await instance.fetchMetadata() {
+            settings.saveInstanceMetadata(model)
+            Occurrence.occurred(lastMetadataFetch)
         }
     }
 
@@ -285,7 +279,7 @@ struct SeriesView: View {
         }
 
         scrollToTop()
-        updateDisplayedSeries()
+        searchRequest = SearchRequest(query: searchQuery, isDebounced: true)
     }
 
     func becameActive() {
@@ -318,34 +312,47 @@ struct SeriesView: View {
 
         let startTime = Date()
 
-        func scheduleNextRun(
-            time: DispatchTime,
-            _ seriesId: Series.ID,
-            _ seasonId: Season.ID?,
-            _ episodeId: Episode.ID?
-        ) {
-            DispatchQueue.main.asyncAfter(deadline: time) {
+        navigationTask?.cancel()
+        navigationTask = Task { @MainActor in
+            while Date().timeIntervalSince(startTime) < 10 {
+                if Task.isCancelled {
+                    return
+                }
+
                 if let series = instance.series.items.first(where: { $0.id == seriesId }) {
-                    dependencies.router.seriesPath = .init([
-                        SeriesPath.series(series.id)
-                    ])
+                    var path: [SeriesPath] = [.series(series.id)]
 
                     if let seasonId {
-                        dependencies.router.seriesPath.append(
-                            SeriesPath.season(seriesId, seasonId, episodeId)
-                        )
+                        if let episode = await resolveEpisode(series, seasonId, episodeId) {
+                            path.append(SeriesPath.season(seriesId, seasonId))
+                            path.append(SeriesPath.episode(seriesId, episode.id))
+                        } else {
+                            path.append(SeriesPath.season(seriesId, seasonId, episodeId))
+                        }
                     }
+
+                    if Task.isCancelled {
+                        return
+                    }
+
+                    dependencies.router.seriesPath = .init(path)
 
                     return
                 }
 
-                if Date().timeIntervalSince(startTime) < 10 {
-                    scheduleNextRun(time: DispatchTime.now() + 0.1, seriesId, seasonId, episodeId)
-                }
+                try? await Task.sleep(for: .seconds(0.1))
             }
         }
+    }
 
-        scheduleNextRun(time: DispatchTime.now(), seriesId, seasonId, episodeId)
+    func resolveEpisode(_ series: Series, _ seasonId: Season.ID, _ episodeNumber: Episode.ID?) async -> Episode? {
+        guard let episodeNumber else { return nil }
+
+        await instance.episodes.maybeFetch(series)
+
+        return instance.episodes.items.first {
+            $0.seriesId == series.id && $0.seasonNumber == seasonId && $0.episodeNumber == episodeNumber
+        }
     }
 }
 
@@ -354,7 +361,7 @@ struct SeriesView: View {
 
     return ContentView()
         .withAppState()
-        // .frame(minWidth: 900, minHeight: 600)
+        .macPreviewFrame()
 }
 
 #Preview("Offline") {

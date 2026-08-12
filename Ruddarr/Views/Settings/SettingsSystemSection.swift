@@ -1,23 +1,24 @@
 import SwiftUI
 import CoreSpotlight
-import Nuke
 
 struct SettingsSystemSection: View {
-    @EnvironmentObject var settings: AppSettings
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
-    @Environment(\.presentBugSheet) var presentBugSheet
+    @Environment(\.presentBugSheet) private var presentBugSheet
 
     @State private var imageCacheSize: Int = 0
     @State private var showingEraseConfirmation: Bool = false
 
     var body: some View {
         Section {
+            diagnostics
+
             HStack {
                 Button("Clear Image Cache", role: .destructive) {
                     clearImageCache()
-                }.onAppear {
-                    calculateImageCacheSize()
+                }.task {
+                    await calculateImageCacheSize()
                 }
                 #if os(macOS)
                     .buttonStyle(.link)
@@ -72,6 +73,12 @@ struct SettingsSystemSection: View {
         }
     }
 
+    var diagnostics: some View {
+        NavigationLink(value: SettingsView.Path.diagnostics) {
+            Text("Diagnostics")
+        }
+    }
+
     var buildVersion: String? {
         guard let appVersion = Bundle.main.object(
             forInfoDictionaryKey: "CFBundleShortVersionString"
@@ -88,14 +95,14 @@ struct SettingsSystemSection: View {
         return String(localized: "Version \(appVersion) (\(buildNumber))", comment: "$1 = version, $2 = build")
     }
 
-    func calculateImageCacheSize() {
-        let dataCache = try? DataCache(name: "com.ruddarr.images")
-        imageCacheSize = dataCache?.totalSize ?? 0
+    func calculateImageCacheSize() async {
+        imageCacheSize = await Images.cacheSize()
     }
 
     func clearImageCache() {
-        let dataCache = try? DataCache(name: "com.ruddarr.images")
-        dataCache?.removeAll()
+        Task {
+            await Images.clearCache()
+        }
 
         withAnimation(.interactiveSpring) {
             imageCacheSize = 0

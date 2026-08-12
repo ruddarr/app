@@ -1,5 +1,4 @@
 import SwiftUI
-import TelemetryDeck
 
 struct SeriesLinks: View {
     var series: Series
@@ -35,7 +34,7 @@ struct SeriesLinks: View {
     }
 
     var tvdbUrl: String {
-        "http://www.thetvdb.com/?tab=series&id=\(series.tvdbId)"
+        "https://www.thetvdb.com/?tab=series&id=\(series.tvdbId)"
     }
 
     var imdbUrl: String {
