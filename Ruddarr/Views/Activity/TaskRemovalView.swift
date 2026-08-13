@@ -100,6 +100,8 @@ struct TaskRemovalView: View {
         }
 
         if error == nil {
+            Queue.shared.markDeleted(item)
+
             await Queue.shared.fetchTasks()
         }
 

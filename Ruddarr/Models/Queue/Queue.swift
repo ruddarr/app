@@ -23,6 +23,8 @@ class Queue {
     var items: [Instance.ID: [QueueItem]] = [:]
     var itemsWithIssues: Int = 0
 
+    private var revision: Int = 0
+
     let statuses = CurrentValueSubject<[QueueKey: QueueItemStatus], Never>([:])
     private(set) var active: [QueueItem] = []
 
@@ -50,6 +52,8 @@ class Queue {
         error = nil
         isLoading = true
 
+        let fetchRevision = revision
+
         await withThrowingTaskGroup(of: (Instance.ID, [QueueItem]).self) { group in
             for instance in instances {
                 group.addTask {
@@ -60,7 +64,9 @@ class Queue {
             while let result = await group.nextResult() {
                 switch result {
                 case .success(let (instanceId, records)):
-                    items[instanceId] = records
+                    if fetchRevision == revision {
+                        items[instanceId] = records
+                    }
                 case .failure(is CancellationError):
                     break
                 case .failure(let apiError as API.Error):
@@ -125,6 +131,15 @@ class Queue {
         }
 
         items[instanceId] = records
+
+        recomputeDerivedState()
+    }
+
+    func markDeleted(_ item: QueueItem) {
+        guard let instanceId = item.instanceId else { return }
+
+        revision += 1
+        items[instanceId]?.removeAll { $0.id == item.id }
 
         recomputeDerivedState()
     }

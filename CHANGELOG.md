@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 ### Changed
 ### Fixed
+- Fixed deleted tasks remaining in the queue until the next refresh
 
 ## 2.0.0 - 2026-08-12
 ### Added
