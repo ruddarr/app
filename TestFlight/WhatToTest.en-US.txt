@@ -1,1 +1,2 @@
-
+Fixed
+- Fixed deleted tasks remaining in the queue until the next refresh
