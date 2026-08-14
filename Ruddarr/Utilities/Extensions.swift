@@ -11,6 +11,13 @@ extension Sequence where Element == UInt8 {
     }
 }
 
+extension String {
+    func singleLined() -> String {
+        replacingOccurrences(of: "\\s*\n\\s*", with: " ", options: .regularExpression)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+}
+
 extension MutableCollection where Element: Identifiable {
     /// Reverts `keyPath` to `original` on the element matching `id`, but only if it still
     /// holds the flipped value — so undoing an optimistic toggle after a failed request
