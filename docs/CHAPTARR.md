@@ -561,7 +561,7 @@ title search never returns `ebook`). Anything exercising the 2:3 poster, the pag
 Seeding a simulator with a Chaptarr instance, without tapping through Settings:
 
 ```sh
-DEV=<device-udid>
+DEV=<device-id>
 GROUP=$(xcrun simctl get_app_container $DEV com.ruddarr group.com.ruddarr)
 PLIST="$GROUP/Library/Preferences/group.com.ruddarr.plist"
 

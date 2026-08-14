@@ -28,7 +28,7 @@ struct HTMLDecodingTests {
     @Test func decodesNamedEntities() {
         #expect("Tom &amp; Jerry".htmlDecoded == "Tom & Jerry")
         #expect("&lt;not a tag&gt;".htmlDecoded == "<not a tag>")
-        #expect("caf&eacute;".htmlDecoded == "café")
+        #expect("r&eacute;sum&eacute;".htmlDecoded == "résumé")
     }
 
     @Test func decodesNonBreakingSpace() {
