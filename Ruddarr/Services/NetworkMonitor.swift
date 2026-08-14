@@ -16,7 +16,7 @@ actor NetworkMonitor {
     private(set) var pathFacts = NetworkPathFacts()
 
     var isReachable: Bool {
-        status == .satisfied
+        status != .unsatisfied
     }
 
     var localNetworkDenied: Bool {

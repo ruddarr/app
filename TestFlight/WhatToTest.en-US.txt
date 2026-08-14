@@ -1,2 +1,3 @@
 Fixed
 - Fixed deleted tasks remaining in the queue until the next refresh
+- Fixed a false "Connection Failure" error when fetching data during app launch
