@@ -45,13 +45,13 @@ struct MovieDetails: View {
 
     var description: some View {
         HStack(alignment: .top) {
-            Text(movie.overview ?? "")
+            Text(descriptionTruncated ? (movie.overview ?? "").singleLined() : movie.overview ?? "")
                 .font(.callout)
                 .transition(.slide)
                 .lineLimit(descriptionTruncated ? 4 : nil)
                 .textSelection(.enabled)
                 .onTapGesture {
-                    withAnimation(.snappy) { descriptionTruncated = false }
+                    withAnimation(.snappy) { descriptionTruncated.toggle() }
                 }
 
             Spacer()

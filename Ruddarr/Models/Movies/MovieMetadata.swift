@@ -77,6 +77,9 @@ class MovieMetadata {
     }
 
     func refresh(for movie: Movie) async {
+        filesError = false
+        historyError = false
+
         do {
             async let filesResult = dependencies.api.getMovieFiles(movie.id, instance)
             async let extraFilesResult = dependencies.api.getMovieExtraFiles(movie.id, instance)

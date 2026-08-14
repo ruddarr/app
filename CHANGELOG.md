@@ -8,8 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Added
 ### Changed
+- Deleted tasks remaining in the queue until the next refresh
+- Collapse descriptions when tapping again
+
 ### Fixed
-- Fixed deleted tasks remaining in the queue until the next refresh
+- Fixed a false connection failure when during cold start
+- Fixed a stale movie files being shown after a successful refresh
 
 ## 2.0.0 - 2026-08-12
 ### Added

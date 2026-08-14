@@ -47,13 +47,13 @@ struct SeriesDetails: View {
 
     var description: some View {
         HStack(alignment: .top) {
-            Text(series.overview ?? "")
+            Text(descriptionTruncated ? (series.overview ?? "").singleLined() : series.overview ?? "")
                 .font(.callout)
                 .transition(.slide)
                 .lineLimit(descriptionTruncated ? 4 : nil)
                 .textSelection(.enabled)
                 .onTapGesture {
-                    withAnimation(.snappy) { descriptionTruncated = false }
+                    withAnimation(.snappy) { descriptionTruncated.toggle() }
                 }
 
             Spacer()
