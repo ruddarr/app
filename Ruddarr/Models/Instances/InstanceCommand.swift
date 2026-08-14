@@ -7,6 +7,8 @@ enum InstanceCommand {
     case seasonSearch(_ series: Series.ID, season: Season.ID)
     case episodeSearch(_ ids: [Episode.ID])
 
+    case bookSearch(_ ids: [Book.ID])
+
     case refreshDownloads
 
     case manualImport(_ files: [ImportableFile])
@@ -25,6 +27,8 @@ enum InstanceCommand {
             SonarrPayload(name: "SeasonSearch", seriesId: series, seasonNumber: season)
         case .episodeSearch(let ids):
             SonarrPayload(name: "EpisodeSearch", episodeIds: ids)
+        case .bookSearch(let ids):
+            ChaptarrPayload(name: "BookSearch", bookIds: ids)
         case .refreshDownloads:
             GenericPayload(name: "RefreshMonitoredDownloads")
         case .manualImport(let files):
@@ -61,6 +65,16 @@ enum InstanceCommand {
             self.seriesId = seriesId
             self.seasonNumber = seasonNumber
             self.episodeIds = episodeIds
+        }
+    }
+
+    struct ChaptarrPayload: Payload {
+        let name: String
+        let bookIds: [Int]?
+
+        init(name: String, bookIds: [Int]? = nil) {
+            self.name = name
+            self.bookIds = bookIds
         }
     }
 

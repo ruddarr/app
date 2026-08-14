@@ -117,7 +117,8 @@ struct CalendarView: View {
     var calendarGrid: some View {
         let moviesByDate = displayMovies ? filteredMovies : [:]
         let episodesByDate = displaySeries ? filteredEpisodes : [:]
-        let active = displayMovies ? queue.active : []
+        let booksByDate = displayBooks ? filteredBooks : [:]
+        let active = displayMovies || displayBooks ? queue.active : []
 
         return LazyVGrid(columns: gridLayout, alignment: .leading, spacing: 0) {
             ForEach(calendar.dates, id: \.self) { timestamp in
@@ -135,6 +136,7 @@ struct CalendarView: View {
                     date: date,
                     movies: moviesByDate[timestamp],
                     episodes: episodesByDate[timestamp],
+                    books: booksByDate[timestamp],
                     active: active
                 )
             }
@@ -142,7 +144,8 @@ struct CalendarView: View {
         .animation(.snappy, value: CalendarContentSignature(
             dates: calendar.dates,
             movies: moviesByDate.mapValues { $0.map(\.id) },
-            episodes: episodesByDate.mapValues { $0.map(\.id) }
+            episodes: episodesByDate.mapValues { $0.map(\.id) },
+            books: booksByDate.mapValues { $0.map(\.id) }
         ))
     }
 
@@ -173,6 +176,23 @@ struct CalendarView: View {
 
     var displaySeries: Bool {
         [.all, .series].contains(displayedMediaType)
+    }
+
+    var displayBooks: Bool {
+        [.all, .books].contains(displayedMediaType)
+    }
+
+    var filteredBooks: [TimeInterval: [Book]] {
+        calendar.books.mapValues { items in
+            let filtered = items.filter { book in
+                if displayedInstance != .all, book.instanceId?.isEqual(to: displayedInstance) != true { return false }
+                if onlyMonitored, !book.monitored { return false }
+                return true
+            }
+
+            guard filtered.count > 1 else { return filtered }
+            return filtered.sorted(by: areBooksInCalendarOrder)
+        }
     }
 
     var filteredMovies: [TimeInterval: [Movie]] {
@@ -219,29 +239,6 @@ struct CalendarView: View {
         return true
     }
 
-    func areMoviesInCalendarOrder(_ lhs: Movie, _ rhs: Movie) -> Bool {
-        if lhs.monitored != rhs.monitored {
-            return lhs.monitored
-        }
-
-        return lhs.title.localizedStandardCompare(rhs.title) == .orderedAscending
-    }
-
-    func areEpisodesInCalendarOrder(_ lhs: Episode, _ rhs: Episode) -> Bool {
-        let lhsDate = lhs.airDateUtc ?? .distantPast
-        let rhsDate = rhs.airDateUtc ?? .distantPast
-
-        if lhsDate != rhsDate {
-            return lhsDate < rhsDate
-        }
-
-        if lhs.isMonitoredInCalendar != rhs.isMonitoredInCalendar {
-            return lhs.isMonitoredInCalendar
-        }
-
-        return lhs.episodeNumber < rhs.episodeNumber
-    }
-
     func load(force: Bool = false) async {
         if calendar.isLoading {
             return
@@ -285,7 +282,7 @@ struct CalendarView: View {
         scrollView?.scrollTo(timestamp, anchor: .center)
     }
 
-    func media(date: Date, movies: [Movie]?, episodes: [Episode]?, active: [QueueItem]) -> some View {
+    func media(date: Date, movies: [Movie]?, episodes: [Episode]?, books: [Book]?, active: [QueueItem]) -> some View {
         VStack(spacing: 8) {
             if let movies {
                 ForEach(movies) { movie in
@@ -303,6 +300,16 @@ struct CalendarView: View {
                     CalendarEpisode(
                         episode: episode,
                         status: episode.queueStatusInCalendar,
+                        open: open
+                    )
+                }
+            }
+
+            if let books {
+                ForEach(books) { book in
+                    CalendarBook(
+                        book: book,
+                        status: queueStatus(\.bookId, book.id, book.instanceId, in: active),
                         open: open
                     )
                 }
@@ -339,6 +346,7 @@ private struct CalendarContentSignature: Equatable {
     var dates: [TimeInterval]
     var movies: [TimeInterval: [Movie.ID]]
     var episodes: [TimeInterval: [Episode.ID]]
+    var books: [TimeInterval: [Book.ID]]
 }
 
 #Preview {

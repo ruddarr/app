@@ -10,15 +10,18 @@ final class Router {
 
     var switchToRadarrInstance: String?
     var switchToSonarrInstance: String?
+    var switchToChaptarrInstance: String?
 
     var moviesPath: [MoviesPath] = .init()
     var seriesPath: [SeriesPath] = .init()
+    var booksPath: [BooksPath] = .init()
     var calendarPath: NavigationPath = .init()
     var settingsPath: NavigationPath = .init()
 
     func reset() {
         moviesPath = .init()
         seriesPath = .init()
+        booksPath = .init()
         calendarPath = .init()
     }
 }
@@ -28,6 +31,7 @@ enum TabItem: String, Identifiable, Hashable, Sendable {
 
     case movies
     case series
+    case books
     case calendar
     case activity
     case history
@@ -44,6 +48,7 @@ enum TabItem: String, Identifiable, Hashable, Sendable {
         switch self {
         case .movies: String(localized: "Movies", comment: "Plural. Tab/sidebar menu item")
         case .series: String(localized: "Series", comment: "Plural. Tab/sidebar menu item")
+        case .books: String(localized: "Books", comment: "Plural. Tab/sidebar menu item")
         case .calendar: String(localized: "Calendar", comment: "Tab/sidebar menu item")
         case .activity: String(localized: "Activity", comment: "Tab/sidebar menu item")
         case .history: String(localized: "History", comment: "Tab/sidebar menu item")
@@ -55,6 +60,7 @@ enum TabItem: String, Identifiable, Hashable, Sendable {
         switch self {
         case .movies: "movies"
         case .series: "series"
+        case .books: "books.vertical"
         case .calendar: "calendar"
         case .activity: "waveform.path.ecg"
         case .history: "clock.arrow.trianglehead.counterclockwise.rotate.90"

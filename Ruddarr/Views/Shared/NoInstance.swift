@@ -27,7 +27,7 @@ struct NoInstance: View {
     }
 
     var description: String {
-        let fallback = ["Radarr", "Sonarr"].formatted(.list(type: .or))
+        let fallback = InstanceType.allCases.map(\.rawValue).formatted(.list(type: .or))
         let settingsLink = "[\(String(localized: "Settings"))](#view)"
 
         return String(localized: "Connect a \(type ?? fallback) instance under \(settingsLink).")

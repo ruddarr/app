@@ -14,5 +14,11 @@
     "label": "Home Sonarr",
     "url": "https://sonarr.example.com",
     "apiKey": "0000000000000000000000000000000000000000"
+  },
+  {
+    "type": "chaptarr",
+    "label": "Home Chaptarr",
+    "url": "https://chaptarr.example.com",
+    "apiKey": "0000000000000000000000000000000000000000"
   }
 ]

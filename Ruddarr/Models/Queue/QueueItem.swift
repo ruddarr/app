@@ -30,6 +30,9 @@ struct QueueItem: Codable, Identifiable, Equatable {
     let episodeHasFile: Bool?
     let seasonNumber: Int?
 
+    let bookId: Int?
+    let book: Book?
+
     let title: String?
     let indexer: String?
 
@@ -72,6 +75,8 @@ struct QueueItem: Codable, Identifiable, Equatable {
         case episode
         case episodeHasFile
         case seasonNumber
+        case bookId
+        case book
         case title
         case indexer
         case type = "protocol"
@@ -172,6 +177,10 @@ struct QueueItem: Codable, Identifiable, Equatable {
 
     var titleLabel: String {
         if let title = movie?.title {
+            return title
+        }
+
+        if let title = book?.title {
             return title
         }
 

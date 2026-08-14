@@ -1,3 +1,6 @@
+Added
+- Added support for Chaptarr instances
+
 Changed
 - Deleted tasks remaining in the queue until the next refresh
 - Collapse descriptions when tapping again

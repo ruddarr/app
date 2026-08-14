@@ -11,6 +11,16 @@ struct MediaQualityDetails: Equatable, Codable {
     let resolution: Int
     let modifier: MediaReleaseQualityModifier?
 
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        modifier = try container.decodeIfPresent(MediaReleaseQualityModifier.self, forKey: .modifier)
+
+        source = try container.decodeIfPresent(MediaQualitySource.self, forKey: .source) ?? .unknown
+        resolution = try container.decodeIfPresent(Int.self, forKey: .resolution) ?? 0
+    }
+
     var label: String {
         name ?? String(localized: "Unknown")
     }

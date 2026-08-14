@@ -24,6 +24,13 @@ extension View {
         return self.environment(instance)
     }
 
+    func withChaptarrInstance(books: [Book] = []) -> some View {
+        let instance = ChaptarrInstance(.chaptarrDummy)
+        instance.books.items = books
+
+        return self.environment(instance)
+    }
+
     @MainActor
     func tracksQueueStatus(_ key: QueueKey?, into status: Binding<QueueItemStatus?>) -> some View {
         onReceive(Queue.shared.statuses) { statuses in
@@ -87,6 +94,7 @@ private struct WithAppStateModifier: ViewModifier {
     @State private var settings: AppSettings
     @State private var radarrInstance: RadarrInstance
     @State private var sonarrInstance: SonarrInstance
+    @State private var chaptarrInstance: ChaptarrInstance
 
     @MainActor
     init() {
@@ -94,6 +102,7 @@ private struct WithAppStateModifier: ViewModifier {
         _settings = State(initialValue: settings)
         _radarrInstance = State(initialValue: RadarrInstance(settings.radarrInstance ?? .radarrVoid))
         _sonarrInstance = State(initialValue: SonarrInstance(settings.sonarrInstance ?? .sonarrVoid))
+        _chaptarrInstance = State(initialValue: ChaptarrInstance(settings.chaptarrInstance ?? .chaptarrVoid))
     }
 
     func body(content: Content) -> some View {
@@ -104,6 +113,7 @@ private struct WithAppStateModifier: ViewModifier {
             .environment(\.deviceType, Platform.deviceType)
             .environment(radarrInstance)
             .environment(sonarrInstance)
+            .environment(chaptarrInstance)
             .task {
                 Queue.shared.instances = settings.instances
                 setSentryContext(for: "Configuration", settings.context())

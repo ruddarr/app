@@ -51,6 +51,10 @@ extension InstanceEditView {
             sonarrInstance.switchTo(.sonarrVoid)
         }
 
+        if instance.id == settings.chaptarrInstanceId {
+            chaptarrInstance.switchTo(.chaptarrVoid)
+        }
+
         settings.deleteInstance(instance)
 
         dependencies.router.reset()
@@ -165,7 +169,7 @@ extension InstanceEditView {
         guard candidates.count > 1 else { return }
 
         for base in candidates {
-            guard let statusURL = URL(string: base)?.appending(path: "/api/v3/system/status") else { continue }
+            guard let statusURL = URL(string: base)?.appending(path: instance.type.apiPath).appending(path: "system/status") else { continue }
 
             let status: InstanceStatus
             do {
@@ -228,7 +232,7 @@ extension InstanceEditView {
     }
 
     func instanceStatus(of base: String) async throws -> InstanceStatus {
-        guard let url = URL(string: base)?.appending(path: "/api/v3/system/status") else {
+        guard let url = URL(string: base)?.appending(path: instance.type.apiPath).appending(path: "system/status") else {
             throw API.Error.invalidUrl(base)
         }
 
@@ -297,6 +301,10 @@ extension InstanceEditView {
 
         if [":8989", "sonar"].contains(where: instance.url.contains) {
             instance.type = .sonarr
+        }
+
+        if [":8789", "chaptar"].contains(where: instance.url.contains) {
+            instance.type = .chaptarr
         }
     }
 }

@@ -2,7 +2,7 @@ import Foundation
 
 extension API {
     static var live: Self {
-        .init(radarr: .live, sonarr: .live, instance: .live)
+        .init(radarr: .live, sonarr: .live, chaptarr: .live, instance: .live)
     }
 }
 
@@ -236,42 +236,39 @@ extension SonarrAPI {
 extension InstanceAPI {
     static var live: Self {
         .init(command: { command, instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/command")
+            let url = try await instance.apiURL("command")
 
             return try await API.request(method: .post, url: url, body: command.payload, instance: instance)
         }, downloadRelease: { payload, instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/release")
+            let url = try await instance.apiURL("release")
 
             return try await API.request(method: .post, url: url, body: payload, instance: instance, timeout: .sluggish)
         }, status: { instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/system/status")
+            let url = try await instance.apiURL("system/status")
 
             return try await API.request(url: url, instance: instance)
         }, rootFolders: { instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/rootfolder")
+            let url = try await instance.apiURL("rootfolder")
 
             return try await API.request(url: url, instance: instance, timeout: .slow)
         }, qualityProfiles: { instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/qualityprofile")
+            let url = try await instance.apiURL("qualityprofile")
+
+            return try await API.request(url: url, instance: instance)
+        }, metadataProfiles: { instance in
+            let url = try await instance.apiURL("metadataprofile")
+
             return try await API.request(url: url, instance: instance)
         }, diskSpace: { instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/diskspace")
+            let url = try await instance.apiURL("diskspace")
 
             return try await API.request(url: url, instance: instance)
         }, tags: { instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/tag")
+            let url = try await instance.apiURL("tag")
 
             return try await API.request(url: url, instance: instance)
         }, queue: { instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/queue")
+            let url = try await instance.apiURL("queue")
                 .appending(queryItems: [
                     .init(name: "includeMovie", value: "true"),
                     .init(name: "includeSeries", value: "true"),
@@ -283,8 +280,7 @@ extension InstanceAPI {
             items.records.stamp(instance.id)
             return items
         }, deleteQueueTask: { task, remove, block, search, instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/queue")
+            let url = try await instance.apiURL("queue")
                 .appending(path: String(task))
                 .appending(queryItems: [
                     .init(name: "removeFromClient", value: remove ? "true" : "false"),
@@ -294,8 +290,7 @@ extension InstanceAPI {
 
             return try await API.request(method: .delete, url: url, instance: instance)
         }, importableFiles: { downloadId, instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/manualimport")
+            let url = try await instance.apiURL("manualimport")
                 .appending(queryItems: [
                     .init(name: "downloadId", value: downloadId),
                     .init(name: "filterExistingFiles", value: "false"),
@@ -318,27 +313,133 @@ extension InstanceAPI {
             history.records.stamp(instance.id)
             return history
         }, notifications: { instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/notification")
+            let url = try await instance.apiURL("notification")
 
             return try await API.request(url: url, instance: instance)
         }, createNotification: { model, instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/notification")
+            let url = try await instance.apiURL("notification")
 
             return try await API.request(method: .post, url: url, body: model, instance: instance)
         }, updateNotification: { model, instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/notification")
+            let url = try await instance.apiURL("notification")
                 .appending(path: String(model.id ?? 0))
 
             return try await API.request(method: .put, url: url, body: model, instance: instance)
         }, deleteNotification: { model, instance in
-            let url = try await instance.baseURL()
-                .appending(path: "/api/v3/notification")
+            let url = try await instance.apiURL("notification")
                 .appending(path: String(model.id ?? 0))
 
             return try await API.request(method: .delete, url: url, instance: instance)
+        })
+    }
+}
+
+extension ChaptarrAPI {
+    // swiftlint:disable:next closure_body_length
+    static var live: Self {
+        .init(fetch: { instance in
+            let url = try await instance.apiURL("book")
+                .appending(queryItems: [
+                    .init(name: "monitored", value: "true"),
+                    .init(name: "include", value: "author,links"),
+                ])
+
+            var books: [Book] = try await API.request(url: url, instance: instance, timeout: .slow)
+            books.stamp(instance.id)
+            return books
+        }, page: { instance, query, offset, pageSize in
+            var items: [URLQueryItem] = [
+                .init(name: "offset", value: String(offset)),
+                .init(name: "pageSize", value: String(pageSize)),
+                .init(name: "sortKey", value: query.sortKey),
+                .init(name: "sortDirection", value: query.sortDirection),
+                .init(name: "mediaType", value: query.mediaType),
+                .init(name: "include", value: "author"),
+            ]
+
+            if query.includeUnmonitored { items.append(.init(name: "includeUnmonitored", value: "true")) }
+            if let monitored = query.monitored { items.append(.init(name: "monitored", value: String(monitored))) }
+            if let downloaded = query.downloaded { items.append(.init(name: "downloaded", value: String(downloaded))) }
+            if let missing = query.missing { items.append(.init(name: "missing", value: String(missing))) }
+
+            let url = try await instance.apiURL("book/paged").appending(queryItems: items)
+
+            var page: BooksPage = try await API.request(url: url, instance: instance, timeout: .slow)
+            page.records.stamp(instance.id)
+            return page
+        }, search: { instance, term in
+            let searchURL = try await instance.apiURL("library/search")
+                .appending(queryItems: [
+                    .init(name: "term", value: term),
+                    .init(name: "limit", value: "50"),
+                ])
+
+            let result: BookSearchResult = try await API.request(url: searchURL, instance: instance, timeout: .slow)
+
+            guard !result.books.isEmpty else { return [] }
+
+            let url = try await instance.apiURL("book")
+                .appending(queryItems: result.books.map { .init(name: "bookIds", value: String($0.id)) })
+
+            var books: [Book] = try await API.request(url: url, instance: instance, timeout: .slow)
+            books.stamp(instance.id)
+            return books
+        }, lookup: { instance, query in
+            let url = try await instance.apiURL("book/lookup")
+                .appending(queryItems: [.init(name: "term", value: query)])
+
+            return try await API.request(url: url, instance: instance, timeout: .sluggish)
+        }, book: { bookId, instance in
+            let url = try await instance.apiURL("book").appending(path: String(bookId))
+
+            var book: Book = try await API.request(url: url, instance: instance, timeout: .sluggish)
+            book.stamp(instance.id)
+            return book
+        }, series: { authorId, instance in
+            let url = try await instance.apiURL("series")
+                .appending(queryItems: [.init(name: "authorId", value: String(authorId))])
+
+            return try await API.request(url: url, instance: instance, timeout: .slow)
+        }, files: { bookId, instance in
+            let url = try await instance.apiURL("bookfile")
+                .appending(queryItems: [.init(name: "bookId", value: String(bookId))])
+
+            return try await API.request(url: url, instance: instance)
+        }, history: { authorId, bookId, instance in
+            let url = try await instance.apiURL("history/author")
+                .appending(queryItems: [
+                    .init(name: "authorId", value: String(authorId)),
+                    .init(name: "bookId", value: String(bookId)),
+                ])
+
+            return try await API.request(url: url, instance: instance)
+        }, add: { book, instance in
+            let url = try await instance.apiURL("book")
+
+            return try await API.request(method: .post, url: url, body: book, instance: instance, timeout: .sluggish)
+        }, monitor: { ids, monitored, instance in
+            let url = try await instance.apiURL("book/monitor")
+
+            let body = BooksMonitorResource(bookIds: ids, monitored: monitored)
+
+            return try await API.request(method: .put, url: url, body: body, instance: instance)
+        }, deleteFile: { file, instance in
+            let url = try await instance.apiURL("bookfile")
+                .appending(path: String(file.id))
+
+            return try await API.request(method: .delete, url: url, instance: instance)
+        }, calendar: { start, end, instance in
+            let url = try await instance.apiURL("calendar")
+                .appending(queryItems: [
+                    .init(name: "unmonitored", value: "true"),
+                    .init(name: "includeAuthor", value: "true"),
+                    .init(name: "start", value: start.formatted(.iso8601)),
+                    .init(name: "end", value: end.formatted(.iso8601)),
+                ])
+
+            var books: [Book] = try await API.request(url: url, instance: instance, timeout: .slow)
+            books.stamp(instance.id)
+            return books
         })
     }
 }

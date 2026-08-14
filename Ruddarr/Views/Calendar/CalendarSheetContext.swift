@@ -3,6 +3,7 @@ import SwiftUI
 enum CalendarSelection: Identifiable {
     case movie(Movie)
     case episode(Episode)
+    case book(Book)
 
     var id: String {
         switch self {
@@ -10,6 +11,8 @@ enum CalendarSelection: Identifiable {
             "movie:\(movie.instanceId?.uuidString ?? "unknown"):\(movie.id)"
         case .episode(let episode):
             "episode:\(episode.instanceId?.uuidString ?? "unknown"):\(episode.id)"
+        case .book(let book):
+            "book:\(book.instanceId?.uuidString ?? "unknown"):\(book.id)"
         }
     }
 
@@ -23,6 +26,7 @@ enum CalendarSelection: Identifiable {
         switch self {
         case .movie(let movie): movie.deeplink
         case .episode(let episode): episode.deeplink
+        case .book: nil
         }
     }
 }

@@ -1,0 +1,1617 @@
+[
+  {
+    "id": 5333,
+    "foreignBookId": "hc:1108227",
+    "title": "The Beautiful Mystery",
+    "authorTitle": "penny, louise The Beautiful Mystery",
+    "seriesTitle": "Chief Inspector Armand Gamache #8",
+    "mediaType": "audiobook",
+    "authorId": 75,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 816,
+    "genres": [
+      "adult",
+      "Adult Fiction",
+      "Audiobook",
+      "Canada",
+      "Crime",
+      "detective",
+      "Fiction",
+      "murder mystery",
+      "Mystery",
+      "Mystery Thriller"
+    ],
+    "ratings": {
+      "votes": 91,
+      "value": 4.02,
+      "popularity": 365.81999999999994
+    },
+    "releaseDate": "2012-08-28T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 400046029,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 75,
+      "authorName": "Louise Penny",
+      "sortName": "Louise Penny",
+      "sortNameLastFirst": "penny, louise",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://assets.hardcover.app/edition/3739552/9377899-L.jpg",
+        "url": "/MediaCover/Books/5333/cover.jpg?lastWrite=639212673929276644"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/the-beautiful-mystery/editions/3739552",
+        "name": "hardcover"
+      }
+    ]
+  },
+  {
+    "id": 5335,
+    "foreignBookId": "hc:437268",
+    "title": "Glass Houses",
+    "authorTitle": "penny, louise Glass Houses",
+    "seriesTitle": "Chief Inspector Armand Gamache #13",
+    "narrator": "Robert Bathurst",
+    "mediaType": "audiobook",
+    "authorId": 75,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 812,
+    "genres": [
+      "adult",
+      "Adult Fiction",
+      "Audiobook",
+      "Canada",
+      "Crime",
+      "detective",
+      "Detective and mystery stories",
+      "Fiction",
+      "General",
+      "Murder",
+      "Mystery",
+      "Mystery Thriller",
+      "Police",
+      "Thriller"
+    ],
+    "ratings": {
+      "votes": 4838,
+      "value": 4.67,
+      "popularity": 22593.46
+    },
+    "releaseDate": "2017-08-29T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 398257387,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 75,
+      "authorName": "Louise Penny",
+      "sortName": "Louise Penny",
+      "sortNameLastFirst": "penny, louise",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/61pZAEU2zRL._SL500_.jpg",
+        "url": "/MediaCover/Books/5335/cover.jpg?lastWrite=639205978799074621"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/glass-houses",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.amazon.com/dp/B06Y1RGGL7",
+        "name": "amazon"
+      },
+      {
+        "url": "https://www.audible.com/pd/B06Y1PMRYH",
+        "name": "audible"
+      },
+      {
+        "url": "https://www.goodreads.com/book/show/35185265",
+        "name": "goodreads"
+      }
+    ]
+  },
+  {
+    "id": 5336,
+    "foreignBookId": "hc:437274",
+    "title": "All the Devils Are Here",
+    "authorTitle": "penny, louise All the Devils Are Here",
+    "seriesTitle": "Chief Inspector Armand Gamache #16",
+    "narrator": "Robert Bathurst",
+    "mediaType": "audiobook",
+    "authorId": 75,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 839,
+    "genres": [
+      "Audiobook",
+      "Canada",
+      "Crime",
+      "detective",
+      "Detective and mystery stories",
+      "Fiction",
+      "France",
+      "Mystery",
+      "Mystery Thriller",
+      "Suspense",
+      "Thriller"
+    ],
+    "ratings": {
+      "votes": 256,
+      "value": 4.42,
+      "popularity": 1131.52
+    },
+    "releaseDate": "2020-09-01T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 799249204,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 75,
+      "authorName": "Louise Penny",
+      "sortName": "Louise Penny",
+      "sortNameLastFirst": "penny, louise",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://assets.hardcover.app/external_data/60703903/79c6757ca19e0d6faeee065b269eaf8850de63d1.jpeg",
+        "url": "/MediaCover/Books/5336/cover.jpeg?lastWrite=639077195179670606"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/all-the-devils-are-here/editions/31425219",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.goodreads.com/book/show/49247026",
+        "name": "goodreads"
+      }
+    ]
+  },
+  {
+    "id": 9554,
+    "foreignBookId": "hc:133778",
+    "title": "Memories of Ice",
+    "authorTitle": "erikson, steven Memories of Ice",
+    "seriesTitle": "La caduta di Malazan #13",
+    "narrator": "Ralph Lister",
+    "mediaType": "audiobook",
+    "authorId": 144,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 2637,
+    "genres": [
+      "Adventure",
+      "Audiobook",
+      "Dark Fantasy",
+      "Ebooks",
+      "Epic",
+      "Epic Fantasy",
+      "Fantasy",
+      "Fantasy fiction",
+      "Fiction",
+      "General",
+      "High Fantasy",
+      "Science fiction",
+      "Science Fiction & Fantasy",
+      "Space Opera",
+      "War"
+    ],
+    "ratings": {
+      "votes": 0,
+      "value": 4.0,
+      "popularity": 0
+    },
+    "releaseDate": "2013-03-28T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 4,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 1326675619,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 144,
+      "authorName": "Steven Erikson",
+      "sortName": "Steven Erikson",
+      "sortNameLastFirst": "erikson, steven",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/819V2TxXVpL.jpg",
+        "url": "/MediaCover/Books/9554/cover.jpg?lastWrite=637281109580000000"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/memories-of-ice",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.audible.com/pd/B00C295FWK",
+        "name": "audible"
+      }
+    ]
+  },
+  {
+    "id": 9556,
+    "foreignBookId": "hc:130810",
+    "title": "House of Chains",
+    "authorTitle": "erikson, steven House of Chains",
+    "seriesTitle": "La caduta di Malazan #18",
+    "narrator": "Michael Page",
+    "mediaType": "audiobook",
+    "authorId": 144,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 2108,
+    "genres": [
+      "Adventure",
+      "Audiobook",
+      "Dark Fantasy",
+      "Ebooks",
+      "Epic",
+      "Epic Fantasy",
+      "Fantasy",
+      "Fiction",
+      "General",
+      "High Fantasy",
+      "Malazan (Imaginary Place)",
+      "Science Fiction & Fantasy",
+      "War"
+    ],
+    "ratings": {
+      "votes": 0,
+      "value": 4.0,
+      "popularity": 0
+    },
+    "releaseDate": "2013-11-26T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 3,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 1171761175,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 144,
+      "authorName": "Steven Erikson",
+      "sortName": "Steven Erikson",
+      "sortNameLastFirst": "erikson, steven",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/81VHuS-+WhL.jpg",
+        "url": "/MediaCover/Books/9556/cover.jpg?lastWrite=638312481080000000"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/house-of-chains",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.amazon.com/dp/B00GUT622K",
+        "name": "amazon"
+      },
+      {
+        "url": "https://www.audible.de/pd/B00GUT622K",
+        "name": "audible"
+      }
+    ]
+  },
+  {
+    "id": 9557,
+    "foreignBookId": "hc:289044",
+    "title": "Midnight Tides",
+    "authorTitle": "erikson, steven Midnight Tides",
+    "seriesTitle": "La caduta di Malazan #17",
+    "narrator": "Michael Page",
+    "mediaType": "audiobook",
+    "authorId": 144,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 1867,
+    "genres": [
+      "Audiobook",
+      "Dark Fantasy",
+      "Ebooks",
+      "Epic",
+      "Epic Fantasy",
+      "Fantasy",
+      "Fantasy fiction",
+      "Fiction",
+      "High Fantasy",
+      "Imaginary wars and battles",
+      "Kings and rulers",
+      "Malazan Empire (Imaginary Place)",
+      "Malazan (Imaginary Place)",
+      "Science fiction",
+      "Science Fiction & Fantasy",
+      "Suspense",
+      "War"
+    ],
+    "ratings": {
+      "votes": 4159,
+      "value": 4.71,
+      "popularity": 19588.89
+    },
+    "releaseDate": "2014-01-31T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 3,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 956886823,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 144,
+      "authorName": "Steven Erikson",
+      "sortName": "Steven Erikson",
+      "sortNameLastFirst": "erikson, steven",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/51mxzqpHS8L._SL500_.jpg",
+        "url": "/MediaCover/Books/9557/cover.jpg?lastWrite=639205980338102967"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/midnight-tides",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.audible.com/pd/B00I2Y5NIK",
+        "name": "audible"
+      }
+    ]
+  },
+  {
+    "id": 8631,
+    "foreignBookId": "hc:183545",
+    "title": "Imperio de tormentas",
+    "authorTitle": "maas, sarah j. Imperio de tormentas",
+    "seriesTitle": "Throne of Glass #5",
+    "narrator": "Dani Broc",
+    "mediaType": "audiobook",
+    "authorId": 112,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 1519,
+    "genres": [
+      "Adventure",
+      "Audiobook",
+      "Epic",
+      "Epic Fantasy",
+      "fae",
+      "Fantasy",
+      "Fiction",
+      "found family",
+      "High Fantasy",
+      "Magic",
+      "New adult",
+      "Romance",
+      "Romantasy",
+      "Teen & Young Adult",
+      "War",
+      "Young Adult"
+    ],
+    "ratings": {
+      "votes": 8,
+      "value": 4.88,
+      "popularity": 39.04
+    },
+    "releaseDate": "2022-12-29T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 726345332,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 112,
+      "authorName": "Sarah J. Maas",
+      "sortName": "Sarah J. Maas",
+      "sortNameLastFirst": "maas, sarah j.",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1697656682l/200178261.jpg",
+        "url": "/MediaCover/Books/8631/cover.jpg?lastWrite=639205979869124581"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/empire-of-storms",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.goodreads.com/book/show/200178261",
+        "name": "goodreads"
+      }
+    ]
+  },
+  {
+    "id": 8635,
+    "foreignBookId": "hc:429015",
+    "title": "Torre del alba",
+    "authorTitle": "maas, sarah j. Torre del alba",
+    "seriesTitle": "Throne of Glass #6",
+    "narrator": "Daniela Broc",
+    "mediaType": "audiobook",
+    "authorId": 112,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 1360,
+    "genres": [
+      "Adventure",
+      "Audiobook",
+      "Epic",
+      "fae",
+      "Fantasy",
+      "Fantasy romance",
+      "Fiction",
+      "found family",
+      "Magic",
+      "New adult",
+      "Paranormal",
+      "Romance",
+      "Romantasy",
+      "Teen & Young Adult",
+      "War",
+      "Young Adult"
+    ],
+    "ratings": {
+      "votes": 6,
+      "value": 3.67,
+      "popularity": 22.02
+    },
+    "releaseDate": "2023-02-23T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 649444952,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 112,
+      "authorName": "Sarah J. Maas",
+      "sortName": "Sarah J. Maas",
+      "sortNameLastFirst": "maas, sarah j.",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1697406078l/199833043.jpg",
+        "url": "/MediaCover/Books/8635/cover.jpg?lastWrite=639205979873769771"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/tower-of-dawn",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.goodreads.com/book/show/199833043",
+        "name": "goodreads"
+      }
+    ]
+  },
+  {
+    "id": 8637,
+    "foreignBookId": "hc:429018",
+    "title": "Reino de cenizas (Trono de Cristal 7): Trono de Cristal 7",
+    "authorTitle": "maas, sarah j. Reino de cenizas (Trono de Cristal 7): Trono de Cristal 7",
+    "seriesTitle": "Throne of Glass #7",
+    "narrator": "Daniela Broc",
+    "mediaType": "audiobook",
+    "authorId": 112,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 1991,
+    "genres": [
+      "Adventure",
+      "Audiobook",
+      "Epic",
+      "Epic Fantasy",
+      "fae",
+      "Fantasy",
+      "Fantasy romance",
+      "Fiction",
+      "Friendship",
+      "Magic",
+      "New adult",
+      "Romance",
+      "Romantasy",
+      "Science Fiction & Fantasy",
+      "War",
+      "Young Adult"
+    ],
+    "ratings": {
+      "votes": 5,
+      "value": 4.8,
+      "popularity": 24
+    },
+    "releaseDate": "2023-05-25T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 950612677,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 112,
+      "authorName": "Sarah J. Maas",
+      "sortName": "Sarah J. Maas",
+      "sortNameLastFirst": "maas, sarah j.",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1742428403i/228561761.jpg",
+        "url": "/MediaCover/Books/8637/cover.jpg?lastWrite=639211804882884420"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/kingdom-of-ash",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.goodreads.com/book/show/228561761",
+        "name": "goodreads"
+      }
+    ]
+  },
+  {
+    "id": 3868,
+    "foreignBookId": "hc:457072",
+    "title": "Daughter of the Forest",
+    "authorTitle": "marillier, juliet Daughter of the Forest",
+    "seriesTitle": "Sevenwaters #1",
+    "narrator": "Terry Donnelly",
+    "mediaType": "audiobook",
+    "authorId": 61,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 1605,
+    "genres": [
+      "Adventure",
+      "Australian fiction",
+      "Fairy tales",
+      "Fantasy",
+      "Fantasy romance",
+      "Fiction",
+      "Historical",
+      "Historical Fiction",
+      "Magic",
+      "Retellings",
+      "Romance",
+      "Young Adult"
+    ],
+    "ratings": {
+      "votes": 0,
+      "value": 4.0,
+      "popularity": 0
+    },
+    "releaseDate": "2013-08-27T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 764394138,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 61,
+      "authorName": "Juliet Marillier",
+      "sortName": "Juliet Marillier",
+      "sortNameLastFirst": "marillier, juliet",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/91l1rxTNxHL.jpg",
+        "url": "/MediaCover/Books/3868/cover.jpg?lastWrite=637018359210000000"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/daughter-of-the-forest",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.amazon.com/dp/B00D6PUWN6",
+        "name": "amazon"
+      },
+      {
+        "url": "https://www.audible.de/pd/B00D6PUWN6",
+        "name": "audible"
+      }
+    ]
+  },
+  {
+    "id": 3876,
+    "foreignBookId": "hc:459419",
+    "title": "Seer of Sevenwaters",
+    "authorTitle": "marillier, juliet Seer of Sevenwaters",
+    "seriesTitle": "Sevenwaters #5",
+    "narrator": "Terry Donnelly",
+    "mediaType": "audiobook",
+    "authorId": 61,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "genres": [
+      "adult",
+      "Adventure",
+      "Fantasy",
+      "Fantasy romance",
+      "Fiction",
+      "Historical",
+      "Historical Fantasy",
+      "Historical Fiction",
+      "Magic",
+      "Romance",
+      "Young Adult"
+    ],
+    "ratings": {
+      "votes": 567,
+      "value": 4.42,
+      "popularity": 2506.14
+    },
+    "releaseDate": "2013-08-27T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 517543372,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 61,
+      "authorName": "Juliet Marillier",
+      "sortName": "Juliet Marillier",
+      "sortNameLastFirst": "marillier, juliet",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/51kLjhgXPJL._SL500_.jpg",
+        "url": "/MediaCover/Books/3876/cover.jpg?lastWrite=639205978277910927"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/seer-of-sevenwaters",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.amazon.com/dp/B00E9FXDGA",
+        "name": "amazon"
+      },
+      {
+        "url": "https://www.audible.com/pd/B00E9HYUQA",
+        "name": "audible"
+      },
+      {
+        "url": "https://www.goodreads.com/book/show/36693076",
+        "name": "goodreads"
+      }
+    ]
+  },
+  {
+    "id": 3891,
+    "foreignBookId": "hc:766595",
+    "title": "Heir to Sevenwaters",
+    "authorTitle": "marillier, juliet Heir to Sevenwaters",
+    "seriesTitle": "Sevenwaters #4",
+    "narrator": "Rosalyn Landor",
+    "mediaType": "audiobook",
+    "authorId": 61,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "genres": [
+      "adult",
+      "Fantasy",
+      "Fantasy romance",
+      "Fiction",
+      "Historical",
+      "Historical Fantasy",
+      "Historical Fiction",
+      "Magic",
+      "Romance",
+      "Young Adult"
+    ],
+    "ratings": {
+      "votes": 672,
+      "value": 4.61,
+      "popularity": 3097.92
+    },
+    "releaseDate": "2013-08-27T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 457779893,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 61,
+      "authorName": "Juliet Marillier",
+      "sortName": "Juliet Marillier",
+      "sortNameLastFirst": "marillier, juliet",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/516XlrKjp7L._SL500_.jpg",
+        "url": "/MediaCover/Books/3891/cover.jpg?lastWrite=639205978288141145"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/die-erben-von-sevenwaters",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.amazon.com/dp/B00E9EXPQ4",
+        "name": "amazon"
+      },
+      {
+        "url": "https://www.audible.com/pd/B00E9GNSBY",
+        "name": "audible"
+      },
+      {
+        "url": "https://www.goodreads.com/book/show/42903522",
+        "name": "goodreads"
+      }
+    ]
+  },
+  {
+    "id": 8013,
+    "foreignBookId": "hc:427393",
+    "title": "Dune Messiah",
+    "authorTitle": "herbert, frank Dune Messiah",
+    "seriesTitle": "Dune #16",
+    "narrator": "Scott Brick, Euan Morton, Simon Vance, Katherine Kellgren",
+    "mediaType": "audiobook",
+    "authorId": 100,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 538,
+    "genres": [
+      "Adventure",
+      "Audiobook",
+      "Classics",
+      "Dune (Imaginary place)",
+      "Fantasy",
+      "Fiction",
+      "Literature & Fiction",
+      "Novels",
+      "Science fiction",
+      "Science Fiction & Fantasy",
+      "Space",
+      "Space Opera",
+      "speculative fiction"
+    ],
+    "ratings": {
+      "votes": 34662,
+      "value": 4.4,
+      "popularity": 152512.80000000002
+    },
+    "releaseDate": "2007-10-01T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 236104774,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 100,
+      "authorName": "Frank Herbert",
+      "sortName": "Frank Herbert",
+      "sortNameLastFirst": "herbert, frank",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/81VCyFRJT2L._SL1500_.jpg",
+        "url": "/MediaCover/Books/8013/cover.jpg?lastWrite=639205979584524245"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/dune-messiah",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.amazon.com/dp/B000WS9ZHY",
+        "name": "amazon"
+      },
+      {
+        "url": "https://www.audible.com/pd/B002V8H660",
+        "name": "audible"
+      },
+      {
+        "url": "https://www.goodreads.com/book/show/463168",
+        "name": "goodreads"
+      }
+    ]
+  },
+  {
+    "id": 8014,
+    "foreignBookId": "hc:427314",
+    "title": "Children of Dune",
+    "authorTitle": "herbert, frank Children of Dune",
+    "seriesTitle": "Dune #3",
+    "narrator": "Scott Brick, Simon Vance",
+    "mediaType": "audiobook",
+    "authorId": 100,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 1011,
+    "genres": [
+      "Adventure",
+      "Audiobook",
+      "Classics",
+      "Classique",
+      "Dune (Imaginary place)",
+      "Dystopian",
+      "Fantasy",
+      "Fiction",
+      "Novels",
+      "Science fiction",
+      "Science Fiction & Fantasy",
+      "Space",
+      "Space Opera"
+    ],
+    "ratings": {
+      "votes": 1231,
+      "value": 3.91,
+      "popularity": 4813.21
+    },
+    "releaseDate": "1976-04-21T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 448775846,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 100,
+      "authorName": "Frank Herbert",
+      "sortName": "Frank Herbert",
+      "sortNameLastFirst": "herbert, frank",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://assets.hardcover.app/edition/12179070/6e9771ae2350ee6e927e9c0a82b9385972bc7f24.jpeg",
+        "url": "/MediaCover/Books/8014/cover.jpeg?lastWrite=639207452659279086"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/children-of-dune/editions/12179070",
+        "name": "hardcover"
+      }
+    ]
+  },
+  {
+    "id": 8016,
+    "foreignBookId": "hc:235277",
+    "title": "Herejes de Dune [Heretics of Dune]: Las crónicas de Dune 5",
+    "authorTitle": "herbert, frank Herejes de Dune [Heretics of Dune]: Las crónicas de Dune 5",
+    "seriesTitle": "Dune #5",
+    "narrator": "Daniel García",
+    "mediaType": "audiobook",
+    "authorId": 100,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 1084,
+    "genres": [
+      "Adventure",
+      "Audiobook",
+      "Classics",
+      "Dune (Imaginary place)",
+      "Ebooks",
+      "Epic",
+      "Fantasy",
+      "Fiction",
+      "Novels",
+      "Science fiction",
+      "Science Fiction & Fantasy",
+      "Space",
+      "Space Opera"
+    ],
+    "ratings": {
+      "votes": 24,
+      "value": 4.38,
+      "popularity": 105.12
+    },
+    "releaseDate": "2023-02-09T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 500265077,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 100,
+      "authorName": "Frank Herbert",
+      "sortName": "Frank Herbert",
+      "sortNameLastFirst": "herbert, frank",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/41-kEIhgHiL._SL500_.jpg",
+        "url": "/MediaCover/Books/8016/cover.jpg?lastWrite=639206578698825041"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/heretics-of-dune",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.amazon.com/dp/B0BV7XJCVC",
+        "name": "amazon"
+      },
+      {
+        "url": "https://www.audible.com/pd/B0BV7J1SKH",
+        "name": "audible"
+      },
+      {
+        "url": "https://www.goodreads.com/book/show/199914695",
+        "name": "goodreads"
+      }
+    ]
+  },
+  {
+    "id": 57461,
+    "foreignBookId": "hc:428465",
+    "title": "Harry Potter and the Order of the Phoenix",
+    "authorTitle": "rowling, j.k. Harry Potter and the Order of the Phoenix",
+    "seriesTitle": "Harry Potter #5",
+    "narrator": "Jim Dale",
+    "mediaType": "audiobook",
+    "authorId": 29,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 1779,
+    "genres": [
+      "Adventure",
+      "Audiobook",
+      "British literature",
+      "Children",
+      "childrens",
+      "Children's audiobooks",
+      "Classics",
+      "Fantasy",
+      "Fiction",
+      "Harry Potter",
+      "Literature",
+      "Magic",
+      "Middle Grade",
+      "Novels",
+      "Science fiction",
+      "Young Adult"
+    ],
+    "ratings": {
+      "votes": 6297,
+      "value": 4.29,
+      "popularity": 27014.13
+    },
+    "releaseDate": "2015-11-20T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 847321504,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 29,
+      "authorName": "J.K. Rowling",
+      "sortName": "J.K. Rowling",
+      "sortNameLastFirst": "rowling, j.k.",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://assets.hardcover.app/edition/32020328/18b12204-8816-4e3f-a562-7cee1d3fb210.jpg",
+        "url": "/MediaCover/Books/57461/cover.jpg?lastWrite=639076752615804758"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/harry-potter-and-the-order-of-the-phoenix/editions/32020328",
+        "name": "hardcover"
+      }
+    ]
+  },
+  {
+    "id": 57462,
+    "foreignBookId": "hc:382143",
+    "title": "Harry Potter and the Deathly Hallows",
+    "authorTitle": "rowling, j.k. Harry Potter and the Deathly Hallows",
+    "seriesTitle": "Harry Potter #7",
+    "narrator": "Jim Dale",
+    "mediaType": "audiobook",
+    "authorId": 29,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 1439,
+    "genres": [
+      "Adventure",
+      "Audiobook",
+      "British literature",
+      "childrens",
+      "Children's audiobooks",
+      "Classics",
+      "Fantasy",
+      "Fiction",
+      "Harry Potter",
+      "Juvenile Fiction",
+      "low fantasy",
+      "Magic",
+      "Middle Grade",
+      "Novels",
+      "Young Adult"
+    ],
+    "ratings": {
+      "votes": 6241,
+      "value": 4.43,
+      "popularity": 27647.629999999997
+    },
+    "releaseDate": "2015-11-20T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 685176850,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 29,
+      "authorName": "J.K. Rowling",
+      "sortName": "J.K. Rowling",
+      "sortNameLastFirst": "rowling, j.k.",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://assets.hardcover.app/editions/32063562/df4408a2-e184-419b-b973-381a3f389e75.webp",
+        "url": "/MediaCover/Books/57462/cover.webp?lastWrite=639205987573298243"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/harry-potter-and-the-deathly-hallows/editions/32063562",
+        "name": "hardcover"
+      }
+    ]
+  },
+  {
+    "id": 57502,
+    "foreignBookId": "hc:328491",
+    "title": "Harry Potter and the Philosopher's Stone",
+    "authorTitle": "rowling, j.k. Harry Potter and the Philosopher's Stone",
+    "seriesTitle": "Harry Potter #1",
+    "narrator": "Stephen Fry",
+    "mediaType": "audiobook",
+    "authorId": 29,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 524,
+    "genres": [
+      "Adventure",
+      "Audiobook",
+      "childrens",
+      "Children's audiobooks",
+      "Classics",
+      "Fantasy",
+      "Fantasy & Magic",
+      "Fiction",
+      "Friendship",
+      "Harry Potter",
+      "Japanese literature",
+      "Juvenile Fiction",
+      "Magic",
+      "Middle Grade",
+      "Young Adult"
+    ],
+    "ratings": {
+      "votes": 10266,
+      "value": 4.28,
+      "popularity": 43938.48
+    },
+    "releaseDate": "2015-11-20T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 249591006,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 29,
+      "authorName": "J.K. Rowling",
+      "sortName": "J.K. Rowling",
+      "sortNameLastFirst": "rowling, j.k.",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://assets.hardcover.app/external_data/61459574/999615b0bef62ba2172e94663bd4c031f73ceece.jpeg",
+        "url": "/MediaCover/Books/57502/cover.jpeg?lastWrite=639076752623456339"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/harry-potter-and-the-philosophers-stone/editions/31570966",
+        "name": "hardcover"
+      }
+    ]
+  },
+  {
+    "id": 8048,
+    "foreignBookId": "hc:490427",
+    "title": "Chapterhouse: Dune",
+    "authorTitle": "herbert, frank Chapterhouse: Dune",
+    "seriesTitle": "Dune #1-6",
+    "narrator": "Euan Morton, Katherine Kellgren, Scott Brick, Simon Vance",
+    "mediaType": "audiobook",
+    "authorId": 100,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 1002,
+    "genres": [
+      "Amazon",
+      "Audiobook",
+      "Classics",
+      "Ebooks",
+      "Fantasy",
+      "Fiction",
+      "Novels",
+      "Religion",
+      "Science fiction",
+      "Science Fiction & Fantasy"
+    ],
+    "ratings": {
+      "votes": 9,
+      "value": 4.56,
+      "popularity": 41.04
+    },
+    "releaseDate": "1978-01-01T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 427385443,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 100,
+      "authorName": "Frank Herbert",
+      "sortName": "Frank Herbert",
+      "sortNameLastFirst": "herbert, frank",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "links": [
+      {
+        "url": "https://hardcover.app/books/frank-herberts-dune-saga-collection/editions/32972430",
+        "name": "hardcover"
+      }
+    ]
+  },
+  {
+    "id": 2144,
+    "foreignBookId": "hc:300053",
+    "title": "Rant",
+    "authorTitle": "palahniuk, chuck Rant",
+    "seriesTitle": "Humorous Literary Fiction #51",
+    "mediaType": "audiobook",
+    "authorId": 24,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 6112,
+    "genres": [
+      "Adult Fiction",
+      "Audiobook",
+      "Book Club",
+      "Boys",
+      "Contemporary",
+      "Dystopian",
+      "Fantasy",
+      "Fiction",
+      "Horror",
+      "Humor",
+      "Novels",
+      "Science fiction",
+      "Time Travel"
+    ],
+    "ratings": {
+      "votes": 159,
+      "value": 3.85,
+      "popularity": 612.15
+    },
+    "releaseDate": "2007-01-01T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 9,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 734029453,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 24,
+      "authorName": "Chuck Palahniuk",
+      "sortName": "Chuck Palahniuk",
+      "sortNameLastFirst": "palahniuk, chuck",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://assets.hardcover.app/edition/21759651/1851005-L.jpg",
+        "url": "/MediaCover/Books/2144/cover.jpg?lastWrite=639205977368836492"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/das-kainsmal/editions/21759651",
+        "name": "hardcover"
+      }
+    ]
+  },
+  {
+    "id": 87,
+    "foreignBookId": "hc:559567",
+    "title": "Sturmrot",
+    "authorTitle": "alsterdal, tove Sturmrot",
+    "seriesTitle": "Ådalen #1",
+    "narrator": "Heike Warmuth",
+    "mediaType": "audiobook",
+    "authorId": 2,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "genres": [
+      "Audiobook",
+      "Crime",
+      "Fiction",
+      "Mystery",
+      "Mystery Thriller",
+      "Nordic Noir",
+      "Suspense",
+      "Sweden",
+      "Swedish literature",
+      "Thriller"
+    ],
+    "ratings": {
+      "votes": 3935,
+      "value": 2,
+      "popularity": 7870
+    },
+    "releaseDate": "2022-07-01T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 648421577,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 2,
+      "authorName": "Tove Alsterdal",
+      "sortName": "Tove Alsterdal",
+      "sortNameLastFirst": "alsterdal, tove",
+      "audiobookRootFolderPath": "/volume2/Media/Hörbücher"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/91WaLjPqIXL._SL1500_.jpg",
+        "url": "/MediaCoverProxy/7f780bcc5ed0f60e413228363f1935d063fa31238a36c2dba0761cf6052046b7/91WaLjPqIXL._SL1500_.jpg"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/we-know-you-remember",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.amazon.com/dp/B0B3F6798L",
+        "name": "amazon"
+      },
+      {
+        "url": "https://www.goodreads.com/book/show/229336599",
+        "name": "goodreads"
+      }
+    ]
+  },
+  {
+    "id": 2524,
+    "foreignBookId": "hc:441886",
+    "title": "The Word for World Is Forest",
+    "authorTitle": "le guin, ursula k. The Word for World Is Forest",
+    "seriesTitle": "The Hainish Cycle #5",
+    "mediaType": "audiobook",
+    "authorId": 34,
+    "monitored": true,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [
+      "Aliens",
+      "Audiobook",
+      "Book Club",
+      "Classics",
+      "Classique",
+      "Dystopian",
+      "Fantasy",
+      "Fiction",
+      "Forests and forestry",
+      "Novella",
+      "Novels",
+      "Science fiction",
+      "Science Fiction & Fantasy",
+      "Space",
+      "speculative fiction",
+      "War"
+    ],
+    "ratings": {
+      "votes": 5,
+      "value": 4.8,
+      "popularity": 24
+    },
+    "releaseDate": "2024-02-27T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 0,
+      "bookCount": 1,
+      "totalBookCount": 1,
+      "sizeOnDisk": 0,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 34,
+      "authorName": "Ursula K. Le Guin",
+      "sortName": "Ursula K. Le Guin",
+      "sortNameLastFirst": "le guin, ursula k.",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/51zt7y1s8ML._SL500_.jpg",
+        "url": "/MediaCover/Books/2524/cover.jpg?lastWrite=639205977473004126"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/the-word-for-world-is-forest/editions/32146360",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.amazon.com/dp/B0CMZ138LX",
+        "name": "amazon"
+      },
+      {
+        "url": "https://www.audible.es/pd/B0CMZ1BYKR",
+        "name": "audible"
+      },
+      {
+        "url": "https://www.goodreads.com/book/show/229451302",
+        "name": "goodreads"
+      }
+    ]
+  },
+  {
+    "id": 4286,
+    "foreignBookId": "hc:434887",
+    "title": "A Tale for the Time Being",
+    "authorTitle": "ozeki, ruth A Tale for the Time Being",
+    "mediaType": "audiobook",
+    "authorId": 65,
+    "monitored": true,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [
+      "Asia",
+      "Audiobook",
+      "Book Club",
+      "Buddhist nuns",
+      "Coming of Age",
+      "Contemporary",
+      "Fantasy",
+      "Fiction",
+      "General",
+      "Historical Fiction",
+      "Japan",
+      "Literary Fiction",
+      "Magical Realism",
+      "Middle age",
+      "Novels",
+      "War",
+      "Zen Buddhism"
+    ],
+    "ratings": {
+      "votes": 283,
+      "value": 4.04,
+      "popularity": 1143.32
+    },
+    "releaseDate": "2013-03-11T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 0,
+      "bookCount": 1,
+      "totalBookCount": 1,
+      "sizeOnDisk": 0,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 65,
+      "authorName": "Ruth Ozeki",
+      "sortName": "Ruth Ozeki",
+      "sortNameLastFirst": "ozeki, ruth",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://assets.hardcover.app/edition/31464029/166ce6735bf425808e81f941aba5140657d6fec6.jpeg",
+        "url": "/MediaCover/Books/4286/cover.jpeg?lastWrite=639205978380485100"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/a-tale-for-the-time-being/editions/31464029",
+        "name": "hardcover"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "foreignBookId": "hc:524080",
+    "title": "The Burnout Society",
+    "authorTitle": "han, byung-chul The Burnout Society",
+    "seriesTitle": "Byung-Chul Han: The Collected Audio Works",
+    "narrator": "Peter Noble",
+    "mediaType": "audiobook",
+    "authorId": 1,
+    "monitored": false,
+    "hasFiles": true,
+    "pageCount": 0,
+    "durationMinutes": 142,
+    "genres": [
+      "Audiobook",
+      "Essays",
+      "Mental",
+      "Nonfiction",
+      "Philosophy",
+      "Politics",
+      "Psychology",
+      "Self-Help",
+      "social science",
+      "Society",
+      "Sociology",
+      "Theory"
+    ],
+    "ratings": {
+      "votes": 49,
+      "value": 3.96,
+      "popularity": 194.04
+    },
+    "releaseDate": "2025-01-10T00:00:00Z",
+    "statistics": {
+      "bookFileCount": 1,
+      "bookCount": 0,
+      "totalBookCount": 0,
+      "sizeOnDisk": 135743768,
+      "percentOfBooks": 0
+    },
+    "author": {
+      "id": 1,
+      "authorName": "Byung-Chul Han",
+      "sortName": "Byung-Chul Han",
+      "sortNameLastFirst": "han, byung-chul",
+      "audiobookRootFolderPath": "/volume2/Media/Audiobooks"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/41S2Pefa4EL._SL500_.jpg",
+        "url": "/MediaCover/Books/1/cover.jpg?lastWrite=639205976545410370"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/the-burnout-society/editions/32385555",
+        "name": "hardcover"
+      },
+      {
+        "url": "https://www.amazon.com/dp/B0DSJZWNRK",
+        "name": "amazon"
+      },
+      {
+        "url": "https://www.audible.com/pd/B0DSK27NWY",
+        "name": "audible"
+      },
+      {
+        "url": "https://www.goodreads.com/book/show/228411248",
+        "name": "goodreads"
+      }
+    ]
+  }
+]

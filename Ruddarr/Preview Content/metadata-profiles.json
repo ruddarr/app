@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Audiobook Default",
+    "profileType": 1,
+    "id": 1
+  },
+  {
+    "name": "Ebook Default",
+    "profileType": 2,
+    "id": 2
+  },
+  {
+    "name": "None",
+    "profileType": 0,
+    "id": 3
+  }
+]

@@ -184,6 +184,28 @@
         }
       }
     },
+    "%lld Book" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Book"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Books"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld Episode" : {
       "localizations" : {
         "en" : {
@@ -221,6 +243,29 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld Movies"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld Page" : {
+      "comment" : "Number of pages in a book",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Page"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Pages"
                 }
               }
             }
@@ -414,6 +459,8 @@
         }
       }
     },
+    "Add Book" : {
+    },
     "Add Exclusion" : {
       "localizations" : {
         "en" : {
@@ -508,6 +555,9 @@
           }
         }
       }
+    },
+    "All Books" : {
+      "comment" : "Media grid filter"
     },
     "All Episodes" : {
       "comment" : "Series monitoring option",
@@ -858,6 +908,9 @@
         }
       }
     },
+    "Audiobooks" : {
+      "comment" : "Media grid format"
+    },
     "Authentication" : {
       "localizations" : {
         "en" : {
@@ -867,6 +920,9 @@
           }
         }
       }
+    },
+    "Author" : {
+      "comment" : "Media grid sorting"
     },
     "Automatic" : {
       "comment" : "Appearance that adapts to the system",
@@ -941,6 +997,17 @@
         }
       }
     },
+    "Bit Depth" : {
+      "comment" : "Audio bit depth",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bit Depth"
+          }
+        }
+      }
+    },
     "Bitrate" : {
       "comment" : "Audio/video bitrate",
       "localizations" : {
@@ -972,13 +1039,55 @@
         }
       }
     },
+    "Book" : {
+    },
+    "Book Converted" : {
+      "comment" : "Title of history event type"
+    },
+    "Book Deleted" : {
+      "comment" : "Title of history event type"
+    },
+    "Book file conversion failed." : {
+    },
+    "Book file metadata tags were updated." : {
+    },
+    "Book file was converted." : {
+    },
+    "Book file was renamed." : {
+    },
+    "Book has no files." : {
+    },
+    "Book has no history." : {
+    },
+    "Book Imported" : {
+      "comment" : "Title of history event type"
+    },
+    "Book Renamed" : {
+      "comment" : "Title of history event type"
+    },
+    "Book Retagged" : {
+      "comment" : "Title of history event type"
+    },
+    "Book Search Queued" : {
+    },
     "Books" : {
-      "comment" : "Localized name of Apple's Books app",
+      "comment" : "Localized name of Apple's Books app\nPlural. Tab/sidebar menu item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Books"
+          }
+        }
+      }
+    },
+    "Both" : {
+      "comment" : "Audiobooks and eBooks",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Both"
           }
         }
       }
@@ -1036,6 +1145,16 @@
         }
       }
     },
+    "Check the spelling or try [adding the book](%@)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check the spelling or try [adding the book](%@)."
+          }
+        }
+      }
+    },
     "Check the spelling or try [adding the movie](%@)." : {
       "localizations" : {
         "en" : {
@@ -1055,6 +1174,8 @@
           }
         }
       }
+    },
+    "Clear Filter" : {
     },
     "Clear Filters" : {
       "localizations" : {
@@ -1241,6 +1362,12 @@
           }
         }
       }
+    },
+    "Conversion Failed" : {
+      "comment" : "Title of history event type"
+    },
+    "Converted" : {
+      "comment" : "(Short) Title of history event"
     },
     "Copy Link" : {
       "localizations" : {
@@ -1664,6 +1791,9 @@
         }
       }
     },
+    "eBooks" : {
+      "comment" : "Media grid format"
+    },
     "Edit" : {
       "localizations" : {
         "en" : {
@@ -1913,6 +2043,8 @@
         }
       }
     },
+    "File was not found on disk so it was unlinked from the book in the database." : {
+    },
     "File was not found on disk so it was unlinked from the episode in the database." : {
       "localizations" : {
         "en" : {
@@ -2006,6 +2138,9 @@
           }
         }
       }
+    },
+    "Format" : {
+      "comment" : "Audiobook or eBook"
     },
     "Framerate" : {
       "comment" : "Video frame rate",
@@ -2239,6 +2374,9 @@
         }
       }
     },
+    "Import Incomplete" : {
+      "comment" : "Title of history event type"
+    },
     "Import Pending" : {
       "comment" : "(Short) State of task in queue",
       "localizations" : {
@@ -2324,6 +2462,9 @@
           }
         }
       }
+    },
+    "Incomplete" : {
+      "comment" : "(Short) Title of history event"
     },
     "indexer" : {
       "comment" : "Fallback for indexer name within mid-sentence",
@@ -2655,6 +2796,16 @@
         }
       }
     },
+    "Looking to [add a new book](%@)?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Looking to [add a new book](%@)?"
+          }
+        }
+      }
+    },
     "Looking to [add a new movie](%@)?" : {
       "localizations" : {
         "en" : {
@@ -2738,6 +2889,16 @@
         }
       }
     },
+    "Metadata Profile" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metadata Profile"
+          }
+        }
+      }
+    },
     "Midseason Finale" : {
       "localizations" : {
         "en" : {
@@ -2798,6 +2959,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Monitor"
+          }
+        }
+      }
+    },
+    "Monitor New Books" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monitor New Books"
           }
         }
       }
@@ -3069,6 +3240,9 @@
         }
       }
     },
+    "Narrator" : {
+      "comment" : "The narrator of an audiobook"
+    },
     "Network" : {
       "comment" : "The network that airs the show",
       "localizations" : {
@@ -3129,6 +3303,10 @@
           }
         }
       }
+    },
+    "No Books Match" : {
+    },
+    "No books match the selected format and filter." : {
     },
     "No Events" : {
       "localizations" : {
@@ -4333,6 +4511,9 @@
         }
       }
     },
+    "Release Date" : {
+      "comment" : "Media grid sorting"
+    },
     "Release Downloading" : {
       "localizations" : {
         "en" : {
@@ -4553,6 +4734,9 @@
         }
       }
     },
+    "Retagged" : {
+      "comment" : "(Short) Title of history event"
+    },
     "Retry" : {
       "localizations" : {
         "en" : {
@@ -4591,6 +4775,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Runtime"
+          }
+        }
+      }
+    },
+    "Sample Rate" : {
+      "comment" : "Audio sample rate",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sample Rate"
           }
         }
       }
@@ -4973,6 +5168,8 @@
         }
       }
     },
+    "Some files were imported, others were not." : {
+    },
     "Some releases are hidden by the selected filters." : {
       "localizations" : {
         "en" : {
@@ -5283,6 +5480,8 @@
           }
         }
       }
+    },
+    "This will permanently erase the book file." : {
     },
     "This will permanently erase the episode file." : {
       "localizations" : {

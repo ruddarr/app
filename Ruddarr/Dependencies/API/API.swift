@@ -3,6 +3,7 @@ import Sentry
 struct API: Sendable {
     var radarr: RadarrAPI
     var sonarr: SonarrAPI
+    var chaptarr: ChaptarrAPI
     var instance: InstanceAPI
 }
 
@@ -49,6 +50,24 @@ struct SonarrAPI: Sendable {
 ///
 /// `command` and `downloadRelease` share a route across both apps and discriminate
 /// on their payload (see `InstanceCommand.payload` and `DownloadReleaseCommand`).
+/// Endpoints only Chaptarr serves, or that only make sense against a Chaptarr instance.
+struct ChaptarrAPI: Sendable {
+    var fetch: @Sendable (Instance) async throws -> [Book]
+    var page: @Sendable (_ instance: Instance, _ query: BookQuery, _ offset: Int, _ pageSize: Int) async throws -> BooksPage
+    var search: @Sendable (_ instance: Instance, _ term: String) async throws -> [Book]
+    var lookup: @Sendable (_ instance: Instance, _ query: String) async throws -> [Book]
+
+    var book: @Sendable (Book.ID, Instance) async throws -> Book
+    var series: @Sendable (Int, Instance) async throws -> [BookSeries]
+    var files: @Sendable (Book.ID, Instance) async throws -> [BookFile]
+    var history: @Sendable (Int, Book.ID, Instance) async throws -> [MediaHistoryEvent]
+    var add: @Sendable (Book, Instance) async throws -> Book
+    var monitor: @Sendable ([Book.ID], Bool, Instance) async throws -> API.Empty
+    var deleteFile: @Sendable (BookFile, Instance) async throws -> API.Empty
+
+    var calendar: @Sendable (Date, Date, Instance) async throws -> [Book]
+}
+
 struct InstanceAPI: Sendable {
     var command: @Sendable (InstanceCommand, Instance) async throws -> API.Empty
     var downloadRelease: @Sendable (DownloadReleaseCommand, Instance) async throws -> API.Empty
@@ -56,6 +75,7 @@ struct InstanceAPI: Sendable {
     var status: @Sendable (Instance) async throws -> InstanceStatus
     var rootFolders: @Sendable (Instance) async throws -> [InstanceRootFolder]
     var qualityProfiles: @Sendable (Instance) async throws -> [InstanceQualityProfile]
+    var metadataProfiles: @Sendable (Instance) async throws -> [InstanceMetadataProfile]
     var diskSpace: @Sendable (Instance) async throws -> [InstanceDiskSpace]
     var tags: @Sendable (Instance) async throws -> [Tag]
 

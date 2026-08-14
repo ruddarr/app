@@ -85,12 +85,45 @@ struct SeriesDestination: View {
     }
 }
 
+struct BooksDestination: View {
+    var path: BooksPath
+
+    @Environment(AppSettings.self) private var settings
+    @Environment(ChaptarrInstance.self) private var instance
+
+    var body: some View {
+        switch path {
+        case .search(let query):
+            BookSearchView(searchQuery: query)
+                .environment(instance)
+        case .preview(let data):
+            if let data, let book = try? JSONDecoder().decode(Book.self, from: data) {
+                BookPreviewView(book: book)
+                    .environment(instance)
+                    .environment(settings)
+            }
+        case .book(let id):
+            if let book = instance.books.binding(for: id) {
+                BookView(book: book)
+                    .environment(instance)
+                    .environment(settings)
+            }
+        case .metadata(let id):
+            if let book = instance.books.byId(id) {
+                BookMetadataView(book: book)
+                    .environment(instance)
+            }
+        }
+    }
+}
+
 struct SettingsDestination: View {
     var path: SettingsView.Path
 
     @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var radarrInstance
     @Environment(SonarrInstance.self) private var sonarrInstance
+    @Environment(ChaptarrInstance.self) private var chaptarrInstance
 
     var body: some View {
         switch path {
@@ -106,12 +139,14 @@ struct SettingsDestination: View {
             InstanceEditView(mode: .create, instance: Instance())
                 .environment(radarrInstance)
                 .environment(sonarrInstance)
+                .environment(chaptarrInstance)
                 .environment(settings)
         case .viewInstance(let instanceId):
             if let instance = settings.instanceById(instanceId) {
                 InstanceView(instance: instance)
                     .environment(radarrInstance)
                     .environment(sonarrInstance)
+                    .environment(chaptarrInstance)
                     .environment(settings)
             }
         case .editInstance(let instanceId, let advanced):
@@ -119,6 +154,7 @@ struct SettingsDestination: View {
                 InstanceEditView(mode: .update, openAdvanced: advanced, instance: instance)
                     .environment(radarrInstance)
                     .environment(sonarrInstance)
+                    .environment(chaptarrInstance)
                     .environment(settings)
             }
         }
