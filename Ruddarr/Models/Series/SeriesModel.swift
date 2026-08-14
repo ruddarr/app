@@ -145,7 +145,7 @@ class SeriesModel {
     private func performOperation(_ operation: Operation) async throws {
         switch operation {
         case .fetch:
-            items = try await dependencies.api.fetchSeries(instance)
+            items = try await dependencies.api.sonarr.fetch(instance)
             itemsCount = items.count
             computeAlternateTitles()
             await Spotlight(instance.id).index(items, delay: .seconds(5))
@@ -154,7 +154,7 @@ class SeriesModel {
 
         case .get(let series):
             if let index = items.firstIndex(where: { $0.id == series.id }) {
-                let item = try await dependencies.api.getSeries(series.id, instance)
+                let item = try await dependencies.api.sonarr.series(series.id, instance)
 
                 if items[index] != item {
                     items[index] = item
@@ -162,26 +162,26 @@ class SeriesModel {
             }
 
         case .add(let series):
-            items.append(try await dependencies.api.addSeries(series, instance))
+            items.append(try await dependencies.api.sonarr.add(series, instance))
 
         case .push(let series):
-            _ = try await dependencies.api.pushSeries(series, instance)
+            _ = try await dependencies.api.sonarr.push(series, instance)
 
         case .update(let series, let moveFiles):
-            _ = try await dependencies.api.updateSeries(series, moveFiles, instance)
+            _ = try await dependencies.api.sonarr.update(series, moveFiles, instance)
 
         case .delete(let series, let addExclusion, let deleteFiles):
-            _ = try await dependencies.api.deleteSeries(series, addExclusion, deleteFiles, instance)
+            _ = try await dependencies.api.sonarr.delete(series, addExclusion, deleteFiles, instance)
             items.removeAll(where: { $0.guid == series.guid })
 
         case .download(let guid, let indexerId, let seriesId, let seasonId, let episodeId):
             let payload = episodeId == nil
                 ? DownloadReleaseCommand(guid: guid, indexerId: indexerId, seriesId: seriesId, seasonId: seasonId)
                 : DownloadReleaseCommand(guid: guid, indexerId: indexerId, episodeId: episodeId)
-            _ = try await dependencies.api.downloadRelease(payload, instance)
+            _ = try await dependencies.api.instance.downloadRelease(payload, instance)
 
         case .command(let command):
-            _ = try await dependencies.api.command(command, instance)
+            _ = try await dependencies.api.instance.command(command, instance)
         }
     }
 

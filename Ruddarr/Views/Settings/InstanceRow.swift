@@ -103,10 +103,10 @@ struct InstanceRow: View {
             currentURL = selection
             connection = .pending
 
-            async let systemStatus = try dependencies.api.systemStatus(instance)
-            async let rootFolders = try dependencies.api.rootFolders(instance)
-            async let qualityProfiles = try dependencies.api.qualityProfiles(instance)
-            async let tags = dependencies.api.getTags(instance)
+            async let systemStatus = try dependencies.api.instance.status(instance)
+            async let rootFolders = try dependencies.api.instance.rootFolders(instance)
+            async let qualityProfiles = try dependencies.api.instance.qualityProfiles(instance)
+            async let tags = dependencies.api.instance.tags(instance)
 
             let data = try await systemStatus
 
