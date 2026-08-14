@@ -24,10 +24,6 @@ func maskedURL(_ string: String) -> String {
     return result
 }
 
-/// Query parameter names whose values carry user-identifying data or credentials — search text,
-/// download identifiers, and the query-string API keys of Newznab/Torznab-style URLs that server
-/// error messages can embed. Only these are redacted from a masked URL; everything else is kept
-/// so a shared diagnostics report still shows the failing endpoint and its non-sensitive parameters.
 private let sensitiveQueryKeys: Set<String> = ["term", "downloadid", "apikey", "api_key"]
 
 private func maskedQueryValues(_ query: String) -> String {
@@ -46,10 +42,6 @@ func maskURLs(in string: String) -> String {
     }
 }
 
-/// A URL with any inline `user:password@` credentials replaced by `*****`, but scheme, host,
-/// port, path and query shown verbatim — for the unmasked diagnostics export, where revealing
-/// network topology must never reveal stored passwords. Returns the input unchanged when it
-/// carries no credentials (or can't be parsed), so ordinary URLs stay byte-for-byte intact.
 func urlHidingUserinfo(_ string: String) -> String {
     guard let components = URLComponents(string: string),
           let host = components.host,

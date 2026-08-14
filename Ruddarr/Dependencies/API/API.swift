@@ -5,9 +5,16 @@ struct API: Sendable {
     var sonarr: SonarrAPI
     var chaptarr: ChaptarrAPI
     var instance: InstanceAPI
+
+    static var live: Self {
+        .init(radarr: .live, sonarr: .live, chaptarr: .live, instance: .live)
+    }
+
+    static var mock: Self {
+        .init(radarr: .mock, sonarr: .mock, chaptarr: .mock, instance: .mock)
+    }
 }
 
-/// Endpoints only Radarr serves, or that only make sense against a Radarr instance.
 struct RadarrAPI: Sendable {
     var fetch: @Sendable (Instance) async throws -> [Movie]
     var lookup: @Sendable (_ instance: Instance, _ query: String) async throws -> [Movie]
@@ -25,7 +32,6 @@ struct RadarrAPI: Sendable {
     var calendar: @Sendable (Date, Date, Instance) async throws -> [Movie]
 }
 
-/// Endpoints only Sonarr serves, or that only make sense against a Sonarr instance.
 struct SonarrAPI: Sendable {
     var fetch: @Sendable (Instance) async throws -> [Series]
     var episodes: @Sendable (Series.ID, Instance) async throws -> [Episode]
@@ -46,11 +52,6 @@ struct SonarrAPI: Sendable {
     var calendar: @Sendable (Date, Date, Instance) async throws -> [Episode]
 }
 
-/// Endpoints both Radarr and Sonarr serve identically, callable with any `Instance`.
-///
-/// `command` and `downloadRelease` share a route across both apps and discriminate
-/// on their payload (see `InstanceCommand.payload` and `DownloadReleaseCommand`).
-/// Endpoints only Chaptarr serves, or that only make sense against a Chaptarr instance.
 struct ChaptarrAPI: Sendable {
     var fetch: @Sendable (Instance) async throws -> [Book]
     var page: @Sendable (_ instance: Instance, _ query: BookQuery, _ offset: Int, _ pageSize: Int) async throws -> BooksPage

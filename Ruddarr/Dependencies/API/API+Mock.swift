@@ -1,11 +1,5 @@
 import Foundation
 
-extension API {
-    static var mock: Self {
-        .init(radarr: .mock, sonarr: .mock, chaptarr: .mock, instance: .mock)
-    }
-}
-
 extension RadarrAPI {
     static var mock: Self {
         .init(fetch: { _ in
