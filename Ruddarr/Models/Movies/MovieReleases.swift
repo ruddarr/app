@@ -31,7 +31,7 @@ class MovieReleases {
         setFilterData()
 
         do {
-            items = try await dependencies.api.lookupMovieReleases(movie.id, instance)
+            items = try await dependencies.api.radarr.lookupMovieReleases(movie.id, instance)
             setFilterData()
         } catch is CancellationError {
             // do nothing

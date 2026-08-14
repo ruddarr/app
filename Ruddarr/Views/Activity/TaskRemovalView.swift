@@ -86,7 +86,7 @@ struct TaskRemovalView: View {
         }
 
         do {
-            _ = try await dependencies.api.deleteQueueTask(
+            _ = try await dependencies.api.instance.deleteQueueTask(
                 item.id, remove, block, search, instance
             )
         } catch is CancellationError {

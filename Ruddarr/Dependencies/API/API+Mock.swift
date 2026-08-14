@@ -2,6 +2,12 @@ import Foundation
 
 extension API {
     static var mock: Self {
+        .init(radarr: .mock, sonarr: .mock, instance: .mock)
+    }
+}
+
+extension RadarrAPI {
+    static var mock: Self {
         .init(fetchMovies: { _ in
             try await Task.sleep(for: .seconds(1))
 
@@ -45,16 +51,27 @@ extension API {
         }, updateMovie: { _, _, _ in
             try await Task.sleep(for: .seconds(2))
 
-            return Empty()
+            return API.Empty()
         }, deleteMovie: { _, _, _, _ in
             try await Task.sleep(for: .seconds(2))
 
-            return Empty()
+            return API.Empty()
         }, deleteMovieFile: { _, _ in
             try await Task.sleep(for: .seconds(2))
 
-            return Empty()
-        }, fetchSeries: { _ in
+            return API.Empty()
+        }, movieCalendar: { _, _, instance in
+            try await Task.sleep(for: .seconds(2))
+            let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
+
+            return modifyCalendarMovies(movies, instance)
+        })
+    }
+}
+
+extension SonarrAPI {
+    static var mock: Self {
+        .init(fetchSeries: { _ in
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "series")
@@ -88,15 +105,15 @@ extension API {
         }, updateSeries: { _, _, _ in
             try await Task.sleep(for: .seconds(2))
 
-            return Empty()
+            return API.Empty()
         }, deleteSeries: { _, _, _, _ in
             try await Task.sleep(for: .seconds(2))
 
-            return Empty()
+            return API.Empty()
         }, monitorEpisode: { _, _, _ in
             try await Task.sleep(for: .seconds(2))
 
-            return Empty()
+            return API.Empty()
         }, getEpisodeHistory: { _, _ in
             let events: MediaHistory = loadPreviewData(filename: "series-episode-history")
             try await Task.sleep(for: .seconds(2))
@@ -105,29 +122,30 @@ extension API {
         }, deleteEpisodeFile: { _, _ in
             try await Task.sleep(for: .seconds(2))
 
-            return Empty()
+            return API.Empty()
         }, deleteEpisodeFiles: { _, _ in
             try await Task.sleep(for: .seconds(2))
 
-            return Empty()
-        }, movieCalendar: { _, _, instance in
-            try await Task.sleep(for: .seconds(2))
-            let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
-
-            return modifyCalendarMovies(movies, instance)
+            return API.Empty()
         }, episodeCalendar: { _, _, instance in
             try await Task.sleep(for: .seconds(3))
             let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
 
             return modifyCalendarEpisodes(episodes, instance)
-        }, command: { _, _ in
+        })
+    }
+}
+
+extension InstanceAPI {
+    static var mock: Self {
+        .init(command: { _, _ in
             try await Task.sleep(for: .seconds(2))
 
-            return Empty()
+            return API.Empty()
         }, downloadRelease: { _, _ in
             try await Task.sleep(for: .seconds(1))
 
-            return Empty()
+            return API.Empty()
         }, systemStatus: { instance in
             try await Task.sleep(for: .seconds(2))
 
@@ -163,7 +181,7 @@ extension API {
         }, deleteQueueTask: { _, _, _, _, _ in
             try await Task.sleep(for: .seconds(3))
 
-            return Empty()
+            return API.Empty()
         }, fetchImportableFiles: { _, instance in
             try await Task.sleep(for: .seconds(1))
 
@@ -197,28 +215,26 @@ extension API {
         }, deleteNotification: { _, _ in
             try await Task.sleep(for: .seconds(2))
 
-            return Empty()
+            return API.Empty()
         })
     }
 }
 
-fileprivate extension API {
-    static func loadPreviewData<Model: Decodable>(filename: String) -> Model {
-        if let path = Bundle.main.path(forResource: filename, ofType: "json") {
-            do {
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601extended
+private func loadPreviewData<Model: Decodable>(filename: String) -> Model {
+    if let path = Bundle.main.path(forResource: filename, ofType: "json") {
+        do {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601extended
 
-                let data = try Data(contentsOf: URL(fileURLWithPath: path))
+            let data = try Data(contentsOf: URL(fileURLWithPath: path))
 
-                return try decoder.decode(Model.self, from: data)
-            } catch {
-                fatalError("Preview data `\(filename)` could not be decoded: \(error)")
-            }
+            return try decoder.decode(Model.self, from: data)
+        } catch {
+            fatalError("Preview data `\(filename)` could not be decoded: \(error)")
         }
-
-        fatalError("Preview data `\(filename)` not found")
     }
+
+    fatalError("Preview data `\(filename)` not found")
 }
 
 private func modifyQueueItems(_ items: QueueItems, _ instance: Instance) -> QueueItems {

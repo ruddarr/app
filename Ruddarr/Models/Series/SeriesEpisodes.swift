@@ -78,7 +78,7 @@ class SeriesEpisodes {
         }
 
         do {
-            let newItems = try await dependencies.api.fetchEpisodes(series.id, instance)
+            let newItems = try await dependencies.api.sonarr.fetchEpisodes(series.id, instance)
 
             if items != newItems {
                 items = newItems
@@ -107,7 +107,7 @@ class SeriesEpisodes {
         isMonitoring = episodes[0]
 
         do {
-            _ = try await dependencies.api.monitorEpisode(episodes, monitored, instance)
+            _ = try await dependencies.api.sonarr.monitorEpisode(episodes, monitored, instance)
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
@@ -125,7 +125,7 @@ class SeriesEpisodes {
 
     func fetchHistory(_ episode: Episode) async {
         do {
-            history = try await dependencies.api.getEpisodeHistory(episode.id, instance).records
+            history = try await dependencies.api.sonarr.getEpisodeHistory(episode.id, instance).records
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {

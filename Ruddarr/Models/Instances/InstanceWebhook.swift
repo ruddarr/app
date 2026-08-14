@@ -63,7 +63,7 @@ class InstanceWebhook {
             try await fetchWebhooks()
 
             if let webhook {
-                _ = try await dependencies.api.deleteNotification(webhook, instance)
+                _ = try await dependencies.api.instance.deleteNotification(webhook, instance)
             }
         } catch is CancellationError {
             // do nothing
@@ -76,7 +76,7 @@ class InstanceWebhook {
     }
 
     private func fetchWebhooks() async throws {
-        notifications = try await dependencies.api.fetchNotifications(instance)
+        notifications = try await dependencies.api.instance.fetchNotifications(instance)
 
         if let webhook {
             model = webhook
@@ -90,7 +90,7 @@ class InstanceWebhook {
         )
 
         do {
-            model = try await dependencies.api.createNotification(record, instance)
+            model = try await dependencies.api.instance.createNotification(record, instance)
         } catch is CancellationError {
             // do nothing
         } catch {
@@ -106,7 +106,7 @@ class InstanceWebhook {
         model.fields = webhookFields()
 
         do {
-            model = try await dependencies.api.updateNotification(model, instance)
+            model = try await dependencies.api.instance.updateNotification(model, instance)
         } catch is CancellationError {
             // do nothing
         } catch {

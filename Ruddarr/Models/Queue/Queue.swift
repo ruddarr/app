@@ -57,7 +57,7 @@ class Queue {
         await withThrowingTaskGroup(of: (Instance.ID, [QueueItem]).self) { group in
             for instance in instances {
                 group.addTask {
-                    (instance.id, try await dependencies.api.fetchQueueTasks(instance).records)
+                    (instance.id, try await dependencies.api.instance.fetchQueueTasks(instance).records)
                 }
             }
 
@@ -147,7 +147,7 @@ class Queue {
     func refreshDownloadClients() async {
         for instance in instances {
             do {
-                _ = try await dependencies.api.command(.refreshDownloads, instance)
+                _ = try await dependencies.api.instance.command(.refreshDownloads, instance)
             } catch is CancellationError {
                 // do nothing
             } catch {

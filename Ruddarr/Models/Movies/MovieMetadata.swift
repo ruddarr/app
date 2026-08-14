@@ -43,8 +43,8 @@ class MovieMetadata {
         filesError = false
 
         do {
-            async let filesResult = dependencies.api.getMovieFiles(movie.id, instance)
-            async let extraFilesResult = dependencies.api.getMovieExtraFiles(movie.id, instance)
+            async let filesResult = dependencies.api.radarr.getMovieFiles(movie.id, instance)
+            async let extraFilesResult = dependencies.api.radarr.getMovieExtraFiles(movie.id, instance)
 
             files = try await filesResult
             extraFiles = try await extraFilesResult
@@ -66,7 +66,7 @@ class MovieMetadata {
         historyError = false
 
         do {
-            history = try await dependencies.api.getMovieHistory(movie.id, instance)
+            history = try await dependencies.api.radarr.getMovieHistory(movie.id, instance)
         } catch is CancellationError {
             // do nothing
         } catch {
@@ -81,8 +81,8 @@ class MovieMetadata {
         historyError = false
 
         do {
-            async let filesResult = dependencies.api.getMovieFiles(movie.id, instance)
-            async let extraFilesResult = dependencies.api.getMovieExtraFiles(movie.id, instance)
+            async let filesResult = dependencies.api.radarr.getMovieFiles(movie.id, instance)
+            async let extraFilesResult = dependencies.api.radarr.getMovieExtraFiles(movie.id, instance)
 
             files = try await filesResult
             extraFiles = try await extraFilesResult
@@ -95,7 +95,7 @@ class MovieMetadata {
         filesLoading = false
 
         do {
-            history = try await dependencies.api.getMovieHistory(movie.id, instance)
+            history = try await dependencies.api.radarr.getMovieHistory(movie.id, instance)
         } catch is CancellationError {
             // do nothing
         } catch {
@@ -107,7 +107,7 @@ class MovieMetadata {
 
     func delete(_ file: MediaFile) async -> Bool {
         do {
-            _ = try await dependencies.api.deleteMovieFile(file, instance)
+            _ = try await dependencies.api.radarr.deleteMovieFile(file, instance)
 
             if let index = files.firstIndex(where: { $0.id == file.id }) {
                 files.remove(at: index)

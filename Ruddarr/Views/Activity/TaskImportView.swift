@@ -93,7 +93,7 @@ struct TaskImportView: View {
         }
 
         do {
-            files = try await dependencies.api.fetchImportableFiles(downloadId, instance)
+            files = try await dependencies.api.instance.fetchImportableFiles(downloadId, instance)
             selected = Set(files.acceptable().map(\.id))
         } catch is CancellationError {
             // do nothing
@@ -123,7 +123,7 @@ struct TaskImportView: View {
         }
 
         do {
-            _ = try await dependencies.api.command(.manualImport(selectedFiles), instance)
+            _ = try await dependencies.api.instance.command(.manualImport(selectedFiles), instance)
 
             Queue.shared.markImporting(item)
 
