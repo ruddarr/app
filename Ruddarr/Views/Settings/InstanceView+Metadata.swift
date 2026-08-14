@@ -72,8 +72,8 @@ extension InstanceView {
 
     private func fetchStats() async throws -> InstanceStats {
         switch instance.type {
-        case .radarr: await InstanceStats.make(movies: try await dependencies.api.radarr.fetchMovies(instance))
-        case .sonarr: await InstanceStats.make(series: try await dependencies.api.sonarr.fetchSeries(instance))
+        case .radarr: await InstanceStats.make(movies: try await dependencies.api.radarr.fetch(instance))
+        case .sonarr: await InstanceStats.make(series: try await dependencies.api.sonarr.fetch(instance))
         }
     }
 
@@ -86,7 +86,7 @@ extension InstanceView {
         }
 
         do {
-            async let statusTask = dependencies.api.instance.systemStatus(instance)
+            async let statusTask = dependencies.api.instance.status(instance)
 
             let stats = try await fetchStats()
 
@@ -139,7 +139,7 @@ extension InstanceView {
         diskSpaceState = .loading
 
         do {
-            diskSpaceState = .loaded(try await dependencies.api.instance.fetchDiskSpace(instance))
+            diskSpaceState = .loaded(try await dependencies.api.instance.diskSpace(instance))
         } catch is CancellationError {
                 //
         } catch {

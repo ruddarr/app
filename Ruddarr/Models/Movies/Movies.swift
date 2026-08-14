@@ -132,7 +132,7 @@ class Movies {
     private func performOperation(_ operation: Operation) async throws {
         switch operation {
         case .fetch:
-            items = try await dependencies.api.radarr.fetchMovies(instance)
+            items = try await dependencies.api.radarr.fetch(instance)
             itemsCount = items.count
             computeAlternateTitles()
             await Spotlight(instance.id).index(items, delay: .seconds(5))
@@ -141,7 +141,7 @@ class Movies {
 
         case .get(let movie):
             if let index = items.firstIndex(where: { $0.id == movie.id }) {
-                let item = try await dependencies.api.radarr.getMovie(movie.id, instance)
+                let item = try await dependencies.api.radarr.movie(movie.id, instance)
 
                 if items[index] != item {
                     items[index] = item
@@ -149,13 +149,13 @@ class Movies {
             }
 
         case .add(let movie):
-            items.append(try await dependencies.api.radarr.addMovie(movie, instance))
+            items.append(try await dependencies.api.radarr.add(movie, instance))
 
         case .update(let movie, let moveFiles):
-            _ = try await dependencies.api.radarr.updateMovie(movie, moveFiles, instance)
+            _ = try await dependencies.api.radarr.update(movie, moveFiles, instance)
 
         case .delete(let movie, let addExclusion, let deleteFiles):
-            _ = try await dependencies.api.radarr.deleteMovie(movie, addExclusion, deleteFiles, instance)
+            _ = try await dependencies.api.radarr.delete(movie, addExclusion, deleteFiles, instance)
             items.removeAll(where: { $0.guid == movie.guid })
 
         case .download(let guid, let indexerId, let movieId):

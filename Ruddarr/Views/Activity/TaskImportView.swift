@@ -93,7 +93,7 @@ struct TaskImportView: View {
         }
 
         do {
-            files = try await dependencies.api.instance.fetchImportableFiles(downloadId, instance)
+            files = try await dependencies.api.instance.importableFiles(downloadId, instance)
             selected = Set(files.acceptable().map(\.id))
         } catch is CancellationError {
             // do nothing

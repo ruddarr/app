@@ -8,59 +8,59 @@ extension API {
 
 extension RadarrAPI {
     static var mock: Self {
-        .init(fetchMovies: { _ in
+        .init(fetch: { _ in
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "movies")
-        }, lookupMovies: { _, query in
+        }, lookup: { _, query in
             let movies: [Movie] = loadPreviewData(filename: "movie-lookup")
             try await Task.sleep(for: .seconds(1))
 
             return movies.filter {
                 $0.title.localizedCaseInsensitiveContains(query)
             }
-        }, lookupMovieReleases: { _, _ in
+        }, releases: { _, _ in
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "movie-releases")
-        }, getMovie: { movieId, _ in
+        }, movie: { movieId, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
             try await Task.sleep(for: .seconds(2))
 
             return movies.first(where: { $0.guid == movieId })!
-        }, getMovieHistory: { _, _ in
+        }, history: { _, _ in
             let events: [MediaHistoryEvent] = loadPreviewData(filename: "movie-history")
             try await Task.sleep(for: .seconds(1))
 
             return events
-        }, getMovieFiles: { _, _ in
+        }, files: { _, _ in
             let files: [MediaFile] = loadPreviewData(filename: "movie-files")
             try await Task.sleep(for: .seconds(1))
 
             return files
-        }, getMovieExtraFiles: { _, _ in
+        }, extraFiles: { _, _ in
             let files: [MovieExtraFile] = loadPreviewData(filename: "movie-extra-files")
             // try await Task.sleep(for: .seconds(1))
 
             return files
-        }, addMovie: { _, _ in
+        }, add: { _, _ in
             let movies: [Movie] = loadPreviewData(filename: "movies")
             try await Task.sleep(for: .seconds(2))
 
             return movies[0]
-        }, updateMovie: { _, _, _ in
+        }, update: { _, _, _ in
             try await Task.sleep(for: .seconds(2))
 
             return API.Empty()
-        }, deleteMovie: { _, _, _, _ in
+        }, delete: { _, _, _, _ in
             try await Task.sleep(for: .seconds(2))
 
             return API.Empty()
-        }, deleteMovieFile: { _, _ in
+        }, deleteFile: { _, _ in
             try await Task.sleep(for: .seconds(2))
 
             return API.Empty()
-        }, movieCalendar: { _, _, instance in
+        }, calendar: { _, _, instance in
             try await Task.sleep(for: .seconds(2))
             let movies: [Movie] = loadPreviewData(filename: "calendar-movies")
 
@@ -71,42 +71,42 @@ extension RadarrAPI {
 
 extension SonarrAPI {
     static var mock: Self {
-        .init(fetchSeries: { _ in
+        .init(fetch: { _ in
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "series")
-        }, fetchEpisodes: { _, _ in
+        }, episodes: { _, _ in
             try await Task.sleep(for: .seconds(2))
 
             return loadPreviewData(filename: "series-episodes")
-        }, lookupSeries: { _, _ in
+        }, lookup: { _, _ in
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "series-lookup")
-        }, lookupSeriesReleases: { _, _, _, _ in
+        }, releases: { _, _, _, _ in
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "series-releases")
-        }, getSeries: { _, _ in
+        }, series: { _, _ in
             let series: [Series] = loadPreviewData(filename: "series")
             try await Task.sleep(for: .seconds(1))
 
             return series[0]
-        }, addSeries: { _, _ in
+        }, add: { _, _ in
             let series: [Series] = loadPreviewData(filename: "series")
             try await Task.sleep(for: .seconds(2))
 
             return series[0]
-        }, pushSeries: { _, _ in
+        }, push: { _, _ in
             let series: [Series] = loadPreviewData(filename: "series")
             try await Task.sleep(for: .seconds(2))
 
             return series[0]
-        }, updateSeries: { _, _, _ in
+        }, update: { _, _, _ in
             try await Task.sleep(for: .seconds(2))
 
             return API.Empty()
-        }, deleteSeries: { _, _, _, _ in
+        }, delete: { _, _, _, _ in
             try await Task.sleep(for: .seconds(2))
 
             return API.Empty()
@@ -114,7 +114,7 @@ extension SonarrAPI {
             try await Task.sleep(for: .seconds(2))
 
             return API.Empty()
-        }, getEpisodeHistory: { _, _ in
+        }, episodeHistory: { _, _ in
             let events: MediaHistory = loadPreviewData(filename: "series-episode-history")
             try await Task.sleep(for: .seconds(2))
 
@@ -127,7 +127,7 @@ extension SonarrAPI {
             try await Task.sleep(for: .seconds(2))
 
             return API.Empty()
-        }, episodeCalendar: { _, _, instance in
+        }, calendar: { _, _, instance in
             try await Task.sleep(for: .seconds(3))
             let episodes: [Episode] = loadPreviewData(filename: "calendar-episodes")
 
@@ -146,7 +146,7 @@ extension InstanceAPI {
             try await Task.sleep(for: .seconds(1))
 
             return API.Empty()
-        }, systemStatus: { instance in
+        }, status: { instance in
             try await Task.sleep(for: .seconds(2))
 
             return InstanceStatus(
@@ -162,15 +162,15 @@ extension InstanceAPI {
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "quality-profiles")
-        }, fetchDiskSpace: { _ in
+        }, diskSpace: { _ in
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "disk-space")
-        }, getTags: { _ in
+        }, tags: { _ in
             try await Task.sleep(for: .seconds(1))
             let tags: [Tag] = loadPreviewData(filename: "tags")
             return tags
-        }, fetchQueueTasks: { instance in
+        }, queue: { instance in
             try await Task.sleep(for: .seconds(1))
 
             let items: QueueItems = loadPreviewData(
@@ -182,7 +182,7 @@ extension InstanceAPI {
             try await Task.sleep(for: .seconds(3))
 
             return API.Empty()
-        }, fetchImportableFiles: { _, instance in
+        }, importableFiles: { _, instance in
             try await Task.sleep(for: .seconds(1))
 
             let files: [ImportableFile] = loadPreviewData(
@@ -190,7 +190,7 @@ extension InstanceAPI {
             )
 
             return files
-        }, fetchHistory: { _, _, _, instance in
+        }, history: { _, _, _, instance in
             try await Task.sleep(for: .seconds(2))
 
             let events: MediaHistory = loadPreviewData(
@@ -198,7 +198,7 @@ extension InstanceAPI {
             )
 
             return events
-        }, fetchNotifications: { _ in
+        }, notifications: { _ in
             try await Task.sleep(for: .seconds(2))
 
             return loadPreviewData(filename: "notifications")

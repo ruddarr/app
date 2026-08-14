@@ -8,41 +8,41 @@ struct API: Sendable {
 
 /// Endpoints only Radarr serves, or that only make sense against a Radarr instance.
 struct RadarrAPI: Sendable {
-    var fetchMovies: @Sendable (Instance) async throws -> [Movie]
-    var lookupMovies: @Sendable (_ instance: Instance, _ query: String) async throws -> [Movie]
-    var lookupMovieReleases: @Sendable (Movie.ID, Instance) async throws -> [MovieRelease]
+    var fetch: @Sendable (Instance) async throws -> [Movie]
+    var lookup: @Sendable (_ instance: Instance, _ query: String) async throws -> [Movie]
+    var releases: @Sendable (Movie.ID, Instance) async throws -> [MovieRelease]
 
-    var getMovie: @Sendable (Movie.ID, Instance) async throws -> Movie
-    var getMovieHistory: @Sendable (Movie.ID, Instance) async throws -> [MediaHistoryEvent]
-    var getMovieFiles: @Sendable (Movie.ID, Instance) async throws -> [MediaFile]
-    var getMovieExtraFiles: @Sendable (Movie.ID, Instance) async throws -> [MovieExtraFile]
-    var addMovie: @Sendable (Movie, Instance) async throws -> Movie
-    var updateMovie: @Sendable (Movie, Bool, Instance) async throws -> API.Empty
-    var deleteMovie: @Sendable (Movie, Bool, Bool, Instance) async throws -> API.Empty
-    var deleteMovieFile: @Sendable (MediaFile, Instance) async throws -> API.Empty
+    var movie: @Sendable (Movie.ID, Instance) async throws -> Movie
+    var history: @Sendable (Movie.ID, Instance) async throws -> [MediaHistoryEvent]
+    var files: @Sendable (Movie.ID, Instance) async throws -> [MediaFile]
+    var extraFiles: @Sendable (Movie.ID, Instance) async throws -> [MovieExtraFile]
+    var add: @Sendable (Movie, Instance) async throws -> Movie
+    var update: @Sendable (Movie, Bool, Instance) async throws -> API.Empty
+    var delete: @Sendable (Movie, Bool, Bool, Instance) async throws -> API.Empty
+    var deleteFile: @Sendable (MediaFile, Instance) async throws -> API.Empty
 
-    var movieCalendar: @Sendable (Date, Date, Instance) async throws -> [Movie]
+    var calendar: @Sendable (Date, Date, Instance) async throws -> [Movie]
 }
 
 /// Endpoints only Sonarr serves, or that only make sense against a Sonarr instance.
 struct SonarrAPI: Sendable {
-    var fetchSeries: @Sendable (Instance) async throws -> [Series]
-    var fetchEpisodes: @Sendable (Series.ID, Instance) async throws -> [Episode]
-    var lookupSeries: @Sendable (_ instance: Instance, _ query: String) async throws -> [Series]
-    var lookupSeriesReleases: @Sendable (Series.ID?, Series.ID?, Episode.ID?, Instance) async throws -> [SeriesRelease]
+    var fetch: @Sendable (Instance) async throws -> [Series]
+    var episodes: @Sendable (Series.ID, Instance) async throws -> [Episode]
+    var lookup: @Sendable (_ instance: Instance, _ query: String) async throws -> [Series]
+    var releases: @Sendable (Series.ID?, Series.ID?, Episode.ID?, Instance) async throws -> [SeriesRelease]
 
-    var getSeries: @Sendable (Series.ID, Instance) async throws -> Series
-    var addSeries: @Sendable (Series, Instance) async throws -> Series
-    var pushSeries: @Sendable (Series, Instance) async throws -> Series
-    var updateSeries: @Sendable (Series, Bool, Instance) async throws -> API.Empty
-    var deleteSeries: @Sendable (Series, Bool, Bool, Instance) async throws -> API.Empty
+    var series: @Sendable (Series.ID, Instance) async throws -> Series
+    var add: @Sendable (Series, Instance) async throws -> Series
+    var push: @Sendable (Series, Instance) async throws -> Series
+    var update: @Sendable (Series, Bool, Instance) async throws -> API.Empty
+    var delete: @Sendable (Series, Bool, Bool, Instance) async throws -> API.Empty
 
     var monitorEpisode: @Sendable ([Episode.ID], Bool, Instance) async throws -> API.Empty
-    var getEpisodeHistory: @Sendable (Episode.ID, Instance) async throws -> MediaHistory
+    var episodeHistory: @Sendable (Episode.ID, Instance) async throws -> MediaHistory
     var deleteEpisodeFile: @Sendable (MediaFile, Instance) async throws -> API.Empty
     var deleteEpisodeFiles: @Sendable ([MediaFile], Instance) async throws -> API.Empty
 
-    var episodeCalendar: @Sendable (Date, Date, Instance) async throws -> [Episode]
+    var calendar: @Sendable (Date, Date, Instance) async throws -> [Episode]
 }
 
 /// Endpoints both Radarr and Sonarr serve identically, callable with any `Instance`.
@@ -53,20 +53,20 @@ struct InstanceAPI: Sendable {
     var command: @Sendable (InstanceCommand, Instance) async throws -> API.Empty
     var downloadRelease: @Sendable (DownloadReleaseCommand, Instance) async throws -> API.Empty
 
-    var systemStatus: @Sendable (Instance) async throws -> InstanceStatus
+    var status: @Sendable (Instance) async throws -> InstanceStatus
     var rootFolders: @Sendable (Instance) async throws -> [InstanceRootFolder]
     var qualityProfiles: @Sendable (Instance) async throws -> [InstanceQualityProfile]
-    var fetchDiskSpace: @Sendable (Instance) async throws -> [InstanceDiskSpace]
-    var getTags: @Sendable (Instance) async throws -> [Tag]
+    var diskSpace: @Sendable (Instance) async throws -> [InstanceDiskSpace]
+    var tags: @Sendable (Instance) async throws -> [Tag]
 
-    var fetchQueueTasks: @Sendable (Instance) async throws -> QueueItems
+    var queue: @Sendable (Instance) async throws -> QueueItems
     var deleteQueueTask: @Sendable (QueueItem.ID, Bool, Bool, Bool, Instance) async throws -> API.Empty
 
-    var fetchImportableFiles: @Sendable (String, Instance) async throws -> [ImportableFile]
+    var importableFiles: @Sendable (String, Instance) async throws -> [ImportableFile]
 
-    var fetchHistory: @Sendable (Int?, Int, Int, Instance) async throws -> MediaHistory
+    var history: @Sendable (Int?, Int, Int, Instance) async throws -> MediaHistory
 
-    var fetchNotifications: @Sendable (Instance) async throws -> [InstanceNotification]
+    var notifications: @Sendable (Instance) async throws -> [InstanceNotification]
     var createNotification: @Sendable (InstanceNotification, Instance) async throws -> InstanceNotification
     var updateNotification: @Sendable (InstanceNotification, Instance) async throws -> InstanceNotification
     var deleteNotification: @Sendable (InstanceNotification, Instance) async throws -> API.Empty

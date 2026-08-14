@@ -73,7 +73,7 @@ class MovieLookup {
         searchTask = Task {
             do {
                 searchTaskQuery = query
-                items = try await dependencies.api.radarr.lookupMovies(instance, query)
+                items = try await dependencies.api.radarr.lookup(instance, query)
                 searchedQuery = query
             } catch is CancellationError {
                 // do nothing
@@ -99,7 +99,7 @@ class MovieLookup {
             return cached
         }
 
-        let results = try await dependencies.api.radarr.lookupMovies(instance, query)
+        let results = try await dependencies.api.radarr.lookup(instance, query)
 
         if let result = results.first {
             queries[query] = result

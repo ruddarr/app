@@ -349,7 +349,7 @@ private struct CalendarContentSignature: Equatable {
 }
 
 #Preview("Offline") {
-    dependencies.api.radarr.movieCalendar = { _, _, _ in
+    dependencies.api.radarr.calendar = { _, _, _ in
         throw API.Error.notConnectedToInternet
     }
 
@@ -360,7 +360,7 @@ private struct CalendarContentSignature: Equatable {
 }
 
 #Preview("Partial Failure") {
-    dependencies.api.sonarr.episodeCalendar = { _, _, _ in
+    dependencies.api.sonarr.calendar = { _, _, _ in
         throw API.Error.urlError(
             URLError(.badServerResponse)
         )

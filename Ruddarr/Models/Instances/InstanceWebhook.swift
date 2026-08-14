@@ -76,7 +76,7 @@ class InstanceWebhook {
     }
 
     private func fetchWebhooks() async throws {
-        notifications = try await dependencies.api.instance.fetchNotifications(instance)
+        notifications = try await dependencies.api.instance.notifications(instance)
 
         if let webhook {
             model = webhook

@@ -364,7 +364,7 @@ struct SeriesView: View {
 }
 
 #Preview("Offline") {
-    dependencies.api.sonarr.fetchSeries = { _ in
+    dependencies.api.sonarr.fetch = { _ in
         throw API.Error.notConnectedToInternet
     }
 

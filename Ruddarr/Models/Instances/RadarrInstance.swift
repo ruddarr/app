@@ -64,7 +64,7 @@ class RadarrInstance {
 
         async let rootFolders = dependencies.api.instance.rootFolders(instance)
         async let qualityProfiles = dependencies.api.instance.qualityProfiles(instance)
-        async let tags = dependencies.api.instance.getTags(instance)
+        async let tags = dependencies.api.instance.tags(instance)
 
         var updated = false
 

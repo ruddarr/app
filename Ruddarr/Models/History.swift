@@ -39,7 +39,7 @@ class History {
 
                     group.addTask {(
                         instance,
-                        try await dependencies.api.instance.fetchHistory(eventType, page, 25, instance)
+                        try await dependencies.api.instance.history(eventType, page, 25, instance)
                     )}
                 }
 

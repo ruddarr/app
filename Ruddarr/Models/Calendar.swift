@@ -115,7 +115,7 @@ class MediaCalendar {
     }
 
     private func fetchMovies(_ instance: Instance, _ start: Date, _ end: Date) async throws {
-        let movies = try await dependencies.api.radarr.movieCalendar(start, end, instance)
+        let movies = try await dependencies.api.radarr.calendar(start, end, instance)
 
         for movie in movies {
             if let digitalRelease = movie.digitalRelease {
@@ -150,7 +150,7 @@ class MediaCalendar {
     }
 
     private func fetchEpisodes(_ instance: Instance, _ start: Date, _ end: Date) async throws {
-        let episodes = try await dependencies.api.sonarr.episodeCalendar(start, end, instance)
+        let episodes = try await dependencies.api.sonarr.calendar(start, end, instance)
 
         for episode in episodes {
             if let airDate = episode.airDateUtc {

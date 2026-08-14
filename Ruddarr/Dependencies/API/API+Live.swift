@@ -8,26 +8,26 @@ extension API {
 
 extension RadarrAPI {
     static var live: Self {
-        .init(fetchMovies: { instance in
+        .init(fetch: { instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/movie")
 
             var movies: [Movie] = try await API.request(url: url, instance: instance, timeout: .slow)
             movies.stamp(instance.id)
             return movies
-        }, lookupMovies: { instance, query in
+        }, lookup: { instance, query in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/movie/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
 
             return try await API.request(url: url, instance: instance, timeout: .sluggish)
-        }, lookupMovieReleases: { movieId, instance in
+        }, releases: { movieId, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/release")
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
             return try await API.request(url: url, instance: instance, timeout: .releaseSearch)
-        }, getMovie: { movieId, instance in
+        }, movie: { movieId, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/movie")
                 .appending(path: String(movieId))
@@ -35,30 +35,30 @@ extension RadarrAPI {
             var movie: Movie = try await API.request(url: url, instance: instance)
             movie.stamp(instance.id)
             return movie
-        }, getMovieHistory: { movieId, instance in
+        }, history: { movieId, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/history/movie")
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
             return try await API.request(url: url, instance: instance)
-        }, getMovieFiles: { movieId, instance in
+        }, files: { movieId, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/moviefile")
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
             return try await API.request(url: url, instance: instance)
-        }, getMovieExtraFiles: { movieId, instance in
+        }, extraFiles: { movieId, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/extrafile")
                 .appending(queryItems: [.init(name: "movieId", value: String(movieId))])
 
             return try await API.request(url: url, instance: instance)
-        }, addMovie: { movie, instance in
+        }, add: { movie, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/movie")
 
             return try await API.request(method: .post, url: url, body: movie, instance: instance)
-        }, updateMovie: { movie, moveFiles, instance in
+        }, update: { movie, moveFiles, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/movie/editor")
 
@@ -74,7 +74,7 @@ extension RadarrAPI {
             )
 
             return try await API.request(method: .put, url: url, body: body, instance: instance)
-        }, deleteMovie: { movie, addExclusion, deleteFildes, instance in
+        }, delete: { movie, addExclusion, deleteFildes, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/movie")
                 .appending(path: String(movie.id))
@@ -84,13 +84,13 @@ extension RadarrAPI {
                 ])
 
             return try await API.request(method: .delete, url: url, instance: instance)
-        }, deleteMovieFile: { file, instance in
+        }, deleteFile: { file, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/moviefile")
                 .appending(path: String(file.id))
 
             return try await API.request(method: .delete, url: url, instance: instance)
-        }, movieCalendar: { start, end, instance in
+        }, calendar: { start, end, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/calendar")
                 .appending(queryItems: [
@@ -108,14 +108,14 @@ extension RadarrAPI {
 
 extension SonarrAPI {
     static var live: Self {
-        .init(fetchSeries: { instance in
+        .init(fetch: { instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/series")
 
             var series: [Series] = try await API.request(url: url, instance: instance, timeout: .slow)
             series.stamp(instance.id)
             return series
-        }, fetchEpisodes: { seriesId, instance in
+        }, episodes: { seriesId, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/episode")
                 .appending(queryItems: [
@@ -126,13 +126,13 @@ extension SonarrAPI {
             var episodes: [Episode] = try await API.request(url: url, instance: instance)
             episodes.stamp(instance.id)
             return episodes
-        }, lookupSeries: { instance, query in
+        }, lookup: { instance, query in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/series/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
 
             return try await API.request(url: url, instance: instance, timeout: .sluggish)
-        }, lookupSeriesReleases: { seriesId, seasonId, episodeId, instance in
+        }, releases: { seriesId, seasonId, episodeId, instance in
             var url = try await instance.baseURL()
                 .appending(path: "/api/v3/release")
 
@@ -143,7 +143,7 @@ extension SonarrAPI {
             }
 
             return try await API.request(url: url, instance: instance, timeout: .releaseSearch)
-        }, getSeries: { seriesId, instance in
+        }, series: { seriesId, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/series")
                 .appending(path: String(seriesId))
@@ -151,18 +151,18 @@ extension SonarrAPI {
             var series: Series = try await API.request(url: url, instance: instance)
             series.stamp(instance.id)
             return series
-        }, addSeries: { series, instance in
+        }, add: { series, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/series")
 
             return try await API.request(method: .post, url: url, body: series, instance: instance)
-        }, pushSeries: { series, instance in
+        }, push: { series, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/series")
                 .appending(path: String(series.id))
 
             return try await API.request(method: .put, url: url, body: series, instance: instance)
-        }, updateSeries: { series, moveFiles, instance in
+        }, update: { series, moveFiles, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/series/editor")
 
@@ -180,7 +180,7 @@ extension SonarrAPI {
             )
 
             return try await API.request(method: .put, url: url, body: body, instance: instance)
-        }, deleteSeries: { series, addExclusion, deleteFiles, instance in
+        }, delete: { series, addExclusion, deleteFiles, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/series")
                 .appending(path: String(series.id))
@@ -197,7 +197,7 @@ extension SonarrAPI {
             let body = EpisodesMonitorResource(episodeIds: ids, monitored: monitored)
 
             return try await API.request(method: .put, url: url, body: body, instance: instance)
-        }, getEpisodeHistory: { id, instance in
+        }, episodeHistory: { id, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/history")
                 .appending(queryItems: [.init(name: "episodeId", value: String(id))])
@@ -216,7 +216,7 @@ extension SonarrAPI {
             let body = EpisodeDeleteResource(episodeFileIds: files.map(\.id))
 
             return try await API.request(method: .delete, url: url, body: body, instance: instance)
-        }, episodeCalendar: { start, end, instance in
+        }, calendar: { start, end, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/calendar")
                 .appending(queryItems: [
@@ -245,7 +245,7 @@ extension InstanceAPI {
                 .appending(path: "/api/v3/release")
 
             return try await API.request(method: .post, url: url, body: payload, instance: instance, timeout: .sluggish)
-        }, systemStatus: { instance in
+        }, status: { instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/system/status")
 
@@ -259,17 +259,17 @@ extension InstanceAPI {
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/qualityprofile")
             return try await API.request(url: url, instance: instance)
-        }, fetchDiskSpace: { instance in
+        }, diskSpace: { instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/diskspace")
 
             return try await API.request(url: url, instance: instance)
-        }, getTags: { instance in
+        }, tags: { instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/tag")
 
             return try await API.request(url: url, instance: instance)
-        }, fetchQueueTasks: { instance in
+        }, queue: { instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/queue")
                 .appending(queryItems: [
@@ -293,7 +293,7 @@ extension InstanceAPI {
                 ])
 
             return try await API.request(method: .delete, url: url, instance: instance)
-        }, fetchImportableFiles: { downloadId, instance in
+        }, importableFiles: { downloadId, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/manualimport")
                 .appending(queryItems: [
@@ -302,7 +302,7 @@ extension InstanceAPI {
                 ])
 
             return try await API.request(url: url, instance: instance, timeout: .sluggish)
-        }, fetchHistory: { type, page, limit, instance in
+        }, history: { type, page, limit, instance in
             var url = try await instance.baseURL()
                 .appending(path: "/api/v3/history")
                 .appending(queryItems: [
@@ -317,7 +317,7 @@ extension InstanceAPI {
             var history: MediaHistory = try await API.request(url: url, instance: instance)
             history.records.stamp(instance.id)
             return history
-        }, fetchNotifications: { instance in
+        }, notifications: { instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/notification")
 
