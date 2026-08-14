@@ -43,7 +43,7 @@ class BookMetadata {
         filesError = false
 
         do {
-            files = try await dependencies.api.getBookFiles(book.id, instance)
+            files = try await dependencies.api.chaptarr.files(book.id, instance)
         } catch is CancellationError {
             // do nothing
         } catch {
@@ -62,7 +62,7 @@ class BookMetadata {
         historyError = false
 
         do {
-            history = try await dependencies.api.getBookHistory(book.authorId, book.id, instance)
+            history = try await dependencies.api.chaptarr.history(book.authorId, book.id, instance)
         } catch is CancellationError {
             // do nothing
         } catch {
@@ -77,7 +77,7 @@ class BookMetadata {
         historyError = false
 
         do {
-            files = try await dependencies.api.getBookFiles(book.id, instance)
+            files = try await dependencies.api.chaptarr.files(book.id, instance)
         } catch is CancellationError {
             // do nothing
         } catch {
@@ -87,7 +87,7 @@ class BookMetadata {
         filesLoading = false
 
         do {
-            history = try await dependencies.api.getBookHistory(book.authorId, book.id, instance)
+            history = try await dependencies.api.chaptarr.history(book.authorId, book.id, instance)
         } catch is CancellationError {
             // do nothing
         } catch {
@@ -99,7 +99,7 @@ class BookMetadata {
 
     func delete(_ file: BookFile) async -> Bool {
         do {
-            _ = try await dependencies.api.deleteBookFile(file, instance)
+            _ = try await dependencies.api.chaptarr.deleteFile(file, instance)
 
             if let index = files.firstIndex(where: { $0.id == file.id }) {
                 files.remove(at: index)

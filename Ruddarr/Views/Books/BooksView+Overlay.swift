@@ -55,7 +55,7 @@ struct BookSearchSuggestion: View {
             })
 
         if sort.filter != .all || hiddenByFormat != nil {
-            Button("Clear Filter") {
+            Button("Clear Filters") {
                 sort.filter = .all
 
                 if let hiddenByFormat {

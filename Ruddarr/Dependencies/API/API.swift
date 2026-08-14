@@ -65,6 +65,8 @@ struct ChaptarrAPI: Sendable {
     var monitor: @Sendable ([Book.ID], Bool, Instance) async throws -> API.Empty
     var deleteFile: @Sendable (BookFile, Instance) async throws -> API.Empty
 
+    var metadataProfiles: @Sendable (Instance) async throws -> [InstanceMetadataProfile]
+
     var calendar: @Sendable (Date, Date, Instance) async throws -> [Book]
 }
 
@@ -75,7 +77,6 @@ struct InstanceAPI: Sendable {
     var status: @Sendable (Instance) async throws -> InstanceStatus
     var rootFolders: @Sendable (Instance) async throws -> [InstanceRootFolder]
     var qualityProfiles: @Sendable (Instance) async throws -> [InstanceQualityProfile]
-    var metadataProfiles: @Sendable (Instance) async throws -> [InstanceMetadataProfile]
     var diskSpace: @Sendable (Instance) async throws -> [InstanceDiskSpace]
     var tags: @Sendable (Instance) async throws -> [Tag]
 

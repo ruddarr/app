@@ -162,10 +162,6 @@ extension InstanceAPI {
             try await Task.sleep(for: .seconds(1))
 
             return loadPreviewData(filename: "quality-profiles")
-        }, metadataProfiles: { _ in
-            try await Task.sleep(for: .seconds(1))
-
-            return loadPreviewData(filename: "metadata-profiles")
         }, diskSpace: { _ in
             try await Task.sleep(for: .seconds(1))
 
@@ -321,7 +317,10 @@ extension ChaptarrAPI {
             let books: [Book] = loadPreviewData(filename: "books")
             try await Task.sleep(for: .milliseconds(400))
 
-            return books.filter { $0.title.localizedCaseInsensitiveContains(term) }
+            return books.filter {
+                $0.title.localizedCaseInsensitiveContains(term) ||
+                $0.searchableAuthor?.localizedCaseInsensitiveContains(term) == true
+            }
         }, lookup: { _, _ in
             try await Task.sleep(for: .seconds(1))
 
@@ -356,6 +355,10 @@ extension ChaptarrAPI {
             try await Task.sleep(for: .seconds(1))
 
             return API.Empty()
+        }, metadataProfiles: { _ in
+            try await Task.sleep(for: .seconds(1))
+
+            return loadPreviewData(filename: "metadata-profiles")
         }, calendar: { _, _, _ in
             try await Task.sleep(for: .seconds(2))
 

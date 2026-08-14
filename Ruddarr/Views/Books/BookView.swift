@@ -135,14 +135,15 @@ struct BookView: View {
     }
 
     func loadDetails() async {
-        guard book.exists, book.overview == nil else { return }
+        guard book.exists, book.overview == nil || book.rootFolderPath == nil else { return }
 
-        guard let fetched = try? await dependencies.api.getBook(book.id, instance.books.instance) else {
+        guard let fetched = try? await dependencies.api.chaptarr.book(book.id, instance.books.instance) else {
             return
         }
 
         withAnimation(.snappy) {
             book.attach(overview: fetched.overview)
+            book.attach(author: fetched.author)
         }
     }
 

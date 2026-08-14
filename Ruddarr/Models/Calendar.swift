@@ -155,7 +155,7 @@ class MediaCalendar {
     }
 
     private func fetchBooks(_ instance: Instance, _ start: Date, _ end: Date) async throws {
-        let books = try await dependencies.api.bookCalendar(start, end, instance)
+        let books = try await dependencies.api.chaptarr.calendar(start, end, instance)
 
         for book in books {
             if let releaseDate = book.releaseDate {

@@ -255,10 +255,6 @@ extension InstanceAPI {
             let url = try await instance.apiURL("qualityprofile")
 
             return try await API.request(url: url, instance: instance)
-        }, metadataProfiles: { instance in
-            let url = try await instance.apiURL("metadataprofile")
-
-            return try await API.request(url: url, instance: instance)
         }, diskSpace: { instance in
             let url = try await instance.apiURL("diskspace")
 
@@ -298,8 +294,7 @@ extension InstanceAPI {
 
             return try await API.request(url: url, instance: instance, timeout: .sluggish)
         }, history: { type, page, limit, instance in
-            var url = try await instance.baseURL()
-                .appending(path: "/api/v3/history")
+            var url = try await instance.apiURL("history")
                 .appending(queryItems: [
                     .init(name: "page", value: String(page)),
                     .init(name: "pageSize", value: String(limit)),
@@ -335,7 +330,6 @@ extension InstanceAPI {
 }
 
 extension ChaptarrAPI {
-    // swiftlint:disable:next closure_body_length
     static var live: Self {
         .init(fetch: { instance in
             let url = try await instance.apiURL("book")
@@ -368,22 +362,7 @@ extension ChaptarrAPI {
             page.records.stamp(instance.id)
             return page
         }, search: { instance, term in
-            let searchURL = try await instance.apiURL("library/search")
-                .appending(queryItems: [
-                    .init(name: "term", value: term),
-                    .init(name: "limit", value: "50"),
-                ])
-
-            let result: BookSearchResult = try await API.request(url: searchURL, instance: instance, timeout: .slow)
-
-            guard !result.books.isEmpty else { return [] }
-
-            let url = try await instance.apiURL("book")
-                .appending(queryItems: result.books.map { .init(name: "bookIds", value: String($0.id)) })
-
-            var books: [Book] = try await API.request(url: url, instance: instance, timeout: .slow)
-            books.stamp(instance.id)
-            return books
+            try await searchLibrary(term, instance)
         }, lookup: { instance, query in
             let url = try await instance.apiURL("book/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
@@ -428,6 +407,10 @@ extension ChaptarrAPI {
                 .appending(path: String(file.id))
 
             return try await API.request(method: .delete, url: url, instance: instance)
+        }, metadataProfiles: { instance in
+            let url = try await instance.apiURL("metadataprofile")
+
+            return try await API.request(url: url, instance: instance)
         }, calendar: { start, end, instance in
             let url = try await instance.apiURL("calendar")
                 .appending(queryItems: [
@@ -441,5 +424,75 @@ extension ChaptarrAPI {
             books.stamp(instance.id)
             return books
         })
+    }
+
+    private static func searchLibrary(_ term: String, _ instance: Instance) async throws -> [Book] {
+        let searchURL = try await instance.apiURL("library/search")
+            .appending(queryItems: [
+                .init(name: "term", value: term),
+                .init(name: "limit", value: "50"),
+            ])
+
+        let result: BookSearchResult = try await API.request(url: searchURL, instance: instance, timeout: .slow)
+
+        var books: [Book] = []
+
+        if !result.books.isEmpty {
+            let url = try await instance.apiURL("book")
+                .appending(queryItems: result.books.map { .init(name: "bookIds", value: String($0.id)) })
+
+            books = (try? await API.request(url: url, instance: instance, timeout: .slow)) ?? []
+        }
+
+        try Task.checkCancellation()
+
+        let authors = result.authors.prefix(10)
+
+        let catalogs: [Int: [Book]] = await withTaskGroup(of: (Int, [Book]).self) { group in
+            for author in authors {
+                group.addTask {
+                    guard let url = try? await instance.apiURL("book")
+                        .appending(queryItems: [.init(name: "authorId", value: String(author.id))])
+                    else {
+                        return (author.id, [])
+                    }
+
+                    let fetched: [Book]? = try? await API.request(url: url, instance: instance, timeout: .slow)
+
+                    return (author.id, fetched ?? [])
+                }
+            }
+
+            var catalogs: [Int: [Book]] = [:]
+
+            for await (authorId, fetched) in group {
+                catalogs[authorId] = fetched
+            }
+
+            return catalogs
+        }
+
+        try Task.checkCancellation()
+
+        var bookIds = Set(books.map(\.id))
+
+        for author in authors {
+            books.append(contentsOf: (catalogs[author.id] ?? [])
+                .filter { bookIds.insert($0.id).inserted }
+                .sorted { $0.sortTitle < $1.sortTitle }
+            )
+        }
+
+        let matchNames = result.books.reduce(into: [Int: String]()) { $0[$1.id] = $1.authorName }
+        let authorNames = authors.reduce(into: [Int: String]()) { $0[$1.id] = $1.name }
+
+        for index in books.indices where books[index].author == nil {
+            guard let name = matchNames[books[index].id] ?? authorNames[books[index].authorId] else { continue }
+            books[index].author = .init(id: books[index].authorId, authorName: name)
+        }
+
+        books.stamp(instance.id)
+
+        return books
     }
 }

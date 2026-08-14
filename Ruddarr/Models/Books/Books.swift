@@ -2,17 +2,25 @@ import SwiftUI
 import Sentry
 
 struct BookSearchResult: Codable, Sendable {
+    let authors: [AuthorSearchMatch]
     let books: [BookSearchMatch]
 
     init(from decoder: any Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
+        authors = try values.decodeLossyArrayIfPresent([AuthorSearchMatch].self, forKey: .authors) ?? []
         books = try values.decodeLossyArrayIfPresent([BookSearchMatch].self, forKey: .books) ?? []
     }
 }
 
 struct BookSearchMatch: Codable, Sendable {
     let id: Int
+    let authorName: String?
+}
+
+struct AuthorSearchMatch: Codable, Sendable {
+    let id: Int
+    let name: String?
 }
 
 struct BooksPage: Codable, Sendable {
@@ -72,7 +80,7 @@ class Books {
             isFiltering = true
 
             sortAndFilterTask = Task(priority: .userInitiated) {
-                let results = (try? await dependencies.api.searchBooks(instance, query)) ?? []
+                let results = (try? await dependencies.api.chaptarr.search(instance, query)) ?? []
 
                 guard !Task.isCancelled else { return }
 
@@ -88,7 +96,7 @@ class Books {
     }
 
     func byId(_ id: Book.ID) -> Book? {
-        items.first { $0.id == id }
+        items.first { $0.id == id } ?? cachedItems.first { $0.id == id }
     }
 
     func binding(for id: Book.ID) -> Binding<Book>? {
@@ -99,8 +107,13 @@ class Books {
                 self?.byId(id) ?? displayed
             },
             set: { [weak self] book in
-                guard let index = self?.items.firstIndex(where: { $0.id == id }) else { return }
-                self?.items[index] = book
+                if let index = self?.items.firstIndex(where: { $0.id == id }) {
+                    self?.items[index] = book
+                }
+
+                if let index = self?.cachedItems.firstIndex(where: { $0.id == id }) {
+                    self?.cachedItems[index] = book
+                }
             }
         )
     }
@@ -118,7 +131,7 @@ class Books {
             return cached
         }
 
-        guard let fetched = try? await dependencies.api.getBookSeries(authorId, instance) else {
+        guard let fetched = try? await dependencies.api.chaptarr.series(authorId, instance) else {
             return []
         }
 
@@ -142,11 +155,15 @@ class Books {
         defer { isMonitoring = 0 }
 
         do {
-            _ = try await dependencies.api.monitorBook(ids, monitored, instance)
+            _ = try await dependencies.api.chaptarr.monitor(ids, monitored, instance)
 
             for id in ids {
                 if let index = items.firstIndex(where: { $0.id == id }) {
                     items[index].monitored = monitored
+                }
+
+                if let index = cachedItems.firstIndex(where: { $0.id == id }) {
+                    cachedItems[index].monitored = monitored
                 }
             }
         } catch is CancellationError {
@@ -196,7 +213,7 @@ class Books {
         defer { isLoadingMore = false }
 
         do {
-            let page = try await dependencies.api.fetchBooksPage(instance, sort.query, items.count, Self.pageSize)
+            let page = try await dependencies.api.chaptarr.page(instance, sort.query, items.count, Self.pageSize)
 
             items += page.records
             itemsCount = page.totalCount
@@ -211,7 +228,7 @@ class Books {
     private func performOperation(_ operation: Operation) async throws {
         switch operation {
         case .fetch(let sort):
-            let page = try await dependencies.api.fetchBooksPage(instance, sort.query, 0, Self.pageSize)
+            let page = try await dependencies.api.chaptarr.page(instance, sort.query, 0, Self.pageSize)
 
             items = page.records
             itemsCount = page.totalCount
@@ -221,7 +238,7 @@ class Books {
             leaveBreadcrumb(.info, category: "books", message: "Fetched books", data: ["count": items.count])
 
         case .add(let book):
-            var added = try await dependencies.api.addBook(book, instance)
+            var added = try await dependencies.api.chaptarr.add(book, instance)
             added.stamp(instance.id)
 
             items.append(added)
@@ -229,7 +246,7 @@ class Books {
             cachedSeries[added.authorId] = nil
 
         case .command(let command):
-            _ = try await dependencies.api.command(command, instance)
+            _ = try await dependencies.api.instance.command(command, instance)
         }
     }
 

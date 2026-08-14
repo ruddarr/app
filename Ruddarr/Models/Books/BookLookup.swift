@@ -54,7 +54,7 @@ class BookLookup {
         searchTask = Task {
             do {
                 searchTaskQuery = query
-                items = try await dependencies.api.lookupBooks(instance, query)
+                items = try await dependencies.api.chaptarr.lookup(instance, query)
                 searchedQuery = query
             } catch is CancellationError {
                 // do nothing

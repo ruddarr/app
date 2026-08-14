@@ -109,6 +109,11 @@ struct Book: Identifiable, Equatable, Codable {
         self.overview = overview
     }
 
+    mutating func attach(author: BookAuthor?) {
+        guard let author, author.authorName?.isEmpty == false else { return }
+        self.author = author
+    }
+
     var exists: Bool {
         guid != nil
     }
@@ -285,6 +290,17 @@ struct BookAuthor: Identifiable, Equatable, Codable {
     var audiobookMonitorFuture: Bool?
     var tags: [Int]?
     var audiobookTags: [Int]?
+}
+
+extension BookAuthor {
+    init(id: Int, authorName: String) {
+        self.id = id
+        self.authorName = authorName
+        self.sortName = nil
+        self.sortNameLastFirst = nil
+        self.rootFolderPath = nil
+        self.ebookRootFolderPath = nil
+    }
 }
 
 struct BookAddOptions: Equatable, Codable {
