@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 ### Fixed
 - Fixed deleted tasks remaining in the queue until the next refresh
+- Fixed a stale error being shown on movie details after a successful refresh
+- Fixed movie and series descriptions not collapsing when tapped again
 - Fixed a false "Connection Failure" error when fetching data during app launch
 
 ## 2.0.0 - 2026-08-12
