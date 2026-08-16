@@ -20,7 +20,9 @@ extension RadarrAPI {
                 .appending(path: "/api/v3/movie/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
 
-            return try await API.request(url: url, instance: instance, timeout: .sluggish)
+            var movies: [Movie] = try await API.request(url: url, instance: instance, timeout: .sluggish)
+            movies.stamp(instance.id)
+            return movies
         }, releases: { movieId, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/release")
@@ -57,7 +59,9 @@ extension RadarrAPI {
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/movie")
 
-            return try await API.request(method: .post, url: url, body: movie, instance: instance)
+            var added: Movie = try await API.request(method: .post, url: url, body: movie, instance: instance)
+            added.stamp(instance.id)
+            return added
         }, update: { movie, moveFiles, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/movie/editor")
@@ -131,7 +135,9 @@ extension SonarrAPI {
                 .appending(path: "/api/v3/series/lookup")
                 .appending(queryItems: [.init(name: "term", value: query)])
 
-            return try await API.request(url: url, instance: instance, timeout: .sluggish)
+            var series: [Series] = try await API.request(url: url, instance: instance, timeout: .sluggish)
+            series.stamp(instance.id)
+            return series
         }, releases: { seriesId, seasonId, episodeId, instance in
             var url = try await instance.baseURL()
                 .appending(path: "/api/v3/release")
@@ -155,7 +161,9 @@ extension SonarrAPI {
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/series")
 
-            return try await API.request(method: .post, url: url, body: series, instance: instance)
+            var added: Series = try await API.request(method: .post, url: url, body: series, instance: instance)
+            added.stamp(instance.id)
+            return added
         }, push: { series, instance in
             let url = try await instance.baseURL()
                 .appending(path: "/api/v3/series")

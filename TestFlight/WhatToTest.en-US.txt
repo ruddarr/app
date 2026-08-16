@@ -1,7 +1,10 @@
 Changed
 - Deleted tasks remaining in the queue until the next refresh
 - Collapse descriptions when tapping again
+- Fade the media state label when a download starts or finishes
 
 Fixed
 - Fixed a false connection failure when during cold start
 - Fixed a stale movie files being shown after a successful refresh
+- Fixed missing queue status icons in movie and series search results
+- Fixed missing queue status icons for newly added movies and series

@@ -10,10 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Deleted tasks remaining in the queue until the next refresh
 - Collapse descriptions when tapping again
+- Fade the media state label when a download starts or finishes
 
 ### Fixed
 - Fixed a false connection failure when during cold start
 - Fixed a stale movie files being shown after a successful refresh
+- Fixed missing queue status icons in movie and series search results
+- Fixed missing queue status icons for newly added movies and series
 
 ## 2.0.0 - 2026-08-12
 ### Added

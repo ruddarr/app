@@ -41,7 +41,9 @@ extension MovieDetails {
             .font(.caption)
             .fontWeight(.semibold)
             .textCase(.uppercase)
+            .contentTransition(.opacity)
             .shimmering(active: queueStatus != nil, color: settings.theme.tint)
+            .animation(.smooth, value: stateLabel)
     }
 
     var stateLabel: String {
