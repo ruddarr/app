@@ -143,7 +143,7 @@ extension InstanceEditView {
         let status: InstanceStatus
 
         do {
-            status = try await dependencies.api.systemStatus(instance)
+            status = try await dependencies.api.instance.status(instance)
         } catch let apiError as API.Error {
             throw InstanceError.apiError(apiError)
         } catch {

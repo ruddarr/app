@@ -17,7 +17,7 @@ class SeriesFiles {
         error = nil
 
         do {
-            _ = try await dependencies.api.deleteEpisodeFile(file, instance)
+            _ = try await dependencies.api.sonarr.deleteEpisodeFile(file, instance)
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
@@ -35,7 +35,7 @@ class SeriesFiles {
         error = nil
 
         do {
-            _ = try await dependencies.api.deleteEpisodeFiles(files, instance)
+            _ = try await dependencies.api.sonarr.deleteEpisodeFiles(files, instance)
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {

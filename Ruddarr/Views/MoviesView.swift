@@ -320,7 +320,7 @@ struct MoviesView: View {
 }
 
 #Preview("Offline") {
-    dependencies.api.fetchMovies = { _ in
+    dependencies.api.radarr.fetch = { _ in
         throw API.Error.notConnectedToInternet
     }
 
@@ -329,7 +329,7 @@ struct MoviesView: View {
 }
 
 #Preview("Failure") {
-    dependencies.api.fetchMovies = { _ in
+    dependencies.api.radarr.fetch = { _ in
         throw API.Error.urlError(
             URLError(.badServerResponse)
         )
@@ -340,7 +340,7 @@ struct MoviesView: View {
 }
 
 #Preview("Timeout") {
-    dependencies.api.fetchMovies = { _ in
+    dependencies.api.radarr.fetch = { _ in
         throw API.Error.timeoutOnPrivateIp(
             URLError(.timedOut)
         )

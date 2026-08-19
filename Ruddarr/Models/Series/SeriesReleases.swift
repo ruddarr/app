@@ -31,7 +31,7 @@ class SeriesReleases {
         setFilterData()
 
         do {
-            items = try await dependencies.api.lookupSeriesReleases(series.id, season, episode, instance)
+            items = try await dependencies.api.sonarr.releases(series.id, season, episode, instance)
             setFilterData()
         } catch is CancellationError {
             // do nothing

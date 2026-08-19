@@ -73,7 +73,7 @@ class SeriesLookup {
         searchTask = Task {
             do {
                 searchTaskQuery = query
-                items = try await dependencies.api.lookupSeries(instance, query)
+                items = try await dependencies.api.sonarr.lookup(instance, query)
                 searchedQuery = query
             } catch is CancellationError {
                 // do nothing
@@ -99,7 +99,7 @@ class SeriesLookup {
             return cached
         }
 
-        let results = try await dependencies.api.lookupSeries(instance, query)
+        let results = try await dependencies.api.sonarr.lookup(instance, query)
 
         if let result = results.first {
             queries[query] = result

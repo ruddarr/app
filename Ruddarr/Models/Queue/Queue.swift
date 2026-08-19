@@ -23,6 +23,8 @@ class Queue {
     var items: [Instance.ID: [QueueItem]] = [:]
     var itemsWithIssues: Int = 0
 
+    private var revision: Int = 0
+
     let statuses = CurrentValueSubject<[QueueKey: QueueItemStatus], Never>([:])
     private(set) var active: [QueueItem] = []
 
@@ -50,17 +52,21 @@ class Queue {
         error = nil
         isLoading = true
 
+        let fetchRevision = revision
+
         await withThrowingTaskGroup(of: (Instance.ID, [QueueItem]).self) { group in
             for instance in instances {
                 group.addTask {
-                    (instance.id, try await dependencies.api.fetchQueueTasks(instance).records)
+                    (instance.id, try await dependencies.api.instance.queue(instance).records)
                 }
             }
 
             while let result = await group.nextResult() {
                 switch result {
                 case .success(let (instanceId, records)):
-                    items[instanceId] = records
+                    if fetchRevision == revision {
+                        items[instanceId] = records
+                    }
                 case .failure(is CancellationError):
                     break
                 case .failure(let apiError as API.Error):
@@ -129,10 +135,19 @@ class Queue {
         recomputeDerivedState()
     }
 
+    func markDeleted(_ item: QueueItem) {
+        guard let instanceId = item.instanceId else { return }
+
+        revision += 1
+        items[instanceId]?.removeAll { $0.id == item.id }
+
+        recomputeDerivedState()
+    }
+
     func refreshDownloadClients() async {
         for instance in instances {
             do {
-                _ = try await dependencies.api.command(.refreshDownloads, instance)
+                _ = try await dependencies.api.instance.command(.refreshDownloads, instance)
             } catch is CancellationError {
                 // do nothing
             } catch {
