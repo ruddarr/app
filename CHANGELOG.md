@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for Chaptarr instances
 
 ### Changed
+### Fixed
+
+## 2.0.1 - 2026-08-19
+### Added
+### Changed
 - Deleted tasks remaining in the queue until the next refresh
 - Collapse descriptions when tapping again
 

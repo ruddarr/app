@@ -1,10 +1,2 @@
 Added
-- Added support for Chaptarr instances
-
-Changed
-- Deleted tasks remaining in the queue until the next refresh
-- Collapse descriptions when tapping again
-
-Fixed
-- Fixed a false connection failure when during cold start
-- Fixed a stale movie files being shown after a successful refresh
+- Added Chaptarr support

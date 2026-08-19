@@ -172,13 +172,13 @@ struct EpisodeView: View {
 
     var description: some View {
         HStack(alignment: .top) {
-            Text(episode.overview ?? "")
+            Text(descriptionTruncated ? (episode.overview ?? "").singleLined() : episode.overview ?? "")
                 .font(.callout)
                 .transition(.slide)
                 .lineLimit(descriptionTruncated ? 4 : nil)
                 .textSelection(.enabled)
                 .onTapGesture {
-                    withAnimation(.snappy) { descriptionTruncated = false }
+                    withAnimation(.snappy) { descriptionTruncated.toggle() }
                 }
 
             Spacer()
