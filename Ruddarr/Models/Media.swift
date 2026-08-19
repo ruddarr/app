@@ -220,10 +220,12 @@ func mediaDetailsSubtitles(_ file: MediaFile?, _ deviceType: DeviceType) -> Stri
 }
 
 struct MediaDetailsPosterModifier: ViewModifier {
+    var ratio: CGFloat = 1.5
+
     @Environment(\.deviceType) private var deviceType
 
     func body(content: Content) -> some View {
-        content.frame(width: posterWidth, height: posterWidth * 1.5)
+        content.frame(width: posterWidth, height: posterWidth * ratio)
     }
 
     @MainActor

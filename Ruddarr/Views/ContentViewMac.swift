@@ -9,6 +9,11 @@ struct ContentView: View {
             List {
                 sidebarItem(movies)
                 sidebarItem(series)
+
+                if !settings.chaptarrInstances.isEmpty {
+                    sidebarItem(books)
+                }
+
                 sidebarItem(calendar)
 
                 sidebarItem(activity, badge: Queue.shared.itemsWithIssues)
@@ -28,6 +33,8 @@ struct ContentView: View {
                     MoviesView()
                 case .series:
                     SeriesView()
+                case .books:
+                    BooksView()
                 case .calendar:
                     CalendarView()
                         .frame(maxWidth: 700)
@@ -53,6 +60,7 @@ struct ContentView: View {
 
     var movies: TabItem { .movies }
     var series: TabItem { .series }
+    var books: TabItem { .books }
     var calendar: TabItem { .calendar }
     var activity: TabItem { .activity }
     var history: TabItem { .history }
@@ -68,6 +76,7 @@ struct ContentView: View {
         switch to {
         case .movies: dependencies.router.moviesPath = .init()
         case .series: dependencies.router.seriesPath = .init()
+        case .books: dependencies.router.booksPath = .init()
         case .calendar: NotificationCenter.default.post(name: .scrollToToday)
         default: break
         }
@@ -136,6 +145,20 @@ struct ContentView: View {
                         settings.sonarrInstanceId = instance
                         dependencies.router.seriesPath = .init()
                         dependencies.router.switchToSonarrInstance = instance.uuidString
+                    }
+                )
+            }
+        }
+
+        if dependencies.router.selectedTab == .books, settings.chaptarrInstances.count > 1 {
+            Section("Instances") {
+                instanceRow(
+                    instances: settings.chaptarrInstances,
+                    selection: $settings.chaptarrInstanceId,
+                    switchTo: { instance in
+                        settings.chaptarrInstanceId = instance
+                        dependencies.router.booksPath = .init()
+                        dependencies.router.switchToChaptarrInstance = instance.uuidString
                     }
                 )
             }

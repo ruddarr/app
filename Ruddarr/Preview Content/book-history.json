@@ -1,0 +1,32 @@
+[
+  {
+    "bookId": 5333,
+    "authorId": 75,
+    "sourceTitle": "/volume2/Media/Audiobooks/Louise Penny/The Beautiful Mystery - Louise Penny.m4b",
+    "quality": {
+      "quality": {
+        "id": 12,
+        "name": "M4B",
+        "isConversionTarget": true
+      },
+      "revision": {
+        "version": 1,
+        "real": 0,
+        "isRepack": false
+      }
+    },
+    "customFormats": [],
+    "customFormatScore": 0,
+    "qualityCutoffNotMet": false,
+    "date": "2026-08-12T23:13:27Z",
+    "eventType": "bookFileRenamed",
+    "data": {
+      "sourcePath": "/volume2/Media/Audiobooks/Louise Penny/The Beautiful Mystery - Louise Penny.m4b",
+      "path": "/volume2/Media/Audiobooks/Louise Penny/The Beautiful Mystery/The Beautiful Mystery.m4b",
+      "releaseGroup": null,
+      "size": "400046029",
+      "indexerFlags": "0"
+    },
+    "id": 1758
+  }
+]

@@ -17,6 +17,10 @@ extension InstanceView {
                 }
             }
 
+            if instance.type == .chaptarr {
+                parts.append(String(localized: "\(stats.books) Book"))
+            }
+
             if stats.size > 0 {
                 parts.append(formatBytes(stats.size))
             }
@@ -64,6 +68,8 @@ extension InstanceView {
                 await InstanceStats.make(movies: radarrInstance.movies.items)
             case .sonarr where sonarrInstance.id == instance.id && !sonarrInstance.series.items.isEmpty:
                 await InstanceStats.make(series: sonarrInstance.series.items)
+            case .chaptarr where chaptarrInstance.id == instance.id && !chaptarrInstance.books.items.isEmpty:
+                await InstanceStats.make(books: chaptarrInstance.books.items)
             default:
                 instance.stats
             }
@@ -74,6 +80,7 @@ extension InstanceView {
         switch instance.type {
         case .radarr: await InstanceStats.make(movies: try await dependencies.api.radarr.fetch(instance))
         case .sonarr: await InstanceStats.make(series: try await dependencies.api.sonarr.fetch(instance))
+        case .chaptarr: await InstanceStats.make(books: try await dependencies.api.chaptarr.fetch(instance))
         }
     }
 

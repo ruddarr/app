@@ -25,6 +25,8 @@ struct MediaHistoryEvent: Identifiable, Codable {
     let seriesId: Int?
     let episodeId: Int?
 
+    let bookId: Int?
+
     let quality: MediaQuality
     let languages: [MediaLanguage]?
 
@@ -77,9 +79,13 @@ struct MediaHistoryEvent: Identifiable, Codable {
     var description: String {
         let fallback = String(localized: "Unknown event.")
 
-        let mediaNoun = movieId != nil
-            ? String(localized: "Movie")
-            : String(localized: "Episode")
+        let mediaNoun = if movieId != nil {
+            String(localized: "Movie")
+        } else if bookId != nil {
+            String(localized: "Book")
+        } else {
+            String(localized: "Episode")
+        }
 
         return switch eventType {
         case .unknown:
@@ -115,6 +121,30 @@ struct MediaHistoryEvent: Identifiable, Codable {
             String(localized: "Movie imported from folder.")
         case .seriesFolderImported:
             String(localized: "Series imported from folder.")
+        case .bookFileImported, .downloadImported:
+            String(localized: "%1$@ downloaded successfully and imported from %2$@.")
+                .placeholders(mediaNoun, downloadClientFallbackLabel)
+        case .bookFileRenamed:
+            String(localized: "Book file was renamed.")
+        case .bookFileRetagged:
+            String(localized: "Book file metadata tags were updated.")
+        case .bookFileDeleted:
+            switch data?["reason"] {
+            case "Manual":
+                String(localized: "File was deleted either manually or by a client through the API.")
+            case "MissingFromDisk":
+                String(localized: "File was not found on disk so it was unlinked from the book in the database.")
+            case "Upgrade":
+                String(localized: "File was deleted to import an upgrade.")
+            default:
+                fallback
+            }
+        case .bookImportIncomplete:
+            String(localized: "Some files were imported, others were not.")
+        case .bookFileConverted:
+            String(localized: "Book file was converted.")
+        case .bookFileConversionFailed:
+            data("message") ?? String(localized: "Book file conversion failed.")
         }
     }
 
@@ -159,15 +189,28 @@ enum HistoryEventType: String, Codable {
     case episodeFileDeleted
     case seriesFolderImported
 
+    case bookFileImported
+    case bookFileRenamed
+    case bookFileDeleted
+    case bookFileRetagged
+    case bookFileConverted
+    case bookFileConversionFailed
+    case bookImportIncomplete
+    case downloadImported
+
     var ref: String {
         switch self {
         case .unknown: ".unknown"
         case .grabbed: ".grabbed"
         case .downloadFolderImported, .movieFolderImported, .seriesFolderImported: ".imported"
-        case .downloadFailed: ".failed"
+        case .bookFileImported, .downloadImported: ".imported"
+        case .downloadFailed, .bookFileConversionFailed: ".failed"
         case .downloadIgnored: ".ignored"
-        case .movieFileRenamed, .episodeFileRenamed: ".renamed"
-        case .movieFileDeleted, .episodeFileDeleted: ".deleted"
+        case .movieFileRenamed, .episodeFileRenamed, .bookFileRenamed: ".renamed"
+        case .movieFileDeleted, .episodeFileDeleted, .bookFileDeleted: ".deleted"
+        case .bookFileRetagged: ".retagged"
+        case .bookFileConverted: ".converted"
+        case .bookImportIncomplete: ".incomplete"
         }
     }
 
@@ -189,6 +232,20 @@ enum HistoryEventType: String, Codable {
             String(localized: "Deleted", comment: "(Short) Title of history event")
         case .movieFolderImported, .seriesFolderImported:
             String(localized: "Imported", comment: "(Short) Title of history event")
+        case .bookFileImported, .downloadImported:
+            String(localized: "Imported", comment: "(Short) Title of history event")
+        case .bookFileRenamed:
+            String(localized: "Renamed", comment: "(Short) Title of history event")
+        case .bookFileDeleted:
+            String(localized: "Deleted", comment: "(Short) Title of history event")
+        case .bookFileRetagged:
+            String(localized: "Retagged", comment: "(Short) Title of history event")
+        case .bookFileConverted:
+            String(localized: "Converted", comment: "(Short) Title of history event")
+        case .bookFileConversionFailed:
+            String(localized: "Failed", comment: "(Short) Title of history event")
+        case .bookImportIncomplete:
+            String(localized: "Incomplete", comment: "(Short) Title of history event")
         }
     }
 
@@ -216,6 +273,20 @@ enum HistoryEventType: String, Codable {
             String(localized: "Episode Deleted", comment: "Title of history event type")
         case .seriesFolderImported:
             String(localized: "Folder Imported", comment: "Title of history event type")
+        case .bookFileImported, .downloadImported:
+            String(localized: "Book Imported", comment: "Title of history event type")
+        case .bookFileRenamed:
+            String(localized: "Book Renamed", comment: "Title of history event type")
+        case .bookFileDeleted:
+            String(localized: "Book Deleted", comment: "Title of history event type")
+        case .bookFileRetagged:
+            String(localized: "Book Retagged", comment: "Title of history event type")
+        case .bookFileConverted:
+            String(localized: "Book Converted", comment: "Title of history event type")
+        case .bookFileConversionFailed:
+            String(localized: "Conversion Failed", comment: "Title of history event type")
+        case .bookImportIncomplete:
+            String(localized: "Import Incomplete", comment: "Title of history event type")
         }
     }
 }

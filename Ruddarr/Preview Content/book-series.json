@@ -1,0 +1,815 @@
+[
+  {
+    "id": 3469,
+    "title": "Ådalen",
+    "books": [
+      {
+        "title": "Rotvälta",
+        "position": "1",
+        "foreignBookId": "hc:559567"
+      },
+      {
+        "title": "Slukhål",
+        "position": "2",
+        "foreignBookId": "hc:1269656"
+      },
+      {
+        "title": "Djuphamn",
+        "position": "3",
+        "foreignBookId": "hc:1589659"
+      },
+      {
+        "title": "Sturmrot / Erdschwarz / Nebelblau",
+        "position": "",
+        "foreignBookId": "gr:242557348"
+      }
+    ]
+  },
+  {
+    "id": 4289,
+    "title": "Harry Potter",
+    "books": [
+      {
+        "title": "Harry Potter and the Philosopher’s Stone",
+        "position": "1",
+        "foreignBookId": "hc:328491"
+      },
+      {
+        "title": "Harry Potter and the Goblet of Fire",
+        "position": "4",
+        "foreignBookId": "hc:383236"
+      },
+      {
+        "title": "Harry Potter and the Order of the Phoenix",
+        "position": "5",
+        "foreignBookId": "hc:428465"
+      },
+      {
+        "title": "Harry Potter and the Half-Blood Prince",
+        "position": "6",
+        "foreignBookId": "hc:428506"
+      },
+      {
+        "title": "Harry Potter and the Deathly Hallows",
+        "position": "7",
+        "foreignBookId": "hc:382143"
+      },
+      {
+        "title": "Harry Potter: The Prequel",
+        "position": "0.5",
+        "foreignBookId": "hc:454247"
+      },
+      {
+        "title": "Christmas at Hogwarts",
+        "position": "1.5",
+        "foreignBookId": "hc:1558317"
+      },
+      {
+        "title": "Harry Potter and the Chamber of Secrets",
+        "position": "2",
+        "foreignBookId": "gr:6231171"
+      }
+    ]
+  },
+  {
+    "id": 3487,
+    "title": "The Hainish Cycle",
+    "books": [
+      {
+        "title": "Rocannon's World. Planet of Exile. City of Illusions.",
+        "position": "",
+        "foreignBookId": "hc:458114"
+      },
+      {
+        "title": "City of Illusions",
+        "position": "3",
+        "foreignBookId": "hc:441798"
+      },
+      {
+        "title": "The Left Hand of Darkness",
+        "position": "4",
+        "foreignBookId": "hc:377842"
+      },
+      {
+        "title": "Winter's King",
+        "position": "4.5",
+        "foreignBookId": "hc:460352"
+      },
+      {
+        "title": "The Word for World Is Forest",
+        "position": "5",
+        "foreignBookId": "hc:441886"
+      },
+      {
+        "title": "The Day Before the Revolution",
+        "position": "6.5",
+        "foreignBookId": "hc:764234"
+      },
+      {
+        "title": "Four Ways to Forgiveness",
+        "position": "7",
+        "foreignBookId": "hc:230886"
+      },
+      {
+        "title": "The Telling",
+        "position": "8",
+        "foreignBookId": "hc:458012"
+      },
+      {
+        "title": "The Hainish Novels and Stories",
+        "position": "",
+        "foreignBookId": "hc:1086479"
+      },
+      {
+        "title": "Hainish Novels & Stories, Vol. 2: The Word for World Is Forest / Stories / Five Ways to Forgiveness / The Telling",
+        "position": "",
+        "foreignBookId": "gr:54298768"
+      },
+      {
+        "title": "Vaster Than Empires and More Slow",
+        "position": "",
+        "foreignBookId": "hc:868730"
+      },
+      {
+        "title": "The Birthday of the World",
+        "position": "",
+        "foreignBookId": "hc:10107"
+      },
+      {
+        "title": "Grenzwelten - 2 Romane:",
+        "position": "",
+        "foreignBookId": "hc:557391"
+      },
+      {
+        "title": "The Shobies' Story",
+        "position": "",
+        "foreignBookId": "hc:1442454"
+      },
+      {
+        "title": "Los mundos de Ursula K. Le Guin",
+        "position": "",
+        "foreignBookId": "gr:6253657"
+      },
+      {
+        "title": "ROCANNON'S WORLD, PLANET OF EXILE, CITY OF ILLUSIONS, THE LEFT HAND OF DARKNESS",
+        "position": "",
+        "foreignBookId": "hc:1122538"
+      },
+      {
+        "title": "Rocannon's World / Planet of Exile / City of Illusions / The Left Hand of Darkness / The Dispossessed / The Word for World is Forest",
+        "position": "",
+        "foreignBookId": "gr:46821076"
+      },
+      {
+        "title": "Planet of Exile",
+        "position": "2",
+        "foreignBookId": "hc:443913"
+      },
+      {
+        "title": "A Fisherman of the Inland Sea",
+        "position": "",
+        "foreignBookId": "hc:458115"
+      },
+      {
+        "title": "Hainish Novels & Stories, Vol. 1: Rocannon’s World / Planet of Exile / City of Illusions / The Left Hand of Darkness / The Dispossessed / Stories",
+        "position": "",
+        "foreignBookId": "gr:54298767"
+      },
+      {
+        "title": "Rocannons World",
+        "position": "1",
+        "foreignBookId": "hc:1134855"
+      },
+      {
+        "title": "Five Ways to Forgiveness",
+        "position": "",
+        "foreignBookId": "hc:776343"
+      },
+      {
+        "title": "Os Despojados, Vol. 1",
+        "position": "",
+        "foreignBookId": "gr:22386300"
+      },
+      {
+        "title": "Hainske priče",
+        "position": "",
+        "foreignBookId": "gr:186351713"
+      },
+      {
+        "title": "Rocannons World",
+        "position": "1",
+        "foreignBookId": "hc:1134855"
+      },
+      {
+        "title": "The Left Hand of Darkness",
+        "position": "4",
+        "foreignBookId": "hc:377842"
+      }
+    ]
+  },
+  {
+    "id": 2569,
+    "title": "Sevenwaters",
+    "books": [
+      {
+        "title": "Daughter of the Forest",
+        "position": "1",
+        "foreignBookId": "hc:457072"
+      },
+      {
+        "title": "Son of the Shadows",
+        "position": "2",
+        "foreignBookId": "hc:457071"
+      },
+      {
+        "title": "Child of the Prophecy",
+        "position": "3",
+        "foreignBookId": "hc:457069"
+      },
+      {
+        "title": "Heir to Sevenwaters",
+        "position": "4",
+        "foreignBookId": "hc:766595"
+      },
+      {
+        "title": "The Seer of Sevenwaters",
+        "position": "5",
+        "foreignBookId": "hc:459419"
+      },
+      {
+        "title": "Twixt Firelight and Water",
+        "position": "5.5",
+        "foreignBookId": "hc:461027"
+      },
+      {
+        "title": "Flame of Sevenwaters",
+        "position": "6",
+        "foreignBookId": "hc:459410"
+      },
+      {
+        "title": "Trilogie van de zeven wateren",
+        "position": "",
+        "foreignBookId": "gr:6809367"
+      }
+    ]
+  },
+  {
+    "id": 3980,
+    "title": "Chief Inspector Armand Gamache",
+    "books": [
+      {
+        "title": "Still Life",
+        "position": "1",
+        "foreignBookId": "hc:51977"
+      },
+      {
+        "title": "Dead Cold",
+        "position": "2",
+        "foreignBookId": "hc:470801"
+      },
+      {
+        "title": "The Cruelest Month",
+        "position": "3",
+        "foreignBookId": "hc:197641"
+      },
+      {
+        "title": "A Rule Against Murder",
+        "position": "4",
+        "foreignBookId": "hc:374500"
+      },
+      {
+        "title": "The Brutal Telling",
+        "position": "5",
+        "foreignBookId": "hc:131305"
+      },
+      {
+        "title": "Bury Your Dead",
+        "position": "6",
+        "foreignBookId": "hc:470819"
+      },
+      {
+        "title": "The Hangman",
+        "position": "6.5",
+        "foreignBookId": "hc:536950"
+      },
+      {
+        "title": "How the Light Gets In",
+        "position": "9",
+        "foreignBookId": "hc:181081"
+      },
+      {
+        "title": "The Long Way Home",
+        "position": "10",
+        "foreignBookId": "hc:291224"
+      },
+      {
+        "title": "The Nature of the Beast",
+        "position": "11",
+        "foreignBookId": "hc:267978"
+      },
+      {
+        "title": "A Great Reckoning",
+        "position": "12",
+        "foreignBookId": "hc:98243"
+      },
+      {
+        "title": "Glass Houses",
+        "position": "13",
+        "foreignBookId": "hc:437268"
+      },
+      {
+        "title": "Kingdom of the Blind",
+        "position": "14",
+        "foreignBookId": "hc:437457"
+      },
+      {
+        "title": "A Better Man",
+        "position": "15",
+        "foreignBookId": "hc:437459"
+      },
+      {
+        "title": "All the Devils are Here",
+        "position": "16",
+        "foreignBookId": "hc:437274"
+      },
+      {
+        "title": "The Madness of Crowds",
+        "position": "17",
+        "foreignBookId": "hc:470911"
+      },
+      {
+        "title": "A World of Curiosities",
+        "position": "18",
+        "foreignBookId": "hc:601647"
+      },
+      {
+        "title": "The Grey Wolf",
+        "position": "19",
+        "foreignBookId": "hc:1163153"
+      },
+      {
+        "title": "The Black Wolf",
+        "position": "20",
+        "foreignBookId": "hc:1980442"
+      },
+      {
+        "title": "Miss Wolcott's Ghost",
+        "position": "21",
+        "foreignBookId": "gr:278201343"
+      },
+      {
+        "title": "The Beautiful Mystery",
+        "position": "8",
+        "foreignBookId": "hc:1108227"
+      },
+      {
+        "title": "A Trick of the Light",
+        "position": "7",
+        "foreignBookId": "hc:83422"
+      },
+      {
+        "title": "Bury Your Dead / A Trick Of The Light / The Beautiful Mystery / How The Light Gets In / The Long Way Home",
+        "position": "",
+        "foreignBookId": "gr:73094775"
+      },
+      {
+        "title": "Chief Inspector Armand Gamache",
+        "position": "",
+        "foreignBookId": "gr:57943755"
+      },
+      {
+        "title": "Chief Inspector Gamache #11-15",
+        "position": "",
+        "foreignBookId": "gr:73042315"
+      },
+      {
+        "title": "Chief Inspector Gamache #1-4",
+        "position": "",
+        "foreignBookId": "gr:92419666"
+      },
+      {
+        "title": "Chief Inspector Gamache Book Series (11-17) Collection 7 Books Set By Louise Penny",
+        "position": "",
+        "foreignBookId": "gr:144993214"
+      },
+      {
+        "title": "Chief Inspector Gamache: Still Life / A Fatal Grace / The Cruellest Month / A Rule Against Murder / The Brutal Telling",
+        "position": "",
+        "foreignBookId": "hc:2511551"
+      },
+      {
+        "title": "Still Life / A Fatal Grace / The Cruelest Month",
+        "position": "",
+        "foreignBookId": "hc:2031852"
+      },
+      {
+        "title": "The Brutal Telling / Bury Your Dead",
+        "position": "",
+        "foreignBookId": "gr:56320742"
+      },
+      {
+        "title": "The Chief Inspector Armand Gamache Series, Books 1-10",
+        "position": "",
+        "foreignBookId": "hc:2409810"
+      },
+      {
+        "title": "The Chief Inspector Armand Gamache Series, Books 4-6",
+        "position": "",
+        "foreignBookId": "hc:2356616"
+      },
+      {
+        "title": "The Chief Inspector Armand Gamache Series, #7-9",
+        "position": "",
+        "foreignBookId": "gr:45043857"
+      }
+    ]
+  },
+  {
+    "id": 2991,
+    "title": "Dune",
+    "books": [
+      {
+        "title": "Месията на Дюна - част 1",
+        "position": "",
+        "foreignBookId": "gr:45364414"
+      },
+      {
+        "title": "Children of Dune II",
+        "position": "",
+        "foreignBookId": "gr:41253156"
+      },
+      {
+        "title": "The Dune Audio Collection",
+        "position": "",
+        "foreignBookId": "hc:1709525"
+      },
+      {
+        "title": "Dune Collection, 5 Vols",
+        "position": "",
+        "foreignBookId": "gr:3323285"
+      },
+      {
+        "title": "Dune Series 1 to 4 Book : 4 Books Collection Set",
+        "position": "",
+        "foreignBookId": "hc:1923182"
+      },
+      {
+        "title": "Dune Series 5 Books Collection Set",
+        "position": "",
+        "foreignBookId": "gr:92726051"
+      },
+      {
+        "title": "Dune Series 5 to 8 Book : 4 Books Collection Set",
+        "position": "",
+        "foreignBookId": "hc:1990442"
+      },
+      {
+        "title": "Dune: The Gateway Collection",
+        "position": "",
+        "foreignBookId": "hc:490427"
+      },
+      {
+        "title": "Frank Herbert Dune Chronicles #2-6",
+        "position": "",
+        "foreignBookId": "gr:16503611"
+      },
+      {
+        "title": "God Emperor of Dune",
+        "position": "",
+        "foreignBookId": "gr:243193827"
+      },
+      {
+        "title": "Децата на Дюн. Бог-император на Дюн",
+        "position": "",
+        "foreignBookId": "gr:20390679"
+      },
+      {
+        "title": "Дюн. Месията на Дюн",
+        "position": "",
+        "foreignBookId": "gr:19123970"
+      },
+      {
+        "title": "Еретиците на Дюн. Домът на Ордена",
+        "position": "",
+        "foreignBookId": "hc:1565612"
+      },
+      {
+        "title": "Heretics of Dune",
+        "position": "5",
+        "foreignBookId": "hc:235277"
+      },
+      {
+        "title": "Chapterhouse Dune",
+        "position": "6",
+        "foreignBookId": "hc:439821"
+      },
+      {
+        "title": "Battles of Dune",
+        "position": "",
+        "foreignBookId": "gr:4478"
+      },
+      {
+        "title": "Dune Messiah & Children of Dune",
+        "position": "",
+        "foreignBookId": "gr:52436"
+      },
+      {
+        "title": "Dune, part 1 of 3",
+        "position": "",
+        "foreignBookId": "gr:21819432"
+      },
+      {
+        "title": "Dune, part 2 of 3",
+        "position": "",
+        "foreignBookId": "gr:21819437"
+      },
+      {
+        "title": "Dune part 3 of 3",
+        "position": "",
+        "foreignBookId": "gr:21819425"
+      },
+      {
+        "title": "The Second Great Dune Trilogy",
+        "position": "",
+        "foreignBookId": "hc:648397"
+      },
+      {
+        "title": "Dune Messiah",
+        "position": "2",
+        "foreignBookId": "hc:427393"
+      },
+      {
+        "title": "Dune",
+        "position": "1",
+        "foreignBookId": "hc:312460"
+      },
+      {
+        "title": "Children of Dune",
+        "position": "3",
+        "foreignBookId": "hc:427314"
+      },
+      {
+        "title": "God Emperor of Dune",
+        "position": "4",
+        "foreignBookId": "hc:427363"
+      }
+    ]
+  },
+  {
+    "id": 3407,
+    "title": "Throne of Glass",
+    "books": [
+      {
+        "title": "The Assassin and the Healer",
+        "position": "0.2",
+        "foreignBookId": "hc:2461918"
+      },
+      {
+        "title": "The Assassin and the Desert",
+        "position": "0.3",
+        "foreignBookId": "hc:531376"
+      },
+      {
+        "title": "The Assassin's Blade",
+        "position": "0.1",
+        "foreignBookId": "hc:428931"
+      },
+      {
+        "title": "Empire of Storms",
+        "position": "5",
+        "foreignBookId": "hc:183545"
+      },
+      {
+        "title": "Tower of Dawn",
+        "position": "6",
+        "foreignBookId": "hc:429015"
+      },
+      {
+        "title": "Kingdom of Ash",
+        "position": "7",
+        "foreignBookId": "hc:429018"
+      },
+      {
+        "title": "The Throne of Glass Coloring Book",
+        "position": "",
+        "foreignBookId": "hc:544239"
+      },
+      {
+        "title": "Throne of Glass",
+        "position": "1",
+        "foreignBookId": "hc:39629"
+      },
+      {
+        "title": "Throne of Glass Paperback Box Set: New Edition",
+        "position": "0.1",
+        "foreignBookId": "hc:629685"
+      },
+      {
+        "title": "دشنه آدمکش",
+        "position": "0.1",
+        "foreignBookId": "gr:96792500"
+      },
+      {
+        "title": "The Assassin and the Underworld",
+        "position": "0.4",
+        "foreignBookId": "hc:531375"
+      },
+      {
+        "title": "دشنه‌ی آدم‌کش: بخش دوم",
+        "position": "0.4",
+        "foreignBookId": "gr:96800562"
+      },
+      {
+        "title": "アサシンの王女 上",
+        "position": "1",
+        "foreignBookId": "gr:60077419"
+      },
+      {
+        "title": "تاج نیمه‌شب ، بخش دوم",
+        "position": "2",
+        "foreignBookId": "gr:96800999"
+      },
+      {
+        "title": "Heir of Fire",
+        "position": "3",
+        "foreignBookId": "hc:1363844"
+      },
+      {
+        "title": "Håbets tårn",
+        "position": "",
+        "foreignBookId": "gr:96793138"
+      },
+      {
+        "title": "Healingens tårn",
+        "position": "",
+        "foreignBookId": "gr:96792199"
+      },
+      {
+        "title": "Império de Tempestades - Tomo 1",
+        "position": "",
+        "foreignBookId": "gr:60077421"
+      },
+      {
+        "title": "Império de Tempestades - Tomo 2",
+        "position": "",
+        "foreignBookId": "gr:60077412"
+      },
+      {
+        "title": "Throne of Glass Collection",
+        "position": "",
+        "foreignBookId": "gr:46308312"
+      },
+      {
+        "title": "تاج نیمه شب",
+        "position": "",
+        "foreignBookId": "gr:97051011"
+      },
+      {
+        "title": "وارث آتش - بخش اول",
+        "position": "",
+        "foreignBookId": "gr:96791872"
+      },
+      {
+        "title": "وارث آتش، بخش دوم",
+        "position": "",
+        "foreignBookId": "gr:96800905"
+      },
+      {
+        "title": "アサシンの王女 下",
+        "position": "",
+        "foreignBookId": "gr:60077404"
+      },
+      {
+        "title": "The Assassin and the Pirate Lord",
+        "position": "0.1",
+        "foreignBookId": "hc:531378"
+      },
+      {
+        "title": "Throne of Glass Boxset",
+        "position": "0.1",
+        "foreignBookId": "gr:56805349"
+      },
+      {
+        "title": "The Assassin and the Empire",
+        "position": "0.5",
+        "foreignBookId": "hc:525818"
+      },
+      {
+        "title": "Crown of Midnight",
+        "position": "2",
+        "foreignBookId": "hc:283659"
+      },
+      {
+        "title": "Queen of Shadows",
+        "position": "4",
+        "foreignBookId": "hc:153090"
+      },
+      {
+        "title": "Kingdom of Ash",
+        "position": "",
+        "foreignBookId": "gr:69712501"
+      },
+      {
+        "title": "Queen of Shadows",
+        "position": "",
+        "foreignBookId": "gr:89114642"
+      },
+      {
+        "title": "Trono di Vetro: Volume 2",
+        "position": "",
+        "foreignBookId": "gr:208273570"
+      },
+      {
+        "title": "Throne Of Glass Series Collection",
+        "position": "",
+        "foreignBookId": "gr:59608238"
+      }
+    ]
+  },
+  {
+    "id": 3443,
+    "title": "La caduta di Malazan",
+    "books": [
+      {
+        "title": "Gardens of the Moon",
+        "position": "1",
+        "foreignBookId": "hc:319998"
+      },
+      {
+        "title": "Deadhouse Gates",
+        "position": "2",
+        "foreignBookId": "hc:210733"
+      },
+      {
+        "title": "Memories of Ice",
+        "position": "3",
+        "foreignBookId": "hc:133778"
+      },
+      {
+        "title": "House of Chains",
+        "position": "4",
+        "foreignBookId": "hc:130810"
+      },
+      {
+        "title": "Midnight Tides",
+        "position": "5",
+        "foreignBookId": "hc:289044"
+      },
+      {
+        "title": "Die Knochenjäger",
+        "position": "",
+        "foreignBookId": "gr:205657517"
+      },
+      {
+        "title": "The Bonehunters",
+        "position": "6",
+        "foreignBookId": "hc:44100"
+      },
+      {
+        "title": "Reaper's Gale",
+        "position": "7",
+        "foreignBookId": "hc:236602"
+      },
+      {
+        "title": "Toll the Hounds",
+        "position": "8",
+        "foreignBookId": "hc:309316"
+      },
+      {
+        "title": "Dust of Dreams",
+        "position": "9",
+        "foreignBookId": "hc:446326"
+      },
+      {
+        "title": "The Crippled God",
+        "position": "10",
+        "foreignBookId": "hc:440991"
+      },
+      {
+        "title": "Der goldene Herrscher",
+        "position": "",
+        "foreignBookId": "gr:205657296"
+      },
+      {
+        "title": "Der Tag des Sehers",
+        "position": "",
+        "foreignBookId": "gr:205657857"
+      },
+      {
+        "title": "Die Feuer der Rebellion",
+        "position": "",
+        "foreignBookId": "gr:205657545"
+      },
+      {
+        "title": "Im Sturm des Verderbens",
+        "position": "",
+        "foreignBookId": "gr:205657276"
+      },
+      {
+        "title": "Wspomnienie Lodu. Tom 1. Cień Przeszłości",
+        "position": "",
+        "foreignBookId": "gr:205657865"
+      }
+    ]
+  }
+]

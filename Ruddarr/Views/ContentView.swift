@@ -17,6 +17,13 @@ struct ContentView: View {
                 SeriesView()
             }
 
+            if !settings.chaptarrInstances.isEmpty {
+                Tab(books.label, systemImage: books.icon, value: books) {
+                    BooksView()
+                }
+                .customizationID("tab.books")
+            }
+
             Tab(calendar.label, systemImage: calendar.icon, value: calendar) {
                 CalendarView()
             }
@@ -58,6 +65,7 @@ struct ContentView: View {
 
     var movies: TabItem { .movies }
     var series: TabItem { .series }
+    var books: TabItem { .books }
     var calendar: TabItem { .calendar }
     var activity: TabItem { .activity }
     var history: TabItem { .history }

@@ -1,11 +1,5 @@
 import Foundation
 
-extension API {
-    static var mock: Self {
-        .init(radarr: .mock, sonarr: .mock, instance: .mock)
-    }
-}
-
 extension RadarrAPI {
     static var mock: Self {
         .init(fetch: { _ in
@@ -299,5 +293,70 @@ private func modifyCalendarEpisodes(_ items: [Episode], _ instance: Instance) ->
         }
 
         return episode
+    }
+}
+
+extension ChaptarrAPI {
+    static var mock: Self {
+        .init(fetch: { _ in
+            try await Task.sleep(for: .seconds(1))
+
+            return loadPreviewData(filename: "books")
+        }, page: { _, _, offset, pageSize in
+            let books: [Book] = loadPreviewData(filename: "books")
+            try await Task.sleep(for: .milliseconds(400))
+
+            return BooksPage(records: Array(books.dropFirst(offset).prefix(pageSize)), totalCount: books.count)
+        }, search: { _, term in
+            let books: [Book] = loadPreviewData(filename: "books")
+            try await Task.sleep(for: .milliseconds(400))
+
+            return books.filter {
+                $0.title.localizedCaseInsensitiveContains(term) ||
+                $0.searchableAuthor?.localizedCaseInsensitiveContains(term) == true
+            }
+        }, lookup: { _, _ in
+            try await Task.sleep(for: .seconds(1))
+
+            return loadPreviewData(filename: "book-lookup")
+        }, book: { bookId, _ in
+            let books: [Book] = loadPreviewData(filename: "books")
+            try await Task.sleep(for: .seconds(1))
+
+            return books.first(where: { $0.id == bookId })!
+        }, series: { _, _ in
+            try await Task.sleep(for: .seconds(1))
+
+            return loadPreviewData(filename: "book-series")
+        }, files: { _, _ in
+            try await Task.sleep(for: .seconds(1))
+
+            return loadPreviewData(filename: "book-files")
+        }, history: { _, _, _ in
+            try await Task.sleep(for: .seconds(1))
+
+            return loadPreviewData(filename: "book-history")
+        }, add: { _, _ in
+            let books: [Book] = loadPreviewData(filename: "books")
+            try await Task.sleep(for: .seconds(2))
+
+            return books[0]
+        }, monitor: { _, _, _ in
+            try await Task.sleep(for: .seconds(1))
+
+            return API.Empty()
+        }, deleteFile: { _, _ in
+            try await Task.sleep(for: .seconds(1))
+
+            return API.Empty()
+        }, metadataProfiles: { _ in
+            try await Task.sleep(for: .seconds(1))
+
+            return loadPreviewData(filename: "metadata-profiles")
+        }, calendar: { _, _, _ in
+            try await Task.sleep(for: .seconds(2))
+
+            return loadPreviewData(filename: "books")
+        })
     }
 }

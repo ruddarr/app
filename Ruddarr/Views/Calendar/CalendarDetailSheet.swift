@@ -19,6 +19,12 @@ struct CalendarDetailSheet: View {
             } else {
                 unavailable
             }
+        case .book(let book):
+            if let instance = instance(book.instanceId) {
+                CalendarBookSheet(book: book, instance: instance)
+            } else {
+                unavailable
+            }
         }
     }
 
@@ -148,6 +154,40 @@ private struct CalendarEpisodeSheet: View {
         .task {
             guard let series: Series = instance.series.byId(seriesId) else { return }
             _ = await instance.series.get(series)
+        }
+        .environment(instance)
+        .inCalendarSheet(dismiss: { dismiss() }, path: $path)
+        .displayToasts()
+    }
+}
+
+private struct CalendarBookSheet: View {
+    private let bookId: Book.ID
+
+    @State private var path = NavigationPath()
+    @State private var instance: ChaptarrInstance
+
+    @Environment(\.dismiss) private var dismiss
+
+    init(book: Book, instance model: Instance) {
+        let instance = ChaptarrInstance(model)
+        instance.books.items = [book]
+        instance.books.cachedItems = [book]
+        instance.books.itemsCount = 1
+
+        self.bookId = book.id
+        self._instance = State(initialValue: instance)
+    }
+
+    var body: some View {
+        NavigationStack(path: $path) {
+            BooksDestination(path: .book(bookId))
+                .navigationDestination(for: BooksPath.self) { path in
+                    let needsToolbar = if case .book = path { false } else { true }
+
+                    BooksDestination(path: path)
+                        .calendarSheetToolbar(needsToolbar)
+                }
         }
         .environment(instance)
         .inCalendarSheet(dismiss: { dismiss() }, path: $path)

@@ -79,6 +79,7 @@ extension Toast {
         case movieSearchQueued
         case seasonSearchQueued
         case episodeSearchQueued
+        case bookSearchQueued
         case monitoredSearchQueued
         case movieDeleted
         case seriesDeleted
@@ -108,6 +109,8 @@ extension Toast {
             notice(text: String(localized: "Season Search Queued"), icon: "checkmark.circle.fill")
         case .episodeSearchQueued:
             notice(text: String(localized: "Episode Search Queued"), icon: "checkmark.circle.fill")
+        case .bookSearchQueued:
+            notice(text: String(localized: "Book Search Queued"), icon: "checkmark.circle.fill")
         case .monitoredSearchQueued:
             notice(text: String(localized: "Monitored Search Queued"), icon: "checkmark.circle.fill")
         case .movieDeleted:

@@ -34,6 +34,7 @@ struct InstanceView: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
+    @Environment(ChaptarrInstance.self) var chaptarrInstance
     @Environment(\.openURL) var openURL
 
     var body: some View {
@@ -48,7 +49,9 @@ struct InstanceView: View {
                 diskSpaceSection
             }
 
-            notifications
+            if instance.supportsNotifications {
+                notifications
+            }
 
             #if DEBUG
                 Button {
@@ -108,10 +111,13 @@ struct InstanceView: View {
         async let summary: Void = loadSummary()
         async let webAccess: Void = checkWebAccess()
 
-        await setAppNotificationsStatus()
-        await setCloudKitAccountStatus()
-        await setSubscriptionStatus()
-        await initialWebhookSync()
+        if instance.supportsNotifications {
+            await setAppNotificationsStatus()
+            await setCloudKitAccountStatus()
+            await setSubscriptionStatus()
+            await initialWebhookSync()
+        }
+
         await summary
         await webAccess
     }

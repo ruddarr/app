@@ -1,1 +1,2 @@
-
+Added
+- Added Chaptarr support

@@ -8,6 +8,7 @@ class MediaCalendar {
 
     var movies: [TimeInterval: [Movie]] = [:]
     var episodes: [TimeInterval: [Episode]] = [:]
+    var books: [TimeInterval: [Book]] = [:]
 
     var isLoading: Bool = false
     var isLoadingFuture: Bool = false
@@ -65,6 +66,10 @@ class MediaCalendar {
 
                     if instance.type == .sonarr {
                         try await self.fetchEpisodes(instance, start, end)
+                    }
+
+                    if instance.type == .chaptarr {
+                        try await self.fetchBooks(instance, start, end)
                     }
                 }
             }
@@ -149,6 +154,33 @@ class MediaCalendar {
         }
     }
 
+    private func fetchBooks(_ instance: Instance, _ start: Date, _ end: Date) async throws {
+        let books = try await dependencies.api.chaptarr.calendar(start, end, instance)
+
+        for book in books {
+            if let releaseDate = book.releaseDate {
+                maybeUpsertBook(book, releaseDate)
+            }
+        }
+    }
+
+    private func maybeUpsertBook(_ book: Book, _ date: Date) {
+        let day = calendar.startOfDay(for: date).timeIntervalSince1970
+
+        if books[day] == nil {
+            books[day] = []
+        }
+
+        guard let index = books[day]!.firstIndex(where: { $0.id == book.id }) else {
+            books[day]!.append(book)
+            return
+        }
+
+        if books[day]![index] != book {
+            books[day]![index] = book
+        }
+    }
+
     private func fetchEpisodes(_ instance: Instance, _ start: Date, _ end: Date) async throws {
         let episodes = try await dependencies.api.sonarr.calendar(start, end, instance)
 
@@ -185,6 +217,7 @@ class MediaCalendar {
         dates = []
         movies = [:]
         episodes = [:]
+        books = [:]
         errors = []
     }
 

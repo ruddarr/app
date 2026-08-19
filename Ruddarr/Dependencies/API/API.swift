@@ -3,10 +3,18 @@ import Sentry
 struct API: Sendable {
     var radarr: RadarrAPI
     var sonarr: SonarrAPI
+    var chaptarr: ChaptarrAPI
     var instance: InstanceAPI
+
+    static var live: Self {
+        .init(radarr: .live, sonarr: .live, chaptarr: .live, instance: .live)
+    }
+
+    static var mock: Self {
+        .init(radarr: .mock, sonarr: .mock, chaptarr: .mock, instance: .mock)
+    }
 }
 
-/// Endpoints only Radarr serves, or that only make sense against a Radarr instance.
 struct RadarrAPI: Sendable {
     var fetch: @Sendable (Instance) async throws -> [Movie]
     var lookup: @Sendable (_ instance: Instance, _ query: String) async throws -> [Movie]
@@ -24,7 +32,6 @@ struct RadarrAPI: Sendable {
     var calendar: @Sendable (Date, Date, Instance) async throws -> [Movie]
 }
 
-/// Endpoints only Sonarr serves, or that only make sense against a Sonarr instance.
 struct SonarrAPI: Sendable {
     var fetch: @Sendable (Instance) async throws -> [Series]
     var episodes: @Sendable (Series.ID, Instance) async throws -> [Episode]
@@ -45,10 +52,25 @@ struct SonarrAPI: Sendable {
     var calendar: @Sendable (Date, Date, Instance) async throws -> [Episode]
 }
 
-/// Endpoints both Radarr and Sonarr serve identically, callable with any `Instance`.
-///
-/// `command` and `downloadRelease` share a route across both apps and discriminate
-/// on their payload (see `InstanceCommand.payload` and `DownloadReleaseCommand`).
+struct ChaptarrAPI: Sendable {
+    var fetch: @Sendable (Instance) async throws -> [Book]
+    var page: @Sendable (_ instance: Instance, _ query: BookQuery, _ offset: Int, _ pageSize: Int) async throws -> BooksPage
+    var search: @Sendable (_ instance: Instance, _ term: String) async throws -> [Book]
+    var lookup: @Sendable (_ instance: Instance, _ query: String) async throws -> [Book]
+
+    var book: @Sendable (Book.ID, Instance) async throws -> Book
+    var series: @Sendable (Int, Instance) async throws -> [BookSeries]
+    var files: @Sendable (Book.ID, Instance) async throws -> [BookFile]
+    var history: @Sendable (Int, Book.ID, Instance) async throws -> [MediaHistoryEvent]
+    var add: @Sendable (Book, Instance) async throws -> Book
+    var monitor: @Sendable ([Book.ID], Bool, Instance) async throws -> API.Empty
+    var deleteFile: @Sendable (BookFile, Instance) async throws -> API.Empty
+
+    var metadataProfiles: @Sendable (Instance) async throws -> [InstanceMetadataProfile]
+
+    var calendar: @Sendable (Date, Date, Instance) async throws -> [Book]
+}
+
 struct InstanceAPI: Sendable {
     var command: @Sendable (InstanceCommand, Instance) async throws -> API.Empty
     var downloadRelease: @Sendable (DownloadReleaseCommand, Instance) async throws -> API.Empty

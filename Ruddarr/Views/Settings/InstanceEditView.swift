@@ -9,6 +9,7 @@ struct InstanceEditView: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var radarrInstance
     @Environment(SonarrInstance.self) var sonarrInstance
+    @Environment(ChaptarrInstance.self) var chaptarrInstance
 
     @Environment(\.dismiss) var dismiss
     @Environment(\.deviceType) private var deviceType
@@ -232,6 +233,7 @@ struct InstanceEditView: View {
         switch instance.type {
         case .radarr: "10.0.1.1:7878"
         case .sonarr: "10.0.1.1:8989"
+        case .chaptarr: "10.0.1.1:8789"
         }
     }
 
@@ -239,6 +241,7 @@ struct InstanceEditView: View {
         switch instance.type {
         case .radarr: "radarr.home.net"
         case .sonarr: "sonarr.home.net"
+        case .chaptarr: "chaptarr.home.net"
         }
     }
 

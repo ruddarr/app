@@ -159,16 +159,79 @@ struct CalendarEpisode: View {
     }
 }
 
+struct CalendarBook: View {
+    var book: Book
+    var status: QueueItemStatus?
+    var open: (CalendarSelection) -> Void
+
+    @Environment(AppSettings.self) private var settings
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            HStack(alignment: .center) {
+                Text(book.title)
+                    .font(.body)
+                    .lineLimit(1)
+                    .foregroundStyle(shouldFade ? .secondary : .primary)
+
+                Spacer()
+
+                statusIcon
+                    .font(.subheadline)
+                    .imageScale(.small)
+                    .foregroundStyle(.secondary)
+            }
+
+            if let author = book.authorLabel {
+                Text(author)
+                    .font(.caption)
+                    .lineLimit(1)
+                    .foregroundStyle(settings.theme.tint)
+            }
+        }
+        .padding(.vertical, 8)
+        .padding(.horizontal, 12)
+        .frame(maxWidth: .infinity)
+        .opacity(shouldFade ? 0.5 : 1)
+        .background(.card.opacity(shouldFade ? 0.6 : 1))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .onTapGesture {
+            open(.book(book))
+        }
+    }
+
+    var shouldFade: Bool {
+        !book.monitored && !book.hasFiles
+    }
+
+    @ViewBuilder
+    var statusIcon: some View {
+        if let status {
+            QueueStatusIcon(status: status)
+        } else if book.hasFiles {
+            Image(systemName: "checkmark").symbolVariant(.circle.fill)
+        } else if !book.monitored {
+            Image(systemName: "bookmark").symbolVariant(.slash)
+        } else if book.isWaiting {
+            Image(systemName: "clock")
+        } else {
+            Image(systemName: "xmark").symbolVariant(.circle)
+        }
+    }
+}
+
 enum CalendarMediaType: CaseIterable {
     case all
     case movies
     case series
+    case books
 
     var label: some View {
         switch self {
         case .all: Label(String(localized: "Everything", comment: "Movies and series filter option"), systemImage: "rectangle.stack")
         case .movies: Label(String(localized: "Movies"), systemImage: "film")
         case .series: Label(String(localized: "Series"), systemImage: "tv")
+        case .books: Label(String(localized: "Books", comment: "Plural. Tab/sidebar menu item"), systemImage: "books.vertical")
         }
     }
 }

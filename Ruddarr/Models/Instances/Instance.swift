@@ -21,6 +21,7 @@ struct Instance: Identifiable, Equatable, Codable {
     var name: String?
     var version: String?
     var stats: InstanceStats?
+    var metadataProfiles: [InstanceMetadataProfile] = []
 
     init(id: UUID = UUID()) {
         self.id = id
@@ -43,6 +44,7 @@ struct Instance: Identifiable, Equatable, Codable {
         name = try values.decodeIfPresent(String.self, forKey: .name)
         version = try values.decodeIfPresent(String.self, forKey: .version)
         stats = try values.decodeIfPresent(InstanceStats.self, forKey: .stats)
+        metadataProfiles = try values.decodeIfPresent([InstanceMetadataProfile].self, forKey: .metadataProfiles) ?? []
     }
 
     var configuration: Instance {
@@ -103,6 +105,16 @@ struct Instance: Identifiable, Equatable, Codable {
         return url
     }
 
+    var supportsNotifications: Bool {
+        type != .chaptarr
+    }
+
+    func apiURL(_ path: String) async throws -> URL {
+        try await baseURL()
+            .appending(path: type.apiPath)
+            .appending(path: path)
+    }
+
     func reachableWebURL() async -> URL? {
         await InstanceResolver.shared.reachableWebURL(for: self)
     }
@@ -145,7 +157,15 @@ extension [Instance] {
 enum InstanceType: String, Identifiable, CaseIterable, Codable {
     case radarr = "Radarr"
     case sonarr = "Sonarr"
+    case chaptarr = "Chaptarr"
     var id: Self { self }
+
+    var apiPath: String {
+        switch self {
+        case .radarr, .sonarr: "/api/v3"
+        case .chaptarr: "/api/v1"
+        }
+    }
 }
 
 enum InstanceMode: Codable {
@@ -248,35 +268,14 @@ struct InstanceRootFolder: Identifiable, Equatable, Codable, Hashable {
 struct InstanceQualityProfile: Identifiable, Equatable, Codable {
     let id: Int
     let name: String
+
+    var profileType: String?
 }
 
-struct InstanceStats: Equatable, Codable {
-    let movies: Int
-    let series: Int
-    let episodes: Int
-    let size: Int
-
-    init(movies: [Movie]) {
-        self.movies = movies.count
-        self.series = 0
-        self.episodes = 0
-        self.size = movies.reduce(0) { $0 + ($1.sizeOnDisk ?? 0) }
-    }
-
-    init(series: [Series]) {
-        self.movies = 0
-        self.series = series.count
-        self.episodes = series.reduce(0) { $0 + $1.episodeFileCount }
-        self.size = series.reduce(0) { $0 + ($1.statistics?.sizeOnDisk ?? 0) }
-    }
-
-    @concurrent static func make(movies: [Movie]) async -> Self {
-        Self(movies: movies)
-    }
-
-    @concurrent static func make(series: [Series]) async -> Self {
-        Self(series: series)
-    }
+struct InstanceMetadataProfile: Identifiable, Equatable, Codable {
+    let id: Int
+    let name: String
+    var profileType: Int?
 }
 
 struct InstanceDiskSpace: Identifiable, Equatable, Codable {
@@ -311,6 +310,12 @@ extension Instance {
     static var sonarrVoid: Self {
         var instance = Instance(id: UUID(uuidString: "00000000-2000-0000-0000-000000000000")!)
         instance.type = .sonarr
+        return instance
+    }
+
+    static var chaptarrVoid: Self {
+        var instance = Instance(id: UUID(uuidString: "00000000-5000-0000-0000-000000000000")!)
+        instance.type = .chaptarr
         return instance
     }
 
@@ -361,6 +366,18 @@ extension Instance {
             Tag(id: 1, label: "Anime"),
             Tag(id: 2, label: "Trash"),
         ]
+
+        return instance
+    }
+
+    static var chaptarrDummy: Self {
+        var instance = Instance(id: UUID(uuidString: "00000000-6000-0000-0000-000000000000")!)
+
+        instance.type = .chaptarr
+        instance.label = ".chaptarr"
+        instance.url = "http://10.0.1.5:8789"
+        instance.alternateURL = "https://chaptarr.example.com"
+        instance.apiKey = "9c4ad0e28e5f4a1e8a3d6b7c0f215d84"
 
         return instance
     }

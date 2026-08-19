@@ -24,7 +24,9 @@ struct InstanceSeed: Decodable {
 
         id = try values.decodeIfPresent(UUID.self, forKey: .id)
         let rawType = try values.decode(String.self, forKey: .type)
-        type = rawType.caseInsensitiveCompare("sonarr") == .orderedSame ? .sonarr : .radarr
+        type = InstanceType.allCases.first {
+            $0.rawValue.caseInsensitiveCompare(rawType) == .orderedSame
+        } ?? .radarr
         label = try values.decodeIfPresent(String.self, forKey: .label)
         url = try values.decode(String.self, forKey: .url)
         apiKey = try values.decode(String.self, forKey: .apiKey)

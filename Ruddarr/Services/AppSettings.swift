@@ -47,6 +47,10 @@ final class AppSettings {
         didSet { AppSettings.persist(sonarrInstanceId, "sonarrInstanceId") }
     }
 
+    var chaptarrInstanceId: Instance.ID? = AppSettings.loadOptional("chaptarrInstanceId") {
+        didSet { AppSettings.persist(chaptarrInstanceId, "chaptarrInstanceId") }
+    }
+
     func resetAll() {
         dependencies.store.removePersistentDomain(forName: Ruddarr.group)
 
@@ -67,6 +71,7 @@ final class AppSettings {
         releaseFilters = .reset
         radarrInstanceId = nil
         sonarrInstanceId = nil
+        chaptarrInstanceId = nil
     }
 }
 
@@ -79,12 +84,20 @@ extension AppSettings {
         sonarrInstances.first(where: { $0.id == sonarrInstanceId })
     }
 
+    var chaptarrInstance: Instance? {
+        chaptarrInstances.first(where: { $0.id == chaptarrInstanceId })
+    }
+
     var radarrInstances: [Instance] {
         instances.filter { $0.type == .radarr }
     }
 
     var sonarrInstances: [Instance] {
         instances.filter { $0.type == .sonarr }
+    }
+
+    var chaptarrInstances: [Instance] {
+        instances.filter { $0.type == .chaptarr }
     }
 
     var configuredInstances: [Instance] {
@@ -120,6 +133,7 @@ extension AppSettings {
 
         stored.rootFolders = instance.rootFolders
         stored.qualityProfiles = instance.qualityProfiles
+        stored.metadataProfiles = instance.metadataProfiles
         stored.tags = instance.tags
         stored.stats = instance.stats
 

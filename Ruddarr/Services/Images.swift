@@ -50,8 +50,8 @@ class Images {
             processors: [
                 .resize(
                     size: type.size,
-                    contentMode: .aspectFill,
-                    crop: true,
+                    contentMode: type.contentMode,
+                    crop: type.crop,
                     upscale: true
                 )
             ],
@@ -170,14 +170,29 @@ class Images {
 
 enum ImageType {
     case poster
+    case album
 
     var size: CGSize {
         switch self {
         #if os(macOS)
-            case .poster: CGSize(width: 325, height: 488)
+            case .poster, .album: CGSize(width: 325, height: 488)
         #else
-            case .poster: CGSize(width: 250, height: 375)
+            case .poster, .album: CGSize(width: 250, height: 375)
         #endif
+        }
+    }
+
+    var contentMode: ImageProcessingOptions.ContentMode {
+        switch self {
+        case .poster: .aspectFill
+        case .album: .aspectFit
+        }
+    }
+
+    var crop: Bool {
+        switch self {
+        case .poster: true
+        case .album: false
         }
     }
 }

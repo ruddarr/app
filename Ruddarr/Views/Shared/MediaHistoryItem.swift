@@ -10,8 +10,11 @@ struct MediaHistoryItem: View {
             ViewThatFits(in: .horizontal) {
                 HStack(spacing: 6) {
                     Text(event.quality.quality.label)
-                    Bullet()
-                    Text(event.languageLabel)
+
+                    if event.bookId == nil {
+                        Bullet()
+                        Text(event.languageLabel)
+                    }
 
                     if let indexer = event.indexerLabel {
                         Bullet()
@@ -27,8 +30,11 @@ struct MediaHistoryItem: View {
 
                 HStack(spacing: 6) {
                     Text(event.quality.quality.label)
-                    Bullet()
-                    Text(event.languageLabel)
+
+                    if event.bookId == nil {
+                        Bullet()
+                        Text(event.languageLabel)
+                    }
 
                     Spacer()
                     Text(date)

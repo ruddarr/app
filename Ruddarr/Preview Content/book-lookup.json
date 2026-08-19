@@ -1,0 +1,812 @@
+[
+  {
+    "foreignBookId": "hc:175280",
+    "title": "Piranesi",
+    "authorTitle": "clarke, susanna Piranesi",
+    "overview": "",
+    "mediaType": "ebook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [
+      "adult",
+      "Audiobook",
+      "Book Club",
+      "Dark Academia",
+      "Fantasy",
+      "Fiction",
+      "General",
+      "Genre Fiction",
+      "Literary",
+      "Literary Fiction",
+      "Literature & Fiction",
+      "Magical Realism",
+      "Mystery",
+      "Mythology",
+      "speculative fiction"
+    ],
+    "ratings": {
+      "votes": 106860,
+      "value": 4.140779220779221,
+      "popularity": 442483.6675324675
+    },
+    "releaseDate": "2019-04-08T00:00:00Z",
+    "author": {
+      "authorName": "Susanna Clarke",
+      "sortName": "susanna clarke",
+      "sortNameLastFirst": "clarke, susanna"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/51r-JUaJ0IL._SL500_.jpg",
+        "url": "/MediaCoverProxy/509a12516e3f90a217237ade55122fbcbfbf1b7927f911f2f4e5f62f132b02a9/51r-JUaJ0IL._SL500_.jpg"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/piranesi",
+        "name": "hardcover"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "hc:61787",
+    "title": "Normal People",
+    "authorTitle": "rooney, sally Normal People",
+    "overview": "",
+    "mediaType": "ebook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [
+      "adult",
+      "Audiobook",
+      "Book Club",
+      "Coffee Table Books",
+      "College students",
+      "Coming of Age",
+      "Contemporary",
+      "Fiction",
+      "Film",
+      "Ireland",
+      "Irish Literature",
+      "Literary Fiction",
+      "Mental health",
+      "Novels",
+      "Plays",
+      "Realistic Fiction",
+      "Romance",
+      "Theatre",
+      "Young Adult"
+    ],
+    "ratings": {
+      "votes": 407407,
+      "value": 3.712330827067669,
+      "popularity": 1512429.565263158
+    },
+    "releaseDate": "1399-01-01T00:00:00Z",
+    "author": {
+      "authorName": "Sally Rooney",
+      "sortName": "sally rooney",
+      "sortNameLastFirst": "rooney, sally"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/51Qn5V0jGXL._SL500_.jpg",
+        "url": "/MediaCoverProxy/c8df32d969934a47d81fee294d18418e8e12ed26c779959fbdad3cb8dd5a8953/51Qn5V0jGXL._SL500_.jpg"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/normal-people",
+        "name": "hardcover"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "hc:379217",
+    "title": "The Name of the Wind",
+    "authorTitle": "rothfuss, patrick The Name of the Wind",
+    "seriesTitle": "The Kingkiller Chronicle #1",
+    "overview": "",
+    "mediaType": "ebook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [
+      "adult",
+      "Adventure",
+      "Audiobook",
+      "Book Club",
+      "Coming of Age; Dragons & Mythical Creatures; Epic",
+      "Epic Fantasy",
+      "Fantasy",
+      "Fantasy; Literary Fiction",
+      "Fiction",
+      "High Fantasy",
+      "Literary Fiction",
+      "Magic",
+      "Science fiction",
+      "Science Fiction & Fantasy",
+      "Swedish literature",
+      "Young Adult"
+    ],
+    "ratings": {
+      "votes": 427923,
+      "value": 4.457448275862069,
+      "popularity": 1907444.638551724
+    },
+    "releaseDate": "1397-01-01T00:00:00Z",
+    "author": {
+      "authorName": "Patrick Rothfuss",
+      "sortName": "patrick rothfuss",
+      "sortNameLastFirst": "rothfuss, patrick"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://m.media-amazon.com/images/I/61mt2xvUEVL._SL500_.jpg",
+        "url": "/MediaCoverProxy/8e27d740138f44a4f2b9c13e2da789de9e0ff32157642d3960527c92ca06ba93/61mt2xvUEVL._SL500_.jpg"
+      }
+    ],
+    "links": [
+      {
+        "url": "https://hardcover.app/books/the-name-of-the-wind",
+        "name": "hardcover"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:73586702",
+    "title": "Piranesi",
+    "authorTitle": " Piranesi",
+    "overview": "<i>Alternate cover edition of ISBN <a href='https://www.goodreads.com/book/show/255359083-piranesi' rel='nofollow noopener'>9781635575637</a>.</i><br/><br/>Piranesi’s house is no ordinary building: its rooms are infinite, its corridors endless, its walls are lined with thousands upon …",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 559016,
+      "value": 4.2,
+      "popularity": 2347867.2
+    },
+    "author": {
+      "authorName": "Susanna Clarke"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1773750050i/50202953._SY750_.jpg",
+        "url": "/MediaCoverProxy/5a6f74ff82c2ee96f4e9f28b2b7909bcf45f368a68a033bb5280eeeddc3de14e/50202953._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:362650",
+    "title": "The Dark Brain of Piranesi and Other Essays",
+    "authorTitle": " The Dark Brain of Piranesi and Other Essays",
+    "overview": "In this collection of the eminent writer&apos;s most important essays, her illuminating critical intelligence ranges from the Rome of &quot;Historia Augusta&quot; through the sixteenth centu…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 196,
+      "value": 4.13,
+      "popularity": 809.48
+    },
+    "author": {
+      "authorName": "Marguerite Yourcenar"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1266526634i/332151._SY750_.jpg",
+        "url": "/MediaCoverProxy/16338ae25579986db12d1ebc828c5367a47a342a5e445125d32197e891c7fc39/332151._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:3209631",
+    "title": "The Decline and Fall of the Roman Empire",
+    "authorTitle": " The Decline and Fall of the Roman Empire",
+    "overview": "The History of the Decline and Fall of the Roman Empire (sometimes shortened to Fall of the Roman Empire) is a book of history written by the English historian Edward Gibbon. …",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 15724,
+      "value": 4.02,
+      "popularity": 63210.479999999996
+    },
+    "author": {
+      "authorName": "Edward Gibbon"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1760308722i/19400._SY750_.jpg",
+        "url": "/MediaCoverProxy/a1565343f7300f73681fa0b354e7cf7ebf1b56949e21659aeb02fb0e825bfa42/19400._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:317055",
+    "title": "Piranesi: The Etchings",
+    "authorTitle": " Piranesi: The Etchings",
+    "overview": "The great 18th century architectural artist and master engraver &quot;Piranesi was as savage as Salvator Rosa, fierce as Michelangelo, and exuberant as Rubens… he has imagined scen…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 48,
+      "value": 4.21,
+      "popularity": 202.07999999999998
+    },
+    "author": {
+      "authorName": "Luigi Ficacci"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1347448351i/326413._SX500_.jpg",
+        "url": "/MediaCoverProxy/2d709f53db8b8091552dabd1ac4650a36dda63a3cfdb0da089f21b70c8851683/326413._SX500_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:1113974",
+    "title": "The Sphere and the Labyrinth: Avant-Gardes and Architecture from Piranesi to the 1970s",
+    "authorTitle": " The Sphere and the Labyrinth: Avant-Gardes and Architecture from Piranesi to the 1970s",
+    "overview": "This major work by Manfredo Tafuri, one of today&apos;s most important theoretical historians and critics of architecture and urbanism, presents his critique of traditional approac…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 35,
+      "value": 4.54,
+      "popularity": 158.9
+    },
+    "author": {
+      "authorName": "Manfredo Tafuri"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1525303880i/1126810._SX500_.jpg",
+        "url": "/MediaCoverProxy/4a9cac6de610ada145d009d1b0c706da8cc7b368fccdd950a0660f41dbc9425a/1126810._SX500_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:2502879",
+    "title": "The Name of the Wind (The Kingkiller Chronicle, #1)",
+    "authorTitle": " The Name of the Wind (The Kingkiller Chronicle, #1)",
+    "overview": "Told in Kvothe&apos;s own voice, this is the tale of the magically gifted young man who grows to be the most notorious wizard his world has ever seen. <br/><br/>The intimate narrative of his…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 1114325,
+      "value": 4.52,
+      "popularity": 5036748.999999999
+    },
+    "author": {
+      "authorName": "Patrick Rothfuss"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1704917687i/186074._SY750_.jpg",
+        "url": "/MediaCoverProxy/86575014c6a02c5caf7f35e94150bc2f265db274888baa1271b6d7ab45ddbcff/186074._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:59279775",
+    "title": "The Name of the Wind / The Wise Man's Fear / The Slow Regard of Silent Things (The Kingkiller Chronicle #1-2.5)",
+    "authorTitle": " The Name of the Wind / The Wise Man's Fear / The Slow Regard of Silent Things (The Kingkiller Chronicle #1-2.5)",
+    "overview": "The Kingkiller Chronicle Series 3 Books Collection Set by Patrick Rothfuss (The Name of the Wind, The Wise Man&apos;s Fear &amp; The Slow Regard of Silent Things):<br/><br/>The Name of the <br/>&apos;I ha…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 2265,
+      "value": 4.71,
+      "popularity": 10668.15
+    },
+    "author": {
+      "authorName": "Patrick Rothfuss"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599142181i/55221203._SX500_.jpg",
+        "url": "/MediaCoverProxy/830cf955b4c50fd2dcfb1847af17e434ec59ca85d72fbfafebca4e4c773f1159/55221203._SX500_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:25180654",
+    "title": "The Most Intimate Revelations about the Name of the Wind: The Kingkiller Chronicle: Day One",
+    "authorTitle": " The Most Intimate Revelations about the Name of the Wind: The Kingkiller Chronicle: Day One",
+    "overview": "In this book, we have hand-picked the most sophisticated, unanticipated, absorbing (if not at times crackpot!), original and musing book reviews of &quot;The Name of the Wind: The …",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 6,
+      "value": 4.83,
+      "popularity": 28.98
+    },
+    "author": {
+      "authorName": "John Eadling"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1369150486i/17963554._SX500_.jpg",
+        "url": "/MediaCoverProxy/1e1a2a8517ecfc61c4126f1a92f785c038af24fb6dc3c81718ee174b04e5736f/17963554._SX500_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:72815996",
+    "title": "Study Guide: The Name of the Wind by Patrick Rothfuss (SuperSummary)",
+    "authorTitle": " Study Guide: The Name of the Wind by Patrick Rothfuss (SuperSummary)",
+    "overview": "SuperSummary, a modern alternative to SparkNotes and CliffsNotes, offers high-quality study guides for challenging works of literature. This 78-page guide for “The Name of the…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 5,
+      "value": 4.4,
+      "popularity": 22
+    },
+    "author": {
+      "authorName": "SuperSummary"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1565677503l/51515553._SX500_SY750_.jpg",
+        "url": "/MediaCoverProxy/2c494ea7d344b0ec94dc868042fde420194cb9e3272a39bf7dcaddc2bff33428/51515553._SX500_SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:25177388",
+    "title": "You're Nose Is in My Crotch! and Other Things You Shouldn't Know about the Name of the Wind: Kingkiller Chronicles, Day 1",
+    "authorTitle": " You're Nose Is in My Crotch! and Other Things You Shouldn't Know about the Name of the Wind: Kingkiller Chronicles, Day 1",
+    "overview": "In this book, we have hand-picked the most sophisticated, unanticipated, absorbing (if not at times crackpot!), original and musing book reviews of &quot;The Name of the Wind: King…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 2,
+      "value": 3.0,
+      "popularity": 6
+    },
+    "author": {
+      "authorName": "Jack Manning"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1370232184i/17960301._SX500_.jpg",
+        "url": "/MediaCoverProxy/fd3c7b91eb5e17e1ff5ca300b7ac03dda5babe9c9ddfb14d4b36e67b29e83d2c/17960301._SX500_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:79106958",
+    "title": "Project Hail Mary",
+    "authorTitle": " Project Hail Mary",
+    "overview": "Ryland Grace is the sole survivor on a desperate, last-chance mission—and if he fails, humanity and the earth itself will perish.<br/><br/>Except that right now, he doesn’t know that. H…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 1809878,
+      "value": 4.51,
+      "popularity": 8162549.779999999
+    },
+    "author": {
+      "authorName": "Andy Weir"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1764703833i/54493401._SY750_.jpg",
+        "url": "/MediaCoverProxy/3cf00680a19dd37db777440204284700e10f815296223492607f08cece9c4596/54493401._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:91054370",
+    "title": "Project Hail Mary / Artemis/ The Martian",
+    "authorTitle": " Project Hail Mary / Artemis/ The Martian",
+    "overview": "Please Note That The Following Individual Books As Per Original ISBN and Cover Image In this Listing shall be Dispatched <br/><br/><br/>Project Hail Mary [Hardcover]<br/>Artemis<br/>The Martian<br/><br/>Andy We…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 790,
+      "value": 4.47,
+      "popularity": 3531.2999999999997
+    },
+    "author": {
+      "authorName": "Andy Weir"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1676421869i/119255205._SX500_.jpg",
+        "url": "/MediaCoverProxy/7f8d76d9bf7902f5400ecb36d9709879538c80e9e3cb18f72c02e0c4c3013fd0/119255205._SX500_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:90898733",
+    "title": "SUMMARY AND ANALYSIS OF PROJECT HAIL MARY BY ANDY WEIR",
+    "authorTitle": " SUMMARY AND ANALYSIS OF PROJECT HAIL MARY BY ANDY WEIR",
+    "overview": "Is it in your wish to read Project Hail Mary but you do not have much time to read through the large numbers of pages of the original book? then you are a lucky one. Good Read…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 23,
+      "value": 4.04,
+      "popularity": 92.92
+    },
+    "author": {
+      "authorName": "Good Reads Publishing"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1620667041i/58007522._SY750_.jpg",
+        "url": "/MediaCoverProxy/35cababd63f512f472ae070840a480d1555354cce5296d89bef23108c54b64c8/58007522._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:90988498",
+    "title": "Summary & Analysis of Andy Weir Book: Project Hail Mary (PressPrint)",
+    "authorTitle": " Summary & Analysis of Andy Weir Book: Project Hail Mary (PressPrint)",
+    "overview": "Rуlаnd Grace іѕ the ѕоlе survivor оf a suicide mіѕѕіоn tо ѕtор an аlіеn organism thаt fееdѕ on stars (&quot;Aѕtrорhаgе&quot;), whісh іѕ саuѕіng thе аросаlуріс ѕсеnаrіо of thе ѕun dimmin…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 20,
+      "value": 3.85,
+      "popularity": 77
+    },
+    "author": {
+      "authorName": "PressPrint"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1621158404i/58057170._SY750_.jpg",
+        "url": "/MediaCoverProxy/d99aed493f3ccc1c0e1b110e6b5b3abba3debd35d1656c553ff3afd44f639817/58057170._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:3634639",
+    "title": "Dune (Dune, #1)",
+    "authorTitle": " Dune (Dune, #1)",
+    "overview": "Set on the desert planet Arrakis, Dune is the story of the boy Paul Atreides, heir to a noble family tasked with ruling an inhospitable world where the only thing of value is …",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 1696613,
+      "value": 4.29,
+      "popularity": 7278469.7700000005
+    },
+    "author": {
+      "authorName": "Frank Herbert"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1555447414i/44767458._SY750_.jpg",
+        "url": "/MediaCoverProxy/90c0d745d2c999b05b2f7fb6fb6ffbd3229af21ef78eb77ffd173fc43248bf74/44767458._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:3634570",
+    "title": "Dune Messiah (Dune #2)",
+    "authorTitle": " Dune Messiah (Dune #2)",
+    "overview": "Book Two in the Magnificent Dune Chronicles--the Bestselling Science Fiction Adventure of All Time<br/><br/><i>Dune Messiah</i> continues the story of Paul Atreides, better known--and feared--…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 438333,
+      "value": 3.9,
+      "popularity": 1709498.7
+    },
+    "author": {
+      "authorName": "Frank Herbert"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1577043824i/44492285._SY750_.jpg",
+        "url": "/MediaCoverProxy/6d49f908599e78b46d4b0e764a296d7f56b41d4a68704984b1452da7116cfe1d/44492285._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:3634573",
+    "title": "Children of Dune (Dune #3)",
+    "authorTitle": " Children of Dune (Dune #3)",
+    "overview": "Book three in Frank Herbert&apos;s magnificent Dune Chronicles--one of the most significant sagas in the history of literary science fiction.<br/><br/>The Children of Dune are twin siblings …",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 267301,
+      "value": 3.95,
+      "popularity": 1055838.95
+    },
+    "author": {
+      "authorName": "Frank Herbert"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1564783201i/44492286._SY750_.jpg",
+        "url": "/MediaCoverProxy/3a91faa9c96ee0c15647b189a32ebd5432761fcad1b51013713791b83e28f15d/44492286._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:3634588",
+    "title": "God Emperor of Dune (Dune, #4)",
+    "authorTitle": " God Emperor of Dune (Dune, #4)",
+    "overview": "Book four in Frank Herbert&apos;s magnificent Dune Chronicles--one of the most significant sagas in the history of literary science fiction.<br/><br/>Millennia have passed on Arrakis, and th…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 156469,
+      "value": 3.88,
+      "popularity": 607099.72
+    },
+    "author": {
+      "authorName": "Frank Herbert"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1564025916i/44439415._SY750_.jpg",
+        "url": "/MediaCoverProxy/12fe74c30aee3f46c56c4a7c8ec92121f2e1fa5541dcb0a20255c08a3d47bad0/44439415._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:1278722",
+    "title": "The Butlerian Jihad (Legends of Dune, #1)",
+    "authorTitle": " The Butlerian Jihad (Legends of Dune, #1)",
+    "overview": "Legends of Dune:The Butlerian Jihad It began in the Time of Tyrants, when ambitious men and women used high-powered computers to seize control of the heart of the Old Empire i…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 95604,
+      "value": 4.02,
+      "popularity": 384328.07999999996
+    },
+    "author": {
+      "authorName": "Brian Herbert"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1505458671i/99219._SX500_.jpg",
+        "url": "/MediaCoverProxy/353d282c91214933b8c3f94a9db0ebd02ac9e235680e3f5524a1bf0552518a19/99219._SX500_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:1540236",
+    "title": "The Hobbit, or There and Back Again",
+    "authorTitle": " The Hobbit, or There and Back Again",
+    "overview": "In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 4605009,
+      "value": 4.3,
+      "popularity": 19801538.7
+    },
+    "author": {
+      "authorName": "J.R.R. Tolkien"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1546071216i/5907._SY750_.jpg",
+        "url": "/MediaCoverProxy/8af4d7e376e8fd9650b4d2db7ceebf08a1fb3fcb65a0a12e0b3e3c8f77a29cad/5907._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:16998382",
+    "title": "The Hobbit",
+    "authorTitle": " The Hobbit",
+    "overview": "Pubblicato per la prima volta nel 1937, &quot;Lo Hobbit&quot; di J.R.R. Tolkien è uno dei testi più amati di tutti i tempi. Il classico di Tolkien diventa un racconto illustrato dalla p…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 281582,
+      "value": 4.51,
+      "popularity": 1269934.8199999998
+    },
+    "author": {
+      "authorName": "Chuck Dixon"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1374681632i/659469._SY750_.jpg",
+        "url": "/MediaCoverProxy/4057e2a47f66c3c2ca12fd347a5096d234cb4e54359d87fa8d2dc07cea77042d/659469._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:59418655",
+    "title": "The Hobbit, Part One",
+    "authorTitle": " The Hobbit, Part One",
+    "overview": "Smaug certainly looked fast asleep, when Bilbo peeped once more from the entrance. He was just about to step out onto the floor when he caught a sudden thin ray of red from un…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 386157,
+      "value": 4.32,
+      "popularity": 1668198.2400000002
+    },
+    "author": {
+      "authorName": "J.R.R. Tolkien"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1371834025i/17157681._SY750_.jpg",
+        "url": "/MediaCoverProxy/3cc0e9023242d1659caa388663d7b652a2165b6c018c73110fc29f34a84b8033/17157681._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:1068303",
+    "title": "The History of the Hobbit, Part One: Mr. Baggins",
+    "authorTitle": " The History of the Hobbit, Part One: Mr. Baggins",
+    "overview": "First published in 1938, The Hobbit is a story that “grew in the telling,” and many characters and events in the published book are completely different from what Tolkien firs…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 104908,
+      "value": 3.81,
+      "popularity": 399699.48
+    },
+    "author": {
+      "authorName": "John D. Rateliff"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1388670262i/1081560._SY750_.jpg",
+        "url": "/MediaCoverProxy/f3fcf2d774f8334eccedc643e7f539238c71f33aa3d46a499ac84943be4241b9/1081560._SY750_.jpg"
+      }
+    ]
+  },
+  {
+    "foreignBookId": "gr:89369",
+    "title": "J.R.R. Tolkien 4-Book Boxed Set: The Hobbit and The Lord of the Rings",
+    "authorTitle": " J.R.R. Tolkien 4-Book Boxed Set: The Hobbit and The Lord of the Rings",
+    "overview": "These magical adaptations became instant classics when they were first broadcast on BBC Radio 4, and continue to delight today. Tolkien&apos;s epic tale of Middle-earth has all the…",
+    "mediaType": "audiobook",
+    "authorId": 0,
+    "monitored": false,
+    "hasFiles": false,
+    "pageCount": 0,
+    "genres": [],
+    "ratings": {
+      "votes": 146979,
+      "value": 4.62,
+      "popularity": 679042.98
+    },
+    "author": {
+      "authorName": "J.R.R. Tolkien"
+    },
+    "images": [
+      {
+        "coverType": "cover",
+        "remoteUrl": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1656625315i/30._SX500_.jpg",
+        "url": "/MediaCoverProxy/767de0059955b01808b8bc08ac202b6d8f8d718113eb5c2fb2551c0654dc0ca6/30._SX500_.jpg"
+      }
+    ]
+  }
+]
