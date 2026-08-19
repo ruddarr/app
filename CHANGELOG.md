@@ -11,13 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ## 2.0.1 - 2026-08-19
-### Added
 ### Changed
-- Deleted tasks remaining in the queue until the next refresh
-- Collapse descriptions when tapping again
+- Collapse descriptions when tapping them again
+- Remove deleted tasks from queue instantaneously 
 
 ### Fixed
-- Fixed a false connection failure when during cold start
+- Fixed a false connection failure during cold start
 - Fixed a stale movie files being shown after a successful refresh
 
 ## 2.0.0 - 2026-08-12
