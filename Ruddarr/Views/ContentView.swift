@@ -53,7 +53,7 @@ struct ContentView: View {
         .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
-        .testFlightNotice()
+        // .testFlightNotice()
     }
 
     var movies: TabItem { .movies }
