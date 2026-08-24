@@ -1,1 +1,1 @@
-
+- Added landscape orientation support on iPhone

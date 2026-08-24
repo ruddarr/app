@@ -234,8 +234,12 @@ struct MediaDetailsPosterModifier: ViewModifier {
             if deviceType == .phone {
                 let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
                 let scene = scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
+                let bounds = scene?.keyWindow?.bounds
 
-                return (scene?.keyWindow?.bounds.width ?? 390) * 0.4
+                // size off the short side, so the poster keeps its portrait size in landscape
+                let shortSide = min(bounds?.width ?? 390, bounds?.height ?? 844)
+
+                return min(shortSide * 0.4, 200)
             }
 
             return 200
