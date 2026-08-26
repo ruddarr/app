@@ -1,1 +1,2 @@
-
+Fixed
+- Dismiss release search screen when search fails
