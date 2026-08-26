@@ -12,6 +12,7 @@ struct MovieReleasesView: View {
     @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         List {
@@ -50,7 +51,10 @@ struct MovieReleasesView: View {
             isPresented: instance.releases.errorBinding,
             error: instance.releases.error
         ) { _ in
-            Button("OK") { instance.releases.error = nil }
+            Button("OK") {
+                instance.releases.error = nil
+                dismiss()
+            }
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }.tint(nil)
