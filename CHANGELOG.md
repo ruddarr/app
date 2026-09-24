@@ -8,8 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Added
 ### Changed
+- Animate rows being added on movie and series details
 ### Fixed
 - Dismiss release search screen when search fails
+- Drop the decimal when a queue task reaches 100%
 
 ## 2.0.1 - 2026-08-19
 ### Changed
