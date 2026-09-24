@@ -86,6 +86,8 @@ struct SeriesDetails: View {
                 )
             }
         }
+        .animation(.snappy, value: series)
+        .animation(.snappy, value: nextEpisode)
     }
 
     var actions: some View {
@@ -159,6 +161,7 @@ struct SeriesDetails: View {
                     }.buttonStyle(.plain)
                 }
             }
+            .animation(.snappy, value: series.seasons)
         } header: {
             Text("Seasons")
                 .font(.title2.bold())

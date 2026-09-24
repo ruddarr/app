@@ -191,8 +191,13 @@ struct QueueItem: Codable, Identifiable, Equatable {
     }
 
     var progressLabel: String {
-        guard sizeleft > 0 else { return 100.formatted(.percent) }
-        return ((size - sizeleft) / size).formatted(.percent.precision(.fractionLength(1)))
+        let progress = sizeleft > 0 ? (size - sizeleft) / size : 1
+
+        guard progress < 0.9995 else {
+            return 100.formatted(.percent)
+        }
+
+        return progress.formatted(.percent.precision(.fractionLength(1)))
     }
 
     var remainingLabel: String? {

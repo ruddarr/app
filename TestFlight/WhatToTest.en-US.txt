@@ -1,2 +1,6 @@
+Changed
+- Animate rows being added on movie and series details
+
 Fixed
 - Dismiss release search screen when search fails
+- Drop the decimal when a queue task reaches 100%
