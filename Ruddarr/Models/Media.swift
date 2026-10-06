@@ -221,6 +221,7 @@ func mediaDetailsSubtitles(_ file: MediaFile?, _ deviceType: DeviceType) -> Stri
 
 struct MediaDetailsPosterModifier: ViewModifier {
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     func body(content: Content) -> some View {
         content.frame(width: posterWidth, height: posterWidth * 1.5)
@@ -232,6 +233,10 @@ struct MediaDetailsPosterModifier: ViewModifier {
             return PosterMetrics.shared.gridWidth
         #else
             if deviceType == .phone {
+                if horizontalSizeClass == .regular {
+                    return 180
+                }
+
                 let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
                 let scene = scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
 
