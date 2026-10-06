@@ -53,6 +53,10 @@ struct ContentView: View {
             .defaultVisibility(.hidden, for: .tabBar)
         }
         .tabViewStyle(.sidebarAdaptable)
+        .tabViewSidebarHeader {
+            SidebarTitle(title: Ruddarr.name)
+                .frame(height: 0)
+        }
         .tabViewCustomization($tabCustomization)
         .tabBarMinimizeBehavior(.never)
         .onAppear {
@@ -98,6 +102,42 @@ struct ContentView: View {
         switch to {
         case .calendar: NotificationCenter.default.post(name: .scrollToToday)
         default: break
+        }
+    }
+}
+
+private struct SidebarTitle: UIViewRepresentable {
+    let title: String
+
+    func makeUIView(context: Context) -> TitleView {
+        let view = TitleView()
+        view.title = title
+        return view
+    }
+
+    func updateUIView(_ view: TitleView, context: Context) {}
+
+    final class TitleView: UIView {
+        var title = ""
+
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+
+            for view in sequence(first: self as UIView, next: \.superview) {
+                guard let bar = view.subviews.lazy.compactMap({ $0 as? UINavigationBar }).first else {
+                    continue
+                }
+
+                bar.topItem?.title = title
+                bar.topItem?.largeTitleDisplayMode = .inline
+                bar.prefersLargeTitles = true
+
+                for case let scrollView as UIScrollView in view.subviews {
+                    scrollView.topEdgeEffect.isHidden = true
+                }
+
+                return
+            }
         }
     }
 }
