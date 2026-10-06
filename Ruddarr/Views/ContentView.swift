@@ -8,6 +8,18 @@ struct ContentView: View {
     @Environment(\.deviceType) private var deviceType
 
     var body: some View {
+        if #available(iOS 27.0, *), deviceType == .phone {
+            GeometryReader { geometry in
+                content.defaultTabBarPlacement(
+                    geometry.size.width > geometry.size.height ? .sidebar : .tabBar
+                )
+            }
+        } else {
+            content
+        }
+    }
+
+    var content: some View {
         TabView(selection: selectedTab) {
             Tab(movies.label, image: movies.icon, value: movies) {
                 MoviesView()
