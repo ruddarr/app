@@ -11,7 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Open movies and series from Shortcuts and Siri on iOS 27
 - Add movies and series from Shortcuts and Siri
 - Start automatic searches from Shortcuts
-- Search for all missing movies and episodes from Shortcuts
 - Get upcoming releases from Shortcuts
 
 ### Changed
