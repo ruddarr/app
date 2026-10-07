@@ -7,7 +7,7 @@ struct AddMovieIntent: AppIntent {
         "Adds a movie to Radarr by title or IMDb link, using the last settings used in the app. Asks which one when there are several matches."
     )
 
-    @Parameter(title: "Title", description: "Movie title, IMDb link, `imdb:` or `tmdb:` identifier.")
+    @Parameter(title: "Title", description: "Movie title, IMDb link, `imdb:` or `tmdb:` identifier.", requestValueDialog: "Which movie?")
     var query: String
 
     @Parameter(title: "Automatic Search", default: false)
@@ -26,7 +26,7 @@ struct AddMovieIntent: AppIntent {
             try await dependencies.api.radarr.lookup(instance, lookupTerm(query))
         }
 
-        guard var movie = try await choose(results, { resultLabel($0.title, $0.year) }, "Which movie do you want to add?") else {
+        guard var movie = try await choose(results, { choiceLabel($0.title, $0.year, $0.exists) }, "Which movie do you want to add?") else {
             throw AppError(String(localized: "No movie found matching “\(query)”."))
         }
 
@@ -65,7 +65,7 @@ struct AddSeriesIntent: AppIntent {
         "Adds a series to Sonarr by title or IMDb link, using the last settings used in the app. Asks which one when there are several matches."
     )
 
-    @Parameter(title: "Title", description: "Series title, IMDb link, `imdb:` or `tvdb:` identifier.")
+    @Parameter(title: "Title", description: "Series title, IMDb link, `imdb:` or `tvdb:` identifier.", requestValueDialog: "Which series?")
     var query: String
 
     @Parameter(title: "Monitor", description: "Which episodes to monitor. Defaults to the last option used in the app.")
@@ -88,7 +88,7 @@ struct AddSeriesIntent: AppIntent {
             try await dependencies.api.sonarr.lookup(instance, lookupTerm(query))
         }
 
-        guard var series = try await choose(results, { resultLabel($0.title, $0.year) }, "Which series do you want to add?") else {
+        guard var series = try await choose(results, { choiceLabel($0.title, $0.year, $0.exists) }, "Which series do you want to add?") else {
             throw AppError(String(localized: "No series found matching “\(query)”."))
         }
 
@@ -328,6 +328,12 @@ private func addedMessage(_ label: String, alreadyAdded: Bool, search: Bool) -> 
 
 private func resultLabel(_ title: String, _ year: Int) -> String {
     year > 0 ? "\(title) (\(year))" : title
+}
+
+private func choiceLabel(_ title: String, _ year: Int, _ exists: Bool) -> String {
+    let label = resultLabel(title, year)
+
+    return exists ? String(localized: "\(label) · In Library") : label
 }
 
 private func lookupTerm(_ query: String) -> String {
