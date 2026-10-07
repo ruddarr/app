@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support iPhone Duo
 - Open movies and series from Shortcuts and Siri
 - Search Ruddarr with Siri on iOS 27
+- Add movies and series and start automatic searches from Shortcuts
+- Get upcoming releases from Shortcuts and Siri
 
 ### Changed
 - Adapt sheet heights to shorter displays

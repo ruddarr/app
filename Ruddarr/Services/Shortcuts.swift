@@ -27,6 +27,17 @@ struct Shortcuts: AppShortcutsProvider {
         )
 
         AppShortcut(
+            intent: UpcomingReleasesIntent(),
+            phrases: [
+                "What's coming up in \(.applicationName)",
+                "Show upcoming releases in \(.applicationName)",
+                "Read the \(.applicationName) calendar",
+            ],
+            shortTitle: "Upcoming Releases",
+            systemImageName: "calendar"
+        )
+
+        AppShortcut(
             intent: OpenAppIntent(),
             phrases: [
                 "Open \(.applicationName)",
