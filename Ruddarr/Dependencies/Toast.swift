@@ -152,9 +152,9 @@ extension Toast {
         message.view
             .padding()
             .glassEffect()
-            .overlay(
+            .overlay {
                 Capsule().stroke(.ultraThinMaterial, lineWidth: 1)
-            )
+            }
             .foregroundStyle(message.tint)
             .scenePadding(.horizontal)
             .scenePadding(.horizontal)
