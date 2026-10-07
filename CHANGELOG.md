@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Added
 - Support iPhone Duo
+- Open movies and series from Shortcuts and Siri on iOS 27
 
 ### Changed
 - Adapt sheet heights to shorter displays

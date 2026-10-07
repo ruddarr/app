@@ -148,7 +148,7 @@ class SeriesModel {
             items = try await dependencies.api.sonarr.fetch(instance)
             itemsCount = items.count
             computeAlternateTitles()
-            await Spotlight(instance.id).index(items, delay: .seconds(5))
+            await Spotlight(instance.id).index(items, from: instance, delay: .seconds(5))
 
             leaveBreadcrumb(.info, category: "series", message: "Fetched series", data: ["count": items.count])
 

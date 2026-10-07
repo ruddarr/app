@@ -1,4 +1,5 @@
 import SwiftUI
+import AppIntents
 
 struct SeriesDetailView: View {
     @Binding var series: Series
@@ -21,6 +22,7 @@ struct SeriesDetailView: View {
                 .padding(.top)
                 .containerHorizontalMargins()
                 .environment(settings)
+                .appEntityIdentifier(SeriesEntity.entityIdentifier(series))
         }
         .refreshable {
             await Task { await reload() }.value
