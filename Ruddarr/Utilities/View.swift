@@ -65,13 +65,6 @@ extension View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
     }
 
-    func presentationDetents(
-        dynamic: Set<PresentationDetent>,
-        selection: Binding<PresentationDetent>
-    ) -> some View {
-        self.modifier(DynamicPresentationDetents(detents: dynamic, selection: selection))
-    }
-
     func sensoryAlert<E: LocalizedError, A: View, M: View>(
         isPresented: Binding<Bool>,
         error: E?,
@@ -174,66 +167,54 @@ struct MacPreviewFrame: ViewModifier {
 
 private struct DynamicPresentationDetents: ViewModifier {
     var detents: Set<PresentationDetent>
-    var selection: Binding<PresentationDetent>?
 
-    @Environment(\.sizeCategory) private var sizeCategory
-
-    @ViewBuilder
     func body(content: Content) -> some View {
-        if let selection {
-            content.presentationDetents(adjustedDetents, selection: selection)
-        } else {
-            content.presentationDetents(adjustedDetents)
-        }
+        content.presentationDetents(Set(detents.map(adaptive)))
     }
 
-    var adjustedDetents: Set<PresentationDetent> {
-        Set(detents.map {
-            switch $0 {
-            case .medium: medium
-            case .fraction(0.25): quarter
-            case .fraction(0.33): third
-            case .fraction(0.7): seventy
-            default: $0
-            }
-        })
-    }
-
-    var medium: PresentationDetent {
-        switch sizeCategory {
-        case .extraSmall, .small, .medium, .large, .extraLarge:
-            .medium
-        default:
-            .fraction(0.8)
+    func adaptive(_ detent: PresentationDetent) -> PresentationDetent {
+        switch detent {
+        case .fraction(0.25): .custom(QuarterDetent.self)
+        case .fraction(0.33): .custom(ThirdDetent.self)
+        case .medium: .custom(MediumDetent.self)
+        case .fraction(0.7): .custom(SeventyDetent.self)
+        default: detent
         }
     }
+}
 
-    var quarter: PresentationDetent {
-        switch sizeCategory {
-        case .extraSmall, .small, .medium, .large, .extraLarge:
-            .fraction(0.25)
-        default:
-            .fraction(0.35)
-        }
-    }
+private protocol AdaptiveDetent: CustomPresentationDetent {
+    static var fraction: CGFloat { get }
+    static var expandedFraction: CGFloat { get }
+}
 
-    var third: PresentationDetent {
-        switch sizeCategory {
-        case .extraSmall, .small, .medium, .large, .extraLarge:
-            .fraction(0.33)
-        default:
-            .fraction(0.45)
-        }
-    }
+extension AdaptiveDetent {
+    static func height(in context: Context) -> CGFloat? {
+        let isShortPhone = Platform.deviceType == .phone && context.maxDetentValue < 700
+        let expanded = context.dynamicTypeSize > .xLarge || isShortPhone
 
-    var seventy: PresentationDetent {
-        switch sizeCategory {
-        case .extraSmall, .small, .medium, .large, .extraLarge:
-            .fraction(0.7)
-        default:
-            .fraction(0.9)
-        }
+        return context.maxDetentValue * (expanded ? expandedFraction : fraction)
     }
+}
+
+private struct QuarterDetent: AdaptiveDetent {
+    static let fraction: CGFloat = 0.25
+    static let expandedFraction: CGFloat = 0.35
+}
+
+private struct ThirdDetent: AdaptiveDetent {
+    static let fraction: CGFloat = 0.33
+    static let expandedFraction: CGFloat = 0.45
+}
+
+private struct MediumDetent: AdaptiveDetent {
+    static let fraction: CGFloat = 0.5
+    static let expandedFraction: CGFloat = 0.8
+}
+
+private struct SeventyDetent: AdaptiveDetent {
+    static let fraction: CGFloat = 0.7
+    static let expandedFraction: CGFloat = 0.9
 }
 
 enum NavigationBarItemTitleDisplayMode {
