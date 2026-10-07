@@ -19,35 +19,44 @@ struct UpcomingReleasesIntent: AppIntent {
         let end = calendar.date(byAdding: .day, value: span, to: start) ?? start
         let instances = await MainActor.run { AppSettings.shared.configuredInstances }
 
-        let results = await withTaskGroup(of: [UpcomingRelease]?.self, returning: [[UpcomingRelease]?].self) { group in
+        var releases: [UpcomingRelease] = []
+        var failures: [InstanceFailure] = []
+
+        await withTaskGroup(of: (Instance, Result<[UpcomingRelease], any Error>).self) { group in
             for instance in instances {
                 group.addTask {
-                    try? await upcomingReleases(instance, start..<end)
+                    do {
+                        let items = try await upcomingReleases(instance, start..<end)
+                        return (instance, .success(items))
+                    } catch {
+                        return (instance, .failure(error))
+                    }
                 }
             }
 
-            var results: [[UpcomingRelease]?] = []
-
-            for await result in group {
-                results.append(result)
+            for await (instance, result) in group {
+                switch result {
+                case .success(let items): releases += items
+                case .failure(let error): failures.append((instance: instance, error: error))
+                }
             }
-
-            return results
         }
 
-        if !results.isEmpty, results.allSatisfy({ $0 == nil }) {
-            throw AppError(String(localized: "Failed to load the calendar."))
+        if !failures.isEmpty, failures.count == instances.count {
+            throw AppError(instanceErrorMessage(failures))
         }
 
-        let lines = results
-            .compactMap { $0 }
-            .joined()
+        let lines = releases
             .sorted { $0.date < $1.date }
             .map(\.text)
 
-        let summary = lines.isEmpty
+        var summary = lines.isEmpty
             ? String(localized: "Nothing is releasing in the next \(span) days.")
             : lines.prefix(10).joined(separator: "\n")
+
+        if !failures.isEmpty {
+            summary += "\n" + instanceErrorMessage(failures)
+        }
 
         return .result(value: lines, dialog: "\(summary)")
     }

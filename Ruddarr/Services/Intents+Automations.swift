@@ -3,7 +3,9 @@ import AppIntents
 
 struct AddMovieIntent: AppIntent {
     static let title: LocalizedStringResource = "Add Movie"
-    static let description: IntentDescription? = IntentDescription("Adds the best match for a title or IMDb link to Radarr, using the last settings used in the app.")
+    static let description: IntentDescription? = IntentDescription(
+        "Adds a movie to Radarr by title or IMDb link, using the last settings used in the app. Asks which one when there are several matches."
+    )
 
     @Parameter(title: "Title", description: "Movie title, IMDb link, `imdb:` or `tmdb:` identifier.")
     var query: String
@@ -20,7 +22,9 @@ struct AddMovieIntent: AppIntent {
     func perform() async throws -> some IntentResult & ReturnsValue<MovieEntity> & ProvidesDialog {
         let instance = try await preferredInstance(.radarr)
 
-        let results = try await dependencies.api.radarr.lookup(instance, lookupTerm(query))
+        let results = try await requesting(instance) {
+            try await dependencies.api.radarr.lookup(instance, lookupTerm(query))
+        }
 
         guard var movie = try await choose(results, { resultLabel($0.title, $0.year) }, "Which movie do you want to add?") else {
             throw AppError(String(localized: "No movie found matching “\(query)”."))
@@ -32,36 +36,47 @@ struct AddMovieIntent: AppIntent {
             let defaults = dependencies.store.string(forKey: "movieDefaults")
                 .flatMap(MovieDefaults.init(rawValue:)) ?? MovieDefaults()
 
-            let profiles = try await dependencies.api.instance.qualityProfiles(instance)
-            let folders = try await dependencies.api.instance.rootFolders(instance)
+            movie = try await requesting(instance) { [movie] in
+                let profiles = try await dependencies.api.instance.qualityProfiles(instance)
+                let folders = try await dependencies.api.instance.rootFolders(instance)
 
-            movie.applyDefaults(defaults, profiles, folders)
+                var candidate = movie
+                candidate.applyDefaults(defaults, profiles, folders)
 
-            movie = try await dependencies.api.radarr.add(movie, instance)
+                return try await dependencies.api.radarr.add(candidate, instance)
+            }
         }
 
         if search {
-            _ = try await dependencies.api.instance.command(.search([movie.id]), instance)
+            _ = try await requesting(instance) {
+                try await dependencies.api.instance.command(.search([movie.id]), instance)
+            }
         }
 
         let message = addedMessage(resultLabel(movie.title, movie.year), alreadyAdded: alreadyAdded, search: search)
 
-        return .result(value: MovieEntity(movie, instance.id), dialog: "\(message)")
+        return .result(value: MovieEntity(movie, instance), dialog: "\(message)")
     }
 }
 
 struct AddSeriesIntent: AppIntent {
     static let title: LocalizedStringResource = "Add Series"
-    static let description: IntentDescription? = IntentDescription("Adds the best match for a title or IMDb link to Sonarr, using the last settings used in the app.")
+    static let description: IntentDescription? = IntentDescription(
+        "Adds a series to Sonarr by title or IMDb link, using the last settings used in the app. Asks which one when there are several matches."
+    )
 
     @Parameter(title: "Title", description: "Series title, IMDb link, `imdb:` or `tvdb:` identifier.")
     var query: String
+
+    @Parameter(title: "Monitor", description: "Which episodes to monitor. Defaults to the last option used in the app.")
+    var monitor: SeriesMonitorOption?
 
     @Parameter(title: "Automatic Search", default: false)
     var search: Bool
 
     static var parameterSummary: some ParameterSummary {
         Summary("Add \(\.$query) to Sonarr") {
+            \.$monitor
             \.$search
         }
     }
@@ -69,7 +84,9 @@ struct AddSeriesIntent: AppIntent {
     func perform() async throws -> some IntentResult & ReturnsValue<SeriesEntity> & ProvidesDialog {
         let instance = try await preferredInstance(.sonarr)
 
-        let results = try await dependencies.api.sonarr.lookup(instance, lookupTerm(query))
+        let results = try await requesting(instance) {
+            try await dependencies.api.sonarr.lookup(instance, lookupTerm(query))
+        }
 
         guard var series = try await choose(results, { resultLabel($0.title, $0.year) }, "Which series do you want to add?") else {
             throw AppError(String(localized: "No series found matching “\(query)”."))
@@ -81,21 +98,28 @@ struct AddSeriesIntent: AppIntent {
             let defaults = dependencies.store.string(forKey: "seriesDefaults")
                 .flatMap(SeriesDefaults.init(rawValue:)) ?? SeriesDefaults()
 
-            let profiles = try await dependencies.api.instance.qualityProfiles(instance)
-            let folders = try await dependencies.api.instance.rootFolders(instance)
+            let monitorType = monitor?.type ?? defaults.monitor
 
-            series.applyDefaults(defaults, profiles, folders)
+            series = try await requesting(instance) { [series] in
+                let profiles = try await dependencies.api.instance.qualityProfiles(instance)
+                let folders = try await dependencies.api.instance.rootFolders(instance)
 
-            series = try await dependencies.api.sonarr.add(series, instance)
+                var candidate = series
+                candidate.applyDefaults(defaults, monitorType, profiles, folders)
+
+                return try await dependencies.api.sonarr.add(candidate, instance)
+            }
         }
 
         if search {
-            _ = try await dependencies.api.instance.command(.seriesSearch(series.id), instance)
+            _ = try await requesting(instance) {
+                try await dependencies.api.instance.command(.seriesSearch(series.id), instance)
+            }
         }
 
         let message = addedMessage(resultLabel(series.title, series.year), alreadyAdded: alreadyAdded, search: search)
 
-        return .result(value: SeriesEntity(series, instance.id), dialog: "\(message)")
+        return .result(value: SeriesEntity(series, instance), dialog: "\(message)")
     }
 }
 
@@ -113,7 +137,9 @@ struct MovieAutomaticSearchIntent: AppIntent {
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let instance = try await instanceById(target.instanceId)
 
-        _ = try await dependencies.api.instance.command(.search([target.movieId]), instance)
+        _ = try await requesting(instance) {
+            try await dependencies.api.instance.command(.search([target.movieId]), instance)
+        }
 
         let message = String(localized: "Started searching for \(target.title).")
 
@@ -135,7 +161,9 @@ struct SeriesAutomaticSearchIntent: AppIntent {
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let instance = try await instanceById(target.instanceId)
 
-        _ = try await dependencies.api.instance.command(.seriesSearch(target.seriesId), instance)
+        _ = try await requesting(instance) {
+            try await dependencies.api.instance.command(.seriesSearch(target.seriesId), instance)
+        }
 
         let message = String(localized: "Started searching for \(target.title).")
 
@@ -162,7 +190,7 @@ struct MissingSearchIntent: AppIntent {
             throw AppError(String(localized: "No instances configured."))
         }
 
-        let failed = await withTaskGroup(of: Instance?.self, returning: [Instance].self) { group in
+        let failures = await withTaskGroup(of: InstanceFailure?.self, returning: [InstanceFailure].self) { group in
             for instance in instances {
                 group.addTask {
                     let command: InstanceCommand = instance.type == .radarr ? .missingMoviesSearch : .missingEpisodesSearch
@@ -171,27 +199,25 @@ struct MissingSearchIntent: AppIntent {
                         _ = try await dependencies.api.instance.command(command, instance)
                         return nil
                     } catch {
-                        return instance
+                        return (instance: instance, error: error)
                     }
                 }
             }
 
-            var failed: [Instance] = []
+            var failures: [InstanceFailure] = []
 
-            for await instance in group {
-                if let instance { failed.append(instance) }
+            for await failure in group {
+                if let failure { failures.append(failure) }
             }
 
-            return failed
+            return failures
         }
 
-        let failedLabels = failed.map(\.label).formatted(.list(type: .and))
-
-        if failed.count == instances.count {
-            throw AppError(String(localized: "Couldn't start the search on \(failedLabels)."))
+        if failures.count == instances.count {
+            throw AppError(instanceErrorMessage(failures))
         }
 
-        let started = Set(instances.filter { instance in !failed.contains { $0.id == instance.id } }.map(\.type))
+        let started = Set(instances.filter { instance in !failures.contains { $0.instance.id == instance.id } }.map(\.type))
 
         var message = if started == [.radarr] {
             String(localized: "Started searching for missing movies.")
@@ -201,8 +227,8 @@ struct MissingSearchIntent: AppIntent {
             String(localized: "Started searching for missing movies and episodes.")
         }
 
-        if !failed.isEmpty {
-            message += " " + String(localized: "Couldn't start the search on \(failedLabels).")
+        if !failures.isEmpty {
+            message += " " + instanceErrorMessage(failures)
         }
 
         return .result(dialog: "\(message)")
@@ -227,6 +253,53 @@ enum MissingSearchScope: String, CaseIterable, AppEnum {
         case .all: [.radarr, .sonarr]
         case .movies: [.radarr]
         case .series: [.sonarr]
+        }
+    }
+}
+
+enum SeriesMonitorOption: String, CaseIterable, AppEnum {
+    case all
+    case future
+    case missing
+    case existing
+    case firstSeason
+    case lastSeason
+    case pilot
+    case recent
+    case monitorSpecials
+    case unmonitorSpecials
+    case none
+
+    static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Monitor")
+
+    // Mirrors the options and labels of `SeriesForm.monitoringField`
+    static var caseDisplayRepresentations: [Self: DisplayRepresentation] {[
+        .all: "All Episodes",
+        .future: "Future Episodes",
+        .missing: "Missing Episodes",
+        .existing: "Existing Episodes",
+        .firstSeason: "First Season",
+        .lastSeason: "Last Season",
+        .pilot: "Pilot Episode",
+        .recent: "Recent Episodes",
+        .monitorSpecials: "Monitor Specials",
+        .unmonitorSpecials: "Unmonitor Specials",
+        .none: "None",
+    ]}
+
+    var type: SeriesMonitorType {
+        switch self {
+        case .all: .all
+        case .future: .future
+        case .missing: .missing
+        case .existing: .existing
+        case .firstSeason: .firstSeason
+        case .lastSeason: .lastSeason
+        case .pilot: .pilot
+        case .recent: .recent
+        case .monitorSpecials: .monitorSpecials
+        case .unmonitorSpecials: .unmonitorSpecials
+        case .none: .none
         }
     }
 }
@@ -300,8 +373,13 @@ private extension Movie {
 }
 
 private extension Series {
-    mutating func applyDefaults(_ defaults: SeriesDefaults, _ profiles: [InstanceQualityProfile], _ folders: [InstanceRootFolder]) {
-        addOptions = SeriesAddOptions(monitor: defaults.monitor)
+    mutating func applyDefaults(
+        _ defaults: SeriesDefaults,
+        _ monitor: SeriesMonitorType,
+        _ profiles: [InstanceQualityProfile],
+        _ folders: [InstanceRootFolder]
+    ) {
+        addOptions = SeriesAddOptions(monitor: monitor)
         monitorNewItems = nil
         seasonFolder = defaults.seasonFolder
 
