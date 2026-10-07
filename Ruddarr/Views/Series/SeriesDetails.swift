@@ -11,6 +11,7 @@ struct SeriesDetails: View {
     @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
     @Environment(\.deviceType) var deviceType
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -58,8 +59,8 @@ struct SeriesDetails: View {
 
             Spacer()
         }
-        .onAppear {
-            descriptionTruncated = deviceType == .phone
+        .onChange(of: horizontalSizeClass, initial: true) {
+            descriptionTruncated = deviceType == .phone && horizontalSizeClass != .regular
         }
     }
 
