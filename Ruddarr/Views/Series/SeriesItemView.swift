@@ -1,4 +1,5 @@
 import SwiftUI
+import AppIntents
 
 struct SeriesDetailView: View {
     @Binding var series: Series
@@ -26,6 +27,7 @@ struct SeriesDetailView: View {
             await Task { await reload() }.value
         }
         .safeNavigationBarTitleDisplayMode(.inline)
+        .appEntityIdentifier(SeriesEntity.entityIdentifier(series))
         .toolbar {
             CalendarSheetAwareToolbar(deeplink: deeplink)
             toolbarMonitorButton.preferVerticalToolbar()

@@ -1,4 +1,5 @@
 import SwiftUI
+import AppIntents
 
 struct MovieView: View {
     @Binding var movie: Movie
@@ -24,6 +25,7 @@ struct MovieView: View {
             await Task { await reload() }.value
         }
         .safeNavigationBarTitleDisplayMode(.inline)
+        .appEntityIdentifier(MovieEntity.entityIdentifier(movie))
         .toolbar {
             CalendarSheetAwareToolbar(deeplink: movie.deeplink)
             toolbarMonitorButton.preferVerticalToolbar()
