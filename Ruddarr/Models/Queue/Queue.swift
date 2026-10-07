@@ -24,6 +24,8 @@ class Queue {
     var itemsWithIssues: Int = 0
 
     private var revision: Int = 0
+    private var deletedItems: [Instance.ID: Set<QueueItem.ID>] = [:]
+    private var deletedDownloads: [Instance.ID: Set<String>] = [:]
 
     let statuses = CurrentValueSubject<[QueueKey: QueueItemStatus], Never>([:])
     private(set) var active: [QueueItem] = []
@@ -54,18 +56,25 @@ class Queue {
 
         let fetchRevision = revision
 
-        await withThrowingTaskGroup(of: (Instance.ID, [QueueItem]).self) { group in
+        await withThrowingTaskGroup(of: (Instance.ID, QueueItems).self) { group in
             for instance in instances {
                 group.addTask {
-                    (instance.id, try await dependencies.api.instance.queue(instance).records)
+                    (instance.id, try await dependencies.api.instance.queue(instance))
                 }
             }
 
             while let result = await group.nextResult() {
                 switch result {
-                case .success(let (instanceId, records)):
+                case .success(let (instanceId, queue)):
                     if fetchRevision == revision {
-                        items[instanceId] = records
+                        if queue.totalRecords <= queue.records.count {
+                            deletedItems[instanceId]?.formIntersection(queue.records.map(\.id))
+                            deletedDownloads[instanceId]?.formIntersection(queue.records.compactMap(\.downloadId))
+                        }
+
+                        items[instanceId] = queue.records.filter {
+                            !isDeleted($0, instanceId: instanceId)
+                        }
                     }
                 case .failure(is CancellationError):
                     break
@@ -139,9 +148,21 @@ class Queue {
         guard let instanceId = item.instanceId else { return }
 
         revision += 1
-        items[instanceId]?.removeAll { $0.id == item.id }
+        deletedItems[instanceId, default: []].insert(item.id)
+
+        if let downloadId = item.downloadId {
+            deletedDownloads[instanceId, default: []].insert(downloadId)
+        }
+
+        items[instanceId]?.removeAll { isDeleted($0, instanceId: instanceId) }
 
         recomputeDerivedState()
+    }
+
+    private func isDeleted(_ item: QueueItem, instanceId: Instance.ID) -> Bool {
+        if deletedItems[instanceId]?.contains(item.id) == true { return true }
+        guard let downloadId = item.downloadId else { return false }
+        return deletedDownloads[instanceId]?.contains(downloadId) == true
     }
 
     func refreshDownloadClients() async {

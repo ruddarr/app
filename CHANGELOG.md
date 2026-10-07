@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Dismiss release search screen when search fails
 - Drop the decimal when a queue task reaches 100%
+- Prevent deleted queue tasks from reappearing during refreshes
 
 ## 2.0.1 - 2026-08-19
 ### Changed

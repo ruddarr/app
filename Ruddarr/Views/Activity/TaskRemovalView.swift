@@ -89,6 +89,10 @@ struct TaskRemovalView: View {
             _ = try await dependencies.api.instance.deleteQueueTask(
                 item.id, remove, block, search, instance
             )
+
+            Queue.shared.markDeleted(item)
+
+            await Queue.shared.fetchTasks()
         } catch is CancellationError {
             // do nothing
         } catch let apiError as API.Error {
@@ -97,12 +101,6 @@ struct TaskRemovalView: View {
             leaveBreadcrumb(.error, category: "queue", message: "Task deletion failed", data: ["error": apiError])
         } catch {
             self.error = API.Error(from: error)
-        }
-
-        if error == nil {
-            Queue.shared.markDeleted(item)
-
-            await Queue.shared.fetchTasks()
         }
 
         isWorking = false
