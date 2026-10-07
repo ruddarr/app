@@ -62,7 +62,7 @@ struct InstanceView: View {
         .formStyle(.grouped)
         .toolbar {
             #if os(iOS)
-                toolbarWebButton
+                toolbarWebButton.preferVerticalToolbar()
                 ToolbarSpacer(.fixed, placement: .primaryAction)
             #endif
 

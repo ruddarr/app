@@ -1,5 +1,20 @@
 import SwiftUI
 
+extension ToolbarContent {
+    @ToolbarContentBuilder
+    func preferVerticalToolbar() -> some ToolbarContent {
+        #if os(iOS)
+            if #available(iOS 27.1, *) {
+                axisBehavior(.verticalPreferred)
+            } else {
+                self
+            }
+        #else
+            self
+        #endif
+    }
+}
+
 struct Bullet: View {
     var body: some View {
         Text(verbatim: "•")

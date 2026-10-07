@@ -26,7 +26,7 @@ struct MovieView: View {
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             CalendarSheetAwareToolbar(deeplink: movie.deeplink)
-            toolbarMonitorButton
+            toolbarMonitorButton.preferVerticalToolbar()
             toolbarMenu
         }
         .onBecomeActive {

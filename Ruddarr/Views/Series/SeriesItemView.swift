@@ -28,7 +28,7 @@ struct SeriesDetailView: View {
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             CalendarSheetAwareToolbar(deeplink: deeplink)
-            toolbarMonitorButton
+            toolbarMonitorButton.preferVerticalToolbar()
             toolbarMenu
         }
         .onAppear {

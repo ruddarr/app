@@ -39,7 +39,7 @@ struct SeasonView: View {
         #endif
         .toolbar {
             CalendarSheetAwareToolbar(deeplink: deeplink)
-            toolbarMonitorButton
+            toolbarMonitorButton.preferVerticalToolbar()
             toolbarMenu
         }
         .task {
