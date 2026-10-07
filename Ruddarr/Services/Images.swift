@@ -98,12 +98,12 @@ class Images {
         FileManager.default
             .urls(for: .cachesDirectory, in: .userDomainMask)
             .first?
-            .appending(path: "com.ruddarr.images/\(sha1(of: key))", directoryHint: .checkFileSystem)
+            .appending(path: "com.ruddarr.images/\(sha1(of: key))")
     }
 
     private static let localCopies: URL = FileManager.default
         .temporaryDirectory
-        .appending(path: "com.ruddarr.quicklook", directoryHint: .checkFileSystem)
+        .appending(path: "com.ruddarr.quicklook")
 
     static func localCopy(of remote: String?, named filename: String? = nil) async -> URL? {
         guard let remote, let url = URL(string: remote) else { return nil }
@@ -155,8 +155,8 @@ class Images {
             } ?? url.deletingPathExtension().lastPathComponent
 
         return localCopies
-            .appending(path: sha1(of: url.absoluteString), directoryHint: .checkFileSystem)
-            .appending(path: name, directoryHint: .checkFileSystem)
+            .appending(path: sha1(of: url.absoluteString))
+            .appending(path: name)
             .appendingPathExtension(pathExtension)
     }
 

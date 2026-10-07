@@ -53,7 +53,7 @@ extension UNNotificationRequest {
             .hexEncoded()
 
         let fileUrl = fileManager.temporaryDirectory.appending(
-            path: "ruddarr-poster-\(posterHash).\(posterUrl.pathExtension)", directoryHint: .checkFileSystem
+            path: "ruddarr-poster-\(posterHash).\(posterUrl.pathExtension)"
         )
 
         if !fileManager.fileExists(atPath: fileUrl.path(percentEncoded: false)) {
