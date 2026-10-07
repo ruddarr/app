@@ -32,7 +32,7 @@ struct MovieReleasesView: View {
             }
         }
         .listStyle(.inset)
-        .searchable(text: $sort.search, placement: .drawerOrToolbar)
+        .searchable(text: $sort.search)
         .toolbar {
             toolbarButtons
         }

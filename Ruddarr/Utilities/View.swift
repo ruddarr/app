@@ -223,27 +223,6 @@ private struct DynamicPresentationDetents: ViewModifier {
     }
 }
 
-extension SearchFieldPlacement {
-    enum DrawerDisplayMode { case automatic, always }
-
-    static var drawerOrToolbar: SearchFieldPlacement {
-        // This used to be `.navigationBarDrawer(displayMode: .automatic)`
-        // but that started crashing in iOS 26.4
-        .toolbar
-    }
-
-    static func drawerOrToolbar(_ displayMode: DrawerDisplayMode) -> SearchFieldPlacement {
-        #if os(macOS)
-            return .toolbar
-        #else
-            return switch displayMode {
-            case .automatic: .navigationBarDrawer(displayMode: .automatic)
-            case .always: .navigationBarDrawer(displayMode: .always)
-            }
-        #endif
-    }
-}
-
 enum NavigationBarItemTitleDisplayMode {
     case automatic
     case inline

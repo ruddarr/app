@@ -90,8 +90,7 @@ struct MoviesView: View {
             .scrollDismissesKeyboard(.immediately)
             .searchable(
                 text: $searchQuery,
-                isPresented: $searchPresented,
-                placement: .drawerOrToolbar
+                isPresented: $searchPresented
             )
             .autocorrectionDisabled(true)
             .onChange(of: settings.radarrInstanceId, changeInstance)

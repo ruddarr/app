@@ -43,7 +43,6 @@ struct SeriesSearchView: View {
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
-            placement: .drawerOrToolbar(.always),
             prompt: Text(
                 "e.g. \("Breaking Bad, tvdb:81189, imdb:tt0903747")",
                 comment: "Placeholder in the search field on the Add Movie/Series screens (translate only \"e.g.\", short form of \"for example\")"
