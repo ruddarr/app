@@ -7,6 +7,7 @@ struct MediaGrid<Item: Identifiable, Content: View, Header: View>: View {
     var header: Header?
 
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     init(
         items: [Item],
@@ -43,7 +44,9 @@ struct MediaGrid<Item: Identifiable, Content: View, Header: View>: View {
     var columns: [GridItem] {
         switch style {
         case .posters: switch deviceType {
-        case .phone: [GridItem(.adaptive(minimum: 100, maximum: 130), spacing: 12)]
+        case .phone: horizontalSizeClass == .regular
+            ? [GridItem(.adaptive(minimum: 120, maximum: 160), spacing: 12)]
+            : [GridItem(.adaptive(minimum: 100, maximum: 130), spacing: 12)]
         case .mac: [GridItem(.adaptive(minimum: 160, maximum: 200), spacing: 20)]
         default: [GridItem(.adaptive(minimum: 145, maximum: 180), spacing: 20)]
         }
