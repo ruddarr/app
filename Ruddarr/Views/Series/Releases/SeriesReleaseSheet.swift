@@ -46,6 +46,7 @@ struct SeriesReleaseSheet: View {
                     .tint(.primary)
                 }
             }
+            .horizontalToolbarOnly()
             .sensoryAlert(
                 isPresented: instance.series.errorBinding,
                 error: instance.series.error

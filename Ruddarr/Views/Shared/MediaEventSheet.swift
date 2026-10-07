@@ -63,6 +63,7 @@ struct MediaEventSheet: View {
                     .tint(.primary)
                 }
             }
+            .horizontalToolbarOnly()
         }
         .displayToasts()
     }

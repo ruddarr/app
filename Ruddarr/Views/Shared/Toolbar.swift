@@ -15,6 +15,21 @@ extension ToolbarContent {
     }
 }
 
+extension View {
+    @ViewBuilder
+    func horizontalToolbarOnly() -> some View {
+        #if os(iOS)
+            if #available(iOS 27.1, *) {
+                toolbarVerticalBehavior(.disabled)
+            } else {
+                self
+            }
+        #else
+            self
+        #endif
+    }
+}
+
 struct ToolbarFilterBadge: View {
     var body: some View {
         Image(systemName: "circle")

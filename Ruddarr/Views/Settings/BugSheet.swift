@@ -36,6 +36,7 @@ struct BugSheet: View {
                     .disabled(!canBeSent)
                 }
             }
+            .horizontalToolbarOnly()
         }
     }
 

@@ -36,6 +36,7 @@ struct MediaDeleteSheet: View {
             #if os(iOS)
                 .padding(.top, -25)
             #endif
+            .horizontalToolbarOnly()
         }
     }
 

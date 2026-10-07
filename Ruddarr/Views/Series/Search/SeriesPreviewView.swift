@@ -44,6 +44,7 @@ struct SeriesPreviewView: View {
                     #if os(iOS)
                         .padding(.top, -25)
                     #endif
+                    .horizontalToolbarOnly()
             }
             .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
             .presentationBackground(.sheetBackground)

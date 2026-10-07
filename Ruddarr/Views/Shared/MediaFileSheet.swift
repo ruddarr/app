@@ -34,6 +34,7 @@ struct MediaFileSheet: View {
                     .tint(.primary)
                 }
             }
+            .horizontalToolbarOnly()
             .ignoresSafeArea(edges: .bottom)
         }
     }

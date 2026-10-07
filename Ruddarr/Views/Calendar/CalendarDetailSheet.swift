@@ -96,6 +96,7 @@ private struct CalendarMovieSheet: View {
         }
         .environment(instance)
         .inCalendarSheet(dismiss: { dismiss() }, path: $path)
+        .horizontalToolbarOnly()
         .displayToasts()
     }
 }
@@ -151,6 +152,7 @@ private struct CalendarEpisodeSheet: View {
         }
         .environment(instance)
         .inCalendarSheet(dismiss: { dismiss() }, path: $path)
+        .horizontalToolbarOnly()
         .displayToasts()
     }
 }
