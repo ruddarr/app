@@ -146,21 +146,9 @@ struct SeriesForm: View {
             series.qualityProfileId = seriesDefaults.qualityProfile
         }
 
-        if !instance.qualityProfiles.contains(where: {
-            $0.id == series.qualityProfileId
-        }) {
-            series.qualityProfileId = instance.qualityProfiles.first?.id ?? 0
-        }
+        series.qualityProfileId = AddDefaults.qualityProfile(series.qualityProfileId, in: instance.qualityProfiles.map(\.id))
 
-        // remove trailing slashes
-        series.rootFolderPath = series.rootFolderPath?.untrailingSlashIt
-
-        if let fallback = instance.rootFolders.first?.path,
-           !instance.rootFolders.contains(where: {
-               $0.path?.untrailingSlashIt == series.rootFolderPath
-           }) {
-            series.rootFolderPath = fallback
-        }
+        series.rootFolderPath = AddDefaults.rootFolder(series.rootFolderPath, in: instance.rootFolders.map(\.path))
     }
 
     func tags() -> Binding<Set<Tag.ID>> {
