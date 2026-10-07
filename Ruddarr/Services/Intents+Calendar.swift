@@ -58,7 +58,7 @@ struct UpcomingReleasesIntent: AppIntent {
             summary += "\n" + instanceErrorMessage(failures)
         }
 
-        return .result(value: lines, dialog: "\(summary)")
+        return .result(value: lines, dialog: IntentDialog(stringLiteral: summary))
     }
 }
 

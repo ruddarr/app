@@ -55,7 +55,7 @@ struct AddMovieIntent: AppIntent {
 
         let message = addedMessage(resultLabel(movie.title, movie.year), alreadyAdded: alreadyAdded, search: search)
 
-        return .result(value: MovieEntity(movie, instance), dialog: "\(message)")
+        return .result(value: MovieEntity(movie, instance), dialog: IntentDialog(stringLiteral: message))
     }
 }
 
@@ -119,7 +119,7 @@ struct AddSeriesIntent: AppIntent {
 
         let message = addedMessage(resultLabel(series.title, series.year), alreadyAdded: alreadyAdded, search: search)
 
-        return .result(value: SeriesEntity(series, instance), dialog: "\(message)")
+        return .result(value: SeriesEntity(series, instance), dialog: IntentDialog(stringLiteral: message))
     }
 }
 
@@ -143,7 +143,7 @@ struct MovieAutomaticSearchIntent: AppIntent {
 
         let message = String(localized: "Started searching for \(target.title).")
 
-        return .result(dialog: "\(message)")
+        return .result(dialog: IntentDialog(stringLiteral: message))
     }
 }
 
@@ -167,7 +167,7 @@ struct SeriesAutomaticSearchIntent: AppIntent {
 
         let message = String(localized: "Started searching for \(target.title).")
 
-        return .result(dialog: "\(message)")
+        return .result(dialog: IntentDialog(stringLiteral: message))
     }
 }
 
@@ -224,7 +224,7 @@ private extension AppIntent {
         guard results.count > 1 else { return results.first }
 
         let candidates = Array(results.prefix(10))
-        let options = candidates.map { IntentChoiceOption(title: "\(label($0))", style: .default) }
+        let options = candidates.map { IntentChoiceOption(title: LocalizedStringResource(stringLiteral: label($0)), style: .default) }
         let choice = try await requestChoice(between: options + [.cancel], dialog: dialog)
 
         return options.firstIndex(of: choice).map { candidates[$0] }
@@ -247,7 +247,7 @@ private func resultLabel(_ title: String, _ year: Int) -> String {
 private func choiceLabel(_ title: String, _ year: Int, _ exists: Bool) -> String {
     let label = resultLabel(title, year)
 
-    return exists ? String(localized: "\(label) · In Library") : label
+    return exists ? label + " · " + String(localized: "In Library") : label
 }
 
 private func lookupTerm(_ query: String) -> String {

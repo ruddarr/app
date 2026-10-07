@@ -65,8 +65,8 @@ struct MovieEntity: IndexedEntity {
 
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(
-            title: "\(title)",
-            subtitle: year > 0 ? "\(String(year))" : nil
+            title: LocalizedStringResource(stringLiteral: title),
+            subtitle: year > 0 ? LocalizedStringResource(stringLiteral: String(year)) : nil
         )
     }
 
@@ -216,8 +216,8 @@ struct SeriesEntity: IndexedEntity {
 
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(
-            title: "\(title)",
-            subtitle: year > 0 ? "\(String(year))" : nil
+            title: LocalizedStringResource(stringLiteral: title),
+            subtitle: year > 0 ? LocalizedStringResource(stringLiteral: String(year)) : nil
         )
     }
 
