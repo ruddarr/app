@@ -45,9 +45,9 @@ struct ChangelogView: View {
         .textSelection(.enabled)
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
+        .background {
             RoundedRectangle(cornerRadius: 14, style: .continuous).fill(.card)
-        )
+        }
     }
 
     private func sectionView(_ section: ChangelogSection) -> some View {
