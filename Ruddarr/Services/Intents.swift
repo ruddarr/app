@@ -24,7 +24,7 @@ struct OpenAppIntent: OpenIntent {
 }
 
 struct SearchMovieIntent: AppIntent {
-    static let title: LocalizedStringResource = "Search for Movie"
+    static let title: LocalizedStringResource = "Search Movies"
     static let openAppWhenRun: Bool = true
 
     @Parameter(title: "Title")
@@ -57,7 +57,7 @@ struct SearchMovieIntent: AppIntent {
 }
 
 struct SearchSeriesIntent: AppIntent {
-    static let title: LocalizedStringResource = "Search for TV Series"
+    static let title: LocalizedStringResource = "Search Series"
     static let openAppWhenRun: Bool = true
 
     @Parameter(title: "Title")

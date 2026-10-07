@@ -5,9 +5,8 @@ struct Shortcuts: AppShortcutsProvider {
 
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
-            intent: SearchMovieIntent(),
+            intent: AddMovieIntent(),
             phrases: [
-                "Search for movie in \(.applicationName)",
                 "Add movie to \(.applicationName)",
             ],
             shortTitle: "Add Movie",
@@ -15,15 +14,32 @@ struct Shortcuts: AppShortcutsProvider {
         )
 
         AppShortcut(
-            intent: SearchSeriesIntent(),
+            intent: AddSeriesIntent(),
             phrases: [
-                "Search for series in \(.applicationName)",
-                "Search for TV series in \(.applicationName)",
                 "Add series to \(.applicationName)",
                 "Add TV series to \(.applicationName)",
             ],
             shortTitle: "Add Series",
             systemImageName: "plus"
+        )
+
+        AppShortcut(
+            intent: SearchMovieIntent(),
+            phrases: [
+                "Search for movie in \(.applicationName)",
+            ],
+            shortTitle: "Search Movies",
+            systemImageName: "magnifyingglass"
+        )
+
+        AppShortcut(
+            intent: SearchSeriesIntent(),
+            phrases: [
+                "Search for series in \(.applicationName)",
+                "Search for TV series in \(.applicationName)",
+            ],
+            shortTitle: "Search Series",
+            systemImageName: "magnifyingglass"
         )
 
         AppShortcut(
