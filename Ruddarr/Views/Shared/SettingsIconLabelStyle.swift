@@ -9,7 +9,7 @@ struct SettingsIconLabelStyle: LabelStyle {
                 .tint(.primary)
         } icon: {
             configuration.icon
-                .foregroundStyle(.primary)
+                .foregroundStyle(Color.primary)
                 #if os(iOS)
                     .scaleEffect(iconScale)
                 #endif
