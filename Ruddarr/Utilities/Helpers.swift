@@ -124,7 +124,7 @@ func inferredInstallDate() -> Date? {
         return nil
     }
 
-    guard let attributes = try? FileManager.default.attributesOfItem(atPath: documentsURL.path) else {
+    guard let attributes = try? FileManager.default.attributesOfItem(atPath: documentsURL.path(percentEncoded: false)) else {
         return nil
     }
 

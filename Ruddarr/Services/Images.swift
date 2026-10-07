@@ -135,7 +135,7 @@ class Images {
 
         let file = localCopyPath(for: url, named: filename)
 
-        return FileManager.default.fileExists(atPath: file.path) ? file : nil
+        return FileManager.default.fileExists(atPath: file.path(percentEncoded: false)) ? file : nil
     }
 
     private static func localCopyPath(for url: URL, named filename: String?) -> URL {
