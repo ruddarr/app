@@ -22,12 +22,12 @@ struct SeriesDetailView: View {
                 .padding(.top)
                 .containerHorizontalMargins()
                 .environment(settings)
+                .appEntityIdentifier(SeriesEntity.entityIdentifier(series))
         }
         .refreshable {
             await Task { await reload() }.value
         }
         .safeNavigationBarTitleDisplayMode(.inline)
-        .appEntityIdentifier(SeriesEntity.entityIdentifier(series))
         .toolbar {
             CalendarSheetAwareToolbar(deeplink: deeplink)
             toolbarMonitorButton.preferVerticalToolbar()

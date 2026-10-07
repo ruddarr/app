@@ -20,12 +20,12 @@ struct MovieView: View {
                 .padding(.top)
                 .containerHorizontalMargins()
                 .environment(settings)
+                .appEntityIdentifier(MovieEntity.entityIdentifier(movie))
         }
         .refreshable {
             await Task { await reload() }.value
         }
         .safeNavigationBarTitleDisplayMode(.inline)
-        .appEntityIdentifier(MovieEntity.entityIdentifier(movie))
         .toolbar {
             CalendarSheetAwareToolbar(deeplink: movie.deeplink)
             toolbarMonitorButton.preferVerticalToolbar()
