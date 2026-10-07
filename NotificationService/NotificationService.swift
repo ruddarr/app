@@ -52,8 +52,8 @@ extension UNNotificationRequest {
             .prefix(Insecure.MD5.byteCount)
             .hexEncoded()
 
-        let fileUrl = fileManager.temporaryDirectory.appendingPathComponent(
-            "ruddarr-poster-\(posterHash).\(posterUrl.pathExtension)"
+        let fileUrl = fileManager.temporaryDirectory.appending(
+            path: "ruddarr-poster-\(posterHash).\(posterUrl.pathExtension)", directoryHint: .checkFileSystem
         )
 
         if !fileManager.fileExists(atPath: fileUrl.path) {

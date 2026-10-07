@@ -9,7 +9,7 @@ extension DiagnosticsView {
 }
 
 let networkDiagnosticsExportURL = FileManager.default.temporaryDirectory
-    .appendingPathComponent("ruddarr-diagnostics.txt")
+    .appending(path: "ruddarr-diagnostics.txt", directoryHint: .checkFileSystem)
 
 struct NetworkDiagnosticsExport: Transferable {
     let text: String
