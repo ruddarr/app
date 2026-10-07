@@ -239,7 +239,7 @@ private struct WhatsNewSheetViewModifier: ViewModifier {
 #Preview {
     @Previewable @State var show: Bool = true
 
-    return NavigationView {
+    return NavigationStack {
         Text(verbatim: "Cupidatat adipisicing elit dolor cillum.")
     }.sheet(isPresented: $show, content: {
         WhatsNewView()
