@@ -1,4 +1,5 @@
 import SwiftUI
+import AppIntents
 import CoreSpotlight
 
 struct Series: Media, Identifiable, Equatable, Codable {
@@ -227,7 +228,7 @@ struct Series: Media, Identifiable, Equatable, Codable {
 }
 
 extension Series {
-    func searchableItem(poster: URL?) -> CSSearchableItem {
+    func searchableItem(poster: URL?, instance: Instance) -> CSSearchableItem {
         let attributes = CSSearchableItemAttributeSet(contentType: UTType.movie)
         attributes.title = title
         attributes.genre = genres.first
@@ -247,8 +248,10 @@ extension Series {
                 .map { $0.title }
         }
 
+        attributes.associateAppEntity(SeriesEntity(self, instance))
+
         return CSSearchableItem(
-            uniqueIdentifier: "series:\(id):\(instanceId?.uuidString ?? "")",
+            uniqueIdentifier: SpotlightItemID(.series, id, instanceId?.uuidString).rawValue,
             domainIdentifier: instanceId?.uuidString,
             attributeSet: attributes
         )

@@ -1,4 +1,5 @@
 import SwiftUI
+import AppIntents
 
 struct MovieView: View {
     @Binding var movie: Movie
@@ -19,6 +20,10 @@ struct MovieView: View {
                 .padding(.top)
                 .containerHorizontalMargins()
                 .environment(settings)
+                // Unavailable when compiling for Intel Macs
+                #if arch(arm64)
+                    .appEntityIdentifier(MovieEntity.entityIdentifier(movie))
+                #endif
         }
         .refreshable {
             await Task { await reload() }.value
