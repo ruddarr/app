@@ -223,8 +223,18 @@ struct MediaDetailsPosterModifier: ViewModifier {
     @Environment(\.deviceType) private var deviceType
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
+    @State private var scrollViewWidth: CGFloat = 390
+
     func body(content: Content) -> some View {
-        content.frame(width: posterWidth, height: posterWidth * 1.5)
+        content
+            .frame(width: posterWidth, height: posterWidth * 1.5)
+            .onGeometryChange(for: CGFloat.self) { proxy in
+                proxy.bounds(of: .scrollView)?.width ?? 0
+            } action: { width in
+                if width > 0 {
+                    scrollViewWidth = width
+                }
+            }
     }
 
     @MainActor
@@ -237,10 +247,7 @@ struct MediaDetailsPosterModifier: ViewModifier {
                     return 180
                 }
 
-                let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
-                let scene = scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
-
-                return (scene?.keyWindow?.bounds.width ?? 390) * 0.4
+                return scrollViewWidth * 0.4
             }
 
             return 200
