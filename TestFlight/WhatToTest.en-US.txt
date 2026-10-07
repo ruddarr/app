@@ -1,4 +1,10 @@
+Added
+- Support iPhone Duo
+
 Changed
+- Adapt sheet heights to shorter displays
+- Improved toast and search field placement
+- Improved sidebar on iPadOS
 - Animate rows being added on movie and series details
 
 Fixed

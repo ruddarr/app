@@ -7,8 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
+- Support iPhone Duo
+
 ### Changed
+- Adapt sheet heights to shorter displays
+- Improved toast and search field placement
+- Improved sidebar on iPadOS
 - Animate rows being added on movie and series details
+
 ### Fixed
 - Dismiss release search screen when search fails
 - Drop the decimal when a queue task reaches 100%
