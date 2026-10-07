@@ -8,7 +8,7 @@ struct AddMovieIntent: AppIntent {
     @Parameter(title: "Title", description: "Movie title, IMDb link, `imdb:` or `tmdb:` identifier.")
     var query: String
 
-    @Parameter(title: "Automatic Search", default: true)
+    @Parameter(title: "Automatic Search", default: false)
     var search: Bool
 
     static var parameterSummary: some ParameterSummary {
@@ -20,7 +20,9 @@ struct AddMovieIntent: AppIntent {
     func perform() async throws -> some IntentResult & ReturnsValue<MovieEntity> & ProvidesDialog {
         let instance = try await preferredInstance(.radarr)
 
-        guard var movie = try await dependencies.api.radarr.lookup(instance, lookupTerm(query)).first else {
+        let results = try await dependencies.api.radarr.lookup(instance, lookupTerm(query))
+
+        guard var movie = try await choose(results, { resultLabel($0.title, $0.year) }, "Which movie do you want to add?") else {
             throw AppError(String(localized: "No movie found matching “\(query)”."))
         }
 
@@ -40,9 +42,11 @@ struct AddMovieIntent: AppIntent {
             _ = try await dependencies.api.instance.command(.search([movie.id]), instance)
         }
 
+        let label = resultLabel(movie.title, movie.year)
+
         let message = search
-            ? String(localized: "Added \(movie.title) and started searching for releases.")
-            : String(localized: "Added \(movie.title).")
+            ? String(localized: "Added \(label) and started searching for releases.")
+            : String(localized: "Added \(label).")
 
         return .result(value: MovieEntity(movie, instance.id), dialog: "\(message)")
     }
@@ -55,7 +59,7 @@ struct AddSeriesIntent: AppIntent {
     @Parameter(title: "Title", description: "Series title, IMDb link, `imdb:` or `tvdb:` identifier.")
     var query: String
 
-    @Parameter(title: "Automatic Search", default: true)
+    @Parameter(title: "Automatic Search", default: false)
     var search: Bool
 
     static var parameterSummary: some ParameterSummary {
@@ -67,7 +71,9 @@ struct AddSeriesIntent: AppIntent {
     func perform() async throws -> some IntentResult & ReturnsValue<SeriesEntity> & ProvidesDialog {
         let instance = try await preferredInstance(.sonarr)
 
-        guard var series = try await dependencies.api.sonarr.lookup(instance, lookupTerm(query)).first else {
+        let results = try await dependencies.api.sonarr.lookup(instance, lookupTerm(query))
+
+        guard var series = try await choose(results, { resultLabel($0.title, $0.year) }, "Which series do you want to add?") else {
             throw AppError(String(localized: "No series found matching “\(query)”."))
         }
 
@@ -87,9 +93,11 @@ struct AddSeriesIntent: AppIntent {
             _ = try await dependencies.api.instance.command(.seriesSearch(series.id), instance)
         }
 
+        let label = resultLabel(series.title, series.year)
+
         let message = search
-            ? String(localized: "Added \(series.title) and started searching for releases.")
-            : String(localized: "Added \(series.title).")
+            ? String(localized: "Added \(label) and started searching for releases.")
+            : String(localized: "Added \(label).")
 
         return .result(value: SeriesEntity(series, instance.id), dialog: "\(message)")
     }
@@ -230,6 +238,23 @@ private func episodeRelease(_ episode: Episode, _ range: Range<Date>) -> Upcomin
     let parts = [episode.series?.title, episode.episodeLabel, episode.title].compactMap { $0 }
 
     return UpcomingRelease(date: date, text: "\(time) · \(parts.joined(separator: " · "))")
+}
+
+private extension AppIntent {
+    /// Asks which lookup result to use when there is more than one.
+    func choose<Item>(_ results: [Item], _ label: (Item) -> String, _ dialog: IntentDialog) async throws -> Item? {
+        guard results.count > 1 else { return results.first }
+
+        let candidates = Array(results.prefix(10))
+        let options = candidates.map { IntentChoiceOption(title: "\(label($0))", style: .default) }
+        let choice = try await requestChoice(between: options + [.cancel], dialog: dialog)
+
+        return options.firstIndex(of: choice).map { candidates[$0] }
+    }
+}
+
+private func resultLabel(_ title: String, _ year: Int) -> String {
+    year > 0 ? "\(title) (\(year))" : title
 }
 
 private func lookupTerm(_ query: String) -> String {
