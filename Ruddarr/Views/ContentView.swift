@@ -23,24 +23,29 @@ struct ContentView: View {
         TabView(selection: selectedTab) {
             Tab(movies.label, image: movies.icon, value: movies) {
                 MoviesView()
+                    .displayToasts()
             }
 
             Tab(series.label, image: series.icon, value: series) {
                 SeriesView()
+                    .displayToasts()
             }
 
             Tab(calendar.label, systemImage: calendar.icon, value: calendar) {
                 CalendarView()
+                    .displayToasts()
             }
 
             Tab(activity.label, systemImage: activity.icon, value: activity) {
                 ActivityView()
+                    .displayToasts()
             }
             .badge(Queue.shared.itemsWithIssues)
 
             if deviceType == .pad {
                 Tab(history.label, systemImage: history.icon, value: history) {
                     HistoryView()
+                        .displayToasts()
                 }
                 .customizationID("tab.history")
                 .defaultVisibility(.hidden, for: .tabBar)
@@ -49,6 +54,7 @@ struct ContentView: View {
 
             Tab(TabItem.settings.label, systemImage: TabItem.settings.icon, value: TabItem.settings) {
                 SettingsView()
+                    .displayToasts()
             }
             .defaultVisibility(.hidden, for: .tabBar)
         }
@@ -66,7 +72,6 @@ struct ContentView: View {
             await updateTelemetryAndWebhooks()
         }
         .onBecomeActive(perform: updateTelemetryAndWebhooks)
-        .displayToasts()
         .whatsNewSheet()
         .reportBugSheet()
         // .testFlightNotice()
