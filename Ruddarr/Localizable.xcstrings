@@ -55,6 +55,28 @@
         }
       }
     },
+    "%@ is already in your library." : {
+
+    },
+    "%@ is already in your library. Started searching for releases." : {
+
+    },
+    "%@ rejected the API key." : {
+
+    },
+    "%@ responded with an error (%lld)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ responded with an error (%2$lld)."
+          }
+        }
+      }
+    },
+    "%@ returned an unexpected response." : {
+
+    },
     "%@ years" : {
       "localizations" : {
         "en" : {
@@ -403,6 +425,12 @@
         }
       }
     },
+    "Add ${query} to Radarr" : {
+
+    },
+    "Add ${query} to Sonarr" : {
+
+    },
     "Add Authentication" : {
       "comment" : "Add Basic HTTP Authentication to instance",
       "localizations" : {
@@ -475,6 +503,18 @@
           }
         }
       }
+    },
+    "Added %@ and started searching for releases." : {
+
+    },
+    "Added %@." : {
+
+    },
+    "Adds a movie to Radarr by title or IMDb link, using the last settings used in the app. Asks which one when there are several matches." : {
+
+    },
+    "Adds a series to Sonarr by title or IMDb link, using the last settings used in the app. Asks which one when there are several matches." : {
+
     },
     "Age" : {
       "comment" : "Release filter",
@@ -879,6 +919,9 @@
         }
       }
     },
+    "Automatic Movie Search" : {
+
+    },
     "Automatic Search" : {
       "localizations" : {
         "en" : {
@@ -888,6 +931,9 @@
           }
         }
       }
+    },
+    "Automatic Series Search" : {
+
     },
     "Availability" : {
       "comment" : "Very short version of Minimum Availability",
@@ -1252,6 +1298,9 @@
         }
       }
     },
+    "Couldn't reach %@." : {
+
+    },
     "Custom Format" : {
       "localizations" : {
         "en" : {
@@ -1326,6 +1375,9 @@
           }
         }
       }
+    },
+    "Days" : {
+
     },
     "Default" : {
       "comment" : "Default app icon name",
@@ -2054,6 +2106,12 @@
         }
       }
     },
+    "Get releases for the next ${days} days" : {
+
+    },
+    "Get Upcoming Releases" : {
+
+    },
     "Grab Release" : {
       "localizations" : {
         "en" : {
@@ -2299,6 +2357,9 @@
         }
       }
     },
+    "In Library" : {
+
+    },
     "In Queue" : {
       "comment" : "(Short) State of task in queue",
       "localizations" : {
@@ -2371,6 +2432,9 @@
           }
         }
       }
+    },
+    "Instance not found." : {
+
     },
     "Instance URL is not valid: %@" : {
       "localizations" : {
@@ -2600,6 +2664,9 @@
           }
         }
       }
+    },
+    "Lists the movies and episodes releasing in the coming days." : {
+
     },
     "Load More" : {
       "localizations" : {
@@ -3023,6 +3090,9 @@
         }
       }
     },
+    "Movie title, IMDb link, `imdb:` or `tmdb:` identifier." : {
+
+    },
     "Movie Upgraded" : {
       "localizations" : {
         "en" : {
@@ -3126,6 +3196,9 @@
         }
       }
     },
+    "No %@ instance configured." : {
+
+    },
     "No Automatic Search" : {
       "localizations" : {
         "en" : {
@@ -3195,6 +3268,9 @@
           }
         }
       }
+    },
+    "No movie found matching “%@”." : {
+
     },
     "No Movies Match" : {
       "localizations" : {
@@ -3286,6 +3362,9 @@
         }
       }
     },
+    "No series found matching “%@”." : {
+
+    },
     "No Series Match" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3349,6 +3428,9 @@
           }
         }
       }
+    },
+    "Nothing is releasing in the next %lld days." : {
+
     },
     "Notification settings for each instance are shared between devices. To disable notifications for a specific device go to %@." : {
       "localizations" : {
@@ -4517,6 +4599,9 @@
         }
       }
     },
+    "Requests to %@ failed." : {
+
+    },
     "Reset" : {
       "comment" : "(Preferences) Reset release filters",
       "localizations" : {
@@ -4644,16 +4729,6 @@
         }
       }
     },
-    "Search for Movie" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search for Movie"
-          }
-        }
-      }
-    },
     "Search for movie with ${name}" : {
       "localizations" : {
         "en" : {
@@ -4664,22 +4739,15 @@
         }
       }
     },
+    "Search for releases of ${target}" : {
+
+    },
     "Search for Replacement" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search for Replacement"
-          }
-        }
-      }
-    },
-    "Search for TV Series" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search for TV Series"
           }
         }
       }
@@ -4703,6 +4771,18 @@
           }
         }
       }
+    },
+    "Search Movies" : {
+
+    },
+    "Search Series" : {
+
+    },
+    "Searches all indexers for releases of a movie." : {
+
+    },
+    "Searches all indexers for releases of all monitored episodes of a series." : {
+
     },
     "Searching..." : {
       "localizations" : {
@@ -4898,6 +4978,9 @@
         }
       }
     },
+    "Series title, IMDb link, `imdb:` or `tvdb:` identifier." : {
+
+    },
     "Series Type" : {
       "localizations" : {
         "en" : {
@@ -5002,6 +5085,9 @@
         }
       }
     },
+    "Something went wrong with %@." : {
+
+    },
     "Sort By" : {
       "localizations" : {
         "en" : {
@@ -5053,6 +5139,9 @@
           }
         }
       }
+    },
+    "Started searching for %@." : {
+
     },
     "Status" : {
       "localizations" : {
@@ -5272,6 +5361,9 @@
           }
         }
       }
+    },
+    "The URL of %@ is invalid." : {
+
     },
     "The URL used to access the %@ web interface." : {
       "localizations" : {
@@ -5846,6 +5938,21 @@
         }
       }
     },
+    "Which episodes to monitor. Defaults to the last option used in the app." : {
+
+    },
+    "Which movie do you want to add?" : {
+
+    },
+    "Which movie?" : {
+
+    },
+    "Which series do you want to add?" : {
+
+    },
+    "Which series?" : {
+
+    },
     "Wrong Instance Type" : {
       "localizations" : {
         "en" : {
@@ -5886,6 +5993,9 @@
           }
         }
       }
+    },
+    "You're not connected to the internet." : {
+
     }
   },
   "version" : "1.0"
