@@ -2,8 +2,6 @@ import SwiftUI
 
 #if os(iOS)
 struct ContentView: View {
-    @State private var tabCustomization = TabViewCustomization()
-
     @Environment(AppSettings.self) private var settings
     @Environment(\.deviceType) private var deviceType
 
@@ -47,9 +45,7 @@ struct ContentView: View {
                     HistoryView()
                         .displayToasts()
                 }
-                .customizationID("tab.history")
                 .defaultVisibility(.hidden, for: .tabBar)
-                // .customizationBehavior(.disabled, for: .tabBar, .sidebar)
             }
 
             Tab(TabItem.settings.label, systemImage: TabItem.settings.icon, value: TabItem.settings) {
@@ -63,7 +59,6 @@ struct ContentView: View {
             SidebarTitle(title: Ruddarr.name)
                 .frame(height: 0)
         }
-        .tabViewCustomization($tabCustomization)
         .tabBarMinimizeBehavior(.never)
         .onAppear {
             UITabBarItem.appearance().badgeColor = UIColor(settings.theme.tint)
