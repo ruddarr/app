@@ -20,7 +20,10 @@ struct MovieView: View {
                 .padding(.top)
                 .containerHorizontalMargins()
                 .environment(settings)
-                .appEntityIdentifier(MovieEntity.entityIdentifier(movie))
+                // Unavailable when compiling for Intel Macs
+                #if arch(arm64)
+                    .appEntityIdentifier(MovieEntity.entityIdentifier(movie))
+                #endif
         }
         .refreshable {
             await Task { await reload() }.value

@@ -22,7 +22,10 @@ struct SeriesDetailView: View {
                 .padding(.top)
                 .containerHorizontalMargins()
                 .environment(settings)
-                .appEntityIdentifier(SeriesEntity.entityIdentifier(series))
+                // Unavailable when compiling for Intel Macs
+                #if arch(arm64)
+                    .appEntityIdentifier(SeriesEntity.entityIdentifier(series))
+                #endif
         }
         .refreshable {
             await Task { await reload() }.value
