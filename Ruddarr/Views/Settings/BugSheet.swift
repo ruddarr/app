@@ -62,7 +62,7 @@ struct BugSheet: View {
                 .overlay(alignment: .bottomTrailing) {
                     Text(verbatim: "\(text.count) / \(minimumLength)")
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(.secondary)
                         .opacity(text.count < minimumLength ? 1 : 0)
                 }
                 #if os(macOS)
