@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Open the exact movie on Letterboxd instead of a search
 - Open and search movies and series from Shortcuts and Siri on iOS 27
 - Ask Siri about the movie or series on screen
+- Add movies and series from Shortcuts and Siri
+- Start automatic searches from Shortcuts
+- Get upcoming releases from Shortcuts
 
 ### Changed
 - Faster searching in large movie and series libraries
