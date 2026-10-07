@@ -38,7 +38,7 @@ EXPORTED=("${EXPORTED[@]/zh-CN/zh-Hans}")
 
 # Download translations
 FLAGS=($(yq -r '.export_languages[] | "--language="+.' crowdin.yml))
-retry 5 crowdin download translations --plain "${FLAGS[@]}"
+retry 5 crowdin download translations --output=plain "${FLAGS[@]}"
 
 cd Ruddarr
 
