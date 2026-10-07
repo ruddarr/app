@@ -15,12 +15,6 @@ extension ToolbarContent {
     }
 }
 
-struct Bullet: View {
-    var body: some View {
-        Text(verbatim: "•")
-    }
-}
-
 struct ToolbarFilterBadge: View {
     var body: some View {
         Image(systemName: "circle")
