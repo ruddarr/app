@@ -139,7 +139,7 @@ struct MoviesView: View {
         }
         .animation(.snappy, value: instance.movies.cachedItems.map(\.id))
         .viewBottomPadding()
-        .scenePadding(.horizontal)
+        .containerHorizontalMargins()
         #if os(iOS)
             .padding(.top, searchPresented ? 7 : 0)
         #elseif os(macOS)

@@ -19,7 +19,7 @@ struct MovieMetadataView: View {
                 history
             }
             .padding(.vertical)
-            .scenePadding(.horizontal)
+            .containerHorizontalMargins()
         }
         .navigationTitle(movie.title)
         .safeNavigationBarTitleDisplayMode(.inline)

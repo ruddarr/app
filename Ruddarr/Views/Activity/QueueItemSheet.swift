@@ -47,7 +47,7 @@ struct QueueItemSheet: View {
 
                     details
                 }
-                .scenePadding(.horizontal)
+                .containerHorizontalMargins()
                 .padding(.top, deviceType == .mac ? 24 : (reduceTransparency ? 0 : -45))
             }
             .toolbar {

@@ -142,7 +142,7 @@ struct SeriesView: View {
         }
         .animation(.snappy, value: instance.series.cachedItems.map(\.id))
         .viewBottomPadding()
-        .scenePadding(.horizontal)
+        .containerHorizontalMargins()
         #if os(iOS)
             .padding(.top, searchPresented ? 7 : 0)
         #elseif os(macOS)

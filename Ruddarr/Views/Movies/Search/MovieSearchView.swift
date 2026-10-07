@@ -24,7 +24,7 @@ struct MovieSearchView: View {
                         .padding(.top, deviceType == .pad ? 32 : 12)
                 }
                 .viewBottomPadding()
-                .scenePadding(.horizontal)
+                .containerHorizontalMargins()
                 .opacity(discovery.movies.isEmpty ? 0 : 1)
                 .animation(.easeIn, value: discovery.movies)
                 .animation(.snappy, value: hideLibraryItems)
@@ -38,7 +38,7 @@ struct MovieSearchView: View {
                     }.buttonStyle(.plain)
                 }
                 .padding(.top, 12)
-                .scenePadding(.horizontal)
+                .containerHorizontalMargins()
                 .viewBottomPadding()
             }
         }

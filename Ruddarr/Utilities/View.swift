@@ -36,6 +36,19 @@ extension View {
         self.modifier(ViewBottomPadding())
     }
 
+    @ViewBuilder
+    func containerHorizontalMargins() -> some View {
+        #if os(iOS)
+            if #available(iOS 27.1, *) {
+                contentMargins(for: .container, edges: .horizontal)
+            } else {
+                scenePadding(.horizontal)
+            }
+        #else
+            scenePadding(.horizontal)
+        #endif
+    }
+
     func prominentGlassButtonStyle(_ condition: Bool) -> some View {
         modifier(ProminentGlassButtonStyle(condition: condition))
     }

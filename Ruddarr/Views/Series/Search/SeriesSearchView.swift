@@ -25,7 +25,7 @@ struct SeriesSearchView: View {
                         .padding(.top, deviceType == .pad ? 32 : 12)
                 }
                 .viewBottomPadding()
-                .scenePadding(.horizontal)
+                .containerHorizontalMargins()
                 .opacity(discovery.series.isEmpty ? 0 : 1)
                 .animation(.easeIn, value: discovery.series)
                 .animation(.snappy, value: hideLibraryItems)
@@ -35,7 +35,7 @@ struct SeriesSearchView: View {
                         .environment(instance)
                 }
                 .padding(.top, 12)
-                .scenePadding(.horizontal)
+                .containerHorizontalMargins()
                 .viewBottomPadding()
             }
         }

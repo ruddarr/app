@@ -38,7 +38,7 @@ struct CalendarView: View {
                     calendarScrollView
                 }
             }
-            .scenePadding(.horizontal)
+            .containerHorizontalMargins()
             .scrollIndicators(.never)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {

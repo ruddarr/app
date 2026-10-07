@@ -48,7 +48,7 @@ struct EpisodeView: View {
                 }
             }
             .padding(.vertical)
-            .scenePadding(.horizontal)
+            .containerHorizontalMargins()
         }
         .navigationTitle(navigationTitle)
         .safeNavigationBarTitleDisplayMode(.inline)
