@@ -89,7 +89,9 @@ struct RowMonitorButton: View {
     var body: some View {
         MonitorBookmark(monitored: monitored, loading: loading)
             .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
-            .overlay(Rectangle().padding(18))
+            .overlay {
+                Rectangle().padding(18)
+            }
     }
 }
 

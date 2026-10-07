@@ -60,7 +60,7 @@ class Images {
     }
 
     private static func sized(_ url: URL) -> URL {
-        guard let host = url.host else { return url }
+        guard let host = url.host(percentEncoded: false) else { return url }
 
         // use w780 as source for TMDb posters
         if host.hasSuffix("image.tmdb.org") {
@@ -98,12 +98,12 @@ class Images {
         FileManager.default
             .urls(for: .cachesDirectory, in: .userDomainMask)
             .first?
-            .appendingPathComponent("com.ruddarr.images/\(sha1(of: key))")
+            .appending(path: "com.ruddarr.images/\(sha1(of: key))")
     }
 
     private static let localCopies: URL = FileManager.default
         .temporaryDirectory
-        .appendingPathComponent("com.ruddarr.quicklook")
+        .appending(path: "com.ruddarr.quicklook")
 
     static func localCopy(of remote: String?, named filename: String? = nil) async -> URL? {
         guard let remote, let url = URL(string: remote) else { return nil }
@@ -135,7 +135,7 @@ class Images {
 
         let file = localCopyPath(for: url, named: filename)
 
-        return FileManager.default.fileExists(atPath: file.path) ? file : nil
+        return FileManager.default.fileExists(atPath: file.path(percentEncoded: false)) ? file : nil
     }
 
     private static func localCopyPath(for url: URL, named filename: String?) -> URL {
@@ -155,8 +155,8 @@ class Images {
             } ?? url.deletingPathExtension().lastPathComponent
 
         return localCopies
-            .appendingPathComponent(sha1(of: url.absoluteString))
-            .appendingPathComponent(name)
+            .appending(path: sha1(of: url.absoluteString))
+            .appending(path: name)
             .appendingPathExtension(pathExtension)
     }
 

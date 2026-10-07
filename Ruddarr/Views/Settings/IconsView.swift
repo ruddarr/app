@@ -71,7 +71,9 @@ struct IconsView: View {
                     .symbolVariant(.circle.fill)
                     .foregroundStyle(.white, settings.theme.safeTint)
                     .imageScale(.large)
-                    .background(Circle().fill(.systemBackground))
+                    .background {
+                        Circle().fill(.systemBackground)
+                    }
                     .offset(x: 3, y: -6)
             }
         }
