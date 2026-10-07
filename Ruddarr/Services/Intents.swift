@@ -23,36 +23,6 @@ struct OpenAppIntent: OpenIntent {
     }
 }
 
-struct OpenMovieIntent: OpenIntent {
-    static let title: LocalizedStringResource = "Open Movie"
-    static let openAppWhenRun: Bool = true
-
-    @Parameter(title: "Movie")
-    var target: MovieEntity
-
-    @MainActor
-    func perform() async throws -> some IntentResult {
-        dependencies.quickActions.openMovie(target.movieId, target.instanceId.uuidString)
-
-        return .result()
-    }
-}
-
-struct OpenSeriesIntent: OpenIntent {
-    static let title: LocalizedStringResource = "Open Series"
-    static let openAppWhenRun: Bool = true
-
-    @Parameter(title: "Series")
-    var target: SeriesEntity
-
-    @MainActor
-    func perform() async throws -> some IntentResult {
-        dependencies.quickActions.openSeries(target.seriesId, nil, nil, target.instanceId.uuidString)
-
-        return .result()
-    }
-}
-
 struct SearchMovieIntent: AppIntent {
     static let title: LocalizedStringResource = "Search for Movie"
     static let openAppWhenRun: Bool = true
@@ -123,7 +93,7 @@ struct SearchSeriesIntent: AppIntent {
 #if compiler(>=6.4)
 @available(iOS 27.0, macOS 27.0, *)
 @AppIntent(schema: .system.open)
-struct OpenMovieSchemaIntent: OpenIntent {
+struct OpenMovieIntent: OpenIntent {
     var target: MovieEntity
 
     @MainActor
@@ -136,33 +106,12 @@ struct OpenMovieSchemaIntent: OpenIntent {
 
 @available(iOS 27.0, macOS 27.0, *)
 @AppIntent(schema: .system.open)
-struct OpenSeriesSchemaIntent: OpenIntent {
+struct OpenSeriesIntent: OpenIntent {
     var target: SeriesEntity
 
     @MainActor
     func perform() async throws -> some IntentResult {
         dependencies.quickActions.openSeries(target.seriesId, nil, nil, target.instanceId.uuidString)
-
-        return .result()
-    }
-}
-
-@available(iOS 27.0, macOS 27.0, *)
-@AppIntent(schema: .system.searchInApp)
-struct SearchInAppIntent: ShowInAppSearchResultsIntent {
-    static let searchScopes: [StringSearchScope] = [.general]
-
-    var criteria: StringSearchCriteria
-
-    @MainActor
-    func perform() async throws -> some IntentResult {
-        let query = criteria.term.trimmed()
-
-        if dependencies.router.selectedTab == .series {
-            dependencies.quickActions.openSeriesSearch(query)
-        } else {
-            dependencies.quickActions.openMovieSearch(query)
-        }
 
         return .result()
     }

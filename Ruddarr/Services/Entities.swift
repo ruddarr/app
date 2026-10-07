@@ -12,7 +12,7 @@ struct MovieEntity: AppEntity {
     let year: Int
 
     init(_ movie: Movie, _ instanceId: Instance.ID) {
-        self.id = Self.identifier(movie.id, instanceId)
+        self.id = MediaEntityID(movie.id, instanceId).rawValue
         self.movieId = movie.id
         self.instanceId = instanceId
         self.title = movie.title
@@ -26,26 +26,9 @@ struct MovieEntity: AppEntity {
         )
     }
 
-    static func identifier(_ movieId: Movie.ID, _ instanceId: Instance.ID) -> String {
-        "\(instanceId.uuidString):\(movieId)"
-    }
-
-    static func parse(_ identifier: String) -> (movieId: Movie.ID, instanceId: Instance.ID)? {
-        let parts = identifier.split(separator: ":")
-
-        guard parts.count == 2,
-              let instanceId = UUID(uuidString: String(parts[0])),
-              let movieId = Movie.ID(parts[1])
-        else {
-            return nil
-        }
-
-        return (movieId, instanceId)
-    }
-
     static func entityIdentifier(_ movie: Movie) -> EntityIdentifier? {
         movie.instanceId.map {
-            EntityIdentifier(for: Self.self, identifier: identifier(movie.id, $0))
+            EntityIdentifier(for: Self.self, identifier: MediaEntityID(movie.id, $0).rawValue)
         }
     }
 }
@@ -56,14 +39,14 @@ struct MovieEntityQuery: EntityStringQuery {
 
         return await withTaskGroup(of: MovieEntity?.self, returning: [MovieEntity].self) { group in
             for identifier in identifiers {
-                guard let parsed = MovieEntity.parse(identifier),
+                guard let parsed = MediaEntityID(rawValue: identifier),
                       let instance = instances.first(where: { $0.id == parsed.instanceId })
                 else {
                     continue
                 }
 
                 group.addTask {
-                    let movie = try? await dependencies.api.radarr.movie(parsed.movieId, instance)
+                    let movie = try? await dependencies.api.radarr.movie(parsed.mediaId, instance)
 
                     return movie.map { MovieEntity($0, instance.id) }
                 }
@@ -128,7 +111,7 @@ struct SeriesEntity: AppEntity {
     let year: Int
 
     init(_ series: Series, _ instanceId: Instance.ID) {
-        self.id = Self.identifier(series.id, instanceId)
+        self.id = MediaEntityID(series.id, instanceId).rawValue
         self.seriesId = series.id
         self.instanceId = instanceId
         self.title = series.title
@@ -142,26 +125,9 @@ struct SeriesEntity: AppEntity {
         )
     }
 
-    static func identifier(_ seriesId: Series.ID, _ instanceId: Instance.ID) -> String {
-        "\(instanceId.uuidString):\(seriesId)"
-    }
-
-    static func parse(_ identifier: String) -> (seriesId: Series.ID, instanceId: Instance.ID)? {
-        let parts = identifier.split(separator: ":")
-
-        guard parts.count == 2,
-              let instanceId = UUID(uuidString: String(parts[0])),
-              let seriesId = Series.ID(parts[1])
-        else {
-            return nil
-        }
-
-        return (seriesId, instanceId)
-    }
-
     static func entityIdentifier(_ series: Series) -> EntityIdentifier? {
         series.instanceId.map {
-            EntityIdentifier(for: Self.self, identifier: identifier(series.id, $0))
+            EntityIdentifier(for: Self.self, identifier: MediaEntityID(series.id, $0).rawValue)
         }
     }
 }
@@ -172,14 +138,14 @@ struct SeriesEntityQuery: EntityStringQuery {
 
         return await withTaskGroup(of: SeriesEntity?.self, returning: [SeriesEntity].self) { group in
             for identifier in identifiers {
-                guard let parsed = SeriesEntity.parse(identifier),
+                guard let parsed = MediaEntityID(rawValue: identifier),
                       let instance = instances.first(where: { $0.id == parsed.instanceId })
                 else {
                     continue
                 }
 
                 group.addTask {
-                    let series = try? await dependencies.api.sonarr.series(parsed.seriesId, instance)
+                    let series = try? await dependencies.api.sonarr.series(parsed.mediaId, instance)
 
                     return series.map { SeriesEntity($0, instance.id) }
                 }

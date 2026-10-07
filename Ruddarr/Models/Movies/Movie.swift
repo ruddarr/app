@@ -258,7 +258,7 @@ extension Movie {
             .map { $0.title }
 
         return CSSearchableItem(
-            uniqueIdentifier: "movie:\(id):\(instanceId?.uuidString ?? "")",
+            uniqueIdentifier: SpotlightItemID(.movie, id, instanceId?.uuidString).rawValue,
             domainIdentifier: instanceId?.uuidString,
             attributeSet: attributes
         )

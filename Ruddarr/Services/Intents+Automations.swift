@@ -259,10 +259,8 @@ private func instanceById(_ id: Instance.ID) throws -> Instance {
 }
 
 private extension Movie {
-    // Mirrors `MovieForm.selectDefaultValues()`
     mutating func applyDefaults(_ defaults: MovieDefaults, _ profiles: [InstanceQualityProfile], _ folders: [InstanceRootFolder]) {
         let availabilities: [MovieStatus] = [.announced, .inCinemas, .released]
-        let folder = defaults.rootFolder.untrailingSlashIt
 
         addOptions = MovieAddOptions(monitor: defaults.monitor)
         monitored = defaults.monitor != .none
@@ -271,31 +269,18 @@ private extension Movie {
             ? defaults.minimumAvailability
             : .announced
 
-        qualityProfileId = profiles.contains { $0.id == defaults.qualityProfile }
-            ? defaults.qualityProfile
-            : profiles.first?.id ?? 0
-
-        rootFolderPath = folders.contains { $0.path?.untrailingSlashIt == folder }
-            ? folder
-            : folders.first?.path ?? folder
+        qualityProfileId = AddDefaults.qualityProfile(defaults.qualityProfile, in: profiles.map(\.id))
+        rootFolderPath = AddDefaults.rootFolder(defaults.rootFolder, in: folders.map(\.path))
     }
 }
 
 private extension Series {
-    // Mirrors `SeriesForm.selectDefaultValues()`
     mutating func applyDefaults(_ defaults: SeriesDefaults, _ profiles: [InstanceQualityProfile], _ folders: [InstanceRootFolder]) {
-        let folder = defaults.rootFolder.untrailingSlashIt
-
         addOptions = SeriesAddOptions(monitor: defaults.monitor)
         monitorNewItems = nil
         seasonFolder = defaults.seasonFolder
 
-        qualityProfileId = profiles.contains { $0.id == defaults.qualityProfile }
-            ? defaults.qualityProfile
-            : profiles.first?.id ?? 0
-
-        rootFolderPath = folders.contains { $0.path?.untrailingSlashIt == folder }
-            ? folder
-            : folders.first?.path ?? folder
+        qualityProfileId = AddDefaults.qualityProfile(defaults.qualityProfile, in: profiles.map(\.id))
+        rootFolderPath = AddDefaults.rootFolder(defaults.rootFolder, in: folders.map(\.path))
     }
 }

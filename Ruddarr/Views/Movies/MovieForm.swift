@@ -152,20 +152,9 @@ struct MovieForm: View {
             movie.minimumAvailability = .announced
         }
 
-        if !instance.qualityProfiles.contains(where: {
-            $0.id == movie.qualityProfileId
-        }) {
-            movie.qualityProfileId = instance.qualityProfiles.first?.id ?? 0
-        }
+        movie.qualityProfileId = AddDefaults.qualityProfile(movie.qualityProfileId, in: instance.qualityProfiles.map(\.id))
 
-        movie.rootFolderPath = movie.rootFolderPath?.untrailingSlashIt
-
-        if let fallback = instance.rootFolders.first?.path,
-           !instance.rootFolders.contains(where: {
-               $0.path?.untrailingSlashIt == movie.rootFolderPath
-           }) {
-            movie.rootFolderPath = fallback
-        }
+        movie.rootFolderPath = AddDefaults.rootFolder(movie.rootFolderPath, in: instance.rootFolders.map(\.path))
     }
 
     func tags() -> Binding<Set<Tag.ID>> {

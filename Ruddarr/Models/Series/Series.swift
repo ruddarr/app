@@ -248,7 +248,7 @@ extension Series {
         }
 
         return CSSearchableItem(
-            uniqueIdentifier: "series:\(id):\(instanceId?.uuidString ?? "")",
+            uniqueIdentifier: SpotlightItemID(.series, id, instanceId?.uuidString).rawValue,
             domainIdentifier: instanceId?.uuidString,
             attributeSet: attributes
         )
