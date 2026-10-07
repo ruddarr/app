@@ -14,7 +14,7 @@ actor Spotlight {
         "spotlight:\(instanceId)"
     }
 
-    func index<M: Media>(_ entities: [M], delay: Duration? = nil) {
+    func index<M: Media>(_ entities: [M], from instance: Instance, delay: Duration? = nil) {
         guard CSSearchableIndex.isIndexingAvailable() else { return }
 
         Task(priority: .background) {
@@ -47,7 +47,7 @@ actor Spotlight {
 
                     try await index.indexSearchableItems(
                         entities[start..<end].map {
-                            $0.searchableItem(poster: images[$0.id] ?? nil)
+                            $0.searchableItem(poster: images[$0.id] ?? nil, instance: instance)
                         }
                     )
                 }

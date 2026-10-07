@@ -68,16 +68,13 @@ struct Ruddarr: App {
     func openSearchableItem(_ userActivity: NSUserActivity) {
         guard let identifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else { return }
 
-        let parts = identifier.split(separator: ":").map(String.init) // `<type>:<id>:<instance>`
-
-        let deeplink: QuickActions.Deeplink? = switch parts[0] {
-        case "movie": Movie.ID(parts[1]).map { .openMovie($0, parts[2]) }
-        case "series": Series.ID(parts[1]).map { .openSeries($0, parts[2]) }
-        default: nil
+        guard let item = SpotlightItemID(rawValue: identifier) else {
+            return leaveBreadcrumb(.error, category: "spotlight", message: "Invalid identifier", data: ["openSearchableItem": identifier])
         }
 
-        guard let deeplink else {
-            return leaveBreadcrumb(.error, category: "spotlight", message: "Invalid identifier", data: ["openSearchableItem": identifier])
+        let deeplink: QuickActions.Deeplink = switch item.kind {
+        case .movie: .openMovie(item.mediaId, item.instance)
+        case .series: .openSeries(item.mediaId, item.instance)
         }
 
         deeplink()

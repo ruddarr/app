@@ -88,3 +88,32 @@ struct SearchSeriesIntent: AppIntent {
         return .result()
     }
 }
+
+// Siri app schemas require the iOS 27 SDK (Swift 6.4)
+#if compiler(>=6.4)
+@available(iOS 27.0, macOS 27.0, *)
+@AppIntent(schema: .system.open)
+struct OpenMovieIntent: OpenIntent {
+    var target: MovieEntity
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        dependencies.quickActions.openMovie(target.movieId, target.instanceId.uuidString)
+
+        return .result()
+    }
+}
+
+@available(iOS 27.0, macOS 27.0, *)
+@AppIntent(schema: .system.open)
+struct OpenSeriesIntent: OpenIntent {
+    var target: SeriesEntity
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        dependencies.quickActions.openSeries(target.seriesId, nil, nil, target.instanceId.uuidString)
+
+        return .result()
+    }
+}
+#endif

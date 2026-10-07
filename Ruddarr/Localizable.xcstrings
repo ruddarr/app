@@ -1663,6 +1663,9 @@
         }
       }
     },
+    "Downloaded Episodes" : {
+
+    },
     "Downloading" : {
       "comment" : "(Short) State of task in queue\nState of task in queue\nStatus of task in queue",
       "localizations" : {
@@ -2249,6 +2252,9 @@
           }
         }
       }
+    },
+    "IMDb ID" : {
+
     },
     "Import" : {
       "comment" : "(Short) Importing a queue task",
@@ -5048,6 +5054,9 @@
         }
       }
     },
+    "Size on Disk" : {
+
+    },
     "Slow Instance" : {
       "localizations" : {
         "en" : {
@@ -5444,6 +5453,9 @@
         }
       }
     },
+    "TMDB ID" : {
+
+    },
     "To monitor a season or episode, the series itself must be monitored." : {
       "localizations" : {
         "en" : {
@@ -5535,6 +5547,9 @@
           }
         }
       }
+    },
+    "TVDB ID" : {
+
     },
     "Type" : {
       "comment" : "Short version of Series Type",

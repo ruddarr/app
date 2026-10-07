@@ -93,6 +93,7 @@
 				Utilities/FoldedText.swift,
 				Utilities/Formatters.swift,
 				Utilities/Helpers.swift,
+				Utilities/Identifiers.swift,
 				Utilities/Networking.swift,
 				Utilities/Placeholder.swift,
 				Utilities/Privacy.swift,
