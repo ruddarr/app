@@ -26,7 +26,9 @@ struct AddMovieIntent: AppIntent {
             throw AppError(String(localized: "No movie found matching “\(query)”."))
         }
 
-        if !movie.exists {
+        let alreadyAdded = movie.exists
+
+        if !alreadyAdded {
             let defaults = dependencies.store.string(forKey: "movieDefaults")
                 .flatMap(MovieDefaults.init(rawValue:)) ?? MovieDefaults()
 
@@ -42,11 +44,7 @@ struct AddMovieIntent: AppIntent {
             _ = try await dependencies.api.instance.command(.search([movie.id]), instance)
         }
 
-        let label = resultLabel(movie.title, movie.year)
-
-        let message = search
-            ? String(localized: "Added \(label) and started searching for releases.")
-            : String(localized: "Added \(label).")
+        let message = addedMessage(resultLabel(movie.title, movie.year), alreadyAdded: alreadyAdded, search: search)
 
         return .result(value: MovieEntity(movie, instance.id), dialog: "\(message)")
     }
@@ -77,7 +75,9 @@ struct AddSeriesIntent: AppIntent {
             throw AppError(String(localized: "No series found matching “\(query)”."))
         }
 
-        if !series.exists {
+        let alreadyAdded = series.exists
+
+        if !alreadyAdded {
             let defaults = dependencies.store.string(forKey: "seriesDefaults")
                 .flatMap(SeriesDefaults.init(rawValue:)) ?? SeriesDefaults()
 
@@ -93,11 +93,7 @@ struct AddSeriesIntent: AppIntent {
             _ = try await dependencies.api.instance.command(.seriesSearch(series.id), instance)
         }
 
-        let label = resultLabel(series.title, series.year)
-
-        let message = search
-            ? String(localized: "Added \(label) and started searching for releases.")
-            : String(localized: "Added \(label).")
+        let message = addedMessage(resultLabel(series.title, series.year), alreadyAdded: alreadyAdded, search: search)
 
         return .result(value: SeriesEntity(series, instance.id), dialog: "\(message)")
     }
@@ -147,97 +143,92 @@ struct SeriesAutomaticSearchIntent: AppIntent {
     }
 }
 
-struct UpcomingReleasesIntent: AppIntent {
-    static let title: LocalizedStringResource = "Get Upcoming Releases"
-    static let description: IntentDescription? = IntentDescription("Lists the movies and episodes releasing in the coming days.")
+struct MissingSearchIntent: AppIntent {
+    static let title: LocalizedStringResource = "Search All Missing"
+    static let description: IntentDescription? = IntentDescription("Searches all indexers for every monitored movie or episode that is missing, on all instances.")
 
-    @Parameter(title: "Days", default: 7)
-    var days: Int
+    @Parameter(title: "Media", default: .all)
+    var scope: MissingSearchScope
 
     static var parameterSummary: some ParameterSummary {
-        Summary("Get releases for the next \(\.$days) days")
+        Summary("Search for all missing \(\.$scope)")
     }
 
-    func perform() async throws -> some IntentResult & ReturnsValue<[String]> & ProvidesDialog {
-        let span = min(max(days, 1), 90)
-        let calendar = Calendar.current
-        let start = calendar.startOfDay(for: .now)
-        let end = calendar.date(byAdding: .day, value: span, to: start) ?? start
-        let instances = await MainActor.run { AppSettings.shared.configuredInstances }
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        let configured = await MainActor.run { AppSettings.shared.configuredInstances }
+        let instances = configured.filter { scope.types.contains($0.type) }
 
-        let results = await withTaskGroup(of: [UpcomingRelease]?.self, returning: [[UpcomingRelease]?].self) { group in
+        guard !instances.isEmpty else {
+            throw AppError(String(localized: "No instances configured."))
+        }
+
+        let failed = await withTaskGroup(of: Instance?.self, returning: [Instance].self) { group in
             for instance in instances {
                 group.addTask {
-                    try? await upcomingReleases(instance, start..<end)
+                    let command: InstanceCommand = instance.type == .radarr ? .missingMoviesSearch : .missingEpisodesSearch
+
+                    do {
+                        _ = try await dependencies.api.instance.command(command, instance)
+                        return nil
+                    } catch {
+                        return instance
+                    }
                 }
             }
 
-            var results: [[UpcomingRelease]?] = []
+            var failed: [Instance] = []
 
-            for await result in group {
-                results.append(result)
+            for await instance in group {
+                if let instance { failed.append(instance) }
             }
 
-            return results
+            return failed
         }
 
-        if !results.isEmpty, results.allSatisfy({ $0 == nil }) {
-            throw AppError(String(localized: "Failed to load the calendar."))
+        let failedLabels = failed.map(\.label).formatted(.list(type: .and))
+
+        if failed.count == instances.count {
+            throw AppError(String(localized: "Couldn't start the search on \(failedLabels)."))
         }
 
-        let lines = results
-            .compactMap { $0 }
-            .joined()
-            .sorted { $0.date < $1.date }
-            .map(\.text)
+        let started = Set(instances.filter { instance in !failed.contains { $0.id == instance.id } }.map(\.type))
 
-        let summary = lines.isEmpty
-            ? String(localized: "Nothing is releasing in the next \(span) days.")
-            : lines.prefix(10).joined(separator: "\n")
+        var message = if started == [.radarr] {
+            String(localized: "Started searching for missing movies.")
+        } else if started == [.sonarr] {
+            String(localized: "Started searching for missing episodes.")
+        } else {
+            String(localized: "Started searching for missing movies and episodes.")
+        }
 
-        return .result(value: lines, dialog: "\(summary)")
+        if !failed.isEmpty {
+            message += " " + String(localized: "Couldn't start the search on \(failedLabels).")
+        }
+
+        return .result(dialog: "\(message)")
     }
 }
 
-private struct UpcomingRelease: Sendable {
-    let date: Date
-    let text: String
-}
+enum MissingSearchScope: String, CaseIterable, AppEnum {
+    case all
+    case movies
+    case series
 
-private func upcomingReleases(_ instance: Instance, _ range: Range<Date>) async throws -> [UpcomingRelease] {
-    switch instance.type {
-    case .radarr:
-        try await dependencies.api.radarr.calendar(range.lowerBound, range.upperBound, instance)
-            .flatMap { movieReleases($0, range) }
-    case .sonarr:
-        try await dependencies.api.sonarr.calendar(range.lowerBound, range.upperBound, instance)
-            .compactMap { episodeRelease($0, range) }
+    static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Media")
+
+    static var caseDisplayRepresentations: [Self: DisplayRepresentation] {[
+        .all: "Movies and Series",
+        .movies: "Movies",
+        .series: "Series",
+    ]}
+
+    var types: [InstanceType] {
+        switch self {
+        case .all: [.radarr, .sonarr]
+        case .movies: [.radarr]
+        case .series: [.sonarr]
+        }
     }
-}
-
-private func movieReleases(_ movie: Movie, _ range: Range<Date>) -> [UpcomingRelease] {
-    let releases: [(date: Date?, type: String)] = [
-        (movie.inCinemas, String(localized: "In Cinemas")),
-        (movie.digitalRelease, String(localized: "Digital Release")),
-        (movie.physicalRelease, String(localized: "Physical Release")),
-    ]
-
-    return releases.compactMap { release in
-        guard let date = release.date, range.contains(date) else { return nil }
-
-        let day = date.formatted(.dateTime.weekday().month().day())
-
-        return UpcomingRelease(date: date, text: "\(day) · \(movie.title) (\(release.type))")
-    }
-}
-
-private func episodeRelease(_ episode: Episode, _ range: Range<Date>) -> UpcomingRelease? {
-    guard let date = episode.airDateUtc, range.contains(date) else { return nil }
-
-    let time = date.formatted(.dateTime.weekday().month().day().hour().minute())
-    let parts = [episode.series?.title, episode.episodeLabel, episode.title].compactMap { $0 }
-
-    return UpcomingRelease(date: date, text: "\(time) · \(parts.joined(separator: " · "))")
 }
 
 private extension AppIntent {
@@ -250,6 +241,15 @@ private extension AppIntent {
         let choice = try await requestChoice(between: options + [.cancel], dialog: dialog)
 
         return options.firstIndex(of: choice).map { candidates[$0] }
+    }
+}
+
+private func addedMessage(_ label: String, alreadyAdded: Bool, search: Bool) -> String {
+    switch (alreadyAdded, search) {
+    case (false, true): String(localized: "Added \(label) and started searching for releases.")
+    case (false, false): String(localized: "Added \(label).")
+    case (true, true): String(localized: "\(label) is already in your library. Started searching for releases.")
+    case (true, false): String(localized: "\(label) is already in your library.")
     }
 }
 

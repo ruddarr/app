@@ -1,11 +1,13 @@
 enum InstanceCommand {
     case refreshMovie(_ ids: [Movie.ID])
     case search(_ ids: [Movie.ID])
+    case missingMoviesSearch
 
     case refreshSeries(_ series: Series.ID)
     case seriesSearch(_ series: Series.ID)
     case seasonSearch(_ series: Series.ID, season: Season.ID)
     case episodeSearch(_ ids: [Episode.ID])
+    case missingEpisodesSearch
 
     case refreshDownloads
 
@@ -17,6 +19,8 @@ enum InstanceCommand {
             RadarrPayload(name: "RefreshMovie", movieIds: ids)
         case .search(let ids):
             RadarrPayload(name: "MoviesSearch", movieIds: ids)
+        case .missingMoviesSearch:
+            GenericPayload(name: "MissingMoviesSearch")
         case .refreshSeries(let series):
             SonarrPayload(name: "RefreshSeries", seriesId: series)
         case .seriesSearch(let series):
@@ -25,6 +29,8 @@ enum InstanceCommand {
             SonarrPayload(name: "SeasonSearch", seriesId: series, seasonNumber: season)
         case .episodeSearch(let ids):
             SonarrPayload(name: "EpisodeSearch", episodeIds: ids)
+        case .missingEpisodesSearch:
+            MissingEpisodesPayload()
         case .refreshDownloads:
             GenericPayload(name: "RefreshMonitoredDownloads")
         case .manualImport(let files):
@@ -62,6 +68,11 @@ enum InstanceCommand {
             self.seasonNumber = seasonNumber
             self.episodeIds = episodeIds
         }
+    }
+
+    struct MissingEpisodesPayload: Payload {
+        let name: String = "MissingEpisodeSearch"
+        let monitored: Bool = true
     }
 
     struct ImportPayload: Payload {
