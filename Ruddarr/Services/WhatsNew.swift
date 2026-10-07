@@ -72,7 +72,7 @@ struct WhatsNewView: View {
                     .modifier(WhatsNewFooterPadding())
                     .background(.systemBackground)
             }
-            .edgesIgnoringSafeArea(.bottom)
+            .ignoresSafeArea(edges: .bottom)
         }
         .onDisappear {
             WhatsNew.markAsPresented()
