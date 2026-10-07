@@ -128,7 +128,7 @@ struct MediaEventSheet: View {
 
         if let string = event.data("nzbInfoUrl"),
            let url = URL(string: string),
-           let domain = url.host
+           let domain = url.host(percentEncoded: false)
         {
             data.append(row(String(localized: "Link"), Link(domain, destination: url).contextMenu {
                 LinkContextMenu(url)

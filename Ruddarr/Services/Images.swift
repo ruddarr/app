@@ -60,7 +60,7 @@ class Images {
     }
 
     private static func sized(_ url: URL) -> URL {
-        guard let host = url.host else { return url }
+        guard let host = url.host(percentEncoded: false) else { return url }
 
         // use w780 as source for TMDb posters
         if host.hasSuffix("image.tmdb.org") {
