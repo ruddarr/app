@@ -1,7 +1,7 @@
 import Foundation
 import AppIntents
 
-struct MovieEntity: AppEntity {
+struct MovieEntity: IndexedEntity {
     static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Movie")
     static let defaultQuery = MovieEntityQuery()
 
@@ -144,7 +144,7 @@ struct MovieEntityQuery: EntityStringQuery {
     }
 }
 
-struct SeriesEntity: AppEntity {
+struct SeriesEntity: IndexedEntity {
     static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Series")
     static let defaultQuery = SeriesEntityQuery()
 
