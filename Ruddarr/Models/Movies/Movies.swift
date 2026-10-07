@@ -135,7 +135,7 @@ class Movies {
             items = try await dependencies.api.radarr.fetch(instance)
             itemsCount = items.count
             computeAlternateTitles()
-            await Spotlight(instance.id).index(items, delay: .seconds(5))
+            await Spotlight(instance.id).index(items, from: instance, delay: .seconds(5))
 
             leaveBreadcrumb(.info, category: "movies", message: "Fetched movies", data: ["count": items.count])
 
