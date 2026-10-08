@@ -17,6 +17,8 @@ struct SeriesView: View {
     @Environment(SonarrInstance.self) var instance
 
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.hasVerticalToolbar) var hasVerticalToolbar
+    @Environment(\.isFolded) private var isFolded
 
     @State private var scrollView: ScrollViewProxy?
 
@@ -86,7 +88,7 @@ struct SeriesView: View {
                 toolbarSearchButton
 
                 if settings.sonarrInstances.count > 1 {
-                    if deviceType == .phone { toolbarInstancePicker }
+                    if deviceType == .phone && !isFolded { toolbarInstancePicker }
                     if deviceType == .pad { bottomBarInstancePicker }
                 }
             }

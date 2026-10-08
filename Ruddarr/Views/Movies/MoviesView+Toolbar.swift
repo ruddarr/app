@@ -116,9 +116,15 @@ extension MoviesView {
     var toolbarInstancePicker: some ToolbarContent {
         @Bindable var settings = settings
 
-        ToolbarSpacer(.fixed, placement: .navigation)
+        #if os(iOS)
+            let placement: ToolbarItemPlacement = hasVerticalToolbar ? .bottomBar : .navigation
+        #else
+            let placement: ToolbarItemPlacement = .navigation
+        #endif
 
-        ToolbarItem(placement: .navigation) {
+        ToolbarSpacer(.fixed, placement: placement)
+
+        ToolbarItem(placement: placement) {
             Menu {
                 Picker(selection: $settings.radarrInstanceId, label: Text("Instances")) {
                     ForEach(settings.radarrInstances) { instance in

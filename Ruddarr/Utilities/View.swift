@@ -108,6 +108,7 @@ private struct WithAppStateModifier: ViewModifier {
             .preferredColorScheme(settings.appearance.preferredColorScheme)
             .environment(settings)
             .environment(\.deviceType, Platform.deviceType)
+            .modifier(FoldedModifier())
             .environment(radarrInstance)
             .environment(sonarrInstance)
             .task {
@@ -118,6 +119,26 @@ private struct WithAppStateModifier: ViewModifier {
             .onChange(of: settings.instances) {
                 Queue.shared.instances = settings.instances
             }
+    }
+}
+
+private struct FoldedModifier: ViewModifier {
+    @State private var isFolded = false
+
+    func body(content: Content) -> some View {
+        #if os(iOS)
+            if #available(iOS 27.1, *) {
+                content
+                    .environment(\.isFolded, isFolded)
+                    .onHingeChange { _, context in
+                        isFolded = context.hinge?.status == .closed
+                    }
+            } else {
+                content
+            }
+        #else
+            content
+        #endif
     }
 }
 
