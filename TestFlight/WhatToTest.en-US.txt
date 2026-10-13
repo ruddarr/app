@@ -1,5 +1,6 @@
 Added
 - Support iPhone Duo
+- Monitor and delete movies and series from the library context menu
 
 Changed
 - Adapt sheet heights to shorter displays

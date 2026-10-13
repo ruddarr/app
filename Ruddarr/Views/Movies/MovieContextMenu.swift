@@ -4,6 +4,7 @@ struct MovieContextMenu: View {
     var movie: Movie
 
     @Environment(RadarrInstance.self) private var instance
+    @Environment(\.deleteMovie) private var deleteMovie
 
     var body: some View {
         Group {
@@ -14,6 +15,19 @@ struct MovieContextMenu: View {
 
                 Button("Automatic Search", systemImage: "magnifyingglass") {
                     Task { await dispatchSearch() }
+                }
+
+                Button(
+                    movie.monitored ? "Unmonitor" : "Monitor",
+                    systemImage: movie.monitored ? "bookmark.slash" : "bookmark"
+                ) {
+                    Task { await toggleMonitor() }
+                }
+
+                if let deleteMovie {
+                    Button("Delete", systemImage: "trash", role: .destructive) {
+                        deleteMovie.wrappedValue = movie
+                    }.tint(.red)
                 }
             }
         }.tint(.primary)
@@ -27,5 +41,21 @@ struct MovieContextMenu: View {
         dependencies.toast.show(.movieSearchQueued)
 
         Telemetry.record(.movieSearchDispatched)
+    }
+
+    func toggleMonitor() async {
+        guard var item: Movie = instance.movies.byId(movie.id) else {
+            return
+        }
+
+        item.monitored = !movie.monitored
+
+        guard await instance.movies.update(item) else {
+            return
+        }
+
+        _ = await instance.movies.get(item)
+
+        dependencies.toast.show(item.monitored ? .monitored : .unmonitored)
     }
 }
