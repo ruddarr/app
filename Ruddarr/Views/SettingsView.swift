@@ -43,12 +43,10 @@ struct SettingsView: View {
 
     @ViewBuilder
     var instanceSection: some View {
-        @Bindable var settings = settings
-
         Section {
-            ForEach($settings.instances) { $instance in
+            ForEach(settings.instances) { instance in
                 NavigationLink(value: Path.viewInstance(instance.id)) {
-                    InstanceRow(instance: $instance)
+                    InstanceRow(instance: instance)
                 }
             }
 

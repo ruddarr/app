@@ -11,3 +11,4 @@ Fixed
 - Dismiss release search screen when search fails
 - Drop the decimal when a queue task reaches 100%
 - Prevent deleted queue tasks from reappearing during refreshes
+- Prevent a crash while checking instance connections in Settings
