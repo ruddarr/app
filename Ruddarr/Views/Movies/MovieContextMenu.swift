@@ -17,14 +17,14 @@ struct MovieContextMenu: View {
                     Task { await dispatchSearch() }
                 }
 
-                Button(
-                    movie.monitored ? "Unmonitor" : "Monitor",
-                    systemImage: movie.monitored ? "bookmark.slash" : "bookmark"
-                ) {
-                    Task { await toggleMonitor() }
-                }
-
                 if let deleteMovie {
+                    Button(
+                        movie.monitored ? "Unmonitor" : "Monitor",
+                        systemImage: movie.monitored ? "bookmark.slash" : "bookmark"
+                    ) {
+                        Task { await toggleMonitor() }
+                    }
+
                     Button("Delete", systemImage: "trash", role: .destructive) {
                         deleteMovie.wrappedValue = movie
                     }.tint(.red)
@@ -44,17 +44,16 @@ struct MovieContextMenu: View {
     }
 
     func toggleMonitor() async {
-        guard var item: Movie = instance.movies.byId(movie.id) else {
-            return
-        }
-
-        item.monitored = !movie.monitored
+        var item = movie
+        item.monitored.toggle()
 
         guard await instance.movies.update(item) else {
             return
         }
 
-        _ = await instance.movies.get(item)
+        if let index = instance.movies.items.firstIndex(where: { $0.id == item.id }) {
+            instance.movies.items[index].monitored = item.monitored
+        }
 
         dependencies.toast.show(item.monitored ? .monitored : .unmonitored)
     }

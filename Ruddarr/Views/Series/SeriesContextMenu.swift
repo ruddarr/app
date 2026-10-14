@@ -11,7 +11,9 @@ struct SeriesContextMenu: View {
             SeriesLinks(series: series)
 
             if series.exists {
-                Divider()
+                if series.monitored || deleteSeries != nil {
+                    Divider()
+                }
 
                 if series.monitored {
                     Button("Search Monitored", systemImage: "magnifyingglass") {
@@ -19,14 +21,14 @@ struct SeriesContextMenu: View {
                     }
                 }
 
-                Button(
-                    series.monitored ? "Unmonitor" : "Monitor",
-                    systemImage: series.monitored ? "bookmark.slash" : "bookmark"
-                ) {
-                    Task { await toggleMonitor() }
-                }
-
                 if let deleteSeries {
+                    Button(
+                        series.monitored ? "Unmonitor" : "Monitor",
+                        systemImage: series.monitored ? "bookmark.slash" : "bookmark"
+                    ) {
+                        Task { await toggleMonitor() }
+                    }
+
                     Button("Delete", systemImage: "trash", role: .destructive) {
                         deleteSeries.wrappedValue = series
                     }.tint(.red)
@@ -46,17 +48,16 @@ struct SeriesContextMenu: View {
     }
 
     func toggleMonitor() async {
-        guard var item: Series = instance.series.byId(series.id) else {
-            return
-        }
-
-        item.monitored = !series.monitored
+        var item = series
+        item.monitored.toggle()
 
         guard await instance.series.update(item) else {
             return
         }
 
-        _ = await instance.series.get(item)
+        if let index = instance.series.items.firstIndex(where: { $0.id == item.id }) {
+            instance.series.items[index].monitored = item.monitored
+        }
 
         dependencies.toast.show(item.monitored ? .monitored : .unmonitored)
     }
