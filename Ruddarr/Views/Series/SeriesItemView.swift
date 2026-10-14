@@ -207,7 +207,9 @@ extension SeriesDetailView {
     }
 
     func deleteSeries(exclude: Bool, delete: Bool) async {
-        _ = await instance.series.delete(series, addExclusion: exclude, deleteFiles: delete)
+        guard await instance.series.delete(series, addExclusion: exclude, deleteFiles: delete) else {
+            return
+        }
 
         if let inCalendarSheet {
             inCalendarSheet.dismiss()

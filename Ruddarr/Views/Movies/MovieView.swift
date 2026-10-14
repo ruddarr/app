@@ -190,7 +190,9 @@ extension MovieView {
     }
 
     func deleteMovie(exclude: Bool, delete: Bool) async {
-        _ = await instance.movies.delete(movie, addExclusion: exclude, deleteFiles: delete)
+        guard await instance.movies.delete(movie, addExclusion: exclude, deleteFiles: delete) else {
+            return
+        }
 
         if let inCalendarSheet {
             inCalendarSheet.dismiss()

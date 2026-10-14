@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Added
 - Support iPhone Duo
+- Monitor and delete movies and series from the library context menu
 
 ### Changed
 - Adapt sheet heights to shorter displays

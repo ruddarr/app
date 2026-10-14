@@ -8,6 +8,12 @@ extension EnvironmentValues {
     // swiftlint:disable:next implicit_optional_initialization
     @Entry var inCalendarSheet: CalendarSheetContext? = nil
 
+    // swiftlint:disable:next implicit_optional_initialization
+    @Entry var deleteMovie: Binding<Movie?>? = nil
+
+    // swiftlint:disable:next implicit_optional_initialization
+    @Entry var deleteSeries: Binding<Series?>? = nil
+
     var hasVerticalToolbar: Bool {
         #if os(iOS)
             if #available(iOS 27.1, *) {

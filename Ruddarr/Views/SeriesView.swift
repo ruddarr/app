@@ -33,6 +33,8 @@ struct SeriesView: View {
 
     @State private var navigationTask: Task<Void, Never>?
 
+    @State private var seriesToDelete: Series?
+
     var body: some View {
         // swiftlint:disable:next closure_body_length
         NavigationStack(path: dependencies.$router.seriesPath) {
@@ -112,6 +114,16 @@ struct SeriesView: View {
             } message: { error in
                 Text(error.recoverySuggestionFallback)
             }.tint(nil)
+            .sheet(item: $seriesToDelete) { series in
+                MediaDeleteSheet(label: "Delete Series") { exclude, delete in
+                    Task {
+                        await deleteSeries(series, exclude: exclude, delete: delete)
+                        seriesToDelete = nil
+                    }
+                }
+                .presentationDetents(dynamic: [deviceType == .phone ? .fraction(0.33) : .medium])
+                .presentationBackground(.sheetBackground)
+            }
             .overlay {
                 if notConnectedToInternet {
                     NoInternet()
@@ -143,6 +155,7 @@ struct SeriesView: View {
             .id(series.id)
         }
         .animation(.snappy, value: instance.series.cachedItems.map(\.id))
+        .environment(\.deleteSeries, $seriesToDelete)
         .viewBottomPadding()
         .containerHorizontalMargins()
         #if os(iOS)
@@ -280,6 +293,15 @@ struct SeriesView: View {
 
         scrollToTop()
         searchRequest = SearchRequest(query: searchQuery, isDebounced: true)
+    }
+
+    func deleteSeries(_ series: Series, exclude: Bool, delete: Bool) async {
+        guard await instance.series.delete(series, addExclusion: exclude, deleteFiles: delete) else {
+            instance.series.error = nil
+            return
+        }
+
+        dependencies.toast.show(.seriesDeleted)
     }
 
     func becameActive() {
