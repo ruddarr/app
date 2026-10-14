@@ -117,7 +117,6 @@ struct InstanceRow: View {
                   updated.configuration == instance.configuration
             else { return }
 
-            // Merge into the current record so a late response cannot undo edits or other metadata updates.
             updated.name = data.instanceName
             updated.version = data.version
             updated.rootFolders = folders
