@@ -52,6 +52,7 @@ struct MonitorBookmark: View {
     var body: some View {
         Image(systemName: "bookmark")
             .symbolVariant(monitored ? .fill : .none)
+            .accessibilityLabel(monitored ? "Unmonitor" : "Monitor")
             .symbolEffect(.pulse, isActive: pulsing)
             .animation(.snappy, value: monitored)
             .task(id: loading) {
