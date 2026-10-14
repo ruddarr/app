@@ -3,7 +3,7 @@ import UserNotifications
 import Sentry
 
 struct InstanceRow: View {
-    @Binding var instance: Instance
+    let instance: Instance
 
     @State private var connection: Connection = .pending
     @State private var currentURL: String = ""
@@ -109,29 +109,38 @@ struct InstanceRow: View {
             async let tags = dependencies.api.instance.tags(instance)
 
             let data = try await systemStatus
+            let folders = try await rootFolders
+            let profiles = try await qualityProfiles
+            let instanceTags = try await tags
 
-            var updated = instance
+            guard !Task.isCancelled, var updated = settings.instanceById(instance.id),
+                  updated.configuration == instance.configuration
+            else { return }
+
             updated.name = data.instanceName
             updated.version = data.version
-            updated.rootFolders = try await rootFolders
-            updated.qualityProfiles = try await qualityProfiles
-            updated.tags = try await tags
-
-            instance = updated
+            updated.rootFolders = folders
+            updated.qualityProfiles = profiles
+            updated.tags = instanceTags
 
             settings.saveInstance(updated)
 
             Occurrence.occurred(lastCheck)
 
-            let webhook = InstanceWebhook(instance)
+            let webhook = InstanceWebhook(updated)
             await webhook.synchronize()
-            self.webhook = webhook.isEnabled ? .enabled : .disabled
 
-            currentURL = hostPort(await InstanceResolver.shared.currentSelection(for: instance))
+            let selectedURL = hostPort(await InstanceResolver.shared.currentSelection(for: instance))
+            try Task.checkCancellation()
+
+            self.webhook = webhook.isEnabled ? .enabled : .disabled
+            currentURL = selectedURL
             connection = .reachable
         } catch is CancellationError {
             // do nothing
         } catch {
+            guard !Task.isCancelled else { return }
+
             connection = .unreachable
 
             leaveBreadcrumb(.error, category: "movies", message: "Instance check failed", data: ["error": error])
