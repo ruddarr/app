@@ -39,6 +39,7 @@ struct SeriesContextMenu: View {
 
     func dispatchSearch() async {
         guard await instance.series.command(.seriesSearch(series.id)) else {
+            instance.series.error = nil
             return
         }
 
@@ -52,6 +53,7 @@ struct SeriesContextMenu: View {
         item.monitored.toggle()
 
         guard await instance.series.update(item) else {
+            instance.series.error = nil
             return
         }
 

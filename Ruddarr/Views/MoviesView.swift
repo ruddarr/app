@@ -286,6 +286,7 @@ struct MoviesView: View {
 
     func deleteMovie(_ movie: Movie, exclude: Bool, delete: Bool) async {
         guard await instance.movies.delete(movie, addExclusion: exclude, deleteFiles: delete) else {
+            instance.movies.error = nil
             return
         }
 

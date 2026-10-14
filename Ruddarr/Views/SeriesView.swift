@@ -297,6 +297,7 @@ struct SeriesView: View {
 
     func deleteSeries(_ series: Series, exclude: Bool, delete: Bool) async {
         guard await instance.series.delete(series, addExclusion: exclude, deleteFiles: delete) else {
+            instance.series.error = nil
             return
         }
 

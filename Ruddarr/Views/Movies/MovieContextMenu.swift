@@ -35,6 +35,7 @@ struct MovieContextMenu: View {
 
     func dispatchSearch() async {
         guard await instance.movies.command(.search([movie.id])) else {
+            instance.movies.error = nil
             return
         }
 
@@ -48,6 +49,7 @@ struct MovieContextMenu: View {
         item.monitored.toggle()
 
         guard await instance.movies.update(item) else {
+            instance.movies.error = nil
             return
         }
 
