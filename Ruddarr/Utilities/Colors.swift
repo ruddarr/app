@@ -64,12 +64,6 @@ extension ShapeStyle where Self == Color {
     static var systemGroupedBackground: Color { Color(NSColor.windowBackgroundColor) }
     static var secondarySystemGroupedBackground: Color { Color(NSColor.controlBackgroundColor) }
 
-    static var buttonFill: Color {
-        Color(nsColor: NSColor(name: nil) { appearance in
-            appearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
-                ? NSColor(srgbRed: 0.204, green: 0.196, blue: 0.224, alpha: 1)
-                : NSColor(srgbRed: 0.898, green: 0.898, blue: 0.918, alpha: 1)
-        })
-    }
+    static var buttonFill: Color { .systemFill }
 #endif
 }
