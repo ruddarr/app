@@ -18,7 +18,6 @@ struct EpisodeView: View {
     @Environment(SonarrInstance.self) var instance
 
     @Environment(\.deviceType) private var deviceType
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     var startOfToday = Calendar.current.startOfDay(for: Date())
@@ -184,8 +183,8 @@ struct EpisodeView: View {
 
             Spacer()
         }
-        .onChange(of: horizontalSizeClass, initial: true) {
-            descriptionTruncated = deviceType == .phone && horizontalSizeClass != .regular
+        .onChange(of: deviceType, initial: true) {
+            descriptionTruncated = deviceType == .phone
         }
     }
 
