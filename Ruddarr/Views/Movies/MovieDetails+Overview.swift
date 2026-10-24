@@ -64,6 +64,22 @@ extension MovieDetails {
 
     var detailsSubtitle: some View {
         ViewThatFits(in: .horizontal) {
+            if let size = movie.sizeLabel {
+                HStack(spacing: 6) {
+                    Text(movie.yearLabel)
+
+                    if let runtime = movie.runtimeLabel {
+                        Bullet()
+                        Text(runtime)
+                    }
+
+                    Bullet()
+                    Text(movie.certificationLabel)
+                    Bullet()
+                    Text(size)
+                }
+            }
+
             HStack(spacing: 6) {
                 Text(movie.yearLabel)
 
@@ -75,7 +91,7 @@ extension MovieDetails {
                 Bullet()
                 Text(movie.certificationLabel)
 
-                if let size = movie.sizeLabel {
+                if deviceType != .phone, let size = movie.sizeLabel {
                     Bullet()
                     Text(size)
                 }

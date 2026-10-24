@@ -65,6 +65,22 @@ extension SeriesDetails {
 
     var detailsSubtitle: some View {
         ViewThatFits(in: .horizontal) {
+            if let size = series.sizeLabel {
+                HStack(spacing: 6) {
+                    Text(series.yearLabel)
+                    Bullet()
+
+                    if let runtime = series.runtimeLabel {
+                        Text(runtime)
+                        Bullet()
+                    }
+
+                    Text(series.certificationLabel).lineLimit(1)
+                    Bullet()
+                    Text(size)
+                }
+            }
+
             HStack(spacing: 6) {
                 Text(series.yearLabel)
                 Bullet()
@@ -76,7 +92,7 @@ extension SeriesDetails {
 
                 Text(series.certificationLabel).lineLimit(1)
 
-                if let size = series.sizeLabel {
+                if deviceType != .phone, let size = series.sizeLabel {
                     Bullet()
                     Text(size)
                 }
@@ -90,18 +106,9 @@ extension SeriesDetails {
                     Text(runtime)
                 }
 
-                if let size = series.sizeLabel {
+                if deviceType != .phone, let size = series.sizeLabel {
                     Bullet()
                     Text(size)
-                }
-            }
-
-            HStack(spacing: 6) {
-                Text(series.yearLabel)
-
-                if let runtime = series.runtimeLabel {
-                    Bullet()
-                    Text(runtime)
                 }
             }
         }
