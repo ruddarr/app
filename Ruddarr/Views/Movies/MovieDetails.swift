@@ -12,6 +12,7 @@ struct MovieDetails: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var instance
     @Environment(\.deviceType) var deviceType
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.openURL) private var openURL
 
     var body: some View {
@@ -56,8 +57,8 @@ struct MovieDetails: View {
 
             Spacer()
         }
-        .onAppear {
-            descriptionTruncated = deviceType == .phone
+        .onChange(of: horizontalSizeClass, initial: true) {
+            descriptionTruncated = deviceType == .phone && horizontalSizeClass != .regular
         }
     }
 
@@ -89,6 +90,7 @@ struct MovieDetails: View {
                 }
             }
         }
+        .animation(.snappy, value: movie)
         .sheet(item: $fileSheet) { file in
             MediaFileSheet(file: file, runtime: movie.runtime)
                 .presentationDetents([.fraction(0.8)])

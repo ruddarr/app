@@ -17,7 +17,7 @@ struct MovieView: View {
         ScrollView {
             MovieDetails(movie: movie)
                 .padding(.top)
-                .scenePadding(.horizontal)
+                .containerHorizontalMargins()
                 .environment(settings)
         }
         .refreshable {
@@ -26,7 +26,7 @@ struct MovieView: View {
         .safeNavigationBarTitleDisplayMode(.inline)
         .toolbar {
             CalendarSheetAwareToolbar(deeplink: movie.deeplink)
-            toolbarMonitorButton
+            toolbarMonitorButton.preferVerticalToolbar()
             toolbarMenu
         }
         .onBecomeActive {
@@ -190,7 +190,9 @@ extension MovieView {
     }
 
     func deleteMovie(exclude: Bool, delete: Bool) async {
-        _ = await instance.movies.delete(movie, addExclusion: exclude, deleteFiles: delete)
+        guard await instance.movies.delete(movie, addExclusion: exclude, deleteFiles: delete) else {
+            return
+        }
 
         if let inCalendarSheet {
             inCalendarSheet.dismiss()

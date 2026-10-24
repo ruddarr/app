@@ -17,6 +17,8 @@ struct SeriesView: View {
     @Environment(SonarrInstance.self) var instance
 
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.hasVerticalToolbar) var hasVerticalToolbar
+    @Environment(\.isFolded) private var isFolded
 
     @State private var scrollView: ScrollViewProxy?
 
@@ -30,6 +32,8 @@ struct SeriesView: View {
     @State private var lastFetch: Date = .distantPast
 
     @State private var navigationTask: Task<Void, Never>?
+
+    @State private var seriesToDelete: Series?
 
     var body: some View {
         // swiftlint:disable:next closure_body_length
@@ -86,17 +90,15 @@ struct SeriesView: View {
                 toolbarSearchButton
 
                 if settings.sonarrInstances.count > 1 {
-                    if deviceType == .phone { toolbarInstancePicker }
+                    if deviceType == .phone && !isFolded { toolbarInstancePicker }
                     if deviceType == .pad { bottomBarInstancePicker }
                 }
             }
             .scrollDismissesKeyboard(.immediately)
             .searchable(
                 text: $searchQuery,
-                isPresented: $searchPresented,
-                placement: .drawerOrToolbar
+                isPresented: $searchPresented
             )
-            .dismissSearchWhenHidden($searchPresented)
             .autocorrectionDisabled(true)
             .onChange(of: settings.sonarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
@@ -112,6 +114,16 @@ struct SeriesView: View {
             } message: { error in
                 Text(error.recoverySuggestionFallback)
             }.tint(nil)
+            .sheet(item: $seriesToDelete) { series in
+                MediaDeleteSheet(label: "Delete Series") { exclude, delete in
+                    Task {
+                        await deleteSeries(series, exclude: exclude, delete: delete)
+                        seriesToDelete = nil
+                    }
+                }
+                .presentationDetents(dynamic: [deviceType == .phone ? .fraction(0.33) : .medium])
+                .presentationBackground(.sheetBackground)
+            }
             .overlay {
                 if notConnectedToInternet {
                     NoInternet()
@@ -143,8 +155,9 @@ struct SeriesView: View {
             .id(series.id)
         }
         .animation(.snappy, value: instance.series.cachedItems.map(\.id))
+        .environment(\.deleteSeries, $seriesToDelete)
         .viewBottomPadding()
-        .scenePadding(.horizontal)
+        .containerHorizontalMargins()
         #if os(iOS)
             .padding(.top, searchPresented ? 7 : 0)
         #elseif os(macOS)
@@ -280,6 +293,15 @@ struct SeriesView: View {
 
         scrollToTop()
         searchRequest = SearchRequest(query: searchQuery, isDebounced: true)
+    }
+
+    func deleteSeries(_ series: Series, exclude: Bool, delete: Bool) async {
+        guard await instance.series.delete(series, addExclusion: exclude, deleteFiles: delete) else {
+            instance.series.error = nil
+            return
+        }
+
+        dependencies.toast.show(.seriesDeleted)
     }
 
     func becameActive() {

@@ -46,11 +46,11 @@ struct CustomFormat: View {
             .foregroundStyle(colorScheme == .dark ? .lightText : .darkGray)
             .padding(.vertical, small ? 3 : 4)
             .padding(.horizontal, small ? 6 : 8)
-            .background(
+            .background {
                 RoundedRectangle(cornerRadius: small ? 3.5 : 4).fill(
                     small && colorScheme == .dark ? .elevatedCard : .card
                 )
-            )
+            }
     }
 }
 

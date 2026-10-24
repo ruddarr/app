@@ -6,13 +6,13 @@ struct MovieReleasesView: View {
     @State private var releases: [MovieRelease] = []
     @State private var fetched: Movie.ID?
     @State private var selectedRelease: MovieRelease?
-    @State private var searchPresented = false
 
     @AppStorage("movieReleaseSort", store: dependencies.store) private var sort: MovieReleaseSort = .init()
 
     @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         List {
@@ -32,8 +32,7 @@ struct MovieReleasesView: View {
             }
         }
         .listStyle(.inset)
-        .searchable(text: $sort.search, isPresented: $searchPresented, placement: .drawerOrToolbar)
-        .dismissSearchWhenHidden($searchPresented)
+        .searchable(text: $sort.search)
         .toolbar {
             toolbarButtons
         }
@@ -52,7 +51,10 @@ struct MovieReleasesView: View {
             isPresented: instance.releases.errorBinding,
             error: instance.releases.error
         ) { _ in
-            Button("OK") { instance.releases.error = nil }
+            Button("OK") {
+                instance.releases.error = nil
+                dismiss()
+            }
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }.tint(nil)

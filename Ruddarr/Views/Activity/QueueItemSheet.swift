@@ -59,6 +59,7 @@ struct QueueItemSheet: View {
                     .tint(.primary)
                 }
             }
+            .horizontalToolbarOnly()
         }
     }
 

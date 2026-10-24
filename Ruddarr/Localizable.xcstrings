@@ -5505,6 +5505,16 @@
         }
       }
     },
+    "Unmonitor" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unmonitor"
+          }
+        }
+      }
+    },
     "Unmonitor Specials" : {
       "comment" : "Series monitoring option",
       "localizations" : {

@@ -51,7 +51,7 @@ struct TestFlightNoticeView: View {
                     .modifier(WhatsNewFooterPadding())
                     .background(.systemBackground)
             }
-            .edgesIgnoringSafeArea(.bottom)
+            .ignoresSafeArea(edges: .bottom)
         }
     }
 

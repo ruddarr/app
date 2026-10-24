@@ -36,6 +36,19 @@ extension View {
         self.modifier(ViewBottomPadding())
     }
 
+    @ViewBuilder
+    func containerHorizontalMargins() -> some View {
+        #if os(iOS)
+            if #available(iOS 27.1, *) {
+                contentMargins(for: .container, edges: .horizontal)
+            } else {
+                scenePadding(.horizontal)
+            }
+        #else
+            scenePadding(.horizontal)
+        #endif
+    }
+
     func prominentGlassButtonStyle(_ condition: Bool) -> some View {
         modifier(ProminentGlassButtonStyle(condition: condition))
     }
@@ -52,13 +65,6 @@ extension View {
         self.modifier(DynamicPresentationDetents(detents: dynamic))
     }
 
-    func presentationDetents(
-        dynamic: Set<PresentationDetent>,
-        selection: Binding<PresentationDetent>
-    ) -> some View {
-        self.modifier(DynamicPresentationDetents(detents: dynamic, selection: selection))
-    }
-
     func sensoryAlert<E: LocalizedError, A: View, M: View>(
         isPresented: Binding<Bool>,
         error: E?,
@@ -70,15 +76,6 @@ extension View {
             .sensoryFeedback(.error, trigger: isPresented.wrappedValue) { _, presented in
                 presented
             }
-    }
-
-    // Attempt to fix UIKit crash: https://github.com/ruddarr/app/issues/719
-    func dismissSearchWhenHidden(_ isPresented: Binding<Bool>) -> some View {
-        #if os(iOS)
-            modifier(DismissSearchWhenHidden(isPresented: isPresented))
-        #else
-            self
-        #endif
     }
 }
 
@@ -111,6 +108,7 @@ private struct WithAppStateModifier: ViewModifier {
             .preferredColorScheme(settings.appearance.preferredColorScheme)
             .environment(settings)
             .environment(\.deviceType, Platform.deviceType)
+            .modifier(FoldedModifier())
             .environment(radarrInstance)
             .environment(sonarrInstance)
             .task {
@@ -121,6 +119,26 @@ private struct WithAppStateModifier: ViewModifier {
             .onChange(of: settings.instances) {
                 Queue.shared.instances = settings.instances
             }
+    }
+}
+
+private struct FoldedModifier: ViewModifier {
+    @State private var isFolded = false
+
+    func body(content: Content) -> some View {
+        #if os(iOS)
+            if #available(iOS 27.1, *) {
+                content
+                    .environment(\.isFolded, isFolded)
+                    .onHingeChange { _, context in
+                        isFolded = context.hinge?.status == .closed
+                    }
+            } else {
+                content
+            }
+        #else
+            content
+        #endif
     }
 }
 
@@ -170,119 +188,54 @@ struct MacPreviewFrame: ViewModifier {
 
 private struct DynamicPresentationDetents: ViewModifier {
     var detents: Set<PresentationDetent>
-    var selection: Binding<PresentationDetent>?
 
-    @Environment(\.sizeCategory) private var sizeCategory
-
-    @ViewBuilder
     func body(content: Content) -> some View {
-        if let selection {
-            content.presentationDetents(adjustedDetents, selection: selection)
-        } else {
-            content.presentationDetents(adjustedDetents)
-        }
+        content.presentationDetents(Set(detents.map(adaptive)))
     }
 
-    var adjustedDetents: Set<PresentationDetent> {
-        Set(detents.map {
-            switch $0 {
-            case .medium: medium
-            case .fraction(0.25): quarter
-            case .fraction(0.33): third
-            case .fraction(0.7): seventy
-            default: $0
-            }
-        })
-    }
-
-    var medium: PresentationDetent {
-        switch sizeCategory {
-        case .extraSmall, .small, .medium, .large, .extraLarge:
-            .medium
-        default:
-            .fraction(0.8)
-        }
-    }
-
-    var quarter: PresentationDetent {
-        switch sizeCategory {
-        case .extraSmall, .small, .medium, .large, .extraLarge:
-            .fraction(0.25)
-        default:
-            .fraction(0.35)
-        }
-    }
-
-    var third: PresentationDetent {
-        switch sizeCategory {
-        case .extraSmall, .small, .medium, .large, .extraLarge:
-            .fraction(0.33)
-        default:
-            .fraction(0.45)
-        }
-    }
-
-    var seventy: PresentationDetent {
-        switch sizeCategory {
-        case .extraSmall, .small, .medium, .large, .extraLarge:
-            .fraction(0.7)
-        default:
-            .fraction(0.9)
+    func adaptive(_ detent: PresentationDetent) -> PresentationDetent {
+        switch detent {
+        case .fraction(0.25): .custom(QuarterDetent.self)
+        case .fraction(0.33): .custom(ThirdDetent.self)
+        case .medium: .custom(MediumDetent.self)
+        case .fraction(0.7): .custom(SeventyDetent.self)
+        default: detent
         }
     }
 }
 
-#if os(iOS)
-private struct DismissSearchWhenHidden: ViewModifier {
-    @Binding var isPresented: Bool
+private protocol AdaptiveDetent: CustomPresentationDetent {
+    static var fraction: CGFloat { get }
+    static var expandedFraction: CGFloat { get }
+}
 
-    @State private var tab: TabItem?
-    @Environment(\.scenePhase) private var scenePhase
+extension AdaptiveDetent {
+    static func height(in context: Context) -> CGFloat? {
+        let isShortPhone = Platform.deviceType == .phone && context.maxDetentValue < 700
+        let expanded = context.dynamicTypeSize > .xLarge || isShortPhone
 
-    func body(content: Content) -> some View {
-        content
-            .onAppear {
-                tab = dependencies.router.selectedTab
-            }
-            .onChange(of: scenePhase) { _, phase in
-                if phase != .active {
-                    collapse()
-                }
-            }
-            .onDisappear {
-                if tab != dependencies.router.selectedTab {
-                    collapse()
-                }
-            }
-    }
-
-    private func collapse() {
-        if isPresented {
-            isPresented = false
-        }
+        return context.maxDetentValue * (expanded ? expandedFraction : fraction)
     }
 }
-#endif
 
-extension SearchFieldPlacement {
-    enum DrawerDisplayMode { case automatic, always }
+private struct QuarterDetent: AdaptiveDetent {
+    static let fraction: CGFloat = 0.25
+    static let expandedFraction: CGFloat = 0.35
+}
 
-    static var drawerOrToolbar: SearchFieldPlacement {
-        // This used to be `.navigationBarDrawer(displayMode: .automatic)`
-        // but that started crashing in iOS 26.4
-        .toolbar
-    }
+private struct ThirdDetent: AdaptiveDetent {
+    static let fraction: CGFloat = 0.33
+    static let expandedFraction: CGFloat = 0.45
+}
 
-    static func drawerOrToolbar(_ displayMode: DrawerDisplayMode) -> SearchFieldPlacement {
-        #if os(macOS)
-            return .toolbar
-        #else
-            return switch displayMode {
-            case .automatic: .navigationBarDrawer(displayMode: .automatic)
-            case .always: .navigationBarDrawer(displayMode: .always)
-            }
-        #endif
-    }
+private struct MediumDetent: AdaptiveDetent {
+    static let fraction: CGFloat = 0.5
+    static let expandedFraction: CGFloat = 0.8
+}
+
+private struct SeventyDetent: AdaptiveDetent {
+    static let fraction: CGFloat = 0.7
+    static let expandedFraction: CGFloat = 0.9
 }
 
 enum NavigationBarItemTitleDisplayMode {

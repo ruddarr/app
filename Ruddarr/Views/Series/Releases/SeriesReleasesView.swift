@@ -8,13 +8,13 @@ struct SeriesReleasesView: View {
     @State private var releases: [(release: SeriesRelease, runtime: Int)] = []
     @State private var fetched: (Series.ID?, Season.ID?, Episode.ID?) = (nil, nil, nil)
     @State private var selectedRelease: SeriesRelease?
-    @State private var searchPresented = false
 
     @AppStorage("seriesReleaseSort", store: dependencies.store) private var sort: SeriesReleaseSort = .init()
 
     @Environment(AppSettings.self) private var settings
     @Environment(SonarrInstance.self) private var instance
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         List {
@@ -34,8 +34,7 @@ struct SeriesReleasesView: View {
             }
         }
         .listStyle(.inset)
-        .searchable(text: $sort.search, isPresented: $searchPresented, placement: .drawerOrToolbar)
-        .dismissSearchWhenHidden($searchPresented)
+        .searchable(text: $sort.search)
         .toolbar {
             toolbarButtons
         }
@@ -55,7 +54,10 @@ struct SeriesReleasesView: View {
             isPresented: instance.releases.errorBinding,
             error: instance.releases.error
         ) { _ in
-            Button("OK") { instance.releases.error = nil }
+            Button("OK") {
+                instance.releases.error = nil
+                dismiss()
+            }
         } message: { error in
             Text(error.recoverySuggestionFallback)
         }.tint(nil)

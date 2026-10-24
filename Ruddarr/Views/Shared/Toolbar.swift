@@ -1,8 +1,32 @@
 import SwiftUI
 
-struct Bullet: View {
-    var body: some View {
-        Text(verbatim: "•")
+extension ToolbarContent {
+    @ToolbarContentBuilder
+    func preferVerticalToolbar() -> some ToolbarContent {
+        #if os(iOS)
+            if #available(iOS 27.1, *) {
+                axisBehavior(.verticalPreferred)
+            } else {
+                self
+            }
+        #else
+            self
+        #endif
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func horizontalToolbarOnly() -> some View {
+        #if os(iOS)
+            if #available(iOS 27.1, *) {
+                toolbarVerticalBehavior(.disabled)
+            } else {
+                self
+            }
+        #else
+            self
+        #endif
     }
 }
 
@@ -28,6 +52,7 @@ struct MonitorBookmark: View {
     var body: some View {
         Image(systemName: "bookmark")
             .symbolVariant(monitored ? .fill : .none)
+            .accessibilityLabel(monitored ? "Unmonitor" : "Monitor")
             .symbolEffect(.pulse, isActive: pulsing)
             .animation(.snappy, value: monitored)
             .task(id: loading) {
@@ -65,7 +90,9 @@ struct RowMonitorButton: View {
     var body: some View {
         MonitorBookmark(monitored: monitored, loading: loading)
             .foregroundStyle(colorScheme == .dark ? .lightGray : .darkGray)
-            .overlay(Rectangle().padding(18))
+            .overlay {
+                Rectangle().padding(18)
+            }
     }
 }
 

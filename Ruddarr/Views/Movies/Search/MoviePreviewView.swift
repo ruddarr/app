@@ -18,7 +18,7 @@ struct MoviePreviewView: View {
         ScrollView {
             MovieDetails(movie: movie)
                 .padding(.top)
-                .scenePadding(.horizontal)
+                .containerHorizontalMargins()
                 .environment(settings)
         }
         .safeNavigationBarTitleDisplayMode(.inline)
@@ -43,6 +43,7 @@ struct MoviePreviewView: View {
                     #if os(iOS)
                         .padding(.top, -25)
                     #endif
+                    .horizontalToolbarOnly()
             }
             .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
             .presentationBackground(.sheetBackground)

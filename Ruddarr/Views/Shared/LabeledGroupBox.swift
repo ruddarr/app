@@ -44,9 +44,9 @@ struct RoundedGroupBox: GroupBoxStyle {
             configuration.content
         }
         .padding()
-        .background(
+        .background {
             RoundedRectangle(cornerRadius: 14, style: .continuous).fill(.card)
-        )
+        }
     }
 }
 

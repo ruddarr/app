@@ -35,6 +35,7 @@ struct Information: View {
                 }
             }
         }
+        .animation(.snappy, value: items)
     }
 
     var informationGrid: some View {
@@ -62,6 +63,7 @@ struct Information: View {
                 .padding(.bottom)
             }
         }
+        .animation(.snappy, value: items)
     }
 }
 

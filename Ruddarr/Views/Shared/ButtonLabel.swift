@@ -44,7 +44,7 @@ struct ButtonLabel: View {
         Label {
             if let label {
                 label
-                    .font(size == .small ? .caption : .callout)
+                    .font(labelFont)
                     .minimumScaleFactor(0.75)
             }
         } icon: {
@@ -74,6 +74,14 @@ struct ButtonLabel: View {
         return size == .small ? smallIconHeight : regularIconHeight
     }
 
+    private var labelFont: Font {
+        #if os(macOS)
+            size == .small ? .caption : .body
+        #else
+            size == .small ? .caption : .callout
+        #endif
+    }
+
     private var iconFont: Font {
         let iconOnly = label == nil
         switch size {
@@ -85,9 +93,14 @@ struct ButtonLabel: View {
 
 extension View {
     func actionButton() -> some View {
-        buttonStyle(.borderedProminent)
-            .buttonBorderShape(.capsule)
-            .tint(.buttonFill)
+        #if os(macOS)
+            buttonStyle(.bordered)
+                .buttonBorderShape(.capsule)
+        #else
+            buttonStyle(.borderedProminent)
+                .buttonBorderShape(.capsule)
+                .tint(.buttonFill)
+        #endif
     }
 
     func prominentActionButton(_ tint: Color) -> some View {
@@ -162,10 +175,10 @@ struct MacMenuButtonLabelModifier: ViewModifier {
         #if os(macOS)
             content
                 .padding(.vertical, 4)
-                .background(
+                .background {
                     RoundedRectangle(cornerRadius: 6)
                         .fill(.tertiarySystemFill)
-                )
+                }
         #else
             content
         #endif

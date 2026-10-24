@@ -14,7 +14,6 @@ func startSentry() {
 
         options.swiftAsyncStacktraces = true
 
-        options.enableSigtermReporting = true
         options.enableWatchdogTerminationTracking = true
         options.enableMetricKit = false
         options.enableAppHangTracking = isRunningIn(.testflight)
@@ -30,7 +29,6 @@ func startSentry() {
             options.attachViewHierarchy = false
             options.enablePreWarmedAppStartTracing = true
             options.enablePersistingTracesWhenCrashing = true
-            options.enableReportNonFullyBlockingAppHangs = isRunningIn(.testflight)
         #endif
 
         options.beforeBreadcrumb = { crumb in

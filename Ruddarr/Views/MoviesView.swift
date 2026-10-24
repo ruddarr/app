@@ -16,6 +16,8 @@ struct MoviesView: View {
     @Environment(RadarrInstance.self) var instance
 
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.hasVerticalToolbar) var hasVerticalToolbar
+    @Environment(\.isFolded) private var isFolded
 
     @State private var scrollView: ScrollViewProxy?
 
@@ -27,6 +29,8 @@ struct MoviesView: View {
     @State private var alertPresented = false
 
     @State private var lastFetch: Date = .distantPast
+
+    @State private var movieToDelete: Movie?
 
     var body: some View {
         // swiftlint:disable:next closure_body_length
@@ -83,17 +87,15 @@ struct MoviesView: View {
                 toolbarSearchButton
 
                 if settings.radarrInstances.count > 1 {
-                    if deviceType == .phone { toolbarInstancePicker }
+                    if deviceType == .phone && !isFolded { toolbarInstancePicker }
                     if deviceType == .pad { bottomBarInstancePicker }
                 }
             }
             .scrollDismissesKeyboard(.immediately)
             .searchable(
                 text: $searchQuery,
-                isPresented: $searchPresented,
-                placement: .drawerOrToolbar
+                isPresented: $searchPresented
             )
-            .dismissSearchWhenHidden($searchPresented)
             .autocorrectionDisabled(true)
             .onChange(of: settings.radarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
@@ -109,6 +111,16 @@ struct MoviesView: View {
             } message: { error in
                 Text(error.recoverySuggestionFallback)
             }.tint(nil)
+            .sheet(item: $movieToDelete) { movie in
+                MediaDeleteSheet(label: "Delete Movie") { exclude, delete in
+                    Task {
+                        await deleteMovie(movie, exclude: exclude, delete: delete)
+                        movieToDelete = nil
+                    }
+                }
+                .presentationDetents(dynamic: [deviceType == .phone ? .fraction(0.33) : .medium])
+                .presentationBackground(.sheetBackground)
+            }
             .overlay {
                 if notConnectedToInternet {
                     NoInternet()
@@ -140,8 +152,9 @@ struct MoviesView: View {
             .id(movie.id)
         }
         .animation(.snappy, value: instance.movies.cachedItems.map(\.id))
+        .environment(\.deleteMovie, $movieToDelete)
         .viewBottomPadding()
-        .scenePadding(.horizontal)
+        .containerHorizontalMargins()
         #if os(iOS)
             .padding(.top, searchPresented ? 7 : 0)
         #elseif os(macOS)
@@ -269,6 +282,15 @@ struct MoviesView: View {
 
         scrollToTop()
         searchRequest = SearchRequest(query: searchQuery, isDebounced: true)
+    }
+
+    func deleteMovie(_ movie: Movie, exclude: Bool, delete: Bool) async {
+        guard await instance.movies.delete(movie, addExclusion: exclude, deleteFiles: delete) else {
+            instance.movies.error = nil
+            return
+        }
+
+        dependencies.toast.show(.movieDeleted)
     }
 
     func becameActive() {

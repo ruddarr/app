@@ -18,7 +18,7 @@ struct SeriesPreviewView: View {
         ScrollView {
             SeriesDetails(series: $series)
                 .padding(.top)
-                .scenePadding(.horizontal)
+                .containerHorizontalMargins()
                 .environment(settings)
         }
         .safeNavigationBarTitleDisplayMode(.inline)
@@ -44,6 +44,7 @@ struct SeriesPreviewView: View {
                     #if os(iOS)
                         .padding(.top, -25)
                     #endif
+                    .horizontalToolbarOnly()
             }
             .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
             .presentationBackground(.sheetBackground)

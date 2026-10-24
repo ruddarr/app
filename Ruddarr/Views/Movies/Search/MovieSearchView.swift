@@ -24,7 +24,7 @@ struct MovieSearchView: View {
                         .padding(.top, deviceType == .pad ? 32 : 12)
                 }
                 .viewBottomPadding()
-                .scenePadding(.horizontal)
+                .containerHorizontalMargins()
                 .opacity(discovery.movies.isEmpty ? 0 : 1)
                 .animation(.easeIn, value: discovery.movies)
                 .animation(.snappy, value: hideLibraryItems)
@@ -38,7 +38,7 @@ struct MovieSearchView: View {
                     }.buttonStyle(.plain)
                 }
                 .padding(.top, 12)
-                .scenePadding(.horizontal)
+                .containerHorizontalMargins()
                 .viewBottomPadding()
             }
         }
@@ -46,13 +46,11 @@ struct MovieSearchView: View {
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
-            placement: .drawerOrToolbar(.always),
             prompt: Text(
                 "e.g. \("Interstellar, tmdb:157336, imdb:tt0816692")",
                 comment: "Placeholder in the search field on the Add Movie/Series screens (translate only \"e.g.\", short form of \"for example\")"
             )
         )
-        .dismissSearchWhenHidden($searchPresented)
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
         .searchScopes($movieLookup.sort) {

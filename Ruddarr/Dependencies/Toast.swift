@@ -152,28 +152,41 @@ extension Toast {
         message.view
             .padding()
             .glassEffect()
-            .overlay(
+            .overlay {
                 Capsule().stroke(.ultraThinMaterial, lineWidth: 1)
-            )
+            }
             .foregroundStyle(message.tint)
             .scenePadding(.horizontal)
             .scenePadding(.horizontal)
             .frame(maxWidth: 600)
-            .padding(.bottom)
             .transition(.opacity)
             .id(message.id)
-            .padding(.bottom, 50)
     }
 }
 
 extension View {
     func displayToasts(from toast: Toast = dependencies.toast) -> some View {
-        overlay(alignment: .bottom) {
-            if let message = toast.currentMessage {
-                toast.render(message)
-                    .allowsHitTesting(false)
+        #if os(macOS)
+            overlay(alignment: .bottom) {
+                if let message = toast.currentMessage {
+                    toast.render(message)
+                        .padding(.bottom, 24)
+                        .allowsHitTesting(false)
+                }
             }
-        }
+        #else
+            safeAreaInset(edge: .bottom, spacing: 0) {
+                Color.clear
+                    .frame(height: 0)
+                    .overlay(alignment: .bottom) {
+                        if let message = toast.currentMessage {
+                            toast.render(message)
+                                .padding(.bottom, 12)
+                                .allowsHitTesting(false)
+                        }
+                    }
+            }
+        #endif
     }
 }
 
@@ -203,9 +216,5 @@ extension View {
         toast.render(error)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .overlay(alignment: .bottom) {
-        if let message = toast.currentMessage {
-            toast.render(message)
-        }
-    }
+    .displayToasts(from: toast)
 }

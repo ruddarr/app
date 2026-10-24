@@ -2,10 +2,27 @@ import SwiftUI
 
 extension EnvironmentValues {
     @Entry var deviceType: DeviceType = .unspecified
+    @Entry var isFolded: Bool = false
     @Entry var presentBugSheet: Binding<Bool> = .constant(false)
 
     // swiftlint:disable:next implicit_optional_initialization
     @Entry var inCalendarSheet: CalendarSheetContext? = nil
+
+    // swiftlint:disable:next implicit_optional_initialization
+    @Entry var deleteMovie: Binding<Movie?>? = nil
+
+    // swiftlint:disable:next implicit_optional_initialization
+    @Entry var deleteSeries: Binding<Series?>? = nil
+
+    var hasVerticalToolbar: Bool {
+        #if os(iOS)
+            if #available(iOS 27.1, *) {
+                return toolbarVerticalEdge != nil
+            }
+        #endif
+
+        return false
+    }
 }
 
 enum EnvironmentType: String {

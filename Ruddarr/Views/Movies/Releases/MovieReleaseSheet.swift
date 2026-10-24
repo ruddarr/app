@@ -44,6 +44,7 @@ struct MovieReleaseSheet: View {
                     .tint(.primary)
                 }
             }
+            .horizontalToolbarOnly()
             .sensoryAlert(
                 isPresented: instance.movies.errorBinding,
                 error: instance.movies.error

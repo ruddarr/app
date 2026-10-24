@@ -25,7 +25,7 @@ struct SeriesSearchView: View {
                         .padding(.top, deviceType == .pad ? 32 : 12)
                 }
                 .viewBottomPadding()
-                .scenePadding(.horizontal)
+                .containerHorizontalMargins()
                 .opacity(discovery.series.isEmpty ? 0 : 1)
                 .animation(.easeIn, value: discovery.series)
                 .animation(.snappy, value: hideLibraryItems)
@@ -35,7 +35,7 @@ struct SeriesSearchView: View {
                         .environment(instance)
                 }
                 .padding(.top, 12)
-                .scenePadding(.horizontal)
+                .containerHorizontalMargins()
                 .viewBottomPadding()
             }
         }
@@ -43,13 +43,11 @@ struct SeriesSearchView: View {
         .searchable(
             text: $searchQuery,
             isPresented: $searchPresented,
-            placement: .drawerOrToolbar(.always),
             prompt: Text(
                 "e.g. \("Breaking Bad, tvdb:81189, imdb:tt0903747")",
                 comment: "Placeholder in the search field on the Add Movie/Series screens (translate only \"e.g.\", short form of \"for example\")"
             )
         )
-        .dismissSearchWhenHidden($searchPresented)
         .disabled(instance.isVoid)
         .autocorrectionDisabled(true)
         .searchScopes($seriesLookup.sort) {
