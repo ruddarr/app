@@ -1,15 +1,3 @@
 Added
-- Support iPhone Duo
-- Monitor and delete movies and series from the library context menu
-
 Changed
-- Adapt sheet heights to shorter displays
-- Improved toast and search field placement
-- Improved sidebar on iPadOS
-- Animate rows being added on movie and series details
-
 Fixed
-- Dismiss release search screen when search fails
-- Drop the decimal when a queue task reaches 100%
-- Prevent deleted queue tasks from reappearing during refreshes
-- Prevent a crash while checking instance connections in Settings
