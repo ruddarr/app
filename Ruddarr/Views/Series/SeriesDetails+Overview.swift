@@ -95,6 +95,15 @@ extension SeriesDetails {
                     Text(size)
                 }
             }
+
+            HStack(spacing: 6) {
+                Text(series.yearLabel)
+
+                if let runtime = series.runtimeLabel {
+                    Bullet()
+                    Text(runtime)
+                }
+            }
         }
         .font(.callout)
         .foregroundStyle(.secondary)
