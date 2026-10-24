@@ -12,7 +12,6 @@ struct MovieDetails: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var instance
     @Environment(\.deviceType) var deviceType
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.openURL) private var openURL
 
     var body: some View {
@@ -57,8 +56,8 @@ struct MovieDetails: View {
 
             Spacer()
         }
-        .onChange(of: horizontalSizeClass, initial: true) {
-            descriptionTruncated = deviceType == .phone && horizontalSizeClass != .regular
+        .onChange(of: deviceType, initial: true) {
+            descriptionTruncated = deviceType == .phone
         }
     }
 

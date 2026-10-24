@@ -1,3 +1,6 @@
 Added
 Changed
+- Collapse descriptions on unfolded iPhone Duo
+- Show size on disk in the details header on iPhone when it fits
+
 Fixed

@@ -75,7 +75,7 @@ extension MovieDetails {
                 Bullet()
                 Text(movie.certificationLabel)
 
-                if deviceType != .phone, let size = movie.sizeLabel {
+                if let size = movie.sizeLabel {
                     Bullet()
                     Text(size)
                 }

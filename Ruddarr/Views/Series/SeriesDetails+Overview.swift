@@ -76,7 +76,7 @@ extension SeriesDetails {
 
                 Text(series.certificationLabel).lineLimit(1)
 
-                if deviceType != .phone, let size = series.sizeLabel {
+                if let size = series.sizeLabel {
                     Bullet()
                     Text(size)
                 }
@@ -90,7 +90,7 @@ extension SeriesDetails {
                     Text(runtime)
                 }
 
-                if deviceType != .phone, let size = series.sizeLabel {
+                if let size = series.sizeLabel {
                     Bullet()
                     Text(size)
                 }
