@@ -26,7 +26,7 @@ struct MediaGrid<Item: Identifiable, Content: View, Header: View>: View {
             if let header {
                 Section {
                     ForEach(items) { item in
-                        content(item).geometryGroup()
+                        content(item)
                     }
                 } header: {
                     header
@@ -35,7 +35,7 @@ struct MediaGrid<Item: Identifiable, Content: View, Header: View>: View {
                 }
             } else {
                 ForEach(items) { item in
-                    content(item).geometryGroup()
+                    content(item)
                 }
             }
         }

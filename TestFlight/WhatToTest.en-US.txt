@@ -5,3 +5,4 @@ Changed
 - Use the tab bar instead of the sidebar on unfolded iPhone Duo
 
 Fixed
+- Prevent a crash when the library grid changes
