@@ -5,3 +5,4 @@ Changed
 - Use the tab bar instead of the sidebar on unfolded iPhone Duo
 
 Fixed
+- Fixed crash on launch on iOS 27.2 beta
