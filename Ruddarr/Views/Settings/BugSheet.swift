@@ -116,11 +116,14 @@ extension View {
 private struct BugSheetViewModifier: ViewModifier {
     @State private var isPresented: Bool = false
 
+    @Environment(AppSettings.self) private var settings
+
     func body(content: Content) -> some View {
         content
             .environment(\.presentBugSheet, $isPresented)
             .sheet(isPresented: $isPresented) {
                 BugSheet()
+                    .environment(settings)
                     .presentationDetents(dynamic: [.medium])
                     .presentationBackground(.sheetBackground)
             }

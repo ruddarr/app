@@ -4,6 +4,7 @@ struct EpisodeHistory: View {
     var episode: Episode
 
     @State private var eventSheet: MediaHistoryEvent?
+    @Environment(AppSettings.self) private var settings
     @Environment(SonarrInstance.self) private var instance
 
     var body: some View {
@@ -18,6 +19,7 @@ struct EpisodeHistory: View {
         }
         .sheet(item: $eventSheet) { event in
             MediaEventSheet(event: event)
+                .environment(settings)
                 .presentationDetents(
                     dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )
