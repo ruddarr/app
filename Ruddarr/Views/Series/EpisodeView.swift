@@ -18,6 +18,7 @@ struct EpisodeView: View {
     @Environment(SonarrInstance.self) var instance
 
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.isCompactPhone) private var isCompactPhone
     @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     var startOfToday = Calendar.current.startOfDay(for: Date())
@@ -252,7 +253,7 @@ struct EpisodeView: View {
             .actionButtonWidth()
         }
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
+        .frame(maxWidth: .infinity, alignment: isCompactPhone ? .center : .leading)
     }
 
     var deleteFileButton: some View {

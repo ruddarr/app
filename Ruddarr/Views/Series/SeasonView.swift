@@ -15,7 +15,7 @@ struct SeasonView: View {
 
     @Environment(AppSettings.self) private var settings
     @Environment(SonarrInstance.self) private var instance
-    @Environment(\.deviceType) private var deviceType
+    @Environment(\.isCompactPhone) private var isCompactPhone
 
     var body: some View {
         ScrollView {
@@ -168,7 +168,7 @@ struct SeasonView: View {
             .actionButtonWidth()
         }
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
+        .frame(maxWidth: .infinity, alignment: isCompactPhone ? .center : .leading)
     }
 
     var episodesList: some View {

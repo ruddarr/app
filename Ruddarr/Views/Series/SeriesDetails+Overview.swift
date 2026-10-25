@@ -29,7 +29,7 @@ extension SeriesDetails {
                 detailsRating
                     .padding(.bottom, 6)
 
-                if deviceType != .phone {
+                if !isCompactPhone {
                     Spacer()
                     actions
                 }

@@ -12,6 +12,7 @@ struct MovieDetails: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var instance
     @Environment(\.deviceType) var deviceType
+    @Environment(\.isCompactPhone) var isCompactPhone
     @Environment(\.openURL) private var openURL
 
     var body: some View {
@@ -27,7 +28,7 @@ struct MovieDetails: View {
                     .padding(.bottom)
             }
 
-            if deviceType == .phone {
+            if isCompactPhone {
                 actions
                     .padding(.bottom)
             }
@@ -107,7 +108,7 @@ struct MovieDetails: View {
             }
         }
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
+        .frame(maxWidth: .infinity, alignment: isCompactPhone ? .center : .leading)
     }
 
     var movieActions: some View {
@@ -154,7 +155,7 @@ struct MovieDetails: View {
                 Button {
                     openURL(trailerUrl)
                 } label: {
-                    let label: LocalizedStringKey = deviceType == .phone ? "Trailer" : "Watch Trailer"
+                    let label: LocalizedStringKey = isCompactPhone ? "Trailer" : "Watch Trailer"
 
                     ButtonLabel(text: label, icon: "play.fill")
                 }
