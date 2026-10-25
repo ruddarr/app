@@ -10,14 +10,12 @@ struct CalendarDetailSheet: View {
         case .movie(let movie):
             if let instance = instance(movie.instanceId) {
                 CalendarMovieSheet(movie: movie, instance: instance)
-                    .environment(settings)
             } else {
                 unavailable
             }
         case .episode(let episode):
             if let instance = instance(episode.instanceId), episode.series != nil {
                 CalendarEpisodeSheet(episode: episode, instance: instance)
-                    .environment(settings)
             } else {
                 unavailable
             }
