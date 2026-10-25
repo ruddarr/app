@@ -4,3 +4,4 @@ Changed
 - Show size on disk in the details header on iPhone when it fits
 
 Fixed
+- Fixed crash on launch on iOS 27.2 beta
