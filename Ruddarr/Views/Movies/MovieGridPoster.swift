@@ -3,11 +3,14 @@ import SwiftUI
 struct MovieGridPoster: View {
     var movie: Movie
 
+    @Environment(RadarrInstance.self) private var instance
+
     var body: some View {
         poster
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .contextMenu {
                 MovieContextMenu(movie: movie)
+                    .environment(instance)
             } preview: {
                 poster.frame(width: 300, height: 450)
             }

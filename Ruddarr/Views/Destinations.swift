@@ -5,12 +5,15 @@ struct MoviesDestination: View {
 
     @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
+    @Environment(SonarrInstance.self) private var sonarrInstance
 
     var body: some View {
         switch path {
         case .search(let query):
             MovieSearchView(searchQuery: query)
                 .environment(instance)
+                .environment(sonarrInstance)
+                .environment(settings)
         case .preview(let data):
             if let data, let movie = try? JSONDecoder().decode(Movie.self, from: data) {
                 MoviePreviewView(movie: movie)
@@ -24,6 +27,7 @@ struct MoviesDestination: View {
         case .edit(let id):
             MovieEditView(movie: instance.movies.byId(id))
                 .environment(instance)
+                .environment(settings)
         case .releases(let id):
             MovieReleasesView(movie: instance.movies.byId(id))
                 .environment(instance)
@@ -42,12 +46,15 @@ struct SeriesDestination: View {
 
     @Environment(AppSettings.self) private var settings
     @Environment(SonarrInstance.self) private var instance
+    @Environment(RadarrInstance.self) private var radarrInstance
 
     var body: some View {
         switch path {
         case .search(let query):
             SeriesSearchView(searchQuery: query)
                 .environment(instance)
+                .environment(radarrInstance)
+                .environment(settings)
         case .preview(let data):
             if let data, let series = try? JSONDecoder().decode(Series.self, from: data) {
                 SeriesPreviewView(series: series)
@@ -61,6 +68,7 @@ struct SeriesDestination: View {
         case .edit(let id):
             SeriesEditView(series: instance.series.byId(id))
                 .environment(instance)
+                .environment(settings)
         case .releases(let id, let season, let episode):
             SeriesReleasesView(
                 series: instance.series.byId(id),

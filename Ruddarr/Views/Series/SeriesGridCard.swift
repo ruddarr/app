@@ -61,6 +61,7 @@ struct SeriesGridCard: View {
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .contextMenu {
             SeriesContextMenu(series: series)
+                .environment(instance)
         } preview: {
             poster.frame(width: 300, height: 450)
         }
