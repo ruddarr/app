@@ -93,14 +93,9 @@ struct ButtonLabel: View {
 
 extension View {
     func actionButton() -> some View {
-        #if os(macOS)
-            buttonStyle(.bordered)
-                .buttonBorderShape(.capsule)
-        #else
-            buttonStyle(.borderedProminent)
-                .buttonBorderShape(.capsule)
-                .tint(.buttonFill)
-        #endif
+        buttonStyle(.bordered)
+            .buttonBorderShape(.capsule)
+            .tint(nil)
     }
 
     func prominentActionButton(_ tint: Color) -> some View {
