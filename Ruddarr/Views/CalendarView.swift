@@ -76,6 +76,7 @@ struct CalendarView: View {
             #if os(iOS)
                 .sheet(item: $selectedMedia) { selection in
                     CalendarDetailSheet(selection: selection)
+                        .environment(settings)
                         .presentationDetents(dynamic: deviceType == .pad ? [.large] : [.fraction(0.7), .large])
                         .presentationSizing(.page)
                         .presentationDragIndicator(.visible)
