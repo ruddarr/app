@@ -11,6 +11,7 @@ struct SeriesDetails: View {
     @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
     @Environment(\.deviceType) var deviceType
+    @Environment(\.isCompactPhone) var isCompactPhone
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -25,7 +26,7 @@ struct SeriesDetails: View {
                     .padding(.bottom)
             }
 
-            if deviceType == .phone && !series.exists {
+            if isCompactPhone && !series.exists {
                 actions
                     .padding(.bottom)
             }
@@ -99,7 +100,7 @@ struct SeriesDetails: View {
             }
         }
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
+        .frame(maxWidth: .infinity, alignment: isCompactPhone ? .center : .leading)
     }
 
     var seriesActions: some View {

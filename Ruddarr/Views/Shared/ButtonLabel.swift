@@ -114,11 +114,11 @@ extension View {
 }
 
 struct ActionButtonSpacer: View {
-    @Environment(\.deviceType) private var deviceType
+    @Environment(\.isCompactPhone) private var isCompactPhone
 
     @ViewBuilder
     var body: some View {
-        if deviceType == .phone {
+        if isCompactPhone {
             Color.clear.frame(maxWidth: .infinity)
         }
     }
@@ -138,10 +138,11 @@ struct ButtonProgressView: View {
 
 private struct ActionButtonWidth: ViewModifier {
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.isCompactPhone) private var isCompactPhone
 
     @ViewBuilder
     func body(content: Content) -> some View {
-        if deviceType == .phone {
+        if isCompactPhone {
             content.frame(maxWidth: .infinity)
         } else {
             content

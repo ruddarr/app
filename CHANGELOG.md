@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show size on disk in the details header on iPhone when it fits
 - Use the tab bar instead of the sidebar on unfolded iPhone Duo
 - Use the system button style for action buttons on iPhone and iPad
+- Use the iPad action buttons and information grid on unfolded iPhone Duo
 
 ### Fixed
 - Fixed crash on launch on iOS 27.2 beta

@@ -28,7 +28,7 @@ extension MovieDetails {
 
                 MovieRatings(movie: movie)
 
-                if deviceType != .phone {
+                if !isCompactPhone {
                     Spacer()
                     actions
                 }

@@ -3,10 +3,10 @@ import SwiftUI
 struct Information: View {
     var items: [InformationItem]
 
-    @Environment(\.deviceType) private var deviceType
+    @Environment(\.isCompactPhone) private var isCompactPhone
 
     var body: some View {
-        if deviceType == .phone {
+        if isCompactPhone {
             informationList
         } else {
             informationGrid
