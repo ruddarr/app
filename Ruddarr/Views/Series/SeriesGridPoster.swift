@@ -4,8 +4,6 @@ struct SeriesGridPoster: View {
     var series: Series
     var model: Series?
 
-    @Environment(SonarrInstance.self) private var instance
-
     init(series: Series, model: Series? = nil) {
         self.series = series
 
@@ -19,7 +17,6 @@ struct SeriesGridPoster: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .contextMenu {
                 SeriesContextMenu(series: series)
-                    .environment(instance)
             } preview: {
                 poster.frame(width: 300, height: 450)
             }

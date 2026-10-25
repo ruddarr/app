@@ -5,4 +5,4 @@ Changed
 - Use the tab bar instead of the sidebar on unfolded iPhone Duo
 
 Fixed
-- Prevent a rare crash when viewing movie or episode history
+- Prevent a rare crash when opening sheets and detail screens

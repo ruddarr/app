@@ -61,7 +61,6 @@ struct MovieGridCard: View {
         .clipShape(RoundedRectangle(cornerRadius: 14))
         .contextMenu {
             MovieContextMenu(movie: movie)
-                .environment(instance)
         } preview: {
             poster.frame(width: 300, height: 450)
         }

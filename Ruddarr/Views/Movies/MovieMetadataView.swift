@@ -84,7 +84,6 @@ struct MovieMetadataView: View {
             } else {
                 ForEach(instance.metadata.history.filter { $0.movieId == movie.id }) { event in
                     MediaHistoryItem(event: event)
-                        .environment(settings)
                         .padding(.bottom, 4)
                         .onTapGesture { eventSheet = event }
                 }
