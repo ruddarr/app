@@ -118,6 +118,7 @@ struct MoviesView: View {
                         movieToDelete = nil
                     }
                 }
+                .environment(settings)
                 .presentationDetents(dynamic: [deviceType == .phone ? .fraction(0.33) : .medium])
                 .presentationBackground(.sheetBackground)
             }

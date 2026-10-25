@@ -58,6 +58,7 @@ struct SeriesDetailView: View {
                     showDeleteConfirmation = false
                 }
             }
+            .environment(settings)
             .presentationDetents(dynamic: [deviceType == .phone ? .fraction(0.33) : .medium])
             .presentationBackground(.sheetBackground)
         }
@@ -107,6 +108,7 @@ struct SeriesDetailView: View {
                 .sheet(isPresented: $showEditForm) {
                     SeriesEditView(series: $series)
                         .environment(instance)
+                        .environment(settings)
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Close") { showEditForm = false }

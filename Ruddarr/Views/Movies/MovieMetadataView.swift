@@ -4,6 +4,7 @@ import TipKit
 struct MovieMetadataView: View {
     @Binding var movie: Movie
 
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
 
     @State private var videoExpanded: Bool = false
@@ -97,6 +98,7 @@ struct MovieMetadataView: View {
         }
         .sheet(item: $eventSheet) { event in
             MediaEventSheet(event: event)
+                .environment(settings)
                 .presentationDetents(
                     dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )

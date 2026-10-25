@@ -6,4 +6,5 @@ Changed
 
 Fixed
 - Fixed crash on launch on iOS 27.2 beta
+- Prevent a rare crash when opening sheets and detail screens
 - Prevent a crash when the library grid changes
