@@ -55,6 +55,15 @@ extension View {
         #endif
     }
 
+    @ViewBuilder
+    func gridAnimation(value: some Equatable) -> some View {
+        if #available(iOS 27.0, *) {
+            animation(.snappy, value: value)
+        } else {
+            self
+        }
+    }
+
     func prominentGlassButtonStyle(_ condition: Bool) -> some View {
         modifier(ProminentGlassButtonStyle(condition: condition))
     }

@@ -152,7 +152,7 @@ struct MoviesView: View {
             .buttonStyle(.plain)
             .id(movie.id)
         }
-        .animation(.snappy, value: instance.movies.cachedItems.map(\.id))
+        .gridAnimation(value: instance.movies.cachedItems.map(\.id))
         .environment(\.deleteMovie, $movieToDelete)
         .viewBottomPadding()
         .containerHorizontalMargins()

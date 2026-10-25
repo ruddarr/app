@@ -155,7 +155,7 @@ struct SeriesView: View {
             .buttonStyle(.plain)
             .id(series.id)
         }
-        .animation(.snappy, value: instance.series.cachedItems.map(\.id))
+        .gridAnimation(value: instance.series.cachedItems.map(\.id))
         .environment(\.deleteSeries, $seriesToDelete)
         .viewBottomPadding()
         .containerHorizontalMargins()
