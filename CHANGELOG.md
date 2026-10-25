@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use the tab bar instead of the sidebar on unfolded iPhone Duo
 
 ### Fixed
+- Prevent a rare crash when viewing movie or episode history
 
 ## 2.1.0 - 2026-10-23
 ### Added

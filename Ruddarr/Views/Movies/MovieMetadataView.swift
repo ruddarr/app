@@ -4,6 +4,7 @@ import TipKit
 struct MovieMetadataView: View {
     @Binding var movie: Movie
 
+    @Environment(AppSettings.self) private var settings
     @Environment(RadarrInstance.self) private var instance
 
     @State private var videoExpanded: Bool = false
@@ -83,6 +84,7 @@ struct MovieMetadataView: View {
             } else {
                 ForEach(instance.metadata.history.filter { $0.movieId == movie.id }) { event in
                     MediaHistoryItem(event: event)
+                        .environment(settings)
                         .padding(.bottom, 4)
                         .onTapGesture { eventSheet = event }
                 }
@@ -97,6 +99,7 @@ struct MovieMetadataView: View {
         }
         .sheet(item: $eventSheet) { event in
             MediaEventSheet(event: event)
+                .environment(settings)
                 .presentationDetents(
                     dynamic: event.eventType == .grabbed ? [.medium] : [.fraction(0.25)]
                 )

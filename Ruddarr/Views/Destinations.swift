@@ -31,6 +31,7 @@ struct MoviesDestination: View {
         case .metadata(let id):
             MovieMetadataView(movie: instance.movies.byId(id))
                 .environment(instance)
+                .environment(settings)
         }
     }
 }
