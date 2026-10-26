@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use the system button style for action buttons on iOS
 
 ### Fixed
+- Fix calendar not loading when selected as the home tab on macOS
 - Prevent a crash on iOS 26 when the library grid changes
 - Prevent a rare crash when opening sheets and detail screens
 

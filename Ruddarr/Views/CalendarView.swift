@@ -56,7 +56,8 @@ struct CalendarView: View {
                 }
             }
             .task {
-                await load()
+                // Keep loading while macOS replaces its initial split view content.
+                await Task { await load() }.value
             }
             .sensoryAlert(
                 isPresented: $alertPresented,
