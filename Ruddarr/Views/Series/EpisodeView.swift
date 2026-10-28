@@ -210,35 +210,15 @@ struct EpisodeView: View {
 
     @ToolbarContentBuilder
     var toolbarMenu: some ToolbarContent {
-        if #available(iOS 27.0, *) {
-            ToolbarOverflowMenu {
-                Section {
-                    EpisodeContextMenu(episode: episode)
-                }
-
-                if episodeFile != nil {
-                    Section {
-                        deleteFileButton
-                    }
-                }
+        ToolbarActionMenu {
+            Section {
+                EpisodeContextMenu(episode: episode)
             }
-        } else {
-            ToolbarItem(placement: .primaryAction) {
-                Menu {
-                    Section {
-                        EpisodeContextMenu(episode: episode)
-                    }
 
-                    if episodeFile != nil {
-                        Section {
-                            deleteFileButton
-                        }
-                    }
-                } label: {
-                    ToolbarActionButton()
+            if episodeFile != nil {
+                Section {
+                    deleteFileButton
                 }
-                .tint(.primary)
-                .menuIndicator(.hidden)
             }
         }
     }

@@ -114,6 +114,36 @@ struct RowMonitorButton: View {
     }
 }
 
+struct ToolbarActionMenu<Content: View>: ToolbarContent {
+    @ViewBuilder var content: Content
+
+    var body: some ToolbarContent {
+        #if os(iOS)
+            if #available(iOS 27.0, *) {
+                ToolbarOverflowMenu {
+                    content
+                }
+            } else {
+                menu
+            }
+        #else
+            menu
+        #endif
+    }
+
+    private var menu: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Menu {
+                content
+            } label: {
+                ToolbarActionButton()
+            }
+            .tint(.primary)
+            .menuIndicator(.hidden)
+        }
+    }
+}
+
 struct ToolbarActionButton: View {
     var body: some View {
         Label("More", systemImage: "ellipsis")

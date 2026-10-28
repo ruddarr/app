@@ -62,6 +62,18 @@ struct SeriesDetailView: View {
             .presentationDetents(dynamic: [deviceType == .phone ? .fraction(0.33) : .medium])
             .presentationBackground(.sheetBackground)
         }
+        #if os(macOS)
+            .sheet(isPresented: $showEditForm) {
+                SeriesEditView(series: $series)
+                    .environment(instance)
+                    .environment(settings)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Close") { showEditForm = false }
+                        }
+                    }
+            }
+        #endif
     }
 
     @ToolbarContentBuilder
@@ -81,66 +93,24 @@ struct SeriesDetailView: View {
 
     @ToolbarContentBuilder
     var toolbarMenu: some ToolbarContent {
-        Group {
-            if #available(iOS 27.0, *) {
-                ToolbarOverflowMenu {
-                    Section {
-                        refreshAction
-                        searchMonitored
-                    }
+        ToolbarActionMenu {
+            Section {
+                refreshAction
+                searchMonitored
+            }
 
-                    Section {
-                        SeriesLinks(series: series)
-                    }
+            Section {
+                SeriesLinks(series: series)
+            }
 
-                    Section {
-                        editAction
+            Section {
+                editAction
 
-                        if inCalendarSheet == nil {
-                            deleteSeriesButton
-                        }
-                    }
-                }
-            } else {
-                ToolbarItem(placement: .primaryAction) {
-                    Menu {
-                        Section {
-                            refreshAction
-                            searchMonitored
-                        }
-
-                        Section {
-                            SeriesLinks(series: series)
-                        }
-
-                        Section {
-                            editAction
-
-                            if inCalendarSheet == nil {
-                                deleteSeriesButton
-                            }
-                        }
-                    } label: {
-                        ToolbarActionButton()
-                    }
-                    .tint(.primary)
-                    .menuIndicator(.hidden)
+                if inCalendarSheet == nil {
+                    deleteSeriesButton
                 }
             }
         }
-#if os(macOS)
-        .sheet(isPresented: $showEditForm) {
-            SeriesEditView(series: $series)
-                .environment(instance)
-                .environment(settings)
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Close") { showEditForm = false }
-                    }
-                }
-        }
-#endif
-
     }
 
     var deeplink: URL? {
