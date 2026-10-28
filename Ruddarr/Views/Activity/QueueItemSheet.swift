@@ -9,6 +9,7 @@ struct QueueItemSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.hasVerticalToolbar) private var hasVerticalToolbar
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     @State private var downloadProgress: Float = 0
@@ -48,7 +49,7 @@ struct QueueItemSheet: View {
                     details
                 }
                 .scenePadding(.horizontal)
-                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency ? 0 : -45))
+                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency || hasVerticalToolbar ? 0 : -45))
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
@@ -59,7 +60,6 @@ struct QueueItemSheet: View {
                     .tint(.primary)
                 }
             }
-            .horizontalToolbarOnly()
         }
     }
 

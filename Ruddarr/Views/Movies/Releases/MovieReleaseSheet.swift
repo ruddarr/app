@@ -9,6 +9,7 @@ struct MovieReleaseSheet: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.hasVerticalToolbar) private var hasVerticalToolbar
     @Environment(\.inCalendarSheet) private var inCalendarSheet
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
@@ -33,7 +34,7 @@ struct MovieReleaseSheet: View {
                     details
                 }
                 .scenePadding(.horizontal)
-                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency ? 0 : -45))
+                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency || hasVerticalToolbar ? 0 : -45))
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
@@ -44,7 +45,6 @@ struct MovieReleaseSheet: View {
                     .tint(.primary)
                 }
             }
-            .horizontalToolbarOnly()
             .sensoryAlert(
                 isPresented: instance.movies.errorBinding,
                 error: instance.movies.error

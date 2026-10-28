@@ -11,6 +11,7 @@ struct SeriesReleaseSheet: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.hasVerticalToolbar) private var hasVerticalToolbar
     @Environment(\.inCalendarSheet) private var inCalendarSheet
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
@@ -35,7 +36,7 @@ struct SeriesReleaseSheet: View {
                     details
                 }
                 .scenePadding(.horizontal)
-                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency ? 0 : -45))
+                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency || hasVerticalToolbar ? 0 : -45))
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
@@ -46,7 +47,6 @@ struct SeriesReleaseSheet: View {
                     .tint(.primary)
                 }
             }
-            .horizontalToolbarOnly()
             .sensoryAlert(
                 isPresented: instance.series.errorBinding,
                 error: instance.series.error

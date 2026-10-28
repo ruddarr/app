@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use the system button style for action buttons on iOS
 
 ### Fixed
+- Fix add movie and series form spacing when the vertical toolbar is available on iPhone Duo
+- Fix queue item, media file, media event, and release sheet spacing when the vertical toolbar is available on iPhone Duo
 - Fix calendar not loading when selected as the home tab on macOS
 - Prevent a crash on iOS 26 when the library grid changes
 - Prevent a rare crash when opening sheets and detail screens

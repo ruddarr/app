@@ -81,42 +81,66 @@ struct SeriesDetailView: View {
 
     @ToolbarContentBuilder
     var toolbarMenu: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            Menu {
-                Section {
-                    refreshAction
-                    searchMonitored
-                }
+        Group {
+            if #available(iOS 27.0, *) {
+                ToolbarOverflowMenu {
+                    Section {
+                        refreshAction
+                        searchMonitored
+                    }
 
-                Section {
-                    SeriesLinks(series: series)
-                }
+                    Section {
+                        SeriesLinks(series: series)
+                    }
 
-                Section {
-                    editAction
+                    Section {
+                        editAction
 
-                    if inCalendarSheet == nil {
-                        deleteSeriesButton
+                        if inCalendarSheet == nil {
+                            deleteSeriesButton
+                        }
                     }
                 }
-            } label: {
-                ToolbarActionButton()
-            }
-            .tint(.primary)
-            .menuIndicator(.hidden)
-            #if os(macOS)
-                .sheet(isPresented: $showEditForm) {
-                    SeriesEditView(series: $series)
-                        .environment(instance)
-                        .environment(settings)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Close") { showEditForm = false }
+            } else {
+                ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        Section {
+                            refreshAction
+                            searchMonitored
+                        }
+
+                        Section {
+                            SeriesLinks(series: series)
+                        }
+
+                        Section {
+                            editAction
+
+                            if inCalendarSheet == nil {
+                                deleteSeriesButton
                             }
                         }
+                    } label: {
+                        ToolbarActionButton()
+                    }
+                    .tint(.primary)
+                    .menuIndicator(.hidden)
                 }
-            #endif
+            }
         }
+#if os(macOS)
+        .sheet(isPresented: $showEditForm) {
+            SeriesEditView(series: $series)
+                .environment(instance)
+                .environment(settings)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close") { showEditForm = false }
+                    }
+                }
+        }
+#endif
+
     }
 
     var deeplink: URL? {

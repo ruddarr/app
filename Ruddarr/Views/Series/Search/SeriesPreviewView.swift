@@ -11,6 +11,7 @@ struct SeriesPreviewView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.hasVerticalToolbar) private var hasVerticalToolbar
 
     @AppStorage("seriesDefaults", store: dependencies.store) var seriesDefaults: SeriesDefaults = .init()
 
@@ -42,9 +43,8 @@ struct SeriesPreviewView: View {
                         toolbarSaveButton
                     }
                     #if os(iOS)
-                        .padding(.top, -25)
+                        .padding(.top, hasVerticalToolbar ? 0 : -25)
                     #endif
-                    .horizontalToolbarOnly()
             }
             .environment(instance)
             .environment(settings)

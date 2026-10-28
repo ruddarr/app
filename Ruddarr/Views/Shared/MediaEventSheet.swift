@@ -8,6 +8,7 @@ struct MediaEventSheet: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.hasVerticalToolbar) private var hasVerticalToolbar
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     var body: some View {
@@ -52,7 +53,7 @@ struct MediaEventSheet: View {
                     Spacer()
                 }
                 .scenePadding(.horizontal)
-                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency ? 0 : -45))
+                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency || hasVerticalToolbar ? 0 : -45))
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
@@ -63,7 +64,6 @@ struct MediaEventSheet: View {
                     .tint(.primary)
                 }
             }
-            .horizontalToolbarOnly()
         }
         .displayToasts()
     }

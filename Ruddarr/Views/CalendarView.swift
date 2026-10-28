@@ -81,7 +81,7 @@ struct CalendarView: View {
                         .environment(radarrInstance)
                         .environment(sonarrInstance)
                         .environment(settings)
-                        .presentationDetents(dynamic: deviceType == .pad ? [.large] : [.fraction(0.7), .large])
+                        .presentationDetents(dynamic: deviceType == .pad ? [.large] : [.medium, .large])
                         .presentationSizing(.page)
                         .presentationDragIndicator(.visible)
                         .presentationBackground(.sheetBackground)

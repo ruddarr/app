@@ -6,6 +6,7 @@ struct MediaFileSheet: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.hasVerticalToolbar) private var hasVerticalToolbar
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     var body: some View {
@@ -19,7 +20,7 @@ struct MediaFileSheet: View {
 
                     Spacer().frame(height: 42)
                 }
-                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency ? 0 : -52))
+                .padding(.top, deviceType == .mac ? 24 : (reduceTransparency || hasVerticalToolbar ? 0 : -52))
                 .scenePadding(.horizontal)
             }
             #if os(macOS)
@@ -34,7 +35,6 @@ struct MediaFileSheet: View {
                     .tint(.primary)
                 }
             }
-            .horizontalToolbarOnly()
             .ignoresSafeArea(edges: .bottom)
         }
     }

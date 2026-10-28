@@ -11,6 +11,7 @@ struct MoviePreviewView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.deviceType) private var deviceType
+    @Environment(\.hasVerticalToolbar) private var hasVerticalToolbar
 
     @AppStorage("movieDefaults", store: dependencies.store) var movieDefaults: MovieDefaults = .init()
 
@@ -41,9 +42,8 @@ struct MoviePreviewView: View {
                         toolbarSaveButton
                     }
                     #if os(iOS)
-                        .padding(.top, -25)
+                        .padding(.top, hasVerticalToolbar ? 0 : -25)
                     #endif
-                    .horizontalToolbarOnly()
             }
             .environment(instance)
             .environment(settings)

@@ -70,39 +70,63 @@ struct MovieView: View {
 
     @ToolbarContentBuilder
     var toolbarMenu: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            Menu {
-                Section {
-                    refreshAction
-                }
+        Group {
+            if #available(iOS 27.0, *) {
+                ToolbarOverflowMenu {
+                    Group {
+                        Section {
+                            refreshAction
+                        }
 
-                openInLinks
+                        openInLinks
 
-                Section {
-                    editAction
+                        Section {
+                            editAction
 
-                    if inCalendarSheet == nil {
-                        deleteMovieButton
-                    }
-                }
-            } label: {
-                ToolbarActionButton()
-            }
-            .tint(.primary)
-            .menuIndicator(.hidden)
-            #if os(macOS)
-                .sheet(isPresented: $showEditForm) {
-                    MovieEditView(movie: $movie)
-                        .environment(instance)
-                        .environment(settings)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Close") { showEditForm = false }
+                            if inCalendarSheet == nil {
+                                deleteMovieButton
                             }
                         }
+                    }
+                    .tint(.primary)
+                    .menuIndicator(.hidden)
                 }
-            #endif
+            } else {
+                ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        Section {
+                            refreshAction
+                        }
+
+                        openInLinks
+
+                        Section {
+                            editAction
+
+                            if inCalendarSheet == nil {
+                                deleteMovieButton
+                            }
+                        }
+                    } label: {
+                        ToolbarActionButton()
+                    }
+                    .tint(.primary)
+                    .menuIndicator(.hidden)
+                }
+            }
         }
+#if os(macOS)
+        .sheet(isPresented: $showEditForm) {
+            MovieEditView(movie: $movie)
+                .environment(instance)
+                .environment(settings)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close") { showEditForm = false }
+                    }
+                }
+        }
+#endif
     }
 
     var refreshAction: some View {
