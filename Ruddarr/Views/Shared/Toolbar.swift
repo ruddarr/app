@@ -13,6 +13,23 @@ extension ToolbarContent {
             self
         #endif
     }
+
+    @ToolbarContentBuilder
+    func priority(_ priority: ToolbarItemPriority) -> some ToolbarContent {
+        if #available(iOS 27.0, macOS 27.0, *) {
+            switch priority {
+            case .medium: visibilityPriority(.init(higherThan: .automatic))
+            case .high: visibilityPriority(.high)
+            }
+        } else {
+            self
+        }
+    }
+}
+
+enum ToolbarItemPriority {
+    case medium
+    case high
 }
 
 extension View {
