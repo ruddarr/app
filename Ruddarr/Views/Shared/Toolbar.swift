@@ -75,9 +75,13 @@ struct ToolbarMonitorButton: View {
     var loading: Bool = false
 
     var body: some View {
-        MonitorBookmark(monitored: monitored, loading: loading)
-            .font(.subheadline)
-            .tint(.primary)
+        Label {
+            Text(monitored ? "Unmonitor" : "Monitor")
+        } icon: {
+            MonitorBookmark(monitored: monitored, loading: loading)
+        }
+        .font(.subheadline)
+        .tint(.primary)
     }
 }
 
@@ -98,7 +102,7 @@ struct RowMonitorButton: View {
 
 struct ToolbarActionButton: View {
     var body: some View {
-        Image(systemName: "ellipsis")
+        Label("More", systemImage: "ellipsis")
     }
 }
 
@@ -108,6 +112,7 @@ struct ToolbarActionButton: View {
 
     VStack(spacing: 32) {
         ToolbarMonitorButton(monitored: monitored, loading: loading)
+            .labelStyle(.iconOnly)
         RowMonitorButton(monitored: monitored, loading: loading)
 
         VStack(spacing: 12) {
