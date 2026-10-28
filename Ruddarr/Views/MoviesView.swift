@@ -15,7 +15,7 @@ struct MoviesView: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var instance
 
-    @Environment(\.deviceType) private var deviceType
+    @Environment(\.deviceType) var deviceType
     @Environment(\.hasVerticalToolbar) var hasVerticalToolbar
     @Environment(\.isFolded) private var isFolded
 
@@ -94,7 +94,8 @@ struct MoviesView: View {
             .scrollDismissesKeyboard(.immediately)
             .searchable(
                 text: $searchQuery,
-                isPresented: $searchPresented
+                isPresented: $searchPresented,
+                placement: searchPlacement
             )
             .autocorrectionDisabled(true)
             .onChange(of: settings.radarrInstanceId, changeInstance)

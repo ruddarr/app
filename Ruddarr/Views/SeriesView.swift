@@ -16,7 +16,7 @@ struct SeriesView: View {
     @Environment(AppSettings.self) var settings
     @Environment(SonarrInstance.self) var instance
 
-    @Environment(\.deviceType) private var deviceType
+    @Environment(\.deviceType) var deviceType
     @Environment(\.hasVerticalToolbar) var hasVerticalToolbar
     @Environment(\.isFolded) private var isFolded
 
@@ -97,7 +97,8 @@ struct SeriesView: View {
             .scrollDismissesKeyboard(.immediately)
             .searchable(
                 text: $searchQuery,
-                isPresented: $searchPresented
+                isPresented: $searchPresented,
+                placement: searchPlacement
             )
             .autocorrectionDisabled(true)
             .onChange(of: settings.sonarrInstanceId, changeInstance)
