@@ -20,6 +20,7 @@ extension MoviesView {
                 .tint(.primary)
                 .keyboardShortcut("n", modifiers: .command)
             }
+            .priority(.high)
         }
     }
 

@@ -12,6 +12,7 @@ extension CalendarView {
             }
             .tint(.primary)
         }
+        .priority(.low)
     }
 
     @ToolbarContentBuilder
@@ -35,6 +36,7 @@ extension CalendarView {
                 .contentTransition(.symbolEffect)
                 .disabled(isRetrying)
             }
+            .priority(.high)
 
             ToolbarSpacer(placement: .primaryAction)
         }

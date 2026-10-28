@@ -20,6 +20,7 @@ extension SeriesView {
                 .tint(.primary)
                 .keyboardShortcut("n", modifiers: .command)
             }
+            .priority(.high)
         }
     }
 
