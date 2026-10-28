@@ -16,11 +16,8 @@ extension ToolbarContent {
 
     @ToolbarContentBuilder
     func priority(_ priority: ToolbarItemPriority) -> some ToolbarContent {
-        if #available(iOS 27.0, macOS 27.0, *) {
-            switch priority {
-            case .medium: visibilityPriority(.init(higherThan: .automatic))
-            case .high: visibilityPriority(.high)
-            }
+        if #available(iOS 27.0, macOS 26.1, *) {
+            visibilityPriority(priority == .high ? .high : .low)
         } else {
             self
         }
@@ -28,7 +25,7 @@ extension ToolbarContent {
 }
 
 enum ToolbarItemPriority {
-    case medium
+    case low
     case high
 }
 

@@ -12,7 +12,7 @@ extension CalendarView {
             }
             .tint(.primary)
         }
-        .priority(.medium)
+        .priority(.low)
     }
 
     @ToolbarContentBuilder
