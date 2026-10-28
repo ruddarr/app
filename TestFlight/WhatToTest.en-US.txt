@@ -1,5 +1,6 @@
 Changed
 - Various iPhone Duo refinements
+- Hide the library search bar until pulling down on unfolded iPhone Duo
 - Show size on disk in the details when it fits
 - Use the system button style for action buttons on iOS
 

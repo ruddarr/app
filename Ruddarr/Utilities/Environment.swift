@@ -27,6 +27,18 @@ extension EnvironmentValues {
     var isCompactPhone: Bool {
         deviceType == .phone && horizontalSizeClass != .regular
     }
+
+    /// The unfolded iPhone Duo leaves the search bar's toolbar slot mostly empty,
+    /// so tuck it into the navigation bar until the user pulls down.
+    var librarySearchPlacement: SearchFieldPlacement {
+        #if os(iOS)
+            if deviceType == .phone && horizontalSizeClass == .regular {
+                return .navigationBarDrawer(displayMode: .automatic)
+            }
+        #endif
+
+        return .automatic
+    }
 }
 
 enum EnvironmentType: String {
