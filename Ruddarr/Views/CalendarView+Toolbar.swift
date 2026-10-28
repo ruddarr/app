@@ -71,13 +71,17 @@ extension CalendarView {
                     }
                 }
             } label: {
-                if displayedMediaType != .all || onlyPremieres || onlyMonitored || hideSpecials {
-                    Image("filters.badge")
-                        .offset(y: 3)
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.tint, .primary)
-                } else {
-                    Image(systemName: "line.3.horizontal.decrease")
+                Label {
+                    Text("Filter")
+                } icon: {
+                    if displayedMediaType != .all || onlyPremieres || onlyMonitored || hideSpecials {
+                        Image("filters.badge")
+                            .offset(y: 3)
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.tint, .primary)
+                    } else {
+                        Image(systemName: "line.3.horizontal.decrease")
+                    }
                 }
             }
             .menuIndicator(.hidden)

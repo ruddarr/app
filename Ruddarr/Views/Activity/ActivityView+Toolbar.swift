@@ -48,7 +48,7 @@ extension ActivityView {
                     NavigationLink {
                         HistoryView().environment(settings)
                     } label: {
-                        Image(systemName: "clock.arrow.trianglehead.counterclockwise.rotate.90")
+                        Label("History", systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90")
                             .imageScale(.medium)
                     }.tint(.primary)
                 }
@@ -74,13 +74,17 @@ extension ActivityView {
                 Toggle("Issues", systemImage: "exclamationmark.triangle", isOn: $sort.issues)
             }
         } label: {
-            if sort.hasFilter {
-                Image("filters.badge")
-                    .offset(y: 3)
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(settings.theme.tint, .primary)
-            } else {
-                Image(systemName: "line.3.horizontal.decrease")
+            Label {
+                Text("Filter")
+            } icon: {
+                if sort.hasFilter {
+                    Image("filters.badge")
+                        .offset(y: 3)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(settings.theme.tint, .primary)
+                } else {
+                    Image(systemName: "line.3.horizontal.decrease")
+                }
             }
         }
     }
@@ -158,7 +162,7 @@ extension ActivityView {
                 }.pickerStyle(.inline)
             }
         } label: {
-            Image(systemName: "arrow.up.arrow.down")
+            Label("Sort By", systemImage: "arrow.up.arrow.down")
                 .imageScale(.medium)
         }
     }

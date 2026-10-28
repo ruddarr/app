@@ -234,7 +234,7 @@ struct InstanceView: View {
                         .controlSize(.small)
                         .tint(.secondary)
                 case .loaded, .failed:
-                    Image(systemName: "safari")
+                    Label("Open in \(instance.type.rawValue)", systemImage: "safari")
                 }
             }
             .disabled(!webAccessState.isLoaded)
