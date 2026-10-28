@@ -27,17 +27,6 @@ extension EnvironmentValues {
     var isCompactPhone: Bool {
         deviceType == .phone && horizontalSizeClass != .regular
     }
-
-    /// On phones, tuck the search bar into the navigation bar until the user pulls down.
-    var librarySearchPlacement: SearchFieldPlacement {
-        #if os(iOS)
-            if deviceType == .phone {
-                return .navigationBarDrawer(displayMode: .automatic)
-            }
-        #endif
-
-        return .automatic
-    }
 }
 
 enum EnvironmentType: String {

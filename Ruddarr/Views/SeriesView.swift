@@ -19,7 +19,6 @@ struct SeriesView: View {
     @Environment(\.deviceType) private var deviceType
     @Environment(\.hasVerticalToolbar) var hasVerticalToolbar
     @Environment(\.isFolded) private var isFolded
-    @Environment(\.librarySearchPlacement) private var searchPlacement
 
     @State private var scrollView: ScrollViewProxy?
 
@@ -96,11 +95,11 @@ struct SeriesView: View {
                 }
             }
             .scrollDismissesKeyboard(.immediately)
-            .searchable(
-                text: $searchQuery,
-                isPresented: $searchPresented,
-                placement: searchPlacement
-            )
+            #if os(iOS)
+                .searchable(text: $searchQuery, isPresented: $searchPresented, placement: deviceType == .phone ? .navigationBarDrawer : .automatic)
+            #else
+                .searchable(text: $searchQuery, isPresented: $searchPresented)
+            #endif
             .autocorrectionDisabled(true)
             .onChange(of: settings.sonarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)

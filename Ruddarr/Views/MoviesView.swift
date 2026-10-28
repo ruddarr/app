@@ -18,7 +18,6 @@ struct MoviesView: View {
     @Environment(\.deviceType) private var deviceType
     @Environment(\.hasVerticalToolbar) var hasVerticalToolbar
     @Environment(\.isFolded) private var isFolded
-    @Environment(\.librarySearchPlacement) private var searchPlacement
 
     @State private var scrollView: ScrollViewProxy?
 
@@ -93,11 +92,11 @@ struct MoviesView: View {
                 }
             }
             .scrollDismissesKeyboard(.immediately)
-            .searchable(
-                text: $searchQuery,
-                isPresented: $searchPresented,
-                placement: searchPlacement
-            )
+            #if os(iOS)
+                .searchable(text: $searchQuery, isPresented: $searchPresented, placement: deviceType == .phone ? .navigationBarDrawer : .automatic)
+            #else
+                .searchable(text: $searchQuery, isPresented: $searchPresented)
+            #endif
             .autocorrectionDisabled(true)
             .onChange(of: settings.radarrInstanceId, changeInstance)
             .onChange(of: sort.option, updateSortDirection)
