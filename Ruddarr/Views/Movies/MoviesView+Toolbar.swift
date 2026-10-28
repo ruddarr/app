@@ -2,6 +2,14 @@ import SwiftUI
 import Sentry
 
 extension MoviesView {
+    var searchPlacement: SearchFieldPlacement {
+        #if os(iOS)
+            deviceType == .phone ? .navigationBarDrawer : .automatic
+        #else
+            .automatic
+        #endif
+    }
+
     @ToolbarContentBuilder
     var toolbarSearchButton: some ToolbarContent {
         if !instance.isVoid {
