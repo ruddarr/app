@@ -28,11 +28,11 @@ extension EnvironmentValues {
         deviceType == .phone && horizontalSizeClass != .regular
     }
 
-    /// The unfolded iPhone Duo leaves the search bar's toolbar slot mostly empty,
+    /// On the iPhone Duo, folded or unfolded, the search bar wastes space in the toolbar,
     /// so tuck it into the navigation bar until the user pulls down.
     var librarySearchPlacement: SearchFieldPlacement {
         #if os(iOS)
-            if deviceType == .phone && horizontalSizeClass == .regular {
+            if deviceType == .phone && (horizontalSizeClass == .regular || isFolded) {
                 return .navigationBarDrawer(displayMode: .automatic)
             }
         #endif

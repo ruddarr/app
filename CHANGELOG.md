@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 ### Changed
 - Various iPhone Duo refinements
-- Hide the library search bar until pulling down on unfolded iPhone Duo
 - Show size on disk in the details when it fits
 - Use the system button style for action buttons on iOS
 
