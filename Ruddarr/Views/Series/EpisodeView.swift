@@ -290,7 +290,7 @@ struct EpisodeView: View {
         }
         .sheet(item: $fileSheet) { file in
             MediaFileSheet(file: file, runtime: episode.runtime ?? series.runtime)
-                .presentationDetents([.fraction(0.8)])
+                .presentationDetents(dynamic: [.fraction(0.8)])
                 .presentationBackground(.sheetBackground)
         }
         .alert(
