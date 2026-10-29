@@ -204,6 +204,8 @@ struct MacPreviewFrame: ViewModifier {
 private struct DynamicPresentationDetents: ViewModifier {
     var detents: Set<PresentationDetent>
 
+    @Environment(\.isFolded) private var isFolded
+
     func body(content: Content) -> some View {
         content.presentationDetents(Set(detents.map(adaptive)))
     }
@@ -212,6 +214,7 @@ private struct DynamicPresentationDetents: ViewModifier {
         switch detent {
         case .fraction(0.25): .custom(QuarterDetent.self)
         case .fraction(0.33): .custom(ThirdDetent.self)
+        case _ where isFolded: .large
         case .medium: .custom(MediumDetent.self)
         case .fraction(0.7): .custom(SeventyDetent.self)
         default: detent
