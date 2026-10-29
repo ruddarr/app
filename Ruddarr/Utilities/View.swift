@@ -1,11 +1,5 @@
 import SwiftUI
 
-#if os(iOS)
-private let isEarlyiOS272Beta = ["24B5084k", "24B5089g"].contains {
-    ProcessInfo.processInfo.operatingSystemVersionString.contains($0)
-}
-#endif
-
 extension View {
     func onBecomeActive(perform action: @escaping () async -> Void) -> some View {
         self.modifier(OnBecomeActiveModifier(action: action))
@@ -45,7 +39,7 @@ extension View {
     @ViewBuilder
     func containerHorizontalMargins() -> some View {
         #if os(iOS)
-            if #available(iOS 27.1, *), !isEarlyiOS272Beta {
+            if #available(iOS 27.1, *) {
                 contentMargins(for: .container, edges: .horizontal)
             } else {
                 scenePadding(.horizontal)
