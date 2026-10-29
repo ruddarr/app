@@ -16,7 +16,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix calendar not loading when selected as the home tab on macOS
 - Prevent a crash on iOS 26 when the library grid changes
 - Prevent a rare crash when opening sheets and detail screens
-- Show missing titles of toolbar buttons in overflow menus
 
 ## 2.1.0 - 2026-10-23
 ### Added
