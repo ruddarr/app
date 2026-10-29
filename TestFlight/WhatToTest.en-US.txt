@@ -7,4 +7,3 @@ Fixed
 - Fix calendar not loading when selected as the home tab on macOS
 - Prevent a crash on iOS 26 when the library grid changes
 - Prevent a rare crash when opening sheets and detail screens
-- Show missing titles of toolbar buttons in overflow menus
