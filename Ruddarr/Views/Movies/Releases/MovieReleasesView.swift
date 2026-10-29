@@ -181,13 +181,17 @@ extension MovieReleasesView {
                 )
             }
         } label: {
-            if sort.hasFilter {
-                Image("filters.badge")
-                    .offset(y: 3)
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(.tint, .primary)
-            } else{
-                Image(systemName: "line.3.horizontal.decrease")
+            Label {
+                Text("Filter")
+            } icon: {
+                if sort.hasFilter {
+                    Image("filters.badge")
+                        .offset(y: 3)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.tint, .primary)
+                } else {
+                    Image(systemName: "line.3.horizontal.decrease")
+                }
             }
         }
         .menuIndicator(.hidden)
@@ -211,7 +215,7 @@ extension MovieReleasesView {
                 }.pickerStyle(.inline)
             }
         } label: {
-            Image(systemName: "arrow.up.arrow.down")
+            Label("Sort By", systemImage: "arrow.up.arrow.down")
                 .imageScale(.medium)
         }
         .tint(.primary)

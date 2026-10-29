@@ -129,9 +129,13 @@ struct DiagnosticsView: View {
             Button {
                 masked.toggle()
             } label: {
-                Image(systemName: masked ? "eye" : "eye.slash")
-                    .contentTransition(.symbolEffect(.replace))
-                    .animation(.snappy, value: masked)
+                Label {
+                    Text(verbatim: masked ? "Show Addresses" : "Hide Addresses")
+                } icon: {
+                    Image(systemName: masked ? "eye" : "eye.slash")
+                        .contentTransition(.symbolEffect(.replace))
+                        .animation(.snappy, value: masked)
+                }
             }
             .tint(.primary)
         }

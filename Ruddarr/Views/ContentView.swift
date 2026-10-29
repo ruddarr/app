@@ -7,11 +7,7 @@ struct ContentView: View {
 
     var body: some View {
         if #available(iOS 27.0, *), deviceType == .phone {
-            GeometryReader { geometry in
-                content.defaultTabBarPlacement(
-                    geometry.size.width > geometry.size.height ? .sidebar : .tabBar
-                )
-            }
+            content.defaultTabBarPlacement(.tabBar)
         } else {
             content
         }

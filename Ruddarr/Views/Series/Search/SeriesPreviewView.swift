@@ -46,6 +46,8 @@ struct SeriesPreviewView: View {
                     #endif
                     .horizontalToolbarOnly()
             }
+            .environment(instance)
+            .environment(settings)
             .presentationDetents(dynamic: [deviceType == .phone ? .medium : .large])
             .presentationBackground(.sheetBackground)
         }

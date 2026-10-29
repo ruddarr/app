@@ -18,7 +18,7 @@ struct EpisodeView: View {
     @Environment(SonarrInstance.self) var instance
 
     @Environment(\.deviceType) private var deviceType
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.isCompactPhone) private var isCompactPhone
     @Environment(\.inCalendarSheet) private var inCalendarSheet
 
     var startOfToday = Calendar.current.startOfDay(for: Date())
@@ -184,8 +184,8 @@ struct EpisodeView: View {
 
             Spacer()
         }
-        .onChange(of: horizontalSizeClass, initial: true) {
-            descriptionTruncated = deviceType == .phone && horizontalSizeClass != .regular
+        .onChange(of: deviceType, initial: true) {
+            descriptionTruncated = deviceType == .phone
         }
     }
 
@@ -253,7 +253,7 @@ struct EpisodeView: View {
             .actionButtonWidth()
         }
         .fixedSize(horizontal: false, vertical: true)
-        .frame(maxWidth: .infinity, alignment: deviceType == .phone ? .center : .leading)
+        .frame(maxWidth: .infinity, alignment: isCompactPhone ? .center : .leading)
     }
 
     var deleteFileButton: some View {
@@ -290,7 +290,7 @@ struct EpisodeView: View {
         }
         .sheet(item: $fileSheet) { file in
             MediaFileSheet(file: file, runtime: episode.runtime ?? series.runtime)
-                .presentationDetents([.fraction(0.8)])
+                .presentationDetents(dynamic: [.fraction(0.8)])
                 .presentationBackground(.sheetBackground)
         }
         .alert(

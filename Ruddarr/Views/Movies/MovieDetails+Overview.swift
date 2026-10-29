@@ -28,7 +28,7 @@ extension MovieDetails {
 
                 MovieRatings(movie: movie)
 
-                if deviceType != .phone {
+                if !isCompactPhone {
                     Spacer()
                     actions
                 }
@@ -64,34 +64,33 @@ extension MovieDetails {
 
     var detailsSubtitle: some View {
         ViewThatFits(in: .horizontal) {
-            HStack(spacing: 6) {
-                Text(movie.yearLabel)
-
-                if let runtime = movie.runtimeLabel {
-                    Bullet()
-                    Text(runtime)
-                }
-
-                Bullet()
-                Text(movie.certificationLabel)
-
-                if deviceType != .phone, let size = movie.sizeLabel {
-                    Bullet()
-                    Text(size)
-                }
-            }
-
-            HStack(spacing: 6) {
-                Text(movie.yearLabel)
-
-                if let runtime = movie.runtimeLabel {
-                    Bullet()
-                    Text(runtime)
-                }
-            }
+            subtitleRow(certification: true, size: true)
+            subtitleRow(certification: true, size: deviceType != .phone)
+            subtitleRow(certification: false, size: false)
         }
         .font(.callout)
         .foregroundStyle(.secondary)
         .lineLimit(1)
+    }
+
+    func subtitleRow(certification: Bool, size: Bool) -> some View {
+        HStack(spacing: 6) {
+            Text(movie.yearLabel)
+
+            if let runtime = movie.runtimeLabel {
+                Bullet()
+                Text(runtime)
+            }
+
+            if certification {
+                Bullet()
+                Text(movie.certificationLabel)
+            }
+
+            if size, let size = movie.sizeLabel {
+                Bullet()
+                Text(size)
+            }
+        }
     }
 }

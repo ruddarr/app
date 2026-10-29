@@ -23,6 +23,10 @@ extension EnvironmentValues {
 
         return false
     }
+
+    var isCompactPhone: Bool {
+        deviceType == .phone && horizontalSizeClass != .regular
+    }
 }
 
 enum EnvironmentType: String {

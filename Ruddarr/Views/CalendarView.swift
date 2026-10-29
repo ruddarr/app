@@ -19,6 +19,8 @@ struct CalendarView: View {
     @State var displayedMediaType: CalendarMediaType = .all
 
     @Environment(AppSettings.self) private var settings
+    @Environment(RadarrInstance.self) private var radarrInstance
+    @Environment(SonarrInstance.self) private var sonarrInstance
     @Environment(\.deviceType) private var deviceType
 
     private let firstWeekday = Calendar.current.firstWeekday
@@ -54,7 +56,7 @@ struct CalendarView: View {
                 }
             }
             .task {
-                await load()
+                await Task { await load() }.value
             }
             .sensoryAlert(
                 isPresented: $alertPresented,
@@ -76,6 +78,9 @@ struct CalendarView: View {
             #if os(iOS)
                 .sheet(item: $selectedMedia) { selection in
                     CalendarDetailSheet(selection: selection)
+                        .environment(radarrInstance)
+                        .environment(sonarrInstance)
+                        .environment(settings)
                         .presentationDetents(dynamic: deviceType == .pad ? [.large] : [.fraction(0.7), .large])
                         .presentationSizing(.page)
                         .presentationDragIndicator(.visible)

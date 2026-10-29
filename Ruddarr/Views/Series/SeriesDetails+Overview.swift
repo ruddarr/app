@@ -29,7 +29,7 @@ extension SeriesDetails {
                 detailsRating
                     .padding(.bottom, 6)
 
-                if deviceType != .phone {
+                if !isCompactPhone {
                     Spacer()
                     actions
                 }
@@ -65,40 +65,34 @@ extension SeriesDetails {
 
     var detailsSubtitle: some View {
         ViewThatFits(in: .horizontal) {
-            HStack(spacing: 6) {
-                Text(series.yearLabel)
-                Bullet()
-
-                if let runtime = series.runtimeLabel {
-                    Text(runtime)
-                    Bullet()
-                }
-
-                Text(series.certificationLabel).lineLimit(1)
-
-                if deviceType != .phone, let size = series.sizeLabel {
-                    Bullet()
-                    Text(size)
-                }
-            }
-
-            HStack(spacing: 6) {
-                Text(series.yearLabel)
-                Bullet()
-
-                if let runtime = series.runtimeLabel {
-                    Text(runtime)
-                }
-
-                if deviceType != .phone, let size = series.sizeLabel {
-                    Bullet()
-                    Text(size)
-                }
-            }
+            subtitleRow(certification: true, size: true)
+            subtitleRow(certification: true, size: deviceType != .phone)
+            subtitleRow(certification: false, size: deviceType != .phone)
         }
         .font(.callout)
         .foregroundStyle(.secondary)
         .lineLimit(1)
+    }
+
+    func subtitleRow(certification: Bool, size: Bool) -> some View {
+        HStack(spacing: 6) {
+            Text(series.yearLabel)
+
+            if let runtime = series.runtimeLabel {
+                Bullet()
+                Text(runtime)
+            }
+
+            if certification {
+                Bullet()
+                Text(series.certificationLabel)
+            }
+
+            if size, let size = series.sizeLabel {
+                Bullet()
+                Text(size)
+            }
+        }
     }
 
     @ViewBuilder

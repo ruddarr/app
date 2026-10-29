@@ -13,6 +13,20 @@ extension ToolbarContent {
             self
         #endif
     }
+
+    @ToolbarContentBuilder
+    func priority(_ priority: ToolbarItemPriority) -> some ToolbarContent {
+        if #available(iOS 27.0, macOS 26.1, *) {
+            visibilityPriority(priority == .high ? .high : .low)
+        } else {
+            self
+        }
+    }
+}
+
+enum ToolbarItemPriority {
+    case low
+    case high
 }
 
 extension View {
@@ -75,9 +89,13 @@ struct ToolbarMonitorButton: View {
     var loading: Bool = false
 
     var body: some View {
-        MonitorBookmark(monitored: monitored, loading: loading)
-            .font(.subheadline)
-            .tint(.primary)
+        Label {
+            Text(monitored ? "Unmonitor" : "Monitor")
+        } icon: {
+            MonitorBookmark(monitored: monitored, loading: loading)
+        }
+        .font(.subheadline)
+        .tint(.primary)
     }
 }
 
@@ -98,7 +116,7 @@ struct RowMonitorButton: View {
 
 struct ToolbarActionButton: View {
     var body: some View {
-        Image(systemName: "ellipsis")
+        Label("More", systemImage: "ellipsis")
     }
 }
 
@@ -108,6 +126,7 @@ struct ToolbarActionButton: View {
 
     VStack(spacing: 32) {
         ToolbarMonitorButton(monitored: monitored, loading: loading)
+            .labelStyle(.iconOnly)
         RowMonitorButton(monitored: monitored, loading: loading)
 
         VStack(spacing: 12) {

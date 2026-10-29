@@ -2,16 +2,25 @@ import SwiftUI
 import Sentry
 
 extension SeriesView {
+    var searchPlacement: SearchFieldPlacement {
+        #if os(iOS)
+            deviceType == .phone ? .navigationBarDrawer : .automatic
+        #else
+            .automatic
+        #endif
+    }
+
     @ToolbarContentBuilder
     var toolbarSearchButton: some ToolbarContent {
         if !instance.isVoid {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink(value: SeriesPath.search()) {
-                    Image(systemName: "plus")
+                    Label("Add Series", systemImage: "plus")
                 }
                 .tint(.primary)
                 .keyboardShortcut("n", modifiers: .command)
             }
+            .priority(.high)
         }
     }
 
@@ -51,13 +60,17 @@ extension SeriesView {
                 }
             }.pickerStyle(.menu)
         } label: {
-            if sort.filter != .all || sort.folder != .all {
-                Image("filters.badge")
-                    .offset(y: 3)
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(.tint, .primary)
-            } else {
-                Image(systemName: "line.3.horizontal.decrease")
+            Label {
+                Text("Filter")
+            } icon: {
+                if sort.filter != .all || sort.folder != .all {
+                    Image("filters.badge")
+                        .offset(y: 3)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.tint, .primary)
+                } else {
+                    Image(systemName: "line.3.horizontal.decrease")
+                }
             }
         }
     }
@@ -78,7 +91,7 @@ extension SeriesView {
                 }.pickerStyle(.inline)
             }
         } label: {
-            Image(systemName: "arrow.up.arrow.down")
+            Label("Sort By", systemImage: "arrow.up.arrow.down")
                 .imageScale(.medium)
         }
     }
@@ -133,7 +146,10 @@ extension SeriesView {
                 }
                 .pickerStyle(.inline)
             } label: {
-                Image(systemName: "internaldrive")
+                Label(
+                    settings.sonarrInstance?.label ?? String(localized: "Instance"),
+                    systemImage: "internaldrive"
+                )
             }
             .tint(.primary)
         }

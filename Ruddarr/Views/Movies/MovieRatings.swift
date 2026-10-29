@@ -99,7 +99,7 @@ struct MovieRatings: View {
                 Image("metacritic").resizable()
                     .scaledToFit()
                     .font(.callout)
-                    .frame(height: 14)
+                    .frame(height: 13)
                     .offset(y: -0.5)
 
                 Text(rating.formatted(.decimal(0)))

@@ -40,7 +40,7 @@ extension ShapeStyle where Self == Color {
     static var systemGroupedBackground: Color { Color(UIColor.systemGroupedBackground) }
     static var secondarySystemGroupedBackground: Color { Color(UIColor.secondarySystemGroupedBackground) }
 
-    static var buttonFill: Color { Color(UIColor.systemGray5) }
+    static var buttonFill: Color { Color(UIColor.secondarySystemFill) }
 #else
     static var card: Color { .tertiarySystemFill }
     static var elevatedCard: Color { .secondarySystemFill }

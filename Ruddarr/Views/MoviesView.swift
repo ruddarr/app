@@ -15,7 +15,7 @@ struct MoviesView: View {
     @Environment(AppSettings.self) var settings
     @Environment(RadarrInstance.self) var instance
 
-    @Environment(\.deviceType) private var deviceType
+    @Environment(\.deviceType) var deviceType
     @Environment(\.hasVerticalToolbar) var hasVerticalToolbar
     @Environment(\.isFolded) private var isFolded
 
@@ -94,7 +94,8 @@ struct MoviesView: View {
             .scrollDismissesKeyboard(.immediately)
             .searchable(
                 text: $searchQuery,
-                isPresented: $searchPresented
+                isPresented: $searchPresented,
+                placement: searchPlacement
             )
             .autocorrectionDisabled(true)
             .onChange(of: settings.radarrInstanceId, changeInstance)
@@ -118,6 +119,7 @@ struct MoviesView: View {
                         movieToDelete = nil
                     }
                 }
+                .environment(settings)
                 .presentationDetents(dynamic: [deviceType == .phone ? .fraction(0.33) : .medium])
                 .presentationBackground(.sheetBackground)
             }
@@ -151,7 +153,7 @@ struct MoviesView: View {
             .buttonStyle(.plain)
             .id(movie.id)
         }
-        .animation(.snappy, value: instance.movies.cachedItems.map(\.id))
+        .gridAnimation(value: instance.movies.cachedItems.map(\.id))
         .environment(\.deleteMovie, $movieToDelete)
         .viewBottomPadding()
         .containerHorizontalMargins()
