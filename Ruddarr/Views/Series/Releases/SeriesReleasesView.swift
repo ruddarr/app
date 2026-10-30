@@ -8,6 +8,7 @@ struct SeriesReleasesView: View {
     @State private var releases: [(release: SeriesRelease, runtime: Int)] = []
     @State private var fetched: (Series.ID?, Season.ID?, Episode.ID?) = (nil, nil, nil)
     @State private var selectedRelease: SeriesRelease?
+    @State private var searchPresented = false
 
     @AppStorage("seriesReleaseSort", store: dependencies.store) private var sort: SeriesReleaseSort = .init()
 
@@ -34,7 +35,7 @@ struct SeriesReleasesView: View {
             }
         }
         .listStyle(.inset)
-        .searchable(text: $sort.search)
+        .searchable(text: $sort.search, isPresented: $searchPresented)
         .toolbar {
             toolbarButtons
         }
@@ -75,7 +76,8 @@ struct SeriesReleasesView: View {
                 release: release,
                 seriesId: series.id,
                 seasonId: seasonId,
-                episodeId: episodeId
+                episodeId: episodeId,
+                searchPresented: $searchPresented
             )
             .environment(instance)
             .environment(settings)
