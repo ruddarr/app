@@ -1,3 +1,4 @@
 Fixed
+- Hide Indexer and Quality filters in interactive search until options are available
 - Prevent scrolling overflow in the Popular This Week grid
 - Use the selected theme color for active filter badges

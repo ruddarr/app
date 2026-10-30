@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Fixed
+- Hide Indexer and Quality filters in interactive search until options are available
 - Prevent scrolling overflow in the Popular This Week grid
 - Use the selected theme color for active filter badges
 
