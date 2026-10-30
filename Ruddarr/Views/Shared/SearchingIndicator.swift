@@ -11,6 +11,12 @@ struct SearchingIndicator: View {
         String(localized: "Time flies when you're having fun.", comment: "Release search taunt"),
         String(localized: "Is this running on Windows?", comment: "Release search taunt"),
         String(localized: "Try holding your breath.", comment: "Release search taunt"),
+        String(localized: "Don't look away.", comment: "Release search taunt"),
+        String(localized: "The book was better. And faster.", comment: "Release search taunt"),
+        String(localized: "Your popcorn is getting cold.", comment: "Release search taunt"),
+        String(localized: "Do you come here often?", comment: "Release search taunt"),
+        String(localized: "The indexers would like you to say please.", comment: "Release search taunt"),
+        String(localized: "Inhale 4. Hold 4. Exhale 4. Hold 4.", comment: "Release search taunt"),
     ]
 
     @State private var opacity: Double = 0
@@ -30,6 +36,8 @@ struct SearchingIndicator: View {
                 Text("Searching...")
                 Text(message)
                     .font(.footnote)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
                     .opacity(opacity)
                     .animation(.smooth, value: message)
                     .animation(.smooth, value: opacity)
@@ -39,6 +47,13 @@ struct SearchingIndicator: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .contentShape(Rectangle())
         .onReceive(textTimer, perform: tick)
+        .onChange(of: elevator, initial: true) {
+            if elevator {
+                messages.append(String(localized: "Triple tap to wait in silence.", comment: "Release search taunt"))
+            } else {
+                messages.append(String(localized: "This was more fun with elevator music.", comment: "Release search taunt"))
+            }
+        }
         .onDisappear {
             stopAudio()
             textTimer.upstream.connect().cancel()

@@ -1534,6 +1534,28 @@
         }
       }
     },
+    "Do you come here often?" : {
+      "comment" : "Release search taunt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do you come here often?"
+          }
+        }
+      }
+    },
+    "Don't look away." : {
+      "comment" : "Release search taunt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Don't look away."
+          }
+        }
+      }
+    },
     "Download" : {
       "comment" : "Short version of Download Release",
       "localizations" : {
@@ -2352,6 +2374,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Information"
+          }
+        }
+      }
+    },
+    "Inhale 4. Hold 4. Exhale 4. Hold 4." : {
+      "comment" : "Release search taunt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inhale 4. Hold 4. Exhale 4. Hold 4."
           }
         }
       }
@@ -5244,12 +5277,34 @@
         }
       }
     },
+    "The book was better. And faster." : {
+      "comment" : "Release search taunt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The book was better. And faster."
+          }
+        }
+      }
+    },
     "The credentials will be encoded and added as an \"Authorization\" header." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "The credentials will be encoded and added as an \"Authorization\" header."
+          }
+        }
+      }
+    },
+    "The indexers would like you to say please." : {
+      "comment" : "Release search taunt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The indexers would like you to say please."
           }
         }
       }
@@ -5280,6 +5335,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The URL used to access the %@ web interface."
+          }
+        }
+      }
+    },
+    "This was more fun with elevator music." : {
+      "comment" : "Release search taunt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This was more fun with elevator music."
           }
         }
       }
@@ -5392,6 +5458,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Translate the App"
+          }
+        }
+      }
+    },
+    "Triple tap to wait in silence." : {
+      "comment" : "Release search taunt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Triple tap to wait in silence."
           }
         }
       }
@@ -5888,6 +5965,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yesterday"
+          }
+        }
+      }
+    },
+    "Your popcorn is getting cold." : {
+      "comment" : "Release search taunt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your popcorn is getting cold."
           }
         }
       }
