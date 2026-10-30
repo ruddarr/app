@@ -31,6 +31,7 @@ struct SeasonView: View {
             .containerHorizontalMargins()
             .viewBottomPadding()
         }
+        .scrollContainerMargins()
         .refreshable {
             await Task { await reload() }.value
         }

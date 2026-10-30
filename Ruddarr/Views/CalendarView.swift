@@ -41,6 +41,7 @@ struct CalendarView: View {
                 }
             }
             .containerHorizontalMargins()
+            .scrollContainerMargins()
             .scrollIndicators(.never)
             .safeNavigationBarTitleDisplayMode(.inline)
             .toolbar {

@@ -54,6 +54,7 @@ struct SeriesView: View {
                                 SeriesSearchSuggestion(query: $searchQuery, sort: $sort)
                             }
                         }
+                        .scrollContainerMargins()
                         .onAppear {
                             scrollView = proxy
                         }
@@ -392,7 +393,6 @@ struct SeriesView: View {
     dependencies.api.sonarr.fetch = { _ in
         throw API.Error.notConnectedToInternet
     }
-
     dependencies.router.selectedTab = .series
 
     return ContentView()

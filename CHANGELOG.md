@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Fixed
 - Hide Indexer and Quality filters in interactive search until options are available
-- Prevent scrolling overflow in the Popular This Week grid
+- Fix grids and detail screens not scrolling to the end on iOS 27.1 and later
 - Use the selected theme color for active filter badges
 - Prevent crash when downloading a release after searching in a calendar sheet
 
