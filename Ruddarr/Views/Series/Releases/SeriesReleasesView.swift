@@ -165,13 +165,17 @@ extension SeriesReleasesView {
                 protocolPicker
             }
 
-            indexersPicker
+            if !instance.releases.indexers.isEmpty {
+                indexersPicker
+            }
 
             if !instance.releases.releaseGroups.isEmpty {
                 releaseGroupPicker
             }
 
-            qualityPicker
+            if !instance.releases.qualities.isEmpty {
+                qualityPicker
+            }
 
             if !instance.releases.languages.isEmpty {
                 languagePicker
