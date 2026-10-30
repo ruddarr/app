@@ -15,7 +15,7 @@ PUBLIC "-//W3C//DTD SVG 1.1//EN"
 .multicolor-1:tintColor {-sfsymbols-motion-group:1}
 .multicolor-2:tintColor {-sfsymbols-motion-group:1}
 .multicolor-3:tintColor {opacity:0.0;-sfsymbols-clear-behind:true;-sfsymbols-motion-group:0}
-.multicolor-4:systemRedColor {-sfsymbols-motion-group:0;-sfsymbols-always-pulses:true}
+.multicolor-4:tintColor {-sfsymbols-motion-group:0;-sfsymbols-always-pulses:true}
 
 .hierarchical-0:secondary {-sfsymbols-motion-group:1}
 .hierarchical-1:secondary {-sfsymbols-motion-group:1}
