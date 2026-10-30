@@ -115,18 +115,10 @@ struct HistoryView: View {
                 }
                 .pickerStyle(.inline)
             } label: {
-                Label {
-                    Text("Filter")
-                } icon: {
-                    if displayedInstance != .all || displayedEventType != .all {
-                        Image("filters.badge")
-                            .offset(y: 3)
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle(settings.theme.tint, .primary)
-                    } else {
-                        Image(systemName: "line.3.horizontal.decrease")
-                    }
-                }
+                ToolbarFilterLabel(
+                    active: displayedInstance != .all || displayedEventType != .all,
+                    tint: settings.theme.tint
+                )
             }
             .menuIndicator(.hidden)
         }
