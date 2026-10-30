@@ -1,3 +1,4 @@
 Fixed
 - Prevent scrolling overflow in the Popular This Week grid
 - Use the selected theme color for active filter badges
+- Prevent crash when downloading a release after searching in a calendar sheet
