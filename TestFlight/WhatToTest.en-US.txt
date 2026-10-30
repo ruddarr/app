@@ -1,1 +1,3 @@
-Check scrolling in the Popular This Week grid and verify active filter badges use the selected theme color.
+Fixed
+- Prevent scrolling overflow in the Popular This Week grid
+- Use the selected theme color for active filter badges
