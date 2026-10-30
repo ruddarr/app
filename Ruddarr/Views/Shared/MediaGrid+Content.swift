@@ -82,7 +82,7 @@ struct DiscoveryGridPoster: View {
                     CGSize(width: 150, height: 225),
                     contentMode: .fill
                 )
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: .infinity)
                 .background(.card)
                 .overlay(alignment: .bottom) {
                     if let movie {

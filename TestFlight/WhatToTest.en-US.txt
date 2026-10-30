@@ -1,0 +1,1 @@
+Check scrolling in the Popular This Week grid and verify active filter badges use the selected theme color.
