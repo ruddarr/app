@@ -186,18 +186,7 @@ extension MovieReleasesView {
                 )
             }
         } label: {
-            Label {
-                Text("Filter")
-            } icon: {
-                if sort.hasFilter {
-                    Image("filters.badge")
-                        .offset(y: 3)
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.tint, .primary)
-                } else {
-                    Image(systemName: "line.3.horizontal.decrease")
-                }
-            }
+            ToolbarFilterLabel(active: sort.hasFilter, tint: settings.theme.tint)
         }
         .menuIndicator(.hidden)
     }

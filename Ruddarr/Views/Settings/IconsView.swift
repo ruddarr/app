@@ -20,6 +20,7 @@ struct IconsView: View {
             .padding(.top)
             .containerHorizontalMargins()
         }
+        .scrollContainerMargins()
         .navigationTitle("Icons")
         .safeNavigationBarTitleDisplayMode(.inline)
         .subscriptionStatusTask(

@@ -22,6 +22,7 @@ struct SeriesDetailView: View {
                 .containerHorizontalMargins()
                 .environment(settings)
         }
+        .scrollContainerMargins()
         .refreshable {
             await Task { await reload() }.value
         }

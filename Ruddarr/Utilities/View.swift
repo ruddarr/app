@@ -40,13 +40,17 @@ extension View {
     func containerHorizontalMargins() -> some View {
         #if os(iOS)
             if #available(iOS 27.1, *) {
-                contentMargins(for: .container, edges: .horizontal)
+                self
             } else {
                 scenePadding(.horizontal)
             }
         #else
             scenePadding(.horizontal)
         #endif
+    }
+
+    func scrollContainerMargins() -> some View {
+        modifier(ScrollContainerMargins())
     }
 
     @ViewBuilder
@@ -141,6 +145,29 @@ private struct FoldedModifier: ViewModifier {
                     .environment(\.isFolded, isFolded)
                     .onHingeChange { _, context in
                         isFolded = context.hinge?.status == .closed
+                    }
+            } else {
+                content
+            }
+        #else
+            content
+        #endif
+    }
+}
+
+private struct ScrollContainerMargins: ViewModifier {
+    @State private var margins = EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+
+    func body(content: Content) -> some View {
+        #if os(iOS)
+            if #available(iOS 27.1, *) {
+                content
+                    .contentMargins(.horizontal, margins, for: .scrollContent)
+                    .frame(maxWidth: .infinity)
+                    .onGeometryChange(for: EdgeInsets.self) { proxy in
+                        proxy.contentMargins(for: .container, edges: .horizontal)
+                    } action: { value in
+                        if value.leading > 0 || value.trailing > 0 { margins = value }
                     }
             } else {
                 content
