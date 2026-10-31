@@ -38,15 +38,12 @@ extension View {
 
     @ViewBuilder
     func containerHorizontalMargins() -> some View {
-        #if os(iOS)
-            if #available(iOS 27.1, *) {
-                self
-            } else {
-                scenePadding(.horizontal)
-            }
-        #else
+        if #available(iOS 27.1, macOS 9999, *) {
+            // margins are added to the `ScrollView` by `scrollContainerMargins()`
+            self
+        } else {
             scenePadding(.horizontal)
-        #endif
+        }
     }
 
     func scrollContainerMargins() -> some View {
@@ -170,9 +167,11 @@ private struct ScrollContainerMargins: ViewModifier {
                         if value.leading > 0 || value.trailing > 0 { margins = value }
                     }
             } else {
+                // margins are added to the content by `containerHorizontalMargins()`
                 content
             }
         #else
+            // margins are added to the content by `containerHorizontalMargins()`
             content
         #endif
     }
