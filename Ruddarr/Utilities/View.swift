@@ -152,7 +152,7 @@ private struct FoldedModifier: ViewModifier {
 }
 
 private struct ScrollContainerMargins: ViewModifier {
-    @State private var margins = EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+    @State private var margins = EdgeInsets()
 
     func body(content: Content) -> some View {
         #if os(iOS)
