@@ -42,6 +42,7 @@ struct MovieSearchView: View {
                 .viewBottomPadding()
             }
         }
+        .scrollContainerMargins()
         .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,

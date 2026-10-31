@@ -40,6 +40,7 @@ struct HistoryView: View {
             .padding(.vertical)
             .containerHorizontalMargins()
         }
+        .scrollContainerMargins()
         .navigationTitle("History")
         .safeNavigationBarTitleDisplayMode(.inline)
         .task {

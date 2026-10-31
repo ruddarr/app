@@ -39,6 +39,7 @@ struct SeriesSearchView: View {
                 .viewBottomPadding()
             }
         }
+        .scrollContainerMargins()
         .scrollDismissesKeyboard(.immediately)
         .searchable(
             text: $searchQuery,
