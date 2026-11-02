@@ -23,21 +23,21 @@ actor Telemetry {
     static func record(_ metric: Metric, attributes: [String: any Sentry.SentryAttributeValue] = [:]) {
         switch metric {
         case .movieDownloaded:
-            SentrySDK.metrics.count(key: "releaseDownloaded", value: 1, attributes: ["type": "movie"])
+            SentrySDK.metrics.count("releaseDownloaded", value: 1, options: .init(attributes: ["type": "movie"]))
         case .seasonDownloaded:
-            SentrySDK.metrics.count(key: "releaseDownloaded", value: 1, attributes: ["type": "season"])
+            SentrySDK.metrics.count("releaseDownloaded", value: 1, options: .init(attributes: ["type": "season"]))
         case .episodeDownloaded:
-            SentrySDK.metrics.count(key: "releaseDownloaded", value: 1, attributes: ["type": "episode"])
+            SentrySDK.metrics.count("releaseDownloaded", value: 1, options: .init(attributes: ["type": "episode"]))
         case .movieSearchDispatched:
-            SentrySDK.metrics.count(key: "automaticSearchDispatched", value: 1, attributes: ["type": "movie"])
+            SentrySDK.metrics.count("automaticSearchDispatched", value: 1, options: .init(attributes: ["type": "movie"]))
         case .seriesSearchDispatched:
-            SentrySDK.metrics.count(key: "automaticSearchDispatched", value: 1, attributes: ["type": "series"])
+            SentrySDK.metrics.count("automaticSearchDispatched", value: 1, options: .init(attributes: ["type": "series"]))
         case .seasonSearchDispatched:
-            SentrySDK.metrics.count(key: "automaticSearchDispatched", value: 1, attributes: ["type": "season"])
+            SentrySDK.metrics.count("automaticSearchDispatched", value: 1, options: .init(attributes: ["type": "season"]))
         case .episodeSearchDispatched:
-            SentrySDK.metrics.count(key: "automaticSearchDispatched", value: 1, attributes: ["type": "episode"])
+            SentrySDK.metrics.count("automaticSearchDispatched", value: 1, options: .init(attributes: ["type": "episode"]))
         default:
-            SentrySDK.metrics.count(key: metric.rawValue, value: 1, attributes: attributes)
+            SentrySDK.metrics.count(metric.rawValue, value: 1, options: .init(attributes: attributes))
         }
     }
 
